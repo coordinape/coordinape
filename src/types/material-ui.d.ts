@@ -1,9 +1,10 @@
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
-declare module "@material-ui/core/styles/createMuiTheme" {
+declare module '@material-ui/core/styles/createMuiTheme' {
   interface Theme {
     custom: {
-      appHeaderHeight: React.CSSProperties["height"];
+      appHeaderHeight: React.CSSProperties['height'];
+      appFooterHeight: React.CSSProperties['height'];
     };
     colors: {
       transparent: string;
@@ -17,7 +18,8 @@ declare module "@material-ui/core/styles/createMuiTheme" {
   // allow configuration using `createMuiTheme`
   interface ThemeOptions {
     custom: {
-      appHeaderHeight: React.CSSProperties["height"];
+      appHeaderHeight: React.CSSProperties['height'];
+      appFooterHeight: React.CSSProperties['height'];
     };
     colors: {
       transparent: string;

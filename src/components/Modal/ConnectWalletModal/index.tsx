@@ -45,12 +45,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   title: {
-    color: theme.colors.black,
-    fontSize: theme.spacing(2.5),
+    color: theme.colors.primary,
+    fontSize: theme.spacing(3),
   },
   closeButton: {
     padding: theme.spacing(0.5),
-    color: theme.colors.black,
+    color: theme.colors.primary,
   },
   bottom: {
     padding: `0 ${theme.spacing(2)}px`,

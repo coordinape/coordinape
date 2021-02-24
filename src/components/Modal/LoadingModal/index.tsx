@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     outline: 'none',
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.third,
     width: 350,
     maxWidth: 350,
     padding: theme.spacing(4),
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: 16,
   },
-  indicator: { color: theme.colors.third },
+  indicator: { color: theme.colors.primary },
 }));
 
 interface IProps {
