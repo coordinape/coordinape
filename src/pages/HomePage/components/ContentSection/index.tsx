@@ -4,24 +4,34 @@ import { useConnectedWeb3Context, useGlobal } from 'contexts';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import { ITokenGift, IUser, Maybe, PostTokenGiftsParam } from 'types';
+import {
+  ITokenGift,
+  IUser,
+  Maybe,
+  PostTokenGiftsParam,
+  PostUsersParam,
+} from 'types';
 import { isUnparsedPrepend } from 'typescript';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
-    marginTop: 122,
+    marginTop: 80,
     maxWidth: '80%',
     paddingTop: 8,
-    paddingBottom: 50,
+    paddingBottom: 30,
     paddingLeft: 94,
     paddingRight: 94,
     borderRadius: 8,
     background: '#EAEAEB',
+    marginBottom: theme.custom.appFooterHeight
+      ? (theme.custom.appFooterHeight as number) + 30
+      : 30,
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    position: 'relative',
   },
   trHeader: {
     height: 80,
@@ -29,12 +39,20 @@ const useStyles = makeStyles((theme) => ({
   th: {
     fontSize: 16,
     fontWeight: 700,
-    color: 'rgba(81,99,105,0.5)',
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#EAEAEB',
+    position: 'sticky',
+    top: 0,
+    boxShadow: '0 1px 0 0 rgba(81, 99, 105, 0.2)',
+    zIndex: 1,
   },
   trBody: {
     height: 70,
     border: 'solid',
-    borderWidth: '1px 0px',
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
     borderColor: 'rgba(81, 99, 105, 0.2)',
   },
   tdName: {
@@ -197,7 +215,7 @@ export const ContentSection = (props: IProps) => {
           const params: PostTokenGiftsParam[] = [];
           users.forEach((user) =>
             params.push({
-              tokens: giveTokens[user.id],
+              tokens: giveTokens[user.id] || 0,
               recipient_address: user.address,
               circle_id: user.circle_id,
               note: 'Test Note',
@@ -308,7 +326,7 @@ export const ContentSection = (props: IProps) => {
         <p className={classes.description}>GIVE Allocated</p>
         <Button
           className={classes.saveButton}
-          disabled={!account}
+          disabled={!me}
           onClick={onClickSave}
         >
           Save Allocations

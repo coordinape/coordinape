@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     background: '#EAEAEB',
     backgroundImage: 'linear-gradient(#FFFFFF, rgba(255, 255, 255, 0.4))',
+    paddingTop: theme.custom.appHeaderHeight,
   },
   content: {
     height: '100%',

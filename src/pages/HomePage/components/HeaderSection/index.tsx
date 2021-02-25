@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
-    marginTop: 122,
+    marginTop: 60,
     maxWidth: '60%',
     textAlign: 'center',
   },
@@ -78,7 +78,7 @@ export const HeaderSection = (props: IProps) => {
     <div className={classes.root}>
       <p className={classes.title}>Reward Yearn Contributors</p>
       <p className={classes.subTitle}>
-        GIVE tokens worth $123,456 will be distributed to contributors at the
+        GIVE tokens worth $38,000 will be distributed to contributors at the
         snapshot in {timeLeftString}
       </p>
     </div>
