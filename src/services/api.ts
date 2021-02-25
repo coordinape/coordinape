@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {
   ICircle,
+  ITokenGift,
   IUser,
+  IUserPendingGift,
   PostCirclesParam,
   PostTokenGiftsParam,
   PostUsersParam,
@@ -73,7 +75,7 @@ class APIService {
     address: string,
     params: PostUsersParam,
     provider?: any
-  ): Promise<any> => {
+  ): Promise<IUser> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
     const response = await axios.post('/users', {
@@ -99,11 +101,57 @@ class APIService {
     return response.data;
   };
 
+  getPendingTokenGifts = async (
+    sender_address?: string,
+    recipient_address?: string,
+    circle_id?: number,
+    id?: number
+  ): Promise<ITokenGift[]> => {
+    const params: any = {};
+    if (sender_address) {
+      params.sender_address = sender_address;
+    }
+    if (recipient_address) {
+      params.recipient_address = recipient_address;
+    }
+    if (circle_id) {
+      params.circle_id = circle_id;
+    }
+    if (id) {
+      params.id = id;
+    }
+    const response = await axios.get('/pending-token-gifts', params);
+    return response.data as ITokenGift[];
+  };
+
+  getTokenGifts = async (
+    sender_address?: string,
+    recipient_address?: string,
+    circle_id?: number,
+    id?: number
+  ): Promise<ITokenGift[]> => {
+    const params: any = {};
+    if (sender_address) {
+      params.sender_address = sender_address;
+    }
+    if (recipient_address) {
+      params.recipient_address = recipient_address;
+    }
+    if (circle_id) {
+      params.circle_id = circle_id;
+    }
+    if (id) {
+      params.id = id;
+    }
+    const response = await axios.get('/token-gifts', params);
+    return response.data as ITokenGift[];
+  };
+
   postTokenGifts = async (
     address: string,
     params: PostTokenGiftsParam[],
     provider?: any
-  ): Promise<any> => {
+  ): Promise<IUserPendingGift> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
     const response = await axios.post(`/token-gifts/${address}`, {

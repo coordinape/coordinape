@@ -1,11 +1,11 @@
-import { BigNumber } from "ethers";
+import { BigNumber } from 'ethers';
 
 export type Maybe<T> = T | null;
 
 export type NetworkId = 1;
-export type KnownToken = "fma" | "fss" | "flap";
+export type KnownToken = 'fma' | 'fss' | 'flap';
 
-export type KnownContract = "stake";
+export type KnownContract = 'stake';
 
 export interface INetwork {
   label: string;
@@ -29,4 +29,10 @@ export interface IToken {
   decimals: number;
   symbol: string;
   image: string;
+}
+
+declare global {
+  interface ObjectConstructor {
+    typedKeys<T>(obj: T): Array<keyof T>;
+  }
 }

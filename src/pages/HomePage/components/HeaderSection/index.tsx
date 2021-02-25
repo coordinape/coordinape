@@ -1,31 +1,23 @@
 import { makeStyles } from '@material-ui/core';
-import { Account } from 'components/Account';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '111px 166px',
-    background: '#516369',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  logo: {
-    width: '221px',
-    height: '58px',
-  },
-  description: {
-    padding: '19px 2px',
+    margin: 'auto',
+    marginTop: 60,
+    maxWidth: '60%',
+    textAlign: 'center',
   },
   title: {
     fontSize: '54px',
     fontWeight: 'bold',
-    color: '#E7E7E7',
+    color: '#5E6F74',
     margin: 0,
   },
   subTitle: {
+    padding: '0px 32px',
     fontSize: '27px',
-    color: '#E7E7E7',
+    color: '#5E6F74',
     margin: 0,
   },
 }));
@@ -36,22 +28,59 @@ interface IProps {
 
 export const HeaderSection = (props: IProps) => {
   const classes = useStyles();
+
+  const calculateTimeLeft = () => {
+    const date = new Date();
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const difference = lastDay.getTime() - date.getTime();
+
+    let timeLeft = {};
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(timer);
+  }, []);
+
+  let timeLeftString = '';
+  let timeLeftIndex = 0;
+
+  Object.typedKeys(timeLeft).forEach((interval) => {
+    if (!timeLeft[interval] || timeLeftIndex > 1) {
+      return;
+    }
+
+    if (
+      (timeLeftIndex === 0 && timeLeft[interval] !== 0) ||
+      timeLeftIndex === 1
+    ) {
+      timeLeftString =
+        timeLeftString + timeLeft[interval] + ' ' + interval + ' ';
+      timeLeftIndex++;
+    }
+  });
+
   return (
     <div className={classes.root}>
-      <div>
-        <img
-          alt="logo"
-          className={classes.logo}
-          src="svgs/logo/coordinape_logo.svg"
-        />
-        <div className={classes.description}>
-          <p className={classes.title}>Reward Yearn Contributors</p>
-          <p className={classes.subTitle}>
-            GIVE tokens will be distributed in 4 DAYS & 6 HOURS
-          </p>
-        </div>
-      </div>
-      <Account />
+      <p className={classes.title}>Reward Yearn Contributors</p>
+      <p className={classes.subTitle}>
+        GIVE tokens worth $38,000 will be distributed to contributors at the
+        snapshot in {timeLeftString}
+      </p>
     </div>
   );
 };

@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   iconWrapper: {
-    marginRight: theme.spacing(2),
     width: theme.spacing(4),
     height: theme.spacing(4),
     borderRadius: '50%',

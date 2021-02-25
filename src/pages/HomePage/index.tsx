@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 
-import { HeaderSection } from './components';
+import { ContentSection, HeaderSection } from './components';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -13,6 +13,7 @@ const HomePage = (props: IProps) => {
   return (
     <div>
       <HeaderSection />
+      <ContentSection />
     </div>
   );
 };
