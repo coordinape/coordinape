@@ -90,7 +90,7 @@ class APIService {
     address: string,
     params: PutUsersParam,
     provider?: any
-  ): Promise<any> => {
+  ): Promise<IUser> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
     const response = await axios.put(`/users/${address}`, {
