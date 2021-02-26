@@ -4,13 +4,7 @@ import { useConnectedWeb3Context, useGlobal } from 'contexts';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import {
-  ITokenGift,
-  IUser,
-  Maybe,
-  PostTokenGiftsParam,
-  PostUsersParam,
-} from 'types';
+import { ITokenGift, IUser, Maybe, PostTokenGiftsParam } from 'types';
 import { isUnparsedPrepend } from 'typescript';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +26,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     borderCollapse: 'collapse',
     position: 'relative',
+  },
+  one: {
+    width: '20%',
+  },
+  two: {
+    width: '20%',
+  },
+  three: {
+    width: '40%',
   },
   trHeader: {
     height: 80,
@@ -60,26 +63,47 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: '#516369',
     textAlign: 'center',
+    padding: '0px 10px',
   },
   tdDistribution: {
     fontSize: 20,
     color: '#516369',
     textAlign: 'center',
+    padding: '0px 10px',
   },
   tdAllocate: {
     textAlign: 'center',
+    padding: '0px 10px',
   },
   tdNote: {
     textAlign: 'center',
+    padding: '0px 25px',
   },
-  inputGive: {
+  inputGiveToken: {
     width: 85,
     height: 41,
     border: 0,
+    borderRadius: 8,
+    padding: 10,
     fontSize: 20,
     fontWeight: 400,
     color: '#516369',
     textAlign: 'center',
+  },
+  inputGiveNote: {
+    width: '100%',
+    height: 41,
+    border: 0,
+    borderRadius: 8,
+    padding: 13,
+    fontSize: 13,
+    fontWeight: 400,
+    color: '#516369',
+    textOverflow: 'ellipsis',
+    '&::placeholder': {
+      color: '#516369',
+      opacity: 0.2,
+    },
   },
   footer: {
     height: theme.custom.appFooterHeight,
@@ -133,7 +157,9 @@ export const ContentSection = (props: IProps) => {
   const [me, setMe] = useState<Maybe<IUser>>(null);
   const [users, setUsers] = useState<IUser[]>([]);
   const [tokenGifts, setTokenGifts] = useState<ITokenGift[]>([]);
+  const [sumOfTokens, setSumOfTokens] = useState<number>(0);
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
+  const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -152,10 +178,14 @@ export const ContentSection = (props: IProps) => {
             (user) => user.address.toLowerCase() !== account?.toLowerCase()
           )
         );
+        setSumOfTokens(
+          users.reduce((sum, user) => sum + user.give_token_received, 0)
+        );
 
         // Init Tokens
         setTokenGifts([]);
         setGiveTokens({});
+        setGiveNotes({});
       } catch (error) {
         enqueueSnackbar(
           error.response?.data?.message || 'Something went wrong!',
@@ -173,12 +203,13 @@ export const ContentSection = (props: IProps) => {
           );
           setTokenGifts(tokenGifts);
 
-          // Update Input Value
-          tokenGifts.forEach(
-            (tokenGift) =>
-              (giveTokens[tokenGift.recipient_id] = tokenGift.tokens)
-          );
+          // Update GiveTokens & GiveNotes
+          tokenGifts.forEach((tokenGift) => {
+            giveTokens[tokenGift.recipient_id] = tokenGift.tokens;
+            giveNotes[tokenGift.recipient_id] = tokenGift.note;
+          });
           setGiveTokens({ ...giveTokens });
+          setGiveNotes({ ...giveNotes });
         } catch (error) {
           enqueueSnackbar(
             error.response?.data?.message || 'Something went wrong!',
@@ -198,12 +229,26 @@ export const ContentSection = (props: IProps) => {
     queryData();
   }, [account]);
 
-  // OnChange Give Input
-  const onChangeGive = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
-    const newValue = Math.abs(Number(e.target.value));
-    e.target.value = String(newValue);
-    giveTokens[id] = newValue;
-    setGiveTokens({ ...giveTokens });
+  // OnChange GiveToken Input
+  const onChangeGiveToken = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    if (e.target.validity.valid) {
+      const newValue = Math.abs(Number(e.target.value));
+      e.target.value = String(newValue);
+      giveTokens[id] = newValue;
+      setGiveTokens({ ...giveTokens });
+    }
+  };
+
+  // OnChange GiveNote Input
+  const onChangeGiveNote = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    giveNotes[id] = e.target.value;
+    setGiveNotes({ ...giveNotes });
   };
 
   // Save Allocations
@@ -218,7 +263,7 @@ export const ContentSection = (props: IProps) => {
               tokens: giveTokens[user.id] || 0,
               recipient_address: user.address,
               circle_id: user.circle_id,
-              note: 'Test Note',
+              note: giveNotes[user.id] || '',
             })
           );
 
@@ -251,6 +296,9 @@ export const ContentSection = (props: IProps) => {
               (user) => user.address.toLowerCase() !== account?.toLowerCase()
             )
           );
+          setSumOfTokens(
+            users.reduce((sum, user) => sum + user.give_token_received, 0)
+          );
         } catch (error) {
           enqueueSnackbar(
             error.response?.data?.message || 'Something went wrong!',
@@ -273,6 +321,12 @@ export const ContentSection = (props: IProps) => {
   return (
     <div className={classes.root}>
       <table className={classes.table}>
+        <colgroup>
+          <col className={classes.one} />
+          <col className={classes.two} />
+          <col className={classes.two} />
+          <col className={classes.three} />
+        </colgroup>
         <thead>
           <tr className={classes.trHeader}>
             <th className={classes.th}>Contributor</th>
@@ -287,24 +341,28 @@ export const ContentSection = (props: IProps) => {
               <td className={classes.tdName}>{user.name}</td>
               <td className={classes.tdDistribution}>
                 {Math.round(
-                  (user.give_token_remaining + user.give_token_received) /
-                    (users.length + (me ? 1 : 0))
-                )}
+                  (100 * user.give_token_received) / sumOfTokens
+                ).toFixed(1)}
                 % of GIVE
               </td>
               <td className={classes.tdAllocate}>
                 <input
-                  className={classes.inputGive}
+                  className={classes.inputGiveToken}
                   min="0"
-                  onChange={(e) => onChangeGive(e, user.id)}
+                  onChange={(e) => onChangeGiveToken(e, user.id)}
+                  pattern="[0-9]*"
                   type="number"
                   value={giveTokens[user.id] || 0}
                 ></input>
               </td>
               <td className={classes.tdNote}>
-                <Button>
-                  <img alt="edit_note" src="/svgs/button/edit_note.svg" />
-                </Button>
+                <input
+                  className={classes.inputGiveNote}
+                  maxLength={280}
+                  onChange={(e) => onChangeGiveNote(e, user.id)}
+                  placeholder="Why are you contributing?"
+                  value={giveNotes[user.id] || ''}
+                ></input>
               </td>
             </tr>
           ))}
