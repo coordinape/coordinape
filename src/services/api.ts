@@ -67,7 +67,7 @@ class APIService {
     if (id) {
       params.id = id;
     }
-    const response = await axios.get('/users', params);
+    const response = await axios.get('/users', { params });
     return response.data as IUser[];
   };
 
@@ -120,7 +120,7 @@ class APIService {
     if (id) {
       params.id = id;
     }
-    const response = await axios.get('/pending-token-gifts', params);
+    const response = await axios.get('/pending-token-gifts', { params });
     return response.data as ITokenGift[];
   };
 
@@ -143,7 +143,7 @@ class APIService {
     if (id) {
       params.id = id;
     }
-    const response = await axios.get('/token-gifts', params);
+    const response = await axios.get('/token-gifts', { params });
     return response.data as ITokenGift[];
   };
 
