@@ -103,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
     '&::placeholder': {
       color: '#516369',
       opacity: 0.2,
+      textAlign: 'center',
     },
   },
   footer: {
@@ -128,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
   },
   description: {
-    marginLeft: 16,
+    margin: '0px 16px',
     fontSize: 20,
     color: 'white',
   },
@@ -341,13 +342,14 @@ export const ContentSection = (props: IProps) => {
               <td className={classes.tdName}>{user.name}</td>
               <td className={classes.tdDistribution}>
                 {Math.round(
-                  (100 * user.give_token_received) / sumOfTokens
-                ).toFixed(1)}
+                  (10000 * user.give_token_received) / Math.max(1, sumOfTokens)
+                ) / 100}
                 % of GIVE
               </td>
               <td className={classes.tdAllocate}>
                 <input
                   className={classes.inputGiveToken}
+                  disabled={!me}
                   min="0"
                   onChange={(e) => onChangeGiveToken(e, user.id)}
                   pattern="[0-9]*"
@@ -358,6 +360,7 @@ export const ContentSection = (props: IProps) => {
               <td className={classes.tdNote}>
                 <input
                   className={classes.inputGiveNote}
+                  disabled={!me}
                   maxLength={280}
                   onChange={(e) => onChangeGiveNote(e, user.id)}
                   placeholder="Why are you contributing?"
@@ -369,19 +372,14 @@ export const ContentSection = (props: IProps) => {
         </tbody>
       </table>
       <div className={classes.footer}>
+        <p className={classes.description}>You have </p>
         <p className={classes.balance}>
           <span className={classes.balanceNumber}>
-            {tokenGifts.reduce((sum, tokenGift) => sum + tokenGift.tokens, 0)}
-          </span>{' '}
-          of{' '}
-          <span className={classes.balanceNumber}>
-            {tokenGifts.reduce(
-              (sum, tokenGift) => sum + tokenGift.tokens,
-              (me?.give_token_remaining || 0) + (me?.give_token_received || 0)
-            )}
+            {me?.give_token_remaining || 0}
           </span>
+          {(me?.give_token_remaining || 0) > 1 ? ' GIVES' : ' GIVE'}
         </p>
-        <p className={classes.description}>GIVE Allocated</p>
+        <p className={classes.description}>left to allocate</p>
         <Button
           className={classes.saveButton}
           disabled={!me}
