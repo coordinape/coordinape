@@ -31,7 +31,9 @@ export const HeaderSection = (props: IProps) => {
 
   const calculateTimeLeft = () => {
     const date = new Date();
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const lastDay = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth() + 1, 0)
+    );
     const difference = lastDay.getTime() - date.getTime();
 
     let timeLeft = {};
@@ -49,7 +51,7 @@ export const HeaderSection = (props: IProps) => {
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
     // Clear timeout if the component is unmounted
