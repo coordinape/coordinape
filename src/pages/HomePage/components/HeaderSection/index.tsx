@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,11 +31,9 @@ export const HeaderSection = (props: IProps) => {
   const classes = useStyles();
 
   const calculateTimeLeft = () => {
-    const date = new Date();
-    const lastDay = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth() + 1, 0)
-    );
-    const difference = lastDay.getTime() - date.getTime();
+    const date = moment.utc();
+    const lastDay = moment.utc().add(1, 'M').startOf('month');
+    const difference = lastDay.diff(date);
 
     let timeLeft = {};
     if (difference > 0) {
@@ -66,10 +65,7 @@ export const HeaderSection = (props: IProps) => {
       return;
     }
 
-    if (
-      (timeLeftIndex === 0 && timeLeft[interval] !== 0) ||
-      timeLeftIndex === 1
-    ) {
+    if (timeLeft[interval] !== 0) {
       timeLeftString =
         timeLeftString + timeLeft[interval] + ' ' + interval + ' ';
       timeLeftIndex++;

@@ -4,7 +4,15 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: '0 22px',
+    height: 42,
     fontSize: 14,
+    color: theme.colors.primary,
+    background: '#EBEBEC',
+    borderRadius: 21,
+    borderColor: '#EDE9E9',
+    borderWidth: 1,
+    borderStyle: 'solid',
   },
 }));
 

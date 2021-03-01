@@ -13,13 +13,20 @@ import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: '0 22px',
+    height: 42,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    background: '#EBEBEC',
+    borderRadius: 21,
+    borderColor: '#EDE9E9',
+    borderWidth: 1,
+    borderStyle: 'solid',
   },
   iconWrapper: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
+    width: theme.spacing(2),
+    height: theme.spacing(2),
     borderRadius: '50%',
     display: 'flex',
     justifyContent: 'center',
@@ -33,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     color: theme.colors.primary,
     fontSize: 12,
-    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
   },
   icon: {
     color: theme.colors.third,
@@ -44,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   popoverButton: {
     height: theme.spacing(5),
-    minWidth: 150,
+    minWidth: 120,
   },
 }));
 
@@ -75,14 +82,17 @@ export const AccountInfo = (props: IProps) => {
   const id = open ? 'account-popover' : undefined;
 
   return (
-    <div className={classes.root}>
-      <Hidden smDown>
-        <div className={classes.iconWrapper}>
-          <Icon />
-        </div>
-      </Hidden>
-
-      <Button aria-describedby={id} onClick={handleClick} variant="text">
+    <div>
+      <Button
+        aria-describedby={id}
+        className={classes.root}
+        onClick={handleClick}
+      >
+        <Hidden smDown>
+          <div className={classes.iconWrapper}>
+            <Icon />
+          </div>
+        </Hidden>
         <Typography className={classes.address} component="span">
           {shortenAddress(address)}
         </Typography>
