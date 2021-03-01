@@ -53,8 +53,8 @@ class APIService {
   };
 
   getUsers = async (
-    circle_id?: number,
     address?: string,
+    circle_id?: number,
     id?: number
   ): Promise<IUser[]> => {
     const params: any = {};
