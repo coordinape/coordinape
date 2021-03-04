@@ -1,6 +1,7 @@
 body {
   padding: 0;
   margin: 0;
+  font-family: 'Space Grotesk', sans-serif !important;
 }
 body * {
   box-sizing: border-box;

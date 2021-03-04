@@ -1,19 +1,35 @@
 import { makeStyles } from '@material-ui/core';
+import { useUserInfo } from 'contexts';
 import React from 'react';
 
-import { ContentSection, HeaderSection } from './components';
+import { ContentSection, EmptySection, HeaderSection } from './components';
 
-const useStyles = makeStyles((theme) => ({}));
+import classes from '*.module.css';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  rootForEmpty: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}));
 
 interface IProps {
   className?: string;
 }
 
 const HomePage = (props: IProps) => {
+  const classes = useStyles();
+  const { me } = useUserInfo();
+
   return (
-    <div>
+    <div className={me ? classes.root : classes.rootForEmpty}>
       <HeaderSection />
-      <ContentSection />
+      {me ? <ContentSection /> : <EmptySection />}
     </div>
   );
 };

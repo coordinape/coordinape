@@ -1,6 +1,6 @@
 const custom = {
-  appHeaderHeight: 80,
-  appFooterHeight: 140,
+  appHeaderHeight: 96,
+  appFooterHeight: 96,
 };
 
 export default custom;

@@ -1,18 +1,33 @@
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, Hidden, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import { WALLET_ICONS } from 'config/constants';
 import React from 'react';
+import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '0 22px',
+    padding: '0 14px',
     height: 42,
-    fontSize: 14,
-    color: theme.colors.primary,
-    background: '#EBEBEC',
-    borderRadius: 21,
-    borderColor: '#EDE9E9',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#516369',
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+    borderRadius: 8,
+    textTransform: 'none',
+  },
+  iconWrapper: {
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+    marginRight: 8,
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& svg': {
+      width: theme.spacing(2),
+      height: theme.spacing(2),
+    },
   },
 }));
 
@@ -23,6 +38,8 @@ interface IProps {
 
 export const ConnectWalletButton = (props: IProps) => {
   const classes = useStyles();
+  const Icon = WALLET_ICONS[ConnectorNames.Injected];
+
   return (
     <Button
       className={clsx(classes.root, props.className)}
@@ -31,7 +48,12 @@ export const ConnectWalletButton = (props: IProps) => {
       }}
       variant="text"
     >
-      Connect Wallet
+      <Hidden smDown>
+        <div className={classes.iconWrapper}>
+          <Icon />
+        </div>
+      </Hidden>
+      Connect your wallet
     </Button>
   );
 };

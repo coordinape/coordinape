@@ -1,24 +1,29 @@
 import { makeStyles } from '@material-ui/core';
+import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { getApiService } from 'services/api';
+import { ITokenGift, IUser, Maybe } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 'auto',
-    marginTop: 60,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingTop: 56,
     maxWidth: '60%',
     textAlign: 'center',
   },
   title: {
-    fontSize: '54px',
-    fontWeight: 'bold',
-    color: '#5E6F74',
+    fontSize: 54,
+    fontWeight: 700,
+    color: theme.colors.primary,
     margin: 0,
   },
   subTitle: {
     padding: '0px 32px',
-    fontSize: '27px',
-    color: '#5E6F74',
+    fontSize: 30,
+    fontWeight: 400,
+    color: theme.colors.primary,
     margin: 0,
   },
 }));
@@ -29,6 +34,7 @@ interface IProps {
 
 export const HeaderSection = (props: IProps) => {
   const classes = useStyles();
+  const { me } = useUserInfo();
 
   const calculateTimeLeft = () => {
     const date = moment.utc();
@@ -65,7 +71,7 @@ export const HeaderSection = (props: IProps) => {
       return;
     }
 
-    if (timeLeft[interval] !== 0) {
+    if (timeLeft[interval] !== 0 || interval === 'seconds') {
       timeLeftString =
         timeLeftString + timeLeft[interval] + ' ' + interval + ' ';
       timeLeftIndex++;
@@ -75,10 +81,17 @@ export const HeaderSection = (props: IProps) => {
   return (
     <div className={classes.root}>
       <p className={classes.title}>Reward Yearn Contributors</p>
-      <p className={classes.subTitle}>
-        GIVE tokens worth $38,000 will be distributed to contributors at the
-        snapshot in {timeLeftString}
-      </p>
+      {me ? (
+        <p className={classes.subTitle}>
+          GIVE tokens will be distributed to contributors at the snapshot in{' '}
+          {timeLeftString}
+        </p>
+      ) : (
+        <p className={classes.subTitle}>
+          You must be a current contributor and connect your wallet to
+          participate
+        </p>
+      )}
     </div>
   );
 };

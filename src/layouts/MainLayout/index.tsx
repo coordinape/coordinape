@@ -9,8 +9,9 @@ import { Header } from './components';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-    background: '#EAEAEB',
-    backgroundImage: 'linear-gradient(#FFFFFF, rgba(255, 255, 255, 0.4))',
+    background: theme.colors.third,
+    backgroundImage:
+      'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.4) 100%);',
     paddingTop: theme.custom.appHeaderHeight,
   },
   content: {

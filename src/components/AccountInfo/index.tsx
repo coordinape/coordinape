@@ -5,7 +5,6 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { WALLET_ICONS } from 'config/constants';
 import React from 'react';
 import { shortenAddress } from 'utils';
@@ -18,11 +17,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#EBEBEC',
-    borderRadius: 21,
-    borderColor: '#EDE9E9',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    color: '#516369',
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+    borderRadius: 8,
   },
   iconWrapper: {
     width: theme.spacing(2),
@@ -40,18 +38,22 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     color: theme.colors.primary,
     fontSize: 12,
+    fontWeight: 600,
     marginLeft: theme.spacing(1),
   },
   icon: {
     color: theme.colors.third,
   },
   popover: {
-    backgroundColor: theme.colors.white,
-    padding: theme.spacing(0.5),
+    marginTop: 8,
+    borderRadius: 8,
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 137, 134, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 153, 154, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+    boxShadow: '0px 4px 6px rgba(181, 93, 99, 0.16)',
   },
   popoverButton: {
     height: theme.spacing(5),
-    minWidth: 120,
+    minWidth: 148,
   },
 }));
 
@@ -120,7 +122,6 @@ export const AccountInfo = (props: IProps) => {
             handleClose();
             onDisconnect();
           }}
-          variant="contained"
         >
           Disconnect
         </Button>
