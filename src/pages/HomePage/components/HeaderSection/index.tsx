@@ -44,10 +44,10 @@ export const HeaderSection = (props: IProps) => {
     let timeLeft = {};
     if (difference > 0) {
       timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        Hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        Minutes: Math.floor((difference / 1000 / 60) % 60),
+        Seconds: Math.floor((difference / 1000) % 60),
       };
     }
 
@@ -71,9 +71,13 @@ export const HeaderSection = (props: IProps) => {
       return;
     }
 
-    if (timeLeft[interval] !== 0 || interval === 'seconds') {
+    if (timeLeft[interval] !== 0 || interval === 'Seconds') {
       timeLeftString =
-        timeLeftString + timeLeft[interval] + ' ' + interval + ' ';
+        timeLeftString +
+        timeLeft[interval] +
+        ' ' +
+        interval +
+        (timeLeftIndex === 0 ? ', ' : '.');
       timeLeftIndex++;
     }
   });
@@ -83,8 +87,7 @@ export const HeaderSection = (props: IProps) => {
       <p className={classes.title}>Reward Yearn Contributors</p>
       {me ? (
         <p className={classes.subTitle}>
-          GIVE tokens will be distributed to contributors at the snapshot in{' '}
-          {timeLeftString}
+          GET tokens will be distributed at the snapshot in {timeLeftString}
         </p>
       ) : (
         <p className={classes.subTitle}>
