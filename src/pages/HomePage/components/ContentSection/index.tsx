@@ -285,7 +285,7 @@ export const ContentSection = (props: IProps) => {
                 {Math.round(
                   (10000 * user.give_token_received) / Math.max(1, sumOfTokens)
                 ) / 100}
-                % of GIVE
+                % of GET
               </td>
               <td className={classes.tdAllocate}>
                 <input

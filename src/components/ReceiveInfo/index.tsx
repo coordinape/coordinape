@@ -1,4 +1,5 @@
 import { Button, Popover, makeStyles } from '@material-ui/core';
+import clsx from 'clsx';
 import { useUserInfo } from 'contexts';
 import moment from 'moment';
 import React, { useState } from 'react';
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
     borderRadius: 8,
     display: 'flex',
+    textTransform: 'none',
+    '&.selected': {
+      color: '#31A5AC',
+    },
   },
   popover: {
     width: 300,
@@ -75,7 +80,7 @@ interface IProps {
 
 export const ReceiveInfo = (props: IProps) => {
   const classes = useStyles();
-  const { me, users } = useUserInfo();
+  const { me, refreshUserInfo, users } = useUserInfo();
   const [tokenGifts, setTokenGifts] = useState<ITokenGift[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -90,7 +95,7 @@ export const ReceiveInfo = (props: IProps) => {
         );
         setTokenGifts(tokenGifts);
       } catch (error) {
-        console.log(error);
+        error;
       }
     } else {
       setTokenGifts([]);
@@ -99,6 +104,7 @@ export const ReceiveInfo = (props: IProps) => {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     getPendingTokens();
+    refreshUserInfo();
     setAnchorEl(event.currentTarget);
   };
 
@@ -113,10 +119,17 @@ export const ReceiveInfo = (props: IProps) => {
     <div className={classes.root}>
       <Button
         aria-describedby={id}
-        className={classes.receiveButton}
+        className={
+          !anchorEl
+            ? classes.receiveButton
+            : clsx(classes.receiveButton, 'selected')
+        }
         onClick={handleClick}
       >
-        {me?.give_token_received || 0} RECEIVE
+        {me?.give_token_received || 0}{' '}
+        {(me?.give_token_received || 0) > 1
+          ? 'GIVES Received'
+          : 'GIVE Received'}
       </Button>
       <Popover
         anchorEl={anchorEl}
