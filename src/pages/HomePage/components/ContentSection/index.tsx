@@ -67,11 +67,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 27,
     fontWeight: 600,
     color: '#516369',
-    textAlign: 'center',
     padding: '0px 25px',
   },
   contributor: {
     display: 'flex',
+    alignItems: 'center',
   },
   avatar: {
     width: 36,
@@ -301,9 +301,9 @@ export const ContentSection = (props: IProps) => {
                   <img
                     alt={user.name}
                     className={classes.avatar}
-                    src={
-                      user.avatar ? user.avatar : '/imgs/avatar/placeholder.jpg'
-                    }
+                    src={`/imgs/avatar/${
+                      user.avatar ? user.avatar : 'placeholder.jpg'
+                    }`}
                   />
                   {user.name}
                 </div>
@@ -320,6 +320,7 @@ export const ContentSection = (props: IProps) => {
                   disabled={user.non_receiver > 0}
                   min="0"
                   onChange={(e) => onChangeGiveToken(e, user.id)}
+                  onWheel={(e) => e.currentTarget.blur()}
                   pattern="[0-9]*"
                   type="number"
                   value={giveTokens[user.id] || 0}
