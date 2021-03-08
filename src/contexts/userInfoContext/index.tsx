@@ -51,11 +51,9 @@ export const UserInfoProvider = (props: IProps) => {
             users.find(
               (user) => user.address.toLowerCase() === account?.toLowerCase()
             ) || null,
-          users: users
-            .filter(
-              (user) => user.address.toLowerCase() !== account?.toLowerCase()
-            )
-            .sort((a, b) => a.name.localeCompare(b.name)),
+          users: users.filter(
+            (user) => user.address.toLowerCase() !== account?.toLowerCase()
+          ),
         });
       } catch (error) {
         setState({ me: null, users: [] });
