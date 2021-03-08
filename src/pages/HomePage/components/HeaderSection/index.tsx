@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 56,
-    maxWidth: '60%',
+    paddingTop: 40,
+    maxWidth: '70%',
     textAlign: 'center',
   },
   title: {
@@ -33,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.primary,
     margin: 0,
   },
+  warning: {
+    marginBottom: 32,
+    fontSize: 24,
+    fontWeight: 500,
+    color: theme.colors.secondary,
+    margin: 0,
+  },
 }));
 
 interface IProps {
@@ -45,7 +52,8 @@ export const HeaderSection = (props: IProps) => {
 
   const calculateTimeLeft = () => {
     const date = moment.utc();
-    const lastDay = moment.utc().add(1, 'M').startOf('month');
+    const lastDay = moment(new Date(Date.UTC(2021, 2, 16, 0, 0, 0)));
+    // const lastDay = moment.utc().add(1, 'M').startOf('month');
     const difference = lastDay.diff(date);
 
     let timeLeft = {};
@@ -91,6 +99,9 @@ export const HeaderSection = (props: IProps) => {
 
   return (
     <div className={classes.root}>
+      <p className={classes.warning}>
+        COORDINAPE IS CURRENTLY INACTIVE PENDING ALPHA LAUNCH THIS WEEK
+      </p>
       <p className={classes.title}>Reward Yearn Contributors</p>
       {me ? (
         <div>
