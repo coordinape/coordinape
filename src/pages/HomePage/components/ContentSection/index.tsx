@@ -1,4 +1,5 @@
 import { Button, makeStyles } from '@material-ui/core';
+import clsx from 'clsx';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
@@ -8,7 +9,7 @@ import { PostTokenGiftsParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 80,
+    marginTop: 52,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: theme.custom.appFooterHeight
@@ -48,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     boxShadow: '0 1px 0 0 rgba(81, 99, 105, 0.2)',
     zIndex: 1,
+    '&.left': {
+      paddingLeft: 80,
+      textAlign: 'left',
+    },
   },
   trBody: {
     height: 70,
@@ -58,12 +63,23 @@ const useStyles = makeStyles((theme) => ({
     borderRightWidth: 0,
     borderColor: 'rgba(81, 99, 105, 0.2)',
   },
-  tdName: {
+  tdContributor: {
     fontSize: 27,
     fontWeight: 600,
     color: '#516369',
     textAlign: 'center',
-    padding: '0px 10px',
+    padding: '0px 25px',
+  },
+  contributor: {
+    display: 'flex',
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    marginRight: 16,
+    borderRadius: 18,
+    fontSize: 12,
+    fontWeight: 400,
   },
   tdDistribution: {
     fontSize: 20,
@@ -271,7 +287,7 @@ export const ContentSection = (props: IProps) => {
         </colgroup>
         <thead>
           <tr className={classes.trHeader}>
-            <th className={classes.th}>Contributor</th>
+            <th className={clsx(classes.th, 'left')}>Contributor</th>
             <th className={classes.th}>Estimated Distribution</th>
             <th className={classes.th}>GIVE to allocate</th>
             <th className={classes.th}>Add a note</th>
@@ -280,7 +296,18 @@ export const ContentSection = (props: IProps) => {
         <tbody>
           {users.map((user) => (
             <tr className={classes.trBody} key={user.id}>
-              <td className={classes.tdName}>{user.name}</td>
+              <td className={classes.tdContributor}>
+                <div className={classes.contributor}>
+                  <img
+                    alt={user.name}
+                    className={classes.avatar}
+                    src={
+                      user.avatar ? user.avatar : '/imgs/avatar/placeholder.jpg'
+                    }
+                  />
+                  {user.name}
+                </div>
+              </td>
               <td className={classes.tdDistribution}>
                 {Math.round(
                   (10000 * user.give_token_received) / Math.max(1, sumOfTokens)
@@ -290,7 +317,7 @@ export const ContentSection = (props: IProps) => {
               <td className={classes.tdAllocate}>
                 <input
                   className={classes.inputGiveToken}
-                  disabled={!me}
+                  disabled={user.non_receiver > 0}
                   min="0"
                   onChange={(e) => onChangeGiveToken(e, user.id)}
                   pattern="[0-9]*"
@@ -301,7 +328,7 @@ export const ContentSection = (props: IProps) => {
               <td className={classes.tdNote}>
                 <input
                   className={classes.inputGiveNote}
-                  disabled={!me}
+                  disabled={user.non_receiver > 0}
                   maxLength={280}
                   onChange={(e) => onChangeGiveNote(e, user.id)}
                   placeholder="Why are you contributing?"
@@ -319,11 +346,7 @@ export const ContentSection = (props: IProps) => {
           {(me?.give_token_remaining || 0) > 1 ? ' GIVES' : ' GIVE'}
         </p>
         <p className={classes.description}>left to allocate</p>
-        <Button
-          className={classes.saveButton}
-          disabled={!me}
-          onClick={onClickSave}
-        >
+        <Button className={classes.saveButton} onClick={onClickSave}>
           Save Allocations
         </Button>
       </div>

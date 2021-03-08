@@ -20,8 +20,15 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   subTitle: {
-    padding: '0px 32px',
+    padding: '0 32px',
     fontSize: 30,
+    fontWeight: 400,
+    color: theme.colors.primary,
+    margin: 0,
+  },
+  description: {
+    padding: '0 100px',
+    fontSize: 16,
     fontWeight: 400,
     color: theme.colors.primary,
     margin: 0,
@@ -86,9 +93,15 @@ export const HeaderSection = (props: IProps) => {
     <div className={classes.root}>
       <p className={classes.title}>Reward Yearn Contributors</p>
       {me ? (
-        <p className={classes.subTitle}>
-          GET tokens will be distributed at the snapshot in {timeLeftString}
-        </p>
+        <div>
+          <p className={classes.subTitle}>
+            This epoch’s GET tokens will be distributed in {timeLeftString}
+          </p>
+          <p className={classes.description}>
+            These tokens represent $20,000 of contributor budget. Make your
+            allocations below to reward people for bringing value to Yearn.
+          </p>
+        </div>
       ) : (
         <p className={classes.subTitle}>
           You must be a current contributor and connect your wallet to
