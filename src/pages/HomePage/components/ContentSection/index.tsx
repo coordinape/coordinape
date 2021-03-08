@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     fontWeight: 700,
     color: 'rgba(81, 99, 105, 0.5)',
-    background: '#DFE7E8',
+    background: 'rgb(223, 231, 232, 0.9)',
+    backdropFilter: 'blur(5px)',
     position: 'sticky',
     top: 0,
     boxShadow: '0 1px 0 0 rgba(81, 99, 105, 0.2)',
@@ -135,19 +136,21 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       padding: `0 ${theme.spacing(2)}px`,
     },
+    color: 'white',
     background: theme.colors.primary,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    '&.error': {
+      color: '#ff999a',
+    },
   },
   balance: {
     fontSize: 36,
     fontWeight: 600,
-    color: 'white',
   },
   description: {
     margin: '0px 16px',
     fontSize: 20,
     fontWeight: 500,
-    color: 'white',
   },
   saveButton: {
     marginLeft: 44,
@@ -160,7 +163,12 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+      background: 'rgba(255, 255, 255, 0.7)',
+    },
+    '&:disabled': {
+      color: theme.colors.primary,
+      background:
+        'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 137, 134, 0.9) 40.1%), linear-gradient(180deg, rgba(237, 153, 154) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
     },
   },
 }));
@@ -175,9 +183,15 @@ export const ContentSection = (props: IProps) => {
   const { me, refreshUserInfo, users } = useUserInfo();
   const [sumOfTokens, setSumOfTokens] = useState<number>(0);
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
+  const [giveTokenRemaining, setGiveTokenRemaining] = useState<number>(0);
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [order, setOrder] = useState<{ field: number; ascending: number }>({
+    field: 0,
+    ascending: 1,
+  });
   const { enqueueSnackbar } = useSnackbar();
+  const maxGives = 100;
 
   useEffect(() => {
     const getPendingTokenGifts = async () => {
@@ -219,6 +233,25 @@ export const ContentSection = (props: IProps) => {
     );
   }, [me, users]);
 
+  useEffect(() => {
+    setGiveTokenRemaining(
+      maxGives -
+        Object.keys(giveTokens).reduce(
+          (sum, key: any) => sum + (giveTokens[key] || 0),
+          0
+        )
+    );
+  }, [giveTokens]);
+
+  // OnClick Sort
+  const onClickSort = (field: number) => {
+    if (order.field !== field) {
+      setOrder({ field: field, ascending: 1 });
+    } else {
+      setOrder({ field: field, ascending: -order.ascending });
+    }
+  };
+
   // OnChange GiveToken Input
   const onChangeGiveToken = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -241,7 +274,7 @@ export const ContentSection = (props: IProps) => {
     setGiveNotes({ ...giveNotes });
   };
 
-  // Save Allocations
+  // onClick Save
   const onClickSave = () => {
     if (me?.address) {
       const postTokenGifts = async () => {
@@ -287,67 +320,109 @@ export const ContentSection = (props: IProps) => {
         </colgroup>
         <thead>
           <tr className={classes.trHeader}>
-            <th className={clsx(classes.th, 'left')}>Contributor</th>
-            <th className={classes.th}>Estimated Distribution</th>
-            <th className={classes.th}>GIVE to allocate</th>
+            <th
+              className={clsx(classes.th, 'left')}
+              onClick={() => onClickSort(0)}
+            >
+              Contributor
+              {order.field === 0 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
+            </th>
+            <th className={classes.th} onClick={() => onClickSort(1)}>
+              Estimated Distribution
+              {order.field === 1 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
+            </th>
+            <th className={classes.th} onClick={() => onClickSort(2)}>
+              GIVE to allocate
+              {order.field === 2 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
+            </th>
             <th className={classes.th}>Add a note</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr className={classes.trBody} key={user.id}>
-              <td className={classes.tdContributor}>
-                <div className={classes.contributor}>
-                  <img
-                    alt={user.name}
-                    className={classes.avatar}
-                    src={`/imgs/avatar/${
-                      user.avatar ? user.avatar : 'placeholder.jpg'
-                    }`}
-                  />
-                  {user.name}
-                </div>
-              </td>
-              <td className={classes.tdDistribution}>
-                {Math.round(
-                  (10000 * user.give_token_received) / Math.max(1, sumOfTokens)
-                ) / 100}
-                % of GET
-              </td>
-              <td className={classes.tdAllocate}>
-                <input
-                  className={classes.inputGiveToken}
-                  disabled={user.non_receiver > 0}
-                  min="0"
-                  onChange={(e) => onChangeGiveToken(e, user.id)}
-                  onWheel={(e) => e.currentTarget.blur()}
-                  pattern="[0-9]*"
-                  type="number"
-                  value={giveTokens[user.id] || 0}
-                ></input>
-              </td>
-              <td className={classes.tdNote}>
-                <input
-                  className={classes.inputGiveNote}
-                  disabled={user.non_receiver > 0}
-                  maxLength={280}
-                  onChange={(e) => onChangeGiveNote(e, user.id)}
-                  placeholder="Why are you contributing?"
-                  value={giveNotes[user.id] || ''}
-                ></input>
-              </td>
-            </tr>
-          ))}
+          {users
+            .sort((a, b) => {
+              switch (order.field) {
+                case 0:
+                  return order.ascending * a.name.localeCompare(b.name);
+                case 1:
+                  return (
+                    order.ascending *
+                    (a.give_token_received - b.give_token_received)
+                  );
+                case 2:
+                  return (
+                    order.ascending *
+                    ((giveTokens[a.id] || 0) - (giveTokens[b.id] || 0))
+                  );
+                default:
+                  return order.ascending;
+              }
+            })
+            .map((user) => (
+              <tr className={classes.trBody} key={user.id}>
+                <td className={classes.tdContributor}>
+                  <div className={classes.contributor}>
+                    <img
+                      alt={user.name}
+                      className={classes.avatar}
+                      src={`/imgs/avatar/${
+                        user.avatar ? user.avatar : 'placeholder.jpg'
+                      }`}
+                    />
+                    {user.name}
+                  </div>
+                </td>
+                <td className={classes.tdDistribution}>
+                  {Math.round(
+                    (10000 * user.give_token_received) /
+                      Math.max(1, sumOfTokens)
+                  ) / 100}
+                  % of GET
+                </td>
+                <td className={classes.tdAllocate}>
+                  <input
+                    className={classes.inputGiveToken}
+                    disabled={user.non_receiver > 0}
+                    min="0"
+                    onChange={(e) => onChangeGiveToken(e, user.id)}
+                    onWheel={(e) => e.currentTarget.blur()}
+                    pattern="[0-9]*"
+                    type="number"
+                    value={giveTokens[user.id] || 0}
+                  ></input>
+                </td>
+                <td className={classes.tdNote}>
+                  <input
+                    className={classes.inputGiveNote}
+                    disabled={user.non_receiver > 0}
+                    maxLength={280}
+                    onChange={(e) => onChangeGiveNote(e, user.id)}
+                    placeholder="Why are you contributing?"
+                    value={giveNotes[user.id] || ''}
+                  ></input>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
-      <div className={classes.footer}>
+      <div
+        className={
+          giveTokenRemaining < 0
+            ? clsx(classes.footer, 'error')
+            : classes.footer
+        }
+      >
         <p className={classes.description}>You have </p>
         <p className={classes.balance}>
-          {me?.give_token_remaining || 0}
-          {(me?.give_token_remaining || 0) > 1 ? ' GIVES' : ' GIVE'}
+          {giveTokenRemaining}
+          {giveTokenRemaining > 1 ? ' GIVES' : ' GIVE'}
         </p>
         <p className={classes.description}>left to allocate</p>
-        <Button className={classes.saveButton} onClick={onClickSave}>
+        <Button
+          className={classes.saveButton}
+          disabled={giveTokenRemaining < 0}
+          onClick={onClickSave}
+        >
           Save Allocations
         </Button>
       </div>

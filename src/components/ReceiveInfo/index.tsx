@@ -148,31 +148,33 @@ export const ReceiveInfo = (props: IProps) => {
           horizontal: 'right',
         }}
       >
-        {tokenGifts.map((tokenGift) => (
-          <div className={classes.note} key={tokenGift.id}>
-            <div className={classes.noteHeader}>
-              <div className={classes.noteTitle}>
-                +{tokenGift.tokens} Receive from{' '}
-                {users.find((user) => user.id === tokenGift.sender_id)?.name ||
-                  'Unknown'}
+        {tokenGifts
+          .filter((tokenGift) => tokenGift.tokens > 0)
+          .map((tokenGift) => (
+            <div className={classes.note} key={tokenGift.id}>
+              <div className={classes.noteHeader}>
+                <div className={classes.noteTitle}>
+                  +{tokenGift.tokens} Receive from{' '}
+                  {users.find((user) => user.id === tokenGift.sender_id)
+                    ?.name || 'Unknown'}
+                </div>
+                <div className={classes.noteDate}>
+                  {moment(tokenGift.updated_at).format('MMM ‘d')}
+                </div>
               </div>
-              <div className={classes.noteDate}>
-                {moment(tokenGift.updated_at).format('MMM ‘d')}
+              <div
+                className={
+                  tokenGift.note.length > 0
+                    ? classes.noteBody
+                    : classes.noteEmptyBody
+                }
+              >
+                {tokenGift.note.length > 0
+                  ? `“${tokenGift.note}”`
+                  : '-- Empty Note --'}
               </div>
             </div>
-            <div
-              className={
-                tokenGift.note.length > 0
-                  ? classes.noteBody
-                  : classes.noteEmptyBody
-              }
-            >
-              {tokenGift.note.length > 0
-                ? `“${tokenGift.note}”`
-                : '-- Empty Note --'}
-            </div>
-          </div>
-        ))}
+          ))}
       </Popover>
     </div>
   );
