@@ -9,7 +9,7 @@ import { PostTokenGiftsParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 80,
+    marginTop: 52,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: theme.custom.appFooterHeight
