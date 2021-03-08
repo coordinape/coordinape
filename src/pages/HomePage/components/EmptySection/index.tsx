@@ -6,7 +6,7 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 80,
+    marginTop: 60,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: 85,
