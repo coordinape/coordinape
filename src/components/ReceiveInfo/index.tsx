@@ -159,7 +159,7 @@ export const ReceiveInfo = (props: IProps) => {
                     ?.name || 'Unknown'}
                 </div>
                 <div className={classes.noteDate}>
-                  {moment(tokenGift.updated_at).format('MMM ‘d')}
+                  {moment(tokenGift.updated_at).format('MMM ‘D')}
                 </div>
               </div>
               <div
