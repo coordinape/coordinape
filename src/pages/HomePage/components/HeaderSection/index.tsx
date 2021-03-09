@@ -1,15 +1,13 @@
 import { makeStyles } from '@material-ui/core';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
+import { useUserInfo } from 'contexts';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { getApiService } from 'services/api';
-import { ITokenGift, IUser, Maybe } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 40,
+    paddingTop: 70,
     maxWidth: '70%',
     textAlign: 'center',
   },
@@ -99,9 +97,6 @@ export const HeaderSection = (props: IProps) => {
 
   return (
     <div className={classes.root}>
-      <p className={classes.warning}>
-        COORDINAPE IS CURRENTLY INACTIVE PENDING ALPHA LAUNCH THIS WEEK
-      </p>
       <p className={classes.title}>Reward Yearn Contributors</p>
       {me ? (
         <div>

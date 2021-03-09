@@ -9,7 +9,7 @@ import { PostTokenGiftsParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 52,
+    marginTop: 82,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: theme.custom.appFooterHeight
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.colors.primary,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     '&.error': {
-      color: '#ff999a',
+      color: '#F07070',
     },
   },
   balance: {
@@ -163,12 +163,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     textTransform: 'none',
     '&:hover': {
-      background: 'rgba(255, 255, 255, 0.7)',
+      background: '#3F8589',
     },
     '&:disabled': {
-      color: theme.colors.primary,
-      background:
-        'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 137, 134, 0.9) 40.1%), linear-gradient(180deg, rgba(237, 153, 154) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+      background: '#F07070',
     },
   },
 }));
@@ -203,6 +201,8 @@ export const ContentSection = (props: IProps) => {
           );
 
           // Update GiveTokens & GiveNotes
+          Object.keys(giveTokens).forEach((key: any) => (giveTokens[key] = 0));
+          Object.keys(giveNotes).forEach((key: any) => (giveNotes[key] = ''));
           tokenGifts.forEach((tokenGift) => {
             giveTokens[tokenGift.recipient_id] = tokenGift.tokens;
             giveNotes[tokenGift.recipient_id] = tokenGift.note;
