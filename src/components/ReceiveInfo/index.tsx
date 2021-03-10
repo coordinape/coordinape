@@ -156,7 +156,9 @@ export const ReceiveInfo = (props: IProps) => {
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>
                 <div className={classes.noteTitle}>
-                  +{tokenGift.tokens} Received from{' '}
+                  {tokenGift.tokens > 0
+                    ? `+${tokenGift.tokens} Received from `
+                    : 'From '}
                   {users.find((user) => user.id === tokenGift.sender_id)
                     ?.name || 'Unknown'}
                 </div>
