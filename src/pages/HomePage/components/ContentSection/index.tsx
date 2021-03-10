@@ -394,7 +394,6 @@ export const ContentSection = (props: IProps) => {
                 <td className={classes.tdNote}>
                   <input
                     className={classes.inputGiveNote}
-                    disabled={user.non_receiver > 0}
                     maxLength={280}
                     onChange={(e) => onChangeGiveNote(e, user.id)}
                     placeholder="Why are you contributing?"
