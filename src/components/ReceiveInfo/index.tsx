@@ -149,7 +149,9 @@ export const ReceiveInfo = (props: IProps) => {
         }}
       >
         {tokenGifts
-          .filter((tokenGift) => tokenGift.tokens > 0)
+          .filter(
+            (tokenGift) => tokenGift.tokens > 0 || tokenGift.note.length > 0
+          )
           .map((tokenGift) => (
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>
