@@ -155,20 +155,10 @@ class APIService {
   ): Promise<IUserPendingGift> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
-
-    // const msgHash = ethers.utils.hashMessage(data);
-    // const msgHashBytes = ethers.utils.arrayify(msgHash);
-    // const recoveredAddress = ethers.utils.recoverAddress(
-    //   msgHashBytes,
-    //   signature
-    // );
-    // console.log(recoveredAddress);
-
     const response = await axios.post(`/token-gifts/${address}`, {
       signature,
       data,
       address,
-      // msgHash,
     });
     return response.data;
   };
