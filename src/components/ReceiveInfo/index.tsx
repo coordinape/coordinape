@@ -152,6 +152,7 @@ export const ReceiveInfo = (props: IProps) => {
           .filter(
             (tokenGift) => tokenGift.tokens > 0 || tokenGift.note.length > 0
           )
+          .sort((a, b) => +new Date(b.updated_at) - +new Date(a.updated_at))
           .map((tokenGift) => (
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>

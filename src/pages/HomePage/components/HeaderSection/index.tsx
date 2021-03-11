@@ -80,7 +80,7 @@ export const HeaderSection = (props: IProps) => {
   let timeLeftIndex = 0;
 
   Object.typedKeys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval] || timeLeftIndex > 1) {
+    if (timeLeftIndex > 1) {
       return;
     }
 
