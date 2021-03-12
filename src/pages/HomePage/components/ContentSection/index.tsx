@@ -339,7 +339,7 @@ export const ContentSection = (props: IProps) => {
           </tr>
         </thead>
         <tbody>
-          {users
+          {(me ? [...users, me] : users)
             .sort((a, b) => {
               switch (order.field) {
                 case 0:
@@ -383,6 +383,7 @@ export const ContentSection = (props: IProps) => {
                   <input
                     className={classes.inputGiveToken}
                     disabled={user.non_receiver > 0}
+                    hidden={user.id === (me?.id || 0)}
                     min="0"
                     onChange={(e) => onChangeGiveToken(e, user.id)}
                     onWheel={(e) => e.currentTarget.blur()}
@@ -394,6 +395,7 @@ export const ContentSection = (props: IProps) => {
                 <td className={classes.tdNote}>
                   <input
                     className={classes.inputGiveNote}
+                    hidden={user.id === (me?.id || 0)}
                     maxLength={280}
                     onChange={(e) => onChangeGiveNote(e, user.id)}
                     placeholder="Why are you contributing?"
