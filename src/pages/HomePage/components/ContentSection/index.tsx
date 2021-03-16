@@ -142,6 +142,9 @@ const useStyles = makeStyles((theme) => ({
     '&.error': {
       color: '#F07070',
     },
+    '&.none': {
+      display: 'none',
+    },
   },
   balance: {
     fontSize: 36,
@@ -190,6 +193,7 @@ export const ContentSection = (props: IProps) => {
   });
   const { enqueueSnackbar } = useSnackbar();
   const maxGives = 100;
+  const noEpoch = true;
 
   useEffect(() => {
     const getPendingTokenGifts = async () => {
@@ -276,7 +280,7 @@ export const ContentSection = (props: IProps) => {
 
   // onClick Save
   const onClickSave = () => {
-    if (me?.address) {
+    if (me?.address && !noEpoch) {
       const postTokenGifts = async () => {
         try {
           const params: PostTokenGiftsParam[] = [];
@@ -382,7 +386,7 @@ export const ContentSection = (props: IProps) => {
                 <td className={classes.tdAllocate}>
                   <input
                     className={classes.inputGiveToken}
-                    disabled={user.non_receiver > 0}
+                    disabled={noEpoch || user.non_receiver > 0}
                     hidden={user.id === (me?.id || 0)}
                     min="0"
                     onChange={(e) => onChangeGiveToken(e, user.id)}
@@ -395,6 +399,7 @@ export const ContentSection = (props: IProps) => {
                 <td className={classes.tdNote}>
                   <input
                     className={classes.inputGiveNote}
+                    disabled={noEpoch}
                     hidden={user.id === (me?.id || 0)}
                     maxLength={280}
                     onChange={(e) => onChangeGiveNote(e, user.id)}
@@ -408,7 +413,9 @@ export const ContentSection = (props: IProps) => {
       </table>
       <div
         className={
-          giveTokenRemaining < 0
+          noEpoch
+            ? clsx(classes.footer, 'none')
+            : giveTokenRemaining < 0
             ? clsx(classes.footer, 'error')
             : classes.footer
         }
