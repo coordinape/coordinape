@@ -11,6 +11,12 @@ const routes = [
     component: lazy(() => import('pages/HomePage')),
   },
   {
+    exact: true,
+    path: '/map',
+    layout: MainLayout,
+    component: lazy(() => import('pages/GraphPage')),
+  },
+  {
     path: '*',
     // eslint-disable-next-line
     component: () => <Redirect to="/" />,
