@@ -52,17 +52,14 @@ export const HeaderSection = (props: IProps) => {
     const date = moment.utc();
     const lastDay = moment(new Date(Date.UTC(2021, 2, 16, 0, 0, 0)));
     // const lastDay = moment.utc().add(1, 'M').startOf('month');
-    const difference = lastDay.diff(date);
+    const difference = Math.max(0, lastDay.diff(date));
 
-    let timeLeft = {};
-    if (difference > 0) {
-      timeLeft = {
-        Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        Hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        Minutes: Math.floor((difference / 1000 / 60) % 60),
-        Seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
+    const timeLeft = {
+      Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      Hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      Minutes: Math.floor((difference / 1000 / 60) % 60),
+      Seconds: Math.floor((difference / 1000) % 60),
+    };
 
     return timeLeft;
   };
@@ -101,11 +98,15 @@ export const HeaderSection = (props: IProps) => {
       {me ? (
         <div>
           <p className={classes.subTitle}>
-            This epoch’s GET tokens will be distributed in {timeLeftString}
+            The next epoch will begin on March 26th.
+            {/* The next epoch will begin on March 26th.This epoch’s GET tokens will
+            be distributed in {timeLeftString} */}
           </p>
           <p className={classes.description}>
-            These tokens represent $20,000 of contributor budget. Make your
-            allocations below to reward people for bringing value to Yearn.
+            Stay tuned for details, and thank you for being part of Coordinape’s
+            alpha.
+            {/* These tokens represent $20,000 of contributor budget. Make your
+            allocations below to reward people for bringing value to Yearn. */}
           </p>
         </div>
       ) : (
