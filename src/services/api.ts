@@ -53,6 +53,11 @@ class APIService {
     return response.data;
   };
 
+  getMe = async (address: string): Promise<IUser> => {
+    const response = await axios.get(`/users/${address}`);
+    return response.data as IUser;
+  };
+
   getUsers = async (
     address?: string,
     circle_id?: number,
@@ -95,6 +100,36 @@ class APIService {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
     const response = await axios.put(`/users/${address}`, {
+      signature,
+      data,
+      address,
+    });
+    return response.data;
+  };
+
+  uploadImage = async (image: File): Promise<any> => {
+    const formData = new FormData();
+    formData.append('image', image);
+    const response = await axios.post(
+      'https://api.imgur.com/3/image',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return response.data;
+  };
+
+  postTeammates = async (
+    address: string,
+    teammates: number[],
+    provider?: any
+  ): Promise<IUser> => {
+    const data = JSON.stringify({ teammates: teammates });
+    const signature = await getSignature(data, provider);
+    const response = await axios.post('/teammates', {
       signature,
       data,
       address,

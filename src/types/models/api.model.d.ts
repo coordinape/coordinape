@@ -1,26 +1,27 @@
 export interface PostTokenGiftsParam {
-    tokens: number,
-    recipient_address: string,
-    circle_id: number,
-    note?: string
+  tokens: number;
+  recipient_address: string;
+  circle_id: number;
+  note?: string;
 }
 
 export interface PostUsersParam {
-    name: string,
-    address: string,
-    circle_id: number
+  name: string;
+  address: string;
+  circle_id: number;
 }
 
 export interface PutUsersParam {
-    name: string,
-    address: string,
-    circle_id: number
+  name: string;
+  bio: string;
+  address: string;
+  circle_id: number;
 }
 
 export interface PostCirclesParam {
-    name: string
+  name: string;
 }
 
 export interface PutCirclesParam {
-    name: string
+  name: string;
 }
