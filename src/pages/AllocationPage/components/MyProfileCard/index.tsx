@@ -484,6 +484,7 @@ export const MyProfileCard = () => {
             </div>
             <Button
               className={classes.saveButton}
+              disableRipple={true}
               disabled={
                 profileData.name.length === 0 ||
                 (profileData.name === (me.name || '') &&
@@ -531,6 +532,7 @@ export const MyProfileCard = () => {
             )}
             <Button
               className={classes.editButton}
+              disableRipple={true}
               onClick={() => {
                 setProfileData({
                   avatar:
