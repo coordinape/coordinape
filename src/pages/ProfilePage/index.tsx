@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   bioTextarea: {
     height: 143,
     margin: `${theme.spacing(3)}px ${theme.spacing(6)}px`,
-    padding: `${theme.spacing(1)}px ${theme.spacing(4)}px`,
+    padding: `${theme.spacing(3)}px ${theme.spacing(4)}px`,
     resize: 'none',
     fontSize: 14,
     fontWeight: 600,
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     background: 'rgba(81, 99, 105, 0.2)',
     borderRadius: 8,
+    wordBreak: 'break-word',
     '&::placeholder': {
       opacity: 0.3,
     },

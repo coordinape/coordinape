@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginBottom: 32,
     padding: '50px 0',
-    maxWidth: '80%',
+    maxWidth: '90%',
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
@@ -430,7 +430,7 @@ export const ContentSection = () => {
           <div className={classes.cancelIconWrapper}>
             <CancelCircleSVG />
           </div>
-          Cancel
+          Don&apos;t Save Changes
         </NavLink>
       </div>
       {isLoading && (
