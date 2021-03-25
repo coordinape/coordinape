@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   alertLabel: {
-    width: '80%',
+    width: '62%',
     margin: `${theme.spacing(0.5)}px 0`,
     fontSize: 12,
     fontWeight: 700,
@@ -137,7 +137,7 @@ const TextOnlyTooltip = withStyles({
   tooltip: {
     margin: 'auto',
     padding: `4px 8px`,
-    width: '80%',
+    maxWidth: 240,
     fontSize: 10,
     fontWeight: 500,
     color: 'rgba(81, 99, 105, 0.5)',

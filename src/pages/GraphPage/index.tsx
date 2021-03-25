@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
   controls: {
-    padding: theme.spacing(3),
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
     position: 'absolute',
     top: 0,
     right: 0,
   },
   epochSelectRoot: {
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: 700,
     color: theme.colors.red,
     '&:hover': {
       '&::before': {

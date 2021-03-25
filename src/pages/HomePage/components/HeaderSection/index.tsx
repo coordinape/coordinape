@@ -46,75 +46,13 @@ interface IProps {
 
 export const HeaderSection = (props: IProps) => {
   const classes = useStyles();
-  const { me } = useUserInfo();
-
-  const calculateTimeLeft = () => {
-    const date = moment.utc();
-    const lastDay = moment(new Date(Date.UTC(2021, 2, 16, 0, 0, 0)));
-    // const lastDay = moment.utc().add(1, 'M').startOf('month');
-    const difference = Math.max(0, lastDay.diff(date));
-
-    const timeLeft = {
-      Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      Hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      Minutes: Math.floor((difference / 1000 / 60) % 60),
-      Seconds: Math.floor((difference / 1000) % 60),
-    };
-
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    // Clear timeout if the component is unmounted
-    return () => clearTimeout(timer);
-  }, []);
-
-  let timeLeftString = '';
-  let timeLeftIndex = 0;
-
-  Object.typedKeys(timeLeft).forEach((interval) => {
-    if (timeLeftIndex > 1) {
-      return;
-    }
-
-    if (timeLeft[interval] !== 0 || interval === 'Seconds') {
-      timeLeftString =
-        timeLeftString +
-        timeLeft[interval] +
-        ' ' +
-        interval +
-        (timeLeftIndex === 0 ? ', ' : '.');
-      timeLeftIndex++;
-    }
-  });
 
   return (
     <div className={classes.root}>
       <p className={classes.title}>Reward Yearn Contributors</p>
-      {me ? (
-        <div>
-          <p className={classes.subTitle}>
-            The next epoch will begin on March 26th.
-            {/* The next epoch will begin on March 26th.This epoch’s GET tokens will
-            be distributed in {timeLeftString} */}
-          </p>
-          <p className={classes.description}>
-            Stay tuned for details, and thank you for being part of Coordinape’s
-            alpha.
-            {/* These tokens represent $20,000 of contributor budget. Make your
-            allocations below to reward people for bringing value to Yearn. */}
-          </p>
-        </div>
-      ) : (
-        <p className={classes.subTitle}>
-          You must be a current contributor and connect your wallet to
-          participate
-        </p>
-      )}
+      <p className={classes.subTitle}>
+        You must be a current contributor and connect your wallet to participate
+      </p>
     </div>
   );
 };
