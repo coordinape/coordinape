@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     margin: `0 ${theme.spacing(4)}px`,
     fontSize: 20,
     fontWeight: 700,
-    color: 'white',
+    color: theme.colors.white,
     textDecoration: 'none',
     padding: '6px 0',
     position: 'relative',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       position: 'absolute',
       left: '50%',
       right: '50%',
-      backgroundColor: '#E6BCBC',
+      backgroundColor: theme.colors.mediumRed,
       transition: 'all 0.3s',
       bottom: 0,
       height: 2,
@@ -54,20 +54,20 @@ const useStyles = makeStyles((theme) => ({
       '&::after': {
         left: 0,
         right: 0,
-        backgroundColor: '#E6BCBC',
+        backgroundColor: theme.colors.mediumRed,
       },
     },
     '&.active': {
       '&::after': {
         left: 0,
         right: 0,
-        backgroundColor: '#EF7376',
+        backgroundColor: theme.colors.red,
       },
       '&:hover': {
         '&::after': {
           left: 0,
           right: 0,
-          backgroundColor: '#EF7376',
+          backgroundColor: theme.colors.red,
         },
       },
     },

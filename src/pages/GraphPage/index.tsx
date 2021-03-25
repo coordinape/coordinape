@@ -4,6 +4,7 @@ import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
+import { important } from 'polished';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -29,11 +30,41 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
   controls: {
-    backgroundColor: 'white',
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     position: 'absolute',
     top: 0,
     right: 0,
+  },
+  epochSelectRoot: {
+    fontSize: 20,
+    fontWeight: 500,
+    color: theme.colors.red,
+    '&:hover': {
+      '&::before': {
+        borderBottomColor: `${theme.colors.red} !important`,
+      },
+    },
+    '&::after': {
+      borderBottomColor: `${theme.colors.transparent} !important`,
+    },
+  },
+  epochSelect: {
+    color: theme.colors.red,
+  },
+  epochSelectIcon: {
+    fill: theme.colors.red,
+  },
+  epochSelectMenuPaper: {
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+  },
+  epochMenuItem: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: theme.colors.text,
+  },
+  epochMenuItemSelected: {
+    background: `${theme.colors.third} !important`,
   },
 }));
 
@@ -110,14 +141,16 @@ const GraphPage = (props: IProps) => {
     const images = fromPairs(
       uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
-        img.src = avatar;
-        return [avatar ?? '', img];
+        img.src = avatar
+          ? (process.env.REACT_APP_S3_BASE_URL as string) + avatar
+          : '/imgs/avatar/placeholder.jpg';
+        return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
       })
     );
 
     const allUsers = users.concat(me).map((u) => ({
       ...u,
-      img: images[u.avatar ?? ''],
+      img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
       receiverLinks: [] as any,
       giverLinks: [] as any,
       givers: [] as any,
@@ -301,11 +334,26 @@ const GraphPage = (props: IProps) => {
       </AutoSizer>
       <div className={classes.controls}>
         <Select
+          MenuProps={{
+            classes: {
+              paper: classes.epochSelectMenuPaper,
+            },
+          }}
+          className={classes.epochSelectRoot}
+          classes={{
+            select: classes.epochSelect,
+            icon: classes.epochSelectIcon,
+          }}
           onChange={({ target: { value } }) => setEpoch(value)}
           value={epoch}
         >
           {Object.values(EPOCH_VALUES).map((value) => (
-            <MenuItem key={value} value={value}>
+            <MenuItem
+              className={classes.epochMenuItem}
+              classes={{ selected: classes.epochMenuItemSelected }}
+              key={value}
+              value={value}
+            >
               {value}
             </MenuItem>
           ))}

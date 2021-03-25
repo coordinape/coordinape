@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 0,
     fontSize: 24,
     fontWeight: 600,
-    color: '#516369',
+    color: theme.colors.text,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 36,
     fontWeight: 600,
     textDecorationLine: 'underline',
-    color: '#516369',
+    color: theme.colors.text,
     background: 'none',
     border: 0,
     outline: 'none',
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
     resize: 'none',
     fontSize: 12,
     fontWeight: 500,
-    color: '#516369',
+    color: theme.colors.text,
     background: 'rgba(81, 99, 105, 0.2)',
     border: 0,
     borderRadius: 8,
@@ -156,7 +156,7 @@ interface IProps {
 
 export const TeammateCard = (props: IProps) => {
   const classes = useStyles();
-  const { disabled, tokens, user } = props;
+  const { disabled, note, tokens, user } = props;
 
   // onChange Tokens
   const onChangeTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +185,7 @@ export const TeammateCard = (props: IProps) => {
         alt="avatar"
         className={classes.avatar}
         placeholderImg="/imgs/avatar/placeholder.jpg"
-        src={user.avatar}
+        src={(process.env.REACT_APP_S3_BASE_URL as string) + user.avatar}
       />
       <p className={classes.name}>{user.name}</p>
       <div className={classes.bioContainer}>
@@ -245,6 +245,7 @@ export const TeammateCard = (props: IProps) => {
           maxLength={280}
           onChange={onChangeNote}
           placeholder="Why are you contributing?"
+          value={note}
         />
       </div>
     </div>

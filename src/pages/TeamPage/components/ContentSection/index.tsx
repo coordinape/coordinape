@@ -65,13 +65,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 500,
     textAlign: 'center',
-    color: '#516369',
+    color: theme.colors.text,
     background: 'rgba(225, 225, 225, 0.3)',
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: '#516369',
+      color: theme.colors.text,
       opacity: 0.35,
     },
   },
@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
       borderRightWidth: 0,
     },
     '&.selected': {
-      color: '#516369',
+      color: theme.colors.text,
     },
   },
   teammatesContainer: {
@@ -136,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(3),
     '&.selected': {
       paddingLeft: 12,
-      color: '#516369',
+      color: theme.colors.text,
       background: '#DFE7E8',
     },
     '&.unmatched': {
@@ -158,21 +158,21 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 19.5,
     fontWeight: 600,
     textTransform: 'none',
-    color: 'white',
+    color: theme.colors.white,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#EF7376',
+    background: theme.colors.red,
     borderRadius: 13,
     filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
     '&:hover': {
-      background: '#EF7376',
+      background: theme.colors.red,
       filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
     },
     '&:disabled': {
-      color: '#F5E4E4',
-      background: '#E6BCBC',
+      color: theme.colors.lightRed,
+      background: theme.colors.mediumRed,
     },
   },
   arrowRightIconWrapper: {

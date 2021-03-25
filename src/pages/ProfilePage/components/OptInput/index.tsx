@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
       color: 'rgba(81, 99, 105, 0.85)',
     },
     '&:checked': {
-      color: '#516369',
+      color: theme.colors.text,
     },
   },
   radioInput: {

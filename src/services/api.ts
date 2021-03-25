@@ -106,18 +106,24 @@ class APIService {
     return response.data;
   };
 
-  uploadImage = async (image: File): Promise<any> => {
+  postUploadImage = async (
+    address: string,
+    file: File,
+    provider?: any
+  ): Promise<any> => {
+    const filename = 'avatar.png';
+    const data = filename;
+    const signature = await getSignature(data, provider);
     const formData = new FormData();
-    formData.append('image', image);
-    const response = await axios.post(
-      'https://api.imgur.com/3/image',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('address', address);
+    formData.append('data', data);
+    const response = await axios.post('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   };
 

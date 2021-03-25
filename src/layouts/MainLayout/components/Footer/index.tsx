@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       padding: `0 ${theme.spacing(2)}px`,
     },
-    background: '#5E6F74',
+    background: theme.colors.primary,
   },
   balance: {
     fontSize: 40,
-    color: 'white',
+    color: theme.colors.white,
   },
   balanceNumber: {
     fontWeight: 600,
@@ -28,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginLeft: 16,
     fontSize: 20,
-    color: 'white',
+    color: theme.colors.white,
   },
   saveButton: {
     marginLeft: 44,
     height: 35,
     padding: '0px 37px',
     borderRadius: 8,
-    background: '#31A5AC',
+    background: theme.colors.selected,
     fontSize: 18,
     fontWeight: 600,
-    color: 'white',
+    color: theme.colors.white,
     '&:hover': {
       backgroundColor: 'rgba(255, 255, 255, 0.7)',
     },

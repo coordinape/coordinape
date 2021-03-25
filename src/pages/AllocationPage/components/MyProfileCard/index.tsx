@@ -18,9 +18,10 @@ import { Img, LoadingModal } from 'components';
 import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { PutUsersParam } from 'types';
+import { blobToFile, resizeImage } from 'utils/image';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 0,
     fontSize: 24,
     fontWeight: 600,
-    color: '#516369',
+    color: theme.colors.text,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -118,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 0,
     fontSize: 24,
     fontWeight: 600,
-    color: '#516369',
+    color: theme.colors.text,
     background: 'none',
     border: 0,
     outline: 'none',
@@ -148,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
     resize: 'none',
     fontSize: 14,
     fontWeight: 600,
-    color: '#516369',
+    color: theme.colors.text,
     background: 'none',
     border: 0,
     borderRadius: 0,
@@ -188,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
       color: 'rgba(81, 99, 105, 0.85)',
     },
     '&:checked': {
-      color: '#516369',
+      color: theme.colors.text,
     },
   },
   alertContainer: {
@@ -252,7 +253,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(81, 99, 105, 0.5)',
     '&:hover': {
       background: 'none',
-      color: '#516369',
+      color: theme.colors.text,
     },
     '&:disabled': {
       color: 'rgba(81, 99, 105, 0.5)',
@@ -287,7 +288,7 @@ export const MyProfileCard = () => {
   const { me, refreshUserInfo } = useUserInfo();
   const [isEditing, setEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<IProfileData>({
-    avatar: me?.avatar || '',
+    avatar: (process.env.REACT_APP_S3_BASE_URL as string) + (me?.avatar || ''),
     avatarRaw: null,
     name: me?.name || '',
     bio: me?.bio || '',
@@ -295,18 +296,6 @@ export const MyProfileCard = () => {
   });
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-
-  // onClick Back
-  const onClickBack = () => {
-    setProfileData({
-      avatar: me?.avatar || '',
-      avatarRaw: null,
-      name: me?.name || '',
-      bio: me?.bio || '',
-      non_receiver: me?.non_receiver || 0,
-    });
-    setEditing(false);
-  };
 
   // onChange Avatar
   const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -336,32 +325,62 @@ export const MyProfileCard = () => {
         profileData.name.length === 0 ||
         (profileData.name === (me?.name || '') &&
           profileData.bio === (me?.bio || '') &&
-          profileData.non_receiver === (me?.non_receiver || 0))
+          profileData.non_receiver === (me?.non_receiver || 0) &&
+          !profileData.avatarRaw)
       ) {
         return;
       }
 
-      const putUsers = async () => {
-        try {
-          const params: PutUsersParam = {
-            name: profileData.name,
-            bio: profileData.bio,
-            non_receiver: profileData.non_receiver,
-            address: me?.address,
-            circle_id: me?.circle_id,
-          };
+      const postUploadImage = async () => {
+        if (profileData.avatarRaw) {
+          try {
+            const blob = await resizeImage(profileData.avatarRaw, 100, 100);
+            try {
+              await getApiService().postUploadImage(
+                me?.address,
+                blobToFile(blob, 'avatar.png'),
+                library
+              );
+            } catch (error) {
+              enqueueSnackbar(
+                error.response?.data?.message || 'Something went wrong!',
+                { variant: 'error' }
+              );
+            }
+          } catch (error) {
+            enqueueSnackbar(`Photo error ${error}`, { variant: 'error' });
+          }
+        }
+      };
 
-          await getApiService().putUsers(me?.address, params, library);
-        } catch (error) {
-          enqueueSnackbar(
-            error.response?.data?.message || 'Something went wrong!',
-            { variant: 'error' }
-          );
+      const putUsers = async () => {
+        if (
+          profileData.name !== (me?.name || '') ||
+          profileData.bio !== (me?.bio || '') ||
+          profileData.non_receiver !== (me?.non_receiver || 0)
+        ) {
+          try {
+            const params: PutUsersParam = {
+              name: profileData.name,
+              bio: profileData.bio,
+              non_receiver: profileData.non_receiver,
+              address: me?.address,
+              circle_id: me?.circle_id,
+            };
+
+            await getApiService().putUsers(me?.address, params, library);
+          } catch (error) {
+            enqueueSnackbar(
+              error.response?.data?.message || 'Something went wrong!',
+              { variant: 'error' }
+            );
+          }
         }
       };
 
       const queryData = async () => {
         setLoading(true);
+        await postUploadImage();
         await putUsers();
         await refreshUserInfo();
         setEditing(false);
@@ -381,7 +400,7 @@ export const MyProfileCard = () => {
             <Button
               className={classes.backButton}
               disableRipple={true}
-              onClick={onClickBack}
+              onClick={() => setEditing(false)}
             >
               ←
             </Button>
@@ -470,7 +489,8 @@ export const MyProfileCard = () => {
                 profileData.name.length === 0 ||
                 (profileData.name === (me.name || '') &&
                   profileData.bio === (me.bio || '') &&
-                  profileData.non_receiver === (me.non_receiver || 0))
+                  profileData.non_receiver === (me.non_receiver || 0) &&
+                  !profileData.avatarRaw)
               }
               onClick={onClickSaveProfile}
             >
@@ -484,7 +504,7 @@ export const MyProfileCard = () => {
               alt="avatar"
               className={classes.avatar}
               placeholderImg="/imgs/avatar/placeholder.jpg"
-              src={me.avatar}
+              src={(process.env.REACT_APP_S3_BASE_URL as string) + me.avatar}
             />
             <p className={classes.name}>{me.name}</p>
             <div className={classes.bioContainer}>
@@ -512,7 +532,18 @@ export const MyProfileCard = () => {
             )}
             <Button
               className={classes.editButton}
-              onClick={() => setEditing(true)}
+              onClick={() => {
+                setProfileData({
+                  avatar:
+                    (process.env.REACT_APP_S3_BASE_URL as string) +
+                    (me?.avatar || ''),
+                  avatarRaw: null,
+                  name: me?.name || '',
+                  bio: me?.bio || '',
+                  non_receiver: me?.non_receiver || 0,
+                });
+                setEditing(true);
+              }}
             >
               <EditProfileSVG />
               <div className={classes.buttonLabel}>Edit My Profile</div>

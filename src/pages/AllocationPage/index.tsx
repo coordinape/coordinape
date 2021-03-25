@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.primary,
     '&:first-of-type': {
       fontWeight: 700,
-      color: '#EF7376',
+      color: theme.colors.red,
     },
   },
   headerContainer: {
@@ -105,21 +105,21 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 19.5,
     fontWeight: 600,
     textTransform: 'none',
-    color: 'white',
+    color: theme.colors.white,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#EF7376',
+    background: theme.colors.red,
     borderRadius: 13,
     filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
     '&:hover': {
-      background: '#EF7376',
+      background: theme.colors.red,
       filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
     },
     '&:disabled': {
-      color: '#F5E4E4',
-      background: '#E6BCBC',
+      color: theme.colors.lightRed,
+      background: theme.colors.mediumRed,
     },
   },
   arrowRightIconWrapper: {
