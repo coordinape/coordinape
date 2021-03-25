@@ -14,6 +14,7 @@ export interface PostUsersParam {
 export interface PutUsersParam {
   name: string;
   bio: string;
+  non_receiver: number;
   address: string;
   circle_id: number;
 }

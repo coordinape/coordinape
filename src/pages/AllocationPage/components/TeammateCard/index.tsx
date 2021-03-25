@@ -1,13 +1,21 @@
-import { Button, Tooltip, makeStyles } from '@material-ui/core';
+import {
+  Button,
+  Tooltip,
+  Zoom,
+  makeStyles,
+  withStyles,
+} from '@material-ui/core';
+import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
+import { Img } from 'components';
 import React from 'react';
 import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 300,
-    height: 380,
+    width: 320,
+    height: 400,
     margin: theme.spacing(1),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2.5),
@@ -38,10 +46,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-  bio: {
+  bioContainer: {
     height: 50,
     marginTop: 1,
     marginBottom: 0,
+  },
+  bio: {
     fontSize: 14,
     fontWeight: 600,
     color: 'rgba(81, 99, 105, 0.5)',
@@ -63,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 0,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'end',
   },
   tokenInput: {
     width: 66,
@@ -78,6 +88,20 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+  },
+  alertContainer: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  alertLabel: {
+    width: '80%',
+    margin: `${theme.spacing(0.5)}px 0`,
+    fontSize: 12,
+    fontWeight: 700,
+    color: 'rgba(81, 99, 105, 0.3)',
+    textDecoration: 'underline',
   },
   noteTextareaContainer: {
     height: 68,
@@ -107,6 +131,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const TextOnlyTooltip = withStyles({
+  tooltip: {
+    margin: 'auto',
+    padding: `4px 8px`,
+    width: '80%',
+    fontSize: 10,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#C3CDCF',
+  },
+})(Tooltip);
 
 interface IProps {
   className?: string;
@@ -145,15 +181,22 @@ export const TeammateCard = (props: IProps) => {
   // Return
   return (
     <div className={classes.root}>
-      <img
-        alt={user.name}
+      <Img
+        alt="avatar"
         className={classes.avatar}
-        src={`/imgs/avatar/${user.avatar ? user.avatar : 'placeholder.jpg'}`}
+        placeholderImg="/imgs/avatar/placeholder.jpg"
+        src={user.avatar}
       />
       <p className={classes.name}>{user.name}</p>
-      <Tooltip title={user.bio ?? ''}>
-        <p className={classes.bio}>{user.bio}</p>
-      </Tooltip>
+      <div className={classes.bioContainer}>
+        <TextOnlyTooltip
+          TransitionComponent={Zoom}
+          placement="bottom"
+          title={user.bio}
+        >
+          <p className={classes.bio}>{user.bio}</p>
+        </TextOnlyTooltip>
+      </div>
       <div className={classes.tokenInputContainer}>
         {!user.non_receiver ? (
           <>
@@ -179,7 +222,20 @@ export const TeammateCard = (props: IProps) => {
               </Button>
             </div>
           </>
-        ) : null}
+        ) : (
+          <div className={classes.alertContainer}>
+            <TextOnlyTooltip
+              TransitionComponent={Zoom}
+              placement="top-start"
+              title="This contributor opted out of receiving GIVE. They are paid through other channels or are not currently active."
+            >
+              <AlertCircleSVG />
+            </TextOnlyTooltip>
+            <p className={classes.alertLabel}>
+              This contributor opted out of receiving GIVE this epoch.
+            </p>
+          </div>
+        )}
       </div>
       <div className={classes.noteTextareaContainer}>
         <p className={classes.label}>Leave a Note</p>

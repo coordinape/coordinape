@@ -22,16 +22,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   accessaryContainer: {
-    width: '80%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   selectButtonContainer: {
     display: 'flex',
   },
   selectButton: {
-    padding: `0 ${theme.spacing(2.5)}px`,
-    fontSize: 18,
+    height: 17,
+    padding: `0 ${theme.spacing(1.5)}px`,
+    fontSize: 14,
     fontWeight: 500,
     textTransform: 'none',
     color: 'rgba(81, 99, 105, 0.35)',
@@ -59,22 +61,58 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchInput: {
-    padding: '0 4px',
-    fontSize: 18,
+    padding: '6px 6px',
+    fontSize: 14,
     fontWeight: 500,
     textAlign: 'center',
     color: '#516369',
-    background: 'none',
-    border: 'solid',
-    borderTopWidth: 0,
-    borderBottomWidth: 1,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderColor: 'rgba(81, 99, 105, 0.35)',
+    background: 'rgba(225, 225, 225, 0.3)',
+    border: 'none',
+    borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
       color: '#516369',
       opacity: 0.35,
+    },
+  },
+  sortButtonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  sortLabel: {
+    margin: 0,
+    paddingRight: theme.spacing(1),
+    fontSize: 14,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.35)',
+  },
+  sortButton: {
+    height: 17,
+    padding: `0 ${theme.spacing(1)}px`,
+    fontSize: 14,
+    fontWeight: 500,
+    textTransform: 'none',
+    color: 'rgba(81, 99, 105, 0.35)',
+    border: 'solid',
+    borderColor: 'rgba(81, 99, 105, 0.35)',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderRadius: 0,
+    '&:hover': {
+      background: 'none',
+      color: 'rgba(81, 99, 105, 0.75)',
+    },
+    '&:first-of-type': {
+      borderLeftWidth: 0,
+    },
+    '&:last-of-type': {
+      borderRightWidth: 0,
+    },
+    '&.selected': {
+      color: '#516369',
     },
   },
   teammatesContainer: {
@@ -126,16 +164,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     background: '#EF7376',
-    boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.12)',
     borderRadius: 13,
-    opacity: 0.3,
+    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
     '&:hover': {
-      opacity: 1,
       background: '#EF7376',
+      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
     },
     '&:disabled': {
-      color: 'white',
-      opacity: 0.3,
+      color: '#F5E4E4',
+      background: '#E6BCBC',
     },
   },
   arrowRightIconWrapper: {
@@ -145,12 +182,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+enum OrderType {
+  Alphabetical = 'Alphabetical',
+  Give_Allocated = 'Give Allocated',
+  Past_Teammates = 'Past Teammates',
+}
+
 export const ContentSection = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
   const { me, refreshUserInfo, users } = useUserInfo();
   const [teammates, setTeammates] = useState<number[]>([]);
   const [keyword, setKeyword] = useState<string>('');
+  const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [isLoading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -207,24 +251,98 @@ export const ContentSection = () => {
     <div className={classes.root}>
       <div className={classes.accessaryContainer}>
         <div className={classes.selectButtonContainer}>
-          <Button className={classes.selectButton} onClick={onClickSelectAll}>
+          <Button
+            className={classes.selectButton}
+            disableRipple={true}
+            onClick={onClickSelectAll}
+          >
             Select All
           </Button>
-          <Button className={classes.selectButton} onClick={onClickDeselectAll}>
+          <Button
+            className={classes.selectButton}
+            disableRipple={true}
+            onClick={onClickDeselectAll}
+          >
             Deselect All
           </Button>
         </div>
         <input
           className={classes.searchInput}
           onChange={onChangeKeyword}
-          placeholder="Search"
+          placeholder="🔍 Search"
           value={keyword}
         />
+        <div className={classes.sortButtonContainer}>
+          <p className={classes.sortLabel}>sort by</p>
+          <div>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Alphabetical ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Alphabetical)}
+            >
+              Alphabetical
+            </Button>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Give_Allocated ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Give_Allocated)}
+            >
+              Give Allocated
+            </Button>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Past_Teammates ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Past_Teammates)}
+            >
+              Past Teammates
+            </Button>
+          </div>
+        </div>
       </div>
       <div className={classes.teammatesContainer}>
         {users
           .sort((a, b) => {
-            return a.name.localeCompare(b.name);
+            switch (orderType) {
+              case OrderType.Alphabetical:
+                return a.name.localeCompare(b.name);
+              case OrderType.Give_Allocated: {
+                const av =
+                  me?.pending_sent_gifts.find(
+                    (gift) => gift.recipient_id === a.id
+                  )?.tokens || 0;
+                const bv =
+                  me?.pending_sent_gifts.find(
+                    (gift) => gift.recipient_id === b.id
+                  )?.tokens || 0;
+                if (av !== bv) {
+                  return av - bv;
+                } else {
+                  return a.name.localeCompare(b.name);
+                }
+              }
+              case OrderType.Past_Teammates: {
+                const av = teammates.some((element) => element === a.id)
+                  ? 1
+                  : 0;
+                const bv = teammates.some((element) => element === b.id)
+                  ? 1
+                  : 0;
+                if (av !== bv) {
+                  return bv - av;
+                } else {
+                  return a.name.localeCompare(b.name);
+                }
+              }
+            }
           })
           .map((user) => {
             const selected = teammates.some((element) => element === user.id);

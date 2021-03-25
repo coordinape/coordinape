@@ -13,6 +13,12 @@ const routes = [
   },
   {
     exact: true,
+    path: '/profile',
+    layout: MainLayout,
+    component: lazy(() => import('pages/ProfilePage')),
+  },
+  {
+    exact: true,
     path: '/team',
     layout: MainLayout,
     component: lazy(() => import('pages/TeamPage')),
@@ -34,46 +40,55 @@ const routes = [
 export const RenderRoutes = () => {
   const { me } = useUserInfo();
 
-  const renderRoutes = (routes = [], isSignedIn = false) => (
-    <Suspense fallback={<LoadingScreen />}>
-      <Switch>
-        {routes.map((route: any, i) => {
-          const Layout = route.layout || Fragment;
-          const Component = route.component;
-          const isHome = route.path === '/';
+  const renderRoutes = (routes = []) => {
+    const isSignedIn = me !== null;
+    const initialPath = !me?.bio
+      ? '/profile'
+      : (me?.teammates || []).length === 0
+      ? '/team'
+      : '/allocation';
 
-          return (
-            <Route
-              exact={route.exact}
-              key={i}
-              path={route.path}
-              render={(props) =>
-                isSignedIn !== isHome ? (
-                  <Layout>
-                    {route.routes ? (
-                      renderRoutes(route.routes)
-                    ) : (
-                      <Component {...props} />
-                    )}
-                  </Layout>
-                ) : (
-                  <Redirect
-                    to={{
-                      pathname: isSignedIn ? '/allocation' : '/',
-                      state: { from: props.location },
-                    }}
-                  />
-                )
-              }
-            />
-          );
-        })}
-        <Redirect to={{ pathname: isSignedIn ? '/allocation' : '/' }} />
-      </Switch>
-    </Suspense>
-  );
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <Switch>
+          {routes.map((route: any, i) => {
+            const Layout = route.layout || Fragment;
+            const Component = route.component;
+            const isHome = route.path === '/';
 
-  return <>{renderRoutes(routes as any, me !== null)}</>;
+            return (
+              <Route
+                exact={route.exact}
+                key={i}
+                path={route.path}
+                render={(props) =>
+                  isSignedIn !== isHome ? (
+                    <Layout>
+                      {route.routes ? (
+                        renderRoutes(route.routes)
+                      ) : (
+                        <Component {...props} />
+                      )}
+                    </Layout>
+                  ) : (
+                    <Redirect
+                      to={{
+                        pathname: isSignedIn ? initialPath : '/',
+                        state: { from: props.location },
+                      }}
+                    />
+                  )
+                }
+              />
+            );
+          })}
+          <Redirect to={{ pathname: isSignedIn ? initialPath : '/' }} />
+        </Switch>
+      </Suspense>
+    );
+  };
+
+  return <>{renderRoutes(routes as any)}</>;
 };
 
 export default RenderRoutes;

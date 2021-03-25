@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ethers } from 'ethers';
 import {
   ICircle,
   ITokenGift,
@@ -12,7 +11,7 @@ import {
   PutUsersParam,
 } from 'types';
 import { getSignature } from 'utils/provider';
-axios.defaults.baseURL = 'https://coordinape.me/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL as string;
 
 class APIService {
   constructor() {}

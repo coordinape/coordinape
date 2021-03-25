@@ -1,9 +1,21 @@
-import { Button, Tooltip, makeStyles } from '@material-ui/core';
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  Tooltip,
+  Zoom,
+  makeStyles,
+  withStyles,
+} from '@material-ui/core';
+import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
+import { ReactComponent as CheckedRadioSVG } from 'assets/svgs/button/checked-radio.svg';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import { ReactComponent as SaveProfileSVG } from 'assets/svgs/button/save-profile.svg';
+import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
 import { ReactComponent as UploadImageSVG } from 'assets/svgs/button/upload-image.svg';
 import clsx from 'clsx';
-import { LoadingModal } from 'components';
+import { Img, LoadingModal } from 'components';
+import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
@@ -13,8 +25,8 @@ import { PutUsersParam } from 'types';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
-    width: 300,
-    height: 380,
+    width: 320,
+    height: 400,
     margin: theme.spacing(1),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2.5),
@@ -43,29 +55,37 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 400,
     '&:after': {
-      content: '\\A',
+      content: `" "`,
       position: 'absolute',
       width: '100%',
       height: '100%',
       top: 0,
       left: 0,
+      borderRadius: '50%',
       background: 'rgba(0,0,0,0.6)',
-      opacity: 1,
+      opacity: 0.7,
       transition: 'all 0.5s',
       '-webkit-transition': 'all 0.5s',
     },
-    '&:hover:after': {
-      opacity: 1,
+    '&:hover': {
+      '&:after': {
+        opacity: 1,
+      },
+      '& .upload-image-icon': {
+        background: 'rgba(81, 99, 105, 0.9)',
+      },
     },
   },
   uploadImageIconWrapper: {
+    position: 'absolute',
+    left: 'calc(50% - 11px)',
+    top: 'calc(50% - 11px)',
     width: 22,
     height: 22,
     borderRadius: 11,
     background: 'none',
-    '&.hover': {
-      background: 'rgba(81, 99, 105, 0.9)',
-    },
+    cursor: 'pointer',
+    zIndex: 2,
   },
   name: {
     height: 29,
@@ -78,10 +98,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-  bio: {
+  bioContainer: {
     height: 50,
     marginTop: 1,
     marginBottom: 0,
+  },
+  bio: {
     fontSize: 14,
     fontWeight: 600,
     color: 'rgba(81, 99, 105, 0.5)',
@@ -110,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bioTextareaContainer: {
-    height: 115,
+    height: 105,
     marginTop: 6,
     padding: 11,
     display: 'flex',
@@ -133,9 +155,9 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    textAlign: 'center',
     '&::placeholder': {
       opacity: 0.3,
+      textAlign: 'center',
     },
   },
   bioLengthLabel: {
@@ -146,6 +168,41 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 500,
     color: 'rgba(81, 99, 105, 0.2)',
+  },
+  optContainer: {
+    marginTop: theme.spacing(2),
+    paddingLeft: theme.spacing(4.5),
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  radioInput: {
+    height: 18,
+    width: 18,
+    padding: 0,
+  },
+  radioLabel: {
+    margin: `${theme.spacing(0.5)}px 0`,
+    paddingLeft: theme.spacing(1),
+    color: 'rgba(81, 99, 105, 0.5)',
+    '&:hover': {
+      color: 'rgba(81, 99, 105, 0.85)',
+    },
+    '&:checked': {
+      color: '#516369',
+    },
+  },
+  alertContainer: {
+    marginTop: theme.spacing(5),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  alertLabel: {
+    margin: `${theme.spacing(0.5)}px 0`,
+    fontSize: 12,
+    fontWeight: 700,
+    color: 'rgba(81, 99, 105, 0.3)',
+    textDecoration: 'underline',
   },
   buttonLabel: {
     paddingTop: 2,
@@ -169,7 +226,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    marginBottom: 32,
+    marginBottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
     fontSize: 12,
@@ -186,28 +243,42 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    marginBottom: 32,
+    marginBottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#516369',
     textTransform: 'none',
+    color: 'rgba(81, 99, 105, 0.5)',
     '&:hover': {
       background: 'none',
-      textDecoration: 'underline',
+      color: '#516369',
     },
     '&:disabled': {
       color: 'rgba(81, 99, 105, 0.5)',
+      opacity: 0.3,
     },
   },
 }));
+
+const TextOnlyTooltip = withStyles({
+  tooltip: {
+    margin: 'auto',
+    padding: `4px 8px`,
+    width: '80%',
+    fontSize: 10,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#C3CDCF',
+  },
+})(Tooltip);
 
 interface IProfileData {
   avatar: string;
   avatarRaw: File | null;
   name: string;
   bio: string;
+  non_receiver: number;
 }
 
 export const MyProfileCard = () => {
@@ -220,12 +291,22 @@ export const MyProfileCard = () => {
     avatarRaw: null,
     name: me?.name || '',
     bio: me?.bio || '',
+    non_receiver: me?.non_receiver || 0,
   });
-  const [isUploadImageHover, setUploadImageHover] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const maxNameLength = 20;
-  const maxBioLength = 140;
+
+  // onClick Back
+  const onClickBack = () => {
+    setProfileData({
+      avatar: me?.avatar || '',
+      avatarRaw: null,
+      name: me?.name || '',
+      bio: me?.bio || '',
+      non_receiver: me?.non_receiver || 0,
+    });
+    setEditing(false);
+  };
 
   // onChange Avatar
   const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -254,21 +335,18 @@ export const MyProfileCard = () => {
       if (
         profileData.name.length === 0 ||
         (profileData.name === (me?.name || '') &&
-          profileData.bio === (me?.bio || ''))
+          profileData.bio === (me?.bio || '') &&
+          profileData.non_receiver === (me?.non_receiver || 0))
       ) {
         return;
       }
 
       const putUsers = async () => {
         try {
-          if (profileData.avatarRaw) {
-            const response = await getApiService().uploadImage(
-              profileData.avatarRaw
-            );
-          }
           const params: PutUsersParam = {
             name: profileData.name,
             bio: profileData.bio,
+            non_receiver: profileData.non_receiver,
             address: me?.address,
             circle_id: me?.circle_id,
           };
@@ -295,102 +373,156 @@ export const MyProfileCard = () => {
   };
 
   // Return
-  return me ? (
-    <div className={classes.root}>
-      {isEditing ? (
-        <>
-          <Button
-            className={classes.backButton}
-            disableRipple={true}
-            onClick={() => setEditing(false)}
-          >
-            ←
-          </Button>
-          <div
-            className={classes.uploadImageContainer}
-            // onBlur={() => setUploadImageHover(false)}
-            // onMouseEnter={() => setUploadImageHover(true)}
-            // onMouseOut={() => setUploadImageHover(false)}
-          >
-            {/* <label htmlFor="upload-avatar-button"> */}
-            <img
-              alt=""
-              className={classes.avatar}
-              src={`/imgs/avatar/${
-                profileData.avatar ? profileData.avatar : 'placeholder.jpg'
-              }`}
-            />
-            {/* </label> */}
-            {/* <div
-              className={clsx(
-                classes.uploadImageIconWrapper,
-                isUploadImageHover ? 'hover' : ''
-              )}
+  return (
+    me && (
+      <div className={classes.root}>
+        {isEditing ? (
+          <>
+            <Button
+              className={classes.backButton}
+              disableRipple={true}
+              onClick={onClickBack}
             >
-              <UploadImageSVG />
-            </div> */}
-            {/* <input
-              id="upload-avatar-button"
-              onChange={onChangeAvatar}
-              style={{ display: 'none' }}
-              type="file"
-            /> */}
-          </div>
-          <input
-            className={classes.nameInput}
-            maxLength={maxNameLength}
-            onChange={onChangeName}
-            placeholder="Your name ..."
-            value={profileData.name}
-          />
-          <div className={classes.bioTextareaContainer}>
-            <textarea
-              className={classes.bioTextarea}
-              maxLength={maxBioLength}
-              onChange={onChangeBio}
-              placeholder="Tell us about yourself, what you do and why you do it"
-              value={profileData.bio}
+              ←
+            </Button>
+            <div className={classes.uploadImageContainer}>
+              <label htmlFor="upload-avatar-button">
+                <Img
+                  alt="avatar"
+                  className={classes.avatar}
+                  placeholderImg="/imgs/avatar/placeholder.jpg"
+                  src={profileData.avatar}
+                />
+                <div
+                  className={clsx(
+                    classes.uploadImageIconWrapper,
+                    'upload-image-icon'
+                  )}
+                >
+                  <UploadImageSVG />
+                </div>
+              </label>
+              <input
+                id="upload-avatar-button"
+                onChange={onChangeAvatar}
+                style={{ display: 'none' }}
+                type="file"
+              />
+            </div>
+            <input
+              className={classes.nameInput}
+              maxLength={MAX_NAME_LENGTH}
+              onChange={onChangeName}
+              placeholder="Your name ..."
+              value={profileData.name}
             />
-            <p
-              className={classes.bioLengthLabel}
-            >{`${profileData.bio.length}/${maxBioLength}`}</p>
-          </div>
-          <Button
-            className={classes.saveButton}
-            disabled={
-              profileData.name.length === 0 ||
-              (profileData.name === (me.name || '') &&
-                profileData.bio === (me.bio || ''))
-            }
-            onClick={onClickSaveProfile}
-          >
-            <SaveProfileSVG />
-            <div className={classes.buttonLabel}>Save My Profile</div>
-          </Button>
-        </>
-      ) : (
-        <>
-          <img
-            alt={me.name}
-            className={classes.avatar}
-            src={`/imgs/avatar/${me.avatar ? me.avatar : 'placeholder.jpg'}`}
-          />
-          <p className={classes.name}>{me.name}</p>
-          <Tooltip title={me.bio ?? ''}>
-            <p className={classes.bio}>{me.bio}</p>
-          </Tooltip>
-          <Button
-            className={classes.editButton}
-            onClick={() => setEditing(true)}
-          >
-            <EditProfileSVG />
-            <div className={classes.buttonLabel}>Edit My Profile</div>
-          </Button>
-        </>
-      )}
-      {isLoading && (
-        <LoadingModal onClose={() => {}} text="" visible={isLoading} />
-      )}
-    </div>
-  ) : null;
+            <div className={classes.bioTextareaContainer}>
+              <textarea
+                className={classes.bioTextarea}
+                maxLength={MAX_BIO_LENGTH}
+                onChange={onChangeBio}
+                placeholder="Tell us about yourself, what you do and why you do it"
+                value={profileData.bio}
+              />
+              <p
+                className={classes.bioLengthLabel}
+              >{`${profileData.bio.length}/${MAX_BIO_LENGTH}`}</p>
+            </div>
+            <div className={classes.optContainer}>
+              <FormControlLabel
+                control={
+                  <Radio
+                    checked={profileData.non_receiver === 0}
+                    checkedIcon={<CheckedRadioSVG />}
+                    className={classes.radioInput}
+                    icon={<UnCheckedRadioSVG />}
+                    onChange={() =>
+                      setProfileData({ ...profileData, non_receiver: 0 })
+                    }
+                  />
+                }
+                label={
+                  <p className={classes.radioLabel}>Opt in to receiving GIVE</p>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Radio
+                    checked={profileData.non_receiver !== 0}
+                    checkedIcon={<CheckedRadioSVG />}
+                    className={classes.radioInput}
+                    icon={<UnCheckedRadioSVG />}
+                    onChange={() =>
+                      setProfileData({ ...profileData, non_receiver: 1 })
+                    }
+                  />
+                }
+                label={
+                  <p className={classes.radioLabel}>
+                    Opt out to receiving GIVE
+                  </p>
+                }
+              />
+            </div>
+            <Button
+              className={classes.saveButton}
+              disabled={
+                profileData.name.length === 0 ||
+                (profileData.name === (me.name || '') &&
+                  profileData.bio === (me.bio || '') &&
+                  profileData.non_receiver === (me.non_receiver || 0))
+              }
+              onClick={onClickSaveProfile}
+            >
+              <SaveProfileSVG />
+              <div className={classes.buttonLabel}>Save My Profile</div>
+            </Button>
+          </>
+        ) : (
+          <>
+            <Img
+              alt="avatar"
+              className={classes.avatar}
+              placeholderImg="/imgs/avatar/placeholder.jpg"
+              src={me.avatar}
+            />
+            <p className={classes.name}>{me.name}</p>
+            <div className={classes.bioContainer}>
+              <TextOnlyTooltip
+                TransitionComponent={Zoom}
+                placement="bottom"
+                title={me.bio ?? ''}
+              >
+                <p className={classes.bio}>{me.bio}</p>
+              </TextOnlyTooltip>
+            </div>
+            {me.non_receiver !== 0 && (
+              <div className={classes.alertContainer}>
+                <TextOnlyTooltip
+                  TransitionComponent={Zoom}
+                  placement="top-start"
+                  title="You opted out of receiving GIVE. You are paid through other channels or are not currently active."
+                >
+                  <AlertCircleSVG />
+                </TextOnlyTooltip>
+                <p className={classes.alertLabel}>
+                  You opted out of receiving GIVE
+                </p>
+              </div>
+            )}
+            <Button
+              className={classes.editButton}
+              onClick={() => setEditing(true)}
+            >
+              <EditProfileSVG />
+              <div className={classes.buttonLabel}>Edit My Profile</div>
+            </Button>
+          </>
+        )}
+        {isLoading && (
+          <LoadingModal onClose={() => {}} text="" visible={isLoading} />
+        )}
+      </div>
+    )
+  );
 };

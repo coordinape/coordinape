@@ -79,7 +79,7 @@ const GraphPage = (props: IProps) => {
     const images = fromPairs(
       uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
-        img.src = `/imgs/avatar/${avatar ? avatar : 'placeholder.jpg'}`;
+        img.src = avatar;
         return [avatar ?? '', img];
       })
     );

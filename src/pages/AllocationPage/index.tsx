@@ -2,6 +2,7 @@ import { Button, Hidden, makeStyles } from '@material-ui/core';
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { ReactComponent as SettingsTeammatesSVG } from 'assets/svgs/button/settings-teammates.svg';
 import { LoadingModal } from 'components';
+import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
@@ -46,17 +47,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   title: {
+    margin: 0,
     fontSize: 54,
     fontWeight: 700,
     color: theme.colors.primary,
-    margin: 0,
   },
   subTitle: {
-    padding: `${theme.spacing(1)} ${theme.spacing(4)}`,
+    margin: 0,
+    padding: `${theme.spacing(1)}px ${theme.spacing(4)}px`,
     fontSize: 27,
     fontWeight: 400,
     color: theme.colors.primary,
-    margin: 0,
+    textAlign: 'center',
   },
   description: {
     padding: '0 100px',
@@ -109,16 +111,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     background: '#EF7376',
-    boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.12)',
     borderRadius: 13,
-    opacity: 0.3,
+    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
     '&:hover': {
-      opacity: 1,
       background: '#EF7376',
+      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
     },
     '&:disabled': {
-      color: 'white',
-      opacity: 0.3,
+      color: '#F5E4E4',
+      background: '#E6BCBC',
     },
   },
   arrowRightIconWrapper: {
@@ -136,24 +137,37 @@ const AllocationPage = () => {
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const maxGiveTokens = 100;
-  const isEpochEnded = false;
-  const epochStartedDate = moment(new Date(Date.UTC(2021, 2, 26, 0, 0, 0)));
-  const epochEndedDate = moment(new Date(Date.UTC(2021, 3, 2, 0, 0, 0)));
+  const epochStartDate = moment(new Date(Date.UTC(2021, 1, 26, 0, 0, 0)));
+  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 2, 0, 0, 0)));
+  let isEpochEnded = true;
+  let isWaitingEpoch = true;
 
   // Epoch Period
   const calculateEpochTimeLeft = () => {
     const date = moment.utc();
-    const difference = Math.max(0, epochEndedDate.diff(date));
+    const differenceStart = date.diff(epochStartDate);
+    const differenceEnd = epochEndDate.diff(date);
 
-    const timeLeft = {
-      Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      Hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      Minutes: Math.floor((difference / 1000 / 60) % 60),
-      Seconds: Math.floor((difference / 1000) % 60),
-    };
+    if (differenceStart >= 0 && differenceEnd >= 0) {
+      isEpochEnded = false;
 
-    return timeLeft;
+      return {
+        Days: Math.floor(differenceEnd / (1000 * 60 * 60 * 24)),
+        Hours: Math.floor((differenceEnd / (1000 * 60 * 60)) % 24),
+        Minutes: Math.floor((differenceEnd / 1000 / 60) % 60),
+        Seconds: Math.floor((differenceEnd / 1000) % 60),
+      };
+    } else {
+      isEpochEnded = true;
+      isWaitingEpoch = differenceStart < 0;
+
+      return {
+        Days: 0,
+        Hours: 0,
+        Minutes: 0,
+        Seconds: 0,
+      };
+    }
   };
 
   const [epochTimeLeft, setEpochTimeLeft] = useState(calculateEpochTimeLeft());
@@ -188,7 +202,7 @@ const AllocationPage = () => {
 
   // GiveTokenRemaining & GiveTokens & GiveNotes
   const giveTokenRemaining =
-    maxGiveTokens -
+    MAX_GIVE_TOKENS -
     Object.keys(giveTokens).reduce(
       (sum, key: any) => sum + (giveTokens[key] || 0),
       0
@@ -256,9 +270,15 @@ const AllocationPage = () => {
         <p className={classes.title}>Reward Yearn Contributors</p>
         <p className={classes.subTitle}>
           {isEpochEnded
-            ? `The next epoch will begin on ${moment(epochStartedDate)
-                .utc()
-                .format('MMMM Do')}.`
+            ? isWaitingEpoch
+              ? `The next epoch will begin on ${moment(epochStartDate)
+                  .utc()
+                  .format('MMMM Do')}.`
+              : `The last epoch ended on ${moment(
+                  epochEndDate.subtract(1, 'days')
+                )
+                  .utc()
+                  .format('MMMM Do')}.`
             : `This epoch’s GET tokens will
             be distributed in ${epochTimeLeftString}`}
         </p>
