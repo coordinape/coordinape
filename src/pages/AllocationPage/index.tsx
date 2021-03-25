@@ -71,17 +71,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(7),
     marginBottom: theme.spacing(1),
     marginRight: 'auto',
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     fontSize: 18,
     fontWeight: 600,
     textTransform: 'none',
-    color: 'rgba(81, 99, 105, 0.3)',
+    color: theme.colors.red,
+    borderRadius: 8,
+    backgroundColor: theme.colors.transparent,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    '&:hover': {
-      background: 'none',
-      textDecoration: 'underline',
-    },
   },
   settingIconWrapper: {
     width: theme.spacing(3),
@@ -137,7 +136,7 @@ const AllocationPage = () => {
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const epochStartDate = moment(new Date(Date.UTC(2021, 1, 26, 0, 0, 0)));
+  const epochStartDate = moment(new Date(Date.UTC(2021, 2, 25, 0, 0, 0)));
   const epochEndDate = moment(new Date(Date.UTC(2021, 3, 2, 0, 0, 0)));
   let isEpochEnded = true;
   let isWaitingEpoch = true;
@@ -279,13 +278,20 @@ const AllocationPage = () => {
                 )
                   .utc()
                   .format('MMMM Do')}.`
-            : `This epoch’s GET tokens will
-            be distributed in ${epochTimeLeftString}`}
+            : `GET tokens for work done in ${moment(epochStartDate)
+                .utc()
+                .format('MMMM')} will be distributed in ${epochTimeLeftString}`}
         </p>
         <p className={classes.description}>
           {isEpochEnded
             ? 'Stay tuned for details, and thank you for being part of Coordinape’s alpha.'
-            : 'These tokens represent $20,000 of contributor budget. Make your allocations below to reward people for bringing value to Yearn.'}
+            : `These tokens represent ${moment(
+                epochStartDate.subtract(1, 'days')
+              )
+                .utc()
+                .format(
+                  'MMMM'
+                )}’s contributor budget of $20,000. Make your allocaiton below to reward people for bringing value to Yearn.`}
         </p>
       </div>
       <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
