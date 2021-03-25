@@ -15,7 +15,7 @@ import { MyProfileCard, TeammateCard } from './components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '90%',
+    maxWidth: '95%',
     marginLeft: 'auto',
     marginRight: 'auto',
     paddingTop: 70,
@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   teammateContainer: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -294,12 +295,12 @@ const AllocationPage = () => {
                 )}’s contributor budget of $20,000. Make your allocaiton below to reward people for bringing value to Yearn.`}
         </p>
       </div>
-      <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
+      {/* <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
         <div className={classes.settingIconWrapper}>
           <SettingsTeammatesSVG />
         </div>
         Edit Teammates List
-      </NavLink>
+      </NavLink> */}
       <div className={classes.teammateContainer}>
         {(me ? [...me.teammates, me] : [])
           .sort((a, b) => a.name.localeCompare(b.name))
