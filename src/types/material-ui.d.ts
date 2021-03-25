@@ -18,6 +18,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       secondary: string;
       third: string;
       selected: string;
+      border: string;
     };
   }
   // allow configuration using `createMuiTheme`

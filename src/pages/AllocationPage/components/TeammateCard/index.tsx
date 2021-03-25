@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 30,
     fontSize: 12,
     fontWeight: 400,
+    border: `1.34426px solid ${theme.colors.border}`,
   },
   name: {
     height: 29,

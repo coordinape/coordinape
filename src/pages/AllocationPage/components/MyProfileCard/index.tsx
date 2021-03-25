@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 30,
     fontSize: 12,
     fontWeight: 400,
+    border: `1.34426px solid ${theme.colors.border}`,
   },
   uploadImageContainer: {
     position: 'relative',
@@ -334,21 +335,16 @@ export const MyProfileCard = () => {
       const postUploadImage = async () => {
         if (profileData.avatarRaw) {
           try {
-            const blob = await resizeImage(profileData.avatarRaw, 100, 100);
-            try {
-              await getApiService().postUploadImage(
-                me?.address,
-                blobToFile(blob, 'avatar.png'),
-                library
-              );
-            } catch (error) {
-              enqueueSnackbar(
-                error.response?.data?.message || 'Something went wrong!',
-                { variant: 'error' }
-              );
-            }
+            await getApiService().postUploadImage(
+              me?.address,
+              profileData.avatarRaw,
+              library
+            );
           } catch (error) {
-            enqueueSnackbar(`Photo error ${error}`, { variant: 'error' });
+            enqueueSnackbar(
+              error.response?.data?.message || 'Something went wrong!',
+              { variant: 'error' }
+            );
           }
         }
       };

@@ -12,5 +12,6 @@ const color = {
   secondary: '#56606f',
   third: '#EAEAEB',
   selected: '#31A5AC',
+  border: '#939EA1',
 };
 export default color;
