@@ -1,6 +1,7 @@
 export interface ITokenGift {
   id: number;
   circle_id: number;
+  epoch_id: number;
   sender_id: number;
   sender_address: string;
   recipient_id: number;

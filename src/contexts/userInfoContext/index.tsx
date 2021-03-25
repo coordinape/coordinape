@@ -1,3 +1,4 @@
+import { LoadingModal } from 'components';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
@@ -41,16 +42,15 @@ export const UserInfoProvider = (props: IProps) => {
     users: [],
   });
   const { account } = useConnectedWeb3Context();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const getUsers = async () => {
     if (account) {
       try {
+        const me = await getApiService().getMe(account);
         const users = await getApiService().getUsers();
         setState({
-          me:
-            users.find(
-              (user) => user.address.toLowerCase() === account?.toLowerCase()
-            ) || null,
+          me,
           users: users.filter(
             (user) => user.address.toLowerCase() !== account?.toLowerCase()
           ),
@@ -61,15 +61,20 @@ export const UserInfoProvider = (props: IProps) => {
     } else {
       setState({ me: null, users: [] });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     getUsers();
   }, [account]);
 
   return (
     <UserInfoContext.Provider value={{ ...state, refreshUserInfo: getUsers }}>
       {props.children}
+      {isLoading && (
+        <LoadingModal onClose={() => {}} text="" visible={isLoading} />
+      )}
     </UserInfoContext.Provider>
   );
 };

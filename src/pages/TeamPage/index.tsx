@@ -5,13 +5,12 @@ import { ContentSection, HeaderSection } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
 }));
 
-const HomePage = () => {
+const TeamPage = () => {
   const classes = useStyles();
 
   return (
@@ -22,4 +21,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TeamPage;

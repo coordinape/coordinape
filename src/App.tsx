@@ -4,7 +4,7 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { ConnectedWeb3, GlobalProvider, UserInfoProvider } from 'contexts';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import routes, { renderRoutes } from 'routes';
+import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 
 import './App.css';
@@ -24,7 +24,9 @@ function App() {
         <ConnectedWeb3>
           <GlobalProvider>
             <UserInfoProvider>
-              <BrowserRouter>{renderRoutes(routes as any)}</BrowserRouter>
+              <BrowserRouter>
+                <RenderRoutes />
+              </BrowserRouter>
             </UserInfoProvider>
           </GlobalProvider>
         </ConnectedWeb3>

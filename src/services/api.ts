@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ethers } from 'ethers';
 import {
   ICircle,
   ITokenGift,
@@ -12,7 +11,7 @@ import {
   PutUsersParam,
 } from 'types';
 import { getSignature } from 'utils/provider';
-axios.defaults.baseURL = 'https://coordinape.me/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL as string;
 
 class APIService {
   constructor() {}
@@ -51,6 +50,11 @@ class APIService {
       address,
     });
     return response.data;
+  };
+
+  getMe = async (address: string): Promise<IUser> => {
+    const response = await axios.get(`/users/${address}`);
+    return response.data as IUser;
   };
 
   getUsers = async (
@@ -95,6 +99,42 @@ class APIService {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
     const response = await axios.put(`/users/${address}`, {
+      signature,
+      data,
+      address,
+    });
+    return response.data;
+  };
+
+  postUploadImage = async (
+    address: string,
+    file: File,
+    provider?: any
+  ): Promise<any> => {
+    const filename = 'avatar.png';
+    const data = filename;
+    const signature = await getSignature(data, provider);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('address', address);
+    formData.append('data', data);
+    const response = await axios.post('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  };
+
+  postTeammates = async (
+    address: string,
+    teammates: number[],
+    provider?: any
+  ): Promise<IUser> => {
+    const data = JSON.stringify({ teammates: teammates });
+    const signature = await getSignature(data, provider);
+    const response = await axios.post('/teammates', {
       signature,
       data,
       address,

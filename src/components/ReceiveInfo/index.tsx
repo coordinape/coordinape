@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
     height: 42,
     fontSize: 12,
     fontWeight: 600,
-    color: '#555555',
+    color: theme.colors.text,
     background:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
     borderRadius: 8,
     display: 'flex',
     textTransform: 'none',
     '&.selected': {
-      color: '#31A5AC',
+      color: theme.colors.selected,
     },
   },
   popover: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   noteTitle: {
     fontSize: 11,
     fontWeight: 600,
-    color: '#31A5AC',
+    color: theme.colors.selected,
   },
   noteDate: {
     fontSize: 11,

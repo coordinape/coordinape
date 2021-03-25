@@ -1,21 +1,70 @@
-import { makeStyles } from '@material-ui/core';
+import { MenuItem, Select, makeStyles } from '@material-ui/core';
 import { useUserInfo } from 'contexts';
 import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
+import { important } from 'polished';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import { getApiService } from 'services/api';
 import { ITokenGift, IUser } from 'types';
 
 const NODE_R = 8;
 
+const EPOCH_VALUES = {
+  CURRENT: 'Current Epoch',
+  PAST: 'Past Epochs',
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100%',
+    position: 'relative',
+    height: '100%',
+  },
+  autoSizer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  controls: {
+    padding: theme.spacing(3),
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  epochSelectRoot: {
+    fontSize: 20,
+    fontWeight: 500,
+    color: theme.colors.red,
+    '&:hover': {
+      '&::before': {
+        borderBottomColor: `${theme.colors.red} !important`,
+      },
+    },
+    '&::after': {
+      borderBottomColor: `${theme.colors.transparent} !important`,
+    },
+  },
+  epochSelect: {
+    color: theme.colors.red,
+  },
+  epochSelectIcon: {
+    fill: theme.colors.red,
+  },
+  epochSelectMenuPaper: {
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+  },
+  epochMenuItem: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: theme.colors.text,
+  },
+  epochMenuItemSelected: {
+    background: `${theme.colors.third} !important`,
   },
 }));
 
@@ -30,15 +79,16 @@ interface IProps {
   className?: string;
 }
 
-const getWidth = (link: any) => link.width;
+function linkStrengthToken(link: any) {
+  return 0.2 / link.tokens;
+}
 
-function linkStrength(link: any) {
-  // Default: 1 / count;
-  return 0.1 / link.tokens;
+function linkStrengthCounts(link: any) {
+  return 0.5 / (link.source.linkCount + link.target.linkCount);
 }
 
 const GraphPage = (props: IProps) => {
-  const fgRef = useRef();
+  const fgRef = useRef<any>(null);
   const hoverNode = useRef<any>(null);
   const highlightReceiveNodes = useRef<Set<any>>(new Set());
   const highlightGiveNodes = useRef<Set<any>>(new Set());
@@ -47,28 +97,40 @@ const GraphPage = (props: IProps) => {
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [pastGifts, setPastGifts] = useState<ITokenGift[]>([]);
+  const [pendingGifts, setPendingGifts] = useState<ITokenGift[]>([]);
+
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
   const [links, setLinks] = useState<any[]>([]);
   const [nodes, setNodes] = useState<any[]>([]);
+  const [epoch, setEpoch] = useState<any>(EPOCH_VALUES.CURRENT);
   const { me, refreshUserInfo, users } = useUserInfo();
+
+  const showMagnitudes = epoch === EPOCH_VALUES.PAST;
 
   const fetchGifts = async () => {
     try {
-      const allGifts = await getApiService().getPendingTokenGifts();
-      setGifts(allGifts);
+      const [pending, past] = await Promise.all([
+        getApiService().getPendingTokenGifts(),
+        getApiService().getTokenGifts(),
+      ]);
+      setPastGifts(past);
+      setPendingGifts(pending);
     } catch (error) {
       enqueueSnackbar(
         error.response?.data?.message || 'Something went wrong!',
         { variant: 'error' }
       );
-      setGifts([]);
+      setPastGifts([]);
+      setPendingGifts([]);
     }
   };
 
   const configureForces = () => {
-    const fg: any = fgRef.current;
-    const fl = forceLink().strength(linkStrength);
-    fg.d3Force('link', fl);
+    const fl = forceLink().strength(
+      showMagnitudes ? linkStrengthToken : linkStrengthCounts
+    );
+    fgRef.current.d3Force('link', fl);
   };
 
   const initialize = () => {
@@ -79,19 +141,21 @@ const GraphPage = (props: IProps) => {
     const images = fromPairs(
       uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
-        img.src = `/imgs/avatar/${avatar ? avatar : 'placeholder.jpg'}`;
-        return [avatar ?? '', img];
+        img.src = avatar
+          ? (process.env.REACT_APP_S3_BASE_URL as string) + avatar
+          : '/imgs/avatar/placeholder.jpg';
+        return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
       })
     );
 
     const allUsers = users.concat(me).map((u) => ({
       ...u,
-      img: images[u.avatar ?? ''],
+      img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
       receiverLinks: [] as any,
       giverLinks: [] as any,
       givers: [] as any,
       receivers: [] as any,
-      received: 0,
+      linkCount: 0,
     }));
 
     const userByAddr: { [key: string]: IUser } = {};
@@ -142,6 +206,8 @@ const GraphPage = (props: IProps) => {
       // Receiving from me
       me.receiverLinks = links.filter((link) => link.source === me.id);
       me.receivers = me.receiverLinks.map((l: ILink) => userById[l.target]);
+      ////
+      me.linkCount = me.giverLinks.length + me.receiverLinks.length;
     }
 
     configureForces();
@@ -194,22 +260,29 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   const linkDirectionalParticleWidth = useCallback(
-    (link: any) =>
-      highlightReceiveLinks.current.has(link) ||
-      highlightGiveLinks.current.has(link)
-        ? Math.max(link.tokens / 10, 3)
-        : 0,
-    []
+    (link: any) => {
+      if (
+        highlightReceiveLinks.current.has(link) ||
+        highlightGiveLinks.current.has(link)
+      ) {
+        return showMagnitudes ? Math.max(link.tokens / 10, 3) : 4;
+      }
+      return 0;
+    },
+    [epoch]
   );
 
-  // const nodeCanvasObjectMode = (node: any) =>
-  //   !highlightNodes.current.has(node) ? 'before' : 'replace';
+  const getWidth = (link: any) => (showMagnitudes ? link.width : 4);
 
   const onNodeClick = useCallback((node: any) => {
     highlightReceiveNodes.current.clear();
     highlightGiveNodes.current.clear();
     highlightReceiveLinks.current.clear();
     highlightGiveLinks.current.clear();
+    if (node === hoverNode.current) {
+      hoverNode.current = null;
+      return;
+    }
     if (node) {
       node.receivers.forEach((other: any) =>
         highlightReceiveNodes.current.add(other)
@@ -221,9 +294,8 @@ const GraphPage = (props: IProps) => {
       node.receiverLinks.forEach((l: ILink) =>
         highlightReceiveLinks.current.add(l)
       );
+      hoverNode.current = node;
     }
-
-    hoverNode.current = node || null;
   }, []);
 
   useEffect(() => {
@@ -231,25 +303,64 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   useEffect(() => {
-    initialize();
+    setGifts(epoch === EPOCH_VALUES.CURRENT ? pendingGifts : pastGifts);
+  }, [epoch, pastGifts, pendingGifts]);
+
+  useEffect(() => {
+    if (fgRef.current) {
+      initialize();
+    }
   }, [gifts, users, me]);
 
   return (
     <div className={classes.root}>
-      <ForceGraph2D
-        graphData={{ nodes, links }}
-        linkColor={linkColor}
-        linkCurvature="curvature"
-        linkDirectionalParticleWidth={linkDirectionalParticleWidth}
-        linkDirectionalParticles={4}
-        linkWidth={getWidth}
-        nodeCanvasObject={nodeCanvasObject}
-        nodeRelSize={NODE_R}
-        onNodeClick={onNodeClick}
-        ref={fgRef}
-      />
+      <AutoSizer className={classes.autoSizer}>
+        {({ height, width }) => (
+          <ForceGraph2D
+            graphData={{ nodes, links }}
+            height={height}
+            linkColor={linkColor}
+            linkCurvature="curvature"
+            linkDirectionalParticleWidth={linkDirectionalParticleWidth}
+            linkDirectionalParticles={4}
+            linkWidth={getWidth}
+            nodeCanvasObject={nodeCanvasObject}
+            nodeRelSize={NODE_R}
+            onNodeClick={onNodeClick}
+            ref={fgRef}
+            width={width}
+          />
+        )}
+      </AutoSizer>
+      <div className={classes.controls}>
+        <Select
+          MenuProps={{
+            classes: {
+              paper: classes.epochSelectMenuPaper,
+            },
+          }}
+          className={classes.epochSelectRoot}
+          classes={{
+            select: classes.epochSelect,
+            icon: classes.epochSelectIcon,
+          }}
+          onChange={({ target: { value } }) => setEpoch(value)}
+          value={epoch}
+        >
+          {Object.values(EPOCH_VALUES).map((value) => (
+            <MenuItem
+              className={classes.epochMenuItem}
+              classes={{ selected: classes.epochMenuItemSelected }}
+              key={value}
+              value={value}
+            >
+              {value}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
     </div>
   );
 };
-//linkDirectionalArrowLength={6}
+
 export default GraphPage;
