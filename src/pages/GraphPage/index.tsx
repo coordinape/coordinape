@@ -227,7 +227,9 @@ const GraphPage = (props: IProps) => {
     const centX = node.x; // Math.floor(node.x);
     const centY = node.y; // Math.floor(node.y);
     let strokeColor = 'black';
-    const width = Math.min(Math.max(2, node.give_token_received / 20), 5);
+    const width = showMagnitudes
+      ? Math.min(Math.max(1, node.give_token_received / 20), 5)
+      : 1;
     if (node === hoverNode.current) strokeColor = '#239ab4';
     if (highlightGiveNodes.current.has(node)) strokeColor = '#2cc517';
     if (highlightReceiveNodes.current.has(node)) strokeColor = '#741faf';
