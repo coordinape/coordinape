@@ -15,7 +15,7 @@ import { IUser } from 'types';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 270,
-    height: 320,
+    height: 360,
     margin: theme.spacing(1),
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(1),
@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
   },
   bioContainer: {
-    height: 44,
-    marginTop: 1,
+    height: 80,
+    marginTop: theme.spacing(0.5),
     marginBottom: 0,
   },
   bio: {
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     display: '-webkit-box',
     wordBreak: 'break-word',
-    '-webkit-line-clamp': 2,
+    '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical',
   },
   label: {
@@ -193,13 +193,7 @@ export const TeammateCard = (props: IProps) => {
       />
       <p className={classes.name}>{user.name}</p>
       <div className={classes.bioContainer}>
-        <TextOnlyTooltip
-          TransitionComponent={Zoom}
-          placement="bottom"
-          title={user.bio}
-        >
-          <p className={classes.bio}>{user.bio}</p>
-        </TextOnlyTooltip>
+        <p className={classes.bio}>{user.bio}</p>
       </div>
       <div className={classes.tokenInputContainer}>
         {!user.non_receiver ? (

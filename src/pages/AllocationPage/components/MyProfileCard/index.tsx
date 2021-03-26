@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     width: 270,
-    height: 320,
+    height: 360,
     margin: theme.spacing(1),
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(1),
@@ -101,8 +101,8 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
   },
   bioContainer: {
-    height: 44,
-    marginTop: 1,
+    height: 80,
+    marginTop: theme.spacing(0.5),
     marginBottom: 0,
   },
   bio: {
@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     display: '-webkit-box',
     wordBreak: 'break-word',
-    '-webkit-line-clamp': 2,
+    '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical',
   },
   nameInput: {
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bioTextareaContainer: {
-    height: 80,
+    height: 110,
     marginTop: 6,
     padding: 11,
     display: 'flex',
@@ -174,8 +174,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(81, 99, 105, 0.2)',
   },
   optContainer: {
-    marginTop: theme.spacing(1.5),
-    paddingLeft: theme.spacing(4.5),
+    marginTop: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
   },
@@ -508,13 +508,7 @@ export const MyProfileCard = () => {
             />
             <p className={classes.name}>{me.name}</p>
             <div className={classes.bioContainer}>
-              <TextOnlyTooltip
-                TransitionComponent={Zoom}
-                placement="bottom"
-                title={me.bio ?? ''}
-              >
-                <p className={classes.bio}>{me.bio}</p>
-              </TextOnlyTooltip>
+              <p className={classes.bio}>{me.bio}</p>
             </div>
             {me.non_receiver !== 0 && (
               <div className={classes.alertContainer}>
