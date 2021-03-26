@@ -87,7 +87,8 @@ const EpochCard = (props: ICardProps) => {
     .flatMap((gift, idx) => [
       <Box key={idx}>
         <Typography className={classes.giftTitle} variant="h5">
-          +{gift.tokens} from {getUser(users, gift.sender_id)?.name}
+          {gift.tokens > 0 ? `+${gift.tokens} Received from ` : 'From '}
+          {getUser(users, gift.sender_id)?.name || 'Unknown'}
         </Typography>
         {gift.note && (
           <Typography className={classes.giftNote} variant="body1">
