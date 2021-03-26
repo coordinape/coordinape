@@ -1,5 +1,5 @@
 const custom = {
-  appHeaderHeight: 96,
+  appHeaderHeight: 82,
   appFooterHeight: 96,
 };
 

@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import clsx from 'clsx';
 import { AccountInfo, ConnectWalletButton, ReceiveInfo } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import { useConnectedWeb3Context, useGlobal, useUserInfo } from 'contexts';
-import { transparentize } from 'polished';
 import React from 'react';
 import { matchPath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -12,28 +12,51 @@ const useStyles = makeStyles((theme) => ({
     height: theme.custom.appHeaderHeight,
     display: 'flex',
     justifyContent: 'space-between',
-    padding: `0 ${theme.spacing(6)}px`,
+    padding: theme.spacing(0, 6),
     alignItems: 'center',
     background: theme.colors.primary,
-    boxShadow: `0px 1px 2px ${transparentize(0.9, theme.colors.black)}`,
     position: 'fixed',
     left: 0,
     right: 0,
     top: 0,
-    [theme.breakpoints.down('xs')]: {
-      padding: `0 ${theme.spacing(2)}px`,
-    },
     zIndex: 1,
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 2),
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+      flexDirection: 'column',
+      '& $navLinks': {
+        width: '100%',
+      },
+    },
   },
-  img: {
+  xsLogoInfo: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  imgFull: {
     height: 58,
   },
-  buttons: {},
-  info: {
+  imgSmall: {
+    height: 40,
+  },
+  navLinks: {
+    height: 50,
+    maxWidth: 504,
+    flexGrow: 1,
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    margin: theme.spacing(0, 2),
+  },
+  buttons: {
+    height: 42,
+    display: 'flex',
+    alignItems: 'flex-end',
   },
   navLink: {
-    margin: `0 ${theme.spacing(4)}px`,
     fontSize: 20,
     fontWeight: 700,
     color: theme.colors.white,
@@ -86,7 +109,11 @@ interface IProps {
 }
 
 export const Header = (props: IProps) => {
+  const theme = useTheme();
   const classes = useStyles();
+  const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const screenDownXs = useMediaQuery(theme.breakpoints.down('xs'));
+
   const { account, rawWeb3Context } = useConnectedWeb3Context();
   const { toggleWalletConnectModal } = useGlobal();
   const connector = localStorage.getItem(STORAGE_KEY_CONNECTOR);
@@ -105,46 +132,64 @@ export const Header = (props: IProps) => {
     localStorage.removeItem(STORAGE_KEY_CONNECTOR);
   };
 
-  return (
-    <div className={classes.root}>
-      <img
-        alt="logo"
-        className={classes.img}
-        src="/svgs/logo/coordinape_logo.svg"
+  const logo = screenDownSm ? (
+    <img alt="logo" className={classes.imgSmall} src="/svgs/logo/logo.svg" />
+  ) : (
+    <img
+      alt="logo"
+      className={classes.imgFull}
+      src="/svgs/logo/coordinape_logo.svg"
+    />
+  );
+
+  const navButtons = (
+    <div className={classes.navLinks}>
+      {navButtonsInfo.map((nav) => (
+        <NavLink
+          className={classes.navLink}
+          isActive={() =>
+            !!matchPath(history.location.pathname, {
+              exact: true,
+              path: nav.path,
+            })
+          }
+          key={nav.path}
+          to={nav.path}
+        >
+          {nav.label}
+        </NavLink>
+      ))}
+    </div>
+  );
+
+  const infoButtons = !account ? (
+    <div className={classes.buttons}>
+      <ConnectWalletButton onClick={toggleWalletConnectModal} />
+    </div>
+  ) : (
+    <div className={classes.buttons}>
+      {me ? <ReceiveInfo /> : ''}
+      <AccountInfo
+        address={account}
+        icon={connector || ''}
+        onDisconnect={onDisconnect}
       />
-      {navButtonsVisible && (
-        <div>
-          {navButtonsInfo.map((nav) => (
-            <NavLink
-              className={classes.navLink}
-              isActive={() =>
-                !!matchPath(history.location.pathname, {
-                  exact: true,
-                  path: nav.path,
-                })
-              }
-              key={nav.path}
-              to={nav.path}
-            >
-              {nav.label}
-            </NavLink>
-          ))}
-        </div>
-      )}
-      <div className={classes.buttons}>
-        {!account ? (
-          <ConnectWalletButton onClick={toggleWalletConnectModal} />
-        ) : (
-          <div className={classes.info}>
-            {me ? <ReceiveInfo /> : ''}
-            <AccountInfo
-              address={account}
-              icon={connector || ''}
-              onDisconnect={onDisconnect}
-            />
-          </div>
-        )}
+    </div>
+  );
+
+  return !screenDownXs ? (
+    <div className={classes.root}>
+      {logo}
+      {navButtonsVisible && navButtons}
+      {infoButtons}
+    </div>
+  ) : (
+    <div className={classes.root}>
+      <div className={classes.xsLogoInfo}>
+        {logo}
+        {infoButtons}
       </div>
+      {navButtonsVisible && navButtons}
     </div>
   );
 };

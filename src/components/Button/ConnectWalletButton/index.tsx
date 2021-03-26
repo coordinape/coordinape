@@ -7,7 +7,7 @@ import { ConnectorNames } from 'utils/enums';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '0 14px',
-    height: 42,
+    height: 32,
     fontSize: 12,
     fontWeight: 600,
     color: theme.colors.text,

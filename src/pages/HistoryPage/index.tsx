@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   epochCard: {
     margin: theme.spacing(1, 3, 2),
-    padding: theme.spacing(4, 3, 2),
+    padding: theme.spacing(2, 3),
     background: '#DFE7E8',
     borderRadius: 10.75,
     maxWidth: 600,
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   giftTitle: {
     color: '#31A5AC',
     fontSize: 30,
+    marginLeft: theme.spacing(-0.6),
   },
   divider: {
     margin: theme.spacing(2, 0),
