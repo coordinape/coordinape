@@ -12,8 +12,8 @@ import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '0 22px',
-    height: 42,
+    padding: '0 15px',
+    height: 32,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: theme.spacing(1),
     '& svg': {
       width: theme.spacing(2),
       height: theme.spacing(2),
@@ -39,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.primary,
     fontSize: 12,
     fontWeight: 600,
-    marginLeft: theme.spacing(1),
   },
   icon: {
     color: theme.colors.third,

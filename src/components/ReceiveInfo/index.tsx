@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginRight: 8,
     alignItems: 'center',
+    flex: '1 0 auto',
   },
   receiveButton: {
-    padding: '0 21px',
-    height: 42,
+    padding: '0 15px',
+    height: 32,
     fontSize: 12,
     fontWeight: 600,
     color: theme.colors.text,
@@ -126,10 +127,7 @@ export const ReceiveInfo = (props: IProps) => {
         }
         onClick={handleClick}
       >
-        {me?.give_token_received || 0}{' '}
-        {(me?.give_token_received || 0) > 1
-          ? 'GIVES Received'
-          : 'GIVE Received'}
+        {me?.give_token_received || 0} GET
       </Button>
       <Popover
         anchorEl={anchorEl}

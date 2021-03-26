@@ -137,6 +137,12 @@ const GraphPage = (props: IProps) => {
       return;
     }
 
+    const activeUsers = uniq(
+      gifts.flatMap(({ recipient_id, sender_id, tokens }) =>
+        tokens > 0 ? [sender_id, recipient_id] : []
+      )
+    );
+
     const images = fromPairs(
       uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
@@ -147,15 +153,18 @@ const GraphPage = (props: IProps) => {
       })
     );
 
-    const allUsers = users.concat(me).map((u) => ({
-      ...u,
-      img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
-      receiverLinks: [] as any,
-      giverLinks: [] as any,
-      givers: [] as any,
-      receivers: [] as any,
-      linkCount: 0,
-    }));
+    const allUsers = users
+      .concat(me)
+      .filter((u) => activeUsers.find((id) => u.id === id) !== undefined)
+      .map((u) => ({
+        ...u,
+        img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
+        receiverLinks: [] as any,
+        giverLinks: [] as any,
+        givers: [] as any,
+        receivers: [] as any,
+        linkCount: 0,
+      }));
 
     const userByAddr: { [key: string]: IUser } = {};
     const userById: { [key: number]: IUser } = {};
