@@ -78,7 +78,7 @@ const navButtonsInfo = [
   { path: '/team', label: 'Edit Team' },
   { path: '/allocation', label: 'Allocation' },
   { path: '/map', label: 'Graph' },
-  // { path: '/history', label: 'History' },
+  { path: '/history', label: 'History' },
 ];
 
 interface IProps {
