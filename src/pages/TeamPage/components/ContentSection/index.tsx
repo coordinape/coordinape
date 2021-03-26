@@ -383,7 +383,7 @@ export const ContentSection = () => {
               )?.tokens || 0;
             const matched =
               keyword.length === 0 ||
-              user.name.includes(keyword) ||
+              user.name.toLowerCase().includes(keyword.toLowerCase()) ||
               String(pendingSentGifts).includes(keyword);
 
             return { ...user, selected, matched, pendingSentGifts };
