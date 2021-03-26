@@ -35,6 +35,12 @@ const routes = [
     layout: MainLayout,
     component: lazy(() => import('pages/GraphPage')),
   },
+  {
+    exact: true,
+    path: '/history',
+    layout: MainLayout,
+    component: lazy(() => import('pages/HistoryPage')),
+  },
 ];
 
 export const RenderRoutes = () => {

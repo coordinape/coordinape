@@ -4,7 +4,6 @@ import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
-import { important } from 'polished';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
   controls: {
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
+    padding: theme.spacing(2, 4),
     position: 'absolute',
     top: 0,
     right: 0,
