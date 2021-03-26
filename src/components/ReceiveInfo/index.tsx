@@ -127,7 +127,7 @@ export const ReceiveInfo = (props: IProps) => {
         }
         onClick={handleClick}
       >
-        {me?.give_token_received || 0} GET
+        {me?.give_token_received || 0} GIVE RECEIVED
       </Button>
       <Popover
         anchorEl={anchorEl}
