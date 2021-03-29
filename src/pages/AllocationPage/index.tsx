@@ -292,7 +292,7 @@ const AllocationPage = () => {
                 .utc()
                 .format(
                   'MMMM'
-                )}’s contributor budget of $20,000. Make your allocaiton below to reward people for bringing value to Yearn.`}
+                )}’s contributor budget of $20,000. Make your allocation below to reward people for bringing value to Yearn.`}
         </p>
       </div>
       {/* <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
