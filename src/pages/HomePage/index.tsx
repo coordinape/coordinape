@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     position: 'relative',
-    margin: theme.spacing(1, 5),
+    margin: theme.spacing(1, 15),
     color: theme.colors.text,
     fontSize: 18,
     fontWeight: 600,
@@ -60,14 +60,6 @@ const HomePage = () => {
           target="_blank"
         >
           Twitter
-        </a>
-        <a
-          className={classes.link}
-          href="https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Medium
         </a>
         <a
           className={classes.link}
