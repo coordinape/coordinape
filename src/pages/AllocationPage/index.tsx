@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     right: 50,
     top: theme.custom.appHeaderHeight + 15,
+    zIndex: 1,
     padding: theme.spacing(0.5, 1),
     display: 'flex',
     borderRadius: 8,
