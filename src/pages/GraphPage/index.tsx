@@ -4,6 +4,7 @@ import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
+import { transparentize } from 'polished';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -12,9 +13,36 @@ import { ITokenGift, IUser } from 'types';
 
 const NODE_R = 8;
 
-const EPOCH_VALUES = {
-  CURRENT: 'Current Epoch',
-  PAST: 'Past Epochs',
+// TODO: XSS vulnerability on node labels:
+// https://github.com/vasturiano/force-graph/issues/20
+
+// TODO: Fix Brave issue where you can't click on users:
+// https://github.com/vasturiano/force-graph/issues/177
+
+// TODO: Move to theme
+const COLOR_NODE_HIGHLIGHT = '#13a2cc';
+const COLOR_GIVE = '#00ce2c';
+const COLOR_RECEIVE = '#d3860d';
+const COLOR_CIRCULATE = '#c9b508';
+const COLOR_NODE = '#000000';
+const COLOR_GIVE_LINK = '#00ce2c80';
+const COLOR_RECEIVE_LINK = '#d3860d80';
+const COLOR_LINK = '#00000010';
+const COLOR_LINK_DIM = '#00000004';
+
+const EPOCH_OPTIONS = {
+  CURRENT: {
+    label: 'Current Epoch',
+    value: -1,
+  },
+  MARCH: {
+    label: 'March',
+    value: 2,
+  },
+  FEBRUARY: {
+    label: 'February',
+    value: 1,
+  },
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -72,6 +100,7 @@ interface ILink {
   target: number;
   width: number;
   curvature: number;
+  tokens: number;
 }
 
 interface IProps {
@@ -102,10 +131,10 @@ const GraphPage = (props: IProps) => {
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
   const [links, setLinks] = useState<any[]>([]);
   const [nodes, setNodes] = useState<any[]>([]);
-  const [epoch, setEpoch] = useState<any>(EPOCH_VALUES.CURRENT);
+  const [epoch, setEpoch] = useState<any>(EPOCH_OPTIONS.CURRENT.value);
   const { me, refreshUserInfo, users } = useUserInfo();
 
-  const showMagnitudes = epoch === EPOCH_VALUES.PAST;
+  const showMagnitudes = epoch !== EPOCH_OPTIONS.CURRENT.value;
 
   const fetchGifts = async () => {
     try {
@@ -163,6 +192,7 @@ const GraphPage = (props: IProps) => {
         giverLinks: [] as any,
         givers: [] as any,
         receivers: [] as any,
+        tokensReceived: 0,
         linkCount: 0,
       }));
 
@@ -216,6 +246,10 @@ const GraphPage = (props: IProps) => {
       me.receivers = me.receiverLinks.map((l: ILink) => userById[l.target]);
       ////
       me.linkCount = me.giverLinks.length + me.receiverLinks.length;
+      me.tokensReceived = me.giverLinks.reduce(
+        (c: number, l: ILink) => c + l.tokens,
+        0
+      );
     }
 
     configureForces();
@@ -224,15 +258,20 @@ const GraphPage = (props: IProps) => {
   };
 
   const nodeCanvasObject = useCallback((node: any, ctx: any) => {
-    const centX = node.x; // Math.floor(node.x);
-    const centY = node.y; // Math.floor(node.y);
-    let strokeColor = 'black';
+    const centX = node.x;
+    const centY = node.y;
+    let strokeColor = COLOR_NODE;
     const width = showMagnitudes
-      ? Math.min(Math.max(1, node.give_token_received / 20), 5)
+      ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
       : 1;
-    if (node === hoverNode.current) strokeColor = '#239ab4';
-    if (highlightGiveNodes.current.has(node)) strokeColor = '#2cc517';
-    if (highlightReceiveNodes.current.has(node)) strokeColor = '#741faf';
+    if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
+    if (highlightGiveNodes.current.has(node)) strokeColor = COLOR_GIVE;
+    if (highlightReceiveNodes.current.has(node)) strokeColor = COLOR_RECEIVE;
+    if (
+      highlightReceiveNodes.current.has(node) &&
+      highlightGiveNodes.current.has(node)
+    )
+      strokeColor = COLOR_CIRCULATE;
 
     ctx.beginPath();
     ctx.arc(node.x, node.y, NODE_R + 0.5 * width, 0, 2 * Math.PI);
@@ -244,7 +283,7 @@ const GraphPage = (props: IProps) => {
     ctx.save();
     ctx.beginPath();
     ctx.arc(node.x, node.y, NODE_R, 0, 2 * Math.PI);
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = COLOR_NODE;
     ctx.fill();
     ctx.clip();
 
@@ -263,9 +302,9 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   const linkColor = useCallback((link: any) => {
-    let color = '#00000010';
-    if (highlightReceiveLinks.current.has(link)) color = '#741faf50';
-    if (highlightGiveLinks.current.has(link)) color = '#2cc51750';
+    let color = hoverNode.current ? COLOR_LINK_DIM : COLOR_LINK;
+    if (highlightReceiveLinks.current.has(link)) color = COLOR_RECEIVE_LINK;
+    if (highlightGiveLinks.current.has(link)) color = COLOR_GIVE_LINK;
     return color;
   }, []);
 
@@ -313,7 +352,11 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   useEffect(() => {
-    setGifts(epoch === EPOCH_VALUES.CURRENT ? pendingGifts : pastGifts);
+    setGifts(
+      epoch === EPOCH_OPTIONS.CURRENT.value
+        ? pendingGifts
+        : pastGifts.filter((g) => g.epoch_id === epoch)
+    );
   }, [epoch, pastGifts, pendingGifts]);
 
   useEffect(() => {
@@ -357,14 +400,14 @@ const GraphPage = (props: IProps) => {
           onChange={({ target: { value } }) => setEpoch(value)}
           value={epoch}
         >
-          {Object.values(EPOCH_VALUES).map((value) => (
+          {Object.values(EPOCH_OPTIONS).map(({ label, value }) => (
             <MenuItem
               className={classes.epochMenuItem}
               classes={{ selected: classes.epochMenuItemSelected }}
               key={value}
               value={value}
             >
-              {value}
+              {label}
             </MenuItem>
           ))}
         </Select>
