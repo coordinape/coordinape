@@ -22,11 +22,11 @@ const NODE_R = 8;
 // TODO: Move to theme
 const COLOR_NODE_HIGHLIGHT = '#13a2cc';
 const COLOR_GIVE = '#00ce2c';
-const COLOR_RECEIVE = '#d3d00d';
-const COLOR_CIRCULATE = '#b0d000';
+const COLOR_RECEIVE = '#d3860d';
+const COLOR_CIRCULATE = '#c9b508';
 const COLOR_NODE = '#000000';
 const COLOR_GIVE_LINK = '#00ce2c80';
-const COLOR_RECEIVE_LINK = '#d3d00d80';
+const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000010';
 const COLOR_LINK_DIM = '#00000004';
 
