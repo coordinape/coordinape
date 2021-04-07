@@ -165,7 +165,10 @@ const CircleSelectPage = () => {
             <p className={classes.title}>Welcome back!</p>
             <p className={classes.subTitle}>
               Select the teammates you’ve been working with and allocate GIVE in
-              each of your 3 circles
+              each of your{' '}
+              {myCircles.length > 1
+                ? `${myCircles.length} circles`
+                : '1 circle'}
             </p>
           </div>
           <p className={classes.circleLabel}>Your Circles</p>
@@ -193,12 +196,14 @@ const CircleSelectPage = () => {
           </div>
         </>
       ) : (
-        <div className={classes.headerContainer}>
-          <p className={classes.title}>Oops! :(</p>
-          <p className={classes.subTitle}>
-            Sorry, you have no authorized Circles
-          </p>
-        </div>
+        !isLoading && (
+          <div className={classes.headerContainer}>
+            <p className={classes.title}>Oops! :(</p>
+            <p className={classes.subTitle}>
+              Sorry, you have no authorized Circles
+            </p>
+          </div>
+        )
       )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
