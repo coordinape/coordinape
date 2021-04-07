@@ -14,6 +14,7 @@ import { ConnectWalletButtonItem } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import React, { useEffect } from 'react';
 import connectors from 'utils/connectors';
+import { isSubdomainAddress, subdomain } from 'utils/domain';
 import { ConnectorNames } from 'utils/enums';
 import { getLogger } from 'utils/logger';
 
@@ -27,11 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     outline: 'none',
-    backgroundColor: theme.colors.third,
+    backgroundColor: theme.colors.white,
     minWidth: 700,
     maxWidth: 700,
     borderRadius: theme.spacing(1),
-    padding: `${theme.spacing(2)}px`,
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(5.5),
+    paddingRight: theme.spacing(5.5),
     userSelect: `none`,
     [theme.breakpoints.down('sm')]: {
       minWidth: 350,
@@ -39,27 +43,25 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   header: {
+    marginBottom: theme.spacing(3),
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'flex-start',
-    marginBottom: theme.spacing(2),
   },
   title: {
     color: theme.colors.primary,
-    fontSize: theme.spacing(3),
+    fontSize: 25,
+    fontWeight: 700,
   },
   closeButton: {
     padding: theme.spacing(0.5),
     color: theme.colors.primary,
   },
-  bottom: {
-    padding: `0 ${theme.spacing(2)}px`,
-    textAlign: 'center',
-    '& > * + *': { marginTop: theme.spacing(1.5) },
-  },
   helper: {
+    marginTop: theme.spacing(3),
     textAlign: 'center',
-    marginTop: theme.spacing(2),
+    fontSize: 13,
+    fontWeight: 600,
   },
   loader: {
     textAlign: 'center',
@@ -141,11 +143,13 @@ export const ConnectWalletModal = (props: IProps) => {
       <div className={classes.content}>
         <div className={classes.header}>
           <Typography className={classes.title} component="h3">
-            Sign In
+            {isSubdomainAddress()
+              ? `Authenticate to access the ${subdomain()} Circle`
+              : 'Connect Your Wallet'}
           </Typography>
-          <IconButton className={classes.closeButton} onClick={onClose}>
+          {/* <IconButton className={classes.closeButton} onClick={onClose}>
             <CloseIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
 
         {isConnectingToWallet ? (

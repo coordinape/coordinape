@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   popoverButton: {
     height: theme.spacing(5),
-    minWidth: 148,
+    minWidth: 134,
   },
 }));
 
