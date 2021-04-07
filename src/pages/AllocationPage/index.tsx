@@ -143,8 +143,8 @@ const AllocationPage = () => {
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const epochStartDate = moment(new Date(Date.UTC(2021, 2, 26, 0, 0, 0)));
-  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 10, 0, 0, 0)));
+  const epochStartDate = moment(new Date(Date.UTC(2021, 3, 7, 0, 0, 0)));
+  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 15, 0, 0, 0)));
   let isEpochEnded = true;
   let isWaitingEpoch = true;
 

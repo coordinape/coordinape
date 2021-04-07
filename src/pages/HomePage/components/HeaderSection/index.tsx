@@ -46,10 +46,10 @@ export const HeaderSection = () => {
     <div className={classes.root}>
       {isSubdomainAddress() ? (
         <>
-          <p className={classes.title}>Reward {subdomain()} Contributors</p>
+          <p className={classes.title}>Welcome to the {subdomain()} Circle</p>
           <p className={classes.subTitle}>
             Connect your wallet to participate. You must be registered as a
-            contributor with an existing Coordinape project
+            contributor within the {subdomain()} circle.
           </p>
           <p className={classes.description}>
             You may need to authenticate your wallet again when switching
