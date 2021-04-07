@@ -164,11 +164,9 @@ const CircleSelectPage = () => {
           <div className={classes.headerContainer}>
             <p className={classes.title}>Welcome back!</p>
             <p className={classes.subTitle}>
-              Select the teammates you’ve been working with and allocate GIVE in
-              each of your{' '}
               {myCircles.length > 1
-                ? `${myCircles.length} circles`
-                : '1 circle'}
+                ? `Select the teammates you’ve been working with and allocate GIVE in each of your ${myCircles.length} circles`
+                : 'Select the teammates you’ve been working with and allocate GIVE'}
             </p>
           </div>
           <p className={classes.circleLabel}>Your Circles</p>
