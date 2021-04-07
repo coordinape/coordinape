@@ -122,6 +122,7 @@ const GraphPage = (props: IProps) => {
   const highlightGiveNodes = useRef<Set<any>>(new Set());
   const highlightReceiveLinks = useRef<Set<any>>(new Set());
   const highlightGiveLinks = useRef<Set<any>>(new Set());
+  const showMagnitudes = useRef<boolean>(false);
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -134,13 +135,15 @@ const GraphPage = (props: IProps) => {
   const [epoch, setEpoch] = useState<any>(EPOCH_OPTIONS.CURRENT.value);
   const { me, refreshUserInfo, users } = useUserInfo();
 
-  const showMagnitudes = epoch !== EPOCH_OPTIONS.CURRENT.value;
-
   const fetchGifts = async () => {
     try {
       const [pending, past] = await Promise.all([
-        getApiService().getPendingTokenGifts(),
-        getApiService().getTokenGifts(),
+        getApiService().getPendingTokenGifts(
+          undefined,
+          undefined,
+          me?.circle_id
+        ),
+        getApiService().getTokenGifts(undefined, undefined, me?.circle_id),
       ]);
       setPastGifts(past);
       setPendingGifts(pending);
@@ -156,13 +159,15 @@ const GraphPage = (props: IProps) => {
 
   const configureForces = () => {
     const fl = forceLink().strength(
-      showMagnitudes ? linkStrengthToken : linkStrengthCounts
+      showMagnitudes.current ? linkStrengthToken : linkStrengthCounts
     );
     fgRef.current.d3Force('link', fl);
   };
 
   const initialize = () => {
     if (gifts.length === 0 || users.length === 0 || !me) {
+      setLinks([]);
+      setNodes([]);
       return;
     }
 
@@ -261,7 +266,7 @@ const GraphPage = (props: IProps) => {
     const centX = node.x;
     const centY = node.y;
     let strokeColor = COLOR_NODE;
-    const width = showMagnitudes
+    const width = showMagnitudes.current
       ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
       : 1;
     if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
@@ -314,14 +319,14 @@ const GraphPage = (props: IProps) => {
         highlightReceiveLinks.current.has(link) ||
         highlightGiveLinks.current.has(link)
       ) {
-        return showMagnitudes ? Math.max(link.tokens / 10, 3) : 4;
+        return showMagnitudes.current ? Math.max(link.tokens / 10, 3) : 4;
       }
       return 0;
     },
     [epoch]
   );
 
-  const getWidth = (link: any) => (showMagnitudes ? link.width : 4);
+  const getWidth = (link: any) => (showMagnitudes.current ? link.width : 4);
 
   const onNodeClick = useCallback((node: any) => {
     highlightReceiveNodes.current.clear();
@@ -348,8 +353,8 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   useEffect(() => {
-    fetchGifts();
-  }, []);
+    me && fetchGifts();
+  }, [me]);
 
   useEffect(() => {
     setGifts(
@@ -357,6 +362,7 @@ const GraphPage = (props: IProps) => {
         ? pendingGifts
         : pastGifts.filter((g) => g.epoch_id === epoch)
     );
+    showMagnitudes.current = epoch !== EPOCH_OPTIONS.CURRENT.value;
   }, [epoch, pastGifts, pendingGifts]);
 
   useEffect(() => {
