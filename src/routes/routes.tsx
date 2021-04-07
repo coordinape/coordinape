@@ -1,10 +1,26 @@
 import { LoadingScreen } from 'components';
-import { useUserInfo } from 'contexts';
+import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { MainLayout } from 'layouts';
 import React, { Fragment, Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { isSubdomainAddress } from 'utils/domain';
 
-const routes = [
+const maindomainRoutes = [
+  {
+    exact: true,
+    path: '/',
+    layout: MainLayout,
+    component: lazy(() => import('pages/HomePage')),
+  },
+  {
+    exact: true,
+    path: '/circle',
+    layout: MainLayout,
+    component: lazy(() => import('pages/CircleSelectPage')),
+  },
+];
+
+const subdomainRoutes = [
   {
     exact: true,
     path: '/',
@@ -44,15 +60,23 @@ const routes = [
 ];
 
 export const RenderRoutes = () => {
+  const { account } = useConnectedWeb3Context();
   const { me } = useUserInfo();
 
   const renderRoutes = (routes = []) => {
-    const isSignedIn = me !== null;
-    const initialPath = !me?.bio
-      ? '/profile'
-      : (me?.teammates || []).length === 0
-      ? '/team'
-      : '/allocation';
+    const isCircled = isSubdomainAddress();
+    const isSignedIn = isCircled ? me !== null : account !== null;
+    const initialPath = isCircled
+      ? me
+        ? me.epoch_first_visit
+          ? '/profile'
+          : (me.teammates || []).length === 0
+          ? '/team'
+          : '/allocation'
+        : '/'
+      : account
+      ? '/circle'
+      : '/';
 
     return (
       <Suspense fallback={<LoadingScreen />}>
@@ -79,7 +103,7 @@ export const RenderRoutes = () => {
                   ) : (
                     <Redirect
                       to={{
-                        pathname: isSignedIn ? initialPath : '/',
+                        pathname: initialPath,
                         state: { from: props.location },
                       }}
                     />
@@ -88,13 +112,19 @@ export const RenderRoutes = () => {
               />
             );
           })}
-          <Redirect to={{ pathname: isSignedIn ? initialPath : '/' }} />
+          <Redirect to={{ pathname: initialPath }} />
         </Switch>
       </Suspense>
     );
   };
 
-  return <>{renderRoutes(routes as any)}</>;
+  return (
+    <>
+      {renderRoutes(
+        (isSubdomainAddress() ? subdomainRoutes : maindomainRoutes) as any
+      )}
+    </>
+  );
 };
 
 export default RenderRoutes;

@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PostTokenGiftsParam } from 'types';
+import { subdomain } from 'utils/domain';
 
 import { MyProfileCard, TeammateCard } from './components';
 
@@ -142,8 +143,8 @@ const AllocationPage = () => {
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const epochStartDate = moment(new Date(Date.UTC(2021, 2, 26, 0, 0, 0)));
-  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 2, 0, 0, 0)));
+  const epochStartDate = moment(new Date(Date.UTC(2021, 3, 7, 0, 0, 0)));
+  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 15, 0, 0, 0)));
   let isEpochEnded = true;
   let isWaitingEpoch = true;
 
@@ -272,7 +273,7 @@ const AllocationPage = () => {
         <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
       </div>
       <div className={classes.headerContainer}>
-        <p className={classes.title}>Reward Yearn Contributors</p>
+        <p className={classes.title}>Reward {subdomain()} Contributors</p>
         <p className={classes.subTitle}>
           {isEpochEnded
             ? isWaitingEpoch
@@ -314,7 +315,7 @@ const AllocationPage = () => {
               <MyProfileCard key={user.id} />
             ) : (
               <TeammateCard
-                disabled={isEpochEnded}
+                disabled={isEpochEnded || me?.non_giver !== 0}
                 key={user.id}
                 note={giveNotes[user.id] || ''}
                 tokens={giveTokens[user.id] || 0}

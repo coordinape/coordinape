@@ -13,5 +13,6 @@ const color = {
   third: '#EAEAEB',
   selected: '#31A5AC',
   border: '#939EA1',
+  background: '#DFE7E8',
 };
 export default color;

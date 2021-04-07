@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PutUsersParam } from 'types';
+import { subdomain } from 'utils/domain';
 
 import { OptInput } from './components';
 
@@ -141,17 +142,23 @@ const ProfilePage = () => {
   // onClick SaveProfile
   const onClickSaveProfile = () => {
     if (me?.address && me?.circle_id) {
+      let isPutUser = false;
+
       const putUsers = async () => {
         try {
           const params: PutUsersParam = {
             name: me?.name,
             bio: profileData.bio,
+            epoch_first_visit: 0,
             non_receiver: profileData.non_receiver,
+            non_giver: me?.non_giver,
             address: me?.address,
             circle_id: me?.circle_id,
           };
 
           await getApiService().putUsers(me?.address, params, library);
+
+          isPutUser = true;
         } catch (error) {
           enqueueSnackbar(
             error.response?.data?.message || 'Something went wrong!',
@@ -165,7 +172,9 @@ const ProfilePage = () => {
         await putUsers();
         await refreshUserInfo();
         setLoading(false);
-        history.push('/team');
+        if (isPutUser) {
+          history.push('/team');
+        }
       };
 
       queryData();
@@ -178,7 +187,8 @@ const ProfilePage = () => {
       <p className={classes.title}>What have you been working on recently?</p>
       <div className={classes.bioContainer}>
         <p className={classes.bioLabel}>
-          Tell us about your contributions to the Yearn ecosystem this epoch
+          Tell us about your contributions to the {subdomain()} ecosystem this
+          epoch
         </p>
         <textarea
           className={classes.bioTextarea}
@@ -195,19 +205,19 @@ const ProfilePage = () => {
         <hr className={classes.optHr} />
         <div className={classes.optInputContainer}>
           <OptInput
-            isChecked={profileData.non_receiver !== 0}
-            subTitle="I am paid sufficiently via other channels"
-            title="Opt Out"
-            updateOpt={() =>
-              setProfileData({ ...profileData, non_receiver: 1 })
-            }
-          />
-          <OptInput
             isChecked={profileData.non_receiver === 0}
             subTitle="I want to be eligible to receive GIVE "
             title="Opt In"
             updateOpt={() =>
               setProfileData({ ...profileData, non_receiver: 0 })
+            }
+          />
+          <OptInput
+            isChecked={profileData.non_receiver !== 0}
+            subTitle="I am paid sufficiently via other channels"
+            title="Opt Out"
+            updateOpt={() =>
+              setProfileData({ ...profileData, non_receiver: 1 })
             }
           />
         </div>
