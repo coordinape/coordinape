@@ -29,5 +29,7 @@ export const apiBaseURL = () => {
       ? 'http://yearn.myvault.live/api'
       : 'http://myvault.live/api';
   }
-  return `${window.location.origin}/api`;
+  return isSubdomainAddress()
+    ? `https://${subdomain()}.coordinape.me/api`
+    : 'https://coordinape.me/api';
 };

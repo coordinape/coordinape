@@ -145,46 +145,61 @@ const CircleSelectPage = () => {
 
   // Get My Circles
   useEffect(() => {
-    setMyCircles(
-      circles.filter((circle) =>
-        users.some((user) => user.circle_id === circle.id)
-      )
-    );
+    if (circles) {
+      setMyCircles(
+        circles.filter((circle) =>
+          users.some((user) => user.circle_id === circle.id)
+        )
+      );
+    } else {
+      setMyCircles([]);
+    }
   }, [circles, users]);
 
   // Return
   return (
     <div className={classes.root}>
-      <div className={classes.headerContainer}>
-        <p className={classes.title}>Welcome back!</p>
-        <p className={classes.subTitle}>
-          Select the teammates you’ve been working with and allocate GIVE in
-          each of your 3 circles
-        </p>
-      </div>
-      <p className={classes.circleLabel}>Your Circles</p>
-      <div className={classes.circleContainer}>
-        {myCircles.map((circle) => (
-          <Button
-            className={classes.circle}
-            href={subdomainAddress(circle.name)}
-            key={circle.id}
-            target="_blank"
-          >
-            <div className={classes.circleContent}>
-              <p className={classes.circleTitle}>
-                {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}
-              </p>
-              <p className={classes.circleDescription}>
-                {MAX_GIVE_TOKENS -
-                  (users.find((user) => user.circle_id === circle.id)
-                    ?.give_token_remaining || MAX_GIVE_TOKENS)}{' '}
-                GIVE ALLOCATED
-              </p>
-            </div>
-          </Button>
-        ))}
-      </div>
+      {myCircles.length > 0 ? (
+        <>
+          <div className={classes.headerContainer}>
+            <p className={classes.title}>Welcome back!</p>
+            <p className={classes.subTitle}>
+              Select the teammates you’ve been working with and allocate GIVE in
+              each of your 3 circles
+            </p>
+          </div>
+          <p className={classes.circleLabel}>Your Circles</p>
+          <div className={classes.circleContainer}>
+            {myCircles.map((circle) => (
+              <Button
+                className={classes.circle}
+                href={subdomainAddress(circle.name)}
+                key={circle.id}
+                target="_blank"
+              >
+                <div className={classes.circleContent}>
+                  <p className={classes.circleTitle}>
+                    {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}
+                  </p>
+                  <p className={classes.circleDescription}>
+                    {MAX_GIVE_TOKENS -
+                      (users.find((user) => user.circle_id === circle.id)
+                        ?.give_token_remaining || MAX_GIVE_TOKENS)}{' '}
+                    GIVE ALLOCATED
+                  </p>
+                </div>
+              </Button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className={classes.headerContainer}>
+          <p className={classes.title}>Oops! :(</p>
+          <p className={classes.subTitle}>
+            Sorry, you have no authorized Circles
+          </p>
+        </div>
+      )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}
