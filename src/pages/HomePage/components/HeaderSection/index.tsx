@@ -1,14 +1,13 @@
 import { makeStyles } from '@material-ui/core';
-import { useUserInfo } from 'contexts';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { isSubdomainAddress, subdomain } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: 'auto',
     marginRight: 'auto',
     paddingTop: 70,
-    maxWidth: '70%',
+    maxWidth: '60%',
     textAlign: 'center',
   },
   title: {
@@ -18,18 +17,18 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   subTitle: {
-    padding: '0 32px',
+    margin: 0,
+    padding: theme.spacing(0, 5),
     fontSize: 30,
     fontWeight: 400,
     color: theme.colors.primary,
-    margin: 0,
   },
   description: {
-    padding: '0 100px',
+    margin: 0,
+    padding: theme.spacing(0, 5),
     fontSize: 16,
     fontWeight: 400,
     color: theme.colors.primary,
-    margin: 0,
   },
   warning: {
     marginBottom: 32,
@@ -40,19 +39,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
-  className?: string;
-}
-
-export const HeaderSection = (props: IProps) => {
+export const HeaderSection = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <p className={classes.title}>Reward Yearn Contributors</p>
-      <p className={classes.subTitle}>
-        You must be a current contributor and connect your wallet to participate
-      </p>
+      {isSubdomainAddress() ? (
+        <>
+          <p className={classes.title}>Reward {subdomain()} Contributors</p>
+          <p className={classes.subTitle}>
+            Connect your wallet to participate. You must be registered as a
+            contributor with an existing Coordinape project
+          </p>
+          <p className={classes.description}>
+            You may need to authenticate your wallet again when switching
+            circles for the first time
+          </p>
+        </>
+      ) : (
+        <>
+          <p className={classes.title}>Reward Your Fellow Contributors</p>
+          <p className={classes.subTitle}>
+            Connect your wallet to participate. You must be registered as a
+            contributor with an existing Coordinape project
+          </p>
+        </>
+      )}
     </div>
   );
 };

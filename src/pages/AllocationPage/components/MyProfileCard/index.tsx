@@ -362,7 +362,9 @@ export const MyProfileCard = () => {
             const params: PutUsersParam = {
               name: profileData.name,
               bio: profileData.bio,
+              epoch_first_visit: 0,
               non_receiver: profileData.non_receiver,
+              non_giver: me?.non_giver,
               address: me?.address,
               circle_id: me?.circle_id,
             };

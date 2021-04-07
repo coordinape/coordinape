@@ -3,6 +3,7 @@ import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { IUser, Maybe } from 'types';
+import { isSubdomainAddress } from 'utils/domain';
 
 export interface IUserInfoData {
   me: Maybe<IUser>;
@@ -45,7 +46,7 @@ export const UserInfoProvider = (props: IProps) => {
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const getUsers = async () => {
-    if (account) {
+    if (account && isSubdomainAddress()) {
       try {
         const me = await getApiService().getMe(account);
         const users = await getApiService().getUsers();
@@ -67,6 +68,7 @@ export const UserInfoProvider = (props: IProps) => {
   useEffect(() => {
     setLoading(true);
     getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   return (

@@ -1,11 +1,11 @@
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
-import clsx from 'clsx';
 import { AccountInfo, ConnectWalletButton, ReceiveInfo } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import { useConnectedWeb3Context, useGlobal, useUserInfo } from 'contexts';
 import React from 'react';
 import { matchPath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { isSubdomainAddress, rootdomainAddress } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  logoContainer: {
+    width: 280,
+    display: 'flex',
+    justifyContent: 'flex-start',
+  },
   imgFull: {
     height: 58,
   },
@@ -44,19 +49,19 @@ const useStyles = makeStyles((theme) => ({
   },
   navLinks: {
     height: 50,
-    maxWidth: 504,
+    maxWidth: 700,
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    margin: theme.spacing(0, 2),
   },
   buttons: {
-    height: 42,
+    width: 280,
     display: 'flex',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   navLink: {
+    margin: 'auto',
     fontSize: 20,
     fontWeight: 700,
     color: theme.colors.white,
@@ -97,12 +102,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const navButtonsInfo = [
-  { path: '/team', label: 'Edit Team' },
-  { path: '/allocation', label: 'Allocation' },
-  { path: '/map', label: 'Graph' },
-  { path: '/history', label: 'History' },
-];
+const navButtonsInfo = isSubdomainAddress()
+  ? [
+      { path: '/circle', label: 'My Circles', isExteranl: true },
+      { path: '/profile', label: 'Profile', isExternal: false },
+      { path: '/team', label: 'Team', isExternal: false },
+      { path: '/allocation', label: 'Allocation', isExternal: false },
+      { path: '/map', label: 'Graph', isExternal: false },
+      { path: '/history', label: 'History', isExternal: false },
+    ]
+  : [{ path: '/circle', label: 'My Circles', isExternal: false }];
 
 interface IProps {
   className?: string;
@@ -132,33 +141,52 @@ export const Header = (props: IProps) => {
     localStorage.removeItem(STORAGE_KEY_CONNECTOR);
   };
 
-  const logo = screenDownSm ? (
-    <img alt="logo" className={classes.imgSmall} src="/svgs/logo/logo.svg" />
-  ) : (
-    <img
-      alt="logo"
-      className={classes.imgFull}
-      src="/svgs/logo/coordinape_logo.svg"
-    />
+  const logo = (
+    <div className={classes.logoContainer}>
+      {screenDownSm ? (
+        <img
+          alt="logo"
+          className={classes.imgSmall}
+          src="/svgs/logo/logo.svg"
+        />
+      ) : (
+        <img
+          alt="logo"
+          className={classes.imgFull}
+          src="/svgs/logo/coordinape_logo.svg"
+        />
+      )}
+    </div>
   );
 
   const navButtons = (
     <div className={classes.navLinks}>
-      {navButtonsInfo.map((nav) => (
-        <NavLink
-          className={classes.navLink}
-          isActive={() =>
-            !!matchPath(history.location.pathname, {
-              exact: true,
-              path: nav.path,
-            })
-          }
-          key={nav.path}
-          to={nav.path}
-        >
-          {nav.label}
-        </NavLink>
-      ))}
+      {navButtonsInfo.map((nav) =>
+        nav.isExteranl ? (
+          <a
+            className={classes.navLink}
+            href={`${rootdomainAddress()}${nav.path}`}
+            key={nav.path}
+            rel="noreferrer"
+          >
+            {nav.label}
+          </a>
+        ) : (
+          <NavLink
+            className={classes.navLink}
+            isActive={() =>
+              !!matchPath(history.location.pathname, {
+                exact: true,
+                path: nav.path,
+              })
+            }
+            key={nav.path}
+            to={nav.path}
+          >
+            {nav.label}
+          </NavLink>
+        )
+      )}
     </div>
   );
 

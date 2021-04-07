@@ -10,8 +10,9 @@ import {
   PutCirclesParam,
   PutUsersParam,
 } from 'types';
+import { apiBaseURL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
-axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL as string;
+axios.defaults.baseURL = apiBaseURL(); // process.env.REACT_APP_API_BASE_URL as string;
 
 class APIService {
   constructor() {}
