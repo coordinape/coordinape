@@ -285,11 +285,9 @@ const AllocationPage = () => {
                 )
                   .utc()
                   .format('MMMM Do')}.`
-            : `GET tokens for work done in ${moment(epochStartDate)
-                .utc()
-                .format('MMMM')} will be distributed in ${epochTimeLeftString}`}
+            : `GET tokens will be distributed in ${epochTimeLeftString}`}
         </p>
-        <p className={classes.description}>
+        {/* <p className={classes.description}>
           {isEpochEnded
             ? 'Stay tuned for details, and thank you for being part of Coordinape’s alpha.'
             : `These tokens represent ${moment(
@@ -299,7 +297,7 @@ const AllocationPage = () => {
                 .format(
                   'MMMM'
                 )}’s contributor budget of $20,000. Make your allocation below to reward people for bringing value to Yearn.`}
-        </p>
+        </p> */}
       </div>
       {/* <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
         <div className={classes.settingIconWrapper}>
