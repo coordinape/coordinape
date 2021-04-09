@@ -154,13 +154,14 @@ interface IProps {
   tokens: number;
   note: string;
   disabled: boolean;
+  non_giver: boolean;
   updateTokens: (tokens: number) => void;
   updateNote: (note: string) => void;
 }
 
 export const TeammateCard = (props: IProps) => {
   const classes = useStyles();
-  const { disabled, note, tokens, user } = props;
+  const { disabled, non_giver, note, tokens, user } = props;
 
   // onChange Tokens
   const onChangeTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,12 +203,15 @@ export const TeammateCard = (props: IProps) => {
               {user.non_receiver ? '' : 'GIVE to Allocate'}
             </p>
             <div>
-              <Button disabled={disabled} onClick={() => spinTokens(-1)}>
+              <Button
+                disabled={disabled || non_giver}
+                onClick={() => spinTokens(-1)}
+              >
                 <MinusCircleSVG />
               </Button>
               <input
                 className={classes.tokenInput}
-                disabled={disabled}
+                disabled={disabled || non_giver}
                 min="0"
                 onChange={onChangeTokens}
                 onWheel={(e) => e.currentTarget.blur()}
@@ -215,7 +219,10 @@ export const TeammateCard = (props: IProps) => {
                 type="number"
                 value={tokens}
               />
-              <Button disabled={disabled} onClick={() => spinTokens(1)}>
+              <Button
+                disabled={disabled || non_giver}
+                onClick={() => spinTokens(1)}
+              >
                 <PlusCircleSVG />
               </Button>
             </div>
