@@ -10,6 +10,7 @@ import {
   PutCirclesParam,
   PutUsersParam,
 } from 'types';
+import { IEpoch } from 'types/models/epoch.model';
 import { apiBaseURL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
 axios.defaults.baseURL = apiBaseURL(); // process.env.REACT_APP_API_BASE_URL as string;
@@ -51,6 +52,15 @@ class APIService {
       address,
     });
     return response.data;
+  };
+
+  getEpochs = async (current?: number): Promise<IEpoch[]> => {
+    const params: any = {};
+    if (current) {
+      params.current = current;
+    }
+    const response = await axios.get('/epoches', { params });
+    return response.data as IEpoch[];
   };
 
   getMe = async (address: string): Promise<IUser> => {

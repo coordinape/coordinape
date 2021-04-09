@@ -26,8 +26,8 @@ export const subdomain = () => {
 export const apiBaseURL = () => {
   if (window.location.port === '3000') {
     return isSubdomainAddress()
-      ? 'http://yearn.myvault.live/api'
-      : 'http://myvault.live/api';
+      ? 'https://yearn.coordinape.me/api'
+      : 'https://coordinape.me/api';
   }
   return isSubdomainAddress()
     ? `https://${subdomain()}.coordinape.me/api`

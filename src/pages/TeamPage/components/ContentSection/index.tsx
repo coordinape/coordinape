@@ -152,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    marginBottom: theme.spacing(3),
+    marginBottom: 53,
     marginLeft: 'auto',
     marginRight: 'auto',
     display: 'flex',
@@ -422,16 +422,6 @@ export const ContentSection = () => {
             </div>
           </Hidden>
         </Button>
-        <NavLink
-          className={classes.cancelNavLink}
-          hidden={me?.teammates.length === 0}
-          to={'/allocation'}
-        >
-          <div className={classes.cancelIconWrapper}>
-            <CancelCircleSVG />
-          </div>
-          Don&apos;t Save Changes
-        </NavLink>
       </div>
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
