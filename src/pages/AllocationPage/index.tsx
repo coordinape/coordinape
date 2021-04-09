@@ -313,7 +313,6 @@ const AllocationPage = () => {
               <TeammateCard
                 disabled={isEpochEnded}
                 key={user.id}
-                non_giver={me?.non_giver !== 0}
                 note={giveNotes[user.id] || ''}
                 tokens={giveTokens[user.id] || 0}
                 updateNote={(note) => {
