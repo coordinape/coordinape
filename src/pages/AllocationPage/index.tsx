@@ -276,14 +276,13 @@ const AllocationPage = () => {
         <p className={classes.subTitle}>
           {isEpochEnded
             ? isWaitingEpoch
-              ? `The next epoch will begin on ${moment(epochStartDate)
-                  .utc()
-                  .format('MMMM Do')}.`
-              : `The last epoch ended on ${moment(
-                  epochEndDate.subtract(1, 'days')
-                )
-                  .utc()
-                  .format('MMMM Do')}.`
+              ? `Epoch ${
+                  epoch?.number || 1
+                } starts on ${epochStartDate.local().format('dddd MMMM Do')}.`
+              : `The last epoch ended on ${epochEndDate
+                  .subtract(1, 'seconds')
+                  .local()
+                  .format('dddd MMMM Do')}.`
             : `GET tokens will be distributed in ${epochTimeLeftString}`}
         </p>
         {/* <p className={classes.description}>
