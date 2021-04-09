@@ -45,6 +45,15 @@ const EPOCH_OPTIONS = {
   },
 };
 
+const CIRCLE_003_ID = 3;
+const shouldShowMagnitudes = ({
+  circleId,
+  epoch,
+}: {
+  circleId?: number;
+  epoch: number;
+}) => circleId === CIRCLE_003_ID || epoch !== EPOCH_OPTIONS.CURRENT.value;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -362,7 +371,10 @@ const GraphPage = (props: IProps) => {
         ? pendingGifts
         : pastGifts.filter((g) => g.epoch_id === epoch)
     );
-    showMagnitudes.current = epoch !== EPOCH_OPTIONS.CURRENT.value;
+    showMagnitudes.current = shouldShowMagnitudes({
+      circleId: me?.circle_id,
+      epoch,
+    });
   }, [epoch, pastGifts, pendingGifts]);
 
   useEffect(() => {
