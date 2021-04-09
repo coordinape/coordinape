@@ -1,13 +1,11 @@
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
-import { ReactComponent as SettingsTeammatesSVG } from 'assets/svgs/button/settings-teammates.svg';
 import { LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PostTokenGiftsParam } from 'types';
 import { subdomain } from 'utils/domain';
@@ -208,7 +206,7 @@ const AllocationPage = () => {
 
   // GiveTokenRemaining & GiveTokens & GiveNotes
   const giveTokenRemaining =
-    MAX_GIVE_TOKENS -
+    (me?.non_giver !== 0 ? 0 : MAX_GIVE_TOKENS) -
     Object.keys(giveTokens).reduce(
       (sum, key: any) => sum + (giveTokens[key] || 0),
       0
@@ -330,7 +328,7 @@ const AllocationPage = () => {
             )
           )}
       </div>
-      {!isEpochEnded ? (
+      {!isEpochEnded && (
         <Button
           className={classes.saveButton}
           disabled={giveTokenRemaining < 0}
@@ -343,7 +341,7 @@ const AllocationPage = () => {
             </div>
           </Hidden>
         </Button>
-      ) : null}
+      )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}
