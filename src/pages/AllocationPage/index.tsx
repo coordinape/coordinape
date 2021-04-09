@@ -136,13 +136,14 @@ const useStyles = makeStyles((theme) => ({
 const AllocationPage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { me, refreshUserInfo } = useUserInfo();
+  const { epoch, me, refreshUserInfo } = useUserInfo();
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  const epochStartDate = moment(new Date(Date.UTC(2021, 3, 7, 0, 0, 0)));
-  const epochEndDate = moment(new Date(Date.UTC(2021, 3, 15, 0, 0, 0)));
+
+  const epochStartDate = epoch ? moment.utc(epoch.start_date) : moment.utc();
+  const epochEndDate = epoch ? moment.utc(epoch.end_date) : moment.utc();
   let isEpochEnded = true;
   let isWaitingEpoch = true;
 
@@ -152,7 +153,7 @@ const AllocationPage = () => {
     const differenceStart = date.diff(epochStartDate);
     const differenceEnd = epochEndDate.diff(date);
 
-    if (differenceStart >= 0 && differenceEnd >= 0) {
+    if (differenceStart >= 0 && differenceEnd > 0) {
       isEpochEnded = false;
 
       return {
