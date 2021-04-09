@@ -311,7 +311,7 @@ const AllocationPage = () => {
               <MyProfileCard key={user.id} />
             ) : (
               <TeammateCard
-                disabled={isEpochEnded || me?.non_giver !== 0}
+                disabled={isEpochEnded}
                 key={user.id}
                 note={giveNotes[user.id] || ''}
                 tokens={giveTokens[user.id] || 0}
