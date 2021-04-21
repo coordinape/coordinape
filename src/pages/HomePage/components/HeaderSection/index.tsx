@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
+import { useUserInfo } from 'contexts';
 import React from 'react';
-import { isSubdomainAddress, subdomain } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,19 +41,22 @@ const useStyles = makeStyles((theme) => ({
 
 export const HeaderSection = () => {
   const classes = useStyles();
+  const { circle } = useUserInfo();
 
   return (
     <div className={classes.root}>
-      {isSubdomainAddress() ? (
+      {circle ? (
         <>
-          <p className={classes.title}>Welcome to the {subdomain()} Circle</p>
-          <p className={classes.subTitle}>
-            Connect your wallet to participate. You must be registered as a
-            contributor within the {subdomain()} circle.
+          <p className={classes.title}>
+            Welcome to the{' '}
+            {circle.protocol.name.charAt(0).toUpperCase() +
+              circle.protocol.name.slice(1)}{' '}
+            - {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
+            Circle
           </p>
-          <p className={classes.description}>
-            You may need to authenticate your wallet again when switching
-            circles for the first time
+          <p className={classes.subTitle}>
+            You must be registered as a contributor within the{' '}
+            {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)} circle
           </p>
         </>
       ) : (

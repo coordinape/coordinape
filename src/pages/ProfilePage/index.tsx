@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PutUsersParam } from 'types';
-import { subdomain } from 'utils/domain';
 
 import { OptInput } from './components';
 
@@ -17,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '80%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 70,
-    paddingBottom: 50,
+    paddingTop: theme.spacing(9),
+    paddingBottom: theme.spacing(20),
     display: 'flex',
     flexDirection: 'column',
   },
@@ -89,6 +88,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  buttonContainer: {
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    marginBottom: 53,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   saveButton: {
     marginTop: theme.spacing(5),
     marginLeft: 'auto',
@@ -125,7 +137,7 @@ interface IProfileData {
 const ProfilePage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { me, refreshUserInfo } = useUserInfo();
+  const { circle, me, refreshUserInfo } = useUserInfo();
   const [profileData, setProfileData] = useState<IProfileData>({
     bio: me?.bio || '',
     non_receiver: me?.non_receiver || 0,
@@ -187,8 +199,9 @@ const ProfilePage = () => {
       <p className={classes.title}>What have you been working on recently?</p>
       <div className={classes.bioContainer}>
         <p className={classes.bioLabel}>
-          Tell us about your contributions to the {subdomain()} ecosystem this
-          epoch
+          Tell us about your contributions to the{' '}
+          {circle && circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
+          ecosystem this epoch
         </p>
         <textarea
           className={classes.bioTextarea}
@@ -222,14 +235,16 @@ const ProfilePage = () => {
           />
         </div>
       </div>
-      <Button className={classes.saveButton} onClick={onClickSaveProfile}>
-        Save Your Profile
-        <Hidden smDown>
-          <div className={classes.arrowRightIconWrapper}>
-            <ArrowRightSVG />
-          </div>
-        </Hidden>
-      </Button>
+      <div className={classes.buttonContainer}>
+        <Button className={classes.saveButton} onClick={onClickSaveProfile}>
+          Save Your Profile
+          <Hidden smDown>
+            <div className={classes.arrowRightIconWrapper}>
+              <ArrowRightSVG />
+            </div>
+          </Hidden>
+        </Button>
+      </div>
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}

@@ -14,7 +14,6 @@ import { ConnectWalletButtonItem } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import React, { useEffect } from 'react';
 import connectors from 'utils/connectors';
-import { isSubdomainAddress, subdomain } from 'utils/domain';
 import { ConnectorNames } from 'utils/enums';
 import { getLogger } from 'utils/logger';
 
@@ -143,9 +142,7 @@ export const ConnectWalletModal = (props: IProps) => {
       <div className={classes.content}>
         <div className={classes.header}>
           <Typography className={classes.title} component="h3">
-            {isSubdomainAddress()
-              ? `Authenticate to access the ${subdomain()} Circle`
-              : 'Connect Your Wallet'}
+            Connect Your Wallet
           </Typography>
           {/* <IconButton className={classes.closeButton} onClick={onClose}>
             <CloseIcon />

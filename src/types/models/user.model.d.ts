@@ -12,6 +12,7 @@ export interface IUser {
   non_receiver: number;
   non_giver: number;
   role: number;
+  is_hidden: number;
   circle_id: number;
   created_at: Date;
   updated_at: Date;

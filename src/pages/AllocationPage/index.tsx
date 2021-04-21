@@ -8,7 +8,6 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { PostTokenGiftsParam } from 'types';
-import { subdomain } from 'utils/domain';
 
 import { MyProfileCard, TeammateCard } from './components';
 
@@ -136,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
 const AllocationPage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { epoch, me, refreshUserInfo } = useUserInfo();
+  const { circle, epoch, me, refreshUserInfo } = useUserInfo();
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -272,7 +271,11 @@ const AllocationPage = () => {
         <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
       </div>
       <div className={classes.headerContainer}>
-        <p className={classes.title}>Reward {subdomain()} Contributors</p>
+        <p className={classes.title}>
+          Reward{' '}
+          {circle && circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
+          Contributors
+        </p>
         <p className={classes.subTitle}>
           {isEpochEnded
             ? isWaitingEpoch
@@ -304,7 +307,7 @@ const AllocationPage = () => {
         Edit Teammates List
       </NavLink> */}
       <div className={classes.teammateContainer}>
-        {(me ? [...me.teammates, me] : [])
+        {(me ? [...me.teammates.filter((a) => a.is_hidden === 0), me] : [])
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((user) =>
             user.id === me?.id ? (

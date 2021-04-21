@@ -25,6 +25,7 @@ interface IProps {
 export const MainLayout = (props: IProps) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
+
   return (
     <div className={classes.root}>
       <Header />
