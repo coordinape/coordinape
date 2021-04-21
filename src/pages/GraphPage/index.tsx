@@ -45,14 +45,7 @@ const EPOCH_OPTIONS = {
   },
 };
 
-const CIRCLE_003_ID = 3;
-const shouldShowMagnitudes = ({
-  circleId,
-  epoch,
-}: {
-  circleId?: number;
-  epoch: number;
-}) => circleId === CIRCLE_003_ID || epoch !== EPOCH_OPTIONS.CURRENT.value;
+const showMagnitudes = () => true;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,7 +124,6 @@ const GraphPage = (props: IProps) => {
   const highlightGiveNodes = useRef<Set<any>>(new Set());
   const highlightReceiveLinks = useRef<Set<any>>(new Set());
   const highlightGiveLinks = useRef<Set<any>>(new Set());
-  const showMagnitudes = useRef<boolean>(false);
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -168,7 +160,7 @@ const GraphPage = (props: IProps) => {
 
   const configureForces = () => {
     const fl = forceLink().strength(
-      showMagnitudes.current ? linkStrengthToken : linkStrengthCounts
+      showMagnitudes() ? linkStrengthToken : linkStrengthCounts
     );
     fgRef.current.d3Force('link', fl);
   };
@@ -275,7 +267,7 @@ const GraphPage = (props: IProps) => {
     const centX = node.x;
     const centY = node.y;
     let strokeColor = COLOR_NODE;
-    const width = showMagnitudes.current
+    const width = showMagnitudes()
       ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
       : 1;
     if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
@@ -328,14 +320,14 @@ const GraphPage = (props: IProps) => {
         highlightReceiveLinks.current.has(link) ||
         highlightGiveLinks.current.has(link)
       ) {
-        return showMagnitudes.current ? Math.max(link.tokens / 10, 3) : 4;
+        return showMagnitudes() ? Math.max(link.tokens / 10, 3) : 4;
       }
       return 0;
     },
     [epoch]
   );
 
-  const getWidth = (link: any) => (showMagnitudes.current ? link.width : 4);
+  const getWidth = (link: any) => (showMagnitudes() ? link.width : 4);
 
   const onNodeClick = useCallback((node: any) => {
     highlightReceiveNodes.current.clear();
@@ -371,10 +363,7 @@ const GraphPage = (props: IProps) => {
         ? pendingGifts
         : pastGifts.filter((g) => g.epoch_id === epoch)
     );
-    showMagnitudes.current = shouldShowMagnitudes({
-      circleId: me?.circle_id,
-      epoch,
-    });
+    // Set magnitudes here if desired
   }, [epoch, pastGifts, pendingGifts]);
 
   useEffect(() => {
