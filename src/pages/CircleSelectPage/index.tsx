@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { ICircle, IUser } from 'types';
 import { apiBaseURL, apiBaseURLofCircle } from 'utils/domain';
+import { getCircleId, setCircleId } from 'utils/storage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -150,14 +151,22 @@ const CircleSelectPage = () => {
   // Get My Circles
   useEffect(() => {
     if (circles) {
-      setMyCircles(
-        circles.filter((circle) =>
-          users.some((user) => user.circle_id === circle.id)
-        )
+      const myCircles = circles.filter((circle) =>
+        users.some((user) => user.circle_id === circle.id)
       );
+      setMyCircles(myCircles);
+
+      const circle_id = getCircleId();
+      const prevCircle = myCircles.find((circle) => circle.id === circle_id);
+      if (prevCircle) {
+        axios.defaults.baseURL = apiBaseURLofCircle(prevCircle);
+        setCircle(prevCircle);
+      }
     } else {
       setMyCircles([]);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [circles, users]);
 
   // Return
@@ -182,6 +191,7 @@ const CircleSelectPage = () => {
                 onClick={() => {
                   axios.defaults.baseURL = apiBaseURLofCircle(circle);
                   setCircle(circle);
+                  setCircleId(circle.id);
                 }}
               >
                 <div className={classes.circleContent}>
