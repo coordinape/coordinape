@@ -6,6 +6,7 @@ import { useConnectedWeb3Context, useGlobal, useUserInfo } from 'contexts';
 import React from 'react';
 import { matchPath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { removeCircleId } from 'utils/storage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -186,6 +187,11 @@ export const Header = (props: IProps) => {
             })
           }
           key={nav.path}
+          onClick={() => {
+            if (nav.path === '/circle') {
+              removeCircleId();
+            }
+          }}
           to={nav.path}
         >
           {nav.label}
