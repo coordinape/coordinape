@@ -2,11 +2,11 @@ import { LoadingModal } from 'components';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import { IUser, Maybe } from 'types';
+import { ICircle, IUser, Maybe } from 'types';
 import { IEpoch } from 'types/models/epoch.model';
-import { isSubdomainAddress } from 'utils/domain';
 
 export interface IUserInfoData {
+  circle: Maybe<ICircle>;
   epoch: Maybe<IEpoch>;
   me: Maybe<IUser>;
   users: IUser[];
@@ -15,11 +15,14 @@ export interface IUserInfoData {
 const UserInfoContext = React.createContext<
   IUserInfoData & {
     refreshUserInfo: () => Promise<void>;
+    setCircle: (circle: Maybe<ICircle>) => void;
   }
 >({
+  circle: null,
   epoch: null,
   me: null,
   users: [],
+  setCircle: () => {},
   refreshUserInfo: () =>
     new Promise((resolve) => {
       resolve();
@@ -42,6 +45,7 @@ interface IProps {
 
 export const UserInfoProvider = (props: IProps) => {
   const [state, setState] = useState<IUserInfoData>({
+    circle: null,
     epoch: null,
     me: null,
     users: [],
@@ -49,26 +53,34 @@ export const UserInfoProvider = (props: IProps) => {
   const { account } = useConnectedWeb3Context();
   const [isLoading, setLoading] = useState<boolean>(false);
 
+  // Set Circle
+  const setCircle = (circle: Maybe<ICircle>) => {
+    setState((prev) => ({ ...prev, circle: circle }));
+  };
+
+  // Get Users
   const getUsers = async () => {
-    if (account && isSubdomainAddress()) {
+    if (account && state.circle) {
       try {
-        const epoches = await getApiService().getEpochs();
+        const epochs = await getApiService().getEpochs();
         const me = await getApiService().getMe(account);
         const users = await getApiService().getUsers();
-        setState({
-          epoch: epoches.sort(
+
+        setState((prev) => ({
+          ...prev,
+          epoch: epochs.sort(
             (a, b) => +new Date(b.start_date) - +new Date(a.start_date)
           )[0],
-          me,
+          me: me,
           users: users.filter(
             (user) => user.address.toLowerCase() !== account?.toLowerCase()
           ),
-        });
+        }));
       } catch (error) {
-        setState({ epoch: null, me: null, users: [] });
+        setState((prev) => ({ ...prev, epoch: null, me: null, users: [] }));
       }
     } else {
-      setState({ epoch: null, me: null, users: [] });
+      setState((prev) => ({ ...prev, epoch: null, me: null, users: [] }));
     }
     setLoading(false);
   };
@@ -77,10 +89,13 @@ export const UserInfoProvider = (props: IProps) => {
     setLoading(true);
     getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [account, state.circle]);
 
+  // Return
   return (
-    <UserInfoContext.Provider value={{ ...state, refreshUserInfo: getUsers }}>
+    <UserInfoContext.Provider
+      value={{ ...state, setCircle, refreshUserInfo: getUsers }}
+    >
       {props.children}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />

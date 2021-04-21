@@ -1,11 +1,11 @@
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { ContactlessOutlined } from '@material-ui/icons';
 import { AccountInfo, ConnectWalletButton, ReceiveInfo } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import { useConnectedWeb3Context, useGlobal, useUserInfo } from 'contexts';
 import React from 'react';
 import { matchPath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { isSubdomainAddress, rootdomainAddress } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,17 +102,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const navButtonsInfo = isSubdomainAddress()
-  ? [
-      { path: '/circle', label: 'My Circles', isExteranl: true },
-      { path: '/profile', label: 'Profile', isExternal: false },
-      { path: '/team', label: 'Team', isExternal: false },
-      { path: '/allocation', label: 'Allocation', isExternal: false },
-      { path: '/map', label: 'Graph', isExternal: false },
-      { path: '/history', label: 'History', isExternal: false },
-    ]
-  : [{ path: '/circle', label: 'My Circles', isExternal: false }];
-
 interface IProps {
   className?: string;
 }
@@ -126,8 +115,34 @@ export const Header = (props: IProps) => {
   const { account, rawWeb3Context } = useConnectedWeb3Context();
   const { toggleWalletConnectModal } = useGlobal();
   const connector = localStorage.getItem(STORAGE_KEY_CONNECTOR);
-  const { me } = useUserInfo();
+  const { circle, me } = useUserInfo();
   const history = useHistory();
+
+  const navButtonsInfo = circle
+    ? [
+        { path: '/circle', label: 'My Circles' },
+        {
+          path: `/${circle.protocol.name}/${circle.name}/profile`,
+          label: 'Profile',
+        },
+        {
+          path: `/${circle.protocol.name}/${circle.name}/team`,
+          label: 'Team',
+        },
+        {
+          path: `/${circle.protocol.name}/${circle.name}/allocation`,
+          label: 'Allocation',
+        },
+        {
+          path: `/${circle.protocol.name}/${circle.name}/map`,
+          label: 'Graph',
+        },
+        {
+          path: `/${circle.protocol.name}/${circle.name}/history`,
+          label: 'History',
+        },
+      ]
+    : [{ path: '/circle', label: 'My Circles' }];
 
   const navButtonsVisible = navButtonsInfo
     .map((nav) => nav.path)
@@ -161,32 +176,21 @@ export const Header = (props: IProps) => {
 
   const navButtons = (
     <div className={classes.navLinks}>
-      {navButtonsInfo.map((nav) =>
-        nav.isExteranl ? (
-          <a
-            className={classes.navLink}
-            href={`${rootdomainAddress()}${nav.path}`}
-            key={nav.path}
-            rel="noreferrer"
-          >
-            {nav.label}
-          </a>
-        ) : (
-          <NavLink
-            className={classes.navLink}
-            isActive={() =>
-              !!matchPath(history.location.pathname, {
-                exact: true,
-                path: nav.path,
-              })
-            }
-            key={nav.path}
-            to={nav.path}
-          >
-            {nav.label}
-          </NavLink>
-        )
-      )}
+      {navButtonsInfo.map((nav) => (
+        <NavLink
+          className={classes.navLink}
+          isActive={() =>
+            !!matchPath(history.location.pathname, {
+              exact: true,
+              path: nav.path,
+            })
+          }
+          key={nav.path}
+          to={nav.path}
+        >
+          {nav.label}
+        </NavLink>
+      ))}
     </div>
   );
 

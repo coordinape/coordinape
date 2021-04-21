@@ -1,12 +1,13 @@
 import { Button, makeStyles } from '@material-ui/core';
+import axios from 'axios';
 import { LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
-import { useConnectedWeb3Context } from 'contexts';
+import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { ICircle, IUser } from 'types';
-import { subdomainAddress } from 'utils/domain';
+import { apiBaseURL, apiBaseURLofCircle } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,11 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
   circle: {
     margin: theme.spacing(2),
-    width: 230,
-    height: 230,
-    borderRadius: 115,
+    width: 250,
+    height: 250,
+    borderRadius: 125,
     background: theme.colors.background,
-    textTransform: 'none',
   },
   circleContent: {
     display: 'flex',
@@ -84,10 +84,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 28,
     fontWeight: 700,
     textAlign: 'center',
+    lineHeight: 1.5,
     color: theme.colors.secondary,
   },
   circleDescription: {
-    margin: 0,
+    margin: theme.spacing(2, 0),
     fontSize: 13,
     fontWeight: 400,
     textAlign: 'center',
@@ -98,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
 const CircleSelectPage = () => {
   const classes = useStyles();
   const { account } = useConnectedWeb3Context();
+  const { setCircle } = useUserInfo();
   const [circles, setCircles] = useState<ICircle[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [myCircles, setMyCircles] = useState<ICircle[]>([]);
@@ -138,6 +140,8 @@ const CircleSelectPage = () => {
         setLoading(false);
       };
 
+      axios.defaults.baseURL = apiBaseURL();
+      setCircle(null);
       queryData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,13 +178,15 @@ const CircleSelectPage = () => {
             {myCircles.map((circle) => (
               <Button
                 className={classes.circle}
-                href={subdomainAddress(circle.name)}
                 key={circle.id}
-                target="_blank"
+                onClick={() => {
+                  axios.defaults.baseURL = apiBaseURLofCircle(circle);
+                  setCircle(circle);
+                }}
               >
                 <div className={classes.circleContent}>
                   <p className={classes.circleTitle}>
-                    {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}
+                    {circle.protocol.name} / {circle.name}
                   </p>
                   <p className={classes.circleDescription}>
                     {MAX_GIVE_TOKENS -

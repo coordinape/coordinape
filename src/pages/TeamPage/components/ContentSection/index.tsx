@@ -1,20 +1,19 @@
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
-import { ReactComponent as CancelCircleSVG } from 'assets/svgs/button/cancel-circle.svg';
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
 import clsx from 'clsx';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 32,
+    marginBottom: theme.spacing(4),
     padding: '50px 0',
     maxWidth: '90%',
     textAlign: 'center',
@@ -186,30 +185,6 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(4),
     height: theme.spacing(4),
     marginLeft: theme.spacing(2),
-  },
-  cancelNavLink: {
-    marginTop: theme.spacing(1),
-    padding: '6px 12px',
-    fontSize: 15,
-    fontWeight: 600,
-    textTransform: 'none',
-    textDecoration: 'none',
-    color: theme.colors.red,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    background: 'linear-gradient(0deg, #F0D7D8, #F0D7D8)',
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      background: 'linear-gradient(0deg, #F0D7D8, #F0D7D8)',
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-  },
-  cancelIconWrapper: {
-    paddingTop: 2,
-    marginRight: theme.spacing(0.5),
   },
 }));
 
