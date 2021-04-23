@@ -205,6 +205,8 @@ export const ContentSection = () => {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
+  const allUsers = users.filter((user) => user.is_hidden === 0);
+
   useEffect(() => {
     if (me?.teammates) {
       setTeammates([...me.teammates.map((teammatesmate) => teammatesmate.id)]);
@@ -213,7 +215,7 @@ export const ContentSection = () => {
 
   // onClick SelectAll
   const onClickSelectAll = () => {
-    setTeammates(users.map((user) => user.id));
+    setTeammates(allUsers.map((user) => user.id));
   };
 
   // onClick DeselectAll
@@ -315,7 +317,7 @@ export const ContentSection = () => {
         </div>
       </div>
       <div className={classes.teammatesContainer}>
-        {users
+        {allUsers
           .sort((a, b) => {
             switch (orderType) {
               case OrderType.Alphabetical:
