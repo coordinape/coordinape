@@ -4,20 +4,17 @@ import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
-import { transparentize } from 'polished';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { getApiService } from 'services/api';
 import { ITokenGift, IUser } from 'types';
+import { labelEpoch } from 'utils/tools';
 
 const NODE_R = 8;
 
 // TODO: XSS vulnerability on node labels:
 // https://github.com/vasturiano/force-graph/issues/20
-
-// TODO: Fix Brave issue where you can't click on users:
-// https://github.com/vasturiano/force-graph/issues/177
 
 // TODO: Move to theme
 const COLOR_NODE_HIGHLIGHT = '#13a2cc';
@@ -29,21 +26,6 @@ const COLOR_GIVE_LINK = '#00ce2c80';
 const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000010';
 const COLOR_LINK_DIM = '#00000004';
-
-const EPOCH_OPTIONS = {
-  CURRENT: {
-    label: 'Current Epoch',
-    value: -1,
-  },
-  MARCH: {
-    label: 'March',
-    value: 2,
-  },
-  FEBRUARY: {
-    label: 'February',
-    value: 1,
-  },
-};
 
 const showMagnitudes = () => true;
 
@@ -97,6 +79,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface IEpochOption {
+  label: string;
+  value: number;
+}
+
 interface ILink {
   source: number;
   target: number;
@@ -133,8 +120,9 @@ const GraphPage = (props: IProps) => {
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
   const [links, setLinks] = useState<any[]>([]);
   const [nodes, setNodes] = useState<any[]>([]);
-  const [epoch, setEpoch] = useState<any>(EPOCH_OPTIONS.CURRENT.value);
-  const { me, refreshUserInfo, users } = useUserInfo();
+  const [epochOptions, setEpochOptions] = useState<IEpochOption[]>([]);
+  const [epochSelection, setEpochSelection] = useState<number>(0);
+  const { epoch, epochs, me, users } = useUserInfo();
 
   const fetchGifts = async () => {
     try {
@@ -165,7 +153,129 @@ const GraphPage = (props: IProps) => {
     fgRef.current.d3Force('link', fl);
   };
 
-  const initialize = () => {
+  const nodeCanvasObject = useCallback((node: any, ctx: any) => {
+    const centX = node.x;
+    const centY = node.y;
+    let strokeColor = COLOR_NODE;
+    const width = showMagnitudes()
+      ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
+      : 1;
+    if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
+    if (highlightGiveNodes.current.has(node)) strokeColor = COLOR_GIVE;
+    if (highlightReceiveNodes.current.has(node)) strokeColor = COLOR_RECEIVE;
+    if (
+      highlightReceiveNodes.current.has(node) &&
+      highlightGiveNodes.current.has(node)
+    )
+      strokeColor = COLOR_CIRCULATE;
+
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, NODE_R + 0.5 * width, 0, 2 * Math.PI);
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = width;
+    ctx.stroke();
+    ctx.closePath();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, NODE_R, 0, 2 * Math.PI);
+    ctx.fillStyle = COLOR_NODE;
+    ctx.fill();
+    ctx.clip();
+
+    try {
+      ctx.drawImage(
+        node.img,
+        centX - NODE_R,
+        centY - NODE_R,
+        NODE_R * 2,
+        NODE_R * 2
+      );
+    } catch (error) {
+      // console.error(node.avatar);
+    }
+    ctx.restore();
+  }, []);
+
+  const linkColor = useCallback((link: any) => {
+    let color = hoverNode.current ? COLOR_LINK_DIM : COLOR_LINK;
+    if (highlightReceiveLinks.current.has(link)) color = COLOR_RECEIVE_LINK;
+    if (highlightGiveLinks.current.has(link)) color = COLOR_GIVE_LINK;
+    return color;
+  }, []);
+
+  const linkDirectionalParticleWidth = useCallback(
+    (link: any) => {
+      if (
+        highlightReceiveLinks.current.has(link) ||
+        highlightGiveLinks.current.has(link)
+      ) {
+        return showMagnitudes() ? Math.max(link.tokens / 10, 3) : 4;
+      }
+      return 0;
+    },
+    [epochSelection]
+  );
+
+  const getWidth = (link: any) => (showMagnitudes() ? link.width : 4);
+
+  const onNodeClick = useCallback((node: any) => {
+    highlightReceiveNodes.current.clear();
+    highlightGiveNodes.current.clear();
+    highlightReceiveLinks.current.clear();
+    highlightGiveLinks.current.clear();
+    if (node === hoverNode.current) {
+      hoverNode.current = null;
+      return;
+    }
+    if (node) {
+      node.receivers.forEach((other: any) =>
+        highlightReceiveNodes.current.add(other)
+      );
+      node.givers.forEach((other: any) =>
+        highlightGiveNodes.current.add(other)
+      );
+      node.giverLinks.forEach((l: ILink) => highlightGiveLinks.current.add(l));
+      node.receiverLinks.forEach((l: ILink) =>
+        highlightReceiveLinks.current.add(l)
+      );
+      hoverNode.current = node;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (epochs.length === 0) {
+      setEpochOptions([]);
+      setEpochSelection(0);
+      return;
+    }
+    setEpochOptions(
+      epochs.map((e) => ({
+        label: labelEpoch(e),
+        value: e.id,
+      }))
+    );
+    setEpochSelection(epoch?.id ?? epochs[0].id);
+  }, [epoch, epochs]);
+
+  useEffect(() => {
+    me && fetchGifts();
+  }, [me]);
+
+  useEffect(() => {
+    setGifts(
+      epochSelection === epoch?.id
+        ? pendingGifts
+        : pastGifts.filter((g) => g.epoch_id === epochSelection)
+    );
+    // Set magnitudes here if desired
+  }, [epochSelection, pastGifts, pendingGifts, epoch]);
+
+  useEffect(() => {
+    if (!fgRef.current) {
+      return;
+    }
+
     if (gifts.length === 0 || users.length === 0 || !me) {
       setLinks([]);
       setNodes([]);
@@ -261,115 +371,6 @@ const GraphPage = (props: IProps) => {
     configureForces();
     setLinks(links);
     setNodes(allUsers);
-  };
-
-  const nodeCanvasObject = useCallback((node: any, ctx: any) => {
-    const centX = node.x;
-    const centY = node.y;
-    let strokeColor = COLOR_NODE;
-    const width = showMagnitudes()
-      ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
-      : 1;
-    if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
-    if (highlightGiveNodes.current.has(node)) strokeColor = COLOR_GIVE;
-    if (highlightReceiveNodes.current.has(node)) strokeColor = COLOR_RECEIVE;
-    if (
-      highlightReceiveNodes.current.has(node) &&
-      highlightGiveNodes.current.has(node)
-    )
-      strokeColor = COLOR_CIRCULATE;
-
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, NODE_R + 0.5 * width, 0, 2 * Math.PI);
-    ctx.strokeStyle = strokeColor;
-    ctx.lineWidth = width;
-    ctx.stroke();
-    ctx.closePath();
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, NODE_R, 0, 2 * Math.PI);
-    ctx.fillStyle = COLOR_NODE;
-    ctx.fill();
-    ctx.clip();
-
-    try {
-      ctx.drawImage(
-        node.img,
-        centX - NODE_R,
-        centY - NODE_R,
-        NODE_R * 2,
-        NODE_R * 2
-      );
-    } catch (error) {
-      // console.error(node.avatar);
-    }
-    ctx.restore();
-  }, []);
-
-  const linkColor = useCallback((link: any) => {
-    let color = hoverNode.current ? COLOR_LINK_DIM : COLOR_LINK;
-    if (highlightReceiveLinks.current.has(link)) color = COLOR_RECEIVE_LINK;
-    if (highlightGiveLinks.current.has(link)) color = COLOR_GIVE_LINK;
-    return color;
-  }, []);
-
-  const linkDirectionalParticleWidth = useCallback(
-    (link: any) => {
-      if (
-        highlightReceiveLinks.current.has(link) ||
-        highlightGiveLinks.current.has(link)
-      ) {
-        return showMagnitudes() ? Math.max(link.tokens / 10, 3) : 4;
-      }
-      return 0;
-    },
-    [epoch]
-  );
-
-  const getWidth = (link: any) => (showMagnitudes() ? link.width : 4);
-
-  const onNodeClick = useCallback((node: any) => {
-    highlightReceiveNodes.current.clear();
-    highlightGiveNodes.current.clear();
-    highlightReceiveLinks.current.clear();
-    highlightGiveLinks.current.clear();
-    if (node === hoverNode.current) {
-      hoverNode.current = null;
-      return;
-    }
-    if (node) {
-      node.receivers.forEach((other: any) =>
-        highlightReceiveNodes.current.add(other)
-      );
-      node.givers.forEach((other: any) =>
-        highlightGiveNodes.current.add(other)
-      );
-      node.giverLinks.forEach((l: ILink) => highlightGiveLinks.current.add(l));
-      node.receiverLinks.forEach((l: ILink) =>
-        highlightReceiveLinks.current.add(l)
-      );
-      hoverNode.current = node;
-    }
-  }, []);
-
-  useEffect(() => {
-    me && fetchGifts();
-  }, [me]);
-
-  useEffect(() => {
-    setGifts(
-      epoch === EPOCH_OPTIONS.CURRENT.value
-        ? pendingGifts
-        : pastGifts.filter((g) => g.epoch_id === epoch)
-    );
-    // Set magnitudes here if desired
-  }, [epoch, pastGifts, pendingGifts]);
-
-  useEffect(() => {
-    if (fgRef.current) {
-      initialize();
-    }
   }, [gifts, users, me]);
 
   return (
@@ -404,10 +405,12 @@ const GraphPage = (props: IProps) => {
             select: classes.epochSelect,
             icon: classes.epochSelectIcon,
           }}
-          onChange={({ target: { value } }) => setEpoch(value)}
-          value={epoch}
+          onChange={({ target: { value } }) =>
+            setEpochSelection(value as number)
+          }
+          value={epochSelection}
         >
-          {Object.values(EPOCH_OPTIONS).map(({ label, value }) => (
+          {Object.values(epochOptions).map(({ label, value }) => (
             <MenuItem
               className={classes.epochMenuItem}
               classes={{ selected: classes.epochMenuItemSelected }}

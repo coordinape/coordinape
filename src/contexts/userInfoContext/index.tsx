@@ -8,6 +8,7 @@ import { IEpoch } from 'types/models/epoch.model';
 export interface IUserInfoData {
   circle: Maybe<ICircle>;
   epoch: Maybe<IEpoch>;
+  epochs: IEpoch[];
   me: Maybe<IUser>;
   users: IUser[];
 }
@@ -20,6 +21,7 @@ const UserInfoContext = React.createContext<
 >({
   circle: null,
   epoch: null,
+  epochs: [],
   me: null,
   users: [],
   setCircle: () => {},
@@ -47,6 +49,7 @@ export const UserInfoProvider = (props: IProps) => {
   const [state, setState] = useState<IUserInfoData>({
     circle: null,
     epoch: null,
+    epochs: [],
     me: null,
     users: [],
   });
@@ -71,16 +74,29 @@ export const UserInfoProvider = (props: IProps) => {
           epoch: epochs.sort(
             (a, b) => +new Date(b.start_date) - +new Date(a.start_date)
           )[0],
+          epochs,
           me: me,
           users: users.filter(
             (user) => user.address.toLowerCase() !== account?.toLowerCase()
           ),
         }));
       } catch (error) {
-        setState((prev) => ({ ...prev, epoch: null, me: null, users: [] }));
+        setState((prev) => ({
+          ...prev,
+          epoch: null,
+          epochs: [],
+          me: null,
+          users: [],
+        }));
       }
     } else {
-      setState((prev) => ({ ...prev, epoch: null, me: null, users: [] }));
+      setState((prev) => ({
+        ...prev,
+        epoch: null,
+        epochs: [],
+        me: null,
+        users: [],
+      }));
     }
     setLoading(false);
   };
