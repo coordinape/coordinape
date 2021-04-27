@@ -1,4 +1,6 @@
-import { MenuItem, Select, makeStyles } from '@material-ui/core';
+import { MenuItem, Select, TextField, makeStyles } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { Autocomplete } from '@material-ui/lab';
 import { useUserInfo } from 'contexts';
 import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
@@ -8,8 +10,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { getApiService } from 'services/api';
-import { ITokenGift, IUser } from 'types';
+import { IGraphLink, IGraphNode, ITokenGift, IUser } from 'types';
 import { labelEpoch } from 'utils/tools';
+
+import GraphInfoPanel from './GraphInfoPanel';
 
 const NODE_R = 8;
 
@@ -22,10 +26,13 @@ const COLOR_GIVE = '#00ce2c';
 const COLOR_RECEIVE = '#d3860d';
 const COLOR_CIRCULATE = '#c9b508';
 const COLOR_NODE = '#000000';
+const COLOR_NODE_FADE = '#EE5555';
 const COLOR_GIVE_LINK = '#00ce2c80';
 const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000010';
 const COLOR_LINK_DIM = '#00000004';
+
+const savedSearches = ['Coordinape', 'v3', 'strategy|strategist'];
 
 const showMagnitudes = () => true;
 
@@ -45,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 0,
     right: 0,
+    width: 300,
+    maxWidth: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   epochSelectRoot: {
     fontSize: 20,
@@ -77,19 +89,23 @@ const useStyles = makeStyles((theme) => ({
   epochMenuItemSelected: {
     background: `${theme.colors.third} !important`,
   },
+  autocompleteAdornment: {
+    '& .MuiButtonBase-root': {
+      color: theme.colors.black,
+    },
+  },
+  autocompleteLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    '& *:first-child': {
+      paddingRight: theme.spacing(1),
+    },
+  },
 }));
 
 interface IEpochOption {
   label: string;
   value: number;
-}
-
-interface ILink {
-  source: number;
-  target: number;
-  width: number;
-  curvature: number;
-  tokens: number;
 }
 
 interface IProps {
@@ -104,13 +120,16 @@ function linkStrengthCounts(link: any) {
   return 0.5 / (link.source.linkCount + link.target.linkCount);
 }
 
-const GraphPage = (props: IProps) => {
+const GraphPage = (_props: IProps) => {
   const fgRef = useRef<any>(null);
-  const hoverNode = useRef<any>(null);
-  const highlightReceiveNodes = useRef<Set<any>>(new Set());
-  const highlightGiveNodes = useRef<Set<any>>(new Set());
-  const highlightReceiveLinks = useRef<Set<any>>(new Set());
-  const highlightGiveLinks = useRef<Set<any>>(new Set());
+  const hoverNode = useRef<IGraphNode | undefined>(undefined);
+  const highlightReceiveNodes = useRef<Set<IGraphNode>>(new Set());
+  const highlightGiveNodes = useRef<Set<IGraphNode>>(new Set());
+  const highlightReceiveLinks = useRef<Set<IGraphLink>>(new Set());
+  const highlightGiveLinks = useRef<Set<IGraphLink>>(new Set());
+
+  // A duplicate of filteredUsers
+  const filteredUserSet = useRef<Set<IGraphNode>>(new Set());
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -122,7 +141,35 @@ const GraphPage = (props: IProps) => {
   const [nodes, setNodes] = useState<any[]>([]);
   const [epochOptions, setEpochOptions] = useState<IEpochOption[]>([]);
   const [epochSelection, setEpochSelection] = useState<number>(0);
+  const [filteredUsers, setFilteredUsers] = useState<IGraphNode[]>([]);
+  const [userRegExp, setUserRegExp] = useState<RegExp | undefined>();
+  // TODO: this seems redundant with hoverNode
+  const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
+
   const { epoch, epochs, me, users } = useUserInfo();
+
+  const handleSearchChange = (_event: any, value: string) => {
+    if (!value) {
+      setUserRegExp(undefined);
+      setFilteredUsers([]);
+      filteredUserSet.current = new Set();
+      return;
+    }
+    let regExp: RegExp | undefined;
+    try {
+      regExp = new RegExp(
+        `(${value.replace(/[#-.]|[[-^]|[?{}]/g, '\\$&')})`,
+        'i'
+      );
+    } catch (error) {
+      console.warn(error);
+      return;
+    }
+    setUserRegExp(regExp);
+    const filtered = nodes.filter((u) => (regExp as RegExp).test(u.bio));
+    setFilteredUsers(filtered);
+    filteredUserSet.current = new Set(filtered);
+  };
 
   const fetchGifts = async () => {
     try {
@@ -157,6 +204,11 @@ const GraphPage = (props: IProps) => {
     const centX = node.x;
     const centY = node.y;
     let strokeColor = COLOR_NODE;
+    if (filteredUserSet.current.size) {
+      strokeColor = filteredUserSet.current.has(node)
+        ? COLOR_NODE_FADE
+        : COLOR_NODE;
+    }
     const width = showMagnitudes()
       ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
       : 1;
@@ -205,7 +257,7 @@ const GraphPage = (props: IProps) => {
   }, []);
 
   const linkDirectionalParticleWidth = useCallback(
-    (link: any) => {
+    (link: IGraphLink) => {
       if (
         highlightReceiveLinks.current.has(link) ||
         highlightGiveLinks.current.has(link)
@@ -217,31 +269,40 @@ const GraphPage = (props: IProps) => {
     [epochSelection]
   );
 
-  const getWidth = (link: any) => (showMagnitudes() ? link.width : 4);
+  const getWidth = (link: IGraphLink) => (showMagnitudes() ? link.width : 4);
 
-  const onNodeClick = useCallback((node: any) => {
-    highlightReceiveNodes.current.clear();
-    highlightGiveNodes.current.clear();
-    highlightReceiveLinks.current.clear();
-    highlightGiveLinks.current.clear();
-    if (node === hoverNode.current) {
-      hoverNode.current = null;
-      return;
-    }
-    if (node) {
-      node.receivers.forEach((other: any) =>
-        highlightReceiveNodes.current.add(other)
-      );
-      node.givers.forEach((other: any) =>
-        highlightGiveNodes.current.add(other)
-      );
-      node.giverLinks.forEach((l: ILink) => highlightGiveLinks.current.add(l));
-      node.receiverLinks.forEach((l: ILink) =>
-        highlightReceiveLinks.current.add(l)
-      );
-      hoverNode.current = node;
-    }
-  }, []);
+  const onNodeClick = useCallback(
+    (node: any) => {
+      highlightReceiveNodes.current.clear();
+      highlightGiveNodes.current.clear();
+      highlightReceiveLinks.current.clear();
+      highlightGiveLinks.current.clear();
+      if (node === hoverNode.current) {
+        hoverNode.current = undefined;
+        setSelectedNode(undefined);
+        !userRegExp && setFilteredUsers([]);
+        return;
+      }
+      if (node) {
+        node.receivers.forEach((other: IGraphNode) =>
+          highlightReceiveNodes.current.add(other)
+        );
+        node.givers.forEach((other: IGraphNode) =>
+          highlightGiveNodes.current.add(other)
+        );
+        node.giverLinks.forEach((l: IGraphLink) =>
+          highlightGiveLinks.current.add(l)
+        );
+        node.receiverLinks.forEach((l: IGraphLink) =>
+          highlightReceiveLinks.current.add(l)
+        );
+        hoverNode.current = node;
+        setSelectedNode(node);
+        !userRegExp && setFilteredUsers([node]);
+      }
+    },
+    [userRegExp]
+  );
 
   useEffect(() => {
     if (epochs.length === 0) {
@@ -298,7 +359,7 @@ const GraphPage = (props: IProps) => {
       })
     );
 
-    const allUsers = users
+    const allUsers: IGraphNode[] = users
       .concat(me)
       .filter((u) => activeUsers.find((id) => u.id === id) !== undefined)
       .map((u) => ({
@@ -341,7 +402,7 @@ const GraphPage = (props: IProps) => {
     }
 
     // Using the DB id for links, rather than orderedId
-    const links = gifts
+    const links: IGraphLink[] = gifts
       .filter(({ tokens }) => tokens > 0)
       .map(({ recipient_id, sender_id, tokens }) => ({
         source: sender_id,
@@ -353,17 +414,19 @@ const GraphPage = (props: IProps) => {
       }));
 
     for (let i = 0; i < allUsers.length; i++) {
-      const me = allUsers[i];
-      // Giving to me
-      me.giverLinks = links.filter((link) => link.target === me.id);
-      me.givers = me.giverLinks.map((l: ILink) => userById[l.source]);
-      // Receiving from me
-      me.receiverLinks = links.filter((link) => link.source === me.id);
-      me.receivers = me.receiverLinks.map((l: ILink) => userById[l.target]);
+      const thee = allUsers[i];
+      // Giving to thee
+      thee.giverLinks = links.filter((link) => link.target === thee.id);
+      thee.givers = thee.giverLinks.map((l: IGraphLink) => userById[l.source]);
+      // Receiving from thee
+      thee.receiverLinks = links.filter((link) => link.source === thee.id);
+      thee.receivers = thee.receiverLinks.map(
+        (l: IGraphLink) => userById[l.target]
+      );
       ////
-      me.linkCount = me.giverLinks.length + me.receiverLinks.length;
-      me.tokensReceived = me.giverLinks.reduce(
-        (c: number, l: ILink) => c + l.tokens,
+      thee.linkCount = thee.giverLinks.length + thee.receiverLinks.length;
+      thee.tokensReceived = thee.giverLinks.reduce(
+        (c: number, l: IGraphLink) => c + l.tokens,
         0
       );
     }
@@ -382,9 +445,11 @@ const GraphPage = (props: IProps) => {
             height={height}
             linkColor={linkColor}
             linkCurvature="curvature"
-            linkDirectionalParticleWidth={linkDirectionalParticleWidth}
+            linkDirectionalParticleWidth={
+              linkDirectionalParticleWidth as (l: any) => number
+            }
             linkDirectionalParticles={4}
-            linkWidth={getWidth}
+            linkWidth={getWidth as (l: any) => number}
             nodeCanvasObject={nodeCanvasObject}
             nodeRelSize={NODE_R}
             onNodeClick={onNodeClick}
@@ -421,7 +486,41 @@ const GraphPage = (props: IProps) => {
             </MenuItem>
           ))}
         </Select>
+        <Autocomplete
+          classes={{
+            endAdornment: classes.autocompleteAdornment,
+            paper: classes.epochSelectMenuPaper,
+          }}
+          freeSolo
+          fullWidth
+          onInputChange={handleSearchChange}
+          options={savedSearches}
+          renderInput={(params: any) => (
+            <TextField
+              {...params}
+              InputLabelProps={{ classes: { root: classes.autocompleteLabel } }}
+              InputProps={{
+                ...params.InputProps,
+                type: 'search',
+              }}
+              label={
+                <>
+                  <SearchIcon />
+                  Search Bios
+                </>
+              }
+              margin="normal"
+              variant="standard"
+            />
+          )}
+        />
       </div>
+      <GraphInfoPanel
+        onClickUser={onNodeClick}
+        regExp={userRegExp}
+        selectedUser={selectedNode}
+        users={filteredUsers}
+      />
     </div>
   );
 };
