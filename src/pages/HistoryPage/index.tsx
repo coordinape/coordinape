@@ -1,10 +1,12 @@
 import { Box, Divider, Typography, makeStyles } from '@material-ui/core';
 import { useUserInfo } from 'contexts';
 import groupBy from 'lodash/groupBy';
+import keyBy from 'lodash/keyBy';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { ITokenGift, IUser } from 'types';
+import { labelEpoch } from 'utils/tools';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 3),
     background: '#DFE7E8',
     borderRadius: 10.75,
-    maxWidth: 600,
+    width: 600,
+    maxWidth: '95%',
     flex: '1 1 auto',
   },
   epochTitle: {
@@ -34,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
   giftNote: {
     overflowWrap: 'anywhere',
-    color: 'rgba(81, 99, 105, 0.6)',
+    margin: theme.spacing(2, 0),
+    color: 'rgba(81, 99, 105, 0.7)',
   },
   giftTitle: {
     color: '#31A5AC',
@@ -47,15 +51,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IEpoch {
-  id: number;
+interface IHistoryEpoch {
+  number: number;
   name: string;
   gifts: ITokenGift[];
 }
 
 interface ICardProps {
   className?: string;
-  epoch: IEpoch;
+  epoch: IHistoryEpoch;
   users: IUser[];
 }
 
@@ -63,20 +67,6 @@ interface IProps {
   className?: string;
 }
 
-const UNKNOWN_EPOCH = {
-  id: 0,
-  name: 'Unknown Epoch',
-};
-
-const EPOCHS = [
-  {
-    id: 1,
-    name: 'Febuary 2020',
-  },
-];
-
-const getEpoch = (id: number) =>
-  EPOCHS.find((e) => e.id === id) ?? UNKNOWN_EPOCH;
 const getUser = (users: IUser[], id: number) => users.find((u) => u.id === id);
 
 const EpochCard = (props: ICardProps) => {
@@ -109,7 +99,7 @@ const EpochCard = (props: ICardProps) => {
           {epoch.name}
         </Typography>
         <Typography className={classes.epochSubtitle} variant="subtitle1">
-          Epoch {epoch.id}
+          Epoch {epoch.number}
         </Typography>
       </Box>
       {list}
@@ -120,42 +110,49 @@ const EpochCard = (props: ICardProps) => {
 const HistoryPage = (props: IProps) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { me, users } = useUserInfo();
-  const [epochs, setEpochs] = useState<IEpoch[]>([]);
+  const { epochs, me, users } = useUserInfo();
+  const [historyEpoch, setHistoryEpoch] = useState<IHistoryEpoch[]>([]);
 
   useEffect(() => {
     const fetchGifts = async () => {
-      if (!me) {
+      if (!me || !epochs.length) {
         return;
       }
       try {
         const myGifts = (await getApiService().getTokenGifts()).filter(
           (u) => u.recipient_id === me.id
         );
-        setEpochs(
-          Object.entries(groupBy(myGifts, 'epoch_id')).map(([epochId, gs]) => ({
-            ...getEpoch(Number(epochId)),
-            gifts: gs,
-          }))
+        const epochMap = keyBy(epochs, 'id');
+        setHistoryEpoch(
+          Object.entries(groupBy(myGifts, 'epoch_id'))
+            .map(([epochId, gs]) => {
+              const e = epochMap[epochId];
+              return {
+                number: e.number,
+                name: labelEpoch(e),
+                gifts: gs,
+              };
+            })
+            .sort((a, b) => b.number - a.number)
         );
       } catch (error) {
         enqueueSnackbar(
           error.response?.data?.message || 'Something went wrong!',
           { variant: 'error' }
         );
-        setEpochs([]);
+        setHistoryEpoch([]);
       }
     };
     fetchGifts();
-  }, [me]);
+  }, [me, epochs]);
 
   return (
     <Box className={classes.root}>
       <Typography className={classes.title} variant="h2">
         History
       </Typography>
-      {epochs.map((epoch) => (
-        <EpochCard epoch={epoch} key={epoch.id} users={users} />
+      {historyEpoch.map((epoch) => (
+        <EpochCard epoch={epoch} key={epoch.number} users={users} />
       ))}
     </Box>
   );

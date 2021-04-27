@@ -9,7 +9,7 @@ import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { getApiService } from 'services/api';
 import { ITokenGift, IUser } from 'types';
-import { IEpoch } from 'types/models/epoch.model';
+import { labelEpoch } from 'utils/tools';
 
 const NODE_R = 8;
 
@@ -104,25 +104,6 @@ function linkStrengthCounts(link: any) {
   return 0.5 / (link.source.linkCount + link.target.linkCount);
 }
 
-function labelEpoch(epoch: IEpoch) {
-  const start = new Date(epoch.start_date);
-  const end = new Date(epoch.end_date);
-  if (start.getMonth() !== end.getMonth()) {
-    const formatter = new Intl.DateTimeFormat('en', {
-      day: 'numeric',
-      month: 'short',
-    });
-    return `${formatter.format(start)} - ${formatter.format(end)}`;
-  }
-  const dayFormatter = new Intl.DateTimeFormat('en', {
-    day: 'numeric',
-  });
-  const month = new Intl.DateTimeFormat('en', {
-    month: 'long',
-  }).format(start);
-  return `${month} ${dayFormatter.format(start)} - ${dayFormatter.format(end)}`;
-}
-
 const GraphPage = (props: IProps) => {
   const fgRef = useRef<any>(null);
   const hoverNode = useRef<any>(null);
@@ -142,8 +123,6 @@ const GraphPage = (props: IProps) => {
   const [epochOptions, setEpochOptions] = useState<IEpochOption[]>([]);
   const [epochSelection, setEpochSelection] = useState<number>(0);
   const { epoch, epochs, me, users } = useUserInfo();
-
-  console.log('loggins', epochOptions, epochSelection);
 
   const fetchGifts = async () => {
     try {
