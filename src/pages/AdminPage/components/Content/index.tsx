@@ -380,7 +380,7 @@ export const Content = () => {
         <Pagination
           className={classes.pagination}
           color="secondary"
-          count={Math.floor(filterUsers.length / pageCount)}
+          count={Math.ceil(filterUsers.length / pageCount)}
           onChange={onClickPage}
           page={page}
           shape="rounded"
