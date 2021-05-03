@@ -146,7 +146,7 @@ const GraphPage = (_props: IProps) => {
   // TODO: this seems redundant with hoverNode
   const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
 
-  const { epoch, epochs, me, users } = useUserInfo();
+  const { epoch, me, pastEpochs: epochs, users } = useUserInfo();
 
   const handleSearchChange = (_event: any, value: string) => {
     if (!value) {

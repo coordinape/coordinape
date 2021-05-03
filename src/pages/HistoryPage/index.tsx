@@ -110,7 +110,7 @@ const EpochCard = (props: ICardProps) => {
 const HistoryPage = (props: IProps) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { epochs, me, users } = useUserInfo();
+  const { me, pastEpochs: epochs, users } = useUserInfo();
   const [historyEpoch, setHistoryEpoch] = useState<IHistoryEpoch[]>([]);
 
   useEffect(() => {
