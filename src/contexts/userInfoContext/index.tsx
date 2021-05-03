@@ -115,16 +115,21 @@ export const UserInfoProvider = (props: IProps) => {
         const me = await getApiService().getMe(account);
         const users = await getApiService().getUsers();
 
-        epochs = epochs.filter(
-          (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
-        );
-        const epoch = epochs[0];
-        epochs = epochs.filter(
-          (epoch) => +new Date(epoch.start_date) - +new Date() > 0
-        );
         epochs = epochs.sort(
           (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
         );
+        let epoch = epochs[epochs.length - 1];
+        const filteredEpochs = epochs.filter(
+          (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
+        );
+        if (filteredEpochs.length === 0) {
+          epochs = [];
+        } else {
+          epoch = filteredEpochs[0];
+          epochs = filteredEpochs.filter(
+            (epoch) => +new Date(epoch.start_date) - +new Date() > 0
+          );
+        }
 
         setState((prev) => ({
           ...prev,
