@@ -334,7 +334,10 @@ export const Content = () => {
                         alt={user.name}
                         className={classes.avatar}
                         placeholderImg="/imgs/avatar/placeholder.jpg"
-                        src={user.avatar}
+                        src={
+                          (process.env.REACT_APP_S3_BASE_URL as string) +
+                          user.avatar
+                        }
                       />
                       {user.name}
                     </div>
