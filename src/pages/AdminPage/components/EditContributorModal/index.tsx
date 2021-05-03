@@ -142,7 +142,7 @@ export const EditContributorModal = (props: IProps) => {
   const classes = useStyles();
   const { onClose, user, visible } = props;
   const { library } = useConnectedWeb3Context();
-  const { circle, addUser, me } = useUserInfo();
+  const { addUser, circle, me } = useUserInfo();
   const [contributorName, setContributorName] = useState<string>(
     user?.name || ''
   );
