@@ -8,7 +8,7 @@ import { Img, LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { IUser } from 'types';
 import { shortenAddress } from 'utils';
@@ -160,7 +160,9 @@ export const Content = () => {
   const { library } = useConnectedWeb3Context();
   const [keyword, setKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const [filterUsers, setFilterUsers] = useState<IUser[]>(users);
+  const [filterUsers, setFilterUsers] = useState<IUser[]>(
+    me ? [...users, me] : users
+  );
   const [editContributor, setEditContributor] = useState<{
     isEdit: boolean;
     user: IUser | undefined;
@@ -174,15 +176,11 @@ export const Content = () => {
 
   const pageCount = 10;
 
-  // onChangeKeyword
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-    setPage(1);
-
+  useEffect(() => {
     // Filter
-    const key = event.target.value.toLowerCase();
+    const key = keyword.toLowerCase();
     setFilterUsers(
-      users.filter((user) => {
+      (me ? [...users, me] : users).filter((user) => {
         return (
           user.name.toLowerCase().includes(key) ||
           user.address.toLowerCase().includes(key) ||
@@ -191,6 +189,12 @@ export const Content = () => {
         );
       })
     );
+  }, [keyword, me, users]);
+
+  // onChangeKeyword
+  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+    setPage(1);
   };
 
   // OnClick Sort
@@ -368,13 +372,15 @@ export const Content = () => {
                     </Button>
                   </td>
                   <td className={classes.tdOther}>
-                    <Button
-                      onClick={() => {
-                        onClickDeleteUser(user);
-                      }}
-                    >
-                      <DeleteContributor />
-                    </Button>
+                    {user.id !== me?.id && (
+                      <Button
+                        onClick={() => {
+                          onClickDeleteUser(user);
+                        }}
+                      >
+                        <DeleteContributor />
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}
