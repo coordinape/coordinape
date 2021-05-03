@@ -145,6 +145,13 @@ export const Header = (props: IProps) => {
       ]
     : [{ path: '/circle', label: 'My Circles' }];
 
+  if (circle && me && me.role !== 0) {
+    navButtonsInfo.push({
+      path: `/${circle.protocol.name}/${circle.name}/admin`,
+      label: 'Admin',
+    });
+  }
+
   const navButtonsVisible = navButtonsInfo
     .map((nav) => nav.path)
     .map(

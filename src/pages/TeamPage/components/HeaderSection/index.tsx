@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { useUserInfo } from 'contexts';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,12 +45,14 @@ interface IProps {
 
 export const HeaderSection = (props: IProps) => {
   const classes = useStyles();
+  const { circle } = useUserInfo();
 
   return (
     <div className={classes.root}>
       <p className={classes.title}>Who have you been working with recently?</p>
       <p className={classes.subTitle}>
-        Select your teammates so you can thank them with GIVE
+        {circle?.team_sel_text ||
+          'Select your teammates so you can thank them with GIVE'}
       </p>
     </div>
   );

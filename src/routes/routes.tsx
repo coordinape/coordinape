@@ -55,6 +55,15 @@ const routes = [
   },
 ];
 
+const adminRoutes = [
+  {
+    exact: true,
+    path: '/:protocol/:circle/admin',
+    layout: MainLayout,
+    component: lazy(() => import('pages/AdminPage')),
+  },
+];
+
 export const RenderRoutes = () => {
   const { account } = useConnectedWeb3Context();
   const { circle, me } = useUserInfo();
@@ -76,7 +85,10 @@ export const RenderRoutes = () => {
     return (
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
-          {routes.map((route: any, i) => {
+          {(circle && me && me.role !== 0
+            ? [...routes, ...adminRoutes]
+            : routes
+          ).map((route: any, i) => {
             const Layout = route.layout || Fragment;
             const Component = route.component;
             const isHome = circle

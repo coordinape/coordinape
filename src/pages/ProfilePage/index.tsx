@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PutUsersParam } from 'types';
+import { capitalizedName } from 'utils/string';
 
 import { OptInput } from './components';
 
@@ -200,8 +201,7 @@ const ProfilePage = () => {
       <div className={classes.bioContainer}>
         <p className={classes.bioLabel}>
           Tell us about your contributions to the{' '}
-          {circle && circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
-          ecosystem this epoch
+          {capitalizedName(circle?.name)} ecosystem this epoch
         </p>
         <textarea
           className={classes.bioTextarea}
@@ -213,13 +213,16 @@ const ProfilePage = () => {
       </div>
       <div className={classes.optContainer}>
         <p className={classes.optLabel}>
-          Should you be eligible receive GIVE distributions this epoch?
+          Should you be eligible receive {circle?.token_name || 'GIVE'}{' '}
+          distributions this epoch?
         </p>
         <hr className={classes.optHr} />
         <div className={classes.optInputContainer}>
           <OptInput
             isChecked={profileData.non_receiver === 0}
-            subTitle="I want to be eligible to receive GIVE "
+            subTitle={`I want to be eligible to receive ${
+              circle?.token_name || 'GIVE'
+            }`}
             title="Opt In"
             updateOpt={() =>
               setProfileData({ ...profileData, non_receiver: 0 })

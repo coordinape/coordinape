@@ -81,7 +81,7 @@ interface IProps {
 
 export const ReceiveInfo = (props: IProps) => {
   const classes = useStyles();
-  const { me, refreshUserInfo, users } = useUserInfo();
+  const { circle, me, refreshUserInfo, users } = useUserInfo();
   const [tokenGifts, setTokenGifts] = useState<ITokenGift[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -127,7 +127,7 @@ export const ReceiveInfo = (props: IProps) => {
         }
         onClick={handleClick}
       >
-        {me?.give_token_received || 0} GIVE RECEIVED
+        {me?.give_token_received || 0} {circle?.token_name || 'GIVE'} RECEIVED
       </Button>
       <Popover
         anchorEl={anchorEl}
