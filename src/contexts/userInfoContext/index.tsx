@@ -96,10 +96,17 @@ export const UserInfoProvider = (props: IProps) => {
 
   // Add User
   const addUser = (newUser: IUser) => {
-    setState((prev) => ({
-      ...prev,
-      users: [...prev.users.filter((user) => user.id !== newUser.id), newUser],
-    }));
+    if (newUser.id === state.me?.id) {
+      setState((prev) => ({ ...prev, me: newUser }));
+    } else {
+      setState((prev) => ({
+        ...prev,
+        users: [
+          ...prev.users.filter((user) => user.id !== newUser.id),
+          newUser,
+        ],
+      }));
+    }
   };
 
   // Delete User
