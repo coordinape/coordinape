@@ -7,6 +7,7 @@ const color = {
   red: '#EF7376',
   lightRed: '#F5E4E4',
   mediumRed: '#E6BCBC',
+  lightGray: '#C3CDCF',
   text: '#516369',
   primary: '#5E6F74',
   secondary: '#56606f',

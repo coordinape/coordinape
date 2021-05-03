@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import {
   ICircle,
   ITokenGift,
@@ -40,19 +41,29 @@ class APIService {
   };
 
   putCircles = async (
-    address: string,
     id: number,
-    params: PutCirclesParam,
+    address: string,
+    name: string,
+    token_name: string,
+    team_sel_text?: string,
+    alloc_text?: string,
     provider?: any
-  ): Promise<any> => {
+  ): Promise<ICircle> => {
+    const params: any = { name, token_name };
+    if (team_sel_text) {
+      params.team_sel_text = team_sel_text;
+    }
+    if (alloc_text) {
+      params.alloc_text = alloc_text;
+    }
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
-    const response = await axios.post(`/circles/${id}`, {
+    const response = await axios.put(`admin/circles/${id}`, {
       signature,
       data,
       address,
     });
-    return response.data;
+    return response.data as ICircle;
   };
 
   getEpochs = async (current?: number): Promise<IEpoch[]> => {
@@ -62,6 +73,45 @@ class APIService {
     }
     const response = await axios.get('/epoches', { params });
     return response.data as IEpoch[];
+  };
+
+  postEpochs = async (
+    address: string,
+    startDate: Date,
+    endDate: Date,
+    provider?: any
+  ): Promise<IEpoch> => {
+    const start_date = `${moment(startDate).format(
+      'YYYY-MM-DD'
+    )}T00:00:00.000000Z`;
+    const end_date = `${moment(endDate).format('YYYY-MM-DD')}T00:00:00.000000Z`;
+    const params: any = { start_date, end_date };
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, provider);
+    const response = await axios.post('admin/epoches', {
+      signature,
+      data,
+      address,
+    });
+    return response.data as IEpoch;
+  };
+
+  deleteEpochs = async (
+    address: string,
+    epoch_id: number,
+    provider?: any
+  ): Promise<any> => {
+    const params: any = { epoch_id };
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, provider);
+    const response = await axios.delete(`admin/epoches/${epoch_id}`, {
+      data: {
+        signature,
+        data,
+        address,
+      },
+    });
+    return response.data;
   };
 
   getMe = async (address: string): Promise<IUser> => {
@@ -89,16 +139,22 @@ class APIService {
   };
 
   postUsers = async (
+    adminAddress: string,
+    name: string,
     address: string,
-    params: PostUsersParam,
+    non_giver?: number,
     provider?: any
   ): Promise<IUser> => {
+    const params: any = { name, address };
+    if (non_giver) {
+      params.non_giver = non_giver;
+    }
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
-    const response = await axios.post('/users', {
+    const response = await axios.post(`admin/users`, {
       signature,
       data,
-      address,
+      address: adminAddress,
     });
     return response.data;
   };
@@ -114,6 +170,46 @@ class APIService {
       signature,
       data,
       address,
+    });
+    return response.data;
+  };
+
+  updateUsers = async (
+    adminAddress: string,
+    name: string,
+    originAddress: string,
+    address: string,
+    non_giver?: number,
+    provider?: any
+  ): Promise<IUser> => {
+    const params: any = { name, address };
+    if (non_giver) {
+      params.non_giver = non_giver;
+    }
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, provider);
+    const response = await axios.put(`admin/users/${originAddress}`, {
+      signature,
+      data,
+      address: adminAddress,
+    });
+    return response.data;
+  };
+
+  deleteUsers = async (
+    adminAddress: string,
+    address: string,
+    provider?: any
+  ): Promise<any> => {
+    const params: any = { address };
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, provider);
+    const response = await axios.delete(`admin/users/${address}`, {
+      data: {
+        signature,
+        data,
+        address: adminAddress,
+      },
     });
     return response.data;
   };

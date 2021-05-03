@@ -289,7 +289,7 @@ interface IProfileData {
 export const MyProfileCard = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { me, refreshUserInfo } = useUserInfo();
+  const { circle, me, refreshUserInfo } = useUserInfo();
   const [isEditing, setEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<IProfileData>({
     avatar: (process.env.REACT_APP_S3_BASE_URL as string) + (me?.avatar || ''),
@@ -462,7 +462,9 @@ export const MyProfileCard = () => {
                   />
                 }
                 label={
-                  <p className={classes.radioLabel}>Opt in to receiving GIVE</p>
+                  <p className={classes.radioLabel}>
+                    Opt in to receiving {circle?.token_name || 'GIVE'}
+                  </p>
                 }
               />
               <FormControlLabel
@@ -479,7 +481,7 @@ export const MyProfileCard = () => {
                 }
                 label={
                   <p className={classes.radioLabel}>
-                    Opt out to receiving GIVE
+                    Opt out to receiving {circle?.token_name || 'GIVE'}
                   </p>
                 }
               />
@@ -517,12 +519,14 @@ export const MyProfileCard = () => {
                 <TextOnlyTooltip
                   TransitionComponent={Zoom}
                   placement="top-start"
-                  title="You opted out of receiving GIVE. You are paid through other channels or are not currently active."
+                  title={`You opted out of receiving ${
+                    circle?.token_name || 'GIVE'
+                  }. You are paid through other channels or are not currently active.`}
                 >
                   <AlertCircleSVG />
                 </TextOnlyTooltip>
                 <p className={classes.alertLabel}>
-                  You opted out of receiving GIVE
+                  You opted out of receiving {circle?.token_name || 'GIVE'}
                 </p>
               </div>
             )}

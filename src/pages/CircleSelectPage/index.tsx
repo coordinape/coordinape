@@ -178,8 +178,20 @@ const CircleSelectPage = () => {
             <p className={classes.title}>Welcome back!</p>
             <p className={classes.subTitle}>
               {myCircles.length > 1
-                ? `Select the teammates you’ve been working with and allocate GIVE in each of your ${myCircles.length} circles`
-                : 'Select the teammates you’ve been working with and allocate GIVE'}
+                ? `Select the teammates you’ve been working with and allocate ${myCircles.reduce(
+                    (tokens, circle) =>
+                      tokens.length === 0
+                        ? circle.token_name
+                        : `${tokens}/${circle.token_name}`,
+                    ''
+                  )} in each of your ${myCircles.length} circles`
+                : `Select the teammates you’ve been working with and allocate ${myCircles.reduce(
+                    (tokens, circle) =>
+                      tokens.length === 0
+                        ? circle.token_name
+                        : `${tokens}/${circle.token_name}`,
+                    ''
+                  )}`}
             </p>
           </div>
           <p className={classes.circleLabel}>Your Circles</p>
@@ -202,7 +214,7 @@ const CircleSelectPage = () => {
                     {MAX_GIVE_TOKENS -
                       (users.find((user) => user.circle_id === circle.id)
                         ?.give_token_remaining || MAX_GIVE_TOKENS)}{' '}
-                    GIVE ALLOCATED
+                    {circle.token_name} ALLOCATED
                   </p>
                 </div>
               </Button>

@@ -15,8 +15,12 @@ export interface IUserInfoData {
 
 const UserInfoContext = React.createContext<
   IUserInfoData & {
-    refreshUserInfo: () => Promise<void>;
     setCircle: (circle: Maybe<ICircle>) => void;
+    addEpoch: (epoch: IEpoch) => void;
+    deleteEpoch: (id: number) => void;
+    addUser: (user: IUser) => void;
+    deleteUser: (id: number) => void;
+    refreshUserInfo: () => Promise<void>;
   }
 >({
   circle: null,
@@ -25,6 +29,10 @@ const UserInfoContext = React.createContext<
   me: null,
   users: [],
   setCircle: () => {},
+  addEpoch: () => {},
+  deleteEpoch: () => {},
+  addUser: () => {},
+  deleteUser: () => {},
   refreshUserInfo: () =>
     new Promise((resolve) => {
       resolve();
@@ -58,22 +66,69 @@ export const UserInfoProvider = (props: IProps) => {
 
   // Set Circle
   const setCircle = (circle: Maybe<ICircle>) => {
-    setState((prev) => ({ ...prev, circle: circle }));
+    const circle_ = circle;
+    if (circle_) {
+      if (!circle_.team_sel_text) {
+        circle_.team_sel_text = `Select the people you have been working with so you can thank them with ${circle_.token_name}`;
+      }
+      if (!circle_.alloc_text) {
+        circle_.alloc_text = `Thank your teammates by allocating them ${circle_.token_name}`;
+      }
+    }
+    setState((prev) => ({ ...prev, circle: circle_ }));
   };
 
-  // Get Users
-  const getUsers = async () => {
+  // Add Epoch
+  const addEpoch = (newEpoch: IEpoch) => {
+    setState((prev) => ({ ...prev, epochs: [...prev.epochs, newEpoch] }));
+  };
+
+  // Delete Epoch
+  const deleteEpoch = (id: number) => {
+    setState((prev) => ({
+      ...prev,
+      epochs: prev.epochs.filter((epoch) => epoch.id !== id),
+    }));
+  };
+
+  // Add User
+  const addUser = (newUser: IUser) => {
+    setState((prev) => ({
+      ...prev,
+      users: [...prev.users.filter((user) => user.id !== newUser.id), newUser],
+    }));
+  };
+
+  // Delete User
+  const deleteUser = (id: number) => {
+    setState((prev) => ({
+      ...prev,
+      users: prev.users.filter((user) => user.id !== id),
+    }));
+  };
+
+  // Refresh UserInfo
+  const refreshUserInfo = async () => {
     if (account && state.circle) {
       try {
-        const epochs = await getApiService().getEpochs();
+        let epochs = await getApiService().getEpochs();
         const me = await getApiService().getMe(account);
         const users = await getApiService().getUsers();
 
+        epochs = epochs.filter(
+          (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
+        );
+        const epoch = epochs[0];
+        epochs = epochs.filter(
+          (epoch) => +new Date(epoch.start_date) - +new Date() > 0
+        );
+        epochs = epochs.sort(
+          (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
+        );
+
         setState((prev) => ({
           ...prev,
-          epoch: epochs.sort(
-            (a, b) => +new Date(b.start_date) - +new Date(a.start_date)
-          )[0],
+          epoch: epoch,
           epochs,
           me: me,
           users: users.filter(
@@ -103,14 +158,22 @@ export const UserInfoProvider = (props: IProps) => {
 
   useEffect(() => {
     setLoading(true);
-    getUsers();
+    refreshUserInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, state.circle]);
 
   // Return
   return (
     <UserInfoContext.Provider
-      value={{ ...state, setCircle, refreshUserInfo: getUsers }}
+      value={{
+        ...state,
+        setCircle,
+        addEpoch,
+        deleteEpoch,
+        addUser,
+        deleteUser,
+        refreshUserInfo,
+      }}
     >
       {props.children}
       {isLoading && (

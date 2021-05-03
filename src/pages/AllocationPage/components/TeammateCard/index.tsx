@@ -151,6 +151,7 @@ const TextOnlyTooltip = withStyles({
 interface IProps {
   className?: string;
   user: IUser;
+  tokenName: string;
   tokens: number;
   note: string;
   disabled: boolean;
@@ -160,7 +161,7 @@ interface IProps {
 
 export const TeammateCard = (props: IProps) => {
   const classes = useStyles();
-  const { disabled, note, tokens, user } = props;
+  const { disabled, note, tokenName, tokens, user } = props;
 
   // onChange Tokens
   const onChangeTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,7 +200,7 @@ export const TeammateCard = (props: IProps) => {
         {!user.non_receiver ? (
           <>
             <p className={classes.label}>
-              {user.non_receiver ? '' : 'GIVE to Allocate'}
+              {user.non_receiver ? '' : `${tokenName} to Allocate`}
             </p>
             <div>
               <Button disabled={disabled} onClick={() => spinTokens(-1)}>
@@ -225,12 +226,12 @@ export const TeammateCard = (props: IProps) => {
             <TextOnlyTooltip
               TransitionComponent={Zoom}
               placement="top-start"
-              title="This contributor opted out of receiving GIVE. They are paid through other channels or are not currently active."
+              title={`This contributor opted out of receiving ${tokenName}. They are paid through other channels or are not currently active.`}
             >
               <AlertCircleSVG />
             </TextOnlyTooltip>
             <p className={classes.alertLabel}>
-              This contributor opted out of receiving GIVE this epoch.
+              This contributor opted out of receiving {tokenName} this epoch.
             </p>
           </div>
         )}

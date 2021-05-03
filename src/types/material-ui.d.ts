@@ -13,6 +13,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       red: string;
       lightRed: string;
       mediumRed: string;
+      lightGray: string;
       text: string;
       primary: string;
       secondary: string;

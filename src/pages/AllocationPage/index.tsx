@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
 import { PostTokenGiftsParam } from 'types';
+import { capitalizedName } from 'utils/string';
 
 import { MyProfileCard, TeammateCard } from './components';
 
@@ -265,16 +266,13 @@ const AllocationPage = () => {
     <div className={classes.root}>
       <div className={classes.balanceContainer}>
         <p className={classes.balanceDescription}>
-          {giveTokenRemaining}
-          {giveTokenRemaining > 1 ? ' GIVES' : ' GIVE'}
+          {giveTokenRemaining} {circle?.token_name || 'GIVE'}
         </p>
         <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
       </div>
       <div className={classes.headerContainer}>
         <p className={classes.title}>
-          Reward{' '}
-          {circle && circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
-          Contributors
+          Reward {capitalizedName(circle?.name)} Contributors
         </p>
         <p className={classes.subTitle}>
           {isEpochEnded
@@ -317,6 +315,7 @@ const AllocationPage = () => {
                 disabled={isEpochEnded}
                 key={user.id}
                 note={giveNotes[user.id] || ''}
+                tokenName={circle?.token_name || 'GIVE'}
                 tokens={giveTokens[user.id] || 0}
                 updateNote={(note) => {
                   giveNotes[user.id] = note;

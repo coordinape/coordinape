@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { useUserInfo } from 'contexts';
 import React from 'react';
+import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,15 +49,12 @@ export const HeaderSection = () => {
       {circle ? (
         <>
           <p className={classes.title}>
-            Welcome to the{' '}
-            {circle.protocol.name.charAt(0).toUpperCase() +
-              circle.protocol.name.slice(1)}{' '}
-            - {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)}{' '}
-            Circle
+            Welcome to the {capitalizedName(circle.protocol.name)} -{' '}
+            {capitalizedName(circle.name)} Circle
           </p>
           <p className={classes.subTitle}>
             You must be registered as a contributor within the{' '}
-            {circle.name.charAt(0).toUpperCase() + circle.name.slice(1)} circle
+            {capitalizedName(circle.name)} circle
           </p>
         </>
       ) : (
