@@ -7,8 +7,9 @@ import { IEpoch } from 'types/models/epoch.model';
 
 export interface IUserInfoData {
   circle: Maybe<ICircle>;
-  epoch: Maybe<IEpoch>;
-  epochs: IEpoch[];
+  pastEpochs: IEpoch[]; // Past Epochs
+  epoch: Maybe<IEpoch>; // Current or Last Epoch
+  epochs: IEpoch[]; // Upcoming Epochs
   me: Maybe<IUser>;
   users: IUser[];
 }
@@ -24,6 +25,7 @@ const UserInfoContext = React.createContext<
   }
 >({
   circle: null,
+  pastEpochs: [],
   epoch: null,
   epochs: [],
   me: null,
@@ -56,6 +58,7 @@ interface IProps {
 export const UserInfoProvider = (props: IProps) => {
   const [state, setState] = useState<IUserInfoData>({
     circle: null,
+    pastEpochs: [],
     epoch: null,
     epochs: [],
     me: null,
@@ -119,20 +122,24 @@ export const UserInfoProvider = (props: IProps) => {
           (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
         );
         let epoch = epochs[epochs.length - 1];
-        const filteredEpochs = epochs.filter(
+        const pastEpochs = epochs.filter(
+          (epoch) => +new Date(epoch.start_date) - +new Date() <= 0
+        );
+        const activeEpochs = epochs.filter(
           (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
         );
-        if (filteredEpochs.length === 0) {
+        if (activeEpochs.length === 0) {
           epochs = [];
         } else {
-          epoch = filteredEpochs[0];
-          epochs = filteredEpochs.filter(
+          epoch = activeEpochs[0];
+          epochs = activeEpochs.filter(
             (epoch) => +new Date(epoch.start_date) - +new Date() > 0
           );
         }
 
         setState((prev) => ({
           ...prev,
+          pastEpochs: pastEpochs,
           epoch: epoch,
           epochs,
           me: me,
