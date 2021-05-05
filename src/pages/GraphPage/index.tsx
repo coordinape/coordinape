@@ -324,8 +324,13 @@ const GraphPage = (_props: IProps) => {
   }, [me]);
 
   useEffect(() => {
+    if (epochSelection !== epoch?.id) {
+      setGifts(pastGifts.filter((g) => g.epoch_id === epochSelection));
+      return;
+    }
+
     setGifts(
-      epochSelection === epoch?.id
+      pendingGifts.length
         ? pendingGifts
         : pastGifts.filter((g) => g.epoch_id === epochSelection)
     );
