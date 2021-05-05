@@ -98,7 +98,7 @@ const GraphInfoPanel = ({
   ) : users.length === 1 ? (
     <div className={classes.body}>
       <Typography variant="body1">{users[0].bio}</Typography>
-      {!users[0].non_receiver && (
+      {!!users[0].non_receiver && (
         <Typography className={classes.optOut} variant="body2">
           Opt Out
         </Typography>
