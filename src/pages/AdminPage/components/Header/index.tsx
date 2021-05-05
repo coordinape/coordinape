@@ -72,11 +72,16 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginTop: theme.spacing(0.5),
     marginBottom: 0,
+    maxHeight: 100,
     fontSize: 16,
     fontWeight: 'bold',
     color: theme.colors.text,
     wordWrap: 'break-word',
     whiteSpace: 'pre-line',
+    '&:last-of-type': {
+      overflow: 'auto',
+      overflowY: 'scroll',
+    },
   },
 }));
 
@@ -116,12 +121,12 @@ export const Header = () => {
           Edit Circle Settings
         </Button>
         <div className={classes.csvContainer}>
-          <a className={classes.csv} href="/" rel="noreferrer" target="_blank">
+          {/* <a className={classes.csv} href="/" rel="noreferrer" target="_blank">
             Import Contributors CSV
           </a>
           <a className={classes.csv} href="/" rel="noreferrer" target="_blank">
             Export Contributors CSV
-          </a>
+          </a> */}
           <a
             className={classes.csv}
             href={
@@ -143,7 +148,19 @@ export const Header = () => {
             ? moment.utc(epochs[0].start_date).local().format('MMMM Do')
             : 'n/a'}
         </p>
-        <p className={classes.title}>Epoch Length</p>
+        <p className={classes.title}>Progress Epoch</p>
+        <p className={classes.description}>
+          {epoch
+            ? `${moment
+                .utc(epoch.start_date)
+                .local()
+                .format('MM/DD/YYYY')} - ${moment
+                .utc(epoch.end_date)
+                .local()
+                .format('MM/DD/YYYY')}`
+            : 'n/a'}
+        </p>
+        {/* <p className={classes.title}>Epoch Length</p>
         <p className={classes.description}>
           {epoch
             ? moment
@@ -151,7 +168,7 @@ export const Header = () => {
                 .diff(moment.utc(epoch.start_date), 'days')
             : 0}{' '}
           Days
-        </p>
+        </p> */}
         <p className={classes.title}>Upcoming Epochs</p>
         <p className={classes.description}>
           {epochs.length === 0
@@ -163,10 +180,10 @@ export const Header = () => {
                   `${moment
                     .utc(epoch.start_date)
                     .local()
-                    .format('MMMM Do')} - ${moment
+                    .format('MM/DD/YYYY')} - ${moment
                     .utc(epoch.end_date)
                     .local()
-                    .format('MMMM Do')}`,
+                    .format('MM/DD/YYYY')}`,
                 ''
               )}
         </p>

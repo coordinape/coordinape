@@ -216,7 +216,7 @@ export const EditContributorModal = (props: IProps) => {
             </div>
             <div className={classes.topContainer}>
               <p className={classes.subTitle}>
-                Can They {circle?.token_name || 'GIVE'}?
+                Can They Send {circle?.token_name || 'GIVE'}?
               </p>
               <Select
                 className={classes.selectRoot}
