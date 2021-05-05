@@ -313,14 +313,12 @@ export const Content = () => {
                   case 4:
                     return (
                       order.ascending *
-                      (b.give_token_remaining ||
-                        0 - a.give_token_remaining ||
-                        0)
+                      (b.give_token_remaining - a.give_token_remaining)
                     );
                   case 5:
                     return (
                       order.ascending *
-                      (a.give_token_received || 0 - b.give_token_received || 0)
+                      (a.give_token_received - b.give_token_received)
                     );
                   default:
                     return order.ascending;
@@ -356,11 +354,10 @@ export const Content = () => {
                     {user.role === 0 ? 'No' : 'Yes'}
                   </td>
                   <td className={classes.tdOther}>
-                    {MAX_GIVE_TOKENS -
-                      (user.give_token_remaining || MAX_GIVE_TOKENS)}
+                    {MAX_GIVE_TOKENS - user.give_token_remaining}
                   </td>
                   <td className={classes.tdOther}>
-                    {user.give_token_received || 0}
+                    {user.give_token_received}
                   </td>
                   <td className={classes.tdOther}>
                     <Button

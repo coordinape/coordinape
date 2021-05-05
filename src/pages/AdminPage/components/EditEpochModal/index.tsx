@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(2.5),
     width: 870,
-    height: 490,
+    height: 550,
     borderRadius: theme.spacing(1),
     outline: 'none',
     background: theme.colors.white,
@@ -103,11 +103,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 700,
     color: 'rgba(81, 99, 105, 0.5)',
+    whiteSpace: 'pre-line',
   },
   saveButton: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(5),
     padding: theme.spacing(1.5, 3),
     fontSize: 12,
     fontWeight: 600,
@@ -134,14 +135,20 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
+  scrollableContainer: {
+    maxHeight: 150,
+    overflow: 'auto',
+    overflowY: 'scroll',
+  },
   epochPeriod: {
-    padding: theme.spacing(1.5),
+    margin: theme.spacing(0.5, 0),
+    padding: theme.spacing(1.5, 5),
     justifyContent: 'start',
     fontSize: 16,
     fontWeight: 700,
     color: theme.colors.text,
     textTransform: 'none',
-    textAlign: 'start',
+    textAlign: 'center',
   },
   deleteEpochIconWrapper: {
     width: theme.spacing(1.25),
@@ -149,6 +156,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1.5),
   },
   epochDeletedContainer: {
+    marginTop: theme.spacing(2),
     padding: theme.spacing(0, 2),
     display: 'flex',
     justifyContent: 'center',
@@ -175,7 +183,7 @@ export const EditEpochModal = (props: IProps) => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
   const { onClose, visible } = props;
-  const { addEpoch, deleteEpoch, epochs, me } = useUserInfo();
+  const { addEpoch, deleteEpoch, epoch, epochs, me } = useUserInfo();
   const [epochStartDate, setEpochStartDate] = useState<Date | null>(null);
   const [epochEndDate, setEpochEndDate] = useState<Date | null>(null);
   const [
@@ -206,8 +214,16 @@ export const EditEpochModal = (props: IProps) => {
           epochEndDate,
           library
         );
-        setEpochDeletedDescription('');
         addEpoch(newEpoch);
+        setEpochDeletedDescription(
+          `Epoch for ${moment
+            .utc(newEpoch.start_date)
+            .local()
+            .format('MM/DD/YYYY')} to ${moment
+            .utc(newEpoch.end_date)
+            .local()
+            .format('MM/DD/YYYY')} was created.`
+        );
       } catch (error) {
         enqueueSnackbar(
           error.response?.data?.message || 'Something went wrong!',
@@ -229,10 +245,10 @@ export const EditEpochModal = (props: IProps) => {
           `Epoch for ${moment
             .utc(epoch.start_date)
             .local()
-            .format('MMMM Do YYYY')} to ${moment
+            .format('MM/DD/YYYY')} to ${moment
             .utc(epoch.end_date)
             .local()
-            .format('MMMM Do YYYY')} was deleted.`
+            .format('MM/DD/YYYY')} was deleted.`
         );
       } catch (error) {
         enqueueSnackbar(
@@ -307,6 +323,8 @@ export const EditEpochModal = (props: IProps) => {
             <p className={classes.newEpochDescription}>
               We’ve found one-week epochs at the end of each month works well,
               but epochs can be any length and can occur at any interval.
+              {'\n\n'}
+              Epoch start/end times are always 00:00 UTC
             </p>
             <Button
               className={classes.saveButton}
@@ -322,30 +340,53 @@ export const EditEpochModal = (props: IProps) => {
             </Button>
           </div>
           <div className={classes.container}>
-            <p className={classes.subTitle}>UPCOMING EPOCHS</p>
-            {epochs.map((epoch) => (
-              <Button
-                className={classes.epochPeriod}
-                key={epoch.id}
-                onClick={() => onClickDeleteEpoch(epoch)}
-              >
-                <Hidden smDown>
-                  <div className={classes.deleteEpochIconWrapper}>
-                    <DeleteEpochSVG />
-                  </div>
-                  {moment.utc(epoch.start_date).local().format('MMMM Do YYYY')}{' '}
-                  to {moment.utc(epoch.end_date).local().format('MMMM Do YYYY')}
-                </Hidden>
-              </Button>
-            ))}
-            {epochDeletedDescription.length > 0 && (
-              <div className={classes.epochDeletedContainer}>
-                <p className={classes.epochDeletedDescription}>✓</p>
-                <p className={classes.epochDeletedDescription}>
-                  {epochDeletedDescription}
-                </p>
+            <div>
+              <p className={classes.subTitle}>Progress EPOCH</p>
+              <p className={classes.epochPeriod}>
+                {epoch
+                  ? `${moment
+                      .utc(epoch.start_date)
+                      .local()
+                      .format('MM/DD/YYYY')} to ${moment
+                      .utc(epoch.end_date)
+                      .local()
+                      .format('MM/DD/YYYY')}`
+                  : 'n/a'}
+              </p>
+            </div>
+            <hr />
+            <div>
+              <p className={classes.subTitle}>UPCOMING EPOCHS</p>
+              <div className={classes.scrollableContainer}>
+                {epochs.map((epoch) => (
+                  <Button
+                    className={classes.epochPeriod}
+                    key={epoch.id}
+                    onClick={() => onClickDeleteEpoch(epoch)}
+                  >
+                    <Hidden smDown>
+                      <div className={classes.deleteEpochIconWrapper}>
+                        <DeleteEpochSVG />
+                      </div>
+                      {moment
+                        .utc(epoch.start_date)
+                        .local()
+                        .format('MM/DD/YYYY')}{' '}
+                      to{' '}
+                      {moment.utc(epoch.end_date).local().format('MM/DD/YYYY')}
+                    </Hidden>
+                  </Button>
+                ))}
               </div>
-            )}
+              {epochDeletedDescription.length > 0 && (
+                <div className={classes.epochDeletedContainer}>
+                  <p className={classes.epochDeletedDescription}>✓</p>
+                  <p className={classes.epochDeletedDescription}>
+                    {epochDeletedDescription}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {isLoading && (
