@@ -17,6 +17,7 @@ import { labelEpoch } from 'utils/tools';
 import GraphInfoPanel from './GraphInfoPanel';
 
 const NODE_R = 8;
+const FAKE_ALL_EPOCH = -1;
 
 // TODO: XSS vulnerability on node labels:
 // https://github.com/vasturiano/force-graph/issues/20
@@ -319,10 +320,17 @@ const GraphPage = (_props: IProps) => {
       return;
     }
     setEpochOptions(
-      epochs.map((e) => ({
-        label: labelEpoch(e),
-        value: e.id,
-      }))
+      epochs
+        .map((e) => ({
+          label: labelEpoch(e),
+          value: e.id,
+        }))
+        .concat([
+          {
+            label: 'ALL',
+            value: FAKE_ALL_EPOCH,
+          },
+        ])
     );
     setEpochSelection(epoch?.id ?? epochs[0].id);
   }, [epoch, epochs]);
@@ -336,6 +344,11 @@ const GraphPage = (_props: IProps) => {
   }, [users]);
 
   useEffect(() => {
+    if (epochSelection === FAKE_ALL_EPOCH) {
+      setGifts(pastGifts.concat(pendingGifts));
+      return;
+    }
+
     if (epochSelection !== epoch?.id) {
       setGifts(pastGifts.filter((g) => g.epoch_id === epochSelection));
       return;
