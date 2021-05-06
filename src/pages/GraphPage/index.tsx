@@ -11,6 +11,7 @@ import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { getApiService } from 'services/api';
 import { IGraphLink, IGraphNode, ITokenGift, IUser } from 'types';
+import { getNotableWords } from 'utils/string';
 import { labelEpoch } from 'utils/tools';
 
 import GraphInfoPanel from './GraphInfoPanel';
@@ -31,8 +32,6 @@ const COLOR_GIVE_LINK = '#00ce2c80';
 const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000010';
 const COLOR_LINK_DIM = '#00000004';
-
-const savedSearches = ['Coordinape', 'v3', 'strategy|strategist'];
 
 const showMagnitudes = () => true;
 
@@ -143,6 +142,7 @@ const GraphPage = (_props: IProps) => {
   const [epochSelection, setEpochSelection] = useState<number>(0);
   const [filteredUsers, setFilteredUsers] = useState<IGraphNode[]>([]);
   const [userRegExp, setUserRegExp] = useState<RegExp | undefined>();
+  const [notableWords, setNotableWords] = useState<string[]>([]);
   // TODO: this seems redundant with hoverNode
   const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
 
@@ -210,7 +210,7 @@ const GraphPage = (_props: IProps) => {
         : COLOR_NODE;
     }
     const width = showMagnitudes()
-      ? Math.min(Math.max(0.5, node.tokensReceived / 50), 6)
+      ? Math.min(Math.max(1.2, node.tokensReceived / 50), 6)
       : 1;
     if (node === hoverNode.current) strokeColor = COLOR_NODE_HIGHLIGHT;
     if (highlightGiveNodes.current.has(node)) strokeColor = COLOR_GIVE;
@@ -271,6 +271,14 @@ const GraphPage = (_props: IProps) => {
 
   const getWidth = (link: IGraphLink) => (showMagnitudes() ? link.width : 4);
 
+  const onPanelClose = () => {
+    hoverNode.current = undefined;
+    setSelectedNode(undefined);
+    setFilteredUsers([]);
+    setUserRegExp(undefined);
+    filteredUserSet.current = new Set([]);
+  };
+
   const onNodeClick = useCallback(
     (node: any) => {
       highlightReceiveNodes.current.clear();
@@ -322,6 +330,10 @@ const GraphPage = (_props: IProps) => {
   useEffect(() => {
     me && fetchGifts();
   }, [me]);
+
+  useEffect(() => {
+    setNotableWords(getNotableWords(users.map((u) => u.bio).join(' '), 20));
+  }, [users]);
 
   useEffect(() => {
     if (epochSelection !== epoch?.id) {
@@ -499,7 +511,7 @@ const GraphPage = (_props: IProps) => {
           freeSolo
           fullWidth
           onInputChange={handleSearchChange}
-          options={savedSearches}
+          options={notableWords}
           renderInput={(params: any) => (
             <TextField
               {...params}
@@ -522,6 +534,7 @@ const GraphPage = (_props: IProps) => {
       </div>
       <GraphInfoPanel
         onClickUser={onNodeClick}
+        onClose={onPanelClose}
         regExp={userRegExp}
         selectedUser={selectedNode}
         users={filteredUsers}

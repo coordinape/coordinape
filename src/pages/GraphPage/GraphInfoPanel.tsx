@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   onClickUser: (user: IGraphNode) => void;
+  onClose: () => void;
   users: IGraphNode[];
   selectedUser: IGraphNode | undefined;
   regExp: RegExp | undefined;
@@ -58,12 +59,20 @@ interface IProps {
 
 const GraphInfoPanel = ({
   onClickUser,
+  onClose,
   regExp,
   selectedUser,
   users,
 }: IProps) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpandedState] = useState<boolean>(false);
   const classes = useStyles();
+
+  const setExpanded = (value: boolean) => {
+    if (expanded && !value) {
+      onClose();
+    }
+    setExpandedState(value);
+  };
 
   useEffect(() => {
     setExpanded(users.length > 0);
