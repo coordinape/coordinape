@@ -16,6 +16,7 @@ export interface IUser {
   circle_id: number;
   created_at: Date;
   updated_at: Date;
+  deleted_at: Date;
   teammates: IUser[];
   pending_sent_gifts: ITokenGift[];
   sent_gifts: ITokenGift[];

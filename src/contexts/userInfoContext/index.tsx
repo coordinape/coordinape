@@ -12,6 +12,7 @@ export interface IUserInfoData {
   epochs: IEpoch[]; // Upcoming Epochs
   me: Maybe<IUser>;
   users: IUser[];
+  deletedUsers: IUser[];
 }
 
 const UserInfoContext = React.createContext<
@@ -30,6 +31,7 @@ const UserInfoContext = React.createContext<
   epochs: [],
   me: null,
   users: [],
+  deletedUsers: [],
   setCircle: () => {},
   addEpoch: () => {},
   deleteEpoch: () => {},
@@ -63,6 +65,7 @@ export const UserInfoProvider = (props: IProps) => {
     epochs: [],
     me: null,
     users: [],
+    deletedUsers: [],
   });
   const { account } = useConnectedWeb3Context();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -114,6 +117,10 @@ export const UserInfoProvider = (props: IProps) => {
     setState((prev) => ({
       ...prev,
       users: prev.users.filter((user) => user.id !== id),
+      deletedUsers: [
+        ...prev.deletedUsers,
+        prev.users.find((user) => user.id === id) as IUser,
+      ],
     }));
   };
 
@@ -123,7 +130,12 @@ export const UserInfoProvider = (props: IProps) => {
       try {
         let epochs = await getApiService().getEpochs();
         const me = await getApiService().getMe(account);
-        const users = await getApiService().getUsers();
+        const users = await getApiService().getUsers(
+          undefined,
+          undefined,
+          undefined,
+          true
+        );
 
         epochs = epochs.sort(
           (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
@@ -151,7 +163,14 @@ export const UserInfoProvider = (props: IProps) => {
           epochs,
           me: me,
           users: users.filter(
-            (user) => user.address.toLowerCase() !== account?.toLowerCase()
+            (user) =>
+              user.address.toLowerCase() !== account?.toLowerCase() &&
+              !user.deleted_at
+          ),
+          deletedUsers: users.filter(
+            (user) =>
+              user.address.toLowerCase() !== account?.toLowerCase() &&
+              !!user.deleted_at
           ),
         }));
       } catch (error) {
@@ -161,6 +180,7 @@ export const UserInfoProvider = (props: IProps) => {
           epochs: [],
           me: null,
           users: [],
+          deletedUsers: [],
         }));
       }
     } else {
@@ -170,6 +190,7 @@ export const UserInfoProvider = (props: IProps) => {
         epochs: [],
         me: null,
         users: [],
+        deletedUsers: [],
       }));
     }
     setLoading(false);
