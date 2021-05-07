@@ -136,6 +136,7 @@ const GraphPage = (_props: IProps) => {
   const [pastGifts, setPastGifts] = useState<ITokenGift[]>([]);
   const [pendingGifts, setPendingGifts] = useState<ITokenGift[]>([]);
 
+  const [users, setUsers] = useState<IUser[]>([]);
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
   const [links, setLinks] = useState<any[]>([]);
   const [nodes, setNodes] = useState<any[]>([]);
@@ -147,7 +148,19 @@ const GraphPage = (_props: IProps) => {
   // TODO: this seems redundant with hoverNode
   const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
 
-  const { epoch, me, pastEpochs: epochs, users } = useUserInfo();
+  const {
+    deletedUsers,
+    epoch,
+    me,
+    pastEpochs: epochs,
+    users: rawUsers,
+  } = useUserInfo();
+
+  useEffect(() => {
+    if (me && rawUsers.length > 0) {
+      setUsers(rawUsers.concat(deletedUsers).concat([me]));
+    }
+  }, [rawUsers, deletedUsers, me]);
 
   const handleSearchChange = (_event: any, value: string) => {
     if (!value) {
@@ -390,7 +403,6 @@ const GraphPage = (_props: IProps) => {
     );
 
     const allUsers: IGraphNode[] = users
-      .concat(me)
       .filter((u) => activeUsers.find((id) => u.id === id) !== undefined)
       .map((u) => ({
         ...u,

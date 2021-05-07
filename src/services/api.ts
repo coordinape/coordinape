@@ -122,7 +122,8 @@ class APIService {
   getUsers = async (
     address?: string,
     circle_id?: number,
-    id?: number
+    id?: number,
+    deleted_users?: boolean
   ): Promise<IUser[]> => {
     const params: any = {};
     if (circle_id) {
@@ -133,6 +134,9 @@ class APIService {
     }
     if (id) {
       params.id = id;
+    }
+    if (deleted_users) {
+      params.deleted_users = true;
     }
     const response = await axios.get('/users', { params });
     return response.data as IUser[];
