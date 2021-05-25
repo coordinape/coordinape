@@ -1,9 +1,11 @@
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
+import clsx from 'clsx';
 import { LoadingModal } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
+import { transparentize } from 'polished';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
@@ -14,42 +16,56 @@ import { OptInput } from './components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '80%',
+    maxWidth: '60%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: theme.spacing(9),
+    paddingTop: theme.spacing(12),
     paddingBottom: theme.spacing(20),
     display: 'flex',
     flexDirection: 'column',
   },
-  title: {
-    maxWidth: '90%',
-    fontSize: 54,
-    fontWeight: 700,
+  titleContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleIndex: {
+    margin: 0,
+    width: 32,
+    height: 32,
     color: theme.colors.primary,
-    margin: 'auto',
+    fontSize: 17,
+    fontWeight: 600,
+    textAlign: 'center',
+    lineHeight: '32px',
+    background: theme.colors.lightGray,
+    borderRadius: 16,
+  },
+  title: {
+    margin: 0,
+    paddingLeft: theme.spacing(1),
+    fontSize: 30,
+    fontWeight: 600,
+    color: theme.colors.primary,
     textAlign: 'center',
   },
+  optHr: {
+    height: 1,
+    width: '100%',
+    color: theme.colors.primary,
+    opacity: 0.5,
+  },
   bioContainer: {
-    marginTop: theme.spacing(1),
+    marginTop: 0,
     marginBottom: theme.spacing(5),
-    marginLeft: 'auto',
-    marginRight: 'auto',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  bioLabel: {
-    margin: 0,
-    fontSize: 27,
-    fontWeight: 400,
-    color: theme.colors.primary,
-    textAlign: 'center',
-  },
   bioTextarea: {
     height: 143,
-    margin: `${theme.spacing(3)}px ${theme.spacing(6)}px`,
-    padding: `${theme.spacing(3)}px ${theme.spacing(4)}px`,
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(3),
     resize: 'none',
     fontSize: 14,
     fontWeight: 600,
@@ -65,29 +81,79 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.3,
     },
   },
-  optContainer: {
-    margin: 'auto',
+  regiftContainer: {
+    marginTop: theme.spacing(5),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  regiftLabel: {
+    width: '45%',
+    margin: 0,
+    fontSize: 15,
+    fontWeight: 400,
+    color: theme.colors.primary,
+    opacity: 0.7,
+  },
+  link: {
+    color: theme.colors.primary,
+  },
+  burnContainer: {
+    width: '45%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  optLabel: {
+  percentTitle: {
     margin: 0,
-    fontSize: 27,
-    fontWeight: 400,
-    color: theme.colors.primary,
+    fontSize: 20,
+    fontWeight: 600,
+    color: theme.colors.text,
+    opacity: 0.4,
     textAlign: 'center',
   },
-  optHr: {
-    height: 1,
-    width: '100%',
-    color: theme.colors.primary,
-  },
-  optInputContainer: {
-    marginTop: theme.spacing(3),
+  percentContainer: {
+    margin: theme.spacing(2.5, 0),
+    padding: theme.spacing(0, 2),
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+  },
+  percentButton: {
+    position: 'relative',
+    width: 64,
+    height: 40,
+    margin: theme.spacing(0, 0.5),
+    padding: theme.spacing(1, 0),
+    fontSize: 18,
+    fontWeight: 600,
+    color: transparentize(0.4, theme.colors.text),
+    textAlign: 'center',
+    background: theme.colors.white,
+    borderRadius: 13,
+    border: 0,
+    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
+    '&:hover': {
+      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
+    },
+    '&.selected': {
+      color: theme.colors.white,
+      background: transparentize(0.5, theme.colors.text),
+    },
+  },
+  percentLabel: {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    marginTop: theme.spacing(2.5),
+    marginLeft: 0,
+    marginRight: 0,
+    fontSize: 15,
+    fontWeight: 500,
+    color: theme.colors.text,
+    opacity: 0.4,
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
   },
   buttonContainer: {
     position: 'fixed',
@@ -132,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProfileData {
   bio: string;
-  non_receiver: number;
+  regift_percent: number;
 }
 
 const ProfilePage = () => {
@@ -141,11 +207,12 @@ const ProfilePage = () => {
   const { circle, me, refreshUserInfo } = useUserInfo();
   const [profileData, setProfileData] = useState<IProfileData>({
     bio: me?.bio || '',
-    non_receiver: me?.non_receiver || 0,
+    regift_percent: me?.regift_percent || 0,
   });
   const [isLoading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  const percents = [0, 25, 50, 75, 100];
 
   // onChange Bio
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -163,7 +230,7 @@ const ProfilePage = () => {
             name: me?.name,
             bio: profileData.bio,
             epoch_first_visit: 0,
-            non_receiver: profileData.non_receiver,
+            regift_percent: profileData.regift_percent,
             non_giver: me?.non_giver,
             address: me?.address,
             circle_id: me?.circle_id,
@@ -197,46 +264,72 @@ const ProfilePage = () => {
   // Return
   return (
     <div className={classes.root}>
-      <p className={classes.title}>What have you been working on recently?</p>
+      <div className={classes.titleContainer}>
+        <p className={classes.titleIndex}>1</p>
+        <p className={classes.title}>What have you been working on recently?</p>
+      </div>
+      <hr className={classes.optHr} />
       <div className={classes.bioContainer}>
-        <p className={classes.bioLabel}>
-          Tell us about your contributions to the{' '}
-          {capitalizedName(circle?.name)} ecosystem this epoch
-        </p>
         <textarea
           className={classes.bioTextarea}
           maxLength={MAX_BIO_LENGTH}
           onChange={onChangeBio}
-          placeholder="Start Typing..."
+          placeholder="Tell us about your contributions in the Stategy Circle this  epoch..."
           value={profileData.bio}
         />
       </div>
-      <div className={classes.optContainer}>
-        <p className={classes.optLabel}>
-          Should you be eligible receive {circle?.token_name || 'GIVE'}{' '}
-          distributions this epoch?
+      <div className={classes.titleContainer}>
+        <p className={classes.titleIndex}>2</p>
+        <p className={classes.title}>
+          Do you want to burn the {circle?.token_name || 'GIVE'} you receive
+          this epoch?
         </p>
-        <hr className={classes.optHr} />
-        <div className={classes.optInputContainer}>
-          <OptInput
-            isChecked={profileData.non_receiver === 0}
-            subTitle={`I want to be eligible to receive ${
-              circle?.token_name || 'GIVE'
-            }`}
-            title="Opt In"
-            updateOpt={() =>
-              setProfileData({ ...profileData, non_receiver: 0 })
-            }
-          />
-          <OptInput
-            isChecked={profileData.non_receiver !== 0}
-            subTitle="I am paid sufficiently via other channels"
-            title="Opt Out"
-            updateOpt={() =>
-              setProfileData({ ...profileData, non_receiver: 1 })
-            }
-          />
+      </div>
+      <hr className={classes.optHr} />
+      <div className={classes.regiftContainer}>
+        <div className={classes.burnContainer}>
+          <p className={classes.percentTitle}>Choose a Percentage to Burn:</p>
+          <div className={classes.percentContainer}>
+            {percents.map((percent) => (
+              <>
+                <button
+                  className={clsx(
+                    classes.percentButton,
+                    profileData.regift_percent === percent ? 'selected' : ''
+                  )}
+                  key={percent}
+                  onClick={() =>
+                    setProfileData({ ...profileData, regift_percent: percent })
+                  }
+                >
+                  {percent}%
+                  {profileData.regift_percent === percent && (
+                    <p className={classes.percentLabel}>
+                      ( ≈{' '}
+                      {(
+                        ((me?.give_token_received || 0) * percent) /
+                        100
+                      ).toFixed(1)}{' '}
+                      )
+                    </p>
+                  )}
+                </button>
+              </>
+            ))}
+          </div>
         </div>
+        <p className={classes.regiftLabel}>
+          Burns a percentage of tokens you receive, thereby boosting the value
+          of {circle?.token_name || 'GIVE'} this epoch for all Circle members.{' '}
+          <a
+            className={classes.link}
+            href="https://docs.coordinape.com/welcome/new-feature-regift"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Learn more about burning.
+          </a>
+        </p>
       </div>
       <div className={classes.buttonContainer}>
         <Button className={classes.saveButton} onClick={onClickSaveProfile}>

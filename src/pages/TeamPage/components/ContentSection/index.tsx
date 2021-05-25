@@ -2,11 +2,12 @@ import { Button, Hidden, makeStyles } from '@material-ui/core';
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
 import clsx from 'clsx';
-import { LoadingModal } from 'components';
+import { Img, LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
+import { transparentize } from 'polished';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -126,8 +127,9 @@ const useStyles = makeStyles((theme) => ({
   },
   teammatesItem: {
     height: theme.spacing(6),
-    margin: '6px 4px',
-    padding: '4px 32px',
+    margin: theme.spacing(1, 0.5),
+    padding: theme.spacing(0.5),
+    paddingRight: theme.spacing(2.5),
     fontSize: 15,
     fontWeight: 500,
     textTransform: 'none',
@@ -135,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#E1E1E1',
     borderRadius: theme.spacing(3),
     '&.selected': {
-      paddingLeft: 12,
+      paddingRight: theme.spacing(1.5),
       color: theme.colors.text,
       background: '#DFE7E8',
     },
@@ -143,8 +145,16 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.3,
     },
   },
+  avatar: {
+    marginRight: theme.spacing(1),
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    fontSize: 12,
+    fontWeight: 400,
+  },
   checkmarkIconWrapper: {
-    marginRight: 10,
+    marginLeft: 10,
   },
   buttonContainer: {
     position: 'fixed',
@@ -186,6 +196,43 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(4),
     marginLeft: theme.spacing(2),
   },
+  regiftContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    background: transparentize(0.3, theme.colors.text),
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  regiftTitle: {
+    marginTop: theme.custom.appHeaderHeight,
+    padding: theme.spacing(1),
+    width: '100%',
+    fontSize: 18,
+    fontWeight: 600,
+    color: theme.colors.white,
+    textAlign: 'center',
+    background: theme.colors.red,
+  },
+  navLink: {
+    color: theme.colors.white,
+  },
+  regiftDescription: {
+    marginTop: theme.spacing(5),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '70%',
+    height: 88,
+    fontSize: 24,
+    fontWeight: 600,
+    lineHeight: '88px',
+    color: theme.colors.white,
+    textAlign: 'center',
+    background: theme.colors.text,
+    borderRadius: 8,
+  },
 }));
 
 enum OrderType {
@@ -197,7 +244,7 @@ enum OrderType {
 export const ContentSection = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { me, refreshUserInfo, users } = useUserInfo();
+  const { circle, epoch, me, refreshUserInfo, users } = useUserInfo();
   const [teammates, setTeammates] = useState<number[]>([]);
   const [keyword, setKeyword] = useState<string>('');
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
@@ -239,7 +286,7 @@ export const ContentSection = () => {
 
   // onClick SaveTeammates
   const onClickSaveTeammates = async () => {
-    if (me?.address && teammates.length > 0) {
+    if (me?.address && teammates.length > 0 && !epoch?.is_regift_phase) {
       setLoading(true);
       try {
         await getApiService().postTeammates(me.address, teammates, library);
@@ -375,14 +422,19 @@ export const ContentSection = () => {
               key={user.id}
               onClick={() => onClickTeammatesItem(user.id)}
             >
+              <Img
+                alt={user.name}
+                className={classes.avatar}
+                placeholderImg="/imgs/avatar/placeholder.jpg"
+                src={user.avatar}
+              />
+              {user.name} | {user.pendingSentGifts}
               <div
                 className={classes.checkmarkIconWrapper}
                 hidden={!user.selected}
               >
                 <CheckmarkSVG />
               </div>
-              {user.name}
-              {!user.non_receiver && ` | ${user.pendingSentGifts}`}
             </Button>
           ))}
       </div>
@@ -400,6 +452,23 @@ export const ContentSection = () => {
           </Hidden>
         </Button>
       </div>
+      {epoch?.is_regift_phase && (
+        <div className={classes.regiftContainer}>
+          <p className={classes.regiftTitle}>
+            Burn phase has begun, you are currently set to burn{' '}
+            {me?.regift_percent || 0}% of tokens you receive:{' '}
+            <NavLink
+              className={classes.navLink}
+              to={`/${circle?.protocol.name}/${circle?.name}/profile`}
+            >
+              Edit your burn settings
+            </NavLink>
+          </p>
+          <p className={classes.regiftDescription}>
+            Team editing is locked during the burn phase
+          </p>
+        </div>
+      )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}

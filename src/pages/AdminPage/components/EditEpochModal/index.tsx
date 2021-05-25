@@ -343,7 +343,7 @@ export const EditEpochModal = (props: IProps) => {
             <div>
               <p className={classes.subTitle}>Progress EPOCH</p>
               <p className={classes.epochPeriod}>
-                {epoch
+                {epoch && !epoch.ended
                   ? `${moment
                       .utc(epoch.start_date)
                       .local()

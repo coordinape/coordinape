@@ -86,14 +86,55 @@ export const UserInfoProvider = (props: IProps) => {
 
   // Add Epoch
   const addEpoch = (newEpoch: IEpoch) => {
-    setState((prev) => ({ ...prev, epochs: [...prev.epochs, newEpoch] }));
+    let epochs = [...state.epochs, newEpoch].sort(
+      (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
+    );
+    let epoch = epochs[epochs.length - 1];
+    const pastEpochs = epochs.filter(
+      (epoch) => +new Date(epoch.start_date) - +new Date() <= 0
+    );
+    const activeEpochs = epochs.filter(
+      (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
+    );
+    if (activeEpochs.length === 0) {
+      epochs = [];
+    } else {
+      epoch = activeEpochs[0];
+      epochs = activeEpochs.filter(
+        (epoch) => +new Date(epoch.start_date) - +new Date() > 0
+      );
+    }
+    setState((prev) => ({
+      ...prev,
+      pastEpochs: pastEpochs,
+      epoch: epoch,
+      epochs,
+    }));
   };
 
   // Delete Epoch
   const deleteEpoch = (id: number) => {
+    let epochs = state.epochs.filter((epoch) => epoch.id !== id);
+    let epoch = epochs[epochs.length - 1];
+    const pastEpochs = epochs.filter(
+      (epoch) => +new Date(epoch.start_date) - +new Date() <= 0
+    );
+    const activeEpochs = epochs.filter(
+      (epoch) => +new Date(epoch.end_date) - +new Date() >= 0
+    );
+    if (activeEpochs.length === 0) {
+      epochs = [];
+    } else {
+      epoch = activeEpochs[0];
+      epochs = activeEpochs.filter(
+        (epoch) => +new Date(epoch.start_date) - +new Date() > 0
+      );
+    }
     setState((prev) => ({
       ...prev,
-      epochs: prev.epochs.filter((epoch) => epoch.id !== id),
+      pastEpochs: pastEpochs,
+      epoch: epoch,
+      epochs,
     }));
   };
 

@@ -6,6 +6,7 @@ import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { PostTokenGiftsParam } from 'types';
 import { capitalizedName } from 'utils/string';
@@ -131,6 +132,27 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(4),
     marginLeft: theme.spacing(2),
   },
+  regiftContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  regiftTitle: {
+    marginTop: theme.custom.appHeaderHeight,
+    padding: theme.spacing(1),
+    width: '100%',
+    fontSize: 18,
+    fontWeight: 600,
+    color: theme.colors.white,
+    textAlign: 'center',
+    background: theme.colors.red,
+  },
+  navLink: {
+    color: theme.colors.white,
+  },
 }));
 
 const AllocationPage = () => {
@@ -163,6 +185,9 @@ const AllocationPage = () => {
         Seconds: Math.floor((differenceEnd / 1000) % 60),
       };
     } else {
+      if (!isEpochEnded) {
+        refreshUserInfo();
+      }
       isEpochEnded = true;
       isWaitingEpoch = differenceStart < 0;
 
@@ -264,12 +289,14 @@ const AllocationPage = () => {
   // Return
   return (
     <div className={classes.root}>
-      <div className={classes.balanceContainer}>
-        <p className={classes.balanceDescription}>
-          {giveTokenRemaining} {circle?.token_name || 'GIVE'}
-        </p>
-        <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
-      </div>
+      {!isEpochEnded && (
+        <div className={classes.balanceContainer}>
+          <p className={classes.balanceDescription}>
+            {giveTokenRemaining} {circle?.token_name || 'GIVE'}
+          </p>
+          <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
+        </div>
+      )}
       <div className={classes.headerContainer}>
         <p className={classes.title}>
           Reward {capitalizedName(circle?.name)} Contributors
@@ -343,6 +370,20 @@ const AllocationPage = () => {
             </div>
           </Hidden>
         </Button>
+      )}
+      {epoch?.is_regift_phase && (
+        <div className={classes.regiftContainer}>
+          <p className={classes.regiftTitle}>
+            Burn phase has begun, you are currently set to burn{' '}
+            {me?.regift_percent || 0}% of tokens you receive:{' '}
+            <NavLink
+              className={classes.navLink}
+              to={`/${circle?.protocol.name}/${circle?.name}/profile`}
+            >
+              Edit your burn settings
+            </NavLink>
+          </p>
+        </div>
       )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />

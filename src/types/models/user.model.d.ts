@@ -11,6 +11,8 @@ export interface IUser {
   epoch_first_visit: number;
   non_receiver: number;
   non_giver: number;
+  regift_percent: number;
+  starting_tokens: number;
   role: number;
   is_hidden: number;
   circle_id: number;
