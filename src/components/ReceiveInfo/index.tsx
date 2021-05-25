@@ -1,8 +1,10 @@
 import { Button, Popover, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import { Img } from 'components';
 import { useUserInfo } from 'contexts';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
 import { ITokenGift } from 'types';
 
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   popover: {
-    width: 300,
+    width: 335,
     maxHeight: 550,
     marginTop: 8,
     padding: '27px 22px',
@@ -37,6 +39,23 @@ const useStyles = makeStyles((theme) => ({
     background:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
     boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
+  },
+  regiftContainer: {
+    padding: theme.spacing(2, 3),
+    marginBottom: theme.spacing(2),
+  },
+  regiftTitle: {
+    margin: 0,
+    padding: 0,
+    fontSize: 13,
+    fontWeight: 400,
+    color: theme.colors.text,
+    textAlign: 'center',
+    whiteSpace: 'pre-line',
+  },
+  navLink: {
+    fontWeight: 600,
+    color: theme.colors.text,
   },
   note: {
     paddingTop: 8,
@@ -54,12 +73,24 @@ const useStyles = makeStyles((theme) => ({
   noteTitle: {
     fontSize: 11,
     fontWeight: 600,
-    color: theme.colors.selected,
+    color: theme.colors.red,
   },
   noteDate: {
     fontSize: 11,
     fontWeight: 400,
     color: 'rgba(94, 111, 116, 0.6)',
+  },
+  noteContainer: {
+    margin: theme.spacing(0.5, 0),
+    display: 'flex',
+  },
+  avatar: {
+    marginRight: theme.spacing(1),
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    fontSize: 12,
+    fontWeight: 400,
   },
   noteBody: {
     padding: '10px 0',
@@ -73,13 +104,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     color: 'rgba(0, 0, 0, 0.2)',
   },
+  historyContainer: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(0, 3),
+  },
 }));
 
-interface IProps {
-  className?: string;
-}
-
-export const ReceiveInfo = (props: IProps) => {
+export const ReceiveInfo = () => {
   const classes = useStyles();
   const { circle, me, refreshUserInfo, users } = useUserInfo();
   const [tokenGifts, setTokenGifts] = useState<ITokenGift[]>([]);
@@ -146,6 +177,23 @@ export const ReceiveInfo = (props: IProps) => {
           horizontal: 'right',
         }}
       >
+        <div className={classes.regiftContainer}>
+          <p className={classes.regiftTitle}>
+            You are set to {me?.regift_percent || 0}% Burn and will receive{' '}
+            {(
+              ((me?.give_token_received || 0) *
+                (100 - (me?.regift_percent || 0))) /
+              100
+            ).toFixed(1)}{' '}
+            {circle?.token_name || 'GIVE'} after the burn phase{'\n'}
+            <NavLink
+              className={classes.navLink}
+              to={`/${circle?.protocol.name}/${circle?.name}/profile`}
+            >
+              edit burn settings
+            </NavLink>
+          </p>
+        </div>
         {tokenGifts
           .filter(
             (tokenGift) => tokenGift.tokens > 0 || tokenGift.note.length > 0
@@ -165,19 +213,43 @@ export const ReceiveInfo = (props: IProps) => {
                   {moment(tokenGift.updated_at).format('MMM ‘D')}
                 </div>
               </div>
-              <div
-                className={
-                  tokenGift.note.length > 0
-                    ? classes.noteBody
-                    : classes.noteEmptyBody
-                }
-              >
-                {tokenGift.note.length > 0
-                  ? `“${tokenGift.note}”`
-                  : '-- Empty Note --'}
+              <div className={classes.noteContainer}>
+                <Img
+                  alt={
+                    users.find((user) => user.id === tokenGift.sender_id)
+                      ?.name || 'Unknown'
+                  }
+                  className={classes.avatar}
+                  placeholderImg="/imgs/avatar/placeholder.jpg"
+                  src={
+                    users.find((user) => user.id === tokenGift.sender_id)
+                      ?.avatar || '/imgs/avatar/placeholder.jpg'
+                  }
+                />
+                <div
+                  className={
+                    tokenGift.note.length > 0
+                      ? classes.noteBody
+                      : classes.noteEmptyBody
+                  }
+                >
+                  {tokenGift.note.length > 0
+                    ? `“${tokenGift.note}”`
+                    : '-- Empty Note --'}
+                </div>
               </div>
             </div>
           ))}
+        <div className={classes.historyContainer}>
+          <p className={classes.regiftTitle}>
+            <NavLink
+              className={classes.navLink}
+              to={`/${circle?.protocol.name}/${circle?.name}/history`}
+            >
+              See Complete History
+            </NavLink>
+          </p>
+        </div>
       </Popover>
     </div>
   );

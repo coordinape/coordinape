@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navLinks: {
     height: 50,
-    maxWidth: 700,
+    maxWidth: 800,
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'space-between',
@@ -124,7 +124,7 @@ export const Header = (props: IProps) => {
         { path: '/circle', label: 'My Circles' },
         {
           path: `/${circle.protocol.name}/${circle.name}/profile`,
-          label: 'Profile',
+          label: 'Epoch Settings',
         },
         {
           path: `/${circle.protocol.name}/${circle.name}/team`,
