@@ -150,7 +150,9 @@ export const Header = () => {
         </p>
         <p className={classes.title}>Progress Epoch</p>
         <p className={classes.description}>
-          {epoch && !epoch.ended
+          {epoch &&
+          moment.utc().diff(moment.utc(epoch.start_date)) >= 0 &&
+          moment.utc(epoch.end_date).diff(moment.utc()) > 0
             ? `${moment
                 .utc(epoch.start_date)
                 .local()
