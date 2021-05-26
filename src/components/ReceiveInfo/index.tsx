@@ -222,8 +222,9 @@ export const ReceiveInfo = () => {
                   className={classes.avatar}
                   placeholderImg="/imgs/avatar/placeholder.jpg"
                   src={
-                    users.find((user) => user.id === tokenGift.sender_id)
-                      ?.avatar || '/imgs/avatar/placeholder.jpg'
+                    (process.env.REACT_APP_S3_BASE_URL as string) +
+                      users.find((user) => user.id === tokenGift.sender_id)
+                        ?.avatar || ''
                   }
                 />
                 <div
