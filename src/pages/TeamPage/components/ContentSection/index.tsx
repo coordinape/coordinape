@@ -422,12 +422,18 @@ export const ContentSection = () => {
               key={user.id}
               onClick={() => onClickTeammatesItem(user.id)}
             >
-              <Img
-                alt={user.name}
-                className={classes.avatar}
-                placeholderImg="/imgs/avatar/placeholder.jpg"
-                src={user.avatar}
-              />
+              {user.avatar && user.avatar.length > 0 ? (
+                <Img
+                  alt={user.name}
+                  className={classes.avatar}
+                  placeholderImg="/imgs/avatar/placeholder.jpg"
+                  src={
+                    (process.env.REACT_APP_S3_BASE_URL as string) + user.avatar
+                  }
+                />
+              ) : (
+                <span>&nbsp;&nbsp;&nbsp;</span>
+              )}
               {user.name} | {user.pendingSentGifts}
               <div
                 className={classes.checkmarkIconWrapper}
