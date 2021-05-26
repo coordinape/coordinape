@@ -169,6 +169,14 @@ const CircleSelectPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [circles, users]);
 
+  const findCircleUserAllocatedTokens = (circleId: number) => {
+    const user = users.find((user) => user.circle_id === circleId);
+    if (user) {
+      return MAX_GIVE_TOKENS - user.give_token_remaining;
+    }
+    return 0;
+  };
+
   // Return
   return (
     <div className={classes.root}>
@@ -211,9 +219,7 @@ const CircleSelectPage = () => {
                     {circle.protocol.name} / {circle.name}
                   </p>
                   <p className={classes.circleDescription}>
-                    {MAX_GIVE_TOKENS -
-                      (users.find((user) => user.circle_id === circle.id)
-                        ?.give_token_remaining || MAX_GIVE_TOKENS)}{' '}
+                    {findCircleUserAllocatedTokens(circle.id)}{' '}
                     {circle.token_name} ALLOCATED
                   </p>
                 </div>
