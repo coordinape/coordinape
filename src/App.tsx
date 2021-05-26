@@ -1,9 +1,12 @@
-import { Web3Provider } from '@ethersproject/providers';
-import { ThemeProvider } from '@material-ui/styles';
-import { Web3ReactProvider } from '@web3-react/core';
-import { ConnectedWeb3, GlobalProvider, UserInfoProvider } from 'contexts';
 import React from 'react';
+
+import { Web3Provider } from '@ethersproject/providers';
+import { Web3ReactProvider } from '@web3-react/core';
 import { BrowserRouter } from 'react-router-dom';
+
+import { ThemeProvider } from '@material-ui/styles';
+
+import { ConnectedWeb3, GlobalProvider, UserInfoProvider } from 'contexts';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 

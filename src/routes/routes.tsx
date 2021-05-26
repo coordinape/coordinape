@@ -1,8 +1,10 @@
+import React, { Fragment, Suspense, lazy } from 'react';
+
+import { Redirect, Route, Switch } from 'react-router-dom';
+
 import { LoadingScreen } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { MainLayout } from 'layouts';
-import React, { Fragment, Suspense, lazy } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
 
 const routes = [
   {

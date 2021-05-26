@@ -1,20 +1,24 @@
-import { MenuItem, Select, TextField, makeStyles } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import { Autocomplete } from '@material-ui/lab';
-import { useUserInfo } from 'contexts';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
 import { useSnackbar } from 'notistack';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
+
+import { MenuItem, Select, TextField, makeStyles } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { Autocomplete } from '@material-ui/lab';
+
+import { useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { IGraphLink, IGraphNode, ITokenGift, IUser } from 'types';
 import { getNotableWords } from 'utils/string';
 import { labelEpoch } from 'utils/tools';
 
 import GraphInfoPanel from './GraphInfoPanel';
+
+import { IGraphLink, IGraphNode, ITokenGift, IUser } from 'types';
 
 const NODE_R = 8;
 const FAKE_ALL_EPOCH = -1;

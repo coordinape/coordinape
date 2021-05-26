@@ -1,8 +1,11 @@
+import React, { useEffect, useState } from 'react';
+
+import reactStringReplace from 'react-string-replace';
+
 import { IconButton, Typography, makeStyles } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import React, { useEffect, useState } from 'react';
-import reactStringReplace from 'react-string-replace';
+
 import { IGraphNode } from 'types';
 
 const useStyles = makeStyles((theme) => ({

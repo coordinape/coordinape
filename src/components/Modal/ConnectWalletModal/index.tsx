@@ -1,3 +1,8 @@
+import React, { useEffect } from 'react';
+
+import { useWeb3React } from '@web3-react/core';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+
 import {
   CircularProgress,
   Divider,
@@ -8,11 +13,9 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { useWeb3React } from '@web3-react/core';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+
 import { ConnectWalletButtonItem } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
-import React, { useEffect } from 'react';
 import connectors from 'utils/connectors';
 import { ConnectorNames } from 'utils/enums';
 import { getLogger } from 'utils/logger';

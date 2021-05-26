@@ -1,18 +1,22 @@
+import React, { useState } from 'react';
+
 import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
+
 import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+
 import { ReactComponent as DatePickerSVG } from 'assets/svgs/button/date-picker.svg';
 import { ReactComponent as DeleteEpochSVG } from 'assets/svgs/button/delete-epoch.svg';
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import moment from 'moment';
-import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
 import { getApiService } from 'services/api';
+
 import { IEpoch } from 'types';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,10 +1,13 @@
+import React, { useEffect, useState } from 'react';
+
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
+
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
-import React, { useEffect, useState } from 'react';
-import { Maybe } from 'types';
 import connectors from 'utils/connectors';
 import { ConnectorNames } from 'utils/enums';
+
+import { Maybe } from 'types';
 
 export interface ConnectedWeb3Context {
   account: Maybe<string> | null;

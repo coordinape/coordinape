@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Button,
   Tooltip,
@@ -5,11 +7,12 @@ import {
   makeStyles,
   withStyles,
 } from '@material-ui/core';
+
 import { ReactComponent as AllocationFire } from 'assets/svgs/button/allocation-fire.svg';
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
 import { Img } from 'components';
-import React from 'react';
+
 import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({

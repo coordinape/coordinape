@@ -1,5 +1,6 @@
-import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 import _ from 'lodash';
+
+import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 
 import customColor from './colors';
 import custom from './custom';

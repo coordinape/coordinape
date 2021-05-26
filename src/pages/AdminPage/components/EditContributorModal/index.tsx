@@ -1,3 +1,8 @@
+import React, { useState } from 'react';
+
+import { ethers } from 'ethers';
+import { useSnackbar } from 'notistack';
+
 import {
   Button,
   Hidden,
@@ -6,13 +11,12 @@ import {
   Select,
   makeStyles,
 } from '@material-ui/core';
+
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { ethers } from 'ethers';
-import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
 import { getApiService } from 'services/api';
+
 import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({

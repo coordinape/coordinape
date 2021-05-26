@@ -1,7 +1,9 @@
+import React, { useEffect, useState } from 'react';
+
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
-import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
+
 import { ICircle, IUser, Maybe } from 'types';
 import { IEpoch } from 'types/models/epoch.model';
 

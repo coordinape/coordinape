@@ -1,6 +1,8 @@
-import { makeStyles } from '@material-ui/core';
-import { useUserInfo } from 'contexts';
 import React from 'react';
+
+import { makeStyles } from '@material-ui/core';
+
+import { useUserInfo } from 'contexts';
 import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles((theme) => ({

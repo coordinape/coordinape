@@ -1,11 +1,14 @@
+import React from 'react';
+
+import { matchPath, useHistory } from 'react-router';
+import { NavLink } from 'react-router-dom';
+
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { ContactlessOutlined } from '@material-ui/icons';
+
 import { AccountInfo, ConnectWalletButton, ReceiveInfo } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import { useConnectedWeb3Context, useGlobal, useUserInfo } from 'contexts';
-import React from 'react';
-import { matchPath, useHistory } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import { removeCircleId } from 'utils/storage';
 
 const useStyles = makeStyles((theme) => ({

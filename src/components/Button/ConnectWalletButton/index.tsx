@@ -1,7 +1,10 @@
-import { Button, Hidden, makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
-import { WALLET_ICONS } from 'config/constants';
 import React from 'react';
+
+import clsx from 'clsx';
+
+import { Button, Hidden, makeStyles } from '@material-ui/core';
+
+import { WALLET_ICONS } from 'config/constants';
 import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({

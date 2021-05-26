@@ -1,13 +1,15 @@
-import { Button, Hidden, makeStyles } from '@material-ui/core';
-import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
-import { useUserInfo } from 'contexts';
-import moment from 'moment';
 import React, { useState } from 'react';
-import { apiBaseURLofCircle } from 'utils/domain';
-import { capitalizedName } from 'utils/string';
+
+import moment from 'moment';
+
+import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { EditCircleModal } from '../EditCircleModal';
 import { EditEpochModal } from '../EditEpochModal';
+import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
+import { useUserInfo } from 'contexts';
+import { apiBaseURLofCircle } from 'utils/domain';
+import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,14 +1,18 @@
-import { Button, makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+
 import axios from 'axios';
+import { useSnackbar } from 'notistack';
+
+import { Button, makeStyles } from '@material-ui/core';
+
 import { LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import { ICircle, IUser } from 'types';
 import { apiBaseURL, apiBaseURLofCircle } from 'utils/domain';
 import { getCircleId, setCircleId } from 'utils/storage';
+
+import { ICircle, IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
