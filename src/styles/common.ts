@@ -1,5 +1,6 @@
-import { makeStyles } from '@material-ui/core';
 import { opacify, transparentize } from 'polished';
+
+import { makeStyles } from '@material-ui/core';
 
 const useCommonStyles = makeStyles((theme) => ({
   scroll: {

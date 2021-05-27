@@ -1,11 +1,15 @@
-import { Button, Popover, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+
 import clsx from 'clsx';
+import moment from 'moment';
+import { NavLink } from 'react-router-dom';
+
+import { Button, Popover, makeStyles } from '@material-ui/core';
+
 import { Img } from 'components';
 import { useUserInfo } from 'contexts';
-import moment from 'moment';
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
+
 import { ITokenGift } from 'types';
 
 const useStyles = makeStyles((theme) => ({

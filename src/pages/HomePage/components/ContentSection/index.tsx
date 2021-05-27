@@ -1,8 +1,10 @@
+import React from 'react';
+
 import { makeStyles } from '@material-ui/core';
+
 import { AccountInfo, ConnectWalletButton } from 'components';
 import { STORAGE_KEY_CONNECTOR } from 'config/constants';
 import { useConnectedWeb3Context, useGlobal } from 'contexts';
-import React from 'react';
 
 const useStyles = makeStyles(() => ({
   root: {

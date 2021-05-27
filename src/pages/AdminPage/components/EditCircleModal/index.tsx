@@ -1,13 +1,17 @@
+import React, { useState } from 'react';
+
+import { useSnackbar } from 'notistack';
+import { useHistory } from 'react-router';
+
 import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
+
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import { getApiService } from 'services/api';
-import { ICircle } from 'types';
 import { capitalizedName } from 'utils/string';
+
+import { ICircle } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   modal: {

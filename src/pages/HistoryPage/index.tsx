@@ -1,12 +1,16 @@
-import { Box, Divider, Typography, makeStyles } from '@material-ui/core';
-import { useUserInfo } from 'contexts';
+import React, { useEffect, useState } from 'react';
+
 import groupBy from 'lodash/groupBy';
 import keyBy from 'lodash/keyBy';
 import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
+
+import { Box, Divider, Typography, makeStyles } from '@material-ui/core';
+
+import { useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { ITokenGift, IUser } from 'types';
 import { labelEpoch } from 'utils/tools';
+
+import { ITokenGift, IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {

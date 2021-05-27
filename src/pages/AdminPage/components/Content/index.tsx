@@ -1,19 +1,22 @@
+import React, { useEffect, useState } from 'react';
+
+import clsx from 'clsx';
+import { useSnackbar } from 'notistack';
+
 import { Button, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
+
+import { EditContributorModal } from '../EditContributorModal';
 import { ReactComponent as AddContributorSVG } from 'assets/svgs/button/add-contributor.svg';
 import { ReactComponent as DeleteContributor } from 'assets/svgs/button/delete-contributor.svg';
 import { ReactComponent as EditContributor } from 'assets/svgs/button/edit-contributor.svg';
-import clsx from 'clsx';
 import { Img, LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import { IUser } from 'types';
 import { shortenAddress } from 'utils';
 
-import { EditContributorModal } from '../EditContributorModal';
+import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {

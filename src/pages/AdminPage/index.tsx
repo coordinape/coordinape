@@ -1,5 +1,6 @@
-import { Button, Hidden, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+
+import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { Content, Header } from './components';
 

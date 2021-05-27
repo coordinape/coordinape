@@ -1,3 +1,8 @@
+import React, { useEffect, useState } from 'react';
+
+import clsx from 'clsx';
+import { useSnackbar } from 'notistack';
+
 import {
   Button,
   FormControlLabel,
@@ -7,19 +12,18 @@ import {
   makeStyles,
   withStyles,
 } from '@material-ui/core';
+
 import { ReactComponent as AllocationFire } from 'assets/svgs/button/allocation-fire.svg';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import { ReactComponent as SaveProfileSVG } from 'assets/svgs/button/save-profile.svg';
 import { ReactComponent as UploadImageSVG } from 'assets/svgs/button/upload-image.svg';
-import clsx from 'clsx';
 import { Img, LoadingModal } from 'components';
 import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
 import { getApiService } from 'services/api';
-import { PutUsersParam } from 'types';
 import { blobToFile, resizeImage } from 'utils/image';
+
+import { PutUsersParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {

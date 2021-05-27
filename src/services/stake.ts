@@ -1,7 +1,9 @@
 import { TransactionReceipt } from '@ethersproject/abstract-provider/lib/index';
 import { BigNumber, Contract, Wallet, ethers } from 'ethers';
-import { Maybe } from 'types';
+
 import { getLogger } from 'utils/logger';
+
+import { Maybe } from 'types';
 
 const logger = getLogger('Services::StakeService');
 

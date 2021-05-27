@@ -1,3 +1,7 @@
+import { entries } from 'utils/type-utils';
+
+import { INFURA_PROJECT_ID } from './constants';
+
 import {
   IKnownTokenData,
   INetwork,
@@ -6,9 +10,6 @@ import {
   KnownToken,
   NetworkId,
 } from 'types';
-import { entries } from 'utils/type-utils';
-
-import { INFURA_PROJECT_ID } from './constants';
 
 export const networkIds = {
   MAINNET: 1,

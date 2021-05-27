@@ -1,17 +1,21 @@
+import React, { useEffect, useState } from 'react';
+
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
+import { NavLink } from 'react-router-dom';
+
 import { Button, Hidden, makeStyles } from '@material-ui/core';
+
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { LoadingModal } from 'components';
 import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import moment from 'moment';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { getApiService } from 'services/api';
-import { PostTokenGiftsParam } from 'types';
 import { capitalizedName } from 'utils/string';
 
 import { MyProfileCard, TeammateCard } from './components';
+
+import { PostTokenGiftsParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {

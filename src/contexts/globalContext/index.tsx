@@ -1,13 +1,16 @@
+import React, { useEffect, useState } from 'react';
+
 import axios from 'axios';
+import { BigNumber, ethers } from 'ethers';
+
 import { ConnectWalletModal, LoadingModal } from 'components';
 import { TOKEN_PRICE_DECIMALS } from 'config/constants';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
-import { BigNumber, ethers } from 'ethers';
-import React, { useEffect, useState } from 'react';
 import { ERC20Service } from 'services/erc20';
 import { StakeService } from 'services/stake';
-import { KnownToken } from 'types';
 import { ZERO_NUMBER } from 'utils/number';
+
+import { KnownToken } from 'types';
 
 interface IBalanceInfo {
   ethBalance: BigNumber;

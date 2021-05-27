@@ -1,6 +1,9 @@
-import { makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
+
+import clsx from 'clsx';
+
+import { makeStyles } from '@material-ui/core';
+
 import useCommonStyles from 'styles/common';
 
 import { Header } from './components';

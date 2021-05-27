@@ -1,6 +1,8 @@
-import { Button, makeStyles } from '@material-ui/core';
-import { transparentize } from 'polished';
 import React from 'react';
+
+import { transparentize } from 'polished';
+
+import { Button, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {

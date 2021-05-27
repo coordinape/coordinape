@@ -1,13 +1,16 @@
-import { Button, Hidden, makeStyles } from '@material-ui/core';
-import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
-import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
+import React, { useEffect, useState } from 'react';
+
 import clsx from 'clsx';
-import { Img, LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { useSnackbar } from 'notistack';
 import { transparentize } from 'polished';
-import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+
+import { Button, Hidden, makeStyles } from '@material-ui/core';
+
+import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
+import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
+import { Img, LoadingModal } from 'components';
+import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({

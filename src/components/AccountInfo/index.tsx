@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Button,
   Hidden,
@@ -5,8 +7,8 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
+
 import { WALLET_ICONS } from 'config/constants';
-import React from 'react';
 import { shortenAddress } from 'utils';
 import { ConnectorNames } from 'utils/enums';
 

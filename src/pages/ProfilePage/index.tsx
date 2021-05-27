@@ -1,18 +1,22 @@
-import { Button, Hidden, makeStyles } from '@material-ui/core';
-import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
+import React, { useState } from 'react';
+
 import clsx from 'clsx';
+import { useSnackbar } from 'notistack';
+import { transparentize } from 'polished';
+import { useHistory } from 'react-router-dom';
+
+import { Button, Hidden, makeStyles } from '@material-ui/core';
+
+import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { LoadingModal } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { useSnackbar } from 'notistack';
-import { transparentize } from 'polished';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { getApiService } from 'services/api';
-import { PutUsersParam } from 'types';
 import { capitalizedName } from 'utils/string';
 
 import { OptInput } from './components';
+
+import { PutUsersParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
