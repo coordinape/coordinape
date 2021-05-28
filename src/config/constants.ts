@@ -29,6 +29,7 @@ export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const EXTERNAL_URL_TYPEFORM =
   'https://yearnfinance.typeform.com/to/egGYEbrC';
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
+export const EXTERNAL_URL_LANDING_PAGE = 'https://coordinape.com';
 export const EXTERNAL_URL_DOCS_REGIFT = `${EXTERNAL_URL_DOCS}/welcome/new-feature-regift`;
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
