@@ -84,12 +84,11 @@
           },
           {
             "group": "parent",
-            "pattern": "{assets,assets/**,components,components/**,config,config/**,contexts,contexts/**,layouts,layouts/**,pages,pages/**,routes,routes/**,services,services/**,styles,styles/**,theme,theme/**,utils,utils/**}"
+            "pattern": "{assets,assets/**,icons,icons/**,components,components/**,config,config/**,contexts,contexts/**,layouts,layouts/**,pages,pages/**,routes,routes/**,services,services/**,styles,styles/**,theme,theme/**,utils,utils/**}"
           },
           {
             "group": "object",
             "pattern": "{types,types/**}"
-            // "pattern": "(assets|components|config|contexts|layouts|pages|routes|services|types|styles|theme|utils)/**"
           }
         ],
         "pathGroupsExcludedImportTypes": [],

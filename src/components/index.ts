@@ -4,3 +4,4 @@ export * from './Loader';
 export * from './AccountInfo';
 export * from './ReceiveInfo';
 export * from './Image';
+export * from './CoordinapeLogo';

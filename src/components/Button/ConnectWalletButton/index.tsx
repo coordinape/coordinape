@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const ConnectWalletButton = (props: IProps) => {
@@ -46,9 +46,7 @@ export const ConnectWalletButton = (props: IProps) => {
   return (
     <Button
       className={clsx(classes.root, props.className)}
-      onClick={() => {
-        props.onClick();
-      }}
+      onClick={props.onClick}
       variant="text"
     >
       <Hidden smDown>

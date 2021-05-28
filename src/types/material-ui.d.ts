@@ -21,7 +21,9 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       selected: string;
       border: string;
       background: string;
+      almostWhite: string;
     };
+    fontFamilyMono: string[];
   }
   // allow configuration using `createMuiTheme`
   interface ThemeOptions {

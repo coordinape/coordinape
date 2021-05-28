@@ -15,5 +15,7 @@ const color = {
   selected: '#31A5AC',
   border: '#939EA1',
   background: '#DFE7E8',
+  // New for landing page
+  almostWhite: '#F6F7F8',
 };
 export default color;
