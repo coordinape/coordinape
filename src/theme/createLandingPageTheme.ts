@@ -97,6 +97,9 @@ const derivedTheme = (theme: Theme) => ({
         html: {
           color: colors.text,
         },
+        a: {
+          textDecoration: 'none',
+        },
       },
     },
     MuiButton: {

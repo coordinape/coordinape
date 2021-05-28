@@ -382,13 +382,15 @@ const LandingPage = () => {
       </div>
       <div className={classes.questionContainer}>
         <Typography variant="h3">Want to Learn More?</Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation={isDownXs}
-        >
-          Read our Medium Article
-        </Button>
+        <a href={EXTERNAL_URL_MEDIUM_ARTICLE}>
+          <Button
+            variant="contained"
+            color="secondary"
+            disableElevation={isDownXs}
+          >
+            Read our Medium Article
+          </Button>
+        </a>
       </div>
       <div className={classes.partnerContainer}>
         <Typography variant="h3">Our Alpha Partners</Typography>
@@ -403,13 +405,15 @@ const LandingPage = () => {
         <Typography variant="h3">
           Interested in starting your own circle?
         </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation={isDownXs}
-        >
-          Get Started
-        </Button>
+        <a href={EXTERNAL_URL_TYPEFORM}>
+          <Button
+            variant="contained"
+            color="secondary"
+            disableElevation={isDownXs}
+          >
+            Get Started
+          </Button>
+        </a>
       </div>
       <div className={classes.footer}>
         <a href={EXTERNAL_URL_DOCS}>
