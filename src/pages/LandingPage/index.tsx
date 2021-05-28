@@ -326,7 +326,7 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={EXTERNAL_URL_TYPEFORM}>
+            <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
                 color="secondary"
@@ -382,7 +382,7 @@ const LandingPage = () => {
       </div>
       <div className={classes.questionContainer}>
         <Typography variant="h3">Want to Learn More?</Typography>
-        <a href={EXTERNAL_URL_MEDIUM_ARTICLE}>
+        <a href={EXTERNAL_URL_MEDIUM_ARTICLE} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
             color="secondary"
@@ -405,7 +405,7 @@ const LandingPage = () => {
         <Typography variant="h3">
           Interested in starting your own circle?
         </Typography>
-        <a href={EXTERNAL_URL_TYPEFORM}>
+        <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
             color="secondary"
@@ -416,17 +416,17 @@ const LandingPage = () => {
         </a>
       </div>
       <div className={classes.footer}>
-        <a href={EXTERNAL_URL_DOCS}>
+        <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
           <Button startIcon={<DocsIcon />} className={classes.footerLink}>
             Docs
           </Button>
         </a>
-        <a href={EXTERNAL_URL_TWITTER}>
+        <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
           <Button startIcon={<TwitterIcon />} className={classes.footerLink}>
             Twitter
           </Button>
         </a>
-        <a href={EXTERNAL_URL_MEDIUM_ARTICLE}>
+        <a href={EXTERNAL_URL_MEDIUM_ARTICLE} rel="noreferrer" target="_blank">
           <Button startIcon={<MediumIcon />} className={classes.footerLink}>
             Medium
           </Button>
