@@ -289,9 +289,9 @@ const Partner = ({ imageSrc, give, epochs }: IPartnerProps) => {
   return (
     <div className={classes.partner}>
       <img src={imageSrc} alt="logo" />
-      <Typography variant="body2">{give} GIVE</Typography>
+      {/* <Typography variant="body2">{give} GIVE</Typography>
       <Typography variant="body2">distributed</Typography>
-      <Typography variant="body2">over {epochs} Epochs</Typography>
+      <Typography variant="body2">over {epochs} Epochs</Typography> */}
     </div>
   );
 };
