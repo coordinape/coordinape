@@ -2,6 +2,8 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
+import { EXTERNAL_URL_DOCS, EXTERNAL_URL_TWITTER } from 'config/constants';
+
 import { ContentSection, HeaderSection } from './components';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +57,7 @@ const HomePage = () => {
       <div className={classes.footer}>
         <a
           className={classes.link}
-          href="https://twitter.com/coordinape"
+          href={EXTERNAL_URL_TWITTER}
           rel="noreferrer"
           target="_blank"
         >
@@ -63,7 +65,7 @@ const HomePage = () => {
         </a>
         <a
           className={classes.link}
-          href="https://facu.gitbook.io/coordinape/"
+          href={EXTERNAL_URL_DOCS}
           rel="noreferrer"
           target="_blank"
         >

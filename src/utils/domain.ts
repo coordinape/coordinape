@@ -13,3 +13,13 @@ export const apiBaseURLofCircle = (circle: ICircle) => {
   }
   return `https://coordinape.me/api/${circle.id}`;
 };
+
+export const DOMAIN_IS_APP = window.location.host.split('.')[0] === 'app';
+
+export const getAppUrl = () =>
+  DOMAIN_IS_APP
+    ? window.location.origin
+    : window.location.origin.replace(
+        window.location.host,
+        `app.${window.location.host}`
+      );

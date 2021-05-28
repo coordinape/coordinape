@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
 import { AccountInfo, ConnectWalletButton } from 'components';
-import { STORAGE_KEY_CONNECTOR } from 'config/constants';
+import {
+  STORAGE_KEY_CONNECTOR,
+  AUTO_OPEN_WALLET_DIALOG_PARAMS,
+} from 'config/constants';
 import { useConnectedWeb3Context, useGlobal } from 'contexts';
 
 const useStyles = makeStyles(() => ({
@@ -61,6 +64,12 @@ export const ContentSection = () => {
     rawWeb3Context.deactivate();
     localStorage.removeItem(STORAGE_KEY_CONNECTOR);
   };
+
+  useEffect(() => {
+    if (window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS) {
+      toggleWalletConnectModal();
+    }
+  });
 
   return (
     <div className={classes.root}>

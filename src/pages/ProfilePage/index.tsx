@@ -9,12 +9,9 @@ import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { LoadingModal } from 'components';
-import { MAX_BIO_LENGTH } from 'config/constants';
+import { MAX_BIO_LENGTH, EXTERNAL_URL_DOCS_REGIFT } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { capitalizedName } from 'utils/string';
-
-import { OptInput } from './components';
 
 import { PutUsersParam } from 'types';
 
@@ -327,7 +324,7 @@ const ProfilePage = () => {
           of {circle?.token_name || 'GIVE'} this epoch for all Circle members.{' '}
           <a
             className={classes.link}
-            href="https://docs.coordinape.com/welcome/new-feature-regift"
+            href={EXTERNAL_URL_DOCS_REGIFT}
             rel="noreferrer"
             target="_blank"
           >
