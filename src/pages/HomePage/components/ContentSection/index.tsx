@@ -69,7 +69,7 @@ export const ContentSection = () => {
     if (window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS) {
       toggleWalletConnectModal();
     }
-  });
+  }, []);
 
   return (
     <div className={classes.root}>
