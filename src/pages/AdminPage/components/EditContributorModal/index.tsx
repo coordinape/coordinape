@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   saveButton: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(1.5, 3),
     fontSize: 12,
     fontWeight: 600,
@@ -156,6 +156,9 @@ export const EditContributorModal = (props: IProps) => {
   const [contributorAddress, setContributorAddress] = useState<string>(
     user?.address || ''
   );
+  const [contributorStartingTokens, setStartingTokens] = useState<number>(
+    user?.starting_tokens || 100
+  );
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -163,7 +166,6 @@ export const EditContributorModal = (props: IProps) => {
   const onChangeContributorName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContributorName(e.target.value);
   };
-
   // onChange ContributorAddress
   const onChangeContributorAddress = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -183,6 +185,7 @@ export const EditContributorModal = (props: IProps) => {
               user.address,
               contributorAddress,
               contributorNonGive,
+              contributorStartingTokens,
               library
             )
           : getApiService().postUsers(
@@ -190,6 +193,7 @@ export const EditContributorModal = (props: IProps) => {
               contributorName,
               contributorAddress,
               contributorNonGive,
+              contributorStartingTokens,
               library
             ));
         addUser(newUser);
@@ -209,15 +213,15 @@ export const EditContributorModal = (props: IProps) => {
       <div className={classes.content}>
         <p className={classes.title}>{user ? 'Edit' : 'Add'} Contributor</p>
         <div className={classes.subContent}>
+          <div className={classes.bottomContainer}>
+            <p className={classes.subTitle}>Contributor Name</p>
+            <input
+              className={classes.input}
+              onChange={onChangeContributorName}
+              value={contributorName}
+            />
+          </div>
           <div className={classes.subContainer}>
-            <div className={classes.topContainer}>
-              <p className={classes.subTitle}>Contributor Name</p>
-              <input
-                className={classes.input}
-                onChange={onChangeContributorName}
-                value={contributorName}
-              />
-            </div>
             <div className={classes.topContainer}>
               <p className={classes.subTitle}>
                 Can They Send {circle?.token_name || 'GIVE'}?
@@ -245,6 +249,16 @@ export const EditContributorModal = (props: IProps) => {
                   </MenuItem>
                 ))}
               </Select>
+            </div>
+            <div className={classes.topContainer}>
+              <p className={classes.subTitle}>Starting Tokens</p>
+              <input
+                className={classes.input}
+                onChange={({ target: { value } }) =>
+                  setStartingTokens(value ? parseInt(value) : 100)
+                }
+                value={contributorStartingTokens}
+              />
             </div>
           </div>
           <div className={classes.bottomContainer}>

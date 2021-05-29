@@ -149,11 +149,15 @@ class APIService {
     name: string,
     address: string,
     non_giver?: number,
+    starting_tokens?: number,
     provider?: any
   ): Promise<IUser> => {
     const params: any = { name, address };
     if (non_giver) {
       params.non_giver = non_giver;
+    }
+    if (starting_tokens) {
+      params.starting_tokens = starting_tokens;
     }
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
@@ -186,11 +190,15 @@ class APIService {
     originAddress: string,
     address: string,
     non_giver?: number,
+    starting_tokens?: number,
     provider?: any
   ): Promise<IUser> => {
     const params: any = { name, address };
     if (non_giver) {
       params.non_giver = non_giver;
+    }
+    if (starting_tokens) {
+      params.starting_tokens = starting_tokens;
     }
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
