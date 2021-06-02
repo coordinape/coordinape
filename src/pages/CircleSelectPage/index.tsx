@@ -176,7 +176,7 @@ const CircleSelectPage = () => {
   const findCircleUserAllocatedTokens = (circleId: number) => {
     const user = users.find((user) => user.circle_id === circleId);
     if (user) {
-      return MAX_GIVE_TOKENS - user.give_token_remaining;
+      return user.starting_tokens - user.give_token_remaining;
     }
     return 0;
   };

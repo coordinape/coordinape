@@ -187,7 +187,9 @@ export const Content = () => {
         return (
           user.name.toLowerCase().includes(key) ||
           user.address.toLowerCase().includes(key) ||
-          String(MAX_GIVE_TOKENS - user.give_token_remaining).includes(key) ||
+          String(user.starting_tokens - user.give_token_remaining).includes(
+            key
+          ) ||
           String(user.give_token_received).includes(key)
         );
       })
@@ -357,7 +359,7 @@ export const Content = () => {
                     {user.role === 0 ? 'No' : 'Yes'}
                   </td>
                   <td className={classes.tdOther}>
-                    {MAX_GIVE_TOKENS - user.give_token_remaining}
+                    {user.starting_tokens - user.give_token_remaining}
                   </td>
                   <td className={classes.tdOther}>
                     {user.give_token_received}
