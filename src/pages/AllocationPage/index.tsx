@@ -236,7 +236,7 @@ const AllocationPage = () => {
 
   // GiveTokenRemaining & GiveTokens & GiveNotes
   const giveTokenRemaining =
-    (me?.non_giver !== 0 ? 0 : me.give_token_remaining) -
+    (me?.non_giver !== 0 ? 0 : me.starting_tokens) -
     Object.keys(giveTokens).reduce(
       (sum, key: any) => sum + (giveTokens[key] || 0),
       0
