@@ -11,7 +11,6 @@ import { ReactComponent as AddContributorSVG } from 'assets/svgs/button/add-cont
 import { ReactComponent as DeleteContributor } from 'assets/svgs/button/delete-contributor.svg';
 import { ReactComponent as EditContributor } from 'assets/svgs/button/edit-contributor.svg';
 import { Img, LoadingModal } from 'components';
-import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
 import { shortenAddress } from 'utils';

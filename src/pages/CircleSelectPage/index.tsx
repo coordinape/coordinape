@@ -6,7 +6,6 @@ import { useSnackbar } from 'notistack';
 import { Button, makeStyles } from '@material-ui/core';
 
 import { LoadingModal } from 'components';
-import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
 import { apiBaseURL, apiBaseURLofCircle } from 'utils/domain';
