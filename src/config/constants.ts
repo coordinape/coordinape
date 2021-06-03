@@ -13,7 +13,6 @@ export const INFURA_PROJECT_ID = process.env.REACT_APP_INFURA_PROJECT_ID;
 export const TOKEN_PRICE_DECIMALS = 18;
 export const WEIGHT_DECIMALS = 18;
 
-export const MAX_GIVE_TOKENS = 100;
 export const MAX_NAME_LENGTH = 20;
 export const MAX_BIO_LENGTH = 140;
 

@@ -8,7 +8,6 @@ import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { LoadingModal } from 'components';
-import { MAX_GIVE_TOKENS } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
 import { capitalizedName } from 'utils/string';
