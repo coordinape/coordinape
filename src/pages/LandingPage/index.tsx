@@ -282,13 +282,15 @@ interface IPartnerProps {
   imageSrc: string;
   give: number;
   epochs: number;
+  name: string;
 }
 
-const Partner = ({ imageSrc, give, epochs }: IPartnerProps) => {
+const Partner = ({ imageSrc, give, epochs, name }: IPartnerProps) => {
   const classes = useStyles();
   return (
     <div className={classes.partner}>
       <img src={imageSrc} alt="logo" />
+      <Typography variant="body2">{name}</Typography>
       {/* <Typography variant="body2">{give} GIVE</Typography>
       <Typography variant="body2">distributed</Typography>
       <Typography variant="body2">over {epochs} Epochs</Typography> */}
@@ -395,10 +397,25 @@ const LandingPage = () => {
       <div className={classes.partnerContainer}>
         <Typography variant="h3">Our Alpha Partners</Typography>
         <div className={classes.partners}>
-          <Partner imageSrc={YearnLogo} give={225300} epochs={8} />
-          <Partner imageSrc={CreamLogo} give={0} epochs={0} />
-          <Partner imageSrc={SushiswapLogo} give={0} epochs={0} />
-          <Partner imageSrc={GitcoinLogo} give={2600} epochs={1} />
+          <Partner
+            imageSrc={YearnLogo}
+            give={225300}
+            epochs={8}
+            name="Yearn Finance"
+          />
+          <Partner imageSrc={CreamLogo} give={0} epochs={0} name="CREAM" />
+          <Partner
+            imageSrc={SushiswapLogo}
+            give={0}
+            epochs={0}
+            name="Sushiswap"
+          />
+          <Partner
+            imageSrc={GitcoinLogo}
+            give={2600}
+            epochs={1}
+            name="Gitcoin"
+          />
         </div>
       </div>
       <div className={classes.questionContainer}>
