@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import { apiBaseURL } from 'utils/domain';
+import { API_URL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
 
 import {
@@ -17,7 +17,7 @@ import {
 } from 'types';
 import { IEpoch } from 'types/models/epoch.model';
 
-axios.defaults.baseURL = apiBaseURL(); // process.env.REACT_APP_API_BASE_URL as string;
+axios.defaults.baseURL = API_URL;
 
 class APIService {
   constructor() {}

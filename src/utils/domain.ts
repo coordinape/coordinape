@@ -1,25 +1,22 @@
-import { ICircle } from 'types';
+import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'config/constants';
 
-export const apiBaseURL = () => {
-  if (window.location.port === '3000') {
-    return 'http://myvault.live/api';
-  }
-  return 'https://coordinape.me/api';
-};
-
-export const apiBaseURLofCircle = (circle: ICircle) => {
-  if (window.location.port === '3000') {
-    return `http://myvault.live/api/${circle.id}`;
-  }
-  return `https://coordinape.me/api/${circle.id}`;
-};
-
+export const DOMAIN_IS_LOCALHOST = window.location.hostname.endsWith(
+  'localhost'
+);
 export const DOMAIN_IS_APP = window.location.host.split('.')[0] === 'app';
 
-export const getAppUrl = () =>
-  DOMAIN_IS_APP
-    ? window.location.origin
-    : window.location.origin.replace(
-        window.location.host,
-        `app.${window.location.host}`
-      );
+export const APP_URL = DOMAIN_IS_APP
+  ? window.location.origin
+  : window.location.origin.replace(
+      window.location.host,
+      `app.${window.location.host}`
+    );
+
+export const STORAGE_URL = process.env.REACT_APP_S3_BASE_URL as string;
+export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
+
+export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
+export const getCSVPath = (circleId: number, epochId: number) =>
+  `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
+
+export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;

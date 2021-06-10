@@ -8,7 +8,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { apiBaseURL, apiBaseURLofCircle } from 'utils/domain';
+import { API_URL, getCirclePath } from 'utils/domain';
 import { getCircleId, setCircleId } from 'utils/storage';
 
 import { ICircle, IUser } from 'types';
@@ -144,7 +144,7 @@ const CircleSelectPage = () => {
         setLoading(false);
       };
 
-      axios.defaults.baseURL = apiBaseURL();
+      axios.defaults.baseURL = API_URL;
       setCircle(null);
       queryData();
     }
@@ -162,7 +162,7 @@ const CircleSelectPage = () => {
       const circle_id = getCircleId();
       const prevCircle = myCircles.find((circle) => circle.id === circle_id);
       if (prevCircle) {
-        axios.defaults.baseURL = apiBaseURLofCircle(prevCircle);
+        axios.defaults.baseURL = getCirclePath(prevCircle.id);
         setCircle(prevCircle);
       }
     } else {
@@ -212,7 +212,7 @@ const CircleSelectPage = () => {
                 className={classes.circle}
                 key={circle.id}
                 onClick={() => {
-                  axios.defaults.baseURL = apiBaseURLofCircle(circle);
+                  axios.defaults.baseURL = getCirclePath(circle.id);
                   setCircle(circle);
                   setCircleId(circle.id);
                 }}

@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import moment from 'moment';
 
-import { Button, Hidden, makeStyles } from '@material-ui/core';
+import {
+  Button,
+  Hidden,
+  makeStyles,
+  Select,
+  MenuItem,
+} from '@material-ui/core';
 
 import { EditCircleModal } from '../EditCircleModal';
 import { EditEpochModal } from '../EditEpochModal';
 import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
 import { useUserInfo } from 'contexts';
-import { apiBaseURLofCircle } from 'utils/domain';
+import { getCSVPath } from 'utils/domain';
 import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
   csvContainer: {
     marginTop: theme.spacing(0.5),
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    '& > .MuiInput-root': {
+      marginLeft: theme.spacing(1),
+      marginTop: theme.spacing(0.75),
+      color: 'rgba(81, 99, 105, 0.35)',
+    },
   },
   csv: {
     marginTop: theme.spacing(2),
@@ -89,11 +100,19 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles();
-  const { circle, epoch, epochs } = useUserInfo();
+  const { circle, epoch, epochs, pastEpochs } = useUserInfo();
+  const [selectedEpochId, setSelectedEpochId] = useState<number>(-1);
   const [isEditCircle, setEditCircle] = useState<boolean>(false);
   const [isEditEpoch, setEditEpoch] = useState<boolean>(false);
 
-  // Return
+  useEffect(() => {
+    if (pastEpochs?.length > 0) {
+      setSelectedEpochId(pastEpochs[pastEpochs.length - 1].id);
+    }
+  }, [pastEpochs]);
+
+  const selectedEpoch = pastEpochs.find((e) => e.id === selectedEpochId);
+
   return (
     <div className={classes.root}>
       <div className={classes.circleContainer}>
@@ -132,15 +151,27 @@ export const Header = () => {
           <a
             className={classes.csv}
             href={
-              circle && epoch
-                ? apiBaseURLofCircle(circle) + `/csv?epoch_id=${epoch.id}`
+              circle && selectedEpoch
+                ? getCSVPath(circle.id, selectedEpochId)
                 : '/'
             }
             rel="noreferrer"
-            target="_blank"
+            download={`${circle?.protocol}-${circle?.name}-epoch-${selectedEpoch?.number}.csv`}
           >
-            Export Epoch CSV
+            Export CSV for Epoch
           </a>
+          <Select
+            value={selectedEpochId}
+            onChange={({ target: { value } }) =>
+              setSelectedEpochId(value as number)
+            }
+          >
+            {pastEpochs.map((epoch) => (
+              <MenuItem key={epoch.id} value={epoch.id}>
+                {epoch.number}
+              </MenuItem>
+            ))}
+          </Select>
         </div>
       </div>
       <div className={classes.epochContainer}>

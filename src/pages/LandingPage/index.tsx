@@ -26,10 +26,9 @@ import {
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
-  AUTO_OPEN_WALLET_DIALOG_PARAMS,
 } from 'config/constants';
 import { DocsIcon, TwitterIcon, MediumIcon } from 'icons';
-import { getAppUrl } from 'utils/domain';
+import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
   'Gift Circles allow DAO members to collectively reward eachother making community payments more equitable and transparent.';
@@ -37,9 +36,6 @@ const VALUE_PROP_INCENTIVIZE =
   'Circle contributors directly recognize eachother’s value, building a more cohesive and productive community.';
 const VALUE_PROP_SCALE =
   'Understand how value moves through your organization and move more decisions and resources to the community.';
-
-const APP_URL = getAppUrl();
-const APP_URL_OPEN_WALLET = `${getAppUrl()}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
