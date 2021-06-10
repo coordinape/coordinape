@@ -4,8 +4,7 @@ import { LoadingModal } from 'components';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import { getApiService } from 'services/api';
 
-import { ICircle, IUser, Maybe } from 'types';
-import { IEpoch } from 'types/models/epoch.model';
+import { ICircle, IUser, Maybe, IEpoch } from 'types';
 
 export interface IUserInfoData {
   circle: Maybe<ICircle>;
