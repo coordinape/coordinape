@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 
-import clsx from 'clsx';
 import { useSnackbar } from 'notistack';
-import { transparentize } from 'polished';
 import { useHistory } from 'react-router-dom';
 
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
 import { LoadingModal } from 'components';
-import { MAX_BIO_LENGTH, EXTERNAL_URL_DOCS_REGIFT } from 'config/constants';
+import { MAX_BIO_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
+import { capitalizedName } from 'utils/string';
+
+import { OptInput } from './components';
 
 import { PutUsersParam } from 'types';
 
@@ -82,79 +83,24 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.3,
     },
   },
-  regiftContainer: {
-    marginTop: theme.spacing(5),
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  regiftLabel: {
-    width: '45%',
-    margin: 0,
-    fontSize: 15,
-    fontWeight: 400,
-    color: theme.colors.primary,
-    opacity: 0.7,
-  },
-  link: {
-    color: theme.colors.primary,
-  },
-  burnContainer: {
-    width: '45%',
+  optContainer: {
+    margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  percentTitle: {
+  optLabel: {
     margin: 0,
-    fontSize: 20,
-    fontWeight: 600,
-    color: theme.colors.text,
-    opacity: 0.4,
+    fontSize: 27,
+    fontWeight: 400,
+    color: theme.colors.primary,
     textAlign: 'center',
   },
-  percentContainer: {
-    margin: theme.spacing(2.5, 0),
-    padding: theme.spacing(0, 2),
+  optInputContainer: {
+    marginTop: theme.spacing(3),
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  percentButton: {
-    position: 'relative',
-    width: 64,
-    height: 40,
-    margin: theme.spacing(0, 0.5),
-    padding: theme.spacing(1, 0),
-    fontSize: 18,
-    fontWeight: 600,
-    color: transparentize(0.4, theme.colors.text),
-    textAlign: 'center',
-    background: theme.colors.white,
-    borderRadius: 13,
-    border: 0,
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-    '&.selected': {
-      color: theme.colors.white,
-      background: transparentize(0.5, theme.colors.text),
-    },
-  },
-  percentLabel: {
-    position: 'absolute',
-    left: '50%',
-    transform: 'translate(-50%, 0)',
-    marginTop: theme.spacing(2.5),
-    marginLeft: 0,
-    marginRight: 0,
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    opacity: 0.4,
-    textAlign: 'center',
-    whiteSpace: 'nowrap',
+    justifyContent: 'center',
   },
   buttonContainer: {
     position: 'fixed',
@@ -199,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProfileData {
   bio: string;
-  regift_percent: number;
+  non_receiver: number;
 }
 
 const ProfilePage = () => {
@@ -208,12 +154,11 @@ const ProfilePage = () => {
   const { circle, me, refreshUserInfo } = useUserInfo();
   const [profileData, setProfileData] = useState<IProfileData>({
     bio: me?.bio || '',
-    regift_percent: me?.regift_percent || 0,
+    non_receiver: me?.non_receiver || 0,
   });
   const [isLoading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const percents = [0, 25, 50, 75, 100];
 
   // onChange Bio
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -231,7 +176,7 @@ const ProfilePage = () => {
             name: me?.name,
             bio: profileData.bio,
             epoch_first_visit: 0,
-            regift_percent: profileData.regift_percent,
+            non_receiver: profileData.non_receiver,
             non_giver: me?.non_giver,
             address: me?.address,
             circle_id: me?.circle_id,
@@ -275,62 +220,35 @@ const ProfilePage = () => {
           className={classes.bioTextarea}
           maxLength={MAX_BIO_LENGTH}
           onChange={onChangeBio}
-          placeholder="Tell us about your contributions in the Stategy Circle this  epoch..."
+          placeholder={`Tell us about your contributions in the ${capitalizedName(
+            circle?.name
+          )} Circle this  epoch...`}
           value={profileData.bio}
         />
       </div>
       <div className={classes.titleContainer}>
         <p className={classes.titleIndex}>2</p>
         <p className={classes.title}>
-          Do you want to burn the {circle?.token_name || 'GIVE'} you receive
-          this epoch?
+          Should you receive GIVE distributions in the{' '}
+          {capitalizedName(circle?.name)} Circle this epoch?
         </p>
       </div>
       <hr className={classes.optHr} />
-      <div className={classes.regiftContainer}>
-        <div className={classes.burnContainer}>
-          <p className={classes.percentTitle}>Choose a Percentage to Burn:</p>
-          <div className={classes.percentContainer}>
-            {percents.map((percent) => (
-              <>
-                <button
-                  className={clsx(
-                    classes.percentButton,
-                    profileData.regift_percent === percent ? 'selected' : ''
-                  )}
-                  key={percent}
-                  onClick={() =>
-                    setProfileData({ ...profileData, regift_percent: percent })
-                  }
-                >
-                  {percent}%
-                  {profileData.regift_percent === percent && (
-                    <p className={classes.percentLabel}>
-                      ( ≈{' '}
-                      {(
-                        ((me?.give_token_received || 0) * percent) /
-                        100
-                      ).toFixed(1)}{' '}
-                      )
-                    </p>
-                  )}
-                </button>
-              </>
-            ))}
-          </div>
-        </div>
-        <p className={classes.regiftLabel}>
-          Burns a percentage of tokens you receive, thereby boosting the value
-          of {circle?.token_name || 'GIVE'} this epoch for all Circle members.{' '}
-          <a
-            className={classes.link}
-            href={EXTERNAL_URL_DOCS_REGIFT}
-            rel="noreferrer"
-            target="_blank"
-          >
-            Learn more about burning.
-          </a>
-        </p>
+      <div className={classes.optInputContainer}>
+        <OptInput
+          isChecked={profileData.non_receiver === 0}
+          subTitle={`I want to be eligible to receive ${
+            circle?.token_name || 'GIVE'
+          }`}
+          title="Opt In"
+          updateOpt={() => setProfileData({ ...profileData, non_receiver: 0 })}
+        />
+        <OptInput
+          isChecked={profileData.non_receiver !== 0}
+          subTitle="I am paid sufficiently via other channels"
+          title="Opt Out"
+          updateOpt={() => setProfileData({ ...profileData, non_receiver: 1 })}
+        />
       </div>
       <div className={classes.buttonContainer}>
         <Button className={classes.saveButton} onClick={onClickSaveProfile}>

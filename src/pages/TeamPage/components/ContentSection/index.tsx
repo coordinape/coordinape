@@ -241,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
 enum OrderType {
   Alphabetical = 'Alphabetical',
   Give_Allocated = 'Give Allocated',
-  Past_Teammates = 'Past Teammates',
+  Opt_In_First = 'Opt-In First',
 }
 
 export const ContentSection = () => {
@@ -356,12 +356,12 @@ export const ContentSection = () => {
             <Button
               className={clsx(
                 classes.sortButton,
-                orderType === OrderType.Past_Teammates ? 'selected' : ''
+                orderType === OrderType.Opt_In_First ? 'selected' : ''
               )}
               disableRipple={true}
-              onClick={() => setOrderType(OrderType.Past_Teammates)}
+              onClick={() => setOrderType(OrderType.Opt_In_First)}
             >
-              Past Teammates
+              Opt-In First
             </Button>
           </div>
         </div>
@@ -387,18 +387,8 @@ export const ContentSection = () => {
                   return a.name.localeCompare(b.name);
                 }
               }
-              case OrderType.Past_Teammates: {
-                const av = teammates.some((element) => element === a.id)
-                  ? 1
-                  : 0;
-                const bv = teammates.some((element) => element === b.id)
-                  ? 1
-                  : 0;
-                if (av !== bv) {
-                  return bv - av;
-                } else {
-                  return a.name.localeCompare(b.name);
-                }
+              case OrderType.Opt_In_First: {
+                return a.non_receiver - b.non_receiver;
               }
             }
           })

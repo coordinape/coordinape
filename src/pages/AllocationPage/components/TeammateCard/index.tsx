@@ -8,7 +8,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { ReactComponent as AllocationFire } from 'assets/svgs/button/allocation-fire.svg';
+import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
 import { Img } from 'components';
@@ -17,7 +17,6 @@ import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'relative',
     width: 270,
     height: 360,
     margin: theme.spacing(1),
@@ -31,12 +30,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10.75,
     wordBreak: 'break-all',
     textAlign: 'center',
-  },
-  fireIcon: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    margin: theme.spacing(1.5),
   },
   avatar: {
     width: 60,
@@ -102,6 +95,21 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  alertContainer: {
+    marginTop: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  alertLabel: {
+    width: '80%',
+    margin: `${theme.spacing(0.5)}px 0`,
+    fontSize: 12,
+    fontWeight: 700,
+    color: 'rgba(81, 99, 105, 0.3)',
+    textDecoration: 'underline',
+    wordBreak: 'break-word',
+  },
   noteTextareaContainer: {
     height: 68,
     marginTop: theme.spacing(2),
@@ -134,12 +142,12 @@ const useStyles = makeStyles((theme) => ({
 const TextOnlyTooltip = withStyles({
   tooltip: {
     margin: 'auto',
-    padding: `13px 20px`,
+    padding: `4px 8px`,
     maxWidth: 240,
-    fontSize: 15,
+    fontSize: 10,
     fontWeight: 500,
-    color: 'white',
-    background: '#828F93',
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#C3CDCF',
   },
 })(Tooltip);
 
@@ -181,17 +189,6 @@ export const TeammateCard = (props: IProps) => {
   // Return
   return (
     <div className={classes.root}>
-      {user.regift_percent === 100 && (
-        <div className={classes.fireIcon}>
-          <TextOnlyTooltip
-            TransitionComponent={Zoom}
-            placement="bottom-start"
-            title={`This user is currently set to burn 100% of the ${tokenName} they receive this epoch.`}
-          >
-            <AllocationFire />
-          </TextOnlyTooltip>
-        </div>
-      )}
       <Img
         alt="avatar"
         className={classes.avatar}
@@ -203,27 +200,44 @@ export const TeammateCard = (props: IProps) => {
         <p className={classes.bio}>{user.bio}</p>
       </div>
       <div className={classes.tokenInputContainer}>
-        <p className={classes.label}>
-          {user.non_receiver ? '' : `${tokenName} to Allocate`}
-        </p>
-        <div>
-          <Button disabled={disabled} onClick={() => spinTokens(-1)}>
-            <MinusCircleSVG />
-          </Button>
-          <input
-            className={classes.tokenInput}
-            disabled={disabled}
-            min="0"
-            onChange={onChangeTokens}
-            onWheel={(e) => e.currentTarget.blur()}
-            pattern="[0-9]*"
-            type="number"
-            value={tokens}
-          />
-          <Button disabled={disabled} onClick={() => spinTokens(1)}>
-            <PlusCircleSVG />
-          </Button>
-        </div>
+        {!user.non_receiver ? (
+          <>
+            <p className={classes.label}>
+              {user.non_receiver ? '' : `${tokenName} to Allocate`}
+            </p>
+            <div>
+              <Button disabled={disabled} onClick={() => spinTokens(-1)}>
+                <MinusCircleSVG />
+              </Button>
+              <input
+                className={classes.tokenInput}
+                disabled={disabled}
+                min="0"
+                onChange={onChangeTokens}
+                onWheel={(e) => e.currentTarget.blur()}
+                pattern="[0-9]*"
+                type="number"
+                value={tokens}
+              />
+              <Button disabled={disabled} onClick={() => spinTokens(1)}>
+                <PlusCircleSVG />
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div className={classes.alertContainer}>
+            <TextOnlyTooltip
+              TransitionComponent={Zoom}
+              placement="top-start"
+              title={`This contributor opted out of receiving ${tokenName}. They are paid through other channels or are not currently active.`}
+            >
+              <AlertCircleSVG />
+            </TextOnlyTooltip>
+            <p className={classes.alertLabel}>
+              This contributor opted out of receiving {tokenName} this epoch.
+            </p>
+          </div>
+        )}
       </div>
       <div className={classes.noteTextareaContainer}>
         <p className={classes.label}>Leave a Note</p>

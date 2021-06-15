@@ -183,19 +183,13 @@ export const ReceiveInfo = () => {
       >
         <div className={classes.regiftContainer}>
           <p className={classes.regiftTitle}>
-            You are set to {me?.regift_percent || 0}% Burn and will receive{' '}
+            You will receive{' '}
             {(
               ((me?.give_token_received || 0) *
                 (100 - (me?.regift_percent || 0))) /
               100
             ).toFixed(1)}{' '}
-            {circle?.token_name || 'GIVE'} after the burn phase{'\n'}
-            <NavLink
-              className={classes.navLink}
-              to={`/${circle?.protocol.name}/${circle?.name}/profile`}
-            >
-              edit burn settings
-            </NavLink>
+            {circle?.token_name || 'GIVE'}
           </p>
         </div>
         {tokenGifts
