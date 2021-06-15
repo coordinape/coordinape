@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import clsx from 'clsx';
 import { useSnackbar } from 'notistack';
@@ -13,15 +13,16 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { ReactComponent as AllocationFire } from 'assets/svgs/button/allocation-fire.svg';
+import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
+import { ReactComponent as CheckedRadioSVG } from 'assets/svgs/button/checked-radio.svg';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import { ReactComponent as SaveProfileSVG } from 'assets/svgs/button/save-profile.svg';
+import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
 import { ReactComponent as UploadImageSVG } from 'assets/svgs/button/upload-image.svg';
 import { Img, LoadingModal } from 'components';
 import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { blobToFile, resizeImage } from 'utils/image';
 
 import { PutUsersParam } from 'types';
 
@@ -41,12 +42,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10.75,
     wordBreak: 'break-all',
     textAlign: 'center',
-  },
-  fireIcon: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    margin: theme.spacing(1.5),
   },
   avatar: {
     width: 60,
@@ -109,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
   },
   bioContainer: {
-    height: 140,
+    height: 80,
     marginTop: theme.spacing(0.5),
     marginBottom: 0,
   },
@@ -143,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bioTextareaContainer: {
-    height: 150,
+    height: 110,
     marginTop: 6,
     padding: 11,
     display: 'flex',
@@ -180,6 +175,42 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 500,
     color: 'rgba(81, 99, 105, 0.2)',
+  },
+  optContainer: {
+    marginTop: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  radioInput: {
+    height: 18,
+    width: 18,
+    padding: 0,
+  },
+  radioLabel: {
+    margin: `${theme.spacing(0.5)}px 0`,
+    paddingLeft: theme.spacing(1),
+    fontSize: 14,
+    color: 'rgba(81, 99, 105, 0.5)',
+    '&:hover': {
+      color: 'rgba(81, 99, 105, 0.85)',
+    },
+    '&:checked': {
+      color: theme.colors.text,
+    },
+  },
+  alertContainer: {
+    marginTop: theme.spacing(0.5),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  alertLabel: {
+    margin: `${theme.spacing(0.5)}px 0`,
+    fontSize: 12,
+    fontWeight: 700,
+    color: 'rgba(81, 99, 105, 0.3)',
+    textDecoration: 'underline',
   },
   buttonLabel: {
     paddingTop: 2,
@@ -241,12 +272,12 @@ const useStyles = makeStyles((theme) => ({
 const TextOnlyTooltip = withStyles({
   tooltip: {
     margin: 'auto',
-    padding: `13px 20px`,
+    padding: `4px 8px`,
     maxWidth: 240,
-    fontSize: 15,
+    fontSize: 10,
     fontWeight: 500,
-    color: 'white',
-    background: '#828F93',
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#C3CDCF',
   },
 })(Tooltip);
 
@@ -255,6 +286,7 @@ interface IProfileData {
   avatarRaw: File | null;
   name: string;
   bio: string;
+  non_receiver: number;
 }
 
 export const MyProfileCard = () => {
@@ -267,6 +299,7 @@ export const MyProfileCard = () => {
     avatarRaw: null,
     name: me?.name || '',
     bio: me?.bio || '',
+    non_receiver: me?.non_receiver || 0,
   });
   const [isLoading, setLoading] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -299,6 +332,7 @@ export const MyProfileCard = () => {
         profileData.name.length === 0 ||
         (profileData.name === (me?.name || '') &&
           profileData.bio === (me?.bio || '') &&
+          profileData.non_receiver === (me?.non_receiver || 0) &&
           !profileData.avatarRaw)
       ) {
         return;
@@ -324,14 +358,15 @@ export const MyProfileCard = () => {
       const putUsers = async () => {
         if (
           profileData.name !== (me?.name || '') ||
-          profileData.bio !== (me?.bio || '')
+          profileData.bio !== (me?.bio || '') ||
+          profileData.non_receiver !== (me?.non_receiver || 0)
         ) {
           try {
             const params: PutUsersParam = {
               name: profileData.name,
               bio: profileData.bio,
               epoch_first_visit: 0,
-              regift_percent: me?.regift_percent,
+              non_receiver: profileData.non_receiver,
               non_giver: me?.non_giver,
               address: me?.address,
               circle_id: me?.circle_id,
@@ -416,6 +451,44 @@ export const MyProfileCard = () => {
                 className={classes.bioLengthLabel}
               >{`${profileData.bio.length}/${MAX_BIO_LENGTH}`}</p>
             </div>
+            <div className={classes.optContainer}>
+              <FormControlLabel
+                control={
+                  <Radio
+                    checked={profileData.non_receiver === 0}
+                    checkedIcon={<CheckedRadioSVG />}
+                    className={classes.radioInput}
+                    icon={<UnCheckedRadioSVG />}
+                    onChange={() =>
+                      setProfileData({ ...profileData, non_receiver: 0 })
+                    }
+                  />
+                }
+                label={
+                  <p className={classes.radioLabel}>
+                    Opt in to receiving {circle?.token_name || 'GIVE'}
+                  </p>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Radio
+                    checked={profileData.non_receiver !== 0}
+                    checkedIcon={<CheckedRadioSVG />}
+                    className={classes.radioInput}
+                    icon={<UnCheckedRadioSVG />}
+                    onChange={() =>
+                      setProfileData({ ...profileData, non_receiver: 1 })
+                    }
+                  />
+                }
+                label={
+                  <p className={classes.radioLabel}>
+                    Opt out to receiving {circle?.token_name || 'GIVE'}
+                  </p>
+                }
+              />
+            </div>
             <Button
               className={classes.saveButton}
               disableRipple={true}
@@ -423,6 +496,7 @@ export const MyProfileCard = () => {
                 profileData.name.length === 0 ||
                 (profileData.name === (me.name || '') &&
                   profileData.bio === (me.bio || '') &&
+                  profileData.non_receiver === (me.non_receiver || 0) &&
                   !profileData.avatarRaw)
               }
               onClick={onClickSaveProfile}
@@ -433,19 +507,6 @@ export const MyProfileCard = () => {
           </>
         ) : (
           <>
-            {me.regift_percent === 100 && (
-              <div className={classes.fireIcon}>
-                <TextOnlyTooltip
-                  TransitionComponent={Zoom}
-                  placement="bottom-start"
-                  title={`You are currently set to burn 100% of the ${
-                    circle?.token_name || 'GIVE'
-                  } you receive this epoch.`}
-                >
-                  <AllocationFire />
-                </TextOnlyTooltip>
-              </div>
-            )}
             <Img
               alt="avatar"
               className={classes.avatar}
@@ -456,6 +517,22 @@ export const MyProfileCard = () => {
             <div className={classes.bioContainer}>
               <p className={classes.bio}>{me.bio}</p>
             </div>
+            {me.non_receiver !== 0 && (
+              <div className={classes.alertContainer}>
+                <TextOnlyTooltip
+                  TransitionComponent={Zoom}
+                  placement="top-start"
+                  title={`You opted out of receiving ${
+                    circle?.token_name || 'GIVE'
+                  }. You are paid through other channels or are not currently active.`}
+                >
+                  <AlertCircleSVG />
+                </TextOnlyTooltip>
+                <p className={classes.alertLabel}>
+                  You opted out of receiving {circle?.token_name || 'GIVE'}
+                </p>
+              </div>
+            )}
             <Button
               className={classes.editButton}
               disableRipple={true}
@@ -467,6 +544,7 @@ export const MyProfileCard = () => {
                   avatarRaw: null,
                   name: me?.name || '',
                   bio: me?.bio || '',
+                  non_receiver: me?.non_receiver || 0,
                 });
                 setEditing(true);
               }}

@@ -15,7 +15,7 @@ export interface PutUsersParam {
   name: string;
   bio: string;
   epoch_first_visit: number;
-  regift_percent: number;
+  non_receiver: number;
   non_giver: number;
   address: string;
   circle_id: number;
