@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selectButton: {
     height: 17,
-    padding: `0 ${theme.spacing(1.5)}px`,
+    padding: theme.spacing(0, 1.5),
     fontSize: 14,
     fontWeight: 500,
     textTransform: 'none',
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sortButton: {
     height: 17,
-    padding: `0 ${theme.spacing(1)}px`,
+    padding: theme.spacing(0, 1),
     fontSize: 14,
     fontWeight: 500,
     textTransform: 'none',
@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
       borderRightWidth: 0,
     },
     '&.selected': {
-      color: theme.colors.text,
+      color: theme.colors.selected,
     },
   },
   teammatesContainer: {
