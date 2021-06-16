@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import clsx from 'clsx';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 
@@ -74,11 +75,95 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.primary,
     margin: 0,
   },
+  accessaryContainer: {
+    width: '95%',
+    marginTop: theme.spacing(4),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  filterLabel: {
+    margin: 0,
+    paddingLeft: theme.spacing(1),
+    fontSize: 14,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.35)',
+  },
+  filterButtonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  filterButton: {
+    height: 17,
+    padding: theme.spacing(0, 1),
+    fontSize: 14,
+    fontWeight: 500,
+    textTransform: 'none',
+    color: 'rgba(81, 99, 105, 0.35)',
+    '&:hover': {
+      background: 'none',
+      color: 'rgba(81, 99, 105, 0.75)',
+    },
+    '&:first-of-type': {
+      border: 'solid',
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 1,
+      borderRadius: 0,
+      borderColor: 'rgba(81, 99, 105, 0.35)',
+    },
+    '&.selected': {
+      color: theme.colors.selected,
+    },
+  },
+  sortButtonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  sortLabel: {
+    margin: 0,
+    paddingRight: theme.spacing(1),
+    fontSize: 14,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.35)',
+  },
+  sortButton: {
+    height: 17,
+    padding: theme.spacing(0, 1),
+    fontSize: 14,
+    fontWeight: 500,
+    textTransform: 'none',
+    color: 'rgba(81, 99, 105, 0.35)',
+    border: 'solid',
+    borderColor: 'rgba(81, 99, 105, 0.35)',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderRadius: 0,
+    '&:hover': {
+      background: 'none',
+      color: 'rgba(81, 99, 105, 0.75)',
+    },
+    '&:first-of-type': {
+      borderLeftWidth: 0,
+    },
+    '&:last-of-type': {
+      borderRightWidth: 0,
+    },
+    '&.selected': {
+      color: theme.colors.selected,
+    },
+  },
   settingTeammatesNavLink: {
     marginTop: theme.spacing(7),
     marginBottom: theme.spacing(1),
     marginRight: 'auto',
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: theme.spacing(1, 2),
     fontSize: 18,
     fontWeight: 600,
     textTransform: 'none',
@@ -95,7 +180,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   teammateContainer: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -136,10 +221,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+enum OrderType {
+  Alphabetical = 'Alphabetical',
+  Give_Allocated = 'Give Allocated',
+  Opt_In_First = 'Opt-In First',
+}
+
+enum FilterType {
+  OptIn = 1,
+  NewMember = 2,
+}
+
 const AllocationPage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
   const { circle, epoch, me, refreshUserInfo } = useUserInfo();
+  const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
+  const [filterType, setFilterType] = useState<number>(0);
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -307,9 +405,103 @@ const AllocationPage = () => {
         </div>
         Edit Teammates List
       </NavLink> */}
+      <div className={classes.accessaryContainer}>
+        <div className={classes.filterButtonContainer}>
+          <p className={classes.filterLabel}>filter by</p>
+          <div>
+            <Button
+              className={clsx(
+                classes.filterButton,
+                filterType & FilterType.OptIn ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setFilterType(filterType ^ FilterType.OptIn)}
+            >
+              Opt-In
+            </Button>
+            <Button
+              className={clsx(
+                classes.filterButton,
+                filterType & FilterType.NewMember ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setFilterType(filterType ^ FilterType.NewMember)}
+            >
+              New Members
+            </Button>
+          </div>
+        </div>
+        <div className={classes.sortButtonContainer}>
+          <p className={classes.sortLabel}>sort by</p>
+          <div>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Alphabetical ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Alphabetical)}
+            >
+              Alphabetical
+            </Button>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Give_Allocated ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Give_Allocated)}
+            >
+              Give Allocated
+            </Button>
+            <Button
+              className={clsx(
+                classes.sortButton,
+                orderType === OrderType.Opt_In_First ? 'selected' : ''
+              )}
+              disableRipple={true}
+              onClick={() => setOrderType(OrderType.Opt_In_First)}
+            >
+              Opt-In First
+            </Button>
+          </div>
+        </div>
+      </div>
       <div className={classes.teammateContainer}>
         {(me ? [...me.teammates.filter((a) => a.is_hidden === 0), me] : [])
-          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((a) => {
+            if (filterType & FilterType.OptIn) {
+              return !a.non_receiver;
+            }
+            if (filterType & FilterType.NewMember) {
+              return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
+            }
+            return true;
+          })
+          .sort((a, b) => {
+            switch (orderType) {
+              case OrderType.Alphabetical:
+                return a.name.localeCompare(b.name);
+              case OrderType.Give_Allocated: {
+                const av =
+                  me?.pending_sent_gifts.find(
+                    (gift) => gift.recipient_id === a.id
+                  )?.tokens || 0;
+                const bv =
+                  me?.pending_sent_gifts.find(
+                    (gift) => gift.recipient_id === b.id
+                  )?.tokens || 0;
+                if (av !== bv) {
+                  return av - bv;
+                } else {
+                  return a.name.localeCompare(b.name);
+                }
+              }
+              case OrderType.Opt_In_First: {
+                return a.non_receiver - b.non_receiver;
+              }
+            }
+          })
           .map((user) =>
             user.id === me?.id ? (
               <MyProfileCard key={user.id} />
