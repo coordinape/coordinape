@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginBottom: theme.spacing(4),
     padding: '50px 0',
-    maxWidth: '90%',
+    width: '80%',
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
@@ -171,6 +171,20 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    margin: 0,
+    paddingLeft: theme.spacing(1),
+    fontSize: 27,
+    fontWeight: 400,
+    color: theme.colors.primary,
+    textAlign: 'center',
+  },
+  hr: {
+    height: 1,
+    width: '100%',
+    color: theme.colors.primary,
+    opacity: 0.5,
   },
   saveButton: {
     padding: '10px 24px',
@@ -330,7 +344,7 @@ export const ContentSection = () => {
           placeholder="🔍 Search"
           value={keyword}
         />
-        <div className={classes.sortButtonContainer}>
+        {/* <div className={classes.sortButtonContainer}>
           <p className={classes.sortLabel}>sort by</p>
           <div>
             <Button
@@ -364,10 +378,11 @@ export const ContentSection = () => {
               Opt-In First
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className={classes.teammatesContainer}>
         {allUsers
+          .filter((a) => a.non_receiver === 0)
           .sort((a, b) => {
             switch (orderType) {
               case OrderType.Alphabetical:
@@ -437,6 +452,89 @@ export const ContentSection = () => {
             </Button>
           ))}
       </div>
+      {allUsers.filter((a) => a.non_receiver !== 0).length > 0 && (
+        <>
+          <p className={classes.title}>
+            These users are opted-out of receiving GIVE
+          </p>
+          <hr className={classes.hr} />
+          <div className={classes.teammatesContainer}>
+            {allUsers
+              .filter((a) => a.non_receiver !== 0)
+              .sort((a, b) => {
+                switch (orderType) {
+                  case OrderType.Alphabetical:
+                    return a.name.localeCompare(b.name);
+                  case OrderType.Give_Allocated: {
+                    const av =
+                      me?.pending_sent_gifts.find(
+                        (gift) => gift.recipient_id === a.id
+                      )?.tokens || 0;
+                    const bv =
+                      me?.pending_sent_gifts.find(
+                        (gift) => gift.recipient_id === b.id
+                      )?.tokens || 0;
+                    if (av !== bv) {
+                      return av - bv;
+                    } else {
+                      return a.name.localeCompare(b.name);
+                    }
+                  }
+                  case OrderType.Opt_In_First: {
+                    return a.non_receiver - b.non_receiver;
+                  }
+                }
+              })
+              .map((user) => {
+                const selected = teammates.some(
+                  (element) => element === user.id
+                );
+                const pendingSentGifts =
+                  me?.pending_sent_gifts.find(
+                    (gift) => gift.recipient_id === user.id
+                  )?.tokens || 0;
+                const matched =
+                  keyword.length === 0 ||
+                  user.name.toLowerCase().includes(keyword.toLowerCase()) ||
+                  String(pendingSentGifts).includes(keyword);
+
+                return { ...user, selected, matched, pendingSentGifts };
+              })
+              .map((user) => (
+                <Button
+                  className={clsx(
+                    classes.teammatesItem,
+                    user.selected ? 'selected' : '',
+                    !user.matched ? 'unmatched' : ''
+                  )}
+                  key={user.id}
+                  onClick={() => onClickTeammatesItem(user.id)}
+                >
+                  {user.avatar && user.avatar.length > 0 ? (
+                    <Img
+                      alt={user.name}
+                      className={classes.avatar}
+                      placeholderImg="/imgs/avatar/placeholder.jpg"
+                      src={
+                        (process.env.REACT_APP_S3_BASE_URL as string) +
+                        user.avatar
+                      }
+                    />
+                  ) : (
+                    <span>&nbsp;&nbsp;&nbsp;</span>
+                  )}
+                  {user.name} | {user.pendingSentGifts}
+                  <div
+                    className={classes.checkmarkIconWrapper}
+                    hidden={!user.selected}
+                  >
+                    <CheckmarkSVG />
+                  </div>
+                </Button>
+              ))}
+          </div>
+        </>
+      )}
       <div className={classes.buttonContainer}>
         <Button
           className={classes.saveButton}

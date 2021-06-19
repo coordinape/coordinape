@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 500,
     color: theme.colors.text,
-    background: 'rgba(81, 99, 105, 0.2)',
+    background: theme.colors.white,
     border: 0,
     borderRadius: 8,
     outline: 'none',

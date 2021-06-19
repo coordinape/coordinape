@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(2.5, 6),
     width: 648,
-    height: 490,
+    height: 658,
     borderRadius: theme.spacing(1),
     outline: 'none',
     background: theme.colors.white,
@@ -153,6 +153,12 @@ export const EditContributorModal = (props: IProps) => {
   const [contributorNonGive, setContributorNonGive] = useState<number>(
     user?.non_giver || 0
   );
+  const [contributorOptOut, setContributorOptOut] = useState<number>(
+    user?.fixed_non_receiver || 0
+  );
+  const [contributorAdmin, setContributorAdmin] = useState<number>(
+    user?.role || 0
+  );
   const [contributorAddress, setContributorAddress] = useState<string>(
     user?.address || ''
   );
@@ -185,6 +191,8 @@ export const EditContributorModal = (props: IProps) => {
               user.address,
               contributorAddress,
               contributorNonGive,
+              contributorOptOut,
+              contributorAdmin,
               contributorStartingTokens,
               library
             )
@@ -193,6 +201,8 @@ export const EditContributorModal = (props: IProps) => {
               contributorName,
               contributorAddress,
               contributorNonGive,
+              contributorOptOut,
+              contributorAdmin,
               contributorStartingTokens,
               library
             ));
@@ -213,15 +223,15 @@ export const EditContributorModal = (props: IProps) => {
       <div className={classes.content}>
         <p className={classes.title}>{user ? 'Edit' : 'Add'} Contributor</p>
         <div className={classes.subContent}>
-          <div className={classes.bottomContainer}>
-            <p className={classes.subTitle}>Contributor Name</p>
-            <input
-              className={classes.input}
-              onChange={onChangeContributorName}
-              value={contributorName}
-            />
-          </div>
           <div className={classes.subContainer}>
+            <div className={classes.topContainer}>
+              <p className={classes.subTitle}>Contributor Name</p>
+              <input
+                className={classes.input}
+                onChange={onChangeContributorName}
+                value={contributorName}
+              />
+            </div>
             <div className={classes.topContainer}>
               <p className={classes.subTitle}>
                 Can They Send {circle?.token_name || 'GIVE'}?
@@ -250,6 +260,62 @@ export const EditContributorModal = (props: IProps) => {
                 ))}
               </Select>
             </div>
+          </div>
+          <div className={classes.subContainer}>
+            <div className={classes.topContainer}>
+              <p className={classes.subTitle}>Force Opt Out?</p>
+              <Select
+                className={classes.selectRoot}
+                classes={{
+                  select: classes.select,
+                  icon: classes.selectIcon,
+                }}
+                disableUnderline
+                onChange={({ target: { value } }) =>
+                  setContributorOptOut(value as number)
+                }
+                value={contributorOptOut}
+              >
+                {[1, 0].map((value) => (
+                  <MenuItem
+                    className={classes.menuItem}
+                    classes={{ selected: classes.menuItemSelected }}
+                    key={value}
+                    value={value}
+                  >
+                    {value === 1 ? 'Yes' : 'No'}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            <div className={classes.topContainer}>
+              <p className={classes.subTitle}>Are They Admin?</p>
+              <Select
+                className={classes.selectRoot}
+                classes={{
+                  select: classes.select,
+                  icon: classes.selectIcon,
+                }}
+                disableUnderline
+                onChange={({ target: { value } }) =>
+                  setContributorAdmin(value as number)
+                }
+                value={contributorAdmin}
+              >
+                {[1, 0].map((value) => (
+                  <MenuItem
+                    className={classes.menuItem}
+                    classes={{ selected: classes.menuItemSelected }}
+                    key={value}
+                    value={value}
+                  >
+                    {value === 1 ? 'Yes' : 'No'}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+          <div className={classes.subContainer}>
             <div className={classes.topContainer}>
               <p className={classes.subTitle}>Starting Tokens</p>
               <input

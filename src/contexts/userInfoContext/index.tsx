@@ -179,6 +179,15 @@ export const UserInfoProvider = (props: IProps) => {
           true
         );
 
+        if (me.admin_view !== 0 && !me.teammates) {
+          me.teammates = users.filter(
+            (user) =>
+              user.address.toLowerCase() !== account?.toLowerCase() &&
+              !user.deleted_at
+          );
+          me.pending_sent_gifts = [];
+        }
+
         epochs = epochs.sort(
           (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
         );

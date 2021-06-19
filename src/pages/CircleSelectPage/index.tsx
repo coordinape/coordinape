@@ -154,9 +154,11 @@ const CircleSelectPage = () => {
   // Get My Circles
   useEffect(() => {
     if (circles) {
-      const myCircles = circles.filter((circle) =>
-        users.some((user) => user.circle_id === circle.id)
-      );
+      const myCircles = users.some((user) => user.admin_view !== 0)
+        ? circles
+        : circles.filter((circle) =>
+            users.some((user) => user.circle_id === circle.id)
+          );
       setMyCircles(myCircles);
 
       const circle_id = getCircleId();

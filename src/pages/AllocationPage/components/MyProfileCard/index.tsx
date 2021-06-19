@@ -451,44 +451,46 @@ export const MyProfileCard = () => {
                 className={classes.bioLengthLabel}
               >{`${profileData.bio.length}/${MAX_BIO_LENGTH}`}</p>
             </div>
-            <div className={classes.optContainer}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={profileData.non_receiver === 0}
-                    checkedIcon={<CheckedRadioSVG />}
-                    className={classes.radioInput}
-                    icon={<UnCheckedRadioSVG />}
-                    onChange={() =>
-                      setProfileData({ ...profileData, non_receiver: 0 })
-                    }
-                  />
-                }
-                label={
-                  <p className={classes.radioLabel}>
-                    Opt in to receiving {circle?.token_name || 'GIVE'}
-                  </p>
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={profileData.non_receiver !== 0}
-                    checkedIcon={<CheckedRadioSVG />}
-                    className={classes.radioInput}
-                    icon={<UnCheckedRadioSVG />}
-                    onChange={() =>
-                      setProfileData({ ...profileData, non_receiver: 1 })
-                    }
-                  />
-                }
-                label={
-                  <p className={classes.radioLabel}>
-                    Opt out to receiving {circle?.token_name || 'GIVE'}
-                  </p>
-                }
-              />
-            </div>
+            {me.fixed_non_receiver === 0 && (
+              <div className={classes.optContainer}>
+                <FormControlLabel
+                  control={
+                    <Radio
+                      checked={profileData.non_receiver === 0}
+                      checkedIcon={<CheckedRadioSVG />}
+                      className={classes.radioInput}
+                      icon={<UnCheckedRadioSVG />}
+                      onChange={() =>
+                        setProfileData({ ...profileData, non_receiver: 0 })
+                      }
+                    />
+                  }
+                  label={
+                    <p className={classes.radioLabel}>
+                      Opt in to receiving {circle?.token_name || 'GIVE'}
+                    </p>
+                  }
+                />
+                <FormControlLabel
+                  control={
+                    <Radio
+                      checked={profileData.non_receiver !== 0}
+                      checkedIcon={<CheckedRadioSVG />}
+                      className={classes.radioInput}
+                      icon={<UnCheckedRadioSVG />}
+                      onChange={() =>
+                        setProfileData({ ...profileData, non_receiver: 1 })
+                      }
+                    />
+                  }
+                  label={
+                    <p className={classes.radioLabel}>
+                      Opt out to receiving {circle?.token_name || 'GIVE'}
+                    </p>
+                  }
+                />
+              </div>
+            )}
             <Button
               className={classes.saveButton}
               disableRipple={true}
