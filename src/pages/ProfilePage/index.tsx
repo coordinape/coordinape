@@ -233,8 +233,8 @@ const ProfilePage = () => {
           <div className={classes.titleContainer}>
             <p className={classes.titleIndex}>2</p>
             <p className={classes.title}>
-              Should you receive GIVE distributions in the{' '}
-              {capitalizedName(circle?.name)} Circle this epoch?
+              Should you receive {circle?.token_name || 'GIVE'} distributions in
+              the {capitalizedName(circle?.name)} Circle this epoch?
             </p>
           </div>
           <hr className={classes.optHr} />
