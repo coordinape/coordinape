@@ -146,6 +146,7 @@ const useStyles = makeStyles((theme) => ({
 interface IProfileData {
   bio: string;
   non_receiver: number;
+  fixed_non_receiver: number;
 }
 
 const ProfilePage = () => {
@@ -155,6 +156,7 @@ const ProfilePage = () => {
   const [profileData, setProfileData] = useState<IProfileData>({
     bio: me?.bio || '',
     non_receiver: me?.non_receiver || 0,
+    fixed_non_receiver: me?.fixed_non_receiver || 0,
   });
   const [isLoading, setLoading] = useState<boolean>(false);
   const history = useHistory();
@@ -226,30 +228,58 @@ const ProfilePage = () => {
           value={profileData.bio}
         />
       </div>
-      <div className={classes.titleContainer}>
-        <p className={classes.titleIndex}>2</p>
-        <p className={classes.title}>
-          Should you receive GIVE distributions in the{' '}
-          {capitalizedName(circle?.name)} Circle this epoch?
-        </p>
-      </div>
-      <hr className={classes.optHr} />
-      <div className={classes.optInputContainer}>
-        <OptInput
-          isChecked={profileData.non_receiver === 0}
-          subTitle={`I want to be eligible to receive ${
-            circle?.token_name || 'GIVE'
-          }`}
-          title="Opt In"
-          updateOpt={() => setProfileData({ ...profileData, non_receiver: 0 })}
-        />
-        <OptInput
-          isChecked={profileData.non_receiver !== 0}
-          subTitle="I am paid sufficiently via other channels"
-          title="Opt Out"
-          updateOpt={() => setProfileData({ ...profileData, non_receiver: 1 })}
-        />
-      </div>
+      {profileData.fixed_non_receiver === 0 ? (
+        <>
+          <div className={classes.titleContainer}>
+            <p className={classes.titleIndex}>2</p>
+            <p className={classes.title}>
+              Should you receive {circle?.token_name || 'GIVE'} distributions in
+              the {capitalizedName(circle?.name)} Circle this epoch?
+            </p>
+          </div>
+          <hr className={classes.optHr} />
+          <div className={classes.optInputContainer}>
+            <OptInput
+              isChecked={profileData.non_receiver === 0}
+              subTitle={`I want to be eligible to receive ${
+                circle?.token_name || 'GIVE'
+              }`}
+              title="Opt In"
+              updateOpt={() =>
+                setProfileData({ ...profileData, non_receiver: 0 })
+              }
+            />
+            <OptInput
+              isChecked={profileData.non_receiver !== 0}
+              subTitle="I am paid sufficiently via other channels"
+              title="Opt Out"
+              updateOpt={() =>
+                setProfileData({ ...profileData, non_receiver: 1 })
+              }
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={classes.titleContainer}>
+            <p className={classes.title}>
+              Your administrator opted you out of receiving{' '}
+              {circle?.token_name || 'GIVE'}
+            </p>
+          </div>
+          <hr className={classes.optHr} />
+          <div className={classes.optInputContainer}>
+            <p className={classes.optLabel}>
+              You can still distribute {circle?.token_name || 'GIVE'} as normal.
+              Generally people are opted out of receiving{' '}
+              {circle?.token_name || 'GIVE'} if they are compensated in other
+              ways by their organization. Please contact your circle admin for
+              more details.
+            </p>
+          </div>
+        </>
+      )}
+
       <div className={classes.buttonContainer}>
         <Button className={classes.saveButton} onClick={onClickSaveProfile}>
           Save Your Profile

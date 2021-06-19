@@ -52,10 +52,10 @@ class APIService {
     provider?: any
   ): Promise<ICircle> => {
     const params: any = { name, token_name };
-    if (team_sel_text) {
+    if (team_sel_text !== undefined) {
       params.team_sel_text = team_sel_text;
     }
-    if (alloc_text) {
+    if (alloc_text !== undefined) {
       params.alloc_text = alloc_text;
     }
     const data = JSON.stringify(params);
@@ -70,7 +70,7 @@ class APIService {
 
   getEpochs = async (current?: number): Promise<IEpoch[]> => {
     const params: any = {};
-    if (current) {
+    if (current !== undefined) {
       params.current = current;
     }
     const response = await axios.get('/epoches', { params });
@@ -128,16 +128,16 @@ class APIService {
     deleted_users?: boolean
   ): Promise<IUser[]> => {
     const params: any = {};
-    if (circle_id) {
+    if (circle_id !== undefined) {
       params.circle_id = circle_id;
     }
-    if (address) {
+    if (address !== undefined) {
       params.address = address;
     }
-    if (id) {
+    if (id !== undefined) {
       params.id = id;
     }
-    if (deleted_users) {
+    if (deleted_users !== undefined) {
       params.deleted_users = true;
     }
     const response = await axios.get('/users', { params });
@@ -149,14 +149,22 @@ class APIService {
     name: string,
     address: string,
     non_giver?: number,
+    fixed_non_receiver?: number,
+    role?: number,
     starting_tokens?: number,
     provider?: any
   ): Promise<IUser> => {
     const params: any = { name, address };
-    if (non_giver) {
+    if (non_giver !== undefined) {
       params.non_giver = non_giver;
     }
-    if (starting_tokens) {
+    if (fixed_non_receiver !== undefined) {
+      params.fixed_non_receiver = fixed_non_receiver;
+    }
+    if (role !== undefined) {
+      params.role = role;
+    }
+    if (starting_tokens !== undefined) {
       params.starting_tokens = starting_tokens;
     }
     const data = JSON.stringify(params);
@@ -190,14 +198,22 @@ class APIService {
     originAddress: string,
     address: string,
     non_giver?: number,
+    fixed_non_receiver?: number,
+    role?: number,
     starting_tokens?: number,
     provider?: any
   ): Promise<IUser> => {
     const params: any = { name, address };
-    if (non_giver) {
+    if (non_giver !== undefined) {
       params.non_giver = non_giver;
     }
-    if (starting_tokens) {
+    if (fixed_non_receiver !== undefined) {
+      params.fixed_non_receiver = fixed_non_receiver;
+    }
+    if (role !== undefined) {
+      params.role = role;
+    }
+    if (starting_tokens !== undefined) {
       params.starting_tokens = starting_tokens;
     }
     const data = JSON.stringify(params);
@@ -271,16 +287,16 @@ class APIService {
     id?: number
   ): Promise<ITokenGift[]> => {
     const params: any = {};
-    if (sender_address) {
+    if (sender_address !== undefined) {
       params.sender_address = sender_address;
     }
-    if (recipient_address) {
+    if (recipient_address !== undefined) {
       params.recipient_address = recipient_address;
     }
-    if (circle_id) {
+    if (circle_id !== undefined) {
       params.circle_id = circle_id;
     }
-    if (id) {
+    if (id !== undefined) {
       params.id = id;
     }
     const response = await axios.get('/pending-token-gifts', { params });
@@ -294,16 +310,16 @@ class APIService {
     id?: number
   ): Promise<ITokenGift[]> => {
     const params: any = {};
-    if (sender_address) {
+    if (sender_address !== undefined) {
       params.sender_address = sender_address;
     }
-    if (recipient_address) {
+    if (recipient_address !== undefined) {
       params.recipient_address = recipient_address;
     }
-    if (circle_id) {
+    if (circle_id !== undefined) {
       params.circle_id = circle_id;
     }
-    if (id) {
+    if (id !== undefined) {
       params.id = id;
     }
     const response = await axios.get('/token-gifts', { params });

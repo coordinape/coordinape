@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     width: '20%',
   },
   two: {
-    width: '14%',
+    width: '11.6%',
   },
   three: {
     width: '5%',
@@ -266,6 +266,7 @@ export const Content = () => {
             <col className={classes.two} />
             <col className={classes.two} />
             <col className={classes.two} />
+            <col className={classes.two} />
             <col className={classes.three} />
             <col className={classes.three} />
           </colgroup>
@@ -285,6 +286,10 @@ export const Content = () => {
               <th className={classes.th} onClick={() => onClickSort(2)}>
                 Can they give?
                 {order.field === 2 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
+              </th>
+              <th className={classes.th} onClick={() => onClickSort(6)}>
+                Force Opt Out?
+                {order.field === 6 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
               </th>
               <th className={classes.th} onClick={() => onClickSort(3)}>
                 Are they admin?
@@ -324,6 +329,11 @@ export const Content = () => {
                       order.ascending *
                       (a.give_token_received - b.give_token_received)
                     );
+                  case 6:
+                    return (
+                      order.ascending *
+                      (b.fixed_non_receiver - a.fixed_non_receiver)
+                    );
                   default:
                     return order.ascending;
                 }
@@ -353,6 +363,9 @@ export const Content = () => {
                   </td>
                   <td className={classes.tdOther}>
                     {user.non_giver === 0 ? 'Yes' : 'No'}
+                  </td>
+                  <td className={classes.tdOther}>
+                    {user.fixed_non_receiver === 0 ? 'No' : 'Yes'}
                   </td>
                   <td className={classes.tdOther}>
                     {user.role === 0 ? 'No' : 'Yes'}
