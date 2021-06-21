@@ -4,6 +4,7 @@ import { createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import colors from './colors';
+import custom from './custom';
 
 const fontFamilyDefault = ['Space Grotesk', 'sans-serif'];
 const fontFamilyMono = ['Space Mono', 'sans-serif'];
@@ -127,6 +128,6 @@ const createTheme = () => {
     colors,
   } as any);
 
-  return createMuiTheme(merge({}, base, derivedTheme(base)));
+  return createMuiTheme(merge({}, base, derivedTheme(base), { custom }));
 };
 export default createTheme;

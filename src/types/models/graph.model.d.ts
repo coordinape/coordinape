@@ -16,3 +16,8 @@ interface IGraphNode extends IUser {
   tokensReceived: number;
   linkCount: number;
 }
+
+interface IEpochOption {
+  label: string;
+  value: number;
+}

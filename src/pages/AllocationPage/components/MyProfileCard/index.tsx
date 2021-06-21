@@ -23,6 +23,7 @@ import { Img, LoadingModal } from 'components';
 import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
+import { getAvatarPath } from 'utils/domain';
 
 import { PutUsersParam } from 'types';
 
@@ -295,7 +296,7 @@ export const MyProfileCard = () => {
   const { circle, me, refreshUserInfo } = useUserInfo();
   const [isEditing, setEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<IProfileData>({
-    avatar: (process.env.REACT_APP_S3_BASE_URL as string) + (me?.avatar || ''),
+    avatar: getAvatarPath(me?.avatar),
     avatarRaw: null,
     name: me?.name || '',
     bio: me?.bio || '',
@@ -513,7 +514,7 @@ export const MyProfileCard = () => {
               alt="avatar"
               className={classes.avatar}
               placeholderImg="/imgs/avatar/placeholder.jpg"
-              src={(process.env.REACT_APP_S3_BASE_URL as string) + me.avatar}
+              src={getAvatarPath(me.avatar)}
             />
             <p className={classes.name}>{me.name}</p>
             <div className={classes.bioContainer}>
@@ -540,9 +541,7 @@ export const MyProfileCard = () => {
               disableRipple={true}
               onClick={() => {
                 setProfileData({
-                  avatar:
-                    (process.env.REACT_APP_S3_BASE_URL as string) +
-                    (me?.avatar || ''),
+                  avatar: getAvatarPath(me?.avatar),
                   avatarRaw: null,
                   name: me?.name || '',
                   bio: me?.bio || '',

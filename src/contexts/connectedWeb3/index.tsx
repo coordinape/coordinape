@@ -74,7 +74,7 @@ export const ConnectedWeb3: React.FC = (props) => {
   }, [context, library, active, error]);
 
   const value = {
-    account: account || null,
+    account: account?.toLowerCase() || null, // Match the Coordinape server
     library,
     networkId: chainId,
     rawWeb3Context: context,

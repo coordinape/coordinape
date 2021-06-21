@@ -10,6 +10,8 @@
 // Using the following isn't compatible with MaterialUi's colors:
 // import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
 
+export * from './AwardIcon';
 export * from './DocsIcon';
-export * from './TwitterIcon';
+export * from './FilterIcon';
 export * from './MediumIcon';
+export * from './TwitterIcon';

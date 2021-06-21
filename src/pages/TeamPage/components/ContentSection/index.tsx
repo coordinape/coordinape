@@ -12,6 +12,7 @@ import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg
 import { Img, LoadingModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
+import { getAvatarPath } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -435,9 +436,7 @@ export const ContentSection = () => {
                   alt={user.name}
                   className={classes.avatar}
                   placeholderImg="/imgs/avatar/placeholder.jpg"
-                  src={
-                    (process.env.REACT_APP_S3_BASE_URL as string) + user.avatar
-                  }
+                  src={getAvatarPath(user.avatar)}
                 />
               ) : (
                 <span>&nbsp;&nbsp;&nbsp;</span>
@@ -515,10 +514,7 @@ export const ContentSection = () => {
                       alt={user.name}
                       className={classes.avatar}
                       placeholderImg="/imgs/avatar/placeholder.jpg"
-                      src={
-                        (process.env.REACT_APP_S3_BASE_URL as string) +
-                        user.avatar
-                      }
+                      src={getAvatarPath(user.avatar)}
                     />
                   ) : (
                     <span>&nbsp;&nbsp;&nbsp;</span>

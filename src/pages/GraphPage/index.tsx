@@ -7,18 +7,16 @@ import { useSnackbar } from 'notistack';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import { MenuItem, Select, TextField, makeStyles } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import { Autocomplete } from '@material-ui/lab';
+import { MenuItem, Select, makeStyles } from '@material-ui/core';
 
 import { useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
-import { getNotableWords } from 'utils/string';
+import { getAvatarPath } from 'utils/domain';
 import { labelEpoch } from 'utils/tools';
 
-import GraphInfoPanel from './GraphInfoPanel';
+import FilterDrawer from './FilterDrawer';
 
-import { IGraphLink, IGraphNode, ITokenGift, IUser } from 'types';
+import { IGraphLink, IGraphNode, ITokenGift, IUser, IEpochOption } from 'types';
 
 const NODE_R = 8;
 const FAKE_ALL_EPOCH = -1;
@@ -63,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
   },
   epochSelectRoot: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 700,
     color: theme.colors.red,
     '&:hover': {
@@ -93,38 +91,17 @@ const useStyles = makeStyles((theme) => ({
   epochMenuItemSelected: {
     background: `${theme.colors.third} !important`,
   },
-  autocompleteAdornment: {
-    '& .MuiButtonBase-root': {
-      color: theme.colors.black,
-    },
-  },
-  autocompleteLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    '& *:first-child': {
-      paddingRight: theme.spacing(1),
-    },
-  },
 }));
 
-interface IEpochOption {
-  label: string;
-  value: number;
-}
-
-interface IProps {
-  className?: string;
-}
-
 function linkStrengthToken(link: any) {
-  return 0.2 / link.tokens;
+  return 0.05 / link.tokens;
 }
 
 function linkStrengthCounts(link: any) {
   return 0.5 / (link.source.linkCount + link.target.linkCount);
 }
 
-const GraphPage = (_props: IProps) => {
+const GraphPage = () => {
   const fgRef = useRef<any>(null);
   const hoverNode = useRef<IGraphNode | undefined>(undefined);
   const highlightReceiveNodes = useRef<Set<IGraphNode>>(new Set());
@@ -142,13 +119,13 @@ const GraphPage = (_props: IProps) => {
 
   const [users, setUsers] = useState<IUser[]>([]);
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
-  const [links, setLinks] = useState<any[]>([]);
-  const [nodes, setNodes] = useState<any[]>([]);
+  const [links, setLinks] = useState<IGraphLink[]>([]);
+  const [nodes, setNodes] = useState<IGraphNode[]>([]);
   const [epochOptions, setEpochOptions] = useState<IEpochOption[]>([]);
   const [epochSelection, setEpochSelection] = useState<number>(0);
   const [filteredUsers, setFilteredUsers] = useState<IGraphNode[]>([]);
   const [userRegExp, setUserRegExp] = useState<RegExp | undefined>();
-  const [notableWords, setNotableWords] = useState<string[]>([]);
+
   // TODO: this seems redundant with hoverNode
   const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
 
@@ -184,7 +161,9 @@ const GraphPage = (_props: IProps) => {
       return;
     }
     setUserRegExp(regExp);
-    const filtered = nodes.filter((u) => (regExp as RegExp).test(u.bio));
+    const filtered = nodes.filter((u) =>
+      (regExp as RegExp).test(`${u.name} ${u.bio}`)
+    );
     setFilteredUsers(filtered);
     filteredUserSet.current = new Set(filtered);
   };
@@ -289,13 +268,14 @@ const GraphPage = (_props: IProps) => {
 
   const getWidth = (link: IGraphLink) => (showMagnitudes() ? link.width : 4);
 
-  const onPanelClose = () => {
-    hoverNode.current = undefined;
-    setSelectedNode(undefined);
-    setFilteredUsers([]);
-    setUserRegExp(undefined);
-    filteredUserSet.current = new Set([]);
-  };
+  // TODO: Clear Filters?
+  // const onPanelClose = () => {
+  //   hoverNode.current = undefined;
+  //   setSelectedNode(undefined);
+  //   setFilteredUsers([]);
+  //   setUserRegExp(undefined);
+  //   filteredUserSet.current = new Set([]);
+  // };
 
   const onNodeClick = useCallback(
     (node: any) => {
@@ -337,17 +317,17 @@ const GraphPage = (_props: IProps) => {
       return;
     }
     setEpochOptions(
-      epochs
-        .map((e) => ({
+      [
+        {
+          label: 'ALL',
+          value: FAKE_ALL_EPOCH,
+        },
+      ].concat(
+        epochs.map((e) => ({
           label: labelEpoch(e),
           value: e.id,
         }))
-        .concat([
-          {
-            label: 'ALL',
-            value: FAKE_ALL_EPOCH,
-          },
-        ])
+      )
     );
     setEpochSelection(epoch?.id ?? epochs[0].id);
   }, [epoch, epochs]);
@@ -355,10 +335,6 @@ const GraphPage = (_props: IProps) => {
   useEffect(() => {
     me && fetchGifts();
   }, [me]);
-
-  useEffect(() => {
-    setNotableWords(getNotableWords(users.map((u) => u.bio).join(' '), 20));
-  }, [users]);
 
   useEffect(() => {
     if (epochSelection === FAKE_ALL_EPOCH) {
@@ -396,12 +372,11 @@ const GraphPage = (_props: IProps) => {
       )
     );
 
+    // TODO: This can be simplified for placeholders
     const images = fromPairs(
       uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
-        img.src = avatar
-          ? (process.env.REACT_APP_S3_BASE_URL as string) + avatar
-          : '/imgs/avatar/placeholder.jpg';
+        img.src = getAvatarPath(avatar);
         return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
       })
     );
@@ -484,6 +459,14 @@ const GraphPage = (_props: IProps) => {
 
   return (
     <div className={classes.root}>
+      <FilterDrawer
+        onClickUser={onNodeClick}
+        regExp={userRegExp}
+        selectedUser={selectedNode}
+        filteredUsers={filteredUsers}
+        users={nodes}
+        onSearchChange={handleSearchChange}
+      />
       <AutoSizer className={classes.autoSizer}>
         {({ height, width }) => (
           <ForceGraph2D
@@ -532,42 +515,7 @@ const GraphPage = (_props: IProps) => {
             </MenuItem>
           ))}
         </Select>
-        <Autocomplete
-          classes={{
-            endAdornment: classes.autocompleteAdornment,
-            paper: classes.epochSelectMenuPaper,
-          }}
-          freeSolo
-          fullWidth
-          onInputChange={handleSearchChange}
-          options={notableWords}
-          renderInput={(params: any) => (
-            <TextField
-              {...params}
-              InputLabelProps={{ classes: { root: classes.autocompleteLabel } }}
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-              }}
-              label={
-                <>
-                  <SearchIcon />
-                  Search Bios
-                </>
-              }
-              margin="normal"
-              variant="standard"
-            />
-          )}
-        />
       </div>
-      <GraphInfoPanel
-        onClickUser={onNodeClick}
-        onClose={onPanelClose}
-        regExp={userRegExp}
-        selectedUser={selectedNode}
-        users={filteredUsers}
-      />
     </div>
   );
 };

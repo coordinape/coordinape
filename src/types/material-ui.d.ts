@@ -5,6 +5,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
     custom: {
       appHeaderHeight: number;
       appFooterHeight: number;
+      appDrawerWidth: number;
     };
     colors: {
       transparent: string;
@@ -30,6 +31,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
     custom: {
       appHeaderHeight: number;
       appFooterHeight: number;
+      appDrawerWidth: number;
     };
     colors: {
       transparent: string;
