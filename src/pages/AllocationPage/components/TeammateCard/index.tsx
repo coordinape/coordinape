@@ -12,6 +12,7 @@ import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circl
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
 import { Img } from 'components';
+import { getAvatarPath } from 'utils/domain';
 
 import { IUser } from 'types';
 
@@ -193,7 +194,7 @@ export const TeammateCard = (props: IProps) => {
         alt="avatar"
         className={classes.avatar}
         placeholderImg="/imgs/avatar/placeholder.jpg"
-        src={(process.env.REACT_APP_S3_BASE_URL as string) + user.avatar}
+        src={getAvatarPath(user.avatar)}
       />
       <p className={classes.name}>{user.name}</p>
       <div className={classes.bioContainer}>

@@ -9,6 +9,7 @@ import { Button, Popover, makeStyles } from '@material-ui/core';
 import { Img } from 'components';
 import { useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
+import { getAvatarPath } from 'utils/domain';
 
 import { ITokenGift } from 'types';
 
@@ -219,11 +220,10 @@ export const ReceiveInfo = () => {
                   }
                   className={classes.avatar}
                   placeholderImg="/imgs/avatar/placeholder.jpg"
-                  src={
-                    (process.env.REACT_APP_S3_BASE_URL as string) +
-                      users.find((user) => user.id === tokenGift.sender_id)
-                        ?.avatar || ''
-                  }
+                  src={getAvatarPath(
+                    users.find((user) => user.id === tokenGift.sender_id)
+                      ?.avatar
+                  )}
                 />
                 <div
                   className={

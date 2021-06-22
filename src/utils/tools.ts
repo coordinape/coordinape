@@ -20,6 +20,7 @@ export const isContract = async (
 };
 
 export const labelEpoch = (epoch: IEpoch) => {
+  const epochNumber = epoch.number ? `Epoch ${epoch.number}` : 'This Epoch';
   const start = new Date(epoch.start_date);
   const end = new Date(epoch.end_date);
   if (start.getMonth() !== end.getMonth()) {
@@ -27,7 +28,9 @@ export const labelEpoch = (epoch: IEpoch) => {
       day: 'numeric',
       month: 'short',
     });
-    return `${formatter.format(start)} - ${formatter.format(end)}`;
+    return `${epochNumber}: ${formatter.format(start)} - ${formatter.format(
+      end
+    )}`;
   }
   const dayFormatter = new Intl.DateTimeFormat('en', {
     day: 'numeric',
@@ -35,5 +38,7 @@ export const labelEpoch = (epoch: IEpoch) => {
   const month = new Intl.DateTimeFormat('en', {
     month: 'long',
   }).format(start);
-  return `${month} ${dayFormatter.format(start)} - ${dayFormatter.format(end)}`;
+  return `${epochNumber}: ${month} ${dayFormatter.format(
+    start
+  )} - ${dayFormatter.format(end)}`;
 };

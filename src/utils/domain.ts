@@ -12,11 +12,15 @@ export const APP_URL = DOMAIN_IS_APP
       `app.${window.location.host}`
     );
 
-export const STORAGE_URL = process.env.REACT_APP_S3_BASE_URL as string;
+// TODO: Have prod remove the trailing slash
+export const STORAGE_URL = (process.env
+  .REACT_APP_S3_BASE_URL as string).replace(/\/$/, '');
 export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
 
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>
   `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
+export const getAvatarPath = (avatar?: string) =>
+  avatar ? `${STORAGE_URL}/${avatar}` : '/imgs/avatar/placeholder.jpg';
 
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
