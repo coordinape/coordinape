@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
-import { LoadingModal } from 'components';
+import { LoadingModal, PopUpModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
 import { capitalizedName } from 'utils/string';
@@ -241,6 +241,9 @@ const AllocationPage = () => {
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isForceOptOut, setForceOptOut] = useState<boolean>(
+    me?.fixed_non_receiver ? true : false
+  );
   const { enqueueSnackbar } = useSnackbar();
 
   const epochStartDate = epoch ? moment.utc(epoch.start_date) : moment.utc();
@@ -541,6 +544,23 @@ const AllocationPage = () => {
       )}
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
+      )}
+      {isForceOptOut && (
+        <PopUpModal
+          onClose={() => {
+            setForceOptOut(false);
+          }}
+          title={`Your administrator opted you out of receiving ${
+            circle?.token_name || 'GIVE'
+          }`}
+          description={`You can still distribute ${
+            circle?.token_name || 'GIVE'
+          } as normal. Generally people are opted out of receiving ${
+            circle?.token_name || 'GIVE'
+          } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
+          button="Okay, Got it."
+          visible={isForceOptOut}
+        />
       )}
     </div>
   );

@@ -142,7 +142,7 @@ export const UserInfoProvider = (props: IProps) => {
   // Add User
   const addUser = (newUser: IUser) => {
     if (newUser.id === state.me?.id) {
-      setState((prev) => ({ ...prev, me: newUser }));
+      refreshUserInfo();
     } else {
       setState((prev) => ({
         ...prev,
