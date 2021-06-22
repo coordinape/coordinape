@@ -179,13 +179,14 @@ export const UserInfoProvider = (props: IProps) => {
           true
         );
 
-        if (me.admin_view !== 0 && !me.teammates) {
+        if (me.circle_id !== state.circle.id) {
           me.teammates = users.filter(
             (user) =>
               user.address.toLowerCase() !== account?.toLowerCase() &&
               !user.deleted_at
           );
           me.pending_sent_gifts = [];
+          me.role = 0;
         }
 
         epochs = epochs.sort(
