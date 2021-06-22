@@ -187,6 +187,7 @@ export const UserInfoProvider = (props: IProps) => {
           );
           me.pending_sent_gifts = [];
           me.role = 0;
+          me.non_giver = 1;
         }
 
         epochs = epochs.sort(
