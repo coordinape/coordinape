@@ -15,7 +15,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Autocomplete } from '@material-ui/lab';
 
 import { Drawer, Spacer, Img } from 'components';
-import { FilterIcon } from 'icons';
 import useCommonStyles from 'styles/common';
 import { getAvatarPath } from 'utils/domain';
 import { getNotableWords } from 'utils/string';
@@ -133,7 +132,7 @@ const FilterDrawer = ({
 }: IProps) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(true);
   const [notableWords, setNotableWords] = useState<string[]>([]);
 
   // TODO: Filter down to the current Epoch
@@ -150,7 +149,7 @@ const FilterDrawer = ({
   };
 
   return (
-    <Drawer open={open} setOpen={handleSetOpen} Icon={<FilterIcon />}>
+    <Drawer open={open} setOpen={handleSetOpen} Icon={<SearchIcon />}>
       <Spacer h={42} />
       <Typography variant="h5">Search Circle</Typography>
       <Box width="100%" px={3} mt={1} mb={4}>
