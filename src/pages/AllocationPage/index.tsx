@@ -235,15 +235,19 @@ enum FilterType {
 const AllocationPage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const { circle, epoch, me, refreshUserInfo } = useUserInfo();
+  const {
+    circle,
+    epoch,
+    me,
+    isPopUpForceOptOut,
+    refreshUserInfo,
+    setPopUpForceOptOut,
+  } = useUserInfo();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
   const [giveNotes, setGiveNotes] = useState<{ [id: number]: string }>({});
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [isForceOptOut, setForceOptOut] = useState<boolean>(
-    me?.fixed_non_receiver ? true : false
-  );
   const { enqueueSnackbar } = useSnackbar();
 
   const epochStartDate = epoch ? moment.utc(epoch.start_date) : moment.utc();
@@ -545,10 +549,10 @@ const AllocationPage = () => {
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}
-      {isForceOptOut && (
+      {isPopUpForceOptOut && (
         <PopUpModal
           onClose={() => {
-            setForceOptOut(false);
+            setPopUpForceOptOut(false);
           }}
           title={`Your administrator opted you out of receiving ${
             circle?.token_name || 'GIVE'
@@ -559,7 +563,7 @@ const AllocationPage = () => {
             circle?.token_name || 'GIVE'
           } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
           button="Okay, Got it."
-          visible={isForceOptOut}
+          visible={isPopUpForceOptOut}
         />
       )}
     </div>
