@@ -10,6 +10,7 @@ import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.
 import { LoadingModal, PopUpModal } from 'components';
 import { useConnectedWeb3Context, useUserInfo } from 'contexts';
 import { getApiService } from 'services/api';
+import { addForceOptOutCircleId, isForceOptOutCircleId } from 'utils/storage';
 import { capitalizedName } from 'utils/string';
 
 import { MyProfileCard, TeammateCard } from './components';
@@ -235,14 +236,7 @@ enum FilterType {
 const AllocationPage = () => {
   const classes = useStyles();
   const { library } = useConnectedWeb3Context();
-  const {
-    circle,
-    epoch,
-    me,
-    isPopUpForceOptOut,
-    refreshUserInfo,
-    setPopUpForceOptOut,
-  } = useUserInfo();
+  const { circle, epoch, me, refreshUserInfo } = useUserInfo();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
   const [giveTokens, setGiveTokens] = useState<{ [id: number]: number }>({});
@@ -549,23 +543,26 @@ const AllocationPage = () => {
       {isLoading && (
         <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}
-      {isPopUpForceOptOut && (
-        <PopUpModal
-          onClose={() => {
-            setPopUpForceOptOut(false);
-          }}
-          title={`Your administrator opted you out of receiving ${
-            circle?.token_name || 'GIVE'
-          }`}
-          description={`You can still distribute ${
-            circle?.token_name || 'GIVE'
-          } as normal. Generally people are opted out of receiving ${
-            circle?.token_name || 'GIVE'
-          } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
-          button="Okay, Got it."
-          visible={isPopUpForceOptOut}
-        />
-      )}
+      {me &&
+        circle &&
+        me.fixed_non_receiver &&
+        !isForceOptOutCircleId(me.id, circle.id) && (
+          <PopUpModal
+            onClose={() => {
+              addForceOptOutCircleId(me.id, circle.id);
+            }}
+            title={`Your administrator opted you out of receiving ${
+              circle.token_name || 'GIVE'
+            }`}
+            description={`You can still distribute ${
+              circle.token_name || 'GIVE'
+            } as normal. Generally people are opted out of receiving ${
+              circle.token_name || 'GIVE'
+            } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
+            button="Okay, Got it."
+            visible={!isForceOptOutCircleId(me.id, circle.id)}
+          />
+        )}
     </div>
   );
 };
