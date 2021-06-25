@@ -5,6 +5,7 @@ import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import { getApiService } from 'services/api';
 
 import { ICircle, IUser, Maybe, IEpoch } from 'types';
+import { removeForceOptOutCircleId } from 'utils/storage';
 
 export interface IUserInfoData {
   circle: Maybe<ICircle>;
@@ -14,7 +15,6 @@ export interface IUserInfoData {
   me: Maybe<IUser>;
   users: IUser[];
   deletedUsers: IUser[];
-  isPopUpForceOptOut: boolean;
 }
 
 const UserInfoContext = React.createContext<
@@ -25,7 +25,6 @@ const UserInfoContext = React.createContext<
     addUser: (user: IUser) => void;
     deleteUser: (id: number) => void;
     refreshUserInfo: () => Promise<void>;
-    setPopUpForceOptOut: (isPopUpForceOptOut: boolean) => void;
   }
 >({
   circle: null,
@@ -35,7 +34,6 @@ const UserInfoContext = React.createContext<
   me: null,
   users: [],
   deletedUsers: [],
-  isPopUpForceOptOut: false,
   setCircle: () => {},
   addEpoch: () => {},
   deleteEpoch: () => {},
@@ -45,7 +43,6 @@ const UserInfoContext = React.createContext<
     new Promise((resolve) => {
       resolve();
     }),
-  setPopUpForceOptOut: () => {},
 });
 
 export const useUserInfo = () => {
@@ -71,7 +68,6 @@ export const UserInfoProvider = (props: IProps) => {
     me: null,
     users: [],
     deletedUsers: [],
-    isPopUpForceOptOut: false,
   });
   const { account } = useConnectedWeb3Context();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -195,6 +191,10 @@ export const UserInfoProvider = (props: IProps) => {
           me.non_giver = 1;
         }
 
+        if (!me.fixed_non_receiver) {
+          removeForceOptOutCircleId(me.id, state.circle.id);
+        }
+
         epochs = epochs.sort(
           (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
         );
@@ -230,8 +230,6 @@ export const UserInfoProvider = (props: IProps) => {
               user.address.toLowerCase() !== account?.toLowerCase() &&
               !!user.deleted_at
           ),
-          isPopUpForceOptOut:
-            !prev.isPopUpForceOptOut && (me?.fixed_non_receiver ? true : false),
         }));
       } catch (error) {
         setState((prev) => ({
@@ -256,14 +254,6 @@ export const UserInfoProvider = (props: IProps) => {
     setLoading(false);
   };
 
-  // Set PopUpForceOptOut
-  const setPopUpForceOptOut = (isPopUpForceOptOut: boolean) => {
-    setState((prev) => ({
-      ...prev,
-      isPopUpForceOptOut: isPopUpForceOptOut,
-    }));
-  };
-
   useEffect(() => {
     setLoading(true);
     refreshUserInfo();
@@ -281,7 +271,6 @@ export const UserInfoProvider = (props: IProps) => {
         addUser,
         deleteUser,
         refreshUserInfo,
-        setPopUpForceOptOut,
       }}
     >
       {props.children}
