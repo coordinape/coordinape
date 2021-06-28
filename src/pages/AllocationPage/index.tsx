@@ -334,14 +334,22 @@ const AllocationPage = () => {
         try {
           const params: PostTokenGiftsParam[] = [];
 
-          me.teammates.forEach((user) =>
-            params.push({
-              tokens: giveTokens[user.id] || 0,
-              recipient_address: user.address,
-              circle_id: user.circle_id,
-              note: giveNotes[user.id] || '',
-            })
-          );
+          me.teammates.forEach((user) => {
+            const gift = me.pending_sent_gifts.find(
+              (gift) => gift.recipient_id === user.id
+            );
+            if (
+              (gift?.tokens || 0) !== (giveTokens[user.id] || 0) ||
+              (gift?.note || '') !== (giveNotes[user.id] || '')
+            ) {
+              params.push({
+                tokens: giveTokens[user.id] || 0,
+                recipient_id: user.id,
+                circle_id: user.circle_id,
+                note: giveNotes[user.id] || '',
+              });
+            }
+          });
 
           await getApiService().postTokenGifts(me.address, params, library);
         } catch (error) {

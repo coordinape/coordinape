@@ -333,7 +333,7 @@ class APIService {
   ): Promise<IUserPendingGift> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, provider);
-    const response = await axios.post(`/token-gifts/${address}`, {
+    const response = await axios.post(`/v2/token-gifts/${address}`, {
       signature,
       data,
       address,
