@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { LoadingModal } from 'components';
 import { useConnectedWeb3Context } from 'contexts/connectedWeb3';
 import { getApiService } from 'services/api';
+import { removeForceOptOutCircleId } from 'utils/storage';
 
 import { ICircle, IUser, Maybe, IEpoch } from 'types';
-import { removeForceOptOutCircleId } from 'utils/storage';
 
 export interface IUserInfoData {
   circle: Maybe<ICircle>;
