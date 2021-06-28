@@ -1,6 +1,6 @@
 export interface PostTokenGiftsParam {
   tokens: number;
-  recipient_address: string;
+  recipient_id: number;
   circle_id: number;
   note?: string;
 }
