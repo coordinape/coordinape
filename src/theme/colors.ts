@@ -6,6 +6,7 @@ const color = {
   black: '#000',
   red: '#EF7376',
   lightRed: '#F5E4E4',
+  darkRed: '#6f3638',
   mediumRed: '#E6BCBC',
   lightGray: '#C3CDCF',
   text: '#516369',

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { ethers } from 'ethers';
-import { useSnackbar } from 'notistack';
 
 import {
   Button,
@@ -13,9 +12,7 @@ import {
 } from '@material-ui/core';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useUserInfo } from 'hooks';
 
 import { IUser } from 'types';
 
@@ -136,17 +133,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const EditContributorModal = ({
+  onClose,
+  user,
+  visible,
+}: {
   visible: boolean;
   onClose: () => void;
   user?: IUser;
-}
-
-export const EditContributorModal = (props: IProps) => {
+}) => {
   const classes = useStyles();
-  const { onClose, user, visible } = props;
-  const { library } = useConnectedWeb3Context();
-  const { addUser, circle, me } = useUserInfo();
+
+  const { updateUser, createUser, circle } = useUserInfo();
   const [contributorName, setContributorName] = useState<string>(
     user?.name || ''
   );
@@ -165,8 +163,6 @@ export const EditContributorModal = (props: IProps) => {
   const [contributorStartingTokens, setStartingTokens] = useState<number>(
     user?.starting_tokens || 100
   );
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   // onChange ContributorName
   const onChangeContributorName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,40 +177,23 @@ export const EditContributorModal = (props: IProps) => {
 
   // onClick SaveContributor
   const onClickSaveContributor = async () => {
-    if (me?.address) {
-      setLoading(true);
-      try {
-        const newUser = await (user
-          ? getApiService().updateUsers(
-              me.address,
-              contributorName,
-              user.address,
-              contributorAddress,
-              contributorNonGive,
-              contributorOptOut,
-              contributorAdmin,
-              contributorStartingTokens,
-              library
-            )
-          : getApiService().postUsers(
-              me.address,
-              contributorName,
-              contributorAddress,
-              contributorNonGive,
-              contributorOptOut,
-              contributorAdmin,
-              contributorStartingTokens,
-              library
-            ));
-        addUser(newUser);
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-      }
-      setLoading(false);
-    }
+    await (user
+      ? updateUser(user.address, {
+          name: contributorName,
+          address: contributorAddress,
+          non_giver: contributorNonGive,
+          fixed_non_receiver: contributorOptOut,
+          role: contributorAdmin,
+          starting_tokens: contributorStartingTokens,
+        })
+      : createUser({
+          name: contributorName,
+          address: contributorAddress,
+          non_giver: contributorNonGive,
+          fixed_non_receiver: contributorOptOut,
+          role: contributorAdmin,
+          starting_tokens: contributorStartingTokens,
+        }));
   };
 
   // Return
@@ -352,9 +331,6 @@ export const EditContributorModal = (props: IProps) => {
           </Hidden>
           Save
         </Button>
-        {isLoading && (
-          <LoadingModal onClose={() => {}} text="" visible={isLoading} />
-        )}
       </div>
     </Modal>
   );

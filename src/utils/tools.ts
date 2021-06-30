@@ -1,6 +1,7 @@
 import { getAddress } from 'ethers/lib/utils';
+import moment from 'moment';
 
-import { IEpoch } from '../types';
+import { IEpoch, IEpochTiming, ITiming } from 'types';
 
 export const isAddress = (address: string): boolean => {
   try {
@@ -41,4 +42,34 @@ export const labelEpoch = (epoch: IEpoch) => {
   return `${epochNumber}: ${month} ${dayFormatter.format(
     start
   )} - ${dayFormatter.format(end)}`;
+};
+
+const calculateTimeUntil = (dateTime: Date): [boolean, ITiming] => {
+  const now = moment.utc();
+  const target = moment.utc(dateTime);
+  const diff = target.diff(now);
+  if (diff > 0) {
+    return [
+      false,
+      {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / 1000 / 60) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      },
+    ];
+  } else {
+    return [true, { days: 0, hours: 0, minutes: 0, seconds: 0 }];
+  }
+};
+
+export const calculateEpochTimings = (epoch: IEpoch): IEpochTiming => {
+  const [hasBegun, timeUntilStart] = calculateTimeUntil(epoch.start_date);
+  const [hasEnded, timeUntilEnd] = calculateTimeUntil(epoch.end_date);
+  return {
+    hasBegun,
+    timeUntilStart,
+    hasEnded,
+    timeUntilEnd,
+  };
 };

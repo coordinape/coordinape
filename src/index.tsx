@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { SnackbarProvider } from 'notistack';
 import ReactDOM from 'react-dom';
 
 import App from './App';
@@ -12,9 +11,7 @@ import { DOMAIN_IS_APP } from './utils/domain';
 if (DOMAIN_IS_APP) {
   ReactDOM.render(
     <React.StrictMode>
-      <SnackbarProvider maxSnack={3}>
-        <App />
-      </SnackbarProvider>
+      <App />
     </React.StrictMode>,
     document.getElementById('root')
   );

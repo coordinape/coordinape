@@ -1,3 +1,12 @@
+export interface PostProfileParam {
+  skills?: string;
+  github_username?: string;
+  telegram_username?: string;
+  discord_username?: string;
+  medium_username?: string;
+  website?: string;
+}
+
 export interface PostTokenGiftsParam {
   tokens: number;
   recipient_id: number;
@@ -8,17 +17,27 @@ export interface PostTokenGiftsParam {
 export interface PostUsersParam {
   name: string;
   address: string;
-  circle_id: number;
+  non_giver?: number;
+  fixed_non_receiver?: number;
+  role?: number;
+  starting_tokens?: number;
+}
+
+export interface UpdateUsersParam {
+  name: string;
+  address: string;
+  non_giver?: number;
+  fixed_non_receiver?: number;
+  role?: number;
+  starting_tokens?: number;
 }
 
 export interface PutUsersParam {
-  name: string;
-  bio: string;
-  epoch_first_visit: number;
-  non_receiver: number;
-  non_giver: number;
-  address: string;
-  circle_id: number;
+  name?: string;
+  bio?: string;
+  epoch_first_visit?: number;
+  non_receiver?: number;
+  non_giver?: number;
 }
 
 export interface PostCirclesParam {
@@ -27,4 +46,7 @@ export interface PostCirclesParam {
 
 export interface PutCirclesParam {
   name: string;
+  token_name: string;
+  team_sel_text?: string;
+  alloc_text?: string;
 }

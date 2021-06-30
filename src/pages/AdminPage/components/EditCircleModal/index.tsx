@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 
-import { useSnackbar } from 'notistack';
-import { useHistory } from 'react-router';
-
 import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useUserInfo } from 'hooks';
 import { capitalizedName } from 'utils/string';
 
 import { ICircle } from 'types';
@@ -108,26 +103,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const EditCircleModal = ({
+  circle,
+  onClose,
+  visible,
+}: {
   visible: boolean;
   onClose: () => void;
   circle: ICircle;
-}
-
-export const EditCircleModal = (props: IProps) => {
+}) => {
   const classes = useStyles();
-  const { library } = useConnectedWeb3Context();
-  const { circle, onClose, visible } = props;
-  const { me, setCircle } = useUserInfo();
+  const { updateCircle } = useUserInfo();
   const [circleName, setCircleName] = useState<string>(
     capitalizedName(circle.name)
   );
   const [tokenName, setTokenName] = useState<string>(circle.token_name);
   const [teamSelText, setTeamSelText] = useState<string>(circle.team_sel_text);
   const [allocText, setAllocText] = useState<string>(circle.alloc_text);
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
-  const history = useHistory();
 
   // onChange CircleName
   const onChangeCircleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,33 +142,14 @@ export const EditCircleModal = (props: IProps) => {
   };
 
   // onClick SaveCircle
-  const onClickSaveCircle = async () => {
-    if (me?.address) {
-      setLoading(true);
-      try {
-        const newCircle = await getApiService().putCircles(
-          circle.id,
-          me.address,
-          circleName,
-          tokenName,
-          teamSelText,
-          allocText,
-          library
-        );
-        newCircle.protocol = circle.protocol;
-        setCircle(newCircle);
-        history.push(`/${newCircle.protocol.name}/${newCircle.name}/admin`);
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-      }
-      setLoading(false);
-    }
-  };
+  const onClickSaveCircle = async () =>
+    updateCircle({
+      name: circleName,
+      token_name: tokenName,
+      team_sel_text: teamSelText,
+      alloc_text: allocText,
+    });
 
-  // Return
   return (
     <Modal className={classes.modal} onClose={onClose} open={visible}>
       <div className={classes.content}>
@@ -236,9 +209,6 @@ export const EditCircleModal = (props: IProps) => {
           </Hidden>
           Save
         </Button>
-        {isLoading && (
-          <LoadingModal onClose={() => {}} text="" visible={isLoading} />
-        )}
       </div>
     </Modal>
   );

@@ -137,7 +137,6 @@ const FilterDrawer = ({
 
   // TODO: Filter down to the current Epoch
   useEffect(() => {
-    console.log('useres change', users);
     setNotableWords(getNotableWords(users.map((u) => u.bio).join(' '), 20));
   }, [users]);
 
@@ -168,7 +167,6 @@ const FilterDrawer = ({
               {...params}
               size="small"
               InputProps={{
-                value: typeof console.log('autocomplete input params', params),
                 ...params.InputProps,
                 startAdornment: <SearchIcon />,
                 classes: {

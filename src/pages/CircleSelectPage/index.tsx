@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import axios from 'axios';
-import { useSnackbar } from 'notistack';
+import { useRecoilValue } from 'recoil';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
-import { API_URL, getCirclePath } from 'utils/domain';
-import { getCircleId, setCircleId } from 'utils/storage';
-
-import { ICircle, IUser } from 'types';
+import { useCircle } from 'hooks';
+import { rMyCircles } from 'recoilState';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,87 +96,10 @@ const useStyles = makeStyles((theme) => ({
 
 const CircleSelectPage = () => {
   const classes = useStyles();
-  const { account } = useConnectedWeb3Context();
-  const { setCircle } = useUserInfo();
-  const [circles, setCircles] = useState<ICircle[]>([]);
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [myCircles, setMyCircles] = useState<ICircle[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
 
-  // Get Circles & Users
-  useEffect(() => {
-    if (account) {
-      const getCircles = async () => {
-        try {
-          const circles = await getApiService().getCircles();
-          setCircles(circles);
-        } catch (error) {
-          enqueueSnackbar(
-            error.response?.data?.message || 'Something went wrong!',
-            { variant: 'error' }
-          );
-        }
-      };
+  const myCircles = useRecoilValue(rMyCircles);
+  const { selectCircle } = useCircle();
 
-      const getUsers = async () => {
-        try {
-          const users = await getApiService().getUsers(account);
-          setUsers(users);
-        } catch (error) {
-          enqueueSnackbar(
-            error.response?.data?.message || 'Something went wrong!',
-            { variant: 'error' }
-          );
-        }
-      };
-
-      const queryData = async () => {
-        setLoading(true);
-        await getCircles();
-        await getUsers();
-        setLoading(false);
-      };
-
-      axios.defaults.baseURL = API_URL;
-      setCircle(null);
-      queryData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
-
-  // Get My Circles
-  useEffect(() => {
-    if (circles) {
-      const myCircles = users.some((user) => user.admin_view !== 0)
-        ? circles
-        : circles.filter((circle) =>
-            users.some((user) => user.circle_id === circle.id)
-          );
-      setMyCircles(myCircles);
-
-      const circle_id = getCircleId();
-      const prevCircle = myCircles.find((circle) => circle.id === circle_id);
-      if (prevCircle) {
-        axios.defaults.baseURL = getCirclePath(prevCircle.id);
-        setCircle(prevCircle);
-      }
-    } else {
-      setMyCircles([]);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [circles, users]);
-
-  const findCircleUserAllocatedTokens = (circleId: number) => {
-    const user = users.find((user) => user.circle_id === circleId);
-    if (user) {
-      return user.starting_tokens - user.give_token_remaining;
-    }
-    return 0;
-  };
-
-  // Return
   return (
     <div className={classes.root}>
       {myCircles.length > 0 ? (
@@ -198,13 +115,7 @@ const CircleSelectPage = () => {
                         : `${tokens}/${circle.token_name}`,
                     ''
                   )} in each of your ${myCircles.length} circles`
-                : `Select the teammates you’ve been working with and allocate ${myCircles.reduce(
-                    (tokens, circle) =>
-                      tokens.length === 0
-                        ? circle.token_name
-                        : `${tokens}/${circle.token_name}`,
-                    ''
-                  )}`}
+                : `Select the teammates you’ve been working with and allocate ${myCircles[0].token_name}`}
             </p>
           </div>
           <p className={classes.circleLabel}>Your Circles</p>
@@ -214,18 +125,12 @@ const CircleSelectPage = () => {
                 className={classes.circle}
                 key={circle.id}
                 onClick={() => {
-                  axios.defaults.baseURL = getCirclePath(circle.id);
-                  setCircle(circle);
-                  setCircleId(circle.id);
+                  selectCircle(circle.id);
                 }}
               >
                 <div className={classes.circleContent}>
                   <p className={classes.circleTitle}>
                     {circle.protocol.name} / {circle.name}
-                  </p>
-                  <p className={classes.circleDescription}>
-                    {findCircleUserAllocatedTokens(circle.id)}{' '}
-                    {circle.token_name} ALLOCATED
                   </p>
                 </div>
               </Button>
@@ -233,17 +138,12 @@ const CircleSelectPage = () => {
           </div>
         </>
       ) : (
-        !isLoading && (
-          <div className={classes.headerContainer}>
-            <p className={classes.title}>Oops! :(</p>
-            <p className={classes.subTitle}>
-              Sorry, you have no authorized Circles
-            </p>
-          </div>
-        )
-      )}
-      {isLoading && (
-        <LoadingModal onClose={() => {}} text="" visible={isLoading} />
+        <div className={classes.headerContainer}>
+          <p className={classes.title}>Oops! :&#40;</p>
+          <p className={classes.subTitle}>
+            Sorry, you have no authorized Circles
+          </p>
+        </div>
       )}
     </div>
   );

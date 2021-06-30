@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment';
-import { useSnackbar } from 'notistack';
 
 import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
 import {
@@ -13,9 +12,7 @@ import {
 import { ReactComponent as DatePickerSVG } from 'assets/svgs/button/date-picker.svg';
 import { ReactComponent as DeleteEpochSVG } from 'assets/svgs/button/delete-epoch.svg';
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useUserInfo } from 'hooks';
 
 import { IEpoch } from 'types';
 
@@ -185,17 +182,14 @@ interface IProps {
 
 export const EditEpochModal = (props: IProps) => {
   const classes = useStyles();
-  const { library } = useConnectedWeb3Context();
   const { onClose, visible } = props;
-  const { addEpoch, deleteEpoch, epoch, epochs, me } = useUserInfo();
+  const { createEpoch, deleteEpoch, epoch, epochs } = useUserInfo();
   const [epochStartDate, setEpochStartDate] = useState<Date | null>(null);
   const [epochEndDate, setEpochEndDate] = useState<Date | null>(null);
   const [
     epochDeletedDescription,
     setEpochDeletedDescription,
   ] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   // onClick EpochStartDate
   const onClickEpochStartDate = (date: Date | null) => {
@@ -209,62 +203,34 @@ export const EditEpochModal = (props: IProps) => {
 
   // onClick SaveEpoch
   const onClickSaveEpoch = async () => {
-    if (me?.address && epochStartDate && epochEndDate) {
-      setLoading(true);
-      try {
-        const newEpoch = await getApiService().postEpochs(
-          me.address,
-          epochStartDate,
-          epochEndDate,
-          library
-        );
-        addEpoch(newEpoch);
-        setEpochDeletedDescription(
-          `Epoch for ${moment
-            .utc(newEpoch.start_date)
-            .local()
-            .format('MM/DD/YYYY')} to ${moment
-            .utc(newEpoch.end_date)
-            .local()
-            .format('MM/DD/YYYY')} was created.`
-        );
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-      }
-      setLoading(false);
+    if (epochStartDate && epochEndDate) {
+      const newEpoch = await createEpoch(epochStartDate, epochEndDate);
+      setEpochDeletedDescription(
+        `Epoch for ${moment
+          .utc(newEpoch.start_date)
+          .local()
+          .format('MM/DD/YYYY')} to ${moment
+          .utc(newEpoch.end_date)
+          .local()
+          .format('MM/DD/YYYY')} was created.`
+      );
     }
   };
 
   // onClick DeleteEpoch
   const onClickDeleteEpoch = async (epoch: IEpoch) => {
-    if (me?.address) {
-      setLoading(true);
-      try {
-        await getApiService().deleteEpochs(me.address, epoch.id, library);
-        deleteEpoch(epoch.id);
-        setEpochDeletedDescription(
-          `Epoch for ${moment
-            .utc(epoch.start_date)
-            .local()
-            .format('MM/DD/YYYY')} to ${moment
-            .utc(epoch.end_date)
-            .local()
-            .format('MM/DD/YYYY')} was deleted.`
-        );
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-      }
-      setLoading(false);
-    }
+    await deleteEpoch(epoch.id);
+    setEpochDeletedDescription(
+      `Epoch for ${moment
+        .utc(epoch.start_date)
+        .local()
+        .format('MM/DD/YYYY')} to ${moment
+        .utc(epoch.end_date)
+        .local()
+        .format('MM/DD/YYYY')} was deleted.`
+    );
   };
 
-  // Return
   return (
     <Modal className={classes.modal} onClose={onClose} open={visible}>
       <div className={classes.content}>
@@ -395,9 +361,6 @@ export const EditEpochModal = (props: IProps) => {
             </div>
           </div>
         </div>
-        {isLoading && (
-          <LoadingModal onClose={() => {}} text="" visible={isLoading} />
-        )}
       </div>
     </Modal>
   );

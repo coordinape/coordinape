@@ -1,4 +1,5 @@
 import { IProtocol } from './protocol.model';
+import { IEpoch } from './epoch.model';
 
 export interface ICircle {
   id: number;
@@ -10,4 +11,8 @@ export interface ICircle {
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
+  // Derived data
+  pastEpochs: IEpoch[];
+  futureEpochs: IEpoch[];
+  currentEpoch: IEpoch;
 }

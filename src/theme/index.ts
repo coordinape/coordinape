@@ -45,6 +45,30 @@ const themeOptions = {
         borderRadius: '6px',
       },
     },
+    MuiStepIcon: {
+      root: {
+        '&.MuiStepIcon-active': {
+          color: customColor.red,
+          '& .MuiStepIcon-text': {
+            fill: customColor.white,
+          },
+        },
+        '&.MuiStepIcon-completed': {
+          color: customColor.red,
+          '& .MuiStepIcon-text': {
+            fill: customColor.white,
+          },
+        },
+      },
+      text: {
+        fill: '#93A1A1',
+      },
+    },
+    MuiStepLabel: {
+      label: {
+        color: customColor.black,
+      },
+    },
   },
   palette: {
     type: 'dark',

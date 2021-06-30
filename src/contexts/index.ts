@@ -1,3 +1,1 @@
-export * from './connectedWeb3';
-export * from './globalContext';
-export * from './userInfoContext';
+export * from './ConnectedWeb3';

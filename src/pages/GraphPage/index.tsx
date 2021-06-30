@@ -3,14 +3,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { forceLink } from 'd3-force-3d';
 import fromPairs from 'lodash/fromPairs';
 import uniq from 'lodash/uniq';
-import { useSnackbar } from 'notistack';
 import ForceGraph2D from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { useRecoilValue } from 'recoil';
 
 import { MenuItem, Select, makeStyles } from '@material-ui/core';
 
-import { useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useUserInfo, useSelectedCircleEpoch } from 'hooks';
+import { rGifts, rPendingGifts } from 'recoilState';
 import { getAvatarPath } from 'utils/domain';
 import { labelEpoch } from 'utils/tools';
 
@@ -113,11 +113,9 @@ const GraphPage = () => {
   const filteredUserSet = useRef<Set<IGraphNode>>(new Set());
 
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
-  const [pastGifts, setPastGifts] = useState<ITokenGift[]>([]);
-  const [pendingGifts, setPendingGifts] = useState<ITokenGift[]>([]);
+  const pastGifts = useRecoilValue(rGifts);
+  const pendingGifts = useRecoilValue(rPendingGifts);
 
-  const [users, setUsers] = useState<IUser[]>([]);
   const [gifts, setGifts] = useState<ITokenGift[]>([]);
   const [links, setLinks] = useState<IGraphLink[]>([]);
   const [nodes, setNodes] = useState<IGraphNode[]>([]);
@@ -130,18 +128,12 @@ const GraphPage = () => {
   const [selectedNode, setSelectedNode] = useState<IGraphNode | undefined>();
 
   const {
-    deletedUsers,
-    epoch,
-    me,
-    pastEpochs: epochs,
-    users: rawUsers,
-  } = useUserInfo();
-
-  useEffect(() => {
-    if (me && rawUsers.length > 0) {
-      setUsers(rawUsers.concat(deletedUsers).concat([me]));
-    }
-  }, [rawUsers, deletedUsers, me]);
+    epochIsActive,
+    currentEpoch,
+    pastEpochs,
+    circleId: selectedCircleId,
+  } = useSelectedCircleEpoch();
+  const { allUsers, me } = useUserInfo();
 
   const handleSearchChange = (_event: any, value: string) => {
     if (!value) {
@@ -166,28 +158,6 @@ const GraphPage = () => {
     );
     setFilteredUsers(filtered);
     filteredUserSet.current = new Set(filtered);
-  };
-
-  const fetchGifts = async () => {
-    try {
-      const [pending, past] = await Promise.all([
-        getApiService().getPendingTokenGifts(
-          undefined,
-          undefined,
-          me?.circle_id
-        ),
-        getApiService().getTokenGifts(undefined, undefined, me?.circle_id),
-      ]);
-      setPastGifts(past);
-      setPendingGifts(pending);
-    } catch (error) {
-      enqueueSnackbar(
-        error.response?.data?.message || 'Something went wrong!',
-        { variant: 'error' }
-      );
-      setPastGifts([]);
-      setPendingGifts([]);
-    }
   };
 
   const configureForces = () => {
@@ -311,62 +281,68 @@ const GraphPage = () => {
   );
 
   useEffect(() => {
-    if (epochs.length === 0) {
+    if (pastEpochs.length === 0) {
       setEpochOptions([]);
       setEpochSelection(0);
       return;
     }
-    setEpochOptions(
-      [
-        {
-          label: 'ALL',
-          value: FAKE_ALL_EPOCH,
-        },
-      ].concat(
-        epochs.map((e) => ({
-          label: labelEpoch(e),
-          value: e.id,
-        }))
-      )
+
+    const options = [
+      {
+        label: 'ALL',
+        value: FAKE_ALL_EPOCH,
+      },
+    ].concat(
+      pastEpochs.map((e) => ({
+        label: labelEpoch(e),
+        value: e.id,
+      }))
     );
-    setEpochSelection(epoch?.id ?? epochs[0].id);
-  }, [epoch, epochs]);
+    if (currentEpoch && epochIsActive) {
+      setEpochOptions(
+        options.concat({
+          label: labelEpoch(currentEpoch),
+          value: currentEpoch?.id,
+        })
+      );
+      setEpochSelection(currentEpoch.id);
+    } else {
+      setEpochOptions(options);
+      setEpochSelection(pastEpochs[pastEpochs.length - 1].id);
+    }
+  }, [currentEpoch, pastEpochs]);
 
   useEffect(() => {
-    me && fetchGifts();
-  }, [me]);
-
-  useEffect(() => {
+    const allGifts = pastGifts.concat(pendingGifts);
+    // TODO: until recently, pending gifts are missing epoch_id
+    console.log(
+      pastGifts.length,
+      pendingGifts[0],
+      allGifts.length,
+      allGifts.filter((g) => g.epoch_id === epochSelection).length
+    );
     if (epochSelection === FAKE_ALL_EPOCH) {
-      setGifts(pastGifts.concat(pendingGifts));
+      setGifts(allGifts.filter((g) => g.circle_id === selectedCircleId));
       return;
     }
 
-    if (epochSelection !== epoch?.id) {
-      setGifts(pastGifts.filter((g) => g.epoch_id === epochSelection));
-      return;
-    }
+    setGifts(allGifts.filter((g) => g.epoch_id === epochSelection));
 
-    setGifts(
-      pendingGifts.length
-        ? pendingGifts
-        : pastGifts.filter((g) => g.epoch_id === epochSelection)
-    );
     // Set magnitudes here if desired
-  }, [epochSelection, pastGifts, pendingGifts, epoch]);
+  }, [epochSelection, pastGifts, pendingGifts, currentEpoch]);
 
   useEffect(() => {
     if (!fgRef.current) {
       return;
     }
 
-    if (gifts.length === 0 || users.length === 0 || !me) {
+    if (gifts.length === 0 || allUsers.length === 0 || !me) {
       setLinks([]);
       setNodes([]);
       return;
     }
 
-    const activeUsers = uniq(
+    const activeUsers = new Set(
       gifts.flatMap(({ recipient_id, sender_id, tokens }) =>
         tokens > 0 ? [sender_id, recipient_id] : []
       )
@@ -374,15 +350,15 @@ const GraphPage = () => {
 
     // TODO: This can be simplified for placeholders
     const images = fromPairs(
-      uniq(users.concat(me).map((u) => u.avatar)).map((avatar) => {
+      uniq(allUsers.concat(me).map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
         img.src = getAvatarPath(avatar);
         return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
       })
     );
 
-    const allUsers: IGraphNode[] = users
-      .filter((u) => activeUsers.find((id) => u.id === id) !== undefined)
+    const visibleNodes: IGraphNode[] = allUsers
+      .filter((u) => activeUsers.has(u.id))
       .map((u) => ({
         ...u,
         img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
@@ -394,6 +370,12 @@ const GraphPage = () => {
         linkCount: 0,
       }));
 
+    if (visibleNodes.length === 0) {
+      setLinks([]);
+      setNodes([]);
+      return;
+    }
+
     const userByAddr: { [key: string]: IUser } = {};
     const userById: { [key: number]: IUser } = {};
     const orderedIdByAddr: { [key: string]: number } = {};
@@ -401,8 +383,8 @@ const GraphPage = () => {
     const names: string[] = [];
     const matrix: number[][] = [];
 
-    for (let i = 0; i < allUsers.length; i++) {
-      const user = allUsers[i];
+    for (let i = 0; i < visibleNodes.length; i++) {
+      const user = visibleNodes[i];
       userByAddr[user.address] = user;
       userById[user.id] = user;
       orderedIdByAddr[user.address] = i;
@@ -410,16 +392,17 @@ const GraphPage = () => {
       names[i] = user.name.replace(/\([^)]*\)/, '');
     }
 
-    for (let i = 0; i < allUsers.length; i++) {
+    for (let i = 0; i < visibleNodes.length; i++) {
       matrix[i] = [];
-      for (let j = 0; j < allUsers.length; j++) {
+      for (let j = 0; j < visibleNodes.length; j++) {
         matrix[i][j] = 0;
       }
     }
 
     for (const { recipient_id, sender_id, tokens } of gifts) {
-      if (tokens > 0)
+      if (tokens > 0) {
         matrix[orderedId[sender_id]][orderedId[recipient_id]] = tokens;
+      }
     }
 
     // Using the DB id for links, rather than orderedId
@@ -434,8 +417,8 @@ const GraphPage = () => {
           matrix[orderedId[recipient_id]][orderedId[sender_id]] > 0 ? 0.1 : 0,
       }));
 
-    for (let i = 0; i < allUsers.length; i++) {
-      const thee = allUsers[i];
+    for (let i = 0; i < visibleNodes.length; i++) {
+      const thee = visibleNodes[i];
       // Giving to thee
       thee.giverLinks = links.filter((link) => link.target === thee.id);
       thee.givers = thee.giverLinks.map((l: IGraphLink) => userById[l.source]);
@@ -454,8 +437,8 @@ const GraphPage = () => {
 
     configureForces();
     setLinks(links);
-    setNodes(allUsers);
-  }, [gifts, users, me]);
+    setNodes(visibleNodes);
+  }, [gifts, allUsers, me]);
 
   return (
     <div className={classes.root}>

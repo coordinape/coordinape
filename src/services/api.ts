@@ -8,19 +8,45 @@ import {
   ICircle,
   ITokenGift,
   IUser,
+  IProfile,
+  IEpoch,
   IUserPendingGift,
+  PostProfileParam,
   PostCirclesParam,
   PostTokenGiftsParam,
   PostUsersParam,
   PutCirclesParam,
   PutUsersParam,
+  UpdateUsersParam,
 } from 'types';
-import { IEpoch } from 'types/models/epoch.model';
 
 axios.defaults.baseURL = API_URL;
 
 class APIService {
-  constructor() {}
+  provider = undefined;
+
+  constructor(provider?: any) {
+    this.provider = provider;
+  }
+
+  getProfile = async (address: string): Promise<IProfile> => {
+    const response = await axios.get(`/profile/${address}`);
+    return (response.data.profile ?? response.data) as IProfile;
+  };
+
+  postProfile = async (
+    address: string,
+    params: PostProfileParam
+  ): Promise<any> => {
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.post(`/profile/${address}`, {
+      signature,
+      data,
+      address,
+    });
+    return response.data;
+  };
 
   getCircles = async (): Promise<ICircle[]> => {
     const response = await axios.get('/circles');
@@ -29,11 +55,10 @@ class APIService {
 
   postCircles = async (
     address: string,
-    params: PostCirclesParam,
-    provider?: any
+    params: PostCirclesParam
   ): Promise<any> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
+    const signature = await getSignature(data, this.provider);
     const response = await axios.post('/circles', {
       signature,
       data,
@@ -43,24 +68,13 @@ class APIService {
   };
 
   putCircles = async (
-    id: number,
+    circleId: number,
     address: string,
-    name: string,
-    token_name: string,
-    team_sel_text?: string,
-    alloc_text?: string,
-    provider?: any
+    params: PutCirclesParam
   ): Promise<ICircle> => {
-    const params: any = { name, token_name };
-    if (team_sel_text !== undefined) {
-      params.team_sel_text = team_sel_text;
-    }
-    if (alloc_text !== undefined) {
-      params.alloc_text = alloc_text;
-    }
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.put(`admin/circles/${id}`, {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.put(`admin/circles/${circleId}`, {
       signature,
       data,
       address,
@@ -68,20 +82,28 @@ class APIService {
     return response.data as ICircle;
   };
 
-  getEpochs = async (current?: number): Promise<IEpoch[]> => {
-    const params: any = {};
-    if (current !== undefined) {
-      params.current = current;
-    }
-    const response = await axios.get('/epoches', { params });
+  getEpochs = async (
+    circleId: number,
+    params: { current?: number } = {}
+  ): Promise<IEpoch[]> => {
+    const response = await axios.get(`${circleId}'/epoches`, { params });
+    return response.data as IEpoch[];
+  };
+
+  getFutureEpochs = async (
+    params: {
+      circle_id?: number;
+    } = {}
+  ): Promise<IEpoch[]> => {
+    const response = await axios.get(`active-epochs`, { params });
     return response.data as IEpoch[];
   };
 
   postEpochs = async (
     address: string,
+    circleId: number,
     startDate: Date,
-    endDate: Date,
-    provider?: any
+    endDate: Date
   ): Promise<IEpoch> => {
     const start_date = `${moment(startDate).format(
       'YYYY-MM-DD'
@@ -89,8 +111,8 @@ class APIService {
     const end_date = `${moment(endDate).format('YYYY-MM-DD')}T00:00:00.000000Z`;
     const params: any = { start_date, end_date };
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.post('admin/epoches', {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/admin/epoches`, {
       signature,
       data,
       address,
@@ -100,76 +122,52 @@ class APIService {
 
   deleteEpochs = async (
     address: string,
-    epoch_id: number,
-    provider?: any
+    circleId: number,
+    epochId: number
   ): Promise<any> => {
-    const params: any = { epoch_id };
-    const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.delete(`admin/epoches/${epoch_id}`, {
-      data: {
-        signature,
-        data,
-        address,
-      },
-    });
+    const data = JSON.stringify({ epoch_id: epochId });
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.delete(
+      `${circleId}/admin/epoches/${epochId}`,
+      {
+        data: {
+          signature,
+          data,
+          address,
+        },
+      }
+    );
     return response.data;
   };
 
-  getMe = async (address: string): Promise<IUser> => {
-    const response = await axios.get(`/users/${address}`);
+  getUserWithTeammates = async (
+    circleId: number,
+    address: string
+  ): Promise<IUser> => {
+    const response = await axios.get(`${circleId}/users/${address}`);
     return response.data as IUser;
   };
 
   getUsers = async (
-    address?: string,
-    circle_id?: number,
-    id?: number,
-    deleted_users?: boolean
+    params: {
+      address?: string;
+      circle_id?: number;
+      id?: number;
+      deleted_users?: boolean;
+    } = {}
   ): Promise<IUser[]> => {
-    const params: any = {};
-    if (circle_id !== undefined) {
-      params.circle_id = circle_id;
-    }
-    if (address !== undefined) {
-      params.address = address;
-    }
-    if (id !== undefined) {
-      params.id = id;
-    }
-    if (deleted_users !== undefined) {
-      params.deleted_users = true;
-    }
     const response = await axios.get('/users', { params });
     return response.data as IUser[];
   };
 
   postUsers = async (
+    circleId: number,
     adminAddress: string,
-    name: string,
-    address: string,
-    non_giver?: number,
-    fixed_non_receiver?: number,
-    role?: number,
-    starting_tokens?: number,
-    provider?: any
+    params: PostUsersParam
   ): Promise<IUser> => {
-    const params: any = { name, address };
-    if (non_giver !== undefined) {
-      params.non_giver = non_giver;
-    }
-    if (fixed_non_receiver !== undefined) {
-      params.fixed_non_receiver = fixed_non_receiver;
-    }
-    if (role !== undefined) {
-      params.role = role;
-    }
-    if (starting_tokens !== undefined) {
-      params.starting_tokens = starting_tokens;
-    }
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.post(`admin/users`, {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/admin/users`, {
       signature,
       data,
       address: adminAddress,
@@ -177,14 +175,33 @@ class APIService {
     return response.data;
   };
 
-  putUsers = async (
-    address: string,
-    params: PutUsersParam,
-    provider?: any
+  updateUsers = async (
+    circleId: number,
+    adminAddress: string,
+    originalAddress: string,
+    params: UpdateUsersParam
   ): Promise<IUser> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.put(`/users/${address}`, {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.put(
+      `${circleId}/admin/users/${originalAddress}`,
+      {
+        signature,
+        data,
+        address: adminAddress,
+      }
+    );
+    return response.data;
+  };
+
+  putUsers = async (
+    circleId: number,
+    address: string,
+    params: PutUsersParam
+  ): Promise<IUser> => {
+    const data = JSON.stringify(params);
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.put(`${circleId}/users/${address}`, {
       signature,
       data,
       address,
@@ -192,49 +209,15 @@ class APIService {
     return response.data;
   };
 
-  updateUsers = async (
-    adminAddress: string,
-    name: string,
-    originAddress: string,
-    address: string,
-    non_giver?: number,
-    fixed_non_receiver?: number,
-    role?: number,
-    starting_tokens?: number,
-    provider?: any
-  ): Promise<IUser> => {
-    const params: any = { name, address };
-    if (non_giver !== undefined) {
-      params.non_giver = non_giver;
-    }
-    if (fixed_non_receiver !== undefined) {
-      params.fixed_non_receiver = fixed_non_receiver;
-    }
-    if (role !== undefined) {
-      params.role = role;
-    }
-    if (starting_tokens !== undefined) {
-      params.starting_tokens = starting_tokens;
-    }
-    const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.put(`admin/users/${originAddress}`, {
-      signature,
-      data,
-      address: adminAddress,
-    });
-    return response.data;
-  };
-
   deleteUsers = async (
+    circleId: number,
     adminAddress: string,
-    address: string,
-    provider?: any
-  ): Promise<any> => {
+    address: string
+  ): Promise<IUser> => {
     const params: any = { address };
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
-    const response = await axios.delete(`admin/users/${address}`, {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.delete(`${circleId}/admin/users/${address}`, {
       data: {
         signature,
         data,
@@ -244,20 +227,21 @@ class APIService {
     return response.data;
   };
 
+  // TODO: remove?
   postUploadImage = async (
+    circleId: number,
     address: string,
-    file: File,
-    provider?: any
+    file: File
   ): Promise<any> => {
     const filename = 'avatar.png';
     const data = filename;
-    const signature = await getSignature(data, provider);
+    const signature = await getSignature(data, this.provider);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('signature', signature);
     formData.append('address', address);
     formData.append('data', data);
-    const response = await axios.post('/upload', formData, {
+    const response = await axios.post(`/${circleId}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -265,14 +249,62 @@ class APIService {
     return response.data;
   };
 
-  postTeammates = async (
+  // TODO: Hook this up
+  uploadAvatar = async (
+    circleId: number,
     address: string,
-    teammates: number[],
-    provider?: any
+    file: File
+  ): Promise<any> => {
+    const filename = 'avatar.png';
+    const data = filename;
+    const signature = await getSignature(data, this.provider);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('address', address);
+    formData.append('data', data);
+    const response = await axios.post(`/${circleId}/upload-avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  };
+
+  // TODO: Hook this up & combine with uploadAvatar?
+  uploadBackground = async (
+    circleId: number,
+    address: string,
+    file: File
+  ): Promise<any> => {
+    const filename = 'background.png';
+    const data = filename;
+    const signature = await getSignature(data, this.provider);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('address', address);
+    formData.append('data', data);
+    const response = await axios.post(
+      `/${circleId}/upload-background`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return response.data;
+  };
+
+  postTeammates = async (
+    circleId: number,
+    address: string,
+    teammates: number[]
   ): Promise<IUser> => {
     const data = JSON.stringify({ teammates: teammates });
-    const signature = await getSignature(data, provider);
-    const response = await axios.post('/teammates', {
+    const signature = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/teammates`, {
       signature,
       data,
       address,
@@ -280,59 +312,32 @@ class APIService {
     return response.data;
   };
 
-  getPendingTokenGifts = async (
-    sender_address?: string,
-    recipient_address?: string,
-    circle_id?: number,
-    id?: number
-  ): Promise<ITokenGift[]> => {
-    const params: any = {};
-    if (sender_address !== undefined) {
-      params.sender_address = sender_address;
-    }
-    if (recipient_address !== undefined) {
-      params.recipient_address = recipient_address;
-    }
-    if (circle_id !== undefined) {
-      params.circle_id = circle_id;
-    }
-    if (id !== undefined) {
-      params.id = id;
-    }
+  getPendingTokenGifts = async (params: {
+    sender_address?: string;
+    recipient_address?: string;
+    circle_id?: number;
+    id?: number;
+  }): Promise<ITokenGift[]> => {
     const response = await axios.get('/pending-token-gifts', { params });
     return response.data as ITokenGift[];
   };
 
-  getTokenGifts = async (
-    sender_address?: string,
-    recipient_address?: string,
-    circle_id?: number,
-    id?: number
-  ): Promise<ITokenGift[]> => {
-    const params: any = {};
-    if (sender_address !== undefined) {
-      params.sender_address = sender_address;
-    }
-    if (recipient_address !== undefined) {
-      params.recipient_address = recipient_address;
-    }
-    if (circle_id !== undefined) {
-      params.circle_id = circle_id;
-    }
-    if (id !== undefined) {
-      params.id = id;
-    }
+  getTokenGifts = async (params: {
+    sender_address?: string;
+    recipient_address?: string;
+    circle_id?: number;
+    id?: number;
+  }): Promise<ITokenGift[]> => {
     const response = await axios.get('/token-gifts', { params });
     return response.data as ITokenGift[];
   };
 
   postTokenGifts = async (
     address: string,
-    params: PostTokenGiftsParam[],
-    provider?: any
+    params: PostTokenGiftsParam[]
   ): Promise<IUserPendingGift> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, provider);
+    const signature = await getSignature(data, this.provider);
     const response = await axios.post(`/v2/token-gifts/${address}`, {
       signature,
       data,
@@ -344,8 +349,12 @@ class APIService {
 
 let apiService: APIService;
 
-export const getApiService = (): APIService => {
-  if (apiService) return apiService;
-  apiService = new APIService();
+export const getApiService = (provider?: any): APIService => {
+  if (apiService) {
+    // TODO: Refactor, it's wierd, probably have the Web3 context include it.
+    apiService.provider = provider;
+    return apiService;
+  }
+  apiService = new APIService(provider);
   return apiService;
 };

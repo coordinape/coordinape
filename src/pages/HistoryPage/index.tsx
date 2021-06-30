@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-
-import groupBy from 'lodash/groupBy';
-import keyBy from 'lodash/keyBy';
-import { useSnackbar } from 'notistack';
+import React from 'react';
 
 import { Box, Divider, Typography, makeStyles } from '@material-ui/core';
 
-import { useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useSelectedCircleEpoch, useMyEpochGifts } from 'hooks';
 import { labelEpoch } from 'utils/tools';
 
-import { ITokenGift, IUser } from 'types';
+import { IEpoch } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,34 +50,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IHistoryEpoch {
-  number: number;
-  name: string;
-  gifts: ITokenGift[];
-}
-
-interface ICardProps {
+const EpochCard = ({
+  className,
+  epoch,
+}: {
   className?: string;
-  epoch: IHistoryEpoch;
-  users: IUser[];
-}
-
-interface IProps {
-  className?: string;
-}
-
-const getUser = (users: IUser[], id: number) => users.find((u) => u.id === id);
-
-const EpochCard = (props: ICardProps) => {
+  epoch: IEpoch;
+}) => {
   const classes = useStyles();
-  const { epoch, users } = props;
+  const { userGifts } = useMyEpochGifts(epoch.id);
 
-  const list = epoch.gifts
-    .flatMap((gift, idx) => [
+  const list = userGifts
+    .flatMap(({ gift, user }, idx) => [
       <Box key={idx}>
         <Typography className={classes.giftTitle} variant="h5">
           {gift.tokens > 0 ? `+${gift.tokens} Received from ` : 'From '}
-          {getUser(users, gift.sender_id)?.name || 'Unknown'}
+          {user?.name || 'Unknown'}
         </Typography>
         {gift.note && (
           <Typography className={classes.giftNote} variant="body1">
@@ -90,7 +73,7 @@ const EpochCard = (props: ICardProps) => {
           </Typography>
         )}
       </Box>,
-      idx < epoch.gifts.length - 1 && (
+      idx < userGifts.length - 1 && (
         <Divider className={classes.divider} key={-1 - idx} />
       ),
     ])
@@ -100,7 +83,7 @@ const EpochCard = (props: ICardProps) => {
     <Box className={classes.epochCard}>
       <Box mb={2}>
         <Typography className={classes.epochTitle} variant="h4">
-          {epoch.name}
+          {labelEpoch(epoch)}
         </Typography>
         <Typography className={classes.epochSubtitle} variant="subtitle1">
           Epoch {epoch.number}
@@ -111,57 +94,20 @@ const EpochCard = (props: ICardProps) => {
   );
 };
 
-const HistoryPage = (props: IProps) => {
+const HistoryPage = ({ className }: { className?: string }) => {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
-  const { deletedUsers, me, pastEpochs: epochs, users } = useUserInfo();
-  const [historyEpoch, setHistoryEpoch] = useState<IHistoryEpoch[]>([]);
-
-  useEffect(() => {
-    const fetchGifts = async () => {
-      if (!me || !epochs.length) {
-        return;
-      }
-      try {
-        const myGifts = (await getApiService().getTokenGifts()).filter(
-          (u) => u.recipient_id === me.id
-        );
-        const epochMap = keyBy(epochs, 'id');
-        setHistoryEpoch(
-          Object.entries(groupBy(myGifts, 'epoch_id'))
-            .map(([epochId, gs]) => {
-              const e = epochMap[epochId];
-              return {
-                number: e.number,
-                name: labelEpoch(e),
-                gifts: gs,
-              };
-            })
-            .sort((a, b) => b.number - a.number)
-        );
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-        setHistoryEpoch([]);
-      }
-    };
-    fetchGifts();
-  }, [me, epochs]);
-
+  const { pastEpochs } = useSelectedCircleEpoch();
   return (
     <Box className={classes.root}>
       <Typography className={classes.title} variant="h2">
         History
       </Typography>
-      {historyEpoch.map((epoch) => (
-        <EpochCard
-          epoch={epoch}
-          key={epoch.number}
-          users={users.concat(deletedUsers)}
-        />
-      ))}
+      {pastEpochs
+        .slice()
+        .reverse()
+        .map((epoch) => (
+          <EpochCard epoch={epoch} key={epoch.id} />
+        ))}
     </Box>
   );
 };

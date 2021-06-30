@@ -1,4 +1,5 @@
 import { ITokenGift } from './tokengift.model';
+import { ICircle } from './circle.model';
 
 export interface IUser {
   id: number;
@@ -24,4 +25,5 @@ export interface IUser {
   teammates: IUser[];
   pending_sent_gifts: ITokenGift[];
   sent_gifts: ITokenGift[];
+  circle?: ICircle;
 }
