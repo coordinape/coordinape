@@ -121,13 +121,13 @@ export const MainLayoutHeader = ({ className }: { className?: string }) => {
   const { account, rawWeb3Context } = useConnectedWeb3Context();
   const connector = localStorage.getItem(STORAGE_KEY_CONNECTOR);
   const { epochIsActive } = useSelectedCircleEpoch();
-  const { selectedMyUser } = useMe();
+  const { selectedMyUser, hasAdminView } = useMe();
   const history = useHistory();
 
   const navItems = getMainNavigation({
-    showAdmin: selectedMyUser && selectedMyUser.role !== 0,
+    asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
   });
-  const navButtonsVisible = !!selectedMyUser;
+  const navButtonsVisible = !!selectedMyUser || hasAdminView;
 
   const onDisconnect = () => {
     rawWeb3Context.deactivate();

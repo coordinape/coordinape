@@ -73,3 +73,42 @@ export const calculateEpochTimings = (epoch: IEpoch): IEpochTiming => {
     timeUntilEnd,
   };
 };
+
+export const timingToLeastUnit = (timing: ITiming) => {
+  if (timing.days > 0) {
+    return timing.days === 1 ? '1 Day' : `${timing.days} Days`;
+  }
+  if (timing.hours > 0) {
+    return timing.hours === 1 ? '1 Hour' : `${timing.hours} Hours`;
+  }
+  if (timing.minutes > 0) {
+    return timing.minutes === 1 ? '1 Minute' : `${timing.minutes} Minutes`;
+  }
+  if (timing.seconds > 0) {
+    return timing.seconds === 1 ? '1 Second' : `${timing.seconds} Seconds`;
+  }
+  return 'The Past';
+};
+
+export const timingToDoubleUnits = (timing: ITiming) => {
+  const days = timing.days === 1 ? '1 Day' : `${timing.days} Days`;
+  const hours = timing.hours === 1 ? '1 Hour' : `${timing.hours} Hours`;
+  const minutes =
+    timing.minutes === 1 ? '1 Minute' : `${timing.minutes} Minutes`;
+  const seconds =
+    timing.seconds === 1 ? '1 Second' : `${timing.seconds} Seconds`;
+
+  if (timing.days > 0) {
+    return `${days} and ${hours}`;
+  }
+  if (timing.hours > 0) {
+    return `${hours} and ${minutes}`;
+  }
+  if (timing.minutes > 0) {
+    return `${minutes} and ${seconds}`;
+  }
+  if (timing.seconds > 0) {
+    return seconds;
+  }
+  return 'The Past';
+};

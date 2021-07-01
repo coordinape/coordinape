@@ -27,6 +27,8 @@ export const useMe = (): {
   selectedCircle: ICircle | undefined;
   myCircles: ICircle[];
   avatarPath: string;
+  backgroundPath: string;
+  hasAdminView: boolean;
   refreshMyUser: () => Promise<void>;
   updateMyUser: (params: PutUsersParam) => Promise<IUser>;
   updateTeammates: (teammateIds: number[]) => Promise<void>;
@@ -106,7 +108,7 @@ export const useMe = (): {
   // TODO: I haven't tested this yet
   const updateProfile = async (params: PostProfileParam) => {
     const call = async () => {
-      if (!selectedMyUser || !selectedCircle) {
+      if (!selectedMyUser) {
         throw 'Need to select a circle to update circle user';
       }
       const result = await getApiService(provider).postProfile(
@@ -129,12 +131,15 @@ export const useMe = (): {
     myProfile,
     selectedMyUser,
     selectedCircle,
+    myCircles,
+    // avatarPath: getAvatarPath(selectedMyUser?.avatar),
+    avatarPath: getAvatarPath(myProfile?.avatar),
+    backgroundPath: getAvatarPath(myProfile?.background),
+    hasAdminView: myProfile?.users?.some((u) => u.admin_view > 0) ?? false,
     updateMyUser,
     updateTeammates,
     updateAvatar,
     refreshMyUser,
     updateProfile,
-    myCircles,
-    avatarPath: getAvatarPath(selectedMyUser?.avatar),
   };
 };

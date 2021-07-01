@@ -1,5 +1,6 @@
 export interface PostProfileParam {
-  skills?: string;
+  bio?: string;
+  skills?: string[];
   github_username?: string;
   telegram_username?: string;
   discord_username?: string;

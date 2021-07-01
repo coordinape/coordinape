@@ -1,37 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import clsx from 'clsx';
 
-import { Button, Hidden, makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 
-import { ReactComponent as ArrowRightSVG } from 'assets/svgs/button/arrow-right.svg';
-import {
-  LoadingModal,
-  PopUpModal,
-  MyProfileCard,
-  TeammateCard,
-} from 'components';
+import { PopUpModal, MyProfileCard, TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
-import { getApiService } from 'services/api';
 import storage from 'utils/storage';
-import { capitalizedName } from 'utils/string';
-
-import { PostTokenGiftsParam } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '95%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingTop: 90,
-    paddingBottom: 150,
+    maxWidth: theme.breakpoints.values.lg,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(10, 4, 20),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(5, 1, 20),
+    },
   },
   balanceContainer: {
     position: 'fixed',
     right: 50,
-    top: theme.custom.appHeaderHeight + 15,
+    top: theme.custom.appHeaderHeight + 120,
     zIndex: 1,
     padding: theme.spacing(0.5, 1),
     display: 'flex',
@@ -43,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
   balanceDescription: {
     margin: 0,
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: 300,
     color: theme.colors.primary,
     '&:first-of-type': {
-      fontWeight: 700,
+      fontWeight: 500,
       color: theme.colors.red,
     },
   },
@@ -58,15 +50,17 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     margin: 0,
-    fontSize: 54,
+    fontSize: 40,
+    lineHeight: 1.25,
     fontWeight: 700,
     color: theme.colors.primary,
   },
   subTitle: {
     margin: 0,
-    padding: `${theme.spacing(1)}px ${theme.spacing(4)}px`,
-    fontSize: 27,
-    fontWeight: 400,
+    padding: theme.spacing(1, 4),
+    fontSize: 20,
+    lineHeight: 1.5,
+    fontWeight: 300,
     color: theme.colors.primary,
     textAlign: 'center',
   },
@@ -234,12 +228,12 @@ enum FilterType {
   NewMember = 2,
 }
 
-// circle_.alloc_text = `Thank your teammates by allocating them ${circle_.token_name}`;
+//
 
 const AllocationGive = () => {
   const classes = useStyles();
 
-  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
+  const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
   const {
     giveTokenRemaining,
@@ -250,16 +244,6 @@ const AllocationGive = () => {
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 
-  // TODO: Reenable Countdown with better messaging like before
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setEpochTimeLeft(calculateEpochTimeLeft());
-  //   }, 1000);
-  //   // Clear timeout if the component is unmounted
-  //   return () => clearTimeout(timer);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <div className={classes.root}>
       <div className={classes.balanceContainer}>
@@ -269,28 +253,12 @@ const AllocationGive = () => {
         <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
       </div>
       <div className={classes.headerContainer}>
-        <p className={classes.title}>
-          Reward {capitalizedName(selectedCircle?.name)} Contributors
-        </p>
-        <p className={classes.subTitle}>{!epochIsActive && timingMessage}</p>
-        {/* <p className={classes.description}>
-          {isEpochEnded
-            ? 'Stay tuned for details, and thank you for being part of Coordinape’s alpha.'
-            : `These tokens represent ${moment(
-                epochStartDate.subtract(1, 'days')
-              )
-                .utc()
-                .format(
-                  'MMMM'
-                )}’s contributor budget of $20,000. Make your allocation below to reward people for bringing value to Yearn.`}
-        </p> */}
+        <h2 className={classes.title}>{longTimingMessage}</h2>
+        <h2 className={classes.subTitle}>
+          {selectedCircle?.alloc_text ??
+            `Thank your teammates by allocating them ${selectedCircle?.token_name}`}
+        </h2>
       </div>
-      {/* <NavLink className={classes.settingTeammatesNavLink} to={'/team'}>
-        <div className={classes.settingIconWrapper}>
-          <SettingsTeammatesSVG />
-        </div>
-        Edit Teammates List
-      </NavLink> */}
       <div className={classes.accessaryContainer}>
         <div className={classes.filterButtonContainer}>
           <p className={classes.filterLabel}>filter by</p>
@@ -407,35 +375,29 @@ const AllocationGive = () => {
       </div>
 
       {selectedCircle &&
-        selectedMyUser?.fixed_non_receiver &&
-        !storage.isForceOptOutCircleId(
-          selectedMyUser.id,
-          selectedCircle.id
-        ) && (
-          <PopUpModal
-            onClose={() => {
-              storage.addForceOptOutCircleId(
-                selectedMyUser.id,
-                selectedCircle.id
-              );
-            }}
-            title={`Your administrator opted you out of receiving ${
-              selectedCircle.token_name || 'GIVE'
-            }`}
-            description={`You can still distribute ${
-              selectedCircle.token_name || 'GIVE'
-            } as normal. Generally people are opted out of receiving ${
-              selectedCircle.token_name || 'GIVE'
-            } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
-            button="Okay, Got it."
-            visible={
-              !storage.isForceOptOutCircleId(
-                selectedMyUser.id,
-                selectedCircle.id
-              )
-            }
-          />
-        )}
+      selectedMyUser?.fixed_non_receiver &&
+      !storage.isForceOptOutCircleId(selectedMyUser.id, selectedCircle.id) ? (
+        <PopUpModal
+          onClose={() => {
+            storage.addForceOptOutCircleId(
+              selectedMyUser.id,
+              selectedCircle.id
+            );
+          }}
+          title={`Your administrator opted you out of receiving ${
+            selectedCircle.token_name || 'GIVE'
+          }`}
+          description={`You can still distribute ${
+            selectedCircle.token_name || 'GIVE'
+          } as normal. Generally people are opted out of receiving ${
+            selectedCircle.token_name || 'GIVE'
+          } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
+          button="Okay, Got it."
+          visible={
+            !storage.isForceOptOutCircleId(selectedMyUser.id, selectedCircle.id)
+          }
+        />
+      ) : null}
     </div>
   );
 };

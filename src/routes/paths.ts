@@ -9,14 +9,14 @@ export const getAdminPath = () => '/admin';
 export const getProfilePath = (address: string) => `/profile/${address}`;
 
 export const getMainNavigation = ({
-  showAdmin,
-}: { showAdmin?: boolean } = {}) => {
+  asCircleAdmin,
+}: { asCircleAdmin?: boolean } = {}) => {
   const mainItems = [
     { path: getAllocationPath(), label: 'Allocate' },
     { path: getMapPath(), label: 'Map' },
   ];
   const adminItems = [{ path: getAdminPath(), label: 'Admin' }];
-  return showAdmin ? [...mainItems, ...adminItems] : mainItems;
+  return asCircleAdmin ? [...mainItems, ...adminItems] : mainItems;
 };
 
 export const getMenuNavigation = () => [

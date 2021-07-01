@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Popover, makeStyles, Avatar, Divider } from '@material-ui/core';
 
-import { useMe, useCircle } from 'hooks';
+import { useMe, useCircle, useGlobalUi } from 'hooks';
 import * as paths from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,14 +14,13 @@ const useStyles = makeStyles((theme) => ({
     height: '50px',
     width: '50px',
     cursor: 'pointer',
-    border: '3px solid rgba(239, 115, 118, 0)',
+    border: '3px solid #828F93',
     '&.selected': {
       border: '3px solid rgba(239, 115, 118, 1)',
     },
   },
   popover: {
     width: 237,
-
     marginTop: theme.spacing(0.5),
     padding: theme.spacing(2, 0),
     borderRadius: 8,
@@ -80,8 +79,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const MyAvatarMenu = () => {
   const classes = useStyles();
-  const { selectedMyUser, myCircles, avatarPath } = useMe();
-  const { selectCircle, selectedCircleId } = useCircle();
+  const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
+  const { selectCircle, selectedCircle } = useCircle();
+  const { openCircleSelector } = useGlobalUi();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -140,19 +140,54 @@ export const MyAvatarMenu = () => {
         {myCircles.map((circle) => (
           <button
             className={
-              selectedCircleId === circle.id
+              selectedCircle?.id === circle.id
                 ? clsx(classes.link, classes.selectedLink)
                 : classes.link
             }
             key={circle.name}
             onClick={() => {
               setAnchorEl(null);
-              selectCircle(circle.id);
+              selectedCircle?.id !== circle.id && selectCircle(circle.id);
             }}
           >
             {circle.name}
           </button>
         ))}
+        {hasAdminView ? (
+          <>
+            <Divider variant="middle" className={classes.divider} />
+            <span className={classes.subHeader}>Admin View</span>
+            {!selectedMyUser && selectedCircle ? (
+              <>
+                <button
+                  className={clsx(classes.link, classes.selectedLink)}
+                  onClick={() => setAnchorEl(null)}
+                >
+                  {selectedCircle.name}
+                </button>
+                <button
+                  className={classes.link}
+                  onClick={() => {
+                    setAnchorEl(null);
+                    openCircleSelector();
+                  }}
+                >
+                  More...
+                </button>
+              </>
+            ) : (
+              <button
+                className={classes.link}
+                onClick={() => {
+                  setAnchorEl(null);
+                  openCircleSelector();
+                }}
+              >
+                Circle Selector
+              </button>
+            )}
+          </>
+        ) : null}
       </Popover>
     </>
   );

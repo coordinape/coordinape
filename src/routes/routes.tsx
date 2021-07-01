@@ -7,6 +7,7 @@ import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import HistoryPage from 'pages/HistoryPage';
 import PreconnectPage from 'pages/PreconnectPage';
+import ProfilePage from 'pages/ProfilePage';
 import { rSelectedMyUser, rSelectedCircle } from 'recoilState';
 
 import * as paths from './paths';
@@ -51,7 +52,7 @@ export const Routes = () => {
       <Route
         exact
         path={paths.getProfilePath(':profileAddress')}
-        component={PreconnectPage}
+        component={ProfilePage}
       />
       <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />

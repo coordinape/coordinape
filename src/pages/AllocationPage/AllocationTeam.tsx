@@ -286,38 +286,20 @@ enum OrderType {
 
 const AllocationTeam = () => {
   const classes = useStyles();
-  const { selectedMyUser } = useMe();
   const { availableTeammates, selectedCircle } = useCircle();
   const {
     localTeammates,
-    setLocalTeammates,
+    toggleLocalTeammate,
+    setAllLocalTeammates,
+    clearLocalTeammates,
     givePerUser,
   } = useSelectedAllocation();
 
   const [keyword, setKeyword] = useState<string>('');
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
 
-  const onClickSelectAll = () => {
-    setLocalTeammates(availableTeammates);
-  };
-
-  const onClickDeselectAll = () => {
-    setLocalTeammates([]);
-  };
-
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
-  };
-
-  const onClickTeammatesItem = (userId: number) => {
-    if (localTeammates.find((u) => u.id === userId)) {
-      setLocalTeammates([...localTeammates.filter((u) => u.id !== userId)]);
-    } else {
-      setLocalTeammates([
-        ...localTeammates,
-        availableTeammates.find((u) => u.id === userId) as IUser,
-      ]);
-    }
   };
 
   return (
@@ -337,14 +319,14 @@ const AllocationTeam = () => {
             <Button
               className={classes.selectButton}
               disableRipple={true}
-              onClick={onClickSelectAll}
+              onClick={setAllLocalTeammates}
             >
               Select All
             </Button>
             <Button
               className={classes.selectButton}
               disableRipple={true}
-              onClick={onClickDeselectAll}
+              onClick={clearLocalTeammates}
             >
               Deselect All
             </Button>
@@ -430,7 +412,7 @@ const AllocationTeam = () => {
                   !user.matched ? 'unmatched' : ''
                 )}
                 key={user.id}
-                onClick={() => onClickTeammatesItem(user.id)}
+                onClick={() => toggleLocalTeammate(user.id)}
               >
                 {user.avatar && user.avatar.length > 0 ? (
                   <Img
@@ -499,7 +481,7 @@ const AllocationTeam = () => {
                       !user.matched ? 'unmatched' : ''
                     )}
                     key={user.id}
-                    onClick={() => onClickTeammatesItem(user.id)}
+                    onClick={() => toggleLocalTeammate(user.id)}
                   >
                     {user.avatar && user.avatar.length > 0 ? (
                       <Img

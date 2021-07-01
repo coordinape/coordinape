@@ -8,7 +8,7 @@ import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecke
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 222,
-    margin: `0 ${theme.spacing(4)}px`,
+    margin: 0,
     textAlign: 'center',
     color: 'rgba(81, 99, 105, 0.7)',
     '&:hover': {
@@ -24,15 +24,14 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   title: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1.8),
+    margin: theme.spacing(1, 0, 0.5),
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: 700,
   },
   subTitle: {
     margin: 0,
     fontSize: 18,
-    fontWeight: 'normal',
+    fontWeight: 300,
   },
 }));
 

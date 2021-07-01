@@ -133,7 +133,7 @@ const GraphPage = () => {
     pastEpochs,
     circleId: selectedCircleId,
   } = useSelectedCircleEpoch();
-  const { allUsers, me } = useUserInfo();
+  const { allUsers } = useUserInfo();
 
   const handleSearchChange = (_event: any, value: string) => {
     if (!value) {
@@ -316,6 +316,7 @@ const GraphPage = () => {
     const allGifts = pastGifts.concat(pendingGifts);
     // TODO: until recently, pending gifts are missing epoch_id
     console.log(
+      'setGifts',
       pastGifts.length,
       pendingGifts[0],
       allGifts.length,
@@ -336,7 +337,7 @@ const GraphPage = () => {
       return;
     }
 
-    if (gifts.length === 0 || allUsers.length === 0 || !me) {
+    if (gifts.length === 0 || allUsers.length === 0) {
       setLinks([]);
       setNodes([]);
       return;
@@ -350,7 +351,7 @@ const GraphPage = () => {
 
     // TODO: This can be simplified for placeholders
     const images = fromPairs(
-      uniq(allUsers.concat(me).map((u) => u.avatar)).map((avatar) => {
+      uniq(allUsers.map((u) => u.avatar)).map((avatar) => {
         const img = new Image();
         img.src = getAvatarPath(avatar);
         return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
@@ -438,7 +439,7 @@ const GraphPage = () => {
     configureForces();
     setLinks(links);
     setNodes(visibleNodes);
-  }, [gifts, allUsers, me]);
+  }, [gifts, allUsers]);
 
   return (
     <div className={classes.root}>

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { WALLET_ICONS } from 'config/constants';
-import { useWalletConnection } from 'hooks';
+import { useGlobalUi } from 'hooks';
 import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,7 @@ interface IProps {
 export const ConnectWalletButton = (props: IProps) => {
   const classes = useStyles();
   const Icon = WALLET_ICONS[ConnectorNames.Injected];
-  const { openWalletModal } = useWalletConnection();
+  const { openWalletModal } = useGlobalUi();
 
   return (
     <Button

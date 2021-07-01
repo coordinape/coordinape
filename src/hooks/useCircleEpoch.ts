@@ -1,58 +1,69 @@
 import { useRecoilValue } from 'recoil';
 
-import { rCircleEpochTiming, rCircleEpochsStatus } from 'recoilState';
+import { rCircleEpochsStatus } from 'recoilState';
+import {
+  timingToLeastUnit,
+  timingToDoubleUnits,
+  calculateEpochTimings,
+} from 'utils/tools';
 
-import { ITiming, IEpochTiming, IEpoch } from 'types';
-
-// TODO: These could be in utils
-const timingToLeastUnit = (timing: ITiming) => {
-  if (timing.days > 0) {
-    return timing.days === 1 ? '1 day' : `${timing.days} days`;
-  }
-  if (timing.hours > 0) {
-    return timing.hours === 1 ? '1 hour' : `${timing.hours} hours`;
-  }
-  if (timing.minutes > 0) {
-    return timing.minutes === 1 ? '1 minute' : `${timing.minutes} minutes`;
-  }
-  if (timing.seconds > 0) {
-    return timing.seconds === 1 ? '1 second' : `${timing.seconds} seconds`;
-  }
-  return 'the past';
-};
-
-const timingToMessage = (epochTiming?: IEpochTiming) => {
-  if (!epochTiming) {
-    return 'Epoch not Scheduled';
-  }
-  if (!epochTiming.hasBegun) {
-    return `Epoch begins in ${timingToLeastUnit(epochTiming.timeUntilStart)}`;
-  }
-  return `Epoch ends in ${timingToLeastUnit(epochTiming.timeUntilEnd)}`;
-};
+import { IEpoch } from 'types';
 
 export const useCircleEpoch = (
   circleId: number
 ): {
   circleId: number;
   pastEpochs: IEpoch[];
+  previousEpoch?: IEpoch;
   currentEpoch?: IEpoch;
   nextEpoch?: IEpoch;
   epochIsActive: boolean;
   timingMessage: string;
+  longTimingMessage: string;
 } => {
-  const epochStatus = useRecoilValue(rCircleEpochsStatus(circleId));
-  const epochTimings = useRecoilValue(rCircleEpochTiming(circleId));
-  const nextTiming = epochTimings?.nextEpochTiming;
+  const { pastEpochs, previousEpoch, currentEpoch, nextEpoch } = useRecoilValue(
+    rCircleEpochsStatus(circleId)
+  );
 
-  // TODO: This is broken for some coordinape testing....
+  const closestEpoch = currentEpoch ?? nextEpoch;
+
+  const epochTiming =
+    closestEpoch !== undefined
+      ? calculateEpochTimings(closestEpoch)
+      : undefined;
+
+  const currentEpochNumber = previousEpoch
+    ? String(previousEpoch.number + 1)
+    : 'Z';
+
+  let timingMessage = 'Epoch not Scheduled';
+  let longTimingMessage = 'Next Epoch not Scheduled';
+
+  if (epochTiming && !epochTiming.hasBegun) {
+    timingMessage = `Epoch Begins in ${timingToLeastUnit(
+      epochTiming.timeUntilStart
+    )}`;
+    longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${timingToLeastUnit(
+      epochTiming.timeUntilStart
+    )}`;
+  }
+  if (epochTiming && epochTiming.hasBegun) {
+    timingMessage = `Epoch ends in ${timingToLeastUnit(
+      epochTiming.timeUntilEnd
+    )}`;
+    longTimingMessage = `Epoch ${currentEpochNumber} has Begun and Ends in ${timingToLeastUnit(
+      epochTiming.timeUntilEnd
+    )}`;
+  }
+
   return {
     circleId,
-    pastEpochs: epochStatus?.pastEpochs,
-    currentEpoch: epochStatus?.currentEpoch,
-    epochIsActive: !!epochStatus?.currentEpoch,
-    timingMessage: timingToMessage(
-      nextTiming ?? epochTimings?.currentEpochTiming
-    ),
+    pastEpochs,
+    previousEpoch,
+    currentEpoch,
+    nextEpoch,
+    epochIsActive: !!currentEpoch,
+    timingMessage,
+    longTimingMessage,
   };
 };

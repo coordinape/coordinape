@@ -84,6 +84,11 @@ export const rFetchedAt = atomFamily<Map<string, number>, string>({
   default: new Map(),
 });
 
+export const rProfileMap = atom<Map<string, IProfile>>({
+  key: 'rProfileMap',
+  default: new Map(),
+});
+
 export const rCirclesMap = atom<Map<number, ICircle>>({
   key: 'rCirclesMap',
   default: new Promise((resolve) => {

@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 
 import { Button, Modal, makeStyles } from '@material-ui/core';
 
-import { useCircle, useCircleEpoch } from 'hooks';
-import { rMyCircles } from 'recoilState';
+import { useCircle, useCircleEpoch, useMe } from 'hooks';
+import { rCircles } from 'recoilState';
 
 import { ICircle } from 'types';
 
@@ -14,23 +14,32 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: theme.spacing(15, 10),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 4),
+    },
   },
   content: {
     outline: 'none',
+    maxHeight: '90vh',
     backgroundColor: theme.colors.white,
-    minWidth: 700,
-    maxWidth: 800,
-    maxHeight: '80vh',
     borderRadius: theme.spacing(1),
-    paddingTop: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    paddingRight: theme.spacing(5),
+    padding: theme.spacing(5, 5, 0),
     userSelect: `none`,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: 350,
-      maxWidth: 350,
-    },
+    display: 'flex',
+    flexDirection: 'column',
   },
+  circleContainer: {
+    marginTop: theme.spacing(1),
+    paddingBottom: theme.spacing(10),
+    width: '100%',
+    flex: 1,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    overflowY: 'auto',
+  },
+
   header: {
     marginBottom: theme.spacing(3),
     display: 'flex',
@@ -50,19 +59,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     color: theme.colors.border,
     border: 'solid',
-    borderBottomWidth: 1,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
+    borderWidth: '0 0 1px 0',
     borderColor: theme.colors.border,
   },
-  circleContainer: {
-    marginTop: theme.spacing(1),
-    paddingBottom: theme.spacing(10),
+  divider: {
     width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    margin: theme.spacing(4, 0, 2),
+    textAlign: 'center',
   },
   circle: {
     margin: theme.spacing(2),
@@ -125,37 +128,58 @@ export const CircleSelectModal = ({
   const classes = useStyles();
   const { selectCircle } = useCircle();
 
-  const myCircles = useRecoilValue(rMyCircles);
+  const { myCircles, hasAdminView } = useMe();
+  const circles = useRecoilValue(rCircles);
+  const myCirclesSet = new Set(myCircles.map((c) => c.id));
 
   return (
     <Modal className={classes.modal} open={visible} onClose={onClose}>
       <div className={classes.content}>
-        {myCircles.length > 0 ? (
-          <>
-            <div className={classes.header}>
+        <div className={classes.header}>
+          {myCircles.length > 0 ? (
+            <>
               <span className={classes.title}>Welcome back!</span>
-              <span className={classes.circleLabel}>Select a Circle</span>
-            </div>
-            <div className={classes.circleContainer}>
-              {myCircles?.map((circle) => (
-                <CircleButton
-                  key={circle.id}
-                  circle={circle}
-                  onClick={() => {
-                    selectCircle(circle.id);
-                    onClose();
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className={classes.header}>
+            </>
+          ) : (
             <span className={classes.title}>
               Sorry, you have no authorized Circles
             </span>
+          )}
+        </div>
+        <div className={classes.circleContainer}>
+          <div className={classes.divider}>
+            <span className={classes.circleLabel}>Select a Circle</span>
           </div>
-        )}
+          {myCircles?.map((circle) => (
+            <CircleButton
+              key={circle.id}
+              circle={circle}
+              onClick={() => {
+                selectCircle(circle.id);
+                onClose();
+              }}
+            />
+          ))}
+          {hasAdminView ? (
+            <>
+              <div className={classes.divider}>
+                <span className={classes.circleLabel}>Admin View</span>
+              </div>
+              {circles
+                .filter((c) => !myCirclesSet.has(c.id))
+                ?.map((circle) => (
+                  <CircleButton
+                    key={circle.id}
+                    circle={circle}
+                    onClick={() => {
+                      selectCircle(circle.id);
+                      onClose();
+                    }}
+                  />
+                ))}
+            </>
+          ) : null}
+        </div>
       </div>
     </Modal>
   );

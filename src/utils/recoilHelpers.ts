@@ -15,3 +15,12 @@ export const updaterMergeItemToIdMap = (
   updateWith(
     (oldValue: Map<number, any>) => new Map(oldValue.set(newValue.id, newValue))
   );
+
+export const updaterMergeItemToAddressMap = (
+  newValue: any,
+  updateWith: (update: (oldValue: any) => void) => void
+) =>
+  updateWith(
+    (oldValue: Map<number, any>) =>
+      new Map(oldValue.set(newValue.address, newValue))
+  );
