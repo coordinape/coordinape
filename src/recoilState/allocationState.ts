@@ -1,13 +1,23 @@
-import { atomFamily } from 'recoil';
+import { atomFamily, selector } from 'recoil';
 
-import { rMyUsers } from './appState';
+import { rMyProfile } from './appState';
 
-import { IUser, ISimpleGift } from 'types';
+import { IUser, ISimpleGift, IRecoilGetParams } from 'types';
 
 // These are parameterized by circleId
 export const rLocalTeammates = atomFamily<IUser[], number>({
   key: 'rLocalTeammates',
-  default: [],
+  default: (circleId: number) =>
+    selector<IUser[]>({
+      key: 'rLocalTeammates/Default',
+      get: ({ get }: IRecoilGetParams) => {
+        const myProfile = get(rMyProfile);
+        return (
+          myProfile?.users?.find((u) => u.circle_id === circleId)?.teammates ??
+          []
+        );
+      },
+    }),
 });
 
 export const rLocalGifts = atomFamily<ISimpleGift[], number>({

@@ -1,5 +1,7 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useHistory } from 'react-router';
+import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
 
+import { useAsync } from 'hooks';
 import {
   rSelectedCircleId,
   rGiftsMap,
@@ -8,7 +10,9 @@ import {
   rEpochsMap,
   rAvailableTeammates,
   rSelectedCircle,
+  rCircleEpochsStatus,
 } from 'recoilState';
+import { getHistoryPath, getAllocationPath } from 'routes/paths';
 import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
@@ -19,13 +23,16 @@ import { ITokenGift, IUser, IEpoch, ICircle } from 'types';
 export const useCircle = (): {
   availableTeammates: IUser[];
   selectedCircle: ICircle | undefined;
-  selectCircle: (circleId: number) => Promise<void>;
   selectedCircleId: number | undefined;
+  clearSelectedCircle: () => void;
+  selectAndFetchCircle: (circleId: number) => Promise<void>;
   fetchUsersForCircle: () => Promise<IUser[]>;
   fetchGiftsForCircle: () => Promise<ITokenGift[]>;
   fetchPendingGiftsForCircle: () => Promise<ITokenGift[]>;
   fetchEpochsForCircle: () => Promise<IEpoch[]>;
 } => {
+  const history = useHistory();
+  const asyncCall = useAsync();
   const api = getApiService();
 
   const [selectedCircleId, setSelectedCircleId] = useRecoilState(
@@ -33,6 +40,22 @@ export const useCircle = (): {
   );
   const availableTeammates = useRecoilValue(rAvailableTeammates);
   const selectedCircle = useRecoilValue(rSelectedCircle);
+
+  const triggerDefaultNavigation = useRecoilCallback(
+    ({ snapshot }) => async () => {
+      const circleId = await snapshot.getPromise(rSelectedCircleId);
+      const { currentEpoch } = await snapshot.getPromise(
+        rCircleEpochsStatus(circleId ?? -1)
+      );
+      if (history.location.pathname === '/') {
+        if (currentEpoch) {
+          history.push(getAllocationPath());
+        } else {
+          history.push(getHistoryPath());
+        }
+      }
+    }
+  );
 
   const fetchUsers = useRecoilFetcher(
     'rUsersMap',
@@ -90,29 +113,36 @@ export const useCircle = (): {
     return result as IEpoch[];
   };
 
-  const selectCircle = async (circleId: number) => {
-    const results = await Promise.all([
-      await fetchPendingGifts(api.getPendingTokenGifts, [
-        undefined,
-        undefined,
-        circleId,
-      ]),
-      await fetchGifts(api.getTokenGifts, [{ circle_id: circleId }]),
-      await fetchUsers(api.getUsers, [
-        { circle_id: circleId, deleted_users: true },
-      ]),
-      await fetchEpochs(api.getEpochs, [circleId]),
-    ]);
+  const selectAndFetchCircle = async (circleId: number) => {
+    const call = async () => {
+      const results = await Promise.all([
+        await fetchPendingGifts(api.getPendingTokenGifts, [
+          { circle_id: circleId },
+        ]),
+        await fetchGifts(api.getTokenGifts, [{ circle_id: circleId }]),
+        await fetchUsers(api.getUsers, [
+          { circle_id: circleId, deleted_users: true },
+        ]),
+        await fetchEpochs(api.getEpochs, [circleId]),
+      ]);
 
-    results.forEach(([commit]) => commit());
-    setSelectedCircleId(circleId);
+      results.forEach(([commit]) => commit());
+      setSelectedCircleId(circleId);
+      triggerDefaultNavigation();
+    };
+    return asyncCall(call(), true);
+  };
+
+  const clearSelectedCircle = () => {
+    setSelectedCircleId(undefined);
   };
 
   return {
     availableTeammates,
-    selectCircle,
     selectedCircleId,
     selectedCircle,
+    selectAndFetchCircle,
+    clearSelectedCircle,
     fetchUsersForCircle,
     fetchGiftsForCircle,
     fetchPendingGiftsForCircle,

@@ -1,47 +1,46 @@
 import React, { useEffect } from 'react';
 
-import {
-  useSetRecoilState,
-  useRecoilState,
-  useRecoilValue,
-  useRecoilSnapshot,
-} from 'recoil';
-import RecoilizeDebugger from 'recoilize';
+import { Web3Provider } from '@ethersproject/providers';
+import { useWeb3React } from '@web3-react/core';
+import { useRecoilState, useRecoilValue } from 'recoil';
+// import RecoilizeDebugger from 'recoilize';
 
 import {
   CircleSelectModal,
   ConnectWalletModal,
   LoadingModal,
 } from 'components';
-import { useConnectedWeb3Context } from 'contexts';
-import { useCircle } from 'hooks';
+import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'config/constants';
+import { useCircle, useMe, useWallet } from 'hooks';
 import {
-  rMyAddress,
   rWalletModalOpen,
   rGlobalLoading,
   rGlobalLoadingText,
-  rSelectedCircleId,
   rCircleSelectorOpen,
+  useValConnectorName,
+  useStateInitialized,
+  useSetMyAddress,
 } from 'recoilState';
-import storage from 'utils/storage';
+import { getApiService } from 'services/api';
 
+// The following DebugObserver and window.$recoilValues are for debugging.
 interface IRecoilAtomValue {
   contents: any;
   state: string;
 }
 
-const DebugObserver = () => {
-  const snapshot = useRecoilSnapshot();
-  React.useEffect(() => {
-    console.debug('Recoil: The following atoms were modified:');
-    const thing = snapshot.getNodes_UNSTABLE({ isModified: true });
-    for (const node of Array.from(thing)) {
-      console.debug(node.key, snapshot.getLoadable(node));
-    }
-  }, [snapshot]);
+// const DebugObserver = () => {
+//   const snapshot = useRecoilSnapshot();
+//   React.useEffect(() => {
+//     console.debug('Recoil: The following atoms were modified:');
+//     const thing = snapshot.getNodes_UNSTABLE({ isModified: true });
+//     for (const node of Array.from(thing)) {
+//       console.debug(node.key, snapshot.getLoadable(node));
+//     }
+//   }, [snapshot]);
 
-  return null;
-};
+//   return null;
+// };
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: This is debug code!!!
@@ -53,41 +52,105 @@ window.$recoilValues = () => {
     string,
     IRecoilAtomValue
   >;
+  // eslint-disable-next-line no-console
   latest.forEach((v, k) => console.log(k, v.state, v.contents));
 };
 
-interface IProps {
-  children: React.ReactNode | React.ReactNode[];
-}
+export const RecoilAppController = () => {
+  const web3Context = useWeb3React<Web3Provider>();
 
-export const RecoilAppController = ({ children }: IProps) => {
-  const { account } = useConnectedWeb3Context(); // networkId ?
+  const { deactivate, activate } = useWallet();
+  const { myProfile, hasAdminView } = useMe();
+  const {
+    selectAndFetchCircle,
+    selectedCircleId,
+    clearSelectedCircle,
+  } = useCircle();
+  const [initialized, setInitialized] = useStateInitialized();
 
-  const setMyAddress = useSetRecoilState(rMyAddress);
-  const { selectCircle } = useCircle();
+  const connectorName = useValConnectorName();
+  const setMyAddress = useSetMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
     rWalletModalOpen
   );
   const [circleSelectorOpen, setCircleSelectorOpen] = useRecoilState(
     rCircleSelectorOpen
   );
-  const [globalLoading, setGlobalLoading] = useRecoilState(rGlobalLoading);
+  const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
 
   useEffect(() => {
-    setMyAddress(account ?? '');
-    const circleIdSelection = storage.getCircleId();
-    if (circleIdSelection === -1) {
-      setCircleSelectorOpen(true);
-    } else {
-      selectCircle(circleIdSelection);
+    // TODO: this can be the atom default state
+    if (window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS) {
+      setWalletModalOpen(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, []);
+
+  useEffect(() => {
+    getApiService().setProvider(web3Context.library);
+  }, [web3Context.library]);
+
+  useEffect(() => {
+    if (web3Context.error) {
+      setInitialized(false);
+      deactivate();
+      return;
+    }
+
+    if (!web3Context.active && connectorName && !initialized) {
+      activate(connectorName);
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [web3Context.error, web3Context.active, web3Context.library]);
+
+  useEffect(() => {
+    if (!initialized) {
+      return;
+    }
+    if (!web3Context.account) {
+      throw 'Expected web3Context.account to be set';
+    }
+
+    setMyAddress(web3Context.account);
+
+    if (walletModalOpen) {
+      setWalletModalOpen(false);
+    }
+
+    if (selectedCircleId === undefined) {
+      setCircleSelectorOpen(true);
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized]);
+
+  useEffect(() => {
+    if (initialized || selectedCircleId === undefined) {
+      return;
+    }
+    selectAndFetchCircle(selectedCircleId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCircleId]);
+
+  useEffect(() => {
+    if (!myProfile || hasAdminView) {
+      return;
+    }
+
+    if (
+      selectedCircleId &&
+      !myProfile?.users?.some((u) => u.circle_id !== selectedCircleId)
+    ) {
+      // This profile shouldn't have access to this circle.
+      clearSelectedCircle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myProfile]);
 
   return (
     <>
-      {children}
       {/* <DebugObserver /> */}
       {/* <RecoilizeDebugger /> */}
       <ConnectWalletModal
@@ -98,7 +161,7 @@ export const RecoilAppController = ({ children }: IProps) => {
         onClose={() => setCircleSelectorOpen(false)}
         visible={circleSelectorOpen}
       />
-      {/* <LoadingModal text={globalLoadingText} visible={globalLoading > 0} /> */}
+      <LoadingModal text={globalLoadingText} visible={globalLoading > 0} />
     </>
   );
 };

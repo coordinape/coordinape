@@ -12,19 +12,6 @@ import { rSelectedMyUser, rSelectedCircle } from 'recoilState';
 
 import * as paths from './paths';
 
-// TODO: User sign in flow
-// 1. Go to any specific path they have. Select circle if specified in URL.
-//    Redirect if invalid (admin or no permission to see circle)
-//
-// 2. Use local storage to select a circle OR open circle select modal THEN
-//    DRAFT
-//    If during epoch
-//       First time -> Epoch
-//       If they set their epoch settings -> Team
-//       If they already GAVE back to GIVE
-//    ELSE between epochs:
-//       HISTORY
-
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
 // look into this.
@@ -34,7 +21,7 @@ export const Routes = () => {
   const selectedMyUser = useRecoilValue(rSelectedMyUser);
   const selectedCircle = useRecoilValue(rSelectedCircle);
 
-  if (!selectedMyUser && !selectedCircle) {
+  if (!selectedCircle || !selectedMyUser) {
     return <PreconnectPage />;
   }
 

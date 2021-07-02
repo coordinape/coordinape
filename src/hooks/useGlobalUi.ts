@@ -9,11 +9,6 @@ export const useGlobalUi = (): {
   const setWalletModalOpen = useSetRecoilState(rWalletModalOpen);
   const setCircleSelectorOpen = useSetRecoilState(rCircleSelectorOpen);
 
-  // const onDisconnect = () => {
-  //   rawWeb3Context.deactivate();
-  //   localStorage.removeItem(STORAGE_KEY_CONNECTOR);
-  // };
-
   const openWalletModal = () => {
     setWalletModalOpen(true);
   };

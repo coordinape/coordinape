@@ -1,18 +1,14 @@
 import { useRecoilValue } from 'recoil';
 
 import { rCircleEpochsStatus } from 'recoilState';
-import {
-  timingToLeastUnit,
-  timingToDoubleUnits,
-  calculateEpochTimings,
-} from 'utils/tools';
+import { timingToLeastUnit, calculateEpochTimings } from 'utils/tools';
 
 import { IEpoch } from 'types';
 
 export const useCircleEpoch = (
-  circleId: number
+  circleId: number | undefined
 ): {
-  circleId: number;
+  circleId: number | undefined;
   pastEpochs: IEpoch[];
   previousEpoch?: IEpoch;
   currentEpoch?: IEpoch;
@@ -21,8 +17,9 @@ export const useCircleEpoch = (
   timingMessage: string;
   longTimingMessage: string;
 } => {
+  // A fake circleId will just return nothing.
   const { pastEpochs, previousEpoch, currentEpoch, nextEpoch } = useRecoilValue(
-    rCircleEpochsStatus(circleId)
+    rCircleEpochsStatus(circleId ?? -1)
   );
 
   const closestEpoch = currentEpoch ?? nextEpoch;

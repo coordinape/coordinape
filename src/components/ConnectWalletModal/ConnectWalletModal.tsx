@@ -1,26 +1,16 @@
-import React, { useEffect } from 'react';
-
-import { useWeb3React } from '@web3-react/core';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import React from 'react';
 
 import {
   CircularProgress,
-  Divider,
   Grid,
-  IconButton,
   Modal,
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 
 import { ConnectWalletButtonItem } from 'components';
-import { STORAGE_KEY_CONNECTOR } from 'config/constants';
-import connectors from 'utils/connectors';
+import { useWallet } from 'hooks/useWallet';
 import { ConnectorNames } from 'utils/enums';
-import { getLogger } from 'utils/logger';
-
-const logger = getLogger('ConnectWalletModal::Index');
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -70,70 +60,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const ConnectWalletModal = ({
+  onClose,
+  visible,
+}: {
   visible: boolean;
   onClose: () => void;
-}
-
-export const ConnectWalletModal = (props: IProps) => {
+}) => {
   const classes = useStyles();
-  const context = useWeb3React();
-  const { onClose, visible } = props;
-
-  // handle logic to recognize the connector currently being activated
-  const [activatingConnector, setActivatingConnector] = React.useState<any>();
-
-  useEffect(() => {
-    if (activatingConnector && activatingConnector === context.connector) {
-      setActivatingConnector(undefined);
-      onClose();
-    }
-    // eslint-disable-next-line
-  }, [activatingConnector, context.connector]);
-
-  if (context.error) {
-    localStorage.removeItem(STORAGE_KEY_CONNECTOR);
-    context.deactivate();
-    onClose();
-    logger.error('Error in web3 context', context.error);
-  }
+  const { activate, connectorName } = useWallet();
 
   const isMetamaskEnabled = 'ethereum' in window || 'web3' in window;
 
-  const onClickWallet = (wallet: ConnectorNames) => {
-    const currentConnector = connectors[wallet];
-    if (wallet === ConnectorNames.Injected) {
-      setActivatingConnector(currentConnector);
-    }
-    if (wallet === ConnectorNames.WalletConnect) {
-      setActivatingConnector(currentConnector);
-    }
+  const isConnectingToWallet = !!connectorName;
 
-    if (wallet) {
-      if (
-        currentConnector instanceof WalletConnectConnector &&
-        currentConnector.walletConnectProvider?.wc?.uri
-      ) {
-        currentConnector.walletConnectProvider = undefined;
-      }
-      context.activate(currentConnector);
-      localStorage.setItem(STORAGE_KEY_CONNECTOR, wallet);
-    }
-  };
-
-  const isConnectingToWallet = !!activatingConnector;
-  let connectingText = `Connecting to wallet`;
-  const connectingToMetamask = activatingConnector === connectors.injected;
+  const connectingToMetamask = connectorName === ConnectorNames.Injected;
   const connectingToWalletConnect =
-    activatingConnector === connectors.walletconnect;
+    connectorName === ConnectorNames.WalletConnect;
+
+  let connectingText = `Connecting to wallet`;
   if (connectingToMetamask) {
     connectingText = 'Waiting for Approval on Metamask';
   }
   if (connectingToWalletConnect) {
     connectingText = 'Opening QR for Wallet Connect';
   }
-
-  const disableMetamask: boolean = !isMetamaskEnabled || false;
 
   return (
     <Modal
@@ -162,10 +113,10 @@ export const ConnectWalletModal = (props: IProps) => {
             <Grid container spacing={1}>
               <Grid item md={6} xs={12}>
                 <ConnectWalletButtonItem
-                  disabled={disableMetamask}
+                  disabled={!isMetamaskEnabled}
                   icon={ConnectorNames.Injected}
                   onClick={() => {
-                    onClickWallet(ConnectorNames.Injected);
+                    activate(ConnectorNames.Injected);
                   }}
                   text="Metamask"
                 />
@@ -175,7 +126,7 @@ export const ConnectWalletModal = (props: IProps) => {
                   disabled={isConnectingToWallet}
                   icon={ConnectorNames.WalletConnect}
                   onClick={() => {
-                    onClickWallet(ConnectorNames.WalletConnect);
+                    activate(ConnectorNames.WalletConnect);
                   }}
                   text="Wallet Connect"
                 />
@@ -185,7 +136,7 @@ export const ConnectWalletModal = (props: IProps) => {
                   disabled={isConnectingToWallet}
                   icon={ConnectorNames.WalletLink}
                   onClick={() => {
-                    onClickWallet(ConnectorNames.WalletLink);
+                    activate(ConnectorNames.WalletLink);
                   }}
                   text="Coinbase Wallet"
                 />
@@ -195,7 +146,7 @@ export const ConnectWalletModal = (props: IProps) => {
                   disabled={isConnectingToWallet}
                   icon={ConnectorNames.Fortmatic}
                   onClick={() => {
-                    onClickWallet(ConnectorNames.Fortmatic);
+                    activate(ConnectorNames.Fortmatic);
                   }}
                   text="Fortmatic"
                 />
@@ -205,7 +156,7 @@ export const ConnectWalletModal = (props: IProps) => {
                   disabled={isConnectingToWallet}
                   icon={ConnectorNames.Portis}
                   onClick={() => {
-                    onClickWallet(ConnectorNames.Portis);
+                    activate(ConnectorNames.Portis);
                   }}
                   text="Portis"
                 />

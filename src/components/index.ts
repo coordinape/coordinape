@@ -15,3 +15,4 @@ export * from './MyAvatarMenu/MyAvatarMenu';
 export * from './MyProfileCard/MyProfileCard';
 export * from './TeammateCard/TeammateCard';
 export * from './OptInput/OptInput';
+export * from './ConnectWalletModal/ConnectWalletModal';

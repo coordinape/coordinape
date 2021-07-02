@@ -9,8 +9,8 @@ import {
 } from '@material-ui/core';
 
 import { WALLET_ICONS } from 'config/constants';
+import { useWallet } from 'hooks';
 import { shortenAddress } from 'utils';
-import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,15 +59,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
-  address: string;
-  onDisconnect: () => void;
-  icon: string;
-}
-
-export const AccountInfo = (props: IProps) => {
+export const AccountInfo = () => {
   const classes = useStyles();
-  const { address, icon, onDisconnect } = props;
+  const { myAddress, connectorName, deactivate } = useWallet();
+
+  const Icon = connectorName ? WALLET_ICONS[connectorName] : () => <></>;
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -80,13 +77,15 @@ export const AccountInfo = (props: IProps) => {
     setAnchorEl(null);
   };
 
-  const Icon = WALLET_ICONS[icon as ConnectorNames];
-
   const open = Boolean(anchorEl);
   const id = open ? 'account-popover' : undefined;
 
+  if (!myAddress) {
+    return <></>;
+  }
+
   return (
-    <div>
+    <>
       <Button
         aria-describedby={id}
         className={classes.root}
@@ -98,7 +97,7 @@ export const AccountInfo = (props: IProps) => {
           </div>
         </Hidden>
         <Typography className={classes.address} component="span">
-          {shortenAddress(address)}
+          {shortenAddress(myAddress)}
         </Typography>
       </Button>
       <Popover
@@ -122,12 +121,12 @@ export const AccountInfo = (props: IProps) => {
           className={classes.popoverButton}
           onClick={() => {
             handleClose();
-            onDisconnect();
+            deactivate();
           }}
         >
           Disconnect
         </Button>
       </Popover>
-    </div>
+    </>
   );
 };

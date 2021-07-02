@@ -12,6 +12,7 @@ const baseOptions = {
   overrides: {
     MuiLinearProgress: {
       root: {
+        width: '100%',
         borderRadius: 3,
         overflow: 'hidden',
       },
@@ -67,6 +68,11 @@ const themeOptions = {
     MuiStepLabel: {
       label: {
         color: customColor.black,
+      },
+    },
+    MuiSkeleton: {
+      root: {
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
       },
     },
   },

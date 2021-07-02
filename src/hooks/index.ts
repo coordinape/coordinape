@@ -9,3 +9,4 @@ export * from './useAsync';
 export * from './useMyPendingGifts';
 export * from './useMyEpochGifts';
 export * from './useSelectedAllocation';
+export * from './useWallet';

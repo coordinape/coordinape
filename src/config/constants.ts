@@ -5,7 +5,6 @@ import { ReactComponent as PortisSVG } from 'assets/svgs/wallet/portis.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ConnectorNames } from 'utils/enums';
 
-export const STORAGE_KEY_CONNECTOR = 'CONNECTOR';
 export const LOGGER_ID = 'flama';
 
 export const INFURA_PROJECT_ID = process.env.REACT_APP_INFURA_PROJECT_ID;

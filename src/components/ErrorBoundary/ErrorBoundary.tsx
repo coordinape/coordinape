@@ -31,7 +31,6 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
 
   public componentDidCatch(error: any, errorInfo: ErrorInfo) {
     console.error('Caught in Error boundary:', error, errorInfo);
-    console.log(error as any, errorInfo);
     this.props.enqueueSnackbar(
       error?.response?.data?.message ||
         error?.message ||
@@ -41,7 +40,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
   }
 
   public render() {
-    return this.props.children;
+    return this.state.hasError ? null : this.props.children;
   }
 }
 

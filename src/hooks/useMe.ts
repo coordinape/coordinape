@@ -1,6 +1,5 @@
 import { useRecoilValue, useRecoilState } from 'recoil';
 
-import { useConnectedWeb3Context } from 'contexts';
 import {
   rSelectedMyUser,
   rMyCircles,
@@ -35,7 +34,7 @@ export const useMe = (): {
   updateAvatar: (newAvatar: File) => Promise<void>;
   updateProfile: (params: PostProfileParam) => Promise<IProfile>;
 } => {
-  const { library: provider } = useConnectedWeb3Context();
+  const api = getApiService();
   const asyncCall = useAsync();
 
   const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
@@ -51,7 +50,7 @@ export const useMe = (): {
       if (!selectedMyUser || !selectedCircle) {
         throw 'Need to select a circle to update circle user';
       }
-      const updatedUser = await getApiService(provider).putUsers(
+      const updatedUser = await api.putUsers(
         selectedCircle.id,
         selectedMyUser.address,
         {
@@ -76,7 +75,7 @@ export const useMe = (): {
       if (!selectedMyUser) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await getApiService(provider).postTeammates(
+      const result = await api.postTeammates(
         selectedMyUser.circle_id,
         selectedMyUser.address,
         teammateIds
@@ -93,7 +92,7 @@ export const useMe = (): {
       if (!selectedMyUser || !selectedCircle) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await getApiService(provider).postUploadImage(
+      const result = await api.postUploadImage(
         selectedCircle.id,
         selectedMyUser.address,
         newAvatar
@@ -111,10 +110,7 @@ export const useMe = (): {
       if (!selectedMyUser) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await getApiService(provider).postProfile(
-        selectedMyUser.address,
-        params
-      );
+      const result = await api.postProfile(selectedMyUser.address, params);
 
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
       return result;

@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 export const MyAvatarMenu = () => {
   const classes = useStyles();
   const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
-  const { selectCircle, selectedCircle } = useCircle();
+  const { selectAndFetchCircle, selectedCircle } = useCircle();
   const { openCircleSelector } = useGlobalUi();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -147,7 +147,8 @@ export const MyAvatarMenu = () => {
             key={circle.name}
             onClick={() => {
               setAnchorEl(null);
-              selectedCircle?.id !== circle.id && selectCircle(circle.id);
+              selectedCircle?.id !== circle.id &&
+                selectAndFetchCircle(circle.id);
             }}
           >
             {circle.name}

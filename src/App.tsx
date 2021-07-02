@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
@@ -8,13 +8,7 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-import {
-  LoadingScreen,
-  RecoilAppController,
-  ErrorBoundary,
-  MainLayout,
-} from 'components';
-import { ConnectedWeb3 } from 'contexts';
+import { RecoilAppController, ErrorBoundary, MainLayout } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 
@@ -34,19 +28,14 @@ function App() {
       <SnackbarProvider maxSnack={3}>
         <ErrorBoundary>
           <ThemeProvider theme={theme}>
-            <Suspense fallback={<LoadingScreen />}>
-              <Web3ReactProvider getLibrary={getLibrary}>
-                <ConnectedWeb3>
-                  <RecoilAppController>
-                    <BrowserRouter>
-                      <MainLayout>
-                        <RenderRoutes />
-                      </MainLayout>
-                    </BrowserRouter>
-                  </RecoilAppController>
-                </ConnectedWeb3>
-              </Web3ReactProvider>
-            </Suspense>
+            <Web3ReactProvider getLibrary={getLibrary}>
+              <BrowserRouter>
+                <MainLayout>
+                  <RecoilAppController />
+                  <RenderRoutes />
+                </MainLayout>
+              </BrowserRouter>
+            </Web3ReactProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </SnackbarProvider>

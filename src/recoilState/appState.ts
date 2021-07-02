@@ -1,9 +1,19 @@
 import moment from 'moment';
-import { atom, atomFamily, selector, selectorFamily } from 'recoil';
+import {
+  atom,
+  atomFamily,
+  selector,
+  selectorFamily,
+  useRecoilValue,
+  useRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 
 import { getApiService } from 'services/api';
 import storage from 'utils/storage';
 import { calculateEpochTimings } from 'utils/tools';
+
+import { rMyAddress } from './walletState';
 
 import {
   IUser,
@@ -16,10 +26,29 @@ import {
   IUserGift,
 } from 'types';
 
-export const rMyAddress = atom<string>({
-  key: 'rMyAddress',
-  default: '',
+export const rSelectedCircleId = atom<number | undefined>({
+  key: 'rSelectedCircleId',
+  default: storage.getCircleId(),
+  effects_UNSTABLE: [
+    ({ onSet }) => {
+      onSet((newId) => {
+        if (newId === undefined) {
+          storage.clearCircleId();
+        } else {
+          storage.setCircleId(newId as number);
+        }
+      });
+    },
+  ],
 });
+
+export const rInitialized = atom<boolean>({
+  key: 'rInitialized',
+  default: false,
+});
+export const useValInitialized = () => useRecoilValue(rInitialized);
+export const useStateInitialized = () => useRecoilState(rInitialized);
+export const useSetInitialized = () => useSetRecoilState(rInitialized);
 
 export const rMyProfileStaleSignal = atom<number>({
   key: 'rMyProfileStaleSignal',
@@ -34,6 +63,7 @@ export const rMyProfile = selector<IProfile | undefined>({
     return myAddress ? await getApiService().getProfile(myAddress) : undefined;
   },
 });
+export const useValMyProfile = () => useRecoilValue(rMyProfile);
 
 export const rMyUsers = selector<IUser[]>({
   key: 'rMyUsers',
@@ -47,18 +77,6 @@ export const rMyCircleUser = selectorFamily<IUser | undefined, number>({
   key: 'rMyCircleUser',
   get: (circleId: number) => ({ get }: IRecoilGetParams) =>
     get(rMyUsers).find((u) => u.circle_id === circleId),
-});
-
-export const rSelectedCircleId = atom<number>({
-  key: 'rSelectedCircleId',
-  default: -1,
-  effects_UNSTABLE: [
-    ({ onSet }) => {
-      onSet((newId) => {
-        storage.setCircleId(newId as number);
-      });
-    },
-  ],
 });
 
 export const rSelectedMyUser = selector<IUser | undefined>({
@@ -237,7 +255,7 @@ export const rSelectedCircle = selector<ICircle | undefined>({
   get: async ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
     const circlesMap = get(rCirclesMap);
-    return circlesMap.get(selectedCircleId);
+    return circlesMap.get(selectedCircleId ?? -1);
   },
 });
 

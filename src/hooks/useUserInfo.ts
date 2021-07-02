@@ -1,6 +1,5 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { useConnectedWeb3Context } from 'contexts';
 import {
   rSelectedCircleId,
   rCircleEpochsStatus,
@@ -43,9 +42,7 @@ export const useUserInfo = (): {
   createUser: (params: PostUsersParam) => Promise<IUser>;
   deleteUser: (userAddress: string) => void;
 } => {
-  // const provider = null;
-  const { library: provider } = useConnectedWeb3Context();
-  // const asyncCall = (f: any, x: boolean) => new Promise((res) => res(f));
+  const api = getApiService();
   const asyncCall = useAsync();
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
@@ -56,7 +53,8 @@ export const useUserInfo = (): {
   const selectedMyUser = useRecoilValue(rSelectedMyUser);
   const selectedCircleUsers = useRecoilValue(rSelectedCircleUsers);
   const availableTeammates = useRecoilValue(rAvailableTeammates);
-  const selectedCircleId = useRecoilValue(rSelectedCircleId);
+  // A fake circleId will just return nothing
+  const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const {
     pastEpochs,
@@ -67,7 +65,8 @@ export const useUserInfo = (): {
 
   const updateCircle = (params: PutCirclesParam) => {
     const call = async () => {
-      const newCircle = await getApiService(provider).putCircles(
+      if (myAddress === undefined) throw 'myAddress required';
+      const newCircle = await api.putCircles(
         selectedCircleId,
         myAddress,
         params
@@ -83,8 +82,9 @@ export const useUserInfo = (): {
   };
 
   const createEpoch = (startDate: Date, endDate: Date) => {
+    if (myAddress === undefined) throw 'myAddress required';
     const call = async () => {
-      const newEpoch = await getApiService(provider).postEpochs(
+      const newEpoch = await api.postEpochs(
         myAddress,
         selectedCircleId,
         startDate,
@@ -99,12 +99,9 @@ export const useUserInfo = (): {
   };
 
   const deleteEpoch = (epochId: number) => {
+    if (myAddress === undefined) throw 'myAddress required';
     const call = async () => {
-      await getApiService(provider).deleteEpochs(
-        myAddress,
-        selectedCircleId,
-        epochId
-      );
+      await api.deleteEpochs(myAddress, selectedCircleId, epochId);
 
       updateEpochsMap((oldMap) => {
         oldMap.delete(epochId);
@@ -116,8 +113,9 @@ export const useUserInfo = (): {
 
   // What if they add themselves? refresh?
   const updateUser = (userAddress: string, params: UpdateUsersParam) => {
+    if (myAddress === undefined) throw 'myAddress required';
     const call = async () => {
-      const updatedUser = await getApiService(provider).updateUsers(
+      const updatedUser = await api.updateUsers(
         selectedCircleId,
         myAddress,
         userAddress,
@@ -134,12 +132,9 @@ export const useUserInfo = (): {
   };
 
   const createUser = (params: PostUsersParam) => {
+    if (myAddress === undefined) throw 'myAddress required';
     const call = async () => {
-      const newUser = await getApiService(provider).postUsers(
-        selectedCircleId,
-        myAddress,
-        params
-      );
+      const newUser = await api.postUsers(selectedCircleId, myAddress, params);
 
       updateUsersMap((oldMap) => new Map(oldMap.set(newUser.id, newUser)));
 
@@ -149,11 +144,12 @@ export const useUserInfo = (): {
   };
 
   const deleteUser = (userAddress: string) => {
+    if (myAddress === undefined) throw 'myAddress required';
     const call = async () => {
       if (myAddress === userAddress) {
         throw 'Cannot delete your own address';
       }
-      const deletedUser = await getApiService(provider).deleteUsers(
+      const deletedUser = await api.deleteUsers(
         selectedCircleId,
         myAddress,
         userAddress

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { useConnectedWeb3Context } from 'contexts';
 import { rProfileMap } from 'recoilState';
 import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
@@ -21,7 +20,6 @@ export const useProfile = (
   backgroundPath: string;
   updateProfile: (params: PostProfileParam) => Promise<IProfile>;
 } => {
-  const { library: provider } = useConnectedWeb3Context();
   const asyncCall = useAsync();
 
   const [profileMap, setProfileMap] = useRecoilState(rProfileMap);
@@ -49,7 +47,7 @@ export const useProfile = (
       if (!address) {
         throw 'Need address to call updateProfile with';
       }
-      const result = await getApiService(provider).postProfile(address, params);
+      const result = await getApiService().postProfile(address, params);
       setProfileMap((oldMap) => new Map(oldMap.set(address, result)));
       return result;
     };

@@ -22,10 +22,14 @@ import {
 
 axios.defaults.baseURL = API_URL;
 
-class APIService {
+export class APIService {
   provider = undefined;
 
   constructor(provider?: any) {
+    this.provider = provider;
+  }
+
+  setProvider(provider?: any) {
     this.provider = provider;
   }
 
@@ -53,6 +57,7 @@ class APIService {
     return response.data as ICircle[];
   };
 
+  // Unused.
   postCircles = async (
     address: string,
     params: PostCirclesParam
@@ -74,7 +79,7 @@ class APIService {
   ): Promise<ICircle> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
-    const response = await axios.put(`admin/circles/${circleId}`, {
+    const response = await axios.put(`${circleId}/admin/circles/${circleId}`, {
       signature,
       data,
       address,
@@ -333,12 +338,13 @@ class APIService {
   };
 
   postTokenGifts = async (
+    circleId: number,
     address: string,
     params: PostTokenGiftsParam[]
   ): Promise<IUserPendingGift> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
-    const response = await axios.post(`/v2/token-gifts/${address}`, {
+    const response = await axios.post(`${circleId}/v2/token-gifts/${address}`, {
       signature,
       data,
       address,
@@ -349,12 +355,10 @@ class APIService {
 
 let apiService: APIService;
 
-export const getApiService = (provider?: any): APIService => {
+export const getApiService = (): APIService => {
   if (apiService) {
-    // TODO: Refactor, it's wierd, probably have the Web3 context include it.
-    apiService.provider = provider;
     return apiService;
   }
-  apiService = new APIService(provider);
+  apiService = new APIService();
   return apiService;
 };

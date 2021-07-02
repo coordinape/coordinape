@@ -98,7 +98,7 @@ const CircleSelectPage = () => {
   const classes = useStyles();
 
   const myCircles = useRecoilValue(rMyCircles);
-  const { selectCircle } = useCircle();
+  const { selectAndFetchCircle } = useCircle();
 
   return (
     <div className={classes.root}>
@@ -125,7 +125,7 @@ const CircleSelectPage = () => {
                 className={classes.circle}
                 key={circle.id}
                 onClick={() => {
-                  selectCircle(circle.id);
+                  selectAndFetchCircle(circle.id);
                 }}
               >
                 <div className={classes.circleContent}>

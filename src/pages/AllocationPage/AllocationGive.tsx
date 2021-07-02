@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   balanceContainer: {
     position: 'fixed',
     right: 50,
-    top: theme.custom.appHeaderHeight + 120,
+    top: theme.custom.appHeaderHeight + 90,
     zIndex: 1,
     padding: theme.spacing(0.5, 1),
     display: 'flex',
@@ -228,18 +228,12 @@ enum FilterType {
   NewMember = 2,
 }
 
-//
-
 const AllocationGive = () => {
   const classes = useStyles();
 
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
-  const {
-    giveTokenRemaining,
-    givePerUser,
-    updateGift,
-  } = useSelectedAllocation();
+  const { tokenRemaining, givePerUser, updateGift } = useSelectedAllocation();
 
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
@@ -248,7 +242,7 @@ const AllocationGive = () => {
     <div className={classes.root}>
       <div className={classes.balanceContainer}>
         <p className={classes.balanceDescription}>
-          {giveTokenRemaining} {selectedCircle?.token_name || 'GIVE'}
+          {tokenRemaining} {selectedCircle?.token_name || 'GIVE'}
         </p>
         <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
       </div>
@@ -374,15 +368,10 @@ const AllocationGive = () => {
           )}
       </div>
 
-      {selectedCircle &&
-      selectedMyUser?.fixed_non_receiver &&
-      !storage.isForceOptOutCircleId(selectedMyUser.id, selectedCircle.id) ? (
+      {selectedCircle && selectedMyUser?.fixed_non_receiver ? (
         <PopUpModal
           onClose={() => {
-            storage.addForceOptOutCircleId(
-              selectedMyUser.id,
-              selectedCircle.id
-            );
+            storage.setHasSeenForceOptOutPopup(selectedMyUser.id);
           }}
           title={`Your administrator opted you out of receiving ${
             selectedCircle.token_name || 'GIVE'
@@ -393,9 +382,7 @@ const AllocationGive = () => {
             selectedCircle.token_name || 'GIVE'
           } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
           button="Okay, Got it."
-          visible={
-            !storage.isForceOptOutCircleId(selectedMyUser.id, selectedCircle.id)
-          }
+          visible={!storage.hasSeenForceOptOutPopup(selectedMyUser.id)}
         />
       ) : null}
     </div>

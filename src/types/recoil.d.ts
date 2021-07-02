@@ -1,5 +1,5 @@
 import { RecoilValue } from 'recoil';
-import { IEpoch } from './models';
+import { IEpoch, IUser } from './models';
 
 export interface IRecoilGetParams {
   get: <T>(recoilState: RecoilValue<T>) => T;

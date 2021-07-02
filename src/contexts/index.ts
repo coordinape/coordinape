@@ -1,1 +1,1 @@
-export * from './ConnectedWeb3';
+export const placeholder = 'Placeholder';

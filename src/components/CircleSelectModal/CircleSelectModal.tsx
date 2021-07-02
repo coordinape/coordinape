@@ -126,7 +126,7 @@ export const CircleSelectModal = ({
   onClose: () => void;
 }) => {
   const classes = useStyles();
-  const { selectCircle } = useCircle();
+  const { selectAndFetchCircle } = useCircle();
 
   const { myCircles, hasAdminView } = useMe();
   const circles = useRecoilValue(rCircles);
@@ -155,7 +155,7 @@ export const CircleSelectModal = ({
               key={circle.id}
               circle={circle}
               onClick={() => {
-                selectCircle(circle.id);
+                selectAndFetchCircle(circle.id);
                 onClose();
               }}
             />
@@ -172,7 +172,7 @@ export const CircleSelectModal = ({
                     key={circle.id}
                     circle={circle}
                     onClick={() => {
-                      selectCircle(circle.id);
+                      selectAndFetchCircle(circle.id);
                       onClose();
                     }}
                   />

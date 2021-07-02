@@ -7,17 +7,23 @@ import { makeStyles } from '@material-ui/core';
 import { LoadingScreen } from 'components';
 import useCommonStyles from 'styles/common';
 
-import MainLayoutHeader from './MainLayoutHeader';
+import MainHeader from './MainHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
     background:
       'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.4) 100%), #E5E5E5',
-    paddingTop: theme.custom.appHeaderHeight,
-  },
-  content: {
-    height: '100%',
+    '& > main': {
+      flex: 1,
+    },
   },
 }));
 
@@ -32,11 +38,9 @@ export const MainLayout = (props: IProps) => {
 
   return (
     <div className={classes.root}>
-      <MainLayoutHeader />
+      <MainHeader />
       <Suspense fallback={<LoadingScreen />}>
-        <main className={clsx(classes.content, commonClasses.scroll)}>
-          {props.children}
-        </main>
+        <main className={commonClasses.scroll}>{props.children}</main>
       </Suspense>
     </div>
   );

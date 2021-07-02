@@ -17,8 +17,6 @@ import AllocationEpoch from './AllocationEpoch';
 import AllocationGive from './AllocationGive';
 import AllocationTeam from './AllocationTeam';
 
-import { IUser } from 'types';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
@@ -29,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   stepperRoot: {
     width: '100%',
     justifyContent: 'center',
+    '& .MuiStepConnector-root': {
+      maxWidth: theme.spacing(10),
+    },
+  },
+  body: {
+    flex: 1,
+    overflow: 'auto',
+    width: '100%',
   },
   stepRoot: {
     maxWidth: '190px',
@@ -115,9 +121,11 @@ export const AllocationPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const {
+    tokenRemaining,
+    tokenStarting,
+    rebalanceGifts,
     saveGifts,
     saveTeammates,
-    giveTokenRemaining,
   } = useSelectedAllocation();
   const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, updateMyUser } = useMe();
@@ -129,7 +137,7 @@ export const AllocationPage = () => {
   useEffect(() => {
     if (selectedMyUser) {
       setEpochBio(selectedMyUser.bio);
-      setNonReceiver(selectedMyUser.non_receiver == 1);
+      setNonReceiver(selectedMyUser.non_receiver === 1);
     }
   }, [selectedMyUser]);
 
@@ -147,7 +155,7 @@ export const AllocationPage = () => {
   const handleSaveEpoch = async () => {
     await updateMyUser({
       bio: epochBio,
-      non_receiver: nonReceiver ? 0 : 1,
+      non_receiver: nonReceiver ? 1 : 0,
     });
     setActiveStep(STEP_MY_TEAM.key);
     history.push(STEP_MY_TEAM.path);
@@ -178,7 +186,6 @@ export const AllocationPage = () => {
     <div className={classes.root}>
       <Stepper
         nonLinear
-        alternativeLabel
         activeStep={epochIsActive ? activeStep : -1}
         classes={{ root: classes.stepperRoot }}
       >
@@ -194,59 +201,73 @@ export const AllocationPage = () => {
         ))}
       </Stepper>
 
-      {!epochIsActive && <h2 className={classes.title}>{timingMessage}</h2>}
+      <div className={classes.body}>
+        {!epochIsActive && <h2 className={classes.title}>{timingMessage}</h2>}
 
-      {epochIsActive && selectedMyUser && activeStep === 0 && (
-        <>
-          <AllocationEpoch
-            epochBio={epochBio}
-            setEpochBio={setEpochBio}
-            nonReceiver={nonReceiver}
-            setNonReceiver={setNonReceiver}
-            fixedNonReceiver={fixedNonReceiver}
-          />
-          <div className={classes.buttonContainer}>
-            <Button className={classes.backButton} onClick={handleBack}>
-              Back
-            </Button>
-            <Button className={classes.saveButton} onClick={handleSaveEpoch}>
-              Save Epoch Settings
-            </Button>
-          </div>
-        </>
-      )}
+        {epochIsActive && selectedMyUser && activeStep === 0 && (
+          <>
+            <AllocationEpoch
+              epochBio={epochBio}
+              setEpochBio={setEpochBio}
+              nonReceiver={nonReceiver}
+              setNonReceiver={setNonReceiver}
+              fixedNonReceiver={fixedNonReceiver}
+            />
+            <div className={classes.buttonContainer}>
+              <Button className={classes.backButton} onClick={handleBack}>
+                Back
+              </Button>
+              <Button className={classes.saveButton} onClick={handleSaveEpoch}>
+                Save Epoch Settings
+              </Button>
+            </div>
+          </>
+        )}
 
-      {epochIsActive && selectedMyUser && activeStep === 1 && (
-        <>
-          <AllocationTeam />
-          <div className={classes.buttonContainer}>
-            <Button className={classes.backButton} onClick={handleBack}>
-              Back
-            </Button>
-            <Button className={classes.saveButton} onClick={handleSaveTeamList}>
-              Save Teammate List
-            </Button>
-          </div>
-        </>
-      )}
+        {epochIsActive && selectedMyUser && activeStep === 1 && (
+          <>
+            <AllocationTeam />
+            <div className={classes.buttonContainer}>
+              <Button className={classes.backButton} onClick={handleBack}>
+                Back
+              </Button>
+              <Button
+                className={classes.saveButton}
+                onClick={handleSaveTeamList}
+              >
+                Save Teammate List
+              </Button>
+            </div>
+          </>
+        )}
 
-      {epochIsActive && activeStep === 2 && (
-        <>
-          <AllocationGive />
-          <div className={classes.buttonContainer}>
-            <Button className={classes.backButton} onClick={handleBack}>
-              Back
-            </Button>
-            <Button
-              className={classes.saveButton}
-              onClick={handleSaveAllocations}
-              disabled={giveTokenRemaining < 0}
-            >
-              Save Allocations
-            </Button>
-          </div>
-        </>
-      )}
+        {epochIsActive && activeStep === 2 && (
+          <>
+            <AllocationGive />
+            <div className={classes.buttonContainer}>
+              <Button className={classes.backButton} onClick={handleBack}>
+                Back
+              </Button>
+              <Button
+                className={classes.backButton}
+                onClick={rebalanceGifts}
+                disabled={tokenRemaining === 0}
+              >
+                Rebalance
+              </Button>
+              <Button
+                className={classes.saveButton}
+                onClick={handleSaveAllocations}
+                disabled={
+                  tokenRemaining < 0 || tokenRemaining === tokenStarting
+                }
+              >
+                Save Allocations
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

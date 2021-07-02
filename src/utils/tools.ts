@@ -112,3 +112,11 @@ export const timingToDoubleUnits = (timing: ITiming) => {
   }
   return 'The Past';
 };
+
+const wait = <T>(something: T): Promise<T> =>
+  new Promise((resolve, reject) => {
+    const wait = setTimeout(() => {
+      clearTimeout(wait);
+      resolve(something);
+    }, 1000);
+  });

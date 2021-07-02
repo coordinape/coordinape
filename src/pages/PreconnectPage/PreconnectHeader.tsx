@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
-import { rMyAddress, rCircleSelectorOpen } from 'recoilState';
+import { rMyAddress, rCircleSelectorOpen, rSelectedCircle } from 'recoilState';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,31 +55,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Welcome = () => {
+  const classes = useStyles();
+
+  const selectedCircle = useRecoilValue(rSelectedCircle);
+  const setCircleSelectorOpen = useSetRecoilState(rCircleSelectorOpen);
+
+  return (
+    <>
+      <p className={classes.title}>
+        {selectedCircle === undefined
+          ? 'Welcome!'
+          : `Welcome to ${selectedCircle.name}!`}
+      </p>
+      {selectedCircle === undefined ? (
+        <button
+          className={classes.subTitleLink}
+          onClick={() => setCircleSelectorOpen(true)}
+        >
+          Select a circle to begin
+        </button>
+      ) : null}
+    </>
+  );
+};
+
+const Generic = () => {
+  const classes = useStyles();
+
+  return (
+    <>
+      <p className={classes.title}>Reward Your Fellow Contributors</p>
+      <p className={classes.subTitle}>
+        Connect your wallet to participate. You must be registered as a
+        contributor with an existing Coordinape project
+      </p>
+    </>
+  );
+};
+
 export const PreconnectHeader = () => {
   const classes = useStyles();
   const myAddress = useRecoilValue(rMyAddress);
-  const setCircleSelectorOpen = useSetRecoilState(rCircleSelectorOpen);
 
   return (
     <div className={classes.root}>
       {myAddress ? (
-        <>
-          <p className={classes.title}>Welcome!</p>
-          <button
-            className={classes.subTitleLink}
-            onClick={() => setCircleSelectorOpen(true)}
-          >
-            Select a circle to begin
-          </button>
-        </>
+        <Suspense fallback={<Generic />}>
+          <Welcome />
+        </Suspense>
       ) : (
-        <>
-          <p className={classes.title}>Reward Your Fellow Contributors</p>
-          <p className={classes.subTitle}>
-            Connect your wallet to participate. You must be registered as a
-            contributor with an existing Coordinape project
-          </p>
-        </>
+        <Generic />
       )}
     </div>
   );
