@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Button, Hidden, makeStyles } from '@material-ui/core';
 
 import { WALLET_ICONS } from 'config/constants';
+import { useGlobalUi } from 'hooks';
 import { ConnectorNames } from 'utils/enums';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,17 +37,17 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
   className?: string;
-  onClick?: () => void;
 }
 
 export const ConnectWalletButton = (props: IProps) => {
   const classes = useStyles();
   const Icon = WALLET_ICONS[ConnectorNames.Injected];
+  const { openWalletModal } = useGlobalUi();
 
   return (
     <Button
       className={clsx(classes.root, props.className)}
-      onClick={props.onClick}
+      onClick={openWalletModal}
       variant="text"
     >
       <Hidden smDown>

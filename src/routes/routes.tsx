@@ -1,135 +1,70 @@
-import React, { Fragment, Suspense, lazy } from 'react';
+import React, { lazy } from 'react';
 
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { LoadingScreen } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { MainLayout } from 'layouts';
+import AdminPage from 'pages/AdminPage';
+import AllocationPage from 'pages/AllocationPage';
+import HistoryPage from 'pages/HistoryPage';
+import PreconnectPage from 'pages/PreconnectPage';
+import ProfilePage from 'pages/ProfilePage';
+import { rSelectedMyUser, rSelectedCircle, rHasAdminView } from 'recoilState';
 
-const routes = [
-  {
-    exact: true,
-    path: '/',
-    layout: MainLayout,
-    component: lazy(() => import('pages/HomePage')),
-  },
-  {
-    exact: true,
-    path: '/circle',
-    layout: MainLayout,
-    component: lazy(() => import('pages/CircleSelectPage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle',
-    layout: MainLayout,
-    component: lazy(() => import('pages/HomePage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle/profile',
-    layout: MainLayout,
-    component: lazy(() => import('pages/ProfilePage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle/team',
-    layout: MainLayout,
-    component: lazy(() => import('pages/TeamPage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle/allocation',
-    layout: MainLayout,
-    component: lazy(() => import('pages/AllocationPage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle/map',
-    layout: MainLayout,
-    component: lazy(() => import('pages/GraphPage')),
-  },
-  {
-    exact: true,
-    path: '/:protocol/:circle/history',
-    layout: MainLayout,
-    component: lazy(() => import('pages/HistoryPage')),
-  },
-];
+import * as paths from './paths';
 
-const adminRoutes = [
-  {
-    exact: true,
-    path: '/:protocol/:circle/admin',
-    layout: MainLayout,
-    component: lazy(() => import('pages/AdminPage')),
-  },
-];
+// TODO: The graph page might be where code splitting can really help load time
+// but that would require the graph libraries to only be imported there.
+// look into this.
+const LazyGraphPage = lazy(() => import('pages/GraphPage'));
 
-export const RenderRoutes = () => {
-  const { account } = useConnectedWeb3Context();
-  const { circle, me } = useUserInfo();
+export const Routes = () => {
+  const selectedMyUser = useRecoilValue(rSelectedMyUser);
+  const selectedCircle = useRecoilValue(rSelectedCircle);
+  const hasAdminView = useRecoilValue(rHasAdminView);
 
-  const renderRoutes = (routes = []) => {
-    const isSignedIn = circle ? me !== null : account !== null;
-    const initialPath = circle
-      ? me
-        ? me.epoch_first_visit
-          ? `/${circle.protocol.name}/${circle.name}/profile`
-          : (me.teammates || []).length === 0
-          ? `/${circle.protocol.name}/${circle.name}/team`
-          : `/${circle.protocol.name}/${circle.name}/allocation`
-        : `/${circle.protocol.name}/${circle.name}`
-      : account
-      ? '/circle'
-      : '/';
+  // TODO: simpler way to do this?
+  const asVoyuer = !selectedMyUser && hasAdminView;
+  if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
+    return <PreconnectPage />;
+  }
 
-    return (
-      <Suspense fallback={<LoadingScreen />}>
-        <Switch>
-          {(circle && me && me.role !== 0
-            ? [...routes, ...adminRoutes]
-            : routes
-          ).map((route: any, i) => {
-            const Layout = route.layout || Fragment;
-            const Component = route.component;
-            const isHome = circle
-              ? route.path === '/:protocol/:circle'
-              : route.path === '/';
+  return (
+    <Switch>
+      <Route exact path={paths.getHomePath()} component={PreconnectPage} />
+      {!asVoyuer ? (
+        <>
+          <Route
+            exact
+            path={paths.getAllocationPath()}
+            component={AllocationPage}
+          />
+          <Route
+            exact
+            path={paths.getMyTeamPath()}
+            component={AllocationPage}
+          />
+          <Route
+            exact
+            path={paths.getMyEpochPath()}
+            component={AllocationPage}
+          />
+          <Route exact path={paths.getGivePath()} component={AllocationPage} />
+        </>
+      ) : null}
 
-            return (
-              <Route
-                exact={route.exact}
-                key={i}
-                path={route.path}
-                render={(props) =>
-                  isSignedIn !== isHome ? (
-                    <Layout>
-                      {route.routes ? (
-                        renderRoutes(route.routes)
-                      ) : (
-                        <Component {...props} />
-                      )}
-                    </Layout>
-                  ) : (
-                    <Redirect
-                      to={{
-                        pathname: initialPath,
-                        state: { from: props.location },
-                      }}
-                    />
-                  )
-                }
-              />
-            );
-          })}
-          <Redirect to={{ pathname: initialPath }} />
-        </Switch>
-      </Suspense>
-    );
-  };
-
-  return <>{renderRoutes(routes as any)}</>;
+      <Route
+        exact
+        path={paths.getProfilePath(':profileAddress')}
+        component={ProfilePage}
+      />
+      <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
+      <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
+      {selectedMyUser && selectedMyUser.role !== 0 ? (
+        <Route exact path={paths.getAdminPath()} component={AdminPage} />
+      ) : undefined}
+      <Route component={PreconnectPage} />
+    </Switch>
+  );
 };
 
-export default RenderRoutes;
+export default Routes;

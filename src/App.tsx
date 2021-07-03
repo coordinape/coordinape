@@ -2,11 +2,13 @@ import React from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
+import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-import { ConnectedWeb3, GlobalProvider, UserInfoProvider } from 'contexts';
+import { RecoilAppController, ErrorBoundary, MainLayout } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 
@@ -22,19 +24,22 @@ const theme = createTheme();
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <ConnectedWeb3>
-          <GlobalProvider>
-            <UserInfoProvider>
+    <RecoilRoot>
+      <SnackbarProvider maxSnack={3}>
+        <ErrorBoundary>
+          <ThemeProvider theme={theme}>
+            <Web3ReactProvider getLibrary={getLibrary}>
               <BrowserRouter>
-                <RenderRoutes />
+                <MainLayout>
+                  <RecoilAppController />
+                  <RenderRoutes />
+                </MainLayout>
               </BrowserRouter>
-            </UserInfoProvider>
-          </GlobalProvider>
-        </ConnectedWeb3>
-      </Web3ReactProvider>
-    </ThemeProvider>
+            </Web3ReactProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
+      </SnackbarProvider>
+    </RecoilRoot>
   );
 }
 

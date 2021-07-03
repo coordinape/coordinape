@@ -13,7 +13,7 @@ import {
 import { EditCircleModal } from '../EditCircleModal';
 import { EditEpochModal } from '../EditEpochModal';
 import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
-import { useUserInfo } from 'contexts';
+import { useUserInfo } from 'hooks';
 import { getCSVPath } from 'utils/domain';
 import { capitalizedName } from 'utils/string';
 
@@ -101,7 +101,9 @@ const useStyles = makeStyles((theme) => ({
 export const Header = () => {
   const classes = useStyles();
   const { circle, epoch, epochs, pastEpochs } = useUserInfo();
-  const [selectedEpochId, setSelectedEpochId] = useState<number>(-1);
+  const [selectedEpochId, setSelectedEpochId] = useState<number>(
+    pastEpochs?.[0]?.id ?? -1
+  );
   const [isEditCircle, setEditCircle] = useState<boolean>(false);
   const [isEditEpoch, setEditEpoch] = useState<boolean>(false);
 

@@ -27,7 +27,7 @@ import {
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
 } from 'config/constants';
-import { DocsIcon, TwitterIcon, MediumIcon } from 'icons';
+import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
@@ -432,6 +432,11 @@ const LandingPage = () => {
         <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
           <Button startIcon={<DocsIcon />} className={classes.footerLink}>
             Docs
+          </Button>
+        </a>
+        <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
+          <Button startIcon={<DiscordIcon />} className={classes.footerLink}>
+            Discord
           </Button>
         </a>
         <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">

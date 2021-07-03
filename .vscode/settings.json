@@ -21,6 +21,8 @@
   "eslint.format.enable": true,
   "cSpell.words": [
     "Coordinape",
-    "clsx"
+    "Preconnect",
+    "clsx",
+    "rebalance"
   ]
 }

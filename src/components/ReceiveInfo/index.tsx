@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
 import moment from 'moment';
@@ -7,11 +7,9 @@ import { NavLink } from 'react-router-dom';
 import { Button, Popover, makeStyles } from '@material-ui/core';
 
 import { Img } from 'components';
-import { useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { useMe, useMyPendingGifts } from 'hooks';
+import { getHistoryPath } from 'routes/paths';
 import { getAvatarPath } from 'utils/domain';
-
-import { ITokenGift } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,31 +115,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const ReceiveInfo = () => {
   const classes = useStyles();
-  const { circle, me, refreshUserInfo, users } = useUserInfo();
-  const [tokenGifts, setTokenGifts] = useState<ITokenGift[]>([]);
+  const { pendingGifts, usersMap } = useMyPendingGifts();
+  const { selectedCircle: circle, selectedMyUser: me } = useMe();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
 
-  const getPendingTokens = async () => {
-    if (me?.address) {
-      try {
-        const tokenGifts = await getApiService().getPendingTokenGifts(
-          undefined,
-          me.address
-        );
-        setTokenGifts(tokenGifts);
-      } catch (error) {
-        error;
-      }
-    } else {
-      setTokenGifts([]);
-    }
-  };
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    getPendingTokens();
-    refreshUserInfo();
     setAnchorEl(event.currentTarget);
   };
 
@@ -163,7 +143,7 @@ export const ReceiveInfo = () => {
         }
         onClick={handleClick}
       >
-        {me?.give_token_received || 0} {circle?.token_name || 'GIVE'} RECEIVED
+        {me?.give_token_received || 0} {circle?.token_name || 'GIVE'}
       </Button>
       <Popover
         anchorEl={anchorEl}
@@ -184,16 +164,11 @@ export const ReceiveInfo = () => {
       >
         <div className={classes.regiftContainer}>
           <p className={classes.regiftTitle}>
-            You will receive{' '}
-            {(
-              ((me?.give_token_received || 0) *
-                (100 - (me?.regift_percent || 0))) /
-              100
-            ).toFixed(1)}{' '}
+            You will receive {me?.give_token_received ?? 0}{' '}
             {circle?.token_name || 'GIVE'}
           </p>
         </div>
-        {tokenGifts
+        {pendingGifts
           .filter(
             (tokenGift) => tokenGift.tokens > 0 || tokenGift.note.length > 0
           )
@@ -205,8 +180,7 @@ export const ReceiveInfo = () => {
                   {tokenGift.tokens > 0
                     ? `+${tokenGift.tokens} Received from `
                     : 'From '}
-                  {users.find((user) => user.id === tokenGift.sender_id)
-                    ?.name || 'Unknown'}
+                  {usersMap.get(tokenGift.sender_id)?.name ?? 'Unknown'}
                 </div>
                 <div className={classes.noteDate}>
                   {moment(tokenGift.updated_at).format('MMM ‘D')}
@@ -214,16 +188,10 @@ export const ReceiveInfo = () => {
               </div>
               <div className={classes.noteContainer}>
                 <Img
-                  alt={
-                    users.find((user) => user.id === tokenGift.sender_id)
-                      ?.name || 'Unknown'
-                  }
+                  alt={usersMap.get(tokenGift.sender_id)?.name ?? 'Unknown'}
                   className={classes.avatar}
                   placeholderImg="/imgs/avatar/placeholder.jpg"
-                  src={getAvatarPath(
-                    users.find((user) => user.id === tokenGift.sender_id)
-                      ?.avatar
-                  )}
+                  src={getAvatarPath(usersMap.get(tokenGift.sender_id)?.avatar)}
                 />
                 <div
                   className={
@@ -241,10 +209,7 @@ export const ReceiveInfo = () => {
           ))}
         <div className={classes.historyContainer}>
           <p className={classes.regiftTitle}>
-            <NavLink
-              className={classes.navLink}
-              to={`/${circle?.protocol.name}/${circle?.name}/history`}
-            >
+            <NavLink className={classes.navLink} to={getHistoryPath()}>
               See Complete History
             </NavLink>
           </p>

@@ -12,6 +12,7 @@ const baseOptions = {
   overrides: {
     MuiLinearProgress: {
       root: {
+        width: '100%',
         borderRadius: 3,
         overflow: 'hidden',
       },
@@ -43,6 +44,35 @@ const themeOptions = {
       root: {
         padding: '14px 20px',
         borderRadius: '6px',
+      },
+    },
+    MuiStepIcon: {
+      root: {
+        '&.MuiStepIcon-active': {
+          color: customColor.red,
+          '& .MuiStepIcon-text': {
+            fill: customColor.white,
+          },
+        },
+        '&.MuiStepIcon-completed': {
+          color: customColor.red,
+          '& .MuiStepIcon-text': {
+            fill: customColor.white,
+          },
+        },
+      },
+      text: {
+        fill: '#93A1A1',
+      },
+    },
+    MuiStepLabel: {
+      label: {
+        color: customColor.black,
+      },
+    },
+    MuiSkeleton: {
+      root: {
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
       },
     },
   },

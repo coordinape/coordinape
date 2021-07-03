@@ -15,3 +15,4 @@ export * from './DocsIcon';
 export * from './FilterIcon';
 export * from './MediumIcon';
 export * from './TwitterIcon';
+export * from './DiscordIcon';

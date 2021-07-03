@@ -37,13 +37,11 @@ const useStyles = makeStyles((theme) => ({
   indicator: { color: theme.colors.primary },
 }));
 
-interface IProps {
+export const LoadingModal = (props: {
   visible: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   text: string;
-}
-
-export const LoadingModal = (props: IProps) => {
+}) => {
   const classes = useStyles();
   const { onClose, text, visible } = props;
 

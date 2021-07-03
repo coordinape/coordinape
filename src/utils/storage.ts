@@ -1,38 +1,43 @@
-const circleIdItem = 'circleId';
-const forceOptOutCircleIdItem = 'forceOptOutCircleId';
+import { ConnectorNames } from './enums';
 
-export const setCircleId = (id: number) => {
-  localStorage.setItem(circleIdItem, String(id));
-};
+const STORAGE_KEY_FORCE_OPT_OUT_CIRCLE_ID_ITEM = 'forceOptOutCircleId';
+const STORAGE_KEY_CIRCLE_ID = 'circleId';
+const STORAGE_KEY_WALLET_ADDRESS = 'walletAddress';
+const STORAGE_KEY_CONNECTOR = 'connector';
 
-export const getCircleId = () => {
-  const id = localStorage.getItem(circleIdItem);
-  if (id) {
-    return Number(id);
-  }
-  return -1;
-};
+const getHasSeenForceOptOutPopupKey = (userId: number) =>
+  `${STORAGE_KEY_FORCE_OPT_OUT_CIRCLE_ID_ITEM}+${userId}`;
 
-export const removeCircleId = () => {
-  localStorage.removeItem(circleIdItem);
-};
+export default {
+  setCircleId: (id: number) =>
+    localStorage.setItem(STORAGE_KEY_CIRCLE_ID, String(id)),
+  getCircleId: () => {
+    try {
+      const id = localStorage.getItem(STORAGE_KEY_CIRCLE_ID);
+      return id !== null ? Number(id) : undefined;
+    } catch {
+      return undefined;
+    }
+  },
+  clearCircleId: () => localStorage.removeItem(STORAGE_KEY_CIRCLE_ID),
 
-export const addForceOptOutCircleId = (userId: number, circleId: number) => {
-  const key = `${forceOptOutCircleIdItem}+${userId}`;
-  const all = JSON.parse(localStorage.getItem(key) || '[]') || [];
-  all.push(circleId);
-  localStorage.setItem(key, JSON.stringify(all));
-};
+  setAddress: (address: string) =>
+    localStorage.setItem(STORAGE_KEY_WALLET_ADDRESS, address),
+  getAddress: () =>
+    localStorage.getItem(STORAGE_KEY_WALLET_ADDRESS) ?? undefined,
+  clearAddress: () => localStorage.removeItem(STORAGE_KEY_WALLET_ADDRESS),
 
-export const isForceOptOutCircleId = (userId: number, circleId: number) => {
-  const key = `${forceOptOutCircleIdItem}+${userId}`;
-  const all = JSON.parse(localStorage.getItem(key) || '[]') || [];
-  return all.some((element: any) => element === circleId);
-};
+  setConnectorName: (connector: ConnectorNames) =>
+    localStorage.setItem(STORAGE_KEY_CONNECTOR, connector),
+  getConnectorName: () =>
+    (localStorage.getItem(STORAGE_KEY_CONNECTOR) as ConnectorNames) ??
+    undefined,
+  clearConnectorName: () => localStorage.removeItem(STORAGE_KEY_CONNECTOR),
 
-export const removeForceOptOutCircleId = (userId: number, circleId: number) => {
-  const key = `${forceOptOutCircleIdItem}+${userId}`;
-  let all = JSON.parse(localStorage.getItem(key) || '[]') || [];
-  all = all.filter((element: any) => element !== circleId);
-  localStorage.setItem(key, JSON.stringify(all));
+  setHasSeenForceOptOutPopup: (userId: number) =>
+    localStorage.setItem(getHasSeenForceOptOutPopupKey(userId), 'true'),
+  hasSeenForceOptOutPopup: (userId: number) =>
+    !!localStorage.getItem(getHasSeenForceOptOutPopupKey(userId)),
+  unsetHasSeenForceOptOutPopup: (userId: number) =>
+    localStorage.removeItem(getHasSeenForceOptOutPopupKey(userId)),
 };

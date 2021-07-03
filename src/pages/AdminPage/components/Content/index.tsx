@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
-import { useSnackbar } from 'notistack';
 
 import { Button, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
@@ -10,13 +9,12 @@ import { EditContributorModal } from '../EditContributorModal';
 import { ReactComponent as AddContributorSVG } from 'assets/svgs/button/add-contributor.svg';
 import { ReactComponent as DeleteContributor } from 'assets/svgs/button/delete-contributor.svg';
 import { ReactComponent as EditContributor } from 'assets/svgs/button/edit-contributor.svg';
-import { Img, LoadingModal } from 'components';
-import { useConnectedWeb3Context, useUserInfo } from 'contexts';
-import { getApiService } from 'services/api';
+import { Img } from 'components';
+import { useUserInfo } from 'hooks';
 import { shortenAddress } from 'utils';
 import { getAvatarPath } from 'utils/domain';
 
-import { IUser } from 'types';
+import { IUser, ICircle } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -159,13 +157,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const Content = () => {
   const classes = useStyles();
-  const { circle, deleteUser, me, users } = useUserInfo();
-  const { library } = useConnectedWeb3Context();
+
+  const { circle, deleteUser, me, availableTeammates } = useUserInfo();
   const [keyword, setKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const [filterUsers, setFilterUsers] = useState<IUser[]>(
-    me ? [...users, me] : users
-  );
+  const [filterUsers, setFilterUsers] = useState<IUser[]>([]);
   const [editContributor, setEditContributor] = useState<{
     isEdit: boolean;
     user: IUser | undefined;
@@ -174,8 +170,6 @@ export const Content = () => {
     field: 0,
     ascending: 1,
   });
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   const pageCount = 10;
 
@@ -183,18 +177,17 @@ export const Content = () => {
     // Filter
     const key = keyword.toLowerCase();
     setFilterUsers(
-      (me ? [...users, me] : users).filter((user) => {
-        return (
+      (me ? [...availableTeammates, me] : availableTeammates).filter(
+        (user) =>
           user.name.toLowerCase().includes(key) ||
           user.address.toLowerCase().includes(key) ||
           String(user.starting_tokens - user.give_token_remaining).includes(
             key
           ) ||
           String(user.give_token_received).includes(key)
-        );
-      })
+      )
     );
-  }, [keyword, me, users]);
+  }, [keyword, me, availableTeammates]);
 
   // onChangeKeyword
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,21 +205,7 @@ export const Content = () => {
   };
 
   // onClick DeleteUser
-  const onClickDeleteUser = async (user: IUser) => {
-    if (me?.address) {
-      setLoading(true);
-      try {
-        await getApiService().deleteUsers(me.address, user.address, library);
-        deleteUser(user.id);
-      } catch (error) {
-        enqueueSnackbar(
-          error.response?.data?.message || 'Something went wrong!',
-          { variant: 'error' }
-        );
-      }
-      setLoading(false);
-    }
-  };
+  const onClickDeleteUser = async (user: IUser) => deleteUser(user.address);
 
   // onClick Page
   const onClickPage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -416,9 +395,6 @@ export const Content = () => {
           user={editContributor.user}
           visible={editContributor.isEdit}
         />
-      )}
-      {isLoading && (
-        <LoadingModal onClose={() => {}} text="" visible={isLoading} />
       )}
     </div>
   );

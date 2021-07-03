@@ -48,6 +48,7 @@
     "react-scripts": "4.0.1",
     "react-string-replace": "^0.4.4",
     "react-virtualized-auto-sizer": "^1.0.5",
+    "recoil": "^0.3.1",
     "source-map-explorer": "^2.5.2",
     "styled-components": "^5.2.3",
     "typescript": "^4.1.3",
@@ -106,6 +107,7 @@
     "@types/lodash": "^4.14.168",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@types/recoilize": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
     "eslint": "^7.18.0",
@@ -120,6 +122,7 @@
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
     "prettier-eslint-cli": "^5.0.0",
-    "pretty-quick": "^3.1.0"
+    "pretty-quick": "^3.1.0",
+    "recoilize": "^2.0.1"
   }
 }
