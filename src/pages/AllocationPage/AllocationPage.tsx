@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     flex: 1,
+    display: 'flex',
+    alignItems: 'start',
+    justifyContent: 'center',
     overflow: 'auto',
     width: '100%',
   },

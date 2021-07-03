@@ -26,6 +26,7 @@ import {
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
+  EXTERNAL_URL_DISCORD,
 } from 'config/constants';
 import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
@@ -434,7 +435,7 @@ const LandingPage = () => {
             Docs
           </Button>
         </a>
-        <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
+        <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
           <Button startIcon={<DiscordIcon />} className={classes.footerLink}>
             Discord
           </Button>

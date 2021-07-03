@@ -31,6 +31,13 @@ export const Routes = () => {
   return (
     <Switch>
       <Route exact path={paths.getHomePath()} component={PreconnectPage} />
+      <Route
+        exact
+        path={paths.getProfilePath(':profileAddress')}
+        component={ProfilePage}
+      />
+      <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
+      <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       {!asVoyuer ? (
         <>
           <Route
@@ -50,18 +57,18 @@ export const Routes = () => {
           />
           <Route exact path={paths.getGivePath()} component={AllocationPage} />
         </>
-      ) : null}
-
-      <Route
-        exact
-        path={paths.getProfilePath(':profileAddress')}
-        component={ProfilePage}
-      />
-      <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
-      <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
+      ) : (
+        <Route
+          exact
+          path={paths.getAllocationPath()}
+          component={PreconnectPage}
+        />
+      )}
       {selectedMyUser && selectedMyUser.role !== 0 ? (
         <Route exact path={paths.getAdminPath()} component={AdminPage} />
-      ) : undefined}
+      ) : (
+        <Route exact path={paths.getAdminPath()} component={PreconnectPage} />
+      )}
       <Route component={PreconnectPage} />
     </Switch>
   );

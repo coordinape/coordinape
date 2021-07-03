@@ -6,6 +6,7 @@ import {
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_LANDING_PAGE,
+  EXTERNAL_URL_DISCORD,
 } from 'config/constants';
 
 import PreconnectContent from './PreconnectContent';
@@ -74,7 +75,7 @@ export const PreconnectPage = () => {
         <div>
           <a
             className={classes.link}
-            href={EXTERNAL_URL_TWITTER}
+            href={EXTERNAL_URL_DISCORD}
             rel="noreferrer"
             target="_blank"
           >

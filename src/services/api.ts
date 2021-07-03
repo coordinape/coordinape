@@ -91,7 +91,7 @@ export class APIService {
     circleId: number,
     params: { current?: number } = {}
   ): Promise<IEpoch[]> => {
-    const response = await axios.get(`${circleId}'/epoches`, { params });
+    const response = await axios.get(`${circleId}/epoches`, { params });
     return response.data as IEpoch[];
   };
 
