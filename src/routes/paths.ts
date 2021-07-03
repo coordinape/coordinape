@@ -8,9 +8,14 @@ export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
 export const getProfilePath = (address: string) => `/profile/${address}`;
 
+interface INavItem {
+  label: string;
+  path: string;
+}
+
 export const getMainNavigation = ({
   asCircleAdmin,
-}: { asCircleAdmin?: boolean } = {}) => {
+}: { asCircleAdmin?: boolean } = {}): INavItem[] => {
   const mainItems = [
     { path: getAllocationPath(), label: 'Allocate' },
     { path: getMapPath(), label: 'Map' },
@@ -19,8 +24,8 @@ export const getMainNavigation = ({
   return asCircleAdmin ? [...mainItems, ...adminItems] : mainItems;
 };
 
-export const getMenuNavigation = () => [
-  { path: getProfilePath('me'), label: 'Profile' },
+export const getMenuNavigation = (): INavItem[] => [
+  // { path: getProfilePath('me'), label: 'Profile' },
   { path: getMyEpochPath(), label: 'My Epoch' },
   { path: getMyTeamPath(), label: 'My Team' },
   { path: getHistoryPath(), label: 'My History' },

@@ -8,5 +8,6 @@ export * from './useUserInfo';
 export * from './useAsync';
 export * from './useMyPendingGifts';
 export * from './useMyEpochGifts';
-export * from './useSelectedAllocation';
+export * from './useAllocation';
 export * from './useWallet';
+export * from './useApeSnackbar';

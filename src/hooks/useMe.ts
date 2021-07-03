@@ -6,6 +6,7 @@ import {
   rMyProfileStaleSignal,
   rSelectedCircle,
   rMyProfile,
+  rHasAdminView,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
@@ -41,6 +42,7 @@ export const useMe = (): {
     rMyProfileStaleSignal
   );
   const selectedMyUser = useRecoilValue(rSelectedMyUser);
+  const hasAdminView = useRecoilValue(rHasAdminView);
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const myCircles = useRecoilValue(rMyCircles);
   const myProfile = useRecoilValue(rMyProfile);
@@ -81,7 +83,6 @@ export const useMe = (): {
         teammateIds
       );
 
-      console.log('updateTeammates result: ', result);
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
     };
     return <Promise<void>>asyncCall(call(), true);
@@ -131,7 +132,7 @@ export const useMe = (): {
     // avatarPath: getAvatarPath(selectedMyUser?.avatar),
     avatarPath: getAvatarPath(myProfile?.avatar),
     backgroundPath: getAvatarPath(myProfile?.background),
-    hasAdminView: myProfile?.users?.some((u) => u.admin_view > 0) ?? false,
+    hasAdminView,
     updateMyUser,
     updateTeammates,
     updateAvatar,

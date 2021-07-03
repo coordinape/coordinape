@@ -40,15 +40,11 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
   }
 
   public render() {
-    return this.state.hasError ? null : this.props.children;
+    return this.props.children;
   }
 }
 
-interface IProps {
-  children: ReactNode;
-}
-
-export const ErrorBoundary = ({ children }: IProps) => {
+export const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { enqueueSnackbar } = useSnackbar();
   return (
     <InnerErrorBoundary enqueueSnackbar={enqueueSnackbar}>

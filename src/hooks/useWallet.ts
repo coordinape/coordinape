@@ -24,7 +24,6 @@ export const useWallet = (): {
   const setInitialized = useSetInitialized();
 
   const activateWallet = (wallet: ConnectorNames) => {
-    console.log('activateWallet');
     const call = async () => {
       if (!wallet) throw 'Missing wallet connector name';
       const newConnector = connectors[wallet];

@@ -289,10 +289,10 @@ const AllocationTeam = () => {
   const { availableTeammates, selectedCircle } = useCircle();
   const {
     localTeammates,
+    givePerUser,
     toggleLocalTeammate,
     setAllLocalTeammates,
     clearLocalTeammates,
-    givePerUser,
   } = useSelectedAllocation();
 
   const [keyword, setKeyword] = useState<string>('');

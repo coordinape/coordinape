@@ -123,18 +123,11 @@ export const MyAvatarMenu = () => {
           horizontal: 'right',
         }}
       >
-        <NavLink to={paths.getProfilePath('me')} className={classes.link}>
-          Profile
-        </NavLink>
-        <NavLink to={paths.getMyEpochPath()} className={classes.link}>
-          My Epoch
-        </NavLink>
-        <NavLink to={paths.getMyTeamPath()} className={classes.link}>
-          My Team
-        </NavLink>
-        <NavLink to={paths.getHistoryPath()} className={classes.link}>
-          History
-        </NavLink>
+        {paths.getMenuNavigation().map(({ label, path }) => (
+          <NavLink key={path} to={path} className={classes.link}>
+            {label}
+          </NavLink>
+        ))}
         <Divider variant="middle" className={classes.divider} />
         <span className={classes.subHeader}>Switch Circles</span>
         {myCircles.map((circle) => (

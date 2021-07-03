@@ -10,7 +10,12 @@ import {
   Button,
 } from '@material-ui/core';
 
-import { useSelectedCircleEpoch, useMe, useSelectedAllocation } from 'hooks';
+import {
+  useSelectedCircleEpoch,
+  useMe,
+  useSelectedAllocation,
+  useSelectedAllocationController,
+} from 'hooks';
 import { getGivePath, getMyTeamPath, getMyEpochPath } from 'routes/paths';
 
 import AllocationEpoch from './AllocationEpoch';
@@ -120,7 +125,9 @@ export const AllocationPage = () => {
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
 
+  useSelectedAllocationController();
   const {
+    localTeammatesDirty,
     tokenRemaining,
     tokenStarting,
     rebalanceGifts,
@@ -168,6 +175,9 @@ export const AllocationPage = () => {
   };
 
   const handleSaveAllocations = async () => {
+    if (localTeammatesDirty) {
+      await saveTeammates();
+    }
     await saveGifts();
   };
 
@@ -234,6 +244,7 @@ export const AllocationPage = () => {
               <Button
                 className={classes.saveButton}
                 onClick={handleSaveTeamList}
+                disabled={!localTeammatesDirty}
               >
                 Save Teammate List
               </Button>

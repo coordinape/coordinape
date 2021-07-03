@@ -170,7 +170,7 @@ export const TeammateCard = (props: IProps) => {
   // onChange Tokens
   const onChangeTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.validity.valid) {
-      const newValue = Math.min(Math.abs(Number(e.target.value)), 100);
+      const newValue = Math.abs(Number(e.target.value));
       e.target.value = String(newValue);
       props.updateTokens(newValue);
     }
@@ -178,7 +178,7 @@ export const TeammateCard = (props: IProps) => {
 
   // spin Tokens
   const spinTokens = (increment: number) => {
-    const newValue = Math.max(0, Math.min(tokens + increment, 100));
+    const newValue = Math.max(0, tokens + increment);
     props.updateTokens(newValue);
   };
 

@@ -116,14 +116,14 @@ export const useCircle = (): {
   const selectAndFetchCircle = async (circleId: number) => {
     const call = async () => {
       const results = await Promise.all([
-        await fetchPendingGifts(api.getPendingTokenGifts, [
-          { circle_id: circleId },
-        ]),
-        await fetchGifts(api.getTokenGifts, [{ circle_id: circleId }]),
         await fetchUsers(api.getUsers, [
           { circle_id: circleId, deleted_users: true },
         ]),
         await fetchEpochs(api.getEpochs, [circleId]),
+        await fetchGifts(api.getTokenGifts, [{ circle_id: circleId }]),
+        await fetchPendingGifts(api.getPendingTokenGifts, [
+          { circle_id: circleId },
+        ]),
       ]);
 
       results.forEach(([commit]) => commit());

@@ -27,12 +27,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const MainLayout = (props: {
   className?: string;
   children: React.ReactNode | React.ReactNode[];
-}
-
-export const MainLayout = (props: IProps) => {
+}) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
 

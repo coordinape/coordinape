@@ -315,13 +315,6 @@ const GraphPage = () => {
   useEffect(() => {
     const allGifts = pastGifts.concat(pendingGifts);
     // TODO: until recently, pending gifts are missing epoch_id
-    console.log(
-      'setGifts',
-      pastGifts.length,
-      pendingGifts[0],
-      allGifts.length,
-      allGifts.filter((g) => g.epoch_id === epochSelection).length
-    );
     if (epochSelection === FAKE_ALL_EPOCH) {
       setGifts(allGifts.filter((g) => g.circle_id === selectedCircleId));
       return;

@@ -21,10 +21,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: theme.custom.appHeaderHeight,
     display: 'grid',
-
     alignItems: 'center',
     background: theme.colors.primary,
-
     gridTemplateColumns: '1fr 1fr 1fr',
     padding: theme.spacing(0, 4),
     [theme.breakpoints.down('xs')]: {

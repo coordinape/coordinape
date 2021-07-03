@@ -92,20 +92,6 @@ export const RecoilAppController = () => {
   }, [web3Context.library]);
 
   useEffect(() => {
-    if (web3Context.error) {
-      setInitialized(false);
-      deactivate();
-      return;
-    }
-
-    if (!web3Context.active && connectorName && !initialized) {
-      activate(connectorName);
-      return;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [web3Context.error, web3Context.active, web3Context.library]);
-
-  useEffect(() => {
     if (!initialized) {
       return;
     }
@@ -127,6 +113,20 @@ export const RecoilAppController = () => {
   }, [initialized]);
 
   useEffect(() => {
+    if (web3Context.error) {
+      setInitialized(false);
+      deactivate();
+      return;
+    }
+
+    if (!web3Context.active && connectorName && !initialized) {
+      activate(connectorName);
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [web3Context.error, web3Context.active, web3Context.library]);
+
+  useEffect(() => {
     if (initialized || selectedCircleId === undefined) {
       return;
     }
@@ -135,7 +135,7 @@ export const RecoilAppController = () => {
   }, [selectedCircleId]);
 
   useEffect(() => {
-    if (!myProfile || hasAdminView) {
+    if (!initialized || !myProfile || hasAdminView) {
       return;
     }
 

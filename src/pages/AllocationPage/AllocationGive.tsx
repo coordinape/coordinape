@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 
 import clsx from 'clsx';
 
@@ -231,6 +231,10 @@ enum FilterType {
 const AllocationGive = () => {
   const classes = useStyles();
 
+  // Yes wierd but true
+  // TODO: move that storage state into Recoil
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
   const { tokenRemaining, givePerUser, updateGift } = useSelectedAllocation();
@@ -372,6 +376,7 @@ const AllocationGive = () => {
         <PopUpModal
           onClose={() => {
             storage.setHasSeenForceOptOutPopup(selectedMyUser.id);
+            forceUpdate();
           }}
           title={`Your administrator opted you out of receiving ${
             selectedCircle.token_name || 'GIVE'

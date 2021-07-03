@@ -73,6 +73,12 @@ export const rMyUsers = selector<IUser[]>({
   },
 });
 
+export const rHasAdminView = selector<boolean>({
+  key: 'rHasAdminView',
+  get: ({ get }: IRecoilGetParams) =>
+    get(rMyUsers).some((u) => u.admin_view > 0),
+});
+
 export const rMyCircleUser = selectorFamily<IUser | undefined, number>({
   key: 'rMyCircleUser',
   get: (circleId: number) => ({ get }: IRecoilGetParams) =>
@@ -163,7 +169,9 @@ export const rPendingGiftsMap = atom<Map<number, ITokenGift>>({
 export const rPendingGifts = selector<ITokenGift[]>({
   key: 'rPendingGifts',
   get: ({ get }: IRecoilGetParams) =>
-    Array.from(get(rPendingGiftsMap).values()),
+    Array.from(get(rPendingGiftsMap).values()).sort(
+      ({ id: a }, { id: b }) => a - b
+    ),
 });
 
 export const rPendingGiftsFor = selectorFamily<ITokenGift[], number>({
@@ -171,6 +179,14 @@ export const rPendingGiftsFor = selectorFamily<ITokenGift[], number>({
   get: (userId: number) => ({ get }: IRecoilGetParams) => {
     const pendingGifts = get(rPendingGifts);
     return pendingGifts.filter((g) => g.recipient_id === userId);
+  },
+});
+
+export const rPendingGiftsFrom = selectorFamily<ITokenGift[], number>({
+  key: 'rPendingGiftsFrom',
+  get: (userId: number) => ({ get }: IRecoilGetParams) => {
+    const pendingGifts = get(rPendingGifts);
+    return pendingGifts.filter((g) => g.sender_id === userId);
   },
 });
 

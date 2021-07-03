@@ -9,6 +9,9 @@ type TFetchUpdater = (
   updateWith: (update: (oldValue: any) => any) => void
 ) => void;
 
+// Two purposes. One is to wrap API fetching calls in a UI context so that
+// errors get sent to the error boundary. Two provide a reusable way to cache
+// results, until a certain amount of time has passed.
 export const useRecoilFetcher = (
   key: string,
   recoilState: RecoilState<any>,

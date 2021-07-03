@@ -31,7 +31,7 @@ export const useCircleEpoch = (
 
   const currentEpochNumber = previousEpoch
     ? String(previousEpoch.number + 1)
-    : 'Z';
+    : '1';
 
   let timingMessage = 'Epoch not Scheduled';
   let longTimingMessage = 'Next Epoch not Scheduled';
