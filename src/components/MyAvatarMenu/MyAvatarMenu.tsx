@@ -124,7 +124,12 @@ export const MyAvatarMenu = () => {
         }}
       >
         {paths.getMenuNavigation().map(({ label, path }) => (
-          <NavLink key={path} to={path} className={classes.link}>
+          <NavLink
+            key={path}
+            to={path}
+            className={classes.link}
+            onClick={() => setAnchorEl(null)}
+          >
             {label}
           </NavLink>
         ))}

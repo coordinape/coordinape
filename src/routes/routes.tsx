@@ -23,10 +23,13 @@ export const Routes = () => {
   const hasAdminView = useRecoilValue(rHasAdminView);
 
   // TODO: simpler way to do this?
-  const asVoyuer = !selectedMyUser && hasAdminView;
+  const asVoyeur = !selectedMyUser && hasAdminView;
   if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
     return <PreconnectPage />;
   }
+  const SneakyAllocationPage = !asVoyeur ? AllocationPage : PreconnectPage;
+  const SneakyAdminPage =
+    selectedMyUser && selectedMyUser.role !== 0 ? AdminPage : PreconnectPage;
 
   return (
     <Switch>
@@ -38,37 +41,29 @@ export const Routes = () => {
       />
       <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
-      {!asVoyuer ? (
-        <>
-          <Route
-            exact
-            path={paths.getAllocationPath()}
-            component={AllocationPage}
-          />
-          <Route
-            exact
-            path={paths.getMyTeamPath()}
-            component={AllocationPage}
-          />
-          <Route
-            exact
-            path={paths.getMyEpochPath()}
-            component={AllocationPage}
-          />
-          <Route exact path={paths.getGivePath()} component={AllocationPage} />
-        </>
-      ) : (
-        <Route
-          exact
-          path={paths.getAllocationPath()}
-          component={PreconnectPage}
-        />
-      )}
-      {selectedMyUser && selectedMyUser.role !== 0 ? (
-        <Route exact path={paths.getAdminPath()} component={AdminPage} />
-      ) : (
-        <Route exact path={paths.getAdminPath()} component={PreconnectPage} />
-      )}
+      <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
+
+      <Route
+        exact
+        path={paths.getAllocationPath()}
+        component={SneakyAllocationPage}
+      />
+      <Route
+        exact
+        path={paths.getMyTeamPath()}
+        component={SneakyAllocationPage}
+      />
+      <Route
+        exact
+        path={paths.getMyEpochPath()}
+        component={SneakyAllocationPage}
+      />
+      <Route
+        exact
+        path={paths.getGivePath()}
+        component={SneakyAllocationPage}
+      />
+
       <Route component={PreconnectPage} />
     </Switch>
   );
