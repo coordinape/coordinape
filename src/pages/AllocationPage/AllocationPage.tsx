@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import clsx from 'clsx';
 import { useLocation, matchPath, useHistory } from 'react-router-dom';
 
 import {
@@ -8,7 +9,9 @@ import {
   Step,
   StepButton,
   Button,
+  IconButton,
 } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
 
 import {
   useSelectedCircleEpoch,
@@ -16,6 +19,7 @@ import {
   useSelectedAllocation,
   useSelectedAllocationController,
 } from 'hooks';
+import { BalanceIcon } from 'icons';
 import { getGivePath, getMyTeamPath, getMyEpochPath } from 'routes/paths';
 
 import AllocationEpoch from './AllocationEpoch';
@@ -58,8 +62,6 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     position: 'fixed',
-    left: 0,
-    right: 0,
     bottom: 0,
     marginBottom: 53,
     marginLeft: 'auto',
@@ -70,21 +72,31 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   saveButton: {
+    display: 'flex',
+    alignItems: 'center',
     padding: '10px 24px',
     fontSize: 19.5,
+    lineHeight: 1.75,
     fontWeight: 600,
     textTransform: 'none',
     color: theme.colors.white,
     background: theme.colors.red,
     borderRadius: 13,
-    '&:hover': {
+    '&.MuiButton-root:hover': {
       background: theme.colors.darkRed,
+    },
+  },
+  saved: {
+    background: theme.colors.black,
+    '& > *': {
+      margin: theme.spacing(0, 0.5),
     },
   },
   backButton: {
     marginRight: theme.spacing(1.5),
     padding: '10px 24px',
     fontSize: 19.5,
+    lineHeight: 1.75,
     fontWeight: 600,
     textTransform: 'none',
     color: theme.colors.white,
@@ -93,6 +105,33 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       background: theme.colors.darkRed,
     },
+  },
+  balanceContainer: {
+    position: 'fixed',
+    right: 50,
+    top: theme.custom.appHeaderHeight + 90,
+    zIndex: 1,
+    padding: theme.spacing(0.5, 1),
+    display: 'flex',
+    borderRadius: 8,
+    justifyContent: 'flex-start',
+    background: 'linear-gradient(0deg, #FAF1F2, #FAF1F2)',
+    boxShadow: '2px 3px 6px rgba(81, 99, 105, 0.12)',
+  },
+  balanceDescription: {
+    margin: 0,
+    fontSize: 20,
+    fontWeight: 300,
+    color: theme.colors.primary,
+    '&:first-of-type': {
+      fontWeight: 500,
+      color: theme.colors.red,
+    },
+  },
+  rebalanceButton: {
+    color: theme.colors.primary,
+    marginLeft: theme.spacing(1),
+    padding: '1px',
   },
 }));
 
@@ -131,6 +170,7 @@ export const AllocationPage = () => {
   useSelectedAllocationController();
   const {
     localTeammatesDirty,
+    localGiftsDirty,
     tokenRemaining,
     tokenStarting,
     rebalanceGifts,
@@ -138,7 +178,7 @@ export const AllocationPage = () => {
     saveTeammates,
   } = useSelectedAllocation();
   const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
-  const { selectedMyUser, updateMyUser } = useMe();
+  const { selectedMyUser, updateMyUser, selectedCircle } = useMe();
 
   const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
   const [epochBio, setEpochBio] = useState('');
@@ -150,6 +190,10 @@ export const AllocationPage = () => {
       setNonReceiver(selectedMyUser.non_receiver === 1);
     }
   }, [selectedMyUser]);
+
+  const epochDirty =
+    selectedMyUser?.bio !== epochBio ||
+    (selectedMyUser?.non_receiver === 1) !== nonReceiver;
 
   useEffect(() => {
     const matchExactPath = (path: string) =>
@@ -190,7 +234,7 @@ export const AllocationPage = () => {
     history.push(STEPS[previous].path);
   };
 
-  const handleStep = (step: number) => () => {
+  const getHandleStep = (step: number) => () => {
     history.push(STEPS[step].path);
     setActiveStep(step);
   };
@@ -205,7 +249,7 @@ export const AllocationPage = () => {
         {STEPS.map(({ key, label }) => (
           <Step key={key} classes={{ root: classes.stepRoot }}>
             <StepButton
-              onClick={handleStep(key)}
+              onClick={getHandleStep(key)}
               completed={epochIsActive && key < activeStep}
             >
               {label}
@@ -227,12 +271,21 @@ export const AllocationPage = () => {
               fixedNonReceiver={fixedNonReceiver}
             />
             <div className={classes.buttonContainer}>
-              <Button className={classes.backButton} onClick={handleBack}>
-                Back
-              </Button>
-              <Button className={classes.saveButton} onClick={handleSaveEpoch}>
-                Save Epoch Settings
-              </Button>
+              {epochDirty ? (
+                <Button
+                  className={classes.saveButton}
+                  onClick={handleSaveEpoch}
+                >
+                  Save Epoch Settings
+                </Button>
+              ) : (
+                <Button
+                  className={clsx(classes.saveButton, classes.saved)}
+                  onClick={getHandleStep(STEP_MY_TEAM.key)}
+                >
+                  Continue With Current Settings
+                </Button>
+              )}
             </div>
           </>
         )}
@@ -244,13 +297,21 @@ export const AllocationPage = () => {
               <Button className={classes.backButton} onClick={handleBack}>
                 Back
               </Button>
-              <Button
-                className={classes.saveButton}
-                onClick={handleSaveTeamList}
-                disabled={!localTeammatesDirty}
-              >
-                Save Teammate List
-              </Button>
+              {localTeammatesDirty ? (
+                <Button
+                  className={classes.saveButton}
+                  onClick={handleSaveTeamList}
+                >
+                  Save Teammate List
+                </Button>
+              ) : (
+                <Button
+                  className={clsx(classes.saveButton, classes.saved)}
+                  onClick={getHandleStep(STEP_ALLOCATION.key)}
+                >
+                  Continue with this team
+                </Button>
+              )}
             </div>
           </>
         )}
@@ -258,26 +319,42 @@ export const AllocationPage = () => {
         {epochIsActive && activeStep === 2 && (
           <>
             <AllocationGive />
+            <div className={classes.balanceContainer}>
+              <p className={classes.balanceDescription}>
+                {tokenRemaining} {selectedCircle?.token_name || 'GIVE'}
+              </p>
+              <p className={classes.balanceDescription}>
+                &nbsp;left to allocate
+              </p>
+              <IconButton
+                size="small"
+                className={classes.rebalanceButton}
+                onClick={rebalanceGifts}
+                disabled={tokenRemaining === 0}
+              >
+                <BalanceIcon />
+              </IconButton>
+            </div>
             <div className={classes.buttonContainer}>
               <Button className={classes.backButton} onClick={handleBack}>
                 Back
               </Button>
-              <Button
-                className={classes.backButton}
-                onClick={rebalanceGifts}
-                disabled={tokenRemaining === 0}
-              >
-                Rebalance
-              </Button>
-              <Button
-                className={classes.saveButton}
-                onClick={handleSaveAllocations}
-                disabled={
-                  tokenRemaining < 0 || tokenRemaining === tokenStarting
-                }
-              >
-                Save Allocations
-              </Button>
+              {localGiftsDirty ? (
+                <Button
+                  className={classes.saveButton}
+                  onClick={handleSaveAllocations}
+                  disabled={
+                    tokenRemaining < 0 || tokenRemaining === tokenStarting
+                  }
+                >
+                  Save Allocations
+                </Button>
+              ) : (
+                <div className={clsx(classes.saveButton, classes.saved)}>
+                  <CheckIcon />
+                  Saved!
+                </div>
+              )}
             </div>
           </>
         )}

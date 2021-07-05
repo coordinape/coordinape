@@ -155,65 +155,11 @@ const useStyles = makeStyles((theme) => ({
       color: theme.colors.selected,
     },
   },
-  settingTeammatesNavLink: {
-    marginTop: theme.spacing(7),
-    marginBottom: theme.spacing(1),
-    marginRight: 'auto',
-    padding: theme.spacing(1, 2),
-    fontSize: 18,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.red,
-    borderRadius: 8,
-    backgroundColor: theme.colors.transparent,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  settingIconWrapper: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-    marginRight: 10,
-  },
   teammateContainer: {
     marginTop: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-  },
-  saveButton: {
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    marginBottom: 53,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: '10px 24px',
-    fontSize: 19.5,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.colors.red,
-    borderRadius: 13,
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      background: theme.colors.red,
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-    '&:disabled': {
-      color: theme.colors.lightRed,
-      background: theme.colors.mediumRed,
-    },
-  },
-  arrowRightIconWrapper: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-    marginLeft: theme.spacing(2),
   },
 }));
 
@@ -244,12 +190,6 @@ const AllocationGive = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.balanceContainer}>
-        <p className={classes.balanceDescription}>
-          {tokenRemaining} {selectedCircle?.token_name || 'GIVE'}
-        </p>
-        <p className={classes.balanceDescription}>&nbsp;left to allocate</p>
-      </div>
       <div className={classes.headerContainer}>
         <h2 className={classes.title}>{longTimingMessage}</h2>
         <h2 className={classes.subTitle}>

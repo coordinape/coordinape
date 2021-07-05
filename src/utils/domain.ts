@@ -1,4 +1,4 @@
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'config/constants';
+import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 
 export const DOMAIN_IS_LOCALHOST = window.location.hostname.endsWith(
   'localhost'

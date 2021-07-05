@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 
-import { matchPath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -15,7 +14,7 @@ import {
 } from 'components';
 import { useSelectedCircleEpoch, useMe } from 'hooks';
 import { rMyAddress } from 'recoilState';
-import { getMainNavigation } from 'routes/paths';
+import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,7 +104,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const HeaderNav = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { selectedMyUser, hasAdminView } = useMe();
 
   const navButtonsVisible = !!selectedMyUser || hasAdminView;
@@ -116,19 +114,16 @@ export const HeaderNav = () => {
   return (
     <div className={classes.navLinks}>
       {navButtonsVisible
-        ? navItems.map(({ path, label }) => (
+        ? navItems.map((navItem) => (
             <NavLink
               className={classes.navLink}
-              isActive={() =>
-                !!matchPath(history.location.pathname, {
-                  exact: true,
-                  path: path,
-                })
+              isActive={(nothing, location) =>
+                checkActive(location.pathname, navItem)
               }
-              key={path}
-              to={path}
+              key={navItem.path}
+              to={navItem.path}
             >
-              {label}
+              {navItem.label}
             </NavLink>
           ))
         : null}

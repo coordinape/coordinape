@@ -10,7 +10,6 @@ import {
   ConnectWalletModal,
   LoadingModal,
 } from 'components';
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'config/constants';
 import { useCircle, useMe, useWallet } from 'hooks';
 import {
   rWalletModalOpen,
@@ -21,6 +20,7 @@ import {
   useStateInitialized,
   useSetMyAddress,
 } from 'recoilState';
+import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
 
 // The following DebugObserver and window.$recoilValues are for debugging.

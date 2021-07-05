@@ -21,14 +21,14 @@ import Splash from 'assets/svgs/landing-page/splash.svg';
 import SushiswapLogo from 'assets/svgs/landing-page/sushiswap-logo.svg';
 import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
 import { ConnectWalletButton, CoordinapeLogo } from 'components';
+import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import {
   EXTERNAL_URL_TYPEFORM,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
   EXTERNAL_URL_DISCORD,
-} from 'config/constants';
-import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
+} from 'routes/paths';
 import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
