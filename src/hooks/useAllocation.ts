@@ -14,8 +14,10 @@ import {
   rAvailableTeammates,
   rSelectedCircleId,
   rTeammates,
+  rPendingGiftsMap,
 } from 'recoilState';
 import { getApiService } from 'services/api';
+import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 import { useAsync } from './useAsync';
@@ -48,6 +50,19 @@ const syncWithTeammates = (newTeammates: IUser[], newGifts?: ISimpleGift[]) => (
   });
   return keepers;
 };
+
+const pendingGiftsToSimpleGifts = (
+  pending: ITokenGift[],
+  usersMap: Map<number, IUser>
+) =>
+  pending.map(
+    (g) =>
+      ({
+        user: usersMap.get(g.recipient_id),
+        tokens: g.tokens,
+        note: g.note,
+      } as ISimpleGift)
+  );
 
 export const useAllocationController = (circleId: number | undefined) => {
   if (circleId === undefined) {
@@ -88,14 +103,7 @@ export const useAllocationController = (circleId: number | undefined) => {
     }
     previousPendingGifts.current = pendingGifts;
 
-    const newGifts = pendingGifts.map(
-      (g) =>
-        ({
-          user: usersMap.get(g.recipient_id),
-          tokens: g.tokens,
-          note: g.note,
-        } as ISimpleGift)
-    );
+    const newGifts = pendingGiftsToSimpleGifts(pendingGifts, usersMap);
     setLocalGifts(syncWithTeammates(myCircleUser?.teammates ?? [], newGifts));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingGifts]);
@@ -107,6 +115,7 @@ export const useAllocation = (
   localTeammates: IUser[];
   localGifts: ISimpleGift[];
   localTeammatesDirty: boolean;
+  localGiftsDirty: boolean;
   selectedCircle: ICircle | undefined;
   availableTeammates: IUser[];
   tokenRemaining: number;
@@ -137,6 +146,11 @@ export const useAllocation = (
   const availableTeammates = useRecoilValue(rAvailableTeammates);
 
   const myCircleUser = useRecoilValue(rMyCircleUser(circleId));
+  if (myCircleUser === undefined) {
+    throw 'Cannot useAllocation without a loaded user in this circle';
+  }
+  const setPendingGiftsMap = useSetRecoilState(rPendingGiftsMap);
+  const pendingGifts = useRecoilValue(rPendingGiftsFrom(myCircleUser.id));
   const [localTeammates, setLocalTeammates] = useRecoilState(
     rLocalTeammates(circleId)
   );
@@ -266,6 +280,11 @@ export const useAllocation = (
         params
       );
 
+      updaterMergeArrayToIdMap(
+        result.pending_sent_gifts as ITokenGift[],
+        setPendingGiftsMap
+      );
+
       // TODO: how to update pending tokens for this?
       return result;
     };
@@ -273,9 +292,21 @@ export const useAllocation = (
     return <Promise<IUserPendingGift>>asyncCall(call(), true);
   };
 
+  const simpleGiftsToTuple = (gifts: ISimpleGift[]) =>
+    gifts
+      .slice()
+      .sort((a, b) => a.user.id - b.user.id)
+      .map((g) => [g.user.id, g.tokens, g.note]);
+
   return {
     localTeammates,
     localGifts,
+    localGiftsDirty: !isEqual(
+      simpleGiftsToTuple(
+        localGifts.filter((g) => g.note !== '' || g.tokens > 0).map((lg) => lg)
+      ),
+      simpleGiftsToTuple(pendingGiftsToSimpleGifts(pendingGifts, usersMap))
+    ),
     localTeammatesDirty: !isEqual(localTeammates, defaultTeammates),
     selectedCircle,
     availableTeammates,
