@@ -85,9 +85,6 @@ const useStyles = makeStyles((theme) => ({
     '&.MuiButton-root:hover': {
       background: theme.colors.darkRed,
     },
-  },
-  saved: {
-    background: theme.colors.black,
     '& > *': {
       margin: theme.spacing(0, 0.5),
     },
@@ -280,7 +277,7 @@ export const AllocationPage = () => {
                 </Button>
               ) : (
                 <Button
-                  className={clsx(classes.saveButton, classes.saved)}
+                  className={classes.saveButton}
                   onClick={getHandleStep(STEP_MY_TEAM.key)}
                 >
                   Continue With Current Settings
@@ -306,7 +303,7 @@ export const AllocationPage = () => {
                 </Button>
               ) : (
                 <Button
-                  className={clsx(classes.saveButton, classes.saved)}
+                  className={classes.saveButton}
                   onClick={getHandleStep(STEP_ALLOCATION.key)}
                 >
                   Continue with this team
@@ -343,16 +340,13 @@ export const AllocationPage = () => {
                 <Button
                   className={classes.saveButton}
                   onClick={handleSaveAllocations}
-                  disabled={
-                    tokenRemaining < 0 || tokenRemaining === tokenStarting
-                  }
                 >
                   Save Allocations
                 </Button>
               ) : (
-                <div className={clsx(classes.saveButton, classes.saved)}>
+                <div className={classes.saveButton}>
                   <CheckIcon />
-                  Saved!
+                  Saved
                 </div>
               )}
             </div>

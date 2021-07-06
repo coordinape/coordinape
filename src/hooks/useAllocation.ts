@@ -298,15 +298,17 @@ export const useAllocation = (
       .sort((a, b) => a.user.id - b.user.id)
       .map((g) => [g.user.id, g.tokens, g.note]);
 
+  const localGiftsDirty = !isEqual(
+    simpleGiftsToTuple(
+      localGifts.filter((g) => g.note !== '' || g.tokens > 0).map((lg) => lg)
+    ),
+    simpleGiftsToTuple(pendingGiftsToSimpleGifts(pendingGifts, usersMap))
+  );
+
   return {
     localTeammates,
     localGifts,
-    localGiftsDirty: !isEqual(
-      simpleGiftsToTuple(
-        localGifts.filter((g) => g.note !== '' || g.tokens > 0).map((lg) => lg)
-      ),
-      simpleGiftsToTuple(pendingGiftsToSimpleGifts(pendingGifts, usersMap))
-    ),
+    localGiftsDirty,
     localTeammatesDirty: !isEqual(localTeammates, defaultTeammates),
     selectedCircle,
     availableTeammates,
