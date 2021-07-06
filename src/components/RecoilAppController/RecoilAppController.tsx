@@ -65,8 +65,6 @@ export const RecoilAppController = () => {
     selectedCircleId,
     clearSelectedCircle,
   } = useCircle();
-  // const [initialized, setInitialized] = useStateInitialized();
-
   const connectorName = useValConnectorName();
   const setMyAddress = useSetMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
@@ -91,17 +89,15 @@ export const RecoilAppController = () => {
 
   useEffect(() => {
     if (!connectorName && web3Context.active) {
-      web3Context.deactivate();
+      try {
+        web3Context.deactivate();
+      } catch (e) {
+        console.error(e);
+      }
     }
   }, [connectorName]);
 
   useEffect(() => {
-    console.log(
-      'recoilAppController',
-      web3Context.account,
-      web3Context.active,
-      connectorName
-    );
     if (!web3Context.account) {
       // console.error('Expected web3Context.account to be set');
       return;
@@ -128,7 +124,11 @@ export const RecoilAppController = () => {
     }
 
     if (!web3Context.active && connectorName) {
-      activate(connectorName);
+      try {
+        activate(connectorName);
+      } catch (e) {
+        console.error(e);
+      }
       return;
     }
   }, [web3Context.error, web3Context.active, web3Context.library]);

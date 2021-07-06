@@ -23,21 +23,21 @@ export const useWallet = (): {
   const [myAddress, setMyAddress] = useStateMyAddress();
 
   const activateWallet = (wallet: ConnectorNames) => {
-    const call = async () => {
-      if (!wallet) throw 'Missing wallet connector name';
-      const newConnector = connectors[wallet];
+    // const call = async () => {
+    if (!wallet) throw 'Missing wallet connector name';
+    const newConnector = connectors[wallet];
 
-      if (
-        newConnector instanceof WalletConnectConnector &&
-        newConnector.walletConnectProvider?.wc?.uri
-      ) {
-        newConnector.walletConnectProvider = undefined;
-      }
+    if (
+      newConnector instanceof WalletConnectConnector &&
+      newConnector.walletConnectProvider?.wc?.uri
+    ) {
+      newConnector.walletConnectProvider = undefined;
+    }
 
-      setConnectorName(wallet);
-      return web3Context.activate(newConnector, undefined, true);
-    };
-    return <Promise<void>>asyncCall(call(), true);
+    setConnectorName(wallet);
+    return web3Context.activate(newConnector, undefined, true);
+    // };
+    // return <Promise<void>>asyncCall(call(), true);
   };
 
   const deactivateWallet = () => {
