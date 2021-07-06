@@ -35,7 +35,7 @@ const portis = new PortisConnector({
 
 const walletlink = new WalletLinkConnector({
   url: supportedNetworkURLs[1],
-  appName: 'xToken Cafe',
+  appName: 'Coordinape',
 });
 
 const connectors = {

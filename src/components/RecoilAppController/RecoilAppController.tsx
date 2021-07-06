@@ -17,7 +17,6 @@ import {
   rGlobalLoadingText,
   rCircleSelectorOpen,
   useValConnectorName,
-  useStateInitialized,
   useSetMyAddress,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
@@ -66,7 +65,7 @@ export const RecoilAppController = () => {
     selectedCircleId,
     clearSelectedCircle,
   } = useCircle();
-  const [initialized, setInitialized] = useStateInitialized();
+  // const [initialized, setInitialized] = useStateInitialized();
 
   const connectorName = useValConnectorName();
   const setMyAddress = useSetMyAddress();
@@ -91,11 +90,22 @@ export const RecoilAppController = () => {
   }, [web3Context.library]);
 
   useEffect(() => {
-    if (!initialized) {
-      return;
+    if (!connectorName && web3Context.active) {
+      web3Context.deactivate();
     }
+  }, [connectorName]);
+
+  useEffect(() => {
+    console.log(
+      'recoilAppController',
+      web3Context.account,
+      web3Context.active,
+      connectorName
+    );
     if (!web3Context.account) {
-      throw 'Expected web3Context.account to be set';
+      // console.error('Expected web3Context.account to be set');
+      return;
+      // throw 'Expected web3Context.account to be set';
     }
 
     setMyAddress(web3Context.account);
@@ -108,36 +118,36 @@ export const RecoilAppController = () => {
       setCircleSelectorOpen(true);
       return;
     }
-  }, [initialized]);
+  }, [web3Context]);
 
   useEffect(() => {
     if (web3Context.error) {
-      setInitialized(false);
       deactivate();
+      console.error(web3Context.error);
       return;
     }
 
-    if (!web3Context.active && connectorName && !initialized) {
+    if (!web3Context.active && connectorName) {
       activate(connectorName);
       return;
     }
   }, [web3Context.error, web3Context.active, web3Context.library]);
 
   useEffect(() => {
-    if (initialized || selectedCircleId === undefined) {
+    if (selectedCircleId === undefined) {
       return;
     }
     selectAndFetchCircle(selectedCircleId);
   }, [selectedCircleId]);
 
   useEffect(() => {
-    if (!initialized || !myProfile || hasAdminView) {
+    if (!web3Context.active || !myProfile || hasAdminView) {
       return;
     }
 
     if (
       selectedCircleId &&
-      !myProfile?.users?.some((u) => u.circle_id !== selectedCircleId)
+      !myProfile?.users?.some((u) => u.circle_id === selectedCircleId)
     ) {
       // This profile shouldn't have access to this circle.
       clearSelectedCircle();

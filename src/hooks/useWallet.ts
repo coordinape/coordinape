@@ -21,7 +21,6 @@ export const useWallet = (): {
   const [connectorName, setConnectorName] = useStateConnectorName();
   const web3Context = useWeb3React();
   const [myAddress, setMyAddress] = useStateMyAddress();
-  const setInitialized = useSetInitialized();
 
   const activateWallet = (wallet: ConnectorNames) => {
     const call = async () => {
@@ -36,9 +35,7 @@ export const useWallet = (): {
       }
 
       setConnectorName(wallet);
-      return web3Context
-        .activate(newConnector, undefined, true)
-        .then(() => setInitialized(true));
+      return web3Context.activate(newConnector, undefined, true);
     };
     return <Promise<void>>asyncCall(call(), true);
   };
@@ -46,7 +43,6 @@ export const useWallet = (): {
   const deactivateWallet = () => {
     setConnectorName(undefined);
     setMyAddress(undefined);
-    web3Context.deactivate();
   };
 
   return {

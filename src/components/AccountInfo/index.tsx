@@ -120,8 +120,8 @@ export const AccountInfo = () => {
         <Button
           className={classes.popoverButton}
           onClick={() => {
-            handleClose();
             deactivate();
+            handleClose();
           }}
         >
           Disconnect
