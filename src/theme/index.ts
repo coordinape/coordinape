@@ -55,7 +55,7 @@ const themeOptions = {
           },
         },
         '&.MuiStepIcon-completed': {
-          color: customColor.red,
+          color: '#51AF5B',
           '& .MuiStepIcon-text': {
             fill: customColor.white,
           },

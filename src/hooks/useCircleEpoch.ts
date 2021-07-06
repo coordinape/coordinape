@@ -48,7 +48,7 @@ export const useCircleEpoch = (
     timingMessage = `Epoch ends in ${timingToLeastUnit(
       epochTiming.timeUntilEnd
     )}`;
-    longTimingMessage = `Epoch ${currentEpochNumber} has Begun and Ends in ${timingToLeastUnit(
+    longTimingMessage = `Epoch ${currentEpochNumber} Ends in ${timingToLeastUnit(
       epochTiming.timeUntilEnd
     )}`;
   }

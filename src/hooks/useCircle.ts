@@ -41,6 +41,10 @@ export const useCircle = (): {
   const availableTeammates = useRecoilValue(rAvailableTeammates);
   const selectedCircle = useRecoilValue(rSelectedCircle);
 
+  // Okay, update:
+  // selected user first visit
+  // selected user has team
+  // if switch at '/' or any allocation path then nav to least done
   const triggerDefaultNavigation = useRecoilCallback(
     ({ snapshot }) => async () => {
       const circleId = await snapshot.getPromise(rSelectedCircleId);

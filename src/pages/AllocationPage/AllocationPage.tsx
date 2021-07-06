@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import clsx from 'clsx';
 import { useLocation, matchPath, useHistory } from 'react-router-dom';
 
 import {
@@ -20,11 +19,13 @@ import {
   useSelectedAllocationController,
 } from 'hooks';
 import { BalanceIcon } from 'icons';
-import { getGivePath, getMyTeamPath, getMyEpochPath } from 'routes/paths';
+import { STEP_MY_TEAM, STEP_ALLOCATION, STEPS } from 'routes/allocation';
 
 import AllocationEpoch from './AllocationEpoch';
 import AllocationGive from './AllocationGive';
 import AllocationTeam from './AllocationTeam';
+
+import { IAllocationStep } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -132,32 +133,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IAllocationStep {
-  key: number;
-  label: string;
-  path: string;
-}
-
-const STEP_MY_EPOCH = {
-  key: 0,
-  label: 'My Epoch',
-  path: getMyEpochPath(),
-} as IAllocationStep;
-
-const STEP_MY_TEAM = {
-  key: 1,
-  label: 'Select Team',
-  path: getMyTeamPath(),
-} as IAllocationStep;
-
-const STEP_ALLOCATION = {
-  key: 2,
-  label: 'Allocate Give',
-  path: getGivePath(),
-} as IAllocationStep;
-
-const STEPS: IAllocationStep[] = [STEP_MY_EPOCH, STEP_MY_TEAM, STEP_ALLOCATION];
-
 export const AllocationPage = () => {
   const classes = useStyles();
   const location = useLocation();
@@ -169,7 +144,8 @@ export const AllocationPage = () => {
     localTeammatesDirty,
     localGiftsDirty,
     tokenRemaining,
-    tokenStarting,
+    nextStep,
+    completedSteps,
     rebalanceGifts,
     saveGifts,
     saveTeammates,
@@ -193,20 +169,20 @@ export const AllocationPage = () => {
     (selectedMyUser?.non_receiver === 1) !== nonReceiver;
 
   useEffect(() => {
-    const matchExactPath = (path: string) =>
+    const exactStep = STEPS.find(({ path }) =>
       matchPath(location.pathname, {
         exact: true,
         path,
-      });
-    STEPS.forEach(
-      ({ path, key }) => matchExactPath(path) && setActiveStep(key)
+      })
     );
+    setActiveStep((exactStep ?? nextStep ?? STEP_ALLOCATION).key);
   }, [location]);
 
   const handleSaveEpoch = async () => {
     await updateMyUser({
       bio: epochBio,
       non_receiver: nonReceiver ? 1 : 0,
+      epoch_first_visit: 0,
     });
     setActiveStep(STEP_MY_TEAM.key);
     history.push(STEP_MY_TEAM.path);
@@ -231,33 +207,35 @@ export const AllocationPage = () => {
     history.push(STEPS[previous].path);
   };
 
-  const getHandleStep = (step: number) => () => {
-    history.push(STEPS[step].path);
-    setActiveStep(step);
+  const getHandleStep = (step: IAllocationStep) => () => {
+    history.push(step.path);
+    setActiveStep(step.key);
   };
 
   return (
     <div className={classes.root}>
-      <Stepper
-        nonLinear
-        activeStep={epochIsActive ? activeStep : -1}
-        classes={{ root: classes.stepperRoot }}
-      >
-        {STEPS.map(({ key, label }) => (
-          <Step key={key} classes={{ root: classes.stepRoot }}>
-            <StepButton
-              onClick={getHandleStep(key)}
-              completed={epochIsActive && key < activeStep}
-            >
-              {label}
-            </StepButton>
-          </Step>
-        ))}
-      </Stepper>
+      {epochIsActive ? (
+        <Stepper
+          nonLinear
+          activeStep={activeStep}
+          classes={{ root: classes.stepperRoot }}
+        >
+          {STEPS.map((step) => (
+            <Step key={step.key} classes={{ root: classes.stepRoot }}>
+              <StepButton
+                onClick={getHandleStep(step)}
+                completed={completedSteps.has(step)}
+              >
+                {step.label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
+      ) : (
+        <h2 className={classes.title}>{timingMessage}</h2>
+      )}
 
       <div className={classes.body}>
-        {!epochIsActive && <h2 className={classes.title}>{timingMessage}</h2>}
-
         {epochIsActive && selectedMyUser && activeStep === 0 && (
           <>
             <AllocationEpoch
@@ -278,7 +256,7 @@ export const AllocationPage = () => {
               ) : (
                 <Button
                   className={classes.saveButton}
-                  onClick={getHandleStep(STEP_MY_TEAM.key)}
+                  onClick={getHandleStep(STEP_MY_TEAM)}
                 >
                   Continue With Current Settings
                 </Button>
@@ -291,9 +269,6 @@ export const AllocationPage = () => {
           <>
             <AllocationTeam />
             <div className={classes.buttonContainer}>
-              <Button className={classes.backButton} onClick={handleBack}>
-                Back
-              </Button>
               {localTeammatesDirty ? (
                 <Button
                   className={classes.saveButton}
@@ -304,7 +279,7 @@ export const AllocationPage = () => {
               ) : (
                 <Button
                   className={classes.saveButton}
-                  onClick={getHandleStep(STEP_ALLOCATION.key)}
+                  onClick={getHandleStep(STEP_ALLOCATION)}
                 >
                   Continue with this team
                 </Button>
@@ -333,9 +308,6 @@ export const AllocationPage = () => {
               </IconButton>
             </div>
             <div className={classes.buttonContainer}>
-              <Button className={classes.backButton} onClick={handleBack}>
-                Back
-              </Button>
               {localGiftsDirty ? (
                 <Button
                   className={classes.saveButton}

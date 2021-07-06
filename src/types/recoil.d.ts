@@ -70,3 +70,9 @@ export interface IAtomEffectParams {
     param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void
   ) => void;
 }
+
+export interface IAllocationStep {
+  key: number;
+  label: string;
+  path: string;
+}

@@ -22,8 +22,8 @@ export interface IUser {
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;
-  teammates: IUser[];
-  pending_sent_gifts: ITokenGift[];
+  teammates?: IUser[];
+  pending_sent_gifts?: ITokenGift[];
   sent_gifts: ITokenGift[];
   circle?: ICircle;
 }

@@ -15,6 +15,7 @@ import {
   rSelectedCircleId,
   rTeammates,
   rPendingGiftsMap,
+  rAllocationStepStatus,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
@@ -29,6 +30,7 @@ import {
   ITokenGift,
   IUserPendingGift,
   PostTokenGiftsParam,
+  IAllocationStep,
 } from 'types';
 
 const syncWithTeammates = (newTeammates: IUser[], newGifts?: ISimpleGift[]) => (
@@ -88,12 +90,11 @@ export const useAllocationController = (circleId: number | undefined) => {
       return;
     }
     setLocalTeammates(defaultTeammates);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultTeammates]);
 
   useEffect(
     () => setLocalGifts(syncWithTeammates(myCircleUser?.teammates ?? [])),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [myCircleUser]
   );
 
@@ -105,7 +106,6 @@ export const useAllocationController = (circleId: number | undefined) => {
 
     const newGifts = pendingGiftsToSimpleGifts(pendingGifts, usersMap);
     setLocalGifts(syncWithTeammates(myCircleUser?.teammates ?? [], newGifts));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingGifts]);
 };
 
@@ -122,6 +122,8 @@ export const useAllocation = (
   tokenStarting: number;
   tokenAllocated: number;
   givePerUser: Map<number, ISimpleGift>;
+  nextStep: IAllocationStep | undefined;
+  completedSteps: Set<IAllocationStep>;
   toggleLocalTeammate: (userId: number) => void;
   setAllLocalTeammates: () => void;
   clearLocalTeammates: () => void;
@@ -144,6 +146,9 @@ export const useAllocation = (
   const usersMap = useRecoilValue(rUsersMap);
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const availableTeammates = useRecoilValue(rAvailableTeammates);
+  const [completedSteps, nextStep] = useRecoilValue(
+    rAllocationStepStatus(circleId)
+  );
 
   const myCircleUser = useRecoilValue(rMyCircleUser(circleId));
   if (myCircleUser === undefined) {
@@ -269,7 +274,6 @@ export const useAllocation = (
         ({ user, tokens, note }) => ({
           tokens,
           recipient_id: user.id,
-          circle_id: circleId,
           note,
         })
       );
@@ -284,8 +288,6 @@ export const useAllocation = (
         result.pending_sent_gifts as ITokenGift[],
         setPendingGiftsMap
       );
-
-      // TODO: how to update pending tokens for this?
       return result;
     };
 
@@ -316,6 +318,8 @@ export const useAllocation = (
     tokenRemaining,
     tokenAllocated,
     givePerUser,
+    nextStep,
+    completedSteps,
     toggleLocalTeammate,
     setAllLocalTeammates,
     clearLocalTeammates,
