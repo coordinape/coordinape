@@ -84,7 +84,6 @@ export const RecoilAppController = () => {
     if (window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS) {
       setWalletModalOpen(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -109,7 +108,6 @@ export const RecoilAppController = () => {
       setCircleSelectorOpen(true);
       return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
 
   useEffect(() => {
@@ -123,7 +121,6 @@ export const RecoilAppController = () => {
       activate(connectorName);
       return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3Context.error, web3Context.active, web3Context.library]);
 
   useEffect(() => {
@@ -131,7 +128,6 @@ export const RecoilAppController = () => {
       return;
     }
     selectAndFetchCircle(selectedCircleId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCircleId]);
 
   useEffect(() => {
@@ -146,7 +142,6 @@ export const RecoilAppController = () => {
       // This profile shouldn't have access to this circle.
       clearSelectedCircle();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myProfile]);
 
   return (

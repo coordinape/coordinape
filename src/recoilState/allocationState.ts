@@ -1,8 +1,15 @@
-import { atomFamily, selectorFamily } from 'recoil';
+import { atomFamily, selectorFamily, useRecoilValue } from 'recoil';
 
-import { rMyProfile } from './appState';
+import {
+  STEP_MY_EPOCH,
+  STEP_MY_TEAM,
+  STEP_ALLOCATION,
+  STEPS,
+} from 'routes/allocation';
 
-import { IUser, ISimpleGift, IRecoilGetParams } from 'types';
+import { rMyProfile, rPendingGiftsFrom } from './appState';
+
+import { IUser, ISimpleGift, IRecoilGetParams, IAllocationStep } from 'types';
 
 export const rTeammates = selectorFamily<IUser[], number>({
   key: 'rTeammates',
@@ -21,3 +28,40 @@ export const rLocalGifts = atomFamily<ISimpleGift[], number>({
   key: 'rLocalGifts',
   default: [],
 });
+
+export const rEpochFirstVisit = selectorFamily<boolean, number>({
+  key: 'rEpochFirstVisit',
+  get: (circleId: number) => ({ get }: IRecoilGetParams) =>
+    get(rMyProfile)?.users?.find((u) => u.circle_id === circleId)
+      ?.epoch_first_visit === 1 ?? true,
+});
+
+export const useValEpochFirstVisit = (circleId: number) =>
+  useRecoilValue(rEpochFirstVisit(circleId));
+
+export const rAllocationStepStatus = selectorFamily<
+  [Set<IAllocationStep>, IAllocationStep | undefined],
+  number
+>({
+  key: 'rAllocationStepStatus',
+  get: (circleId: number) => ({ get }: IRecoilGetParams) => {
+    const user = get(rMyProfile)?.users?.find((u) => u.circle_id === circleId);
+    if (user === undefined) {
+      return [new Set(), STEP_MY_EPOCH];
+    }
+    const pendingGiftsFrom = get(rPendingGiftsFrom(user.id));
+    const completedSteps = new Set<IAllocationStep>();
+    if (user.epoch_first_visit === 0) {
+      completedSteps.add(STEP_MY_EPOCH);
+    }
+    if (user.teammates && user.teammates.length > 0) {
+      completedSteps.add(STEP_MY_TEAM);
+    }
+    if (pendingGiftsFrom.length > 0) {
+      completedSteps.add(STEP_ALLOCATION);
+    }
+    return [completedSteps, STEPS.find((step) => !completedSteps.has(step))];
+  },
+});
+export const useValAllocationStepStatus = (circleId: number) =>
+  useRecoilValue(rAllocationStepStatus(circleId));
