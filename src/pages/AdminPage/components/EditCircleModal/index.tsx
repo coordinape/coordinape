@@ -114,9 +114,7 @@ export const EditCircleModal = ({
 }) => {
   const classes = useStyles();
   const { updateCircle } = useUserInfo();
-  const [circleName, setCircleName] = useState<string>(
-    capitalizedName(circle.name)
-  );
+  const [circleName, setCircleName] = useState<string>(circle.name);
   const [tokenName, setTokenName] = useState<string>(circle.token_name);
   const [teamSelText, setTeamSelText] = useState<string>(circle.team_sel_text);
   const [allocText, setAllocText] = useState<string>(circle.alloc_text);
@@ -149,6 +147,12 @@ export const EditCircleModal = ({
       team_sel_text: teamSelText,
       alloc_text: allocText,
     });
+
+  const circleDirty =
+    circleName !== circle.name ||
+    tokenName !== circle.token_name ||
+    teamSelText !== circle.team_sel_text ||
+    allocText !== circle.alloc_text;
 
   return (
     <Modal className={classes.modal} onClose={onClose} open={visible}>
@@ -194,12 +198,7 @@ export const EditCircleModal = ({
         </div>
         <Button
           className={classes.saveButton}
-          disabled={
-            circleName.length === 0 ||
-            tokenName.length === 0 ||
-            teamSelText.length === 0 ||
-            allocText.length === 0
-          }
+          disabled={!circleDirty}
           onClick={onClickSaveCircle}
         >
           <Hidden smDown>

@@ -18,6 +18,7 @@ export interface IUser {
   role: number;
   is_hidden: number;
   admin_view: number;
+  super: number; // Can blast announcements with bot
   circle_id: number;
   created_at: Date;
   updated_at: Date;
