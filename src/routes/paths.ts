@@ -28,6 +28,7 @@ interface INavItem {
   subItems?: INavItem[];
 }
 
+const NAV_ITEM_PROFILE = { path: getProfilePath('me'), label: 'My Profile' };
 const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
 const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
 const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };
@@ -46,7 +47,7 @@ export const getMainNavigation = ({
 };
 
 export const getMenuNavigation = (): INavItem[] => [
-  // { path: getProfilePath('me'), label: 'Profile' },
+  NAV_ITEM_PROFILE,
   NAV_ITEM_EPOCH,
   NAV_ITEM_TEAM,
   { path: getHistoryPath(), label: 'My History' },
