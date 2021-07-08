@@ -75,6 +75,31 @@ const themeOptions = {
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
       },
     },
+    MuiPaginationItem: {
+      outlined: {
+        backgroundColor: customColor.white,
+        border: '1px solid #EDFDFE',
+        '&.Mui-selected': {
+          backgroundColor: customColor.red,
+          color: customColor.white,
+        },
+        '&:hover': {
+          backgroundColor: customColor.red,
+          color: customColor.white,
+        },
+        '&.Mui-selected:hover': {
+          backgroundColor: customColor.red,
+          color: customColor.white,
+        },
+      },
+    },
+    MuiDivider: {
+      root: {
+        alignSelf: 'stretch',
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        margin: '3px 0',
+      },
+    },
   },
   palette: {
     type: 'dark',

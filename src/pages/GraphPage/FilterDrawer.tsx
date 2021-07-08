@@ -49,12 +49,6 @@ const useStyles = makeStyles((theme) => ({
   epochMenuItemSelected: {
     background: `${theme.colors.third} !important`,
   },
-  divider: {
-    alignSelf: 'stretch',
-    background: theme.colors.text,
-    opacity: 0.25,
-    margin: theme.spacing(0.75, 2),
-  },
   results: {
     overflowY: 'auto',
     scrollbarColor: `${theme.colors.secondary} #EAEFF0`,
@@ -212,7 +206,7 @@ const FilterDrawer = ({
         </Select>
       </Box> */}
       <Typography variant="h5">Results:</Typography>
-      <Divider variant="middle" className={classes.divider} />
+      <Divider variant="middle" />
       <div className={classes.results}>
         {filteredUsers.map((user) => (
           <div key={user.id} className={classes.userResult}>
@@ -256,7 +250,7 @@ const FilterDrawer = ({
                 )}
               </Typography>
             </div>
-            <Divider variant="middle" className={classes.divider} />
+            <Divider variant="middle" />
           </div>
         ))}
       </div>

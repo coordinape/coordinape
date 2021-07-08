@@ -1,3 +1,5 @@
+import { IUser } from './user.model';
+
 export interface ITokenGift {
   id: number;
   circle_id: number;
@@ -11,4 +13,7 @@ export interface ITokenGift {
   dts_created: Date;
   created_at: Date;
   updated_at: Date;
+  // Hydrated in app
+  sender?: IUser;
+  recipient?: IUser;
 }

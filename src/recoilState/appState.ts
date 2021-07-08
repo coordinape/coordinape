@@ -1,3 +1,5 @@
+// at 5k elements for filter-map-slice itiriri is more performant
+import iti from 'itiriri';
 import moment from 'moment';
 import {
   atom,
@@ -11,7 +13,7 @@ import {
 
 import { getApiService } from 'services/api';
 import storage from 'utils/storage';
-import { calculateEpochTimings } from 'utils/tools';
+import { calculateEpochTimings, giftsToEpochMap } from 'utils/tools';
 
 import { rMyAddress } from './walletState';
 
@@ -23,8 +25,10 @@ import {
   IProfile,
   ITokenGift,
   IEpochTimings,
-  IUserGift,
 } from 'types';
+
+// TODO: Array.from seems heavy weight, replace with an iterator. I tried
+// but ran into delays seeing how to get typescript compatible.
 
 export const rSelectedCircleId = atom<number | undefined>({
   key: 'rSelectedCircleId',
@@ -92,6 +96,7 @@ export const rSelectedMyUser = selector<IUser | undefined>({
     return get(rMyUsers).find((u) => u.circle_id === selectedCircleId);
   },
 });
+export const useSelectedMyUser = () => useRecoilValue(rSelectedMyUser);
 
 export const rMyCircles = selector<ICircle[]>({
   key: 'rMyCircles',
@@ -113,12 +118,37 @@ export const rProfileMap = atom<Map<string, IProfile>>({
   default: new Map(),
 });
 
+const circleWithDefaults = (circle: ICircle): ICircle => {
+  const tokenName = circle.token_name || 'GIVE';
+  const circleCopy = { ...circle } as ICircle;
+  circleCopy.token_name = tokenName;
+  circleCopy.team_sel_text = `Select the people you have been working with during this epoch so you can thank them with ${tokenName}`;
+  circleCopy.alloc_text = `Thank your teammates by allocating them ${tokenName}`;
+  return circleCopy;
+};
+
+// TODO: This may be memory inefficient in the future, consider adding getters.
+const createGiftWithUser = (usersMap: Map<number, IUser>) => (
+  gift: ITokenGift
+) => {
+  const giftCopy = { ...gift } as ITokenGift;
+  giftCopy.sender = usersMap.get(gift.sender_id);
+  giftCopy.recipient = usersMap.get(gift.recipient_id);
+  return giftCopy;
+};
+
 export const rCirclesMap = atom<Map<number, ICircle>>({
   key: 'rCirclesMap',
   default: new Promise((resolve) => {
     getApiService()
       .getCircles()
-      .then((circles) => resolve(new Map(circles.map((c) => [c.id, c]))));
+      .then((circles) =>
+        resolve(
+          new Map(
+            circles.map((c) => circleWithDefaults(c)).map((c) => [c.id, c])
+          )
+        )
+      );
   }),
 });
 
@@ -151,9 +181,19 @@ export const rUsers = selector<IUser[]>({
   get: ({ get }: IRecoilGetParams) => Array.from(get(rUsersMap).values()),
 });
 
-export const rGiftsMap = atom<Map<number, ITokenGift>>({
-  key: 'rGiftsMap',
+export const rGiftsRaw = atom<Map<number, ITokenGift>>({
+  key: 'rGiftsRaw',
   default: new Map(),
+});
+
+export const rGiftsMap = selector<Map<number, ITokenGift>>({
+  key: 'rGiftsMap',
+  get: ({ get }: IRecoilGetParams) =>
+    new Map(
+      Array.from(get(rGiftsRaw).values())
+        .map(createGiftWithUser(get(rUsersMap)))
+        .map((g) => [g.id, g])
+    ),
 });
 
 export const rGifts = selector<ITokenGift[]>({
@@ -161,15 +201,43 @@ export const rGifts = selector<ITokenGift[]>({
   get: ({ get }: IRecoilGetParams) => Array.from(get(rGiftsMap).values()),
 });
 
-export const rPendingGiftsMap = atom<Map<number, ITokenGift>>({
-  key: 'rPendingGiftsMap',
+export const rPendingGiftsRaw = atom<Map<number, ITokenGift>>({
+  key: 'rPendingGiftsRaw',
   default: new Map(),
+});
+
+export const rPendingGiftsMap = selector<Map<number, ITokenGift>>({
+  key: 'rPendingGiftsMap',
+  get: ({ get }: IRecoilGetParams) =>
+    new Map(
+      Array.from(get(rPendingGiftsRaw).values())
+        .map(createGiftWithUser(get(rUsersMap)))
+        .map((g) => [g.id, g])
+    ),
 });
 
 export const rPendingGifts = selector<ITokenGift[]>({
   key: 'rPendingGifts',
   get: ({ get }: IRecoilGetParams) =>
     Array.from(get(rPendingGiftsMap).values()).sort(
+      ({ id: a }, { id: b }) => a - b
+    ),
+});
+
+export const rAllGiftsMap = selector<Map<number, ITokenGift>>({
+  key: 'rAllGiftsMap',
+  get: ({ get }: IRecoilGetParams) =>
+    new Map(
+      iti(get(rPendingGiftsMap).values())
+        .concat(get(rGiftsMap).values())
+        .map((g) => [g.id, g])
+    ),
+});
+
+export const rAllGifts = selector<ITokenGift[]>({
+  key: 'rAllGifts',
+  get: ({ get }: IRecoilGetParams) =>
+    Array.from(get(rAllGiftsMap).values()).sort(
       ({ id: a }, { id: b }) => a - b
     ),
 });
@@ -274,6 +342,7 @@ export const rSelectedCircle = selector<ICircle | undefined>({
     return circlesMap.get(selectedCircleId ?? -1);
   },
 });
+export const useValSelectedCircle = () => useRecoilValue(rSelectedCircle);
 
 export const rAvailableTeammates = selector<IUser[]>({
   key: 'rAvailableTeammates',
@@ -302,21 +371,63 @@ export const rSelectedCircleUsers = selector<IUser[]>({
   },
 });
 
-export const rMyUserGifts = selectorFamily<IUserGift[], number>({
-  key: 'rMyUserGifts',
-  get: (epochId: number) => ({ get }: IRecoilGetParams) => {
-    const epoch = get(rEpochsMap).get(epochId);
-    const myUser = get(rMyUsers).find((u) => u.circle_id === epoch?.circle_id);
-    const usersMap = get(rUsersMap);
-    const myUserGifts = get(rGifts).filter(
-      (g) => myUser && g.recipient_id === myUser.id && g.epoch_id === epochId
+export const rGiftsFor = selectorFamily<ITokenGift[], number>({
+  key: 'rGiftsFor',
+  get: (userId: number) => ({ get }: IRecoilGetParams) =>
+    get(rAllGifts).filter((g) => g.recipient_id === userId),
+});
+export const useValGiftsFor = (userId: number) =>
+  useRecoilValue(rGiftsFor(userId));
+
+export const rGiftsFrom = selectorFamily<ITokenGift[], number>({
+  key: 'rGiftsFrom',
+  get: (userId: number) => ({ get }: IRecoilGetParams) =>
+    get(rAllGifts).filter((g) => g.sender_id === userId),
+});
+export const useValGiftsFrom = (userId: number) =>
+  useRecoilValue(rGiftsFrom(userId));
+
+export const rUserGifts = selectorFamily<
+  {
+    fromUser: ITokenGift[];
+    forUser: ITokenGift[];
+    fromUserByEpoch: Map<number, ITokenGift[]>;
+    forUserByEpoch: Map<number, ITokenGift[]>;
+    totalReceivedByEpoch: Map<number, number>;
+  },
+  number
+>({
+  key: 'rUserGifts',
+  get: (userId: number) => ({ get }: IRecoilGetParams) => {
+    const giftsFrom = get(rGiftsFrom(userId));
+    const giftsFor = get(rGiftsFor(userId));
+    const fromUserByEpoch = giftsToEpochMap(giftsFrom);
+    const forUserByEpoch = giftsToEpochMap(giftsFor);
+    const totalReceivedByEpoch = new Map(
+      iti(forUserByEpoch.entries()).map(([epochId, arr]) => [
+        epochId,
+        iti(arr.map((g) => g.tokens)).sum() ?? 0,
+      ])
     );
-    return myUserGifts.map(
-      (g) =>
-        ({
-          user: usersMap.get(g.sender_id),
-          gift: g,
-        } as IUserGift)
-    );
+    return {
+      fromUser: giftsFrom,
+      forUser: giftsFor,
+      fromUserByEpoch,
+      forUserByEpoch,
+      totalReceivedByEpoch,
+    };
   },
 });
+export const useValUserGifts = (userId: number) =>
+  useRecoilValue(rUserGifts(userId));
+
+export const rEpochTotalGive = selectorFamily<number, number>({
+  key: 'rEpochTotalGive',
+  get: (epochId: number) => ({ get }: IRecoilGetParams) =>
+    iti(get(rAllGifts))
+      .filter((g) => g.epoch_id === epochId)
+      .map((g) => g.tokens)
+      .sum() ?? 0,
+});
+export const useValEpochTotalGive = (epochId: number) =>
+  useRecoilValue(rEpochTotalGive(epochId));

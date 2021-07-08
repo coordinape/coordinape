@@ -15,7 +15,11 @@ const useStyles = makeStyles((theme) => ({
     width: '50px',
     cursor: 'pointer',
     border: '3px solid #828F93',
+    transition: 'border-color .3s ease',
     '&.selected': {
+      border: '3px solid rgba(239, 115, 118, 1)',
+    },
+    '&:hover': {
       border: '3px solid rgba(239, 115, 118, 1)',
     },
   },
