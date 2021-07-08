@@ -1,54 +1,23 @@
-import { atom, selector } from 'recoil';
-
-import { rUsers } from './appState';
-
-import { ITokenGift, ICircle, IRecoilGetParams } from 'types';
-
-export interface IGraphProfile {
-  address: string; // TODO: using address for now
-  userIds: number[];
-  // epochIds: number[]; Good idea?
-}
-
-type IGiftsByEpochId = Map<number, ITokenGift[]>;
-export const rGiftsByEpochId = atom<IGiftsByEpochId>({
-  key: 'rGiftsByEpochId',
-  default: new Map(),
-});
-
-type ICircleById = Map<number, ICircle>;
-export const rCircleById = atom<ICircleById>({
-  key: 'rCircleById',
-  default: new Map(),
-});
-
-type ICircleUsersAndGiftsFetchedAt = Map<number, Date>;
-export const rCircleUsersAndGiftsFetchedAt = atom<ICircleUsersAndGiftsFetchedAt>(
-  {
-    key: 'rCircleUsersAndGiftsFetchedAt',
-    default: new Map(),
-  }
-);
-
-type IProfiles = Map<string, IGraphProfile>;
-export const rProfiles = selector<IProfiles>({
-  key: 'rProfiles',
-  get: (params: IRecoilGetParams) => {
-    const users = params.get(rUsers);
-    // TODO: Maybe this is slow to rewrite this every time.
-    const result = new Map() as Map<string, IGraphProfile>;
-    users.forEach((user) => {
-      const address = user.address;
-      const profile = result.get(address);
-      if (profile) {
-        profile.userIds.push(user.id);
-        result.set(address, profile);
-      }
-      result.set(address, { address, userIds: [user.id] });
-    });
-    return result;
-  },
-});
+export const graphStateNothing = 'graphStateNothing';
+// type IProfiles = Map<string, IGraphProfile>;
+// export const rProfiles = selector<IProfiles>({
+//   key: 'rProfiles',
+//   get: (params: IRecoilGetParams) => {
+//     const users = params.get(rUsers);
+//     // TODO: Maybe this is slow to rewrite this every time.
+//     const result = new Map() as Map<string, IGraphProfile>;
+//     users.forEach((user) => {
+//       const address = user.address;
+//       const profile = result.get(address);
+//       if (profile) {
+//         profile.userIds.push(user.id);
+//         result.set(address, profile);
+//       }
+//       result.set(address, { address, userIds: [user.id] });
+//     });
+//     return result;
+//   },
+// });
 
 // a vis will have a selectorFamily so that multiple versions
 // can be implemented across the app

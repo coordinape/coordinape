@@ -14,7 +14,7 @@ import {
   rAvailableTeammates,
   rSelectedCircleId,
   rTeammates,
-  rPendingGiftsMap,
+  rPendingGiftsRaw,
   rAllocationStepStatus,
 } from 'recoilState';
 import { getApiService } from 'services/api';
@@ -154,7 +154,7 @@ export const useAllocation = (
   if (myCircleUser === undefined) {
     throw 'Cannot useAllocation without a loaded user in this circle';
   }
-  const setPendingGiftsMap = useSetRecoilState(rPendingGiftsMap);
+  const setPendingGiftsMap = useSetRecoilState(rPendingGiftsRaw);
   const pendingGifts = useRecoilValue(rPendingGiftsFrom(myCircleUser.id));
   const [localTeammates, setLocalTeammates] = useRecoilState(
     rLocalTeammates(circleId)

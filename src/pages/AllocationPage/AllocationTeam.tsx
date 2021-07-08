@@ -308,10 +308,7 @@ const AllocationTeam = () => {
         <p className={classes.title}>
           Who are your Teammates in the {selectedCircle?.name} Circle?
         </p>
-        <p className={classes.subTitle}>
-          {selectedCircle?.team_sel_text ||
-            'Select the people you have been working with during this epoch so you can thank them with GIVE'}
-        </p>
+        <p className={classes.subTitle}>{selectedCircle?.team_sel_text}</p>
       </div>
       <div className={classes.content}>
         <div className={classes.accessaryContainer}>

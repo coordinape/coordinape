@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 
-import { rCircleEpochsStatus } from 'recoilState';
+import { rCircleEpochsStatus, rSelectedCircleId } from 'recoilState';
 import { timingToLeastUnit, calculateEpochTimings } from 'utils/tools';
 
 import { IEpoch } from 'types';
@@ -64,3 +64,6 @@ export const useCircleEpoch = (
     longTimingMessage,
   };
 };
+
+export const useSelectedCircleEpoch = () =>
+  useCircleEpoch(useRecoilValue(rSelectedCircleId));

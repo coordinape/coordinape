@@ -22,14 +22,16 @@ export const Routes = () => {
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const hasAdminView = useRecoilValue(rHasAdminView);
 
-  // TODO: simpler way to do this?
+  // TODO: simpler way to do this? Maybe redirect?
   const asVoyeur = !selectedMyUser && hasAdminView;
   if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
     return <PreconnectPage />;
   }
   const SneakyAllocationPage = !asVoyeur ? AllocationPage : PreconnectPage;
   const SneakyAdminPage =
-    selectedMyUser && selectedMyUser.role !== 0 ? AdminPage : PreconnectPage;
+    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
+      ? AdminPage
+      : PreconnectPage;
 
   return (
     <Switch>

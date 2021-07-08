@@ -4,8 +4,8 @@ import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
 import { useAsync } from 'hooks';
 import {
   rSelectedCircleId,
-  rGiftsMap,
-  rPendingGiftsMap,
+  rGiftsRaw,
+  rPendingGiftsRaw,
   rUsersMap,
   rEpochsMap,
   rAvailableTeammates,
@@ -67,13 +67,13 @@ export const useCircle = (): {
     updaterMergeArrayToIdMap
   );
   const fetchGifts = useRecoilFetcher(
-    'rGiftsMap',
-    rGiftsMap,
+    'rGiftsRaw',
+    rGiftsRaw,
     updaterMergeArrayToIdMap
   );
   const fetchPendingGifts = useRecoilFetcher(
-    'rPendingGiftsMap',
-    rPendingGiftsMap,
+    'rPendingGiftsRaw',
+    rPendingGiftsRaw,
     updaterMergeArrayToIdMap
   );
   const fetchEpochs = useRecoilFetcher(

@@ -1,7 +1,5 @@
 import React, { Suspense } from 'react';
 
-import clsx from 'clsx';
-
 import { makeStyles } from '@material-ui/core';
 
 import { LoadingScreen } from 'components';

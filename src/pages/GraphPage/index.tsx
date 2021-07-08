@@ -12,7 +12,7 @@ import { MenuItem, Select, makeStyles } from '@material-ui/core';
 import { useUserInfo, useSelectedCircleEpoch } from 'hooks';
 import { rGifts, rPendingGifts } from 'recoilState';
 import { getAvatarPath } from 'utils/domain';
-import { labelEpoch } from 'utils/tools';
+import { getEpochLabel } from 'utils/tools';
 
 import FilterDrawer from './FilterDrawer';
 
@@ -294,14 +294,14 @@ const GraphPage = () => {
       },
     ].concat(
       pastEpochs.map((e) => ({
-        label: labelEpoch(e),
+        label: getEpochLabel(e),
         value: e.id,
       }))
     );
     if (currentEpoch && epochIsActive) {
       setEpochOptions(
         options.concat({
-          label: labelEpoch(currentEpoch),
+          label: getEpochLabel(currentEpoch),
           value: currentEpoch?.id,
         })
       );

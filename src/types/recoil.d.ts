@@ -1,5 +1,5 @@
 import { RecoilValue } from 'recoil';
-import { IEpoch, IUser } from './models';
+import { IEpoch, IUser, ITokenGift } from './models';
 
 export interface IRecoilGetParams {
   get: <T>(recoilState: RecoilValue<T>) => T;
@@ -43,11 +43,6 @@ export interface IEpochTimings {
   previousEpochTiming?: IEpochTiming;
   currentEpochTiming?: IEpochTiming;
   nextEpochTiming?: IEpochTiming;
-}
-
-interface IUserGift {
-  user: IUser;
-  gift: ITokenGift;
 }
 
 export interface IAtomEffectParams {

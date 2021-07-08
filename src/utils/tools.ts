@@ -1,7 +1,8 @@
 import { getAddress } from 'ethers/lib/utils';
+import { groupBy } from 'lodash';
 import moment from 'moment';
 
-import { IEpoch, IEpochTiming, ITiming } from 'types';
+import { IEpoch, IEpochTiming, ITiming, ITokenGift } from 'types';
 
 export const isAddress = (address: string): boolean => {
   try {
@@ -20,8 +21,7 @@ export const isContract = async (
   return code && code !== '0x';
 };
 
-export const labelEpoch = (epoch: IEpoch) => {
-  const epochNumber = epoch.number ? `Epoch ${epoch.number}` : 'This Epoch';
+export const getEpochDates = (epoch: IEpoch): string => {
   const start = new Date(epoch.start_date);
   const end = new Date(epoch.end_date);
   if (start.getMonth() !== end.getMonth()) {
@@ -29,9 +29,7 @@ export const labelEpoch = (epoch: IEpoch) => {
       day: 'numeric',
       month: 'short',
     });
-    return `${epochNumber}: ${formatter.format(start)} - ${formatter.format(
-      end
-    )}`;
+    return `${formatter.format(start)} - ${formatter.format(end)}`;
   }
   const dayFormatter = new Intl.DateTimeFormat('en', {
     day: 'numeric',
@@ -39,9 +37,13 @@ export const labelEpoch = (epoch: IEpoch) => {
   const month = new Intl.DateTimeFormat('en', {
     month: 'long',
   }).format(start);
-  return `${epochNumber}: ${month} ${dayFormatter.format(
-    start
-  )} - ${dayFormatter.format(end)}`;
+  return `${month} ${dayFormatter.format(start)} - ${dayFormatter.format(end)}`;
+};
+
+export const getEpochLabel = (epoch: IEpoch): string => {
+  const epochNumber = epoch.number ? `Epoch ${epoch.number}` : 'This Epoch';
+  const epochDates = getEpochDates(epoch);
+  return `${epochNumber} ${epochDates}`;
 };
 
 const calculateTimeUntil = (dateTime: Date): [boolean, ITiming] => {
@@ -120,3 +122,11 @@ const wait = <T>(something: T): Promise<T> =>
       resolve(something);
     }, 1000);
   });
+
+export const giftsToEpochMap = (gifts: ITokenGift[]) =>
+  new Map(
+    Object.entries(groupBy(gifts, (g) => g.epoch_id)).map(([a, b]) => [
+      Number(a),
+      b,
+    ])
+  );
