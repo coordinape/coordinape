@@ -12,8 +12,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import { Autocomplete } from '@material-ui/lab';
 
-import { Drawer, Spacer, Img } from 'components';
-import { getAvatarPath } from 'utils/domain';
+import { Drawer, Spacer, ApeAvatar } from 'components';
 import { getNotableWords } from 'utils/string';
 
 import { IGraphNode } from 'types';
@@ -89,15 +88,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '10px',
   },
   avatar: {
-    borderRadius: 17.5,
     cursor: 'pointer',
     marginBottom: theme.spacing(2),
+    width: 35,
+    height: 35,
   },
   selectedAvatar: {
     borderRadius: 17.5,
     border: `2px solid ${theme.colors.black}`,
     cursor: 'pointer',
     marginBottom: theme.spacing(2),
+    width: 35,
+    height: 35,
   },
   userResultDescription: {
     flexGrow: 1,
@@ -224,17 +226,13 @@ const FilterDrawer = ({
               )}
             </div>
             <div className={classes.userResultBody}>
-              <Img
-                alt={user.name}
+              <ApeAvatar
+                user={user}
                 className={
                   selectedUser === user
                     ? classes.selectedAvatar
                     : classes.avatar
                 }
-                placeholderImg="/imgs/avatar/placeholder.jpg"
-                src={getAvatarPath(user.avatar)}
-                width={35}
-                height={35}
                 onClick={() => onClickUser(user)}
               />
               <Typography

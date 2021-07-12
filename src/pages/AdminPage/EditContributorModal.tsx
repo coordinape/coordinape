@@ -335,3 +335,5 @@ export const EditContributorModal = ({
     </Modal>
   );
 };
+
+export default EditContributorModal;

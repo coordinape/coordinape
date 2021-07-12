@@ -11,8 +11,7 @@ import {
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
-import { Img } from 'components';
-import { getAvatarPath } from 'utils/domain';
+import { ApeAvatar } from 'components';
 
 import { IUser } from 'types';
 
@@ -35,9 +34,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: 60,
     height: 60,
-    borderRadius: 30,
-    fontSize: 12,
-    fontWeight: 400,
+    margin: 'auto',
     border: `1.34426px solid ${theme.colors.border}`,
   },
   name: {
@@ -190,12 +187,7 @@ export const TeammateCard = (props: IProps) => {
   // Return
   return (
     <div className={classes.root}>
-      <Img
-        alt="avatar"
-        className={classes.avatar}
-        placeholderImg="/imgs/avatar/placeholder.jpg"
-        src={getAvatarPath(user.avatar)}
-      />
+      <ApeAvatar user={user} className={classes.avatar} />
       <p className={classes.name}>{user.name}</p>
       <div className={classes.bioContainer}>
         <p className={classes.bio}>{user.bio}</p>

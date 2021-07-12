@@ -365,3 +365,5 @@ export const EditEpochModal = (props: IProps) => {
     </Modal>
   );
 };
+
+export default EditEpochModal;

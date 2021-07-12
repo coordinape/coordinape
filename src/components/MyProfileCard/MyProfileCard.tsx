@@ -18,7 +18,7 @@ import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profil
 import { ReactComponent as SaveProfileSVG } from 'assets/svgs/button/save-profile.svg';
 import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
 import { ReactComponent as UploadImageSVG } from 'assets/svgs/button/upload-image.svg';
-import { Img } from 'components';
+import { ApeAvatar } from 'components';
 import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useMe } from 'hooks';
 
@@ -42,9 +42,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: 60,
     height: 60,
-    borderRadius: 30,
-    fontSize: 12,
-    fontWeight: 400,
+    margin: 'auto',
     border: `1.34426px solid ${theme.colors.border}`,
   },
   uploadImageContainer: {
@@ -371,12 +369,7 @@ export const MyProfileCard = () => {
           </Button>
           <div className={classes.uploadImageContainer}>
             <label htmlFor="upload-avatar-button">
-              <Img
-                alt="avatar"
-                className={classes.avatar}
-                placeholderImg="/imgs/avatar/placeholder.jpg"
-                src={profileData.avatar}
-              />
+              <ApeAvatar path={profileData.avatar} className={classes.avatar} />
               <div
                 className={clsx(
                   classes.uploadImageIconWrapper,
@@ -470,12 +463,7 @@ export const MyProfileCard = () => {
         </>
       ) : (
         <>
-          <Img
-            alt="avatar"
-            className={classes.avatar}
-            placeholderImg="/imgs/avatar/placeholder.jpg"
-            src={avatarPath}
-          />
+          <ApeAvatar path={avatarPath} className={classes.avatar} />
           <p className={classes.name}>{me.name}</p>
           <div className={classes.bioContainer}>
             <p className={classes.bio}>{me.bio}</p>

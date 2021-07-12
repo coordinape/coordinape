@@ -6,13 +6,12 @@ import { transparentize } from 'polished';
 import { Button, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
-import { Img } from 'components';
+import { ApeAvatar } from 'components';
 import {
   useCircle,
   useSelectedAllocation,
   useSelectedCircleEpoch,
 } from 'hooks';
-import { getAvatarPath } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -202,9 +201,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: 40,
     height: 40,
-    borderRadius: 20,
-    fontSize: 12,
-    fontWeight: 400,
   },
   checkmarkIconWrapper: {
     marginLeft: 10,
@@ -428,12 +424,7 @@ const AllocationTeam = () => {
                 onClick={() => toggleLocalTeammate(user.id)}
               >
                 {user.avatar && user.avatar.length > 0 ? (
-                  <Img
-                    alt={user.name}
-                    className={classes.avatar}
-                    placeholderImg="/imgs/avatar/placeholder.jpg"
-                    src={getAvatarPath(user.avatar)}
-                  />
+                  <ApeAvatar user={user} className={classes.avatar} />
                 ) : (
                   <span>&nbsp;&nbsp;&nbsp;</span>
                 )}
@@ -497,12 +488,7 @@ const AllocationTeam = () => {
                     onClick={() => toggleLocalTeammate(user.id)}
                   >
                     {user.avatar && user.avatar.length > 0 ? (
-                      <Img
-                        alt={user.name}
-                        className={classes.avatar}
-                        placeholderImg="/imgs/avatar/placeholder.jpg"
-                        src={getAvatarPath(user.avatar)}
-                      />
+                      <ApeAvatar user={user} className={classes.avatar} />
                     ) : (
                       <span>&nbsp;&nbsp;&nbsp;</span>
                     )}

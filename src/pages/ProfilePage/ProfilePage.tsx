@@ -23,7 +23,7 @@ import github from '../../assets/svgs/social/github.svg';
 import medium from '../../assets/svgs/social/medium.svg';
 import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
-import { Img } from 'components';
+import { ApeAvatar } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useProfile, useMe, useCircle, useCircleEpoch } from 'hooks';
 
@@ -893,11 +893,9 @@ export const ProfilePage = ({
             </Typography>
             <div className={classes.uploadImageContainer}>
               <label htmlFor="upload-avatar-button">
-                <Img
-                  alt="avatar"
+                <ApeAvatar
+                  path={profileData?.avatar}
                   className={classes.editAvatar}
-                  placeholderImg="/imgs/avatar/placeholder.jpg"
-                  src={profileData?.avatar}
                 />
                 <div
                   className={clsx(

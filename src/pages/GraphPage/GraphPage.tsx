@@ -101,7 +101,7 @@ function linkStrengthCounts(link: any) {
   return 0.5 / (link.source.linkCount + link.target.linkCount);
 }
 
-const GraphPage = () => {
+export const GraphPage = () => {
   const fgRef = useRef<any>(null);
   const hoverNode = useRef<IGraphNode | undefined>(undefined);
   const highlightReceiveNodes = useRef<Set<IGraphNode>>(new Set());
@@ -281,23 +281,27 @@ const GraphPage = () => {
   );
 
   useEffect(() => {
-    if (pastEpochs.length === 0) {
+    if (pastEpochs.length === 0 && !currentEpoch) {
       setEpochOptions([]);
       setEpochSelection(0);
       return;
     }
 
-    const options = [
-      {
-        label: 'ALL',
-        value: FAKE_ALL_EPOCH,
-      },
-    ].concat(
-      pastEpochs.map((e) => ({
-        label: getEpochLabel(e),
-        value: e.id,
-      }))
-    );
+    const options =
+      pastEpochs.length === 0
+        ? []
+        : [
+            {
+              label: 'ALL',
+              value: FAKE_ALL_EPOCH,
+            },
+          ].concat(
+            pastEpochs.map((e) => ({
+              label: getEpochLabel(e),
+              value: e.id,
+            }))
+          );
+
     if (currentEpoch && epochIsActive) {
       setEpochOptions(
         options.concat({

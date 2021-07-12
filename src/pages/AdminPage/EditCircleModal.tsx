@@ -211,3 +211,5 @@ export const EditCircleModal = ({
     </Modal>
   );
 };
+
+export default EditCircleModal;
