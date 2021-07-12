@@ -2,7 +2,8 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { Content, Header } from './components';
+import AdminContent from './AdminContent';
+import AdminHeader from './AdminHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +20,10 @@ const useStyles = makeStyles((theme) => ({
 const AdminPage = () => {
   const classes = useStyles();
 
-  // Return
   return (
     <div className={classes.root}>
-      <Header />
-      <Content />
+      <AdminHeader />
+      <AdminContent />
     </div>
   );
 };

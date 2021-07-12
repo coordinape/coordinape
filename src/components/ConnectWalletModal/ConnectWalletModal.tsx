@@ -8,9 +8,10 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import { ConnectWalletButtonItem } from 'components';
 import { useWallet } from 'hooks/useWallet';
 import { ConnectorNames } from 'utils/enums';
+
+import { ConnectWalletButtonItem } from './ConnectWalletButtonItem';
 
 const useStyles = makeStyles((theme) => ({
   modal: {

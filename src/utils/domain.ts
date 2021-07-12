@@ -20,7 +20,7 @@ export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>
   `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
-export const getAvatarPath = (avatar?: string) =>
-  avatar ? `${STORAGE_URL}/${avatar}` : '/imgs/avatar/placeholder.jpg';
-
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
+export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
+export const getAvatarPath = (avatar?: string) =>
+  avatar ? `${STORAGE_URL}/${avatar}` : AVATAR_PLACEHOLDER;

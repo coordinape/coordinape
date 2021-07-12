@@ -6,10 +6,9 @@ import { NavLink } from 'react-router-dom';
 
 import { Button, Popover, makeStyles } from '@material-ui/core';
 
-import { Img } from 'components';
+import { ApeAvatar } from 'components';
 import { useMe, useMyPendingGifts } from 'hooks';
 import { getHistoryPath } from 'routes/paths';
-import { getAvatarPath } from 'utils/domain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,9 +90,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: 34,
     height: 34,
-    borderRadius: 17,
-    fontSize: 12,
-    fontWeight: 400,
   },
   noteBody: {
     padding: '10px 0',
@@ -187,11 +183,9 @@ export const ReceiveInfo = () => {
                 </div>
               </div>
               <div className={classes.noteContainer}>
-                <Img
-                  alt={usersMap.get(tokenGift.sender_id)?.name ?? 'Unknown'}
+                <ApeAvatar
+                  user={usersMap.get(tokenGift.sender_id)}
                   className={classes.avatar}
-                  placeholderImg="/imgs/avatar/placeholder.jpg"
-                  src={getAvatarPath(usersMap.get(tokenGift.sender_id)?.avatar)}
                 />
                 <div
                   className={

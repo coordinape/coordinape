@@ -10,12 +10,13 @@ import {
   MenuItem,
 } from '@material-ui/core';
 
-import { EditCircleModal } from '../EditCircleModal';
-import { EditEpochModal } from '../EditEpochModal';
 import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
 import { useUserInfo } from 'hooks';
 import { getCSVPath } from 'utils/domain';
 import { capitalizedName } from 'utils/string';
+
+import EditCircleModal from './EditCircleModal';
+import EditEpochModal from './EditEpochModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Header = () => {
+export const AdminHeader = () => {
   const classes = useStyles();
   const { circle, epoch, epochs, pastEpochs } = useUserInfo();
   const [selectedEpochId, setSelectedEpochId] = useState<number>(
@@ -253,3 +254,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default AdminHeader;

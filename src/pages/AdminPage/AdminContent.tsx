@@ -5,14 +5,14 @@ import clsx from 'clsx';
 import { Button, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
-import { EditContributorModal } from '../EditContributorModal';
 import { ReactComponent as AddContributorSVG } from 'assets/svgs/button/add-contributor.svg';
 import { ReactComponent as DeleteContributor } from 'assets/svgs/button/delete-contributor.svg';
 import { ReactComponent as EditContributor } from 'assets/svgs/button/edit-contributor.svg';
-import { Img } from 'components';
+import { ApeAvatar } from 'components';
 import { useUserInfo } from 'hooks';
 import { shortenAddress } from 'utils';
-import { getAvatarPath } from 'utils/domain';
+
+import EditContributorModal from './EditContributorModal';
 
 import { IUser } from 'types';
 
@@ -137,9 +137,6 @@ const useStyles = makeStyles((theme) => ({
     width: 32,
     height: 32,
     marginRight: 16,
-    borderRadius: 16,
-    fontSize: 12,
-    fontWeight: 400,
   },
   tdOther: {
     fontSize: 14,
@@ -155,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Content = () => {
+export const AdminContent = () => {
   const classes = useStyles();
 
   const { circle, deleteUser, me, availableTeammates } = useUserInfo();
@@ -326,12 +323,7 @@ export const Content = () => {
                 <tr className={classes.trBody} key={user.id}>
                   <td className={classes.tdContributor}>
                     <div className={classes.contributorContainer}>
-                      <Img
-                        alt={user.name}
-                        className={classes.avatar}
-                        placeholderImg="/imgs/avatar/placeholder.jpg"
-                        src={getAvatarPath(user.avatar)}
-                      />
+                      <ApeAvatar user={user} className={classes.avatar} />
                       {user.name}
                     </div>
                   </td>
@@ -399,3 +391,5 @@ export const Content = () => {
     </div>
   );
 };
+
+export default AdminContent;
