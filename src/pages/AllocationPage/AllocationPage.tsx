@@ -302,18 +302,13 @@ export const AllocationPage = () => {
               </IconButton>
             </div>
             <div className={classes.buttonContainer}>
-              {localGiftsDirty ? (
+              {localGiftsDirty && (
                 <Button
                   className={classes.saveButton}
                   onClick={handleSaveAllocations}
                 >
                   Save Allocations
                 </Button>
-              ) : (
-                <div className={classes.saveButton}>
-                  <CheckIcon />
-                  Saved
-                </div>
               )}
             </div>
           </>
