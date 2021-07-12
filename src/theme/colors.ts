@@ -1,5 +1,3 @@
-import { transparentize } from 'polished';
-
 const color = {
   transparent: '#0000',
   white: '#fff',

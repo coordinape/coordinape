@@ -4,7 +4,6 @@ import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
 import { useUserInfo } from 'hooks';
-import { capitalizedName } from 'utils/string';
 
 import { ICircle } from 'types';
 

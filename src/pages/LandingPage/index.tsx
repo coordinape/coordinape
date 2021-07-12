@@ -282,7 +282,7 @@ interface IPartnerProps {
   name: string;
 }
 
-const Partner = ({ imageSrc, give, epochs, name }: IPartnerProps) => {
+const Partner = ({ imageSrc, name }: IPartnerProps) => {
   const classes = useStyles();
   return (
     <div className={classes.partner}>

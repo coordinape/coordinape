@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import iti from 'itiriri';
 import isEqual from 'lodash/isEqual';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -65,6 +66,43 @@ const pendingGiftsToSimpleGifts = (
         note: g.note,
       } as ISimpleGift)
   );
+
+type tokenNote = [number, string];
+
+const simpleGiftsToMap = (source: ISimpleGift[]): Map<number, tokenNote> =>
+  new Map(source.map((g) => [g.user.id, [g.tokens, g.note]]));
+
+const pendingGiftMap = (pending: ITokenGift[]): Map<number, tokenNote> =>
+  new Map(pending.map((g) => [g.recipient_id, [g.tokens, g.note]]));
+
+const buildDiffMap = (
+  remoteMap: Map<number, tokenNote>,
+  localMap: Map<number, tokenNote>
+) => {
+  const diff = iti(localMap.keys()).reduce<Map<number, tokenNote>>(
+    (changes: Map<number, tokenNote>, key: number) => {
+      // changes is initialized as remote,
+      if (!changes.has(key)) {
+        const tn = localMap.get(key) as tokenNote;
+        if (tn[0] !== 0 || tn[1] !== '') {
+          changes.set(key, tn);
+        }
+      } else {
+        const remote = changes.get(key) as tokenNote;
+        const local = localMap.get(key) as tokenNote;
+        if (isEqual(remote, local)) {
+          changes.delete(key);
+        } else {
+          changes.set(key, local);
+        }
+      }
+      return changes;
+    },
+    new Map(remoteMap)
+  );
+
+  return diff;
+};
 
 export const useAllocationController = (circleId: number | undefined) => {
   if (circleId === undefined) {
@@ -249,7 +287,7 @@ export const useAllocation = (
         throw 'Must have a circleUser to saveTeammates';
       }
 
-      const result = await getApiService().postTeammates(
+      await getApiService().postTeammates(
         myCircleUser.circle_id,
         myCircleUser.address,
         localTeammates.map((u) => u.id)
@@ -270,13 +308,19 @@ export const useAllocation = (
       if (!myCircleUser) {
         return;
       }
-      const params: PostTokenGiftsParam[] = localGifts.map(
-        ({ user, tokens, note }) => ({
-          tokens,
-          recipient_id: user.id,
-          note,
-        })
+
+      const diff = buildDiffMap(
+        pendingGiftMap(pendingGifts),
+        simpleGiftsToMap(localGifts)
       );
+
+      const params: PostTokenGiftsParam[] = iti(diff.entries())
+        .map(([userId, [tokens, note]]) => ({
+          tokens,
+          recipient_id: userId,
+          note,
+        }))
+        .toArray();
 
       const result = await getApiService().postTokenGifts(
         circleId,
@@ -294,18 +338,9 @@ export const useAllocation = (
     return <Promise<IUserPendingGift>>asyncCall(call(), true);
   };
 
-  const simpleGiftsToTuple = (gifts: ISimpleGift[]) =>
-    gifts
-      .slice()
-      .sort((a, b) => a.user.id - b.user.id)
-      .map((g) => [g.user.id, g.tokens, g.note]);
-
-  const localGiftsDirty = !isEqual(
-    simpleGiftsToTuple(
-      localGifts.filter((g) => g.note !== '' || g.tokens > 0).map((lg) => lg)
-    ),
-    simpleGiftsToTuple(pendingGiftsToSimpleGifts(pendingGifts, usersMap))
-  );
+  const localGiftsDirty =
+    buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
+      .size > 0;
 
   return {
     localTeammates,

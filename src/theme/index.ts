@@ -70,6 +70,13 @@ const themeOptions = {
         color: customColor.black,
       },
     },
+    MuiStepButton: {
+      root: {
+        '&.Mui-disabled': {
+          opacity: 0.4,
+        },
+      },
+    },
     MuiSkeleton: {
       root: {
         backgroundColor: 'rgba(255, 255, 255, 0.9)',

@@ -1,22 +1,17 @@
-import { Web3Provider } from '@ethersproject/providers';
 import {
   atom,
-  selector,
   DefaultValue,
   useRecoilValue,
   useRecoilState,
   useSetRecoilState,
 } from 'recoil';
 
-import { APIService } from 'services/api';
 import { ConnectorNames } from 'utils/enums';
 import storage from 'utils/storage';
 
-import { IRecoilGetParams } from 'types';
-
 export const rMyAddress = atom<string | undefined>({
   key: 'rMyAddress',
-  default: storage.getAddress(),
+  default: storage.getConnectorName() ? storage.getAddress() : undefined,
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet((newAddress) => {
@@ -35,7 +30,7 @@ export const useSetMyAddress = () => useSetRecoilState(rMyAddress);
 
 export const rConnectorName = atom<ConnectorNames | undefined>({
   key: 'rConnectorName',
-  default: storage.getConnectorName(),
+  default: storage.getAddress() ? storage.getConnectorName() : undefined,
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet((newId) => {

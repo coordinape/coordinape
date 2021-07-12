@@ -17,7 +17,7 @@ import {
   rGlobalLoadingText,
   rCircleSelectorOpen,
   useValConnectorName,
-  useSetMyAddress,
+  useStateMyAddress,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
@@ -66,7 +66,7 @@ export const RecoilAppController = () => {
     clearSelectedCircle,
   } = useCircle();
   const connectorName = useValConnectorName();
-  const setMyAddress = useSetMyAddress();
+  const [myAddress, setMyAddress] = useStateMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
     rWalletModalOpen
   );
@@ -77,38 +77,27 @@ export const RecoilAppController = () => {
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
 
   useEffect(() => {
-    // TODO: this can be the atom default state
-    if (window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS) {
+    if (
+      window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
+      connectorName
+    ) {
       setWalletModalOpen(true);
+      connectorName && activate(connectorName);
     }
   }, []);
 
   useEffect(() => {
-    getApiService().setProvider(web3Context.library);
-  }, [web3Context.library]);
-
-  useEffect(() => {
-    if (!connectorName && web3Context.active) {
-      try {
-        web3Context.deactivate();
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, [connectorName]);
-
-  useEffect(() => {
     if (!web3Context.account) {
-      // console.error('Expected web3Context.account to be set');
       return;
-      // throw 'Expected web3Context.account to be set';
     }
 
     setMyAddress(web3Context.account);
-
-    if (walletModalOpen) {
-      setWalletModalOpen(false);
-    }
+    setWalletModalOpen(false);
+    web3Context.connector?.addListener('Web3ReactDeactivate', deactivate);
+    web3Context.connector?.addListener('Web3ReactError', deactivate);
+    web3Context.connector?.addListener('Web3ReactUpdate', () =>
+      console.warn('Web3ReactUpdate')
+    );
 
     if (selectedCircleId === undefined) {
       setCircleSelectorOpen(true);
@@ -117,42 +106,27 @@ export const RecoilAppController = () => {
   }, [web3Context]);
 
   useEffect(() => {
-    if (web3Context.error) {
-      deactivate();
-      console.error(web3Context.error);
-      return;
-    }
-
-    if (!web3Context.active && connectorName) {
-      try {
-        activate(connectorName);
-      } catch (e) {
-        console.error(e);
-      }
-      return;
-    }
-  }, [web3Context.error, web3Context.active, web3Context.library]);
+    getApiService().setProvider(web3Context.library);
+  }, [web3Context.library]);
 
   useEffect(() => {
-    if (selectedCircleId === undefined) {
-      return;
+    if (selectedCircleId !== undefined && myAddress !== undefined) {
+      selectAndFetchCircle(selectedCircleId);
     }
-    selectAndFetchCircle(selectedCircleId);
-  }, [selectedCircleId]);
+  }, [selectedCircleId, myAddress]);
 
   useEffect(() => {
-    if (!web3Context.active || !myProfile || hasAdminView) {
-      return;
-    }
-
     if (
+      web3Context.active &&
+      myProfile &&
+      !hasAdminView &&
       selectedCircleId &&
       !myProfile?.users?.some((u) => u.circle_id === selectedCircleId)
     ) {
       // This profile shouldn't have access to this circle.
       clearSelectedCircle();
     }
-  }, [myProfile]);
+  }, [myProfile, web3Context]);
 
   return (
     <>

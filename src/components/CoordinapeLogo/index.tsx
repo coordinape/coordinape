@@ -6,7 +6,7 @@ import { makeStyles, Typography, Box } from '@material-ui/core';
 
 import { ReactComponent as CoordinapeLogoSvg } from 'assets/svgs/coordinape-logo.svg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     alignItems: 'center',

@@ -6,8 +6,6 @@ import {
   makeStyles,
   Typography,
   TextField,
-  MenuItem,
-  Select,
   Box,
   Divider,
 } from '@material-ui/core';
@@ -15,7 +13,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Autocomplete } from '@material-ui/lab';
 
 import { Drawer, Spacer, Img } from 'components';
-import useCommonStyles from 'styles/common';
 import { getAvatarPath } from 'utils/domain';
 import { getNotableWords } from 'utils/string';
 
@@ -125,7 +122,6 @@ const FilterDrawer = ({
   onSearchChange,
 }: IProps) => {
   const classes = useStyles();
-  const commonClasses = useCommonStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [notableWords, setNotableWords] = useState<string[]>([]);
 

@@ -54,7 +54,11 @@ export const rAllocationStepStatus = selectorFamily<
     if (user.epoch_first_visit === 0) {
       completedSteps.add(STEP_MY_EPOCH);
     }
-    if (user.teammates && user.teammates.length > 0) {
+    if (
+      user.epoch_first_visit === 0 &&
+      user.teammates &&
+      user.teammates.length > 0
+    ) {
       completedSteps.add(STEP_MY_TEAM);
     }
     if (pendingGiftsFrom.length > 0) {

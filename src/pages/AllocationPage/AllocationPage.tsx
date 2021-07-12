@@ -53,13 +53,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '190px',
   },
   title: {
-    margin: theme.spacing(8, 0, 0),
-    paddingLeft: theme.spacing(1),
+    margin: theme.spacing(2, 0, 0),
     fontSize: 30,
     fontWeight: 700,
     lineHeight: 1.3,
     color: theme.colors.primary,
     textAlign: 'center',
+    backgroundColor: 'red',
   },
   buttonContainer: {
     position: 'fixed',
@@ -150,7 +150,7 @@ export const AllocationPage = () => {
     saveGifts,
     saveTeammates,
   } = useSelectedAllocation();
-  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
+  const { epochIsActive } = useSelectedCircleEpoch();
   const { selectedMyUser, updateMyUser, selectedCircle } = useMe();
 
   const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
@@ -190,8 +190,10 @@ export const AllocationPage = () => {
 
   const handleSaveTeamList = async () => {
     await saveTeammates();
-    setActiveStep(STEP_ALLOCATION.key);
-    history.push(STEP_ALLOCATION.path);
+    if (epochIsActive) {
+      setActiveStep(STEP_ALLOCATION.key);
+      history.push(STEP_ALLOCATION.path);
+    }
   };
 
   const handleSaveAllocations = async () => {
@@ -201,12 +203,6 @@ export const AllocationPage = () => {
     await saveGifts();
   };
 
-  const handleBack = () => {
-    const previous = activeStep - 1;
-    previous >= 0 && setActiveStep(previous);
-    history.push(STEPS[previous].path);
-  };
-
   const getHandleStep = (step: IAllocationStep) => () => {
     history.push(step.path);
     setActiveStep(step.key);
@@ -214,29 +210,26 @@ export const AllocationPage = () => {
 
   return (
     <div className={classes.root}>
-      {epochIsActive ? (
-        <Stepper
-          nonLinear
-          activeStep={activeStep}
-          classes={{ root: classes.stepperRoot }}
-        >
-          {STEPS.map((step) => (
-            <Step key={step.key} classes={{ root: classes.stepRoot }}>
-              <StepButton
-                onClick={getHandleStep(step)}
-                completed={completedSteps.has(step)}
-              >
-                {step.label}
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
-      ) : (
-        <h2 className={classes.title}>{timingMessage}</h2>
-      )}
+      <Stepper
+        nonLinear
+        activeStep={activeStep}
+        classes={{ root: classes.stepperRoot }}
+      >
+        {STEPS.map((step) => (
+          <Step key={step.key} classes={{ root: classes.stepRoot }}>
+            <StepButton
+              onClick={getHandleStep(step)}
+              completed={completedSteps.has(step)}
+              disabled={step === STEP_ALLOCATION && !epochIsActive}
+            >
+              {step.label}
+            </StepButton>
+          </Step>
+        ))}
+      </Stepper>
 
       <div className={classes.body}>
-        {epochIsActive && selectedMyUser && activeStep === 0 && (
+        {selectedMyUser && activeStep === 0 && (
           <>
             <AllocationEpoch
               epochBio={epochBio}
@@ -265,7 +258,7 @@ export const AllocationPage = () => {
           </>
         )}
 
-        {epochIsActive && selectedMyUser && activeStep === 1 && (
+        {selectedMyUser && activeStep === 1 && (
           <>
             <AllocationTeam />
             <div className={classes.buttonContainer}>
@@ -279,6 +272,7 @@ export const AllocationPage = () => {
               ) : (
                 <Button
                   className={classes.saveButton}
+                  disabled={!epochIsActive}
                   onClick={getHandleStep(STEP_ALLOCATION)}
                 >
                   Continue with this team

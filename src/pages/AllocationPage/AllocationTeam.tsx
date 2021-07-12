@@ -7,10 +7,12 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
 import { Img } from 'components';
-import { useCircle, useMe, useSelectedAllocation } from 'hooks';
+import {
+  useCircle,
+  useSelectedAllocation,
+  useSelectedCircleEpoch,
+} from 'hooks';
 import { getAvatarPath } from 'utils/domain';
-
-import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 70,
+    paddingTop: 60,
     maxWidth: '80%',
     textAlign: 'center',
   },
@@ -38,6 +40,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 300,
     color: theme.colors.primary,
     margin: 0,
+  },
+  epochTiming: {
+    margin: 0,
+    maxWidth: theme.breakpoints.values.md,
+    fontSize: 20,
+    fontWeight: 300,
+    lineHeight: 2,
+    color: theme.colors.primary,
+    textAlign: 'center',
   },
   description: {
     padding: '0 100px',
@@ -287,6 +298,8 @@ enum OrderType {
 const AllocationTeam = () => {
   const classes = useStyles();
   const { availableTeammates, selectedCircle } = useCircle();
+  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
+
   const {
     localTeammates,
     givePerUser,
@@ -296,7 +309,7 @@ const AllocationTeam = () => {
   } = useSelectedAllocation();
 
   const [keyword, setKeyword] = useState<string>('');
-  const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
+  const orderType = OrderType.Alphabetical as OrderType; // Was useState
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
@@ -305,6 +318,9 @@ const AllocationTeam = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
+        {!epochIsActive && (
+          <h2 className={classes.epochTiming}>{timingMessage}</h2>
+        )}
         <p className={classes.title}>
           Who are your Teammates in the {selectedCircle?.name} Circle?
         </p>

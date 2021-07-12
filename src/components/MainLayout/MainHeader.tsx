@@ -150,7 +150,7 @@ export const HeaderButtons = () => {
   );
 };
 
-export const MainHeader = ({ className }: { className?: string }) => {
+export const MainHeader = () => {
   const theme = useTheme();
   const classes = useStyles();
 
