@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
 import { rGlobalLoading } from 'recoilState';
 
-// Making async calls error into the error boundary and have loading available.
-// Inspired by
-// https://medium.com/trabe/catching-asynchronous-errors-in-react-using-error-boundaries-5e8a5fd7b971
+import { useApeSnackbar } from './useApeSnackbar';
+
+// Making async calls with errors and loading
 export const useAsync = () => {
   const setGlobalLoading = useSetRecoilState(rGlobalLoading);
-  const [_, setError] = useState();
+  const { apeError } = useApeSnackbar();
 
   return useCallback(
     async <T>(promise: Promise<T>, showLoading: boolean) => {
@@ -22,13 +22,11 @@ export const useAsync = () => {
           })
           .catch((e) => {
             showLoading && setGlobalLoading((v) => v - 1);
-            setError(() => {
-              throw e;
-            });
+            apeError(e);
             reject(e);
           });
       });
     },
-    [setError, setGlobalLoading]
+    [setGlobalLoading, apeError]
   );
 };

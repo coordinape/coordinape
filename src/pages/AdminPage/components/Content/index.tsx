@@ -14,7 +14,7 @@ import { useUserInfo } from 'hooks';
 import { shortenAddress } from 'utils';
 import { getAvatarPath } from 'utils/domain';
 
-import { IUser, ICircle } from 'types';
+import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {

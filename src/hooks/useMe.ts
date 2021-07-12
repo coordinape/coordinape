@@ -77,7 +77,7 @@ export const useMe = (): {
       if (!selectedMyUser) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await api.postTeammates(
+      await api.postTeammates(
         selectedMyUser.circle_id,
         selectedMyUser.address,
         teammateIds
@@ -93,13 +93,12 @@ export const useMe = (): {
       if (!selectedMyUser || !selectedCircle) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await api.postUploadImage(
+      await api.postUploadImage(
         selectedCircle.id,
         selectedMyUser.address,
         newAvatar
       );
 
-      console.log('updateAvatar result: ', result);
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
     };
     return <Promise<void>>asyncCall(call(), true);

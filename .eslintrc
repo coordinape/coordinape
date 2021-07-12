@@ -52,7 +52,7 @@
       }
     ],
     "semi": ["error", "always"],
-    "no-warning-comments": "warn",
+    "no-warning-comments": "off",
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": [

@@ -1,15 +1,13 @@
 import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 
-import {
-  useStateMyAddress,
-  useStateConnectorName,
-  useSetInitialized,
-} from 'recoilState';
+import { useStateMyAddress, useStateConnectorName } from 'recoilState';
 import connectors from 'utils/connectors';
 import { ConnectorNames } from 'utils/enums';
 
-import { useAsync } from './useAsync';
+import { useApeSnackbar } from './useApeSnackbar';
+
+const WALLET_TIMEOUT = 1000 * 10; // 10 seconds
 
 export const useWallet = (): {
   myAddress: string | undefined;
@@ -17,14 +15,22 @@ export const useWallet = (): {
   activate: (wallet: ConnectorNames) => Promise<void>;
   deactivate: () => void;
 } => {
-  const asyncCall = useAsync();
+  const { apeError } = useApeSnackbar();
   const [connectorName, setConnectorName] = useStateConnectorName();
   const web3Context = useWeb3React();
   const [myAddress, setMyAddress] = useStateMyAddress();
 
-  const activateWallet = (wallet: ConnectorNames) => {
-    // const call = async () => {
-    if (!wallet) throw 'Missing wallet connector name';
+  const deactivateWallet = () => {
+    setConnectorName(undefined);
+    setMyAddress(undefined);
+    web3Context.deactivate();
+  };
+
+  const activateWallet = async (wallet: ConnectorNames) => {
+    if (!wallet) {
+      apeError('Missing wallet connector name');
+      return;
+    }
     const newConnector = connectors[wallet];
 
     if (
@@ -35,14 +41,19 @@ export const useWallet = (): {
     }
 
     setConnectorName(wallet);
-    return web3Context.activate(newConnector, undefined, true);
-    // };
-    // return <Promise<void>>asyncCall(call(), true);
-  };
+    const handle = setTimeout(() => {
+      apeError('Wallet activation timed out.');
+      deactivateWallet();
+    }, WALLET_TIMEOUT);
 
-  const deactivateWallet = () => {
-    setConnectorName(undefined);
-    setMyAddress(undefined);
+    await web3Context.activate(newConnector, (error: Error) => {
+      apeError(error);
+      deactivateWallet();
+    });
+
+    clearTimeout(handle);
+
+    return;
   };
 
   return {

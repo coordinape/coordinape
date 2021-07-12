@@ -7,7 +7,7 @@ import useCommonStyles from 'styles/common';
 
 import MainHeader from './MainHeader';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     position: 'fixed',
     top: 0,

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { OptInput } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
-import { useCircle } from 'hooks';
+import { useCircle, useSelectedCircleEpoch } from 'hooks';
 import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,14 +14,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(10, 4, 20),
+    padding: theme.spacing(7, 4, 20),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 1, 20),
     },
   },
   title: {
     margin: 0,
-    paddingLeft: theme.spacing(1),
     maxWidth: theme.breakpoints.values.md,
     fontSize: 30,
     fontWeight: 700,
@@ -31,10 +30,18 @@ const useStyles = makeStyles((theme) => ({
   },
   titleTwo: {
     margin: 0,
-    paddingLeft: theme.spacing(1),
     fontSize: 27,
     fontWeight: 300,
     lineHeight: 1.3,
+    color: theme.colors.primary,
+    textAlign: 'center',
+  },
+  epochTiming: {
+    margin: 0,
+    maxWidth: theme.breakpoints.values.md,
+    fontSize: 20,
+    fontWeight: 300,
+    lineHeight: 2,
     color: theme.colors.primary,
     textAlign: 'center',
   },
@@ -109,6 +116,7 @@ const ProfilePage = ({
   fixedNonReceiver: boolean;
 }) => {
   const classes = useStyles();
+  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
   const { selectedCircle } = useCircle();
 
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -117,8 +125,13 @@ const ProfilePage = ({
 
   return (
     <div className={classes.root}>
+      {!epochIsActive && (
+        <h2 className={classes.epochTiming}>{timingMessage}</h2>
+      )}
       <span className={classes.title}>
-        What have you been working on this epoch?
+        {epochIsActive
+          ? 'What have you been working on this epoch?'
+          : 'What have you been working on?'}
       </span>
       <hr className={classes.hrWithMax} />
       <textarea

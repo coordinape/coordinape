@@ -115,8 +115,8 @@ export const timingToDoubleUnits = (timing: ITiming) => {
   return 'The Past';
 };
 
-const wait = <T>(something: T): Promise<T> =>
-  new Promise((resolve, reject) => {
+export const wait = <T>(something: T): Promise<T> =>
+  new Promise((resolve) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
       resolve(something);
