@@ -16,5 +16,6 @@ const color = {
   background: '#DFE7E8',
   // New for landing page
   almostWhite: '#F6F7F8',
+  lightBlue: '#84C7CA',
 };
 export default color;

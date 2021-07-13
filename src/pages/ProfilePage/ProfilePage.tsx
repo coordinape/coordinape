@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import React, { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
@@ -18,6 +19,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
+import profileBg from '../../assets/svgs/social/profile-bg.svg';
 import discord from '../../assets/svgs/social/discord.svg';
 import github from '../../assets/svgs/social/github.svg';
 import medium from '../../assets/svgs/social/medium.svg';
@@ -28,6 +30,8 @@ import { MAX_BIO_LENGTH } from 'config/constants';
 import { useProfile, useMe, useCircle, useCircleEpoch } from 'hooks';
 
 import { IUser } from 'types';
+
+import { getAvatarPath } from 'utils/domain';
 
 // eslint-disable-next-line react/display-name
 const Transition = React.forwardRef<unknown, TransitionProps>(
@@ -104,7 +108,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     // maxWidth: theme.breakpoints.values.md,
   },
-
+  main: {
+    padding: theme.spacing(4, 5.5),
+  },
   body: {
     padding: '0px 145px',
   },
@@ -117,6 +123,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     textTransform: 'none',
   },
+  background: {
+    width: '100%',
+    height: 240,
+  },
   avatar: {
     width: 143,
     height: 143,
@@ -125,14 +135,17 @@ const useStyles = makeStyles((theme) => ({
   },
   skillGroup: {
     display: 'flex',
+    flexWrap: 'wrap',
   },
   skillGroupButton: {
+    marginTop: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
     backgroundColor: '#84C7CA',
     color: '#FFFFFF',
-    height: 31,
-    marginRight: 8,
+    height: '22.97px',
     borderRadius: 4,
     textTransform: 'none',
+    whiteSpace: 'nowrap',
   },
   socialGroup: {
     padding: theme.spacing(3, 0),
@@ -152,6 +165,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     paddingTop: 54,
     alignItems: 'baseline',
+    flexWrap: 'wrap',
   },
   gridItem: {
     textAlign: 'center',
@@ -315,8 +329,8 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadImageIconWrapper: {
     position: 'absolute',
+    marginTop: theme.spacing(1),
     left: 'calc(1% - 40px)',
-    // top: 'calc(50% - 11px)',
     width: 178,
     height: 40,
     borderRadius: 8,
@@ -386,7 +400,6 @@ export const ProfilePage = ({
     backgroundPath: myBackgroundPath,
   } = useMe();
 
-  const [activeSkills, setActiveSkills] = useState<any>({});
   const [open, setOpenModal] = useState(false);
 
   // Show Profile Data
@@ -478,23 +491,25 @@ export const ProfilePage = ({
     setOpenModal(false);
   };
 
-  const selectSkills = (prop: any) => {
-    setActiveSkills((prevState: any) => {
-      return {
-        ...prevState,
-        [prop]: !activeSkills[prop],
-      };
-    });
-    const skill = skillsDumyData.find((skill) => skill.id === prop)?.name;
-    if (skill) {
-      let skills: string[] = [];
-      profileData.skills.forEach((a) => skills.push(a));
-      console.log('===>', skills, skill);
-      if (skills.includes(skill))
-        skills = skills.filter((item) => item !== skill);
-      else skills.push(skill);
-      const obj = { ...profileData, skills: [...skills] };
-      setProfileData(obj);
+  const selectSkills = (skill: string) => {
+    let skills: string[] = [];
+    profileData.skills.forEach((a) => skills.push(a));
+    if (skills.includes(skill))
+      skills = skills.filter((item) => item !== skill);
+    else skills.push(skill);
+    const obj = { ...profileData, skills: [...skills] };
+    setProfileData(obj);
+  };
+
+  const onChangeBackground = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      setProfileData({
+        ...profileData,
+        background: URL.createObjectURL(e.target.files[0]),
+        backgroundRaw: e.target.files[0],
+      });
+
+      await updateBackground(e.target.files[0]);
     }
   };
 
@@ -537,20 +552,6 @@ export const ProfilePage = ({
   };
 
   useEffect(() => {
-    profileData?.skills &&
-      profileData?.skills.map((inx, index) =>
-        skillsDumyData.find((item: any) => item.id === index + 1)
-          ? setActiveSkills((prevState: any) => {
-              return {
-                ...prevState,
-                [index + 1]: !activeSkills[index + 1],
-              };
-            })
-          : ''
-      );
-  }, []);
-
-  useEffect(() => {
     if (open === true) {
       setProfileData({
         ...profileData,
@@ -588,204 +589,218 @@ export const ProfilePage = ({
 
   return (
     <div className={classes.root}>
+      <Avatar
+        alt="background"
+        src={
+          savedProfileData?.background !== null
+            ? savedProfileData?.background
+            : profileBg
+        }
+        className={classes.background}
+      />
       <Box
         style={{
-          backgroundImage:
-            savedProfileData?.background !== null
-              ? savedProfileData?.background
-              : '../../assets/svgs/social/profile-bg.svg',
-          backgroundSize: '100%',
-          backgroundRepeat: 'no-repeat',
           width: '100%',
-          padding: '30px 48px',
+          marginTop: -240,
         }}
       >
-        <Box style={{ textAlign: 'right' }}>
-          <Button
-            variant="contained"
-            color="default"
-            className={classes.button}
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload Background
-          </Button>
-        </Box>
-        <Avatar
-          alt="avatar"
-          src={
-            savedProfileData?.avatar !== null
-              ? savedProfileData?.avatar
-              : '/imgs/avatar/placeholder.jpg'
-          }
-          className={classes.avatar}
-        />
-        {isMe ? (
-          <Box style={{ textAlign: 'right', paddingTop: 45 }}>
-            <Button
-              variant="contained"
-              color="default"
-              className={classes.button}
-              startIcon={<EditOutlinedIcon />}
-              onClick={openModal}
+        <div className={classes.main}>
+          <Box style={{ textAlign: 'right' }}>
+            <input
+              id="upload-background-button"
+              onChange={onChangeBackground}
+              style={{ display: 'none' }}
+              type="file"
+            />
+            <label htmlFor="upload-background-button">
+              <Button
+                component="span"
+                variant="contained"
+                color="default"
+                className={classes.button}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload Background
+              </Button>
+            </label>
+          </Box>
+          <Avatar
+            alt="avatar"
+            src={
+              savedProfileData?.avatar !== null
+                ? savedProfileData?.avatar
+                : '/imgs/avatar/placeholder.jpg'
+            }
+            className={classes.avatar}
+          />
+          {isMe ? (
+            <Box style={{ textAlign: 'right', paddingTop: 45 }}>
+              <Button
+                variant="contained"
+                color="default"
+                className={classes.button}
+                startIcon={<EditOutlinedIcon />}
+                onClick={openModal}
+              >
+                Edit Profile
+              </Button>
+            </Box>
+          ) : (
+            <Box style={{ textAlign: 'right', paddingTop: 100 }}></Box>
+          )}
+          <Box className={classes.body}>
+            <h2
+              style={{
+                marginTop: 18,
+                marginBottom: 12,
+                fontSize: 30,
+                fontWeight: 600,
+                fontFamily: 'Space Grotesk',
+                color: '#5E6F74',
+              }}
             >
-              Edit Profile
-            </Button>
-          </Box>
-        ) : (
-          <Box style={{ textAlign: 'right', paddingTop: 100 }}></Box>
-        )}
-        <Box className={classes.body}>
-          <h2
-            style={{
-              fontSize: 30,
-              fontWeight: 600,
-              fontFamily: 'Space Grotesk',
-              color: '#5E6F74',
-            }}
-          >
-            {savedProfileData.name}
-          </h2>
-          <Box className={classes.skillGroup}>
-            {/* loop section from the myprofile data */}
-            {savedProfileData?.skills?.length
-              ? savedProfileData?.skills.map((item) => (
-                  <Button
-                    key={item}
-                    variant="contained"
-                    className={classes.skillGroupButton}
-                  >
-                    {item}
-                  </Button>
-                ))
-              : ''}
-          </Box>
-          <Box className={classes.socialGroup}>
-            {savedProfileData?.twitter_username && (
-              <Link
-                href={`https://twitter.com/${savedProfileData?.twitter_username}`}
-              >
-                <img alt="twitter" src={twitter} style={{ paddingRight: 16 }} />
-              </Link>
-            )}
-            {savedProfileData?.github_username && (
-              <Link
-                href={`https://github.com/${savedProfileData?.github_username}`}
-              >
-                <img alt="github" src={github} style={{ paddingRight: 16 }} />
-              </Link>
-            )}
-            {savedProfileData?.website && (
-              <Link
-                style={{ color: 'rgba(81, 99, 105, 0.7)', paddingRight: 16 }}
-                href={savedProfileData?.website}
-              >
-                {savedProfileData?.website}
-              </Link>
-            )}
-            {savedProfileData?.telegram_username && (
-              <Link
-                href={`https://t.me/${savedProfileData?.telegram_username}`}
-              >
-                <img
-                  alt="telegram"
-                  src={telegram}
-                  style={{ paddingRight: 16 }}
-                />
-              </Link>
-            )}
-            {savedProfileData?.discord_username && (
-              <Link
-                href={`https://discord.com/${savedProfileData?.discord_username}`}
-              >
-                <img
-                  alt="discord"
-                  src={discord}
-                  style={{
-                    paddingRight: 16,
-                    width: 50,
-                    height: 50,
-                  }}
-                />
-              </Link>
-            )}
-            {savedProfileData?.medium_username && (
-              <Link
-                href={`https://medium.com/${savedProfileData?.medium_username}`}
-              >
-                <img
-                  alt="medium"
-                  src={medium}
-                  style={{ paddingRight: 16, width: 50, height: 50 }}
-                />
-              </Link>
-            )}
-          </Box>
-          <Box className={classes.bioBox}>{savedProfileData?.bio}</Box>
-          <Grid container spacing={10}>
-            <Grid item sm={4} xs={12}>
-              <Box className={classes.gridTitle}>My Circles</Box>
-              <Box className={classes.iconGroup}>
-                {savedProfileData?.users.map((user) => (
-                  <div
-                    key={user.id}
-                    style={{ textAlign: 'center', marginRight: 26 }}
-                  >
-                    <img
-                      alt="icon1"
-                      src="/imgs/avatar/placeholder.jpg"
+              {savedProfileData.name}
+            </h2>
+            <Box className={classes.skillGroup}>
+              {/* loop section from the myprofile data */}
+              {savedProfileData?.skills?.length
+                ? savedProfileData?.skills.map((item) => (
+                    <Button
+                      key={item}
+                      variant="contained"
+                      className={classes.skillGroupButton}
+                    >
+                      {item}
+                    </Button>
+                  ))
+                : ''}
+            </Box>
+            <Box className={classes.socialGroup}>
+              {savedProfileData?.twitter_username && (
+                <Link
+                  href={`https://twitter.com/${savedProfileData?.twitter_username}`}
+                >
+                  <img
+                    alt="twitter"
+                    src={twitter}
+                    style={{ paddingRight: 16 }}
+                  />
+                </Link>
+              )}
+              {savedProfileData?.github_username && (
+                <Link
+                  href={`https://github.com/${savedProfileData?.github_username}`}
+                >
+                  <img alt="github" src={github} style={{ paddingRight: 16 }} />
+                </Link>
+              )}
+              {savedProfileData?.telegram_username && (
+                <Link
+                  href={`https://t.me/${savedProfileData?.telegram_username}`}
+                >
+                  <img
+                    alt="telegram"
+                    src={telegram}
+                    style={{ paddingRight: 16 }}
+                  />
+                </Link>
+              )}
+              {savedProfileData?.discord_username && (
+                <Link
+                  href={`https://discord.com/${savedProfileData?.discord_username}`}
+                >
+                  <img
+                    alt="discord"
+                    src={discord}
+                    style={{
+                      paddingRight: 16,
+                      width: 50,
+                      height: 50,
+                    }}
+                  />
+                </Link>
+              )}
+              {savedProfileData?.medium_username && (
+                <Link
+                  href={`https://medium.com/${savedProfileData?.medium_username}`}
+                >
+                  <img
+                    alt="medium"
+                    src={medium}
+                    style={{ paddingRight: 16, width: 50, height: 50 }}
+                  />
+                </Link>
+              )}
+              {savedProfileData?.website && (
+                <Link
+                  style={{ color: 'rgba(81, 99, 105, 0.7)', paddingRight: 16 }}
+                  href={savedProfileData?.website}
+                >
+                  · {savedProfileData?.website}
+                </Link>
+              )}
+            </Box>
+            <Box className={classes.bioBox}>{savedProfileData?.bio}</Box>
+            <Grid container spacing={10}>
+              <Grid item sm={6} xs={12}>
+                <Box className={classes.gridTitle}>My Circles</Box>
+                <Box className={classes.iconGroup}>
+                  {savedProfileData?.users.map((user) => (
+                    <div
+                      key={user.id}
                       style={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: '50%',
-                        border: '1px solid rgba(94, 111, 116, 0.7)',
-                      }}
-                    />
-                    <p
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: 'rgba(81, 99, 105, 0.5)',
+                        textAlign: 'center',
+                        marginLeft: 13,
+                        marginRight: 13,
                       }}
                     >
-                      {user?.circle?.name}
-                    </p>
-                    {user?.non_receiver !== 0 && (
-                      <p
+                      <Avatar
+                        alt={user?.circle?.name}
+                        src={getAvatarPath(user.circle?.logo)}
                         style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: 'rgba(81, 99, 105, 0.5)',
+                          width: 60,
+                          height: 60,
+                          borderRadius: '50%',
+                          border: '1px solid rgba(94, 111, 116, 0.7)',
                         }}
-                      >
-                        Opted-Out
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </Box>
-            </Grid>
-            <Grid item sm={4} xs={12}>
-              <Box className={classes.gridTitle}>Recent Epoch Activity</Box>
-              <Box className={classes.gridItem}>
-                <Typography
-                  style={{ fontWeight: 600 }}
-                  className={classes.recentEpoch}
-                >
-                  EPOCH
+                      />
+                      {user?.non_receiver !== 0 && (
+                        <p
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: 'rgba(81, 99, 105, 0.5)',
+                          }}
+                        >
+                          Opted-Out
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </Box>
+              </Grid>
+              <Grid item sm={6} xs={12}>
+                <Box className={classes.gridTitle}>Recent Epoch Activity</Box>
+                <Box className={classes.gridItem}>
                   <Typography
-                    component="span"
-                    style={{ color: 'red', paddingLeft: 8 }}
+                    style={{ fontWeight: 600 }}
+                    className={classes.recentEpoch}
                   >
-                    {pastEpochs.length + 1}
+                    EPOCH
+                    <Typography
+                      component="span"
+                      style={{ color: 'red', paddingLeft: 8 }}
+                    >
+                      {pastEpochs.length + 1}
+                    </Typography>
                   </Typography>
-                </Typography>
-                <Typography className={classes.recentEpoch}>
-                  {savedProfileData.epochBio}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item sm={4} xs={12}>
-              <Box className={classes.gridTitle}>Frequent Collaborators</Box>
+                  <Typography className={classes.recentEpoch}>
+                    {savedProfileData.epochBio}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* <Grid item sm={4} xs={12}> */}
+              {/* <Box className={classes.gridTitle}>Frequent Collaborators</Box> */}
               {/* <Box className={classes.gridItem}>
                 <Box className={classes.collaboratorsGroup}>
                   <Avatar
@@ -857,14 +872,15 @@ export const ProfilePage = ({
                   />
                 </Box>
               </Box> */}
+              {/* </Grid> */}
             </Grid>
-          </Grid>
-        </Box>
-        {/* <div>
+          </Box>
+          {/* <div>
           <h2>Other Profile</h2>
           <p>{JSON.stringify(profile)}</p>
         </div>
         <button onClick={updateSomething}>Update?</button> */}
+        </div>
       </Box>
       <Dialog
         open={open}
@@ -946,9 +962,9 @@ export const ProfilePage = ({
                   key={item.name}
                   variant="contained"
                   className={clsx(classes.skillOption, {
-                    [classes.active]: activeSkills[item.id],
+                    [classes.active]: profileData.skills.includes(item.name),
                   })}
-                  onClick={() => selectSkills(item.id)}
+                  onClick={() => selectSkills(item.name)}
                 >
                   {item.name}
                 </Button>
@@ -978,6 +994,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeTwitter}
                   value={profileData.twitter_username}
+                  placeholder="Enter username"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>
@@ -986,6 +1003,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeGithub}
                   value={profileData.github_username}
+                  placeholder="Enter username"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>
@@ -994,6 +1012,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeTelegram}
                   value={profileData.telegram_username}
+                  placeholder="Enter username"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>
@@ -1002,6 +1021,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeDiscord}
                   value={profileData.discord_username}
+                  placeholder="Enter username"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>
@@ -1010,6 +1030,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeMedium}
                   value={profileData.medium_username}
+                  placeholder="Enter username"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>
@@ -1018,6 +1039,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeWebsite}
                   value={profileData.website}
+                  placeholder="Enter link"
                 />
               </Grid>
             </Grid>

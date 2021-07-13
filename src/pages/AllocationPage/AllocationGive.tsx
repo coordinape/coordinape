@@ -184,7 +184,7 @@ const AllocationGive = () => {
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
   const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
-
+  console.log('-=->', localTeammates);
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 
@@ -260,7 +260,7 @@ const AllocationGive = () => {
       </div>
       <div className={classes.teammateContainer}>
         {(selectedMyUser
-          ? [...localTeammates.filter((a) => a.is_hidden === 0), selectedMyUser]
+          ? [...localTeammates.filter((a) => a.is_hidden === 0)]
           : []
         )
           .filter((a) => {

@@ -24,6 +24,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       border: string;
       background: string;
       almostWhite: string;
+      lightBlue: string;
     };
     fontFamilyMono: string[];
   }
