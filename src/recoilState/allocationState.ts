@@ -7,15 +7,22 @@ import {
   STEPS,
 } from 'routes/allocation';
 
-import { rMyProfile, rPendingGiftsFrom } from './appState';
+import { rMyProfile, rPendingGiftsFrom, rUsersMap, rMyUsers } from './appState';
 
 import { IUser, ISimpleGift, IRecoilGetParams, IAllocationStep } from 'types';
 
 export const rTeammates = selectorFamily<IUser[], number>({
   key: 'rTeammates',
-  get: (circleId: number) => ({ get }: IRecoilGetParams) =>
-    get(rMyProfile)?.users?.find((u) => u.circle_id === circleId)?.teammates ??
-    [],
+  get: (circleId: number) => ({ get }: IRecoilGetParams) => {
+    const userMap = get(rUsersMap);
+    const myUsers = get(rMyUsers);
+    return (
+      (myUsers
+        ?.find((u) => u.circle_id === circleId)
+        ?.teammates?.map((t) => userMap.get(t.id))
+        .filter((u) => u !== undefined) as IUser[]) ?? []
+    );
+  },
 });
 
 // These are parameterized by circleId
