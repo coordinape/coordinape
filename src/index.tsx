@@ -6,9 +6,9 @@ import App from './App';
 import AppLandingPage from './AppLandingPage';
 import reportWebVitals from './reportWebVitals';
 import './global';
-import { DOMAIN_IS_APP } from './utils/domain';
+import { RENDER_APP } from './utils/domain';
 
-if (!DOMAIN_IS_APP) {
+if (RENDER_APP) {
   ReactDOM.render(
     <React.StrictMode>
       <App />

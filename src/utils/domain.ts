@@ -1,16 +1,22 @@
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 
-export const DOMAIN_IS_LOCALHOST = window.location.hostname.endsWith(
-  'localhost'
+export const DOMAIN_IS_PREVIEW = window.location.hostname.match(
+  /(localhost|vercel\.app)$/
 );
+
 export const DOMAIN_IS_APP = window.location.host.split('.')[0] === 'app';
 
-export const APP_URL = DOMAIN_IS_APP
-  ? window.location.origin
-  : window.location.origin.replace(
-      window.location.host,
-      `app.${window.location.host}`
-    );
+export const RENDER_APP =
+  DOMAIN_IS_APP ||
+  (DOMAIN_IS_PREVIEW && !window.location.href.match('/landing'));
+
+export const APP_URL =
+  DOMAIN_IS_APP || DOMAIN_IS_PREVIEW
+    ? window.location.origin
+    : window.location.origin.replace(
+        window.location.host,
+        `app.${window.location.host}`
+      );
 
 // TODO: Have prod remove the trailing slash
 export const STORAGE_URL = (process.env
