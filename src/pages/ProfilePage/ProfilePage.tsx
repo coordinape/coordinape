@@ -605,25 +605,29 @@ export const ProfilePage = ({
         }}
       >
         <div className={classes.main}>
-          <Box style={{ textAlign: 'right' }}>
-            <input
-              id="upload-background-button"
-              onChange={onChangeBackground}
-              style={{ display: 'none' }}
-              type="file"
-            />
-            <label htmlFor="upload-background-button">
-              <Button
-                component="span"
-                variant="contained"
-                color="default"
-                className={classes.button}
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload Background
-              </Button>
-            </label>
-          </Box>
+          {isMe ? (
+            <Box style={{ textAlign: 'right' }}>
+              <input
+                id="upload-background-button"
+                onChange={onChangeBackground}
+                style={{ display: 'none' }}
+                type="file"
+              />
+              <label htmlFor="upload-background-button">
+                <Button
+                  component="span"
+                  variant="contained"
+                  color="default"
+                  className={classes.button}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Background
+                </Button>
+              </label>
+            </Box>
+          ) : (
+            <Box style={{ textAlign: 'right', paddingTop: 34 }}></Box>
+          )}
           <Avatar
             alt="avatar"
             src={
@@ -679,6 +683,7 @@ export const ProfilePage = ({
               {savedProfileData?.twitter_username && (
                 <Link
                   href={`https://twitter.com/${savedProfileData?.twitter_username}`}
+                  target="_blank"
                 >
                   <img
                     alt="twitter"
@@ -690,6 +695,7 @@ export const ProfilePage = ({
               {savedProfileData?.github_username && (
                 <Link
                   href={`https://github.com/${savedProfileData?.github_username}`}
+                  target="_blank"
                 >
                   <img alt="github" src={github} style={{ paddingRight: 16 }} />
                 </Link>
@@ -697,6 +703,7 @@ export const ProfilePage = ({
               {savedProfileData?.telegram_username && (
                 <Link
                   href={`https://t.me/${savedProfileData?.telegram_username}`}
+                  target="_blank"
                 >
                   <img
                     alt="telegram"
@@ -708,6 +715,7 @@ export const ProfilePage = ({
               {savedProfileData?.discord_username && (
                 <Link
                   href={`https://discord.com/${savedProfileData?.discord_username}`}
+                  target="_blank"
                 >
                   <img
                     alt="discord"
@@ -723,6 +731,7 @@ export const ProfilePage = ({
               {savedProfileData?.medium_username && (
                 <Link
                   href={`https://medium.com/${savedProfileData?.medium_username}`}
+                  target="_blank"
                 >
                   <img
                     alt="medium"
@@ -735,8 +744,9 @@ export const ProfilePage = ({
                 <Link
                   style={{ color: 'rgba(81, 99, 105, 0.7)', paddingRight: 16 }}
                   href={savedProfileData?.website}
+                  target="_blank"
                 >
-                  · {savedProfileData?.website}
+                  ∙ {savedProfileData?.website}
                 </Link>
               )}
             </Box>
