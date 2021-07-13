@@ -589,7 +589,7 @@ export const ProfilePage = ({
 
   return (
     <div className={classes.root}>
-      <Avatar
+      <img
         alt="background"
         src={
           savedProfileData?.background !== null
