@@ -33,6 +33,7 @@ export const useMe = (): {
   updateMyUser: (params: PutUsersParam) => Promise<IUser>;
   updateTeammates: (teammateIds: number[]) => Promise<void>;
   updateAvatar: (newAvatar: File) => Promise<void>;
+  updateBackground: (newBackground: File) => Promise<void>;
   updateProfile: (params: PostProfileParam) => Promise<IProfile>;
 } => {
   const api = getApiService();
@@ -89,11 +90,17 @@ export const useMe = (): {
       if (!selectedMyUser || !selectedCircle) {
         throw 'Need to select a circle to update circle user';
       }
-      await api.postUploadImage(
-        selectedCircle.id,
-        selectedMyUser.address,
-        newAvatar
-      );
+      await api.uploadAvatar(selectedMyUser.address, newAvatar);
+
+      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+    });
+
+  const updateBackground = async (newAvatar: File) =>
+    callWithLoadCatch(async () => {
+      if (!selectedMyUser || !selectedCircle) {
+        throw 'Need to select a circle to update circle user';
+      }
+      await api.uploadBackground(selectedMyUser.address, newAvatar);
 
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
     });
@@ -126,6 +133,7 @@ export const useMe = (): {
     updateMyUser,
     updateTeammates,
     updateAvatar,
+    updateBackground,
     refreshMyUser,
     updateProfile,
   };

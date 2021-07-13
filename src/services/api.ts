@@ -232,21 +232,14 @@ export class APIService {
     return response.data;
   };
 
-  // TODO: remove?
-  postUploadImage = async (
-    circleId: number,
-    address: string,
-    file: File
-  ): Promise<any> => {
-    const filename = 'avatar.png';
-    const data = filename;
-    const signature = await getSignature(data, this.provider);
+  postProfileUpload = async (address: string, file: File, endpoint: string) => {
+    const signature = await getSignature(file.name, this.provider);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('signature', signature);
     formData.append('address', address);
-    formData.append('data', data);
-    const response = await axios.post(`/${circleId}/upload`, formData, {
+    formData.append('data', file.name);
+    const response = await axios.post(`/${endpoint}/${address}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -254,53 +247,11 @@ export class APIService {
     return response.data;
   };
 
-  // TODO: Hook this up
-  uploadAvatar = async (
-    circleId: number,
-    address: string,
-    file: File
-  ): Promise<any> => {
-    const filename = 'avatar.png';
-    const data = filename;
-    const signature = await getSignature(data, this.provider);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('signature', signature);
-    formData.append('address', address);
-    formData.append('data', data);
-    const response = await axios.post(`/${circleId}/upload-avatar`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  };
+  uploadAvatar = async (address: string, file: File): Promise<any> =>
+    this.postProfileUpload(address, file, 'upload-avatar');
 
-  // TODO: Hook this up & combine with uploadAvatar?
-  uploadBackground = async (
-    circleId: number,
-    address: string,
-    file: File
-  ): Promise<any> => {
-    const filename = 'background.png';
-    const data = filename;
-    const signature = await getSignature(data, this.provider);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('signature', signature);
-    formData.append('address', address);
-    formData.append('data', data);
-    const response = await axios.post(
-      `/${circleId}/upload-background`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-    return response.data;
-  };
+  uploadBackground = async (address: string, file: File): Promise<any> =>
+    this.postProfileUpload(address, file, 'upload-background');
 
   postTeammates = async (
     circleId: number,
