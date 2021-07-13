@@ -48,6 +48,18 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
+  skillContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  skillItem: {
+    margin: theme.spacing(0.5),
+    padding: theme.spacing(0.5, 1.5),
+    background: theme.colors.lightBlue,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 600,
+  },
   bioContainer: {
     height: 80,
     marginTop: theme.spacing(0.5),
