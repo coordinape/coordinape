@@ -14,7 +14,7 @@ import {
 } from 'recoilState';
 import { getApiService } from 'services/api';
 
-import { useAsync } from './useAsync';
+import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
   ICircle,
@@ -43,7 +43,7 @@ export const useUserInfo = (): {
   deleteUser: (userAddress: string) => void;
 } => {
   const api = getApiService();
-  const asyncCall = useAsync();
+  const callWithLoadCatch = useAsyncLoadCatch();
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
   const updateEpochsMap = useSetRecoilState(rEpochsMap);
@@ -63,8 +63,8 @@ export const useUserInfo = (): {
     futureEpochs,
   } = useRecoilValue(rCircleEpochsStatus(selectedCircleId));
 
-  const updateCircle = (params: PutCirclesParam) => {
-    const call = async () => {
+  const updateCircle = (params: PutCirclesParam) =>
+    callWithLoadCatch(async () => {
       if (myAddress === undefined) throw 'myAddress required';
       const newCircle = await api.putCircles(
         selectedCircleId,
@@ -77,13 +77,11 @@ export const useUserInfo = (): {
       );
 
       return newCircle;
-    };
-    return <Promise<ICircle>>asyncCall(call(), true);
-  };
+    });
 
-  const createEpoch = (startDate: Date, endDate: Date) => {
-    if (myAddress === undefined) throw 'myAddress required';
-    const call = async () => {
+  const createEpoch = (startDate: Date, endDate: Date) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
       const newEpoch = await api.postEpochs(
         myAddress,
         selectedCircleId,
@@ -94,27 +92,23 @@ export const useUserInfo = (): {
       updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
 
       return newEpoch;
-    };
-    return <Promise<IEpoch>>asyncCall(call(), true);
-  };
+    }, true);
 
-  const deleteEpoch = (epochId: number) => {
-    if (myAddress === undefined) throw 'myAddress required';
-    const call = async () => {
+  const deleteEpoch = (epochId: number) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
       await api.deleteEpochs(myAddress, selectedCircleId, epochId);
 
       updateEpochsMap((oldMap) => {
         oldMap.delete(epochId);
         return new Map(oldMap);
       });
-    };
-    return <Promise<void>>asyncCall(call(), true);
-  };
+    });
 
-  // What if they add themselves? refresh?
-  const updateUser = (userAddress: string, params: UpdateUsersParam) => {
-    if (myAddress === undefined) throw 'myAddress required';
-    const call = async () => {
+  // What if they update themselves? refresh?
+  const updateUser = (userAddress: string, params: UpdateUsersParam) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
       const updatedUser = await api.updateUsers(
         selectedCircleId,
         myAddress,
@@ -127,25 +121,21 @@ export const useUserInfo = (): {
       );
 
       return updatedUser;
-    };
-    return <Promise<IUser>>asyncCall(call(), true);
-  };
+    });
 
-  const createUser = (params: PostUsersParam) => {
-    if (myAddress === undefined) throw 'myAddress required';
-    const call = async () => {
+  const createUser = (params: PostUsersParam) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
       const newUser = await api.postUsers(selectedCircleId, myAddress, params);
 
       updateUsersMap((oldMap) => new Map(oldMap.set(newUser.id, newUser)));
 
       return newUser;
-    };
-    return <Promise<IUser>>asyncCall(call(), true);
-  };
+    });
 
-  const deleteUser = (userAddress: string) => {
-    if (myAddress === undefined) throw 'myAddress required';
-    const call = async () => {
+  const deleteUser = (userAddress: string) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
       if (myAddress === userAddress) {
         throw 'Cannot delete your own address';
       }
@@ -158,9 +148,7 @@ export const useUserInfo = (): {
       updateUsersMap(
         (oldMap) => new Map(oldMap.set(deletedUser?.id, deletedUser))
       );
-    };
-    return <Promise<void>>asyncCall(call(), true);
-  };
+    });
 
   return {
     circle: selectedCircle,

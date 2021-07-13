@@ -22,14 +22,13 @@ import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
-import { useAsync } from './useAsync';
+import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
   ICircle,
   ISimpleGift,
   IUser,
   ITokenGift,
-  IUserPendingGift,
   PostTokenGiftsParam,
   IAllocationStep,
 } from 'types';
@@ -167,7 +166,7 @@ export const useAllocation = (
   clearLocalTeammates: () => void;
   setLocalGifts: (gifts: ISimpleGift[]) => void;
   rebalanceGifts: () => void;
-  saveGifts: () => Promise<IUserPendingGift>;
+  saveGifts: () => Promise<ITokenGift[]>;
   saveTeammates: () => Promise<void>;
   updateGift: (id: number, params: { note?: string; tokens?: number }) => void;
 } => {
@@ -175,7 +174,7 @@ export const useAllocation = (
     throw 'Cannot useAllocation without a circleId';
   }
   const { apeInfo } = useApeSnackbar();
-  const asyncCall = useAsync();
+  const callWithLoadCatch = useAsyncLoadCatch();
 
   const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
     rMyProfileStaleSignal
@@ -281,8 +280,8 @@ export const useAllocation = (
     }
   };
 
-  const saveTeammates = async () => {
-    const call = async () => {
+  const saveTeammates = () =>
+    callWithLoadCatch(async () => {
       if (!myCircleUser) {
         throw 'Must have a circleUser to saveTeammates';
       }
@@ -295,18 +294,15 @@ export const useAllocation = (
       // TODO: This returns the updated circleUser and it
       // could just be updated immediatly here. So instead of this
       // stale, the fetcher pattern is better. The fetchers could
-      // also be compatible with useAsyncCall
+      // also be compatible with useAsyncLoadCatchCall
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
       apeInfo('Saved Teammates');
-    };
+    });
 
-    return <Promise<void>>asyncCall(call(), true);
-  };
-
-  const saveGifts = async () => {
-    const call = async () => {
+  const saveGifts = () =>
+    callWithLoadCatch(async () => {
       if (!myCircleUser) {
-        return;
+        throw 'Must have a circleUser to saveGifts';
       }
 
       const diff = buildDiffMap(
@@ -328,15 +324,11 @@ export const useAllocation = (
         params
       );
 
-      updaterMergeArrayToIdMap(
-        result.pending_sent_gifts as ITokenGift[],
-        setPendingGiftsMap
-      );
-      return result;
-    };
+      const pending = result.pending_sent_gifts as ITokenGift[];
 
-    return <Promise<IUserPendingGift>>asyncCall(call(), true);
-  };
+      updaterMergeArrayToIdMap(pending, setPendingGiftsMap);
+      return pending;
+    });
 
   const localGiftsDirty =
     buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))

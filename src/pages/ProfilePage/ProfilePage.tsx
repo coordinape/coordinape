@@ -380,6 +380,8 @@ export const ProfilePage = ({
   const {
     myProfile,
     updateProfile: updateMyProfile,
+    updateAvatar,
+    updateBackground,
     avatarPath: myAvatarPath,
     backgroundPath: myBackgroundPath,
   } = useMe();
@@ -449,8 +451,12 @@ export const ProfilePage = ({
     users: (isMe ? myProfile?.users : profile?.users) || [],
   });
 
-  const updateSomething = () => {
+  const updateSomething = async () => {
     if (isMe) {
+      if (profileData.avatarRaw) {
+        await updateAvatar(profileData.avatarRaw);
+      }
+
       updateMyProfile({
         bio: profileData.bio,
         skills: profileData.skills,

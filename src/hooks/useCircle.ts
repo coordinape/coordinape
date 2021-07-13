@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router';
 import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
 
-import { useAsync } from 'hooks';
+import { useAsyncLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
   rGiftsRaw,
@@ -32,7 +32,7 @@ export const useCircle = (): {
   fetchEpochsForCircle: () => Promise<IEpoch[]>;
 } => {
   const history = useHistory();
-  const asyncCall = useAsync();
+  const callWithLoadCatch = useAsyncLoadCatch();
   const api = getApiService();
 
   const [selectedCircleId, setSelectedCircleId] = useRecoilState(
@@ -117,8 +117,8 @@ export const useCircle = (): {
     return result as IEpoch[];
   };
 
-  const selectAndFetchCircle = async (circleId: number) => {
-    const call = async () => {
+  const selectAndFetchCircle = async (circleId: number) =>
+    callWithLoadCatch(async () => {
       const results = await Promise.all([
         await fetchUsers(api.getUsers, [
           { circle_id: circleId, deleted_users: true },
@@ -133,9 +133,7 @@ export const useCircle = (): {
       results.forEach(([commit]) => commit());
       setSelectedCircleId(circleId);
       triggerDefaultNavigation();
-    };
-    return asyncCall(call(), true);
-  };
+    });
 
   const clearSelectedCircle = () => {
     setSelectedCircleId(undefined);

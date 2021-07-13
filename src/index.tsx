@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import './global';
 import { DOMAIN_IS_APP } from './utils/domain';
 
-if (DOMAIN_IS_APP) {
+if (!DOMAIN_IS_APP) {
   ReactDOM.render(
     <React.StrictMode>
       <App />
