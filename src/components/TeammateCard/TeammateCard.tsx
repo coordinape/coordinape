@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import {
   Button,
   Tooltip,
@@ -17,8 +19,8 @@ import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 270,
-    height: 360,
+    width: 330,
+    height: 452,
     margin: theme.spacing(1),
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(1),
@@ -48,20 +50,25 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
+  topContainer: {
+    height: 149,
+  },
   skillContainer: {
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   skillItem: {
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.5, 1.5),
     background: theme.colors.lightBlue,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 600,
+    color: theme.colors.white,
+    borderRadius: 4,
   },
   bioContainer: {
-    height: 80,
     marginTop: theme.spacing(0.5),
     marginBottom: 0,
   },
@@ -81,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     fontSize: 12,
     fontWeight: 'bold',
-    color: 'rgba(81, 99, 105, 0.3)',
+    color: 'rgba(81, 99, 105, 0.7)',
   },
   tokenInputContainer: {
     height: 66,
@@ -116,19 +123,19 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(0.5)}px 0`,
     fontSize: 12,
     fontWeight: 700,
-    color: 'rgba(81, 99, 105, 0.3)',
+    color: 'rgba(81, 99, 105, 0.9)',
     textDecoration: 'underline',
     wordBreak: 'break-word',
   },
   noteTextareaContainer: {
-    height: 68,
+    height: 91,
     marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
   },
   noteTextarea: {
-    height: 47,
+    height: 70,
     marginTop: 7,
     marginLeft: 0,
     marginRight: 0,
@@ -199,10 +206,23 @@ export const TeammateCard = (props: IProps) => {
   // Return
   return (
     <div className={classes.root}>
-      <ApeAvatar user={user} className={classes.avatar} />
+      <NavLink to={`profile/${user.address}`}>
+        <ApeAvatar user={user} className={classes.avatar} />
+      </NavLink>
       <p className={classes.name}>{user.name}</p>
-      <div className={classes.bioContainer}>
-        <p className={classes.bio}>{user.bio}</p>
+      <div className={classes.topContainer}>
+        {user.profile && user.profile.skills && user.profile.skills.length > 0 && (
+          <div className={classes.skillContainer}>
+            {user.profile.skills.slice(0, 3).map((skill) => (
+              <div key={skill} className={classes.skillItem}>
+                {skill}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className={classes.bioContainer}>
+          <p className={classes.bio}>{user.bio}</p>
+        </div>
       </div>
       <div className={classes.tokenInputContainer}>
         {!user.non_receiver ? (

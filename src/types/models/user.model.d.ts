@@ -28,4 +28,5 @@ export interface IUser {
   pending_sent_gifts?: ITokenGift[];
   sent_gifts: ITokenGift[];
   circle?: ICircle;
+  profile?: IProfile;
 }
