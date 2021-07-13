@@ -4,7 +4,7 @@ export * from './useMe';
 export * from './useProfile';
 export * from './useCircleEpoch';
 export * from './useUserInfo';
-export * from './useAsync';
+export * from './useAsyncLoadCatch';
 export * from './useMyPendingGifts';
 export * from './useAllocation';
 export * from './useWallet';
