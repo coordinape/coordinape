@@ -4,6 +4,7 @@ import { IEpoch } from './epoch.model';
 export interface ICircle {
   id: number;
   name: string;
+  logo: string;
   alloc_text: string;
   team_sel_text: string;
   token_name: string;

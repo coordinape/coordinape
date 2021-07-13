@@ -122,7 +122,7 @@ export const ConnectWalletModal = ({
                   text="Metamask"
                 />
               </Grid>
-              {/* <Grid item md={6} xs={12}>
+              <Grid item md={6} xs={12}>
                 <ConnectWalletButtonItem
                   disabled={isConnectingToWallet}
                   icon={ConnectorNames.WalletConnect}
@@ -131,7 +131,7 @@ export const ConnectWalletModal = ({
                   }}
                   text="Wallet Connect"
                 />
-              </Grid> */}
+              </Grid>
               <Grid item md={6} xs={12}>
                 <ConnectWalletButtonItem
                   disabled={isConnectingToWallet}

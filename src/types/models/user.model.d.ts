@@ -1,5 +1,6 @@
 import { ITokenGift } from './tokengift.model';
 import { ICircle } from './circle.model';
+import { IProfile } from './profile.model';
 
 export interface IUser {
   id: number;
