@@ -41,7 +41,7 @@ export class APIService {
   postProfile = async (
     address: string,
     params: PostProfileParam
-  ): Promise<any> => {
+  ): Promise<IProfile> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
     const response = await axios.post(`/profile/${address}`, {

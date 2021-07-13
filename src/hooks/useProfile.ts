@@ -7,7 +7,7 @@ import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
 import { updaterMergeItemToAddressMap } from 'utils/recoilHelpers';
 
-import { useAsync } from './useAsync';
+import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 import { useRecoilFetcher } from './useRecoilFetcher';
 
 import { IProfile, PostProfileParam } from 'types';
@@ -20,7 +20,7 @@ export const useProfile = (
   backgroundPath: string;
   updateProfile: (params: PostProfileParam) => Promise<IProfile>;
 } => {
-  const asyncCall = useAsync();
+  const callWithLoadCatch = useAsyncLoadCatch();
 
   const [profileMap, setProfileMap] = useRecoilState(rProfileMap);
 
@@ -41,18 +41,16 @@ export const useProfile = (
     }
   }, [address, fetchProfile]);
 
-  // Note this probably isn't needed...
-  const updateProfile = async (params: PostProfileParam) => {
-    const call = async () => {
+  // Unused currently, could be deleted? See useMe for updating self.
+  const updateProfile = async (params: PostProfileParam) =>
+    callWithLoadCatch(async () => {
       if (!address) {
         throw 'Need address to call updateProfile with';
       }
       const result = await getApiService().postProfile(address, params);
       setProfileMap((oldMap) => new Map(oldMap.set(address, result)));
       return result;
-    };
-    return <Promise<IProfile>>asyncCall(call(), true);
-  };
+    });
 
   return {
     profile,
