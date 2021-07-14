@@ -28,5 +28,5 @@ export const getCSVPath = (circleId: number, epochId: number) =>
   `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
-export const getAvatarPath = (avatar?: string) =>
-  avatar ? `${STORAGE_URL}/${avatar}` : AVATAR_PLACEHOLDER;
+export const getAvatarPath = (avatar?: string, placeholder?: string) =>
+  avatar ? `${STORAGE_URL}/${avatar}` : placeholder || AVATAR_PLACEHOLDER;

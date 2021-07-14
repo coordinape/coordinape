@@ -4,21 +4,29 @@ import { NavLink } from 'react-router-dom';
 
 import {
   Button,
+  Popover,
   Tooltip,
   Zoom,
   makeStyles,
   withStyles,
 } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
 import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
 import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
+import { ReactComponent as DiscordSVG } from 'assets/svgs/social/discord.svg';
+import { ReactComponent as GithubSVG } from 'assets/svgs/social/github.svg';
+import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
+import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
+import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
 import { ApeAvatar } from 'components';
 
 import { IUser } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
     width: 330,
     height: 452,
     margin: theme.spacing(1),
@@ -32,6 +40,59 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10.75,
     wordBreak: 'break-all',
     textAlign: 'center',
+  },
+  socialContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    margin: theme.spacing(1),
+    display: 'flex',
+    flexWrap: 'wrap',
+    maxWidth: 'calc(50% - 50px)',
+  },
+  socialItem: {
+    margin: theme.spacing(0.5),
+    width: 18,
+    height: 18,
+    '& svg': {
+      width: '100%',
+      height: '100%',
+    },
+  },
+  moreContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    margin: theme.spacing(1),
+    display: 'flex',
+    flexWrap: 'wrap',
+    maxWidth: 'calc(50% - 50px)',
+  },
+  moreButton: {
+    margin: 0,
+    padding: theme.spacing(0, 1),
+    minWidth: 20,
+    fontSize: 17,
+    fontWeight: 800,
+    color: theme.colors.text,
+  },
+  morePaper: {
+    width: 150,
+    maxHeight: 100,
+    padding: theme.spacing(1),
+    overflowY: 'auto',
+    borderRadius: 8,
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
+    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
+    '& a': {
+      margin: theme.spacing(0.5, 1.5),
+      fontSize: 16,
+      color: theme.colors.text,
+      textDecoration: 'none',
+      border: 'none',
+      cursor: 'pointer',
+    },
   },
   avatar: {
     width: 60,
@@ -182,6 +243,9 @@ interface IProps {
 export const TeammateCard = (props: IProps) => {
   const classes = useStyles();
   const { disabled, note, tokenName, tokens, user } = props;
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
   // onChange Tokens
   const onChangeTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,12 +267,102 @@ export const TeammateCard = (props: IProps) => {
     props.updateNote(e.target.value);
   };
 
+  // open More
+  const openMore = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // close More
+  const closeMore = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'more-popover' : undefined;
+
   // Return
   return (
     <div className={classes.root}>
       <NavLink to={`profile/${user.address}`}>
         <ApeAvatar user={user} className={classes.avatar} />
       </NavLink>
+      {user.profile && (
+        <div className={classes.socialContainer}>
+          {user.profile?.twitter_username && (
+            <Link
+              href={`https://twitter.com/${user.profile?.twitter_username}`}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <TwitterSVG />
+            </Link>
+          )}
+          {user.profile?.github_username && (
+            <Link
+              href={`https://github.com/${user.profile?.github_username}`}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <GithubSVG />
+            </Link>
+          )}
+          {user.profile?.telegram_username && (
+            <Link
+              href={`https://t.me/${user.profile?.telegram_username}`}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <TelegramSVG />
+            </Link>
+          )}
+          {user.profile?.discord_username && (
+            <Link
+              href={`https://discord.com/${user.profile?.discord_username}`}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <DiscordSVG />
+            </Link>
+          )}
+          {user.profile?.medium_username && (
+            <Link
+              href={`https://medium.com/${user.profile?.medium_username}`}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <MediumSVG />
+            </Link>
+          )}
+        </div>
+      )}
+      <div className={classes.moreContainer}>
+        <Button
+          aria-describedby={id}
+          className={classes.moreButton}
+          onClick={openMore}
+        >
+          ⋯
+        </Button>
+      </div>
+      <Popover
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        classes={{
+          paper: classes.morePaper,
+        }}
+        id={id}
+        onClose={closeMore}
+        open={open}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <NavLink to={`profile/${user.address}`}>View Profile</NavLink>
+      </Popover>
       <p className={classes.name}>{user.name}</p>
       <div className={classes.topContainer}>
         {user.profile && user.profile.skills && user.profile.skills.length > 0 && (

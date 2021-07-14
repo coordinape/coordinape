@@ -19,7 +19,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
-import profileBg from '../../assets/svgs/social/profile-bg.svg';
 import discord from '../../assets/svgs/social/discord.svg';
 import github from '../../assets/svgs/social/github.svg';
 import medium from '../../assets/svgs/social/medium.svg';
@@ -591,11 +590,7 @@ export const ProfilePage = ({
     <div className={classes.root}>
       <img
         alt="background"
-        src={
-          savedProfileData?.background !== null
-            ? savedProfileData?.background
-            : profileBg
-        }
+        src={savedProfileData?.background}
         className={classes.background}
       />
       <Box
