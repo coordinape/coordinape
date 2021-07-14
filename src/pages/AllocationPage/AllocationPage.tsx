@@ -10,7 +10,6 @@ import {
   Button,
   IconButton,
 } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
 
 import {
   useSelectedCircleEpoch,

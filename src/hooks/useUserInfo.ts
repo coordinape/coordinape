@@ -80,19 +80,22 @@ export const useUserInfo = (): {
     });
 
   const createEpoch = (startDate: Date, endDate: Date) =>
-    callWithLoadCatch(async () => {
-      if (myAddress === undefined) throw 'myAddress required';
-      const newEpoch = await api.postEpochs(
-        myAddress,
-        selectedCircleId,
-        startDate,
-        endDate
-      );
+    callWithLoadCatch(
+      async () => {
+        if (myAddress === undefined) throw 'myAddress required';
+        const newEpoch = await api.postEpochs(
+          myAddress,
+          selectedCircleId,
+          startDate,
+          endDate
+        );
 
-      updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
+        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
 
-      return newEpoch;
-    }, true);
+        return newEpoch;
+      },
+      { hideLoading: true }
+    );
 
   const deleteEpoch = (epochId: number) =>
     callWithLoadCatch(async () => {
