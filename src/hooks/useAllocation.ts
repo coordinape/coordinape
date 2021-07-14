@@ -21,7 +21,6 @@ import {
 import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
-import { useApeSnackbar } from './useApeSnackbar';
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
@@ -173,7 +172,6 @@ export const useAllocation = (
   if (circleId === undefined) {
     throw 'Cannot useAllocation without a circleId';
   }
-  const { apeInfo } = useApeSnackbar();
   const callWithLoadCatch = useAsyncLoadCatch();
 
   const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
@@ -281,54 +279,59 @@ export const useAllocation = (
   };
 
   const saveTeammates = () =>
-    callWithLoadCatch(async () => {
-      if (!myCircleUser) {
-        throw 'Must have a circleUser to saveTeammates';
-      }
+    callWithLoadCatch(
+      async () => {
+        if (!myCircleUser) {
+          throw 'Must have a circleUser to saveTeammates';
+        }
 
-      await getApiService().postTeammates(
-        myCircleUser.circle_id,
-        myCircleUser.address,
-        localTeammates.map((u) => u.id)
-      );
-      // TODO: This returns the updated circleUser and it
-      // could just be updated immediatly here. So instead of this
-      // stale, the fetcher pattern is better. The fetchers could
-      // also be compatible with useAsyncLoadCatchCall
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
-      apeInfo('Saved Teammates');
-    });
+        await getApiService().postTeammates(
+          myCircleUser.circle_id,
+          myCircleUser.address,
+          localTeammates.map((u) => u.id)
+        );
+        // TODO: This returns the updated circleUser and it
+        // could just be updated immediatly here. So instead of this
+        // stale, the fetcher pattern is better. The fetchers could
+        // also be compatible with useAsyncLoadCatchCall
+        setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      },
+      { success: 'Saved Teammates' }
+    );
 
   const saveGifts = () =>
-    callWithLoadCatch(async () => {
-      if (!myCircleUser) {
-        throw 'Must have a circleUser to saveGifts';
-      }
+    callWithLoadCatch(
+      async () => {
+        if (!myCircleUser) {
+          throw 'Must have a circleUser to saveGifts';
+        }
 
-      const diff = buildDiffMap(
-        pendingGiftMap(pendingGifts),
-        simpleGiftsToMap(localGifts)
-      );
+        const diff = buildDiffMap(
+          pendingGiftMap(pendingGifts),
+          simpleGiftsToMap(localGifts)
+        );
 
-      const params: PostTokenGiftsParam[] = iti(diff.entries())
-        .map(([userId, [tokens, note]]) => ({
-          tokens,
-          recipient_id: userId,
-          note,
-        }))
-        .toArray();
+        const params: PostTokenGiftsParam[] = iti(diff.entries())
+          .map(([userId, [tokens, note]]) => ({
+            tokens,
+            recipient_id: userId,
+            note,
+          }))
+          .toArray();
 
-      const result = await getApiService().postTokenGifts(
-        circleId,
-        myCircleUser.address,
-        params
-      );
+        const result = await getApiService().postTokenGifts(
+          circleId,
+          myCircleUser.address,
+          params
+        );
 
-      const pending = result.pending_sent_gifts as ITokenGift[];
+        const pending = result.pending_sent_gifts as ITokenGift[];
 
-      updaterMergeArrayToIdMap(pending, setPendingGiftsMap);
-      return pending;
-    });
+        updaterMergeArrayToIdMap(pending, setPendingGiftsMap);
+        return pending;
+      },
+      { success: 'Saved Gifts' }
+    );
 
   const localGiftsDirty =
     buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
