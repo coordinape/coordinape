@@ -120,7 +120,6 @@ export const useMe = (): {
     // Is it possible to use recoilCallback to have loading during this?
     setMyProfileStaleSignal(myProfileStaleSignal + 1);
   };
-
   return {
     myProfile,
     selectedMyUser,
@@ -128,7 +127,10 @@ export const useMe = (): {
     myCircles,
     // avatarPath: getAvatarPath(selectedMyUser?.avatar),
     avatarPath: getAvatarPath(myProfile?.avatar),
-    backgroundPath: getAvatarPath(myProfile?.background),
+    backgroundPath: getAvatarPath(
+      myProfile?.background,
+      '/imgs/background/profile-bg.jpg'
+    ),
     hasAdminView,
     updateMyUser,
     updateTeammates,

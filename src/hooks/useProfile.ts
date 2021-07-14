@@ -56,6 +56,9 @@ export const useProfile = (
     profile,
     updateProfile,
     avatarPath: getAvatarPath(profile?.avatar),
-    backgroundPath: getAvatarPath(profile?.background),
+    backgroundPath: getAvatarPath(
+      profile?.background,
+      '/imgs/background/profile-bg.jpg'
+    ),
   };
 };

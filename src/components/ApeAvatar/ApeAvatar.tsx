@@ -12,8 +12,8 @@ interface IProps extends AvatarProps {
 }
 
 export const ApeAvatar: FC<IProps> = ({ user, path, children, ...props }) => {
-  const src = user?.avatar
-    ? getAvatarPath(user?.avatar)
+  const src = user?.profile?.avatar
+    ? getAvatarPath(user?.profile?.avatar)
     : path ?? AVATAR_PLACEHOLDER;
   return (
     <Avatar src={src} alt={user?.name} {...props}>
