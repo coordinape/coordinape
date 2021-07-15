@@ -62,7 +62,7 @@ export const SentryScopeController = () => {
     myCircles,
   ]);
 
-  if (selectedCircleId) {
+  if (selectedMyUser) {
     return <AllocationScope />;
   }
 
