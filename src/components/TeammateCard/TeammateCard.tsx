@@ -20,6 +20,7 @@ import { ReactComponent as GithubSVG } from 'assets/svgs/social/github.svg';
 import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
 import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
 import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
+import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
 import { ApeAvatar } from 'components';
 
 import { IUser } from 'types';
@@ -32,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     display: 'inline-block',
     alignItems: 'center',
     background: '#DFE7E8',
@@ -81,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 100,
     padding: theme.spacing(1),
     overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
     borderRadius: 8,
     background:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
@@ -92,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       border: 'none',
       cursor: 'pointer',
+      '&:hover': {
+        color: theme.colors.selected,
+      },
     },
   },
   avatar: {
@@ -333,6 +339,15 @@ export const TeammateCard = (props: IProps) => {
               <MediumSVG />
             </Link>
           )}
+          {user.profile?.website && (
+            <Link
+              href={user.profile?.website}
+              target="_blank"
+              className={classes.socialItem}
+            >
+              <WebsiteSVG />
+            </Link>
+          )}
         </div>
       )}
       <div className={classes.moreContainer}>
@@ -361,6 +376,7 @@ export const TeammateCard = (props: IProps) => {
           horizontal: 'right',
         }}
       >
+        <NavLink to={`map/?highlight=${user.address}`}>View on Graph</NavLink>
         <NavLink to={`profile/${user.address}`}>View Profile</NavLink>
       </Popover>
       <p className={classes.name}>{user.name}</p>
