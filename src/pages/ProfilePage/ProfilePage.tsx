@@ -24,6 +24,7 @@ import github from '../../assets/svgs/social/github.svg';
 import medium from '../../assets/svgs/social/medium.svg';
 import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
+import website from '../../assets/svgs/social/website.svg';
 import { ApeAvatar } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useProfile, useMe, useCircle, useCircleEpoch } from 'hooks';
@@ -38,66 +39,91 @@ const Transition = React.forwardRef<unknown, TransitionProps>(
 );
 
 const skillsDumyData = [
-  {
-    id: 1,
-    name: 'Front-End',
-  },
-  {
-    id: 2,
-    name: 'Copywriting',
-  },
-  {
-    id: 3,
-    name: 'Shitposting',
-  },
-  {
-    id: 4,
-    name: 'Marketing',
-  },
-  {
-    id: 5,
-    name: 'Investing',
-  },
-  {
-    id: 6,
-    name: 'Dev-Ops',
-  },
-  {
-    id: 7,
-    name: 'User Experience Design',
-  },
-  {
-    id: 8,
-    name: 'Cat Herding',
-  },
-  {
-    id: 9,
-    name: 'Project Management',
-  },
-  {
-    id: 10,
-    name: 'Strategy',
-  },
-  {
-    id: 11,
-    name: 'Solidity',
-  },
-  {
-    id: 12,
-    name: 'User Interface Design',
-  },
-  {
-    id: 13,
-    name: 'Branding',
-  },
-  {
-    id: 14,
-    name: 'Vault Strategy',
-  },
-  {
-    id: 15,
-    name: 'Some Skill',
-  },
+  { id: 0, name: 'Community Mgmt' },
+  { id: 1, name: 'Discord' },
+  { id: 2, name: 'Social Media' },
+  { id: 3, name: 'Governance' },
+  { id: 4, name: 'Budget Mgmt' },
+  { id: 5, name: 'Compensation' },
+  { id: 6, name: 'Grants' },
+  { id: 7, name: 'Solidity' },
+  { id: 8, name: 'Web3' },
+  { id: 9, name: 'Front End' },
+  { id: 10, name: 'Back End' },
+  { id: 11, name: 'UX' },
+  { id: 12, name: 'UI' },
+  { id: 13, name: 'Product Design' },
+  { id: 14, name: 'Full-Stack' },
+  { id: 15, name: 'Dev Ops' },
+  { id: 16, name: 'Project Mgmt' },
+  { id: 17, name: 'Security' },
+  { id: 18, name: 'Memes' },
+  { id: 19, name: 'Art' },
+  { id: 20, name: 'NFTs' },
+  { id: 21, name: 'Graphics' },
+  { id: 22, name: 'Branding' },
+  { id: 23, name: '3D' },
+  { id: 24, name: 'Video' },
+  // {
+  //   id: 1,
+  //   name: 'Front-End',
+  // },
+  // {
+  //   id: 2,
+  //   name: 'Copywriting',
+  // },
+  // {
+  //   id: 3,
+  //   name: 'Shitposting',
+  // },
+  // {
+  //   id: 4,
+  //   name: 'Marketing',
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Investing',
+  // },
+  // {
+  //   id: 6,
+  //   name: 'Dev-Ops',
+  // },
+  // {
+  //   id: 7,
+  //   name: 'User Experience Design',
+  // },
+  // {
+  //   id: 8,
+  //   name: 'Cat Herding',
+  // },
+  // {
+  //   id: 9,
+  //   name: 'Project Management',
+  // },
+  // {
+  //   id: 10,
+  //   name: 'Strategy',
+  // },
+  // {
+  //   id: 11,
+  //   name: 'Solidity',
+  // },
+  // {
+  //   id: 12,
+  //   name: 'User Interface Design',
+  // },
+  // {
+  //   id: 13,
+  //   name: 'Branding',
+  // },
+  // {
+  //   id: 14,
+  //   name: 'Vault Strategy',
+  // },
+  // {
+  //   id: 15,
+  //   name: 'Some Skill',
+  // },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -741,7 +767,11 @@ export const ProfilePage = ({
                   href={savedProfileData?.website}
                   target="_blank"
                 >
-                  ∙ {savedProfileData?.website}
+                  <img
+                    alt="website"
+                    src={website}
+                    style={{ paddingRight: 16, width: 50, height: 50 }}
+                  />
                 </Link>
               )}
             </Box>
