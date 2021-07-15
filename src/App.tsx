@@ -8,7 +8,12 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-import { RecoilAppController, ErrorBoundary, MainLayout } from 'components';
+import {
+  RecoilAppController,
+  ErrorBoundary,
+  MainLayout,
+  SentryScopeController,
+} from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 
@@ -32,6 +37,7 @@ function App() {
               <BrowserRouter>
                 <MainLayout>
                   <RecoilAppController />
+                  <SentryScopeController />
                   <RenderRoutes />
                 </MainLayout>
               </BrowserRouter>

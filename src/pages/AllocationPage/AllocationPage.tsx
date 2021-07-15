@@ -140,8 +140,8 @@ export const AllocationPage = () => {
 
   useSelectedAllocationController();
   const {
-    localTeammatesDirty,
-    localGiftsDirty,
+    localTeammatesChanged,
+    localGiftsChanged,
     tokenRemaining,
     nextStep,
     completedSteps,
@@ -196,7 +196,7 @@ export const AllocationPage = () => {
   };
 
   const handleSaveAllocations = async () => {
-    if (localTeammatesDirty) {
+    if (localTeammatesChanged) {
       await saveTeammates();
     }
     await saveGifts();
@@ -261,7 +261,7 @@ export const AllocationPage = () => {
           <>
             <AllocationTeam />
             <div className={classes.buttonContainer}>
-              {localTeammatesDirty ? (
+              {localTeammatesChanged ? (
                 <Button
                   className={classes.saveButton}
                   onClick={handleSaveTeamList}
@@ -301,7 +301,7 @@ export const AllocationPage = () => {
               </IconButton>
             </div>
             <div className={classes.buttonContainer}>
-              {localGiftsDirty && (
+              {localGiftsChanged && (
                 <Button
                   className={classes.saveButton}
                   onClick={handleSaveAllocations}

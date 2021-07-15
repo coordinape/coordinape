@@ -150,8 +150,8 @@ export const useAllocation = (
 ): {
   localTeammates: IUser[];
   localGifts: ISimpleGift[];
-  localTeammatesDirty: boolean;
-  localGiftsDirty: boolean;
+  localTeammatesChanged: boolean;
+  localGiftsChanged: boolean;
   selectedCircle: ICircle | undefined;
   availableTeammates: IUser[];
   tokenRemaining: number;
@@ -333,15 +333,15 @@ export const useAllocation = (
       { success: 'Saved Gifts' }
     );
 
-  const localGiftsDirty =
+  const localGiftsChanged =
     buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
       .size > 0;
 
   return {
     localTeammates,
     localGifts,
-    localGiftsDirty,
-    localTeammatesDirty: !isEqual(localTeammates, defaultTeammates),
+    localGiftsChanged,
+    localTeammatesChanged: !isEqual(localTeammates, defaultTeammates),
     selectedCircle,
     availableTeammates,
     tokenStarting,

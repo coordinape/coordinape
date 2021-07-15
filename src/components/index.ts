@@ -16,5 +16,6 @@ export * from './OptInput/OptInput';
 export * from './PopUpModal/PopUpModal';
 export * from './ReceiveInfo/ReceiveInfo';
 export * from './RecoilAppController/RecoilAppController';
+export * from './SentryScopeController/SentryScopeController';
 export * from './Spacer/Spacer';
 export * from './TeammateCard/TeammateCard';
