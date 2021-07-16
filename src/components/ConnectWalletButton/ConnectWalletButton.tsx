@@ -35,19 +35,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const ConnectWalletButton = ({
+  className,
+  noAction,
+}: {
   className?: string;
-}
-
-export const ConnectWalletButton = (props: IProps) => {
+  noAction?: boolean;
+}) => {
   const classes = useStyles();
   const Icon = WALLET_ICONS[ConnectorNames.Injected];
   const { openWalletModal } = useGlobalUi();
 
   return (
     <Button
-      className={clsx(classes.root, props.className)}
-      onClick={openWalletModal}
+      className={clsx(classes.root, className)}
+      onClick={!noAction ? openWalletModal : undefined}
       variant="text"
     >
       <Hidden smDown>

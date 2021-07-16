@@ -314,7 +314,7 @@ const LandingPage = () => {
           />
           <Hidden xsDown>
             <a href={APP_URL_OPEN_WALLET}>
-              <ConnectWalletButton className={classes.walletButton} />
+              <ConnectWalletButton className={classes.walletButton} noAction />
             </a>
           </Hidden>
         </div>
