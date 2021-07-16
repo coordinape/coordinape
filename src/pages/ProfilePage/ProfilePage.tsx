@@ -4,7 +4,13 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Dialog, makeStyles } from '@material-ui/core';
+import {
+  Dialog,
+  makeStyles,
+  withStyles,
+  Tooltip,
+  Zoom,
+} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -18,6 +24,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
+import ShowMore from 'react-show-more';
 
 import discord from '../../assets/svgs/social/discord.svg';
 import github from '../../assets/svgs/social/github.svg';
@@ -26,10 +33,9 @@ import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
 import website from '../../assets/svgs/social/website.svg';
 import { ApeAvatar } from 'components';
-import { MAX_BIO_LENGTH } from 'config/constants';
 import { useProfile, useMe, useCircle, useCircleEpoch } from 'hooks';
 
-import { IUser } from 'types';
+import { IUser, PostProfileParam } from 'types';
 
 import { getAvatarPath } from 'utils/domain';
 
@@ -64,66 +70,15 @@ const skillsDumyData = [
   { id: 22, name: 'Branding' },
   { id: 23, name: '3D' },
   { id: 24, name: 'Video' },
-  // {
-  //   id: 1,
-  //   name: 'Front-End',
-  // },
-  // {
-  //   id: 2,
-  //   name: 'Copywriting',
-  // },
-  // {
-  //   id: 3,
-  //   name: 'Shitposting',
-  // },
-  // {
-  //   id: 4,
-  //   name: 'Marketing',
-  // },
-  // {
-  //   id: 5,
-  //   name: 'Investing',
-  // },
-  // {
-  //   id: 6,
-  //   name: 'Dev-Ops',
-  // },
-  // {
-  //   id: 7,
-  //   name: 'User Experience Design',
-  // },
-  // {
-  //   id: 8,
-  //   name: 'Cat Herding',
-  // },
-  // {
-  //   id: 9,
-  //   name: 'Project Management',
-  // },
-  // {
-  //   id: 10,
-  //   name: 'Strategy',
-  // },
-  // {
-  //   id: 11,
-  //   name: 'Solidity',
-  // },
-  // {
-  //   id: 12,
-  //   name: 'User Interface Design',
-  // },
-  // {
-  //   id: 13,
-  //   name: 'Branding',
-  // },
-  // {
-  //   id: 14,
-  //   name: 'Vault Strategy',
-  // },
-  // {
-  //   id: 15,
-  //   name: 'Some Skill',
-  // },
+  { id: 25, name: 'Communications' },
+  { id: 26, name: 'Translation' },
+  { id: 27, name: 'Docs' },
+  { id: 28, name: 'Writing' },
+  { id: 29, name: 'Podcasting' },
+  { id: 30, name: 'Strategy' },
+  { id: 31, name: 'Treasury Mgmt' },
+  { id: 32, name: 'Contract Audits' },
+  { id: 33, name: 'Multisig' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -195,6 +150,11 @@ const useStyles = makeStyles((theme) => ({
   gridItem: {
     textAlign: 'center',
     paddingTop: 54,
+  },
+  recentEpochContainer: {
+    maxHeight: 300,
+    overflowY: 'scroll',
+    scroll: 'smooth',
   },
   collaborators: {
     border: '0.7px solid #939EA1',
@@ -283,16 +243,15 @@ const useStyles = makeStyles((theme) => ({
     height: 143,
     width: '100%',
     maxWidth: theme.breakpoints.values.md,
+    minHeight: 143,
     margin: theme.spacing(2, 0, 8),
     padding: theme.spacing(3),
-    resize: 'none',
+    resize: 'vertical',
     fontSize: 20,
     fontWeight: 300,
     color: theme.colors.text,
     border: 0,
     outline: 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
     background: '#E1E1E1',
     borderRadius: 8,
     wordBreak: 'break-word',
@@ -377,8 +336,25 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
     color: theme.colors.text,
     paddingBottom: 48,
+    whiteSpace: 'pre-wrap',
+  },
+  bioBoxAnchor: {
+    fontSize: 22,
+    color: theme.colors.selected,
   },
 }));
+
+const TextOnlyTooltip = withStyles({
+  tooltip: {
+    margin: 'auto',
+    padding: `4px 8px`,
+    maxWidth: 240,
+    fontSize: 10,
+    fontWeight: 500,
+    color: 'rgba(81, 99, 105, 0.5)',
+    background: '#C3CDCF',
+  },
+})(Tooltip);
 
 interface IProfileData {
   avatar: string;
@@ -406,9 +382,6 @@ export const ProfilePage = ({
 
   // Circle
   const { selectedCircleId } = useCircle();
-
-  // Epoch
-  const { pastEpochs } = useCircleEpoch(selectedCircleId);
 
   // My or Other Profile
   const seemsAddress = params?.profileAddress?.startsWith('0x');
@@ -453,12 +426,19 @@ export const ProfilePage = ({
     website: (isMe ? myProfile?.website : profile?.website) || '',
     skills: (isMe ? myProfile?.skills : profile?.skills) || [],
     users: (isMe ? myProfile?.users : profile?.users) || [],
-    epochBio:
-      (isMe
-        ? myProfile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.bio
-        : profile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.bio) || 'N/A',
+    recentEpochs: isMe
+      ? myProfile?.users.map((user) => {
+          return {
+            epochBio: user.bio.length > 0 ? user.bio : 'N/A',
+            epochCircle: user.circle?.name,
+          };
+        })
+      : profile?.users.map((user) => {
+          return {
+            epochBio: user.bio.length > 0 ? user.bio : 'N/A',
+            epochCircle: user.circle?.name,
+          };
+        }),
   };
 
   // Edit Profile Data
@@ -495,16 +475,27 @@ export const ProfilePage = ({
         await updateAvatar(profileData.avatarRaw);
       }
 
-      updateMyProfile({
-        bio: profileData.bio,
-        skills: profileData.skills,
-        twitter_username: profileData.twitter_username,
-        github_username: profileData.github_username,
-        telegram_username: profileData.telegram_username,
-        discord_username: profileData.discord_username,
-        medium_username: profileData.medium_username,
-        website: profileData.website,
-      });
+      if (
+        savedProfileData.bio !== profileData.bio ||
+        savedProfileData.skills !== profileData.skills ||
+        savedProfileData.twitter_username !== profileData.twitter_username ||
+        savedProfileData.github_username !== profileData.github_username ||
+        savedProfileData.telegram_username !== profileData.telegram_username ||
+        savedProfileData.discord_username !== profileData.discord_username ||
+        savedProfileData.medium_username !== profileData.medium_username ||
+        savedProfileData.website !== profileData.website
+      ) {
+        updateMyProfile({
+          bio: profileData.bio,
+          skills: profileData.skills,
+          twitter_username: profileData.twitter_username,
+          github_username: profileData.github_username,
+          telegram_username: profileData.telegram_username,
+          discord_username: profileData.discord_username,
+          medium_username: profileData.medium_username,
+          website: profileData.website,
+        });
+      }
     }
   };
 
@@ -775,10 +766,16 @@ export const ProfilePage = ({
                 </Link>
               )}
             </Box>
-            <Box className={classes.bioBox}>{savedProfileData?.bio}</Box>
+            <Box className={classes.bioBox}>
+              <ShowMore anchorClass={classes.bioBoxAnchor}>
+                {savedProfileData?.bio}
+              </ShowMore>
+            </Box>
             <Grid container spacing={10}>
               <Grid item sm={6} xs={12}>
-                <Box className={classes.gridTitle}>My Circles</Box>
+                <Box className={classes.gridTitle}>
+                  {isMe ? 'My Circles' : 'His/Her Circles'}
+                </Box>
                 <Box className={classes.iconGroup}>
                   {savedProfileData?.users.map((user) => (
                     <div
@@ -789,16 +786,22 @@ export const ProfilePage = ({
                         marginRight: 13,
                       }}
                     >
-                      <Avatar
-                        alt={user?.circle?.name}
-                        src={getAvatarPath(user.circle?.logo)}
-                        style={{
-                          width: 60,
-                          height: 60,
-                          borderRadius: '50%',
-                          border: '1px solid rgba(94, 111, 116, 0.7)',
-                        }}
-                      />
+                      <TextOnlyTooltip
+                        TransitionComponent={Zoom}
+                        placement="top"
+                        title={user.circle?.name || ''}
+                      >
+                        <Avatar
+                          alt={user?.circle?.name}
+                          src={getAvatarPath(user.circle?.logo)}
+                          style={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: '50%',
+                            border: '1px solid rgba(94, 111, 116, 0.7)',
+                          }}
+                        />
+                      </TextOnlyTooltip>
                       {user?.non_receiver !== 0 && (
                         <p
                           style={{
@@ -816,23 +819,21 @@ export const ProfilePage = ({
               </Grid>
               <Grid item sm={6} xs={12}>
                 <Box className={classes.gridTitle}>Recent Epoch Activity</Box>
-                <Box className={classes.gridItem}>
-                  <Typography
-                    style={{ fontWeight: 600 }}
-                    className={classes.recentEpoch}
-                  >
-                    EPOCH
-                    <Typography
-                      component="span"
-                      style={{ color: 'red', paddingLeft: 8 }}
-                    >
-                      {pastEpochs.length + 1}
-                    </Typography>
-                  </Typography>
-                  <Typography className={classes.recentEpoch}>
-                    {savedProfileData.epochBio}
-                  </Typography>
-                </Box>
+                <div className={classes.recentEpochContainer}>
+                  {savedProfileData.recentEpochs?.map((epoch, index) => (
+                    <Box key={index} className={classes.gridItem}>
+                      <Typography
+                        style={{ fontWeight: 600 }}
+                        className={classes.recentEpoch}
+                      >
+                        {`Epoch on ${epoch.epochCircle}`}
+                      </Typography>
+                      <Typography className={classes.recentEpoch}>
+                        {epoch.epochBio}
+                      </Typography>
+                    </Box>
+                  ))}
+                </div>
               </Grid>
               {/* <Grid item sm={4} xs={12}> */}
               {/* <Box className={classes.gridTitle}>Frequent Collaborators</Box> */}
@@ -1010,7 +1011,6 @@ export const ProfilePage = ({
             <Typography className={classes.modalSubTitle}>Biography</Typography>
             <textarea
               className={classes.bioTextarea}
-              maxLength={MAX_BIO_LENGTH}
               onChange={onChangeBio}
               value={profileData.bio}
             />
