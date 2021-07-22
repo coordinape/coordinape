@@ -36,6 +36,7 @@ export const useUserInfo = (): {
   availableTeammates: IUser[];
 
   updateCircle: (params: PutCirclesParam) => Promise<ICircle>;
+  updateCircleLogo: (newAvatar: File) => Promise<ICircle>;
   createEpoch: (startDate: Date, endDate: Date) => Promise<IEpoch>;
   deleteEpoch: (id: number) => void;
   updateUser: (userAddress: string, params: UpdateUsersParam) => Promise<IUser>;
@@ -70,6 +71,22 @@ export const useUserInfo = (): {
         selectedCircleId,
         myAddress,
         params
+      );
+
+      updateCirclesMap(
+        (oldMap) => new Map(oldMap.set(selectedCircleId, newCircle))
+      );
+
+      return newCircle;
+    });
+
+  const updateCircleLogo = async (newAvatar: File) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
+      const newCircle = await api.uploadCircleLogo(
+        selectedCircleId,
+        myAddress,
+        newAvatar
       );
 
       updateCirclesMap(
@@ -162,6 +179,7 @@ export const useUserInfo = (): {
     allUsers: selectedCircleUsers,
     availableTeammates: availableTeammates,
     updateCircle,
+    updateCircleLogo,
     createEpoch,
     deleteEpoch,
     updateUser,
