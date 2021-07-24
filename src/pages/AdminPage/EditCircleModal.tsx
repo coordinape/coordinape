@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 
+import clsx from 'clsx';
+
 import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
+import { ApeAvatar } from 'components';
 import { useUserInfo } from 'hooks';
+import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
 
@@ -16,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(2.5, 6),
     width: 648,
-    height: 490,
+    height: 640,
     borderRadius: theme.spacing(1),
     outline: 'none',
     background: theme.colors.white,
@@ -26,6 +31,66 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     color: theme.colors.text,
     textAlign: 'center',
+  },
+  logoContainer: {
+    position: 'relative',
+    width: 96,
+    height: 96,
+    margin: 'auto',
+    borderRadius: 30,
+    fontSize: 12,
+    fontWeight: 400,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(8),
+    '&:after': {
+      content: `" "`,
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      top: 0,
+      left: 0,
+      borderRadius: '50%',
+      background: 'rgba(0,0,0,0.6)',
+      opacity: 0.7,
+      transition: 'all 0.5s',
+      '-webkit-transition': 'all 0.5s',
+    },
+    '&:hover': {
+      '&:after': {
+        opacity: 1,
+      },
+      '& .upload-image-icon': {
+        background: 'rgba(81, 99, 105, 0.9)',
+      },
+    },
+  },
+  logoAvatar: {
+    width: 96,
+    height: 96,
+    border: '4px solid #FFFFFF',
+    borderRadius: '50%',
+  },
+  uploadImageIconWrapper: {
+    position: 'absolute',
+    marginTop: theme.spacing(1),
+    left: 'calc(1% - 40px)',
+    width: 178,
+    height: 40,
+    borderRadius: 8,
+    background: 'rgba(81, 99, 105, 0.7)',
+    cursor: 'pointer',
+    zIndex: 2,
+  },
+  uploadImageContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  uploadImageTitle: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#FFFFFF',
+    paddingLeft: 8,
   },
   subContent: {
     display: 'flex',
@@ -112,11 +177,26 @@ export const EditCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle } = useUserInfo();
+  const { updateCircle, updateCircleLogo } = useUserInfo();
+  const [logoData, setLogoData] = useState<{
+    avatar: string;
+    avatarRaw: File | null;
+  }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
   const [circleName, setCircleName] = useState<string>(circle.name);
   const [tokenName, setTokenName] = useState<string>(circle.token_name);
   const [teamSelText, setTeamSelText] = useState<string>(circle.team_sel_text);
   const [allocText, setAllocText] = useState<string>(circle.alloc_text);
+
+  // onChange Logo
+  const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      setLogoData({
+        ...logoData,
+        avatar: URL.createObjectURL(e.target.files[0]),
+        avatarRaw: e.target.files[0],
+      });
+    }
+  };
 
   // onChange CircleName
   const onChangeCircleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,15 +219,32 @@ export const EditCircleModal = ({
   };
 
   // onClick SaveCircle
-  const onClickSaveCircle = async () =>
-    updateCircle({
-      name: circleName,
-      token_name: tokenName,
-      team_sel_text: teamSelText,
-      alloc_text: allocText,
-    });
+  const onClickSaveCircle = async () => {
+    if (logoData.avatarRaw) {
+      await updateCircleLogo(logoData.avatarRaw);
+      setLogoData({
+        ...logoData,
+        avatarRaw: null,
+      });
+    }
+
+    if (
+      circleName !== circle.name ||
+      tokenName !== circle.token_name ||
+      teamSelText !== circle.team_sel_text ||
+      allocText !== circle.alloc_text
+    ) {
+      updateCircle({
+        name: circleName,
+        token_name: tokenName,
+        team_sel_text: teamSelText,
+        alloc_text: allocText,
+      });
+    }
+  };
 
   const circleDirty =
+    logoData.avatarRaw ||
     circleName !== circle.name ||
     tokenName !== circle.token_name ||
     teamSelText !== circle.team_sel_text ||
@@ -157,6 +254,28 @@ export const EditCircleModal = ({
     <Modal className={classes.modal} onClose={onClose} open={visible}>
       <div className={classes.content}>
         <p className={classes.title}>Edit Circle Settings</p>
+        <div className={classes.logoContainer}>
+          <label htmlFor="upload-logo-button">
+            <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
+            <div
+              className={clsx(
+                classes.uploadImageIconWrapper,
+                'upload-image-icon'
+              )}
+            >
+              <div className={classes.uploadImageContainer}>
+                <CloudUploadIcon style={{ color: '#FFFFFF' }} />
+                <p className={classes.uploadImageTitle}>Upload Circle Logo</p>
+              </div>
+            </div>
+          </label>
+          <input
+            id="upload-logo-button"
+            onChange={onChangeLogo}
+            style={{ display: 'none' }}
+            type="file"
+          />
+        </div>
         <div className={classes.subContent}>
           <div className={classes.container}>
             <p className={classes.subTitle}>Circle name</p>
