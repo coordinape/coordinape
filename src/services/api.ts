@@ -95,12 +95,13 @@ export class APIService {
     address: string,
     file: File
   ): Promise<ICircle> => {
-    const signature = await getSignature(file.name, this.provider);
+    const { signature, hash } = await getSignature(file.name, this.provider);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('signature', signature);
     formData.append('address', address);
     formData.append('data', file.name);
+    formData.append('hash', hash);
     const response = await axios.post(
       `${circleId}/admin/upload-logo`,
       formData,
