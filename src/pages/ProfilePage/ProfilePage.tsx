@@ -33,9 +33,9 @@ import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
 import website from '../../assets/svgs/social/website.svg';
 import { ApeAvatar } from 'components';
-import { useProfile, useMe, useCircle, useCircleEpoch } from 'hooks';
+import { useProfile, useMe, useCircle } from 'hooks';
 
-import { IUser, PostProfileParam } from 'types';
+import { IUser } from 'types';
 
 import { getAvatarPath } from 'utils/domain';
 
@@ -260,12 +260,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   linksText: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(1.5, 2),
     width: '100%',
     maxWidth: theme.breakpoints.values.md,
     resize: 'none',
-    fontSize: 20,
-    fontWeight: 300,
+    fontSize: 15,
+    fontWeight: 400,
     color: theme.colors.text,
     border: 0,
     outline: 'none',
@@ -473,6 +473,10 @@ export const ProfilePage = ({
     if (isMe) {
       if (profileData.avatarRaw) {
         await updateAvatar(profileData.avatarRaw);
+        setProfileData({
+          ...profileData,
+          avatarRaw: null,
+        });
       }
 
       if (
@@ -1056,7 +1060,7 @@ export const ProfilePage = ({
                   className={classes.linksText}
                   onChange={onChangeDiscord}
                   value={profileData.discord_username}
-                  placeholder="Enter username"
+                  placeholder="Username#xxxx"
                 />
               </Grid>
               <Grid item sm={3} xs={12}>

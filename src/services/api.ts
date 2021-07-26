@@ -90,6 +90,29 @@ export class APIService {
     return response.data as ICircle;
   };
 
+  uploadCircleLogo = async (
+    circleId: number,
+    address: string,
+    file: File
+  ): Promise<ICircle> => {
+    const signature = await getSignature(file.name, this.provider);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('address', address);
+    formData.append('data', file.name);
+    const response = await axios.post(
+      `${circleId}/admin/upload-logo`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return response.data as ICircle;
+  };
+
   getEpochs = async (
     circleId: number,
     params: { current?: number } = {}
