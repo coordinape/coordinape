@@ -7,7 +7,7 @@ import { ConnectorNames } from 'utils/enums';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
-const WALLET_TIMEOUT = 1000 * 10; // 10 seconds
+const WALLET_TIMEOUT = 1000 * 60; // 60 seconds
 
 export const useWallet = (): {
   myAddress: string | undefined;

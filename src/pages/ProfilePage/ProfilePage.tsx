@@ -435,7 +435,7 @@ export const ProfilePage = ({
         })
       : profile?.users.map((user) => {
           return {
-            epochBio: user.bio.length > 0 ? user.bio : 'N/A',
+            epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
             epochCircle: user.circle?.name,
           };
         }),
@@ -778,7 +778,7 @@ export const ProfilePage = ({
             <Grid container spacing={10}>
               <Grid item sm={6} xs={12}>
                 <Box className={classes.gridTitle}>
-                  {isMe ? 'My Circles' : 'His/Her Circles'}
+                  {isMe ? 'My Circles' : 'Circles'}
                 </Box>
                 <Box className={classes.iconGroup}>
                   {savedProfileData?.users.map((user) => (
