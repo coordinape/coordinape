@@ -435,7 +435,7 @@ export const ProfilePage = ({
         })
       : profile?.users.map((user) => {
           return {
-            epochBio: user.bio.length > 0 ? user.bio : 'N/A',
+            epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
             epochCircle: user.circle?.name,
           };
         }),
