@@ -34,17 +34,9 @@ export const _validateContractSignature = async (
     const contractABI = [
       'function isValidSignature(bytes32 _message, bytes _signature) public view returns (bool)',
     ];
-    console.log('hashMessage', hashMessage);
-    console.log('signedData', signedData);
     const wallet = new ethers.Contract(address, contractABI, provider);
     const iface = new ethers.utils.Interface(contractABI);
-    // eslint-disable-next-line no-console
-    console.log(
-      'iface',
-      iface.encodeFunctionData('isValidSignature', [hashMessage, signedData])
-    );
     const returnValue = await wallet.isValidSignature(hashMessage, signedData);
-    console.log('valid', returnValue);
   } catch (error) {
     console.log('not valid', error);
   }
