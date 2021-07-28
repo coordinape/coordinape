@@ -117,6 +117,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
+  skillItem: {
+    margin: theme.spacing(0.5),
+    padding: theme.spacing(0.5, 2),
+    background: theme.colors.lightBlue,
+    textAlign: 'center',
+    fontFamily: 'Space Grotesk',
+    fontSize: 18,
+    fontWeight: 600,
+    color: theme.colors.white,
+    borderRadius: 4,
+  },
   skillGroupButton: {
     marginTop: theme.spacing(0.5),
     marginRight: theme.spacing(1),
@@ -195,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: 'rgba(81, 99, 105, 0.7)',
     padding: '8px 48px',
-    borderBottom: '1px solid rgba(24, 24, 24, 0.1)',
+    borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
     width: '60%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -211,9 +222,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 8,
     marginRight: 8,
     textTransform: 'none',
-  },
-  active: {
-    background: '#84C7CA',
+    boxShadow: 'none',
+    '&:hover': {
+      background: '#A7B0B4',
+      boxShadow: 'none',
+    },
+    '&.selected': {
+      background: '#84C7CA',
+    },
   },
   linkTitle: {
     fontSize: 16,
@@ -264,8 +280,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: theme.breakpoints.values.md,
     resize: 'none',
+    fontFamily: 'Space Grotesk',
     fontSize: 15,
-    fontWeight: 400,
+    fontWeight: 300,
     color: theme.colors.text,
     border: 0,
     outline: 'none',
@@ -277,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     alignItems: 'center',
     '&::placeholder': {
-      opacity: 0.3,
+      color: '#99A2A5',
     },
   },
   uploadImageContainer: {
@@ -685,13 +702,9 @@ export const ProfilePage = ({
               {/* loop section from the myprofile data */}
               {savedProfileData?.skills?.length
                 ? savedProfileData?.skills.map((item) => (
-                    <Button
-                      key={item}
-                      variant="contained"
-                      className={classes.skillGroupButton}
-                    >
+                    <div key={item} className={classes.skillItem}>
                       {item}
-                    </Button>
+                    </div>
                   ))
                 : ''}
             </Box>
@@ -1001,9 +1014,10 @@ export const ProfilePage = ({
                 <Button
                   key={item.name}
                   variant="contained"
-                  className={clsx(classes.skillOption, {
-                    [classes.active]: profileData.skills.includes(item.name),
-                  })}
+                  className={clsx(
+                    classes.skillOption,
+                    profileData.skills.includes(item.name) ? 'selected' : ''
+                  )}
                   onClick={() => selectSkills(item.name)}
                 >
                   {item.name}
