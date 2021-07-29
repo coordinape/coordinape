@@ -44,10 +44,9 @@ export class APIService {
   ): Promise<IProfile> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post(`/profile/${address}`, {
+    const response = await axios.post(`/profile`, {
       signature,
       data,
-      address,
       hash,
     });
     return response.data;
@@ -237,7 +236,7 @@ export class APIService {
   ): Promise<IUser> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.put(`${circleId}/users/${address}`, {
+    const response = await axios.put(`${circleId}/users`, {
       signature,
       data,
       address,
