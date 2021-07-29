@@ -1,10 +1,10 @@
 import { useRecoilValue } from 'recoil';
 
 import { rCircleEpochsStatus, rSelectedCircleId } from 'recoilState';
-import { timingToLeastUnit, calculateEpochTimings } from 'utils/tools';
 
 import { IEpoch } from 'types';
 
+// TODO: this could be a recoil state.
 export const useCircleEpoch = (
   circleId: number | undefined
 ): {
@@ -13,44 +13,36 @@ export const useCircleEpoch = (
   previousEpoch?: IEpoch;
   currentEpoch?: IEpoch;
   nextEpoch?: IEpoch;
+  futureEpochs: IEpoch[];
   epochIsActive: boolean;
   timingMessage: string;
   longTimingMessage: string;
 } => {
   // A fake circleId will just return nothing.
-  const { pastEpochs, previousEpoch, currentEpoch, nextEpoch } = useRecoilValue(
-    rCircleEpochsStatus(circleId ?? -1)
-  );
+  const {
+    pastEpochs,
+    previousEpoch,
+    currentEpoch,
+    nextEpoch,
+    futureEpochs,
+  } = useRecoilValue(rCircleEpochsStatus(circleId ?? -1));
 
-  const closestEpoch = currentEpoch ?? nextEpoch;
-
-  const epochTiming =
-    closestEpoch !== undefined
-      ? calculateEpochTimings(closestEpoch)
-      : undefined;
+  const closest = currentEpoch ?? nextEpoch;
 
   const currentEpochNumber = previousEpoch
-    ? String(previousEpoch.number + 1)
+    ? String(previousEpoch.number ?? 0 + 1)
     : '1';
 
   let timingMessage = 'Epoch not Scheduled';
   let longTimingMessage = 'Next Epoch not Scheduled';
 
-  if (epochTiming && !epochTiming.hasBegun) {
-    timingMessage = `Epoch Begins in ${timingToLeastUnit(
-      epochTiming.timeUntilStart
-    )}`;
-    longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${timingToLeastUnit(
-      epochTiming.timeUntilStart
-    )}`;
+  if (closest && !closest.started) {
+    timingMessage = `Epoch Begins in ${closest.labelTimeStart}`;
+    longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${closest.labelTimeStart}`;
   }
-  if (epochTiming && epochTiming.hasBegun) {
-    timingMessage = `Epoch ends in ${timingToLeastUnit(
-      epochTiming.timeUntilEnd
-    )}`;
-    longTimingMessage = `Epoch ${currentEpochNumber} Ends in ${timingToLeastUnit(
-      epochTiming.timeUntilEnd
-    )}`;
+  if (closest && closest.started) {
+    timingMessage = `Epoch ends in ${closest.labelUntilEnd}`;
+    longTimingMessage = `Epoch ${currentEpochNumber} Ends in ${closest.labelUntilEnd}`;
   }
 
   return {
@@ -59,6 +51,7 @@ export const useCircleEpoch = (
     previousEpoch,
     currentEpoch,
     nextEpoch,
+    futureEpochs,
     epochIsActive: !!currentEpoch,
     timingMessage,
     longTimingMessage,

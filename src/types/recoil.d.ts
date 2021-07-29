@@ -25,26 +25,6 @@ export interface ISimpleGift {
   note: string;
 }
 
-export interface ITiming {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
-export interface IEpochTiming {
-  hasBegun: boolean;
-  timeUntilStart: ITiming;
-  hasEnded: boolean;
-  timeUntilEnd: ITiming;
-}
-
-export interface IEpochTimings {
-  previousEpochTiming?: IEpochTiming;
-  currentEpochTiming?: IEpochTiming;
-  nextEpochTiming?: IEpochTiming;
-}
-
 export interface IAtomEffectParams {
   node: RecoilState<T>;
   trigger: 'set' | 'get';

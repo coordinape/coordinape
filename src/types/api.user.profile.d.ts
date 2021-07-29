@@ -1,6 +1,23 @@
-import { ITokenGift } from './tokengift.model';
-import { ICircle } from './circle.model';
-import { IProfile } from './profile.model';
+import { ITokenGift } from './api.gift';
+import { ICircle } from './api.circle';
+
+export interface IProfile {
+  id: number;
+  address: string;
+  avatar: string;
+  background?: string;
+  bio?: string;
+  discord_username?: string;
+  github_username?: string;
+  medium_username?: string;
+  telegram_username?: string;
+  twitter_username?: string;
+  website?: string;
+  skills?: string[];
+  users: IUser[];
+  created_at: Date;
+  updated_at: Date;
+}
 
 export interface IUser {
   id: number;

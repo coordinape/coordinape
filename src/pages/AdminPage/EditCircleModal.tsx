@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
 
@@ -7,10 +7,9 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
 import { ApeAvatar } from 'components';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
+import { useSelectedCircle } from 'recoilState';
 import { getAvatarPath } from 'utils/domain';
-
-import { ICircle } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -168,24 +167,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const EditCircleModal = ({
-  circle,
   onClose,
   visible,
 }: {
   visible: boolean;
   onClose: () => void;
-  circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle, updateCircleLogo } = useUserInfo();
+  const { updateCircle, updateCircleLogo } = useAdminApi();
+  const circle = useSelectedCircle();
+
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
-  }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
-  const [circleName, setCircleName] = useState<string>(circle.name);
-  const [tokenName, setTokenName] = useState<string>(circle.token_name);
-  const [teamSelText, setTeamSelText] = useState<string>(circle.team_sel_text);
-  const [allocText, setAllocText] = useState<string>(circle.alloc_text);
+  }>({ avatar: '', avatarRaw: null });
+
+  const [circleName, setCircleName] = useState<string>('');
+  const [tokenName, setTokenName] = useState<string>('');
+  const [teamSelText, setTeamSelText] = useState<string>('');
+  const [allocText, setAllocText] = useState<string>('');
+
+  const circleChanged =
+    circleName !== circle?.name ||
+    tokenName !== circle?.token_name ||
+    teamSelText !== circle?.team_sel_text ||
+    allocText !== circle?.alloc_text;
+  const logoOrCircleChanged = logoData.avatarRaw || circleChanged;
+
+  useEffect(() => {
+    if (circle !== undefined) {
+      setCircleName(circle.name);
+      setTokenName(circle.tokenName);
+      setTeamSelText(circle.teamSelText);
+      setAllocText(circle.allocText);
+      setLogoData({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
+    }
+  }, [circle]);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,12 +237,11 @@ export const EditCircleModal = ({
 
   // onClick SaveCircle
   const onClickSaveCircle = async () => {
+    if (circle === undefined) {
+      return; // this shouldn't happen but it is for the typechecker
+    }
     if (logoData.avatarRaw) {
       await updateCircleLogo(logoData.avatarRaw);
-      setLogoData({
-        ...logoData,
-        avatarRaw: null,
-      });
     }
 
     if (
@@ -242,13 +258,6 @@ export const EditCircleModal = ({
       });
     }
   };
-
-  const circleDirty =
-    logoData.avatarRaw ||
-    circleName !== circle.name ||
-    tokenName !== circle.token_name ||
-    teamSelText !== circle.team_sel_text ||
-    allocText !== circle.alloc_text;
 
   return (
     <Modal className={classes.modal} onClose={onClose} open={visible}>
@@ -316,7 +325,7 @@ export const EditCircleModal = ({
         </div>
         <Button
           className={classes.saveButton}
-          disabled={!circleDirty}
+          disabled={!logoOrCircleChanged}
           onClick={onClickSaveCircle}
         >
           <Hidden smDown>

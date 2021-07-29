@@ -2,42 +2,29 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
   rSelectedCircleId,
-  rCircleEpochsStatus,
-  rSelectedMyUser,
-  rSelectedCircleUsers,
-  rSelectedCircle,
   rMyAddress,
   rCirclesMap,
-  rEpochsMap,
+  rEpochsRaw,
   rUsersMap,
-  rAvailableTeammates,
 } from 'recoilState';
 import { getApiService } from 'services/api';
+import { createCircleWithDefaults } from 'utils/modelExtenders';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
-  ICircle,
+  IApiCircle,
   IUser,
-  IEpoch,
+  IApiEpoch,
   PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
 } from 'types';
 
-// TODO: Break these up into a few hooks to encapsulate and reduce renders.
-export const useUserInfo = (): {
-  circle: ICircle | undefined;
-  pastEpochs: IEpoch[]; // Past Epochs
-  epoch: IEpoch | undefined; // Current or Last Epoch
-  epochs: IEpoch[]; // Upcoming Epochs
-  me: IUser | undefined;
-  allUsers: IUser[];
-  availableTeammates: IUser[];
-
-  updateCircle: (params: PutCirclesParam) => Promise<ICircle>;
-  updateCircleLogo: (newAvatar: File) => Promise<ICircle>;
-  createEpoch: (startDate: Date, endDate: Date) => Promise<IEpoch>;
+export const useAdminApi = (): {
+  updateCircle: (params: PutCirclesParam) => Promise<IApiCircle>;
+  updateCircleLogo: (newAvatar: File) => Promise<IApiCircle>;
+  createEpoch: (startDate: Date, endDate: Date) => Promise<IApiEpoch>;
   deleteEpoch: (id: number) => void;
   updateUser: (userAddress: string, params: UpdateUsersParam) => Promise<IUser>;
   createUser: (params: PostUsersParam) => Promise<IUser>;
@@ -47,22 +34,12 @@ export const useUserInfo = (): {
   const callWithLoadCatch = useAsyncLoadCatch();
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
-  const updateEpochsMap = useSetRecoilState(rEpochsMap);
+  const updateEpochsMap = useSetRecoilState(rEpochsRaw);
   const updateUsersMap = useSetRecoilState(rUsersMap);
 
-  const myAddress = useRecoilValue(rMyAddress);
-  const selectedMyUser = useRecoilValue(rSelectedMyUser);
-  const selectedCircleUsers = useRecoilValue(rSelectedCircleUsers);
-  const availableTeammates = useRecoilValue(rAvailableTeammates);
   // A fake circleId will just return nothing
   const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const {
-    pastEpochs,
-    currentEpoch,
-    previousEpoch,
-    futureEpochs,
-  } = useRecoilValue(rCircleEpochsStatus(selectedCircleId));
+  const myAddress = useRecoilValue(rMyAddress);
 
   const updateCircle = (params: PutCirclesParam) =>
     callWithLoadCatch(async () => {
@@ -74,7 +51,10 @@ export const useUserInfo = (): {
       );
 
       updateCirclesMap(
-        (oldMap) => new Map(oldMap.set(selectedCircleId, newCircle))
+        (oldMap) =>
+          new Map(
+            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
+          )
       );
 
       return newCircle;
@@ -90,7 +70,10 @@ export const useUserInfo = (): {
       );
 
       updateCirclesMap(
-        (oldMap) => new Map(oldMap.set(selectedCircleId, newCircle))
+        (oldMap) =>
+          new Map(
+            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
+          )
       );
 
       return newCircle;
@@ -171,13 +154,6 @@ export const useUserInfo = (): {
     });
 
   return {
-    circle: selectedCircle,
-    pastEpochs,
-    epoch: currentEpoch ?? previousEpoch,
-    epochs: futureEpochs,
-    me: selectedMyUser,
-    allUsers: selectedCircleUsers,
-    availableTeammates: availableTeammates,
     updateCircle,
     updateCircleLogo,
     createEpoch,

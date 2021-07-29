@@ -9,10 +9,13 @@ import { useRecoilValue } from 'recoil';
 
 import { MenuItem, Select, makeStyles } from '@material-ui/core';
 
-import { useUserInfo, useSelectedCircleEpoch } from 'hooks';
-import { rGifts, rPendingGifts } from 'recoilState';
+import { useSelectedCircleEpoch } from 'hooks';
+import {
+  rGifts,
+  rPendingGifts,
+  useSelectedCircleUsersWithDeleted,
+} from 'recoilState';
 import { getAvatarPath } from 'utils/domain';
-import { getEpochLabel } from 'utils/tools';
 
 import FilterDrawer from './FilterDrawer';
 
@@ -133,7 +136,7 @@ export const GraphPage = () => {
     pastEpochs,
     circleId: selectedCircleId,
   } = useSelectedCircleEpoch();
-  const { allUsers } = useUserInfo();
+  const allUsers = useSelectedCircleUsersWithDeleted();
 
   const handleSearchChange = (_event: any, value: string) => {
     if (!value) {
@@ -297,7 +300,7 @@ export const GraphPage = () => {
             },
           ].concat(
             pastEpochs.map((e) => ({
-              label: getEpochLabel(e),
+              label: e.labelGraph,
               value: e.id,
             }))
           );
@@ -305,7 +308,7 @@ export const GraphPage = () => {
     if (currentEpoch && epochIsActive) {
       setEpochOptions(
         options.concat({
-          label: getEpochLabel(currentEpoch),
+          label: currentEpoch.labelGraph,
           value: currentEpoch?.id,
         })
       );
@@ -402,6 +405,7 @@ export const GraphPage = () => {
 
     for (const { recipient_id, sender_id, tokens } of gifts) {
       if (tokens > 0) {
+        console.log(recipient_id, sender_id, tokens);
         matrix[orderedId[sender_id]][orderedId[recipient_id]] = tokens;
       }
     }

@@ -7,7 +7,7 @@ import {
   rGiftsRaw,
   rPendingGiftsRaw,
   rUsersMap,
-  rEpochsMap,
+  rEpochsRaw,
   rAvailableTeammates,
   rSelectedCircle,
   rCircleEpochsStatus,
@@ -18,7 +18,7 @@ import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
 import { useRecoilFetcher } from './useRecoilFetcher';
 
-import { ITokenGift, IUser, IEpoch, ICircle } from 'types';
+import { IApiTokenGift, IUser, IApiEpoch, ICircle } from 'types';
 
 export const useCircle = (): {
   availableTeammates: IUser[];
@@ -27,9 +27,9 @@ export const useCircle = (): {
   clearSelectedCircle: () => void;
   selectAndFetchCircle: (circleId: number) => Promise<void>;
   fetchUsersForCircle: () => Promise<IUser[]>;
-  fetchGiftsForCircle: () => Promise<ITokenGift[]>;
-  fetchPendingGiftsForCircle: () => Promise<ITokenGift[]>;
-  fetchEpochsForCircle: () => Promise<IEpoch[]>;
+  fetchGiftsForCircle: () => Promise<IApiTokenGift[]>;
+  fetchPendingGiftsForCircle: () => Promise<IApiTokenGift[]>;
+  fetchEpochsForCircle: () => Promise<IApiEpoch[]>;
 } => {
   const history = useHistory();
   const callWithLoadCatch = useAsyncLoadCatch();
@@ -77,8 +77,8 @@ export const useCircle = (): {
     updaterMergeArrayToIdMap
   );
   const fetchEpochs = useRecoilFetcher(
-    'rEpochsMap',
-    rEpochsMap,
+    'rEpochsRaw',
+    rEpochsRaw,
     updaterMergeArrayToIdMap
   );
 
@@ -93,28 +93,28 @@ export const useCircle = (): {
     return result as IUser[];
   };
 
-  const fetchGiftsForCircle = async (): Promise<ITokenGift[]> => {
+  const fetchGiftsForCircle = async (): Promise<IApiTokenGift[]> => {
     const [commit, result] = await fetchGifts(api.getTokenGifts, [
       selectedCircleId,
     ]);
     commit();
-    return result as ITokenGift[];
+    return result as IApiTokenGift[];
   };
 
-  const fetchPendingGiftsForCircle = async (): Promise<ITokenGift[]> => {
+  const fetchPendingGiftsForCircle = async (): Promise<IApiTokenGift[]> => {
     const [commit, result] = await fetchPendingGifts(api.getPendingTokenGifts, [
       selectedCircleId,
     ]);
     commit();
-    return result as ITokenGift[];
+    return result as IApiTokenGift[];
   };
 
-  const fetchEpochsForCircle = async (): Promise<IEpoch[]> => {
+  const fetchEpochsForCircle = async (): Promise<IApiEpoch[]> => {
     const [commit, result] = await fetchEpochs(api.getEpochs, [
       selectedCircleId,
     ]);
     commit();
-    return result as IEpoch[];
+    return result as IApiEpoch[];
   };
 
   const selectAndFetchCircle = async (circleId: number) =>
@@ -129,6 +129,7 @@ export const useCircle = (): {
           { circle_id: circleId },
         ]),
       ]);
+      console.log('selectAndFetchCircle', results[0][1]);
 
       results.forEach(([commit]) => commit());
       setSelectedCircleId(circleId);

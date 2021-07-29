@@ -10,9 +10,8 @@ import {
 } from '@material-ui/pickers';
 
 import { ReactComponent as DatePickerSVG } from 'assets/svgs/button/date-picker.svg';
-import { ReactComponent as DeleteEpochSVG } from 'assets/svgs/button/delete-epoch.svg';
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
 
 import { IEpoch } from 'types';
 
@@ -175,15 +174,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IProps {
+export const EditEpochModal = ({
+  epoch,
+  onClose,
+  visible,
+}: {
+  epoch: IEpoch;
   visible: boolean;
   onClose: () => void;
-}
-
-export const EditEpochModal = (props: IProps) => {
+}) => {
   const classes = useStyles();
-  const { onClose, visible } = props;
-  const { createEpoch, deleteEpoch, epoch, epochs } = useUserInfo();
+  const { createEpoch } = useAdminApi();
   const [epochStartDate, setEpochStartDate] = useState<Date | null>(null);
   const [epochEndDate, setEpochEndDate] = useState<Date | null>(null);
   const [
@@ -218,18 +219,18 @@ export const EditEpochModal = (props: IProps) => {
   };
 
   // onClick DeleteEpoch
-  const onClickDeleteEpoch = async (epoch: IEpoch) => {
-    await deleteEpoch(epoch.id);
-    setEpochDeletedDescription(
-      `Epoch for ${moment
-        .utc(epoch.start_date)
-        .local()
-        .format('MM/DD/YYYY')} to ${moment
-        .utc(epoch.end_date)
-        .local()
-        .format('MM/DD/YYYY')} was deleted.`
-    );
-  };
+  // const onClickDeleteEpoch = async (epoch: IEpoch) => {
+  //   await deleteEpoch(epoch.id);
+  //   setEpochDeletedDescription(
+  //     `Epoch for ${moment
+  //       .utc(epoch.start_date)
+  //       .local()
+  //       .format('MM/DD/YYYY')} to ${moment
+  //       .utc(epoch.end_date)
+  //       .local()
+  //       .format('MM/DD/YYYY')} was deleted.`
+  //   );
+  // };
 
   return (
     <Modal className={classes.modal} onClose={onClose} open={visible}>
@@ -330,7 +331,7 @@ export const EditEpochModal = (props: IProps) => {
             <div>
               <p className={classes.subTitle}>UPCOMING EPOCHS</p>
               <div className={classes.scrollableContainer}>
-                {epochs.map((epoch) => (
+                {/* {epochs.map((epoch) => (
                   <Button
                     className={classes.epochPeriod}
                     key={epoch.id}
@@ -348,7 +349,7 @@ export const EditEpochModal = (props: IProps) => {
                       {moment.utc(epoch.end_date).local().format('MM/DD/YYYY')}
                     </Hidden>
                   </Button>
-                ))}
+                ))} */}
               </div>
               {epochDeletedDescription.length > 0 && (
                 <div className={classes.epochDeletedContainer}>

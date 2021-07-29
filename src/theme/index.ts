@@ -40,10 +40,66 @@ const themeOptions = {
         },
       },
     },
+    MuiIconButton: {
+      root: {
+        color: '#aab2b5',
+      },
+    },
     MuiButton: {
       root: {
-        padding: '14px 20px',
-        borderRadius: '6px',
+        textTransform: 'none',
+        fontSize: 19,
+        lineHeight: 1.26,
+        padding: '12px 24px',
+        borderRadius: '13px',
+      },
+      text: {
+        textDecoration: 'underline',
+        color: '#84C7CA',
+        '&:hover': {
+          color: '#4e7577',
+          backgroundColor: 'transparent',
+        },
+      },
+      sizeSmall: {
+        fontSize: 13,
+        lineHeight: 1.28,
+        padding: '8px 24px',
+        borderRadius: '8px',
+        // This must be a bug that it gets overwritten here
+        '&.MuiButton-textSizeSmall': {
+          fontSize: 14,
+          lineHeight: 1.3,
+          fontWeight: 400,
+          padding: 0,
+        },
+      },
+      contained: {
+        boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
+      },
+      containedPrimary: {
+        '&:hover': {
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.2), rgba(81, 99, 105, 0.2)), #EF7376',
+          boxShadow: '0px 6.5px 9.75px rgba(184, 196, 201, 0.5)',
+        },
+        '&.Mui-disabled': {
+          color: customColor.white,
+          backgroundColor: '#f7b9ba',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
+        },
+      },
+      containedSecondary: {
+        '&:hover': {
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), rgba(81, 99, 105, 0.5)',
+          boxShadow: '0px 6.5px 9.75px rgba(184, 196, 201, 0.5)',
+        },
+        '&.Mui-disabled': {
+          color: customColor.white,
+          backgroundColor: '#ced3d5',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
+        },
       },
     },
     MuiStepIcon: {
@@ -124,14 +180,21 @@ const themeOptions = {
       paper: customColor.third,
     },
     primary: {
-      main: '#c43737',
+      main: customColor.red,
+      dark: '#cf7073',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#c43737',
+      main: '#9da7ab',
+      dark: '#818f94',
+      contrastText: '#fff',
     },
     text: {
       primary: '#555555',
       secondary: '#adb0bb',
+    },
+    error: {
+      main: '#EF7376',
     },
   },
   shadows: strongShadows,

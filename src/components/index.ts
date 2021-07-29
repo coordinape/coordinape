@@ -19,3 +19,6 @@ export * from './RecoilAppController/RecoilAppController';
 export * from './SentryScopeController/SentryScopeController';
 export * from './Spacer/Spacer';
 export * from './TeammateCard/TeammateCard';
+export * from './ApeButton/ApeButton';
+export * from './StaticTable/StaticTable';
+export * from './NoticeBox/NoticeBox';

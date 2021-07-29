@@ -16,7 +16,7 @@ import {
   rGlobalLoading,
   rGlobalLoadingText,
   rCircleSelectorOpen,
-  useValConnectorName,
+  useConnectorName,
   useStateMyAddress,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
@@ -65,7 +65,7 @@ export const RecoilAppController = () => {
     selectedCircleId,
     clearSelectedCircle,
   } = useCircle();
-  const connectorName = useValConnectorName();
+  const connectorName = useConnectorName();
   const [myAddress, setMyAddress] = useStateMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
     rWalletModalOpen

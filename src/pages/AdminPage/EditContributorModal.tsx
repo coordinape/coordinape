@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
+import { useSelectedCircle } from 'recoilState';
 
 import { IUser } from 'types';
 
@@ -143,8 +144,13 @@ export const EditContributorModal = ({
   user?: IUser;
 }) => {
   const classes = useStyles();
+  const circle = useSelectedCircle();
+  if (circle === undefined) {
+    throw 'Expected circle in EditContributorModal';
+  }
 
-  const { updateUser, createUser, circle } = useUserInfo();
+  const { updateUser, createUser } = useAdminApi();
+
   const [contributorName, setContributorName] = useState<string>(
     user?.name || ''
   );

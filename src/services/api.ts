@@ -5,12 +5,11 @@ import { API_URL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
 
 import {
-  ICircle,
-  ITokenGift,
+  IApiCircle,
+  IApiTokenGift,
   IUser,
   IProfile,
-  IEpoch,
-  IUserPendingGift,
+  IApiEpoch,
   PostProfileParam,
   PostCirclesParam,
   PostTokenGiftsParam,
@@ -52,16 +51,16 @@ export class APIService {
     return response.data;
   };
 
-  getCircles = async (): Promise<ICircle[]> => {
+  getCircles = async (): Promise<IApiCircle[]> => {
     const response = await axios.get('/circles');
-    return response.data as ICircle[];
+    return response.data as IApiCircle[];
   };
 
   // Unused.
   postCircles = async (
     address: string,
     params: PostCirclesParam
-  ): Promise<any> => {
+  ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
     const response = await axios.post('/circles', {
@@ -76,7 +75,7 @@ export class APIService {
     circleId: number,
     address: string,
     params: PutCirclesParam
-  ): Promise<ICircle> => {
+  ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
     const response = await axios.put(`${circleId}/admin/circles/${circleId}`, {
@@ -84,14 +83,14 @@ export class APIService {
       data,
       address,
     });
-    return response.data as ICircle;
+    return response.data as IApiCircle;
   };
 
   uploadCircleLogo = async (
     circleId: number,
     address: string,
     file: File
-  ): Promise<ICircle> => {
+  ): Promise<IApiCircle> => {
     const signature = await getSignature(file.name, this.provider);
     const formData = new FormData();
     formData.append('file', file);
@@ -107,24 +106,25 @@ export class APIService {
         },
       }
     );
-    return response.data as ICircle;
+    return response.data as IApiCircle;
   };
 
   getEpochs = async (
     circleId: number,
     params: { current?: number } = {}
-  ): Promise<IEpoch[]> => {
+  ): Promise<IApiEpoch[]> => {
     const response = await axios.get(`${circleId}/epoches`, { params });
-    return response.data as IEpoch[];
+    const epochs = response.data as IApiEpoch[];
+    return epochs as IApiEpoch[];
   };
 
   getFutureEpochs = async (
     params: {
       circle_id?: number;
     } = {}
-  ): Promise<IEpoch[]> => {
+  ): Promise<IApiEpoch[]> => {
     const response = await axios.get(`active-epochs`, { params });
-    return response.data as IEpoch[];
+    return response.data as IApiEpoch[];
   };
 
   postEpochs = async (
@@ -132,7 +132,7 @@ export class APIService {
     circleId: number,
     startDate: Date,
     endDate: Date
-  ): Promise<IEpoch> => {
+  ): Promise<IApiEpoch> => {
     const start_date = `${moment(startDate).format(
       'YYYY-MM-DD'
     )}T00:00:00.000000Z`;
@@ -145,7 +145,7 @@ export class APIService {
       data,
       address,
     });
-    return response.data as IEpoch;
+    return response.data as IApiEpoch;
   };
 
   deleteEpochs = async (
@@ -296,9 +296,9 @@ export class APIService {
     recipient_address?: string;
     circle_id?: number;
     id?: number;
-  }): Promise<ITokenGift[]> => {
+  }): Promise<IApiTokenGift[]> => {
     const response = await axios.get('/pending-token-gifts', { params });
-    return response.data as ITokenGift[];
+    return response.data as IApiTokenGift[];
   };
 
   getTokenGifts = async (params: {
@@ -306,16 +306,16 @@ export class APIService {
     recipient_address?: string;
     circle_id?: number;
     id?: number;
-  }): Promise<ITokenGift[]> => {
+  }): Promise<IApiTokenGift[]> => {
     const response = await axios.get('/token-gifts', { params });
-    return response.data as ITokenGift[];
+    return response.data as IApiTokenGift[];
   };
 
   postTokenGifts = async (
     circleId: number,
     address: string,
     params: PostTokenGiftsParam[]
-  ): Promise<IUserPendingGift> => {
+  ): Promise<any> => {
     const data = JSON.stringify(params);
     const signature = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/v2/token-gifts/${address}`, {

@@ -1,6 +1,6 @@
-import { IUser } from './user.model';
+import { IUser } from './api.user';
 
-export interface ITokenGift {
+export interface IApiTokenGift {
   id: number;
   circle_id: number;
   epoch_id: number;
@@ -10,10 +10,13 @@ export interface ITokenGift {
   recipient_address: string;
   tokens: number;
   note: string;
-  dts_created: Date;
-  created_at: Date;
-  updated_at: Date;
-  // Hydrated in app
+  dts_created: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ITokenGift extends IApiTokenGift {
+  // Calculated
   sender?: IUser;
   recipient?: IUser;
 }

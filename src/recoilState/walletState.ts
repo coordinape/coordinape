@@ -24,7 +24,7 @@ export const rMyAddress = atom<string | undefined>({
     },
   ],
 });
-export const useValMyAddress = () => useRecoilValue(rMyAddress);
+export const useMyAddress = () => useRecoilValue(rMyAddress);
 export const useStateMyAddress = () => useRecoilState(rMyAddress);
 export const useSetMyAddress = () => useSetRecoilState(rMyAddress);
 
@@ -43,6 +43,6 @@ export const rConnectorName = atom<ConnectorNames | undefined>({
     },
   ],
 });
-export const useValConnectorName = () => useRecoilValue(rConnectorName);
+export const useConnectorName = () => useRecoilValue(rConnectorName);
 export const useStateConnectorName = () => useRecoilState(rConnectorName);
 export const useSetConnectorName = () => useSetRecoilState(rConnectorName);
