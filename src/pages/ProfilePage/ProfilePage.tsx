@@ -38,6 +38,7 @@ import { useProfile, useMe, useCircle } from 'hooks';
 import { IUser } from 'types';
 
 import { getAvatarPath } from 'utils/domain';
+import { transparentize } from 'polished';
 
 // eslint-disable-next-line react/display-name
 const Transition = React.forwardRef<unknown, TransitionProps>(
@@ -117,11 +118,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
+  skillItem: {
+    margin: theme.spacing(0.5),
+    padding: theme.spacing(0.5, 2),
+    background: theme.colors.lightBlue,
+    textAlign: 'center',
+    fontFamily: 'Space Grotesk',
+    fontSize: 18,
+    fontWeight: 600,
+    color: theme.colors.white,
+    borderRadius: 4,
+  },
   skillGroupButton: {
     marginTop: theme.spacing(0.5),
     marginRight: theme.spacing(1),
-    backgroundColor: '#84C7CA',
-    color: '#FFFFFF',
+    backgroundColor: theme.colors.lightBlue,
+    color: theme.colors.white,
     height: '22.97px',
     borderRadius: 4,
     textTransform: 'none',
@@ -138,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 600,
-    color: theme.colors.text, //'rgba(94, 111, 116, 0.7)',
+    color: theme.colors.text,
   },
   iconGroup: {
     display: 'flex',
@@ -171,7 +183,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 1100,
     textAlign: 'center',
-    background: '#FFFFFF',
+    background: theme.colors.white,
   },
   modalBody: {
     padding: '0px 116px',
@@ -193,9 +205,9 @@ const useStyles = makeStyles((theme) => ({
   modalSubTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'rgba(81, 99, 105, 0.7)',
+    color: transparentize(0.3, theme.colors.text),
     padding: '8px 48px',
-    borderBottom: '1px solid rgba(24, 24, 24, 0.1)',
+    borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
     width: '60%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -204,16 +216,21 @@ const useStyles = makeStyles((theme) => ({
     padding: '32px 0px',
   },
   skillOption: {
-    color: '#FFFFFF',
-    background: 'rgba(81, 99, 105, 0.33)',
+    color: theme.colors.white,
+    background: transparentize(0.67, theme.colors.text),
     borderRadius: 4,
     padding: '5px 16px',
     marginBottom: 8,
     marginRight: 8,
     textTransform: 'none',
-  },
-  active: {
-    background: '#84C7CA',
+    boxShadow: 'none',
+    '&:hover': {
+      background: theme.colors.mediumGray,
+      boxShadow: 'none',
+    },
+    '&.selected': {
+      background: theme.colors.lightBlue,
+    },
   },
   linkTitle: {
     fontSize: 16,
@@ -222,7 +239,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 16,
   },
   linkButton: {
-    background: '#E1E1E1',
+    background: theme.colors.lightBackground,
     borderRadius: 8,
     textTransform: 'none',
     fontSize: 15,
@@ -231,10 +248,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
   },
   saveButton: {
-    background: '#EF7376',
+    background: theme.colors.red,
     boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.12)',
     borderRadius: 8,
-    color: '#FFFFFF',
+    color: theme.colors.white,
     padding: '8px 16px',
     textTransform: 'none',
     marginTop: 48,
@@ -252,7 +269,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.text,
     border: 0,
     outline: 'none',
-    background: '#E1E1E1',
+    background: theme.colors.lightBackground,
     borderRadius: 8,
     wordBreak: 'break-word',
     '&::placeholder': {
@@ -264,20 +281,21 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: theme.breakpoints.values.md,
     resize: 'none',
+    fontFamily: 'Space Grotesk',
     fontSize: 15,
-    fontWeight: 400,
+    fontWeight: 300,
     color: theme.colors.text,
     border: 0,
     outline: 'none',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    background: '#E1E1E1',
+    background: theme.colors.lightBackground,
     borderRadius: 8,
     wordBreak: 'break-word',
     textAlign: 'center',
     alignItems: 'center',
     '&::placeholder': {
-      opacity: 0.3,
+      color: '#99A2A5',
     },
   },
   uploadImageContainer: {
@@ -297,7 +315,7 @@ const useStyles = makeStyles((theme) => ({
       top: 0,
       left: 0,
       borderRadius: '50%',
-      background: 'rgba(0,0,0,0.6)',
+      background: transparentize(0.4, theme.colors.black),
       opacity: 0.7,
       transition: 'all 0.5s',
       '-webkit-transition': 'all 0.5s',
@@ -307,7 +325,7 @@ const useStyles = makeStyles((theme) => ({
         opacity: 1,
       },
       '& .upload-image-icon': {
-        background: 'rgba(81, 99, 105, 0.9)',
+        background: transparentize(0.1, theme.colors.text),
       },
     },
   },
@@ -318,7 +336,7 @@ const useStyles = makeStyles((theme) => ({
     width: 178,
     height: 40,
     borderRadius: 8,
-    background: 'rgba(81, 99, 105, 0.7)',
+    background: transparentize(0.3, theme.colors.text),
     cursor: 'pointer',
     zIndex: 2,
   },
@@ -685,13 +703,9 @@ export const ProfilePage = ({
               {/* loop section from the myprofile data */}
               {savedProfileData?.skills?.length
                 ? savedProfileData?.skills.map((item) => (
-                    <Button
-                      key={item}
-                      variant="contained"
-                      className={classes.skillGroupButton}
-                    >
+                    <div key={item} className={classes.skillItem}>
                       {item}
-                    </Button>
+                    </div>
                   ))
                 : ''}
             </Box>
@@ -1001,9 +1015,10 @@ export const ProfilePage = ({
                 <Button
                   key={item.name}
                   variant="contained"
-                  className={clsx(classes.skillOption, {
-                    [classes.active]: profileData.skills.includes(item.name),
-                  })}
+                  className={clsx(
+                    classes.skillOption,
+                    profileData.skills.includes(item.name) ? 'selected' : ''
+                  )}
                   onClick={() => selectSkills(item.name)}
                 >
                   {item.name}

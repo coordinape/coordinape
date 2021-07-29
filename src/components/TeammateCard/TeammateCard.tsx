@@ -130,6 +130,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5, 1.5),
     background: theme.colors.lightBlue,
     textAlign: 'center',
+    fontFamily: 'Space Grotesk',
     fontSize: 14,
     fontWeight: 600,
     color: theme.colors.white,
