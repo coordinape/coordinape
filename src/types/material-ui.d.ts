@@ -16,6 +16,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       mediumRed: string;
       darkRed: string;
       lightGray: string;
+      mediumGray: string;
       text: string;
       primary: string;
       secondary: string;
@@ -23,6 +24,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       selected: string;
       border: string;
       background: string;
+      lightBackground: string;
       almostWhite: string;
       lightBlue: string;
     };
