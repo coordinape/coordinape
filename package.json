@@ -24,7 +24,7 @@
     "@web3-react/fortmatic-connector": "^6.1.6",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/portis-connector": "^6.1.6",
-    "@web3-react/walletconnect-connector": "^6.1.6",
+    "@web3-react/walletconnect-connector": "^6.2.4",
     "@web3-react/walletlink-connector": "^6.1.6",
     "async-sema": "^3.1.0",
     "axios": "^0.21.1",

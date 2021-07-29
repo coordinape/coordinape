@@ -42,11 +42,12 @@ export class APIService {
     params: PostProfileParam
   ): Promise<IProfile> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`/profile/${address}`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data;
   };
@@ -62,11 +63,12 @@ export class APIService {
     params: PostCirclesParam
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post('/circles', {
       signature,
       data,
       address,
+      hash,
     });
     return response.data;
   };
@@ -77,11 +79,12 @@ export class APIService {
     params: PutCirclesParam
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.put(`${circleId}/admin/circles/${circleId}`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data as IApiCircle;
   };
@@ -91,12 +94,13 @@ export class APIService {
     address: string,
     file: File
   ): Promise<IApiCircle> => {
-    const signature = await getSignature(file.name, this.provider);
+    const { signature, hash } = await getSignature(file.name, this.provider);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('signature', signature);
     formData.append('address', address);
     formData.append('data', file.name);
+    formData.append('hash', hash);
     const response = await axios.post(
       `${circleId}/admin/upload-logo`,
       formData,
@@ -139,11 +143,12 @@ export class APIService {
     const end_date = `${moment(endDate).format('YYYY-MM-DD')}T00:00:00.000000Z`;
     const params: any = { start_date, end_date };
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/admin/epoches`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data as IApiEpoch;
   };
@@ -154,7 +159,7 @@ export class APIService {
     epochId: number
   ): Promise<any> => {
     const data = JSON.stringify({ epoch_id: epochId });
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.delete(
       `${circleId}/admin/epoches/${epochId}`,
       {
@@ -162,6 +167,7 @@ export class APIService {
           signature,
           data,
           address,
+          hash,
         },
       }
     );
@@ -194,11 +200,12 @@ export class APIService {
     params: PostUsersParam
   ): Promise<IUser> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/admin/users`, {
       signature,
       data,
       address: adminAddress,
+      hash,
     });
     return response.data;
   };
@@ -210,13 +217,14 @@ export class APIService {
     params: UpdateUsersParam
   ): Promise<IUser> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.put(
       `${circleId}/admin/users/${originalAddress}`,
       {
         signature,
         data,
         address: adminAddress,
+        hash,
       }
     );
     return response.data;
@@ -228,11 +236,12 @@ export class APIService {
     params: PutUsersParam
   ): Promise<IUser> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.put(`${circleId}/users/${address}`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data;
   };
@@ -244,24 +253,26 @@ export class APIService {
   ): Promise<IUser> => {
     const params: any = { address };
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.delete(`${circleId}/admin/users/${address}`, {
       data: {
         signature,
         data,
         address: adminAddress,
+        hash,
       },
     });
     return response.data;
   };
 
   postProfileUpload = async (address: string, file: File, endpoint: string) => {
-    const signature = await getSignature(file.name, this.provider);
+    const { signature, hash } = await getSignature(file.name, this.provider);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('signature', signature);
     formData.append('address', address);
     formData.append('data', file.name);
+    formData.append('hash', hash);
     const response = await axios.post(`/${endpoint}/${address}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -282,11 +293,12 @@ export class APIService {
     teammates: number[]
   ): Promise<IUser> => {
     const data = JSON.stringify({ teammates: teammates });
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/teammates`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data;
   };
@@ -317,11 +329,12 @@ export class APIService {
     params: PostTokenGiftsParam[]
   ): Promise<any> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
+    const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/v2/token-gifts/${address}`, {
       signature,
       data,
       address,
+      hash,
     });
     return response.data;
   };
