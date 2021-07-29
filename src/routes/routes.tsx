@@ -8,6 +8,7 @@ import AllocationPage from 'pages/AllocationPage';
 import HistoryPage from 'pages/HistoryPage';
 import PreconnectPage from 'pages/PreconnectPage';
 import ProfilePage from 'pages/ProfilePage';
+import VouchingPage from 'pages/VouchingPage';
 import { rSelectedMyUser, rSelectedCircle, rHasAdminView } from 'recoilState';
 
 import * as paths from './paths';
@@ -42,6 +43,7 @@ export const Routes = () => {
         component={ProfilePage}
       />
       <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
+      <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
 
