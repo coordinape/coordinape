@@ -348,7 +348,7 @@ export const GraphPage = () => {
 
     // TODO: This can be simplified for placeholders
     const images = fromPairs(
-      uniq(allUsers.map((u) => u.avatar)).map((avatar) => {
+      uniq(allUsers.map((u) => u.profile?.avatar ?? u.avatar)).map((avatar) => {
         const img = new Image();
         img.src = getAvatarPath(avatar);
         return [avatar ?? '/imgs/avatar/placeholder.jpg', img];
@@ -359,7 +359,10 @@ export const GraphPage = () => {
       .filter((u) => activeUsers.has(u.id))
       .map((u) => ({
         ...u,
-        img: images[u.avatar ?? '/imgs/avatar/placeholder.jpg'],
+        img:
+          images[
+            u.profile?.avatar ?? u.avatar ?? '/imgs/avatar/placeholder.jpg'
+          ],
         receiverLinks: [] as any,
         giverLinks: [] as any,
         givers: [] as any,
