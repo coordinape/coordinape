@@ -1,29 +1,17 @@
 /* eslint-disable import/order */
 import React, { useState, useEffect } from 'react';
 
-import clsx from 'clsx';
 import { RouteComponentProps } from 'react-router-dom';
 
-import {
-  Dialog,
-  makeStyles,
-  withStyles,
-  Tooltip,
-  Zoom,
-} from '@material-ui/core';
+import { makeStyles, withStyles, Tooltip, Zoom } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
-import Slide from '@material-ui/core/Slide';
-import { TransitionProps } from '@material-ui/core/transitions';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import ShowMore from 'react-show-more';
 
 import discord from '../../assets/svgs/social/discord.svg';
@@ -32,55 +20,10 @@ import medium from '../../assets/svgs/social/medium.svg';
 import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
 import website from '../../assets/svgs/social/website.svg';
-import { ApeAvatar } from 'components';
 import { useProfile, useMe, useCircle } from 'hooks';
 
-import { IApiUser } from 'types';
-
 import { getAvatarPath } from 'utils/domain';
-import { transparentize } from 'polished';
-
-// eslint-disable-next-line react/display-name
-const Transition = React.forwardRef<unknown, TransitionProps>(
-  (props: any, ref) => <Slide direction="up" ref={ref} {...props} />
-);
-
-const skillsDumyData = [
-  { id: 0, name: 'Community Mgmt' },
-  { id: 1, name: 'Discord' },
-  { id: 2, name: 'Social Media' },
-  { id: 3, name: 'Governance' },
-  { id: 4, name: 'Budget Mgmt' },
-  { id: 5, name: 'Compensation' },
-  { id: 6, name: 'Grants' },
-  { id: 7, name: 'Solidity' },
-  { id: 8, name: 'Web3' },
-  { id: 9, name: 'Front End' },
-  { id: 10, name: 'Back End' },
-  { id: 11, name: 'UX' },
-  { id: 12, name: 'UI' },
-  { id: 13, name: 'Product Design' },
-  { id: 14, name: 'Full-Stack' },
-  { id: 15, name: 'Dev Ops' },
-  { id: 16, name: 'Project Mgmt' },
-  { id: 17, name: 'Security' },
-  { id: 18, name: 'Memes' },
-  { id: 19, name: 'Art' },
-  { id: 20, name: 'NFTs' },
-  { id: 21, name: 'Graphics' },
-  { id: 22, name: 'Branding' },
-  { id: 23, name: '3D' },
-  { id: 24, name: 'Video' },
-  { id: 25, name: 'Communications' },
-  { id: 26, name: 'Translation' },
-  { id: 27, name: 'Docs' },
-  { id: 28, name: 'Writing' },
-  { id: 29, name: 'Podcasting' },
-  { id: 30, name: 'Strategy' },
-  { id: 31, name: 'Treasury Mgmt' },
-  { id: 32, name: 'Contract Audits' },
-  { id: 33, name: 'Multisig' },
-];
+import EditModal, { IProfileData } from './EditModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -179,65 +122,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     marginBottom: 16,
   },
-  modalWrapper: {
-    width: '100%',
-    maxWidth: 1100,
-    textAlign: 'center',
-    background: theme.colors.white,
-  },
-  modalBody: {
-    padding: '0px 116px',
-    marginBottom: 32,
-  },
-  modalProfileSection: {
-    padding: '12px 0px',
-  },
-  modalSkillsSection: {
-    padding: '12px 0px',
-    paddingTop: 65,
-  },
-  modalBiographySection: {
-    padding: '12px 0px',
-  },
-  modalLinksSection: {
-    padding: '12px 0px',
-  },
-  modalSubTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: transparentize(0.3, theme.colors.text),
-    padding: '8px 48px',
-    borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
-    width: '60%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  modalSkillsBody: {
-    padding: '32px 0px',
-  },
-  skillOption: {
-    color: theme.colors.white,
-    background: transparentize(0.67, theme.colors.text),
-    borderRadius: 4,
-    padding: '5px 16px',
-    marginBottom: 8,
-    marginRight: 8,
-    textTransform: 'none',
-    boxShadow: 'none',
-    '&:hover': {
-      background: theme.colors.mediumGray,
-      boxShadow: 'none',
-    },
-    '&.selected': {
-      background: theme.colors.lightBlue,
-    },
-  },
-  linkTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: theme.colors.text,
-    paddingBottom: 16,
-  },
   linkButton: {
     background: theme.colors.lightBackground,
     borderRadius: 8,
@@ -246,105 +130,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.text,
     marginTop: 8,
     boxShadow: 'none',
-  },
-  saveButton: {
-    background: theme.colors.red,
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.12)',
-    borderRadius: 8,
-    color: theme.colors.white,
-    padding: '8px 16px',
-    textTransform: 'none',
-    marginTop: 48,
-  },
-  bioTextarea: {
-    height: 143,
-    width: '100%',
-    maxWidth: theme.breakpoints.values.md,
-    minHeight: 143,
-    margin: theme.spacing(2, 0, 8),
-    padding: theme.spacing(3),
-    resize: 'vertical',
-    fontSize: 20,
-    fontWeight: 300,
-    color: theme.colors.text,
-    border: 0,
-    outline: 'none',
-    background: theme.colors.lightBackground,
-    borderRadius: 8,
-    wordBreak: 'break-word',
-    '&::placeholder': {
-      opacity: 0.3,
-    },
-  },
-  linksText: {
-    padding: theme.spacing(1.5, 2),
-    width: '100%',
-    maxWidth: theme.breakpoints.values.md,
-    resize: 'none',
-    fontFamily: 'Space Grotesk',
-    fontSize: 15,
-    fontWeight: 300,
-    color: theme.colors.text,
-    border: 0,
-    outline: 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    background: theme.colors.lightBackground,
-    borderRadius: 8,
-    wordBreak: 'break-word',
-    textAlign: 'center',
-    alignItems: 'center',
-    '&::placeholder': {
-      color: '#99A2A5',
-    },
-  },
-  uploadImageContainer: {
-    position: 'relative',
-    width: 96,
-    height: 96,
-    margin: 'auto',
-    borderRadius: 30,
-    fontSize: 12,
-    fontWeight: 400,
-    marginTop: 16,
-    '&:after': {
-      content: `" "`,
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      top: 0,
-      left: 0,
-      borderRadius: '50%',
-      background: transparentize(0.4, theme.colors.black),
-      opacity: 0.7,
-      transition: 'all 0.5s',
-      '-webkit-transition': 'all 0.5s',
-    },
-    '&:hover': {
-      '&:after': {
-        opacity: 1,
-      },
-      '& .upload-image-icon': {
-        background: transparentize(0.1, theme.colors.text),
-      },
-    },
-  },
-  uploadImageIconWrapper: {
-    position: 'absolute',
-    marginTop: theme.spacing(1),
-    left: 'calc(1% - 40px)',
-    width: 178,
-    height: 40,
-    borderRadius: 8,
-    background: transparentize(0.3, theme.colors.text),
-    cursor: 'pointer',
-    zIndex: 2,
-  },
-  editAvatar: {
-    width: 96,
-    height: 96,
-    border: '4px solid #FFFFFF',
-    borderRadius: '50%',
   },
   recentEpoch: {
     fontSize: 18,
@@ -373,23 +158,6 @@ const TextOnlyTooltip = withStyles({
     background: '#C3CDCF',
   },
 })(Tooltip);
-
-interface IProfileData {
-  avatar: string;
-  avatarRaw: File | null;
-  background: string;
-  backgroundRaw: File | null;
-  name: string;
-  bio: string;
-  telegram_username: string;
-  twitter_username: string;
-  discord_username: string;
-  medium_username: string;
-  github_username: string;
-  website: string;
-  skills: string[];
-  users: IApiUser[];
-}
 
 // http://app.localhost:3000/profile/0xb9209ed68a702e25e738ca0e550b4a560bf4d9d8
 // http://app.localhost:3000/profile/me
@@ -529,16 +297,6 @@ export const ProfilePage = ({
     setOpenModal(false);
   };
 
-  const selectSkills = (skill: string) => {
-    let skills: string[] = [];
-    profileData.skills.forEach((a) => skills.push(a));
-    if (skills.includes(skill))
-      skills = skills.filter((item) => item !== skill);
-    else skills.push(skill);
-    const obj = { ...profileData, skills: [...skills] };
-    setProfileData(obj);
-  };
-
   const onChangeBackground = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       setProfileData({
@@ -551,46 +309,8 @@ export const ProfilePage = ({
     }
   };
 
-  const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length) {
-      setProfileData({
-        ...profileData,
-        avatar: URL.createObjectURL(e.target.files[0]),
-        avatarRaw: e.target.files[0],
-      });
-    }
-  };
-
-  const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setProfileData({ ...profileData, bio: e.target.value });
-  };
-
-  const onChangeTwitter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, twitter_username: e.target.value });
-  };
-
-  const onChangeTelegram = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, telegram_username: e.target.value });
-  };
-
-  const onChangeGithub = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, github_username: e.target.value });
-  };
-
-  const onChangeMedium = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, medium_username: e.target.value });
-  };
-
-  const onChangeWebsite = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, website: e.target.value });
-  };
-
-  const onChangeDiscord = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, discord_username: e.target.value });
-  };
-
   useEffect(() => {
-    if (open === true) {
+    if (open) {
       setProfileData({
         ...profileData,
         avatar: isMe ? myAvatarPath : avatarPath,
@@ -853,262 +573,17 @@ export const ProfilePage = ({
                   ))}
                 </div>
               </Grid>
-              {/* <Grid item sm={4} xs={12}> */}
-              {/* <Box className={classes.gridTitle}>Frequent Collaborators</Box> */}
-              {/* <Box className={classes.gridItem}>
-                <Box className={classes.collaboratorsGroup}>
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                </Box>
-                <Box className={classes.collaboratorsGroup}>
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                </Box>
-                <Box className={classes.collaboratorsGroup}>
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                  <Avatar
-                    alt="collaborator1"
-                    src={
-                      myProfile?.avatar !== null
-                        ? myProfile?.avatar
-                        : '/imgs/avatar/ak.jpeg'
-                    }
-                    className={classes.collaborators}
-                  />
-                </Box>
-              </Box> */}
-              {/* </Grid> */}
             </Grid>
           </Box>
-          {/* <div>
-          <h2>Other Profile</h2>
-          <p>{JSON.stringify(profile)}</p>
-        </div>
-        <button onClick={updateSomething}>Update?</button> */}
         </div>
       </Box>
-      <Dialog
-        open={open}
-        onClose={closeModal}
-        TransitionComponent={Transition}
-        classes={{ paper: classes.modalWrapper }}
-      >
-        <Box
-          style={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <h2>Edit Profile</h2>
-          <IconButton
-            onClick={closeModal}
-            aria-label="close"
-            style={{
-              color: 'rgba(81, 99, 105, 0.35)',
-              right: 20,
-              position: 'absolute',
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
-        <Box className={classes.modalBody}>
-          <Box className={classes.modalProfileSection}>
-            <Typography className={classes.modalSubTitle}>
-              Profile Image
-            </Typography>
-            <div className={classes.uploadImageContainer}>
-              <label htmlFor="upload-avatar-button">
-                <ApeAvatar
-                  path={profileData?.avatar}
-                  className={classes.editAvatar}
-                />
-                <div
-                  className={clsx(
-                    classes.uploadImageIconWrapper,
-                    'upload-image-icon'
-                  )}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <CloudUploadIcon style={{ color: '#FFFFFF' }} />
-                    <p
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: '#FFFFFF',
-                        paddingLeft: 8,
-                      }}
-                    >
-                      Upload Profile Image
-                    </p>
-                  </div>
-                </div>
-              </label>
-              <input
-                id="upload-avatar-button"
-                onChange={onChangeAvatar}
-                style={{ display: 'none' }}
-                type="file"
-              />
-            </div>
-          </Box>
-          <Box className={classes.modalSkillsSection}>
-            <Box className={classes.modalSubTitle}>Select Your Skills</Box>
-            <Box className={classes.modalSkillsBody}>
-              {skillsDumyData.map((item) => (
-                <Button
-                  key={item.name}
-                  variant="contained"
-                  className={clsx(
-                    classes.skillOption,
-                    profileData.skills.includes(item.name) ? 'selected' : ''
-                  )}
-                  onClick={() => selectSkills(item.name)}
-                >
-                  {item.name}
-                </Button>
-              ))}
-            </Box>
-          </Box>
-          <Box className={classes.modalBiographySection}>
-            <Typography className={classes.modalSubTitle}>Biography</Typography>
-            <textarea
-              className={classes.bioTextarea}
-              onChange={onChangeBio}
-              value={profileData.bio}
-            />
-          </Box>
-          <Box className={classes.modalLinksSection}>
-            <Typography
-              className={classes.modalSubTitle}
-              style={{ marginBottom: 32 }}
-            >
-              Links
-            </Typography>
-            <Grid container spacing={4}>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Twitter</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeTwitter}
-                  value={profileData.twitter_username}
-                  placeholder="Enter username"
-                />
-              </Grid>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Github</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeGithub}
-                  value={profileData.github_username}
-                  placeholder="Enter username"
-                />
-              </Grid>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Telegram</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeTelegram}
-                  value={profileData.telegram_username}
-                  placeholder="Enter username"
-                />
-              </Grid>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Discord</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeDiscord}
-                  value={profileData.discord_username}
-                  placeholder="Username#xxxx"
-                />
-              </Grid>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Medium</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeMedium}
-                  value={profileData.medium_username}
-                  placeholder="Enter username"
-                />
-              </Grid>
-              <Grid item sm={3} xs={12}>
-                <Typography className={classes.linkTitle}>Website</Typography>
-                <input
-                  className={classes.linksText}
-                  onChange={onChangeWebsite}
-                  value={profileData.website}
-                  placeholder="Enter link"
-                />
-              </Grid>
-            </Grid>
-          </Box>
-          <Button
-            variant="contained"
-            color="default"
-            className={classes.saveButton}
-            startIcon={<SaveOutlinedIcon />}
-            onClick={updateSomething}
-          >
-            Save
-          </Button>
-        </Box>
-      </Dialog>
+      <EditModal
+        data={profileData}
+        setData={setProfileData}
+        isOpen={open}
+        close={closeModal}
+        save={updateSomething}
+      />
     </div>
   );
 };
