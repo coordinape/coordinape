@@ -262,33 +262,12 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
     }
   };
 
-  const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setData({ ...data, bio: e.target.value });
-  };
 
-  const onChangeTwitter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, twitter_username: e.target.value });
-  };
-
-  const onChangeTelegram = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, telegram_username: e.target.value });
-  };
-
-  const onChangeGithub = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, github_username: e.target.value });
-  };
-
-  const onChangeMedium = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, medium_username: e.target.value });
-  };
-
-  const onChangeWebsite = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, website: e.target.value });
-  };
-
-  const onChangeDiscord = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, discord_username: e.target.value });
-  };
+  const fieldSetter = (name: string) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => setData({ ...data, [name]: e.target.value });
 
   const selectSkills = (skill: string) => {
     let skills: string[] = [];
@@ -408,7 +387,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Twitter</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeTwitter}
+                onChange={fieldSetter('twitter_username')}
                 value={data.twitter_username}
                 placeholder="Enter username"
               />
@@ -417,7 +396,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Github</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeGithub}
+                onChange={fieldSetter('github_username')}
                 value={data.github_username}
                 placeholder="Enter username"
               />
@@ -426,7 +405,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Telegram</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeTelegram}
+                onChange={fieldSetter('telegram_username')}
                 value={data.telegram_username}
                 placeholder="Enter username"
               />
@@ -435,7 +414,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Discord</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeDiscord}
+                onChange={fieldSetter('discord_username')}
                 value={data.discord_username}
                 placeholder="Username#xxxx"
               />
@@ -444,7 +423,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Medium</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeMedium}
+                onChange={fieldSetter('medium_username')}
                 value={data.medium_username}
                 placeholder="Enter username"
               />
@@ -453,7 +432,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               <Typography className={classes.linkTitle}>Website</Typography>
               <input
                 className={classes.linksText}
-                onChange={onChangeWebsite}
+                onChange={fieldSetter('website')}
                 value={data.website}
                 placeholder="Enter link"
               />
