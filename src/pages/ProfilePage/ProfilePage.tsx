@@ -258,14 +258,6 @@ export const ProfilePage = ({
     }
   };
 
-  const openModal = () => {
-    setOpenModal(true);
-  };
-
-  const closeModal = () => {
-    setOpenModal(false);
-  };
-
   const onChangeBackground = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       setProfileData({
@@ -335,7 +327,7 @@ export const ProfilePage = ({
                 color="default"
                 className={classes.button}
                 startIcon={<EditOutlinedIcon />}
-                onClick={openModal}
+                onClick={() => setOpenModal(true)}
               >
                 Edit Profile
               </Button>
@@ -518,7 +510,7 @@ export const ProfilePage = ({
         data={profileData}
         setData={setProfileData}
         isOpen={open}
-        close={closeModal}
+        close={() => setOpenModal(false)}
         save={updateSomething}
       />
     </div>
