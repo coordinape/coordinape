@@ -47,6 +47,7 @@ export class APIService {
     const response = await axios.post(`/profile`, {
       signature,
       data,
+      address,
       hash,
     });
     return response.data;
