@@ -14,6 +14,7 @@ const color = {
   third: '#EAEAEB',
   selected: '#31A5AC',
   border: '#939EA1',
+  lightBorder: '#DEDEDE',
   background: '#DFE7E8',
   lightBackground: '#E1E1E1',
   // New for landing page

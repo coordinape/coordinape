@@ -23,6 +23,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       third: string;
       selected: string;
       border: string;
+      lightBorder: string;
       background: string;
       lightBackground: string;
       almostWhite: string;
