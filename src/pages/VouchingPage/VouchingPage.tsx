@@ -4,6 +4,8 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { useValSelectedCircle } from 'recoilState';
 
+import NewNominateModal from './NewNominateModal';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(5, 0),
@@ -46,19 +48,17 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     color: theme.colors.primary,
     textAlign: 'center',
-  },
-  hrWithMax: {
-    height: 1,
-    width: '100%',
-    maxWidth: theme.breakpoints.values.md,
-    color: theme.colors.primary,
-    opacity: 0.5,
+    border: 'solid',
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderColor: theme.colors.lightBorder,
   },
 }));
 
 export const VouchingPage = () => {
   const classes = useStyles();
   const circle = useValSelectedCircle();
+  const [isNewNominate, setNewNominate] = useState<boolean>(false);
 
   return !circle ? (
     <div className={classes.root}></div>
@@ -66,13 +66,31 @@ export const VouchingPage = () => {
     <div className={classes.root}>
       <h2 className={classes.title}>Add Circle Members</h2>
       <p className={classes.description}>
-        Think someone new should be added to the {circle.name} circle?
-        <br />
-        Nominate or vouch for them here.
+        {(circle.vouching_text || '').length == 0 ? (
+          <>
+            Think someone new should be added to the {circle.name} circle?
+            <br />
+            Nominate or vouch for them here.
+          </>
+        ) : (
+          circle.vouching_text
+        )}
       </p>
-      <Button className={classes.nominateButton}>Nominate New Member</Button>
-      <span className={classes.subTitle}>Recently Nominated</span>
-      <hr className={classes.hrWithMax} />
+      <Button
+        className={classes.nominateButton}
+        onClick={() => setNewNominate(true)}
+      >
+        Nominate New Member
+      </Button>
+      <span className={classes.subTitle}>Vouch For Nominees</span>
+      {isNewNominate && (
+        <NewNominateModal
+          onClose={() => {
+            setNewNominate(false);
+          }}
+          visible={isNewNominate}
+        />
+      )}
     </div>
   );
 };
