@@ -313,11 +313,7 @@ export const ProfilePage = ({
           )}
           <Avatar
             alt="avatar"
-            src={
-              savedProfileData?.avatar !== null
-                ? savedProfileData?.avatar
-                : '/imgs/avatar/placeholder.jpg'
-            }
+            src={savedProfileData?.avatar || '/imgs/avatar/placeholder.jpg'}
             className={classes.avatar}
           />
           {isMe ? (
@@ -351,7 +347,7 @@ export const ProfilePage = ({
             <Box className={classes.skillGroup}>
               {/* loop section from the myprofile data */}
               {savedProfileData?.skills?.length
-                ? savedProfileData?.skills.map((item) => (
+                ? savedProfileData.skills.map((item) => (
                     <div key={item} className={classes.skillItem}>
                       {item}
                     </div>
@@ -361,7 +357,7 @@ export const ProfilePage = ({
             <Box className={classes.socialGroup}>
               {savedProfileData?.twitter_username && (
                 <Link
-                  href={`https://twitter.com/${savedProfileData?.twitter_username}`}
+                  href={`https://twitter.com/${savedProfileData.twitter_username}`}
                   target="_blank"
                 >
                   <img
@@ -373,7 +369,7 @@ export const ProfilePage = ({
               )}
               {savedProfileData?.github_username && (
                 <Link
-                  href={`https://github.com/${savedProfileData?.github_username}`}
+                  href={`https://github.com/${savedProfileData.github_username}`}
                   target="_blank"
                 >
                   <img alt="github" src={github} style={{ paddingRight: 16 }} />
@@ -381,7 +377,7 @@ export const ProfilePage = ({
               )}
               {savedProfileData?.telegram_username && (
                 <Link
-                  href={`https://t.me/${savedProfileData?.telegram_username}`}
+                  href={`https://t.me/${savedProfileData.telegram_username}`}
                   target="_blank"
                 >
                   <img
@@ -393,7 +389,7 @@ export const ProfilePage = ({
               )}
               {savedProfileData?.discord_username && (
                 <Link
-                  href={`https://discord.com/${savedProfileData?.discord_username}`}
+                  href={`https://discord.com/${savedProfileData.discord_username}`}
                   target="_blank"
                 >
                   <img
@@ -409,7 +405,7 @@ export const ProfilePage = ({
               )}
               {savedProfileData?.medium_username && (
                 <Link
-                  href={`https://medium.com/${savedProfileData?.medium_username}`}
+                  href={`https://medium.com/${savedProfileData.medium_username}`}
                   target="_blank"
                 >
                   <img
@@ -422,7 +418,7 @@ export const ProfilePage = ({
               {savedProfileData?.website && (
                 <Link
                   style={{ color: 'rgba(81, 99, 105, 0.7)', paddingRight: 16 }}
-                  href={savedProfileData?.website}
+                  href={savedProfileData.website}
                   target="_blank"
                 >
                   <img
