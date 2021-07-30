@@ -18,6 +18,10 @@ export interface IApiCircle {
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
+  vouching: number;
+  min_vouches: number;
+  nomination_days_limit: number;
+  vouching_text: string;
 }
 
 export interface ICircle extends IApiCircle {
