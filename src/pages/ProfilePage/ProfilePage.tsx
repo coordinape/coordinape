@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 
 import { makeStyles, withStyles, Tooltip, Zoom } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -159,6 +161,27 @@ const TextOnlyTooltip = withStyles({
   },
 })(Tooltip);
 
+type FieldName =
+  | 'bio'
+  | 'skills'
+  | 'twitter_username'
+  | 'github_username'
+  | 'telegram_username'
+  | 'discord_username'
+  | 'medium_username'
+  | 'website';
+
+const editableFields: FieldName[] = [
+  'bio',
+  'skills',
+  'twitter_username',
+  'github_username',
+  'telegram_username',
+  'discord_username',
+  'medium_username',
+  'website',
+];
+
 // http://app.localhost:3000/profile/0xb9209ed68a702e25e738ca0e550b4a560bf4d9d8
 // http://app.localhost:3000/profile/me
 export const ProfilePage = ({
@@ -172,7 +195,7 @@ export const ProfilePage = ({
   // My or Other Profile
   const seemsAddress = params?.profileAddress?.startsWith('0x');
   const isMe = params?.profileAddress === 'me';
-  const { profile, avatarPath, backgroundPath } = useProfile(
+  const { profile: aProfile, avatarPath, backgroundPath } = useProfile(
     seemsAddress ? params?.profileAddress : undefined
   );
   const {
@@ -186,6 +209,8 @@ export const ProfilePage = ({
 
   const [open, setOpenModal] = useState(false);
 
+  const profile = isMe ? myProfile : aProfile;
+
   // Show Profile Data
   const savedProfileData = {
     avatar: isMe ? myAvatarPath : avatarPath,
@@ -193,67 +218,29 @@ export const ProfilePage = ({
     background: isMe ? myBackgroundPath : backgroundPath,
     backgroundRaw: null,
     name:
-      (isMe
-        ? myProfile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.name
-        : profile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.name) || 'N/A',
-    bio: (isMe ? myProfile?.bio : profile?.bio) || '',
-    telegram_username:
-      (isMe ? myProfile?.telegram_username : profile?.telegram_username) || '',
-    twitter_username:
-      (isMe ? myProfile?.twitter_username : profile?.twitter_username) || '',
-    discord_username:
-      (isMe ? myProfile?.discord_username : profile?.discord_username) || '',
-    medium_username:
-      (isMe ? myProfile?.medium_username : profile?.medium_username) || '',
-    github_username:
-      (isMe ? myProfile?.github_username : profile?.github_username) || '',
-    website: (isMe ? myProfile?.website : profile?.website) || '',
-    skills: (isMe ? myProfile?.skills : profile?.skills) || [],
-    users: (isMe ? myProfile?.users : profile?.users) || [],
-    recentEpochs: isMe
-      ? myProfile?.users.map((user) => {
-          return {
-            epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
-            epochCircle: user.circle?.name,
-          };
-        })
-      : profile?.users.map((user) => {
-          return {
-            epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
-            epochCircle: user.circle?.name,
-          };
-        }),
+      profile?.users.find((user) => user.circle_id === selectedCircleId)
+        ?.name || 'N/A',
+    bio: profile?.bio || '',
+    telegram_username: profile?.telegram_username || '',
+    twitter_username: profile?.twitter_username || '',
+    discord_username: profile?.discord_username || '',
+    medium_username: profile?.medium_username || '',
+    github_username: profile?.github_username || '',
+    website: profile?.website || '',
+    skills: profile?.skills || [],
+    users: profile?.users || [],
+    recentEpochs: profile?.users.map((user) => {
+      return {
+        epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
+        epochCircle: user.circle?.name,
+      };
+    }),
   };
 
   // Edit Profile Data
-  const [profileData, setProfileData] = useState<IProfileData>({
-    avatar: isMe ? myAvatarPath : avatarPath,
-    avatarRaw: null,
-    background: isMe ? myBackgroundPath : backgroundPath,
-    backgroundRaw: null,
-    name:
-      (isMe
-        ? myProfile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.name
-        : profile?.users.find((user) => user.circle_id === selectedCircleId)
-            ?.name) || 'N/A',
-    bio: (isMe ? myProfile?.bio : profile?.bio) || '',
-    telegram_username:
-      (isMe ? myProfile?.telegram_username : profile?.telegram_username) || '',
-    twitter_username:
-      (isMe ? myProfile?.twitter_username : profile?.twitter_username) || '',
-    discord_username:
-      (isMe ? myProfile?.discord_username : profile?.discord_username) || '',
-    medium_username:
-      (isMe ? myProfile?.medium_username : profile?.medium_username) || '',
-    github_username:
-      (isMe ? myProfile?.github_username : profile?.github_username) || '',
-    website: (isMe ? myProfile?.website : profile?.website) || '',
-    skills: (isMe ? myProfile?.skills : profile?.skills) || [],
-    users: (isMe ? myProfile?.users : profile?.users) || [],
-  });
+  const [profileData, setProfileData] = useState<IProfileData>(
+    omit(savedProfileData, ['recentEpochs'])
+  );
 
   const updateSomething = async () => {
     if (isMe) {
@@ -265,26 +252,8 @@ export const ProfilePage = ({
         });
       }
 
-      if (
-        savedProfileData.bio !== profileData.bio ||
-        savedProfileData.skills !== profileData.skills ||
-        savedProfileData.twitter_username !== profileData.twitter_username ||
-        savedProfileData.github_username !== profileData.github_username ||
-        savedProfileData.telegram_username !== profileData.telegram_username ||
-        savedProfileData.discord_username !== profileData.discord_username ||
-        savedProfileData.medium_username !== profileData.medium_username ||
-        savedProfileData.website !== profileData.website
-      ) {
-        updateMyProfile({
-          bio: profileData.bio,
-          skills: profileData.skills,
-          twitter_username: profileData.twitter_username,
-          github_username: profileData.github_username,
-          telegram_username: profileData.telegram_username,
-          discord_username: profileData.discord_username,
-          medium_username: profileData.medium_username,
-          website: profileData.website,
-        });
+      if (editableFields.some((x) => savedProfileData[x] !== profileData[x])) {
+        updateMyProfile(pick(profileData, editableFields));
       }
     }
   };
@@ -310,39 +279,7 @@ export const ProfilePage = ({
   };
 
   useEffect(() => {
-    if (open) {
-      setProfileData({
-        ...profileData,
-        avatar: isMe ? myAvatarPath : avatarPath,
-        avatarRaw: null,
-        background: isMe ? myBackgroundPath : backgroundPath,
-        backgroundRaw: null,
-        name:
-          (isMe
-            ? myProfile?.users.find(
-                (user) => user.circle_id === selectedCircleId
-              )?.name
-            : profile?.users.find((user) => user.circle_id === selectedCircleId)
-                ?.name) || 'N/A',
-        bio: (isMe ? myProfile?.bio : profile?.bio) || '',
-        telegram_username:
-          (isMe ? myProfile?.telegram_username : profile?.telegram_username) ||
-          '',
-        twitter_username:
-          (isMe ? myProfile?.twitter_username : profile?.twitter_username) ||
-          '',
-        discord_username:
-          (isMe ? myProfile?.discord_username : profile?.discord_username) ||
-          '',
-        medium_username:
-          (isMe ? myProfile?.medium_username : profile?.medium_username) || '',
-        github_username:
-          (isMe ? myProfile?.github_username : profile?.github_username) || '',
-        website: (isMe ? myProfile?.website : profile?.website) || '',
-        skills: (isMe ? myProfile?.skills : profile?.skills) || [],
-        users: (isMe ? myProfile?.users : profile?.users) || [],
-      });
-    }
+    if (open) setProfileData(omit(savedProfileData, ['recentEpochs']));
   }, [open]);
 
   return (
