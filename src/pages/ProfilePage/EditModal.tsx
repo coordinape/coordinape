@@ -200,7 +200,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: theme.breakpoints.values.md,
     resize: 'none',
-    fontFamily: 'Space Grotesk',
+    fontFamily: 'Space Grotesk', // FIXME should set this for all textfields
     fontSize: 15,
     fontWeight: 300,
     color: theme.colors.text,

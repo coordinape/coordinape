@@ -59,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
     left: 120,
     top: 90,
   },
+  name: {
+    marginTop: 18,
+    marginBottom: 12,
+    fontSize: 30,
+    fontWeight: 600,
+    color: theme.colors.primary,
+  },
   skillGroup: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -68,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5, 2),
     background: theme.colors.lightBlue,
     textAlign: 'center',
-    fontFamily: 'Space Grotesk',
     fontSize: 18,
     fontWeight: 600,
     color: theme.colors.white,
@@ -332,18 +338,7 @@ export const ProfilePage = ({
             <Box style={{ textAlign: 'right', paddingTop: 100 }}></Box>
           )}
           <Box className={classes.body}>
-            <h2
-              style={{
-                marginTop: 18,
-                marginBottom: 12,
-                fontSize: 30,
-                fontWeight: 600,
-                fontFamily: 'Space Grotesk',
-                color: '#5E6F74',
-              }}
-            >
-              {savedProfileData.name}
-            </h2>
+            <h2 className={classes.name}>{savedProfileData.name}</h2>
             <Box className={classes.skillGroup}>
               {/* loop section from the myprofile data */}
               {savedProfileData?.skills?.length
