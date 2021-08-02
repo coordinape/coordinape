@@ -305,6 +305,7 @@ export const AllocationPage = () => {
                 <Button
                   className={classes.saveButton}
                   onClick={handleSaveAllocations}
+                  disabled={tokenRemaining < 0}
                 >
                   Save Allocations
                 </Button>
