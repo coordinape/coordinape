@@ -40,10 +40,86 @@ const themeOptions = {
         },
       },
     },
+    MuiIconButton: {
+      root: {
+        color: '#aab2b5',
+      },
+    },
     MuiButton: {
       root: {
-        padding: '14px 20px',
-        borderRadius: '6px',
+        textTransform: 'none',
+        fontSize: 19,
+        lineHeight: 1.26,
+        padding: '12px 24px',
+        borderRadius: '13px',
+      },
+      text: {
+        textDecoration: 'underline',
+        color: '#84C7CA',
+        '&:hover': {
+          color: '#4e7577',
+          backgroundColor: 'transparent',
+        },
+      },
+      sizeSmall: {
+        fontSize: 13,
+        lineHeight: 1.28,
+        padding: '8px 24px',
+        borderRadius: '8px',
+        // This must be a bug that it gets overwritten here
+        '&.MuiButton-textSizeSmall': {
+          fontSize: 14,
+          lineHeight: 1.3,
+          fontWeight: 400,
+          padding: 0,
+        },
+      },
+      contained: {
+        color: 'white',
+        backgroundColor: '#A8B1B4',
+        boxShadow: '0px 6.5px 9.75px #E6EAEC',
+        '&:hover': {
+          backgroundColor: '#A8B1B4',
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), #A8B1B4',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&:active': {
+          boxShadow: '0px 6.5px 9.75px #cbd0d2',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#A8B1B480',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
+      },
+      containedPrimary: {
+        backgroundColor: '#EF7376',
+        '&:hover': {
+          backgroundColor: '#EF7376',
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), #EF7376',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#EF737680',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
+      },
+      containedSecondary: {
+        backgroundColor: '#41595e',
+        '&:hover': {
+          backgroundColor: '#41595e',
+          background:
+            'linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), #41595e',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#41595e80',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
       },
     },
     MuiStepIcon: {
@@ -51,13 +127,13 @@ const themeOptions = {
         '&.MuiStepIcon-active': {
           color: customColor.red,
           '& .MuiStepIcon-text': {
-            fill: customColor.white,
+            fill: 'white',
           },
         },
         '&.MuiStepIcon-completed': {
           color: '#51AF5B',
           '& .MuiStepIcon-text': {
-            fill: customColor.white,
+            fill: 'white',
           },
         },
       },
@@ -84,19 +160,19 @@ const themeOptions = {
     },
     MuiPaginationItem: {
       outlined: {
-        backgroundColor: customColor.white,
+        backgroundColor: 'white',
         border: '1px solid #EDFDFE',
         '&.Mui-selected': {
           backgroundColor: customColor.red,
-          color: customColor.white,
+          color: 'white',
         },
         '&:hover': {
           backgroundColor: customColor.red,
-          color: customColor.white,
+          color: 'white',
         },
         '&.Mui-selected:hover': {
           backgroundColor: customColor.red,
-          color: customColor.white,
+          color: 'white',
         },
       },
     },
@@ -109,7 +185,7 @@ const themeOptions = {
     },
   },
   palette: {
-    type: 'dark',
+    type: 'light',
     action: {
       active: 'rgba(255, 255, 255, 0.54)',
       hover: 'rgba(255, 255, 255, 0.04)',
@@ -119,19 +195,26 @@ const themeOptions = {
       focus: 'rgba(255, 255, 255, 0.12)',
     },
     background: {
-      default: '#030616',
-      dark: '#1c2025',
-      paper: customColor.third,
+      default: customColor.background,
+      dark: customColor.third,
+      paper: customColor.lightBackground,
     },
     primary: {
-      main: '#c43737',
+      main: customColor.red,
+      dark: '#cf7073',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#c43737',
+      main: '#9da7ab',
+      dark: '#818f94',
+      contrastText: '#fff',
     },
     text: {
       primary: '#555555',
       secondary: '#adb0bb',
+    },
+    error: {
+      main: '#EF7376',
     },
   },
   shadows: strongShadows,
