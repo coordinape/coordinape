@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import {
   Button,
+  IconButton,
   Popover,
   Tooltip,
   Zoom,
@@ -13,15 +14,14 @@ import {
 import Link from '@material-ui/core/Link';
 
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
-import { ReactComponent as MinusCircleSVG } from 'assets/svgs/button/minus-circle.svg';
-import { ReactComponent as PlusCircleSVG } from 'assets/svgs/button/plus-circle.svg';
 import { ReactComponent as DiscordSVG } from 'assets/svgs/social/discord.svg';
 import { ReactComponent as GithubSVG } from 'assets/svgs/social/github.svg';
 import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
 import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
 import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
 import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
-import { ApeAvatar } from 'components';
+import { ApeAvatar, ApeTextField } from 'components';
+import { PlusCircleIcon, MinusCircleIcon } from 'icons';
 
 import { IUser } from 'types';
 
@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     height: 14,
-    margin: 0,
+    margin: theme.spacing(0, 0, 1),
     fontSize: 12,
     fontWeight: 'bold',
     color: 'rgba(81, 99, 105, 0.7)',
@@ -165,20 +165,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'end',
-  },
-  tokenInput: {
-    width: 66,
-    marginTop: theme.spacing(1),
-    fontSize: 36,
-    fontWeight: 600,
-    textDecorationLine: 'underline',
-    color: theme.colors.text,
-    background: 'none',
-    border: 0,
-    outline: 'none',
-    textAlign: 'center',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
   },
   alertContainer: {
     marginTop: 0,
@@ -203,24 +189,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   noteTextarea: {
-    height: 70,
-    marginTop: 7,
-    marginLeft: 0,
-    marginRight: 0,
-    padding: 10,
-    resize: 'none',
-    fontSize: 12,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.white,
-    border: 0,
-    borderRadius: 8,
-    outline: 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    '&::placeholder': {
-      opacity: 0.3,
+    '& textarea': {
+      fontSize: 12,
     },
+    '&.MuiInputBase-root': {
+      backgroundColor: 'white',
+    },
+  },
+  tokenInput: {
+    '&.MuiInputBase-root': {
+      backgroundColor: 'white',
+    },
+    width: 165,
   },
 }));
 
@@ -399,26 +379,35 @@ export const TeammateCard = (props: IProps) => {
         {!user.non_receiver ? (
           <>
             <p className={classes.label}>
-              {user.non_receiver ? '' : `${tokenName} to Allocate`}
+              {user.non_receiver ? '' : `${tokenName} Allocated`}
             </p>
-            <div>
-              <Button disabled={disabled} onClick={() => spinTokens(-1)}>
-                <MinusCircleSVG />
-              </Button>
-              <input
-                className={classes.tokenInput}
-                disabled={disabled}
-                min="0"
-                onChange={onChangeTokens}
-                onWheel={(e) => e.currentTarget.blur()}
-                pattern="[0-9]*"
-                type="number"
-                value={tokens}
-              />
-              <Button disabled={disabled} onClick={() => spinTokens(1)}>
-                <PlusCircleSVG />
-              </Button>
-            </div>
+            <ApeTextField
+              value={tokens}
+              onChange={onChangeTokens}
+              InputProps={{
+                classes: {
+                  root: classes.tokenInput,
+                },
+                startAdornment: (
+                  <IconButton
+                    disabled={disabled}
+                    onClick={() => spinTokens(-1)}
+                  >
+                    <MinusCircleIcon />
+                  </IconButton>
+                ),
+                endAdornment: (
+                  <IconButton disabled={disabled} onClick={() => spinTokens(1)}>
+                    <PlusCircleIcon />
+                  </IconButton>
+                ),
+              }}
+              disabled={disabled}
+              inputProps={{
+                min: 0,
+                type: 'number',
+              }}
+            />
           </>
         ) : (
           <div className={classes.alertContainer}>
@@ -437,13 +426,22 @@ export const TeammateCard = (props: IProps) => {
       </div>
       <div className={classes.noteTextareaContainer}>
         <p className={classes.label}>Leave a Note</p>
-        <textarea
-          className={classes.noteTextarea}
-          disabled={disabled}
-          maxLength={280}
+        <ApeTextField
           onChange={onChangeNote}
-          placeholder="Why are you contributing?"
+          placeholder="Thank you for..."
           value={note}
+          disabled={disabled}
+          multiline
+          fullWidth
+          rows={3}
+          inputProps={{
+            maxLength: 280,
+          }}
+          InputProps={{
+            classes: {
+              root: classes.noteTextarea,
+            },
+          }}
         />
       </div>
     </div>
