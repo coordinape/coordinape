@@ -84,7 +84,7 @@ export const rMyUsers = selector<IMyUsers[]>({
   key: 'rMyUsers',
   get: ({ get }: IRecoilGetParams) => {
     const profile = get(rMyProfile);
-    if (!profile) {
+    if (!profile?.users) {
       return [];
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
