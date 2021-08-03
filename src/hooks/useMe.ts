@@ -14,27 +14,28 @@ import { getAvatarPath } from 'utils/domain';
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
-  IUser,
+  IApiFilledProfile,
+  IApiUserInProfile,
+  IApiUser,
   ICircle,
   PutUsersParam,
-  IProfile,
   PostProfileParam,
 } from 'types';
 
 export const useMe = (): {
-  myProfile: IProfile | undefined;
-  selectedMyUser: IUser | undefined;
+  myProfile: IApiFilledProfile | undefined;
+  selectedMyUser: IApiUserInProfile | undefined;
   selectedCircle: ICircle | undefined;
   myCircles: ICircle[];
   avatarPath: string;
   backgroundPath: string;
   hasAdminView: boolean;
   refreshMyUser: () => Promise<void>;
-  updateMyUser: (params: PutUsersParam) => Promise<IUser>;
+  updateMyUser: (params: PutUsersParam) => Promise<IApiUser>;
   updateTeammates: (teammateIds: number[]) => Promise<void>;
   updateAvatar: (newAvatar: File) => Promise<void>;
   updateBackground: (newBackground: File) => Promise<void>;
-  updateProfile: (params: PostProfileParam) => Promise<IProfile>;
+  updateProfile: (params: PostProfileParam) => Promise<IApiFilledProfile>;
 } => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
@@ -53,7 +54,7 @@ export const useMe = (): {
       if (!selectedMyUser || !selectedCircle) {
         throw 'Need to select a circle to update circle user';
       }
-      const updatedUser = await api.putUsers(
+      const updatedUser = await api.updateMyUser(
         selectedCircle.id,
         selectedMyUser.address,
         {
@@ -110,8 +111,9 @@ export const useMe = (): {
       if (!selectedMyUser) {
         throw 'Need to select a circle to update circle user';
       }
-      const result = await api.postProfile(selectedMyUser.address, params);
+      const result = await api.updateProfile(selectedMyUser.address, params);
 
+      // TODO: Could we just update with result here?
       setMyProfileStaleSignal(myProfileStaleSignal + 1);
       return result;
     });

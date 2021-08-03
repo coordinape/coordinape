@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import { Avatar, Divider, Typography, makeStyles } from '@material-ui/core';
+import { Divider, Typography, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
-import { ApeTabs } from 'components';
+import { ApeTabs, ApeAvatar } from 'components';
 import { useSelectedCircleEpoch } from 'hooks';
 import {
   useSelectedMyUser,
-  useValUserGifts,
-  useValSelectedCircle,
-  useValEpochTotalGive,
+  useUserGifts,
+  useSelectedCircle,
 } from 'recoilState';
-import { getAvatarPath } from 'utils/domain';
-import { getEpochDates } from 'utils/tools';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -140,13 +137,13 @@ export const HistoryPage = () => {
   const [page, setPage] = useState<number>(0);
   const pastEpochIdx = page - 1;
 
-  const circle = useValSelectedCircle();
+  const circle = useSelectedCircle();
   const myUser = useSelectedMyUser();
   const {
     fromUserByEpoch,
     forUserByEpoch,
     totalReceivedByEpoch,
-  } = useValUserGifts(myUser?.id ?? -1);
+  } = useUserGifts(myUser?.id ?? -1);
   const {
     pastEpochs,
     // previousEpoch,
@@ -157,12 +154,11 @@ export const HistoryPage = () => {
   const selectedEpochId = selectedEpoch?.id ?? -1;
 
   const totalReceived = totalReceivedByEpoch.get(selectedEpochId) ?? 0;
-  const totalEpochGive = useValEpochTotalGive(selectedEpochId);
 
   const percentReceived =
-    totalEpochGive === 0
-      ? 0
-      : Math.round((10000 * totalReceived) / totalEpochGive) / 100;
+    selectedEpoch?.totalTokens > 0
+      ? Math.round((10000 * totalReceived) / selectedEpoch.totalTokens) / 100
+      : 0;
 
   useEffect(() => {
     if (page === 0) {
@@ -183,10 +179,7 @@ export const HistoryPage = () => {
       const message = isReceiving ? receivedMessage : giveMessage;
       return [
         <div key={idx} className={classes.giftRow}>
-          <Avatar
-            src={getAvatarPath(user?.avatar)}
-            className={classes.avatar}
-          />
+          <ApeAvatar user={user} className={classes.avatar} />
           <div className={classes.giftRowText}>
             <h5 className={classes.giftTitle}>
               {message}
@@ -228,9 +221,7 @@ export const HistoryPage = () => {
               />
             </div>
             <Divider />
-            <h3 className={classes.epochItem}>
-              {getEpochDates(selectedEpoch)}
-            </h3>
+            <h3 className={classes.epochItem}>{selectedEpoch.labelDayRange}</h3>
 
             {selectedEpoch.grant !== '0.00' ? (
               <>
@@ -242,7 +233,7 @@ export const HistoryPage = () => {
 
             <h4 className={classes.epochSubtitle}>Total Allocations</h4>
             <Divider />
-            <h3 className={classes.epochItem}>{totalEpochGive}</h3>
+            <h3 className={classes.epochItem}>{selectedEpoch.totalTokens}</h3>
 
             <h4 className={classes.epochSubtitle}>You Recieved</h4>
             <Divider />

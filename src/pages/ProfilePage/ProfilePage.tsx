@@ -35,7 +35,7 @@ import website from '../../assets/svgs/social/website.svg';
 import { ApeAvatar } from 'components';
 import { useProfile, useMe, useCircle } from 'hooks';
 
-import { IUser } from 'types';
+import { IApiUser } from 'types';
 
 import { getAvatarPath } from 'utils/domain';
 import { transparentize } from 'polished';
@@ -388,7 +388,7 @@ interface IProfileData {
   github_username: string;
   website: string;
   skills: string[];
-  users: IUser[];
+  users: IApiUser[];
 }
 
 // http://app.localhost:3000/profile/0xb9209ed68a702e25e738ca0e550b4a560bf4d9d8

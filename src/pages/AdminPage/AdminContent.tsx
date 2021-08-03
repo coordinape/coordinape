@@ -9,7 +9,12 @@ import { ReactComponent as AddContributorSVG } from 'assets/svgs/button/add-cont
 import { ReactComponent as DeleteContributor } from 'assets/svgs/button/delete-contributor.svg';
 import { ReactComponent as EditContributor } from 'assets/svgs/button/edit-contributor.svg';
 import { ApeAvatar } from 'components';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
+import {
+  useSelectedCircle,
+  useSelectedCircleUsers,
+  useSelectedMyUser,
+} from 'recoilState';
 import { shortenAddress } from 'utils';
 
 import EditContributorModal from './EditContributorModal';
@@ -155,7 +160,11 @@ const useStyles = makeStyles((theme) => ({
 export const AdminContent = () => {
   const classes = useStyles();
 
-  const { circle, deleteUser, me, availableTeammates } = useUserInfo();
+  const me = useSelectedMyUser();
+  const selectedCircle = useSelectedCircle();
+  const visibleUsers = useSelectedCircleUsers();
+
+  const { deleteUser } = useAdminApi();
   const [keyword, setKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [filterUsers, setFilterUsers] = useState<IUser[]>([]);
@@ -174,7 +183,7 @@ export const AdminContent = () => {
     // Filter
     const key = keyword.toLowerCase();
     setFilterUsers(
-      (me ? [...availableTeammates, me] : availableTeammates).filter(
+      visibleUsers.filter(
         (user) =>
           user.name.toLowerCase().includes(key) ||
           user.address.toLowerCase().includes(key) ||
@@ -184,7 +193,7 @@ export const AdminContent = () => {
           String(user.give_token_received).includes(key)
       )
     );
-  }, [keyword, me, availableTeammates]);
+  }, [keyword, visibleUsers]);
 
   // onChangeKeyword
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -273,11 +282,11 @@ export const AdminContent = () => {
                 {order.field === 3 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
               </th>
               <th className={classes.th} onClick={() => onClickSort(4)}>
-                {circle?.token_name || 'GIVE'} sent
+                {selectedCircle?.token_name} sent
                 {order.field === 4 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
               </th>
               <th className={classes.th} onClick={() => onClickSort(5)}>
-                {circle?.token_name || 'GIVE'} received
+                {selectedCircle?.token_name} received
                 {order.field === 5 ? (order.ascending > 0 ? ' ↓' : ' ↑') : ''}
               </th>
               <th className={classes.th}>Edit</th>

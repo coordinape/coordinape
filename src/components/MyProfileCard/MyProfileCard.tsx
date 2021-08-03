@@ -421,7 +421,7 @@ export const MyProfileCard = () => {
                 }
                 label={
                   <p className={classes.radioLabel}>
-                    Opt in to receiving {circle?.token_name || 'GIVE'}
+                    Opt in to receiving {circle?.tokenName}
                   </p>
                 }
               />
@@ -439,7 +439,7 @@ export const MyProfileCard = () => {
                 }
                 label={
                   <p className={classes.radioLabel}>
-                    Opt out to receiving {circle?.token_name || 'GIVE'}
+                    Opt out to receiving {circle?.tokenName}
                   </p>
                 }
               />
@@ -473,14 +473,12 @@ export const MyProfileCard = () => {
               <TextOnlyTooltip
                 TransitionComponent={Zoom}
                 placement="top-start"
-                title={`You opted out of receiving ${
-                  circle?.token_name || 'GIVE'
-                }. You are paid through other channels or are not currently active.`}
+                title={`You opted out of receiving ${circle?.tokenName}. You are paid through other channels or are not currently active.`}
               >
                 <AlertCircleSVG />
               </TextOnlyTooltip>
               <p className={classes.alertLabel}>
-                You opted out of receiving {circle?.token_name || 'GIVE'}
+                You opted out of receiving {circle?.tokenName}
               </p>
             </div>
           )}

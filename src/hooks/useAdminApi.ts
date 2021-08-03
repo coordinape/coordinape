@@ -2,67 +2,56 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
   rSelectedCircleId,
-  rCircleEpochsStatus,
-  rSelectedMyUser,
-  rSelectedCircleUsers,
-  rSelectedCircle,
   rMyAddress,
   rCirclesMap,
-  rEpochsMap,
+  rEpochsRaw,
   rUsersMap,
-  rAvailableTeammates,
 } from 'recoilState';
 import { getApiService } from 'services/api';
+import {
+  createCircleWithDefaults,
+  updatedUserMapWithoutProfile,
+} from 'utils/modelExtenders';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
-  ICircle,
-  IUser,
-  IEpoch,
+  IApiCircle,
+  IApiUser,
+  IApiEpoch,
   PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
+  UpdateCreateEpochParam,
 } from 'types';
 
-// TODO: Break these up into a few hooks to encapsulate and reduce renders.
-export const useUserInfo = (): {
-  circle: ICircle | undefined;
-  pastEpochs: IEpoch[]; // Past Epochs
-  epoch: IEpoch | undefined; // Current or Last Epoch
-  epochs: IEpoch[]; // Upcoming Epochs
-  me: IUser | undefined;
-  allUsers: IUser[];
-  availableTeammates: IUser[];
-
-  updateCircle: (params: PutCirclesParam) => Promise<ICircle>;
-  updateCircleLogo: (newAvatar: File) => Promise<ICircle>;
-  createEpoch: (startDate: Date, endDate: Date) => Promise<IEpoch>;
+export const useAdminApi = (): {
+  updateCircle: (params: PutCirclesParam) => Promise<IApiCircle>;
+  updateCircleLogo: (newAvatar: File) => Promise<IApiCircle>;
+  createEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
+  createEpochDeprecated: (
+    start_date: Date,
+    end_date: Date
+  ) => Promise<IApiEpoch>;
+  updateEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
   deleteEpoch: (id: number) => void;
-  updateUser: (userAddress: string, params: UpdateUsersParam) => Promise<IUser>;
-  createUser: (params: PostUsersParam) => Promise<IUser>;
+  updateUser: (
+    userAddress: string,
+    params: UpdateUsersParam
+  ) => Promise<IApiUser>;
+  createUser: (params: PostUsersParam) => Promise<IApiUser>;
   deleteUser: (userAddress: string) => void;
 } => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
-  const updateEpochsMap = useSetRecoilState(rEpochsMap);
+  const updateEpochsMap = useSetRecoilState(rEpochsRaw);
   const updateUsersMap = useSetRecoilState(rUsersMap);
 
-  const myAddress = useRecoilValue(rMyAddress);
-  const selectedMyUser = useRecoilValue(rSelectedMyUser);
-  const selectedCircleUsers = useRecoilValue(rSelectedCircleUsers);
-  const availableTeammates = useRecoilValue(rAvailableTeammates);
   // A fake circleId will just return nothing
   const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const {
-    pastEpochs,
-    currentEpoch,
-    previousEpoch,
-    futureEpochs,
-  } = useRecoilValue(rCircleEpochsStatus(selectedCircleId));
+  const myAddress = useRecoilValue(rMyAddress);
 
   const updateCircle = (params: PutCirclesParam) =>
     callWithLoadCatch(async () => {
@@ -74,7 +63,10 @@ export const useUserInfo = (): {
       );
 
       updateCirclesMap(
-        (oldMap) => new Map(oldMap.set(selectedCircleId, newCircle))
+        (oldMap) =>
+          new Map(
+            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
+          )
       );
 
       return newCircle;
@@ -90,17 +82,37 @@ export const useUserInfo = (): {
       );
 
       updateCirclesMap(
-        (oldMap) => new Map(oldMap.set(selectedCircleId, newCircle))
+        (oldMap) =>
+          new Map(
+            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
+          )
       );
 
       return newCircle;
     });
 
-  const createEpoch = (startDate: Date, endDate: Date) =>
+  const createEpoch = (params: UpdateCreateEpochParam) =>
     callWithLoadCatch(
       async () => {
         if (myAddress === undefined) throw 'myAddress required';
-        const newEpoch = await api.postEpochs(
+        const newEpoch = await api.createEpoch(
+          myAddress,
+          selectedCircleId,
+          params
+        );
+
+        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
+
+        return newEpoch;
+      },
+      { hideLoading: true }
+    );
+
+  const createEpochDeprecated = (startDate: Date, endDate: Date) =>
+    callWithLoadCatch(
+      async () => {
+        if (myAddress === undefined) throw 'myAddress required';
+        const newEpoch = await api.createEpochDeprecated(
           myAddress,
           selectedCircleId,
           startDate,
@@ -114,10 +126,27 @@ export const useUserInfo = (): {
       { hideLoading: true }
     );
 
+  const updateEpoch = (params: UpdateCreateEpochParam) =>
+    callWithLoadCatch(
+      async () => {
+        if (myAddress === undefined) throw 'myAddress required';
+        const newEpoch = await api.updateEpoch(
+          myAddress,
+          selectedCircleId,
+          params
+        );
+
+        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
+
+        return newEpoch;
+      },
+      { hideLoading: true }
+    );
+
   const deleteEpoch = (epochId: number) =>
     callWithLoadCatch(async () => {
       if (myAddress === undefined) throw 'myAddress required';
-      await api.deleteEpochs(myAddress, selectedCircleId, epochId);
+      await api.deleteEpoch(myAddress, selectedCircleId, epochId);
 
       updateEpochsMap((oldMap) => {
         oldMap.delete(epochId);
@@ -136,8 +165,8 @@ export const useUserInfo = (): {
         params
       );
 
-      updateUsersMap(
-        (oldMap) => new Map(oldMap.set(updatedUser.id, updatedUser))
+      updateUsersMap((oldMap) =>
+        updatedUserMapWithoutProfile(updatedUser, oldMap)
       );
 
       return updatedUser;
@@ -146,9 +175,9 @@ export const useUserInfo = (): {
   const createUser = (params: PostUsersParam) =>
     callWithLoadCatch(async () => {
       if (myAddress === undefined) throw 'myAddress required';
-      const newUser = await api.postUsers(selectedCircleId, myAddress, params);
+      const newUser = await api.createUser(selectedCircleId, myAddress, params);
 
-      updateUsersMap((oldMap) => new Map(oldMap.set(newUser.id, newUser)));
+      updateUsersMap((oldMap) => updatedUserMapWithoutProfile(newUser, oldMap));
 
       return newUser;
     });
@@ -165,22 +194,17 @@ export const useUserInfo = (): {
         userAddress
       );
 
-      updateUsersMap(
-        (oldMap) => new Map(oldMap.set(deletedUser?.id, deletedUser))
+      updateUsersMap((oldMap) =>
+        updatedUserMapWithoutProfile(deletedUser, oldMap)
       );
     });
 
   return {
-    circle: selectedCircle,
-    pastEpochs,
-    epoch: currentEpoch ?? previousEpoch,
-    epochs: futureEpochs,
-    me: selectedMyUser,
-    allUsers: selectedCircleUsers,
-    availableTeammates: availableTeammates,
     updateCircle,
     updateCircleLogo,
     createEpoch,
+    createEpochDeprecated,
+    updateEpoch,
     deleteEpoch,
     updateUser,
     createUser,

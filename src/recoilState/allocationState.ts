@@ -43,7 +43,7 @@ export const rEpochFirstVisit = selectorFamily<boolean, number>({
       ?.epoch_first_visit === 1 ?? true,
 });
 
-export const useValEpochFirstVisit = (circleId: number) =>
+export const useEpochFirstVisit = (circleId: number) =>
   useRecoilValue(rEpochFirstVisit(circleId));
 
 export const rAllocationStepStatus = selectorFamily<
@@ -74,5 +74,5 @@ export const rAllocationStepStatus = selectorFamily<
     return [completedSteps, STEPS.find((step) => !completedSteps.has(step))];
   },
 });
-export const useValAllocationStepStatus = (circleId: number) =>
+export const useAllocationStepStatus = (circleId: number) =>
   useRecoilValue(rAllocationStepStatus(circleId));

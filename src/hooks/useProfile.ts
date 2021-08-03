@@ -10,15 +10,15 @@ import { updaterMergeItemToAddressMap } from 'utils/recoilHelpers';
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 import { useRecoilFetcher } from './useRecoilFetcher';
 
-import { IProfile, PostProfileParam } from 'types';
+import { IApiFilledProfile, PostProfileParam } from 'types';
 
 export const useProfile = (
   address?: string
 ): {
-  profile: IProfile | undefined;
+  profile: IApiFilledProfile | undefined;
   avatarPath: string;
   backgroundPath: string;
-  updateProfile: (params: PostProfileParam) => Promise<IProfile>;
+  updateProfile: (params: PostProfileParam) => Promise<IApiFilledProfile>;
 } => {
   const callWithLoadCatch = useAsyncLoadCatch();
 
@@ -47,7 +47,7 @@ export const useProfile = (
       if (!address) {
         throw 'Need address to call updateProfile with';
       }
-      const result = await getApiService().postProfile(address, params);
+      const result = await getApiService().updateProfile(address, params);
       setProfileMap((oldMap) => new Map(oldMap.set(address, result)));
       return result;
     });

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField } from 'components';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
 import { UploadIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
 
@@ -92,15 +92,15 @@ export const EditCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle, updateCircleLogo } = useUserInfo();
+  const { updateCircle, updateCircleLogo } = useAdminApi();
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
   }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
   const [circleName, setCircleName] = useState<string>(circle.name);
-  const [tokenName, setTokenName] = useState<string>(circle.token_name);
-  const [teamSelText, setTeamSelText] = useState<string>(circle.team_sel_text);
-  const [allocText, setAllocText] = useState<string>(circle.alloc_text);
+  const [tokenName, setTokenName] = useState<string>(circle.tokenName);
+  const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
+  const [allocText, setAllocText] = useState<string>(circle.allocText);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,9 +130,9 @@ export const EditCircleModal = ({
 
     if (
       circleName !== circle.name ||
-      tokenName !== circle.token_name ||
-      teamSelText !== circle.team_sel_text ||
-      allocText !== circle.alloc_text
+      tokenName !== circle.tokenName ||
+      teamSelText !== circle.teamSelText ||
+      allocText !== circle.allocText
     ) {
       updateCircle({
         name: circleName,
@@ -146,9 +146,9 @@ export const EditCircleModal = ({
   const circleDirty =
     logoData.avatarRaw ||
     circleName !== circle.name ||
-    tokenName !== circle.token_name ||
-    teamSelText !== circle.team_sel_text ||
-    allocText !== circle.alloc_text;
+    tokenName !== circle.tokenName ||
+    teamSelText !== circle.teamSelText ||
+    allocText !== circle.allocText;
 
   return (
     <FormModal

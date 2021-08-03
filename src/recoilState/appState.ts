@@ -12,23 +12,27 @@ import {
 } from 'recoil';
 
 import { getApiService } from 'services/api';
+import {
+  createCircleWithDefaults,
+  createGiftWithUser,
+  createExtendedEpoch,
+} from 'utils/modelExtenders';
 import storage from 'utils/storage';
-import { calculateEpochTimings, giftsToEpochMap } from 'utils/tools';
 
 import { rMyAddress } from './walletState';
 
 import {
   IUser,
+  IMyUsers,
+  IApiFilledProfile,
+  IApiProfile,
   IEpoch,
   ICircle,
   IRecoilGetParams,
-  IProfile,
   ITokenGift,
-  IEpochTimings,
+  IApiTokenGift,
+  IApiEpoch,
 } from 'types';
-
-// TODO: Array.from seems heavy weight, replace with an iterator. I tried
-// but ran into delays seeing how to get typescript compatible.
 
 export const rSelectedCircleId = atom<number | undefined>({
   key: 'rSelectedCircleId',
@@ -45,12 +49,13 @@ export const rSelectedCircleId = atom<number | undefined>({
     },
   ],
 });
+export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
 
 export const rInitialized = atom<boolean>({
   key: 'rInitialized',
   default: false,
 });
-export const useValInitialized = () => useRecoilValue(rInitialized);
+export const useInitialized = () => useRecoilValue(rInitialized);
 export const useStateInitialized = () => useRecoilState(rInitialized);
 export const useSetInitialized = () => useSetRecoilState(rInitialized);
 
@@ -59,7 +64,7 @@ export const rMyProfileStaleSignal = atom<number>({
   default: 0,
 });
 
-export const rMyProfile = selector<IProfile | undefined>({
+export const rMyProfile = selector<IApiFilledProfile | undefined>({
   key: 'rMyProfile',
   get: async ({ get }: IRecoilGetParams) => {
     get(rMyProfileStaleSignal);
@@ -67,15 +72,7 @@ export const rMyProfile = selector<IProfile | undefined>({
     return myAddress ? await getApiService().getProfile(myAddress) : undefined;
   },
 });
-export const useValMyProfile = () => useRecoilValue(rMyProfile);
-
-export const rMyUsers = selector<IUser[]>({
-  key: 'rMyUsers',
-  get: ({ get }: IRecoilGetParams) => {
-    const profile = get(rMyProfile);
-    return profile?.users ?? [];
-  },
-});
+export const useMyProfile = () => useRecoilValue(rMyProfile);
 
 export const rHasAdminView = selector<boolean>({
   key: 'rHasAdminView',
@@ -83,17 +80,36 @@ export const rHasAdminView = selector<boolean>({
     get(rMyUsers).some((u) => u.admin_view > 0),
 });
 
-export const rMyCircleUser = selectorFamily<IUser | undefined, number>({
+export const rMyUsers = selector<IMyUsers[]>({
+  key: 'rMyUsers',
+  get: ({ get }: IRecoilGetParams) => {
+    const profile = get(rMyProfile);
+    if (!profile) {
+      return [];
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { users, ...userFillProfile } = profile;
+    return (
+      profile.users.map(
+        (u) => ({ ...u, profile: userFillProfile as IApiProfile } as IMyUsers)
+      ) ?? []
+    );
+  },
+});
+
+export const rMyCircleUser = selectorFamily<IMyUsers | undefined, number>({
   key: 'rMyCircleUser',
   get: (circleId: number) => ({ get }: IRecoilGetParams) =>
     get(rMyUsers).find((u) => u.circle_id === circleId),
 });
+export const useMyCircleUser = (circleId: number) =>
+  useRecoilValue(rMyCircleUser(circleId));
 
-export const rSelectedMyUser = selector<IUser | undefined>({
+export const rSelectedMyUser = selector<IMyUsers | undefined>({
   key: 'rSelectedMyUser',
   get: async ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
-    return get(rMyUsers).find((u) => u.circle_id === selectedCircleId);
+    return selectedCircleId ? get(rMyCircleUser(selectedCircleId)) : undefined;
   },
 });
 export const useSelectedMyUser = () => useRecoilValue(rSelectedMyUser);
@@ -101,10 +117,10 @@ export const useSelectedMyUser = () => useRecoilValue(rSelectedMyUser);
 export const rMyCircles = selector<ICircle[]>({
   key: 'rMyCircles',
   get: ({ get }: IRecoilGetParams) => {
-    const myUsers = get(rMyUsers);
-    return myUsers
-      .map((u) => u.circle)
-      .filter((c) => c !== undefined) as ICircle[];
+    const myProfile = get(rMyProfile);
+    return (
+      myProfile?.users?.map((u) => createCircleWithDefaults(u.circle)) ?? []
+    );
   },
 });
 
@@ -113,29 +129,10 @@ export const rFetchedAt = atomFamily<Map<string, number>, string>({
   default: new Map(),
 });
 
-export const rProfileMap = atom<Map<string, IProfile>>({
+export const rProfileMap = atom<Map<string, IApiFilledProfile>>({
   key: 'rProfileMap',
   default: new Map(),
 });
-
-const circleWithDefaults = (circle: ICircle): ICircle => {
-  const tokenName = circle.token_name || 'GIVE';
-  const circleCopy = { ...circle } as ICircle;
-  circleCopy.token_name = tokenName;
-  circleCopy.team_sel_text = `Select the people you have been working with during this epoch so you can thank them with ${tokenName}`;
-  circleCopy.alloc_text = `Thank your teammates by allocating them ${tokenName}`;
-  return circleCopy;
-};
-
-// TODO: This may be memory inefficient in the future, consider adding getters.
-const createGiftWithUser = (usersMap: Map<number, IUser>) => (
-  gift: ITokenGift
-) => {
-  const giftCopy = { ...gift } as ITokenGift;
-  giftCopy.sender = usersMap.get(gift.sender_id);
-  giftCopy.recipient = usersMap.get(gift.recipient_id);
-  return giftCopy;
-};
 
 export const rCirclesMap = atom<Map<number, ICircle>>({
   key: 'rCirclesMap',
@@ -145,7 +142,9 @@ export const rCirclesMap = atom<Map<number, ICircle>>({
       .then((circles) =>
         resolve(
           new Map(
-            circles.map((c) => circleWithDefaults(c)).map((c) => [c.id, c])
+            circles
+              .map((c) => createCircleWithDefaults(c))
+              .map((c) => [c.id, c])
           )
         )
       );
@@ -157,13 +156,23 @@ export const rCircles = selector<ICircle[]>({
   get: ({ get }: IRecoilGetParams) => Array.from(get(rCirclesMap).values()),
 });
 
-export const rEpochsMap = atom<Map<number, IEpoch>>({
-  key: 'rEpochsMap',
+export const rEpochsRaw = atom<Map<number, IApiEpoch>>({
+  key: 'rEpochsRaw',
   default: new Promise((resolve) => {
     getApiService()
       .getFutureEpochs()
       .then((epochs) => resolve(new Map(epochs.map((e) => [e.id, e]))));
   }),
+});
+
+export const rEpochsMap = selector<Map<number, IEpoch>>({
+  key: 'rEpochsMap',
+  get: ({ get }: IRecoilGetParams) => {
+    const giftsByEpoch = get(rGiftsByEpoch);
+    return iti(get(rEpochsRaw).values())
+      .map((e) => createExtendedEpoch(e, giftsByEpoch.get(e.id) ?? []))
+      .toMap((e) => e.id);
+  },
 });
 
 export const rEpochs = selector<IEpoch[]>({
@@ -175,30 +184,31 @@ export const rUsersMap = atom<Map<number, IUser>>({
   key: 'rUsersMap',
   default: new Map(),
 });
+export const useUsersMap = () => useRecoilValue(rUsersMap);
 
 export const rUsers = selector<IUser[]>({
   key: 'rUsers',
   get: ({ get }: IRecoilGetParams) => Array.from(get(rUsersMap).values()),
 });
 
-export const rGiftsRaw = atom<Map<number, ITokenGift>>({
+export const rGiftsRaw = atom<Map<number, IApiTokenGift>>({
   key: 'rGiftsRaw',
   default: new Map(),
 });
 
 export const rGiftsMap = selector<Map<number, ITokenGift>>({
   key: 'rGiftsMap',
-  get: ({ get }: IRecoilGetParams) =>
-    new Map(
-      Array.from(get(rGiftsRaw).values())
-        .map(createGiftWithUser(get(rUsersMap)))
-        .map((g) => [g.id, g])
-    ),
+  get: ({ get }: IRecoilGetParams) => {
+    const userMap = get(rUsersMap);
+    return iti(get(rGiftsRaw).values())
+      .map((g) => createGiftWithUser(g, userMap))
+      .toMap((g) => g.id);
+  },
 });
 
 export const rGifts = selector<ITokenGift[]>({
   key: 'rGifts',
-  get: ({ get }: IRecoilGetParams) => Array.from(get(rGiftsMap).values()),
+  get: ({ get }: IRecoilGetParams) => iti(get(rGiftsMap).values()).toArray(),
 });
 
 export const rPendingGiftsRaw = atom<Map<number, ITokenGift>>({
@@ -208,30 +218,28 @@ export const rPendingGiftsRaw = atom<Map<number, ITokenGift>>({
 
 export const rPendingGiftsMap = selector<Map<number, ITokenGift>>({
   key: 'rPendingGiftsMap',
-  get: ({ get }: IRecoilGetParams) =>
-    new Map(
-      Array.from(get(rPendingGiftsRaw).values())
-        .map(createGiftWithUser(get(rUsersMap)))
-        .map((g) => [g.id, g])
-    ),
+  get: ({ get }: IRecoilGetParams) => {
+    const userMap = get(rUsersMap);
+    return iti(get(rPendingGiftsRaw).values())
+      .map((g) => createGiftWithUser(g, userMap))
+      .toMap((g) => g.id);
+  },
 });
 
 export const rPendingGifts = selector<ITokenGift[]>({
   key: 'rPendingGifts',
   get: ({ get }: IRecoilGetParams) =>
-    Array.from(get(rPendingGiftsMap).values()).sort(
-      ({ id: a }, { id: b }) => a - b
-    ),
+    iti(get(rPendingGiftsMap).values())
+      .sort(({ id: a }, { id: b }) => a - b)
+      .toArray(),
 });
 
 export const rAllGiftsMap = selector<Map<number, ITokenGift>>({
   key: 'rAllGiftsMap',
   get: ({ get }: IRecoilGetParams) =>
-    new Map(
-      iti(get(rPendingGiftsMap).values())
-        .concat(get(rGiftsMap).values())
-        .map((g) => [g.id, g])
-    ),
+    iti(get(rPendingGiftsMap).values())
+      .concat(get(rGiftsMap).values())
+      .toMap((g) => g.id),
 });
 
 export const rAllGifts = selector<ITokenGift[]>({
@@ -240,6 +248,12 @@ export const rAllGifts = selector<ITokenGift[]>({
     Array.from(get(rAllGiftsMap).values()).sort(
       ({ id: a }, { id: b }) => a - b
     ),
+});
+
+export const rGiftsByEpoch = selector<Map<number, ITokenGift[]>>({
+  key: 'rGiftsByEpoch',
+  get: ({ get }: IRecoilGetParams) =>
+    iti(get(rAllGifts)).toGroups((g) => g.epoch_id),
 });
 
 export const rPendingGiftsFor = selectorFamily<ITokenGift[], number>({
@@ -261,17 +275,27 @@ export const rPendingGiftsFrom = selectorFamily<ITokenGift[], number>({
 export const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',
   get: (circleId: number) => ({ get }: IRecoilGetParams) => {
-    let epochs = Array.from(get(rEpochsMap).values());
-    epochs = epochs.filter((e) => e.circle_id === circleId);
-    epochs = epochs.sort(
-      (a, b) => +new Date(a.start_date) - +new Date(b.start_date)
-    );
-    return epochs;
+    let lastNumber = -100; // Give incorrect numbers if we don't get a start.
+    const epochsWithNumber = [] as IEpoch[];
+    iti(get(rEpochsMap).values())
+      .filter((e) => e.circle_id === circleId)
+      .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
+      .forEach((epoch) => {
+        lastNumber = epoch.number ?? lastNumber + 1;
+        epochsWithNumber.push({ ...epoch, number: lastNumber });
+      });
+
+    return epochsWithNumber;
   },
 });
+export const useCircleEpochs = (id: number) =>
+  useRecoilValue(rCircleEpochs(id));
+export const useSelectedCircleEpochs = () =>
+  useRecoilValue(rCircleEpochs(useSelectedCircleId() ?? -1));
 
 export const rCircleEpochsStatus = selectorFamily<
   {
+    epochs: IEpoch[];
     pastEpochs: IEpoch[];
     previousEpoch?: IEpoch;
     currentEpoch?: IEpoch;
@@ -306,6 +330,7 @@ export const rCircleEpochsStatus = selectorFamily<
         +new Date(epoch.end_date) - +new Date() >= 0
     );
     return {
+      epochs,
       pastEpochs,
       previousEpoch,
       currentEpoch,
@@ -315,24 +340,10 @@ export const rCircleEpochsStatus = selectorFamily<
     };
   },
 });
-
-export const rCircleEpochTiming = selectorFamily<IEpochTimings, number>({
-  key: 'rCircleEpochTiming',
-  get: (circleId: number) => ({ get }: IRecoilGetParams) => {
-    const { previousEpoch, currentEpoch, nextEpoch } = get(
-      rCircleEpochsStatus(circleId)
-    );
-    return {
-      previousEpochTiming: previousEpoch
-        ? calculateEpochTimings(previousEpoch)
-        : undefined,
-      currentEpochTiming: currentEpoch
-        ? calculateEpochTimings(currentEpoch)
-        : undefined,
-      nextEpochTiming: nextEpoch ? calculateEpochTimings(nextEpoch) : undefined,
-    };
-  },
-});
+export const useCircleEpochsStatus = (id: number) =>
+  useRecoilValue(rCircleEpochsStatus(id));
+export const useSelectedCircleEpochsStatus = () =>
+  useRecoilValue(rCircleEpochsStatus(useSelectedCircleId() ?? -1));
 
 export const rSelectedCircle = selector<ICircle | undefined>({
   key: 'rSelectedCircle',
@@ -342,7 +353,7 @@ export const rSelectedCircle = selector<ICircle | undefined>({
     return circlesMap.get(selectedCircleId ?? -1);
   },
 });
-export const useValSelectedCircle = () => useRecoilValue(rSelectedCircle);
+export const useSelectedCircle = () => useRecoilValue(rSelectedCircle);
 
 export const rAvailableTeammates = selector<IUser[]>({
   key: 'rAvailableTeammates',
@@ -350,33 +361,50 @@ export const rAvailableTeammates = selector<IUser[]>({
     const selectedCircleId = get(rSelectedCircleId);
     const selectedMyUser = get(rSelectedMyUser);
     const usersMap = get(rUsersMap);
-    return Array.from(usersMap.values()).filter(
-      (u) =>
-        !u.deleted_at &&
-        !u.is_hidden &&
-        u.id !== selectedMyUser?.id &&
-        u.circle_id === selectedCircleId
-    );
+    return iti(usersMap.values())
+      .filter(
+        (u) =>
+          !u.deleted_at &&
+          !u.is_hidden &&
+          u.id !== selectedMyUser?.id &&
+          u.circle_id === selectedCircleId
+      )
+      .toArray();
   },
 });
+export const useAvailableTeammates = () => useRecoilValue(rAvailableTeammates);
+
+export const rSelectedCircleUsersWithDeleted = selector<IUser[]>({
+  key: 'rSelectedCircleUsersWithDeleted',
+  get: ({ get }: IRecoilGetParams) => {
+    const selectedCircleId = get(rSelectedCircleId);
+    const usersMap = get(rUsersMap);
+    return iti(usersMap.values())
+      .filter((u) => u.circle_id === selectedCircleId)
+      .toArray();
+  },
+});
+export const useSelectedCircleUsersWithDeleted = () =>
+  useRecoilValue(rSelectedCircleUsersWithDeleted);
 
 export const rSelectedCircleUsers = selector<IUser[]>({
   key: 'rSelectedCircleUsers',
   get: ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
-    const usersMap = get(rUsersMap);
-    return Array.from(usersMap.values()).filter(
-      (u) => u.circle_id === selectedCircleId
-    );
+    return iti(get(rUsersMap).values())
+      .filter((u) => !u.deleted_at && u.circle_id === selectedCircleId)
+      .toArray();
   },
 });
+export const useSelectedCircleUsers = () =>
+  useRecoilValue(rSelectedCircleUsers);
 
 export const rGiftsFor = selectorFamily<ITokenGift[], number>({
   key: 'rGiftsFor',
   get: (userId: number) => ({ get }: IRecoilGetParams) =>
     get(rAllGifts).filter((g) => g.recipient_id === userId),
 });
-export const useValGiftsFor = (userId: number) =>
+export const useGiftsFor = (userId: number) =>
   useRecoilValue(rGiftsFor(userId));
 
 export const rGiftsFrom = selectorFamily<ITokenGift[], number>({
@@ -384,7 +412,7 @@ export const rGiftsFrom = selectorFamily<ITokenGift[], number>({
   get: (userId: number) => ({ get }: IRecoilGetParams) =>
     get(rAllGifts).filter((g) => g.sender_id === userId),
 });
-export const useValGiftsFrom = (userId: number) =>
+export const useGiftsFrom = (userId: number) =>
   useRecoilValue(rGiftsFrom(userId));
 
 export const rUserGifts = selectorFamily<
@@ -401,8 +429,8 @@ export const rUserGifts = selectorFamily<
   get: (userId: number) => ({ get }: IRecoilGetParams) => {
     const giftsFrom = get(rGiftsFrom(userId));
     const giftsFor = get(rGiftsFor(userId));
-    const fromUserByEpoch = giftsToEpochMap(giftsFrom);
-    const forUserByEpoch = giftsToEpochMap(giftsFor);
+    const fromUserByEpoch = iti(giftsFrom).toGroups((g) => g.epoch_id);
+    const forUserByEpoch = iti(giftsFor).toGroups((g) => g.epoch_id);
     const totalReceivedByEpoch = new Map(
       iti(forUserByEpoch.entries()).map(([epochId, arr]) => [
         epochId,
@@ -418,16 +446,5 @@ export const rUserGifts = selectorFamily<
     };
   },
 });
-export const useValUserGifts = (userId: number) =>
+export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));
-
-export const rEpochTotalGive = selectorFamily<number, number>({
-  key: 'rEpochTotalGive',
-  get: (epochId: number) => ({ get }: IRecoilGetParams) =>
-    iti(get(rAllGifts))
-      .filter((g) => g.epoch_id === epochId)
-      .map((g) => g.tokens)
-      .sum() ?? 0,
-});
-export const useValEpochTotalGive = (epochId: number) =>
-  useRecoilValue(rEpochTotalGive(epochId));

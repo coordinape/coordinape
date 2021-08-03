@@ -2,16 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import moment from 'moment';
 
-import {
-  Button,
-  Hidden,
-  makeStyles,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+import { Button, makeStyles, Select, MenuItem } from '@material-ui/core';
 
-import { ReactComponent as EditAdminSVG } from 'assets/svgs/button/edit-admin.svg';
-import { useUserInfo } from 'hooks';
+import { useCircleEpoch } from 'hooks';
+import { EditIcon } from 'icons';
+import { useSelectedCircle } from 'recoilState';
 import { getCSVPath } from 'utils/domain';
 import { capitalizedName } from 'utils/string';
 
@@ -26,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    '& > *': {
+      marginTop: theme.spacing(2),
+    },
   },
   circleTitle: {
     margin: 0,
@@ -101,7 +99,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const AdminHeader = () => {
   const classes = useStyles();
-  const { circle, epoch, epochs, pastEpochs } = useUserInfo();
+
+  const selectedCircle = useSelectedCircle();
+  const { currentEpoch, futureEpochs, pastEpochs, nextEpoch } = useCircleEpoch(
+    selectedCircle?.id ?? -1
+  );
   const [selectedEpochId, setSelectedEpochId] = useState<number>(
     pastEpochs?.[0]?.id ?? -1
   );
@@ -119,29 +121,23 @@ export const AdminHeader = () => {
   return (
     <div className={classes.root}>
       <div className={classes.circleContainer}>
-        <p className={classes.circleTitle}>{capitalizedName(circle?.name)}</p>
+        <p className={classes.circleTitle}>
+          {capitalizedName(selectedCircle?.name)}
+        </p>
         <Button
-          className={classes.editButton}
+          variant="contained"
+          size="small"
+          startIcon={<EditIcon />}
           onClick={() => setEditEpoch(true)}
         >
-          <Hidden smDown>
-            <div className={classes.editAdminIconWrapper}>
-              <EditAdminSVG />
-            </div>
-          </Hidden>
           Edit Epoch Settings
         </Button>
         <Button
-          className={classes.editButton}
-          onClick={() => {
-            setEditCircle(true);
-          }}
+          variant="contained"
+          size="small"
+          startIcon={<EditIcon />}
+          onClick={() => setEditCircle(true)}
         >
-          <Hidden smDown>
-            <div className={classes.editAdminIconWrapper}>
-              <EditAdminSVG />
-            </div>
-          </Hidden>
           Edit Circle Settings
         </Button>
         <div className={classes.csvContainer}>
@@ -154,12 +150,12 @@ export const AdminHeader = () => {
           <a
             className={classes.csv}
             href={
-              circle && selectedEpoch
-                ? getCSVPath(circle.id, selectedEpochId)
+              selectedCircle && selectedEpoch
+                ? getCSVPath(selectedCircle.id, selectedEpochId)
                 : '/'
             }
             rel="noreferrer"
-            download={`${circle?.protocol}-${circle?.name}-epoch-${selectedEpoch?.number}.csv`}
+            download={`${selectedCircle?.protocol}-${selectedCircle?.name}-epoch-${selectedEpoch?.number}.csv`}
           >
             Export CSV for Epoch
           </a>
@@ -180,20 +176,20 @@ export const AdminHeader = () => {
       <div className={classes.epochContainer}>
         <p className={classes.title}>Next Epoch Starts</p>
         <p className={classes.description}>
-          {epochs[0]
-            ? moment.utc(epochs[0].start_date).local().format('MMMM Do')
+          {nextEpoch
+            ? moment.utc(nextEpoch.start_date).local().format('MMMM Do')
             : 'n/a'}
         </p>
         <p className={classes.title}>Progress Epoch</p>
         <p className={classes.description}>
-          {epoch &&
-          moment.utc().diff(moment.utc(epoch.start_date)) >= 0 &&
-          moment.utc(epoch.end_date).diff(moment.utc()) > 0
+          {currentEpoch &&
+          moment.utc().diff(moment.utc(currentEpoch.start_date)) >= 0 &&
+          moment.utc(currentEpoch.end_date).diff(moment.utc()) > 0
             ? `${moment
-                .utc(epoch.start_date)
+                .utc(currentEpoch.start_date)
                 .local()
                 .format('MM/DD/YYYY')} - ${moment
-                .utc(epoch.end_date)
+                .utc(currentEpoch.end_date)
                 .local()
                 .format('MM/DD/YYYY')}`
             : 'n/a'}
@@ -209,9 +205,9 @@ export const AdminHeader = () => {
         </p> */}
         <p className={classes.title}>Upcoming Epochs</p>
         <p className={classes.description}>
-          {epochs.length === 0
+          {futureEpochs.length === 0
             ? 'n/a'
-            : epochs.reduce(
+            : futureEpochs.reduce(
                 (dateString: string, epoch) =>
                   dateString +
                   (dateString.length === 0 ? '' : '\n') +
@@ -228,15 +224,15 @@ export const AdminHeader = () => {
       </div>
       <div className={classes.epochContainer}>
         <p className={classes.title}>Teammate selection page text</p>
-        <p className={classes.description}>{circle?.team_sel_text}</p>
+        <p className={classes.description}>{selectedCircle?.teamSelText}</p>
         <p className={classes.title}>Allocation page text</p>
-        <p className={classes.description}>{circle?.alloc_text}</p>
+        <p className={classes.description}>{selectedCircle?.allocText}</p>
         <p className={classes.title}>Token Name</p>
-        <p className={classes.description}>{circle?.token_name}</p>
+        <p className={classes.description}>{selectedCircle?.tokenName}</p>
       </div>
-      {isEditCircle && circle && (
+      {isEditCircle && selectedCircle && (
         <EditCircleModal
-          circle={circle}
+          circle={selectedCircle}
           onClose={() => {
             setEditCircle(false);
           }}
