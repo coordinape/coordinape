@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: theme.spacing(0.5, 2.5),
+    color: theme.colors.text,
     background:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
     border: '0.3px solid rgba(132, 145, 149, 0.2)',
