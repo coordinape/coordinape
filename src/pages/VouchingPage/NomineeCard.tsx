@@ -119,7 +119,8 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
   const { vouchUser } = useVouching();
   const { selectedMyUser } = useMe();
-  const necessaryVouch = nominee.vouches_required - nominee.nominations.length;
+  const necessaryVouch =
+    nominee.vouches_required - nominee.nominations.length - 1;
   const vouchDisabled = selectedMyUser
     ? nominee.nominated_by_user_id === selectedMyUser.id ||
       nominee.nominations.some((user) => user.id === selectedMyUser.id)
@@ -163,6 +164,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
                 onClick={openVouchedBy}
               >
                 {nominee.nominations.length}
+                {nominee.nominations.length > 1 ? ' users' : ' user'}
               </Button>
             </>
           )}

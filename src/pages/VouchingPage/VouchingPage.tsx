@@ -84,7 +84,7 @@ export const VouchingPage = () => {
         {activeNominees
           .filter(
             (nominee) =>
-              nominee.vouches_required > nominee.nominations.length &&
+              nominee.vouches_required - 1 > nominee.nominations.length &&
               nominee.expiryDate.isAfter(Date())
           )
           .map((nominee) => (
