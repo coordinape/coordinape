@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
 export const shortenAddress = (address: string) => {
-  return `${address.substring(0, 6)}...${address.substring(
+  return `${address.substring(0, 4)}...${address.substring(
     address.length - 4
   )}`;
 };

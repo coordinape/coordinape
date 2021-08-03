@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core';
 
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { useUserInfo } from 'hooks';
+import { useAdminApi } from 'hooks';
+import { useSelectedCircle } from 'recoilState';
 
 import { IUser } from 'types';
 
@@ -144,7 +145,8 @@ export const EditContributorModal = ({
 }) => {
   const classes = useStyles();
 
-  const { updateUser, createUser, circle } = useUserInfo();
+  const selectedCircle = useSelectedCircle();
+  const { updateUser, createUser } = useAdminApi();
   const [contributorName, setContributorName] = useState<string>(
     user?.name || ''
   );
@@ -213,7 +215,7 @@ export const EditContributorModal = ({
             </div>
             <div className={classes.topContainer}>
               <p className={classes.subTitle}>
-                Can They Send {circle?.token_name || 'GIVE'}?
+                Can They Send {selectedCircle?.tokenName}?
               </p>
               <Select
                 className={classes.selectRoot}

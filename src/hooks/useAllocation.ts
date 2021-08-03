@@ -27,14 +27,16 @@ import {
   ICircle,
   ISimpleGift,
   IUser,
+  IApiUser,
   ITokenGift,
   PostTokenGiftsParam,
   IAllocationStep,
 } from 'types';
 
-const syncWithTeammates = (newTeammates: IUser[], newGifts?: ISimpleGift[]) => (
-  baseGifts: ISimpleGift[]
-) => {
+const syncWithTeammates = (
+  newTeammates: IApiUser[],
+  newGifts?: ISimpleGift[]
+) => (baseGifts: ISimpleGift[]) => {
   const startingGifts = newGifts ?? baseGifts;
   const startingSet = new Set(startingGifts.map((g) => g.user.id));
   const newSet = new Set(newTeammates.map((u) => u.id));

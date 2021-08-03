@@ -193,7 +193,7 @@ const AllocationGive = () => {
         <h2
           className={classes.title}
         >{`${selectedCircle?.name} ${longTimingMessage}`}</h2>
-        <h2 className={classes.subTitle}>{selectedCircle?.alloc_text}</h2>
+        <h2 className={classes.subTitle}>{selectedCircle?.allocText}</h2>
       </div>
       <div className={classes.accessaryContainer}>
         <div className={classes.filterButtonContainer}>

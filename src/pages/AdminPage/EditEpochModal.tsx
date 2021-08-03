@@ -12,7 +12,8 @@ import {
 import { ReactComponent as DatePickerSVG } from 'assets/svgs/button/date-picker.svg';
 import { ReactComponent as DeleteEpochSVG } from 'assets/svgs/button/delete-epoch.svg';
 import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { useUserInfo } from 'hooks';
+import { useAdminApi, useCircleEpoch } from 'hooks';
+import { useSelectedCircleId } from 'recoilState';
 
 import { IEpoch } from 'types';
 
@@ -137,9 +138,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   scrollableContainer: {
-    maxHeight: 150,
-    overflow: 'auto',
-    overflowY: 'scroll',
+    flexGrow: 1,
+    overflowY: 'auto',
   },
   epochPeriod: {
     margin: theme.spacing(0.5, 0),
@@ -183,7 +183,10 @@ interface IProps {
 export const EditEpochModal = (props: IProps) => {
   const classes = useStyles();
   const { onClose, visible } = props;
-  const { createEpoch, deleteEpoch, epoch, epochs } = useUserInfo();
+  const { createEpochDeprecated, deleteEpoch } = useAdminApi();
+  const { currentEpoch: epoch, futureEpochs } = useCircleEpoch(
+    useSelectedCircleId() ?? -1
+  );
   const [epochStartDate, setEpochStartDate] = useState<Date | null>(null);
   const [epochEndDate, setEpochEndDate] = useState<Date | null>(null);
   const [
@@ -204,7 +207,10 @@ export const EditEpochModal = (props: IProps) => {
   // onClick SaveEpoch
   const onClickSaveEpoch = async () => {
     if (epochStartDate && epochEndDate) {
-      const newEpoch = await createEpoch(epochStartDate, epochEndDate);
+      const newEpoch = await createEpochDeprecated(
+        epochStartDate,
+        epochEndDate
+      );
       setEpochDeletedDescription(
         `Epoch for ${moment
           .utc(newEpoch.start_date)
@@ -327,38 +333,29 @@ export const EditEpochModal = (props: IProps) => {
               </p>
             </div>
             <hr />
-            <div>
-              <p className={classes.subTitle}>UPCOMING EPOCHS</p>
-              <div className={classes.scrollableContainer}>
-                {epochs.map((epoch) => (
-                  <Button
-                    className={classes.epochPeriod}
-                    key={epoch.id}
-                    onClick={() => onClickDeleteEpoch(epoch)}
-                  >
-                    <Hidden smDown>
-                      <div className={classes.deleteEpochIconWrapper}>
-                        <DeleteEpochSVG />
-                      </div>
-                      {moment
-                        .utc(epoch.start_date)
-                        .local()
-                        .format('MM/DD/YYYY')}{' '}
-                      to{' '}
-                      {moment.utc(epoch.end_date).local().format('MM/DD/YYYY')}
-                    </Hidden>
-                  </Button>
-                ))}
-              </div>
-              {epochDeletedDescription.length > 0 && (
-                <div className={classes.epochDeletedContainer}>
-                  <p className={classes.epochDeletedDescription}>✓</p>
-                  <p className={classes.epochDeletedDescription}>
-                    {epochDeletedDescription}
-                  </p>
-                </div>
-              )}
+            <p className={classes.subTitle}>UPCOMING EPOCHS</p>
+            <div className={classes.scrollableContainer}>
+              {futureEpochs.map((epoch) => (
+                <Button
+                  key={epoch.id}
+                  onClick={() => onClickDeleteEpoch(epoch)}
+                >
+                  <div className={classes.deleteEpochIconWrapper}>
+                    <DeleteEpochSVG />
+                  </div>
+                  {moment.utc(epoch.start_date).local().format('MM/DD/YYYY')} to{' '}
+                  {moment.utc(epoch.end_date).local().format('MM/DD/YYYY')}
+                </Button>
+              ))}
             </div>
+            {epochDeletedDescription.length > 0 && (
+              <div className={classes.epochDeletedContainer}>
+                <p className={classes.epochDeletedDescription}>✓</p>
+                <p className={classes.epochDeletedDescription}>
+                  {epochDeletedDescription}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -51,3 +51,11 @@ export interface PutCirclesParam {
   team_sel_text?: string;
   alloc_text?: string;
 }
+
+export interface UpdateCreateEpochParam {
+  start_date: string; // YYYY-MM-DD
+  start_time: string; // HH:MM
+  repeat: number; // (0 = no repeat, 1 = weekly, 2 = monthly)
+  days: number; // (minimum 1 - 100 maximum)
+  grant?: number; // decimal
+}

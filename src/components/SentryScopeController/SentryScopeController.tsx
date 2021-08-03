@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 
 import { useCircle, useMe, useSelectedAllocation } from 'hooks';
-import { useValConnectorName } from 'recoilState';
+import { useConnectorName } from 'recoilState';
 
 const AllocationScope = () => {
   const {
@@ -33,7 +33,7 @@ const AllocationScope = () => {
 export const SentryScopeController = () => {
   const { myCircles, selectedMyUser, hasAdminView } = useMe();
   const { selectedCircleId, selectedCircle } = useCircle();
-  const connectorName = useValConnectorName();
+  const connectorName = useConnectorName();
 
   useEffect(() => {
     Sentry.configureScope((scope) => {

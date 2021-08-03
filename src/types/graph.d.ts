@@ -1,4 +1,4 @@
-import { IUser } from './user.model';
+import { IUser } from './api.user.profile';
 
 interface IGraphLink {
   source: number;
