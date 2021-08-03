@@ -19,6 +19,8 @@ import {
   PutUsersParam,
   UpdateUsersParam,
   UpdateCreateEpochParam,
+  NominateUserParam,
+  IApiNominee,
 } from 'types';
 
 axios.defaults.baseURL = API_URL;
@@ -356,6 +358,51 @@ export class APIService {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/v2/token-gifts/${address}`, {
+      signature,
+      data,
+      address,
+      hash,
+    });
+    return response.data;
+  };
+
+  getNominees = async (
+    circleId: number,
+    params: {
+      id?: number;
+      address?: string;
+      nominated_by_user_id?: number;
+      ended?: 0 | 1;
+    } = {}
+  ): Promise<IApiNominee[]> => {
+    const response = await axios.get(`${circleId}/nominees`, { params });
+    return response.data as IApiNominee[];
+  };
+
+  nominateUser = async (
+    circleId: number,
+    address: string,
+    params: NominateUserParam
+  ): Promise<IApiNominee> => {
+    const data = JSON.stringify(params);
+    const { signature, hash } = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/nominees`, {
+      signature,
+      data,
+      address,
+      hash,
+    });
+    return response.data;
+  };
+
+  vouchUser = async (
+    circleId: number,
+    address: string,
+    nominee_id: number
+  ): Promise<IApiNominee> => {
+    const data = JSON.stringify({ nominee_id });
+    const { signature, hash } = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/vouch`, {
       signature,
       data,
       address,

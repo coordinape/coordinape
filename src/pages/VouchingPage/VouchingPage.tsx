@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { useValSelectedCircle } from 'recoilState';
+import { useSelectedCircle, useActiveNominees } from 'recoilState';
 
 import NewNominateModal from './NewNominateModal';
+import NomineeCard from './NomineeCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,19 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
   nominateButton: {
     margin: theme.spacing(8, 2),
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(1, 3),
-    fontSize: 19.5,
-    lineHeight: 1.75,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    background: theme.colors.red,
-    borderRadius: 13,
-    '&.MuiButton-root:hover': {
-      background: theme.colors.darkRed,
-    },
   },
   subTitle: {
     maxWidth: theme.breakpoints.values.md,
@@ -57,8 +45,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const VouchingPage = () => {
   const classes = useStyles();
-  const circle = useValSelectedCircle();
+  const circle = useSelectedCircle();
+  const activeNominees = useActiveNominees();
   const [isNewNominate, setNewNominate] = useState<boolean>(false);
+
+  console.log(activeNominees);
 
   return !circle ? (
     <div className={classes.root}></div>
@@ -77,12 +68,17 @@ export const VouchingPage = () => {
         )}
       </p>
       <Button
+        variant="contained"
+        color="primary"
         className={classes.nominateButton}
         onClick={() => setNewNominate(true)}
       >
         Nominate New Member
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
+      {activeNominees.map((nominee) => (
+        <NomineeCard key={nominee.id} nominee={nominee} />
+      ))}
       {isNewNominate && (
         <NewNominateModal
           onClose={() => {

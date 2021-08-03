@@ -11,6 +11,7 @@ import {
   rAvailableTeammates,
   rSelectedCircle,
   rCircleEpochsStatus,
+  rNomineesRaw,
 } from 'recoilState';
 import { getHistoryPath, getAllocationPath } from 'routes/paths';
 import { getApiService } from 'services/api';
@@ -24,6 +25,7 @@ import {
   IApiEpoch,
   ICircle,
   IApiUserProfile,
+  IApiNominee,
 } from 'types';
 
 export const useCircle = (): {
@@ -36,6 +38,7 @@ export const useCircle = (): {
   fetchGiftsForCircle: () => Promise<IApiTokenGift[]>;
   fetchPendingGiftsForCircle: () => Promise<IApiTokenGift[]>;
   fetchEpochsForCircle: () => Promise<IApiEpoch[]>;
+  fetchNomineesForCircle: () => Promise<IApiNominee[]>;
 } => {
   const history = useHistory();
   const callWithLoadCatch = useAsyncLoadCatch();
@@ -87,6 +90,11 @@ export const useCircle = (): {
     rEpochsRaw,
     updaterMergeArrayToIdMap
   );
+  const fetchNominees = useRecoilFetcher(
+    'rNomineesRaw',
+    rNomineesRaw,
+    updaterMergeArrayToIdMap
+  );
 
   const fetchUsersForCircle = async (): Promise<IUser[]> => {
     const [commit, result] = await fetchUsers(api.getUsers, [
@@ -123,6 +131,14 @@ export const useCircle = (): {
     return result as IApiEpoch[];
   };
 
+  const fetchNomineesForCircle = async (): Promise<IApiNominee[]> => {
+    const [commit, result] = await fetchNominees(api.getNominees, [
+      selectedCircleId,
+    ]);
+    commit();
+    return result as IApiNominee[];
+  };
+
   const selectAndFetchCircle = async (circleId: number) =>
     callWithLoadCatch(async () => {
       const results = await Promise.all([
@@ -134,6 +150,7 @@ export const useCircle = (): {
         await fetchPendingGifts(api.getPendingTokenGifts, [
           { circle_id: circleId },
         ]),
+        await fetchNominees(api.getNominees, [selectedCircleId]),
       ]);
 
       results.forEach(([commit]) => commit());
@@ -155,5 +172,6 @@ export const useCircle = (): {
     fetchGiftsForCircle,
     fetchPendingGiftsForCircle,
     fetchEpochsForCircle,
+    fetchNomineesForCircle,
   };
 };
