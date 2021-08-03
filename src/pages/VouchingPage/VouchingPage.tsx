@@ -55,8 +55,6 @@ export const VouchingPage = () => {
   const activeNominees = useActiveNominees();
   const [isNewNominate, setNewNominate] = useState<boolean>(false);
 
-  console.log(activeNominees);
-
   return !circle ? (
     <div className={classes.root}></div>
   ) : (
