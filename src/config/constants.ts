@@ -13,7 +13,7 @@ export const TOKEN_PRICE_DECIMALS = 18;
 export const WEIGHT_DECIMALS = 18;
 
 export const MAX_NAME_LENGTH = 20;
-export const MAX_BIO_LENGTH = 140;
+export const MAX_BIO_LENGTH = 560;
 
 export const WALLET_ICONS: { [key in ConnectorNames]: React.ElementType } = {
   [ConnectorNames.Injected]: MetaMaskSVG,
