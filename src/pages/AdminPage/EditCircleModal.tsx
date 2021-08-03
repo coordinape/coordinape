@@ -2,36 +2,16 @@ import React, { useState } from 'react';
 
 import clsx from 'clsx';
 
-import { Button, Hidden, Modal, makeStyles } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { makeStyles } from '@material-ui/core';
 
-import { ReactComponent as SaveAdminSVG } from 'assets/svgs/button/save-admin.svg';
-import { ApeAvatar } from 'components';
+import { ApeAvatar, FormModal, ApeTextField } from 'components';
 import { useUserInfo } from 'hooks';
+import { UploadIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: {
-    padding: theme.spacing(2.5, 6),
-    width: 648,
-    height: 640,
-    borderRadius: theme.spacing(1),
-    outline: 'none',
-    background: theme.colors.white,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
   logoContainer: {
     position: 'relative',
     width: 96,
@@ -80,90 +60,25 @@ const useStyles = makeStyles((theme) => ({
     background: 'rgba(81, 99, 105, 0.7)',
     cursor: 'pointer',
     zIndex: 2,
-  },
-  uploadImageContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  uploadImageTitle: {
-    fontSize: 12,
-    fontWeight: 600,
     color: '#FFFFFF',
-    paddingLeft: 8,
-  },
-  subContent: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  container: {
-    width: '47%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  input: {
-    padding: theme.spacing(1.5),
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.background,
-    borderRadius: theme.spacing(1),
-    border: 0,
-    outline: 'none',
-    textAlign: 'center',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  textarea: {
-    padding: theme.spacing(1, 1.5),
-    height: 97,
-    resize: 'none',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.background,
-    borderRadius: theme.spacing(1),
-    border: 0,
-    outline: 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  saveButton: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: theme.spacing(6),
-    padding: theme.spacing(1.5, 3),
     fontSize: 12,
     fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.colors.red,
-    borderRadius: theme.spacing(1),
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      background: theme.colors.red,
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-    '&:disabled': {
-      color: theme.colors.lightRed,
-      background: theme.colors.mediumRed,
+    paddingLeft: 8,
+    '& > svg': {
+      // fontSize: 14,
+      marginRight: theme.spacing(1),
     },
   },
-  saveAdminIconWrapper: {
-    width: theme.spacing(1.25),
-    height: theme.spacing(2),
-    marginRight: theme.spacing(1),
+  uploadImageTitle: {},
+  quadGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateRows: 'auto auto',
+    columnGap: theme.spacing(3),
+    rowGap: theme.spacing(2),
   },
 }));
 
@@ -198,28 +113,13 @@ export const EditCircleModal = ({
     }
   };
 
-  // onChange CircleName
-  const onChangeCircleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCircleName(e.target.value);
-  };
+  const onChangeWith = (set: (v: string) => void) => (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => set(e.target.value);
 
-  // onChange TokenName
-  const onChangeTokenName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTokenName(e.target.value);
-  };
-
-  // onChange TeamSelText
-  const onChangeTeamSelText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTeamSelText(e.target.value);
-  };
-
-  // onChange AllocText
-  const onChangeAllocText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAllocText(e.target.value);
-  };
-
-  // onClick SaveCircle
-  const onClickSaveCircle = async () => {
+  const onSubmit = async () => {
     if (logoData.avatarRaw) {
       await updateCircleLogo(logoData.avatarRaw);
       setLogoData({
@@ -251,83 +151,71 @@ export const EditCircleModal = ({
     allocText !== circle.alloc_text;
 
   return (
-    <Modal className={classes.modal} onClose={onClose} open={visible}>
-      <div className={classes.content}>
-        <p className={classes.title}>Edit Circle Settings</p>
-        <div className={classes.logoContainer}>
-          <label htmlFor="upload-logo-button">
-            <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
-            <div
-              className={clsx(
-                classes.uploadImageIconWrapper,
-                'upload-image-icon'
-              )}
-            >
-              <div className={classes.uploadImageContainer}>
-                <CloudUploadIcon style={{ color: '#FFFFFF' }} />
-                <p className={classes.uploadImageTitle}>Upload Circle Logo</p>
-              </div>
-            </div>
-          </label>
-          <input
-            id="upload-logo-button"
-            onChange={onChangeLogo}
-            style={{ display: 'none' }}
-            type="file"
-          />
-        </div>
-        <div className={classes.subContent}>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>Circle name</p>
-            <input
-              className={classes.input}
-              onChange={onChangeCircleName}
-              value={circleName}
-            />
+    <FormModal
+      title="Edit Circle Settings"
+      submitDisabled={!circleDirty}
+      onSubmit={onSubmit}
+      visible={visible}
+      onClose={onClose}
+      size="small"
+    >
+      <div className={classes.logoContainer}>
+        <label htmlFor="upload-logo-button">
+          <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
+          <div
+            className={clsx(
+              classes.uploadImageIconWrapper,
+              'upload-image-icon'
+            )}
+          >
+            <UploadIcon />
+            <span>Upload Circle Logo</span>
           </div>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>Token name</p>
-            <input
-              className={classes.input}
-              onChange={onChangeTokenName}
-              value={tokenName}
-            />
-          </div>
-        </div>
-        <div className={classes.subContent}>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>Teammate selection page text</p>
-            <textarea
-              className={classes.textarea}
-              maxLength={280}
-              onChange={onChangeTeamSelText}
-              value={teamSelText}
-            />
-          </div>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>Allocation page text</p>
-            <textarea
-              className={classes.textarea}
-              maxLength={280}
-              onChange={onChangeAllocText}
-              value={allocText}
-            />
-          </div>
-        </div>
-        <Button
-          className={classes.saveButton}
-          disabled={!circleDirty}
-          onClick={onClickSaveCircle}
-        >
-          <Hidden smDown>
-            <div className={classes.saveAdminIconWrapper}>
-              <SaveAdminSVG />
-            </div>
-          </Hidden>
-          Save
-        </Button>
+        </label>
+        <input
+          id="upload-logo-button"
+          onChange={onChangeLogo}
+          style={{ display: 'none' }}
+          type="file"
+        />
       </div>
-    </Modal>
+      <div className={classes.quadGrid}>
+        <ApeTextField
+          label="Circle name"
+          value={circleName}
+          onChange={onChangeWith(setCircleName)}
+          fullWidth
+        />
+        <ApeTextField
+          label="Token name"
+          value={tokenName}
+          onChange={onChangeWith(setTokenName)}
+          fullWidth
+        />
+        <ApeTextField
+          label="Teammate selection page text"
+          value={teamSelText}
+          onChange={onChangeWith(setTeamSelText)}
+          multiline
+          rows={4}
+          inputProps={{
+            maxLength: 280,
+          }}
+          fullWidth
+        />
+        <ApeTextField
+          label="Allocation page text"
+          value={allocText}
+          onChange={onChangeWith(setAllocText)}
+          multiline
+          rows={4}
+          inputProps={{
+            maxLength: 280,
+          }}
+          fullWidth
+        />
+      </div>
+    </FormModal>
   );
 };
 

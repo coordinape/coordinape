@@ -17,3 +17,8 @@ export * from './MediumIcon';
 export * from './TwitterIcon';
 export * from './DiscordIcon';
 export * from './BalanceIcon';
+export * from './DeleteIcon';
+export * from './EditIcon';
+export * from './PlusCircleIcon';
+export * from './SaveIcon';
+export * from './UploadIcon';
