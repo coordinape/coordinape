@@ -2,7 +2,8 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { Button, Modal, makeStyles } from '@material-ui/core';
+import { Button, Modal, makeStyles, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { SaveIcon } from 'icons';
 
@@ -11,6 +12,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  closeButton: {
+    color: theme.colors.mediumGray,
+    top: 0,
+    right: 0,
+    position: 'absolute',
   },
   body: {
     display: 'flex',
@@ -49,6 +56,7 @@ export const FormModal = ({
   title,
   children,
   onSubmit,
+  submitText,
   submitDisabled,
   className,
   visible,
@@ -58,6 +66,7 @@ export const FormModal = ({
   title?: string;
   children: React.ReactNode;
   onSubmit?: () => void;
+  submitText?: string;
   submitDisabled: boolean;
   className?: string;
   visible: boolean;
@@ -72,6 +81,13 @@ export const FormModal = ({
         className={clsx([classes[size ?? 'medium']], classes.body, className)}
         onSubmit={onSubmit}
       >
+        <IconButton
+          className={classes.closeButton}
+          onClick={onClose}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
         {title ? <h3 className={classes.title}>{title}</h3> : undefined}
         {children}
         {onSubmit ? (
@@ -80,11 +96,11 @@ export const FormModal = ({
             variant="contained"
             color="primary"
             size="small"
-            startIcon={<SaveIcon />}
+            startIcon={submitText ? undefined : <SaveIcon />}
             onClick={onSubmit}
             disabled={submitDisabled}
           >
-            Save
+            {submitText ? submitText : 'Save'}
           </Button>
         ) : undefined}
       </form>

@@ -2,40 +2,13 @@ import React, { useState } from 'react';
 
 import { ethers } from 'ethers';
 
-import { Button, Modal, makeStyles, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core';
 
-import { useValSelectedCircle } from 'recoilState';
+import { FormModal, ApeTextField } from 'components';
+import { useVouching } from 'hooks';
+import { useSelectedCircle } from 'recoilState';
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: {
-    padding: theme.spacing(2.5, 6),
-    width: 648,
-    height: 570,
-    borderRadius: theme.spacing(1),
-    outline: 'none',
-    background: theme.colors.white,
-    position: 'relative',
-  },
-  closeButton: {
-    color: theme.colors.mediumGray,
-    top: 0,
-    right: 0,
-    position: 'absolute',
-  },
-  title: {
-    marginTop: theme.spacing(3),
-    marginBottom: 0,
-    fontSize: 30,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
   description: {
     marginTop: theme.spacing(1),
     fontSize: 16,
@@ -43,79 +16,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.primary,
     textAlign: 'center',
   },
-  subContent: {
-    margin: theme.spacing(4, 0),
-    display: 'flex',
-    justifyContent: 'space-between',
+  quadGrid: {
+    width: '100%',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateRows: 'auto auto',
+    columnGap: theme.spacing(3),
+    rowGap: theme.spacing(4),
   },
-  bottomContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  container: {
-    width: '47%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  input: {
-    padding: theme.spacing(1.5),
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.lightBackground,
-    borderRadius: theme.spacing(1),
-    border: 0,
-    outline: 'none',
-    textAlign: 'center',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  textarea: {
-    padding: theme.spacing(1.5),
-    height: 97,
-    resize: 'none',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.lightBackground,
-    borderRadius: theme.spacing(1),
-    border: 0,
-    outline: 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  nominateButton: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: theme.spacing(6),
-    padding: theme.spacing(0.7, 3),
-    fontSize: 12,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.colors.red,
-    borderRadius: theme.spacing(1),
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      background: theme.colors.red,
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-    '&:disabled': {
-      color: theme.colors.lightRed,
-      background: theme.colors.mediumRed,
-    },
+  gridAllColumns: {
+    gridColumn: '1/-1',
   },
 }));
 
@@ -127,7 +37,9 @@ export const NewNominateModal = ({
   onClose: () => void;
 }) => {
   const classes = useStyles();
-  const circle = useValSelectedCircle();
+  const circle = useSelectedCircle();
+  const { nominateUser } = useVouching();
+
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -146,80 +58,68 @@ export const NewNominateModal = ({
           : ''
       }`
     : '';
-  const nominateDirty =
-    name.length == 0 ||
-    description.length == 0 ||
-    !ethers.utils.isAddress(address);
 
-  // onChange Name
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const isAddress = ethers.utils.isAddress(address);
+  const nominateChanged =
+    name.length == 0 || description.length == 0 || isAddress;
+
+  const onChangeWith = (set: (v: string) => void) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => set(e.target.value);
+
+  const onSubmit = async () => {
+    if (!nominateChanged) {
+      throw 'Submit called when form not ready.';
+    }
+    nominateUser({
+      name,
+      address,
+      description,
+    }).then(() => {
+      onClose();
+    });
   };
-
-  // onChange Address
-  const onChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-
-  // onChange Description
-  const onChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
-
-  // onClick NewNominate
-  const onClickNewNominate = async () => {};
 
   return (
-    <Modal className={classes.modal} onClose={onClose} open={visible}>
-      <div className={classes.content}>
-        <IconButton
-          className={classes.closeButton}
-          onClick={onClose}
-          aria-label="close"
-        >
-          <CloseIcon />
-        </IconButton>
-        <p className={classes.title}>Nominate New Member</p>
-        <p className={classes.description}>{nominateDescription}</p>
-        <div className={classes.subContent}>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>Name</p>
-            <input
-              className={classes.input}
-              onChange={onChangeName}
-              value={name}
-            />
-          </div>
-          <div className={classes.container}>
-            <p className={classes.subTitle}>ETH Address</p>
-            <input
-              className={classes.input}
-              onChange={onChangeAddress}
-              value={address}
-            />
-          </div>
-        </div>
-        <div className={classes.bottomContainer}>
-          <p className={classes.subTitle}>
-            Why are you nominating this person?
-          </p>
-          <textarea
-            className={classes.textarea}
-            maxLength={280}
-            placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future, I need some better helper text here please feel free to edit."
-            onChange={onChangeDescription}
-            value={description}
-          />
-        </div>
-        <Button
-          className={classes.nominateButton}
-          disabled={nominateDirty}
-          onClick={onClickNewNominate}
-        >
-          Nominate Member
-        </Button>
+    <FormModal
+      title="Nominate New Member"
+      submitDisabled={!nominateChanged}
+      onSubmit={onSubmit}
+      submitText="Nominate Member"
+      visible={visible}
+      onClose={onClose}
+      size="small"
+    >
+      <p className={classes.description}>{nominateDescription}</p>
+      <div className={classes.quadGrid}>
+        <ApeTextField
+          label="Name"
+          value={name}
+          onChange={onChangeWith(setName)}
+          fullWidth
+        />
+        <ApeTextField
+          label="ETH Address"
+          value={address}
+          onChange={onChangeWith(setAddress)}
+          error={address.length > 0 && !isAddress}
+          fullWidth
+        />
+        <ApeTextField
+          label="Why are you nominating this person?"
+          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future, I need some better helper text here please feel free to edit."
+          value={description}
+          className={classes.gridAllColumns}
+          onChange={onChangeWith(setDescription)}
+          multiline
+          rows={4}
+          inputProps={{
+            maxLength: 280,
+          }}
+          fullWidth
+        />
       </div>
-    </Modal>
+    </FormModal>
   );
 };
 

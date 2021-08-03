@@ -61,3 +61,9 @@ export interface UpdateCreateEpochParam {
   days: number; // (minimum 1 - 100 maximum)
   grant?: number; // decimal
 }
+
+export interface NominateUserParam {
+  name: string;
+  address: string;
+  description: string;
+}
