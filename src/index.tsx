@@ -8,9 +8,10 @@ import App from './App';
 import AppLandingPage from './AppLandingPage';
 import reportWebVitals from './reportWebVitals';
 import './global';
-import { RENDER_APP } from './utils/domain';
+import { DOMAIN_IS_PREVIEW, RENDER_APP } from './utils/domain';
 
 Sentry.init({
+  environment: DOMAIN_IS_PREVIEW ? 'development' : 'production',
   dsn:
     'https://1b672f036d56422ea7087e932011ec74@o919561.ingest.sentry.io/5863782',
   integrations: [new Integrations.BrowserTracing()],

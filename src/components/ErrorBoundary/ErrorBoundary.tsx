@@ -20,24 +20,29 @@ interface IInnerProps {
 
 interface State {
   hasError: boolean;
-  error?: Error;
-  errorInfo?: ErrorInfo;
+  errorMessage?: string;
+  errorInfo?: string;
 }
 
 class InnerErrorBoundary extends Component<IInnerProps, State> {
   public state: State = {
     hasError: false,
-    error: undefined,
+    errorMessage: undefined,
     errorInfo: undefined,
   };
 
   public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true, error };
+    return { hasError: true, errorMessage: error.message };
   }
 
   public componentDidCatch(error: any, errorInfo: ErrorInfo) {
-    console.error('Caught in Error boundary:', error, errorInfo);
+    console.error(
+      'Caught in Error boundary:',
+      error?.message,
+      error,
+      errorInfo
+    );
     this.props.enqueueSnackbar(
       error?.response?.data?.message ||
         error?.message ||
@@ -51,11 +56,16 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
     });
 
     this.setState((state) => {
-      return { ...state, errorInfo: errorInfo };
+      return {
+        ...state,
+        errorInfo: errorInfo.componentStack,
+        errorMessage: error?.message,
+      };
     });
   }
 
   public render() {
+    const infoPieces = this.state.errorInfo?.split('\n') ?? [];
     return !this.state.hasError ? (
       this.props.children
     ) : (
@@ -66,6 +76,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
           alignItems: 'center',
           justifyContent: 'space-between',
           minHeight: '100vh',
+          padding: '0 50px 30px',
         }}
       >
         <div>
@@ -76,11 +87,27 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
             or refresh to return to the app.
           </p>
         </div>
-        <div style={{ maxWidth: '900px' }}>
-          {JSON.stringify(this.state.error)}
-        </div>
-        <div style={{ maxWidth: '900px' }}>
-          {JSON.stringify(this.state.errorInfo)}
+        <div
+          style={{
+            minWidth: '300px',
+            width: '20%',
+            fontSize: '14px',
+            color: '#555',
+          }}
+        >
+          {JSON.stringify(this.state.errorMessage)}
+          <div
+            style={{
+              marginTop: '10px',
+              display: 'flex',
+              flexDirection: 'column',
+              fontSize: '10px',
+            }}
+          >
+            {infoPieces.map((s, k) => (
+              <span key={k}>{s}</span>
+            ))}
+          </div>
         </div>
         <hr />
         <iframe
