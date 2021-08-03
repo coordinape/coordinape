@@ -41,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     borderBottomWidth: 1,
     borderColor: theme.colors.lightBorder,
   },
+  nomineeContainer: {
+    margin: theme.spacing(1, 5),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
 }));
 
 export const VouchingPage = () => {
@@ -76,9 +82,17 @@ export const VouchingPage = () => {
         Nominate New Member
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
-      {activeNominees.map((nominee) => (
-        <NomineeCard key={nominee.id} nominee={nominee} />
-      ))}
+      <div className={classes.nomineeContainer}>
+        {activeNominees
+          .filter(
+            (nominee) =>
+              nominee.vouches_required > nominee.nominations.length &&
+              nominee.expiryDate.isAfter(Date())
+          )
+          .map((nominee) => (
+            <NomineeCard key={nominee.id} nominee={nominee} />
+          ))}
+      </div>
       {isNewNominate && (
         <NewNominateModal
           onClose={() => {
