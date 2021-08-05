@@ -23,24 +23,28 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     color: theme.colors.text,
   },
-  inputRootError: {
+  inputRoot: {
     backgroundColor: theme.colors.third,
     borderRadius: 8,
+    color: theme.colors.text,
+    border: `1px solid ${theme.colors.third}`,
+    transition: 'border 200ms ease-out',
+    '&:focus-within': {
+      border: `1px solid ${theme.colors.lightBlue}`,
+    },
+  },
+  inputRootError: {
     border: `1px solid ${theme.colors.red}`,
     color: theme.colors.red,
   },
   input: {
-    backgroundColor: theme.colors.third,
-    borderRadius: 8,
-    color: theme.colors.text,
+    padding: theme.spacing(1.75, 1, 1.75),
     fontSize: 15,
     lineHeight: 1.33,
     fontWeight: 300,
     textAlign: 'center',
-    padding: theme.spacing(1.75, 1, 1.75),
-    border: `1px solid ${theme.colors.third}`,
-    '&:focus': {
-      border: `1px solid ${theme.colors.lightBlue}`,
+    '&::placeholder': {
+      color: theme.colors.text + '80',
     },
   },
   helper: {
@@ -58,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   multiLineInput: {
     textAlign: 'left',
+    padding: theme.spacing(0, 1),
   },
 }));
 
@@ -112,6 +117,7 @@ export const ApeTextField = (props: TextFieldProps) => {
   const inputClasses = {
     ...InputProps?.classes,
     root: clsx(
+      classes.inputRoot,
       {
         [classes.inputRootError]: !!error,
       },
@@ -162,14 +168,16 @@ export const ApeTextField = (props: TextFieldProps) => {
         </label>
       ) : undefined}
       <InputBase {...mergedInputProps} />
-      <span
-        className={clsx({
-          [classes.helper]: !error,
-          [classes.error]: !!error,
-        })}
-      >
-        {helperText}
-      </span>
+      {helperText ? (
+        <span
+          className={clsx({
+            [classes.helper]: !error,
+            [classes.error]: !!error,
+          })}
+        >
+          {helperText}
+        </span>
+      ) : undefined}
     </div>
   );
 };
