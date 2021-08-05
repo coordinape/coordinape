@@ -19,5 +19,6 @@ const color = {
   // New for landing page
   almostWhite: '#F6F7F8',
   lightBlue: '#84C7CA',
+  placeholder: '#99A2A5',
 };
 export default color;
