@@ -235,7 +235,7 @@ export const HistoryPage = () => {
             <Divider />
             <h3 className={classes.epochItem}>{selectedEpoch.totalTokens}</h3>
 
-            <h4 className={classes.epochSubtitle}>You Recieved</h4>
+            <h4 className={classes.epochSubtitle}>You Received</h4>
             <Divider />
             <h3 className={classes.epochItem}>
               {totalReceived} {circle.token_name}
@@ -248,7 +248,7 @@ export const HistoryPage = () => {
               setTabIdx={setTabIdx}
               tabs={[
                 {
-                  label: 'Recieved',
+                  label: 'Received',
                   panel: <div className={classes.tabPanel}>{list}</div>,
                 },
                 {
