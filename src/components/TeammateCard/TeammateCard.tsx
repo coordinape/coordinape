@@ -11,7 +11,6 @@ import {
   makeStyles,
   withStyles,
 } from '@material-ui/core';
-import Link from '@material-ui/core/Link';
 
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
 import { ReactComponent as DiscordSVG } from 'assets/svgs/social/discord.svg';
@@ -20,7 +19,7 @@ import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
 import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
 import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
 import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
-import { ApeAvatar, ApeTextField } from 'components';
+import { ApeAvatar, ProfileSocialIcons, ApeTextField } from 'components';
 import { PlusCircleIcon, MinusCircleIcon } from 'icons';
 
 import { IUser } from 'types';
@@ -47,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     top: 0,
     margin: theme.spacing(1),
-    display: 'flex',
-    flexWrap: 'wrap',
     maxWidth: 'calc(50% - 50px)',
   },
   socialItem: {
@@ -273,62 +270,10 @@ export const TeammateCard = (props: IProps) => {
         <ApeAvatar user={user} className={classes.avatar} />
       </NavLink>
       {user.profile && (
-        <div className={classes.socialContainer}>
-          {user.profile?.twitter_username && (
-            <Link
-              href={`https://twitter.com/${user.profile?.twitter_username}`}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <TwitterSVG />
-            </Link>
-          )}
-          {user.profile?.github_username && (
-            <Link
-              href={`https://github.com/${user.profile?.github_username}`}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <GithubSVG />
-            </Link>
-          )}
-          {user.profile?.telegram_username && (
-            <Link
-              href={`https://t.me/${user.profile?.telegram_username}`}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <TelegramSVG />
-            </Link>
-          )}
-          {user.profile?.discord_username && (
-            <Link
-              href={`https://discord.com/${user.profile?.discord_username}`}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <DiscordSVG />
-            </Link>
-          )}
-          {user.profile?.medium_username && (
-            <Link
-              href={`https://medium.com/${user.profile?.medium_username}`}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <MediumSVG />
-            </Link>
-          )}
-          {user.profile?.website && (
-            <Link
-              href={user.profile?.website}
-              target="_blank"
-              className={classes.socialItem}
-            >
-              <WebsiteSVG />
-            </Link>
-          )}
-        </div>
+        <ProfileSocialIcons
+          profile={user.profile}
+          className={classes.socialContainer}
+        />
       )}
       <div className={classes.moreContainer}>
         <Button
@@ -361,7 +306,7 @@ export const TeammateCard = (props: IProps) => {
       </Popover>
       <p className={classes.name}>{user.name}</p>
       <div className={classes.topContainer}>
-        {user.profile && user.profile.skills && user.profile.skills.length > 0 && (
+        {user?.profile?.skills && user.profile.skills.length > 0 && (
           <div className={classes.skillContainer}>
             {user.profile.skills.slice(0, 3).map((skill) => (
               <div key={skill} className={classes.skillItem}>

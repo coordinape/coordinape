@@ -67,6 +67,7 @@ const ignoreWords = new Set([
   'to',
   'of',
   'on',
+  'null',
 ]);
 
 export const getNotableWords = (source: string, take: number): string[] => {
