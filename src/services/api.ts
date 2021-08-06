@@ -363,6 +363,38 @@ export class APIService {
     });
     return response.data;
   };
+  getDiscordWebhook = async (
+    address: string,
+    circleId: number
+  ): Promise<any> => {
+    const params: any = { address };
+    const data = JSON.stringify(params);
+    const { signature, hash } = await getSignature(data, this.provider);
+    const response = await axios.post(`${circleId}/admin/webhook`, {
+      signature,
+      data,
+      address,
+      hash,
+    });
+    return response.data;
+  };
+
+  setDiscordWebhook = async (
+    address: string,
+    circleId: number,
+    discord_webhook: string
+  ): Promise<any> => {
+    const params: any = { address, discord_webhook };
+    const data = JSON.stringify(params);
+    const { signature, hash } = await getSignature(data, this.provider);
+    const response = await axios.put(`${circleId}/admin/update-webhook`, {
+      signature,
+      data,
+      address,
+      hash,
+    });
+    return response.data;
+  };
 }
 
 let apiService: APIService;

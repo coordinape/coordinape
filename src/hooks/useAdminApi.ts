@@ -41,6 +41,8 @@ export const useAdminApi = (): {
   ) => Promise<IApiUser>;
   createUser: (params: PostUsersParam) => Promise<IApiUser>;
   deleteUser: (userAddress: string) => void;
+  getDiscordWebhook: () => Promise<string>;
+  setDiscordWebhook: (webhook: string) => void;
 } => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
@@ -198,6 +200,22 @@ export const useAdminApi = (): {
         updatedUserMapWithoutProfile(deletedUser, oldMap)
       );
     });
+  const getDiscordWebhook = () =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
+      const webhook = await api.getDiscordWebhook(myAddress, selectedCircleId);
+      return webhook;
+    });
+
+  const setDiscordWebhook = (_webhook: string) =>
+    callWithLoadCatch(async () => {
+      if (myAddress === undefined) throw 'myAddress required';
+      const webhook = await api.setDiscordWebhook(
+        myAddress,
+        selectedCircleId,
+        _webhook
+      );
+    });
 
   return {
     updateCircle,
@@ -209,5 +227,7 @@ export const useAdminApi = (): {
     updateUser,
     createUser,
     deleteUser,
+    getDiscordWebhook,
+    setDiscordWebhook,
   };
 };
