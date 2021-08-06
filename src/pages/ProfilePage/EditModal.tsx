@@ -19,6 +19,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
 import { ApeAvatar } from 'components';
+import { useCircle } from 'hooks';
 
 import { IApiUser } from 'types';
 
@@ -172,9 +173,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.breakpoints.values.md,
     minHeight: 143,
     margin: theme.spacing(2, 0, 8),
-    padding: theme.spacing(3),
+    padding: theme.spacing(1.5, 2),
     resize: 'vertical',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 300,
     color: theme.colors.text,
     border: 0,
@@ -183,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     wordBreak: 'break-word',
     '&::placeholder': {
-      opacity: 0.3,
+      color: theme.colors.placeholder,
     },
   },
   saveButton: {
@@ -251,6 +252,8 @@ type Props = {
 };
 const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
   const classes = useStyles();
+
+  const { selectedCircle } = useCircle();
 
   const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -373,6 +376,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
             className={classes.bioTextarea}
             onChange={onChangeBio}
             value={data.bio}
+            placeholder={`Tell us about yourself and why you are a member of the ${selectedCircle?.name} Circle...`}
           />
         </Box>
         <Box className={classes.modalLinksSection}>
