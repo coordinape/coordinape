@@ -42,14 +42,23 @@ const NAV_ITEM_ALLOCATE = {
 
 export const getMainNavigation = ({
   asCircleAdmin,
-}: { asCircleAdmin?: boolean } = {}): INavItem[] => {
-  const mainItems = [
-    NAV_ITEM_ALLOCATE,
-    { path: getMapPath(), label: 'Map' },
-    { path: getVouchingPath(), label: 'Vouching' },
-  ];
+  asVouchingEnabled,
+}: {
+  asCircleAdmin?: boolean;
+  asVouchingEnabled?: boolean;
+} = {}): INavItem[] => {
+  let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
+  const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
   const adminItems = [{ path: getAdminPath(), label: 'Admin' }];
-  return asCircleAdmin ? [...mainItems, ...adminItems] : mainItems;
+
+  if (asVouchingEnabled) {
+    mainItems = [...mainItems, ...vouchingItems];
+  }
+  if (asCircleAdmin) {
+    mainItems = [...mainItems, ...adminItems];
+  }
+
+  return mainItems;
 };
 
 export const getMenuNavigation = (): INavItem[] => [

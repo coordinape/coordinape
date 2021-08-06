@@ -56,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 400,
     color: transparentize(0.3, theme.colors.text),
+    borderColor: transparentize(0.3, theme.colors.text),
+    borderRadius: 0,
+    border: 'solid',
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
   },
   vouchedByPaper: {
     maxWidth: 180,
@@ -162,6 +169,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
                 className={classes.vouchedByButton}
                 aria-describedby={id}
                 onClick={openVouchedBy}
+                disableRipple
               >
                 {nominee.nominations.length}
                 {nominee.nominations.length > 1 ? ' users' : ' user'}
@@ -194,7 +202,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
               className={classes.info}
               to={`profile/${user.address}`}
             >
-              {user.name}
+              {user.id === selectedMyUser?.id ? 'You' : user.name}
             </NavLink>
             {index < nominee.nominations.length - 1 && <>,&nbsp;</>}
           </>

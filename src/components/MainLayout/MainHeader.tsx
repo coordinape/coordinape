@@ -107,9 +107,10 @@ export const HeaderNav = () => {
   const { selectedMyUser, hasAdminView } = useMe();
 
   const navButtonsVisible = !!selectedMyUser || hasAdminView;
-
+  selectedMyUser?.circle.vouching;
   const navItems = getMainNavigation({
     asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
+    asVouchingEnabled: selectedMyUser && selectedMyUser.circle.vouching !== 0,
   });
   return (
     <div className={classes.navLinks}>

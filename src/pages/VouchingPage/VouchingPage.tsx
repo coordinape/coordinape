@@ -60,17 +60,7 @@ export const VouchingPage = () => {
   ) : (
     <div className={classes.root}>
       <h2 className={classes.title}>Add Circle Members</h2>
-      <p className={classes.description}>
-        {(circle.vouching_text || '').length == 0 ? (
-          <>
-            Think someone new should be added to the {circle.name} circle?
-            <br />
-            Nominate or vouch for them here.
-          </>
-        ) : (
-          circle.vouching_text
-        )}
-      </p>
+      <p className={classes.description}>{circle.vouchingText}</p>
       <Button
         variant="contained"
         color="primary"
