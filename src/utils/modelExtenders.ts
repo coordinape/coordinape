@@ -186,6 +186,9 @@ export const createCircleWithDefaults = (circle: IApiCircle): ICircle => {
     allocText:
       circle.alloc_text ||
       `Thank your teammates by allocating them ${tokenName}`,
+    vouchingText:
+      circle.vouching_text ||
+      `Think someone new should be added to the ${circle.name} circle?\nNominate or vouch for them here.`,
   };
 };
 

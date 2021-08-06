@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import clsx from 'clsx';
+import { transparentize } from 'polished';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 400,
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(10),
     '&:after': {
       content: `" "`,
       position: 'absolute',
@@ -52,12 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadImageIconWrapper: {
     position: 'absolute',
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     left: 'calc(1% - 40px)',
     width: 178,
-    height: 40,
+    height: 32,
     borderRadius: 8,
-    background: 'rgba(81, 99, 105, 0.7)',
+    background: transparentize(0.5, theme.colors.text),
+    boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
     cursor: 'pointer',
     zIndex: 2,
     display: 'flex',
@@ -77,8 +79,74 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: 'auto auto',
-    columnGap: theme.spacing(3),
-    rowGap: theme.spacing(2),
+    columnGap: theme.spacing(6),
+    rowGap: theme.spacing(3),
+  },
+  vouchingItem: {
+    '&.disabled': {
+      opacity: 0.3,
+    },
+  },
+  enableVouchingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  enableVouchingHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  enableVouchingLabel: {
+    fontSize: 16,
+    lineHeight: 1.3,
+    fontWeight: 700,
+    marginTop: 0,
+    marginBottom: theme.spacing(1),
+    color: theme.colors.text,
+  },
+  enableVouchingTabContainer: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  enableVouchingTab: {
+    cursor: 'pointer',
+    width: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 15,
+    fontWeight: 400,
+    color: theme.colors.text,
+    background: theme.colors.lightBackground,
+    '&:hover': {
+      background: transparentize(0.8, theme.colors.lightBlue),
+    },
+    '&:first-of-type': {
+      border: 'solid',
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 1,
+      borderRadius: 0,
+      borderColor: theme.colors.white,
+    },
+    '&:last-of-type': {
+      border: 'solid',
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      borderLeftWidth: 1,
+      borderRightWidth: 0,
+      borderRadius: 0,
+      borderColor: theme.colors.white,
+    },
+    '&.active': {
+      color: theme.colors.white,
+      background: theme.colors.lightBlue,
+    },
   },
   bottomContainer: {
     display: 'flex',
@@ -128,11 +196,18 @@ export const EditCircleModal = ({
     avatarRaw: File | null;
   }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
   const [circleName, setCircleName] = useState<string>(circle.name);
+  const [vouching, setVouching] = useState<number>(circle.vouching);
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
+  const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
+  const [nominationDaysLimit, setNominationDaysLimit] = useState<number>(
+    circle.nomination_days_limit
+  );
   const [allocText, setAllocText] = useState<string>(circle.allocText);
   const [allowEdit, setAllowEdit] = useState<number>(0);
   const [webhook, setWebhook] = useState<string>('');
+  const [vouchingText, setVouchingText] = useState<string>(circle.vouchingText);
+
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -156,6 +231,10 @@ export const EditCircleModal = ({
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => set(e.target.value);
 
+  const onChangeNumberWith = (set: (v: number) => void) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => set(Math.max(0, parseInt(e.target.value) || 0));
+
   const onSubmit = async () => {
     if (logoData.avatarRaw) {
       await updateCircleLogo(logoData.avatarRaw);
@@ -167,29 +246,42 @@ export const EditCircleModal = ({
 
     if (
       circleName !== circle.name ||
+      vouching !== circle.vouching ||
       tokenName !== circle.tokenName ||
+      minVouches !== circle.min_vouches ||
       teamSelText !== circle.teamSelText ||
       allocText !== circle.allocText ||
-      allowEdit
+      allowEdit ||
+      nominationDaysLimit !== circle.nomination_days_limit ||
+      allocText !== circle.allocText ||
+      vouchingText !== circle.vouchingText
     ) {
       updateCircle({
         name: circleName,
+        vouching: vouching,
         token_name: tokenName,
+        min_vouches: minVouches,
         team_sel_text: teamSelText,
+        nomination_days_limit: nominationDaysLimit,
         alloc_text: allocText,
         discord_webhook: webhook,
         update_webhook: allowEdit,
+        vouching_text: vouchingText,
       });
     }
   };
 
   const circleDirty =
     logoData.avatarRaw ||
-    circleName !== circle.name ||
+    vouching !== circle.vouching ||
     tokenName !== circle.tokenName ||
+    minVouches !== circle.min_vouches ||
     teamSelText !== circle.teamSelText ||
     allocText !== circle.allocText ||
-    allowEdit;
+    allowEdit ||
+    nominationDaysLimit !== circle.nomination_days_limit ||
+    allocText !== circle.allocText ||
+    vouchingText !== circle.vouchingText;
 
   return (
     <FormModal
@@ -198,7 +290,7 @@ export const EditCircleModal = ({
       onSubmit={onSubmit}
       visible={visible}
       onClose={onClose}
-      size="small"
+      size="medium"
     >
       <div className={classes.logoContainer}>
         <label htmlFor="upload-logo-button">
@@ -227,12 +319,48 @@ export const EditCircleModal = ({
           onChange={onChangeWith(setCircleName)}
           fullWidth
         />
+        <div className={classes.enableVouchingContainer}>
+          <div className={classes.enableVouchingHeader}>
+            <p className={classes.enableVouchingLabel}>Enable Vouching?</p>
+          </div>
+          <div className={classes.enableVouchingTabContainer}>
+            <div
+              className={clsx(
+                classes.enableVouchingTab,
+                vouching === 1 && 'active'
+              )}
+              onClick={() => setVouching(1)}
+            >
+              Yes
+            </div>
+            <div
+              className={clsx(
+                classes.enableVouchingTab,
+                vouching === 0 && 'active'
+              )}
+              onClick={() => setVouching(0)}
+            >
+              No
+            </div>
+          </div>
+        </div>
         <ApeTextField
           label="Token name"
           value={tokenName}
           onChange={onChangeWith(setTokenName)}
           fullWidth
         />
+        <div
+          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+        >
+          <ApeTextField
+            label="Mininum vouches to add member"
+            value={minVouches}
+            onChange={onChangeNumberWith(setMinVouches)}
+            fullWidth
+            disabled={vouching === 0}
+          />
+        </div>
         <ApeTextField
           label="Teammate selection page text"
           value={teamSelText}
@@ -244,17 +372,46 @@ export const EditCircleModal = ({
           }}
           fullWidth
         />
+        <div
+          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+        >
+          <ApeTextField
+            label="Length of nomination period"
+            value={nominationDaysLimit}
+            helperText="(# of days)"
+            onChange={onChangeNumberWith(setNominationDaysLimit)}
+            fullWidth
+            disabled={vouching === 0}
+          />
+        </div>
         <ApeTextField
           label="Allocation page text"
           value={allocText}
           onChange={onChangeWith(setAllocText)}
           multiline
-          rows={4}
+          rows={5}
           inputProps={{
             maxLength: 280,
           }}
           fullWidth
         />
+        <div
+          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+        >
+          <ApeTextField
+            label="Vouching text"
+            placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
+            value={vouchingText}
+            onChange={onChangeWith(setVouchingText)}
+            multiline
+            rows={5}
+            inputProps={{
+              maxLength: 280,
+            }}
+            fullWidth
+            disabled={vouching === 0}
+          />
+        </div>
       </div>
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
