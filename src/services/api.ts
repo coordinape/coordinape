@@ -370,11 +370,13 @@ export class APIService {
     const params: any = { address };
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post(`${circleId}/admin/webhook`, {
-      signature,
-      data,
-      address,
-      hash,
+    const response = await axios.get(`${circleId}/admin/webhook`, {
+      params: {
+        signature,
+        data,
+        address,
+        hash,
+      },
     });
     return response.data;
   };
