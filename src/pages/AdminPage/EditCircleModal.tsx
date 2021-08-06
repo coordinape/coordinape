@@ -153,7 +153,6 @@ export const EditCircleModal = ({
     const _webhook = await getDiscordWebhook();
     setWebhook(_webhook);
     setAllowEdit(true);
-    console.log('webhook', webhook);
   };
 
   const updateDiscordWebhook = async () => {
