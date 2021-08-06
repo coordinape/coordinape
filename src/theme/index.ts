@@ -54,7 +54,6 @@ const themeOptions = {
         borderRadius: '13px',
       },
       text: {
-        textDecoration: 'underline',
         color: '#84C7CA',
         '&:hover': {
           color: '#4e7577',
