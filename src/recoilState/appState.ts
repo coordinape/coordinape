@@ -25,6 +25,7 @@ import {
   IUser,
   IMyUsers,
   IApiFilledProfile,
+  IFilledProfile,
   IApiProfile,
   IEpoch,
   ICircle,
@@ -32,6 +33,7 @@ import {
   ITokenGift,
   IApiTokenGift,
   IApiEpoch,
+  IProfileEmbed,
 } from 'types';
 
 export const rSelectedCircleId = atom<number | undefined>({
@@ -129,8 +131,8 @@ export const rFetchedAt = atomFamily<Map<string, number>, string>({
   default: new Map(),
 });
 
-export const rProfileMap = atom<Map<string, IApiFilledProfile>>({
-  key: 'rProfileMap',
+export const rProfileRaw = atom<Map<string, IApiFilledProfile>>({
+  key: 'rProfileRaw',
   default: new Map(),
 });
 
@@ -191,24 +193,19 @@ export const rUsers = selector<IUser[]>({
   get: ({ get }: IRecoilGetParams) => Array.from(get(rUsersMap).values()),
 });
 
-export const rGiftsRaw = atom<Map<number, IApiTokenGift>>({
-  key: 'rGiftsRaw',
+export const rPastGiftsRaw = atom<Map<number, IApiTokenGift>>({
+  key: 'rPastGiftsRaw',
   default: new Map(),
 });
 
-export const rGiftsMap = selector<Map<number, ITokenGift>>({
-  key: 'rGiftsMap',
+export const rGiftsPastMap = selector<Map<number, ITokenGift>>({
+  key: 'rGiftsPastMap',
   get: ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
-    return iti(get(rGiftsRaw).values())
+    return iti(get(rPastGiftsRaw).values())
       .map((g) => createGiftWithUser(g, userMap))
       .toMap((g) => g.id);
   },
-});
-
-export const rGifts = selector<ITokenGift[]>({
-  key: 'rGifts',
-  get: ({ get }: IRecoilGetParams) => iti(get(rGiftsMap).values()).toArray(),
 });
 
 export const rPendingGiftsRaw = atom<Map<number, ITokenGift>>({
@@ -234,26 +231,26 @@ export const rPendingGifts = selector<ITokenGift[]>({
       .toArray(),
 });
 
-export const rAllGiftsMap = selector<Map<number, ITokenGift>>({
-  key: 'rAllGiftsMap',
+export const rGiftsMap = selector<Map<number, ITokenGift>>({
+  key: 'rGiftsMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rPendingGiftsMap).values())
-      .concat(get(rGiftsMap).values())
+      // This is crazy, but pending gifts are their own table - Bug city!
+      .map((g) => ({ ...g, id: g.id + 100000 } as ITokenGift))
+      .concat(get(rGiftsPastMap).values())
       .toMap((g) => g.id),
 });
 
-export const rAllGifts = selector<ITokenGift[]>({
-  key: 'rAllGifts',
+export const rGifts = selector<ITokenGift[]>({
+  key: 'rGifts',
   get: ({ get }: IRecoilGetParams) =>
-    Array.from(get(rAllGiftsMap).values()).sort(
-      ({ id: a }, { id: b }) => a - b
-    ),
+    Array.from(get(rGiftsMap).values()).sort(({ id: a }, { id: b }) => a - b),
 });
 
 export const rGiftsByEpoch = selector<Map<number, ITokenGift[]>>({
   key: 'rGiftsByEpoch',
   get: ({ get }: IRecoilGetParams) =>
-    iti(get(rAllGifts)).toGroups((g) => g.epoch_id),
+    iti(get(rGifts)).toGroups((g) => g.epoch_id),
 });
 
 export const rPendingGiftsFor = selectorFamily<ITokenGift[], number>({
@@ -275,7 +272,7 @@ export const rPendingGiftsFrom = selectorFamily<ITokenGift[], number>({
 export const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',
   get: (circleId: number) => ({ get }: IRecoilGetParams) => {
-    let lastNumber = -100; // Give incorrect numbers if we don't get a start.
+    let lastNumber = 1;
     const epochsWithNumber = [] as IEpoch[];
     iti(get(rEpochsMap).values())
       .filter((e) => e.circle_id === circleId)
@@ -402,7 +399,7 @@ export const useSelectedCircleUsers = () =>
 export const rGiftsFor = selectorFamily<ITokenGift[], number>({
   key: 'rGiftsFor',
   get: (userId: number) => ({ get }: IRecoilGetParams) =>
-    get(rAllGifts).filter((g) => g.recipient_id === userId),
+    get(rGifts).filter((g) => g.recipient_id === userId),
 });
 export const useGiftsFor = (userId: number) =>
   useRecoilValue(rGiftsFor(userId));
@@ -410,7 +407,7 @@ export const useGiftsFor = (userId: number) =>
 export const rGiftsFrom = selectorFamily<ITokenGift[], number>({
   key: 'rGiftsFrom',
   get: (userId: number) => ({ get }: IRecoilGetParams) =>
-    get(rAllGifts).filter((g) => g.sender_id === userId),
+    get(rGifts).filter((g) => g.sender_id === userId),
 });
 export const useGiftsFrom = (userId: number) =>
   useRecoilValue(rGiftsFrom(userId));
@@ -448,3 +445,36 @@ export const rUserGifts = selectorFamily<
 });
 export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));
+
+const createFakeProfile = (u: IUser): IProfileEmbed => ({
+  id: u.id + 100000,
+  address: u.address,
+  avatar: u.avatar ?? '',
+  created_at: u.created_at,
+  updated_at: u.updated_at,
+});
+
+export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
+  key: 'rUserProfileMap',
+  get: ({ get }: IRecoilGetParams) => {
+    // TODO: This could incorporate profiles we get directly
+    return (
+      iti(get(rUsers))
+        .groupBy((u) => u.address)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .map(([_, us]) => {
+          const users = us.toArray();
+          // Deleted users don't have profiles
+          const profile = users.some((u) => u.deleted_at)
+            ? createFakeProfile(users[0])
+            : users[0].profile;
+          return {
+            ...profile,
+            users,
+          } as IFilledProfile;
+        })
+        .toMap((p) => p.address)
+    );
+  },
+});
+export const useUserProfileMap = () => useRecoilValue(rUserProfileMap);

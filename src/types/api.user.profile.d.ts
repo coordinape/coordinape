@@ -4,7 +4,7 @@ import { IApiCircle } from './api.circle';
 export interface IApiProfile {
   id: number;
   address: string;
-  avatar: string;
+  avatar?: string;
   background?: string;
   bio?: string;
   discord_username?: string;
@@ -15,9 +15,11 @@ export interface IApiProfile {
   website?: string;
   skills?: string[];
   users: IUser[];
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }
+
+export interface IProfileEmbed extends Omit<IApiProfile, 'users'> {}
 
 export interface IApiUser {
   id: number;
@@ -54,7 +56,7 @@ export interface IApiUser {
 }
 
 export interface IApiUserProfile extends IApiUser {
-  profile: IApiProfile;
+  profile: IProfileEmbed;
 }
 
 export interface IApiUserInProfile extends IApiUser {
@@ -75,3 +77,7 @@ export interface IMyUsers extends IApiUserProfile {
 // These are just wrappers, nothing extended currently:
 export interface IUser extends IApiUserProfile {}
 export interface IProfile extends IApiProfile {}
+
+export interface IFilledProfile extends IApiProfile {
+  users: IUser[];
+}

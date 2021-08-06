@@ -15,7 +15,7 @@ import * as paths from './paths';
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
 // look into this.
-const LazyGraphPage = lazy(() => import('pages/GraphPage'));
+const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const Routes = () => {
   const selectedMyUser = useRecoilValue(rSelectedMyUser);
@@ -41,7 +41,7 @@ export const Routes = () => {
         path={paths.getProfilePath(':profileAddress')}
         component={ProfilePage}
       />
-      <Route exact path={paths.getMapPath()} component={LazyGraphPage} />
+      <Route exact path={paths.getMapPath()} component={LazyAssetMapPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
 

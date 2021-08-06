@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { rProfileMap } from 'recoilState';
+import { rProfileRaw } from 'recoilState';
 import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
 import { updaterMergeItemToAddressMap } from 'utils/recoilHelpers';
@@ -22,13 +22,13 @@ export const useProfile = (
 } => {
   const callWithLoadCatch = useAsyncLoadCatch();
 
-  const [profileMap, setProfileMap] = useRecoilState(rProfileMap);
+  const [profileMap, setProfileMap] = useRecoilState(rProfileRaw);
 
   const profile = address ? profileMap.get(address) : undefined;
 
   const fetchProfile = useRecoilFetcher(
-    'rProfileMap',
-    rProfileMap,
+    'rProfileRaw',
+    rProfileRaw,
     updaterMergeItemToAddressMap
   );
 

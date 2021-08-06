@@ -24,3 +24,22 @@ export const wait = <T>(something: T): Promise<T> =>
       resolve(something);
     }, 1000);
   });
+
+export const toSearchRegExp = (value: string) => {
+  if (!value) {
+    return undefined;
+  }
+  try {
+    return new RegExp(`(${value.replace(/[#-.]|[[-^]|[?{}]/g, '\\$&')})`, 'i');
+  } catch (error) {
+    console.warn('toSearchRegExpe', error);
+  }
+  return undefined;
+};
+
+export const assertDef = <T>(val: T | undefined, message?: string): T => {
+  if (val === undefined) {
+    throw `I <3 NPE: ${message}`;
+  }
+  return val;
+};

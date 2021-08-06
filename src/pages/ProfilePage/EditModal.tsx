@@ -19,6 +19,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
 import { ApeAvatar } from 'components';
+import { SKILLS } from 'config/constants';
 import { useCircle } from 'hooks';
 
 import { IApiUser } from 'types';
@@ -27,43 +28,6 @@ import { IApiUser } from 'types';
 const Transition = React.forwardRef<unknown, TransitionProps>(
   (props: any, ref) => <Slide direction="up" ref={ref} {...props} />
 );
-
-const skillsDumyData = [
-  { id: 0, name: 'Community Mgmt' },
-  { id: 1, name: 'Discord' },
-  { id: 2, name: 'Social Media' },
-  { id: 3, name: 'Governance' },
-  { id: 4, name: 'Budget Mgmt' },
-  { id: 5, name: 'Compensation' },
-  { id: 6, name: 'Grants' },
-  { id: 7, name: 'Solidity' },
-  { id: 8, name: 'Web3' },
-  { id: 9, name: 'Front End' },
-  { id: 10, name: 'Back End' },
-  { id: 11, name: 'UX' },
-  { id: 12, name: 'UI' },
-  { id: 13, name: 'Product Design' },
-  { id: 14, name: 'Full-Stack' },
-  { id: 15, name: 'Dev Ops' },
-  { id: 16, name: 'Project Mgmt' },
-  { id: 17, name: 'Security' },
-  { id: 18, name: 'Memes' },
-  { id: 19, name: 'Art' },
-  { id: 20, name: 'NFTs' },
-  { id: 21, name: 'Graphics' },
-  { id: 22, name: 'Branding' },
-  { id: 23, name: '3D' },
-  { id: 24, name: 'Video' },
-  { id: 25, name: 'Communications' },
-  { id: 26, name: 'Translation' },
-  { id: 27, name: 'Docs' },
-  { id: 28, name: 'Writing' },
-  { id: 29, name: 'Podcasting' },
-  { id: 30, name: 'Strategy' },
-  { id: 31, name: 'Treasury Mgmt' },
-  { id: 32, name: 'Contract Audits' },
-  { id: 33, name: 'Multisig' },
-];
 
 const useStyles = makeStyles((theme) => ({
   modalWrapper: {
@@ -355,7 +319,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
         <Box className={classes.modalSkillsSection}>
           <Box className={classes.modalSubTitle}>Select Your Skills</Box>
           <Box className={classes.modalSkillsBody}>
-            {skillsDumyData.map((item) => (
+            {SKILLS.map((item) => (
               <Button
                 key={item.name}
                 variant="contained"
