@@ -41,9 +41,9 @@ export const RedSelect = ({
   options,
   onChange,
 }: {
-  value: number;
-  options: { value: number; label: string }[];
-  onChange: (value: number) => void;
+  value: number | string;
+  options: { value: number | string; label: string }[];
+  onChange: (value: number | string) => void;
 }) => {
   const classes = useStyles();
 
@@ -59,7 +59,10 @@ export const RedSelect = ({
         select: classes.select,
         icon: classes.selectIcon,
       }}
-      onChange={({ target: { value } }) => onChange(value as number)}
+      onChange={({ target: { value } }) => {
+        console.log('onChange', value, typeof value);
+        onChange(value as number | string);
+      }}
       value={value}
     >
       {options.map(({ label, value }) => (

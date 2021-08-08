@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 
-import { forceLink } from 'd3-force-3d';
+// import { forceLink, forceCenter } from 'd3-force-3d';
 import cloneDeep from 'lodash/cloneDeep';
 import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -42,14 +42,15 @@ const COLOR_NODE = '#000000';
 const COLOR_NODE_FADE = '#00000020';
 const COLOR_GIVE_LINK = '#00ce2c80';
 const COLOR_RECEIVE_LINK = '#d3860d80';
-const COLOR_LINK = '#00000010';
+const COLOR_LINK = '#00000008';
 const COLOR_LINK_DIM = '#00000004';
 
-const NODE_R = 8;
+const NODE_R = 5;
 
 const edgeWidthScaler = (f: number) => Math.sqrt(f) * 4 + 1;
-const nodeBorderScaler = (f: number) => 0.5 + f * 10;
-const edgeForceScaler = (f: number) => 0.2 * f;
+const nodeSizeScaler = (f: number) => NODE_R + f * 5;
+// const nodeBorderScaler = (f: number) => 0.5 + f * 10;
+// const edgeForceScaler = (f: number) => 0.1 * f;
 // const linkStrengthToken = (edge: any) => 0.05 / link.tokens;
 // const linkStrengthCounts = (edge: any) => 0.5 / (link.source.linkCount + link.target.linkCount);
 
@@ -80,12 +81,16 @@ export const AMForceGraph = () => {
       if (!fgRef.current) {
         return;
       }
-      const fl = forceLink().strength(
-        (edge: IMapEdgeFG) =>
-          (10 / (ctx.measures.count || 1)) *
-          ctx.getEdgeMeasure(edge, edgeForceScaler)
-      );
-      fgRef.current.d3Force('link', fl);
+      // TODO: Improve the layout forces
+      // fgRef.current.d3Force(
+      //   'link',
+      //   forceLink().strength(
+      //     (edge: IMapEdgeFG) =>
+      //       (100 / (ctx.measures.count || 1)) *
+      //       ctx.getEdgeMeasure(edge, edgeForceScaler)
+      //   )
+      // );
+      // fgRef.current.d3Force('center', forceCenter().strength(1.4));
     }
   }, [mapContext]);
 
@@ -108,24 +113,11 @@ export const AMForceGraph = () => {
   }, [userProfileMap]);
 
   const linkColor = useCallback((edge: IMapEdgeFG) => {
-    const {
-      bag,
-      egoAddress,
-      isBetweenBagEdge,
-      isBagEdge,
-      isEgoEdge,
-    } = mapCtxRef.current;
+    const { egoAddress, isEgoEdge } = mapCtxRef.current;
 
-    if (bag.size) {
-      if (isBetweenBagEdge(edge)) {
-        return COLOR_LINK;
-      }
-      let color = COLOR_LINK_DIM;
-      if (isBagEdge(edge, 'receives')) color = COLOR_RECEIVE_LINK;
-      if (isBagEdge(edge, 'gives')) color = COLOR_GIVE_LINK;
-      return color;
-    }
+    let color = COLOR_LINK;
     if (egoAddress) {
+      color = COLOR_LINK_DIM;
       if (isEgoEdge(edge, 'gives')) {
         return COLOR_RECEIVE_LINK;
       }
@@ -133,17 +125,12 @@ export const AMForceGraph = () => {
         return COLOR_GIVE_LINK;
       }
     }
-    return COLOR_LINK;
+    return color;
   }, []);
 
   const linkDirectionalParticleWidth = useCallback((edge: IMapEdgeFG) => {
-    const { getEdgeMeasure, isBagEdge, isEgoEdge } = mapCtxRef.current;
-    if (
-      isBagEdge(edge, 'gives') ||
-      isBagEdge(edge, 'receives') ||
-      isEgoEdge(edge, 'gives') ||
-      isEgoEdge(edge, 'receives')
-    ) {
+    const { getEdgeMeasure, isEgoEdge } = mapCtxRef.current;
+    if (isEgoEdge(edge, 'gives') || isEgoEdge(edge, 'receives')) {
       return getEdgeMeasure(edge, edgeWidthScaler);
     }
     return 0;
@@ -172,14 +159,15 @@ export const AMForceGraph = () => {
     (node: IMapNodeFG, canvas: CanvasRenderingContext2D) => {
       const {
         getNodeMeasure,
-        isBagNeighbor,
         isEgoNeighbor,
         bag,
         egoAddress,
       } = mapCtxRef.current;
       const nid = node.id;
 
-      const width = getNodeMeasure(node, nodeBorderScaler);
+      // const width = getNodeMeasure(node, nodeBorderScaler);
+      const radius = getNodeMeasure(node, nodeSizeScaler);
+      const width = 1;
       const isInBag = bag.has(nid);
 
       let strokeColor = bag.size || egoAddress ? COLOR_NODE_FADE : COLOR_NODE;
@@ -187,17 +175,16 @@ export const AMForceGraph = () => {
       if (nid === egoAddress) strokeColor = COLOR_NODE_HIGHLIGHT;
       if (bag.size && nid === egoAddress)
         strokeColor = COLOR_NODE_MORE_HIGHLIGHT;
-      const isNeighbor = bag.size ? isBagNeighbor : isEgoNeighbor;
-      if (bag.size || egoAddress) {
-        const inNode = isNeighbor(node, 'gives');
-        const outNode = isNeighbor(node, 'receives');
+      if (egoAddress) {
+        const inNode = isEgoNeighbor(node, 'gives');
+        const outNode = isEgoNeighbor(node, 'receives');
         if (inNode) strokeColor = COLOR_GIVE;
         if (outNode) strokeColor = COLOR_RECEIVE;
         if (inNode && outNode) strokeColor = COLOR_CIRCULATE;
       }
 
       canvas.beginPath();
-      canvas.arc(node.x, node.y, NODE_R + 0.5 * width, 0, 2 * Math.PI);
+      canvas.arc(node.x, node.y, radius + 0.5 * width, 0, 2 * Math.PI);
       canvas.strokeStyle = strokeColor;
       canvas.lineWidth = width;
       canvas.stroke();
@@ -205,7 +192,7 @@ export const AMForceGraph = () => {
 
       canvas.save();
       canvas.beginPath();
-      canvas.arc(node.x, node.y, NODE_R, 0, 2 * Math.PI);
+      canvas.arc(node.x, node.y, radius, 0, 2 * Math.PI);
       canvas.fillStyle = COLOR_NODE;
       canvas.fill();
       canvas.clip();
@@ -215,10 +202,10 @@ export const AMForceGraph = () => {
         try {
           canvas.drawImage(
             img,
-            node.x - NODE_R,
-            node.y - NODE_R,
-            NODE_R * 2,
-            NODE_R * 2
+            node.x - radius,
+            node.y - radius,
+            radius * 2,
+            radius * 2
           );
         } catch (error) {
           // nothing.

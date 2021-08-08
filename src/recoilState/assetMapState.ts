@@ -60,12 +60,14 @@ export const rAmEgoAddress = atom<string>({
 });
 export const useSetAmEgoAddress = () => useSetRecoilState(rAmEgoAddress);
 export const useStateAmEgoAddress = () => useRecoilState(rAmEgoAddress);
+export const useAmEgoAddress = () => useRecoilValue(rAmEgoAddress);
 
 export const rAmMetric = atom<MetricEnum>({
   key: 'rAmMetric',
   default: 'give',
 });
 export const useStateAmMetric = () => useRecoilState(rAmMetric);
+export const useAmMetric = () => useRecoilValue(rAmMetric);
 
 //
 // Map Selectors
@@ -165,7 +167,6 @@ export const rAmGraphData = selector<GraphData>({
           };
         }
       );
-    console.log('W: links.first:', links.first());
     return {
       links: links.toArray(),
       nodes: links
@@ -211,7 +212,6 @@ export const rAmGraphData = selector<GraphData>({
               n.first(),
               'rAmGraphData, node with epochIds'
             );
-            Math.random() < 0.1 && console.log('whata here node: ', node);
             return {
               ...node,
               epochIds: epochIds.toArray(),
@@ -311,19 +311,23 @@ export const rAmNodeSearchStrings = selector<Map<string, string>>({
     return iti(get(rAmGraphData).nodes as IMapNode[]).toMap(
       ({ id }) => id,
       ({ id }) => {
-        const v = profileMap.get(id);
-        if (v === undefined) {
+        const profile = profileMap.get(id);
+        if (profile === undefined) {
           return '';
         }
+        const selectedCircleId = get(rSelectedCircleId) ?? -1;
+        const user = profile.users.find(
+          (u) => u.circle_id === selectedCircleId
+        );
 
         return (
-          v.bio +
+          profile.bio +
           ' ' +
-          v?.users?.map((u) => u.bio).join(' ') +
+          (user?.bio ?? '') +
           ' ' +
-          v.skills?.join(' ') +
+          profile.skills?.join(' ') +
           ' ' +
-          v?.users?.map((u) => u.name).join(' ')
+          (user?.name ?? '')
         );
       }
     );
@@ -423,9 +427,11 @@ export const rAmMeasures = selectorFamily<IMeasures, MetricEnum>({
         measures = iti(actives).toMap(
           (address) => address,
           (address) =>
-            ((outFrom.get(address)?.length ?? 0) *
-              (iti(inTo.get(address) ?? []).sum() ?? 0)) /
-            maxOut
+            Math.round(
+              ((outFrom.get(address)?.length ?? 0) *
+                (iti(inTo.get(address) ?? []).sum() ?? 0)) /
+                maxOut
+            )
         );
         break;
       }
@@ -569,7 +575,8 @@ export const rAmContext = selector<IMapContext>({
     const getNodeMeasure = (node: IMapNodeFG, scaler?: TScaler): number => {
       // TODO: make general for any number range
       const raw = measures.get(node.id) ?? 0;
-      return scaler ? scaler((raw - min) / (max + 0.5)) : raw;
+      const range = max - min;
+      return scaler ? scaler(range ? (raw - min) / range : 1) : raw;
     };
 
     const getCurvature = (edge: IMapEdgeFG): number => {

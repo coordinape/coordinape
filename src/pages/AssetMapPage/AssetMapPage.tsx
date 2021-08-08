@@ -2,12 +2,19 @@ import React, { useEffect, useMemo } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { useAmEpochs, useStateAmEpochId, useStateAmSearch } from 'recoilState';
+import {
+  useAmEpochs,
+  useStateAmEpochId,
+  useStateAmMetric,
+  useSelectedCircle,
+} from 'recoilState';
+import { assertDef } from 'utils/tools';
 
 import AMDrawer from './AMDrawer';
 import AMForceGraph from './AMForceGraph';
-import RedSearch from './RedSearch';
 import RedSelect from './RedSelect';
+
+import { IFilledProfile, MetricEnum } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,19 +29,45 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'flex-start',
     '& > *': {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(4),
     },
   },
 }));
+
+interface MetricOption {
+  label: string;
+  value: MetricEnum;
+}
 
 export const AssetMapPage = () => {
   const classes = useStyles();
 
   const amEpochs = useAmEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
-  const [search, setSearch] = useStateAmSearch();
+  const [metric, setMetric] = useStateAmMetric();
+  const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
+
+  const metricOptions = [
+    {
+      label: `Number of ${circle.tokenName} received`,
+      value: 'give',
+    },
+    {
+      label: 'In Degree (# incoming links)',
+      value: 'in_degree',
+    },
+    {
+      label: 'Out Degree (# outgoing links)',
+      value: 'out_degree',
+    },
+    {
+      label: `Degree Standarization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
+      value: 'standardized',
+    },
+  ] as MetricOption[];
 
   // This is the AssetMapPage Controller
   useEffect(() => {
@@ -71,11 +104,15 @@ export const AssetMapPage = () => {
       <AMDrawer />
       <AMForceGraph />
       <div className={classes.controls}>
-        <RedSearch onChange={(v) => setSearch(v)} />
         <RedSelect
           value={amEpochId}
           options={epochOptions}
-          onChange={setAmEpochId}
+          onChange={(v) => setAmEpochId(v as number)}
+        />
+        <RedSelect
+          value={metric}
+          options={metricOptions}
+          onChange={(v) => setMetric(v as MetricEnum)}
         />
       </div>
     </div>

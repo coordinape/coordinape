@@ -1,63 +1,63 @@
 import React, { useState, useMemo } from 'react';
 
 import clsx from 'clsx';
-import reactStringReplace from 'react-string-replace';
 
-import {
-  makeStyles,
-  Typography,
-  Divider,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
+import DnsIcon from '@material-ui/icons/Dns';
 import SearchIcon from '@material-ui/icons/Search';
+import SortIcon from '@material-ui/icons/Sort';
+import { Autocomplete } from '@material-ui/lab';
 
-// import SearchIcon from '@material-ui/icons/Search';
-import { Spacer, ApeAvatar, Drawer } from 'components';
+import { Drawer, ApeTextField } from 'components';
+import { SKILLS } from 'config/constants';
 import {
-  useSelectedCircle,
-  useStateAmSearch,
-  useAmSearchRegex,
-  useStateAmMetric,
-  useStateAmEgoAddress,
+  useAmMetric,
   useAmResults,
   useAmMeasures,
-  useAmEgo,
+  useSetAmSearch,
 } from 'recoilState';
-import { assertDef } from 'utils/tools';
 
-import { IFilledProfile, MetricEnum } from 'types';
-
-interface MetricOption {
-  label: string;
-  value: MetricEnum;
-}
-
-const metricOptions = [
-  {
-    label: '# of tokens received',
-    value: 'give',
-  },
-  {
-    label: 'received from most people',
-    value: 'in_degree',
-  },
-  {
-    label: 'gave to most people',
-    value: 'out_degree',
-  },
-  {
-    label: 'Normalization = GIVE * #out / #maxOut',
-    value: 'standardized',
-  },
-] as MetricOption[];
+import AMProfileCard from './AMProfileCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
   },
-  searchBar: {},
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    padding: theme.spacing(0, 3),
+  },
+  title: {
+    fontWeight: 300,
+    fontSize: 20,
+    lineHeight: 1.3,
+    margin: theme.spacing(2.5, 0, 2),
+  },
+  controls: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    margin: theme.spacing(2, 0, 4),
+  },
+  rank: {
+    minWidth: 47,
+    padding: 0,
+    marginRight: theme.spacing(3),
+  },
+  rankOff: {
+    backgroundColor: theme.colors.white,
+    color: theme.colors.text,
+    '&:hover': {
+      backgroundColor: theme.colors.white,
+      background: theme.colors.white,
+      color: theme.colors.black,
+    },
+  },
+  // Autocomplete:
   colorBlack: {
     color: theme.colors.black,
   },
@@ -67,21 +67,20 @@ const useStyles = makeStyles((theme) => ({
   backgroundColorWhite: {
     backgroundColor: theme.colors.white,
   },
-  rankHeader: {},
-  sortTitle: {
-    fontWeight: 600,
-    fontSize: 16,
-    lineHeight: 1.3,
-    margin: theme.spacing(4, 0, 2),
+  autocompleteText: {
+    backgroundColor: theme.colors.white,
+    padding: theme.spacing(0, 2),
   },
-  results: {
+  // Users
+  users: {
     flexGrow: 1,
-    overflowY: 'auto',
+    width: '100%',
+    overflowY: 'scroll',
     scrollbarColor: `${theme.colors.secondary} #EAEFF0`,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
       backgroundColor: '#EAEFF0',
-      width: 3,
+      width: 8,
     },
     '&::-webkit-scrollbar-track': {
       backgroundColor: '#EAEFF0',
@@ -90,62 +89,19 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.colors.secondary,
     },
   },
-  userResult: {
-    padding: theme.spacing(0, 1.25, 0, 3),
-    width: theme.custom.appDrawerWidth - 15,
-    overflowX: 'hidden',
-  },
-  userResultBody: {
-    display: 'flex',
-    '& img': {
-      marginRight: theme.spacing(0.75),
-    },
-    '& p': {
-      width: '100%',
-    },
-  },
-  userResultHeader: {
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    margin: theme.spacing(1.5, 0, 1.3),
-  },
-  userResultName: {
-    color: theme.colors.red,
-  },
-  userResultOpt: {
-    fontSize: '10px',
-  },
-  avatar: {
-    cursor: 'pointer',
-    margin: theme.spacing(0, 0.5, 2, 0),
-    width: 35,
-    height: 35,
-  },
-  selectedAvatar: {
-    border: `2px solid ${theme.colors.black}`,
-  },
-  userResultDescription: {
-    flexGrow: 1,
-  },
-  selectRoot: {
-    backgroundColor: 'white',
-  },
 }));
+
+const skillNames = SKILLS.map(({ name }) => name);
 
 const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
+  const [showRank, setShowRank] = useState<boolean>(true);
 
-  const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
-  const [search, setSearch] = useStateAmSearch();
-  const searchRegex = useAmSearchRegex();
-  const [metric, setMetric] = useStateAmMetric();
-  const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
+  const setSearch = useSetAmSearch();
+  const metric = useAmMetric();
   const rawProfiles = useAmResults();
-  const [profile, user] = useAmEgo();
-  const { min, max, measures } = useAmMeasures(metric);
+  const { measures } = useAmMeasures(metric);
 
   const profiles = useMemo(
     () =>
@@ -163,85 +119,60 @@ const AMDrawer = () => {
     setOpen(value);
   };
 
-  const onClickProfile = (profile: IFilledProfile) => {
-    if (egoAddress === profile.address) {
-      setEgoAddress('');
-    } else {
-      setEgoAddress(profile.address);
-    }
-  };
-
-  const renderProfile = (profile: IFilledProfile) => {
-    const user = assertDef(
-      profile.users.find((u) => u.circle_id === circle.id),
-      `No user matching ${circle.id}`
-    );
-
-    return (
-      <div key={profile.id} className={classes.userResult}>
-        <div
-          className={classes.userResultHeader}
-          onClick={() => onClickProfile(profile)}
-        >
-          {String(measures.get(profile.address) ?? 0)}
-          <Typography variant="body1" className={classes.userResultName}>
-            {reactStringReplace(user.name, searchRegex, (match, i) =>
-              i === 1 ? <strong key={match}>{match}</strong> : null
-            )}
-          </Typography>
-          {user.non_receiver ? (
-            <Typography variant="body1" className={classes.userResultOpt}>
-              Opt Out
-            </Typography>
-          ) : (
-            <span />
-          )}
-        </div>
-        <div className={classes.userResultBody}>
-          <ApeAvatar
-            user={user}
-            className={clsx(classes.avatar, {
-              [classes.selectedAvatar]: egoAddress === profile.address,
-            })}
-            onClick={() => onClickProfile(profile)}
-          />
-          <Typography variant="body2" className={classes.userResultDescription}>
-            {reactStringReplace(profile.bio, searchRegex, (match, i) =>
-              i === 1 ? <strong key={match}>{match}</strong> : null
-            )}
-          </Typography>
-        </div>
-        <Divider variant="middle" />
-      </div>
-    );
+  const onRankToggle = () => {
+    setShowRank(!showRank);
   };
 
   return (
-    <Drawer
-      open={open}
-      setOpen={handleSetOpen}
-      Icon={<SearchIcon />}
-      anchorRight
-    >
-      <Spacer h={42} />
-      <div className={classes.rankHeader}>
-        <h5 className={classes.sortTitle}>Sort By</h5>
-        <Select
-          variant="outlined"
-          onChange={({ target: { value } }) => setMetric(value as MetricEnum)}
-          value={metric}
-          classes={{
-            root: classes.selectRoot,
-          }}
-        >
-          {Object.values(metricOptions).map(({ label, value }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </Select>
+    <Drawer open={open} setOpen={handleSetOpen} Icon={<DnsIcon />} anchorRight>
+      <div className={classes.header}>
+        <h5 className={classes.title}>Active Users</h5>
+        <div className={classes.controls}>
+          <Button
+            onClick={onRankToggle}
+            variant="contained"
+            color="primary"
+            size="small"
+            className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
+          >
+            <SortIcon />
+          </Button>
+          <Autocomplete
+            classes={{
+              paper: classes.backgroundColorWhite,
+              listbox: classes.listbox,
+              clearIndicator: classes.colorBlack,
+            }}
+            freeSolo
+            fullWidth
+            onInputChange={(_event: any, v: string) => setSearch(v)}
+            options={skillNames}
+            renderInput={(params: any) => (
+              <ApeTextField
+                {...params}
+                size="small"
+                InputProps={{
+                  ...params.InputProps,
+                  classes: {
+                    root: classes.autocompleteText,
+                  },
+                  startAdornment: <SearchIcon />,
+                }}
+                placeholder="Search by Keyword"
+              />
+            )}
+          />
+        </div>
       </div>
-      <div className={classes.results}>{profiles.map(renderProfile)}</div>
+      <div className={classes.users}>
+        {profiles.map((profile) => (
+          <AMProfileCard
+            key={profile.id}
+            profile={profile}
+            summarize={showRank}
+          />
+        ))}
+      </div>
     </Drawer>
   );
 };

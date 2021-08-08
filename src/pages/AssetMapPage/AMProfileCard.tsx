@@ -1,74 +1,232 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core';
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
+import reactStringReplace from 'react-string-replace';
+
+import { makeStyles, Box, Button } from '@material-ui/core';
 
 import { ApeAvatar, ProfileSocialIcons } from 'components';
+import {
+  useAmMetric,
+  useStateAmEgoAddress,
+  useAmMeasures,
+  useSelectedCircle,
+  useAmSearchRegex,
+} from 'recoilState';
+import { assertDef } from 'utils/tools';
 
-import { IFilledProfile, IUser } from 'types';
+import { IFilledProfile } from 'types';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    position: 'relative',
+    margin: theme.spacing(3, 1.75),
+    padding: theme.spacing(1.5, 1.75),
+    borderRadius: '10px',
+    backgroundColor: '#DFE7E8',
+    ['-webkit-mask-image']:
+      'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)',
+    '& $scale': {
+      backgroundColor: 'hsla(359, 79%, 69%, 0.05)',
+    },
+  },
+  rootSummary: {
+    '& $scale': {
+      backgroundColor: 'hsla(359, 79%, 69%, 0.3)',
+    },
+  },
+  rootSelected: {
+    backgroundColor: 'hsla(183, 40%, 65%, 0.15)',
+    '& $scale': {
+      backgroundColor: 'hsla(183, 40%, 65%, 0.2)',
+    },
+  },
+  scale: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+  },
+  content: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    top: 0,
+  },
+  header: {
     width: '100%',
+    display: 'flex',
+    cursor: 'pointer',
+    '&:hover $headerName': {
+      color: theme.colors.black,
+    },
+  },
+  headerText: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+    marginLeft: theme.spacing(1.25),
+    justifyContent: 'center',
+  },
+  headerName: {
+    fontSize: 22,
+    fontWeight: 600,
+    lineHeight: 1.2,
+  },
+  headerMeasure: {
+    fontSize: 14,
+    fontWeight: 300,
+    lineHeight: 1,
   },
   avatar: {
-    width: 120,
-    height: 120,
+    width: 50,
+    height: 50,
   },
-  selectMessage: {},
-  socialContainer: {},
-  skillContainer: {},
-  skillItem: {},
-  bioContainer: {},
+  socialContainer: {
+    margin: theme.spacing(2, 0),
+  },
+  skillContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: theme.spacing(1, 0),
+    '& > *': {
+      padding: theme.spacing(0.2, 1),
+      margin: theme.spacing(0.5, 0),
+      background: theme.colors.lightBlue,
+      textAlign: 'center',
+      fontSize: 12,
+      fontWeight: 300,
+      color: theme.colors.white,
+      borderRadius: 4,
+    },
+    '& > *:not(:first-child)': {
+      marginLeft: theme.spacing(0.5),
+    },
+  },
+  skillMatch: {
+    fontWeight: 700,
+  },
+  bioContainer: {
+    marginTop: theme.spacing(1),
+    fontWeight: 300,
+    fontSize: 14,
+    lineHeight: 1.3,
+    color: theme.colors.text + 'ee',
+  },
+  seeFullProfile: {
+    marginTop: theme.spacing(2),
+    textAlign: 'center',
+  },
 }));
 
 const AMProfileCard = ({
   profile,
-  user,
-  expanded,
+  summarize,
 }: {
   profile: IFilledProfile;
-  user: IUser;
-  expanded: boolean;
+  summarize: boolean;
 }) => {
   const classes = useStyles();
+  const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
+  const metric = useAmMetric();
+  const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
+  const { min, max, measures } = useAmMeasures(metric);
+  const searchRegex = useAmSearchRegex();
 
-  if (profile === undefined || user === undefined) {
-    return (
-      <div className={classes.root}>
-        <h2 className={classes.selectMessage}>Select a user.</h2>
-      </div>
-    );
-  }
+  const user = assertDef(
+    profile.users.find((u) => u.circle_id === circle.id),
+    `No user matching ${circle.id}`
+  );
+
+  const isSelected = profile.address === egoAddress;
+  const myMeasure = measures.get(profile.address) ?? 0;
+  const range = max - min;
+  const fraction = range ? (myMeasure - min) / range : 1;
+
+  const fullBio =
+    profile.bio ?? ' ' + (user.bio ? `Latest Epoch: ${user.bio}` : '');
+
+  const bio = fullBio.length > 300 ? fullBio.slice(0, 300) + '...' : fullBio;
+
+  const onClick = (profile: IFilledProfile) => {
+    if (egoAddress === profile.address) {
+      setEgoAddress('');
+    } else {
+      setEgoAddress(profile.address);
+    }
+  };
 
   return (
-    <div className={classes.root}>
-      <ApeAvatar user={user} className={classes.avatar} />
-      {profile?.skills && profile.skills.length > 0 && (
-        <div className={classes.skillContainer}>
-          {profile.skills.slice(0, 3).map((skill) => (
-            <div key={skill} className={classes.skillItem}>
-              {skill}
-            </div>
-          ))}
+    <div
+      className={clsx({
+        [classes.root]: true,
+        [classes.rootSummary]: summarize,
+        [classes.rootSelected]: isSelected,
+      })}
+    >
+      <Box className={classes.scale} width={`${fraction * 100}%`} />
+      <div className={classes.content}>
+        <div className={classes.header} onClick={() => onClick(profile)}>
+          <ApeAvatar user={user} className={classes.avatar} />
+          <div className={classes.headerText}>
+            <span className={classes.headerName}>
+              {reactStringReplace(user.name, searchRegex, (match, i) =>
+                i === 1 ? <strong key={match}>{match}</strong> : null
+              )}
+            </span>
+            <span className={classes.headerMeasure}>
+              {myMeasure
+                ? myMeasure
+                : user.non_receiver || user.fixed_non_receiver
+                ? 'Opt Out'
+                : ''}
+            </span>
+          </div>
         </div>
-      )}
-      {profile && (
-        <ProfileSocialIcons
-          profile={profile}
-          className={classes.socialContainer}
-        />
-      )}
-      <div className={classes.bioContainer}>
-        {profile?.bio !== undefined ? <p>{profile?.bio}</p> : undefined}
-        {user?.bio !== undefined ? (
+        {(!summarize || isSelected) && (
           <>
-            <h5>This Epoch</h5>
-            <p>{user.bio}</p>
+            {profile?.skills && profile.skills.length > 0 && (
+              <div className={classes.skillContainer}>
+                {profile.skills.slice(0, 3).map((skill) => (
+                  <span
+                    key={skill}
+                    className={
+                      searchRegex?.test(skill) ? classes.skillMatch : undefined
+                    }
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            )}
+            {isSelected && (
+              <ProfileSocialIcons
+                profile={profile}
+                className={classes.socialContainer}
+              />
+            )}
+            <div className={classes.bioContainer}>
+              {reactStringReplace(bio, searchRegex, (match, i) =>
+                i === 1 ? <strong key={match}>{match}</strong> : null
+              )}
+            </div>
+
+            {isSelected && (
+              <div className={classes.seeFullProfile}>
+                <Button
+                  variant="text"
+                  size="small"
+                  component={Link}
+                  color="secondary"
+                  to={`/profile/${profile.address}`}
+                >
+                  See Full Profile →
+                </Button>
+              </div>
+            )}
           </>
-        ) : undefined}
+        )}
       </div>
     </div>
   );
