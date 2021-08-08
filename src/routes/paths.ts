@@ -1,6 +1,7 @@
 import { matchPath } from 'react-router-dom';
 
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
+export const MAP_HIGHLIGHT_PARAM = 'highlight';
 export const EXTERNAL_URL_TYPEFORM =
   'https://yearnfinance.typeform.com/to/egGYEbrC';
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';

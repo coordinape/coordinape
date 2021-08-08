@@ -43,7 +43,7 @@ import {
 //
 export const rAmEpochId = atom<number | undefined>({
   key: 'rAmEpochId',
-  default: undefined, // FAKE_ALL_EPOCH to represent all
+  default: undefined, // -1 to represent all
 });
 export const useStateAmEpochId = () => useRecoilState(rAmEpochId);
 
@@ -84,6 +84,7 @@ export const rAmEpochs = selector<IEpoch[]>({
 });
 export const useAmEpochs = () => useRecoilValue(rAmEpochs);
 
+// TODO: Maybe remove, unused as of writing
 export const rAmEgo = selector<[IFilledProfile | undefined, IUser | undefined]>(
   {
     key: 'rAmEgo',
@@ -136,6 +137,9 @@ export const rAmGifts = selector<ITokenGift[]>({
   },
 });
 
+// Graph data is all the nodes and links used by the d3-force-3d library
+// All of it's callbacks will return these objects.
+// E.g. nodeCanvasObject(node)
 export const rAmGraphData = selector<GraphData>({
   key: 'rAmGraphData',
   get: async ({ get }: IRecoilGetParams) => {
@@ -224,6 +228,7 @@ export const rAmGraphData = selector<GraphData>({
 });
 export const useAmGraphData = () => useRecoilValue(rAmGraphData);
 
+// Nodes that are active in this epoch.
 export const rAmActiveNodes = selector<Set<string>>({
   key: 'rAmActiveNodes',
   get: async ({ get }: IRecoilGetParams) => {
@@ -334,6 +339,7 @@ export const rAmNodeSearchStrings = selector<Map<string, string>>({
   },
 });
 
+// Bag is all the addresses that match the search regex
 export const rAmBag = selector<Set<string>>({
   key: 'rAmBag',
   get: async ({ get }: IRecoilGetParams) => {
@@ -354,6 +360,7 @@ export const rAmBag = selector<Set<string>>({
   },
 });
 
+// Results are the active profiles in the bag
 export const rAmResults = selector<IFilledProfile[]>({
   key: 'rAmResults',
   get: async ({ get }: IRecoilGetParams) => {
@@ -467,6 +474,8 @@ export const AmContextDefault = {
   getCurvature: () => 0,
 };
 
+// Context is stored in a useRef so that the d3-force-3d callbacks can
+// access it without rerenders that would reset it.
 export const rAmContext = selector<IMapContext>({
   key: 'rAmContext',
   get: async ({ get }: IRecoilGetParams) => {

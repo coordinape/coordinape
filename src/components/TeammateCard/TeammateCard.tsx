@@ -21,6 +21,7 @@ import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.sv
 import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
 import { ApeAvatar, ProfileSocialIcons, ApeTextField } from 'components';
 import { PlusCircleIcon, MinusCircleIcon } from 'icons';
+import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 
 import { IUser } from 'types';
 
@@ -301,7 +302,9 @@ export const TeammateCard = (props: IProps) => {
           horizontal: 'right',
         }}
       >
-        <NavLink to={`map/?highlight=${user.address}`}>View on Graph</NavLink>
+        <NavLink to={`map?${MAP_HIGHLIGHT_PARAM}=${user.address}`}>
+          View on Graph
+        </NavLink>
         <NavLink to={`profile/${user.address}`}>View Profile</NavLink>
       </Popover>
       <p className={classes.name}>{user.name}</p>
