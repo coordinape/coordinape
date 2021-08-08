@@ -6036,7 +6036,7 @@ d3-array@^2.12.0, d3-array@^2.3.0:
 
 d3-binarytree@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.npmjs.org/d3-binarytree/-/d3-binarytree-0.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/d3-binarytree/-/d3-binarytree-0.2.0.tgz#10601b89fc966b22ee2bd1a8e9ee4d847dfd0014"
   integrity sha512-Z4khfbrBgtbv0M2QSQBaIajxiT6hwkxGt0AoDnTXCWDyyH+Okqy2UU3sXzV01zL5lC75dFAMJ0ftxSKTCr28VA==
 
 "d3-color@1 - 2":
@@ -6087,12 +6087,12 @@ d3-force-3d@^2.2.0, d3-force-3d@^2.3.0:
 
 d3-octree@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.npmjs.org/d3-octree/-/d3-octree-0.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/d3-octree/-/d3-octree-0.2.0.tgz#d3b3e578733cd0bbb7b6a15f80b0d7b38ab2e54c"
   integrity sha512-yPoIxKr4xvZNyKK2bkJybafrNKtBVERbGTUVBovyWxWDQaWnJfWO4ai1jnyBrCeMzpVm/OTAJw2V+EJ9HCuLbQ==
 
 d3-quadtree@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-quadtree/-/d3-quadtree-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/d3-quadtree/-/d3-quadtree-2.0.0.tgz#edbad045cef88701f6fee3aee8e93fb332d30f9d"
   integrity sha512-b0Ed2t1UUalJpc3qXzKi+cPGxeXRr4KU9YSlocN74aTzp6R/Ud43t79yLLqxHRWZfsvWXmbDWPpoENK1K539xw==
 
 d3-scale-chromatic@^2.0.0:

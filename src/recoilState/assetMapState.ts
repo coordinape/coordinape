@@ -568,8 +568,7 @@ export const rAmContext = selector<IMapContext>({
     };
 
     const getEdgeMeasure = (edge: IMapEdgeFG, scaler?: TScaler): number => {
-      const raw = metric === 'give' ? edge.tokens : 15.0;
-      return scaler ? scaler(raw / 30) : raw;
+      return scaler ? scaler(edge.tokens / 100) : edge.tokens;
     };
 
     const getNodeMeasure = (node: IMapNodeFG, scaler?: TScaler): number => {

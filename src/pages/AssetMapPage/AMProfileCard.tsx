@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
@@ -128,6 +128,7 @@ const AMProfileCard = ({
   summarize: boolean;
 }) => {
   const classes = useStyles();
+  const elemRef = useRef<HTMLDivElement | null>(null);
   const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
   const metric = useAmMetric();
   const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
@@ -144,6 +145,12 @@ const AMProfileCard = ({
   const range = max - min;
   const fraction = range ? (myMeasure - min) / range : 1;
 
+  useEffect(() => {
+    if (profile.address === egoAddress && elemRef.current) {
+      elemRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [egoAddress]);
+
   const fullBio =
     profile.bio ?? ' ' + (user.bio ? `Latest Epoch: ${user.bio}` : '');
 
@@ -159,6 +166,7 @@ const AMProfileCard = ({
 
   return (
     <div
+      ref={elemRef}
       className={clsx({
         [classes.root]: true,
         [classes.rootSummary]: summarize,

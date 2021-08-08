@@ -47,8 +47,8 @@ const COLOR_LINK_DIM = '#00000004';
 
 const NODE_R = 5;
 
-const edgeWidthScaler = (f: number) => Math.sqrt(f) * 4 + 1;
-const nodeSizeScaler = (f: number) => NODE_R + f * 5;
+const edgeWidthScaler = (f: number) => f * 10 + 1;
+const nodeSizeScaler = (f: number) => NODE_R + f * 8;
 // const nodeBorderScaler = (f: number) => 0.5 + f * 10;
 // const edgeForceScaler = (f: number) => 0.1 * f;
 // const linkStrengthToken = (edge: any) => 0.05 / link.tokens;
