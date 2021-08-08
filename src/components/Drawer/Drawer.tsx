@@ -43,12 +43,12 @@ const useStyles = makeStyles((theme) => ({
   toggleButton: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    left: 0,
     width: 50,
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    padding: theme.spacing(0.5, 1),
+    padding: theme.spacing(2, 1.5),
   },
   right: {
     '& $toggleButton': {
