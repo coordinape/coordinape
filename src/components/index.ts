@@ -22,4 +22,3 @@ export * from './TeammateCard/TeammateCard';
 export * from './FormModal/FormModal';
 export * from './ApeTextField/ApeTextField';
 export * from './ProfileSocialIcons/ProfileSocialIcons';
-export * from './GraphUserCard/GraphUserCard';

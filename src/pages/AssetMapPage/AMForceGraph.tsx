@@ -74,9 +74,6 @@ export const AMForceGraph = () => {
   useEffect(() => {
     if (mapContext.state === 'hasValue') {
       const ctx = mapContext.contents;
-      console.log('active', ctx.measures.count);
-      console.log('bag', ctx.bag.size);
-      console.log('measures', ctx.measures.min, ctx.measures.max);
       mapCtxRef.current = ctx;
       if (!fgRef.current) {
         return;

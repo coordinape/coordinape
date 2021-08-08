@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 
+import { useHistory, useLocation } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core';
 
 import {
@@ -7,7 +9,9 @@ import {
   useStateAmEpochId,
   useStateAmMetric,
   useSelectedCircle,
+  useSetAmEgoAddress,
 } from 'recoilState';
+import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 import { assertDef } from 'utils/tools';
 
 import AMDrawer from './AMDrawer';
@@ -44,6 +48,21 @@ interface MetricOption {
 
 export const AssetMapPage = () => {
   const classes = useStyles();
+  const location = useLocation();
+  const history = useHistory();
+  const setAmEgoAddress = useSetAmEgoAddress();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const newAddress = queryParams.get(MAP_HIGHLIGHT_PARAM);
+    if (newAddress) {
+      setAmEgoAddress(newAddress);
+      queryParams.delete(MAP_HIGHLIGHT_PARAM);
+      history.replace({
+        search: queryParams.toString(),
+      });
+    }
+  }, [location]);
 
   const amEpochs = useAmEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
@@ -75,7 +94,8 @@ export const AssetMapPage = () => {
       return;
     }
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
-    // TODO: Load gifts for selected epoch
+    // TODO: Load gifts for selected epoch when needed:
+    // https://linear.app/yearn/issue/APE-192/api-dont-always-load-everything-and-improve-fetching
   }, [amEpochs]);
 
   const epochOptions = useMemo(() => {
@@ -95,8 +115,7 @@ export const AssetMapPage = () => {
   }, [amEpochs]);
 
   if (!epochOptions || amEpochId === undefined) {
-    // TODO: Improve this.
-    return <div className={classes.root}>Loading</div>;
+    return <div className={classes.root}></div>;
   }
 
   return (
