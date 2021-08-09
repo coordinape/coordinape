@@ -14,7 +14,7 @@ export interface IApiProfile {
   twitter_username?: string;
   website?: string;
   skills?: string[];
-  users: IUser[];
+  users: IApiUser[];
   created_at: string;
   updated_at: string;
 }
