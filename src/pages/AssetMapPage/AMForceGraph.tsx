@@ -8,8 +8,8 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { makeStyles } from '@material-ui/core';
 
 import {
-  useAmGraphData,
-  useAmContext,
+  useMapGraphData,
+  useMapContext,
   useUserProfileMap,
   useSetAmEgoAddress,
   AmContextDefault,
@@ -57,8 +57,8 @@ const nodeSizeScaler = (f: number) => NODE_R + f * 8;
 export const AMForceGraph = () => {
   const classes = useStyles();
   const fgRef = useRef<any>(null);
-  const recoilMapGraphData = useAmGraphData();
-  const mapContext = useAmContext();
+  const recoilMapGraphData = useMapGraphData();
+  const mapContext = useMapContext();
   const userProfileMap = useUserProfileMap();
   const setAmEgoAddress = useSetAmEgoAddress();
 

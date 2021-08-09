@@ -198,8 +198,8 @@ export const rPastGiftsRaw = atom<Map<number, IApiTokenGift>>({
   default: new Map(),
 });
 
-export const rGiftsPastMap = selector<Map<number, ITokenGift>>({
-  key: 'rGiftsPastMap',
+export const rPastGiftsMap = selector<Map<number, ITokenGift>>({
+  key: 'rPastGiftsMap',
   get: ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
     return iti(get(rPastGiftsRaw).values())
@@ -237,7 +237,7 @@ export const rGiftsMap = selector<Map<number, ITokenGift>>({
     iti(get(rPendingGiftsMap).values())
       // This is crazy, but pending gifts are their own table - Bug city!
       .map((g) => ({ ...g, id: g.id + 100000 } as ITokenGift))
-      .concat(get(rGiftsPastMap).values())
+      .concat(get(rPastGiftsMap).values())
       .toMap((g) => g.id),
 });
 

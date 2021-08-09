@@ -11,9 +11,9 @@ import { Autocomplete } from '@material-ui/lab';
 import { Drawer, ApeTextField } from 'components';
 import { SKILLS } from 'config/constants';
 import {
-  useAmMetric,
-  useAmResults,
-  useAmMeasures,
+  useMapMetric,
+  useMapResults,
+  useMapMeasures,
   useSetAmSearch,
 } from 'recoilState';
 
@@ -96,20 +96,23 @@ const skillNames = SKILLS.map(({ name }) => name);
 const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
-  const [showRank, setShowRank] = useState<boolean>(true);
+  const [showRank, setShowRank] = useState<boolean>(false);
 
   const setSearch = useSetAmSearch();
-  const metric = useAmMetric();
-  const rawProfiles = useAmResults();
-  const { measures } = useAmMeasures(metric);
+  const metric = useMapMetric();
+  const rawProfiles = useMapResults();
+  const { measures } = useMapMeasures(metric);
 
   const profiles = useMemo(
     () =>
-      [...rawProfiles].sort(
-        (pa, pb) =>
-          (measures.get(pb.address) ?? 0) - (measures.get(pa.address) ?? 0)
+      [...rawProfiles].sort((pa, pb) =>
+        showRank
+          ? (measures.get(pb.address) ?? 0) - (measures.get(pa.address) ?? 0)
+          : pa.users[0]?.name < pb.users[0]?.name
+          ? -1
+          : 1
       ),
-    [rawProfiles, measures]
+    [rawProfiles, measures, showRank]
   );
 
   const handleSetOpen = (value: boolean) => {
