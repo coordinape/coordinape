@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 
 import {
-  useAmEpochs,
+  useMapEpochs,
   useStateAmEpochId,
   useStateAmMetric,
   useSelectedCircle,
@@ -18,7 +18,7 @@ import AMDrawer from './AMDrawer';
 import AMForceGraph from './AMForceGraph';
 import RedSelect from './RedSelect';
 
-import { IFilledProfile, MetricEnum } from 'types';
+import { MetricEnum } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +64,7 @@ export const AssetMapPage = () => {
     }
   }, [location]);
 
-  const amEpochs = useAmEpochs();
+  const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
   const [metric, setMetric] = useStateAmMetric();
   const circle = assertDef(useSelectedCircle(), 'Missing selected circle');

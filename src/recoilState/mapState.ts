@@ -34,47 +34,46 @@ import {
   MetricEnum,
   TScaler,
   IFilledProfile,
-  IUser,
 } from 'types';
 
 //
 // Asset Map Atoms
 // Setting these configures the graph
 //
-export const rAmEpochId = atom<number | undefined>({
-  key: 'rAmEpochId',
+export const rMapEpochId = atom<number | undefined>({
+  key: 'rMapEpochId',
   default: undefined, // -1 to represent all
 });
-export const useStateAmEpochId = () => useRecoilState(rAmEpochId);
+export const useStateAmEpochId = () => useRecoilState(rMapEpochId);
 
-export const rAmSearch = atom<string>({
-  key: 'rAmSearch',
+export const rMapSearch = atom<string>({
+  key: 'rMapSearch',
   default: '',
 });
-export const useStateAmSearch = () => useRecoilState(rAmSearch);
-export const useSetAmSearch = () => useSetRecoilState(rAmSearch);
+export const useStateAmSearch = () => useRecoilState(rMapSearch);
+export const useSetAmSearch = () => useSetRecoilState(rMapSearch);
 
-export const rAmEgoAddress = atom<string>({
-  key: 'rAmEgoAddress',
+export const rMapEgoAddress = atom<string>({
+  key: 'rMapEgoAddress',
   default: '',
 });
-export const useSetAmEgoAddress = () => useSetRecoilState(rAmEgoAddress);
-export const useStateAmEgoAddress = () => useRecoilState(rAmEgoAddress);
-export const useAmEgoAddress = () => useRecoilValue(rAmEgoAddress);
+export const useSetAmEgoAddress = () => useSetRecoilState(rMapEgoAddress);
+export const useStateAmEgoAddress = () => useRecoilState(rMapEgoAddress);
+export const useMapEgoAddress = () => useRecoilValue(rMapEgoAddress);
 
-export const rAmMetric = atom<MetricEnum>({
-  key: 'rAmMetric',
+export const rMapMetric = atom<MetricEnum>({
+  key: 'rMapMetric',
   default: 'give',
 });
-export const useStateAmMetric = () => useRecoilState(rAmMetric);
-export const useAmMetric = () => useRecoilValue(rAmMetric);
+export const useStateAmMetric = () => useRecoilState(rMapMetric);
+export const useMapMetric = () => useRecoilValue(rMapMetric);
 
 //
 // Map Selectors
 // Computed values used to graph
 //
-export const rAmEpochs = selector<IEpoch[]>({
-  key: 'rAmEpochs',
+export const rMapEpochs = selector<IEpoch[]>({
+  key: 'rMapEpochs',
   get: async ({ get }: IRecoilGetParams) => {
     const { pastEpochs, currentEpoch } = get(
       rCircleEpochsStatus(get(rSelectedCircleId) ?? -1)
@@ -82,49 +81,33 @@ export const rAmEpochs = selector<IEpoch[]>({
     return currentEpoch ? pastEpochs.concat(currentEpoch) : pastEpochs;
   },
 });
-export const useAmEpochs = () => useRecoilValue(rAmEpochs);
+export const useMapEpochs = () => useRecoilValue(rMapEpochs);
 
-// TODO: Maybe remove, unused as of writing
-export const rAmEgo = selector<[IFilledProfile | undefined, IUser | undefined]>(
-  {
-    key: 'rAmEgo',
-    get: async ({ get }: IRecoilGetParams) => {
-      const circleId = get(rSelectedCircleId);
-      const egoAddress = get(rAmEgoAddress);
-      const profileMap = get(rUserProfileMap);
-      const profile = profileMap.get(egoAddress);
-      const user = profile?.users?.find((u) => u.circle_id === circleId);
-      return [profile, user];
-    },
-  }
-);
-export const useAmEgo = () => useRecoilValue(rAmEgo);
-
-export const rAmSearchRegex = selector<RegExp | undefined>({
-  key: 'rAmSearchRegex',
+export const rMapSearchRegex = selector<RegExp | undefined>({
+  key: 'rMapSearchRegex',
   get: async ({ get }: IRecoilGetParams) => {
-    return toSearchRegExp(get(rAmSearch));
+    return toSearchRegExp(get(rMapSearch));
   },
 });
-export const useAmSearchRegex = () => useRecoilValue(rAmSearchRegex);
+export const useMapSearchRegex = () => useRecoilValue(rMapSearchRegex);
 
-export const rAmGifts = selector<ITokenGift[]>({
-  key: 'rAmGifts',
+export const rMapGifts = selector<ITokenGift[]>({
+  key: 'rMapGifts',
   get: async ({ get }: IRecoilGetParams) => {
-    const epochs = get(rAmEpochs);
+    const epochs = get(rMapEpochs);
     const userMap = get(rUsersMap);
     return iti(epochs)
       .map((epoch) =>
         iti(get(rGiftsByEpoch).get(epoch.id) ?? []).map((g) => {
           // Addresses may have changed, so update them here.
-          const recipient = userMap.get(g.recipient_id);
-          const sender = userMap.get(g.sender_id);
-          if (recipient === undefined) {
-            throw `Missing recipient for gift ${g.id}, address: ${g.recipient_id} `;
-          }
-          if (sender === undefined) {
-            throw `Missing sender for gift ${g.id}, sender: ${g.sender_id} `;
-          }
+          const recipient = assertDef(
+            userMap.get(g.recipient_id),
+            `Missing recipient for gift ${g.id}, address: ${g.recipient_id} `
+          );
+          const sender = assertDef(
+            userMap.get(g.sender_id),
+            `Missing sender for gift ${g.id}, sender: ${g.sender_id} `
+          );
           return {
             ...g,
             recipient_address: recipient.address,
@@ -140,12 +123,12 @@ export const rAmGifts = selector<ITokenGift[]>({
 // Graph data is all the nodes and links used by the d3-force-3d library
 // All of it's callbacks will return these objects.
 // E.g. nodeCanvasObject(node)
-export const rAmGraphData = selector<GraphData>({
-  key: 'rAmGraphData',
+export const rMapGraphData = selector<GraphData>({
+  key: 'rMapGraphData',
   get: async ({ get }: IRecoilGetParams) => {
-    const epochs = get(rAmEpochs);
+    const epochs = get(rMapEpochs);
     const epochsMap = iti(epochs).toMap((e) => e.id);
-    const gifts = iti(get(rAmGifts));
+    const gifts = iti(get(rMapGifts));
     const profileMap = get(rUserProfileMap);
     if (epochs.length === 0) {
       return { links: [], nodes: [] };
@@ -155,12 +138,12 @@ export const rAmGraphData = selector<GraphData>({
       .filter((g) => g.tokens > 0)
       .map(
         (g): IMapEdge => {
-          const epoch = epochsMap.get(g.epoch_id);
-          if (epoch === undefined) {
-            throw `Missing epoch.id = ${
-              g.id
-            } in rAmGraphData. have ${epochs.map((e) => e.id)}`;
-          }
+          const epoch = assertDef(
+            epochsMap.get(g.epoch_id),
+            `Missing epoch.id = ${g.id} in rMapGraphData. have ${epochs.map(
+              (e) => e.id
+            )}`
+          );
           return {
             id: g.id,
             source: g.sender_address,
@@ -182,22 +165,20 @@ export const rAmGraphData = selector<GraphData>({
         .distinct()
         .map((key) => {
           const [epochIdStr, address] = key.split('@');
-          const profile = profileMap.get(address);
-          const epoch = epochsMap.get(Number(epochIdStr));
-          if (profile === undefined) {
-            throw `Missing profile = ${address} in rAmGraphData`;
-          }
-          if (epoch === undefined) {
-            throw `Missing epoch = ${epochIdStr} in rAmGraphData. have ${epochs.map(
-              (e) => e.id
-            )}`;
-          }
-          const user = profile.users.find(
-            (u) => u.circle_id === epoch.circle_id
+          const profile = assertDef(
+            profileMap.get(address),
+            `Missing profile = ${address} in rMapGraphData`
           );
-          if (user === undefined) {
-            throw `Missing user of circle = ${epoch.circle_id} in rAmGraphData at ${profile.address}`;
-          }
+          const epoch = assertDef(
+            epochsMap.get(Number(epochIdStr)),
+            `Missing epoch = ${epochIdStr} in rMapGraphData. have ${epochs.map(
+              (e) => e.id
+            )}`
+          );
+          const user = assertDef(
+            profile.users.find((u) => u.circle_id === epoch.circle_id),
+            `Missing user of circle = ${epoch.circle_id} in rMapGraphData at ${profile.address}`
+          );
 
           return {
             id: address,
@@ -214,7 +195,7 @@ export const rAmGraphData = selector<GraphData>({
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { epochId, ...node } = assertDef(
               n.first(),
-              'rAmGraphData, node with epochIds'
+              'rMapGraphData, node with epochIds'
             );
             return {
               ...node,
@@ -226,17 +207,14 @@ export const rAmGraphData = selector<GraphData>({
     };
   },
 });
-export const useAmGraphData = () => useRecoilValue(rAmGraphData);
+export const useMapGraphData = () => useRecoilValue(rMapGraphData);
 
 // Nodes that are active in this epoch.
-export const rAmActiveNodes = selector<Set<string>>({
-  key: 'rAmActiveNodes',
+export const rMapActiveNodes = selector<Set<string>>({
+  key: 'rMapActiveNodes',
   get: async ({ get }: IRecoilGetParams) => {
-    const epochId = get(rAmEpochId);
-    if (epochId === undefined) {
-      return new Set();
-    }
-    const { nodes } = (get(rAmGraphData) as unknown) as { nodes: IMapNode[] };
+    const epochId = get(rMapEpochId) ?? new Set();
+    const { nodes } = (get(rMapGraphData) as unknown) as { nodes: IMapNode[] };
     const includeEpoch =
       epochId === -1 ? () => true : (id: number) => epochId === id;
     return iti(nodes)
@@ -246,13 +224,13 @@ export const rAmActiveNodes = selector<Set<string>>({
   },
 });
 
-export const rAmOutFrom = selector<Map<string, Uint32Array>>({
-  key: 'rAmOutFrom',
+export const rMapOutFrom = selector<Map<string, Uint32Array>>({
+  key: 'rMapOutFrom',
   get: async ({ get }: IRecoilGetParams) => {
-    const epochId = get(rAmEpochId);
+    const epochId = get(rMapEpochId);
     const includeEpoch =
       epochId === -1 ? () => true : (id: number) => epochId === id;
-    return iti(get(rAmGraphData).links as IMapEdge[])
+    return iti(get(rMapGraphData).links as IMapEdge[])
       .filter((l) => includeEpoch(l.epochId))
       .groupBy((l) => l.source)
       .toMap(
@@ -262,13 +240,13 @@ export const rAmOutFrom = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rAmInTo = selector<Map<string, Uint32Array>>({
-  key: 'rAmInTo',
+export const rMapInTo = selector<Map<string, Uint32Array>>({
+  key: 'rMapInTo',
   get: async ({ get }: IRecoilGetParams) => {
-    const epochId = get(rAmEpochId);
+    const epochId = get(rMapEpochId);
     const includeEpoch =
       epochId === -1 ? () => true : (id: number) => epochId === id;
-    return iti(get(rAmGraphData).links as IMapEdge[])
+    return iti(get(rMapGraphData).links as IMapEdge[])
       .filter((l) => includeEpoch(l.epochId))
       .groupBy((l) => l.target)
       .toMap(
@@ -278,42 +256,43 @@ export const rAmInTo = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rAmOutFromTokens = selector<Map<string, Uint32Array>>({
-  key: 'rAmOutFromTokens',
+export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
+  key: 'rMapOutFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rGiftsMap);
-    return iti(get(rAmOutFrom)).toMap(
+    return iti(get(rMapOutFrom)).toMap(
       ([address]) => address,
       ([, ls]) =>
         ls.map(
           (l) =>
-            assertDef(giftMap.get(l), `rAmOutFromTokens giftMap.get ${l}`)
+            assertDef(giftMap.get(l), `rMapOutFromTokens giftMap.get ${l}`)
               .tokens
         )
     );
   },
 });
 
-export const rAmInFromTokens = selector<Map<string, Uint32Array>>({
-  key: 'rAmInFromTokens',
+export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
+  key: 'rMapInFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rGiftsMap);
-    return iti(get(rAmInTo)).toMap(
+    return iti(get(rMapInTo)).toMap(
       ([address]) => address,
       ([, ls]) =>
         ls.map(
           (l) =>
-            assertDef(giftMap.get(l), `rAmInFromTokens giftMap.get ${l}`).tokens
+            assertDef(giftMap.get(l), `rMapInFromTokens giftMap.get ${l}`)
+              .tokens
         )
     );
   },
 });
 
-export const rAmNodeSearchStrings = selector<Map<string, string>>({
-  key: 'rAmNodeSearchStrings',
+export const rMapNodeSearchStrings = selector<Map<string, string>>({
+  key: 'rMapNodeSearchStrings',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
-    return iti(get(rAmGraphData).nodes as IMapNode[]).toMap(
+    return iti(get(rMapGraphData).nodes as IMapNode[]).toMap(
       ({ id }) => id,
       ({ id }) => {
         const profile = profileMap.get(id);
@@ -340,15 +319,15 @@ export const rAmNodeSearchStrings = selector<Map<string, string>>({
 });
 
 // Bag is all the addresses that match the search regex
-export const rAmBag = selector<Set<string>>({
-  key: 'rAmBag',
+export const rMapBag = selector<Set<string>>({
+  key: 'rMapBag',
   get: async ({ get }: IRecoilGetParams) => {
-    const regex = get(rAmSearchRegex);
+    const regex = get(rMapSearchRegex);
     if (regex === undefined) {
       return new Set<string>();
     }
-    const activeNodes = get(rAmActiveNodes);
-    const searchStrings = get(rAmNodeSearchStrings);
+    const activeNodes = get(rMapActiveNodes);
+    const searchStrings = get(rMapNodeSearchStrings);
     return (
       iti(searchStrings)
         .filter(([address]) => activeNodes.has(address))
@@ -361,20 +340,20 @@ export const rAmBag = selector<Set<string>>({
 });
 
 // Results are the active profiles in the bag
-export const rAmResults = selector<IFilledProfile[]>({
-  key: 'rAmResults',
+export const rMapResults = selector<IFilledProfile[]>({
+  key: 'rMapResults',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
-    const bag = get(rAmBag);
-    const activeNodes = get(rAmActiveNodes);
+    const bag = get(rMapBag);
+    const activeNodes = get(rMapActiveNodes);
     const includeAddr = bag.size ? (addr: string) => bag.has(addr) : () => true;
-    return iti(get(rAmGraphData).nodes as IMapNode[])
+    return iti(get(rMapGraphData).nodes as IMapNode[])
       .filter((n) => activeNodes.has(n.id) && includeAddr(n.id))
-      .map((n) => assertDef(profileMap.get(n.id), 'rAmResults'))
+      .map((n) => assertDef(profileMap.get(n.id), 'rMapResults'))
       .toArray();
   },
 });
-export const useAmResults = () => useRecoilValue(rAmResults);
+export const useMapResults = () => useRecoilValue(rMapResults);
 
 interface IMeasures {
   min: number;
@@ -382,12 +361,12 @@ interface IMeasures {
   measures: Map<string, number>;
 }
 
-export const rAmMeasures = selectorFamily<IMeasures, MetricEnum>({
-  key: 'rAmMeasures',
+export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
+  key: 'rMapMeasures',
   get: (metric: MetricEnum) => ({ get }: IRecoilGetParams) => {
-    const actives = get(rAmActiveNodes);
-    const outFrom = get(rAmOutFromTokens);
-    const inTo = get(rAmInFromTokens);
+    const actives = get(rMapActiveNodes);
+    const outFrom = get(rMapOutFromTokens);
+    const inTo = get(rMapInFromTokens);
     let measures = new Map<string, number>();
     switch (metric) {
       case 'give': {
@@ -452,8 +431,8 @@ export const rAmMeasures = selectorFamily<IMeasures, MetricEnum>({
     };
   },
 });
-export const useAmMeasures = (metric: MetricEnum) =>
-  useRecoilValue(rAmMeasures(metric));
+export const useMapMeasures = (metric: MetricEnum) =>
+  useRecoilValue(rMapMeasures(metric));
 
 export const AmContextDefault = {
   egoAddress: '',
@@ -476,17 +455,17 @@ export const AmContextDefault = {
 
 // Context is stored in a useRef so that the d3-force-3d callbacks can
 // access it without rerenders that would reset it.
-export const rAmContext = selector<IMapContext>({
-  key: 'rAmContext',
+export const rMapContext = selector<IMapContext>({
+  key: 'rMapContext',
   get: async ({ get }: IRecoilGetParams) => {
-    const egoAddress = get(rAmEgoAddress);
-    const bag = get(rAmBag);
-    const epochId = get(rAmEpochId);
-    const metric = get(rAmMetric);
+    const egoAddress = get(rMapEgoAddress);
+    const bag = get(rMapBag);
+    const epochId = get(rMapEpochId);
+    const metric = get(rMapMetric);
     const giftMap = get(rGiftsMap);
-    const outFrom = get(rAmOutFrom);
-    const inTo = get(rAmInTo);
-    const { min, max, measures } = get(rAmMeasures(metric));
+    const outFrom = get(rMapOutFrom);
+    const inTo = get(rMapInTo);
+    const { min, max, measures } = get(rMapMeasures(metric));
 
     if (epochId === undefined) {
       return AmContextDefault;
@@ -587,7 +566,7 @@ export const rAmContext = selector<IMapContext>({
       return scaler ? scaler(range ? (raw - min) / range : 1) : raw;
     };
 
-    const getCurvature = (edge: IMapEdgeFG): number => {
+    const getCurvature = (): number => {
       // TODO: So much work for this! enumerate the shared edges
       return 0.1;
     };
@@ -612,4 +591,4 @@ export const rAmContext = selector<IMapContext>({
     };
   },
 });
-export const useAmContext = () => useRecoilValueLoadable(rAmContext);
+export const useMapContext = () => useRecoilValueLoadable(rMapContext);

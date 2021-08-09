@@ -7,13 +7,13 @@ import reactStringReplace from 'react-string-replace';
 import { makeStyles, Box, Button } from '@material-ui/core';
 
 import { ApeAvatar, ProfileSocialIcons } from 'components';
+import { useSelectedCircle } from 'recoilState';
 import {
-  useAmMetric,
+  useMapMetric,
   useStateAmEgoAddress,
-  useAmMeasures,
-  useSelectedCircle,
-  useAmSearchRegex,
-} from 'recoilState';
+  useMapMeasures,
+  useMapSearchRegex,
+} from 'recoilState/mapState';
 import { assertDef } from 'utils/tools';
 
 import { IFilledProfile } from 'types';
@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     ['-webkit-mask-image']:
       'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)',
     '& $scale': {
-      backgroundColor: 'hsla(359, 79%, 69%, 0.05)',
+      // backgroundColor: 'hsla(359, 79%, 69%, 0.05)',
+      backgroundColor: 'transparent',
     },
   },
   rootSummary: {
@@ -130,10 +131,10 @@ const AMProfileCard = ({
   const classes = useStyles();
   const elemRef = useRef<HTMLDivElement | null>(null);
   const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
-  const metric = useAmMetric();
+  const metric = useMapMetric();
   const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
-  const { min, max, measures } = useAmMeasures(metric);
-  const searchRegex = useAmSearchRegex();
+  const { min, max, measures } = useMapMeasures(metric);
+  const searchRegex = useMapSearchRegex();
 
   const user = assertDef(
     profile.users.find((u) => u.circle_id === circle.id),
@@ -184,7 +185,7 @@ const AMProfileCard = ({
               )}
             </span>
             <span className={classes.headerMeasure}>
-              {myMeasure
+              {myMeasure && summarize
                 ? myMeasure
                 : user.non_receiver || user.fixed_non_receiver
                 ? 'Opt Out'
