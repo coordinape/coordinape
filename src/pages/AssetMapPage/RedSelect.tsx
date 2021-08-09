@@ -59,10 +59,7 @@ export const RedSelect = ({
         select: classes.select,
         icon: classes.selectIcon,
       }}
-      onChange={({ target: { value } }) => {
-        console.log('onChange', value, typeof value);
-        onChange(value as number | string);
-      }}
+      onChange={({ target: { value } }) => onChange(value as number | string)}
       value={value}
     >
       {options.map(({ label, value }) => (

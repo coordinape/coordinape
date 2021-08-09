@@ -83,7 +83,7 @@ export const AssetMapPage = () => {
       value: 'out_degree',
     },
     {
-      label: `Degree Standarization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
+      label: `Degree Standardization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
       value: 'standardized',
     },
   ] as MetricOption[];
