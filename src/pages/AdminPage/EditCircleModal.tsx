@@ -122,12 +122,7 @@ export const EditCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const {
-    updateCircle,
-    updateCircleLogo,
-    getDiscordWebhook,
-    setDiscordWebhook,
-  } = useAdminApi();
+  const { updateCircle, updateCircleLogo, getDiscordWebhook } = useAdminApi();
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
@@ -155,9 +150,6 @@ export const EditCircleModal = ({
     setAllowEdit(true);
   };
 
-  const updateDiscordWebhook = async () => {
-    await setDiscordWebhook(webhook);
-  };
   const onChangeWith = (set: (v: string) => void) => (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -177,13 +169,15 @@ export const EditCircleModal = ({
       circleName !== circle.name ||
       tokenName !== circle.tokenName ||
       teamSelText !== circle.teamSelText ||
-      allocText !== circle.allocText
+      allocText !== circle.allocText ||
+      webhook
     ) {
       updateCircle({
         name: circleName,
         token_name: tokenName,
         team_sel_text: teamSelText,
         alloc_text: allocText,
+        discord_webhook: webhook,
       });
     }
   };
@@ -193,7 +187,8 @@ export const EditCircleModal = ({
     circleName !== circle.name ||
     tokenName !== circle.tokenName ||
     teamSelText !== circle.teamSelText ||
-    allocText !== circle.allocText;
+    allocText !== circle.allocText ||
+    webhook;
 
   return (
     <FormModal
@@ -279,14 +274,7 @@ export const EditCircleModal = ({
               Edit WebHook
             </Button>
           ) : (
-            <Button
-              onClick={updateDiscordWebhook}
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-            >
-              Update WebHook
-            </Button>
+            ''
           )}
         </div>
       </div>
