@@ -1,6 +1,5 @@
 import React from 'react';
 
-import moment from 'moment';
 import { transparentize } from 'polished';
 import { NavLink } from 'react-router-dom';
 
