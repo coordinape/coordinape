@@ -131,7 +131,7 @@ export const EditCircleModal = ({
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
   const [allocText, setAllocText] = useState<string>(circle.allocText);
-  const [allowEdit, setAllowEdit] = useState<boolean>(false);
+  const [allowEdit, setAllowEdit] = useState<number>(0);
   const [webhook, setWebhook] = useState<string>('');
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,7 +147,7 @@ export const EditCircleModal = ({
   const editDiscordWebhook = async () => {
     const _webhook = await getDiscordWebhook();
     setWebhook(_webhook);
-    setAllowEdit(true);
+    setAllowEdit(1);
   };
 
   const onChangeWith = (set: (v: string) => void) => (
@@ -170,7 +170,7 @@ export const EditCircleModal = ({
       tokenName !== circle.tokenName ||
       teamSelText !== circle.teamSelText ||
       allocText !== circle.allocText ||
-      webhook
+      allowEdit
     ) {
       updateCircle({
         name: circleName,
@@ -178,6 +178,7 @@ export const EditCircleModal = ({
         team_sel_text: teamSelText,
         alloc_text: allocText,
         discord_webhook: webhook,
+        update_webhook: allowEdit,
       });
     }
   };
@@ -188,7 +189,7 @@ export const EditCircleModal = ({
     tokenName !== circle.tokenName ||
     teamSelText !== circle.teamSelText ||
     allocText !== circle.allocText ||
-    webhook;
+    allowEdit;
 
   return (
     <FormModal
