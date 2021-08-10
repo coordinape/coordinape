@@ -267,6 +267,8 @@ export const EditCircleModal = ({
         discord_webhook: webhook,
         update_webhook: allowEdit,
         vouching_text: vouchingText,
+      }).then(() => {
+        onClose();
       });
     }
   };
