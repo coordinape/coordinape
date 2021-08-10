@@ -136,12 +136,10 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
     null
   );
 
-  // open VouchedBy
   const openVouchedBy = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // close VouchedBy
   const closeVouchedBy = () => {
     setAnchorEl(null);
   };
