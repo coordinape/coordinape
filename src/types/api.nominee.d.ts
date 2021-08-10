@@ -25,4 +25,5 @@ export interface INominee extends IApiNominee {
   nominations: IUser[];
   expiryDate: Moment;
   nominatedDate: Moment;
+  vouchesNeeded: number;
 }

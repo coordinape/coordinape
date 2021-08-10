@@ -126,8 +126,6 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
   const { vouchUser } = useVouching();
   const { selectedMyUser } = useMe();
-  const necessaryVouch =
-    nominee.vouches_required - nominee.nominations.length - 1;
   const vouchDisabled = selectedMyUser
     ? nominee.nominated_by_user_id === selectedMyUser.id ||
       nominee.nominations.some((user) => user.id === selectedMyUser.id)
@@ -214,8 +212,8 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         <span className={classes.description}>{nominee.description}</span>
       </TextOnlyTooltip>
       <span className={classes.confirm}>
-        {necessaryVouch} {necessaryVouch > 1 ? 'vouches' : 'vouch'} needed to
-        confirm
+        {nominee.vouchesNeeded}{' '}
+        {nominee.vouchesNeeded > 1 ? 'vouches' : 'vouch'} needed to confirm
       </span>
       <Button
         variant="contained"
@@ -227,7 +225,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         Vouch for {nominee.name}
       </Button>
       <span className={classes.expire}>
-        Expires {moment(nominee.expiryDate).format('MM/DD')}
+        Expires {nominee.expiryDate.format('MM/DD')}
       </span>
     </div>
   );

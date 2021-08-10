@@ -71,15 +71,9 @@ export const VouchingPage = () => {
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
       <div className={classes.nomineeContainer}>
-        {activeNominees
-          .filter(
-            (nominee) =>
-              nominee.vouches_required - 1 > nominee.nominations.length &&
-              nominee.expiryDate.isAfter(Date())
-          )
-          .map((nominee) => (
-            <NomineeCard key={nominee.id} nominee={nominee} />
-          ))}
+        {activeNominees.map((nominee) => (
+          <NomineeCard key={nominee.id} nominee={nominee} />
+        ))}
       </div>
       {isNewNominate && (
         <NewNominateModal

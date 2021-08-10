@@ -36,7 +36,12 @@ export const rActiveNominees = selector<INominee[]>({
   key: 'rActiveNominees',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rNominees))
-      .filter((n) => !n.ended && moment(moment.now()).diff(n.expiryDate) < 0)
+      .filter(
+        (n) =>
+          !n.ended &&
+          moment(moment.now()).diff(n.expiryDate) < 0 &&
+          n.vouchesNeeded > 0
+      )
       .toArray(),
 });
 export const useActiveNominees = () => useRecoilValue(rActiveNominees);

@@ -232,5 +232,9 @@ export const createExtendedNominee = (
     nominations: nominee.nominations
       .map((u) => usersMap.get(u.id))
       .filter((u): u is IUser => !!u),
+    vouchesNeeded: Math.max(
+      0,
+      nominee.vouches_required - nominee.nominations.length - 1
+    ),
   };
 };
