@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const NewNominateModal = ({
+export const NewNominationModal = ({
   onClose,
   visible,
 }: {
@@ -123,4 +123,4 @@ export const NewNominateModal = ({
   );
 };
 
-export default NewNominateModal;
+export default NewNominationModal;

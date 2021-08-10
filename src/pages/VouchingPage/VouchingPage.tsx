@@ -4,7 +4,7 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { useSelectedCircle, useActiveNominees } from 'recoilState';
 
-import NewNominateModal from './NewNominateModal';
+import NewNominationModal from './NewNominationModal';
 import NomineeCard from './NomineeCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ export const VouchingPage = () => {
   const classes = useStyles();
   const circle = useSelectedCircle();
   const activeNominees = useActiveNominees();
-  const [isNewNominate, setNewNominate] = useState<boolean>(false);
+  const [isNewNomination, setNewNomination] = useState<boolean>(false);
 
   return !circle ? (
     <div className={classes.root}></div>
@@ -65,7 +65,7 @@ export const VouchingPage = () => {
         variant="contained"
         color="primary"
         className={classes.nominateButton}
-        onClick={() => setNewNominate(true)}
+        onClick={() => setNewNomination(true)}
       >
         Nominate New Member
       </Button>
@@ -75,12 +75,12 @@ export const VouchingPage = () => {
           <NomineeCard key={nominee.id} nominee={nominee} />
         ))}
       </div>
-      {isNewNominate && (
-        <NewNominateModal
+      {isNewNomination && (
+        <NewNominationModal
           onClose={() => {
-            setNewNominate(false);
+            setNewNomination(false);
           }}
-          visible={isNewNominate}
+          visible={isNewNomination}
         />
       )}
     </div>
