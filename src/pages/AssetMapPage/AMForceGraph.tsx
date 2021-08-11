@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core';
 import {
   useMapGraphData,
   useMapContext,
-  useUserProfileMap,
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState';
@@ -42,14 +41,14 @@ const COLOR_NODE = '#000000';
 const COLOR_NODE_FADE = '#00000020';
 const COLOR_GIVE_LINK = '#00ce2c80';
 const COLOR_RECEIVE_LINK = '#d3860d80';
-const COLOR_LINK = '#00000008';
-const COLOR_LINK_DIM = '#00000004';
+const COLOR_LINK = '#00000015';
+const COLOR_LINK_DIM = '#00000008';
 
 const NODE_R = 5;
 
-const edgeWidthScaler = (f: number) => f * 10 + 1;
-const nodeSizeScaler = (f: number) => NODE_R + f * 8;
-// const nodeBorderScaler = (f: number) => 0.5 + f * 10;
+const edgeWidthScaler = (f: number) => f * 25 + 1;
+// const nodeSizeScaler = (f: number) => NODE_R + f * 8;
+const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 // const edgeForceScaler = (f: number) => 0.1 * f;
 // const linkStrengthToken = (edge: any) => 0.05 / link.tokens;
 // const linkStrengthCounts = (edge: any) => 0.5 / (link.source.linkCount + link.target.linkCount);
@@ -59,7 +58,6 @@ export const AMForceGraph = () => {
   const fgRef = useRef<any>(null);
   const recoilMapGraphData = useMapGraphData();
   const mapContext = useMapContext();
-  const userProfileMap = useUserProfileMap();
   const setAmEgoAddress = useSetAmEgoAddress();
 
   // Use a context so that the ForceGraph2D doesn't need to rerender.
@@ -99,15 +97,15 @@ export const AMForceGraph = () => {
       fallbackAvatar.src = AVATAR_PLACEHOLDER;
       images.current.set('', fallbackAvatar);
     }
-    userProfileMap.forEach((value) => {
-      const path = value.avatar;
+    recoilMapGraphData.nodes.forEach((node) => {
+      const path = (node as IMapNodeFG).img;
       if (path && !images.current.has(path)) {
         const img = new Image();
         img.src = getAvatarPath(path);
         images.current.set(path, img);
       }
     });
-  }, [userProfileMap]);
+  }, [recoilMapGraphData]);
 
   const linkColor = useCallback((edge: IMapEdgeFG) => {
     const { egoAddress, isEgoEdge } = mapCtxRef.current;
@@ -162,9 +160,8 @@ export const AMForceGraph = () => {
       } = mapCtxRef.current;
       const nid = node.id;
 
-      // const width = getNodeMeasure(node, nodeBorderScaler);
-      const radius = getNodeMeasure(node, nodeSizeScaler);
-      const width = 1;
+      const radius = 5;
+      const width = getNodeMeasure(node, nodeBorderScaler);
       const isInBag = bag.has(nid);
 
       let strokeColor = bag.size || egoAddress ? COLOR_NODE_FADE : COLOR_NODE;
@@ -205,6 +202,7 @@ export const AMForceGraph = () => {
             radius * 2
           );
         } catch (error) {
+          // console.error(error);
           // nothing.
         }
       }
@@ -224,6 +222,10 @@ export const AMForceGraph = () => {
     }
   }, []);
 
+  const onBackgroundClick = useCallback(() => {
+    setAmEgoAddress('');
+  }, []);
+
   return (
     <div className={classes.root}>
       <AutoSizer className={classes.autoSizer}>
@@ -236,6 +238,8 @@ export const AMForceGraph = () => {
             nodeRelSize={NODE_R}
             nodeCanvasObject={nodeCanvasObject as (n: NodeObject) => number}
             onNodeClick={onNodeClick as (n: NodeObject) => void}
+            onBackgroundClick={onBackgroundClick}
+            onLinkClick={onBackgroundClick}
             nodeVisibility={isNodeVisible as (n: NodeObject) => boolean}
             linkVisibility={isLinkVisible as (l: LinkObject) => boolean}
             linkColor={linkColor as (l: LinkObject) => string}

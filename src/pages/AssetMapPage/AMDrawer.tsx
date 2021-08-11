@@ -15,6 +15,7 @@ import {
   useMapResults,
   useMapMeasures,
   useSetAmSearch,
+  useTriggerMode,
 } from 'recoilState';
 
 import AMProfileCard from './AMProfileCard';
@@ -102,6 +103,7 @@ const AMDrawer = () => {
   const metric = useMapMetric();
   const rawProfiles = useMapResults();
   const { measures } = useMapMeasures(metric);
+  const showHiddenFeatures = useTriggerMode();
 
   const profiles = useMemo(
     () =>
@@ -131,15 +133,17 @@ const AMDrawer = () => {
       <div className={classes.header}>
         <h5 className={classes.title}>Active Users</h5>
         <div className={classes.controls}>
-          <Button
-            onClick={onRankToggle}
-            variant="contained"
-            color="primary"
-            size="small"
-            className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
-          >
-            <SortIcon />
-          </Button>
+          {showHiddenFeatures && (
+            <Button
+              onClick={onRankToggle}
+              variant="contained"
+              color="primary"
+              size="small"
+              className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
+            >
+              <SortIcon />
+            </Button>
+          )}
           <Autocomplete
             classes={{
               paper: classes.backgroundColorWhite,

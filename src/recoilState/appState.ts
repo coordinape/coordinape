@@ -25,7 +25,6 @@ import {
   IUser,
   IMyUsers,
   IApiFilledProfile,
-  IFilledProfile,
   IApiProfile,
   IEpoch,
   ICircle,
@@ -33,7 +32,6 @@ import {
   ITokenGift,
   IApiTokenGift,
   IApiEpoch,
-  IProfileEmbed,
 } from 'types';
 
 export const rSelectedCircleId = atom<number | undefined>({
@@ -52,6 +50,15 @@ export const rSelectedCircleId = atom<number | undefined>({
   ],
 });
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
+
+// This toggles team only features
+export const rTriggerMode = atom<boolean>({
+  key: 'rTriggerMode',
+  default: false,
+});
+export const useTriggerMode = () => useRecoilValue(rTriggerMode);
+export const useStateTriggerMode = () => useRecoilState(rTriggerMode);
+export const useSetTriggerMode = () => useSetRecoilState(rTriggerMode);
 
 export const rInitialized = atom<boolean>({
   key: 'rInitialized',
@@ -235,6 +242,8 @@ export const rGiftsMap = selector<Map<number, ITokenGift>>({
   key: 'rGiftsMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rPendingGiftsMap).values())
+      // TODO: ensure this can't happen
+      // https://linear.app/yearn/issue/APE-220/research-ways-of-keeping-types-in-sync-better-between-server-and
       // This is crazy, but pending gifts are their own table - Bug city!
       .map((g) => ({ ...g, id: g.id + 100000 } as ITokenGift))
       .concat(get(rPastGiftsMap).values())
@@ -445,36 +454,3 @@ export const rUserGifts = selectorFamily<
 });
 export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));
-
-const createFakeProfile = (u: IUser): IProfileEmbed => ({
-  id: u.id + 100000,
-  address: u.address,
-  avatar: u.avatar ?? '',
-  created_at: u.created_at,
-  updated_at: u.updated_at,
-});
-
-export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
-  key: 'rUserProfileMap',
-  get: ({ get }: IRecoilGetParams) => {
-    // TODO: This could incorporate profiles we get directly
-    return (
-      iti(get(rUsers))
-        .groupBy((u) => u.address)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .map(([_, us]) => {
-          const users = us.toArray();
-          // Deleted users don't have profiles
-          const profile = users.some((u) => u.deleted_at)
-            ? createFakeProfile(users[0])
-            : users[0].profile;
-          return {
-            ...profile,
-            users,
-          } as IFilledProfile;
-        })
-        .toMap((p) => p.address)
-    );
-  },
-});
-export const useUserProfileMap = () => useRecoilValue(rUserProfileMap);
