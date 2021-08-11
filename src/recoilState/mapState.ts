@@ -16,7 +16,6 @@ import {
   rGiftsByEpoch,
   rSelectedCircleId,
   rCircleEpochsStatus,
-  rUserProfileMap,
   rUsersMap,
   rGiftsMap,
 } from './appState';
@@ -34,7 +33,91 @@ import {
   MetricEnum,
   TScaler,
   IFilledProfile,
+  IProfileEmbed,
+  IUser,
 } from 'types';
+
+//
+// Injest App State
+//
+
+// TODO: Think about how best to resolve this sort of thing.
+const FAKE_ID_OFFSET = 100000;
+const FAKE_ADDRESS = '0xFAKE';
+const createFakeProfile = (u: IUser): IProfileEmbed => ({
+  id: u.id + FAKE_ID_OFFSET,
+  address: u.address,
+  avatar: u.avatar ?? '',
+  created_at: u.created_at,
+  updated_at: u.updated_at,
+});
+const createFakeUser = (circleId: number): IUser => ({
+  name: 'HardDelete',
+  id: FAKE_ID_OFFSET - circleId,
+  circle_id: circleId,
+  address: FAKE_ADDRESS,
+  non_giver: 1,
+  fixed_non_receiver: 1,
+  starting_tokens: 100,
+  bio: 'This user was hard deleted, Inconsistent data error.',
+  non_receiver: 1,
+  regift_percent: 1,
+  give_token_received: 0,
+  give_token_remaining: 0,
+  epoch_first_visit: 0,
+  created_at: '2021-07-07T23:29:18.000000Z',
+  updated_at: '2021-07-07T23:29:18.000000Z',
+  deleted_at: '2021-07-07T23:29:18.000000Z',
+  admin_view: 0,
+  role: 1,
+  super: 0,
+  ann_power: 0,
+  is_hidden: 0,
+  profile: {
+    id: FAKE_ID_OFFSET,
+    address: FAKE_ADDRESS,
+    avatar: 'deleted-user_1628632000.jpg',
+    created_at: '2021-07-07T23:29:18.000000Z',
+    updated_at: '2021-07-07T23:29:18.000000Z',
+  },
+});
+
+export const rUserMapWithFake = selector<Map<number, IUser>>({
+  key: 'rUserMapWithFake',
+  get: ({ get }: IRecoilGetParams) => {
+    const usersMap = get(rUsersMap);
+    const updated = new Map(usersMap);
+    iti(usersMap.values())
+      .map((u) => u.circle_id)
+      .distinct()
+      .map((cid) => createFakeUser(cid))
+      .forEach((u) => updated.set(u.id, u));
+
+    return updated;
+  },
+});
+
+export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
+  key: 'rUserProfileMap',
+  get: ({ get }: IRecoilGetParams) =>
+    iti(get(rUserMapWithFake).values())
+      .groupBy((u) => u.address)
+      .map(([, us]) => {
+        // console.log(us);
+        const users = us.toArray();
+        // Deleted users don't have profiles
+        const activeUser = us.find((u) => u.deleted_at !== undefined);
+        const profile = activeUser?.profile
+          ? activeUser.profile
+          : createFakeProfile(assertDef(us.first()));
+        return {
+          ...profile,
+          users,
+        } as IFilledProfile;
+      })
+      .toMap((p) => p.address),
+});
+export const useUserProfileMap = () => useRecoilValue(rUserProfileMap);
 
 //
 // Asset Map Atoms
@@ -94,20 +177,28 @@ export const useMapSearchRegex = () => useRecoilValue(rMapSearchRegex);
 export const rMapGifts = selector<ITokenGift[]>({
   key: 'rMapGifts',
   get: async ({ get }: IRecoilGetParams) => {
+    const selectedCircleId = get(rSelectedCircleId) ?? -1;
     const epochs = get(rMapEpochs);
-    const userMap = get(rUsersMap);
+    const userMap = get(rUserMapWithFake);
+
+    const fakeUser = assertDef(
+      userMap.get(FAKE_ID_OFFSET - selectedCircleId),
+      'Missing fake user'
+    );
     return iti(epochs)
       .map((epoch) =>
         iti(get(rGiftsByEpoch).get(epoch.id) ?? []).map((g) => {
+          // const recipient = assertDef(
+          //   userMap.get(g.recipient_id),
+          //   `Missing recipient for gift ${g.id}, address: ${g.recipient_id} `
+          // );
+          // const sender = assertDef(
+          //   userMap.get(g.sender_id),
+          //   `Missing sender for gift ${g.id}, sender: ${g.sender_id} `
+          // );
           // Addresses may have changed, so update them here.
-          const recipient = assertDef(
-            userMap.get(g.recipient_id),
-            `Missing recipient for gift ${g.id}, address: ${g.recipient_id} `
-          );
-          const sender = assertDef(
-            userMap.get(g.sender_id),
-            `Missing sender for gift ${g.id}, sender: ${g.sender_id} `
-          );
+          const recipient = userMap.get(g.recipient_id) ?? fakeUser;
+          const sender = userMap.get(g.sender_id) ?? fakeUser;
           return {
             ...g,
             recipient_address: recipient.address,
@@ -129,7 +220,7 @@ export const rMapGraphData = selector<GraphData>({
     const epochs = get(rMapEpochs);
     const epochsMap = iti(epochs).toMap((e) => e.id);
     const gifts = iti(get(rMapGifts));
-    const profileMap = get(rUserProfileMap);
+    const userProfileMap = get(rUserProfileMap);
     if (epochs.length === 0) {
       return { links: [], nodes: [] };
     }
@@ -166,7 +257,7 @@ export const rMapGraphData = selector<GraphData>({
         .map((key) => {
           const [epochIdStr, address] = key.split('@');
           const profile = assertDef(
-            profileMap.get(address),
+            userProfileMap.get(address),
             `Missing profile = ${address} in rMapGraphData`
           );
           const epoch = assertDef(
@@ -183,6 +274,7 @@ export const rMapGraphData = selector<GraphData>({
           return {
             id: address,
             img: profile.avatar ?? '',
+            profile,
             name: user.name,
             epochId: epoch.id,
             userId: user.id,

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
 // import RecoilizeDebugger from 'recoilize';
 
 import {
@@ -16,6 +16,7 @@ import {
   rGlobalLoading,
   rGlobalLoadingText,
   rCircleSelectorOpen,
+  rTriggerMode,
   useConnectorName,
   useStateMyAddress,
 } from 'recoilState';
@@ -75,6 +76,18 @@ export const RecoilAppController = () => {
   );
   const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
+  const recoilCallback = useRecoilCallback(
+    ({ set }) => async (active: boolean) => {
+      set(rTriggerMode, active);
+    }
+  );
+
+  useEffect(() => {
+    // Setup dev tool: trigger mode
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.mode = recoilCallback;
+  }, [recoilCallback]);
 
   useEffect(() => {
     if (

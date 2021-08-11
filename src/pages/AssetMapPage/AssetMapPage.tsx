@@ -10,6 +10,7 @@ import {
   useStateAmMetric,
   useSelectedCircle,
   useSetAmEgoAddress,
+  useTriggerMode,
 } from 'recoilState';
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 import { assertDef } from 'utils/tools';
@@ -68,6 +69,7 @@ export const AssetMapPage = () => {
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
   const [metric, setMetric] = useStateAmMetric();
   const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
+  const showHiddenFeatures = useTriggerMode();
 
   const metricOptions = [
     {
@@ -128,11 +130,13 @@ export const AssetMapPage = () => {
           options={epochOptions}
           onChange={(v) => setAmEpochId(v as number)}
         />
-        <RedSelect
-          value={metric}
-          options={metricOptions}
-          onChange={(v) => setMetric(v as MetricEnum)}
-        />
+        {showHiddenFeatures && (
+          <RedSelect
+            value={metric}
+            options={metricOptions}
+            onChange={(v) => setMetric(v as MetricEnum)}
+          />
+        )}
       </div>
     </div>
   );

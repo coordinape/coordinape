@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rootSelected: {
-    backgroundColor: 'hsla(183, 40%, 65%, 0.15)',
-    '& $scale': {
-      backgroundColor: 'hsla(183, 40%, 65%, 0.2)',
-    },
+    backgroundColor: 'hsla(183, 40%, 65%, 0.3)',
+    // '& $scale': {
+    //   backgroundColor: 'hsla(183, 40%, 65%, 0.2)',
+    // },
   },
   scale: {
     position: 'absolute',
