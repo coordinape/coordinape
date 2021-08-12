@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField } from 'components';
 import { useAdminApi } from 'hooks';
-import { UploadIcon } from 'icons';
+import { UploadIcon, EditIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
@@ -80,6 +80,36 @@ const useStyles = makeStyles((theme) => ({
     columnGap: theme.spacing(3),
     rowGap: theme.spacing(2),
   },
+  bottomContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  subTitle: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
+  input: {
+    width: 500,
+    padding: theme.spacing(1.5),
+    fontSize: 15,
+    fontWeight: 500,
+    color: theme.colors.text,
+    background: theme.colors.background,
+    borderRadius: theme.spacing(1),
+    border: 0,
+    outline: 'none',
+    textAlign: 'center',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+  webhookButtonContainer: {
+    position: 'relative',
+    textAlign: 'center',
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export const EditCircleModal = ({
@@ -92,7 +122,7 @@ export const EditCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle, updateCircleLogo } = useAdminApi();
+  const { updateCircle, updateCircleLogo, getDiscordWebhook } = useAdminApi();
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
@@ -101,7 +131,8 @@ export const EditCircleModal = ({
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
   const [allocText, setAllocText] = useState<string>(circle.allocText);
-
+  const [allowEdit, setAllowEdit] = useState<number>(0);
+  const [webhook, setWebhook] = useState<string>('');
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -111,6 +142,12 @@ export const EditCircleModal = ({
         avatarRaw: e.target.files[0],
       });
     }
+  };
+
+  const editDiscordWebhook = async () => {
+    const _webhook = await getDiscordWebhook();
+    setWebhook(_webhook);
+    setAllowEdit(1);
   };
 
   const onChangeWith = (set: (v: string) => void) => (
@@ -132,13 +169,16 @@ export const EditCircleModal = ({
       circleName !== circle.name ||
       tokenName !== circle.tokenName ||
       teamSelText !== circle.teamSelText ||
-      allocText !== circle.allocText
+      allocText !== circle.allocText ||
+      allowEdit
     ) {
       updateCircle({
         name: circleName,
         token_name: tokenName,
         team_sel_text: teamSelText,
         alloc_text: allocText,
+        discord_webhook: webhook,
+        update_webhook: allowEdit,
       });
     }
   };
@@ -148,7 +188,8 @@ export const EditCircleModal = ({
     circleName !== circle.name ||
     tokenName !== circle.tokenName ||
     teamSelText !== circle.teamSelText ||
-    allocText !== circle.allocText;
+    allocText !== circle.allocText ||
+    allowEdit;
 
   return (
     <FormModal
@@ -214,6 +255,29 @@ export const EditCircleModal = ({
           }}
           fullWidth
         />
+      </div>
+      <div className={classes.bottomContainer}>
+        <p className={classes.subTitle}>Discord Webhook</p>
+        <input
+          readOnly={!allowEdit}
+          className={classes.input}
+          onChange={onChangeWith(setWebhook)}
+          value={webhook}
+        />
+        <div className={classes.webhookButtonContainer}>
+          {!allowEdit ? (
+            <Button
+              onClick={editDiscordWebhook}
+              variant="contained"
+              size="small"
+              startIcon={<EditIcon />}
+            >
+              Edit WebHook
+            </Button>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     </FormModal>
   );
