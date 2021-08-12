@@ -18,10 +18,12 @@ export interface IApiCircle {
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
+  default_opt_in: number;
 }
 
 export interface ICircle extends IApiCircle {
   tokenName: string;
   teamSelText: string;
   allocText: string;
+  defaultOptIn: number;
 }

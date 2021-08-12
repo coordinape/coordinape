@@ -52,6 +52,7 @@ export interface PutCirclesParam {
   alloc_text?: string;
   discord_webhook?: string;
   update_webhook: number;
+  default_opt_in: number;
 }
 
 export interface UpdateCreateEpochParam {
