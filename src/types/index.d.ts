@@ -3,6 +3,7 @@ export * from './api.circle';
 export * from './api.epoch';
 export * from './api.gift';
 export * from './api.user.profile';
+export * from './api.nominee';
 export * from './d3-force-3d';
 export * from './global';
 export * from './graph';

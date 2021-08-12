@@ -12,6 +12,8 @@ import {
   IApiCircle,
   IApiTokenGift,
   IApiUser,
+  INominee,
+  IApiNominee,
 } from 'types';
 
 export const timingToLeastUnit = (timing: ITiming) => {
@@ -184,6 +186,9 @@ export const createCircleWithDefaults = (circle: IApiCircle): ICircle => {
     allocText:
       circle.alloc_text ||
       `Thank your teammates by allocating them ${tokenName}`,
+    vouchingText:
+      circle.vouching_text ||
+      `Think someone new should be added to the ${circle.name} circle?\nNominate or vouch for them here.`,
   };
 };
 
@@ -211,4 +216,25 @@ export const updatedUserMapWithoutProfile = (
       profile: usersMap.get(id)?.profile,
     } as IUser)
   );
+};
+
+export const createExtendedNominee = (
+  nominee: IApiNominee,
+  usersMap: Map<number, IUser>
+): INominee => {
+  return {
+    ...nominee,
+    ended: nominee.ended === 1,
+    expiryDate: moment.utc(nominee.expiry_date),
+    nominatedDate: moment.utc(nominee.nominated_date),
+    // TODO: Exrhizo: I mentioned to Zashton we might only send ids,
+    // this way the profile is included without extra joins.
+    nominations: nominee.nominations
+      .map((u) => usersMap.get(u.id))
+      .filter((u): u is IUser => !!u),
+    vouchesNeeded: Math.max(
+      0,
+      nominee.vouches_required - nominee.nominations.length - 1
+    ),
+  };
 };
