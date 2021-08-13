@@ -163,7 +163,9 @@ export const EditCircleModal = ({
   const [allocText, setAllocText] = useState<string>(circle.allocText);
   const [allowEdit, setAllowEdit] = useState<number>(0);
   const [webhook, setWebhook] = useState<string>('');
-  const [defaultOptIn, setDefaultOptIn] = useState<number>(circle.defaultOptIn);
+  const [defaultOptIn, setDefaultOptIn] = useState<number>(
+    circle.default_opt_in
+  );
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -202,7 +204,7 @@ export const EditCircleModal = ({
       teamSelText !== circle.teamSelText ||
       allocText !== circle.allocText ||
       allowEdit ||
-      defaultOptIn !== circle.defaultOptIn
+      defaultOptIn !== circle.default_opt_in
     ) {
       updateCircle({
         name: circleName,
@@ -223,7 +225,7 @@ export const EditCircleModal = ({
     teamSelText !== circle.teamSelText ||
     allocText !== circle.allocText ||
     allowEdit ||
-    defaultOptIn !== circle.defaultOptIn;
+    defaultOptIn !== circle.default_opt_in;
 
   return (
     <FormModal

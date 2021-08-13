@@ -25,5 +25,4 @@ export interface ICircle extends IApiCircle {
   tokenName: string;
   teamSelText: string;
   allocText: string;
-  defaultOptIn: number;
 }

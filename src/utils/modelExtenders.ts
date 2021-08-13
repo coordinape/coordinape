@@ -177,7 +177,6 @@ export const createCircleWithDefaults = (circle: IApiCircle): ICircle => {
   const tokenName = circle.token_name || 'GIVE';
   return {
     ...circle,
-    defaultOptIn: circle.default_opt_in,
     tokenName,
     teamSelText:
       circle.team_sel_text ||
