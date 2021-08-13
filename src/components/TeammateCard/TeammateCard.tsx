@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { transparentize } from 'polished';
 import { NavLink } from 'react-router-dom';
 
 import {
@@ -13,12 +14,6 @@ import {
 } from '@material-ui/core';
 
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
-import { ReactComponent as DiscordSVG } from 'assets/svgs/social/discord.svg';
-import { ReactComponent as GithubSVG } from 'assets/svgs/social/github.svg';
-import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
-import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
-import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
-import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
 import { ApeAvatar, ProfileSocialIcons, ApeTextField } from 'components';
 import { PlusCircleIcon, MinusCircleIcon } from 'icons';
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
@@ -37,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     display: 'inline-block',
     alignItems: 'center',
-    background: '#DFE7E8',
+    background: theme.colors.background,
     borderRadius: 10.75,
     wordBreak: 'break-all',
     textAlign: 'center',
@@ -46,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: 0,
     top: 0,
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     maxWidth: 'calc(50% - 50px)',
   },
   socialItem: {
@@ -62,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     right: 0,
     top: 0,
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     maxWidth: 'calc(50% - 50px)',
@@ -125,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
   },
   skillItem: {
     margin: theme.spacing(0.5),
-    padding: theme.spacing(0.5, 1.5),
+    padding: theme.spacing(0.2, 1.7),
     background: theme.colors.lightBlue,
     textAlign: 'center',
     fontSize: 14,
@@ -170,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   alertLabel: {
-    width: '80%',
+    width: '70%',
     margin: `${theme.spacing(0.5)}px 0`,
     fontSize: 12,
     fontWeight: 700,
@@ -190,14 +185,29 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 12,
     },
     '&.MuiInputBase-root': {
-      backgroundColor: 'white',
+      backgroundColor: transparentize(0.3, theme.colors.white),
+      padding: theme.spacing(1.5, 0),
+    },
+  },
+  spinButton: {
+    '&:first-of-type': {
+      paddingLeft: theme.spacing(1),
+      paddingRight: 0,
+    },
+    '&:last-of-type': {
+      paddingLeft: 0,
+      paddingRight: theme.spacing(1),
     },
   },
   tokenInput: {
+    '& input': {
+      fontSize: 25,
+    },
     '&.MuiInputBase-root': {
       backgroundColor: 'white',
     },
-    width: 165,
+    width: 140,
+    height: 36,
   },
 }));
 
@@ -337,14 +347,21 @@ export const TeammateCard = (props: IProps) => {
                 },
                 startAdornment: (
                   <IconButton
+                    className={classes.spinButton}
                     disabled={disabled}
                     onClick={() => spinTokens(-1)}
+                    disableRipple
                   >
                     <MinusCircleIcon />
                   </IconButton>
                 ),
                 endAdornment: (
-                  <IconButton disabled={disabled} onClick={() => spinTokens(1)}>
+                  <IconButton
+                    className={classes.spinButton}
+                    disabled={disabled}
+                    onClick={() => spinTokens(1)}
+                    disableRipple
+                  >
                     <PlusCircleIcon />
                   </IconButton>
                 ),
