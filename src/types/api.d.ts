@@ -47,12 +47,16 @@ export interface PostCirclesParam {
 
 export interface PutCirclesParam {
   name: string;
+  vouching: number;
   token_name: string;
+  min_vouches: number;
   team_sel_text?: string;
+  nomination_days_limit: number;
   alloc_text?: string;
   discord_webhook?: string;
   update_webhook: number;
   default_opt_in: number;
+  vouching_text?: string;
 }
 
 export interface UpdateCreateEpochParam {
@@ -61,4 +65,10 @@ export interface UpdateCreateEpochParam {
   repeat: number; // (0 = no repeat, 1 = weekly, 2 = monthly)
   days: number; // (minimum 1 - 100 maximum)
   grant?: number; // decimal
+}
+
+export interface NominateUserParam {
+  name: string;
+  address: string;
+  description: string;
 }

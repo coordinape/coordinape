@@ -18,6 +18,7 @@ export const getMyTeamPath = () => '/team';
 export const getMyEpochPath = () => '/epoch';
 export const getGivePath = () => '/give';
 export const getMapPath = () => '/map';
+export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
 export const getProfilePath = (address: string) => `/profile/${address}`;
@@ -41,10 +42,23 @@ const NAV_ITEM_ALLOCATE = {
 
 export const getMainNavigation = ({
   asCircleAdmin,
-}: { asCircleAdmin?: boolean } = {}): INavItem[] => {
-  const mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
+  asVouchingEnabled,
+}: {
+  asCircleAdmin?: boolean;
+  asVouchingEnabled?: boolean;
+} = {}): INavItem[] => {
+  let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
+  const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
   const adminItems = [{ path: getAdminPath(), label: 'Admin' }];
-  return asCircleAdmin ? [...mainItems, ...adminItems] : mainItems;
+
+  if (asVouchingEnabled) {
+    mainItems = [...mainItems, ...vouchingItems];
+  }
+  if (asCircleAdmin) {
+    mainItems = [...mainItems, ...adminItems];
+  }
+
+  return mainItems;
 };
 
 export const getMenuNavigation = (): INavItem[] => [

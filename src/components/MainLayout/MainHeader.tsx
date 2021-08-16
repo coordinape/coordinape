@@ -12,7 +12,7 @@ import {
   ReceiveInfo,
   MyAvatarMenu,
 } from 'components';
-import { useSelectedCircleEpoch, useMe } from 'hooks';
+import { useSelectedCircleEpoch, useMe, useCircle } from 'hooks';
 import { rMyAddress } from 'recoilState';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
@@ -104,12 +104,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const HeaderNav = () => {
   const classes = useStyles();
+  const { selectedCircle } = useCircle();
   const { selectedMyUser, hasAdminView } = useMe();
 
   const navButtonsVisible = !!selectedMyUser || hasAdminView;
-
   const navItems = getMainNavigation({
     asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
+    asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
   });
   return (
     <div className={classes.navLinks}>
