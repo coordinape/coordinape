@@ -1,11 +1,13 @@
 import React from 'react';
 
+import DateFnsUtils from '@date-io/date-fns';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
 import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {
@@ -33,15 +35,17 @@ function App() {
       <SnackbarProvider maxSnack={3}>
         <ErrorBoundary>
           <ThemeProvider theme={theme}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-              <BrowserRouter>
-                <MainLayout>
-                  <RecoilAppController />
-                  <SentryScopeController />
-                  <RenderRoutes />
-                </MainLayout>
-              </BrowserRouter>
-            </Web3ReactProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Web3ReactProvider getLibrary={getLibrary}>
+                <BrowserRouter>
+                  <MainLayout>
+                    <RecoilAppController />
+                    <SentryScopeController />
+                    <RenderRoutes />
+                  </MainLayout>
+                </BrowserRouter>
+              </Web3ReactProvider>
+            </MuiPickersUtilsProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </SnackbarProvider>
