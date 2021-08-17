@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles, Button, MenuItem, Select } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField } from 'components';
 import { useAdminApi } from 'hooks';
@@ -178,6 +178,36 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: theme.spacing(2),
   },
+  topContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  selectRoot: {
+    padding: theme.spacing(0.8),
+    justifyContent: 'center',
+    fontSize: 15,
+    fontWeight: 500,
+    color: theme.colors.text,
+    background: theme.colors.background,
+    borderRadius: theme.spacing(1),
+  },
+  select: {
+    paddingLeft: theme.spacing(10),
+  },
+  selectIcon: {
+    marginRight: theme.spacing(10),
+    fill: theme.colors.text,
+  },
+  menuItem: {
+    justifyContent: 'center',
+    fontSize: 15,
+    fontWeight: 500,
+    color: theme.colors.text,
+  },
+  menuItemSelected: {
+    background: `${theme.colors.third} !important`,
+  },
 }));
 
 export const EditCircleModal = ({
@@ -206,8 +236,10 @@ export const EditCircleModal = ({
   const [allocText, setAllocText] = useState<string>(circle.allocText);
   const [allowEdit, setAllowEdit] = useState<number>(0);
   const [webhook, setWebhook] = useState<string>('');
+  const [defaultOptIn, setDefaultOptIn] = useState<number>(
+    circle.default_opt_in
+  );
   const [vouchingText, setVouchingText] = useState<string>(circle.vouchingText);
-
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -252,6 +284,7 @@ export const EditCircleModal = ({
       teamSelText !== circle.teamSelText ||
       allocText !== circle.allocText ||
       allowEdit ||
+      defaultOptIn !== circle.default_opt_in ||
       nominationDaysLimit !== circle.nomination_days_limit ||
       allocText !== circle.allocText ||
       vouchingText !== circle.vouchingText
@@ -266,6 +299,7 @@ export const EditCircleModal = ({
         alloc_text: allocText,
         discord_webhook: webhook,
         update_webhook: allowEdit,
+        default_opt_in: defaultOptIn,
         vouching_text: vouchingText,
       }).then(() => {
         onClose();
@@ -281,10 +315,10 @@ export const EditCircleModal = ({
     teamSelText !== circle.teamSelText ||
     allocText !== circle.allocText ||
     allowEdit ||
+    defaultOptIn !== circle.default_opt_in ||
     nominationDaysLimit !== circle.nomination_days_limit ||
     allocText !== circle.allocText ||
     vouchingText !== circle.vouchingText;
-
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -413,6 +447,32 @@ export const EditCircleModal = ({
             fullWidth
             disabled={vouching === 0}
           />
+        </div>
+        <div className={classes.topContainer}>
+          <p className={classes.subTitle}>Default Opt In?</p>
+          <Select
+            className={classes.selectRoot}
+            classes={{
+              select: classes.select,
+              icon: classes.selectIcon,
+            }}
+            disableUnderline
+            onChange={({ target: { value } }) =>
+              setDefaultOptIn(value as number)
+            }
+            value={defaultOptIn}
+          >
+            {[1, 0].map((value) => (
+              <MenuItem
+                className={classes.menuItem}
+                classes={{ selected: classes.menuItemSelected }}
+                key={value}
+                value={value}
+              >
+                {value === 1 ? 'Yes' : 'No'}
+              </MenuItem>
+            ))}
+          </Select>
         </div>
       </div>
       <div className={classes.bottomContainer}>

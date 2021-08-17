@@ -55,6 +55,7 @@ export interface PutCirclesParam {
   alloc_text?: string;
   discord_webhook?: string;
   update_webhook: number;
+  default_opt_in: number;
   vouching_text?: string;
 }
 

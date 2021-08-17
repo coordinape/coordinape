@@ -23,6 +23,7 @@ export interface IApiCircle {
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
+  default_opt_in: number;
   vouching: number;
   min_vouches: number;
   nomination_days_limit: number;
