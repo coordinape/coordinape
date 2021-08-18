@@ -183,6 +183,7 @@ const useStyles = makeStyles((theme) => ({
   noteTextarea: {
     '& textarea': {
       fontSize: 12,
+      wordBreak: 'normal',
     },
     '&.MuiInputBase-root': {
       backgroundColor: transparentize(0.3, theme.colors.white),

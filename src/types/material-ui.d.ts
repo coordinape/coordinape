@@ -18,6 +18,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       lightGray: string;
       mediumGray: string;
       text: string;
+      lightText: string;
       primary: string;
       secondary: string;
       third: string;
@@ -29,6 +30,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       almostWhite: string;
       lightBlue: string;
       placeholder: string;
+      placeholderDark: string;
     };
     fontFamilyMono: string[];
   }

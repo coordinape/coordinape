@@ -124,8 +124,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.text,
-      opacity: 0.35,
+      color: theme.colors.placeholderDark,
     },
   },
   sortButtonContainer: {
@@ -183,15 +182,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
     paddingRight: theme.spacing(2.5),
     fontSize: 15,
-    fontWeight: 500,
+    fontWeight: 400,
     textTransform: 'none',
-    color: 'rgba(81, 99, 105, 0.35)',
-    background: '#E1E1E1',
+    color: theme.colors.placeholderDark,
+    background: theme.colors.lightBackground,
     borderRadius: theme.spacing(3),
+    '&:hover': {
+      background: theme.colors.lightBackground,
+    },
     '&.selected': {
       paddingRight: theme.spacing(1.5),
       color: theme.colors.text,
-      background: '#DFE7E8',
+      background: theme.colors.background,
     },
     '&.unmatched': {
       opacity: 0.3,

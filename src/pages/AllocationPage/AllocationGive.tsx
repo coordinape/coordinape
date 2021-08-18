@@ -84,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingLeft: theme.spacing(1),
     fontSize: 14,
-    fontWeight: 500,
-    color: 'rgba(81, 99, 105, 0.35)',
+    fontWeight: 400,
+    color: theme.colors.lightText,
   },
   filterButtonContainer: {
     display: 'flex',
@@ -95,12 +95,12 @@ const useStyles = makeStyles((theme) => ({
     height: 17,
     padding: theme.spacing(0, 1),
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: 400,
     textTransform: 'none',
-    color: 'rgba(81, 99, 105, 0.35)',
+    color: theme.colors.lightText,
     '&:hover': {
       background: 'none',
-      color: 'rgba(81, 99, 105, 0.75)',
+      color: theme.colors.text,
     },
     '&:first-of-type': {
       border: 'solid',
@@ -109,10 +109,10 @@ const useStyles = makeStyles((theme) => ({
       borderLeftWidth: 0,
       borderRightWidth: 1,
       borderRadius: 0,
-      borderColor: 'rgba(81, 99, 105, 0.35)',
+      borderColor: theme.colors.lightText,
     },
     '&.selected': {
-      color: theme.colors.selected,
+      color: theme.colors.lightBlue,
     },
   },
   sortButtonContainer: {
@@ -124,18 +124,18 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingRight: theme.spacing(1),
     fontSize: 14,
-    fontWeight: 500,
-    color: 'rgba(81, 99, 105, 0.35)',
+    fontWeight: 400,
+    color: theme.colors.lightText,
   },
   sortButton: {
     height: 17,
     padding: theme.spacing(0, 1),
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: 400,
     textTransform: 'none',
-    color: 'rgba(81, 99, 105, 0.35)',
+    color: theme.colors.lightText,
     border: 'solid',
-    borderColor: 'rgba(81, 99, 105, 0.35)',
+    borderColor: theme.colors.lightText,
     borderTopWidth: 0,
     borderBottomWidth: 0,
     borderLeftWidth: 1,
@@ -143,7 +143,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     '&:hover': {
       background: 'none',
-      color: 'rgba(81, 99, 105, 0.75)',
+      color: theme.colors.text,
     },
     '&:first-of-type': {
       borderLeftWidth: 0,
@@ -152,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
       borderRightWidth: 0,
     },
     '&.selected': {
-      color: theme.colors.selected,
+      color: theme.colors.lightBlue,
     },
   },
   teammateContainer: {

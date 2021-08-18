@@ -9,6 +9,7 @@ const color = {
   lightGray: '#C3CDCF',
   mediumGray: '#A7B0B4',
   text: '#516369',
+  lightText: '#859296',
   primary: '#5E6F74',
   secondary: '#56606f',
   third: '#EAEAEB',
@@ -21,5 +22,6 @@ const color = {
   almostWhite: '#F6F7F8',
   lightBlue: '#84C7CA',
   placeholder: '#99A2A5',
+  placeholderDark: '#7C898D',
 };
 export default color;
