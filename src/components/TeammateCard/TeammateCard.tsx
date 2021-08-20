@@ -344,9 +344,7 @@ export const TeammateCard = (props: IProps) => {
               <div key="Admin" className={classes.adminSkillItem}>
                 Admin
               </div>
-            ) : (
-              ''
-            )}
+            ) : undefined}
           </div>
         )}
         <div className={classes.bioContainer}>
