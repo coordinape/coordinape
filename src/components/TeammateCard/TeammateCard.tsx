@@ -128,6 +128,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.white,
     borderRadius: 4,
   },
+  adminSkillItem: {
+    margin: theme.spacing(0.5),
+    padding: theme.spacing(0.2, 1.7),
+    background: theme.colors.black,
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: 600,
+    color: theme.colors.white,
+    borderRadius: 4,
+  },
   bioContainer: {
     marginTop: theme.spacing(0.5),
     marginBottom: 0,
@@ -273,7 +283,9 @@ export const TeammateCard = (props: IProps) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'more-popover' : undefined;
-
+  const hasSkills =
+    user?.role == 1 ||
+    (user?.profile?.skills && user.profile.skills.length > 0);
   // Return
   return (
     <div className={classes.root}>
@@ -319,13 +331,20 @@ export const TeammateCard = (props: IProps) => {
       </Popover>
       <p className={classes.name}>{user.name}</p>
       <div className={classes.topContainer}>
-        {user?.profile?.skills && user.profile.skills.length > 0 && (
+        {hasSkills && (
           <div className={classes.skillContainer}>
-            {user.profile.skills.slice(0, 3).map((skill) => (
-              <div key={skill} className={classes.skillItem}>
-                {skill}
+            {user?.profile?.skills &&
+              user.profile.skills.length > 0 &&
+              user.profile.skills.slice(0, 3).map((skill) => (
+                <div key={skill} className={classes.skillItem}>
+                  {skill}
+                </div>
+              ))}
+            {user?.role == 1 ? (
+              <div key="Admin" className={classes.adminSkillItem}>
+                Admin
               </div>
-            ))}
+            ) : undefined}
           </div>
         )}
         <div className={classes.bioContainer}>
