@@ -136,20 +136,17 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.lightText,
     border: 'solid',
     borderColor: theme.colors.lightText,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderWidth: 0,
     borderRadius: 0,
     '&:hover': {
       background: 'none',
       color: theme.colors.text,
     },
     '&:first-of-type': {
-      borderLeftWidth: 0,
+      borderRightWidth: 1,
     },
     '&:last-of-type': {
-      borderRightWidth: 0,
+      borderLeftWidth: 1,
     },
     '&.selected': {
       color: theme.colors.lightBlue,
