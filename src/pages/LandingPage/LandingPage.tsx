@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   headerTitle: {
     textAlign: 'center',
     width: '100%',
+    maxWidth: 848,
     marginTop: 132,
     padding: '0 23px 0',
     [theme.breakpoints.down('sm')]: {
@@ -75,14 +76,18 @@ const useStyles = makeStyles((theme) => ({
   },
   headerButtons: {
     width: '100%',
-    marginTop: 55,
+    marginTop: 76,
     display: 'flex',
     justifyContent: 'center',
     '& button:first-child': {
       marginRight: 20,
+      [theme.breakpoints.down('sm')]: {
+        marginRight: 0,
+      },
     },
     '& button': {
-      width: 214,
+      width: 240,
+      height: 48,
     },
   },
   logo: {
@@ -91,6 +96,48 @@ const useStyles = makeStyles((theme) => ({
   walletButton: {
     marginTop: 20,
     marginRight: 11,
+  },
+  descriptionContainer: {
+    width: '100%',
+    marginTop: 82,
+    marginBottom: 63,
+    padding: theme.spacing(0, 18),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 44,
+      marginBottom: 25,
+      padding: theme.spacing(0, 3),
+    },
+  },
+  descriptionUnderlineBox: {
+    padding: theme.spacing(0, 10, 1.5),
+    textAlign: 'center',
+    borderBottom: '0.5px solid rgba(81, 99, 105, 0.7)',
+    marginBottom: 61,
+    opacity: 0.9,
+    whiteSpace: 'pre-line',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 23,
+    },
+  },
+  descriptionText: {
+    marginTop: 0,
+    marginBottom: 61,
+    fontSize: 34,
+    fontWeight: 400,
+    color: theme.colors.text,
+    whiteSpace: 'pre-line',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 23,
+      fontSize: 24,
+    },
+  },
+  descriptionEmoji: {
+    margin: 0,
+    fontSize: 70,
+    fontWeight: 400,
   },
   valuePropContainer: {
     backgroundColor: theme.colors.almostWhite,
@@ -101,10 +148,12 @@ const useStyles = makeStyles((theme) => ({
   },
   underlineBox: {
     textAlign: 'center',
-    padding: '72px 0 12px',
+    margin: theme.spacing(0, 5),
+    padding: theme.spacing(9, 1, 1.5),
     borderBottom: '0.5px solid rgba(81, 99, 105, 0.7)',
-    marginBottom: 147,
+    marginBottom: 87,
     opacity: 0.9,
+    whiteSpace: 'pre-line',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 49,
     },
@@ -150,14 +199,26 @@ const useStyles = makeStyles((theme) => ({
   },
   questionContainer: {
     width: '100%',
+    maxWidth: 850,
+    margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: '140px 12px',
+    whiteSpace: 'pre-line',
+    padding: '140px 32px',
     '& > *:first-child': {
-      marginBottom: '23px',
+      marginBottom: '11px',
+    },
+    '& p': {
+      fontSize: 20,
+      fontWeight: 300,
+      marginTop: 0,
+      marginBottom: '20px',
+    },
+    '& button': {
+      marginTop: '16px',
     },
     [theme.breakpoints.down('sm')]: {
       padding: '90px 11px',
@@ -325,14 +386,15 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
+            <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
                 color="secondary"
+                startIcon={<DiscordIcon />}
                 size="small"
                 disableElevation={isDownXs}
               >
-                Get Started
+                Join our Discord
               </Button>
             </a>
 
@@ -351,10 +413,31 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      <div className={classes.descriptionContainer}>
+        <Box className={classes.descriptionUnderlineBox}>
+          <Typography variant="subtitle1">Why Coordinape?</Typography>
+        </Box>
+        <p className={classes.descriptionText}>
+          The promise of DAOs is decentralized collaboration, with teams of
+          people working together solve big problems and sharing in the rewards
+          of their efforts.{'\n\n'}On this new frontier we face new kinds of
+          coordination problems. We need to compensate and recognize eachother
+          for the effort and passion we pour into DAOs.{'\n\n'}Coordinape is a
+          tool to do just that. We go beyond just paying people –we make the
+          experience of working with DAOs more rewarding, human and fair.
+        </p>
+        <span
+          role="img"
+          aria-label="coordinape"
+          className={classes.descriptionEmoji}
+        >
+          🤝 🦍
+        </span>
+      </div>
       <div className={classes.valuePropContainer}>
         <Box className={classes.underlineBox}>
           <Typography variant="subtitle1">
-            What can Coordinape help you do?
+            How can Coordinape help your DAO?
           </Typography>
         </Box>
         <div className={classes.valueProps}>
@@ -387,7 +470,7 @@ const LandingPage = () => {
             color="secondary"
             disableElevation={isDownXs}
           >
-            Read our Medium Article
+            Read Our Medium Article
           </Button>
         </a>
       </div>
@@ -419,13 +502,19 @@ const LandingPage = () => {
         <Typography variant="h3">
           Interested in starting your own circle?
         </Typography>
-        <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
+        <p>
+          We&apos;re launching a permisionless onchain version soon. In the
+          meantime, come say hi in our Discord and let us know more about your
+          project
+        </p>
+        <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
             color="secondary"
+            startIcon={<DiscordIcon />}
             disableElevation={isDownXs}
           >
-            Get Started
+            Join our Discord
           </Button>
         </a>
       </div>
@@ -433,11 +522,6 @@ const LandingPage = () => {
         <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
           <Button startIcon={<DocsIcon />} className={classes.footerLink}>
             Docs
-          </Button>
-        </a>
-        <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
-          <Button startIcon={<DiscordIcon />} className={classes.footerLink}>
-            Discord
           </Button>
         </a>
         <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
