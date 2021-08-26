@@ -501,11 +501,11 @@ const LandingPage = () => {
         <Typography variant="h3">
           Interested in starting your own circle?
         </Typography>
-        <p>
+        {/* <p>
           We&apos;re launching a permisionless onchain version soon. In the
           meantime, come say hi in our Discord and let us know more about your
           project
-        </p>
+        </p> */}
         <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
