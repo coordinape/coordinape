@@ -127,7 +127,8 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const { selectedMyUser } = useMe();
   const vouchDisabled = selectedMyUser
     ? nominee.nominated_by_user_id === selectedMyUser.id ||
-      nominee.nominations.some((user) => user.id === selectedMyUser.id)
+      nominee.nominations.some((user) => user.id === selectedMyUser.id) ||
+      selectedMyUser.non_giver !== 0
     : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null

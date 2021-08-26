@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, makeStyles } from '@material-ui/core';
 
+import { useMe } from 'hooks';
 import { useSelectedCircle, useActiveNominees } from 'recoilState';
 
 import NewNominationModal from './NewNominationModal';
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const VouchingPage = () => {
   const classes = useStyles();
+  const { selectedMyUser } = useMe();
   const circle = useSelectedCircle();
   const activeNominees = useActiveNominees();
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
@@ -65,6 +67,7 @@ export const VouchingPage = () => {
         variant="contained"
         color="primary"
         className={classes.nominateButton}
+        disabled={selectedMyUser?.non_giver !== 0}
         onClick={() => setNewNomination(true)}
       >
         Nominate New Member
