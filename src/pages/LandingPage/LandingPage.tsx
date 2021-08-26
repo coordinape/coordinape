@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& button': {
-      width: 240,
+      width: 214,
       height: 48,
     },
   },
@@ -386,15 +386,14 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
+            <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
                 color="secondary"
-                startIcon={<DiscordIcon />}
                 size="small"
                 disableElevation={isDownXs}
               >
-                Join our Discord
+                Get Started
               </Button>
             </a>
 
