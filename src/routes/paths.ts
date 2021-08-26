@@ -27,6 +27,7 @@ interface INavItem {
   label: string;
   path: string;
   icon?: (props: any) => JSX.Element;
+  isExternal?: boolean;
   subItems?: INavItem[];
 }
 
@@ -38,6 +39,26 @@ const NAV_ITEM_ALLOCATE = {
   path: getAllocationPath(),
   label: 'Allocate',
   subItems: [NAV_ITEM_EPOCH, NAV_ITEM_TEAM, NAV_ITEM_GIVE],
+};
+const NAV_ITEM_LANDING_PAGE = {
+  path: EXTERNAL_URL_LANDING_PAGE,
+  label: 'coordinape.com',
+  isExternal: true,
+};
+const NAV_ITEM_DISCORD = {
+  path: EXTERNAL_URL_DISCORD,
+  label: 'Discord',
+  isExternal: true,
+};
+const NAV_ITEM_TWITTER = {
+  path: EXTERNAL_URL_TWITTER,
+  label: 'Twitter',
+  isExternal: true,
+};
+const NAV_ITEM_DOCS = {
+  path: EXTERNAL_URL_DOCS,
+  label: 'Docs',
+  isExternal: true,
 };
 
 export const getMainNavigation = ({
@@ -66,6 +87,7 @@ export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_EPOCH,
   NAV_ITEM_TEAM,
   { path: getHistoryPath(), label: 'My History' },
+  NAV_ITEM_DOCS,
 ];
 
 export const checkActive = (pathname: string, navItem: INavItem): boolean =>
@@ -76,17 +98,6 @@ export const checkActive = (pathname: string, navItem: INavItem): boolean =>
   !!navItem.subItems?.some(
     ({ path }) => !!matchPath(pathname, { exact: true, path })
   );
-
-const NAV_ITEM_LANDING_PAGE = {
-  path: EXTERNAL_URL_LANDING_PAGE,
-  label: 'coordinape.com',
-};
-const NAV_ITEM_DISCORD = { path: EXTERNAL_URL_DISCORD, label: 'Discord' };
-const NAV_ITEM_TWITTER = { path: EXTERNAL_URL_TWITTER, label: 'Twitter' };
-const NAV_ITEM_DOCS = {
-  path: EXTERNAL_URL_DOCS,
-  label: 'Docs',
-};
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,

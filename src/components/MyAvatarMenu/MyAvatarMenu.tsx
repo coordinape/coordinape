@@ -127,16 +127,32 @@ export const MyAvatarMenu = () => {
           horizontal: 'right',
         }}
       >
-        {paths.getMenuNavigation().map(({ label, path }) => (
-          <NavLink
-            key={path}
-            to={path}
-            className={classes.link}
-            onClick={() => setAnchorEl(null)}
-          >
-            {label}
-          </NavLink>
-        ))}
+        {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
+          if (isExternal) {
+            return (
+              <div key={path}>
+                <a
+                  className={classes.link}
+                  href={path}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {label}
+                </a>
+              </div>
+            );
+          }
+          return (
+            <NavLink
+              key={path}
+              to={path}
+              className={classes.link}
+              onClick={() => setAnchorEl(null)}
+            >
+              {label}
+            </NavLink>
+          );
+        })}
         <Divider variant="middle" className={classes.divider} />
         <span className={classes.subHeader}>Switch Circles</span>
         {myCircles.map((circle) => (
