@@ -1,22 +1,19 @@
 import { RecoilValue } from 'recoil';
 import { IEpoch, IUser, ITokenGift } from './models';
 
+export type IRecoilGet = <T>(recoilState: RecoilValue<T>) => T;
+
 export interface IRecoilGetParams {
-  get: <T>(recoilState: RecoilValue<T>) => T;
+  get: IRecoilGet;
 }
 
 export interface IRecoilSetParams {
-  get: <T>(recoilState: RecoilValue<T>) => T;
+  get: IRecoilGet;
   set: <T>(
     recoilVal: RecoilState<T>,
     newVal: T | DefaultValue | ((prevValue: T) => T | DefaultValue)
   ) => void;
   reset: (recoilVal: RecoilState<any>) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-// This will eventually be a backend DB model
-export interface IProfile {
-  bio: string;
 }
 
 export interface ISimpleGift {

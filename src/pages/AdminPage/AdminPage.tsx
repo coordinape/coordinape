@@ -389,10 +389,13 @@ const AdminPage = () => {
           visible={!!editEpoch}
         />
       ) : undefined}
-      <EditCircleModal
-        onClose={() => setEditCircle(false)}
-        visible={editCircle}
-      />
+      {selectedCircle !== undefined ? (
+        <EditCircleModal
+          circle={selectedCircle}
+          onClose={() => setEditCircle(false)}
+          visible={editCircle}
+        />
+      ) : undefined}
     </div>
   );
 };
