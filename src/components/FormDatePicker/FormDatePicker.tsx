@@ -13,9 +13,8 @@ export const FormDatePicker = ({
   onChange: (newValue: string) => void;
   errorText?: string;
 }) => {
-  const handleChange = (date: DateType | null, newValue?: string | null) => {
-    console.log('FormDatePicker.handleChange', date, newValue);
-    onChange(newValue ?? '');
+  const handleChange = (date: DateType | null) => {
+    onChange(date?.toISOString() ?? '');
   };
 
   return (

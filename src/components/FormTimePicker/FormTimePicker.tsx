@@ -14,8 +14,7 @@ export const FormTimePicker = ({
   errorText?: string;
 }) => {
   const handleChange = (date: DateType | null, newValue?: string | null) => {
-    console.log('FormTimePicker.handleChange', date, newValue);
-    onChange(newValue ?? '');
+    onChange(date?.toISOString() ?? '');
   };
 
   return (

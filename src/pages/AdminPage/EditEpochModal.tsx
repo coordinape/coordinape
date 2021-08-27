@@ -9,7 +9,7 @@ import {
   FormTimePicker,
   FormRadioGroup,
 } from 'components';
-import EpochForm from 'forms/EpochForm';
+import EpochForm, { summarizeEpoch } from 'forms/EpochForm';
 import { useAdminApi } from 'hooks';
 
 import { IEpoch } from 'types';
@@ -75,16 +75,13 @@ export const EditEpochModal = ({
 
   const { instanceKey, handleSubmit, fields } = EpochForm.useForm({
     source: epoch,
-    submit: (params) => {
-      return (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
-        onClose()
-      );
-    },
+    submit: (params) =>
+      (epoch ? createEpoch(params) : updateEpoch(params)).then(() => onClose()),
   });
 
-  const { changed, hasError } = EpochForm.useFormValues(instanceKey);
+  const { changedOutput, value } = EpochForm.useFormValues(instanceKey);
 
-  if (fields === undefined) {
+  if (fields === undefined || value === undefined) {
     return <></>;
   }
 
@@ -94,7 +91,7 @@ export const EditEpochModal = ({
       visible={visible}
       title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
       onSubmit={handleSubmit}
-      submitDisabled={changed && !hasError}
+      submitDisabled={!changedOutput}
     >
       <div className={classes.datesAndRepeat}>
         <div className={classes.dates}>
@@ -115,11 +112,7 @@ export const EditEpochModal = ({
           <FormRadioGroup {...fields.repeat} />
         </div>
       </div>
-      <div className={classes.summary}>
-        This epoch starts on 05/01/21 at 12:00 UTC and will end on 05/16/21 at
-        12:00 UTC. The epoch is set to repeat every four weeks, the following
-        epoch will start on 05/29/21
-      </div>
+      <div className={classes.summary}>{summarizeEpoch(value)}</div>
     </FormModal>
   );
 };
