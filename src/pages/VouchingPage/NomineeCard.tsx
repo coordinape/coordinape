@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 
 import { useMe, useVouching } from 'hooks';
+import { useSelectedCircle } from 'recoilState';
 
 import { INominee } from 'types';
 
@@ -125,11 +126,13 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
   const { vouchUser } = useVouching();
   const { selectedMyUser } = useMe();
-  const vouchDisabled = selectedMyUser
-    ? nominee.nominated_by_user_id === selectedMyUser.id ||
-      nominee.nominations.some((user) => user.id === selectedMyUser.id) ||
-      selectedMyUser.non_giver !== 0
-    : true;
+  const circle = useSelectedCircle();
+  const vouchDisabled =
+    selectedMyUser && circle
+      ? nominee.nominated_by_user_id === selectedMyUser.id ||
+        nominee.nominations.some((user) => user.id === selectedMyUser.id) ||
+        (circle.only_giver_vouch !== 0 && selectedMyUser.non_giver !== 0)
+      : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );

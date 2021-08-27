@@ -67,7 +67,9 @@ export const VouchingPage = () => {
         variant="contained"
         color="primary"
         className={classes.nominateButton}
-        disabled={selectedMyUser?.non_giver !== 0}
+        disabled={
+          circle.only_giver_vouch !== 0 && selectedMyUser?.non_giver !== 0
+        }
         onClick={() => setNewNomination(true)}
       >
         Nominate New Member

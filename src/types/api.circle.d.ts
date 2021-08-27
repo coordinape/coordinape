@@ -19,15 +19,11 @@ export interface IApiCircle {
   min_vouches: number;
   nomination_days_limit: number;
   vouching_text: string;
+  only_giver_vouch: number;
   created_at: Date;
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
-  default_opt_in: number;
-  vouching: number;
-  min_vouches: number;
-  nomination_days_limit: number;
-  vouching_text: string;
 }
 
 export interface ICircle extends IApiCircle {

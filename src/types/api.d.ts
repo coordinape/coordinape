@@ -57,6 +57,7 @@ export interface PutCirclesParam {
   update_webhook: number;
   default_opt_in: number;
   vouching_text?: string;
+  only_giver_vouch: number;
 }
 
 export interface UpdateCreateEpochParam {
