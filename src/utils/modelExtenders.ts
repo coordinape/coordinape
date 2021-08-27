@@ -152,7 +152,7 @@ export const createExtendedEpoch = (
       : '';
 
   const repeat =
-    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : undefined;
+    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : '';
 
   return {
     ...raw,

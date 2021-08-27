@@ -1,92 +1,18 @@
 import React from 'react';
 
-import moment from 'moment';
-import { z } from 'zod';
-
 import { makeStyles } from '@material-ui/core';
 
 import {
   FormModal,
-  ControlledTextField,
-  ControlledDatePicker,
-  ControlledTimePicker,
-  ControlledRadioGroup,
+  FormTextField,
+  FormDatePicker,
+  FormTimePicker,
+  FormRadioGroup,
 } from 'components';
-import { FormProvider, useFormWithController, createField } from 'forms';
+import EpochForm from 'forms/EpochForm';
 import { useAdminApi } from 'hooks';
 
-import { IEpoch, IFormField, UpdateCreateEpochParam } from 'types';
-
-type IEpochRepeatEnum = '' | 'monthly' | 'weekly';
-
-export type TEpochFields = Omit<UpdateCreateEpochParam, 'grant' | 'repeat'> & {
-  repeatEnum: IEpochRepeatEnum;
-};
-
-const epochRepeatOptions = [
-  {
-    label: 'This epoch does not repeat',
-    value: '',
-  },
-  {
-    label: 'This epoch repeats monthly',
-    value: 'monthly',
-  },
-  {
-    label: 'This epoch repeats weekly',
-    value: 'weekly',
-  },
-];
-
-export const repeatEnumToNumber = (repeat: IEpochRepeatEnum) => {
-  if (repeat === 'weekly') {
-    return 1;
-  }
-  return repeat === 'monthly' ? 2 : 0;
-};
-
-export const epochFieldsTwo = {
-  start_date: {
-    load: (e: IEpoch) => e.start_date,
-    defaultValue: moment().utc().format('MM/DD/YYYY'),
-    fieldProps: {
-      format: 'MM/dd/yyyy',
-    },
-  },
-  start_time: {
-    load: (e: IEpoch) => e.start_time,
-    defaultValue: '2000-01-01T00:00:00.000000Z',
-  },
-  repeat: {
-    load: (e: IEpoch) => e.repeat ?? '',
-    defaultValue: '',
-    options: epochRepeatOptions,
-  },
-  days: {
-    load: (e: IEpoch) => e.days ?? e.calculatedDays,
-    defaultValue: 4,
-  },
-};
-
-const EpochRepeatEnum = z.enum(['', 'monthly', 'weekly']);
-type TEpochRepeatEnum = z.infer<typeof EpochRepeatEnum>;
-
-const updateEpochSchema = z.object({
-  start_date: z.string(),
-  start_time: z.string(),
-  repeat: EpochRepeatEnum.transform((v) => {
-    if (v === 'weekly') {
-      return 1;
-    }
-    return v === 'monthly' ? 2 : 0;
-  }),
-  days: z.number().min(0).max(100),
-  grant: z.optional(z.number()),
-});
-
-type UpdateCreateEpochParam = z.infer<typeof updateEpochSchema>;
-
-const epochFieldList = Object.values(epochFields) as IFormField[];
+import { IEpoch } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   modalBody: {
@@ -147,61 +73,54 @@ export const EditEpochModal = ({
 
   const { createEpoch, updateEpoch } = useAdminApi();
 
-  const submit = ({ repeatEnum, ...rest }: TEpochFields) => {
-    const params = { repeat: repeatEnumToNumber(repeatEnum), ...rest };
-    return (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
-      onClose()
-    );
-  };
+  const { instanceKey, handleSubmit, fields } = EpochForm.useForm({
+    source: epoch,
+    submit: (params) => {
+      return (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
+        onClose()
+      );
+    },
+  });
 
-  const { changed, errors, handleSubmit, formKey } = useFormWithController(
-    submit,
-    Object.values(epochFields),
-    (epoch?: IEpoch) => (epoch ? `epoch-form-${epoch.id}` : `epoch-form-new`),
-    epoch
-  );
+  const { changed, hasError } = EpochForm.useFormValues(instanceKey);
+
+  if (fields === undefined) {
+    return <></>;
+  }
 
   return (
-    <FormProvider formKey={formKey}>
-      <FormModal
-        onClose={onClose}
-        visible={visible}
-        title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
-        onSubmit={handleSubmit}
-        submitDisabled={changed && !errors}
-      >
-        <div className={classes.datesAndRepeat}>
-          <div className={classes.dates}>
-            <h6 className={classes.subTitle}>Dates</h6>
-            <div className={classes.quadGrid}>
-              <ControlledDatePicker
-                label="Epoch Start Date"
-                field={epochFields.start_date}
-              />
-              <ControlledTextField
-                label="Epoch Length"
-                type="number"
-                field={epochFields.days}
-                helperText="(# of days)"
-              />
-              <ControlledTimePicker
-                label="Epoch Start Time"
-                field={epochFields.start_time}
-              />
-            </div>
-          </div>
-          <div className={classes.repeat}>
-            <h6 className={classes.subTitle}>Should this epoch repeat?</h6>
-            <ControlledRadioGroup field={epochFields.repeatEnum} />
+    <FormModal
+      onClose={onClose}
+      visible={visible}
+      title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
+      onSubmit={handleSubmit}
+      submitDisabled={changed && !hasError}
+    >
+      <div className={classes.datesAndRepeat}>
+        <div className={classes.dates}>
+          <h6 className={classes.subTitle}>Dates</h6>
+          <div className={classes.quadGrid}>
+            <FormDatePicker {...fields.start_date} label="Epoch Start Date" />
+            <FormTextField
+              {...fields.days}
+              label="Epoch Length"
+              type="number"
+              helperText="(# of days)"
+            />
+            <FormTimePicker label="Epoch Start Time" {...fields.start_time} />
           </div>
         </div>
-        <div className={classes.summary}>
-          This epoch starts on 05/01/21 at 12:00 UTC and will end on 05/16/21 at
-          12:00 UTC. The epoch is set to repeat every four weeks, the following
-          epoch will start on 05/29/21
+        <div className={classes.repeat}>
+          <h6 className={classes.subTitle}>Should this epoch repeat?</h6>
+          <FormRadioGroup {...fields.repeat} />
         </div>
-      </FormModal>
-    </FormProvider>
+      </div>
+      <div className={classes.summary}>
+        This epoch starts on 05/01/21 at 12:00 UTC and will end on 05/16/21 at
+        12:00 UTC. The epoch is set to repeat every four weeks, the following
+        epoch will start on 05/29/21
+      </div>
+    </FormModal>
   );
 };
 
