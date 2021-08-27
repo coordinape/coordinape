@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import iti from 'itiriri';
 import isEqual from 'lodash/isEqual';
 import {
   atomFamily,
@@ -10,9 +9,8 @@ import {
   useRecoilValue,
   useRecoilState,
 } from 'recoil';
-import { string, z } from 'zod';
+import { z } from 'zod';
 
-import { usePrevious } from 'hooks';
 import { assertDef } from 'utils/tools';
 
 import { IRecoilGetParams } from 'types';
@@ -89,10 +87,21 @@ export default <
     default: undefined,
   });
   const rParsed = selectorFamily<ZodParsedType<Z>, string>({
-    key: `ApeFormErrors-${name}`,
+    key: `ApeFormParsed-${name}`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const value = get(rValue(instanceKey));
       return schema.safeParse(value);
+    },
+  });
+  const rChangedOutput = selectorFamily<boolean, string>({
+    key: `ApeFormChangedOutput-${name}`,
+    get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
+      const baseOutput = schema.safeParse(get(rBaseValue(instanceKey)));
+      const output = get(rParsed(instanceKey));
+      if (!baseOutput.success) {
+        return output.success;
+      }
+      return !output.success ? false : !isEqual(baseOutput.data, output.data);
     },
   });
 
@@ -112,16 +121,22 @@ export default <
     submit,
   }: {
     source: Source;
-    submit: (v: Z['_output']) => Promise<R>;
+    submit: (v: Z['_output']) => R;
   }) => {
     const instanceKey = getInstanceKey(source);
     const [value, updateValue] = useRecoilState(rValue(instanceKey));
+    const parsed = useRecoilValue(rParsed(instanceKey));
 
-    const resetIfNeeded = useRecoilCallback(
+    const reset = useRecoilCallback((recoil: CallbackInterface) => async () =>
+      resetWithInterface(instanceKey, recoil)
+    );
+
+    const resetSourceIfChanged = useRecoilCallback(
       ({ set, snapshot }: CallbackInterface) => async (s: Source) => {
         const k = getInstanceKey(s);
         const stored = await snapshot.getPromise(rSource(k));
-        if (!isEqual(s, stored)) {
+        const value = await snapshot.getPromise(rValue(k));
+        if (value === undefined || !isEqual(s, stored)) {
           set(rSource(k), s);
           set(rValue(k), load(s));
         }
@@ -129,8 +144,15 @@ export default <
     );
 
     useEffect(() => {
-      resetIfNeeded(source);
+      resetSourceIfChanged(source);
     }, [source]);
+
+    useEffect(() => {
+      return () => {
+        // Reset on dismount
+        reset();
+      };
+    }, []);
 
     const handleSubmit = useRecoilCallback(
       ({ snapshot }: CallbackInterface) => async () => {
@@ -140,20 +162,20 @@ export default <
       }
     );
 
-    const reset = useRecoilCallback((recoil: CallbackInterface) => async () =>
-      resetWithInterface(instanceKey, recoil)
-    );
-
     const rawFields = {} as Record<string, any>;
     if (value !== undefined) {
+      const fieldErrors = parsed.success
+        ? {}
+        : parsed.error.flatten().fieldErrors;
       Object.keys(schema.shape).forEach((field) => {
         rawFields[field] = {
-          name: string,
           value: (value as Record<string, any>)[field],
           onChange: (newValue: any) =>
             updateValue(
               (oldValue) => ({ ...oldValue, [field]: newValue } as Z['_input'])
             ),
+          errorText:
+            field in fieldErrors ? fieldErrors[field].join(', ') : undefined,
           ...(fieldProps[field] ?? {}),
         };
       });
@@ -167,6 +189,7 @@ export default <
               [P in keyof Z['_input']]: {
                 value: Z['_input'][P];
                 onChange: (newValue: Z['_input'][P]) => void;
+                errorText?: string;
               };
             },
             FProps
@@ -182,19 +205,17 @@ export default <
 
   const useFormValues = (instanceKey: string) => {
     const value = useRecoilValue(rValue(instanceKey));
-    const baseValue = useRecoilValue(rBaseValue(instanceKey));
-    const parsed = useRecoilValue(rParsed(instanceKey));
+    const changedOutput = useRecoilValue(rChangedOutput(instanceKey));
 
     return {
       value,
-      parsed,
-      changed: value !== undefined && !isEqual(baseValue, value),
-      hasError: value !== undefined && parsed.success === false,
+      changedOutput,
     };
   };
 
   return {
     useForm,
     useFormValues,
+    schema,
   };
 };

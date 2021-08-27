@@ -139,6 +139,7 @@ const AdminPage = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
+  const [createEpoch, setCreateEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
 
   const { deleteUser, deleteEpoch } = useAdminApi();
@@ -350,6 +351,7 @@ const AdminPage = () => {
               color="primary"
               size="small"
               startIcon={<PlusCircleIcon />}
+              onClick={() => setCreateEpoch(true)}
             >
               Add Epoch
             </Button>
@@ -382,13 +384,13 @@ const AdminPage = () => {
         user={editUser}
         visible={!!editUser}
       />
-      {editEpoch ? (
-        <EditEpochModal
-          epoch={editEpoch}
-          onClose={() => setEditEpoch(undefined)}
-          visible={!!editEpoch}
-        />
-      ) : undefined}
+      <EditEpochModal
+        epoch={editEpoch}
+        onClose={() =>
+          createEpoch ? setCreateEpoch(false) : setEditEpoch(undefined)
+        }
+        visible={!!editEpoch || createEpoch}
+      />
       {selectedCircle !== undefined ? (
         <EditCircleModal
           circle={selectedCircle}

@@ -16,33 +16,13 @@ import {
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
-  IApiCircle,
-  IApiUser,
-  IApiEpoch,
   PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
   UpdateCreateEpochParam,
 } from 'types';
 
-export const useAdminApi = (): {
-  updateCircle: (params: PutCirclesParam) => Promise<IApiCircle>;
-  updateCircleLogo: (newAvatar: File) => Promise<IApiCircle>;
-  createEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
-  createEpochDeprecated: (
-    start_date: Date,
-    end_date: Date
-  ) => Promise<IApiEpoch>;
-  updateEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
-  deleteEpoch: (id: number) => void;
-  updateUser: (
-    userAddress: string,
-    params: UpdateUsersParam
-  ) => Promise<IApiUser>;
-  createUser: (params: PostUsersParam) => Promise<IApiUser>;
-  deleteUser: (userAddress: string) => void;
-  getDiscordWebhook: () => Promise<string>;
-} => {
+export const useAdminApi = () => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
 
