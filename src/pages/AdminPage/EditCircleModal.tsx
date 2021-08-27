@@ -321,6 +321,7 @@ export const EditCircleModal = ({
 
   const circleDirty =
     logoData.avatarRaw ||
+    circleName !== circle.name ||
     vouching !== circle.vouching ||
     tokenName !== circle.tokenName ||
     minVouches !== circle.min_vouches ||
