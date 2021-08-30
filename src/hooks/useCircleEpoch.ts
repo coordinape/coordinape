@@ -31,8 +31,10 @@ export const useCircleEpoch = (
 
   const closest = currentEpoch ?? nextEpoch;
 
-  const currentEpochNumber = previousEpoch
-    ? String(previousEpoch.number ?? 0 + 1)
+  const currentEpochNumber = currentEpoch?.number
+    ? String(currentEpoch.number)
+    : previousEpoch?.number
+    ? String(previousEpoch.number + 1)
     : '1';
 
   let timingMessage = 'Epoch not Scheduled';
