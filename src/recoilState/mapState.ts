@@ -47,6 +47,7 @@ const FAKE_ADDRESS = '0xFAKE';
 const createFakeProfile = (u: IUser): IProfileEmbed => ({
   id: u.id + FAKE_ID_OFFSET,
   address: u.address,
+  admin_view: 0,
   avatar: u.avatar ?? '',
   created_at: u.created_at,
   updated_at: u.updated_at,
@@ -76,6 +77,7 @@ const createFakeUser = (circleId: number): IUser => ({
   profile: {
     id: FAKE_ID_OFFSET,
     address: FAKE_ADDRESS,
+    admin_view: 0,
     avatar: 'deleted-user_1628632000.jpg',
     created_at: '2021-07-07T23:29:18.000000Z',
     updated_at: '2021-07-07T23:29:18.000000Z',

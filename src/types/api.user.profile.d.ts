@@ -4,6 +4,7 @@ import { IApiCircle } from './api.circle';
 export interface IApiProfile {
   id: number;
   address: string;
+  admin_view: number;
   avatar?: string;
   background?: string;
   bio?: string;
