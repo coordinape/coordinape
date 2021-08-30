@@ -76,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadImageTitle: {},
   quadGrid: {
+    marginBottom: theme.spacing(2),
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: 'auto auto',
@@ -83,8 +84,12 @@ const useStyles = makeStyles((theme) => ({
     rowGap: theme.spacing(3),
   },
   vouchingItem: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     '&.disabled': {
       opacity: 0.3,
+      pointerEvents: 'none',
     },
   },
   enableVouchingContainer: {
@@ -92,11 +97,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  enableVouchingHeader: {
+  vouchingHeader: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
-  enableVouchingLabel: {
+  vouchingLabel: {
     fontSize: 16,
     lineHeight: 1.3,
     fontWeight: 700,
@@ -104,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     color: theme.colors.text,
   },
-  enableVouchingTabContainer: {
+  vouchingTabContainer: {
     width: '100%',
     height: '100%',
     display: 'flex',
@@ -240,6 +246,10 @@ export const EditCircleModal = ({
     circle.default_opt_in
   );
   const [vouchingText, setVouchingText] = useState<string>(circle.vouchingText);
+  const [onlyGiverVouch, setOnlyGiverVouch] = useState<number>(
+    circle.only_giver_vouch
+  );
+
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -287,7 +297,8 @@ export const EditCircleModal = ({
       defaultOptIn !== circle.default_opt_in ||
       nominationDaysLimit !== circle.nomination_days_limit ||
       allocText !== circle.allocText ||
-      vouchingText !== circle.vouchingText
+      vouchingText !== circle.vouchingText ||
+      onlyGiverVouch !== circle.only_giver_vouch
     ) {
       updateCircle({
         name: circleName,
@@ -301,6 +312,7 @@ export const EditCircleModal = ({
         update_webhook: allowEdit,
         default_opt_in: defaultOptIn,
         vouching_text: vouchingText,
+        only_giver_vouch: onlyGiverVouch,
       }).then(() => {
         onClose();
       });
@@ -309,6 +321,7 @@ export const EditCircleModal = ({
 
   const circleDirty =
     logoData.avatarRaw ||
+    circleName !== circle.name ||
     vouching !== circle.vouching ||
     tokenName !== circle.tokenName ||
     minVouches !== circle.min_vouches ||
@@ -318,7 +331,8 @@ export const EditCircleModal = ({
     defaultOptIn !== circle.default_opt_in ||
     nominationDaysLimit !== circle.nomination_days_limit ||
     allocText !== circle.allocText ||
-    vouchingText !== circle.vouchingText;
+    vouchingText !== circle.vouchingText ||
+    onlyGiverVouch !== circle.only_giver_vouch;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -356,10 +370,10 @@ export const EditCircleModal = ({
           fullWidth
         />
         <div className={classes.enableVouchingContainer}>
-          <div className={classes.enableVouchingHeader}>
-            <p className={classes.enableVouchingLabel}>Enable Vouching?</p>
+          <div className={classes.vouchingHeader}>
+            <p className={classes.vouchingLabel}>Enable Vouching?</p>
           </div>
-          <div className={classes.enableVouchingTabContainer}>
+          <div className={classes.vouchingTabContainer}>
             <div
               className={clsx(
                 classes.enableVouchingTab,
@@ -449,7 +463,9 @@ export const EditCircleModal = ({
           />
         </div>
         <div className={classes.topContainer}>
-          <p className={classes.subTitle}>Default Opt In?</p>
+          <div className={classes.vouchingHeader}>
+            <p className={classes.vouchingLabel}>Default Opt In?</p>
+          </div>
           <Select
             className={classes.selectRoot}
             classes={{
@@ -473,6 +489,33 @@ export const EditCircleModal = ({
               </MenuItem>
             ))}
           </Select>
+        </div>
+        <div
+          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+        >
+          <div className={classes.vouchingHeader}>
+            <p className={classes.vouchingLabel}>Only Givers can vouch</p>
+          </div>
+          <div className={classes.vouchingTabContainer}>
+            <div
+              className={clsx(
+                classes.enableVouchingTab,
+                onlyGiverVouch === 1 && 'active'
+              )}
+              onClick={() => setOnlyGiverVouch(1)}
+            >
+              Yes
+            </div>
+            <div
+              className={clsx(
+                classes.enableVouchingTab,
+                onlyGiverVouch === 0 && 'active'
+              )}
+              onClick={() => setOnlyGiverVouch(0)}
+            >
+              No
+            </div>
+          </div>
         </div>
       </div>
       <div className={classes.bottomContainer}>
