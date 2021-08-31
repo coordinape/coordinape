@@ -501,19 +501,18 @@ const LandingPage = () => {
         <Typography variant="h3">
           Interested in starting your own circle?
         </Typography>
-        <p>
+        {/* <p>
           We&apos;re launching a permisionless onchain version soon. In the
           meantime, come say hi in our Discord and let us know more about your
           project
-        </p>
-        <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
+        </p> */}
+        <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
             color="secondary"
-            startIcon={<DiscordIcon />}
             disableElevation={isDownXs}
           >
-            Join our Discord
+            Get Started
           </Button>
         </a>
       </div>
@@ -521,6 +520,11 @@ const LandingPage = () => {
         <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
           <Button startIcon={<DocsIcon />} className={classes.footerLink}>
             Docs
+          </Button>
+        </a>
+        <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
+          <Button startIcon={<DiscordIcon />} className={classes.footerLink}>
+            Discord
           </Button>
         </a>
         <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
