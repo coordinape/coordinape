@@ -87,10 +87,7 @@ export const rHasAdminView = selector<boolean>({
   key: 'rHasAdminView',
   get: ({ get }: IRecoilGetParams) => {
     const profile = get(rMyProfile);
-    if (!profile?.admin_view) {
-      return false;
-    }
-    return true;
+    return !!profile?.admin_view;
   },
 });
 
