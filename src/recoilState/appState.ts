@@ -85,8 +85,10 @@ export const useMyProfile = () => useRecoilValue(rMyProfile);
 
 export const rHasAdminView = selector<boolean>({
   key: 'rHasAdminView',
-  get: ({ get }: IRecoilGetParams) =>
-    get(rMyUsers).some((u) => u.admin_view > 0),
+  get: ({ get }: IRecoilGetParams) => {
+    const profile = get(rMyProfile);
+    return !!profile?.admin_view;
+  },
 });
 
 export const rMyUsers = selector<IMyUsers[]>({
