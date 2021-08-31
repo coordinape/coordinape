@@ -32,9 +32,9 @@ import {
 import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
-  'Gift Circles allow DAO members to collectively reward eachother making community payments more equitable and transparent.';
+  'Gift Circles allow DAO members to collectively reward each other making community payments more equitable and transparent.';
 const VALUE_PROP_INCENTIVIZE =
-  'Circle contributors directly recognize eachother’s value, building a more cohesive and productive community.';
+  'Circle contributors directly recognize each other’s value, building a more cohesive and productive community.';
 const VALUE_PROP_SCALE =
   'Understand how value moves through your organization and move more decisions and resources to the community.';
 
@@ -420,7 +420,7 @@ const LandingPage = () => {
           The promise of DAOs is decentralized collaboration, with teams of
           people working together solve big problems and sharing in the rewards
           of their efforts.{'\n\n'}On this new frontier we face new kinds of
-          coordination problems. We need to compensate and recognize eachother
+          coordination problems. We need to compensate and recognize each other
           for the effort and passion we pour into DAOs.{'\n\n'}Coordinape is a
           tool to do just that. We go beyond just paying people –we make the
           experience of working with DAOs more rewarding, human and fair.
