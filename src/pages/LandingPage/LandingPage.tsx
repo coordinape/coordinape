@@ -12,11 +12,18 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
+import AlchemistLogo from 'assets/svgs/landing-page/alchemist-logo.svg';
+import BanklessLogo from 'assets/svgs/landing-page/bankless-logo.svg';
+import Cre8rDaoLogo from 'assets/svgs/landing-page/cre8rdao-logo.svg';
 import CreamLogo from 'assets/svgs/landing-page/cream-logo.svg';
+import DaoHausLogo from 'assets/svgs/landing-page/daohaus-logo.svg';
 import GitcoinLogo from 'assets/svgs/landing-page/gitcoin-logo.svg';
 import GraphCard from 'assets/svgs/landing-page/graph-card.png';
 import HistoryCard from 'assets/svgs/landing-page/history-card.png';
+import MetacartelLogo from 'assets/svgs/landing-page/metacartel-logo.svg';
+import PoolTogetherLogo from 'assets/svgs/landing-page/pooltogether-logo.svg';
 import ProfileCard from 'assets/svgs/landing-page/profile-card.png';
+import RaribleLogo from 'assets/svgs/landing-page/rarible-logo.svg';
 import Splash from 'assets/svgs/landing-page/splash.svg';
 import SushiswapLogo from 'assets/svgs/landing-page/sushiswap-logo.svg';
 import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
@@ -126,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 0,
     marginBottom: 61,
     fontSize: 34,
-    fontWeight: 400,
+    fontWeight: 300,
     color: theme.colors.text,
     whiteSpace: 'pre-line',
     [theme.breakpoints.down('sm')]: {
@@ -248,11 +255,24 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: '90px 40px 0',
     '& > img': {
-      marginBottom: '24px',
+      marginBottom: 23,
     },
     '& p': {
+      fontSize: 18,
+      fontWeight: 400,
       color: theme.colors.black,
       opacity: 0.4,
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: '30px 10px 0',
+      '& > img': {
+        marginBottom: '8px',
+        width: 40,
+        height: 40,
+      },
+      '& p': {
+        fontSize: 12,
+      },
     },
   },
   footer: {
@@ -494,6 +514,44 @@ const LandingPage = () => {
             give={2600}
             epochs={1}
             name="Gitcoin"
+          />
+        </div>
+        <div className={classes.partners}>
+          <div />
+          <Partner
+            imageSrc={PoolTogetherLogo}
+            give={0}
+            epochs={0}
+            name="Pool Together"
+          />
+          <Partner
+            imageSrc={Cre8rDaoLogo}
+            give={0}
+            epochs={0}
+            name="CRE8R DAO"
+          />
+          <Partner imageSrc={DaoHausLogo} give={0} epochs={0} name="DAOhaus" />
+          <div />
+        </div>
+        <div className={classes.partners}>
+          <Partner imageSrc={RaribleLogo} give={0} epochs={0} name="Rarible" />
+          <Partner
+            imageSrc={BanklessLogo}
+            give={0}
+            epochs={0}
+            name="Bankless"
+          />
+          <Partner
+            imageSrc={MetacartelLogo}
+            give={0}
+            epochs={0}
+            name="Metacartel"
+          />
+          <Partner
+            imageSrc={AlchemistLogo}
+            give={0}
+            epochs={0}
+            name="Alchemist"
           />
         </div>
       </div>
