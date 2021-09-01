@@ -373,7 +373,6 @@ export const rAvailableTeammates = selector<IUser[]>({
       .filter(
         (u) =>
           !u.deleted_at &&
-          !u.is_hidden &&
           u.id !== selectedMyUser?.id &&
           u.circle_id === selectedCircleId
       )

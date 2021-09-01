@@ -255,10 +255,7 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser
-          ? [...localTeammates.filter((a) => a.is_hidden === 0)]
-          : []
-        )
+        {(selectedMyUser ? localTeammates : [])
           .filter((a) => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
