@@ -425,7 +425,7 @@ const AllocationTeam = () => {
                 key={user.id}
                 onClick={() => toggleLocalTeammate(user.id)}
               >
-                {user.avatar && user.avatar.length > 0 ? (
+                {user.profile.avatar && user.profile.avatar.length > 0 ? (
                   <ApeAvatar user={user} className={classes.avatar} />
                 ) : (
                   <span>&nbsp;&nbsp;&nbsp;</span>
@@ -489,7 +489,7 @@ const AllocationTeam = () => {
                     key={user.id}
                     onClick={() => toggleLocalTeammate(user.id)}
                   >
-                    {user.avatar && user.avatar.length > 0 ? (
+                    {user.profile.avatar && user.profile.avatar.length > 0 ? (
                       <ApeAvatar user={user} className={classes.avatar} />
                     ) : (
                       <span>&nbsp;&nbsp;&nbsp;</span>

@@ -43,17 +43,7 @@ export interface IApiUser {
   updated_at: string; // 2021-07-07T23:29:18.000000Z
   deleted_at?: string; // 2021-07-07T23:29:18.000000Z
   // Permissions
-  admin_view: number; // 1 can enables viewing other circles
   role: number; // 1 is an admin,
-  // Bot fields
-  chat_id?: string;
-  discord_username?: string;
-  telegram_username?: string; // null
-  super: number; // Can blast announcements with bot
-  ann_power: number; // Announcement power
-  // To deprecate
-  is_hidden: number; // we now have 'admin' view. There are a couple cases where the team got give...
-  avatar?: string;
 }
 
 export interface IApiUserProfile extends IApiUser {
