@@ -240,7 +240,7 @@ export const EditCircleModal = ({
     circle.nomination_days_limit
   );
   const [allocText, setAllocText] = useState<string>(circle.allocText);
-  const [allowEdit, setAllowEdit] = useState<number>(0);
+  const [allowEdit, setAllowEdit] = useState<boolean>(false);
   const [webhook, setWebhook] = useState<string>('');
   const [defaultOptIn, setDefaultOptIn] = useState<number>(
     circle.default_opt_in
@@ -264,7 +264,7 @@ export const EditCircleModal = ({
   const editDiscordWebhook = async () => {
     const _webhook = await getDiscordWebhook();
     setWebhook(_webhook);
-    setAllowEdit(1);
+    setAllowEdit(true);
   };
 
   const onChangeWith = (set: (v: string) => void) => (
@@ -309,7 +309,7 @@ export const EditCircleModal = ({
         nomination_days_limit: nominationDaysLimit,
         alloc_text: allocText,
         discord_webhook: webhook,
-        update_webhook: allowEdit,
+        update_webhook: allowEdit ? 1 : 0,
         default_opt_in: defaultOptIn,
         vouching_text: vouchingText,
         only_giver_vouch: onlyGiverVouch,
@@ -520,14 +520,16 @@ export const EditCircleModal = ({
       </div>
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
-        <input
-          readOnly={!allowEdit}
-          className={classes.input}
-          onChange={onChangeWith(setWebhook)}
-          value={webhook}
-        />
+        {allowEdit && (
+          <input
+            readOnly={!allowEdit}
+            className={classes.input}
+            onChange={onChangeWith(setWebhook)}
+            value={webhook}
+          />
+        )}
         <div className={classes.webhookButtonContainer}>
-          {!allowEdit ? (
+          {!allowEdit && (
             <Button
               onClick={editDiscordWebhook}
               variant="contained"
@@ -536,8 +538,6 @@ export const EditCircleModal = ({
             >
               Edit WebHook
             </Button>
-          ) : (
-            ''
           )}
         </div>
       </div>
