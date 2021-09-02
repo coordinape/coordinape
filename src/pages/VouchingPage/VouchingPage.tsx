@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
+  cannotVouch: {
+    color: theme.colors.red,
+  },
 }));
 
 export const VouchingPage = () => {
@@ -56,20 +59,28 @@ export const VouchingPage = () => {
   const circle = useSelectedCircle();
   const activeNominees = useActiveNominees();
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
+  const cannotVouch =
+    circle?.only_giver_vouch !== 0 && selectedMyUser?.non_giver !== 0;
 
   return !circle ? (
     <div className={classes.root}></div>
   ) : (
     <div className={classes.root}>
       <h2 className={classes.title}>Add Circle Members</h2>
-      <p className={classes.description}>{circle.vouchingText}</p>
+      <p className={classes.description}>
+        {circle.vouchingText}
+        {cannotVouch && (
+          <span className={classes.cannotVouch}>
+            <br />
+            You do not have permission to nominate or vouch in this circle.
+          </span>
+        )}
+      </p>
       <Button
         variant="contained"
         color="primary"
         className={classes.nominateButton}
-        disabled={
-          circle.only_giver_vouch !== 0 && selectedMyUser?.non_giver !== 0
-        }
+        disabled={cannotVouch}
         onClick={() => setNewNomination(true)}
       >
         Nominate New Member
@@ -82,9 +93,7 @@ export const VouchingPage = () => {
       </div>
       {isNewNomination && (
         <NewNominationModal
-          onClose={() => {
-            setNewNomination(false);
-          }}
+          onClose={() => setNewNomination(false)}
           visible={isNewNomination}
         />
       )}
