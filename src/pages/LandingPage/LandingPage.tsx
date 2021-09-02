@@ -438,12 +438,13 @@ const LandingPage = () => {
         </Box>
         <p className={classes.descriptionText}>
           The promise of DAOs is decentralized collaboration, with teams of
-          people working together solve big problems and sharing in the rewards
-          of their efforts.{'\n\n'}On this new frontier we face new kinds of
-          coordination problems. We need to compensate and recognize each other
-          for the effort and passion we pour into DAOs.{'\n\n'}Coordinape is a
-          tool to do just that. We go beyond just paying people –we make the
-          experience of working with DAOs more rewarding, human and fair.
+          people working together to solve big problems and sharing in the
+          rewards of their efforts.{'\n\n'}On this new frontier we face new
+          kinds of coordination problems. We need to compensate and recognize
+          each other for the effort and passion we pour into DAOs.{'\n\n'}
+          Coordinape is a tool to do just that. We go beyond just paying people
+          –we make the experience of working with DAOs more rewarding, human and
+          fair.
         </p>
         <span
           role="img"
