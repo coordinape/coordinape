@@ -16,9 +16,13 @@ export const useAsyncLoadCatch = () => {
 
   return <T>(
     call: () => Promise<T>,
-    { hideLoading, success }: { hideLoading?: boolean; success?: string } = {}
+    {
+      hideLoading,
+      success,
+      reject,
+    }: { hideLoading?: boolean; success?: string; reject?: boolean } = {}
   ) => {
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<T>((resolve, reject_) => {
       !hideLoading && setGlobalLoading((v) => v + 1);
       call()
         .then((result) => {
@@ -33,7 +37,7 @@ export const useAsyncLoadCatch = () => {
             tags: { call_point: 'useAsyncLoadCatch' },
             extra: { ...(e.code ? { code: e.code } : {}) },
           });
-          reject(e);
+          if (reject) reject_(e);
         });
     });
   };
