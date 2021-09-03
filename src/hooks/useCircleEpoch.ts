@@ -41,8 +41,8 @@ export const useCircleEpoch = (
   let longTimingMessage = 'Next Epoch not Scheduled';
 
   if (closest && !closest.started) {
-    timingMessage = `Epoch Begins in ${closest.labelUntilStart}, Starts at 12:00am UTC`;
-    longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${closest.labelUntilStart}, Starts at 12:00am UTC`;
+    timingMessage = `Epoch Begins in ${closest.labelUntilStart}`;
+    longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${closest.labelUntilStart}`;
   }
   if (closest && closest.started) {
     timingMessage = `Epoch ends in ${closest.labelUntilEnd}`;
