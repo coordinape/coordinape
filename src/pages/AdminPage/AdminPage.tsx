@@ -15,8 +15,8 @@ import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
 
 import EditCircleModal from './EditCircleModal';
-import EditContributorModal from './EditContributorModal';
 import EditEpochModal from './EditEpochModal';
+import EditUserModal from './EditUserModal';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
@@ -138,8 +138,9 @@ const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
+  const [newUser, setNewUser] = useState<boolean>(false);
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [createEpoch, setCreateEpoch] = useState<boolean>(false);
+  const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
 
   const { deleteUser, deleteEpoch } = useAdminApi();
@@ -343,6 +344,7 @@ const AdminPage = () => {
               color="primary"
               size="small"
               startIcon={<PlusCircleIcon />}
+              onClick={() => setNewUser(true)}
             >
               Add Contributor
             </Button>
@@ -351,7 +353,7 @@ const AdminPage = () => {
               color="primary"
               size="small"
               startIcon={<PlusCircleIcon />}
-              onClick={() => setCreateEpoch(true)}
+              onClick={() => setNewEpoch(true)}
             >
               Add Epoch
             </Button>
@@ -379,17 +381,18 @@ const AdminPage = () => {
         filter={filterUser}
         sortable
       />
-      <EditContributorModal
-        onClose={() => setEditUser(undefined)}
+      <EditUserModal
+        onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
         user={editUser}
-        visible={!!editUser}
+        open={!!editUser || newUser}
       />
       <EditEpochModal
+        epochs={epochs}
         epoch={editEpoch}
         onClose={() =>
-          createEpoch ? setCreateEpoch(false) : setEditEpoch(undefined)
+          newEpoch ? setNewEpoch(false) : setEditEpoch(undefined)
         }
-        visible={!!editEpoch || createEpoch}
+        open={!!editEpoch || newEpoch}
       />
       {selectedCircle !== undefined ? (
         <EditCircleModal

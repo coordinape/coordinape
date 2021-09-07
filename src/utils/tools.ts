@@ -43,3 +43,5 @@ export const assertDef = <T>(val: T | undefined, message?: string): T => {
   }
   return val;
 };
+
+export const neverEndingPromise = <T>() => new Promise<T>(() => void 0);

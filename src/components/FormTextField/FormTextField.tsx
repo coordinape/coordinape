@@ -6,6 +6,7 @@ export const FormTextField = ({
   value,
   onChange,
   helperText,
+  error,
   errorText,
   ...props
 }: Omit<React.ComponentProps<typeof ApeTextField>, 'onChange'> & {
@@ -13,7 +14,6 @@ export const FormTextField = ({
   errorText?: string;
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('FormTextField.handleChange', e.target.value);
     onChange(
       typeof value === 'number' ? Number(e.target.value) : e.target.value
     );
@@ -22,7 +22,7 @@ export const FormTextField = ({
   return (
     <ApeTextField
       {...props}
-      error={!!errorText}
+      error={error}
       helperText={!errorText ? helperText : errorText}
       value={value}
       onChange={handleChange}
