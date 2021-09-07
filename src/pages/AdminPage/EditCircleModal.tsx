@@ -338,7 +338,7 @@ export const EditCircleModal = ({
       title="Edit Circle Settings"
       submitDisabled={!circleDirty}
       onSubmit={onSubmit}
-      visible={visible}
+      open={visible}
       onClose={onClose}
       size="medium"
     >

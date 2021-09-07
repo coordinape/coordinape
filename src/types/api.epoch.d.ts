@@ -41,7 +41,7 @@ export interface IApiEpoch {
 }
 
 export interface IEpoch extends IApiEpoch {
-  repeat: 'weekly' | 'monthly' | '';
+  repeatEnum: 'weekly' | 'monthly' | 'none';
   ended: boolean;
   startDate: Moment;
   endDate: Moment;

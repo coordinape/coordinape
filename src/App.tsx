@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DateFnsUtils from '@date-io/date-fns';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
 import { SnackbarProvider } from 'notistack';
@@ -18,6 +17,7 @@ import {
 } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
+import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
 import './App.css';
 
@@ -35,7 +35,7 @@ function App() {
       <SnackbarProvider maxSnack={3}>
         <ErrorBoundary>
           <ThemeProvider theme={theme}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
               <Web3ReactProvider getLibrary={getLibrary}>
                 <BrowserRouter>
                   <MainLayout>

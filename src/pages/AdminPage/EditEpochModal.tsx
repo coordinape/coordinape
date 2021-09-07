@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   dates: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
     maxWidth: 300,
   },
   subTitle: {
@@ -53,67 +53,86 @@ const useStyles = makeStyles((theme) => ({
     rowGap: theme.spacing(1),
   },
   repeat: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
   summary: {
     margin: 0,
+    minHeight: 65,
   },
 }));
 
 export const EditEpochModal = ({
   epoch,
+  epochs,
   onClose,
-  visible,
+  open,
 }: {
   epoch?: IEpoch;
-  visible: boolean;
+  epochs: IEpoch[];
+  open: boolean;
   onClose: () => void;
 }) => {
   const classes = useStyles();
 
   const { createEpoch, updateEpoch } = useAdminApi();
 
-  const { instanceKey, handleSubmit, fields } = EpochForm.useForm({
-    source: epoch,
-    submit: (params) =>
-      (epoch ? createEpoch(params) : updateEpoch(params)).then(() => onClose()),
-  });
-
-  const { changedOutput, value } = EpochForm.useFormValues(instanceKey);
-
-  if (fields === undefined || value === undefined) {
-    return <></>;
-  }
+  const validationCtx = useMemo(
+    () => ({
+      source: epoch,
+      epochs: epochs.filter((e) => e.id !== epoch?.id),
+    }),
+    [epoch, epochs]
+  );
 
   return (
-    <FormModal
-      onClose={onClose}
-      visible={visible}
-      title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
-      onSubmit={handleSubmit}
-      submitDisabled={!changedOutput}
+    <EpochForm.FormController
+      source={epoch}
+      hideFieldErrors
+      validationCtx={validationCtx}
+      submit={(params) =>
+        (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
+          onClose()
+        )
+      }
     >
-      <div className={classes.datesAndRepeat}>
-        <div className={classes.dates}>
-          <h6 className={classes.subTitle}>Dates</h6>
-          <div className={classes.quadGrid}>
-            <FormDatePicker {...fields.start_date} label="Epoch Start Date" />
-            <FormTextField
-              {...fields.days}
-              label="Epoch Length"
-              type="number"
-              helperText="(# of days)"
-            />
-            <FormTimePicker label="Epoch Start Time" {...fields.start_time} />
+      {({ fields, errors, changedOutput, value, handleSubmit }) => (
+        <FormModal
+          onClose={onClose}
+          open={open}
+          title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
+          errors={errors}
+        >
+          <div className={classes.datesAndRepeat}>
+            <div className={classes.dates}>
+              <h6 className={classes.subTitle}>Dates</h6>
+              <div className={classes.quadGrid}>
+                <FormDatePicker
+                  {...fields.start_date}
+                  label="Epoch Start Date"
+                />
+                <FormTextField
+                  {...fields.days}
+                  label="Epoch Length"
+                  type="number"
+                  helperText="(# of days)"
+                />
+                <FormTimePicker
+                  label="Epoch Start Time"
+                  {...fields.start_time}
+                />
+              </div>
+            </div>
+            <div className={classes.repeat}>
+              <h6 className={classes.subTitle}>Should this epoch repeat?</h6>
+              <FormRadioGroup {...fields.repeat} />
+            </div>
           </div>
-        </div>
-        <div className={classes.repeat}>
-          <h6 className={classes.subTitle}>Should this epoch repeat?</h6>
-          <FormRadioGroup {...fields.repeat} />
-        </div>
-      </div>
-      <div className={classes.summary}>{summarizeEpoch(value)}</div>
-    </FormModal>
+          <div className={classes.summary}>{summarizeEpoch(value)}</div>
+        </FormModal>
+      )}
+    </EpochForm.FormController>
   );
 };
 

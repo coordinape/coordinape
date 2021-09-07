@@ -1,17 +1,22 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-import createApeFormHooks from './createApeFormHooks';
-import { stringFutureDate, stringTime } from './formHelpers';
+import { createForm } from './createForm';
+import { zStringISODate } from './formHelpers';
 
 import { IEpoch } from 'types';
 
-const EpochRepeatEnum = z.enum(['', 'monthly', 'weekly']);
+interface EpochFormValidationCtx {
+  source?: IEpoch;
+  epochs: IEpoch[];
+}
+
+const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly']);
 
 const schema = z
   .object({
-    start_date: stringFutureDate,
-    start_time: stringTime,
+    start_date: zStringISODate,
+    start_time: zStringISODate,
     repeat: EpochRepeatEnum.transform((v) => {
       if (v === 'weekly') {
         return 1;
@@ -25,29 +30,57 @@ const schema = z
   })
   .strict();
 
-// TODO: add this:
-// (issue is that the type for the createAppFormHooks needs to be gernalized)
-// .refine(
-//   ({ repeat, days }) =>
-//     (repeat === 1 && days > 7) || (repeat === 2 && days > 28),
-//   ({ repeat }) => ({
-//     path: ['days'],
-//     message:
-//       repeat === 1
-//         ? "Weekly repeating, can't be more than 7 days"
-//         : "Monthly repeating, can't be more than 28 days",
-//   })
-// );
+const transform = (s: typeof schema, validationCtx: EpochFormValidationCtx) => {
+  const begun = validationCtx?.source?.started ?? false;
+  const baseStartDateStr = validationCtx?.source?.start_date;
+  const baseStartDate = baseStartDateStr
+    ? DateTime.fromISO(baseStartDateStr)
+    : undefined;
+  return s
+    .refine(({ start_date }) => !(!begun && start_date < DateTime.utc()), {
+      path: ['start_date'],
+      message: 'Start date must be in the future',
+    })
+    .refine(({ start_date }) => !(begun && start_date !== baseStartDate), {
+      path: ['start_date'],
+      message: "In progress epoch can't change start_date",
+    })
+    .refine(
+      ({ start_date, days }) =>
+        !(begun && start_date.plus({ days }) < DateTime.utc()),
+      {
+        path: ['days'],
+        message: 'Epoch must end in the future',
+      }
+    )
+    .refine(({ repeat, days }) => !(repeat === 1 && days > 7), {
+      path: ['days'],
+      message: "Weekly repeating, can't have more than 7 days",
+    })
+    .refine(({ repeat, days }) => !(repeat === 2 && days > 28), {
+      path: ['days'],
+      message: "Monthly repeating, can't have more than 28 day",
+    })
+    .transform(({ start_date, start_time, ...fields }) => ({
+      start_date: start_date.toISO(),
+      start_time: start_time.toFormat('HH:mm:00'),
+      ...fields,
+    }));
+};
 
-const epochForm = createApeFormHooks(schema)({
+type TForm = typeof schema['_input'];
+type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
+
+const epochForm = createForm(
+  () => schema,
+  transform
+)({
   name: 'epochSettings',
   getInstanceKey: (e?: IEpoch) => (e ? String(e.id) : `new`),
   load: (e?: IEpoch) => ({
-    start_date:
-      e?.start_date ??
-      moment().utc().add(1, 'days').add(1, 'days').format('MM/DD/YYYY'),
-    start_time: `2000-01-01T${e?.start_time ?? '00:00:00'}.000000Z`,
-    repeat: e?.repeat ?? '',
+    start_date: e?.start_date ?? DateTime.utc().plus({ days: 1 }).toISO(),
+    start_time: `2019-01-02T${e?.start_time ?? '00:00:00'}.000000Z`,
+    repeat: e?.repeatEnum ?? 'none',
     days: e?.days ?? e?.calculatedDays ?? 4,
   }),
   fieldProps: {
@@ -58,7 +91,7 @@ const epochForm = createApeFormHooks(schema)({
       options: [
         {
           label: 'This epoch does not repeat',
-          value: '',
+          value: 'none',
         },
         {
           label: 'This epoch repeats monthly',
@@ -68,23 +101,21 @@ const epochForm = createApeFormHooks(schema)({
           label: 'This epoch repeats weekly',
           value: 'weekly',
         },
-      ],
+      ] as { label: string; value: TEpochRepeatEnum }[],
     },
   },
 });
 
-export const summarizeEpoch = (value: typeof schema['_input']) => {
-  const startTime = moment.utc(value.start_time).format('HH:mm [UTC]');
-  const startDate = moment.utc(value.start_date).format('MMM Do YYYY');
-  const endDate = moment
-    .utc(value.start_date)
-    .add(value.days, 'days')
-    .format('MMM Do YYYY');
+export const summarizeEpoch = (value: TForm) => {
+  const startTime = DateTime.fromISO(value.start_time).toFormat("HH:mm 'UTC'");
+  const startDate = DateTime.fromISO(value.start_date).toFormat('DD');
+  const endDate = DateTime.fromISO(value.start_date)
+    .plus({ days: value.days })
+    .toFormat('DD');
 
-  const nextRepeat = moment
-    .utc(value.start_date)
-    .add(1, value.repeat === 'monthly' ? 'month' : 'week')
-    .format('MMM Do YYYY');
+  const nextRepeat = DateTime.fromISO(value.start_date)
+    .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
+    .toFormat('DD');
 
   const repeating =
     value.repeat === 'monthly'

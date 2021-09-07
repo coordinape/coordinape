@@ -30,12 +30,15 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.colors.third}`,
     transition: 'border 200ms ease-out',
     '&:focus-within': {
-      border: `1px solid ${theme.colors.lightBlue}`,
+      border: `1px solid ${theme.colors.lightBlue}80`,
     },
   },
   inputRootError: {
     border: `1px solid ${theme.colors.red}`,
-    color: theme.colors.red,
+    color: '#ad0003',
+    '&:focus-within': {
+      border: `1px solid ${theme.colors.red}`,
+    },
   },
   input: {
     padding: theme.spacing(1.75, 1, 1.75),

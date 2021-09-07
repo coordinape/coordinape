@@ -151,12 +151,12 @@ export const createExtendedEpoch = (
       ? `${activeUsers} members allocated ${totalTokens} Tokens`
       : '';
 
-  const repeat =
-    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : '';
+  const repeatEnum =
+    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : 'none';
 
   return {
     ...raw,
-    repeat,
+    repeatEnum,
     ended: raw.ended ? true : false,
     started,
     startDate,
