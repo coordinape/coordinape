@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  rootFullWidth: {
+    width: '100%',
+  },
   label: {
     fontSize: 16,
     lineHeight: 1.3,
@@ -164,7 +167,13 @@ export const ApeTextField = (props: TextFieldProps) => {
   } as InputBaseProps;
 
   return (
-    <div className={clsx(className, classes.root)}>
+    <div
+      className={clsx(
+        className,
+        classes.root,
+        fullWidth && classes.rootFullWidth
+      )}
+    >
       {label ? (
         <label htmlFor={id ?? fallbackId} className={classes.label}>
           {label}

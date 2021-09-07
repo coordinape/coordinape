@@ -9,7 +9,7 @@ import {
   FormTimePicker,
   FormRadioGroup,
 } from 'components';
-import EpochForm, { summarizeEpoch } from 'forms/EpochForm';
+import EpochForm, { summarizeEpoch } from 'forms/AdminEpochForm';
 import { useAdminApi } from 'hooks';
 
 import { IEpoch } from 'types';
@@ -76,9 +76,9 @@ export const EditEpochModal = ({
 
   const { createEpoch, updateEpoch } = useAdminApi();
 
-  const validationCtx = useMemo(
+  const source = useMemo(
     () => ({
-      source: epoch,
+      epoch: epoch,
       epochs: epochs.filter((e) => e.id !== epoch?.id),
     }),
     [epoch, epochs]
@@ -86,9 +86,8 @@ export const EditEpochModal = ({
 
   return (
     <EpochForm.FormController
-      source={epoch}
+      source={source}
       hideFieldErrors
-      validationCtx={validationCtx}
       submit={(params) =>
         (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
           onClose()

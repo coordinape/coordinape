@@ -6,8 +6,8 @@ import { zStringISODate } from './formHelpers';
 
 import { IEpoch } from 'types';
 
-interface EpochFormValidationCtx {
-  source?: IEpoch;
+interface IEpochFormSource {
+  epoch?: IEpoch;
   epochs: IEpoch[];
 }
 
@@ -30,13 +30,13 @@ const schema = z
   })
   .strict();
 
-const transform = (s: typeof schema, validationCtx: EpochFormValidationCtx) => {
-  const begun = validationCtx?.source?.started ?? false;
-  const baseStartDateStr = validationCtx?.source?.start_date;
+const getZodParser = (source: IEpochFormSource) => {
+  const begun = source?.epoch?.started ?? false;
+  const baseStartDateStr = source?.epoch?.start_date;
   const baseStartDate = baseStartDateStr
     ? DateTime.fromISO(baseStartDateStr)
     : undefined;
-  return s
+  return schema
     .refine(({ start_date }) => !(!begun && start_date < DateTime.utc()), {
       path: ['start_date'],
       message: 'Start date must be in the future',
@@ -71,18 +71,19 @@ const transform = (s: typeof schema, validationCtx: EpochFormValidationCtx) => {
 type TForm = typeof schema['_input'];
 type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
-const epochForm = createForm(
-  () => schema,
-  transform
-)({
-  name: 'epochSettings',
-  getInstanceKey: (e?: IEpoch) => (e ? String(e.id) : `new`),
-  load: (e?: IEpoch) => ({
-    start_date: e?.start_date ?? DateTime.utc().plus({ days: 1 }).toISO(),
-    start_time: `2019-01-02T${e?.start_time ?? '00:00:00'}.000000Z`,
-    repeat: e?.repeatEnum ?? 'none',
-    days: e?.days ?? e?.calculatedDays ?? 4,
+const AdminEpochForm = createForm({
+  name: 'adminEpochForm',
+  getInstanceKey: (s: IEpochFormSource) =>
+    s?.epoch ? String(s.epoch.id) : `new`,
+  getZodParser,
+  load: (s: IEpochFormSource) => ({
+    start_date:
+      s?.epoch?.start_date ?? DateTime.utc().plus({ days: 1 }).toISO(),
+    start_time: `2019-01-02T${s?.epoch?.start_time ?? '00:00:00'}.000000Z`,
+    repeat: s?.epoch?.repeatEnum ?? 'none',
+    days: s?.epoch?.days ?? s?.epoch?.calculatedDays ?? 4,
   }),
+  fieldKeys: Object.keys(schema.shape),
   fieldProps: {
     start_date: {
       format: 'MM/dd/yyyy',
@@ -127,4 +128,4 @@ export const summarizeEpoch = (value: TForm) => {
   return `This epoch starts on ${startDate} at ${startTime} and will end on ${endDate} at ${startTime}. ${repeating}`;
 };
 
-export default epochForm;
+export default AdminEpochForm;

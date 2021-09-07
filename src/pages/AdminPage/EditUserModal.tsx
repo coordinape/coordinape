@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ethInput: {
     marginTop: theme.spacing(4),
+    width: '100%',
   },
 }));
 
@@ -55,7 +56,6 @@ export const EditUserModal = ({
   return (
     <AdminUserForm.FormController
       source={source}
-      validationCtx={undefined}
       hideFieldErrors
       submit={(params) =>
         (user

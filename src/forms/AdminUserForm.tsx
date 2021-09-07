@@ -1,11 +1,7 @@
 import { z } from 'zod';
 
 import { createForm } from './createForm';
-import {
-  zEthAddress,
-  zBooleanToNumber,
-  identityTransform,
-} from './formHelpers';
+import { zEthAddress, zBooleanToNumber } from './formHelpers';
 
 import { IUser, ICircle } from 'types';
 
@@ -25,12 +21,10 @@ const schema = z
   })
   .strict();
 
-const AdminUserForm = createForm(
-  () => schema,
-  identityTransform
-)({
-  name: 'adminUser',
+const AdminUserForm = createForm({
+  name: 'adminUserForm',
   getInstanceKey: (v: IUserAndCircle) => (v?.user ? String(v?.user.id) : `new`),
+  getZodParser: () => schema,
   load: (v: IUserAndCircle) => ({
     name: v.user?.name ?? '',
     address: v.user?.address ?? '',
@@ -39,6 +33,7 @@ const AdminUserForm = createForm(
     role: !!v.user?.role ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
   }),
+  fieldKeys: Object.keys(schema.shape),
   fieldProps: {},
 });
 

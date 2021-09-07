@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   grouped: {
-    minWidth: 93,
+    minWidth: 102,
     borderRadius: 8,
     fontWeight: 300,
   },
