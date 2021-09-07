@@ -59,42 +59,37 @@ type Merge<A, B> = {
 };
 
 export const createForm = <
-  Shape extends z.ZodRawShape,
-  Z extends z.ZodObject<Shape, 'strict'>,
-  Output extends unknown,
-  ValidationCtx = undefined
->(
-  schema: (v: ValidationCtx) => Z,
-  transform: (s: Z, v: ValidationCtx) => z.ZodEffects<any, Output>
-) => <Source, FProps extends { [k: string]: Record<string, any> }>({
+  Source,
+  Input extends { [v: string]: any },
+  FProps extends { [k: string]: Record<string, any> },
+  Output extends unknown
+>({
   name,
   getInstanceKey,
+  getZodParser,
   load,
+  fieldKeys,
   fieldProps,
 }: {
   name: string;
   getInstanceKey: (s: Source) => string;
-  load: (s: Source) => Z['_input'];
+  getZodParser: (s: Source) => z.ZodType<Output, any, Input>;
+  load: (s: Source) => Input;
+  fieldKeys: string[];
   fieldProps: FProps;
-  hideErrorText?: boolean;
 }) => {
-  type Effect = ReturnType<typeof transform>;
+  type Effect = ReturnType<typeof getZodParser>;
   type Fields = Merge<
     {
-      [P in keyof Z['_input']]: {
-        value: Z['_input'][P];
-        onChange: (newValue: Z['_input'][P]) => void;
+      [P in keyof Input]: {
+        value: Input[P];
+        onChange: (newValue: Input[P]) => void;
         error: boolean;
         errorText?: string;
       };
     },
     FProps
   >;
-
-  interface FormControllerProps {
-    source: Source;
-    validationCtx: ValidationCtx;
-  }
 
   interface FormProps {
     submit: (v: Output) => any;
@@ -104,7 +99,6 @@ export const createForm = <
 
   interface ControllerProps {
     source: Source;
-    validationCtx: ValidationCtx;
     submit: (v: Output) => any;
     hideFieldErrors?: boolean;
   }
@@ -113,16 +107,12 @@ export const createForm = <
     key: `ApeFormSource-${name}`,
     default: neverEndingPromise(),
   });
-  const rValidationCtx = atomFamily<ValidationCtx, string>({
-    key: `ApeFormValidationCtx-${name}`,
-    default: neverEndingPromise(),
-  });
-  const rBaseValue = selectorFamily<Z['_input'], string>({
+  const rBaseValue = selectorFamily<Input, string>({
     key: `ApeFormBaseValue-${name}`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) =>
       load(get(rSource(instanceKey))),
   });
-  const rValue = atomFamily<Z['_input'], string>({
+  const rValue = atomFamily<Input, string>({
     key: `ApeFormValue-${name}`,
     default: neverEndingPromise(),
   });
@@ -130,18 +120,17 @@ export const createForm = <
     key: `ApeFormParsed-${name}`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const value = get(rValue(instanceKey));
-      const validationCtx = get(rValidationCtx(instanceKey));
-      return transform(schema(validationCtx), validationCtx).safeParse(value);
+      const source = get(rSource(instanceKey));
+      return getZodParser(source).safeParse(value);
     },
   });
   const rChangedOutput = selectorFamily<boolean, string>({
     key: `ApeFormChangedOutput-${name}`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
-      const validationCtx = get(rValidationCtx(instanceKey));
-      const baseOutput = transform(
-        schema(validationCtx),
-        validationCtx
-      ).safeParse(get(rBaseValue(instanceKey)));
+      const source = get(rSource(instanceKey));
+      const baseOutput = getZodParser(source).safeParse(
+        get(rBaseValue(instanceKey))
+      );
       const output = get(rParsed(instanceKey));
       if (!baseOutput.success) {
         return output.success;
@@ -163,20 +152,15 @@ export const createForm = <
         const stored = await snapshot.getPromise(rSource(k));
         if (!isEqual(s, stored)) {
           set(rSource(k), s);
-          console.log(`${name}.useResetIfSourceChanged load`);
           await set(rValue(k), load(s));
         }
       }
     );
 
-  const useFormController = ({
-    source,
-    validationCtx,
-  }: FormControllerProps) => {
+  const useFormController = (source: Source) => {
     const instanceKey = getInstanceKey(source);
     const initializedKey = useRef<string>('not' + instanceKey);
 
-    const setValidationCtx = useSetRecoilState(rValidationCtx(instanceKey));
     const setSource = useSetRecoilState(rSource(instanceKey));
     const setValue = useSetRecoilState(rValue(instanceKey));
 
@@ -184,9 +168,7 @@ export const createForm = <
     const reset = useFormReset(instanceKey);
 
     useEffect(() => {
-      setValidationCtx(validationCtx);
       setSource(source);
-      console.log(`${name}.useEffect[] load`, source);
       setValue(load(source));
       return () => {
         // Reset on dismount
@@ -200,15 +182,9 @@ export const createForm = <
       } else {
         initializedKey.current = instanceKey;
         setSource(source);
-        console.log(`${name}.useEffect[source] load`, source);
         setValue(load(source));
       }
     }, [source]);
-
-    useEffect(() => {
-      console.log(`${name}.useEffect[validationCtx] load`, validationCtx);
-      setValidationCtx(validationCtx);
-    }, [validationCtx]);
 
     return instanceKey;
   };
@@ -216,7 +192,6 @@ export const createForm = <
   const useForm = ({ instanceKey, submit, hideFieldErrors }: FormProps) => {
     const [value, updateValue] = useRecoilState(rValue(instanceKey));
     const parsed = useRecoilValue(rParsed(instanceKey));
-    const validationCtx = useRecoilValue(rValidationCtx(instanceKey));
     const changedOutput = useRecoilValue(rChangedOutput(instanceKey));
 
     const reset = useFormReset(instanceKey);
@@ -224,13 +199,8 @@ export const createForm = <
     const handleSubmit = useRecoilCallback(
       ({ snapshot }: CallbackInterface) => async () => {
         const value = await snapshot.getPromise(rValue(instanceKey));
-        const validationCtx = await snapshot.getPromise(
-          rValidationCtx(instanceKey)
-        );
-        const output = (await transform(
-          schema(validationCtx),
-          validationCtx
-        ).parseAsync(value)) as Output;
+        const source = await snapshot.getPromise(rSource(instanceKey));
+        const output = (await getZodParser(source).parseAsync(value)) as Output;
         return submit(output);
       }
     );
@@ -242,14 +212,12 @@ export const createForm = <
           formErrors: parsed.error.flatten().formErrors,
         } as Record<string, string[]>);
 
-    const fields = (Object.keys(schema(validationCtx).shape).reduce<
-      Record<string, any>
-    >((acc, field) => {
+    const fields = (fieldKeys.reduce<Record<string, any>>((acc, field) => {
       acc[field] = {
         value: (value as Record<string, any>)[field],
         onChange: (newValue: any) =>
           updateValue(
-            (oldValue) => ({ ...oldValue, [field]: newValue } as Z['_input'])
+            (oldValue) => ({ ...oldValue, [field]: newValue } as Input)
           ),
         error: field in fieldErrors,
         errorText:
@@ -286,12 +254,11 @@ export const createForm = <
   const FormController = ({
     children,
     source,
-    validationCtx,
     ...props
   }: {
     children: (formProps: ReturnType<typeof useForm>) => React.ReactNode;
   } & ControllerProps) => {
-    const instanceKey = useFormController({ source, validationCtx });
+    const instanceKey = useFormController(source);
 
     return (
       <BackdropSuspense>
@@ -305,8 +272,6 @@ export const createForm = <
   return {
     useFormController,
     useForm,
-    schema,
     FormController,
-    nothing: ({} as unknown) as ValidationCtx,
   };
 };
