@@ -89,31 +89,14 @@ export const useAdminApi = () => {
       { hideLoading: true }
     );
 
-  const createEpochDeprecated = (startDate: Date, endDate: Date) =>
-    callWithLoadCatch(
-      async () => {
-        if (myAddress === undefined) throw 'myAddress required';
-        const newEpoch = await api.createEpochDeprecated(
-          myAddress,
-          selectedCircleId,
-          startDate,
-          endDate
-        );
-
-        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
-
-        return newEpoch;
-      },
-      { hideLoading: true }
-    );
-
-  const updateEpoch = (params: UpdateCreateEpochParam) =>
+  const updateEpoch = (epochId: number, params: UpdateCreateEpochParam) =>
     callWithLoadCatch(
       async () => {
         if (myAddress === undefined) throw 'myAddress required';
         const newEpoch = await api.updateEpoch(
           myAddress,
           selectedCircleId,
+          epochId,
           params
         );
 
@@ -190,7 +173,6 @@ export const useAdminApi = () => {
     updateCircle,
     updateCircleLogo,
     createEpoch,
-    createEpochDeprecated,
     updateEpoch,
     deleteEpoch,
     updateUser,
