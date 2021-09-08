@@ -1,13 +1,7 @@
 import { Wallet, ethers } from 'ethers';
 
-export const getSignature = async (
-  data: string,
-  provider?: any
-): Promise<any> => {
-  if (!provider)
-    return new Promise((resolve) => {
-      resolve('');
-    });
+export const getSignature = async (data: string, provider?: any) => {
+  if (!provider) throw 'Missing provider for getSignature';
   const signer: Wallet = provider.getSigner();
   const address = await signer.getAddress();
   const signature = await signer.signMessage(data);

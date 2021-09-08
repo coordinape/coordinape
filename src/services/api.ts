@@ -1,5 +1,4 @@
 import axios from 'axios';
-import moment from 'moment';
 
 import { API_URL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
@@ -141,29 +140,8 @@ export class APIService {
     params: UpdateCreateEpochParam
   ): Promise<IApiEpoch> => {
     const data = JSON.stringify(params);
-    const signature = await getSignature(data, this.provider);
-    const response = await axios.post(`${circleId}/admin/v2/epoches`, {
-      signature,
-      data,
-      address,
-    });
-    return response.data as IApiEpoch;
-  };
-
-  createEpochDeprecated = async (
-    address: string,
-    circleId: number,
-    startDate: Date,
-    endDate: Date
-  ): Promise<IApiEpoch> => {
-    const start_date = `${moment(startDate).format(
-      'YYYY-MM-DD'
-    )}T00:00:00.000000Z`;
-    const end_date = `${moment(endDate).format('YYYY-MM-DD')}T00:00:00.000000Z`;
-    const params: any = { start_date, end_date };
-    const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post(`${circleId}/admin/epoches`, {
+    const response = await axios.post(`${circleId}/admin/v2/epoches`, {
       signature,
       data,
       address,
@@ -175,11 +153,12 @@ export class APIService {
   updateEpoch = async (
     address: string,
     circleId: number,
+    epochId: number,
     params: UpdateCreateEpochParam
   ): Promise<IApiEpoch> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.put(`${circleId}/admin/epoches`, {
+    const response = await axios.put(`${circleId}/admin/epoches/${epochId}`, {
       signature,
       data,
       address,

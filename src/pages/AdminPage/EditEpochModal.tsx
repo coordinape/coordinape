@@ -89,7 +89,7 @@ export const EditEpochModal = ({
       source={source}
       hideFieldErrors
       submit={(params) =>
-        (epoch ? createEpoch(params) : updateEpoch(params)).then(() =>
+        (epoch ? updateEpoch(epoch.id, params) : createEpoch(params)).then(() =>
           onClose()
         )
       }

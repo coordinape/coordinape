@@ -2,7 +2,7 @@ import { DateTime, Interval } from 'luxon';
 import { z } from 'zod';
 
 import { createForm } from './createForm';
-import { zStringISODate } from './formHelpers';
+import { zStringISODateUTC } from './formHelpers';
 
 import { IEpoch } from 'types';
 
@@ -16,7 +16,7 @@ type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
 const schema = z
   .object({
-    start_date: zStringISODate,
+    start_date: zStringISODateUTC,
     repeat: EpochRepeatEnum,
     days: z
       .number()
