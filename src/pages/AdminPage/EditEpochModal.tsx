@@ -119,7 +119,7 @@ export const EditEpochModal = ({
                 />
                 <FormTimePicker
                   label="Epoch Start Time"
-                  {...fields.start_time}
+                  {...fields.start_date}
                 />
               </div>
             </div>

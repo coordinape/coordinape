@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 
 export interface ITiming {
   days: number;
@@ -37,14 +37,14 @@ export interface IApiEpoch {
   days?: number; // Used for repeating
   repeat?: number; // 1: weekly, 2: monthly
   repeat_day_of_month: number;
-  start_time: string; // "00:00:00" UTC
 }
 
 export interface IEpoch extends IApiEpoch {
   repeatEnum: 'weekly' | 'monthly' | 'none';
   ended: boolean;
-  startDate: Moment;
-  endDate: Moment;
+  startDate: DateTime;
+  endDate: DateTime;
+  eInterval: Interval;
   // Calculated:
   started: boolean;
   totalTokens: number;
