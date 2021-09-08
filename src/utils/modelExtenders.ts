@@ -1,4 +1,5 @@
 import iti from 'itiriri';
+import { DateTime } from 'luxon';
 import moment from 'moment';
 
 import {
@@ -32,11 +33,8 @@ export const timingToLeastUnit = (timing: ITiming) => {
   return 'The Past';
 };
 
-export const calculateTimeUntil = (
-  target: moment.Moment
-): [boolean, ITiming] => {
-  const now = moment.utc();
-  const diff = target.diff(now);
+export const calculateTimeUntil = (target: DateTime): [boolean, ITiming] => {
+  const diff = target.diffNow().milliseconds;
   if (diff > 0) {
     return [
       false,
@@ -52,35 +50,19 @@ export const calculateTimeUntil = (
   }
 };
 
-export const getEpochDates = (epoch: IApiEpoch): string => {
-  const start = new Date(epoch.start_date);
-  const end = new Date(epoch.end_date);
-  if (start.getMonth() !== end.getMonth()) {
-    const formatter = new Intl.DateTimeFormat('en', {
-      day: 'numeric',
-      month: 'short',
-    });
-    return `${formatter.format(start)} - ${formatter.format(end)}`;
-  }
-  const dayFormatter = new Intl.DateTimeFormat('en', {
-    day: 'numeric',
-  });
-  const month = new Intl.DateTimeFormat('en', {
-    month: 'long',
-  }).format(start);
-  return `${month} ${dayFormatter.format(start)} - ${dayFormatter.format(end)}`;
-};
-
 export const getEpochLabel = (epoch: IApiEpoch): string => {
   const epochNumber = epoch.number ? `Epoch ${epoch.number}` : 'This Epoch';
-  const epochDates = getEpochDates(epoch);
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
+  const epochDates =
+    startDate.month !== endDate.month
+      ? `${startDate.toFormat('LLL d')} - ${endDate.toFormat('LLL d')}`
+      : `${startDate.monthShort} ${startDate.day} - ${endDate.day}`;
   return `${epochNumber} ${epochDates}`;
 };
 
-const getLongEpochDateLabel = (
-  start: moment.Moment,
-  end: moment.Moment
-): string => `${start.format('MMMM Do')} to ${end.format('MMMM Do')}`;
+const getLongEpochDateLabel = (start: DateTime, end: DateTime): string =>
+  `${start.toFormat('LLL d')} to ${end.toFormat('LLL d')}`;
 
 export const calculateEpochTimings = (epoch: IEpoch): IEpochTiming => {
   const [hasBegun, timeUntilStart] = calculateTimeUntil(epoch.startDate);
@@ -132,19 +114,19 @@ export const createExtendedEpoch = (
     .distinct()
     .length();
   const totalTokens = giftStream.map((g) => g.tokens).sum() ?? 0;
-  const startDate = moment.utc(raw.start_date);
-  const endDate = moment.utc(raw.end_date);
+  const startDate = DateTime.fromISO(raw.start_date);
+  const endDate = DateTime.fromISO(raw.end_date);
 
   const [started, timeUntilStart] = calculateTimeUntil(startDate);
   const [ended, timeUntilEnd] = calculateTimeUntil(endDate);
 
-  const calculatedDays = moment.duration(endDate.diff(startDate)).asDays();
+  const calculatedDays = startDate.until(endDate).toDuration().days;
   const labelTimeStart = started
-    ? startDate.format('[Started] h:mma [UTC]')
-    : startDate.format('[Starts] h:mma [UTC]');
+    ? startDate.toFormat("'Started' h:mma 'UTC'")
+    : startDate.toFormat("'Starts' h:mma 'UTC'");
   const labelTimeEnd = ended
-    ? startDate.format('[Ended] h:mma [UTC]')
-    : startDate.format('[Ends] h:mma [UTC]');
+    ? startDate.toFormat("'Ended' h:mma 'UTC'")
+    : startDate.toFormat("'Ends' h:mma 'UTC'");
 
   const labelActivity =
     gifts.length > 0
@@ -161,6 +143,7 @@ export const createExtendedEpoch = (
     started,
     startDate,
     endDate,
+    eInterval: startDate.until(endDate),
     totalTokens,
     uniqueUsers,
     activeUsers,

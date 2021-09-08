@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import { z } from 'zod';
 
 import { createForm } from './createForm';
@@ -12,17 +12,12 @@ interface IEpochFormSource {
 }
 
 const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly']);
+type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
 const schema = z
   .object({
     start_date: zStringISODate,
-    start_time: zStringISODate,
-    repeat: EpochRepeatEnum.transform((v) => {
-      if (v === 'weekly') {
-        return 1;
-      }
-      return v === 'monthly' ? 2 : 0;
-    }),
+    repeat: EpochRepeatEnum,
     days: z
       .number()
       .min(1, 'Must be at least one day.')
@@ -30,12 +25,83 @@ const schema = z
   })
   .strict();
 
+const nextIntervalFactory = (repeat: TEpochRepeatEnum) => {
+  const increment = repeat === 'weekly' ? { weeks: 1 } : { months: 1 };
+  return (i: Interval) =>
+    Interval.fromDateTimes(i.start.plus(increment), i.end.plus(increment));
+};
+
+const getCollisionMessage = (
+  newInterval: Interval,
+  newRepeat: TEpochRepeatEnum,
+  e: IEpoch
+) => {
+  if (e.repeatEnum === 'none' && newRepeat === 'none') {
+    return newInterval.overlaps(e.eInterval)
+      ? `Overlap with epoch ${
+          e.number ?? 'x'
+        } with start ${e.startDate.toISO()}`
+      : undefined;
+  }
+  // Only one will be allowed to be repeating
+  // Set r as the repeating and c as the constant interval.
+  const [r, c, next] =
+    e.repeatEnum !== 'none'
+      ? [e.eInterval, newInterval, nextIntervalFactory(e.repeatEnum)]
+      : [newInterval, e.eInterval, nextIntervalFactory(newRepeat)];
+
+  if (c.isBefore(r.start) || +c.end === +r.start) {
+    return undefined;
+  }
+
+  let rp = r;
+  while (rp.start < c.end) {
+    if (rp.overlaps(c)) {
+      return `Overlap on repeat with epoch ${
+        e.number ?? 'x'
+      } with start ${e.startDate.toISO()}`;
+    }
+    rp = next(rp);
+  }
+
+  return undefined;
+};
+
 const getZodParser = (source: IEpochFormSource) => {
-  const begun = source?.epoch?.started ?? false;
+  const begun = source.epoch?.started ?? false;
   const baseStartDateStr = source?.epoch?.start_date;
   const baseStartDate = baseStartDateStr
     ? DateTime.fromISO(baseStartDateStr)
     : undefined;
+
+  const otherRepeating = source.epochs.find((e) => !!e.repeat);
+
+  const getOverlapIssue = ({
+    start_date,
+    days,
+    repeat,
+  }: {
+    start_date: DateTime;
+    days: number;
+    repeat: TEpochRepeatEnum;
+  }) => {
+    const interval = Interval.fromDateTimes(
+      start_date,
+      start_date.plus({ days })
+    );
+
+    const collisionMessage = source.epochs
+      .map((e) => getCollisionMessage(interval, repeat, e))
+      .find((m) => m !== undefined);
+
+    return collisionMessage === undefined
+      ? undefined
+      : {
+          path: ['start_date'],
+          message: collisionMessage,
+        };
+  };
+
   return schema
     .refine(({ start_date }) => !(!begun && start_date < DateTime.utc()), {
       path: ['start_date'],
@@ -53,23 +119,31 @@ const getZodParser = (source: IEpochFormSource) => {
         message: 'Epoch must end in the future',
       }
     )
-    .refine(({ repeat, days }) => !(repeat === 1 && days > 7), {
+    .refine(({ repeat, days }) => !(repeat === 'weekly' && days > 7), {
       path: ['days'],
       message: "Weekly repeating, can't have more than 7 days",
     })
-    .refine(({ repeat, days }) => !(repeat === 2 && days > 28), {
+    .refine(({ repeat, days }) => !(repeat === 'monthly' && days > 28), {
       path: ['days'],
       message: "Monthly repeating, can't have more than 28 day",
     })
-    .transform(({ start_date, start_time, ...fields }) => ({
+    .refine(({ repeat }) => !(repeat !== 'none' && !!otherRepeating), {
+      path: ['repeat'],
+      // the getOverlapIssue relies on this invariant.
+      message: `Only one repeating epoch allowed, one starting ${otherRepeating?.start_date}`,
+    })
+    .refine(
+      (v) => !getOverlapIssue(v),
+      (v) => getOverlapIssue(v) ?? {}
+    )
+    .transform(({ start_date, repeat, ...fields }) => ({
       start_date: start_date.toISO(),
-      start_time: start_time.toFormat('HH:mm:00'),
+      repeat: repeat === 'weekly' ? 1 : repeat === 'monthly' ? 2 : 0,
       ...fields,
     }));
 };
 
 type TForm = typeof schema['_input'];
-type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
 const AdminEpochForm = createForm({
   name: 'adminEpochForm',
@@ -79,7 +153,6 @@ const AdminEpochForm = createForm({
   load: (s: IEpochFormSource) => ({
     start_date:
       s?.epoch?.start_date ?? DateTime.utc().plus({ days: 1 }).toISO(),
-    start_time: `2019-01-02T${s?.epoch?.start_time ?? '00:00:00'}.000000Z`,
     repeat: s?.epoch?.repeatEnum ?? 'none',
     days: s?.epoch?.days ?? s?.epoch?.calculatedDays ?? 4,
   }),
@@ -108,9 +181,13 @@ const AdminEpochForm = createForm({
 });
 
 export const summarizeEpoch = (value: TForm) => {
-  const startTime = DateTime.fromISO(value.start_time).toFormat("HH:mm 'UTC'");
-  const startDate = DateTime.fromISO(value.start_date).toFormat('DD');
-  const endDate = DateTime.fromISO(value.start_date)
+  const startTime = DateTime.fromISO(value.start_date, {
+    zone: 'utc',
+  }).toFormat("HH:mm 'UTC'");
+  const startDate = DateTime.fromISO(value.start_date, {
+    zone: 'utc',
+  }).toFormat('DD');
+  const endDate = DateTime.fromISO(value.start_date, { zone: 'utc' })
     .plus({ days: value.days })
     .toFormat('DD');
 
