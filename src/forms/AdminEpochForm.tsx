@@ -130,7 +130,7 @@ const getZodParser = (source: IEpochFormSource) => {
     )
     .refine(({ repeat, days }) => !(repeat === 'weekly' && days > 7), {
       path: ['days'],
-      message: "Weekly repeating, can't have more than 7 days",
+      message: "Can't have more than 7 days when repeating weekly",
     })
     .refine(({ repeat, days }) => !(repeat === 'monthly' && days > 28), {
       path: ['days'],
