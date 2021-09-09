@@ -98,16 +98,16 @@ export const FormModal = ({
         >
           <CloseIcon />
         </IconButton>
-        {title ? <h3 className={classes.title}>{title}</h3> : undefined}
+        {!!title && <h3 className={classes.title}>{title}</h3>}
         {children}
-        {errors !== undefined ? (
+        {errors !== undefined && (
           <div className={classes.errors}>
             {Object.values(errors).map((error, i) => (
               <div key={i}>{error}</div>
             ))}
           </div>
-        ) : undefined}
-        {onSubmit ? (
+        )}
+        {!!onSubmit && (
           <Button
             className={classes.saveButton}
             variant="contained"
@@ -119,7 +119,7 @@ export const FormModal = ({
           >
             {submitText ? submitText : 'Save'}
           </Button>
-        ) : undefined}
+        )}
       </form>
     </Modal>
   );

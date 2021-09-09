@@ -114,13 +114,15 @@ export const createExtendedEpoch = (
     .distinct()
     .length();
   const totalTokens = giftStream.map((g) => g.tokens).sum() ?? 0;
-  const startDate = DateTime.fromISO(raw.start_date);
-  const endDate = DateTime.fromISO(raw.end_date);
+  const startDate = DateTime.fromISO(raw.start_date, {
+    zone: 'utc',
+  });
+  const endDate = DateTime.fromISO(raw.end_date, { zone: 'utc' });
 
   const [started, timeUntilStart] = calculateTimeUntil(startDate);
   const [ended, timeUntilEnd] = calculateTimeUntil(endDate);
 
-  const calculatedDays = startDate.until(endDate).toDuration().days;
+  const calculatedDays = endDate.diff(startDate, 'days').days;
   const labelTimeStart = started
     ? startDate.toFormat("'Started' h:mma 'UTC'")
     : startDate.toFormat("'Starts' h:mma 'UTC'");
@@ -142,7 +144,11 @@ export const createExtendedEpoch = (
     ended: raw.ended ? true : false,
     started,
     startDate,
+    // This expression fails when called on recoilized startDate,
+    // because it's state is frozen and luxon uses a cache
+    startDay: startDate.toFormat('ccc'),
     endDate,
+    endDay: endDate.toFormat('ccc'),
     eInterval: startDate.until(endDate),
     totalTokens,
     uniqueUsers,

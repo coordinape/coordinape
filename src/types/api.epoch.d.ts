@@ -43,7 +43,9 @@ export interface IEpoch extends IApiEpoch {
   repeatEnum: 'weekly' | 'monthly' | 'none';
   ended: boolean;
   startDate: DateTime;
+  startDay: string;
   endDate: DateTime;
+  endDay: string;
   eInterval: Interval;
   // Calculated:
   started: boolean;

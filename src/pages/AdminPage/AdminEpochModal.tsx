@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditEpochModal = ({
+export const AdminEpochModal = ({
   epoch,
   epochs,
   onClose,
@@ -135,4 +135,4 @@ export const EditEpochModal = ({
   );
 };
 
-export default EditEpochModal;
+export default AdminEpochModal;
