@@ -216,7 +216,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditCircleModal = ({
+export const AdminCircleModal = ({
   circle,
   onClose,
   visible,
@@ -545,4 +545,4 @@ export const EditCircleModal = ({
   );
 };
 
-export default EditCircleModal;
+export default AdminCircleModal;

@@ -6,6 +6,8 @@ import { zStringISODateUTC } from './formHelpers';
 
 import { IEpoch } from 'types';
 
+const longUTCFormat = "DD 'at' H:mm 'UTC'";
+
 interface IEpochFormSource {
   epoch?: IEpoch;
   epochs: IEpoch[];
@@ -40,7 +42,7 @@ const getCollisionMessage = (
     return newInterval.overlaps(e.eInterval)
       ? `Overlap with epoch ${
           e.number ?? 'x'
-        } with start ${e.startDate.toISO()}`
+        } with start ${e.startDate.toFormat(longUTCFormat)}`
       : undefined;
   }
   // Only one will be allowed to be repeating
@@ -57,9 +59,13 @@ const getCollisionMessage = (
   let rp = r;
   while (rp.start < c.end) {
     if (rp.overlaps(c)) {
-      return `Overlap on repeat with epoch ${
-        e.number ?? 'x'
-      } with start ${e.startDate.toISO()}`;
+      return e.repeatEnum !== 'none'
+        ? `Overlap with repeating epoch ${e.number ?? 'x'}: ${rp.toFormat(
+            longUTCFormat
+          )}`
+        : `After repeat, new epoch overlaps ${
+            e.number ?? 'x'
+          }: ${e.startDate.toFormat(longUTCFormat)}`;
     }
     rp = next(rp);
   }
@@ -103,17 +109,20 @@ const getZodParser = (source: IEpochFormSource) => {
   };
 
   return schema
-    .refine(({ start_date }) => !(!begun && start_date < DateTime.utc()), {
+    .refine(({ start_date }) => begun || start_date > DateTime.utc(), {
       path: ['start_date'],
       message: 'Start date must be in the future',
     })
-    .refine(({ start_date }) => !(begun && start_date !== baseStartDate), {
-      path: ['start_date'],
-      message: "In progress epoch can't change start_date",
-    })
     .refine(
-      ({ start_date, days }) =>
-        !(begun && start_date.plus({ days }) < DateTime.utc()),
+      ({ start_date }) =>
+        !(begun && baseStartDate && +start_date !== +baseStartDate),
+      {
+        path: ['start_date'],
+        message: "In progress epoch can't change start_date",
+      }
+    )
+    .refine(
+      ({ start_date, days }) => start_date.plus({ days }) > DateTime.utc(),
       {
         path: ['days'],
         message: 'Epoch must end in the future',
@@ -181,15 +190,12 @@ const AdminEpochForm = createForm({
 });
 
 export const summarizeEpoch = (value: TForm) => {
-  const startTime = DateTime.fromISO(value.start_date, {
-    zone: 'utc',
-  }).toFormat("HH:mm 'UTC'");
   const startDate = DateTime.fromISO(value.start_date, {
     zone: 'utc',
-  }).toFormat('DD');
+  }).toFormat(longUTCFormat);
   const endDate = DateTime.fromISO(value.start_date, { zone: 'utc' })
     .plus({ days: value.days })
-    .toFormat('DD');
+    .toFormat(longUTCFormat);
 
   const nextRepeat = DateTime.fromISO(value.start_date)
     .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
@@ -197,12 +203,12 @@ export const summarizeEpoch = (value: TForm) => {
 
   const repeating =
     value.repeat === 'monthly'
-      ? `The epoch is set to repeat every month, the following epoch will start on ${nextRepeat}.`
+      ? `The epoch is set to repeat every month; the following epoch will start on ${nextRepeat}.`
       : value.repeat === 'weekly'
-      ? `The epoch is set to repeat every week, the following epoch will start on ${nextRepeat}.`
+      ? `The epoch is set to repeat every week; the following epoch will start on ${nextRepeat}.`
       : "The epoch doesn't repeat.";
 
-  return `This epoch starts on ${startDate} at ${startTime} and will end on ${endDate} at ${startTime}. ${repeating}`;
+  return `This epoch starts on ${startDate} and will end on ${endDate}. ${repeating}`;
 };
 
 export default AdminEpochForm;

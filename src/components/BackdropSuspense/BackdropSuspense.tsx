@@ -22,7 +22,7 @@ export const BackdropSuspense = ({
     <Suspense
       fallback={
         <Modal className={classes.modal} open>
-          <div>Suspense...</div>
+          <div>Suspended while loading...</div>
         </Modal>
       }
     >

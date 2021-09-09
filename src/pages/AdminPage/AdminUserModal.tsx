@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditUserModal = ({
+export const AdminUserModal = ({
   user,
   onClose,
   open,
@@ -97,4 +97,4 @@ export const EditUserModal = ({
   );
 };
 
-export default EditUserModal;
+export default AdminUserModal;

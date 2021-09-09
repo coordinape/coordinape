@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.text,
     background: theme.colors.lightBackground,
     '&:hover': {
-      background: theme.colors.lightBlue,
+      background: theme.colors.lightBlue + '80',
       color: theme.colors.white,
     },
   },
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 102,
     borderRadius: 8,
     fontWeight: 300,
+    '&:not(:last-child)': {
+      borderRight: '1px solid white',
+    },
   },
   label: {
     fontSize: 16,
@@ -75,11 +78,11 @@ export const ApeToggle = ({
 
   return (
     <div className={clsx(className, classes.root)}>
-      {label ? (
+      {!!label && (
         <label htmlFor={groupId} className={classes.label}>
           {label}
         </label>
-      ) : undefined}
+      )}
       <ButtonGroup
         id={groupId}
         variant="contained"
@@ -102,7 +105,7 @@ export const ApeToggle = ({
           No
         </Button>
       </ButtonGroup>
-      {helperText ? (
+      {!!helperText && (
         <span
           className={clsx({
             [classes.helper]: !error,
@@ -111,7 +114,7 @@ export const ApeToggle = ({
         >
           {errorText ?? helperText}
         </span>
-      ) : undefined}
+      )}
     </div>
   );
 };

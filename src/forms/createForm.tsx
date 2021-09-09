@@ -58,6 +58,27 @@ type Merge<A, B> = {
     : undefined;
 };
 
+/**
+ * creates a react component and hooks to encapsulate form functionality:
+ *  - Validation
+ *  - Change detection
+ *  - Converting from form values to submit props
+ *
+ *  It infers types from the zod objects used.
+ *
+ *
+ *  Note: Form suspends consumers until initialized, see FormController
+ *
+ * @param name - Needs to be unique for recoil state
+ * @param getInstanceKey - Return a unique id when the form modifies underlying data
+ * @param getZodParser - A function so that Zod can access state if needed to validate
+ *   The base of the schema needs to be a {@link z.ZodObject}.
+ * @param load - How the source initializes the form
+ * @param fieldKeys - The fields from the base ZodObject.
+ * @param fieldProps - Props that make sense to include as data rather than style
+ *
+ *  See simple example like {@link AdminUserForm}
+ */
 export const createForm = <
   Source,
   Input extends { [v: string]: any },
@@ -103,6 +124,8 @@ export const createForm = <
     hideFieldErrors?: boolean;
   }
 
+  // neverEndingPromise is used to cause a suspense when uninitialized
+  // see FormController and InnerFormController
   const rSource = atomFamily<Source, string>({
     key: `ApeFormSource-${name}`,
     default: neverEndingPromise(),
@@ -240,6 +263,7 @@ export const createForm = <
     };
   };
 
+  // Inner and Outer so the suspense stops children from rendering before init.
   const InnerFormController = ({
     children,
     ...props
@@ -273,5 +297,7 @@ export const createForm = <
     useFormController,
     useForm,
     FormController,
+    load,
+    getZodParser,
   };
 };

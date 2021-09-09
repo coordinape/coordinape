@@ -101,7 +101,6 @@ export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
     iti(get(rUserMapWithFake).values())
       .groupBy((u) => u.address)
       .map(([, us]) => {
-        // console.log(us);
         const users = us.toArray();
         // Deleted users don't have profiles
         const activeUser = us.find((u) => u.deleted_at !== undefined);

@@ -14,9 +14,9 @@ import {
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
 
-import EditCircleModal from './EditCircleModal';
-import EditEpochModal from './EditEpochModal';
-import EditUserModal from './EditUserModal';
+import AdminCircleModal from './AdminCircleModal';
+import AdminEpochModal from './AdminEpochModal';
+import AdminUserModal from './AdminUserModal';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
@@ -125,13 +125,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const epochDetail = (e: IEpoch) => {
-  const repeatLabel = e.repeat ? `repeats ${e.repeat}` : '';
-  if (e.ended) {
-    return e.labelActivity;
-  }
-  return e.started
-    ? `${e.labelUntilEnd} ${repeatLabel}`
-    : `${e.calculatedDays} days ${repeatLabel}`;
+  const r =
+    e.repeatEnum === 'none'
+      ? ''
+      : e.repeatEnum === 'weekly'
+      ? `${e.startDay} - ${e.endDay}`
+      : 'monthly';
+  return e.ended
+    ? e.labelActivity
+    : `${e.calculatedDays} ${e.calculatedDays > 1 ? 'days' : 'day'}${
+        e.repeat ? ` repeats ${r}` : ''
+      }`;
 };
 
 const AdminPage = () => {
@@ -381,12 +385,12 @@ const AdminPage = () => {
         filter={filterUser}
         sortable
       />
-      <EditUserModal
+      <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
         user={editUser}
         open={!!editUser || newUser}
       />
-      <EditEpochModal
+      <AdminEpochModal
         epochs={epochs}
         epoch={editEpoch}
         onClose={() =>
@@ -394,13 +398,13 @@ const AdminPage = () => {
         }
         open={!!editEpoch || newEpoch}
       />
-      {selectedCircle !== undefined ? (
-        <EditCircleModal
+      {!!selectedCircle && (
+        <AdminCircleModal
           circle={selectedCircle}
           onClose={() => setEditCircle(false)}
           visible={editCircle}
         />
-      ) : undefined}
+      )}
     </div>
   );
 };
