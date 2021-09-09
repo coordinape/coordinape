@@ -118,7 +118,7 @@ const getZodParser = (source: IEpochFormSource) => {
         !(begun && baseStartDate && +start_date !== +baseStartDate),
       {
         path: ['start_date'],
-        message: "In progress epoch can't change start_date",
+        message: "Can't change start date for an epoch in progress",
       }
     )
     .refine(
