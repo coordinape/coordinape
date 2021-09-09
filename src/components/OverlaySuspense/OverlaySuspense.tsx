@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const BackdropSuspense = ({
+export const OverlaySuspense = ({
   children,
 }: {
   children: React.ReactNode;
@@ -31,4 +31,4 @@ export const BackdropSuspense = ({
   );
 };
 
-export default BackdropSuspense;
+export default OverlaySuspense;

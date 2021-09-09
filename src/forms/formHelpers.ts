@@ -11,10 +11,3 @@ export const zStringISODateUTC = z
 export const zEthAddress = z
   .string()
   .refine((s) => ethers.utils.isAddress(s), 'Invalid Eth Address');
-
-export const identityTransform = <
-  Shape extends z.ZodRawShape,
-  Z extends z.ZodObject<Shape, 'strict'>
->(
-  s: Z
-) => s.transform((o: Z['_output']) => o);

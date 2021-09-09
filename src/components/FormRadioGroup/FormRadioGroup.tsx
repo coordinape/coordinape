@@ -38,7 +38,7 @@ export const FormRadioGroup = ({
   return (
     <div>
       <FormControl component="fieldset" error={error}>
-        {label ? <FormLabel component="legend">{label}</FormLabel> : undefined}
+        {!!label && <FormLabel component="legend">{label}</FormLabel>}
         <RadioGroup value={value} onChange={handleChange}>
           {options?.map((option) => (
             <FormControlLabel
@@ -55,9 +55,7 @@ export const FormRadioGroup = ({
           ))}
         </RadioGroup>
       </FormControl>
-      {errorText ? (
-        <div className={classes.redColor}>{errorText}</div>
-      ) : undefined}
+      {!!errorText && <div className={classes.redColor}>{errorText}</div>}
     </div>
   );
 };

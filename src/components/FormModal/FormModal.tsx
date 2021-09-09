@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     margin: 0,
-    minHeight: 65,
+    minHeight: 45,
     color: theme.colors.red,
   },
 }));
