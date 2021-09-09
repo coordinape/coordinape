@@ -9,4 +9,3 @@ export * from './global';
 export * from './graph';
 export * from './material-ui';
 export * from './recoil';
-export * from './forms';

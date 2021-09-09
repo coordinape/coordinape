@@ -13,7 +13,7 @@ import {
 } from 'recoil';
 import { z } from 'zod';
 
-import { BackdropSuspense } from 'components';
+import { OverlaySuspense } from 'components';
 import { neverEndingPromise } from 'utils/tools';
 
 import { IRecoilGetParams } from 'types';
@@ -285,19 +285,15 @@ export const createForm = <
     const instanceKey = useFormController(source);
 
     return (
-      <BackdropSuspense>
+      <OverlaySuspense>
         <InnerFormController {...props} instanceKey={instanceKey}>
           {children}
         </InnerFormController>
-      </BackdropSuspense>
+      </OverlaySuspense>
     );
   };
 
   return {
-    useFormController,
-    useForm,
     FormController,
-    load,
-    getZodParser,
   };
 };
