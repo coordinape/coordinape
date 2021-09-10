@@ -46,7 +46,7 @@ export interface IEpoch extends IApiEpoch {
   startDay: string;
   endDate: DateTime;
   endDay: string;
-  eInterval: Interval;
+  interval: Interval;
   // Calculated:
   started: boolean;
   totalTokens: number;
@@ -62,4 +62,5 @@ export interface IEpoch extends IApiEpoch {
   labelActivity: string;
   labelUntilStart: string;
   labelUntilEnd: string;
+  labelYearEnd: string;
 }

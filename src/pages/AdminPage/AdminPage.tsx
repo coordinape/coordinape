@@ -218,7 +218,9 @@ const AdminPage = () => {
     );
   const RenderEpochDates = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>{e.labelDayRange}</span>
+      <span className={classes.twoLineCellTitle}>
+        {e.labelYearEnd} - {e.labelDayRange}
+      </span>
       <span className={classes.twoLineCellSubtitle}>
         {e.ended ? e.labelTimeEnd : e.labelTimeStart}
       </span>
@@ -237,7 +239,7 @@ const AdminPage = () => {
     ) : (
       renderActions(
         () => setEditEpoch(e),
-        !e.started ? () => () => deleteEpoch(e.id) : undefined
+        !e.started ? () => deleteEpoch(e.id) : undefined
       )
     );
 

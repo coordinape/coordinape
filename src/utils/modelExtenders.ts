@@ -149,7 +149,7 @@ export const createExtendedEpoch = (
     startDay: startDate.toFormat('ccc'),
     endDate,
     endDay: endDate.toFormat('ccc'),
-    eInterval: startDate.until(endDate),
+    interval: startDate.until(endDate),
     totalTokens,
     uniqueUsers,
     activeUsers,
@@ -161,6 +161,7 @@ export const createExtendedEpoch = (
     labelActivity,
     labelUntilStart: timingToLeastUnit(timeUntilStart),
     labelUntilEnd: timingToLeastUnit(timeUntilEnd),
+    labelYearEnd: endDate.toFormat('yyyy'),
   };
 };
 

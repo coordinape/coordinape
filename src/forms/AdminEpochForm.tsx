@@ -38,8 +38,11 @@ const getCollisionMessage = (
   newRepeat: TEpochRepeatEnum,
   e: IEpoch
 ) => {
-  if (e.repeatEnum === 'none' && newRepeat === 'none') {
-    return newInterval.overlaps(e.eInterval)
+  if (
+    newInterval.overlaps(e.interval) ||
+    (e.repeatEnum === 'none' && newRepeat === 'none')
+  ) {
+    return newInterval.overlaps(e.interval)
       ? `Overlap with epoch ${
           e.number ?? 'x'
         } with start ${e.startDate.toFormat(longUTCFormat)}`
@@ -49,8 +52,8 @@ const getCollisionMessage = (
   // Set r as the repeating and c as the constant interval.
   const [r, c, next] =
     e.repeatEnum !== 'none'
-      ? [e.eInterval, newInterval, nextIntervalFactory(e.repeatEnum)]
-      : [newInterval, e.eInterval, nextIntervalFactory(newRepeat)];
+      ? [e.interval, newInterval, nextIntervalFactory(e.repeatEnum)]
+      : [newInterval, e.interval, nextIntervalFactory(newRepeat)];
 
   if (c.isBefore(r.start) || +c.end === +r.start) {
     return undefined;
@@ -139,7 +142,7 @@ const getZodParser = (source: IEpochFormSource) => {
     .refine(({ repeat }) => !(repeat !== 'none' && !!otherRepeating), {
       path: ['repeat'],
       // the getOverlapIssue relies on this invariant.
-      message: `Only one repeating epoch allowed, one starting ${otherRepeating?.start_date}`,
+      message: `Only one repeating epoch allowed.`,
     })
     .refine(
       (v) => !getOverlapIssue(v),
