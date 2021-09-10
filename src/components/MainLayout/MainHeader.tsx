@@ -114,20 +114,19 @@ export const HeaderNav = () => {
   });
   return (
     <div className={classes.navLinks}>
-      {navButtonsVisible
-        ? navItems.map((navItem) => (
-            <NavLink
-              className={classes.navLink}
-              isActive={(nothing, location) =>
-                checkActive(location.pathname, navItem)
-              }
-              key={navItem.path}
-              to={navItem.path}
-            >
-              {navItem.label}
-            </NavLink>
-          ))
-        : null}
+      {navButtonsVisible &&
+        navItems.map((navItem) => (
+          <NavLink
+            className={classes.navLink}
+            isActive={(nothing, location) =>
+              checkActive(location.pathname, navItem)
+            }
+            key={navItem.path}
+            to={navItem.path}
+          >
+            {navItem.label}
+          </NavLink>
+        ))}
     </div>
   );
 };

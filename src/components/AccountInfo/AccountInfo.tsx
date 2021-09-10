@@ -49,13 +49,7 @@ const useStyles = makeStyles((theme) => ({
   popover: {
     marginTop: 8,
     borderRadius: 8,
-    background:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 137, 134, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 153, 154, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
-    boxShadow: '0px 4px 6px rgba(181, 93, 99, 0.16)',
-  },
-  popoverButton: {
-    height: theme.spacing(5),
-    minWidth: 134,
+    boxShadow: 'none',
   },
 }));
 
@@ -118,7 +112,8 @@ export const AccountInfo = () => {
         }}
       >
         <Button
-          className={classes.popoverButton}
+          variant="contained"
+          size="small"
           onClick={() => {
             deactivate();
             handleClose();
