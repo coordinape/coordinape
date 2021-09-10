@@ -5,7 +5,7 @@ import {
   rMyAddress,
   rCirclesMap,
   rEpochsRaw,
-  rUsersMap,
+  rUsersMapRaw,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import {
@@ -28,7 +28,7 @@ export const useAdminApi = () => {
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
   const updateEpochsMap = useSetRecoilState(rEpochsRaw);
-  const updateUsersMap = useSetRecoilState(rUsersMap);
+  const updateUsersMap = useSetRecoilState(rUsersMapRaw);
 
   // A fake circleId will just return nothing
   const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;

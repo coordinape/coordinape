@@ -6,7 +6,7 @@ import {
   rSelectedCircleId,
   rPastGiftsRaw,
   rPendingGiftsRaw,
-  rUsersMap,
+  rUsersMapRaw,
   rEpochsRaw,
   rAvailableTeammates,
   rSelectedCircle,
@@ -71,8 +71,8 @@ export const useCircle = (): {
   );
 
   const fetchUsers = useRecoilFetcher(
-    'rUsersMap',
-    rUsersMap,
+    'rUsersMapRaw',
+    rUsersMapRaw,
     updaterMergeArrayToIdMap
   );
   const fetchGifts = useRecoilFetcher(

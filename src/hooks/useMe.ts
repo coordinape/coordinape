@@ -1,53 +1,28 @@
-import { useRecoilValue, useRecoilState } from 'recoil';
-
 import {
-  rSelectedMyUser,
-  rMyCircles,
-  rMyProfileStaleSignal,
-  rSelectedCircle,
-  rMyProfile,
-  rHasAdminView,
+  useHasAdminView,
+  useSelectedMyUser,
+  useMyCircles,
+  useTriggerProfileReload,
+  useSelectedCircle,
+  useMyProfile,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
-import {
-  IApiFilledProfile,
-  IApiUserInProfile,
-  IApiUser,
-  ICircle,
-  PutUsersParam,
-  PostProfileParam,
-} from 'types';
+import { PutUsersParam, PostProfileParam } from 'types';
 
-export const useMe = (): {
-  myProfile: IApiFilledProfile | undefined;
-  selectedMyUser: IApiUserInProfile | undefined;
-  selectedCircle: ICircle | undefined;
-  myCircles: ICircle[];
-  avatarPath: string;
-  backgroundPath: string;
-  hasAdminView: boolean;
-  refreshMyUser: () => Promise<void>;
-  updateMyUser: (params: PutUsersParam) => Promise<IApiUser>;
-  updateTeammates: (teammateIds: number[]) => Promise<void>;
-  updateAvatar: (newAvatar: File) => Promise<void>;
-  updateBackground: (newBackground: File) => Promise<void>;
-  updateProfile: (params: PostProfileParam) => Promise<IApiFilledProfile>;
-} => {
+export const useMe = () => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
 
-  const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
-    rMyProfileStaleSignal
-  );
-  const selectedMyUser = useRecoilValue(rSelectedMyUser);
-  const hasAdminView = useRecoilValue(rHasAdminView);
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const myCircles = useRecoilValue(rMyCircles);
-  const myProfile = useRecoilValue(rMyProfile);
+  const selectedMyUser = useSelectedMyUser();
+  const hasAdminView = useHasAdminView();
+  const selectedCircle = useSelectedCircle();
+  const myCircles = useMyCircles();
+  const myProfile = useMyProfile();
+  const triggerProfileReload = useTriggerProfileReload();
 
   const updateMyUser = async (params: PutUsersParam) =>
     callWithLoadCatch(async () => {
@@ -67,7 +42,7 @@ export const useMe = (): {
         }
       );
 
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      triggerProfileReload();
 
       return updatedUser;
     });
@@ -83,7 +58,7 @@ export const useMe = (): {
         teammateIds
       );
 
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      triggerProfileReload();
     });
 
   const updateAvatar = async (newAvatar: File) =>
@@ -93,7 +68,7 @@ export const useMe = (): {
       }
       await api.uploadAvatar(selectedMyUser.address, newAvatar);
 
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      triggerProfileReload();
     });
 
   const updateBackground = async (newAvatar: File) =>
@@ -103,7 +78,7 @@ export const useMe = (): {
       }
       await api.uploadBackground(selectedMyUser.address, newAvatar);
 
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      triggerProfileReload();
     });
 
   const updateProfile = async (params: PostProfileParam) =>
@@ -114,13 +89,13 @@ export const useMe = (): {
       const result = await api.updateProfile(selectedMyUser.address, params);
 
       // TODO: Could we just update with result here?
-      setMyProfileStaleSignal(myProfileStaleSignal + 1);
+      triggerProfileReload();
       return result;
     });
 
   const refreshMyUser = async () => {
     // Is it possible to use recoilCallback to have loading during this?
-    setMyProfileStaleSignal(myProfileStaleSignal + 1);
+    triggerProfileReload();
   };
   return {
     myProfile,
