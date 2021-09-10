@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import clsx from 'clsx';
+import { groupBy, toPairs } from 'lodash';
 import { NavLink } from 'react-router-dom';
 
 import { Popover, makeStyles, Avatar, Divider } from '@material-ui/core';
 
 import { useMe, useCircle, useGlobalUi } from 'hooks';
+import { useCircleEpochsStatus } from 'recoilState';
 import * as paths from 'routes/paths';
+
+import { ICircle } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   avatarButton: {
@@ -41,14 +45,21 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 1),
   },
   subHeader: {
-    margin: theme.spacing(0.5, 0, 0.5, 6),
+    margin: theme.spacing(0.5, 0, 0.5, 5),
     fontSize: 13,
     lineHeight: 1.5,
     fontWeight: 600,
   },
+  subSubHeader: {
+    fontStyle: 'italic',
+    margin: theme.spacing(0.7, 0, 0, 5),
+    fontSize: 13,
+    lineHeight: 1.5,
+    fontWeight: 300,
+  },
   link: {
     position: 'relative',
-    margin: theme.spacing(0, 0, 0, 6),
+    margin: theme.spacing(0, 0, 0, 5),
     padding: 0,
     textAlign: 'left',
     fontSize: 18,
@@ -63,15 +74,12 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: theme.colors.black,
     },
-    '&:selected': {
-      color: theme.colors.red,
-    },
   },
   selectedLink: {
     '&::before': {
       content: '" "',
       position: 'absolute',
-      top: '12px',
+      top: '11px',
       left: '-16px',
       width: '8px',
       height: '8px',
@@ -79,7 +87,36 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '50%',
     },
   },
+  activeLink: {
+    color: theme.colors.darkRed,
+  },
 }));
+
+const CircleButton = ({
+  circle,
+  selected,
+  onClick,
+}: {
+  circle: ICircle;
+  selected: boolean;
+  onClick: () => void;
+}) => {
+  const classes = useStyles();
+  const { currentEpoch } = useCircleEpochsStatus(circle.id);
+
+  return (
+    <button
+      className={clsx(classes.link, {
+        [classes.selectedLink]: selected,
+        [classes.activeLink]: !!currentEpoch,
+      })}
+      key={circle.name}
+      onClick={onClick}
+    >
+      {circle.name}
+    </button>
+  );
+};
 
 export const MyAvatarMenu = () => {
   const classes = useStyles();
@@ -97,6 +134,11 @@ export const MyAvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const groupedCircles = useMemo(
+    () => toPairs(groupBy(myCircles, (c) => c.protocol.name)),
+    [myCircles]
+  );
 
   return (
     <>
@@ -155,24 +197,24 @@ export const MyAvatarMenu = () => {
         })}
         <Divider variant="middle" className={classes.divider} />
         <span className={classes.subHeader}>Switch Circles</span>
-        {myCircles.map((circle) => (
-          <button
-            className={
-              selectedCircle?.id === circle.id
-                ? clsx(classes.link, classes.selectedLink)
-                : classes.link
-            }
-            key={circle.name}
-            onClick={() => {
-              setAnchorEl(null);
-              selectedCircle?.id !== circle.id &&
-                selectAndFetchCircle(circle.id);
-            }}
-          >
-            {circle.name}
-          </button>
+        {groupedCircles.map(([protocolName, circles]) => (
+          <>
+            <span className={classes.subSubHeader}>{protocolName}</span>
+            {circles.map((circle) => (
+              <CircleButton
+                key={circle.id}
+                circle={circle}
+                selected={selectedCircle?.id === circle.id}
+                onClick={() => {
+                  setAnchorEl(null);
+                  selectedCircle?.id !== circle.id &&
+                    selectAndFetchCircle(circle.id);
+                }}
+              />
+            ))}
+          </>
         ))}
-        {hasAdminView ? (
+        {hasAdminView && (
           <>
             <Divider variant="middle" className={classes.divider} />
             <span className={classes.subHeader}>Admin View</span>
@@ -206,7 +248,7 @@ export const MyAvatarMenu = () => {
               </button>
             )}
           </>
-        ) : null}
+        )}
       </Popover>
     </>
   );
