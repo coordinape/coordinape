@@ -72,6 +72,12 @@ export const rMyProfileStaleSignal = atom<number>({
   key: 'rMyProfileStaleSignal',
   default: 0,
 });
+export const useTriggerProfileReload = () => {
+  const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
+    rMyProfileStaleSignal
+  );
+  return () => setMyProfileStaleSignal(myProfileStaleSignal + 1);
+};
 
 export const rMyProfile = selector<IApiFilledProfile | undefined>({
   key: 'rMyProfile',
@@ -90,6 +96,7 @@ export const rHasAdminView = selector<boolean>({
     return !!profile?.admin_view;
   },
 });
+export const useHasAdminView = () => useRecoilValue(rHasAdminView);
 
 export const rMyUsers = selector<IMyUsers[]>({
   key: 'rMyUsers',
@@ -130,10 +137,13 @@ export const rMyCircles = selector<ICircle[]>({
   get: ({ get }: IRecoilGetParams) => {
     const myProfile = get(rMyProfile);
     return (
-      myProfile?.users?.map((u) => createCircleWithDefaults(u.circle)) ?? []
+      myProfile?.users
+        ?.map((u) => createCircleWithDefaults(u.circle))
+        .sort((a, b) => a.protocol_id - b.protocol_id) ?? []
     );
   },
 });
+export const useMyCircles = () => useRecoilValue(rMyCircles);
 
 export const rFetchedAt = atomFamily<Map<string, number>, string>({
   key: 'rFetchedAt',
@@ -191,9 +201,22 @@ export const rEpochs = selector<IEpoch[]>({
   get: ({ get }: IRecoilGetParams) => Array.from(get(rEpochsMap).values()),
 });
 
-export const rUsersMap = atom<Map<number, IUser>>({
-  key: 'rUsersMap',
+export const rUsersMapRaw = atom<Map<number, IUser>>({
+  key: 'rUsersMapRaw',
   default: new Map(),
+});
+
+export const rUsersMap = selector<Map<number, IUser>>({
+  key: 'rUsersMap',
+  get: ({ get }: IRecoilGetParams) => {
+    const usersMapRaw = new Map(get(rUsersMapRaw));
+    // Profile may have updated fields missing from last we queried users.
+    const profile = get(rMyProfile);
+    profile?.users?.forEach((user) =>
+      usersMapRaw.set(user.id, { profile, ...user })
+    );
+    return usersMapRaw;
+  },
 });
 export const useUsersMap = () => useRecoilValue(rUsersMap);
 
