@@ -134,6 +134,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 61,
     fontSize: 34,
     fontWeight: 300,
+    maxWidth: 1055,
     color: theme.colors.text,
     whiteSpace: 'pre-line',
     [theme.breakpoints.down('sm')]: {
