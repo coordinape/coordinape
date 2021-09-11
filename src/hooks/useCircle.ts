@@ -23,23 +23,11 @@ import {
   IApiTokenGift,
   IUser,
   IApiEpoch,
-  ICircle,
   IApiUserProfile,
   IApiNominee,
 } from 'types';
 
-export const useCircle = (): {
-  availableTeammates: IUser[];
-  selectedCircle: ICircle | undefined;
-  selectedCircleId: number | undefined;
-  clearSelectedCircle: () => void;
-  selectAndFetchCircle: (circleId: number) => Promise<void>;
-  fetchUsersForCircle: () => Promise<IApiUserProfile[]>;
-  fetchGiftsForCircle: () => Promise<IApiTokenGift[]>;
-  fetchPendingGiftsForCircle: () => Promise<IApiTokenGift[]>;
-  fetchEpochsForCircle: () => Promise<IApiEpoch[]>;
-  fetchNomineesForCircle: () => Promise<IApiNominee[]>;
-} => {
+export const useCircle = () => {
   const history = useHistory();
   const callWithLoadCatch = useAsyncLoadCatch();
   const api = getApiService();
@@ -158,16 +146,12 @@ export const useCircle = (): {
       triggerDefaultNavigation();
     });
 
-  const clearSelectedCircle = () => {
-    setSelectedCircleId(undefined);
-  };
-
   return {
     availableTeammates,
     selectedCircleId,
     selectedCircle,
     selectAndFetchCircle,
-    clearSelectedCircle,
+    setSelectedCircleId,
     fetchUsersForCircle,
     fetchGiftsForCircle,
     fetchPendingGiftsForCircle,

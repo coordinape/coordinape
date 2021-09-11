@@ -128,7 +128,9 @@ export const MyAvatarMenu = () => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    if (myCircles.length) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {

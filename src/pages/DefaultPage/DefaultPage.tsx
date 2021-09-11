@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
-import { rMyAddress, rCircleSelectorOpen, rSelectedCircle } from 'recoilState';
+import { rMyAddress, rSelectedCircle, rSelectedCircleId } from 'recoilState';
 import { getNavigationFooter } from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,19 +34,16 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     color: theme.colors.primary,
   },
-  subTitleLink: {
-    fontSize: 30,
-    fontWeight: 400,
-    color: theme.colors.primary,
-    backgroundColor: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    textDecoration: 'underline',
-    display: 'inline',
-    margin: 0,
-    padding: theme.spacing(0, 5),
+  welcomeSection: {
+    width: '100%',
+    maxWidth: 480,
+    textAlign: 'left',
   },
-
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 400,
+    color: theme.colors.text,
+  },
   skeletonRoot: {
     marginTop: 60,
     marginLeft: 'auto',
@@ -120,94 +117,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Welcome = () => {
+export const DefaultPage = () => {
   const classes = useStyles();
 
   const selectedCircle = useRecoilValue(rSelectedCircle);
-  const setCircleSelectorOpen = useSetRecoilState(rCircleSelectorOpen);
-
-  return (
-    <>
-      <p className={classes.title}>
-        {selectedCircle === undefined
-          ? 'Welcome!'
-          : `Welcome to ${selectedCircle.name}!`}
-      </p>
-      {selectedCircle === undefined ? (
-        <button
-          className={classes.subTitleLink}
-          onClick={() => setCircleSelectorOpen(true)}
-        >
-          Select a circle to begin
-        </button>
-      ) : null}
-    </>
-  );
-};
-
-const Generic = () => {
-  const classes = useStyles();
-
-  return (
-    <>
-      <p className={classes.title}>Reward Your Fellow Contributors</p>
-      <p className={classes.subTitle}>
-        Connect your wallet to participate. You must be registered as a
-        contributor with an existing Coordinape project
-      </p>
-    </>
-  );
-};
-
-const PreconnectHeader = () => {
-  const classes = useStyles();
+  const selectedCircleId = useRecoilValue(rSelectedCircleId);
   const myAddress = useRecoilValue(rMyAddress);
 
-  return (
-    <div className={classes.header}>
-      {myAddress ? (
-        <Suspense fallback={<Generic />}>
-          <Welcome />
-        </Suspense>
-      ) : (
-        <Generic />
-      )}
-    </div>
-  );
-};
-
-const SkeletonBody = () => {
-  const classes = useStyles();
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const myAddress = useRecoilValue(rMyAddress);
-
-  return !!myAddress && !selectedCircle ? (
-    <div></div>
-  ) : (
-    <div className={classes.skeletonRoot}>
-      <div className={classes.skeletonHeader}>
-        <div className={classes.skeletonSubHeader} />
-        <div className={classes.skeletonSubHeader} />
-        <div className={classes.skeletonSubHeader} />
-        <div className={classes.skeletonSubHeader} />
-      </div>
-      <div className={classes.skeletonBody}>
-        <div className={classes.skeletonSubBody} />
-        <div className={classes.skeletonSubBody} />
-        <div className={classes.skeletonSubBody} />
-        <div className={classes.skeletonSubBody} />
-      </div>
-    </div>
-  );
-};
-
-export const PreconnectPage = () => {
-  const classes = useStyles();
-
+  console.log('DefaultPage', selectedCircleId, selectedCircle);
   return (
     <div className={classes.root}>
-      <PreconnectHeader />
-      <SkeletonBody />
+      {myAddress ? (
+        <div className={classes.header}>
+          <p className={classes.title}>
+            {selectedCircle === undefined
+              ? 'Welcome!'
+              : `Welcome to ${selectedCircle.name}!`}
+          </p>
+          {selectedCircle === undefined && (
+            <div className={classes.welcomeSection}>
+              <p className={classes.welcomeText}>
+                This wallet isn&apos;t associated with a circle.
+              </p>
+              <p className={classes.welcomeText}>
+                To join a circle, a circle admin can add you, or if your circle
+                uses vouching, other circle members can vouch for you.
+              </p>
+              <p className={classes.welcomeText}>
+                To create a circle, fill out our{' '}
+                <a
+                  href="https://yearnfinance.typeform.com/to/egGYEbrC"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  onboarding form
+                </a>{' '}
+                and let us know in discord.
+              </p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <>
+          <div className={classes.header}>
+            <p className={classes.title}>Reward Your Fellow Contributors</p>
+            <p className={classes.subTitle}>
+              Connect your wallet to participate. You must be registered as a
+              contributor with an existing Coordinape project
+            </p>
+          </div>
+          <div className={classes.skeletonRoot}>
+            <div className={classes.skeletonHeader}>
+              <div className={classes.skeletonSubHeader} />
+              <div className={classes.skeletonSubHeader} />
+              <div className={classes.skeletonSubHeader} />
+              <div className={classes.skeletonSubHeader} />
+            </div>
+            <div className={classes.skeletonBody}>
+              <div className={classes.skeletonSubBody} />
+              <div className={classes.skeletonSubBody} />
+              <div className={classes.skeletonSubBody} />
+              <div className={classes.skeletonSubBody} />
+            </div>
+          </div>
+        </>
+      )}
       <div className={classes.footer}>
         <div />
         {getNavigationFooter().map(({ path, label }) => (
@@ -227,4 +201,4 @@ export const PreconnectPage = () => {
   );
 };
 
-export default PreconnectPage;
+export default DefaultPage;
