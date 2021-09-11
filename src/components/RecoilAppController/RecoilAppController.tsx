@@ -64,7 +64,7 @@ export const RecoilAppController = () => {
   const {
     selectAndFetchCircle,
     selectedCircleId,
-    clearSelectedCircle,
+    setSelectedCircleId,
   } = useCircle();
   const connectorName = useConnectorName();
   const [myAddress, setMyAddress] = useStateMyAddress();
@@ -103,6 +103,8 @@ export const RecoilAppController = () => {
     if (!web3Context.account) {
       return;
     }
+    // console.log('web3Context', web3Context);
+    // console.log('connectorName:', connectorName, 'myAddress', myAddress);
 
     setMyAddress(web3Context.account);
     setWalletModalOpen(false);
@@ -111,11 +113,6 @@ export const RecoilAppController = () => {
     web3Context.connector?.addListener('Web3ReactUpdate', () =>
       console.warn('Web3ReactUpdate')
     );
-
-    if (selectedCircleId === undefined) {
-      setCircleSelectorOpen(true);
-      return;
-    }
   }, [web3Context]);
 
   useEffect(() => {
@@ -128,16 +125,24 @@ export const RecoilAppController = () => {
     }
   }, [selectedCircleId, myAddress]);
 
+  // Default selectedCircleId to first circle if undefined or no permissions
   useEffect(() => {
-    if (
-      web3Context.active &&
-      myProfile &&
+    // console.log('useEffect', 'myProfile', 'web3Context');
+    if (!web3Context.active || !myProfile) {
+      return;
+    }
+    if (!myProfile.users.length) {
+      // User has no circles
+      // console.log('no circles');
+      setSelectedCircleId(undefined);
+      return;
+    }
+    const noAccess =
       !hasAdminView &&
-      selectedCircleId &&
-      !myProfile?.users?.some((u) => u.circle_id === selectedCircleId)
-    ) {
-      // This profile shouldn't have access to this circle.
-      clearSelectedCircle();
+      !!selectedCircleId &&
+      !myProfile?.users?.some((u) => u.circle_id === selectedCircleId);
+    if (noAccess || selectedCircleId === undefined) {
+      setSelectedCircleId(myProfile.users[0].circle_id);
     }
   }, [myProfile, web3Context]);
 
