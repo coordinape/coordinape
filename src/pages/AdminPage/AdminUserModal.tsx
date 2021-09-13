@@ -82,7 +82,7 @@ export const AdminUserModal = ({
             <FormTextField
               {...fields.starting_tokens}
               type="number"
-              label="Stating Tokens"
+              label="Starting Tokens"
             />
           </div>
           <FormTextField

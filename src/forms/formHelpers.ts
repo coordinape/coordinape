@@ -10,5 +10,5 @@ export const zStringISODateUTC = z
 
 export const zEthAddress = z
   .string()
-  .refine((s) => ethers.utils.isAddress(s), 'Invalid Eth Address')
+  .refine((s) => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform((s) => s.toLowerCase());

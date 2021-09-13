@@ -2,12 +2,24 @@ import { Wallet, ethers } from 'ethers';
 
 export const getSignature = async (data: string, provider?: any) => {
   if (!provider) throw 'Missing provider for getSignature';
+
   const signer: Wallet = provider.getSigner();
   const address = await signer.getAddress();
-  const signature = await signer.signMessage(data);
-  const bytecode = await provider.getCode(address);
+  const signature: any = await (async () =>
+    new Promise((resolve) => {
+      const t = setTimeout(() => resolve(false), 30000);
+      signer.signMessage(data).then((sig) => {
+        clearTimeout(t);
+        resolve(sig);
+      });
+    }))();
+  if (!signature) {
+    throw 'There was an error signing the message with your hardware wallet. Try sending a shorter message.';
+  }
+
+  const byteCode = await provider.getCode(address);
   const isSmartContract =
-    bytecode && ethers.utils.hexStripZeros(bytecode) !== '0x';
+    byteCode && ethers.utils.hexStripZeros(byteCode) !== '0x';
   let hash = '';
   if (isSmartContract) {
     hash = ethers.utils.hashMessage(data);
