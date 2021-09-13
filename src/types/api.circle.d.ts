@@ -20,6 +20,7 @@ export interface IApiCircle {
   nomination_days_limit: number;
   vouching_text: string;
   only_giver_vouch: number;
+  team_selection: number;
   created_at: Date;
   updated_at: Date;
   protocol_id: number;

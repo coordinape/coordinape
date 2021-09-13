@@ -92,17 +92,17 @@ const useStyles = makeStyles((theme) => ({
       pointerEvents: 'none',
     },
   },
-  enableVouchingContainer: {
+  enableSwitchContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  vouchingHeader: {
+  switchHeader: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  vouchingLabel: {
+  switchLabel: {
     fontSize: 16,
     lineHeight: 1.3,
     fontWeight: 700,
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     color: theme.colors.text,
   },
-  vouchingTabContainer: {
+  switchTabContainer: {
     width: '100%',
     height: '100%',
     display: 'flex',
@@ -118,9 +118,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     overflow: 'hidden',
   },
-  enableVouchingTab: {
+  enableSwitchingTab: {
     cursor: 'pointer',
     width: '50%',
+    minHeight: 48.3,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -236,6 +237,9 @@ export const EditCircleModal = ({
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
   const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
+  const [teamSelection, setTeamSelection] = useState<number>(
+    circle.team_selection
+  );
   const [nominationDaysLimit, setNominationDaysLimit] = useState<number>(
     circle.nomination_days_limit
   );
@@ -298,7 +302,8 @@ export const EditCircleModal = ({
       nominationDaysLimit !== circle.nomination_days_limit ||
       allocText !== circle.allocText ||
       vouchingText !== circle.vouchingText ||
-      onlyGiverVouch !== circle.only_giver_vouch
+      onlyGiverVouch !== circle.only_giver_vouch ||
+      teamSelection !== circle.team_selection
     ) {
       updateCircle({
         name: circleName,
@@ -313,6 +318,7 @@ export const EditCircleModal = ({
         default_opt_in: defaultOptIn,
         vouching_text: vouchingText,
         only_giver_vouch: onlyGiverVouch,
+        team_selection: teamSelection,
       }).then(() => {
         onClose();
       });
@@ -332,7 +338,8 @@ export const EditCircleModal = ({
     nominationDaysLimit !== circle.nomination_days_limit ||
     allocText !== circle.allocText ||
     vouchingText !== circle.vouchingText ||
-    onlyGiverVouch !== circle.only_giver_vouch;
+    onlyGiverVouch !== circle.only_giver_vouch ||
+    teamSelection !== circle.team_selection;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -369,14 +376,14 @@ export const EditCircleModal = ({
           onChange={onChangeWith(setCircleName)}
           fullWidth
         />
-        <div className={classes.enableVouchingContainer}>
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Enable Vouching?</p>
+        <div className={classes.enableSwitchContainer}>
+          <div className={classes.switchHeader}>
+            <p className={classes.switchLabel}>Enable Vouching?</p>
           </div>
-          <div className={classes.vouchingTabContainer}>
+          <div className={classes.switchTabContainer}>
             <div
               className={clsx(
-                classes.enableVouchingTab,
+                classes.enableSwitchingTab,
                 vouching === 1 && 'active'
               )}
               onClick={() => setVouching(1)}
@@ -385,7 +392,7 @@ export const EditCircleModal = ({
             </div>
             <div
               className={clsx(
-                classes.enableVouchingTab,
+                classes.enableSwitchingTab,
                 vouching === 0 && 'active'
               )}
               onClick={() => setVouching(0)}
@@ -462,44 +469,41 @@ export const EditCircleModal = ({
             disabled={vouching === 0}
           />
         </div>
-        <div className={classes.topContainer}>
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Default Opt In?</p>
+        <div className={classes.enableSwitchContainer}>
+          <div className={classes.switchHeader}>
+            <p className={classes.switchLabel}>Default Opt In?</p>
           </div>
-          <Select
-            className={classes.selectRoot}
-            classes={{
-              select: classes.select,
-              icon: classes.selectIcon,
-            }}
-            disableUnderline
-            onChange={({ target: { value } }) =>
-              setDefaultOptIn(value as number)
-            }
-            value={defaultOptIn}
-          >
-            {[1, 0].map((value) => (
-              <MenuItem
-                className={classes.menuItem}
-                classes={{ selected: classes.menuItemSelected }}
-                key={value}
-                value={value}
-              >
-                {value === 1 ? 'Yes' : 'No'}
-              </MenuItem>
-            ))}
-          </Select>
+          <div className={classes.switchTabContainer}>
+            <div
+              className={clsx(
+                classes.enableSwitchingTab,
+                defaultOptIn === 1 && 'active'
+              )}
+              onClick={() => setDefaultOptIn(1)}
+            >
+              Yes
+            </div>
+            <div
+              className={clsx(
+                classes.enableSwitchingTab,
+                defaultOptIn === 0 && 'active'
+              )}
+              onClick={() => setDefaultOptIn(0)}
+            >
+              No
+            </div>
+          </div>
         </div>
         <div
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
         >
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Only Givers can vouch</p>
+          <div className={classes.switchHeader}>
+            <p className={classes.switchLabel}>Only Givers can vouch</p>
           </div>
-          <div className={classes.vouchingTabContainer}>
+          <div className={classes.switchTabContainer}>
             <div
               className={clsx(
-                classes.enableVouchingTab,
+                classes.enableSwitchingTab,
                 onlyGiverVouch === 1 && 'active'
               )}
               onClick={() => setOnlyGiverVouch(1)}
@@ -508,10 +512,35 @@ export const EditCircleModal = ({
             </div>
             <div
               className={clsx(
-                classes.enableVouchingTab,
+                classes.enableSwitchingTab,
                 onlyGiverVouch === 0 && 'active'
               )}
               onClick={() => setOnlyGiverVouch(0)}
+            >
+              No
+            </div>
+          </div>
+        </div>
+        <div className={classes.enableSwitchContainer}>
+          <div className={classes.switchHeader}>
+            <p className={classes.switchLabel}>Team Selection Enabled</p>
+          </div>
+          <div className={classes.switchTabContainer}>
+            <div
+              className={clsx(
+                classes.enableSwitchingTab,
+                teamSelection === 1 && 'active'
+              )}
+              onClick={() => setTeamSelection(1)}
+            >
+              Yes
+            </div>
+            <div
+              className={clsx(
+                classes.enableSwitchingTab,
+                teamSelection === 0 && 'active'
+              )}
+              onClick={() => setTeamSelection(0)}
             >
               No
             </div>
