@@ -2,20 +2,36 @@ import { Wallet, ethers } from 'ethers';
 
 export const getSignature = async (data: string, provider?: any) => {
   if (!provider) throw 'Missing provider for getSignature';
-  const signer: Wallet = provider.getSigner();
-  const address = await signer.getAddress();
-  const signature = await signer.signMessage(data);
-  const bytecode = await provider.getCode(address);
-  const isSmartContract =
-    bytecode && ethers.utils.hexStripZeros(bytecode) !== '0x';
-  let hash = '';
-  if (isSmartContract) {
-    hash = ethers.utils.hashMessage(data);
-    // validate smart contract signature (might work for other other types of smart contract wallets )
-    // comment out when not testing
-    //_validateContractSignature(signature, hash, provider, address);
+
+  function doSomething(maxExecutionTime: number) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(false), maxExecutionTime);
+
+      (async function () {
+        const signer: Wallet = provider.getSigner();
+        const address = await signer.getAddress();
+        const signature = await signer.signMessage(data);
+        const byteCode = await provider.getCode(address);
+        const isSmartContract =
+          byteCode && ethers.utils.hexStripZeros(byteCode) !== '0x';
+        let hash = '';
+        if (isSmartContract) {
+          hash = ethers.utils.hashMessage(data);
+          // validate smart contract signature (might work for other other types of smart contract wallets )
+          // comment out when not testing
+          //_validateContractSignature(signature, hash, provider, address);
+        }
+        resolve({ signature, hash });
+      })();
+    });
   }
-  return { signature, hash };
+
+  const result = await doSomething(4500);
+  if (result) {
+    return result as any;
+  } else {
+    throw 'There was an error signing the message with your hardware wallet. Try sending a shorter message.';
+  }
 };
 
 export const _validateContractSignature = async (
