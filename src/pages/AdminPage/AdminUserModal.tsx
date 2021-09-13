@@ -76,7 +76,7 @@ export const AdminUserModal = ({
         >
           <div className={classes.twoColumn}>
             <FormTextField {...fields.name} label="Contributor Name" />
-            <ApeToggle {...fields.non_giver} label="Opted Out" />
+            <ApeToggle {...fields.non_giver} label="Blocked From Giving?" />
             <ApeToggle {...fields.fixed_non_receiver} label="Forced Opt Out" />
             <ApeToggle {...fields.role} label="Are They Admin?" />
             <FormTextField
