@@ -85,7 +85,7 @@
           },
           {
             "group": "parent",
-            "pattern": "{assets,assets/**,icons,icons/**,components,components/**,config,config/**,contexts,contexts/**,layouts,layouts/**,pages,pages/**,routes,routes/**,recoilState,recoilState/**,services,services/**,styles,styles/**,theme,theme/**,utils,utils/**,hooks,hooks/**}"
+            "pattern": "{assets,assets/**,icons,icons/**,components,components/**,config,config/**,contexts,contexts/**,layouts,layouts/**,pages,pages/**,routes,routes/**,recoilState,recoilState/**,services,services/**,styles,styles/**,theme,theme/**,utils,utils/**,hooks,hooks/**,forms,forms/**}"
           },
           {
             "group": "object",

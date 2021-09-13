@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  rootFullWidth: {
+    width: '100%',
+  },
   label: {
     fontSize: 16,
     lineHeight: 1.3,
@@ -30,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.colors.third}`,
     transition: 'border 200ms ease-out',
     '&:focus-within': {
-      border: `1px solid ${theme.colors.lightBlue}`,
+      border: `1px solid ${theme.colors.lightBlue}80`,
     },
   },
   inputRootError: {
     border: `1px solid ${theme.colors.red}`,
-    color: theme.colors.red,
+    color: '#ad0003',
+    '&:focus-within': {
+      border: `1px solid ${theme.colors.red}`,
+    },
   },
   input: {
     padding: theme.spacing(1.75, 1, 1.75),
@@ -161,7 +167,13 @@ export const ApeTextField = (props: TextFieldProps) => {
   } as InputBaseProps;
 
   return (
-    <div className={clsx(className, classes.root)}>
+    <div
+      className={clsx(
+        className,
+        classes.root,
+        fullWidth && classes.rootFullWidth
+      )}
+    >
       {label ? (
         <label htmlFor={id ?? fallbackId} className={classes.label}>
           {label}

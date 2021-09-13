@@ -6,6 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {
@@ -16,6 +17,7 @@ import {
 } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
+import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
 import './App.css';
 
@@ -33,15 +35,17 @@ function App() {
       <SnackbarProvider maxSnack={3}>
         <ErrorBoundary>
           <ThemeProvider theme={theme}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-              <BrowserRouter>
-                <MainLayout>
-                  <RecoilAppController />
-                  <SentryScopeController />
-                  <RenderRoutes />
-                </MainLayout>
-              </BrowserRouter>
-            </Web3ReactProvider>
+            <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
+              <Web3ReactProvider getLibrary={getLibrary}>
+                <BrowserRouter>
+                  <MainLayout>
+                    <RecoilAppController />
+                    <SentryScopeController />
+                    <RenderRoutes />
+                  </MainLayout>
+                </BrowserRouter>
+              </Web3ReactProvider>
+            </MuiPickersUtilsProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </SnackbarProvider>

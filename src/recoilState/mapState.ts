@@ -18,6 +18,7 @@ import {
   rCircleEpochsStatus,
   rUsersMap,
   rGiftsMap,
+  rCircles,
 } from './appState';
 
 import {
@@ -41,6 +42,11 @@ import {
 // Injest App State
 //
 
+// Fake users are created to when either the user data is not ready for the
+// edges or when users have been deleted that once existed.
+// Of the later there are a few from early when the coordinape team
+// was actively in the strategist circle to observe and mistakenly got some
+// give.
 // TODO: Think about how best to resolve this sort of thing.
 const FAKE_ID_OFFSET = 100000;
 const FAKE_ADDRESS = '0xFAKE';
@@ -80,15 +86,13 @@ const createFakeUser = (circleId: number): IUser => ({
   },
 });
 
-export const rUserMapWithFake = selector<Map<number, IUser>>({
-  key: 'rUserMapWithFake',
+export const rUserMapWithFakes = selector<Map<number, IUser>>({
+  key: 'rUserMapWithFakes',
   get: ({ get }: IRecoilGetParams) => {
     const usersMap = get(rUsersMap);
     const updated = new Map(usersMap);
-    iti(usersMap.values())
-      .map((u) => u.circle_id)
-      .distinct()
-      .map((cid) => createFakeUser(cid))
+    get(rCircles)
+      .map((c) => createFakeUser(c.id))
       .forEach((u) => updated.set(u.id, u));
 
     return updated;
@@ -98,10 +102,9 @@ export const rUserMapWithFake = selector<Map<number, IUser>>({
 export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
   key: 'rUserProfileMap',
   get: ({ get }: IRecoilGetParams) =>
-    iti(get(rUserMapWithFake).values())
+    iti(get(rUserMapWithFakes).values())
       .groupBy((u) => u.address)
       .map(([, us]) => {
-        // console.log(us);
         const users = us.toArray();
         // Deleted users don't have profiles
         const activeUser = us.find((u) => u.deleted_at !== undefined);
@@ -177,7 +180,7 @@ export const rMapGifts = selector<ITokenGift[]>({
   get: async ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId) ?? -1;
     const epochs = get(rMapEpochs);
-    const userMap = get(rUserMapWithFake);
+    const userMap = get(rUserMapWithFakes);
 
     const fakeUser = assertDef(
       userMap.get(FAKE_ID_OFFSET - selectedCircleId),

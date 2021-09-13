@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 
 export interface ITiming {
   days: number;
@@ -23,7 +23,7 @@ export interface IEpochTimings {
 export interface IApiEpoch {
   id: number;
   number?: number;
-  start_date: string;
+  start_date: string; // 2021-07-09T00:00:00.000000Z
   end_date: string;
   circle_id: number;
   created_at: string;
@@ -37,14 +37,16 @@ export interface IApiEpoch {
   days?: number; // Used for repeating
   repeat?: number; // 1: weekly, 2: monthly
   repeat_day_of_month: number;
-  start_time: number; // 00:00:00 UTC
 }
 
 export interface IEpoch extends IApiEpoch {
-  repeat?: 'weekly' | 'monthly';
+  repeatEnum: 'weekly' | 'monthly' | 'none';
   ended: boolean;
-  startDate: Moment;
-  endDate: Moment;
+  startDate: DateTime;
+  startDay: string;
+  endDate: DateTime;
+  endDay: string;
+  interval: Interval;
   // Calculated:
   started: boolean;
   totalTokens: number;
@@ -60,4 +62,5 @@ export interface IEpoch extends IApiEpoch {
   labelActivity: string;
   labelUntilStart: string;
   labelUntilEnd: string;
+  labelYearEnd: string;
 }

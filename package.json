@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "1.x",
+    "@date-io/luxon": "1.x",
     "@ethersproject/providers": "^5.0.19",
     "@ethersproject/units": "^5.0.9",
     "@material-ui/core": "^4.11.2",
@@ -30,7 +30,6 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "d3-force-3d": "^2.2.0",
-    "date-fns": "^2.21.1",
     "ethers": "^5.0.26",
     "history": "^5.0.0",
     "i18next": "^19.8.4",
@@ -39,6 +38,7 @@
     "itiriri": "^2.0.1",
     "lodash": "^4.17.20",
     "logdown": "^3.3.1",
+    "luxon": "^2.0.2",
     "moment": "^2.29.1",
     "node-sass": "^5.0.0",
     "notistack": "^1.0.4",
@@ -57,7 +57,8 @@
     "source-map-explorer": "^2.5.2",
     "styled-components": "^5.2.3",
     "typescript": "^4.1.3",
-    "web-vitals": "^1.1.0"
+    "web-vitals": "^1.1.0",
+    "zod": "^3.7.1"
   },
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker"
@@ -110,6 +111,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
+    "@types/luxon": "^2.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/recoilize": "^0.8.0",
@@ -127,7 +129,6 @@
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
     "prettier-eslint-cli": "^5.0.0",
-    "pretty-quick": "^3.1.0",
-    "recoilize": "^2.0.1"
+    "pretty-quick": "^3.1.0"
   }
 }

@@ -50,33 +50,43 @@ const useStyles = makeStyles((theme) => ({
   saveButton: {
     marginTop: theme.spacing(3),
   },
+  errors: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    margin: 0,
+    minHeight: 45,
+    color: theme.colors.red,
+  },
 }));
 
 export const FormModal = ({
   title,
   children,
   onSubmit,
+  errors,
   submitText,
   submitDisabled,
   className,
-  visible,
+  open,
   onClose,
   size,
 }: {
   title?: string;
   children: React.ReactNode;
   onSubmit?: () => void;
+  errors?: { [x: string]: string };
   submitText?: string;
   submitDisabled: boolean;
   className?: string;
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
   size?: 'large' | 'medium' | 'small';
 }) => {
   const classes = useStyles();
 
   return (
-    <Modal className={classes.modal} onClose={onClose} open={visible}>
+    <Modal className={classes.modal} onClose={onClose} open={open}>
       <form
         className={clsx([classes[size ?? 'medium']], classes.body, className)}
         onSubmit={onSubmit}
@@ -88,9 +98,16 @@ export const FormModal = ({
         >
           <CloseIcon />
         </IconButton>
-        {title ? <h3 className={classes.title}>{title}</h3> : undefined}
+        {!!title && <h3 className={classes.title}>{title}</h3>}
         {children}
-        {onSubmit ? (
+        {errors !== undefined && (
+          <div className={classes.errors}>
+            {Object.values(errors).map((error, i) => (
+              <div key={i}>{error}</div>
+            ))}
+          </div>
+        )}
+        {!!onSubmit && (
           <Button
             className={classes.saveButton}
             variant="contained"
@@ -102,7 +119,7 @@ export const FormModal = ({
           >
             {submitText ? submitText : 'Save'}
           </Button>
-        ) : undefined}
+        )}
       </form>
     </Modal>
   );

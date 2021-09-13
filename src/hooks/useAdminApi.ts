@@ -5,7 +5,7 @@ import {
   rMyAddress,
   rCirclesMap,
   rEpochsRaw,
-  rUsersMap,
+  rUsersMapRaw,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import {
@@ -16,39 +16,19 @@ import {
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
 import {
-  IApiCircle,
-  IApiUser,
-  IApiEpoch,
   PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
   UpdateCreateEpochParam,
 } from 'types';
 
-export const useAdminApi = (): {
-  updateCircle: (params: PutCirclesParam) => Promise<IApiCircle>;
-  updateCircleLogo: (newAvatar: File) => Promise<IApiCircle>;
-  createEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
-  createEpochDeprecated: (
-    start_date: Date,
-    end_date: Date
-  ) => Promise<IApiEpoch>;
-  updateEpoch: (params: UpdateCreateEpochParam) => Promise<IApiEpoch>;
-  deleteEpoch: (id: number) => void;
-  updateUser: (
-    userAddress: string,
-    params: UpdateUsersParam
-  ) => Promise<IApiUser>;
-  createUser: (params: PostUsersParam) => Promise<IApiUser>;
-  deleteUser: (userAddress: string) => void;
-  getDiscordWebhook: () => Promise<string>;
-} => {
+export const useAdminApi = () => {
   const api = getApiService();
   const callWithLoadCatch = useAsyncLoadCatch();
 
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
   const updateEpochsMap = useSetRecoilState(rEpochsRaw);
-  const updateUsersMap = useSetRecoilState(rUsersMap);
+  const updateUsersMap = useSetRecoilState(rUsersMapRaw);
 
   // A fake circleId will just return nothing
   const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;
@@ -109,31 +89,14 @@ export const useAdminApi = (): {
       { hideLoading: true }
     );
 
-  const createEpochDeprecated = (startDate: Date, endDate: Date) =>
-    callWithLoadCatch(
-      async () => {
-        if (myAddress === undefined) throw 'myAddress required';
-        const newEpoch = await api.createEpochDeprecated(
-          myAddress,
-          selectedCircleId,
-          startDate,
-          endDate
-        );
-
-        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
-
-        return newEpoch;
-      },
-      { hideLoading: true }
-    );
-
-  const updateEpoch = (params: UpdateCreateEpochParam) =>
+  const updateEpoch = (epochId: number, params: UpdateCreateEpochParam) =>
     callWithLoadCatch(
       async () => {
         if (myAddress === undefined) throw 'myAddress required';
         const newEpoch = await api.updateEpoch(
           myAddress,
           selectedCircleId,
+          epochId,
           params
         );
 
@@ -210,7 +173,6 @@ export const useAdminApi = (): {
     updateCircle,
     updateCircleLogo,
     createEpoch,
-    createEpochDeprecated,
     updateEpoch,
     deleteEpoch,
     updateUser,

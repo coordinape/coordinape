@@ -86,7 +86,7 @@ export const NewNominationModal = ({
       submitDisabled={!nominateChanged}
       onSubmit={onSubmit}
       submitText="Nominate Member"
-      visible={visible}
+      open={visible}
       onClose={onClose}
       size="small"
     >
