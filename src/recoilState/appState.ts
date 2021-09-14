@@ -381,12 +381,9 @@ export const rSelectedCircle = selector<ICircle | undefined>({
   get: async ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
     const circlesMap = get(rCirclesMap);
-    console.log(
-      'rSelectedCircle',
-      selectedCircleId,
-      circlesMap.get(selectedCircleId ?? -1)
-    );
-    return circlesMap.get(selectedCircleId ?? -1);
+    const result = circlesMap.get(selectedCircleId ?? -1);
+    console.log('rSelectedCircle', selectedCircleId, result);
+    return result;
   },
 });
 export const useSelectedCircle = () => useRecoilValue(rSelectedCircle);
