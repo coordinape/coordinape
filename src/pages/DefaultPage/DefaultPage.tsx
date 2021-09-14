@@ -130,11 +130,11 @@ export const DefaultPage = () => {
       {myAddress ? (
         <div className={classes.header}>
           <p className={classes.title}>
-            {selectedCircle === undefined
+            {!selectedCircle
               ? 'Welcome!'
               : `Welcome to ${selectedCircle.name}!`}
           </p>
-          {selectedCircle === undefined && (
+          {!selectedCircle && (
             <div className={classes.welcomeSection}>
               <p className={classes.welcomeText}>
                 This wallet isn&apos;t associated with a circle.
