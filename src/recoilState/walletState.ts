@@ -34,7 +34,7 @@ export const rConnectorName = atom<ConnectorNames | undefined>({
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet((newId) => {
-        if (newId === undefined || newId instanceof DefaultValue) {
+        if (newId === undefined) {
           storage.clearConnectorName();
         } else {
           storage.setConnectorName(newId);
