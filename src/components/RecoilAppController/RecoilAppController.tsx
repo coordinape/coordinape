@@ -131,7 +131,7 @@ export const RecoilAppController = () => {
     if (!web3Context.active || !myProfile) {
       return;
     }
-    if (!myProfile.users.length) {
+    if (!myProfile?.users?.length) {
       // User has no circles
       // console.log('no circles');
       setSelectedCircleId(undefined);
