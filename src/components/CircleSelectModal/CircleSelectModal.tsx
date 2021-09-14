@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   indicator: { color: theme.colors.primary },
 }));
 
-export const CircleButton = ({
+const CircleButton = ({
   circle,
   onClick,
 }: {

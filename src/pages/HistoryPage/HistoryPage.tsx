@@ -211,14 +211,16 @@ export const HistoryPage = () => {
               <h3 className={classes.epochTitle}>
                 Epoch {selectedEpoch.number}
               </h3>
-              <Pagination
-                shape="rounded"
-                variant="outlined"
-                count={pastEpochs.length}
-                onChange={(event: any, value: number) => setPage(value)}
-                page={page}
-                className={classes.pagination}
-              />
+              {pastEpochs.length > 1 && (
+                <Pagination
+                  shape="rounded"
+                  variant="outlined"
+                  count={pastEpochs.length}
+                  onChange={(event: any, value: number) => setPage(value)}
+                  page={page}
+                  className={classes.pagination}
+                />
+              )}
             </div>
             <Divider />
             <h3 className={classes.epochItem}>{selectedEpoch.labelDayRange}</h3>
