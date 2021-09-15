@@ -18,7 +18,12 @@ import {
   useSelectedAllocationController,
 } from 'hooks';
 import { BalanceIcon } from 'icons';
-import { STEP_MY_TEAM, STEP_ALLOCATION, STEPS } from 'routes/allocation';
+import {
+  STEP_MY_TEAM,
+  STEP_ALLOCATION,
+  STEPS,
+  NO_TEAM_STEPS,
+} from 'routes/allocation';
 
 import AllocationEpoch from './AllocationEpoch';
 import AllocationGive from './AllocationGive';
@@ -137,7 +142,6 @@ export const AllocationPage = () => {
   const location = useLocation();
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
-
   useSelectedAllocationController();
   const {
     localTeammatesChanged,
@@ -151,7 +155,7 @@ export const AllocationPage = () => {
   } = useSelectedAllocation();
   const { epochIsActive } = useSelectedCircleEpoch();
   const { selectedMyUser, updateMyUser, selectedCircle } = useMe();
-
+  const allSteps = selectedCircle?.team_selection === 0 ? NO_TEAM_STEPS : STEPS;
   const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
   const [epochBio, setEpochBio] = useState('');
   const [nonReceiver, setNonReceiver] = useState(false);
@@ -168,13 +172,22 @@ export const AllocationPage = () => {
     (selectedMyUser?.non_receiver === 1) !== nonReceiver;
 
   useEffect(() => {
-    const exactStep = STEPS.find(({ path }) =>
+    let exactStep = STEPS.find(({ path }) =>
       matchPath(location.pathname, {
         exact: true,
         path,
       })
     );
-    setActiveStep((exactStep ?? nextStep ?? STEP_ALLOCATION).key);
+    let _nextStep = nextStep;
+    if (selectedCircle?.team_selection === 0) {
+      if (exactStep === STEP_MY_TEAM) {
+        exactStep = STEP_ALLOCATION;
+      } else if (_nextStep === STEP_MY_TEAM) {
+        _nextStep = STEP_ALLOCATION;
+      }
+    }
+
+    setActiveStep((exactStep ?? _nextStep ?? STEP_ALLOCATION).key);
   }, [location]);
 
   const handleSaveEpoch = async () => {
@@ -183,8 +196,10 @@ export const AllocationPage = () => {
       non_receiver: nonReceiver ? 1 : 0,
       epoch_first_visit: 0,
     });
-    setActiveStep(STEP_MY_TEAM.key);
-    history.push(STEP_MY_TEAM.path);
+    const _nextStep =
+      selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
+    setActiveStep(_nextStep.key);
+    history.push(_nextStep.path);
   };
 
   const handleSaveTeamList = async () => {
@@ -219,7 +234,10 @@ export const AllocationPage = () => {
             <StepButton
               onClick={getHandleStep(step)}
               completed={completedSteps.has(step)}
-              disabled={step === STEP_ALLOCATION && !epochIsActive}
+              disabled={
+                (step === STEP_ALLOCATION && !epochIsActive) ||
+                (selectedCircle?.team_selection === 0 && step === STEP_MY_TEAM)
+              }
             >
               {step.label}
             </StepButton>

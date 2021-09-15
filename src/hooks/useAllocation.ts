@@ -160,6 +160,7 @@ export const useAllocation = (
   tokenStarting: number;
   tokenAllocated: number;
   givePerUser: Map<number, ISimpleGift>;
+  givePerAllUsers: Map<number, ISimpleGift>;
   nextStep: IAllocationStep | undefined;
   completedSteps: Set<IAllocationStep>;
   toggleLocalTeammate: (userId: number) => void;
@@ -197,7 +198,6 @@ export const useAllocation = (
     rLocalTeammates(circleId)
   );
   const [localGifts, setLocalGifts] = useRecoilState(rLocalGifts(circleId));
-
   const tokenStarting =
     myCircleUser?.non_giver !== 0 ? 0 : myCircleUser.starting_tokens;
   const tokenAllocated = Array.from(localGifts).reduce(
@@ -210,7 +210,16 @@ export const useAllocation = (
     .reduce((a: number, b: number) => a + b, 0);
 
   const givePerUser = new Map(localGifts.map((g) => [g.user.id, g]));
-
+  const givePerAllUsers = new Map(
+    availableTeammates.map((u) => [
+      u.id,
+      {
+        note: givePerUser.get(u.id)?.note || '',
+        tokens: givePerUser.get(u.id)?.tokens || 0,
+        user: u,
+      } as ISimpleGift,
+    ])
+  );
   const toggleLocalTeammate = (userId: number) => {
     const newTeammates = localTeammates.find((u) => u.id === userId)
       ? [...localTeammates.filter((u) => u.id !== userId)]
@@ -236,6 +245,7 @@ export const useAllocation = (
     id: number,
     { note, tokens }: { note?: string; tokens?: number }
   ) => {
+    console.log('localGifts', localGifts);
     const idx = localGifts.findIndex((g) => g.user.id === id);
     const original = localGifts[idx];
     const user = usersMap.get(id);
@@ -243,6 +253,7 @@ export const useAllocation = (
       throw `User ${id} not found in userMap`;
     }
     if (idx === -1) {
+      console.log('not found');
       return [
         ...localGifts,
         { user, tokens: tokens ?? 0, note: note ?? '' } as ISimpleGift,
@@ -350,6 +361,7 @@ export const useAllocation = (
     tokenRemaining,
     tokenAllocated,
     givePerUser,
+    givePerAllUsers,
     nextStep,
     completedSteps,
     toggleLocalTeammate,

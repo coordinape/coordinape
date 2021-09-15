@@ -6,8 +6,8 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { PopUpModal, MyProfileCard, TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
+import { useSelectedCircleUsers } from 'recoilState';
 import storage from 'utils/storage';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
@@ -180,10 +180,21 @@ const AllocationGive = () => {
 
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
-  const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
+  const visibleUsers = useSelectedCircleUsers();
+  const {
+    givePerUser,
+    givePerAllUsers,
+    localTeammates,
+    updateGift,
+  } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
-
+  let usersToDisplay = visibleUsers;
+  if (selectedCircle?.team_selection === 1) {
+    usersToDisplay = visibleUsers.filter((user) => {
+      return user.id in givePerUser || localTeammates.includes(user);
+    });
+  }
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
@@ -255,7 +266,7 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser ? localTeammates : [])
+        {(selectedMyUser ? usersToDisplay : [])
           .filter((a) => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
@@ -284,15 +295,13 @@ const AllocationGive = () => {
             }
           })
           .map((user) =>
-            user.id === selectedMyUser?.id ? (
-              <MyProfileCard key={user.id} />
-            ) : (
+            user.id === selectedMyUser?.id ? undefined : (
               <TeammateCard
                 disabled={!epochIsActive}
                 key={user.id}
-                note={givePerUser.get(user.id)?.note || ''}
+                note={givePerAllUsers.get(user.id)?.note || ''}
                 tokenName={selectedCircle?.token_name || 'GIVE'}
-                tokens={givePerUser.get(user.id)?.tokens || 0}
+                tokens={givePerAllUsers.get(user.id)?.tokens || 0}
                 updateNote={(note) => updateGift(user.id, { note })}
                 updateTokens={(tokens) => updateGift(user.id, { tokens })}
                 user={user}

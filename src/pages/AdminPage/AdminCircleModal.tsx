@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
-import { makeStyles, Button, MenuItem, Select } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField } from 'components';
+import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
 import { useAdminApi } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
@@ -92,69 +92,6 @@ const useStyles = makeStyles((theme) => ({
       pointerEvents: 'none',
     },
   },
-  enableSwitchContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  switchHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  switchLabel: {
-    fontSize: 16,
-    lineHeight: 1.3,
-    fontWeight: 700,
-    marginTop: 0,
-    marginBottom: theme.spacing(1),
-    color: theme.colors.text,
-  },
-  switchTabContainer: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  enableSwitchingTab: {
-    cursor: 'pointer',
-    width: '50%',
-    minHeight: 48.3,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 400,
-    color: theme.colors.text,
-    background: theme.colors.lightBackground,
-    '&:hover': {
-      background: transparentize(0.8, theme.colors.lightBlue),
-    },
-    '&:first-of-type': {
-      border: 'solid',
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderRadius: 0,
-      borderColor: theme.colors.white,
-    },
-    '&:last-of-type': {
-      border: 'solid',
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-      borderLeftWidth: 1,
-      borderRightWidth: 0,
-      borderRadius: 0,
-      borderColor: theme.colors.white,
-    },
-    '&.active': {
-      color: theme.colors.white,
-      background: theme.colors.lightBlue,
-    },
-  },
   bottomContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -184,36 +121,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     textAlign: 'center',
     marginTop: theme.spacing(2),
-  },
-  topContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  selectRoot: {
-    padding: theme.spacing(0.8),
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.background,
-    borderRadius: theme.spacing(1),
-  },
-  select: {
-    paddingLeft: theme.spacing(10),
-  },
-  selectIcon: {
-    marginRight: theme.spacing(10),
-    fill: theme.colors.text,
-  },
-  menuItem: {
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-  },
-  menuItemSelected: {
-    background: `${theme.colors.third} !important`,
   },
 }));
 
@@ -376,31 +283,11 @@ export const AdminCircleModal = ({
           onChange={onChangeWith(setCircleName)}
           fullWidth
         />
-        <div className={classes.enableSwitchContainer}>
-          <div className={classes.switchHeader}>
-            <p className={classes.switchLabel}>Enable Vouching?</p>
-          </div>
-          <div className={classes.switchTabContainer}>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                vouching === 1 && 'active'
-              )}
-              onClick={() => setVouching(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                vouching === 0 && 'active'
-              )}
-              onClick={() => setVouching(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
+        <ApeToggle
+          value={vouching === 1}
+          onChange={(val) => setVouching(val ? 1 : 0)}
+          label="Enable Vouching?"
+        />
         <ApeTextField
           label="Token name"
           value={tokenName}
@@ -469,83 +356,22 @@ export const AdminCircleModal = ({
             disabled={vouching === 0}
           />
         </div>
-        <div className={classes.enableSwitchContainer}>
-          <div className={classes.switchHeader}>
-            <p className={classes.switchLabel}>Default Opt In?</p>
-          </div>
-          <div className={classes.switchTabContainer}>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                defaultOptIn === 1 && 'active'
-              )}
-              onClick={() => setDefaultOptIn(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                defaultOptIn === 0 && 'active'
-              )}
-              onClick={() => setDefaultOptIn(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
-        <div
+        <ApeToggle
+          value={defaultOptIn === 1}
+          onChange={(val) => setDefaultOptIn(val ? 1 : 0)}
+          label="Default Opt In?"
+        />
+        <ApeToggle
+          value={onlyGiverVouch === 1}
+          onChange={(val) => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
-          <div className={classes.switchHeader}>
-            <p className={classes.switchLabel}>Only Givers can vouch</p>
-          </div>
-          <div className={classes.switchTabContainer}>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                onlyGiverVouch === 1 && 'active'
-              )}
-              onClick={() => setOnlyGiverVouch(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                onlyGiverVouch === 0 && 'active'
-              )}
-              onClick={() => setOnlyGiverVouch(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
-        <div className={classes.enableSwitchContainer}>
-          <div className={classes.switchHeader}>
-            <p className={classes.switchLabel}>Team Selection Enabled</p>
-          </div>
-          <div className={classes.switchTabContainer}>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                teamSelection === 1 && 'active'
-              )}
-              onClick={() => setTeamSelection(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableSwitchingTab,
-                teamSelection === 0 && 'active'
-              )}
-              onClick={() => setTeamSelection(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
+          label="Only Givers can vouch"
+        />
+        <ApeToggle
+          value={teamSelection === 1}
+          onChange={(val) => setTeamSelection(val ? 1 : 0)}
+          label="Team Selection Enabled"
+        />
       </div>
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
