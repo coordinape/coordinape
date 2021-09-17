@@ -19,6 +19,7 @@ import {
 } from 'hooks';
 import { BalanceIcon } from 'icons';
 import {
+  STEP_MY_EPOCH,
   STEP_MY_TEAM,
   STEP_ALLOCATION,
   STEPS,
@@ -159,7 +160,6 @@ export const AllocationPage = () => {
   const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
   const [epochBio, setEpochBio] = useState('');
   const [nonReceiver, setNonReceiver] = useState(false);
-
   useEffect(() => {
     if (selectedMyUser) {
       setEpochBio(selectedMyUser.bio);
@@ -172,19 +172,23 @@ export const AllocationPage = () => {
     (selectedMyUser?.non_receiver === 1) !== nonReceiver;
 
   useEffect(() => {
-    let _exactStep = STEPS.find(({ path }) =>
+    const exactStep = allSteps.find(({ path }) =>
       matchPath(location.pathname, {
         exact: true,
         path,
       })
     );
-    let _nextStep = nextStep;
-    if (selectedCircle?.team_selection === 0) {
-      _exactStep = _exactStep === STEP_MY_TEAM ? STEP_ALLOCATION : _exactStep;
-      _nextStep = _nextStep === STEP_MY_TEAM ? STEP_ALLOCATION : _nextStep;
+    if (exactStep === undefined) {
+      if (!epochIsActive) {
+        if (selectedCircle?.team_selection === 1) {
+          setActiveStep(STEP_MY_TEAM.key);
+        }
+      } else {
+        setActiveStep(STEP_ALLOCATION.key);
+      }
+    } else {
+      setActiveStep(exactStep.key);
     }
-
-    setActiveStep((_exactStep ?? _nextStep ?? STEP_ALLOCATION).key);
   }, [location]);
 
   const handleSaveEpoch = async () => {
@@ -193,10 +197,13 @@ export const AllocationPage = () => {
       non_receiver: nonReceiver ? 1 : 0,
       epoch_first_visit: 0,
     });
-    const _nextStep =
-      selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
-    setActiveStep(_nextStep.key);
-    history.push(_nextStep.path);
+
+    if (!(selectedCircle?.team_selection === 0 && !epochIsActive)) {
+      const _nextStep =
+        selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
+      setActiveStep(_nextStep.key);
+      history.push(_nextStep.path);
+    }
   };
 
   const handleSaveTeamList = async () => {
@@ -226,7 +233,7 @@ export const AllocationPage = () => {
         activeStep={activeStep}
         classes={{ root: classes.stepperRoot }}
       >
-        {STEPS.map((step) => (
+        {allSteps.map((step) => (
           <Step key={step.key} classes={{ root: classes.stepRoot }}>
             <StepButton
               onClick={getHandleStep(step)}
@@ -263,7 +270,14 @@ export const AllocationPage = () => {
               ) : (
                 <Button
                   className={classes.saveButton}
-                  onClick={getHandleStep(STEP_MY_TEAM)}
+                  disabled={
+                    selectedCircle?.team_selection === 0 && !epochIsActive
+                  }
+                  onClick={getHandleStep(
+                    selectedCircle?.team_selection === 0
+                      ? STEP_ALLOCATION
+                      : STEP_MY_TEAM
+                  )}
                 >
                   Continue With Current Settings
                 </Button>

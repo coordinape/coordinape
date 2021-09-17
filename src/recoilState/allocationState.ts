@@ -5,6 +5,7 @@ import {
   STEP_MY_TEAM,
   STEP_ALLOCATION,
   STEPS,
+  NO_TEAM_STEPS,
 } from 'routes/allocation';
 
 import { rMyProfile, rPendingGiftsFrom, rUsersMap, rMyUsers } from './appState';
@@ -71,7 +72,10 @@ export const rAllocationStepStatus = selectorFamily<
     if (pendingGiftsFrom.length > 0) {
       completedSteps.add(STEP_ALLOCATION);
     }
-    return [completedSteps, STEPS.find((step) => !completedSteps.has(step))];
+    return [
+      completedSteps,
+      NO_TEAM_STEPS.find((step) => !completedSteps.has(step)),
+    ];
   },
 });
 export const useAllocationStepStatus = (circleId: number) =>
