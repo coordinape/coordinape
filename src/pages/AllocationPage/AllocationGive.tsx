@@ -181,20 +181,9 @@ const AllocationGive = () => {
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
   const visibleUsers = useSelectedCircleUsers();
-  const {
-    givePerUser,
-    givePerAllUsers,
-    localTeammates,
-    updateGift,
-  } = useSelectedAllocation();
+  const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
-  let usersToDisplay = visibleUsers;
-  if (selectedCircle?.team_selection === 1) {
-    usersToDisplay = visibleUsers.filter((user) => {
-      return user.id in givePerUser || localTeammates.includes(user);
-    });
-  }
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
@@ -266,13 +255,16 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser ? usersToDisplay : [])
+        {(selectedMyUser ? visibleUsers : [])
           .filter((a) => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
             }
             if (filterType & FilterType.NewMember) {
               return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
+            }
+            if (selectedCircle?.team_selection === 1) {
+              return localTeammates.includes(a) || givePerUser.get(a.id);
             }
             return true;
           })
@@ -299,9 +291,9 @@ const AllocationGive = () => {
               <TeammateCard
                 disabled={!epochIsActive}
                 key={user.id}
-                note={givePerAllUsers.get(user.id)?.note || ''}
+                note={givePerUser.get(user.id)?.note || ''}
                 tokenName={selectedCircle?.token_name || 'GIVE'}
-                tokens={givePerAllUsers.get(user.id)?.tokens || 0}
+                tokens={givePerUser.get(user.id)?.tokens || 0}
                 updateNote={(note) => updateGift(user.id, { note })}
                 updateTokens={(tokens) => updateGift(user.id, { tokens })}
                 user={user}

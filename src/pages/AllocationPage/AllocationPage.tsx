@@ -172,7 +172,7 @@ export const AllocationPage = () => {
     (selectedMyUser?.non_receiver === 1) !== nonReceiver;
 
   useEffect(() => {
-    let exactStep = STEPS.find(({ path }) =>
+    let _exactStep = STEPS.find(({ path }) =>
       matchPath(location.pathname, {
         exact: true,
         path,
@@ -180,14 +180,11 @@ export const AllocationPage = () => {
     );
     let _nextStep = nextStep;
     if (selectedCircle?.team_selection === 0) {
-      if (exactStep === STEP_MY_TEAM) {
-        exactStep = STEP_ALLOCATION;
-      } else if (_nextStep === STEP_MY_TEAM) {
-        _nextStep = STEP_ALLOCATION;
-      }
+      _exactStep = _exactStep === STEP_MY_TEAM ? STEP_ALLOCATION : _exactStep;
+      _nextStep = _nextStep === STEP_MY_TEAM ? STEP_ALLOCATION : _nextStep;
     }
 
-    setActiveStep((exactStep ?? _nextStep ?? STEP_ALLOCATION).key);
+    setActiveStep((_exactStep ?? _nextStep ?? STEP_ALLOCATION).key);
   }, [location]);
 
   const handleSaveEpoch = async () => {
