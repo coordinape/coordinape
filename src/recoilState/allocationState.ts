@@ -72,10 +72,8 @@ export const rAllocationStepStatus = selectorFamily<
     if (pendingGiftsFrom.length > 0) {
       completedSteps.add(STEP_ALLOCATION);
     }
-    return [
-      completedSteps,
-      NO_TEAM_STEPS.find((step) => !completedSteps.has(step)),
-    ];
+    const steps = user.circle.team_selection === 1 ? STEPS : NO_TEAM_STEPS;
+    return [completedSteps, steps.find((step) => !completedSteps.has(step))];
   },
 });
 export const useAllocationStepStatus = (circleId: number) =>
