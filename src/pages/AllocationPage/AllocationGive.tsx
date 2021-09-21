@@ -6,8 +6,8 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { PopUpModal, MyProfileCard, TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
+import { useSelectedCircleUsers } from 'recoilState';
 import storage from 'utils/storage';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
@@ -180,10 +180,10 @@ const AllocationGive = () => {
 
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
+  const visibleUsers = useSelectedCircleUsers();
   const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
-
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
@@ -255,13 +255,16 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser ? localTeammates : [])
+        {(selectedMyUser ? visibleUsers : [])
           .filter((a) => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
             }
             if (filterType & FilterType.NewMember) {
               return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
+            }
+            if (selectedCircle?.team_selection === 1) {
+              return localTeammates.includes(a) || givePerUser.get(a.id);
             }
             return true;
           })
@@ -284,9 +287,7 @@ const AllocationGive = () => {
             }
           })
           .map((user) =>
-            user.id === selectedMyUser?.id ? (
-              <MyProfileCard key={user.id} />
-            ) : (
+            user.id === selectedMyUser?.id ? undefined : (
               <TeammateCard
                 disabled={!epochIsActive}
                 key={user.id}

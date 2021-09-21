@@ -17,6 +17,7 @@ import {
   rTeammates,
   rPendingGiftsRaw,
   rAllocationStepStatus,
+  rSelectedCircleUsers,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
@@ -122,6 +123,16 @@ export const useAllocationController = (circleId: number | undefined) => {
 
   const pendingGifts = useRecoilValue(rPendingGiftsFrom(myCircleUser.id));
   const setLocalGifts = useSetRecoilState(rLocalGifts(circleId));
+  const selectedCircle = useRecoilValue(rSelectedCircle);
+  let usersToDisplay = useRecoilValue(rSelectedCircleUsers);
+
+  if (selectedCircle?.team_selection === 1) {
+    usersToDisplay = usersToDisplay.filter(
+      (user) =>
+        localTeammates.includes(user) ||
+        pendingGifts.findIndex((x) => x.recipient_id === user.id) !== -1
+    );
+  }
 
   useEffect(() => {
     if (isEqual(defaultTeammates, localTeammates)) {
@@ -131,7 +142,7 @@ export const useAllocationController = (circleId: number | undefined) => {
   }, [defaultTeammates]);
 
   useEffect(
-    () => setLocalGifts(syncWithTeammates(myCircleUser?.teammates ?? [])),
+    () => setLocalGifts(syncWithTeammates(usersToDisplay ?? [])),
 
     [myCircleUser]
   );
@@ -143,7 +154,7 @@ export const useAllocationController = (circleId: number | undefined) => {
     previousPendingGifts.current = pendingGifts;
 
     const newGifts = pendingGiftsToSimpleGifts(pendingGifts, usersMap);
-    setLocalGifts(syncWithTeammates(myCircleUser?.teammates ?? [], newGifts));
+    setLocalGifts(syncWithTeammates(usersToDisplay ?? [], newGifts));
   }, [pendingGifts]);
 };
 
@@ -197,7 +208,6 @@ export const useAllocation = (
     rLocalTeammates(circleId)
   );
   const [localGifts, setLocalGifts] = useRecoilState(rLocalGifts(circleId));
-
   const tokenStarting =
     myCircleUser?.non_giver !== 0 ? 0 : myCircleUser.starting_tokens;
   const tokenAllocated = Array.from(localGifts).reduce(
@@ -210,7 +220,6 @@ export const useAllocation = (
     .reduce((a: number, b: number) => a + b, 0);
 
   const givePerUser = new Map(localGifts.map((g) => [g.user.id, g]));
-
   const toggleLocalTeammate = (userId: number) => {
     const newTeammates = localTeammates.find((u) => u.id === userId)
       ? [...localTeammates.filter((u) => u.id !== userId)]
