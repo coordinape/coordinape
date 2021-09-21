@@ -179,7 +179,9 @@ export const AllocationPage = () => {
       })
     );
     if (exactStep === undefined) {
-      if (!epochIsActive) {
+      if (!completedSteps.has(STEP_MY_EPOCH)) {
+        setActiveStep(STEP_MY_EPOCH.key);
+      } else if (!epochIsActive) {
         if (selectedCircle?.team_selection === 1) {
           setActiveStep(STEP_MY_TEAM.key);
         }
