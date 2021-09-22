@@ -1,6 +1,47 @@
-# Getting Started with Create React App
+# Coordinape Frontend React app
+
+```
+┏━━━┓━━━━━━━━━━━━━┏┓━━━━━━━━━━━━━━━━━━━
+┃┏━┓┃━━━━━━━━━━━━━┃┃━━━━━━━━━━━━━━━━━━━
+┃┃━┗┛┏━━┓┏━━┓┏━┓┏━┛┃┏┓┏━┓━┏━━┓━┏━━┓┏━━┓
+┃┃━┏┓┃┏┓┃┃┏┓┃┃┏┛┃┏┓┃┣┫┃┏┓┓┗━┓┃━┃┏┓┃┃┏┓┃
+┃┗━┛┃┃┗┛┃┃┗┛┃┃┃━┃┗┛┃┃┃┃┃┃┃┃┗┛┗┓┃┗┛┃┃┃━┫
+┗━━━┛┗━━┛┗━━┛┗┛━┗━━┛┗┛┗┛┗┛┗━━━┛┃┏━┛┗━━┛
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━
+                __------__
+              /~          ~\
+             |    //^\\//^\|
+           /~~\  ||  o| |o|:~\
+          | |6   ||___|_|_||:|
+           \__.  /      o  \/'
+            |   (       O   )
+   /~~~~\    `\  \         /
+  | |~~\ |     )  ~------~`\
+ /' |  | |   /     ____ /~~~)\
+(_/'   | | |     /'    |    ( |
+       | | |     \    /   __)/ \
+       \  \ \      \/    /' \   `\
+         \  \|\        /   | |\___|
+           \ |  \____/     | |
+           /^~>  \        _/ <
+          |  |         \       \
+          |  | \        \        \
+          -^-\  \       |        )
+               `\_______/^\______/
+
+```
+
+[img src](https://www.asciiart.eu/animals/monkeys) [font src](https://textpaint.net/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Getting Started
+
+1. Clone the git repo.
+2. yarn install
+3. yarn start
+4. View the app at [http://localhost:3000](http://localhost:3000)
 
 ## Available Scripts
 
@@ -44,3 +85,11 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Potential errors
+
+- `TypeError: Cannot read properties of undefined (reading 'replace')`
+  You need to configure a local `.env` file with some private variables. Ask someone for these.
+
+- `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
+  Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077
