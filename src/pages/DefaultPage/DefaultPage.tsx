@@ -152,7 +152,7 @@ export const DefaultPage = () => {
                 </a>{' '}
                 and let us know in{' '}
                 <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
-                  discord
+                  Discord
                 </a>
                 .
               </p>
