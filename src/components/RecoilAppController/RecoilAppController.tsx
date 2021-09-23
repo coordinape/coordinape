@@ -26,6 +26,7 @@ import {
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
+import { DOMAIN_IS_PREVIEW } from 'utils/domain';
 
 // The following DebugObserver and window.$recoilValues are for debugging.
 interface IRecoilAtomValue {
@@ -157,7 +158,7 @@ export const RecoilAppController = () => {
 
   return (
     <>
-      <DebugObserver />
+      {DOMAIN_IS_PREVIEW && <DebugObserver />}
       <ConnectWalletModal
         onClose={() => setWalletModalOpen(false)}
         visible={walletModalOpen}
