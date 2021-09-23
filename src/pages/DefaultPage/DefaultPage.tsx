@@ -161,7 +161,7 @@ export const DefaultPage = () => {
             <p className={classes.title}>Reward Your Fellow Contributors</p>
             <p className={classes.subTitle}>
               Connect your wallet to participate. You must be registered as a
-              contributor with an existing Coordinape project
+              contributor with an existing Coordinape project.
             </p>
           </div>
           <div className={classes.skeletonRoot}>
