@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { makeStyles } from '@material-ui/core';
 
 import { rMyAddress, rSelectedCircle } from 'recoilState';
-import { getNavigationFooter } from 'routes/paths';
+import { getNavigationFooter, EXTERNAL_URL_DISCORD } from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -150,7 +150,11 @@ export const DefaultPage = () => {
                 >
                   onboarding form
                 </a>{' '}
-                and let us know in discord.
+                and let us know in{' '}
+                <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
+                  discord
+                </a>
+                .
               </p>
             </div>
           )}
