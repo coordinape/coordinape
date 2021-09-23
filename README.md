@@ -6,7 +6,7 @@
 ┃┗━┛┃┃┗┛┃┃┗┛┃┃┃━┃┗┛┃┃┃┃┃┃┃┃┗┛┗┓┃┗┛┃┃┃━┫
 ┗━━━┛┗━━┛┗━━┛┗┛━┗━━┛┗┛┗┛┗┛┗━━━┛┃┏━┛┗━━┛
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━
-React Recoil Frontend          ┃┃
+React Frontend                 ┃┃
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━
                 __------__
               /~          ~\
@@ -32,13 +32,15 @@ React Recoil Frontend          ┃┃
 
 # Getting started:
 
-`git clone` | `yarn install` | `yarn start` | [http://localhost:3000](http://localhost:3000)
+- `git clone` | `yarn install`
+- Setup .env file
+- `yarn start` | [http://localhost:3000](http://localhost:3000)
 
 Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # App Structure
 
-### See `HistoryPage` as an exemplar top level component.
+### See [HistoryPage](https://github.com/coordinape/coordinape/blob/master/src/pages/HistoryPage/HistoryPage.tsx) as an exemplar top level component.
 
 ## Key libraries
 
