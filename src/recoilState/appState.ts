@@ -378,12 +378,8 @@ export const useSelectedCircleEpochsStatus = () =>
 
 export const rSelectedCircle = selector<ICircle | undefined>({
   key: 'rSelectedCircle',
-  get: async ({ get }: IRecoilGetParams) => {
-    const selectedCircleId = get(rSelectedCircleId);
-    const circlesMap = get(rCirclesMap);
-    const result = circlesMap.get(selectedCircleId ?? -1);
-    return result;
-  },
+  get: async ({ get }: IRecoilGetParams) =>
+    get(rCirclesMap).get(get(rSelectedCircleId) ?? -1),
 });
 export const useSelectedCircle = () => useRecoilValue(rSelectedCircle);
 
