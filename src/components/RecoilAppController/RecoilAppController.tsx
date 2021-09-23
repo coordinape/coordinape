@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
-// import RecoilizeDebugger from 'recoilize';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useRecoilCallback,
+  useRecoilSnapshot,
+} from 'recoil';
 
 import {
   CircleSelectModal,
@@ -29,18 +33,27 @@ interface IRecoilAtomValue {
   state: string;
 }
 
-// const DebugObserver = () => {
-//   const snapshot = useRecoilSnapshot();
-//   React.useEffect(() => {
-//     console.debug('Recoil: The following atoms were modified:');
-//     const thing = snapshot.getNodes_UNSTABLE({ isModified: true });
-//     for (const node of Array.from(thing)) {
-//       console.debug(node.key, snapshot.getLoadable(node));
-//     }
-//   }, [snapshot]);
+const DebugObserver = () => {
+  const snapshot = useRecoilSnapshot();
+  React.useEffect(() => {
+    const nodes = Array.from(snapshot.getNodes_UNSTABLE({ isModified: true }));
+    // eslint-disable-next-line no-console
+    console.groupCollapsed('RECOIL Δ', ...nodes.map((n) => n.key));
+    for (const node of nodes) {
+      const loadable = snapshot.getLoadable(node);
+      // eslint-disable-next-line no-console
+      console.log(
+        '-',
+        node.key,
+        loadable.state === 'hasValue' ? loadable.contents : loadable.state
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.groupEnd();
+  }, [snapshot]);
 
-//   return null;
-// };
+  return null;
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: This is debug code!!!
@@ -103,8 +116,6 @@ export const RecoilAppController = () => {
     if (!web3Context.account) {
       return;
     }
-    // console.log('web3Context', web3Context);
-    // console.log('connectorName:', connectorName, 'myAddress', myAddress);
 
     setMyAddress(web3Context.account);
     setWalletModalOpen(false);
@@ -120,36 +131,33 @@ export const RecoilAppController = () => {
   }, [web3Context.library]);
 
   useEffect(() => {
-    if (selectedCircleId !== undefined && myAddress !== undefined) {
+    if (selectedCircleId !== undefined) {
       selectAndFetchCircle(selectedCircleId);
     }
-  }, [selectedCircleId, myAddress]);
+  }, [selectedCircleId]);
 
   // Default selectedCircleId to first circle if undefined or no permissions
   useEffect(() => {
-    // console.log('useEffect', 'myProfile', 'web3Context');
     if (!web3Context.active || !myProfile) {
       return;
     }
     if (!myProfile?.users?.length) {
       // User has no circles
-      // console.log('no circles');
       setSelectedCircleId(undefined);
       return;
     }
-    const noAccess =
+    const noPermissionForSelectedCircle =
       !hasAdminView &&
       !!selectedCircleId &&
       !myProfile?.users?.some((u) => u.circle_id === selectedCircleId);
-    if (noAccess || selectedCircleId === undefined) {
+    if (noPermissionForSelectedCircle || selectedCircleId === undefined) {
       setSelectedCircleId(myProfile.users[0].circle_id);
     }
   }, [myProfile, web3Context]);
 
   return (
     <>
-      {/* <DebugObserver /> */}
-      {/* <RecoilizeDebugger /> */}
+      <DebugObserver />
       <ConnectWalletModal
         onClose={() => setWalletModalOpen(false)}
         visible={walletModalOpen}
