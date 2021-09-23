@@ -382,7 +382,6 @@ export const rSelectedCircle = selector<ICircle | undefined>({
     const selectedCircleId = get(rSelectedCircleId);
     const circlesMap = get(rCirclesMap);
     const result = circlesMap.get(selectedCircleId ?? -1);
-    console.log('rSelectedCircle', selectedCircleId, result);
     return result;
   },
 });

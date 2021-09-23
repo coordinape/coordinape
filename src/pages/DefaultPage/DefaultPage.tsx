@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
-import { rMyAddress, rSelectedCircle, rSelectedCircleId } from 'recoilState';
+import { rMyAddress, rSelectedCircle } from 'recoilState';
 import { getNavigationFooter } from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
@@ -121,10 +121,8 @@ export const DefaultPage = () => {
   const classes = useStyles();
 
   const selectedCircle = useRecoilValue(rSelectedCircle);
-  const selectedCircleId = useRecoilValue(rSelectedCircleId);
   const myAddress = useRecoilValue(rMyAddress);
 
-  console.log('DefaultPage', selectedCircleId, selectedCircle);
   return (
     <div className={classes.root}>
       {myAddress ? (

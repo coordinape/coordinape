@@ -127,20 +127,20 @@ export const createForm = <
   // neverEndingPromise is used to cause a suspense when uninitialized
   // see FormController and InnerFormController
   const rSource = atomFamily<Source, string>({
-    key: `ApeFormSource-${name}`,
+    key: `${name}-Source`,
     default: neverEndingPromise(),
   });
   const rBaseValue = selectorFamily<Input, string>({
-    key: `ApeFormBaseValue-${name}`,
+    key: `${name}-BaseValue`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) =>
       load(get(rSource(instanceKey))),
   });
   const rValue = atomFamily<Input, string>({
-    key: `ApeFormValue-${name}`,
+    key: `${name}-Value`,
     default: neverEndingPromise(),
   });
   const rParsed = selectorFamily<ZodParsedType<Effect>, string>({
-    key: `ApeFormParsed-${name}`,
+    key: `${name}-Parsed`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const value = get(rValue(instanceKey));
       const source = get(rSource(instanceKey));
@@ -148,7 +148,7 @@ export const createForm = <
     },
   });
   const rChangedOutput = selectorFamily<boolean, string>({
-    key: `ApeFormChangedOutput-${name}`,
+    key: `${name}-ChangedOutput`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const source = get(rSource(instanceKey));
       const baseOutput = getZodParser(source).safeParse(
