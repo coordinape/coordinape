@@ -1,4 +1,8 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  useRecoilCallback,
+  useSetRecoilState,
+  CallbackInterface,
+} from 'recoil';
 
 import {
   rSelectedCircleId,
@@ -30,12 +34,21 @@ export const useAdminApi = () => {
   const updateEpochsMap = useSetRecoilState(rEpochsRaw);
   const updateUsersMap = useSetRecoilState(rUsersMapRaw);
 
-  // A fake circleId will just return nothing
-  const selectedCircleId = useRecoilValue(rSelectedCircleId) ?? -1;
-  const myAddress = useRecoilValue(rMyAddress);
+  const getState = useRecoilCallback(
+    ({ snapshot }: CallbackInterface) => async () => {
+      const selectedCircleId =
+        (await snapshot.getPromise(rSelectedCircleId)) ?? -1;
+      const myAddress = await snapshot.getPromise(rMyAddress);
+      return {
+        selectedCircleId,
+        myAddress,
+      };
+    }
+  );
 
   const updateCircle = (params: PutCirclesParam) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       const newCircle = await api.putCircles(
         selectedCircleId,
@@ -55,6 +68,7 @@ export const useAdminApi = () => {
 
   const updateCircleLogo = async (newAvatar: File) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       const newCircle = await api.uploadCircleLogo(
         selectedCircleId,
@@ -75,6 +89,7 @@ export const useAdminApi = () => {
   const createEpoch = (params: UpdateCreateEpochParam) =>
     callWithLoadCatch(
       async () => {
+        const { myAddress, selectedCircleId } = await getState();
         if (myAddress === undefined) throw 'myAddress required';
         const newEpoch = await api.createEpoch(
           myAddress,
@@ -92,6 +107,7 @@ export const useAdminApi = () => {
   const updateEpoch = (epochId: number, params: UpdateCreateEpochParam) =>
     callWithLoadCatch(
       async () => {
+        const { myAddress, selectedCircleId } = await getState();
         if (myAddress === undefined) throw 'myAddress required';
         const newEpoch = await api.updateEpoch(
           myAddress,
@@ -109,6 +125,7 @@ export const useAdminApi = () => {
 
   const deleteEpoch = (epochId: number) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       await api.deleteEpoch(myAddress, selectedCircleId, epochId);
 
@@ -121,6 +138,7 @@ export const useAdminApi = () => {
   // What if they update themselves? refresh?
   const updateUser = (userAddress: string, params: UpdateUsersParam) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       const updatedUser = await api.updateUsers(
         selectedCircleId,
@@ -138,6 +156,7 @@ export const useAdminApi = () => {
 
   const createUser = (params: PostUsersParam) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       const newUser = await api.createUser(selectedCircleId, myAddress, params);
 
@@ -148,6 +167,7 @@ export const useAdminApi = () => {
 
   const deleteUser = (userAddress: string) =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       if (myAddress === userAddress) {
         throw 'Cannot delete your own address';
@@ -164,6 +184,7 @@ export const useAdminApi = () => {
     });
   const getDiscordWebhook = () =>
     callWithLoadCatch(async () => {
+      const { myAddress, selectedCircleId } = await getState();
       if (myAddress === undefined) throw 'myAddress required';
       const webhook = await api.getDiscordWebhook(myAddress, selectedCircleId);
       return webhook;

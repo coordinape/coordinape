@@ -188,19 +188,6 @@ const AdminPage = () => {
     [keyword]
   );
 
-  const RenderUserName = (u: IUser) => (
-    <div className={classes.avatarCell}>
-      <ApeAvatar user={u} className={classes.avatar} />
-      <span>{u.name}</span>
-    </div>
-  );
-
-  const RenderUserActions = (u: IUser) =>
-    renderActions(
-      () => setEditUser(u),
-      u.id !== me?.id ? () => deleteUser(u.address) : undefined
-    );
-
   // Epoch Columns
   const RenderEpochDetails = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
@@ -249,7 +236,14 @@ const AdminPage = () => {
         {
           label: 'Name',
           accessor: 'name',
-          render: RenderUserName,
+          render: function UserName(u: IUser) {
+            return (
+              <div className={classes.avatarCell}>
+                <ApeAvatar user={u} className={classes.avatar} />
+                <span>{u.name}</span>
+              </div>
+            );
+          },
           wide: true,
           leftAlign: true,
         },
@@ -268,7 +262,7 @@ const AdminPage = () => {
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 0 ? 'No' : 'Yes'),
+          render: (u: IUser) => (u.role === 0 ? '-' : 'Admin'),
         },
         {
           label: 'GIVE sent',
@@ -280,7 +274,11 @@ const AdminPage = () => {
         },
         {
           label: 'Actions',
-          render: RenderUserActions,
+          render: (u: IUser) =>
+            renderActions(
+              () => setEditUser(u),
+              u.id !== me?.id ? () => deleteUser(u.address) : undefined
+            ),
           noSort: true,
         },
       ] as ITableColumn[],
