@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   adminSkillItem: {
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.2, 1.7),
-    background: theme.colors.black,
+    background: theme.colors.darkBlue,
     textAlign: 'center',
     fontSize: 14,
     fontWeight: 600,
@@ -419,7 +419,7 @@ export const TeammateCard = (props: IProps) => {
           fullWidth
           rows={3}
           inputProps={{
-            maxLength: 280,
+            maxLength: 600,
           }}
           InputProps={{
             classes: {
