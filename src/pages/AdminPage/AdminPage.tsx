@@ -253,12 +253,17 @@ const AdminPage = () => {
           render: (u: IUser) => shortenAddress(u.address),
         },
         {
-          label: 'Can they give?',
-          render: (u: IUser) => (u.non_giver === 0 ? 'Yes' : 'No'),
+          label: 'Non Giver?',
+          render: (u: IUser) => (!u.non_giver ? '-' : 'Non Giver'),
         },
         {
-          label: 'Force Opt Out?',
-          render: (u: IUser) => (u.fixed_non_receiver === 0 ? 'No' : 'Yes'),
+          label: 'Opted Out?',
+          render: (u: IUser) =>
+            u.fixed_non_receiver
+              ? 'Forced Opt Out'
+              : u.non_receiver
+              ? 'Opted Out'
+              : '-',
         },
         {
           label: 'Are they admin?',
@@ -266,11 +271,22 @@ const AdminPage = () => {
         },
         {
           label: 'GIVE sent',
-          render: (u: IUser) => u.starting_tokens - u.give_token_remaining,
+          accessor: 'give_token_remaining',
+          render: (u: IUser) =>
+            !u.non_giver || u.starting_tokens - u.give_token_remaining != 0
+              ? `${u.starting_tokens - u.give_token_remaining}/${
+                  u.starting_tokens
+                }`
+              : '-',
         },
         {
           label: 'GIVE received',
           accessor: 'give_token_received',
+          render: (u: IUser) =>
+            u.give_token_received === 0 &&
+            (!!u.fixed_non_receiver || !!u.non_receiver)
+              ? '-'
+              : u.give_token_received,
         },
         {
           label: 'Actions',
