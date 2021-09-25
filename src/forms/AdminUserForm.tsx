@@ -16,6 +16,7 @@ const schema = z
     address: zEthAddress,
     non_giver: zBooleanToNumber,
     fixed_non_receiver: zBooleanToNumber,
+    non_receiver: zBooleanToNumber,
     role: zBooleanToNumber,
     starting_tokens: z.number(),
   })
@@ -30,6 +31,7 @@ const AdminUserForm = createForm({
     address: v.user?.address ?? '',
     non_giver: !!(v.user?.non_giver ?? !v.circle.default_opt_in),
     fixed_non_receiver: !!v.user?.fixed_non_receiver ?? false,
+    non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
     role: !!v.user?.role ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
   }),

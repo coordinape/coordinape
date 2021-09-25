@@ -79,7 +79,7 @@ export const AdminEpochModal = ({
   const source = useMemo(
     () => ({
       epoch: epoch,
-      epochs: epochs.filter((e) => e.id !== epoch?.id),
+      epochs: epochs.filter((e) => e.id !== epoch?.id && !e.ended),
     }),
     [epoch, epochs]
   );
