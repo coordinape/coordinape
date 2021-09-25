@@ -100,7 +100,7 @@ export const AdminUserModal = ({
               value={!nonGiverValue}
               label="Can Give?"
             />
-            <ApeToggle {...fields.fixed_non_receiver} label="Force Opt'd Out" />
+            <ApeToggle {...fields.fixed_non_receiver} label="Force Opted Out" />
             <ApeToggle
               {...fields.non_receiver}
               disabled={fields.fixed_non_receiver.value}
