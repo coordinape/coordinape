@@ -21,6 +21,7 @@ const color = {
   // New for landing page
   almostWhite: '#F6F7F8',
   lightBlue: '#84C7CA',
+  darkBlue: '#5D9C9F',
   placeholder: '#99A2A5',
   placeholderDark: '#7C898D',
 };
