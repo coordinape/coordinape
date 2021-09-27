@@ -11,7 +11,6 @@ import {
   IApiUserProfile,
   IApiEpoch,
   PostProfileParam,
-  PostCirclesParam,
   PostTokenGiftsParam,
   PostUsersParam,
   PutCirclesParam,
@@ -20,6 +19,7 @@ import {
   UpdateCreateEpochParam,
   NominateUserParam,
   IApiNominee,
+  CreateCircleParam,
 } from 'types';
 
 axios.defaults.baseURL = API_URL;
@@ -60,18 +60,21 @@ export class APIService {
     return response.data as IApiCircle[];
   };
 
-  // Unused.
-  postCircles = async (
+  createCircle = async (
     address: string,
-    params: PostCirclesParam
+    params: CreateCircleParam,
+    h_captcha_token: string,
+    uxresearch_json: string
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post('/circles', {
+    const response = await axios.post('/create-circle', {
       signature,
       data,
       address,
       hash,
+      h_captcha_token,
+      uxresearch_json,
     });
     return response.data;
   };

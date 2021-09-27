@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar } from 'components';
@@ -11,6 +13,7 @@ import {
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
+import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
 
@@ -146,6 +149,8 @@ const AdminPage = () => {
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
+
+  const history = useHistory();
 
   const { deleteUser, deleteEpoch } = useAdminApi();
   const me = useSelectedMyUser();
@@ -376,6 +381,15 @@ const AdminPage = () => {
               onClick={() => setNewEpoch(true)}
             >
               Add Epoch
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<PlusCircleIcon />}
+              onClick={() => history.push(paths.getCreateCirclePath())}
+            >
+              Create Circle
             </Button>
           </div>
         </div>

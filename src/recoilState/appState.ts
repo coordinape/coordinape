@@ -136,14 +136,23 @@ export const rMyCircles = selector<ICircle[]>({
   key: 'rMyCircles',
   get: ({ get }: IRecoilGetParams) => {
     const myProfile = get(rMyProfile);
-    return (
-      myProfile?.users
-        ?.map((u) => createCircleWithDefaults(u.circle))
-        .sort((a, b) => a.protocol_id - b.protocol_id) ?? []
-    );
+    return (myProfile?.users ?? [])
+      .map((u) => createCircleWithDefaults(u.circle))
+      .sort((a, b) => a.protocol_id - b.protocol_id);
   },
 });
 export const useMyCircles = () => useRecoilValue(rMyCircles);
+
+export const rMyAdminCircles = selector<ICircle[]>({
+  key: 'rMyAdminCircles',
+  get: ({ get }: IRecoilGetParams) => {
+    const myProfile = get(rMyProfile);
+    return (myProfile?.users ?? [])
+      .filter((u) => u.role === 1)
+      .map((u) => createCircleWithDefaults(u.circle));
+  },
+});
+export const useMyAdminCircles = () => useRecoilValue(rMyCircles);
 
 export const rFetchedAt = atomFamily<Map<string, number>, string>({
   key: 'rFetchedAt',

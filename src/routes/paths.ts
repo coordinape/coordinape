@@ -21,6 +21,7 @@ export const getMapPath = () => '/map';
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
+export const getCreateCirclePath = () => '/createCircle';
 export const getProfilePath = (address: string) => `/profile/${address}`;
 
 interface INavItem {

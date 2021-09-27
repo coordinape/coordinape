@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
+import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import HistoryPage from 'pages/HistoryPage';
 import ProfilePage from 'pages/ProfilePage';
@@ -26,7 +27,16 @@ export const Routes = () => {
   // TODO: simpler way to do this? Maybe redirect?
   const asVoyeur = !selectedMyUser && hasAdminView;
   if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
-    return <DefaultPage />;
+    return (
+      <Switch>
+        <Route exact path={paths.getHomePath()} component={DefaultPage} />
+        <Route
+          exact
+          path={paths.getCreateCirclePath()}
+          component={CreateCirclePage}
+        />
+      </Switch>
+    );
   }
   const SneakyAllocationPage = !asVoyeur ? AllocationPage : DefaultPage;
   const SneakyAdminPage =
@@ -46,6 +56,12 @@ export const Routes = () => {
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
+
+      <Route
+        exact
+        path={paths.getCreateCirclePath()}
+        component={CreateCirclePage}
+      />
 
       <Route
         exact
