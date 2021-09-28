@@ -132,10 +132,10 @@ export const RecoilAppController = () => {
   }, [web3Context.library]);
 
   useEffect(() => {
-    if (selectedCircleId !== undefined) {
+    if (selectedCircleId !== undefined && myProfile) {
       selectAndFetchCircle(selectedCircleId);
     }
-  }, [selectedCircleId]);
+  }, [selectedCircleId, myProfile]);
 
   // Default selectedCircleId to first circle if undefined or no permissions
   useEffect(() => {

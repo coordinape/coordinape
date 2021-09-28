@@ -29,12 +29,12 @@ export const Routes = () => {
   if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
     return (
       <Switch>
-        <Route exact path={paths.getHomePath()} component={DefaultPage} />
         <Route
           exact
           path={paths.getCreateCirclePath()}
           component={CreateCirclePage}
         />
+        <Route component={DefaultPage} />
       </Switch>
     );
   }
