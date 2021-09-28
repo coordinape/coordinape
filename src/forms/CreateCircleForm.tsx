@@ -12,9 +12,9 @@ const schema = z
       .min(3, 'Circle name must be at least 3 characters long.'),
     protocol_name: z
       .string()
-      .min(3, 'User name must be at least 3 characters long.'),
+      .min(3, 'Org name must be at least 3 characters long.'),
     protocol_id: z.number().optional(),
-    h_captcha_token: z.string().min(1, 'Please be a human.'),
+    captcha_token: z.string().min(1, 'Please be a human.'),
     // TODO: Implment nested fields in createForm
     // Research Questions
     research_org_link: z.string(),
@@ -33,7 +33,7 @@ const CreateCircleForm = createForm({
     circle_name: '',
     protocol_name: '',
     protocol_id: undefined,
-    h_captcha_token: '',
+    captcha_token: '',
     research_org_link: '',
     research_contact: '',
     research_who: '',

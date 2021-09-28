@@ -418,7 +418,7 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
+            <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
                 color="secondary"
@@ -436,7 +436,7 @@ const LandingPage = () => {
                 size="small"
                 disableElevation
               >
-                Launch Coordinape
+                Launch App
               </Button>
             </a>
           </div>

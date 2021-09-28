@@ -36,7 +36,7 @@ export const useApi = () => {
 
   const createCircle = (
     params: CreateCircleParam,
-    hCaptchaToken: string,
+    captchaToken: string,
     uxresearchJson: string
   ) =>
     callWithLoadCatch(async () => {
@@ -45,7 +45,7 @@ export const useApi = () => {
       const newCircle = await api.createCircle(
         myAddress,
         params,
-        hCaptchaToken,
+        captchaToken,
         uxresearchJson
       );
 

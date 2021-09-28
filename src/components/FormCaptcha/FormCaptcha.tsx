@@ -7,7 +7,11 @@ import { makeStyles } from '@material-ui/core';
 
 import { DOMAIN_IS_LOCALHOST, API_IS_PRODUCTION } from 'utils/domain';
 
-const USE_TEST_SITE_KEY = !API_IS_PRODUCTION;
+// The test key always returns:
+// 10000000-aaaa-bbbb-cccc-000000000001
+const SITE_KEY = API_IS_PRODUCTION
+  ? (process.env.REACT_APP_H_CAPTCHA as string)
+  : '10000000-ffff-ffff-ffff-000000000001';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const FormHCaptcha = ({
+export const FormCaptcha = ({
   onChange,
   className,
   error,
@@ -42,10 +46,10 @@ export const FormHCaptcha = ({
   useEffect(() => {
     if (DOMAIN_IS_LOCALHOST) {
       console.error(
-        'hCaptcha prohibits localhost and 127.0.0.1 as supplied hostnames. See FormHCaptcha.'
+        'hCaptcha prohibits localhost and 127.0.0.1 as supplied hostnames. See FormCaptcha.'
       );
       // See: https://docs.hcaptcha.com/#localdev
-      // Put `127.0.0.1 localhost.ape` in hosts
+      // Put `127.0.0.1 local-ape.host` in hosts
       // Linux: /etc/hosts
       // Mac: /private/etc/hosts
       // Windows: C:\Windows\System32\Drivers\etc\hosts
@@ -56,11 +60,7 @@ export const FormHCaptcha = ({
   return (
     <div className={clsx(className, classes.root)}>
       <HCaptcha
-        sitekey={
-          USE_TEST_SITE_KEY
-            ? '10000000-ffff-ffff-ffff-000000000001'
-            : '66997284-f648-46d2-8900-10ace3be9697'
-        }
+        sitekey={SITE_KEY}
         onVerify={(t) => onChange(t)}
         onExpire={() => onChange('')}
       />

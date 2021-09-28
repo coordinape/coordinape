@@ -63,7 +63,7 @@ export class APIService {
   createCircle = async (
     address: string,
     params: CreateCircleParam,
-    h_captcha_token: string,
+    captcha_token: string,
     uxresearch_json: string
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
@@ -73,7 +73,7 @@ export class APIService {
       data,
       address,
       hash,
-      h_captcha_token,
+      captcha_token,
       uxresearch_json,
     });
     return response.data;

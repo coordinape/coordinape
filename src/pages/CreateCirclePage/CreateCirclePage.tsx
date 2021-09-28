@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles, Button } from '@material-ui/core';
 
 import {
-  FormHCaptcha,
+  FormCaptcha,
   FormTextField,
   ApeTextField,
   FormAutocomplete,
@@ -92,9 +92,14 @@ export const SummonCirclePage = () => {
 
   const { createCircle } = useApi();
 
-  if (myAddress === undefined) {
-    // This page shouldn't be visible without an address.
-    return <></>;
+  if (!myAddress) {
+    return (
+      <div className={classes.root}>
+        <h2 className={classes.title}>
+          Connect your wallet to create a circle.
+        </h2>
+      </div>
+    );
   }
 
   return (
@@ -103,7 +108,7 @@ export const SummonCirclePage = () => {
       <CreateCircleForm.FormController
         source={undefined}
         submit={async ({
-          h_captcha_token,
+          captcha_token,
           research_who,
           research_how_much,
           research_org_link,
@@ -112,7 +117,7 @@ export const SummonCirclePage = () => {
         }) => {
           await createCircle(
             { ...params },
-            h_captcha_token,
+            captcha_token,
             JSON.stringify({
               address: myAddress,
               research_who,
@@ -149,7 +154,7 @@ export const SummonCirclePage = () => {
                 label="Circle Name"
                 fullWidth
               />
-              {myAdminCircles ? (
+              {myAdminCircles.length ? (
                 <FormAutocomplete
                   {...fields.protocol_name}
                   value={fields.protocol_name.value}
@@ -192,7 +197,7 @@ export const SummonCirclePage = () => {
                 fullWidth
               />
             </div>
-            <FormHCaptcha {...fields.h_captcha_token} error={false} />
+            <FormCaptcha {...fields.captcha_token} error={false} />
             <Button
               className={classes.saveButton}
               variant="contained"
