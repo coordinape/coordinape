@@ -142,26 +142,6 @@ export const ConnectWalletModal = ({
                   text="Coinbase Wallet"
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
-                <ConnectWalletButtonItem
-                  disabled={isConnectingToWallet}
-                  icon={ConnectorNames.Fortmatic}
-                  onClick={() => {
-                    activate(ConnectorNames.Fortmatic);
-                  }}
-                  text="Fortmatic"
-                />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <ConnectWalletButtonItem
-                  disabled={isConnectingToWallet}
-                  icon={ConnectorNames.Portis}
-                  onClick={() => {
-                    activate(ConnectorNames.Portis);
-                  }}
-                  text="Portis"
-                />
-              </Grid>
             </Grid>
           </div>
         )}
