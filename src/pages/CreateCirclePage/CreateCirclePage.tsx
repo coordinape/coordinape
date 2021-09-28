@@ -13,7 +13,11 @@ import {
 } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApi } from 'hooks/useApi';
-import { useMyAddress, useMyAdminCircles } from 'recoilState';
+import {
+  useMyAddress,
+  useMyAdminCircles,
+  useSetSelectedCircleId,
+} from 'recoilState';
 import * as paths from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
@@ -80,6 +84,7 @@ export const SummonCirclePage = () => {
 
   const myAddress = useMyAddress();
   const myAdminCircles = useMyAdminCircles();
+  const setSelectedCircleId = useSetSelectedCircleId();
 
   const protocols = useMemo(
     () =>
@@ -115,7 +120,7 @@ export const SummonCirclePage = () => {
           research_contact,
           ...params
         }) => {
-          await createCircle(
+          const newCircle = await createCircle(
             { ...params },
             captcha_token,
             JSON.stringify({
@@ -127,6 +132,7 @@ export const SummonCirclePage = () => {
               ...params,
             })
           );
+          setSelectedCircleId(newCircle.id);
           history.push({
             pathname: paths.getAdminPath(),
             search: paths.NEW_CIRCLE_CREATED_PARAMS,

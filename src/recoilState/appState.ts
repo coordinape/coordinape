@@ -50,6 +50,8 @@ export const rSelectedCircleId = atom<number | undefined>({
   ],
 });
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
+export const useSetSelectedCircleId = () =>
+  useSetRecoilState(rSelectedCircleId);
 
 // This toggles team only features
 export const rTriggerMode = atom<boolean>({

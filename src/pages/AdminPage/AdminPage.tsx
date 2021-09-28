@@ -479,7 +479,7 @@ const AdminPage = () => {
       )}
       <DialogNotice
         open={newCircle}
-        title="Congrats! You just launched your first circle."
+        title="Congrats! You just launched a new circle."
         onClose={() => setNewCircle(false)}
         onPrimary={() => setNewCircle(false)}
       >
