@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { StaticTable, NoticeBox, ApeAvatar } from 'components';
+import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
@@ -13,6 +13,7 @@ import {
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
+import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
@@ -125,6 +126,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#4e7577',
     },
   },
+  tablePlaceholderTitle: {
+    fontSize: 40,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    opacity: 0.7,
+  },
 }));
 
 const epochDetail = (e: IEpoch) => {
@@ -149,6 +156,9 @@ const AdminPage = () => {
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
+  const [newCircle, setNewCircle] = useState<boolean>(
+    window.location.search === NEW_CIRCLE_CREATED_PARAMS
+  );
 
   const history = useHistory();
 
@@ -398,6 +408,22 @@ const AdminPage = () => {
           columns={epochColumns}
           data={epochs}
           perPage={6}
+          placeholder={
+            <>
+              <h2 className={classes.tablePlaceholderTitle}>
+                You don’t have any epochs scheduled
+              </h2>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewEpoch(true)}
+              >
+                Add Epoch
+              </Button>
+            </>
+          }
         />
       </div>
       <div className={classes.userActionBar}>
@@ -414,6 +440,22 @@ const AdminPage = () => {
         perPage={15}
         filter={filterUser}
         sortable
+        placeholder={
+          <>
+            <h2 className={classes.tablePlaceholderTitle}>
+              You haven’t added any contributors
+            </h2>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<PlusCircleIcon />}
+              onClick={() => setNewUser(true)}
+            >
+              Add Contributor
+            </Button>
+          </>
+        }
       />
       <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
@@ -435,6 +477,15 @@ const AdminPage = () => {
           visible={editCircle}
         />
       )}
+      <DialogNotice
+        open={newCircle}
+        title="Congrats! You just launched your first circle."
+        onClose={() => setNewCircle(false)}
+        onPrimary={() => setNewCircle(false)}
+      >
+        You’ll need to add your teammates to your circle and schedule an epoch
+        before you can start allocating GIVE.
+      </DialogNotice>
     </div>
   );
 };

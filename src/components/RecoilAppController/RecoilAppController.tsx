@@ -22,7 +22,7 @@ import {
   rCircleSelectorOpen,
   rTriggerMode,
   useConnectorName,
-  useStateMyAddress,
+  useSetMyAddress,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
@@ -81,7 +81,7 @@ export const RecoilAppController = () => {
     setSelectedCircleId,
   } = useCircle();
   const connectorName = useConnectorName();
-  const [myAddress, setMyAddress] = useStateMyAddress();
+  const setMyAddress = useSetMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
     rWalletModalOpen
   );

@@ -31,6 +31,7 @@ export const ApeAutocomplete = ({
   onChange,
   options,
   InputProps,
+  TextFieldProps,
   color,
   size,
   error,
@@ -45,6 +46,7 @@ export const ApeAutocomplete = ({
   options?: string[];
   onChange?: (newValue: any) => void;
   InputProps?: Partial<InputProps>;
+  TextFieldProps?: Partial<React.ComponentProps<typeof ApeTextField>>;
   color?: 'primary' | 'default' | 'secondary';
   size?: 'small' | 'medium';
   placeholder?: string;
@@ -84,7 +86,6 @@ export const ApeAutocomplete = ({
       renderInput={(params: AutocompleteRenderInputParams) => (
         <ApeTextField
           {...params}
-          size={size ?? 'medium'}
           InputProps={{
             ...params.InputProps,
             ...InputProps,
@@ -93,6 +94,8 @@ export const ApeAutocomplete = ({
               ...textfieldClasses,
             },
           }}
+          {...TextFieldProps}
+          size={size ?? 'medium'}
           label={label}
           placeholder={placeholder}
           helperText={helperText}

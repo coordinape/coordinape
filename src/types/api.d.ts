@@ -62,7 +62,6 @@ export interface PutCirclesParam {
 }
 
 export interface CreateCircleParam {
-  address: string;
   user_name: string;
   circle_name: string;
   protocol_name?: string;

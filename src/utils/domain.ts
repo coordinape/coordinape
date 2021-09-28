@@ -30,6 +30,7 @@ export const APP_URL =
 export const STORAGE_URL = (process.env
   .REACT_APP_S3_BASE_URL as string).replace(/\/$/, '');
 export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
+export const API_IS_PRODUCTION = API_URL === 'https://coordinape.me/api';
 
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>

@@ -1,6 +1,7 @@
 import { matchPath } from 'react-router-dom';
 
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
+export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 export const MAP_HIGHLIGHT_PARAM = 'highlight';
 export const EXTERNAL_URL_TYPEFORM =
   'https://yearnfinance.typeform.com/to/egGYEbrC';
@@ -21,7 +22,7 @@ export const getMapPath = () => '/map';
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
-export const getCreateCirclePath = () => '/createCircle';
+export const getCreateCirclePath = () => '/new-circle';
 export const getProfilePath = (address: string) => `/profile/${address}`;
 
 interface INavItem {

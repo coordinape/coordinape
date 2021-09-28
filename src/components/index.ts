@@ -11,9 +11,8 @@ export * from './LoadingModal/LoadingModal';
 export * from './LoadingScreen/LoadingScreen';
 export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
-export * from './MyProfileCard/MyProfileCard';
+export * from './MyProfileCard/MyProfileCard'; // TODO: Remove
 export * from './OptInput/OptInput';
-export * from './PopUpModal/PopUpModal';
 export * from './ReceiveInfo/ReceiveInfo';
 export * from './RecoilAppController/RecoilAppController';
 export * from './SentryScopeController/SentryScopeController';
@@ -33,3 +32,5 @@ export * from './ApeToggle/ApeToggle';
 export * from './FormHCaptcha/FormHCaptcha';
 export * from './ApeAutocomplete/ApeAutocomplete';
 export * from './FormAutocomplete/FormAutocomplete';
+export * from './ApeInfoTooltip/ApeInfoTooltip';
+export * from './DialogNotice/DialogNotice';

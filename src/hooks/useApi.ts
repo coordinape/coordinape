@@ -4,7 +4,12 @@ import {
   CallbackInterface,
 } from 'recoil';
 
-import { rMyAddress, rCirclesMap, useTriggerProfileReload } from 'recoilState';
+import {
+  rMyAddress,
+  rMyProfile,
+  rCirclesMap,
+  useTriggerProfileReload,
+} from 'recoilState';
 import { getApiService } from 'services/api';
 import { createCircleWithDefaults } from 'utils/modelExtenders';
 
@@ -19,13 +24,14 @@ export const useApi = () => {
   const updateCirclesMap = useSetRecoilState(rCirclesMap);
   const triggerProfileReload = useTriggerProfileReload();
 
-  const getState = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () => {
-      const myAddress = await snapshot.getPromise(rMyAddress);
-      return {
-        myAddress,
-      };
-    }
+  const getAddress = useRecoilCallback(
+    ({ snapshot }: CallbackInterface) => async () =>
+      await snapshot.getPromise(rMyAddress)
+  );
+
+  const getProfile = useRecoilCallback(
+    ({ snapshot }: CallbackInterface) => async () =>
+      await snapshot.getPromise(rMyProfile)
   );
 
   const createCircle = (
@@ -34,7 +40,7 @@ export const useApi = () => {
     uxresearchJson: string
   ) =>
     callWithLoadCatch(async () => {
-      const { myAddress } = await getState();
+      const myAddress = await getAddress();
       if (myAddress === undefined) throw 'myAddress required';
       const newCircle = await api.createCircle(
         myAddress,
@@ -49,6 +55,7 @@ export const useApi = () => {
       );
 
       triggerProfileReload();
+      await getProfile();
 
       return newCircle;
     });

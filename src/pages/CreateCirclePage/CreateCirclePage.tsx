@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import uniqBy from 'lodash/uniqBy';
+import { useHistory } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -13,6 +14,7 @@ import {
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApi } from 'hooks/useApi';
 import { useMyAddress, useMyAdminCircles } from 'recoilState';
+import * as paths from 'routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,20 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 40,
+    lineHeight: 1,
     fontWeight: 700,
     color: theme.colors.primary,
-    margin: theme.spacing(5, 2, 2),
-  },
-  bodyInner: {
-    width: '100%',
-    maxWidth: 850,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(0, 4, 1),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 1, 1),
-    },
+    margin: theme.spacing(7, 2, 2),
   },
   subtitle: {
     color: theme.colors.primary,
@@ -43,7 +35,18 @@ const useStyles = makeStyles((theme) => ({
     size: 20,
     lineHeight: 1.5,
     textAlign: 'center',
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(6),
+  },
+  bodyInner: {
+    width: '100%',
+    maxWidth: 815,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: theme.spacing(0, 4),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 1, 1),
+    },
   },
   twoColumnGrid: {
     display: 'grid',
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 800,
     gridTemplateColumns: '1fr 1fr',
     gridAutoRows: '1fr',
-    columnGap: theme.spacing(3),
+    columnGap: theme.spacing(1.8),
     rowGap: theme.spacing(3),
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
@@ -60,44 +63,21 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionTitle: {
     color: theme.colors.primary,
-    size: 20,
-    lineHeight: 1,
-    fontWeight: 400,
-    margin: theme.spacing(6, 0, 0),
-  },
-  sectionSubtitle: {
-    color: theme.colors.primary,
     textAlign: 'center',
     size: 10,
     lineHeight: 1.55,
     fontWeight: 300,
-  },
-  longform: {
-    width: '100%',
-    margin: theme.spacing(2, 0),
-    maxWidth: 800,
-    '& > *': {
-      margin: theme.spacing(0, 0, 3),
-    },
-    '& label': {
-      alignSelf: 'flex-start',
-    },
+    margin: theme.spacing(5, 0, 2.2),
   },
   saveButton: {
     margin: theme.spacing(3, 0, 5),
-  },
-  errors: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    margin: 0,
-    minHeight: 45,
-    color: theme.colors.red,
   },
 }));
 
 export const SummonCirclePage = () => {
   const classes = useStyles();
+  const history = useHistory();
+
   const myAddress = useMyAddress();
   const myAdminCircles = useMyAdminCircles();
 
@@ -113,6 +93,7 @@ export const SummonCirclePage = () => {
   const { createCircle } = useApi();
 
   if (myAddress === undefined) {
+    // This page shouldn't be visible without an address.
     return <></>;
   }
 
@@ -121,34 +102,33 @@ export const SummonCirclePage = () => {
       <h2 className={classes.title}>Create a Circle</h2>
       <CreateCircleForm.FormController
         source={undefined}
-        hideFieldErrors
-        submit={({
+        submit={async ({
           h_captcha_token,
-          research_what_needs,
-          research_how_use,
-          research_org_structure,
+          research_who,
+          research_how_much,
           research_org_link,
-          research_org_ens,
           research_contact,
           ...params
-        }) =>
-          createCircle(
-            { address: myAddress, ...params },
+        }) => {
+          await createCircle(
+            { ...params },
             h_captcha_token,
             JSON.stringify({
               address: myAddress,
-              research_what_needs,
-              research_how_use,
-              research_org_structure,
+              research_who,
+              research_how_much,
               research_org_link,
-              research_org_ens,
               research_contact,
               ...params,
             })
-          )
-        }
+          );
+          history.push({
+            pathname: paths.getAdminPath(),
+            search: paths.NEW_CIRCLE_CREATED_PARAMS,
+          });
+        }}
       >
-        {({ fields, errors, changedOutput, handleSubmit }) => (
+        {({ fields, changedOutput, handleSubmit }) => (
           <div className={classes.bodyInner}>
             <div className={classes.subtitle}>
               Coordinape circles allow you to collectively reward circle members
@@ -162,6 +142,12 @@ export const SummonCirclePage = () => {
                 value={myAddress}
                 disabled
                 fullWidth
+                infoTooltip="Uses the address of your connected wallet"
+              />
+              <FormTextField
+                {...fields.circle_name}
+                label="Circle Name"
+                fullWidth
               />
               {myAdminCircles ? (
                 <FormAutocomplete
@@ -174,76 +160,39 @@ export const SummonCirclePage = () => {
                   }}
                   options={protocols.map((p) => p.name)}
                   label="Organization Name"
-                  helperText="Select from list to add to existing org."
                   fullWidth
+                  TextFieldProps={{
+                    infoTooltip:
+                      'Add to organizations that you are an admin in or create a new org.',
+                  }}
                 />
               ) : (
                 <FormTextField
                   {...fields.protocol_name}
                   label="Organization Name"
                   fullWidth
+                  infoTooltip="A circle admin can add to an existing organization."
                 />
               )}
-              <FormTextField
-                {...fields.circle_name}
-                label="Circle Name"
-                fullWidth
-              />
             </div>
-            <h3 className={classes.sectionTitle}>Optional Fields</h3>
-            <div className={classes.sectionSubtitle}>
-              Help our product team improve coordinape
+            <div className={classes.sectionTitle}>
+              Help our product team improve Coordinape:
             </div>
-
-            <div className={classes.longform}>
-              <FormTextField
-                label="What compensation needs does your organization have?"
-                {...fields.research_what_needs}
-                multiline
-                fullWidth
-                rows={3}
-              />
-              <FormTextField
-                label="How do you want to use Coordinape?"
-                {...fields.research_how_use}
-                multiline
-                fullWidth
-                rows={3}
-              />
-              <FormTextField
-                label="How is your organization structured and how many people are involved?"
-                {...fields.research_org_structure}
-                multiline
-                fullWidth
-                rows={3}
-              />
-            </div>
-
             <div className={classes.twoColumnGrid}>
               <FormTextField
-                {...fields.research_contact}
+                {...fields.research_who}
                 fullWidth
-                label="How we can contact you?"
+                label="Who will you be adding to the circle?"
+                placeholder="Tell us about the people you’re working with"
               />
               <FormTextField
-                {...fields.research_org_link}
-                label="Web link"
-                fullWidth
-              />
-              <FormTextField
-                {...fields.research_org_ens}
-                label="Snapshot ENS"
+                {...fields.research_how_much}
+                label="How much will be distributed each month?"
+                placeholder="Approximate value of assets sent through circle"
                 fullWidth
               />
             </div>
-            <FormHCaptcha {...fields.h_captcha_token} />
-            {!!errors && (
-              <div className={classes.errors}>
-                {Object.values(errors).map((error, i) => (
-                  <div key={i}>{error}</div>
-                ))}
-              </div>
-            )}
+            <FormHCaptcha {...fields.h_captcha_token} error={false} />
             <Button
               className={classes.saveButton}
               variant="contained"

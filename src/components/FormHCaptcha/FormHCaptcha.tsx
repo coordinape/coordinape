@@ -5,9 +5,9 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { DOMAIN_IS_LOCALHOST } from 'utils/domain';
+import { DOMAIN_IS_LOCALHOST, API_IS_PRODUCTION } from 'utils/domain';
 
-const TEST_MODE = false;
+const USE_TEST_SITE_KEY = !API_IS_PRODUCTION;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +57,7 @@ export const FormHCaptcha = ({
     <div className={clsx(className, classes.root)}>
       <HCaptcha
         sitekey={
-          TEST_MODE
+          USE_TEST_SITE_KEY
             ? '10000000-ffff-ffff-ffff-000000000001'
             : '66997284-f648-46d2-8900-10ace3be9697'
         }

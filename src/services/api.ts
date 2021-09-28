@@ -68,7 +68,7 @@ export class APIService {
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post('/create-circle', {
+    const response = await axios.post('/circles', {
       signature,
       data,
       address,
