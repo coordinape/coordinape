@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tablePlaceholderTitle: {
-    fontSize: 40,
+    fontSize: 20,
     lineHeight: 1.2,
     color: theme.colors.text,
     opacity: 0.7,
