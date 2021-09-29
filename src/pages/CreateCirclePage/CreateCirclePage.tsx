@@ -114,6 +114,7 @@ export const SummonCirclePage = () => {
         source={undefined}
         submit={async ({
           captcha_token,
+          research_what,
           research_who,
           research_how_much,
           research_org_link,
@@ -125,6 +126,7 @@ export const SummonCirclePage = () => {
             captcha_token,
             JSON.stringify({
               address: myAddress,
+              research_what,
               research_who,
               research_how_much,
               research_org_link,
@@ -185,21 +187,28 @@ export const SummonCirclePage = () => {
                   infoTooltip="A circle admin can add to an existing organization."
                 />
               )}
-            </div>
-            <div className={classes.sectionTitle}>
-              Help our product team improve Coordinape:
-            </div>
-            <div className={classes.twoColumnGrid}>
+              <FormTextField
+                {...fields.research_contact}
+                fullWidth
+                label="How can we contact you?"
+                placeholder="Discord, Telegram, email, etc."
+              />
+              <FormTextField
+                {...fields.research_what}
+                fullWidth
+                label="What do you want to use Coordinape for?"
+                placeholder="Tell us what you're working on"
+              />
               <FormTextField
                 {...fields.research_who}
                 fullWidth
-                label="Who will you be adding to the circle?"
-                placeholder="Tell us about the people you’re working with"
+                label="How many people will be in the circle?"
+                placeholder="Estimated number of contributors"
               />
               <FormTextField
                 {...fields.research_how_much}
-                label="How much will be distributed each month?"
-                placeholder="Approximate value of assets sent through circle"
+                label="How much will you distribute each month?"
+                placeholder="Approximate value in USD"
                 fullWidth
               />
             </div>

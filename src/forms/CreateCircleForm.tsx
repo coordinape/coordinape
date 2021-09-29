@@ -19,6 +19,7 @@ const schema = z
     // Research Questions
     research_org_link: z.string(),
     research_contact: z.string(),
+    research_what: z.string(),
     research_who: z.string(),
     research_how_much: z.string(),
   })
@@ -36,6 +37,7 @@ const CreateCircleForm = createForm({
     captcha_token: '',
     research_org_link: '',
     research_contact: '',
+    research_what: '',
     research_who: '',
     research_how_much: '',
   }),

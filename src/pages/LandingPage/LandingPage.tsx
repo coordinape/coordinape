@@ -30,7 +30,6 @@ import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
 import { ConnectWalletButton, CoordinapeLogo } from 'components';
 import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import {
-  EXTERNAL_URL_TYPEFORM,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
