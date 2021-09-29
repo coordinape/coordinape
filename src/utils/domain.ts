@@ -30,7 +30,13 @@ export const APP_URL =
 export const STORAGE_URL = (process.env
   .REACT_APP_S3_BASE_URL as string).replace(/\/$/, '');
 export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
-export const API_IS_PRODUCTION = API_URL === 'https://coordinape.me/api';
+
+// since NODE_ENV is 'production' in both production & staging,
+// we check a Vercel env var as well
+// https://vercel.com/docs/concepts/projects/environment-variables
+export const IN_PRODUCTION =
+  process.env.NODE_ENV === 'production' &&
+  process.env.REACT_APP_VERCEL_ENV !== 'preview';
 
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>

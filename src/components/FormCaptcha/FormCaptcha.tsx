@@ -5,11 +5,11 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { DOMAIN_IS_LOCALHOST, API_IS_PRODUCTION } from 'utils/domain';
+import { DOMAIN_IS_LOCALHOST, IN_PRODUCTION } from 'utils/domain';
 
 // The test key always returns:
 // 10000000-aaaa-bbbb-cccc-000000000001
-const SITE_KEY = API_IS_PRODUCTION
+const SITE_KEY = IN_PRODUCTION
   ? (process.env.REACT_APP_H_CAPTCHA as string)
   : '10000000-ffff-ffff-ffff-000000000001';
 
