@@ -6,8 +6,9 @@ import { useRecoilValue } from 'recoil';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { rMyAddress, rSelectedCircle } from 'recoilState';
-import { getNavigationFooter, EXTERNAL_URL_DISCORD } from 'routes/paths';
+import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
+import { shortenAddress } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   startCircle: {
     margin: 'auto',
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(3),
   },
   skeletonRoot: {
     marginTop: 60,
@@ -147,16 +148,11 @@ export const DefaultPage = () => {
                 This wallet isn&apos;t associated with a circle.
               </p>
               <p className={classes.welcomeText}>
-                To join a circle, a circle admin can add you, or if your circle
-                uses vouching, other circle members can vouch for you.
+                If you are supposed to be part of a circle already, contact your
+                circle&apos;s admin to make sure they added this address:{' '}
+                {shortenAddress(myAddress)}
               </p>
-              <p className={classes.welcomeText}>
-                Or create a circle and join our{' '}
-                <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
-                  Discord
-                </a>
-                .
-              </p>
+              <p className={classes.welcomeText}>Or, create a new circle.</p>
               <Button
                 variant="contained"
                 color="primary"
