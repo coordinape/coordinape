@@ -58,9 +58,7 @@ export const useAdminApi = () => {
 
       updateCirclesMap(
         (oldMap) =>
-          new Map(
-            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
-          )
+          new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 
       return newCircle;
@@ -78,9 +76,7 @@ export const useAdminApi = () => {
 
       updateCirclesMap(
         (oldMap) =>
-          new Map(
-            oldMap.set(selectedCircleId, createCircleWithDefaults(newCircle))
-          )
+          new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 
       return newCircle;

@@ -10,6 +10,8 @@ import {
   InputBaseProps,
 } from '@material-ui/core';
 
+import { ApeInfoTooltip } from 'components';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   inputRootError: {
-    border: `1px solid ${theme.colors.red}`,
+    border: `1px solid ${theme.colors.red}dd`,
     color: '#ad0003',
     '&:focus-within': {
       border: `1px solid ${theme.colors.red}`,
@@ -56,19 +58,22 @@ const useStyles = makeStyles((theme) => ({
   helper: {
     fontSize: 13,
     lineHeight: 1.2,
-    marginTop: theme.spacing(1.5),
     color: theme.colors.text + '80',
   },
   error: {
     fontSize: 13,
     lineHeight: 1.2,
     fontWeight: 600,
-    marginTop: theme.spacing(1.5),
     color: theme.colors.red,
   },
   multiLineInput: {
     textAlign: 'left',
     padding: theme.spacing(0, 1),
+  },
+  helperBox: {
+    height: 18,
+    width: '100%',
+    textAlign: 'center',
   },
 }));
 
@@ -76,7 +81,10 @@ const useStyles = makeStyles((theme) => ({
 //
 // Using the same interface as MaterialUI's TextField to make it compatible
 // with the the calendar.
-export const ApeTextField = (props: TextFieldProps) => {
+export const ApeTextField = ({
+  infoTooltip,
+  ...props
+}: TextFieldProps & { infoTooltip?: React.ReactNode }) => {
   const classes = useStyles();
   const [fallbackId] = useState(uniqueId('text-field-'));
 
@@ -174,22 +182,25 @@ export const ApeTextField = (props: TextFieldProps) => {
         fullWidth && classes.rootFullWidth
       )}
     >
-      {label ? (
+      {(label || infoTooltip) && (
         <label htmlFor={id ?? fallbackId} className={classes.label}>
-          {label}
+          {label}{' '}
+          {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
         </label>
-      ) : undefined}
+      )}
       <InputBase {...mergedInputProps} />
-      {helperText ? (
-        <span
-          className={clsx({
-            [classes.helper]: !error,
-            [classes.error]: !!error,
-          })}
-        >
-          {helperText}
-        </span>
-      ) : undefined}
+      <div className={classes.helperBox}>
+        {helperText && (
+          <span
+            className={clsx({
+              [classes.helper]: !error,
+              [classes.error]: !!error,
+            })}
+          >
+            {helperText}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

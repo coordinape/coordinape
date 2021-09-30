@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
 import { rMyAddress, rSelectedCircle } from 'recoilState';
-import { getNavigationFooter, EXTERNAL_URL_DISCORD } from 'routes/paths';
+import { getNavigationFooter } from 'routes/paths';
+import * as paths from 'routes/paths';
+import { shortenAddress } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,11 +41,17 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 480,
     textAlign: 'left',
+    display: 'flex',
+    flexDirection: 'column',
   },
   welcomeText: {
     fontSize: 24,
     fontWeight: 400,
     color: theme.colors.text,
+  },
+  startCircle: {
+    margin: 'auto',
+    marginTop: theme.spacing(3),
   },
   skeletonRoot: {
     marginTop: 60,
@@ -119,6 +128,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const DefaultPage = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const myAddress = useRecoilValue(rMyAddress);
@@ -138,24 +148,19 @@ export const DefaultPage = () => {
                 This wallet isn&apos;t associated with a circle.
               </p>
               <p className={classes.welcomeText}>
-                To join a circle, a circle admin can add you, or if your circle
-                uses vouching, other circle members can vouch for you.
+                If you are supposed to be part of a circle already, contact your
+                circle&apos;s admin to make sure they added this address:{' '}
+                {shortenAddress(myAddress)}
               </p>
-              <p className={classes.welcomeText}>
-                To create a circle, fill out our{' '}
-                <a
-                  href="https://yearnfinance.typeform.com/to/egGYEbrC"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  onboarding form
-                </a>{' '}
-                and let us know in{' '}
-                <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
-                  Discord
-                </a>
-                .
-              </p>
+              <p className={classes.welcomeText}>Or, create a new circle.</p>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(paths.getCreateCirclePath())}
+                className={classes.startCircle}
+              >
+                Start a Circle
+              </Button>
             </div>
           )}
         </div>
@@ -164,8 +169,7 @@ export const DefaultPage = () => {
           <div className={classes.header}>
             <p className={classes.title}>Reward Your Fellow Contributors</p>
             <p className={classes.subTitle}>
-              Connect your wallet to participate. You must be registered as a
-              contributor with an existing Coordinape project.
+              Connect your wallet to participate.
             </p>
           </div>
           <div className={classes.skeletonRoot}>
