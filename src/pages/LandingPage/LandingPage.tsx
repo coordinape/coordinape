@@ -30,16 +30,13 @@ import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
 import { ConnectWalletButton, CoordinapeLogo } from 'components';
 import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import {
+  EXTERNAL_URL_TYPEFORM,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
   EXTERNAL_URL_MEDIUM_ARTICLE,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import {
-  APP_URL,
-  APP_URL_OPEN_WALLET,
-  APP_URL_CREATE_CIRCLE,
-} from 'utils/domain';
+import { APP_URL, APP_URL_OPEN_WALLET } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
   'Gift Circles allow DAO members to collectively reward each other making community payments more equitable and transparent.';
@@ -89,23 +86,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 76,
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap',
     '& button:first-child': {
-      marginRight: theme.spacing(3),
-      [theme.breakpoints.down('xs')]: {
-        margin: theme.spacing(0, 0, 1),
+      marginRight: 20,
+      [theme.breakpoints.down('sm')]: {
+        marginRight: 0,
       },
     },
     '& button': {
-      width: 240,
+      width: 214,
       height: 48,
-      borderRadius: 13,
     },
-  },
-  button: {
-    minWidth: 240,
-    height: 48,
-    borderRadius: 13,
   },
   logo: {
     color: theme.palette.text.primary,
@@ -417,27 +407,29 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
+            <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
                 color="secondary"
                 size="small"
-                disableElevation
-                startIcon={<DiscordIcon />}
+                disableElevation={isDownXs}
               >
-                Join our Discord
+                Get Started
               </Button>
             </a>
-            <a href={APP_URL}>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                disableElevation
-              >
-                Launch App
-              </Button>
-            </a>
+
+            <Hidden xsDown>
+              <a href={APP_URL}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  disableElevation={isDownXs}
+                >
+                  Launch Coordinape
+                </Button>
+              </a>
+            </Hidden>
           </div>
         </div>
       </div>
@@ -497,8 +489,7 @@ const LandingPage = () => {
           <Button
             variant="contained"
             color="secondary"
-            disableElevation
-            className={classes.button}
+            disableElevation={isDownXs}
           >
             Read Our Medium Article
           </Button>
@@ -575,14 +566,13 @@ const LandingPage = () => {
           meantime, come say hi in our Discord and let us know more about your
           project
         </p> */}
-        <a href={APP_URL_CREATE_CIRCLE} rel="noreferrer" target="_blank">
+        <a href={EXTERNAL_URL_TYPEFORM} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
             color="secondary"
-            disableElevation
-            className={classes.button}
+            disableElevation={isDownXs}
           >
-            Start a Circle
+            Get Started
           </Button>
         </a>
       </div>

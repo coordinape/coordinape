@@ -23,4 +23,3 @@ export * from './PlusCircleIcon';
 export * from './SaveIcon';
 export * from './UploadIcon';
 export * from './MinusCircleIcon';
-export * from './InfoIcon';

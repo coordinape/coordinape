@@ -22,7 +22,7 @@ import {
   rCircleSelectorOpen,
   rTriggerMode,
   useConnectorName,
-  useSetMyAddress,
+  useStateMyAddress,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
@@ -81,7 +81,7 @@ export const RecoilAppController = () => {
     setSelectedCircleId,
   } = useCircle();
   const connectorName = useConnectorName();
-  const setMyAddress = useSetMyAddress();
+  const [myAddress, setMyAddress] = useStateMyAddress();
   const [walletModalOpen, setWalletModalOpen] = useRecoilState(
     rWalletModalOpen
   );
@@ -132,10 +132,10 @@ export const RecoilAppController = () => {
   }, [web3Context.library]);
 
   useEffect(() => {
-    if (selectedCircleId !== undefined && myProfile) {
+    if (selectedCircleId !== undefined) {
       selectAndFetchCircle(selectedCircleId);
     }
-  }, [selectedCircleId, myProfile]);
+  }, [selectedCircleId]);
 
   // Default selectedCircleId to first circle if undefined or no permissions
   useEffect(() => {

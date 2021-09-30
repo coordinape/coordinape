@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 
 import clsx from 'clsx';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { TeammateCard } from 'components';
+import { PopUpModal, MyProfileCard, TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
 import { useSelectedCircleUsers } from 'recoilState';
-
+import storage from 'utils/storage';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
@@ -174,6 +174,10 @@ enum FilterType {
 const AllocationGive = () => {
   const classes = useStyles();
 
+  // Yes wierd but true
+  // TODO: move that storage state into Recoil
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
   const visibleUsers = useSelectedCircleUsers();
@@ -297,6 +301,25 @@ const AllocationGive = () => {
             )
           )}
       </div>
+
+      {selectedCircle && selectedMyUser?.fixed_non_receiver ? (
+        <PopUpModal
+          onClose={() => {
+            storage.setHasSeenForceOptOutPopup(selectedMyUser.id);
+            forceUpdate();
+          }}
+          title={`Your administrator opted you out of receiving ${
+            selectedCircle.token_name || 'GIVE'
+          }`}
+          description={`You can still distribute ${
+            selectedCircle.token_name || 'GIVE'
+          } as normal. Generally people are opted out of receiving ${
+            selectedCircle.token_name || 'GIVE'
+          } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
+          button="Okay, Got it."
+          visible={!storage.hasSeenForceOptOutPopup(selectedMyUser.id)}
+        />
+      ) : null}
     </div>
   );
 };

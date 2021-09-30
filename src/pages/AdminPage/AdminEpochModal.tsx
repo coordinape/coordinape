@@ -87,6 +87,7 @@ export const AdminEpochModal = ({
   return (
     <EpochForm.FormController
       source={source}
+      hideFieldErrors
       submit={(params) =>
         (epoch ? updateEpoch(epoch.id, params) : createEpoch(params)).then(() =>
           onClose()

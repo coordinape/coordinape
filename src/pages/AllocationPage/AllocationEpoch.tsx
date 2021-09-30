@@ -140,7 +140,7 @@ const ProfilePage = ({
         onChange={onChangeBio}
         placeholder={`Tell us about your contributions in the ${capitalizedName(
           selectedCircle?.name
-        )} Circle this epoch...`}
+        )} Circle this  epoch...`}
         value={epochBio}
       />
       {!fixedNonReceiver ? (

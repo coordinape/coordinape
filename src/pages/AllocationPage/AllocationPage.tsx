@@ -148,6 +148,7 @@ export const AllocationPage = () => {
     localTeammatesChanged,
     localGiftsChanged,
     tokenRemaining,
+    nextStep,
     completedSteps,
     rebalanceGifts,
     saveGifts,

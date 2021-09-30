@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     borderBottom: '0.5px solid #E3E3E3',
   },
-  emptyHeader: {
-    opacity: 0.5,
-  },
   headerTh: {
     width: '11.6%',
     fontSize: 14,
@@ -67,14 +64,6 @@ const useStyles = makeStyles((theme) => ({
   pagination: {
     margin: theme.spacing(2, 0),
   },
-  placeholder: {
-    height: 280,
-    backgroundColor: theme.colors.background,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 }));
 
 interface GenericObject {
@@ -90,7 +79,6 @@ export const StaticTable = ({
   perPage,
   filter,
   sortable,
-  placeholder,
 }: {
   className?: string;
   columns: ITableColumn[];
@@ -98,7 +86,6 @@ export const StaticTable = ({
   perPage: number;
   filter?: (o: any) => boolean;
   sortable?: boolean;
-  placeholder?: React.ReactNode;
 }) => {
   const classes = useStyles();
 
@@ -161,11 +148,7 @@ export const StaticTable = ({
     <div className={clsx(className, classes.root)}>
       <table className={classes.table}>
         <thead>
-          <tr
-            className={clsx(classes.headerTr, {
-              [classes.emptyHeader]: !data.length,
-            })}
-          >
+          <tr className={classes.headerTr}>
             {columns.map(({ label, wide, narrow, noSort, leftAlign }, idx) => (
               <th
                 key={idx}
@@ -190,28 +173,20 @@ export const StaticTable = ({
           </tr>
         </thead>
         <tbody>
-          {data.length
-            ? pagedView.map((row, rid) => (
-                <tr className={classes.tableTr} key={rid}>
-                  {columns.map(({ leftAlign }, cid) => (
-                    <td
-                      key={cid}
-                      className={clsx(classes.tableTd, {
-                        [classes.leftAlign]: leftAlign,
-                      })}
-                    >
-                      {getValueByCid(row, cid)}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            : placeholder && (
-                <tr>
-                  <td colSpan={columns.length}>
-                    <div className={classes.placeholder}>{placeholder}</div>
-                  </td>
-                </tr>
-              )}
+          {pagedView.map((row, rid) => (
+            <tr className={classes.tableTr} key={rid}>
+              {columns.map(({ leftAlign }, cid) => (
+                <td
+                  key={cid}
+                  className={clsx(classes.tableTd, {
+                    [classes.leftAlign]: leftAlign,
+                  })}
+                >
+                  {getValueByCid(row, cid)}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
       {data.length > perPage ? (
