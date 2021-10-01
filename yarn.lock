@@ -1780,6 +1780,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@hcaptcha/react-hcaptcha@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@hcaptcha/react-hcaptcha/-/react-hcaptcha-0.3.7.tgz#ebb934887272ff43c13c5c2bf3e183e6f841da58"
+  integrity sha512-SqtDoWS79zEWv+v9wJM6Kk6Fe4r1ipc3Fj65gRHgzL4yrTineF4iJghI819vDsqFggfEnvYppDi/wGKosGiaCQ==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz"

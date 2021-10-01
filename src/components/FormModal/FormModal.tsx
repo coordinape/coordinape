@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
   },
   body: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

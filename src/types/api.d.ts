@@ -61,6 +61,13 @@ export interface PutCirclesParam {
   team_selection: number;
 }
 
+export interface CreateCircleParam {
+  user_name: string;
+  circle_name: string;
+  protocol_name?: string;
+  protocol_id?: number;
+}
+
 export interface UpdateCreateEpochParam {
   start_date: string; // 2021-07-09T00:00:00.000000Z
   repeat: number; // (0 = no repeat, 1 = weekly, 2 = monthly)
