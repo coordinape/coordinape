@@ -35,8 +35,13 @@ export class APIService {
     this.provider = provider;
   }
 
+  async get(path: string, options?: any) {
+    console.log(`getting ${path}`); // eslint-disable-line no-console
+    return axios.get(path, options);
+  }
+
   getProfile = async (address: string): Promise<IApiFilledProfile> => {
-    const response = await axios.get(`/profile/${address}`);
+    const response = await this.get(`/profile/${address}`);
     return (response.data.profile ?? response.data) as IApiFilledProfile;
   };
 
@@ -56,7 +61,7 @@ export class APIService {
   };
 
   getCircles = async (): Promise<IApiCircle[]> => {
-    const response = await axios.get('/circles');
+    const response = await this.get('/circles');
     return response.data as IApiCircle[];
   };
 
@@ -123,7 +128,7 @@ export class APIService {
     circleId: number,
     params: { current?: number } = {}
   ): Promise<IApiEpoch[]> => {
-    const response = await axios.get(`${circleId}/epoches`, { params });
+    const response = await this.get(`${circleId}/epoches`, { params });
     const epochs = response.data as IApiEpoch[];
     return epochs as IApiEpoch[];
   };
@@ -133,7 +138,7 @@ export class APIService {
       circle_id?: number;
     } = {}
   ): Promise<IApiEpoch[]> => {
-    const response = await axios.get(`active-epochs`, { params });
+    const response = await this.get(`active-epochs`, { params });
     return response.data as IApiEpoch[];
   };
 
@@ -199,7 +204,7 @@ export class APIService {
       deleted_users?: boolean;
     } = {}
   ): Promise<IApiUserProfile[]> => {
-    const response = await axios.get('/users', { params });
+    const response = await this.get('/users', { params });
     return response.data as IApiUserProfile[];
   };
 
@@ -318,7 +323,7 @@ export class APIService {
     circle_id?: number;
     id?: number;
   }): Promise<IApiTokenGift[]> => {
-    const response = await axios.get('/pending-token-gifts', { params });
+    const response = await this.get('/pending-token-gifts', { params });
     return response.data as IApiTokenGift[];
   };
 
@@ -328,7 +333,7 @@ export class APIService {
     circle_id?: number;
     id?: number;
   }): Promise<IApiTokenGift[]> => {
-    const response = await axios.get('/token-gifts', { params });
+    const response = await this.get('/token-gifts', { params });
     return response.data as IApiTokenGift[];
   };
 
@@ -355,7 +360,7 @@ export class APIService {
     const params: any = { address };
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.get(`${circleId}/admin/webhook`, {
+    const response = await this.get(`${circleId}/admin/webhook`, {
       params: {
         signature,
         data,
@@ -375,7 +380,7 @@ export class APIService {
       ended?: 0 | 1;
     } = {}
   ): Promise<IApiNominee[]> => {
-    const response = await axios.get(`${circleId}/nominees`, { params });
+    const response = await this.get(`${circleId}/nominees`, { params });
     return response.data as IApiNominee[];
   };
 
