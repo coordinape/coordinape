@@ -26,3 +26,8 @@ export const STEPS: IAllocationStep[] = [
   STEP_MY_TEAM,
   STEP_ALLOCATION,
 ];
+
+export const NO_TEAM_STEPS: IAllocationStep[] = [
+  STEP_MY_EPOCH,
+  STEP_ALLOCATION,
+];

@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+```
+┏━━━┓━━━━━━━━━━━━━┏┓━━━━━━━━━━━━━━━━━━━
+┃┏━┓┃━━━━━━━━━━━━━┃┃━━━━━━━━━━━━━━━━━━━
+┃┃━┗┛┏━━┓┏━━┓┏━┓┏━┛┃┏┓┏━┓━┏━━┓━┏━━┓┏━━┓
+┃┃━┏┓┃┏┓┃┃┏┓┃┃┏┛┃┏┓┃┣┫┃┏┓┓┗━┓┃━┃┏┓┃┃┏┓┃
+┃┗━┛┃┃┗┛┃┃┗┛┃┃┃━┃┗┛┃┃┃┃┃┃┃┃┗┛┗┓┃┗┛┃┃┃━┫
+┗━━━┛┗━━┛┗━━┛┗┛━┗━━┛┗┛┗┛┗┛┗━━━┛┃┏━┛┗━━┛
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━
+React Frontend                 ┃┃
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━
+                __------__
+              /~          ~\
+             |    //^\\//^\|
+           /~~\  ||  o| |o|:~\
+          | |6   ||___|_|_||:|
+           \__.  /      o  \/'
+            |   (       O   )
+   /~~~~\    `\  \         /
+  | |~~\ |     )  ~------~`\
+ /' |  | |   /     ____ /~~~)\
+(_/'   | | |     /'    |    ( |
+       | | |     \    /   __)/ \
+       \  \ \      \/    /' \   `\
+         \  \|\        /   | |\___|
+           \ |  \____/     | |
+           /^~>  \        _/ <
+          |  |         \       \
+          |  | \        \        \
+          -^-\  \       |        )
+               `\_______/^\______/
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Getting started:
 
-## Available Scripts
+- `git clone` | `yarn install`
+- Setup .env file
+- `yarn start` | [http://localhost:3000](http://localhost:3000)
 
-In the project directory, you can run:
+Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### `yarn start`
+# App Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### See [HistoryPage](https://github.com/coordinape/coordinape/blob/master/src/pages/HistoryPage/HistoryPage.tsx) as an exemplar top level component.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Key libraries
 
-### `yarn test`
+- Recoil
+- Material UI
+- ethers
+- axios
+- Luxon
+  - Prefered over deprecated momentum for timezone support
+- Sentry (error reporting)
+- d3-force-3d
+  - See forked `canvas-color-tracker` for brave compatibility
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## State Management w/ [Recoil](https://recoiljs.org/)
 
-### `yarn build`
+Recoil defines a consistent data graph that will suspend the app when `useRecoilState(rIdentifier)` has an unresolved promise. See their video and documentation.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The basic distinction is between `atoms` and `selectors`. `selectors` will be rerun when any of their dependencies change and with each run the dependency list can change, unlike with hooks. `atomFamily` and `selectorFamily` allow parameterization.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Recoil in this app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Recoil identifiers are Global
+- See: `RecoilAppController` for global recoil initialization with `useEffect`
+- Create hooks e.g.
+  - `useSelectedCircle = () => useRecoilValue(rSelectedCircle);`
+- Advanced Recoil concepts:
+  - [useRecoilCallback](https://recoiljs.org/docs/api-reference/core/useRecoilCallback)
+  - [effects_UNSTABLE](https://recoiljs.org/docs/guides/atom-effects)
 
-### `yarn eject`
+## API requests
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Types are currently manually matched to our server
+  - e.g. `api.epoch.d.ts` and post params: `api.d.ts`
+- `const callWithLoadCatch = useAsyncLoadCatch()`
+  - standard wrapper that can trigger loading and error message
+  - `callWithLoadCatch(async () => api.putCircles(id, addr, params) );`
+- Most app data loaded in `useCircle().selectAndFetchCircle()`
+  - `useRecoilFetcher` caches results w/ stale threshold
+  - merges into results into id keyed maps
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Forms
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+@exrhizo developed a in house form lib inspired by [React Hook Form](https://react-hook-form.com/) with the intention of easy customization.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Forms are configured with a [Zod](https://github.com/colinhacks/zod) Parser
+- See `AdminUserForm` for a simple use
+- Doesn't have first class support of array fields
 
-## Learn More
+# Troubleshooting
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `TypeError: Cannot read properties of undefined (reading 'replace')`
+  You need to configure a local `.env` file with some private variables. Ask someone for these.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
+  Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077
+
+### Credits
+
+ascii art above: [image](https://www.asciiart.eu/animals/monkeys) - [font](https://textpaint.net/)

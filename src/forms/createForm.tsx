@@ -105,6 +105,7 @@ export const createForm = <
       [P in keyof Input]: {
         value: Input[P];
         onChange: (newValue: Input[P]) => void;
+        onBlur: () => void;
         error: boolean;
         errorText?: string;
       };
@@ -127,20 +128,25 @@ export const createForm = <
   // neverEndingPromise is used to cause a suspense when uninitialized
   // see FormController and InnerFormController
   const rSource = atomFamily<Source, string>({
-    key: `ApeFormSource-${name}`,
+    key: `${name}-Source`,
     default: neverEndingPromise(),
   });
   const rBaseValue = selectorFamily<Input, string>({
-    key: `ApeFormBaseValue-${name}`,
+    key: `${name}-BaseValue`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) =>
       load(get(rSource(instanceKey))),
   });
   const rValue = atomFamily<Input, string>({
-    key: `ApeFormValue-${name}`,
+    key: `${name}-Value`,
     default: neverEndingPromise(),
   });
+  const untouchedFields = new Map(fieldKeys.map((k) => [k, false]));
+  const rTouched = atomFamily<Map<string, boolean>, string>({
+    key: `${name}-Touched`,
+    default: untouchedFields,
+  });
   const rParsed = selectorFamily<ZodParsedType<Effect>, string>({
-    key: `ApeFormParsed-${name}`,
+    key: `${name}-Parsed`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const value = get(rValue(instanceKey));
       const source = get(rSource(instanceKey));
@@ -148,7 +154,7 @@ export const createForm = <
     },
   });
   const rChangedOutput = selectorFamily<boolean, string>({
-    key: `ApeFormChangedOutput-${name}`,
+    key: `${name}-ChangedOutput`,
     get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
       const source = get(rSource(instanceKey));
       const baseOutput = getZodParser(source).safeParse(
@@ -166,6 +172,7 @@ export const createForm = <
     useRecoilCallback(({ set, snapshot }: CallbackInterface) => async () => {
       const baseValue = await snapshot.getPromise(rBaseValue(instanceKey));
       await set(rValue(instanceKey), baseValue);
+      await set(rTouched(instanceKey), untouchedFields);
     });
 
   const useResetIfSourceChanged = () =>
@@ -176,6 +183,7 @@ export const createForm = <
         if (!isEqual(s, stored)) {
           set(rSource(k), s);
           await set(rValue(k), load(s));
+          await set(rTouched(k), untouchedFields);
         }
       }
     );
@@ -214,6 +222,7 @@ export const createForm = <
 
   const useForm = ({ instanceKey, submit, hideFieldErrors }: FormProps) => {
     const [value, updateValue] = useRecoilState(rValue(instanceKey));
+    const [touched, updateTouched] = useRecoilState(rTouched(instanceKey));
     const parsed = useRecoilValue(rParsed(instanceKey));
     const changedOutput = useRecoilValue(rChangedOutput(instanceKey));
 
@@ -242,9 +251,14 @@ export const createForm = <
           updateValue(
             (oldValue) => ({ ...oldValue, [field]: newValue } as Input)
           ),
-        error: field in fieldErrors,
+        onBlur: () =>
+          updateTouched(
+            (oldValue: Map<string, boolean>) =>
+              new Map(oldValue.set(field, true))
+          ),
+        error: field in fieldErrors && touched.get(field),
         errorText:
-          !hideFieldErrors && field in fieldErrors
+          !hideFieldErrors && field in fieldErrors && touched.get(field)
             ? fieldErrors[field].join(', ')
             : undefined,
         ...(fieldProps[field] ?? {}),

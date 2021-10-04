@@ -54,11 +54,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1.5),
     color: theme.colors.red,
   },
+  disabled: {
+    opacity: 0.6,
+  },
 }));
 
 export const ApeToggle = ({
   value,
   onChange,
+  disabled,
   label,
   helperText,
   errorText,
@@ -67,6 +71,7 @@ export const ApeToggle = ({
 }: {
   value: boolean;
   onChange: (newValue: boolean) => void;
+  disabled?: boolean;
   label?: string;
   helperText?: string;
   errorText?: string;
@@ -77,7 +82,11 @@ export const ApeToggle = ({
   const [groupId] = useState(uniqueId('text-field-'));
 
   return (
-    <div className={clsx(className, classes.root)}>
+    <div
+      className={clsx(className, classes.root, {
+        [classes.disabled]: disabled,
+      })}
+    >
       {!!label && (
         <label htmlFor={groupId} className={classes.label}>
           {label}
@@ -88,8 +97,10 @@ export const ApeToggle = ({
         variant="contained"
         color="default"
         disableElevation
+        disabled={disabled}
         classes={{
           grouped: classes.grouped,
+          disabled: classes.disabled,
         }}
       >
         <Button

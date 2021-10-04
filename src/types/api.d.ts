@@ -58,6 +58,14 @@ export interface PutCirclesParam {
   default_opt_in: number;
   vouching_text?: string;
   only_giver_vouch: number;
+  team_selection: number;
+}
+
+export interface CreateCircleParam {
+  user_name: string;
+  circle_name: string;
+  protocol_name?: string;
+  protocol_id?: number;
 }
 
 export interface UpdateCreateEpochParam {

@@ -56,7 +56,7 @@ export interface IApiUserInProfile extends IApiUser {
 }
 
 export interface IApiFilledProfile extends IApiProfile {
-  users: IApiUserInProfile[];
+  users?: IApiUserInProfile[];
 }
 
 // This is created on the front end

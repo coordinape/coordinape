@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
-import { makeStyles, Button, MenuItem, Select } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField } from 'components';
+import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
 import { useAdminApi } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
@@ -92,68 +92,6 @@ const useStyles = makeStyles((theme) => ({
       pointerEvents: 'none',
     },
   },
-  enableVouchingContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  vouchingHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  vouchingLabel: {
-    fontSize: 16,
-    lineHeight: 1.3,
-    fontWeight: 700,
-    marginTop: 0,
-    marginBottom: theme.spacing(1),
-    color: theme.colors.text,
-  },
-  vouchingTabContainer: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  enableVouchingTab: {
-    cursor: 'pointer',
-    width: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 400,
-    color: theme.colors.text,
-    background: theme.colors.lightBackground,
-    '&:hover': {
-      background: transparentize(0.8, theme.colors.lightBlue),
-    },
-    '&:first-of-type': {
-      border: 'solid',
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderRadius: 0,
-      borderColor: theme.colors.white,
-    },
-    '&:last-of-type': {
-      border: 'solid',
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-      borderLeftWidth: 1,
-      borderRightWidth: 0,
-      borderRadius: 0,
-      borderColor: theme.colors.white,
-    },
-    '&.active': {
-      color: theme.colors.white,
-      background: theme.colors.lightBlue,
-    },
-  },
   bottomContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -184,36 +122,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: theme.spacing(2),
   },
-  topContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  selectRoot: {
-    padding: theme.spacing(0.8),
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-    background: theme.colors.background,
-    borderRadius: theme.spacing(1),
-  },
-  select: {
-    paddingLeft: theme.spacing(10),
-  },
-  selectIcon: {
-    marginRight: theme.spacing(10),
-    fill: theme.colors.text,
-  },
-  menuItem: {
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: 500,
-    color: theme.colors.text,
-  },
-  menuItemSelected: {
-    background: `${theme.colors.third} !important`,
-  },
 }));
 
 export const AdminCircleModal = ({
@@ -236,6 +144,9 @@ export const AdminCircleModal = ({
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
   const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
+  const [teamSelection, setTeamSelection] = useState<number>(
+    circle.team_selection
+  );
   const [nominationDaysLimit, setNominationDaysLimit] = useState<number>(
     circle.nomination_days_limit
   );
@@ -298,7 +209,8 @@ export const AdminCircleModal = ({
       nominationDaysLimit !== circle.nomination_days_limit ||
       allocText !== circle.allocText ||
       vouchingText !== circle.vouchingText ||
-      onlyGiverVouch !== circle.only_giver_vouch
+      onlyGiverVouch !== circle.only_giver_vouch ||
+      teamSelection !== circle.team_selection
     ) {
       updateCircle({
         name: circleName,
@@ -313,6 +225,7 @@ export const AdminCircleModal = ({
         default_opt_in: defaultOptIn,
         vouching_text: vouchingText,
         only_giver_vouch: onlyGiverVouch,
+        team_selection: teamSelection,
       }).then(() => {
         onClose();
       });
@@ -332,7 +245,8 @@ export const AdminCircleModal = ({
     nominationDaysLimit !== circle.nomination_days_limit ||
     allocText !== circle.allocText ||
     vouchingText !== circle.vouchingText ||
-    onlyGiverVouch !== circle.only_giver_vouch;
+    onlyGiverVouch !== circle.only_giver_vouch ||
+    teamSelection !== circle.team_selection;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -369,31 +283,11 @@ export const AdminCircleModal = ({
           onChange={onChangeWith(setCircleName)}
           fullWidth
         />
-        <div className={classes.enableVouchingContainer}>
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Enable Vouching?</p>
-          </div>
-          <div className={classes.vouchingTabContainer}>
-            <div
-              className={clsx(
-                classes.enableVouchingTab,
-                vouching === 1 && 'active'
-              )}
-              onClick={() => setVouching(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableVouchingTab,
-                vouching === 0 && 'active'
-              )}
-              onClick={() => setVouching(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
+        <ApeToggle
+          value={vouching === 1}
+          onChange={(val) => setVouching(val ? 1 : 0)}
+          label="Enable Vouching?"
+        />
         <ApeTextField
           label="Token name"
           value={tokenName}
@@ -462,61 +356,22 @@ export const AdminCircleModal = ({
             disabled={vouching === 0}
           />
         </div>
-        <div className={classes.topContainer}>
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Default Opt In?</p>
-          </div>
-          <Select
-            className={classes.selectRoot}
-            classes={{
-              select: classes.select,
-              icon: classes.selectIcon,
-            }}
-            disableUnderline
-            onChange={({ target: { value } }) =>
-              setDefaultOptIn(value as number)
-            }
-            value={defaultOptIn}
-          >
-            {[1, 0].map((value) => (
-              <MenuItem
-                className={classes.menuItem}
-                classes={{ selected: classes.menuItemSelected }}
-                key={value}
-                value={value}
-              >
-                {value === 1 ? 'Yes' : 'No'}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
-        <div
+        <ApeToggle
+          value={defaultOptIn === 1}
+          onChange={(val) => setDefaultOptIn(val ? 1 : 0)}
+          label="Default Opt In?"
+        />
+        <ApeToggle
+          value={onlyGiverVouch === 1}
+          onChange={(val) => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
-          <div className={classes.vouchingHeader}>
-            <p className={classes.vouchingLabel}>Only Givers can vouch</p>
-          </div>
-          <div className={classes.vouchingTabContainer}>
-            <div
-              className={clsx(
-                classes.enableVouchingTab,
-                onlyGiverVouch === 1 && 'active'
-              )}
-              onClick={() => setOnlyGiverVouch(1)}
-            >
-              Yes
-            </div>
-            <div
-              className={clsx(
-                classes.enableVouchingTab,
-                onlyGiverVouch === 0 && 'active'
-              )}
-              onClick={() => setOnlyGiverVouch(0)}
-            >
-              No
-            </div>
-          </div>
-        </div>
+          label="Only Givers can vouch"
+        />
+        <ApeToggle
+          value={teamSelection === 1}
+          onChange={(val) => setTeamSelection(val ? 1 : 0)}
+          label="Team Selection Enabled"
+        />
       </div>
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>

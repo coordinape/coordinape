@@ -50,6 +50,8 @@ export const rSelectedCircleId = atom<number | undefined>({
   ],
 });
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
+export const useSetSelectedCircleId = () =>
+  useSetRecoilState(rSelectedCircleId);
 
 // This toggles team only features
 export const rTriggerMode = atom<boolean>({
@@ -136,14 +138,23 @@ export const rMyCircles = selector<ICircle[]>({
   key: 'rMyCircles',
   get: ({ get }: IRecoilGetParams) => {
     const myProfile = get(rMyProfile);
-    return (
-      myProfile?.users
-        ?.map((u) => createCircleWithDefaults(u.circle))
-        .sort((a, b) => a.protocol_id - b.protocol_id) ?? []
-    );
+    return (myProfile?.users ?? [])
+      .map((u) => createCircleWithDefaults(u.circle))
+      .sort((a, b) => a.protocol_id - b.protocol_id);
   },
 });
 export const useMyCircles = () => useRecoilValue(rMyCircles);
+
+export const rMyAdminCircles = selector<ICircle[]>({
+  key: 'rMyAdminCircles',
+  get: ({ get }: IRecoilGetParams) => {
+    const myProfile = get(rMyProfile);
+    return (myProfile?.users ?? [])
+      .filter((u) => u.role === 1)
+      .map((u) => createCircleWithDefaults(u.circle));
+  },
+});
+export const useMyAdminCircles = () => useRecoilValue(rMyCircles);
 
 export const rFetchedAt = atomFamily<Map<string, number>, string>({
   key: 'rFetchedAt',
@@ -378,11 +389,8 @@ export const useSelectedCircleEpochsStatus = () =>
 
 export const rSelectedCircle = selector<ICircle | undefined>({
   key: 'rSelectedCircle',
-  get: async ({ get }: IRecoilGetParams) => {
-    const selectedCircleId = get(rSelectedCircleId);
-    const circlesMap = get(rCirclesMap);
-    return circlesMap.get(selectedCircleId ?? -1);
-  },
+  get: async ({ get }: IRecoilGetParams) =>
+    get(rCirclesMap).get(get(rSelectedCircleId) ?? -1),
 });
 export const useSelectedCircle = () => useRecoilValue(rSelectedCircle);
 

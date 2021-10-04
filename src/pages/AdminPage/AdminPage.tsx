@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { StaticTable, NoticeBox, ApeAvatar } from 'components';
+import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
@@ -11,6 +13,8 @@ import {
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
+import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
+import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
 
@@ -122,6 +126,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#4e7577',
     },
   },
+  tablePlaceholderTitle: {
+    fontSize: 20,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    opacity: 0.7,
+  },
 }));
 
 const epochDetail = (e: IEpoch) => {
@@ -146,6 +156,11 @@ const AdminPage = () => {
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
+  const [newCircle, setNewCircle] = useState<boolean>(
+    window.location.search === NEW_CIRCLE_CREATED_PARAMS
+  );
+
+  const history = useHistory();
 
   const { deleteUser, deleteEpoch } = useAdminApi();
   const me = useSelectedMyUser();
@@ -187,19 +202,6 @@ const AdminPage = () => {
     },
     [keyword]
   );
-
-  const RenderUserName = (u: IUser) => (
-    <div className={classes.avatarCell}>
-      <ApeAvatar user={u} className={classes.avatar} />
-      <span>{u.name}</span>
-    </div>
-  );
-
-  const RenderUserActions = (u: IUser) =>
-    renderActions(
-      () => setEditUser(u),
-      u.id !== me?.id ? () => deleteUser(u.address) : undefined
-    );
 
   // Epoch Columns
   const RenderEpochDetails = (e: IEpoch) => (
@@ -249,7 +251,14 @@ const AdminPage = () => {
         {
           label: 'Name',
           accessor: 'name',
-          render: RenderUserName,
+          render: function UserName(u: IUser) {
+            return (
+              <div className={classes.avatarCell}>
+                <ApeAvatar user={u} className={classes.avatar} />
+                <span>{u.name}</span>
+              </div>
+            );
+          },
           wide: true,
           leftAlign: true,
         },
@@ -259,28 +268,48 @@ const AdminPage = () => {
           render: (u: IUser) => shortenAddress(u.address),
         },
         {
-          label: 'Can they give?',
-          render: (u: IUser) => (u.non_giver === 0 ? 'Yes' : 'No'),
+          label: 'Non Giver?',
+          render: (u: IUser) => (!u.non_giver ? '-' : 'Non Giver'),
         },
         {
-          label: 'Force Opt Out?',
-          render: (u: IUser) => (u.fixed_non_receiver === 0 ? 'No' : 'Yes'),
+          label: 'Opted Out?',
+          render: (u: IUser) =>
+            u.fixed_non_receiver
+              ? 'Forced Opt Out'
+              : u.non_receiver
+              ? 'Opted Out'
+              : '-',
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 0 ? 'No' : 'Yes'),
+          render: (u: IUser) => (u.role === 0 ? '-' : 'Admin'),
         },
         {
           label: 'GIVE sent',
-          render: (u: IUser) => u.starting_tokens - u.give_token_remaining,
+          accessor: 'give_token_remaining',
+          render: (u: IUser) =>
+            !u.non_giver || u.starting_tokens - u.give_token_remaining != 0
+              ? `${u.starting_tokens - u.give_token_remaining}/${
+                  u.starting_tokens
+                }`
+              : '-',
         },
         {
           label: 'GIVE received',
           accessor: 'give_token_received',
+          render: (u: IUser) =>
+            u.give_token_received === 0 &&
+            (!!u.fixed_non_receiver || !!u.non_receiver)
+              ? '-'
+              : u.give_token_received,
         },
         {
           label: 'Actions',
-          render: RenderUserActions,
+          render: (u: IUser) =>
+            renderActions(
+              () => setEditUser(u),
+              u.id !== me?.id ? () => deleteUser(u.address) : undefined
+            ),
           noSort: true,
         },
       ] as ITableColumn[],
@@ -363,6 +392,15 @@ const AdminPage = () => {
             >
               Add Epoch
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<PlusCircleIcon />}
+              onClick={() => history.push(paths.getCreateCirclePath())}
+            >
+              Create Circle
+            </Button>
           </div>
         </div>
         <StaticTable
@@ -370,6 +408,22 @@ const AdminPage = () => {
           columns={epochColumns}
           data={epochs}
           perPage={6}
+          placeholder={
+            <>
+              <h2 className={classes.tablePlaceholderTitle}>
+                You don’t have any epochs scheduled
+              </h2>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewEpoch(true)}
+              >
+                Add Epoch
+              </Button>
+            </>
+          }
         />
       </div>
       <div className={classes.userActionBar}>
@@ -386,6 +440,22 @@ const AdminPage = () => {
         perPage={15}
         filter={filterUser}
         sortable
+        placeholder={
+          <>
+            <h2 className={classes.tablePlaceholderTitle}>
+              You haven’t added any contributors
+            </h2>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<PlusCircleIcon />}
+              onClick={() => setNewUser(true)}
+            >
+              Add Contributor
+            </Button>
+          </>
+        }
       />
       <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
@@ -407,6 +477,15 @@ const AdminPage = () => {
           visible={editCircle}
         />
       )}
+      <DialogNotice
+        open={newCircle}
+        title="Congrats! You just launched a new circle."
+        onClose={() => setNewCircle(false)}
+        onPrimary={() => setNewCircle(false)}
+      >
+        You’ll need to add your teammates to your circle and schedule an epoch
+        before you can start allocating GIVE.
+      </DialogNotice>
     </div>
   );
 };

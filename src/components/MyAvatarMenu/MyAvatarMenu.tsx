@@ -128,7 +128,9 @@ export const MyAvatarMenu = () => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    if (myCircles.length) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -197,8 +199,8 @@ export const MyAvatarMenu = () => {
         })}
         <Divider variant="middle" className={classes.divider} />
         <span className={classes.subHeader}>Switch Circles</span>
-        {groupedCircles.map(([protocolName, circles]) => (
-          <>
+        {groupedCircles.map(([protocolName, circles], idx) => (
+          <React.Fragment key={idx}>
             <span className={classes.subSubHeader}>{protocolName}</span>
             {circles.map((circle) => (
               <CircleButton
@@ -212,7 +214,7 @@ export const MyAvatarMenu = () => {
                 }}
               />
             ))}
-          </>
+          </React.Fragment>
         ))}
         {hasAdminView && (
           <>

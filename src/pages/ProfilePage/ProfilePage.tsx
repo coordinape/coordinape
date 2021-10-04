@@ -225,7 +225,7 @@ export const ProfilePage = ({
     background: isMe ? myBackgroundPath : backgroundPath,
     backgroundRaw: null,
     name:
-      profile?.users.find((user) => user.circle_id === selectedCircleId)
+      profile?.users?.find((user) => user.circle_id === selectedCircleId)
         ?.name || 'N/A',
     bio: profile?.bio || '',
     telegram_username: profile?.telegram_username || '',
@@ -236,7 +236,7 @@ export const ProfilePage = ({
     website: profile?.website || '',
     skills: profile?.skills || [],
     users: profile?.users || [],
-    recentEpochs: profile?.users.map((user) => {
+    recentEpochs: profile?.users?.map((user) => {
       return {
         epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
         epochCircle: user.circle?.name,

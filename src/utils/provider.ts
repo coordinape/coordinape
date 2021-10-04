@@ -7,7 +7,7 @@ export const getSignature = async (data: string, provider?: any) => {
   const address = await signer.getAddress();
   const signature: any = await (async () =>
     new Promise((resolve) => {
-      const t = setTimeout(() => resolve(false), 30000);
+      const t = setTimeout(() => resolve(false), 60000);
       signer.signMessage(data).then((sig) => {
         clearTimeout(t);
         resolve(sig);

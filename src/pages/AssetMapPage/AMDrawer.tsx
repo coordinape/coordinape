@@ -6,9 +6,8 @@ import { makeStyles, Button } from '@material-ui/core';
 import DnsIcon from '@material-ui/icons/Dns';
 import SearchIcon from '@material-ui/icons/Search';
 import SortIcon from '@material-ui/icons/Sort';
-import { Autocomplete } from '@material-ui/lab';
 
-import { Drawer, ApeTextField } from 'components';
+import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
 import {
   useMapMetric,
@@ -57,20 +56,6 @@ const useStyles = makeStyles((theme) => ({
       background: theme.colors.white,
       color: theme.colors.black,
     },
-  },
-  // Autocomplete:
-  colorBlack: {
-    color: theme.colors.black,
-  },
-  listbox: {
-    overflowX: 'hidden',
-  },
-  backgroundColorWhite: {
-    backgroundColor: theme.colors.white,
-  },
-  autocompleteText: {
-    backgroundColor: theme.colors.white,
-    padding: theme.spacing(0, 2),
   },
   // Users
   users: {
@@ -144,30 +129,15 @@ const AMDrawer = () => {
               <SortIcon />
             </Button>
           )}
-          <Autocomplete
-            classes={{
-              paper: classes.backgroundColorWhite,
-              listbox: classes.listbox,
-              clearIndicator: classes.colorBlack,
-            }}
+          <ApeAutocomplete
+            onChange={setSearch}
             freeSolo
-            fullWidth
-            onInputChange={(_event: any, v: string) => setSearch(v)}
             options={skillNames}
-            renderInput={(params: any) => (
-              <ApeTextField
-                {...params}
-                size="small"
-                InputProps={{
-                  ...params.InputProps,
-                  classes: {
-                    root: classes.autocompleteText,
-                  },
-                  startAdornment: <SearchIcon />,
-                }}
-                placeholder="Search by Keyword"
-              />
-            )}
+            color="secondary"
+            placeholder="Search by Keyword"
+            InputProps={{
+              startAdornment: <SearchIcon />,
+            }}
           />
         </div>
       </div>

@@ -1,12 +1,12 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 
 import clsx from 'clsx';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { PopUpModal, MyProfileCard, TeammateCard } from 'components';
+import { TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
-import storage from 'utils/storage';
+import { useSelectedCircleUsers } from 'recoilState';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -174,16 +174,12 @@ enum FilterType {
 const AllocationGive = () => {
   const classes = useStyles();
 
-  // Yes wierd but true
-  // TODO: move that storage state into Recoil
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
   const { selectedMyUser, selectedCircle } = useMe();
+  const visibleUsers = useSelectedCircleUsers();
   const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
-
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
@@ -255,13 +251,16 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser ? localTeammates : [])
+        {(selectedMyUser ? visibleUsers : [])
           .filter((a) => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
             }
             if (filterType & FilterType.NewMember) {
               return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
+            }
+            if (selectedCircle?.team_selection === 1) {
+              return localTeammates.includes(a) || givePerUser.get(a.id);
             }
             return true;
           })
@@ -284,9 +283,7 @@ const AllocationGive = () => {
             }
           })
           .map((user) =>
-            user.id === selectedMyUser?.id ? (
-              <MyProfileCard key={user.id} />
-            ) : (
+            user.id === selectedMyUser?.id ? undefined : (
               <TeammateCard
                 disabled={!epochIsActive}
                 key={user.id}
@@ -300,25 +297,6 @@ const AllocationGive = () => {
             )
           )}
       </div>
-
-      {selectedCircle && selectedMyUser?.fixed_non_receiver ? (
-        <PopUpModal
-          onClose={() => {
-            storage.setHasSeenForceOptOutPopup(selectedMyUser.id);
-            forceUpdate();
-          }}
-          title={`Your administrator opted you out of receiving ${
-            selectedCircle.token_name || 'GIVE'
-          }`}
-          description={`You can still distribute ${
-            selectedCircle.token_name || 'GIVE'
-          } as normal. Generally people are opted out of receiving ${
-            selectedCircle.token_name || 'GIVE'
-          } if they are compensated in other ways by their organization.  Please contact your circle admin for more details.`}
-          button="Okay, Got it."
-          visible={!storage.hasSeenForceOptOutPopup(selectedMyUser.id)}
-        />
-      ) : null}
     </div>
   );
 };
