@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { CaptureConsole } from '@sentry/integrations';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import ReactDOM from 'react-dom';
@@ -14,7 +15,12 @@ Sentry.init({
   environment: DOMAIN_IS_PREVIEW ? 'development' : 'production',
   dsn:
     'https://1b672f036d56422ea7087e932011ec74@o919561.ingest.sentry.io/5863782',
-  integrations: [new Integrations.BrowserTracing()],
+  integrations: [
+    new Integrations.BrowserTracing(),
+    new CaptureConsole({
+      levels: ['error'],
+    }),
+  ],
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.

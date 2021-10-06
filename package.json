@@ -11,6 +11,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/pickers": "^3.3.10",
+    "@sentry/integrations": "^6.13.3",
     "@sentry/react": "^6.9.0",
     "@sentry/tracing": "^6.9.0",
     "@testing-library/jest-dom": "^5.11.4",
