@@ -1,0 +1,3 @@
+[submodule "lib/scaffold-eth"]
+	path = lib/scaffold-eth
+	url = https://github.com/coordinape/scaffold-eth.git
