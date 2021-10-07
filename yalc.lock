@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@scaffold-eth/react-app": {
+      "signature": "60c33690cc299c4507866a79ece01017",
+      "file": true,
+      "replaced": "file:lib/scaffold-eth/packages/react-app"
+    }
+  }
+}

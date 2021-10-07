@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
+import { Root as ScaffoldRoot } from '@scaffold-eth/react-app';
 import { Web3ReactProvider } from '@web3-react/core';
 import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
@@ -42,6 +43,7 @@ function App() {
                     <RecoilAppController />
                     <SentryScopeController />
                     <RenderRoutes />
+                    <ScaffoldRoot />
                   </MainLayout>
                 </BrowserRouter>
               </Web3ReactProvider>
