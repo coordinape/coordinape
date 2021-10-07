@@ -19,14 +19,18 @@ const useStyles = makeStyles((theme) => ({
   twoColumn: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: '1fr 1fr 1fr',
+    gridTemplateRows: '1fr',
     columnGap: theme.spacing(3),
     rowGap: theme.spacing(3),
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
   },
   ethInput: {
-    marginTop: theme.spacing(4),
     width: '100%',
+    gridColumn: '1 / span 2',
+  },
+  helperBox: {
+    height: 0,
   },
 }));
 
@@ -88,12 +92,18 @@ export const AdminUserModal = ({
         >
           <div className={classes.twoColumn}>
             <FormTextField {...fields.name} label="Contributor Name" />
-            <ApeToggle {...fields.role} label="Are They Admin?" />
             <FormTextField
               {...fields.starting_tokens}
               type="number"
               label="Starting Tokens"
             />
+            <FormTextField
+              {...fields.address}
+              label="Contributor ETH address"
+              fullWidth
+              className={classes.ethInput}
+            />
+            <ApeToggle {...fields.role} label="Are They Admin?" />
             <ApeToggle
               {...non_giver}
               onChange={(v) => nonGiverOnChange(!v)}
@@ -107,12 +117,6 @@ export const AdminUserModal = ({
               label="Opted Out"
             />
           </div>
-          <FormTextField
-            {...fields.address}
-            label="Contributor ETH address"
-            fullWidth
-            className={classes.ethInput}
-          />
         </FormModal>
       )}
     </AdminUserForm.FormController>

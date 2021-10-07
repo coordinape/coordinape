@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
   },
   helperBox: {
-    height: 18,
     width: '100%',
     textAlign: 'center',
   },

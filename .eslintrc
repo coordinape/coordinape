@@ -4,7 +4,12 @@
       "pragma": "React",
       "version": "detect"
     },
-    "import/extensions": [".js", ".jsx", ".ts", ".tsx"]
+    "import/extensions": [
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx"
+    ]
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -38,7 +43,12 @@
     "browser": true
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -48,10 +58,16 @@
     "no-console": [
       "warn",
       {
-        "allow": ["warn", "error"]
+        "allow": [
+          "warn",
+          "error"
+        ]
       }
     ],
-    "semi": ["error", "always"],
+    "semi": [
+      "error",
+      "always"
+    ],
     "no-warning-comments": "off",
     "import/extensions": 0,
     "import/no-unresolved": 0,
@@ -70,7 +86,10 @@
           "external",
           "internal",
           "parent",
-          ["sibling", "index"]
+          [
+            "sibling",
+            "index"
+          ]
         ],
         // define material-ui group that will appear separately after other main externals
         "pathGroups": [
@@ -94,15 +113,22 @@
         ],
         "pathGroupsExcludedImportTypes": [],
         "newlines-between": "always",
-        "alphabetize": { "order": "asc", "caseInsensitive": true }
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ],
-
     "import/prefer-default-export": 0,
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     ],
     "react-hooks/rules-of-hooks": "error",
