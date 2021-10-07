@@ -23,20 +23,14 @@ const useStyles = makeStyles((theme) => ({
     columnGap: theme.spacing(3),
     rowGap: theme.spacing(3),
     marginTop: theme.spacing(3),
-  },
-  twoColumn1: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: '1fr 1fr',
-    columnGap: theme.spacing(3),
-    rowGap: theme.spacing(3),
-    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3),
   },
   ethInput: {
-    marginTop: theme.spacing(1),
     width: '100%',
-    paddingLeft: '40px',
-    paddingRight: '40px',
+    gridColumn: '1 / span 2',
+  },
+  helperBox: {
+    height: 0,
   },
 }));
 
@@ -103,14 +97,12 @@ export const AdminUserModal = ({
               type="number"
               label="Starting Tokens"
             />
-          </div>
-          <FormTextField
-            {...fields.address}
-            label="Contributor ETH address"
-            fullWidth
-            className={classes.ethInput}
-          />
-          <div className={classes.twoColumn1}>
+            <FormTextField
+              {...fields.address}
+              label="Contributor ETH address"
+              fullWidth
+              className={classes.ethInput}
+            />
             <ApeToggle {...fields.role} label="Are They Admin?" />
             <ApeToggle
               {...non_giver}
