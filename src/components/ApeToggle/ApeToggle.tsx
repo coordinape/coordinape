@@ -5,6 +5,8 @@ import uniqueId from 'lodash/uniqueId';
 
 import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
+import { ApeInfoTooltip } from 'components';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -68,6 +70,7 @@ export const ApeToggle = ({
   errorText,
   error,
   className,
+  infoTooltip,
 }: {
   value: boolean;
   onChange: (newValue: boolean) => void;
@@ -77,6 +80,7 @@ export const ApeToggle = ({
   errorText?: string;
   error?: boolean;
   className?: string;
+  infoTooltip?: React.ReactNode;
 }) => {
   const classes = useStyles();
   const [groupId] = useState(uniqueId('text-field-'));
@@ -87,9 +91,10 @@ export const ApeToggle = ({
         [classes.disabled]: disabled,
       })}
     >
-      {!!label && (
+      {(!!label || infoTooltip) && (
         <label htmlFor={groupId} className={classes.label}>
-          {label}
+          {label}{' '}
+          {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
         </label>
       )}
       <ButtonGroup
