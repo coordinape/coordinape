@@ -300,7 +300,7 @@ export class APIService {
     circleId: number,
     address: string,
     teammates: number[]
-  ): Promise<IApiUser> => {
+  ): Promise<IApiUser & { pending_sent_gifts: IApiTokenGift[] }> => {
     const data = JSON.stringify({ teammates: teammates });
     const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/teammates`, {
@@ -336,7 +336,7 @@ export class APIService {
     circleId: number,
     address: string,
     params: PostTokenGiftsParam[]
-  ): Promise<any> => {
+  ): Promise<IApiUser & { pending_sent_gifts: IApiTokenGift[] }> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
     const response = await axios.post(`${circleId}/v2/token-gifts/${address}`, {
