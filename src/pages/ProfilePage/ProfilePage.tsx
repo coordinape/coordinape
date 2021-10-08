@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   background: {
     width: '100%',
     height: 240,
+    objectFit: 'cover',
   },
   avatar: {
     width: 143,
@@ -302,6 +303,7 @@ export const ProfilePage = ({
                 onChange={onChangeBackground}
                 style={{ display: 'none' }}
                 type="file"
+                accept="image/gif, image/jpeg, image/png"
               />
               <label htmlFor="upload-background-button">
                 <Button
