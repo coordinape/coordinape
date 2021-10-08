@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { usePrevious } from 'hooks';
 
 /**
- * It's like useEffect but runs when the deps list has a deep change.
+ * It's like useEffect but runs only when the deps list has a deep change.
  * See: {@link isEqual}.
  */
 export function useDeepChangeEffect(func: () => void, deps: DependencyList) {
