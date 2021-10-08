@@ -313,6 +313,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
               onChange={onChangeAvatar}
               style={{ display: 'none' }}
               type="file"
+              accept="image/gif, image/jpeg, image/png"
             />
           </div>
         </Box>
