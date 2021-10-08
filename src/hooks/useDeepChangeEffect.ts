@@ -12,7 +12,7 @@ export function useDeepChangeEffect(func: () => void, deps: DependencyList) {
   const prev = usePrevious(deps);
   useEffect(() => {
     if (!prev || !isEqual(deps, prev)) {
-      func();
+      return func();
     }
   }, deps);
 }
