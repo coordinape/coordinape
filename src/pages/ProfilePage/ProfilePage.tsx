@@ -1,9 +1,9 @@
-/* eslint-disable import/order */
 import React, { useState, useEffect } from 'react';
 
-import { RouteComponentProps } from 'react-router-dom';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
+import { RouteComponentProps } from 'react-router-dom';
+import ShowMore from 'react-show-more';
 
 import { makeStyles, withStyles, Tooltip, Zoom } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -14,7 +14,6 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import ShowMore from 'react-show-more';
 
 import discord from '../../assets/svgs/social/discord.svg';
 import github from '../../assets/svgs/social/github.svg';
@@ -22,9 +21,9 @@ import medium from '../../assets/svgs/social/medium.svg';
 import telegram from '../../assets/svgs/social/telegram-icon.svg';
 import twitter from '../../assets/svgs/social/twitter-icon.svg';
 import website from '../../assets/svgs/social/website.svg';
-import { useProfile, useMe, useCircle } from 'hooks';
-
+import { useProfile, useMe, useApi, useCircle } from 'hooks';
 import { getAvatarPath } from 'utils/domain';
+
 import EditModal, { IProfileData } from './EditModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -206,11 +205,10 @@ export const ProfilePage = ({
   const { profile: aProfile, avatarPath, backgroundPath } = useProfile(
     seemsAddress ? params?.profileAddress : undefined
   );
+  const { updateMyProfile, updateAvatar, updateBackground } = useApi();
+
   const {
     myProfile,
-    updateProfile: updateMyProfile,
-    updateAvatar,
-    updateBackground,
     avatarPath: myAvatarPath,
     backgroundPath: myBackgroundPath,
   } = useMe();

@@ -173,9 +173,13 @@ export const AdminCircleModal = ({
   };
 
   const editDiscordWebhook = async () => {
-    const _webhook = await getDiscordWebhook();
-    setWebhook(_webhook);
-    setAllowEdit(true);
+    try {
+      const _webhook = await getDiscordWebhook();
+      setWebhook(_webhook);
+      setAllowEdit(true);
+    } catch (e) {
+      console.warn(e);
+    }
   };
 
   const onChangeWith = (set: (v: string) => void) => (
@@ -189,46 +193,50 @@ export const AdminCircleModal = ({
   ) => set(Math.max(0, parseInt(e.target.value) || 0));
 
   const onSubmit = async () => {
-    if (logoData.avatarRaw) {
-      await updateCircleLogo(logoData.avatarRaw);
-      setLogoData({
-        ...logoData,
-        avatarRaw: null,
-      });
-    }
+    try {
+      if (logoData.avatarRaw) {
+        await updateCircleLogo(logoData.avatarRaw);
+        setLogoData({
+          ...logoData,
+          avatarRaw: null,
+        });
+      }
 
-    if (
-      circleName !== circle.name ||
-      vouching !== circle.vouching ||
-      tokenName !== circle.tokenName ||
-      minVouches !== circle.min_vouches ||
-      teamSelText !== circle.teamSelText ||
-      allocText !== circle.allocText ||
-      allowEdit ||
-      defaultOptIn !== circle.default_opt_in ||
-      nominationDaysLimit !== circle.nomination_days_limit ||
-      allocText !== circle.allocText ||
-      vouchingText !== circle.vouchingText ||
-      onlyGiverVouch !== circle.only_giver_vouch ||
-      teamSelection !== circle.team_selection
-    ) {
-      updateCircle({
-        name: circleName,
-        vouching: vouching,
-        token_name: tokenName,
-        min_vouches: minVouches,
-        team_sel_text: teamSelText,
-        nomination_days_limit: nominationDaysLimit,
-        alloc_text: allocText,
-        discord_webhook: webhook,
-        update_webhook: allowEdit ? 1 : 0,
-        default_opt_in: defaultOptIn,
-        vouching_text: vouchingText,
-        only_giver_vouch: onlyGiverVouch,
-        team_selection: teamSelection,
-      }).then(() => {
-        onClose();
-      });
+      if (
+        circleName !== circle.name ||
+        vouching !== circle.vouching ||
+        tokenName !== circle.tokenName ||
+        minVouches !== circle.min_vouches ||
+        teamSelText !== circle.teamSelText ||
+        allocText !== circle.allocText ||
+        allowEdit ||
+        defaultOptIn !== circle.default_opt_in ||
+        nominationDaysLimit !== circle.nomination_days_limit ||
+        allocText !== circle.allocText ||
+        vouchingText !== circle.vouchingText ||
+        onlyGiverVouch !== circle.only_giver_vouch ||
+        teamSelection !== circle.team_selection
+      ) {
+        updateCircle({
+          name: circleName,
+          vouching: vouching,
+          token_name: tokenName,
+          min_vouches: minVouches,
+          team_sel_text: teamSelText,
+          nomination_days_limit: nominationDaysLimit,
+          alloc_text: allocText,
+          discord_webhook: webhook,
+          update_webhook: allowEdit ? 1 : 0,
+          default_opt_in: defaultOptIn,
+          vouching_text: vouchingText,
+          only_giver_vouch: onlyGiverVouch,
+          team_selection: teamSelection,
+        }).then(() => {
+          onClose();
+        });
+      }
+    } catch (e) {
+      console.warn(e);
     }
   };
 

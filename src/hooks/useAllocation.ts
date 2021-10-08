@@ -303,7 +303,11 @@ export const useAllocation = (circleId: number | undefined) => {
         );
         triggerProfileReload();
       },
-      { success: 'Saved Teammates' }
+      {
+        success: 'Saved Teammates',
+        transformError: (e) =>
+          (e.message = `With hardware wallets, try shorter changes. ${e.message}`),
+      }
     );
 
   const saveGifts = () =>

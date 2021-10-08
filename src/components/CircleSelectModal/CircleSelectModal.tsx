@@ -154,10 +154,11 @@ export const CircleSelectModal = ({
             <CircleButton
               key={circle.id}
               circle={circle}
-              onClick={() => {
-                selectAndFetchCircle(circle.id);
-                onClose();
-              }}
+              onClick={() =>
+                selectAndFetchCircle(circle.id)
+                  .then(onClose)
+                  .catch((e) => console.warn(e))
+              }
             />
           ))}
           {hasAdminView ? (
@@ -171,10 +172,11 @@ export const CircleSelectModal = ({
                   <CircleButton
                     key={circle.id}
                     circle={circle}
-                    onClick={() => {
-                      selectAndFetchCircle(circle.id);
-                      onClose();
-                    }}
+                    onClick={() =>
+                      selectAndFetchCircle(circle.id)
+                        .then(onClose)
+                        .catch((e) => console.warn(e))
+                    }
                   />
                 ))}
             </>

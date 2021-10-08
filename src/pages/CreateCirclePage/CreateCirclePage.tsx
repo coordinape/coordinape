@@ -12,7 +12,7 @@ import {
   FormAutocomplete,
 } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApi } from 'hooks/useApi';
+import { useApi } from 'hooks';
 import {
   useMyAddress,
   useMyAdminCircles,
@@ -121,24 +121,28 @@ export const SummonCirclePage = () => {
           research_contact,
           ...params
         }) => {
-          const newCircle = await createCircle(
-            { ...params },
-            captcha_token,
-            JSON.stringify({
-              address: myAddress,
-              research_what,
-              research_who,
-              research_how_much,
-              research_org_link,
-              research_contact,
-              ...params,
-            })
-          );
-          setSelectedCircleId(newCircle.id);
-          history.push({
-            pathname: paths.getAdminPath(),
-            search: paths.NEW_CIRCLE_CREATED_PARAMS,
-          });
+          try {
+            const newCircle = await createCircle(
+              { ...params },
+              captcha_token,
+              JSON.stringify({
+                address: myAddress,
+                research_what,
+                research_who,
+                research_how_much,
+                research_org_link,
+                research_contact,
+                ...params,
+              })
+            );
+            setSelectedCircleId(newCircle.id);
+            history.push({
+              pathname: paths.getAdminPath(),
+              search: paths.NEW_CIRCLE_CREATED_PARAMS,
+            });
+          } catch (e) {
+            console.warn(e);
+          }
         }}
       >
         {({ fields, changedOutput, handleSubmit }) => (

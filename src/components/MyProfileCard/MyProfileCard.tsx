@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-
-import clsx from 'clsx';
+import React from 'react';
 
 import {
   Button,
-  FormControlLabel,
-  Radio,
   Tooltip,
   Zoom,
   makeStyles,
@@ -13,13 +9,8 @@ import {
 } from '@material-ui/core';
 
 import { ReactComponent as AlertCircleSVG } from 'assets/svgs/button/alert-circle.svg';
-import { ReactComponent as CheckedRadioSVG } from 'assets/svgs/button/checked-radio.svg';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
-import { ReactComponent as SaveProfileSVG } from 'assets/svgs/button/save-profile.svg';
-import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
-import { ReactComponent as UploadImageSVG } from 'assets/svgs/button/upload-image.svg';
 import { ApeAvatar } from 'components';
-import { MAX_BIO_LENGTH, MAX_NAME_LENGTH } from 'config/constants';
 import { useMe } from 'hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -275,234 +266,43 @@ const TextOnlyTooltip = withStyles({
   },
 })(Tooltip);
 
-interface IProfileData {
-  avatar: string;
-  avatarRaw: File | null;
-  name: string;
-  bio: string;
-  non_receiver: number;
-}
-
+// TODO: merge into Teammate card
+// This is currently unused, but could be useful for updating the Teammate card.
+// so not deleting.
 export const MyProfileCard = () => {
   const classes = useStyles();
 
-  const {
-    selectedCircle: circle,
-    selectedMyUser: me,
-    avatarPath,
-    updateMyUser,
-    updateAvatar,
-    refreshMyUser,
-  } = useMe();
+  const { selectedCircle: circle, selectedMyUser: me, avatarPath } = useMe();
 
-  const [isEditing, setEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<IProfileData>({
-    avatar: avatarPath,
-    avatarRaw: null,
-    name: me?.name || '',
-    bio: me?.bio || '',
-    non_receiver: me?.non_receiver || 0,
-  });
+  if (!me) {
+    return <></>;
+  }
 
-  // onChange Avatar
-  const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length) {
-      setProfileData({
-        ...profileData,
-        avatar: URL.createObjectURL(e.target.files[0]),
-        avatarRaw: e.target.files[0],
-      });
-    }
-  };
-
-  // onChange Name
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileData({ ...profileData, name: e.target.value });
-  };
-
-  // onChange Bio
-  const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setProfileData({ ...profileData, bio: e.target.value });
-  };
-
-  // onClick SaveProfile
-  const onClickSaveProfile = async () => {
-    const profileChanged =
-      profileData.name !== (me?.name || '') ||
-      profileData.bio !== (me?.bio || '') ||
-      profileData.non_receiver !== (me?.non_receiver || 0);
-
-    if (
-      profileData.name.length === 0 ||
-      (!profileChanged && !profileData.avatarRaw)
-    ) {
-      return;
-    }
-
-    profileData.avatarRaw && (await updateAvatar(profileData.avatarRaw));
-
-    if (profileChanged) {
-      await updateMyUser({
-        name: profileData.name,
-        bio: profileData.bio,
-        epoch_first_visit: 0,
-        non_receiver: profileData.non_receiver,
-        non_giver: me?.non_giver,
-      });
-    }
-
-    await refreshMyUser();
-    setEditing(false);
-  };
-
-  // Return
-  return me ? (
+  return (
     <div className={classes.root}>
-      {isEditing ? (
-        <>
-          <Button
-            className={classes.backButton}
-            disableRipple={true}
-            onClick={() => setEditing(false)}
+      <ApeAvatar path={avatarPath} className={classes.avatar} />
+      <p className={classes.name}>{me.name}</p>
+      <div className={classes.bioContainer}>
+        <p className={classes.bio}>{me.bio}</p>
+      </div>
+      {me.non_receiver !== 0 && (
+        <div className={classes.alertContainer}>
+          <TextOnlyTooltip
+            TransitionComponent={Zoom}
+            placement="top-start"
+            title={`You opted out of receiving ${circle?.tokenName}. You are paid through other channels or are not currently active.`}
           >
-            ←
-          </Button>
-          <div className={classes.uploadImageContainer}>
-            <label htmlFor="upload-avatar-button">
-              <ApeAvatar path={profileData.avatar} className={classes.avatar} />
-              <div
-                className={clsx(
-                  classes.uploadImageIconWrapper,
-                  'upload-image-icon'
-                )}
-              >
-                <UploadImageSVG />
-              </div>
-            </label>
-            <input
-              id="upload-avatar-button"
-              onChange={onChangeAvatar}
-              style={{ display: 'none' }}
-              type="file"
-            />
-          </div>
-          <input
-            className={classes.nameInput}
-            maxLength={MAX_NAME_LENGTH}
-            onChange={onChangeName}
-            placeholder="Your name ..."
-            value={profileData.name}
-          />
-          <div className={classes.bioTextareaContainer}>
-            <textarea
-              className={classes.bioTextarea}
-              maxLength={MAX_BIO_LENGTH}
-              onChange={onChangeBio}
-              placeholder="Tell us about yourself, what you do and why you do it"
-              value={profileData.bio}
-            />
-            <p
-              className={classes.bioLengthLabel}
-            >{`${profileData.bio.length}/${MAX_BIO_LENGTH}`}</p>
-          </div>
-          {me.fixed_non_receiver === 0 && (
-            <div className={classes.optContainer}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={profileData.non_receiver === 0}
-                    checkedIcon={<CheckedRadioSVG />}
-                    className={classes.radioInput}
-                    icon={<UnCheckedRadioSVG />}
-                    onChange={() =>
-                      setProfileData({ ...profileData, non_receiver: 0 })
-                    }
-                  />
-                }
-                label={
-                  <p className={classes.radioLabel}>
-                    Opt in to receiving {circle?.tokenName}
-                  </p>
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={profileData.non_receiver !== 0}
-                    checkedIcon={<CheckedRadioSVG />}
-                    className={classes.radioInput}
-                    icon={<UnCheckedRadioSVG />}
-                    onChange={() =>
-                      setProfileData({ ...profileData, non_receiver: 1 })
-                    }
-                  />
-                }
-                label={
-                  <p className={classes.radioLabel}>
-                    Opt out to receiving {circle?.tokenName}
-                  </p>
-                }
-              />
-            </div>
-          )}
-          <Button
-            className={classes.saveButton}
-            disableRipple={true}
-            disabled={
-              profileData.name.length === 0 ||
-              (profileData.name === (me.name || '') &&
-                profileData.bio === (me.bio || '') &&
-                profileData.non_receiver === (me.non_receiver || 0) &&
-                !profileData.avatarRaw)
-            }
-            onClick={onClickSaveProfile}
-          >
-            <SaveProfileSVG />
-            <div className={classes.buttonLabel}>Save My Profile</div>
-          </Button>
-        </>
-      ) : (
-        <>
-          <ApeAvatar path={avatarPath} className={classes.avatar} />
-          <p className={classes.name}>{me.name}</p>
-          <div className={classes.bioContainer}>
-            <p className={classes.bio}>{me.bio}</p>
-          </div>
-          {me.non_receiver !== 0 && (
-            <div className={classes.alertContainer}>
-              <TextOnlyTooltip
-                TransitionComponent={Zoom}
-                placement="top-start"
-                title={`You opted out of receiving ${circle?.tokenName}. You are paid through other channels or are not currently active.`}
-              >
-                <AlertCircleSVG />
-              </TextOnlyTooltip>
-              <p className={classes.alertLabel}>
-                You opted out of receiving {circle?.tokenName}
-              </p>
-            </div>
-          )}
-          <Button
-            className={classes.editButton}
-            disableRipple={true}
-            onClick={() => {
-              setProfileData({
-                avatar: avatarPath,
-                avatarRaw: null,
-                name: me?.name || '',
-                bio: me?.bio || '',
-                non_receiver: me?.non_receiver || 0,
-              });
-              setEditing(true);
-            }}
-          >
-            <EditProfileSVG />
-            <div className={classes.buttonLabel}>Edit My Profile</div>
-          </Button>
-        </>
+            <AlertCircleSVG />
+          </TextOnlyTooltip>
+          <p className={classes.alertLabel}>
+            You opted out of receiving {circle?.tokenName}
+          </p>
+        </div>
       )}
+      <Button className={classes.editButton} disableRipple={true}>
+        <EditProfileSVG />
+        <div className={classes.buttonLabel}>Edit My Profile</div>
+      </Button>
     </div>
-  ) : (
-    <div>Broken?</div>
   );
 };

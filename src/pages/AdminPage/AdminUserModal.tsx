@@ -62,10 +62,9 @@ export const AdminUserModal = ({
       source={source}
       hideFieldErrors
       submit={(params) =>
-        (user
-          ? updateUser(user.address, params)
-          : createUser(params)
-        ).then(() => onClose())
+        (user ? updateUser(user.address, params) : createUser(params))
+          .then(() => onClose())
+          .catch((e) => console.warn(e))
       }
     >
       {({
