@@ -422,11 +422,6 @@ const LandingPage = () => {
             participation and manage resources
           </Typography>
           <div className={classes.headerButtons}>
-            <a href={APP_URL_CREATE_CIRCLE}>
-              <Button variant="contained" color="primary" disableElevation>
-                Start a Circle
-              </Button>
-            </a>
             <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
@@ -435,6 +430,11 @@ const LandingPage = () => {
                 startIcon={<DiscordIcon />}
               >
                 Join our Discord
+              </Button>
+            </a>
+            <a href={APP_URL_CREATE_CIRCLE}>
+              <Button variant="contained" color="primary" disableElevation>
+                Start a Circle
               </Button>
             </a>
           </div>
