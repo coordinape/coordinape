@@ -15,9 +15,9 @@ import {
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 import { assertDef } from 'utils/tools';
 
-import AMDrawer from './AMDrawer';
-import AMForceGraph from './AMForceGraph';
-import RedSelect from './RedSelect';
+import { AMDrawer } from './AMDrawer';
+import { AMForceGraph } from './AMForceGraph';
+import { RedSelect } from './RedSelect';
 
 import { MetricEnum } from 'types';
 

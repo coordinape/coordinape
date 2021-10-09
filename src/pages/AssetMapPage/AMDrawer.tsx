@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 const skillNames = SKILLS.map(({ name }) => name);
 
-const AMDrawer = () => {
+export const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);

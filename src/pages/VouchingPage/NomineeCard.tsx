@@ -122,7 +122,7 @@ const TextOnlyTooltip = withStyles({
   },
 })(Tooltip);
 
-const NomineeCard = ({ nominee }: { nominee: INominee }) => {
+export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
   const { vouchUser } = useVouching();
   const { selectedMyUser } = useMe();

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core';
 import { LoadingScreen } from 'components';
 import useCommonStyles from 'styles/common';
 
-import MainHeader from './MainHeader';
+import { MainHeader } from './MainHeader';
 
 const useStyles = makeStyles(() => ({
   root: {

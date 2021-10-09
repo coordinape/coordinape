@@ -9,7 +9,10 @@
       ".jsx",
       ".ts",
       ".tsx"
-    ]
+    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    }
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,18 +27,16 @@
     "react-hooks",
     "@typescript-eslint",
     "import",
-    "jsx-a11y",
-    "prettier"
+    "jsx-a11y"
   ],
   "extends": [
     "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:import/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier"
   ],
   "env": {
     "es6": true,
@@ -43,12 +44,6 @@
     "browser": true
   },
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",

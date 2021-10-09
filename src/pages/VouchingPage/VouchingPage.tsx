@@ -5,8 +5,8 @@ import { Button, makeStyles } from '@material-ui/core';
 import { useMe } from 'hooks';
 import { useSelectedCircle, useActiveNominees } from 'recoilState';
 
-import NewNominationModal from './NewNominationModal';
-import NomineeCard from './NomineeCard';
+import { NewNominationModal } from './NewNominationModal';
+import { NomineeCard } from './NomineeCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
