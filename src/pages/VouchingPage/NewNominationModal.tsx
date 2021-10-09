@@ -75,9 +75,11 @@ export const NewNominationModal = ({
       name,
       address,
       description,
-    }).then(() => {
-      onClose();
-    });
+    })
+      .then(() => {
+        onClose();
+      })
+      .catch(console.warn);
   };
 
   return (

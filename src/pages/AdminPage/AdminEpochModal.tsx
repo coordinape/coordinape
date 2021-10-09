@@ -88,9 +88,9 @@ export const AdminEpochModal = ({
     <EpochForm.FormController
       source={source}
       submit={(params) =>
-        (epoch ? updateEpoch(epoch.id, params) : createEpoch(params)).then(() =>
-          onClose()
-        )
+        (epoch ? updateEpoch(epoch.id, params) : createEpoch(params))
+          .then(() => onClose())
+          .catch(console.warn)
       }
     >
       {({ fields, errors, changedOutput, value, handleSubmit }) => (

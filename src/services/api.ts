@@ -1,3 +1,4 @@
+import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
 
 import { API_URL } from 'utils/domain';
@@ -25,13 +26,13 @@ import {
 axios.defaults.baseURL = API_URL;
 
 export class APIService {
-  provider = undefined;
+  provider = undefined as Web3Provider | undefined;
 
-  constructor(provider?: any) {
+  constructor(provider?: Web3Provider) {
     this.provider = provider;
   }
 
-  setProvider(provider?: any) {
+  setProvider(provider?: Web3Provider) {
     this.provider = provider;
   }
 

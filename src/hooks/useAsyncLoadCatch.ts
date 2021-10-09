@@ -16,7 +16,15 @@ export const useAsyncLoadCatch = () => {
 
   return <T>(
     call: () => Promise<T>,
-    { hideLoading, success }: { hideLoading?: boolean; success?: string } = {}
+    {
+      hideLoading,
+      success,
+      transformError,
+    }: {
+      hideLoading?: boolean;
+      success?: string;
+      transformError?: (e: any) => any;
+    } = {}
   ) => {
     return new Promise<T>((resolve, reject) => {
       !hideLoading && setGlobalLoading((v) => v + 1);
@@ -26,13 +34,22 @@ export const useAsyncLoadCatch = () => {
           success && apeInfo(success);
           resolve(result);
         })
-        .catch((e) => {
+        .catch((err) => {
           !hideLoading && setGlobalLoading((v) => v - 1);
-          apeError(e);
-          Sentry.captureException(e, {
-            tags: { call_point: 'useAsyncLoadCatch' },
-            extra: { ...(e.code ? { code: e.code } : {}) },
-          });
+          const e = transformError ? transformError(err) : err;
+          if (
+            e.message ===
+            'MetaMask Message Signature: User denied message signature.'
+          ) {
+            apeInfo('Denied message signature.');
+          } else {
+            apeError(e);
+            Sentry.captureException(e, {
+              tags: { call_point: 'useAsyncLoadCatch' },
+              extra: { ...(e.code ? { code: e.code } : {}) },
+            });
+          }
+
           reject(e);
         });
     });
