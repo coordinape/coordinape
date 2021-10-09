@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 import iti from 'itiriri';
 import isEqual from 'lodash/isEqual';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
@@ -19,7 +17,6 @@ import {
   useTriggerProfileReload,
 } from 'recoilState';
 import { getApiService } from 'services/api';
-import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 import { useDeepChangeEffect } from './useDeepChangeEffect';

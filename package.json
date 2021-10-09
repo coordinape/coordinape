@@ -78,6 +78,7 @@
     "prettier": "prettier './src/**/*.{js,ts,tsx}'",
     "prettier:check": "yarn prettier --check",
     "prettier:fix": "yarn prettier --write",
+    "typecheck": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "lint-staged": {
