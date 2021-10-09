@@ -79,7 +79,7 @@ export const NewNominationModal = ({
       .then(() => {
         onClose();
       })
-      .catch((e) => console.warn(e));
+      .catch(console.warn);
   };
 
   return (

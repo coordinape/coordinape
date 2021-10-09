@@ -64,7 +64,7 @@ export const AdminUserModal = ({
       submit={(params) =>
         (user ? updateUser(user.address, params) : createUser(params))
           .then(() => onClose())
-          .catch((e) => console.warn(e))
+          .catch(console.warn)
       }
     >
       {({

@@ -241,9 +241,7 @@ const AdminPage = () => {
     ) : (
       renderActions(
         () => setEditEpoch(e),
-        !e.started
-          ? () => deleteEpoch(e.id).catch((e) => console.warn(e))
-          : undefined
+        !e.started ? () => deleteEpoch(e.id).catch(console.warn) : undefined
       )
     );
 
@@ -311,7 +309,7 @@ const AdminPage = () => {
             renderActions(
               () => setEditUser(u),
               u.id !== me?.id
-                ? () => deleteUser(u.address).catch((e) => console.warn(e))
+                ? () => deleteUser(u.address).catch(console.warn)
                 : undefined
             ),
           noSort: true,

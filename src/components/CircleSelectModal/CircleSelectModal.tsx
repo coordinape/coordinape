@@ -157,7 +157,7 @@ export const CircleSelectModal = ({
               onClick={() =>
                 selectAndFetchCircle(circle.id)
                   .then(onClose)
-                  .catch((e) => console.warn(e))
+                  .catch(console.warn)
               }
             />
           ))}
@@ -175,7 +175,7 @@ export const CircleSelectModal = ({
                     onClick={() =>
                       selectAndFetchCircle(circle.id)
                         .then(onClose)
-                        .catch((e) => console.warn(e))
+                        .catch(console.warn)
                     }
                   />
                 ))}

@@ -223,7 +223,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         color="secondary"
         size="small"
         disabled={vouchDisabled}
-        onClick={() => vouchUser(nominee.id).catch((e) => console.warn(e))}
+        onClick={() => vouchUser(nominee.id).catch(console.warn)}
       >
         Vouch for {nominee.name}
       </Button>

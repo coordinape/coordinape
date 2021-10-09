@@ -217,7 +217,7 @@ export const AdminCircleModal = ({
         onlyGiverVouch !== circle.only_giver_vouch ||
         teamSelection !== circle.team_selection
       ) {
-        updateCircle({
+        await updateCircle({
           name: circleName,
           vouching: vouching,
           token_name: tokenName,
