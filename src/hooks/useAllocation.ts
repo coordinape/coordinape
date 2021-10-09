@@ -10,31 +10,36 @@ import {
   rPendingGiftsFrom,
   rUsersMap,
   rMyCircleUser,
-  rMyProfileStaleSignal,
-  rSelectedCircle,
   rAvailableTeammates,
   rSelectedCircleId,
   rTeammates,
+  rLocalTeammatesChanged,
   rPendingGiftsRaw,
   rAllocationStepStatus,
-  rSelectedCircleUsers,
+  useTriggerProfileReload,
 } from 'recoilState';
 import { getApiService } from 'services/api';
 import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
+import { useDeepChangeEffect } from './useDeepChangeEffect';
 
 import {
-  ICircle,
   ISimpleGift,
   IUser,
   IApiUser,
   ITokenGift,
+  IApiTokenGift,
   PostTokenGiftsParam,
-  IAllocationStep,
 } from 'types';
 
-const syncWithTeammates = (
+/**
+ * Updater for gifts, for non-empty gifts and teammates.
+ *
+ * @param newTeammates - Include these.
+ * @param newGifts - Overwrite the existing gifts.
+ */
+const getLocalGiftUpdater = (
   newTeammates: IApiUser[],
   newGifts?: ISimpleGift[]
 ) => (baseGifts: ISimpleGift[]) => {
@@ -43,7 +48,7 @@ const syncWithTeammates = (
   const newSet = new Set(newTeammates.map((u) => u.id));
   const keepers = [] as ISimpleGift[];
   startingGifts.forEach((g) => {
-    if (newSet.has(g.user.id)) {
+    if (newSet.has(g.user.id) || g.note !== '' || g.tokens > 0) {
       keepers.push(g);
     }
   });
@@ -53,6 +58,25 @@ const syncWithTeammates = (
     }
   });
   return keepers;
+};
+
+/**
+ * Updater for pendingGifts that clears other gifts from this user.
+ *
+ * When the API returns the pending gifts for a given user by implication
+ * gifts from the user that are not included have been deleted.
+ */
+const getPendingGiftUpdater = (gifts: IApiTokenGift[], userId: number) => (
+  oldValue: Map<number, IApiTokenGift>
+) => {
+  const giftMap = new Map(oldValue);
+  giftMap.forEach((g) => {
+    if (g.sender_id === userId) {
+      giftMap.delete(g.id);
+    }
+  });
+  gifts.forEach((v) => giftMap.set(v.id, v));
+  return giftMap;
 };
 
 const pendingGiftsToSimpleGifts = (
@@ -105,14 +129,15 @@ const buildDiffMap = (
   return diff;
 };
 
+/**
+ * Controller: triggers updates if the underlying data from the api changes.
+ */
 export const useAllocationController = (circleId: number | undefined) => {
   if (circleId === undefined) {
     throw 'Cannot useAllocation without a circleId';
   }
-
-  const previousPendingGifts = useRef([] as ITokenGift[]);
   const usersMap = useRecoilValue(rUsersMap);
-  const defaultTeammates = useRecoilValue(rTeammates(circleId));
+  const teammates = useRecoilValue(rTeammates(circleId));
   const [localTeammates, setLocalTeammates] = useRecoilState(
     rLocalTeammates(circleId)
   );
@@ -123,80 +148,34 @@ export const useAllocationController = (circleId: number | undefined) => {
 
   const pendingGifts = useRecoilValue(rPendingGiftsFrom(myCircleUser.id));
   const setLocalGifts = useSetRecoilState(rLocalGifts(circleId));
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  let usersToDisplay = useRecoilValue(rSelectedCircleUsers);
 
-  if (selectedCircle?.team_selection === 1) {
-    usersToDisplay = usersToDisplay.filter(
-      (user) =>
-        localTeammates.includes(user) ||
-        pendingGifts.findIndex((x) => x.recipient_id === user.id) !== -1
-    );
-  }
+  useDeepChangeEffect(() => {
+    setLocalTeammates(teammates);
+    setLocalGifts(getLocalGiftUpdater(teammates));
+  }, [teammates]);
 
-  useEffect(() => {
-    if (isEqual(defaultTeammates, localTeammates)) {
-      return;
-    }
-    setLocalTeammates(defaultTeammates);
-  }, [defaultTeammates]);
-
-  useEffect(
-    () => setLocalGifts(syncWithTeammates(usersToDisplay ?? [])),
-
-    [myCircleUser]
-  );
-
-  useEffect(() => {
-    if (isEqual(pendingGifts, previousPendingGifts.current)) {
-      return;
-    }
-    previousPendingGifts.current = pendingGifts;
-
+  useDeepChangeEffect(() => {
     const newGifts = pendingGiftsToSimpleGifts(pendingGifts, usersMap);
-    setLocalGifts(syncWithTeammates(usersToDisplay ?? [], newGifts));
+    setLocalGifts(getLocalGiftUpdater(localTeammates, newGifts));
   }, [pendingGifts]);
 };
 
-export const useAllocation = (
-  circleId: number | undefined
-): {
-  localTeammates: IUser[];
-  localGifts: ISimpleGift[];
-  localTeammatesChanged: boolean;
-  localGiftsChanged: boolean;
-  selectedCircle: ICircle | undefined;
-  availableTeammates: IUser[];
-  tokenRemaining: number;
-  tokenStarting: number;
-  tokenAllocated: number;
-  givePerUser: Map<number, ISimpleGift>;
-  nextStep: IAllocationStep | undefined;
-  completedSteps: Set<IAllocationStep>;
-  toggleLocalTeammate: (userId: number) => void;
-  setAllLocalTeammates: () => void;
-  clearLocalTeammates: () => void;
-  setLocalGifts: (gifts: ISimpleGift[]) => void;
-  rebalanceGifts: () => void;
-  saveGifts: () => Promise<ITokenGift[]>;
-  saveTeammates: () => Promise<void>;
-  updateGift: (id: number, params: { note?: string; tokens?: number }) => void;
-} => {
+/**
+ * Methods and state for an allocation.
+ */
+export const useAllocation = (circleId: number | undefined) => {
   if (circleId === undefined) {
     throw 'Cannot useAllocation without a circleId';
   }
   const callWithLoadCatch = useAsyncLoadCatch();
 
-  const [myProfileStaleSignal, setMyProfileStaleSignal] = useRecoilState(
-    rMyProfileStaleSignal
+  const triggerProfileReload = useTriggerProfileReload();
+  const localTeammatesChanged = useRecoilValue(
+    rLocalTeammatesChanged(circleId)
   );
-  const defaultTeammates = useRecoilValue(rTeammates(circleId));
   const usersMap = useRecoilValue(rUsersMap);
-  const selectedCircle = useRecoilValue(rSelectedCircle);
   const availableTeammates = useRecoilValue(rAvailableTeammates);
-  const [completedSteps, nextStep] = useRecoilValue(
-    rAllocationStepStatus(circleId)
-  );
+  const [completedSteps] = useRecoilValue(rAllocationStepStatus(circleId));
 
   const myCircleUser = useRecoilValue(rMyCircleUser(circleId));
   if (myCircleUser === undefined) {
@@ -208,6 +187,7 @@ export const useAllocation = (
     rLocalTeammates(circleId)
   );
   const [localGifts, setLocalGifts] = useRecoilState(rLocalGifts(circleId));
+
   const tokenStarting =
     myCircleUser?.non_giver !== 0 ? 0 : myCircleUser.starting_tokens;
   const tokenAllocated = Array.from(localGifts).reduce(
@@ -218,9 +198,17 @@ export const useAllocation = (
   const teammateReceiverCount = localGifts
     .map((g) => (g.user.non_receiver ? 0 : 1))
     .reduce((a: number, b: number) => a + b, 0);
-
   const givePerUser = new Map(localGifts.map((g) => [g.user.id, g]));
+
+  const localGiftsChanged =
+    buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
+      .size > 0;
+
   const toggleLocalTeammate = (userId: number) => {
+    if (myCircleUser.circle.team_selection === 0) {
+      console.error('toggleLocalTeammate with circle without team selection');
+      return;
+    }
     const newTeammates = localTeammates.find((u) => u.id === userId)
       ? [...localTeammates.filter((u) => u.id !== userId)]
       : [
@@ -228,17 +216,25 @@ export const useAllocation = (
           availableTeammates.find((u) => u.id === userId) as IUser,
         ];
     setLocalTeammates(newTeammates);
-    setLocalGifts(syncWithTeammates(newTeammates));
+    setLocalGifts(getLocalGiftUpdater(newTeammates));
   };
 
   const setAllLocalTeammates = () => {
+    if (myCircleUser.circle.team_selection === 0) {
+      console.error('toggleLocalTeammate with circle without team selection');
+      return;
+    }
     setLocalTeammates(availableTeammates);
-    setLocalGifts(syncWithTeammates(availableTeammates));
+    setLocalGifts(getLocalGiftUpdater(availableTeammates));
   };
 
   const clearLocalTeammates = () => {
+    if (myCircleUser.circle.team_selection === 0) {
+      console.error('toggleLocalTeammate with circle without team selection');
+      return;
+    }
     setLocalTeammates([]);
-    setLocalGifts(syncWithTeammates([]));
+    setLocalGifts(getLocalGiftUpdater([]));
   };
 
   const updateGift = (
@@ -296,16 +292,16 @@ export const useAllocation = (
           throw 'Must have a circleUser to saveTeammates';
         }
 
-        await getApiService().postTeammates(
+        const result = await getApiService().postTeammates(
           myCircleUser.circle_id,
           myCircleUser.address,
           localTeammates.map((u) => u.id)
         );
-        // TODO: This returns the updated circleUser and it
-        // could just be updated immediatly here. So instead of this
-        // stale, the fetcher pattern is better. The fetchers could
-        // also be compatible with useAsyncLoadCatchCall
-        setMyProfileStaleSignal(myProfileStaleSignal + 1);
+
+        setPendingGiftsMap(
+          getPendingGiftUpdater(result.pending_sent_gifts, result.id)
+        );
+        triggerProfileReload();
       },
       { success: 'Saved Teammates' }
     );
@@ -336,35 +332,26 @@ export const useAllocation = (
           params
         );
 
-        const pending = result.pending_sent_gifts as ITokenGift[];
+        setPendingGiftsMap(
+          getPendingGiftUpdater(result.pending_sent_gifts, result.id)
+        );
 
-        updaterMergeArrayToIdMap(pending, setPendingGiftsMap);
-        return pending;
+        return result.pending_sent_gifts;
       },
       { success: 'Saved Gifts' }
     );
-
-  const localGiftsChanged =
-    buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
-      .size > 0;
 
   return {
     localTeammates,
     localGifts,
     localGiftsChanged,
-    localTeammatesChanged: !isEqual(localTeammates, defaultTeammates),
-    selectedCircle,
-    availableTeammates,
-    tokenStarting,
+    localTeammatesChanged,
     tokenRemaining,
-    tokenAllocated,
     givePerUser,
-    nextStep,
     completedSteps,
     toggleLocalTeammate,
     setAllLocalTeammates,
     clearLocalTeammates,
-    setLocalGifts,
     rebalanceGifts,
     saveGifts,
     saveTeammates,

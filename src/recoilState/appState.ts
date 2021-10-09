@@ -251,7 +251,7 @@ export const rPastGiftsMap = selector<Map<number, ITokenGift>>({
   },
 });
 
-export const rPendingGiftsRaw = atom<Map<number, ITokenGift>>({
+export const rPendingGiftsRaw = atom<Map<number, IApiTokenGift>>({
   key: 'rPendingGiftsRaw',
   default: new Map(),
 });

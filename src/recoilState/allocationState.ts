@@ -1,3 +1,4 @@
+import isEqual from 'lodash/isEqual';
 import { atomFamily, selectorFamily, useRecoilValue } from 'recoil';
 
 import {
@@ -7,8 +8,15 @@ import {
   STEPS,
   NO_TEAM_STEPS,
 } from 'routes/allocation';
+import { neverEndingPromise } from 'utils/tools';
 
-import { rMyProfile, rPendingGiftsFrom, rUsersMap, rMyUsers } from './appState';
+import {
+  rMyProfile,
+  rPendingGiftsFrom,
+  rUsersMap,
+  rMyUsers,
+  rAvailableTeammates,
+} from './appState';
 
 import { IUser, ISimpleGift, IRecoilGetParams, IAllocationStep } from 'types';
 
@@ -17,19 +25,31 @@ export const rTeammates = selectorFamily<IUser[], number>({
   get: (circleId: number) => ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
     const myUsers = get(rMyUsers);
-    return (
-      (myUsers
-        ?.find((u) => u.circle_id === circleId)
-        ?.teammates?.map((t) => userMap.get(t.id))
-        .filter((u) => u !== undefined) as IUser[]) ?? []
-    );
+    const currentUser = myUsers?.find((u) => u.circle_id === circleId);
+    if (!currentUser) {
+      return neverEndingPromise();
+    }
+
+    if (currentUser.circle.team_selection === 0) {
+      return get(rAvailableTeammates);
+    }
+
+    return currentUser.teammates
+      .map((t) => userMap.get(t.id))
+      .filter((u) => u !== undefined) as IUser[];
   },
 });
 
 // These are parameterized by circleId
 export const rLocalTeammates = atomFamily<IUser[], number>({
   key: 'rLocalTeammates',
-  default: [],
+  default: rTeammates,
+});
+
+export const rLocalTeammatesChanged = selectorFamily<boolean, number>({
+  key: 'rLocalTeammatesChanged',
+  get: (circleId: number) => ({ get }: IRecoilGetParams) =>
+    !isEqual(get(rTeammates(circleId)), get(rLocalTeammates(circleId))),
 });
 
 export const rLocalGifts = atomFamily<ISimpleGift[], number>({
