@@ -105,16 +105,94 @@ const derivedTheme = (theme: Theme) => ({
     },
     MuiButton: {
       root: {
-        padding: '12px 24px',
         textTransform: 'none',
+        fontSize: 19,
+        lineHeight: 1.26,
+        padding: '12px 24px',
+        borderRadius: '13px',
+        fontFamily: fontFamilyDefault,
+        '&:hover': {
+          backgroundColor: 0,
+        },
       },
-      containedSecondary: {
-        color: colors.white,
-        borderRadius: '28px',
+      text: {
+        color: '#84C7CA',
+        '&:hover': {
+          color: '#4e7577',
+          backgroundColor: 'transparent',
+        },
       },
       sizeSmall: {
-        fontSize: 16,
-        padding: '3px 12px',
+        fontSize: 13,
+        lineHeight: 1.28,
+        padding: '8px 24px',
+        borderRadius: '8px',
+        // This must be a bug that it gets overwritten here
+        '&.MuiButton-textSizeSmall': {
+          fontSize: 14,
+          lineHeight: 1.3,
+          fontWeight: 400,
+          padding: 0,
+        },
+      },
+      outlined: {
+        color: '#516369',
+        background:
+          'linear-gradient(180deg, rgba(237, 253, 254, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(237, 253, 254, 0) 100%) rgba(255, 255, 255, 0.9)',
+        border: '0.3px solid rgba(132, 145, 149, 0.2)',
+        boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
+        '&:hover': {
+          background: 'rgba(255, 255, 255, 0.9)',
+          border: '0.3px solid rgba(132, 145, 149, 0.2)',
+          boxShadow: '0px 6.5px 9.75px rgba(184, 196, 201, 0.5)',
+        },
+      },
+      contained: {
+        color: 'white',
+        backgroundColor: '#A8B1B4',
+        boxShadow: '0px 6.5px 9.75px #E6EAEC',
+        '&:hover': {
+          backgroundColor: '#A8B1B4',
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), #A8B1B4',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&:active': {
+          boxShadow: '0px 6.5px 9.75px #cbd0d2',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#A8B1B480',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
+      },
+      containedPrimary: {
+        backgroundColor: '#EF7376',
+        '&:hover': {
+          backgroundColor: '#EF7376',
+          background:
+            'linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), #EF7376',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#EF737680',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
+      },
+      containedSecondary: {
+        backgroundColor: '#41595e',
+        '&:hover': {
+          backgroundColor: '#41595e',
+          background:
+            'linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), #41595e',
+          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+        },
+        '&.Mui-disabled': {
+          color: 'white',
+          backgroundColor: '#41595e80',
+          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+        },
       },
     },
   },
