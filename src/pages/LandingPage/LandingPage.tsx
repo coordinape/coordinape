@@ -35,11 +35,7 @@ import {
   EXTERNAL_URL_MEDIUM_ARTICLE,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import {
-  APP_URL,
-  APP_URL_OPEN_WALLET,
-  APP_URL_CREATE_CIRCLE,
-} from 'utils/domain';
+import { APP_URL_OPEN_WALLET, APP_URL_CREATE_CIRCLE } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
   'Gift Circles allow DAO members to collectively reward each other making community payments more equitable and transparent.';
