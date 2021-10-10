@@ -152,12 +152,8 @@ export const AMForceGraph = () => {
 
   const nodeCanvasObject = useCallback(
     (node: IMapNodeFG, canvas: CanvasRenderingContext2D) => {
-      const {
-        getNodeMeasure,
-        isEgoNeighbor,
-        bag,
-        egoAddress,
-      } = mapCtxRef.current;
+      const { getNodeMeasure, isEgoNeighbor, bag, egoAddress } =
+        mapCtxRef.current;
       const nid = node.id;
 
       const radius = 5;

@@ -232,9 +232,9 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setData({ ...data, bio: e.target.value });
 
-  const fieldSetter = (name: string) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => setData({ ...data, [name]: e.target.value });
+  const fieldSetter =
+    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      setData({ ...data, [name]: e.target.value });
 
   const selectSkills = (skill: string) => {
     let skills: string[] = [];

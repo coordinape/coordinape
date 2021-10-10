@@ -228,24 +228,22 @@ export const rMapGraphData = selector<GraphData>({
 
     const links = gifts
       .filter((g) => g.tokens > 0)
-      .map(
-        (g): IMapEdge => {
-          const epoch = assertDef(
-            epochsMap.get(g.epoch_id),
-            `Missing epoch.id = ${g.id} in rMapGraphData. have ${epochs.map(
-              (e) => e.id
-            )}`
-          );
-          return {
-            id: g.id,
-            source: g.sender_address,
-            target: g.recipient_address,
-            epochId: epoch.id,
-            epochNumber: epoch.number ?? 1, // ugh
-            tokens: g.tokens,
-          };
-        }
-      );
+      .map((g): IMapEdge => {
+        const epoch = assertDef(
+          epochsMap.get(g.epoch_id),
+          `Missing epoch.id = ${g.id} in rMapGraphData. have ${epochs.map(
+            (e) => e.id
+          )}`
+        );
+        return {
+          id: g.id,
+          source: g.sender_address,
+          target: g.recipient_address,
+          epochId: epoch.id,
+          epochNumber: epoch.number ?? 1, // ugh
+          tokens: g.tokens,
+        };
+      });
     return {
       links: links.toArray(),
       nodes: links
@@ -282,20 +280,18 @@ export const rMapGraphData = selector<GraphData>({
           };
         })
         .groupBy((n) => n.id)
-        .map(
-          ([, n]): IMapNode => {
-            const epochIds = n.map((m) => m.epochId);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { epochId, ...node } = assertDef(
-              n.first(),
-              'rMapGraphData, node with epochIds'
-            );
-            return {
-              ...node,
-              epochIds: epochIds.toArray(),
-            };
-          }
-        )
+        .map(([, n]): IMapNode => {
+          const epochIds = n.map((m) => m.epochId);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { epochId, ...node } = assertDef(
+            n.first(),
+            'rMapGraphData, node with epochIds'
+          );
+          return {
+            ...node,
+            epochIds: epochIds.toArray(),
+          };
+        })
         .toArray(),
     };
   },
@@ -307,7 +303,7 @@ export const rMapActiveNodes = selector<Set<string>>({
   key: 'rMapActiveNodes',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId) ?? new Set();
-    const { nodes } = (get(rMapGraphData) as unknown) as { nodes: IMapNode[] };
+    const { nodes } = get(rMapGraphData) as unknown as { nodes: IMapNode[] };
     const includeEpoch =
       epochId === -1 ? () => true : (id: number) => epochId === id;
     return iti(nodes)
@@ -456,73 +452,75 @@ interface IMeasures {
 
 export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
   key: 'rMapMeasures',
-  get: (metric: MetricEnum) => ({ get }: IRecoilGetParams) => {
-    const actives = get(rMapActiveNodes);
-    const outFrom = get(rMapOutFromTokens);
-    const inTo = get(rMapInFromTokens);
-    let measures = new Map<string, number>();
-    switch (metric) {
-      case 'give': {
-        measures = iti(actives).toMap(
-          (address) => address,
-          (address) => iti(inTo.get(address) ?? [0]).sum() as number
-        );
-        break;
+  get:
+    (metric: MetricEnum) =>
+    ({ get }: IRecoilGetParams) => {
+      const actives = get(rMapActiveNodes);
+      const outFrom = get(rMapOutFromTokens);
+      const inTo = get(rMapInFromTokens);
+      let measures = new Map<string, number>();
+      switch (metric) {
+        case 'give': {
+          measures = iti(actives).toMap(
+            (address) => address,
+            (address) => iti(inTo.get(address) ?? [0]).sum() as number
+          );
+          break;
+        }
+        case 'gave': {
+          measures = iti(actives).toMap(
+            (address) => address,
+            (address) => iti(outFrom.get(address) ?? [0]).sum() as number
+          );
+          break;
+        }
+        case 'in_degree': {
+          measures = iti(actives).toMap(
+            (address) => address,
+            (address) =>
+              iti(inTo.get(address) ?? [0])
+                .map(() => 1)
+                .sum() as number
+          );
+          break;
+        }
+        case 'out_degree': {
+          measures = iti(actives).toMap(
+            (address) => address,
+            (address) =>
+              iti(outFrom.get(address) ?? [])
+                .map(() => 1)
+                .sum() as number
+          );
+          break;
+        }
+        case 'standardized': {
+          const maxOut = Math.max(
+            1,
+            iti(outFrom.values())
+              .map((arr) => arr.length)
+              .max() ?? 1
+          );
+          measures = iti(actives).toMap(
+            (address) => address,
+            (address) =>
+              Math.round(
+                ((outFrom.get(address)?.length ?? 0) *
+                  (iti(inTo.get(address) ?? []).sum() ?? 0)) /
+                  maxOut
+              )
+          );
+          break;
+        }
+        default:
+          throw `Metric, ${metric} unimplemented`;
       }
-      case 'gave': {
-        measures = iti(actives).toMap(
-          (address) => address,
-          (address) => iti(outFrom.get(address) ?? [0]).sum() as number
-        );
-        break;
-      }
-      case 'in_degree': {
-        measures = iti(actives).toMap(
-          (address) => address,
-          (address) =>
-            iti(inTo.get(address) ?? [0])
-              .map(() => 1)
-              .sum() as number
-        );
-        break;
-      }
-      case 'out_degree': {
-        measures = iti(actives).toMap(
-          (address) => address,
-          (address) =>
-            iti(outFrom.get(address) ?? [])
-              .map(() => 1)
-              .sum() as number
-        );
-        break;
-      }
-      case 'standardized': {
-        const maxOut = Math.max(
-          1,
-          iti(outFrom.values())
-            .map((arr) => arr.length)
-            .max() ?? 1
-        );
-        measures = iti(actives).toMap(
-          (address) => address,
-          (address) =>
-            Math.round(
-              ((outFrom.get(address)?.length ?? 0) *
-                (iti(inTo.get(address) ?? []).sum() ?? 0)) /
-                maxOut
-            )
-        );
-        break;
-      }
-      default:
-        throw `Metric, ${metric} unimplemented`;
-    }
-    return {
-      min: iti(measures.values()).min() as number,
-      max: iti(measures.values()).max() as number,
-      measures,
-    };
-  },
+      return {
+        min: iti(measures.values()).min() as number,
+        max: iti(measures.values()).max() as number,
+        measures,
+      };
+    },
 });
 export const useMapMeasures = (metric: MetricEnum) =>
   useRecoilValue(rMapMeasures(metric));

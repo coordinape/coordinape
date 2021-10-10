@@ -27,23 +27,27 @@ export const useApi = () => {
   const triggerProfileReload = useTriggerProfileReload();
 
   const getAddress = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rMyAddress)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rMyAddress)
   );
 
   const getProfile = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rMyProfile)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rMyProfile)
   );
 
   const getSelectedCircle = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rSelectedCircle)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rSelectedCircle)
   );
 
   const getSelectedMyUser = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rSelectedMyUser)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rSelectedMyUser)
   );
 
   const createCircle = (

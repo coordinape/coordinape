@@ -202,9 +202,11 @@ export const ProfilePage = ({
   // My or Other Profile
   const seemsAddress = params?.profileAddress?.startsWith('0x');
   const isMe = params?.profileAddress === 'me';
-  const { profile: aProfile, avatarPath, backgroundPath } = useProfile(
-    seemsAddress ? params?.profileAddress : undefined
-  );
+  const {
+    profile: aProfile,
+    avatarPath,
+    backgroundPath,
+  } = useProfile(seemsAddress ? params?.profileAddress : undefined);
   const { updateMyProfile, updateAvatar, updateBackground } = useApi();
 
   const {

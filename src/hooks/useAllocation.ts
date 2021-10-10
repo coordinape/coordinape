@@ -36,26 +36,25 @@ import {
  * @param newTeammates - Include these.
  * @param newGifts - Overwrite the existing gifts.
  */
-const getLocalGiftUpdater = (
-  newTeammates: IApiUser[],
-  newGifts?: ISimpleGift[]
-) => (baseGifts: ISimpleGift[]) => {
-  const startingGifts = newGifts ?? baseGifts;
-  const startingSet = new Set(startingGifts.map((g) => g.user.id));
-  const newSet = new Set(newTeammates.map((u) => u.id));
-  const keepers = [] as ISimpleGift[];
-  startingGifts.forEach((g) => {
-    if (newSet.has(g.user.id) || g.note !== '' || g.tokens > 0) {
-      keepers.push(g);
-    }
-  });
-  newTeammates.forEach((u) => {
-    if (!startingSet.has(u.id)) {
-      keepers.push({ user: u, tokens: 0, note: '' } as ISimpleGift);
-    }
-  });
-  return keepers;
-};
+const getLocalGiftUpdater =
+  (newTeammates: IApiUser[], newGifts?: ISimpleGift[]) =>
+  (baseGifts: ISimpleGift[]) => {
+    const startingGifts = newGifts ?? baseGifts;
+    const startingSet = new Set(startingGifts.map((g) => g.user.id));
+    const newSet = new Set(newTeammates.map((u) => u.id));
+    const keepers = [] as ISimpleGift[];
+    startingGifts.forEach((g) => {
+      if (newSet.has(g.user.id) || g.note !== '' || g.tokens > 0) {
+        keepers.push(g);
+      }
+    });
+    newTeammates.forEach((u) => {
+      if (!startingSet.has(u.id)) {
+        keepers.push({ user: u, tokens: 0, note: '' } as ISimpleGift);
+      }
+    });
+    return keepers;
+  };
 
 /**
  * Updater for pendingGifts that clears other gifts from this user.
@@ -63,18 +62,18 @@ const getLocalGiftUpdater = (
  * When the API returns the pending gifts for a given user by implication
  * gifts from the user that are not included have been deleted.
  */
-const getPendingGiftUpdater = (gifts: IApiTokenGift[], userId: number) => (
-  oldValue: Map<number, IApiTokenGift>
-) => {
-  const giftMap = new Map(oldValue);
-  giftMap.forEach((g) => {
-    if (g.sender_id === userId) {
-      giftMap.delete(g.id);
-    }
-  });
-  gifts.forEach((v) => giftMap.set(v.id, v));
-  return giftMap;
-};
+const getPendingGiftUpdater =
+  (gifts: IApiTokenGift[], userId: number) =>
+  (oldValue: Map<number, IApiTokenGift>) => {
+    const giftMap = new Map(oldValue);
+    giftMap.forEach((g) => {
+      if (g.sender_id === userId) {
+        giftMap.delete(g.id);
+      }
+    });
+    gifts.forEach((v) => giftMap.set(v.id, v));
+    return giftMap;
+  };
 
 const pendingGiftsToSimpleGifts = (
   pending: ITokenGift[],
