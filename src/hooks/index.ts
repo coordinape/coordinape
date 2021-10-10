@@ -12,5 +12,4 @@ export * from './usePrevious';
 export * from './useAdminApi';
 export * from './useVouching';
 export * from './useDeepChangeEffect';
-export * from './useVouching';
 export * from './useApi';
