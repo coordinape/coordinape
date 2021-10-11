@@ -78,6 +78,16 @@
     "typecheck": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --allow-empty"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -116,6 +126,8 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "http-browserify": "1.7.0",
     "https-browserify": "1.0.0",
+    "husky": "7.0.2",
+    "lint-staged": "11.2.3",
     "os-browserify": "0.3.0",
     "prettier": "2.4.1",
     "pretty-quick": "3.1.1",
