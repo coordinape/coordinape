@@ -33,7 +33,7 @@ import AllocationTeam from './AllocationTeam';
 
 import { IAllocationStep } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -248,7 +248,7 @@ export const AllocationPage = () => {
         activeStep={activeStep}
         classes={{ root: classes.stepperRoot }}
       >
-        {allSteps.map((step) => (
+        {allSteps.map(step => (
           <Step key={step.key} classes={{ root: classes.stepRoot }}>
             <StepButton
               onClick={getHandleStep(step)}

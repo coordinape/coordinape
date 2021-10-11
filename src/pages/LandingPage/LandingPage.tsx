@@ -44,7 +44,7 @@ const VALUE_PROP_INCENTIVIZE =
 const VALUE_PROP_SCALE =
   'Understand how value moves through your organization and move more decisions and resources to the community.';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     minHeight: '100%',

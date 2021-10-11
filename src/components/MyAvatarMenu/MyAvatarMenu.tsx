@@ -12,7 +12,7 @@ import * as paths from 'routes/paths';
 
 import { ICircle } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   avatarButton: {
     marginLeft: theme.spacing(1.5),
     height: '50px',
@@ -138,7 +138,7 @@ export const MyAvatarMenu = () => {
   };
 
   const groupedCircles = useMemo(
-    () => toPairs(groupBy(myCircles, (c) => c.protocol.name)),
+    () => toPairs(groupBy(myCircles, c => c.protocol.name)),
     [myCircles]
   );
 
@@ -202,7 +202,7 @@ export const MyAvatarMenu = () => {
         {groupedCircles.map(([protocolName, circles], idx) => (
           <React.Fragment key={idx}>
             <span className={classes.subSubHeader}>{protocolName}</span>
-            {circles.map((circle) => (
+            {circles.map(circle => (
               <CircleButton
                 key={circle.id}
                 circle={circle}

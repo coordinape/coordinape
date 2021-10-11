@@ -11,7 +11,7 @@ import {
   useSelectedCircle,
 } from 'recoilState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -192,7 +192,7 @@ export const HistoryPage = () => {
         idx < gifts.length - 1 ? <Divider key={-1 - idx} /> : undefined,
       ];
     })
-    .filter((elem) => elem !== undefined);
+    .filter(elem => elem !== undefined);
 
   return !selectedEpoch || !selectedEpoch || !circle ? (
     <div className={classes.root}>

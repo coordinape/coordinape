@@ -10,13 +10,13 @@ const AllocationScope = () => {
     useSelectedAllocation();
 
   useEffect(() => {
-    Sentry.configureScope((scope) => {
+    Sentry.configureScope(scope => {
       scope.setTag('local_teammates_changed', localTeammatesChanged);
       scope.setTag('local_gifts_changed', localGiftsChanged);
       scope.setTag('tokens_remaining', tokenRemaining);
     });
     return () => {
-      Sentry.configureScope((scope) => {
+      Sentry.configureScope(scope => {
         scope.setTag('local_teammates_changed', null);
         scope.setTag('local_gifts_changed', null);
         scope.setTag('tokens_remaining', null);
@@ -33,7 +33,7 @@ export const SentryScopeController = () => {
   const connectorName = useConnectorName();
 
   useEffect(() => {
-    Sentry.configureScope((scope) => {
+    Sentry.configureScope(scope => {
       scope.setTag('selected_circle_id', selectedCircleId);
       scope.setTag(
         'selected_circle',

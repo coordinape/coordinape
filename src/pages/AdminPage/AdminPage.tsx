@@ -24,7 +24,7 @@ import { AdminUserModal } from './AdminUserModal';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

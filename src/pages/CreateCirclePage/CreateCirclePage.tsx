@@ -20,7 +20,7 @@ import {
 } from 'recoilState';
 import * as paths from 'routes/paths';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -171,11 +171,11 @@ export const SummonCirclePage = () => {
                   {...fields.protocol_name}
                   value={fields.protocol_name.value}
                   onChange={(v: string) => {
-                    const id = protocols.find((p) => p.name === v)?.id;
+                    const id = protocols.find(p => p.name === v)?.id;
                     fields.protocol_id?.onChange(id);
                     fields.protocol_name.onChange(v);
                   }}
-                  options={protocols.map((p) => p.name)}
+                  options={protocols.map(p => p.name)}
                   label="Organization Name"
                   fullWidth
                   TextFieldProps={{

@@ -66,7 +66,7 @@ export const useApi = () => {
       );
 
       updateCirclesMap(
-        (oldMap) =>
+        oldMap =>
           new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 

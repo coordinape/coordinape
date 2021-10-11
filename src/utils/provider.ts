@@ -13,11 +13,11 @@ export const getSignature = async (data: string, provider?: Web3Provider) => {
     );
     signer
       .signMessage(data)
-      .then((sig) => {
+      .then(sig => {
         clearTimeout(t);
         resolve(sig);
       })
-      .catch((e) => {
+      .catch(e => {
         // if (e.code === 'CODE_FOR_HARDWAREWALLET_ERROR') {
         //   e.message = 'There was an error signing the message with your hardware wallet. Try sending a shorter message.';
         // }

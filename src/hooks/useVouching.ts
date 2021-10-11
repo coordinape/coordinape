@@ -31,7 +31,7 @@ export const useVouching = (): {
         );
 
         updateNomineesMap(
-          (oldMap) => new Map(oldMap.set(newNominee.id, newNominee))
+          oldMap => new Map(oldMap.set(newNominee.id, newNominee))
         );
 
         return newNominee;
@@ -50,7 +50,7 @@ export const useVouching = (): {
         );
 
         updateNomineesMap(
-          (oldMap) => new Map(oldMap.set(newNominee.id, newNominee))
+          oldMap => new Map(oldMap.set(newNominee.id, newNominee))
         );
 
         return newNominee;

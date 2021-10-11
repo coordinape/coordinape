@@ -13,7 +13,7 @@ import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
 
 import { IProfileEmbed } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',

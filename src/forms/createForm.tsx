@@ -142,7 +142,7 @@ export const createForm = <
     key: `${name}-Value`,
     default: neverEndingPromise(),
   });
-  const untouchedFields = new Map(fieldKeys.map((k) => [k, false]));
+  const untouchedFields = new Map(fieldKeys.map(k => [k, false]));
   const rTouched = atomFamily<Map<string, boolean>, string>({
     key: `${name}-Touched`,
     default: untouchedFields,
@@ -259,7 +259,7 @@ export const createForm = <
         value: (value as Record<string, any>)[field],
         onChange: (newValue: any) =>
           updateValue(
-            (oldValue) => ({ ...oldValue, [field]: newValue } as Input)
+            oldValue => ({ ...oldValue, [field]: newValue } as Input)
           ),
         onBlur: () =>
           updateTouched(

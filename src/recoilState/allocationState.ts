@@ -27,7 +27,7 @@ export const rTeammates = selectorFamily<IUser[], number>({
     ({ get }: IRecoilGetParams) => {
       const userMap = get(rUsersMap);
       const myUsers = get(rMyUsers);
-      const currentUser = myUsers?.find((u) => u.circle_id === circleId);
+      const currentUser = myUsers?.find(u => u.circle_id === circleId);
       if (!currentUser) {
         return neverEndingPromise();
       }
@@ -37,8 +37,8 @@ export const rTeammates = selectorFamily<IUser[], number>({
       }
 
       return currentUser.teammates
-        .map((t) => userMap.get(t.id))
-        .filter((u) => u !== undefined) as IUser[];
+        .map(t => userMap.get(t.id))
+        .filter(u => u !== undefined) as IUser[];
     },
 });
 
@@ -66,7 +66,7 @@ export const rEpochFirstVisit = selectorFamily<boolean, number>({
   get:
     (circleId: number) =>
     ({ get }: IRecoilGetParams) =>
-      get(rMyProfile)?.users?.find((u) => u.circle_id === circleId)
+      get(rMyProfile)?.users?.find(u => u.circle_id === circleId)
         ?.epoch_first_visit === 1 ?? true,
 });
 
@@ -82,7 +82,7 @@ export const rAllocationStepStatus = selectorFamily<
     (circleId: number) =>
     ({ get }: IRecoilGetParams) => {
       const user = get(rMyProfile)?.users?.find(
-        (u) => u.circle_id === circleId
+        u => u.circle_id === circleId
       );
       if (user === undefined) {
         return [new Set(), STEP_MY_EPOCH];
@@ -103,7 +103,7 @@ export const rAllocationStepStatus = selectorFamily<
         completedSteps.add(STEP_ALLOCATION);
       }
       const steps = user.circle.team_selection === 1 ? STEPS : NO_TEAM_STEPS;
-      return [completedSteps, steps.find((step) => !completedSteps.has(step))];
+      return [completedSteps, steps.find(step => !completedSteps.has(step))];
     },
 });
 export const useAllocationStepStatus = (circleId: number) =>

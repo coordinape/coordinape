@@ -9,7 +9,7 @@ import { rCircles } from 'recoilState';
 
 import { ICircle } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -130,7 +130,7 @@ export const CircleSelectModal = ({
 
   const { myCircles, hasAdminView } = useMe();
   const circles = useRecoilValue(rCircles);
-  const myCirclesSet = new Set(myCircles.map((c) => c.id));
+  const myCirclesSet = new Set(myCircles.map(c => c.id));
 
   return (
     <Modal className={classes.modal} open={visible} onClose={onClose}>
@@ -150,7 +150,7 @@ export const CircleSelectModal = ({
           <div className={classes.divider}>
             <span className={classes.circleLabel}>Select a Circle</span>
           </div>
-          {myCircles?.map((circle) => (
+          {myCircles?.map(circle => (
             <CircleButton
               key={circle.id}
               circle={circle}
@@ -167,8 +167,8 @@ export const CircleSelectModal = ({
                 <span className={classes.circleLabel}>Admin View</span>
               </div>
               {circles
-                .filter((c) => !myCirclesSet.has(c.id))
-                ?.map((circle) => (
+                .filter(c => !myCirclesSet.has(c.id))
+                ?.map(circle => (
                   <CircleButton
                     key={circle.id}
                     circle={circle}

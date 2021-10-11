@@ -4,12 +4,7 @@
       "pragma": "React",
       "version": "detect"
     },
-    "import/extensions": [
-      ".js",
-      ".jsx",
-      ".ts",
-      ".tsx"
-    ],
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     }
@@ -44,6 +39,7 @@
     "browser": true
   },
   "rules": {
+    "arrow-parens": ["error", "as-needed"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -53,16 +49,10 @@
     "no-console": [
       "warn",
       {
-        "allow": [
-          "warn",
-          "error"
-        ]
+        "allow": ["warn", "error"]
       }
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     "no-warning-comments": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
     "import/extensions": 0,
@@ -82,10 +72,7 @@
           "external",
           "internal",
           "parent",
-          [
-            "sibling",
-            "index"
-          ]
+          ["sibling", "index"]
         ],
         // define material-ui group that will appear separately after other main externals
         "pathGroups": [
@@ -119,12 +106,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ],
     "react-hooks/rules-of-hooks": "error",

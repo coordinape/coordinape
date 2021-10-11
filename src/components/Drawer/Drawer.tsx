@@ -6,7 +6,7 @@ import { makeStyles, IconButton } from '@material-ui/core';
 import MuiDrawer from '@material-ui/core/Drawer';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   paper: {
     position: 'absolute',

@@ -39,7 +39,7 @@ const DebugObserver = () => {
   React.useEffect(() => {
     const nodes = Array.from(snapshot.getNodes_UNSTABLE({ isModified: true }));
     // eslint-disable-next-line no-console
-    console.groupCollapsed('RECOIL Δ', ...nodes.map((n) => n.key));
+    console.groupCollapsed('RECOIL Δ', ...nodes.map(n => n.key));
     for (const node of nodes) {
       const loadable = snapshot.getLoadable(node);
       // eslint-disable-next-line no-console
@@ -146,7 +146,7 @@ export const RecoilAppController = () => {
     const noPermissionForSelectedCircle =
       !hasAdminView &&
       !!selectedCircleId &&
-      !myProfile?.users?.some((u) => u.circle_id === selectedCircleId);
+      !myProfile?.users?.some(u => u.circle_id === selectedCircleId);
     if (noPermissionForSelectedCircle || selectedCircleId === undefined) {
       setSelectedCircleId(myProfile.users[0].circle_id);
     }

@@ -8,7 +8,7 @@ import { FormModal, ApeTextField } from 'components';
 import { useVouching } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   description: {
     marginTop: theme.spacing(1),
     fontSize: 16,

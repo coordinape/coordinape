@@ -97,7 +97,7 @@ export const AMForceGraph = () => {
       fallbackAvatar.src = AVATAR_PLACEHOLDER;
       images.current.set('', fallbackAvatar);
     }
-    recoilMapGraphData.nodes.forEach((node) => {
+    recoilMapGraphData.nodes.forEach(node => {
       const path = (node as IMapNodeFG).img;
       if (path && !images.current.has(path)) {
         const img = new Image();
@@ -147,7 +147,7 @@ export const AMForceGraph = () => {
 
   const isNodeVisible = useCallback((node: IMapNodeFG) => {
     const { epochId } = mapCtxRef.current;
-    return epochId === -1 || node.epochIds.some((id) => id === epochId);
+    return epochId === -1 || node.epochIds.some(id => id === epochId);
   }, []);
 
   const nodeCanvasObject = useCallback(

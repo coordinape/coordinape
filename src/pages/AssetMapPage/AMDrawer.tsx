@@ -19,7 +19,7 @@ import {
 
 import AMProfileCard from './AMProfileCard';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -142,7 +142,7 @@ export const AMDrawer = () => {
         </div>
       </div>
       <div className={classes.users}>
-        {profiles.map((profile) => (
+        {profiles.map(profile => (
           <AMProfileCard
             key={profile.id}
             profile={profile}

@@ -40,15 +40,15 @@ const getLocalGiftUpdater =
   (newTeammates: IApiUser[], newGifts?: ISimpleGift[]) =>
   (baseGifts: ISimpleGift[]) => {
     const startingGifts = newGifts ?? baseGifts;
-    const startingSet = new Set(startingGifts.map((g) => g.user.id));
-    const newSet = new Set(newTeammates.map((u) => u.id));
+    const startingSet = new Set(startingGifts.map(g => g.user.id));
+    const newSet = new Set(newTeammates.map(u => u.id));
     const keepers = [] as ISimpleGift[];
-    startingGifts.forEach((g) => {
+    startingGifts.forEach(g => {
       if (newSet.has(g.user.id) || g.note !== '' || g.tokens > 0) {
         keepers.push(g);
       }
     });
-    newTeammates.forEach((u) => {
+    newTeammates.forEach(u => {
       if (!startingSet.has(u.id)) {
         keepers.push({ user: u, tokens: 0, note: '' } as ISimpleGift);
       }
@@ -66,12 +66,12 @@ const getPendingGiftUpdater =
   (gifts: IApiTokenGift[], userId: number) =>
   (oldValue: Map<number, IApiTokenGift>) => {
     const giftMap = new Map(oldValue);
-    giftMap.forEach((g) => {
+    giftMap.forEach(g => {
       if (g.sender_id === userId) {
         giftMap.delete(g.id);
       }
     });
-    gifts.forEach((v) => giftMap.set(v.id, v));
+    gifts.forEach(v => giftMap.set(v.id, v));
     return giftMap;
   };
 
@@ -80,7 +80,7 @@ const pendingGiftsToSimpleGifts = (
   usersMap: Map<number, IUser>
 ) =>
   pending.map(
-    (g) =>
+    g =>
       ({
         user: usersMap.get(g.recipient_id),
         tokens: g.tokens,
@@ -91,10 +91,10 @@ const pendingGiftsToSimpleGifts = (
 type tokenNote = [number, string];
 
 const simpleGiftsToMap = (source: ISimpleGift[]): Map<number, tokenNote> =>
-  new Map(source.map((g) => [g.user.id, [g.tokens, g.note]]));
+  new Map(source.map(g => [g.user.id, [g.tokens, g.note]]));
 
 const pendingGiftMap = (pending: ITokenGift[]): Map<number, tokenNote> =>
-  new Map(pending.map((g) => [g.recipient_id, [g.tokens, g.note]]));
+  new Map(pending.map(g => [g.recipient_id, [g.tokens, g.note]]));
 
 const buildDiffMap = (
   remoteMap: Map<number, tokenNote>,
@@ -192,9 +192,9 @@ export const useAllocation = (circleId: number | undefined) => {
   );
   const tokenRemaining = tokenStarting - tokenAllocated;
   const teammateReceiverCount = localGifts
-    .map((g) => (g.user.non_receiver ? 0 : 1))
+    .map(g => (g.user.non_receiver ? 0 : 1))
     .reduce((a: number, b: number) => a + b, 0);
-  const givePerUser = new Map(localGifts.map((g) => [g.user.id, g]));
+  const givePerUser = new Map(localGifts.map(g => [g.user.id, g]));
 
   const localGiftsChanged =
     buildDiffMap(pendingGiftMap(pendingGifts), simpleGiftsToMap(localGifts))
@@ -205,11 +205,11 @@ export const useAllocation = (circleId: number | undefined) => {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }
-    const newTeammates = localTeammates.find((u) => u.id === userId)
-      ? [...localTeammates.filter((u) => u.id !== userId)]
+    const newTeammates = localTeammates.find(u => u.id === userId)
+      ? [...localTeammates.filter(u => u.id !== userId)]
       : [
           ...localTeammates,
-          availableTeammates.find((u) => u.id === userId) as IUser,
+          availableTeammates.find(u => u.id === userId) as IUser,
         ];
     setLocalTeammates(newTeammates);
     setLocalGifts(getLocalGiftUpdater(newTeammates));
@@ -237,7 +237,7 @@ export const useAllocation = (circleId: number | undefined) => {
     id: number,
     { note, tokens }: { note?: string; tokens?: number }
   ) => {
-    const idx = localGifts.findIndex((g) => g.user.id === id);
+    const idx = localGifts.findIndex(g => g.user.id === id);
     const original = localGifts[idx];
     const user = usersMap.get(id);
     if (!user) {
@@ -264,7 +264,7 @@ export const useAllocation = (circleId: number | undefined) => {
     }
     if (tokenAllocated === 0) {
       setLocalGifts(
-        localGifts.slice().map((g) => {
+        localGifts.slice().map(g => {
           return {
             ...g,
             tokens: Math.floor(tokenStarting / teammateReceiverCount),
@@ -276,7 +276,7 @@ export const useAllocation = (circleId: number | undefined) => {
       setLocalGifts(
         localGifts
           .slice()
-          .map((g) => ({ ...g, tokens: Math.floor(g.tokens * rebalance) }))
+          .map(g => ({ ...g, tokens: Math.floor(g.tokens * rebalance) }))
       );
     }
   };
@@ -291,7 +291,7 @@ export const useAllocation = (circleId: number | undefined) => {
         const result = await getApiService().postTeammates(
           myCircleUser.circle_id,
           myCircleUser.address,
-          localTeammates.map((u) => u.id)
+          localTeammates.map(u => u.id)
         );
 
         setPendingGiftsMap(
@@ -301,7 +301,7 @@ export const useAllocation = (circleId: number | undefined) => {
       },
       {
         success: 'Saved Teammates',
-        transformError: (e) =>
+        transformError: e =>
           (e.message = `With hardware wallets, try shorter changes. ${e.message}`),
       }
     );

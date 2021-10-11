@@ -76,12 +76,12 @@ export const getNotableWords = (source: string, take: number): string[] => {
     .replace(/[,()\-.\\/&]/g, ' ')
     .toLowerCase()
     .split(/\W+/g)
-    .filter((w) => w.length > 1 && !ignoreWords.has(w));
+    .filter(w => w.length > 1 && !ignoreWords.has(w));
 
-  const counts = sortBy(toPairs(countBy(words)), (pair) => pair[1]);
+  const counts = sortBy(toPairs(countBy(words)), pair => pair[1]);
   const wordsByFrequency = counts
-    .map((pair) => pair[0])
-    .filter((w) => !synonymRegex.test(w))
+    .map(pair => pair[0])
+    .filter(w => !synonymRegex.test(w))
     .concat(synonyms);
   return wordsByFrequency.slice(counts.length - take).reverse();
 };

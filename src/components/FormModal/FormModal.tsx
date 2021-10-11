@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { SaveIcon } from 'icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',

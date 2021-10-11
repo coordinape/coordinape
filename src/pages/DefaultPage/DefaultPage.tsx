@@ -10,7 +10,7 @@ import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',

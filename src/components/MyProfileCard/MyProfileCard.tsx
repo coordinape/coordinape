@@ -13,7 +13,7 @@ import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profil
 import { ApeAvatar } from 'components';
 import { useMe } from 'hooks';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     width: 270,
