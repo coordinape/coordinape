@@ -31,7 +31,7 @@
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "env": {
     "es6": true,
@@ -39,6 +39,11 @@
     "browser": true
   },
   "rules": {
+    // For https://github.com/prettier/eslint-plugin-prettier
+    "prettier/prettier": "error",
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    // End required rules for eslint-plugin-prettier
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",

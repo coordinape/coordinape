@@ -1,5 +1,5 @@
 {
-  "name": "yearn-coordinape-app",
+  "name": "coordinape-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -72,25 +72,15 @@
     "build:gzip": "craco build && gzipper --verbose ./build",
     "test": "craco test",
     "eject": "craco eject",
-    "format:staged": "lint-staged",
     "lint": "eslint",
     "lint:check": "eslint \"./src/**/*.{js,ts,tsx}\"",
     "lint:fix": "yarn lint:check --fix",
-    "prettier": "prettier './src/**/*.{js,ts,tsx}'",
-    "prettier:check": "yarn prettier --check",
-    "prettier:fix": "yarn prettier --write",
     "typecheck": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
-  "lint-staged": {
-    "src/**/*.{js,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --allow-empty",
+      "pre-commit": "yarn lint:fix",
       "pre-push": "yarn lint:check"
     }
   },
@@ -127,6 +117,7 @@
     "eslint-import-resolver-typescript": "2.5.0",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.2.0",
     "http-browserify": "1.7.0",

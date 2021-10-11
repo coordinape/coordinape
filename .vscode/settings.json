@@ -1,23 +1,13 @@
 {
-  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "eslint.format.enable": true,
   "cSpell.words": [
     "Coordinape",
@@ -25,6 +15,19 @@
     "clsx",
     "imgs",
     "itiriri",
-    "rebalance"
+    "rebalance",
+    "craco",
+    "luxon",
+    "ethersproject",
+    "hcaptcha",
+    "walletconnect",
+    "walletlink",
+    "sema",
+    "languagedetector",
+    "logdown",
+    "notistack",
+    "gzipper",
+    "browserslist",
+    "recoilize"
   ]
 }
