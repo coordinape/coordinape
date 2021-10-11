@@ -81,9 +81,7 @@ export const rAllocationStepStatus = selectorFamily<
   get:
     (circleId: number) =>
     ({ get }: IRecoilGetParams) => {
-      const user = get(rMyProfile)?.users?.find(
-        u => u.circle_id === circleId
-      );
+      const user = get(rMyProfile)?.users?.find(u => u.circle_id === circleId);
       if (user === undefined) {
         return [new Set(), STEP_MY_EPOCH];
       }

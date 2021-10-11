@@ -226,8 +226,8 @@ export const ProfilePage = ({
     background: isMe ? myBackgroundPath : backgroundPath,
     backgroundRaw: null,
     name:
-      profile?.users?.find(user => user.circle_id === selectedCircleId)
-        ?.name || 'N/A',
+      profile?.users?.find(user => user.circle_id === selectedCircleId)?.name ||
+      'N/A',
     bio: profile?.bio || '',
     telegram_username: profile?.telegram_username || '',
     twitter_username: profile?.twitter_username || '',

@@ -239,8 +239,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
   const selectSkills = (skill: string) => {
     let skills: string[] = [];
     data.skills.forEach(a => skills.push(a));
-    if (skills.includes(skill))
-      skills = skills.filter(item => item !== skill);
+    if (skills.includes(skill)) skills = skills.filter(item => item !== skill);
     else skills.push(skill);
     const obj = { ...data, skills: [...skills] };
     setData(obj);

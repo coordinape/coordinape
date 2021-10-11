@@ -176,9 +176,7 @@ export const rCirclesMap = atom<Map<number, ICircle>>({
       .then(circles =>
         resolve(
           new Map(
-            circles
-              .map(c => createCircleWithDefaults(c))
-              .map(c => [c.id, c])
+            circles.map(c => createCircleWithDefaults(c)).map(c => [c.id, c])
           )
         )
       );

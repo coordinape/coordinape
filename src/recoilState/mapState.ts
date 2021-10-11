@@ -389,9 +389,7 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
           return '';
         }
         const selectedCircleId = get(rSelectedCircleId) ?? -1;
-        const user = profile.users.find(
-          u => u.circle_id === selectedCircleId
-        );
+        const user = profile.users.find(u => u.circle_id === selectedCircleId);
 
         return (
           profile.bio +
