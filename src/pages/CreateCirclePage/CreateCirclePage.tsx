@@ -180,7 +180,7 @@ export const SummonCirclePage = () => {
                   fullWidth
                   TextFieldProps={{
                     infoTooltip:
-                      'Add to organizations that you are an admin in or create a new org.',
+                      'For security purposes, organizations are hidden on the frontend until verified. Contact an admin on Discord for more details.',
                   }}
                 />
               ) : (
