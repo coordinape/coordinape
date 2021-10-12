@@ -48,6 +48,14 @@ const useStyles = makeStyles((theme) => ({
     color: theme.colors.text,
     textAlign: 'center',
   },
+  subtitle: {
+    margin: theme.spacing(0, 0, 2),
+    fontSize: 16,
+    fontWeight: 300,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
   saveButton: {
     marginTop: theme.spacing(3),
   },
@@ -63,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const FormModal = ({
   title,
+  subtitle,
   children,
   onSubmit,
   errors,
@@ -74,6 +83,7 @@ export const FormModal = ({
   size,
 }: {
   title?: string;
+  subtitle?: string;
   children: React.ReactNode;
   onSubmit?: () => void;
   errors?: { [x: string]: string };
@@ -100,6 +110,7 @@ export const FormModal = ({
           <CloseIcon />
         </IconButton>
         {!!title && <h3 className={classes.title}>{title}</h3>}
+        {!!subtitle && <h4 className={classes.subtitle}>{subtitle}</h4>}
         {children}
         {errors !== undefined && (
           <div className={classes.errors}>

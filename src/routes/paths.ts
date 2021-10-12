@@ -21,7 +21,11 @@ export const getGivePath = () => '/give';
 export const getMapPath = () => '/map';
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
-export const getAdminPath = () => '/admin';
+export const getAdminPath = () => '/circles';
+export const getAdminPath1 = () => '/admin';
+export const getOverviewPath = () => '/admin/overview';
+export const getVaultsPath = () => '/admin/vaults';
+export const getCirclesPath = () => '/admin/circles';
 export const getCreateCirclePath = () => '/new-circle';
 export const getProfilePath = (address: string) => `/profile/${address}`;
 
@@ -72,14 +76,30 @@ export const getMainNavigation = ({
 } = {}): INavItem[] => {
   let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
   const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  const adminItems = [{ path: getAdminPath(), label: 'Admin' }];
+  const adminItems = [{ path: getAdminPath(), label: 'Circles' }];
+  const adminItems1 = [{ path: getAdminPath1(), label: 'Admin' }];
 
   if (asVouchingEnabled) {
     mainItems = [...mainItems, ...vouchingItems];
   }
   if (asCircleAdmin) {
-    mainItems = [...mainItems, ...adminItems];
+    mainItems = [...mainItems, ...adminItems, ...adminItems1];
   }
+
+  return mainItems;
+};
+
+export const getAdminNavigation = ({
+  asCircleAdmin,
+  asVouchingEnabled,
+}: {
+  asCircleAdmin?: boolean;
+  asVouchingEnabled?: boolean;
+} = {}): INavItem[] => {
+  const vaultsItem = [{ path: getVaultsPath(), label: 'Vaults' }];
+  const circlesItem = [{ path: getCirclesPath(), label: 'Circles' }];
+  const overviewItem = [{ path: getOverviewPath(), label: 'Overview' }];
+  const mainItems = [...overviewItem, ...vaultsItem, ...circlesItem];
 
   return mainItems;
 };

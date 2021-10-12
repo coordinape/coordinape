@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import AdminPage from 'pages/AdminPage';
+import AdminPage1 from 'pages/AdminPage1';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
@@ -43,6 +44,10 @@ export const Routes = () => {
     (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
       ? AdminPage
       : DefaultPage;
+  const SneakyAdminPage1 =
+    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
+      ? AdminPage1
+      : DefaultPage;
 
   return (
     <Switch>
@@ -56,6 +61,7 @@ export const Routes = () => {
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
+      <Route exact path={paths.getAdminPath1()} component={SneakyAdminPage1} />
 
       <Route
         exact
