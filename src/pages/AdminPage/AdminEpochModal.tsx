@@ -14,7 +14,7 @@ import { useAdminApi } from 'hooks';
 
 import { IEpoch } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modalBody: {
     display: 'flex',
     alignItems: 'center',
@@ -79,7 +79,7 @@ export const AdminEpochModal = ({
   const source = useMemo(
     () => ({
       epoch: epoch,
-      epochs: epochs.filter((e) => e.id !== epoch?.id && !e.ended),
+      epochs: epochs.filter(e => e.id !== epoch?.id && !e.ended),
     }),
     [epoch, epochs]
   );
@@ -87,7 +87,7 @@ export const AdminEpochModal = ({
   return (
     <EpochForm.FormController
       source={source}
-      submit={(params) =>
+      submit={params =>
         (epoch ? updateEpoch(epoch.id, params) : createEpoch(params))
           .then(() => onClose())
           .catch(console.warn)

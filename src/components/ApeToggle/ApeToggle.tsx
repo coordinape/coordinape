@@ -7,7 +7,7 @@ import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

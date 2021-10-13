@@ -1,2 +1,2 @@
-import HistoryPage from './HistoryPage';
+import { HistoryPage } from './HistoryPage';
 export default HistoryPage;

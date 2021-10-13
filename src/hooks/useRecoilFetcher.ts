@@ -44,7 +44,7 @@ export const useRecoilFetcher = (
         } else {
           updateValue(result);
         }
-        updateFetchedAt((fetchedAtMap) =>
+        updateFetchedAt(fetchedAtMap =>
           fetchedAtMap.set(paramString, +new Date())
         );
       },

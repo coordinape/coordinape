@@ -8,7 +8,7 @@ import { FormModal, ApeTextField } from 'components';
 import { useVouching } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   description: {
     marginTop: theme.spacing(1),
     fontSize: 16,
@@ -63,9 +63,9 @@ export const NewNominationModal = ({
   const nominateChanged =
     name.length == 0 || description.length == 0 || isAddress;
 
-  const onChangeWith = (set: (v: string) => void) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => set(e.target.value);
+  const onChangeWith =
+    (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      set(e.target.value);
 
   const onSubmit = async () => {
     if (!nominateChanged) {

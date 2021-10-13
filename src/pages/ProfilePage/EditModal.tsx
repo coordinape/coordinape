@@ -29,7 +29,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(
   (props: any, ref) => <Slide direction="up" ref={ref} {...props} />
 );
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modalWrapper: {
     width: '100%',
     maxWidth: 1100,
@@ -232,15 +232,14 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setData({ ...data, bio: e.target.value });
 
-  const fieldSetter = (name: string) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => setData({ ...data, [name]: e.target.value });
+  const fieldSetter =
+    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      setData({ ...data, [name]: e.target.value });
 
   const selectSkills = (skill: string) => {
     let skills: string[] = [];
-    data.skills.forEach((a) => skills.push(a));
-    if (skills.includes(skill))
-      skills = skills.filter((item) => item !== skill);
+    data.skills.forEach(a => skills.push(a));
+    if (skills.includes(skill)) skills = skills.filter(item => item !== skill);
     else skills.push(skill);
     const obj = { ...data, skills: [...skills] };
     setData(obj);
@@ -320,7 +319,7 @@ const EditModal = ({ isOpen, close, save, data, setData }: Props) => {
         <Box className={classes.modalSkillsSection}>
           <Box className={classes.modalSubTitle}>Select Your Skills</Box>
           <Box className={classes.modalSkillsBody}>
-            {SKILLS.map((item) => (
+            {SKILLS.map(item => (
               <Button
                 key={item.name}
                 variant="contained"

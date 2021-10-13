@@ -5,10 +5,10 @@ import { Button, makeStyles } from '@material-ui/core';
 import { useMe } from 'hooks';
 import { useSelectedCircle, useActiveNominees } from 'recoilState';
 
-import NewNominationModal from './NewNominationModal';
-import NomineeCard from './NomineeCard';
+import { NewNominationModal } from './NewNominationModal';
+import { NomineeCard } from './NomineeCard';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(5, 0),
     display: 'flex',
@@ -87,7 +87,7 @@ export const VouchingPage = () => {
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
       <div className={classes.nomineeContainer}>
-        {activeNominees.map((nominee) => (
+        {activeNominees.map(nominee => (
           <NomineeCard key={nominee.id} nominee={nominee} />
         ))}
       </div>

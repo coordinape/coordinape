@@ -39,7 +39,7 @@ const DebugObserver = () => {
   React.useEffect(() => {
     const nodes = Array.from(snapshot.getNodes_UNSTABLE({ isModified: true }));
     // eslint-disable-next-line no-console
-    console.groupCollapsed('RECOIL Δ', ...nodes.map((n) => n.key));
+    console.groupCollapsed('RECOIL Δ', ...nodes.map(n => n.key));
     for (const node of nodes) {
       const loadable = snapshot.getLoadable(node);
       // eslint-disable-next-line no-console
@@ -75,25 +75,21 @@ export const RecoilAppController = () => {
 
   const { deactivate, activate } = useWallet();
   const { myProfile, hasAdminView } = useMe();
-  const {
-    selectAndFetchCircle,
-    selectedCircleId,
-    setSelectedCircleId,
-  } = useCircle();
+  const { selectAndFetchCircle, selectedCircleId, setSelectedCircleId } =
+    useCircle();
   const connectorName = useConnectorName();
   const setMyAddress = useSetMyAddress();
-  const [walletModalOpen, setWalletModalOpen] = useRecoilState(
-    rWalletModalOpen
-  );
-  const [circleSelectorOpen, setCircleSelectorOpen] = useRecoilState(
-    rCircleSelectorOpen
-  );
+  const [walletModalOpen, setWalletModalOpen] =
+    useRecoilState(rWalletModalOpen);
+  const [circleSelectorOpen, setCircleSelectorOpen] =
+    useRecoilState(rCircleSelectorOpen);
   const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
   const recoilCallback = useRecoilCallback(
-    ({ set }) => async (active: boolean) => {
-      set(rTriggerMode, active);
-    }
+    ({ set }) =>
+      async (active: boolean) => {
+        set(rTriggerMode, active);
+      }
   );
 
   useEffect(() => {
@@ -150,7 +146,7 @@ export const RecoilAppController = () => {
     const noPermissionForSelectedCircle =
       !hasAdminView &&
       !!selectedCircleId &&
-      !myProfile?.users?.some((u) => u.circle_id === selectedCircleId);
+      !myProfile?.users?.some(u => u.circle_id === selectedCircleId);
     if (noPermissionForSelectedCircle || selectedCircleId === undefined) {
       setSelectedCircleId(myProfile.users[0].circle_id);
     }

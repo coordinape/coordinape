@@ -17,7 +17,7 @@ import { useSelectedCircle } from 'recoilState';
 
 import { INominee } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(1),
     display: 'flex',
@@ -122,7 +122,7 @@ const TextOnlyTooltip = withStyles({
   },
 })(Tooltip);
 
-const NomineeCard = ({ nominee }: { nominee: INominee }) => {
+export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
   const { vouchUser } = useVouching();
   const { selectedMyUser } = useMe();
@@ -130,7 +130,7 @@ const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const vouchDisabled =
     selectedMyUser && circle
       ? nominee.nominated_by_user_id === selectedMyUser.id ||
-        nominee.nominations.some((user) => user.id === selectedMyUser.id) ||
+        nominee.nominations.some(user => user.id === selectedMyUser.id) ||
         (circle.only_giver_vouch !== 0 && selectedMyUser.non_giver !== 0)
       : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(

@@ -5,7 +5,7 @@ import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 
 import { ApeTextField } from 'components';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   colorBlack: {
     color: theme.colors.black,
   },

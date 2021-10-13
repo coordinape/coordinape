@@ -26,7 +26,7 @@ import { getAvatarPath } from 'utils/domain';
 
 import EditModal, { IProfileData } from './EditModal';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -202,9 +202,11 @@ export const ProfilePage = ({
   // My or Other Profile
   const seemsAddress = params?.profileAddress?.startsWith('0x');
   const isMe = params?.profileAddress === 'me';
-  const { profile: aProfile, avatarPath, backgroundPath } = useProfile(
-    seemsAddress ? params?.profileAddress : undefined
-  );
+  const {
+    profile: aProfile,
+    avatarPath,
+    backgroundPath,
+  } = useProfile(seemsAddress ? params?.profileAddress : undefined);
   const { updateMyProfile, updateAvatar, updateBackground } = useApi();
 
   const {
@@ -224,8 +226,8 @@ export const ProfilePage = ({
     background: isMe ? myBackgroundPath : backgroundPath,
     backgroundRaw: null,
     name:
-      profile?.users?.find((user) => user.circle_id === selectedCircleId)
-        ?.name || 'N/A',
+      profile?.users?.find(user => user.circle_id === selectedCircleId)?.name ||
+      'N/A',
     bio: profile?.bio || '',
     telegram_username: profile?.telegram_username || '',
     twitter_username: profile?.twitter_username || '',
@@ -235,7 +237,7 @@ export const ProfilePage = ({
     website: profile?.website || '',
     skills: profile?.skills || [],
     users: profile?.users || [],
-    recentEpochs: profile?.users?.map((user) => {
+    recentEpochs: profile?.users?.map(user => {
       return {
         epochBio: user.bio?.length > 0 ? user.bio : 'N/A',
         epochCircle: user.circle?.name,
@@ -258,7 +260,7 @@ export const ProfilePage = ({
         });
       }
 
-      if (editableFields.some((x) => savedProfileData[x] !== profileData[x])) {
+      if (editableFields.some(x => savedProfileData[x] !== profileData[x])) {
         updateMyProfile(pick(profileData, editableFields));
       }
     }
@@ -343,7 +345,7 @@ export const ProfilePage = ({
             <Box className={classes.skillGroup}>
               {/* loop section from the myprofile data */}
               {savedProfileData?.skills?.length
-                ? savedProfileData.skills.map((item) => (
+                ? savedProfileData.skills.map(item => (
                     <div key={item} className={classes.skillItem}>
                       {item}
                     </div>
@@ -436,7 +438,7 @@ export const ProfilePage = ({
                   {isMe ? 'My Circles' : 'Circles'}
                 </Box>
                 <Box className={classes.iconGroup}>
-                  {savedProfileData?.users.map((user) => (
+                  {savedProfileData?.users.map(user => (
                     <div
                       key={user.id}
                       style={{

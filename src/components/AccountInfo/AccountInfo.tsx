@@ -12,7 +12,7 @@ import { WALLET_ICONS } from 'config/constants';
 import { useWallet } from 'hooks';
 import { shortenAddress } from 'utils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: '0 15px',
     height: 32,

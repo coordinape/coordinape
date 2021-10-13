@@ -27,15 +27,15 @@ export const useAsyncLoadCatch = () => {
     } = {}
   ) => {
     return new Promise<T>((resolve, reject) => {
-      !hideLoading && setGlobalLoading((v) => v + 1);
+      !hideLoading && setGlobalLoading(v => v + 1);
       call()
-        .then((result) => {
-          !hideLoading && setGlobalLoading((v) => v - 1);
+        .then(result => {
+          !hideLoading && setGlobalLoading(v => v - 1);
           success && apeInfo(success);
           resolve(result);
         })
-        .catch((err) => {
-          !hideLoading && setGlobalLoading((v) => v - 1);
+        .catch(err => {
+          !hideLoading && setGlobalLoading(v => v - 1);
           const e = transformError ? transformError(err) : err;
           if (
             e.message ===

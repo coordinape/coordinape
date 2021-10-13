@@ -19,7 +19,7 @@ import {
 
 import AMProfileCard from './AMProfileCard';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 const skillNames = SKILLS.map(({ name }) => name);
 
-const AMDrawer = () => {
+export const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
@@ -142,7 +142,7 @@ const AMDrawer = () => {
         </div>
       </div>
       <div className={classes.users}>
-        {profiles.map((profile) => (
+        {profiles.map(profile => (
           <AMProfileCard
             key={profile.id}
             profile={profile}

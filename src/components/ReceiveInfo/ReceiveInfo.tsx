@@ -10,7 +10,7 @@ import { ApeAvatar } from 'components';
 import { useMe, useMyPendingGifts } from 'hooks';
 import { getHistoryPath } from 'routes/paths';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     marginRight: 8,
     alignItems: 'center',
@@ -166,10 +166,10 @@ export const ReceiveInfo = () => {
         </div>
         {pendingGifts
           .filter(
-            (tokenGift) => tokenGift.tokens > 0 || tokenGift.note.length > 0
+            tokenGift => tokenGift.tokens > 0 || tokenGift.note.length > 0
           )
           .sort((a, b) => +new Date(b.updated_at) - +new Date(a.updated_at))
-          .map((tokenGift) => (
+          .map(tokenGift => (
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>
                 <div className={classes.noteTitle}>

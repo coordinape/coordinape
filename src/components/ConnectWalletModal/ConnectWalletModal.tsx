@@ -13,7 +13,7 @@ import { ConnectorNames } from 'utils/enums';
 
 import { ConnectWalletButtonItem } from './ConnectWalletButtonItem';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',

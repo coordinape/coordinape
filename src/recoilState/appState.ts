@@ -39,7 +39,7 @@ export const rSelectedCircleId = atom<number | undefined>({
   default: storage.getCircleId(),
   effects_UNSTABLE: [
     ({ onSet }) => {
-      onSet((newId) => {
+      onSet(newId => {
         if (newId === undefined) {
           storage.clearCircleId();
         } else {
@@ -111,7 +111,7 @@ export const rMyUsers = selector<IMyUsers[]>({
     const { users, ...userFillProfile } = profile;
     return (
       profile.users.map(
-        (u) => ({ ...u, profile: userFillProfile as IApiProfile } as IMyUsers)
+        u => ({ ...u, profile: userFillProfile as IApiProfile } as IMyUsers)
       ) ?? []
     );
   },
@@ -119,8 +119,10 @@ export const rMyUsers = selector<IMyUsers[]>({
 
 export const rMyCircleUser = selectorFamily<IMyUsers | undefined, number>({
   key: 'rMyCircleUser',
-  get: (circleId: number) => ({ get }: IRecoilGetParams) =>
-    get(rMyUsers).find((u) => u.circle_id === circleId),
+  get:
+    (circleId: number) =>
+    ({ get }: IRecoilGetParams) =>
+      get(rMyUsers).find(u => u.circle_id === circleId),
 });
 export const useMyCircleUser = (circleId: number) =>
   useRecoilValue(rMyCircleUser(circleId));
@@ -139,7 +141,7 @@ export const rMyCircles = selector<ICircle[]>({
   get: ({ get }: IRecoilGetParams) => {
     const myProfile = get(rMyProfile);
     return (myProfile?.users ?? [])
-      .map((u) => createCircleWithDefaults(u.circle))
+      .map(u => createCircleWithDefaults(u.circle))
       .sort((a, b) => a.protocol_id - b.protocol_id);
   },
 });
@@ -150,8 +152,8 @@ export const rMyAdminCircles = selector<ICircle[]>({
   get: ({ get }: IRecoilGetParams) => {
     const myProfile = get(rMyProfile);
     return (myProfile?.users ?? [])
-      .filter((u) => u.role === 1)
-      .map((u) => createCircleWithDefaults(u.circle));
+      .filter(u => u.role === 1)
+      .map(u => createCircleWithDefaults(u.circle));
   },
 });
 export const useMyAdminCircles = () => useRecoilValue(rMyCircles);
@@ -168,15 +170,13 @@ export const rProfileRaw = atom<Map<string, IApiFilledProfile>>({
 
 export const rCirclesMap = atom<Map<number, ICircle>>({
   key: 'rCirclesMap',
-  default: new Promise((resolve) => {
+  default: new Promise(resolve => {
     getApiService()
       .getCircles()
-      .then((circles) =>
+      .then(circles =>
         resolve(
           new Map(
-            circles
-              .map((c) => createCircleWithDefaults(c))
-              .map((c) => [c.id, c])
+            circles.map(c => createCircleWithDefaults(c)).map(c => [c.id, c])
           )
         )
       );
@@ -190,10 +190,10 @@ export const rCircles = selector<ICircle[]>({
 
 export const rEpochsRaw = atom<Map<number, IApiEpoch>>({
   key: 'rEpochsRaw',
-  default: new Promise((resolve) => {
+  default: new Promise(resolve => {
     getApiService()
       .getFutureEpochs()
-      .then((epochs) => resolve(new Map(epochs.map((e) => [e.id, e]))));
+      .then(epochs => resolve(new Map(epochs.map(e => [e.id, e]))));
   }),
 });
 
@@ -202,8 +202,8 @@ export const rEpochsMap = selector<Map<number, IEpoch>>({
   get: ({ get }: IRecoilGetParams) => {
     const giftsByEpoch = get(rGiftsByEpoch);
     return iti(get(rEpochsRaw).values())
-      .map((e) => createExtendedEpoch(e, giftsByEpoch.get(e.id) ?? []))
-      .toMap((e) => e.id);
+      .map(e => createExtendedEpoch(e, giftsByEpoch.get(e.id) ?? []))
+      .toMap(e => e.id);
   },
 });
 
@@ -223,7 +223,7 @@ export const rUsersMap = selector<Map<number, IUser>>({
     const usersMapRaw = new Map(get(rUsersMapRaw));
     // Profile may have updated fields missing from last we queried users.
     const profile = get(rMyProfile);
-    profile?.users?.forEach((user) =>
+    profile?.users?.forEach(user =>
       usersMapRaw.set(user.id, { profile, ...user })
     );
     return usersMapRaw;
@@ -246,8 +246,8 @@ export const rPastGiftsMap = selector<Map<number, ITokenGift>>({
   get: ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
     return iti(get(rPastGiftsRaw).values())
-      .map((g) => createGiftWithUser(g, userMap))
-      .toMap((g) => g.id);
+      .map(g => createGiftWithUser(g, userMap))
+      .toMap(g => g.id);
   },
 });
 
@@ -261,8 +261,8 @@ export const rPendingGiftsMap = selector<Map<number, ITokenGift>>({
   get: ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
     return iti(get(rPendingGiftsRaw).values())
-      .map((g) => createGiftWithUser(g, userMap))
-      .toMap((g) => g.id);
+      .map(g => createGiftWithUser(g, userMap))
+      .toMap(g => g.id);
   },
 });
 
@@ -281,9 +281,9 @@ export const rGiftsMap = selector<Map<number, ITokenGift>>({
       // TODO: ensure this can't happen
       // https://linear.app/yearn/issue/APE-220/research-ways-of-keeping-types-in-sync-better-between-server-and
       // This is crazy, but pending gifts are their own table - Bug city!
-      .map((g) => ({ ...g, id: g.id + 100000 } as ITokenGift))
+      .map(g => ({ ...g, id: g.id + 100000 } as ITokenGift))
       .concat(get(rPastGiftsMap).values())
-      .toMap((g) => g.id),
+      .toMap(g => g.id),
 });
 
 export const rGifts = selector<ITokenGift[]>({
@@ -295,40 +295,46 @@ export const rGifts = selector<ITokenGift[]>({
 export const rGiftsByEpoch = selector<Map<number, ITokenGift[]>>({
   key: 'rGiftsByEpoch',
   get: ({ get }: IRecoilGetParams) =>
-    iti(get(rGifts)).toGroups((g) => g.epoch_id),
+    iti(get(rGifts)).toGroups(g => g.epoch_id),
 });
 
 export const rPendingGiftsFor = selectorFamily<ITokenGift[], number>({
   key: 'rPendingGiftsFor',
-  get: (userId: number) => ({ get }: IRecoilGetParams) => {
-    const pendingGifts = get(rPendingGifts);
-    return pendingGifts.filter((g) => g.recipient_id === userId);
-  },
+  get:
+    (userId: number) =>
+    ({ get }: IRecoilGetParams) => {
+      const pendingGifts = get(rPendingGifts);
+      return pendingGifts.filter(g => g.recipient_id === userId);
+    },
 });
 
 export const rPendingGiftsFrom = selectorFamily<ITokenGift[], number>({
   key: 'rPendingGiftsFrom',
-  get: (userId: number) => ({ get }: IRecoilGetParams) => {
-    const pendingGifts = get(rPendingGifts);
-    return pendingGifts.filter((g) => g.sender_id === userId);
-  },
+  get:
+    (userId: number) =>
+    ({ get }: IRecoilGetParams) => {
+      const pendingGifts = get(rPendingGifts);
+      return pendingGifts.filter(g => g.sender_id === userId);
+    },
 });
 
 export const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',
-  get: (circleId: number) => ({ get }: IRecoilGetParams) => {
-    let lastNumber = 1;
-    const epochsWithNumber = [] as IEpoch[];
-    iti(get(rEpochsMap).values())
-      .filter((e) => e.circle_id === circleId)
-      .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
-      .forEach((epoch) => {
-        lastNumber = epoch.number ?? lastNumber + 1;
-        epochsWithNumber.push({ ...epoch, number: lastNumber });
-      });
+  get:
+    (circleId: number) =>
+    ({ get }: IRecoilGetParams) => {
+      let lastNumber = 1;
+      const epochsWithNumber = [] as IEpoch[];
+      iti(get(rEpochsMap).values())
+        .filter(e => e.circle_id === circleId)
+        .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
+        .forEach(epoch => {
+          lastNumber = epoch.number ?? lastNumber + 1;
+          epochsWithNumber.push({ ...epoch, number: lastNumber });
+        });
 
-    return epochsWithNumber;
-  },
+      return epochsWithNumber;
+    },
 });
 export const useCircleEpochs = (id: number) =>
   useRecoilValue(rCircleEpochs(id));
@@ -348,39 +354,41 @@ export const rCircleEpochsStatus = selectorFamily<
   number
 >({
   key: 'rCircleEpochsStatus',
-  get: (circleId: number) => ({ get }: IRecoilGetParams) => {
-    const epochs = get(rCircleEpochs(circleId));
-    const pastEpochs = epochs.filter(
-      (epoch) => +new Date(epoch.end_date) - +new Date() <= 0
-    );
-    const futureEpochs = epochs.filter(
-      (epoch) => +new Date(epoch.start_date) - +new Date() >= 0
-    );
-    const previousEpoch =
-      pastEpochs.length > 0 ? pastEpochs[pastEpochs.length - 1] : undefined;
-    const nextEpoch = futureEpochs.length > 0 ? futureEpochs[0] : undefined;
-    const previousEpochEndedOn = previousEpoch
-      ? moment
-          .utc(previousEpoch.end_date)
-          .subtract(1, 'seconds')
-          .local()
-          .format('dddd MMMM Do')
-      : undefined;
-    const currentEpoch = epochs.find(
-      (epoch) =>
-        +new Date(epoch.start_date) - +new Date() <= 0 &&
-        +new Date(epoch.end_date) - +new Date() >= 0
-    );
-    return {
-      epochs,
-      pastEpochs,
-      previousEpoch,
-      currentEpoch,
-      nextEpoch,
-      futureEpochs,
-      previousEpochEndedOn,
-    };
-  },
+  get:
+    (circleId: number) =>
+    ({ get }: IRecoilGetParams) => {
+      const epochs = get(rCircleEpochs(circleId));
+      const pastEpochs = epochs.filter(
+        epoch => +new Date(epoch.end_date) - +new Date() <= 0
+      );
+      const futureEpochs = epochs.filter(
+        epoch => +new Date(epoch.start_date) - +new Date() >= 0
+      );
+      const previousEpoch =
+        pastEpochs.length > 0 ? pastEpochs[pastEpochs.length - 1] : undefined;
+      const nextEpoch = futureEpochs.length > 0 ? futureEpochs[0] : undefined;
+      const previousEpochEndedOn = previousEpoch
+        ? moment
+            .utc(previousEpoch.end_date)
+            .subtract(1, 'seconds')
+            .local()
+            .format('dddd MMMM Do')
+        : undefined;
+      const currentEpoch = epochs.find(
+        epoch =>
+          +new Date(epoch.start_date) - +new Date() <= 0 &&
+          +new Date(epoch.end_date) - +new Date() >= 0
+      );
+      return {
+        epochs,
+        pastEpochs,
+        previousEpoch,
+        currentEpoch,
+        nextEpoch,
+        futureEpochs,
+        previousEpochEndedOn,
+      };
+    },
 });
 export const useCircleEpochsStatus = (id: number) =>
   useRecoilValue(rCircleEpochsStatus(id));
@@ -402,7 +410,7 @@ export const rAvailableTeammates = selector<IUser[]>({
     const usersMap = get(rUsersMap);
     return iti(usersMap.values())
       .filter(
-        (u) =>
+        u =>
           !u.deleted_at &&
           u.id !== selectedMyUser?.id &&
           u.circle_id === selectedCircleId
@@ -418,7 +426,7 @@ export const rSelectedCircleUsersWithDeleted = selector<IUser[]>({
     const selectedCircleId = get(rSelectedCircleId);
     const usersMap = get(rUsersMap);
     return iti(usersMap.values())
-      .filter((u) => u.circle_id === selectedCircleId)
+      .filter(u => u.circle_id === selectedCircleId)
       .toArray();
   },
 });
@@ -430,7 +438,7 @@ export const rSelectedCircleUsers = selector<IUser[]>({
   get: ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
     return iti(get(rUsersMap).values())
-      .filter((u) => !u.deleted_at && u.circle_id === selectedCircleId)
+      .filter(u => !u.deleted_at && u.circle_id === selectedCircleId)
       .toArray();
   },
 });
@@ -439,16 +447,20 @@ export const useSelectedCircleUsers = () =>
 
 export const rGiftsFor = selectorFamily<ITokenGift[], number>({
   key: 'rGiftsFor',
-  get: (userId: number) => ({ get }: IRecoilGetParams) =>
-    get(rGifts).filter((g) => g.recipient_id === userId),
+  get:
+    (userId: number) =>
+    ({ get }: IRecoilGetParams) =>
+      get(rGifts).filter(g => g.recipient_id === userId),
 });
 export const useGiftsFor = (userId: number) =>
   useRecoilValue(rGiftsFor(userId));
 
 export const rGiftsFrom = selectorFamily<ITokenGift[], number>({
   key: 'rGiftsFrom',
-  get: (userId: number) => ({ get }: IRecoilGetParams) =>
-    get(rGifts).filter((g) => g.sender_id === userId),
+  get:
+    (userId: number) =>
+    ({ get }: IRecoilGetParams) =>
+      get(rGifts).filter(g => g.sender_id === userId),
 });
 export const useGiftsFrom = (userId: number) =>
   useRecoilValue(rGiftsFrom(userId));
@@ -464,25 +476,27 @@ export const rUserGifts = selectorFamily<
   number
 >({
   key: 'rUserGifts',
-  get: (userId: number) => ({ get }: IRecoilGetParams) => {
-    const giftsFrom = get(rGiftsFrom(userId));
-    const giftsFor = get(rGiftsFor(userId));
-    const fromUserByEpoch = iti(giftsFrom).toGroups((g) => g.epoch_id);
-    const forUserByEpoch = iti(giftsFor).toGroups((g) => g.epoch_id);
-    const totalReceivedByEpoch = new Map(
-      iti(forUserByEpoch.entries()).map(([epochId, arr]) => [
-        epochId,
-        iti(arr.map((g) => g.tokens)).sum() ?? 0,
-      ])
-    );
-    return {
-      fromUser: giftsFrom,
-      forUser: giftsFor,
-      fromUserByEpoch,
-      forUserByEpoch,
-      totalReceivedByEpoch,
-    };
-  },
+  get:
+    (userId: number) =>
+    ({ get }: IRecoilGetParams) => {
+      const giftsFrom = get(rGiftsFrom(userId));
+      const giftsFor = get(rGiftsFor(userId));
+      const fromUserByEpoch = iti(giftsFrom).toGroups(g => g.epoch_id);
+      const forUserByEpoch = iti(giftsFor).toGroups(g => g.epoch_id);
+      const totalReceivedByEpoch = new Map(
+        iti(forUserByEpoch.entries()).map(([epochId, arr]) => [
+          epochId,
+          iti(arr.map(g => g.tokens)).sum() ?? 0,
+        ])
+      );
+      return {
+        fromUser: giftsFrom,
+        forUser: giftsFor,
+        fromUserByEpoch,
+        forUserByEpoch,
+        totalReceivedByEpoch,
+      };
+    },
 });
 export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));

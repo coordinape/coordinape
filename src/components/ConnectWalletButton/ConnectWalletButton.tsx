@@ -8,7 +8,7 @@ import { WALLET_ICONS } from 'config/constants';
 import { useGlobalUi } from 'hooks';
 import { ConnectorNames } from 'utils/enums';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: '0 14px',
     height: 32,

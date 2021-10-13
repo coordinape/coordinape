@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MenuItem, Select, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   selectRoot: {
     fontSize: 16,
     fontWeight: 700,

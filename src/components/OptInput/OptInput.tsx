@@ -5,7 +5,7 @@ import { FormControlLabel, Radio, makeStyles } from '@material-ui/core';
 import { ReactComponent as CheckedRadioSVG } from 'assets/svgs/button/checked-radio.svg';
 import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: 222,
     margin: 0,

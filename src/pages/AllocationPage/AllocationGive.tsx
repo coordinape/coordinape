@@ -7,7 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { TeammateCard } from 'components';
 import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
     width: '100%',
@@ -251,8 +251,8 @@ const AllocationGive = () => {
       </div>
       <div className={classes.teammateContainer}>
         {localGifts
-          .map((g) => g.user)
-          .filter((a) => {
+          .map(g => g.user)
+          .filter(a => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
             }
@@ -279,15 +279,15 @@ const AllocationGive = () => {
               }
             }
           })
-          .map((user) => (
+          .map(user => (
             <TeammateCard
               disabled={!epochIsActive}
               key={user.id}
               note={givePerUser.get(user.id)?.note || ''}
               tokenName={selectedCircle?.token_name || 'GIVE'}
               tokens={givePerUser.get(user.id)?.tokens || 0}
-              updateNote={(note) => updateGift(user.id, { note })}
-              updateTokens={(tokens) => updateGift(user.id, { tokens })}
+              updateNote={note => updateGift(user.id, { note })}
+              updateTokens={tokens => updateGift(user.id, { tokens })}
               user={user}
             />
           ))}

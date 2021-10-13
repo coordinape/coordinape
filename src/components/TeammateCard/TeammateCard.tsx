@@ -20,7 +20,7 @@ import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 
 import { IUser } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     width: 330,
@@ -336,7 +336,7 @@ export const TeammateCard = (props: IProps) => {
           <div className={classes.skillContainer}>
             {user?.profile?.skills &&
               user.profile.skills.length > 0 &&
-              user.profile.skills.slice(0, 3).map((skill) => (
+              user.profile.skills.slice(0, 3).map(skill => (
                 <div key={skill} className={classes.skillItem}>
                   {skill}
                 </div>
