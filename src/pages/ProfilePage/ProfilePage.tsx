@@ -10,17 +10,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
-import discord from '../../assets/svgs/social/discord.svg';
-import github from '../../assets/svgs/social/github.svg';
-import medium from '../../assets/svgs/social/medium.svg';
-import telegram from '../../assets/svgs/social/telegram-icon.svg';
-import twitter from '../../assets/svgs/social/twitter-icon.svg';
-import website from '../../assets/svgs/social/website.svg';
+import { ProfileSocialIcons } from 'components';
 import { useProfile, useMe, useApi, useCircle } from 'hooks';
 import { getAvatarPath } from 'utils/domain';
 
@@ -195,8 +189,6 @@ export const ProfilePage = ({
   match: { params },
 }: RouteComponentProps<{ profileAddress?: string }>) => {
   const classes = useStyles();
-
-  // Circle
   const { selectedCircleId } = useCircle();
 
   // My or Other Profile
@@ -343,7 +335,7 @@ export const ProfilePage = ({
           <Box className={classes.body}>
             <h2 className={classes.name}>{savedProfileData.name}</h2>
             <Box className={classes.skillGroup}>
-              {/* loop section from the myprofile data */}
+              {/* loop section from the my profile data */}
               {savedProfileData?.skills?.length
                 ? savedProfileData.skills.map(item => (
                     <div key={item} className={classes.skillItem}>
@@ -353,79 +345,7 @@ export const ProfilePage = ({
                 : ''}
             </Box>
             <Box className={classes.socialGroup}>
-              {savedProfileData?.twitter_username && (
-                <Link
-                  href={`https://twitter.com/${savedProfileData.twitter_username}`}
-                  target="_blank"
-                >
-                  <img
-                    alt="twitter"
-                    src={twitter}
-                    style={{ paddingRight: 16 }}
-                  />
-                </Link>
-              )}
-              {savedProfileData?.github_username && (
-                <Link
-                  href={`https://github.com/${savedProfileData.github_username}`}
-                  target="_blank"
-                >
-                  <img alt="github" src={github} style={{ paddingRight: 16 }} />
-                </Link>
-              )}
-              {savedProfileData?.telegram_username && (
-                <Link
-                  href={`https://t.me/${savedProfileData.telegram_username}`}
-                  target="_blank"
-                >
-                  <img
-                    alt="telegram"
-                    src={telegram}
-                    style={{ paddingRight: 16 }}
-                  />
-                </Link>
-              )}
-              {savedProfileData?.discord_username && (
-                <Link
-                  href={`https://discord.com/${savedProfileData.discord_username}`}
-                  target="_blank"
-                >
-                  <img
-                    alt="discord"
-                    src={discord}
-                    style={{
-                      paddingRight: 16,
-                      width: 50,
-                      height: 50,
-                    }}
-                  />
-                </Link>
-              )}
-              {savedProfileData?.medium_username && (
-                <Link
-                  href={`https://medium.com/${savedProfileData.medium_username}`}
-                  target="_blank"
-                >
-                  <img
-                    alt="medium"
-                    src={medium}
-                    style={{ paddingRight: 16, width: 50, height: 50 }}
-                  />
-                </Link>
-              )}
-              {savedProfileData?.website && (
-                <Link
-                  style={{ color: 'rgba(81, 99, 105, 0.7)', paddingRight: 16 }}
-                  href={savedProfileData.website}
-                  target="_blank"
-                >
-                  <img
-                    alt="website"
-                    src={website}
-                    style={{ paddingRight: 16, width: 50, height: 50 }}
-                  />
-                </Link>
-              )}
+              {profile && <ProfileSocialIcons profile={profile} />}
             </Box>
             <Box className={classes.bioBox}>
               <ShowMore anchorClass={classes.bioBoxAnchor}>

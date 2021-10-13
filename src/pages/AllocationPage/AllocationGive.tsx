@@ -4,8 +4,9 @@ import clsx from 'clsx';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { TeammateCard } from 'components';
-import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
+import { ProfileCard } from 'components';
+import { useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
+import { useSelectedCircle, useSelectedMyUser } from 'recoilState';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -174,7 +175,8 @@ const AllocationGive = () => {
   const classes = useStyles();
 
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
-  const { selectedCircle } = useMe();
+  const selectedMyUser = useSelectedMyUser();
+  const selectedCircle = useSelectedCircle();
   const { givePerUser, localGifts, updateGift } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
@@ -250,6 +252,9 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
+        {selectedMyUser && (
+          <ProfileCard user={selectedMyUser} tokens={0} note="" isMe />
+        )}
         {localGifts
           .map(g => g.user)
           .filter(a => {
@@ -280,14 +285,14 @@ const AllocationGive = () => {
             }
           })
           .map(user => (
-            <TeammateCard
+            <ProfileCard
               disabled={!epochIsActive}
               key={user.id}
               note={givePerUser.get(user.id)?.note || ''}
-              tokenName={selectedCircle?.token_name || 'GIVE'}
               tokens={givePerUser.get(user.id)?.tokens || 0}
-              updateNote={note => updateGift(user.id, { note })}
-              updateTokens={tokens => updateGift(user.id, { tokens })}
+              updateGift={(update: { note?: string; tokens?: number }) =>
+                updateGift(user.id, update)
+              }
               user={user}
             />
           ))}
