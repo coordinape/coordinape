@@ -30,7 +30,7 @@
     "@web3-react/walletconnect-connector": "6.2.4",
     "@web3-react/walletlink-connector": "6.2.5",
     "async-sema": "3.1.0",
-    "axios": "0.21.1",
+    "axios": "0.21.2",
     "clsx": "1.1.1",
     "d3-force-3d": "2.3.2",
     "ethers": "5.4.7",
