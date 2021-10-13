@@ -24,3 +24,4 @@ export * from './SaveIcon';
 export * from './UploadIcon';
 export * from './MinusCircleIcon';
 export * from './InfoIcon';
+export * from './DownArrow';

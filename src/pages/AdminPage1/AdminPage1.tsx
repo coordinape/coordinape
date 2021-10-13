@@ -7,7 +7,7 @@ import { makeStyles, Button, IconButton, Avatar, Box } from '@material-ui/core';
 import { ReactComponent as ArrowDown } from 'assets/svgs/button/arrow_down.svg';
 import { StaticTableNew, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { useAdminApi, useProfile, useMe, useCircle } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
+import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow } from 'icons';
 import {
   useSelectedCircle,
   useSelectedMyUser,
@@ -678,7 +678,7 @@ const AdminPage1 = () => {
             className={classes.moreButton}
             onClick={() => setEditCircle(true)}
           >
-            <ArrowDown />
+            <DownArrow />
           </Button>
           <Button
             variant="contained"
