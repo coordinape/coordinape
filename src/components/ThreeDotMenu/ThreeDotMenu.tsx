@@ -4,14 +4,6 @@ import { IconButton, Button, Popover, makeStyles } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const useStyles = makeStyles(theme => ({
-  moreButton: {
-    // margin: 0,
-    // padding: theme.spacing(0, 1),
-    // minWidth: 20,
-    // fontSize: 17,
-    // fontWeight: 800,
-    // color: theme.colors.text,
-  },
   morePaper: {
     width: 170,
     padding: theme.spacing(1, 0),
@@ -46,7 +38,6 @@ export const ThreeDotMenu = ({ actions }: { actions: IAction[] }) => {
     <>
       <IconButton
         size="small"
-        className={classes.moreButton}
         onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
       >
         <MoreHorizIcon />
