@@ -15,6 +15,8 @@ export const WEIGHT_DECIMALS = 18;
 export const MAX_NAME_LENGTH = 20;
 export const MAX_BIO_LENGTH = 560;
 
+export const USER_ROLE_ADMIN = 1;
+
 export const WALLET_ICONS: { [key in ConnectorNames]: React.ElementType } = {
   [ConnectorNames.Injected]: MetaMaskSVG,
   [ConnectorNames.WalletConnect]: WalletConnectSVG,

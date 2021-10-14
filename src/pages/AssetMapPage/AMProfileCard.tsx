@@ -210,10 +210,9 @@ const AMProfileCard = ({
               </div>
             )}
             {isSelected && (
-              <ProfileSocialIcons
-                profile={profile}
-                className={classes.socialContainer}
-              />
+              <div className={classes.socialContainer}>
+                <ProfileSocialIcons profile={profile} />
+              </div>
             )}
             <div className={classes.bioContainer}>
               {reactStringReplace(bio, searchRegex, (match, i) =>

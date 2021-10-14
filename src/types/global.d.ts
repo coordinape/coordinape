@@ -47,3 +47,11 @@ export interface ITableColumn {
   narrow?: boolean;
   leftAlign?: boolean;
 }
+
+export type TUpdateGift = ({
+  note,
+  tokens,
+}: {
+  note?: string;
+  tokens?: number;
+}) => void;

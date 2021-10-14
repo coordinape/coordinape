@@ -49,7 +49,8 @@ export const Routes = () => {
       <Route exact path={paths.getHomePath()} component={DefaultPage} />
       <Route
         exact
-        path={paths.getProfilePath(':profileAddress')}
+        // TODO: This use of the path pattern is odd
+        path={paths.getProfilePath({ address: ':profileAddress' })}
         component={ProfilePage}
       />
       <Route exact path={paths.getMapPath()} component={LazyAssetMapPage} />

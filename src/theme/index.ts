@@ -43,6 +43,9 @@ const themeOptions = {
     MuiIconButton: {
       root: {
         color: '#aab2b5',
+        '&:hover': {
+          color: '#4e7577',
+        },
       },
     },
     MuiButton: {

@@ -1,99 +1,91 @@
 import React from 'react';
 
-import clsx from 'clsx';
+import { makeStyles, IconButton } from '@material-ui/core';
 
-import { makeStyles, Link } from '@material-ui/core';
-
-import { ReactComponent as DiscordSVG } from 'assets/svgs/social/discord.svg';
-import { ReactComponent as GithubSVG } from 'assets/svgs/social/github.svg';
-import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
-import { ReactComponent as TelegramSVG } from 'assets/svgs/social/telegram-icon.svg';
-import { ReactComponent as TwitterSVG } from 'assets/svgs/social/twitter-icon.svg';
-import { ReactComponent as WebsiteSVG } from 'assets/svgs/social/website.svg';
+import {
+  TwitterIcon,
+  DiscordIcon,
+  MediumIcon,
+  TelegramIcon,
+  LinkIcon,
+  GithubIcon,
+} from 'icons';
 
 import { IProfileEmbed } from 'types';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   socialItem: {
     margin: theme.spacing(0.5),
     width: 18,
     height: 18,
-    '& svg': {
-      width: '100%',
-      height: '100%',
-    },
   },
 }));
 
-export const ProfileSocialIcons = ({
-  className,
-  profile,
-}: {
-  className?: string;
-  profile: IProfileEmbed;
-}) => {
+export const ProfileSocialIcons = ({ profile }: { profile: IProfileEmbed }) => {
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <>
       {profile.twitter_username && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={`https://twitter.com/${profile.twitter_username}`}
           target="_blank"
-          className={classes.socialItem}
         >
-          <TwitterSVG />
-        </Link>
+          <TwitterIcon />
+        </IconButton>
       )}
       {profile.github_username && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={`https://github.com/${profile.github_username}`}
           target="_blank"
-          className={classes.socialItem}
         >
-          <GithubSVG />
-        </Link>
+          <GithubIcon />
+        </IconButton>
       )}
       {profile.telegram_username && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={`https://t.me/${profile.telegram_username}`}
           target="_blank"
-          className={classes.socialItem}
         >
-          <TelegramSVG />
-        </Link>
+          <TelegramIcon />
+        </IconButton>
       )}
       {profile.discord_username && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={`https://discord.com/${profile.discord_username}`}
           target="_blank"
-          className={classes.socialItem}
         >
-          <DiscordSVG />
-        </Link>
+          <DiscordIcon />
+        </IconButton>
       )}
       {profile.medium_username && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={`https://medium.com/${profile.medium_username}`}
           target="_blank"
-          className={classes.socialItem}
         >
-          <MediumSVG />
-        </Link>
+          <MediumIcon />
+        </IconButton>
       )}
       {profile.website && (
-        <Link
+        <IconButton
+          size="small"
+          className={classes.socialItem}
           href={profile.website}
           target="_blank"
-          className={classes.socialItem}
         >
-          <WebsiteSVG />
-        </Link>
+          <LinkIcon />
+        </IconButton>
       )}
-    </div>
+    </>
   );
 };
