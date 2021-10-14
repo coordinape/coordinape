@@ -158,7 +158,7 @@ export const ProfileCard = ({
       {!disabled && updateGift && (
         <GiftInput
           tokens={
-            user.fixed_non_receiver || user.non_receiver ? tokens : undefined
+            user.fixed_non_receiver || user.non_receiver ? undefined : tokens
           }
           note={note}
           updateGift={updateGift}
