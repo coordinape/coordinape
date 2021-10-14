@@ -4,7 +4,6 @@ import { IconButton, makeStyles } from '@material-ui/core';
 
 import { ApeTextField } from 'components';
 import { PlusCircleIcon, MinusCircleIcon } from 'icons';
-import { useSelectedCircle } from 'recoilState';
 
 import { CardInfoText } from './CardInfoText';
 
@@ -71,13 +70,14 @@ export const GiftInput = ({
   tokens,
   note,
   updateGift,
+  tokenName,
 }: {
   note: string;
   tokens?: number;
   updateGift: TUpdateGift;
+  tokenName: string;
 }) => {
   const classes = useStyles();
-  const selectedCircle = useSelectedCircle();
 
   const onChangeTokens = ({
     target: { value },
@@ -97,7 +97,7 @@ export const GiftInput = ({
     <div className={classes.root}>
       {tokens !== undefined ? (
         <ApeTextField
-          label={`${selectedCircle?.tokenName} Allocated`}
+          label={`${tokenName} Allocated`}
           value={tokens}
           onChange={onChangeTokens}
           className={classes.textField}
@@ -131,10 +131,9 @@ export const GiftInput = ({
         />
       ) : (
         <CardInfoText
-          tooltip={`This contributor opted out of receiving ${selectedCircle?.tokenName}. They are paid through other channels or are not currently active.`}
+          tooltip={`This contributor opted out of receiving ${tokenName}. They are paid through other channels or are not currently active.`}
         >
-          This contributor opted out of receiving {selectedCircle?.tokenName}{' '}
-          this epoch.
+          This contributor opted out of receiving {tokenName} this epoch.
         </CardInfoText>
       )}
       <ApeTextField

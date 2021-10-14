@@ -253,7 +253,13 @@ const AllocationGive = () => {
       </div>
       <div className={classes.teammateContainer}>
         {selectedMyUser && (
-          <ProfileCard user={selectedMyUser} tokens={0} note="" isMe />
+          <ProfileCard
+            user={selectedMyUser}
+            tokens={0}
+            note=""
+            isMe
+            tokenName={selectedCircle?.tokenName ?? 'Give'}
+          />
         )}
         {localGifts
           .map(g => g.user)
@@ -290,6 +296,7 @@ const AllocationGive = () => {
               key={user.id}
               note={givePerUser.get(user.id)?.note || ''}
               tokens={givePerUser.get(user.id)?.tokens || 0}
+              tokenName={selectedCircle?.tokenName ?? 'Give'}
               updateGift={(update: { note?: string; tokens?: number }) =>
                 updateGift(user.id, update)
               }

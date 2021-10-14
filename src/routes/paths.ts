@@ -13,17 +13,35 @@ export const EXTERNAL_URL_DISCORD = 'https://discord.gg/DPjmDWEUH5';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
 
+const toSearchString = (params: Record<string, string | number>) =>
+  Object.entries(params)
+    .reduce<URLSearchParams>((p, [key, val]) => {
+      p.set(key, val.toString());
+      return p;
+    }, new URLSearchParams())
+    .toString();
+
+const withSearchParams = (
+  path: string,
+  params?: Record<string, string | number>
+) =>
+  params && Object.keys(params).length > 0
+    ? `${path}?${toSearchString(params)}`
+    : path;
+
 export const getHomePath = () => '/';
 export const getAllocationPath = () => '/allocation';
 export const getMyTeamPath = () => '/team';
 export const getMyEpochPath = () => '/epoch';
 export const getGivePath = () => '/give';
-export const getMapPath = () => '/map';
+export const getMapPath = (params?: { highlight?: string }) =>
+  withSearchParams('/map', params);
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
 export const getCreateCirclePath = () => '/new-circle';
-export const getProfilePath = (address: string) => `/profile/${address}`;
+export const getProfilePath = ({ address }: { address: string }) =>
+  `/profile/${address}`;
 
 interface INavItem {
   label: string;
@@ -33,7 +51,10 @@ interface INavItem {
   subItems?: INavItem[];
 }
 
-const NAV_ITEM_PROFILE = { path: getProfilePath('me'), label: 'My Profile' };
+const NAV_ITEM_PROFILE = {
+  path: getProfilePath({ address: 'me' }),
+  label: 'My Profile',
+};
 const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
 const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
 const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };

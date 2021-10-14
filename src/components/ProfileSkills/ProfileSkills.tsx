@@ -2,6 +2,8 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
+import { USER_ROLE_ADMIN } from 'config/constants';
+
 import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +30,7 @@ export const ProfileSkills = ({
   max: number;
 }) => {
   const classes = useStyles();
-  const skills = user?.profile?.skills ?? ([] as string[]);
+  const skills = user.profile?.skills ?? ([] as string[]);
 
   return (
     <>
@@ -38,14 +40,14 @@ export const ProfileSkills = ({
             {skill}
           </div>
         ))}
-      {user?.role == 1 ? (
+      {user.role === USER_ROLE_ADMIN && (
         <div
           key="Admin"
           className={clsx(classes.skillItem, classes.adminSkillItem)}
         >
           Admin
         </div>
-      ) : undefined}
+      )}
     </>
   );
 };

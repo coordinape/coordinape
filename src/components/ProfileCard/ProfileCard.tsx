@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useHistory } from 'react-router';
-
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
@@ -11,8 +9,7 @@ import {
   ThreeDotMenu,
   ProfileSkills,
 } from 'components';
-import { useSelectedCircle } from 'recoilState';
-import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
+import { useNavigation } from 'hooks';
 
 import { CardInfoText } from './CardInfoText';
 import { GiftInput } from './GiftInput';
@@ -110,6 +107,7 @@ export const ProfileCard = ({
   disabled,
   updateGift,
   isMe,
+  tokenName,
 }: {
   user: IUser;
   tokens: number;
@@ -117,10 +115,10 @@ export const ProfileCard = ({
   disabled?: boolean;
   updateGift?: TUpdateGift;
   isMe?: boolean;
+  tokenName: string;
 }) => {
   const classes = useStyles();
-  const history = useHistory();
-  const selectedCircle = useSelectedCircle();
+  const { getToMap, getToProfile } = useNavigation();
 
   return (
     <div className={classes.root}>
@@ -131,19 +129,18 @@ export const ProfileCard = ({
         <ApeAvatar
           user={user}
           className={classes.avatar}
-          onClick={() => history.push(`profile/${user.address}`)}
+          onClick={getToProfile({ address: user.address })}
         />
         <div className={classes.moreContainer}>
           <ThreeDotMenu
             actions={[
               {
                 label: 'View on Graph',
-                onClick: () =>
-                  history.push(`map?${MAP_HIGHLIGHT_PARAM}=${user.address}`),
+                onClick: getToMap({ highlight: user.address }),
               },
               {
                 label: 'View Profile',
-                onClick: () => history.push(`profile/${user.address}`),
+                onClick: getToProfile({ address: user.address }),
               },
             ]}
           />
@@ -165,6 +162,7 @@ export const ProfileCard = ({
           }
           note={note}
           updateGift={updateGift}
+          tokenName={tokenName}
         />
       )}
 
@@ -177,8 +175,8 @@ export const ProfileCard = ({
 
       {isMe && !user.fixed_non_receiver && !!user.non_receiver && (
         <CardInfoText tooltip="">
-          You are opted out of receiving ${selectedCircle?.tokenName}, navigate
-          to my epoch and opt in to receive.
+          You are opted out of receiving ${tokenName}, navigate to my epoch and
+          opt in to receive.
         </CardInfoText>
       )}
 
@@ -186,7 +184,7 @@ export const ProfileCard = ({
         <Button
           variant="text"
           className={classes.editButton}
-          onClick={() => history.push(`profile/me`)}
+          onClick={getToProfile({ address: 'me' })}
         >
           <EditProfileSVG />
           Edit My Profile
