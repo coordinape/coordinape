@@ -9,7 +9,9 @@ import {
   ThreeDotMenu,
   ProfileSkills,
 } from 'components';
+import { USER_ROLE_ADMIN } from 'config/constants';
 import { useNavigation } from 'hooks';
+import { useSetEditProfileOpen } from 'recoilState';
 
 import { CardInfoText } from './CardInfoText';
 import { GiftInput } from './GiftInput';
@@ -119,6 +121,7 @@ export const ProfileCard = ({
 }) => {
   const classes = useStyles();
   const { getToMap, getToProfile } = useNavigation();
+  const setEditProfileOpen = useSetEditProfileOpen();
 
   return (
     <div className={classes.root}>
@@ -140,14 +143,18 @@ export const ProfileCard = ({
               },
               {
                 label: 'View Profile',
-                onClick: getToProfile({ address: user.address }),
+                onClick: getToProfile({ address: isMe ? 'me' : user.address }),
               },
             ]}
           />
         </div>
         <span className={classes.name}>{user.name}</span>
         <div className={classes.skillContainer}>
-          <ProfileSkills user={user} max={3} />
+          <ProfileSkills
+            skills={user.profile.skills ?? []}
+            isAdmin={user.role === USER_ROLE_ADMIN}
+            max={3}
+          />
         </div>
       </div>
 
@@ -184,7 +191,7 @@ export const ProfileCard = ({
         <Button
           variant="text"
           className={classes.editButton}
-          onClick={getToProfile({ address: 'me' })}
+          onClick={() => setEditProfileOpen(true)}
         >
           <EditProfileSVG />
           Edit My Profile

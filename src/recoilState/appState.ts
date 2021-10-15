@@ -12,12 +12,14 @@ import {
 } from 'recoil';
 
 import { getApiService } from 'services/api';
+import { getAvatarPath } from 'utils/domain';
 import {
   createCircleWithDefaults,
   createGiftWithUser,
   createExtendedEpoch,
 } from 'utils/modelExtenders';
 import storage from 'utils/storage';
+import { neverEndingPromise } from 'utils/tools';
 
 import { rMyAddress } from './walletState';
 
@@ -90,6 +92,24 @@ export const rMyProfile = selector<IApiFilledProfile | undefined>({
   },
 });
 export const useMyProfile = () => useRecoilValue(rMyProfile);
+
+export const rMyAvatar = selector<File>({
+  key: 'rMyAvatar',
+  get: async ({ get }) => {
+    const avatar = get(rMyProfile)?.avatar;
+    if (!avatar) {
+      return neverEndingPromise<File>();
+    }
+    const fp = getAvatarPath(avatar);
+    const rsp = await fetch(fp);
+    const data = await rsp.blob();
+    const f = new File([data], 'test.jpg', {
+      type: 'image/jpeg',
+    });
+    return f;
+  },
+});
+export const useMyAvatar = () => useRecoilValue(rMyAvatar);
 
 export const rHasAdminView = selector<boolean>({
   key: 'rHasAdminView',

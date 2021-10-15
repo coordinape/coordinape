@@ -77,8 +77,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const skillNames = SKILLS.map(({ name }) => name);
-
 export const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
@@ -132,7 +130,7 @@ export const AMDrawer = () => {
           <ApeAutocomplete
             onChange={setSearch}
             freeSolo
-            options={skillNames}
+            options={SKILLS}
             color="secondary"
             placeholder="Search by Keyword"
             InputProps={{

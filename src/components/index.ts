@@ -35,3 +35,7 @@ export * from './ApeInfoTooltip/ApeInfoTooltip';
 export * from './DialogNotice/DialogNotice';
 export * from './ThreeDotMenu/ThreeDotMenu';
 export * from './ProfileSkills/ProfileSkills';
+export * from './SkillToggles/SkillToggles';
+export * from './EditProfileModal/EditProfileModal';
+export * from './AvatarUpload/AvatarUpload';
+export * from './FormFileUpload/FormFileUpload';
