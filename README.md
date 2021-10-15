@@ -32,13 +32,16 @@ React Frontend                 ┃┃
 
 # Getting started:
 
-- `git clone` | `yarn install`
-- Setup .env file
-- `yarn start` | [http://localhost:3000](http://localhost:3000)
-
-Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
+2. Install packages: `yarn install`
+3. Setup a local .env file: `cp .env.example .env`
+4. Start yarn: `yarn start`
+5. Visit app: [http://localhost:3000](http://localhost:3000)
+6. Setup backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
 
 # App Structure
+
+Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### See [HistoryPage](https://github.com/coordinape/coordinape/blob/master/src/pages/HistoryPage/HistoryPage.tsx) as an exemplar top level component.
 
