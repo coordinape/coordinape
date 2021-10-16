@@ -40,10 +40,21 @@ const useStyles = makeStyles(theme => ({
   },
   headerInside: {
     position: 'relative',
+    height: 300,
     width: '100%',
     maxWidth: theme.breakpoints.values.lg,
-    padding: theme.spacing(0, 2),
-    height: 300,
+    padding: theme.spacing(0, 8),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+    },
+  },
+  body: {
+    width: '100%',
+    maxWidth: theme.breakpoints.values.lg,
+    padding: theme.spacing(0, 8),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+    },
   },
   avatar: {
     top: 155,
@@ -59,11 +70,6 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     bottom: 0,
     right: 28,
-  },
-  body: {
-    width: '100%',
-    maxWidth: theme.breakpoints.values.lg,
-    padding: theme.spacing(0, 2),
   },
   name: {
     marginTop: 18,

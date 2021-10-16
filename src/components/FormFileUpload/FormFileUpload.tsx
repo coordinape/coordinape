@@ -13,6 +13,11 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(0, 0.2),
     },
   },
+  textButton: {
+    '& .MuiButton-startIcon': {
+      margin: theme.spacing(0, 0.2),
+    },
+  },
 }));
 
 export const FormFileUpload = ({
@@ -37,7 +42,7 @@ export const FormFileUpload = ({
   const fileInput = useRef<HTMLInputElement>(null);
 
   const buttonClass =
-    !!editText || !!uploadText ? undefined : classes.smallButton;
+    !!editText || !!uploadText ? classes.textButton : classes.smallButton;
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
