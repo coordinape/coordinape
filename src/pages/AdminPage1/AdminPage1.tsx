@@ -237,12 +237,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#000000',
     margin: theme.spacing(6, 0),
   },
-  iconGroup: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: 54,
-    alignItems: 'baseline',
-    flexWrap: 'wrap',
+  allocateBtn: {
+    padding: '8px',
+    height: 'calc(32px * 16) * 1rem',
   },
   actionsAndEpochs: {
     display: 'flex',
@@ -479,9 +476,15 @@ const AdminPage1 = () => {
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
-        <IconButton onClick={onEdit} size="small">
-          <EditIcon />
-        </IconButton>
+        <Button
+          className={classes.allocateBtn}
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={onEdit}
+        >
+          Allocate Funds
+        </Button>
       ) : undefined}
 
       {onDelete ? (
