@@ -1,5 +1,6 @@
 import { keccak256 } from 'ethers/lib/utils';
-import { bufferToHex } from 'helpers/bufferToHex';
+
+import { bufferToHex } from 'utils/tools';
 
 export default class MerkleTree {
   private readonly elements: Buffer[];
