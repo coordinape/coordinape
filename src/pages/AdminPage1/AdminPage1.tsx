@@ -7,7 +7,13 @@ import { makeStyles, Button, IconButton, Avatar, Box } from '@material-ui/core';
 import { ReactComponent as ArrowDown } from 'assets/svgs/button/arrow_down.svg';
 import { StaticTableNew, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { useAdminApi, useProfile, useMe, useCircle } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow } from 'icons';
+import {
+  DeleteIcon,
+  EditIcon,
+  PlusCircleIcon,
+  DownArrow,
+  InfoIcon,
+} from 'icons';
 import {
   useSelectedCircle,
   useSelectedMyUser,
@@ -115,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    marginTop: -80,
     gridTemplateColumns: '1fr',
     padding: theme.spacing(0, 1),
     [theme.breakpoints.down('xs')]: {
@@ -131,16 +138,38 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: 5,
     },
   },
+  number: {
+    color: theme.colors.black,
+    fontSize: 24,
+    margin: 0,
+    fontWeight: 600,
+    paddingRight: 8,
+  },
   noVaultsTitle: {
     color: theme.colors.mediumGray,
     margin: 0,
     fontSize: 24,
     fontWeight: 600,
   },
+  vaultsTitle: {
+    color: theme.colors.mediumGray,
+    margin: 0,
+    fontSize: 24,
+    fontWeight: 700,
+    padding: 0,
+    marginRight: '1em',
+  },
   noVaultsSubtitle: {
     color: theme.colors.mediumGray,
     fontSize: 15,
     fontWeight: 300,
+  },
+  vaultsSecondary: {
+    color: theme.colors.lightBlue,
+    fontSize: 15,
+    fontWeight: 300,
+    margin: 0,
+    padding: 0,
   },
   organizationLinks: {
     justifySelf: 'stretch',
@@ -269,6 +298,8 @@ const useStyles = makeStyles((theme) => ({
   newTable: {
     flexGrow: 4,
     height: 288,
+    marginTop: -80,
+    paddingTop: 0,
   },
   userActionBar: {
     display: 'flex',
@@ -344,6 +375,21 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     opacity: 0.7,
+  },
+  horizontalDisplay: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  totalValue: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  infoIcon: {
+    height: 20,
+    width: 20,
+    marginBottom: 0,
   },
 }));
 
@@ -729,6 +775,31 @@ const AdminPage1 = () => {
         </div>
       </div>
       <div className={classes.withVaults}>
+        <div>
+          <div className={classes.horizontalDisplay}>
+            <h2 className={classes.vaultsTitle}>USDC Vault</h2>
+            <Button variant="text" className={classes.vaultsSecondary}>
+              Deposit
+            </Button>{' '}
+            <h4 className={classes.vaultsSecondary}> | </h4>{' '}
+            <Button variant="text" className={classes.vaultsSecondary}>
+              {' '}
+              &nbsp;Withdaw
+            </Button>
+          </div>
+          <h4 className={classes.noVaultsSubtitle}>
+            Upcoming and Recent Epochs <InfoIcon className={classes.infoIcon} />
+          </h4>
+        </div>
+        <div>
+          <div className={classes.totalValue}>
+            <h2 className={classes.number}>0</h2>
+            <h2 className={classes.noVaultsTitle}>USDC ...</h2>
+          </div>
+          <h4 className={classes.noVaultsSubtitle}>
+            Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}
+          </h4>
+        </div>
         <StaticTableNew
           label="Testing"
           className={classes.newTable}
@@ -753,8 +824,12 @@ const AdminPage1 = () => {
           }
         />
         <div className={classes.noVaultsInterior}>
-          <h2 className={classes.noVaultsTitle}>There are no transactions</h2>
-          <h3 className={classes.noVaultsSubtitle}>To get started</h3>
+          <h2 className={classes.noVaultsTitle}>
+            There are no transactions to show yet.
+          </h2>
+          <h3 className={classes.noVaultsSubtitle}>
+            To get started, fund your vault with USDC
+          </h3>
           <Button
             variant="contained"
             color="primary"
