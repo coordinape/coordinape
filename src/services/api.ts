@@ -1,8 +1,14 @@
 import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
 
+import {
+  addressToCaip10String,
+  getSelfIdImageUrl,
+} from '../utils/selfIdHelpers';
 import { API_URL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
+
+import { getSelfIdCore } from './selfid';
 
 import {
   IApiCircle,
@@ -37,8 +43,24 @@ export class APIService {
   }
 
   getProfile = async (address: string): Promise<IApiFilledProfile> => {
-    const response = await axios.get(`/profile/${address}`);
-    return (response.data.profile ?? response.data) as IApiFilledProfile;
+    const [response, selfIdResponse] = await Promise.all([
+      axios.get(`/profile/${address}`),
+      getSelfIdCore().get<'basicProfile'>(
+        'basicProfile',
+        addressToCaip10String(address)
+      ),
+    ]);
+    const profile = (response.data.profile ??
+      response.data) as IApiFilledProfile;
+
+    return {
+      ...profile,
+      background:
+        profile.background || getSelfIdImageUrl(selfIdResponse?.background),
+      avatar: profile.avatar || getSelfIdImageUrl(selfIdResponse?.image),
+      website: profile.website || selfIdResponse?.url,
+      bio: profile.bio || selfIdResponse?.description,
+    };
   };
 
   updateProfile = async (
