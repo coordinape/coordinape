@@ -68,7 +68,7 @@ export function parseBalanceMap(
   const sortedAddresses = Object.keys(dataByAddress).sort();
   // construct a tree
   const tree = new BalanceTree(
-    sortedAddresses.map((address) => ({
+    sortedAddresses.map(address => ({
       account: address,
       amount: dataByAddress[address].amount,
     }))

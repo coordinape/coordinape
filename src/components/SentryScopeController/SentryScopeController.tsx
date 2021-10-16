@@ -6,8 +6,11 @@ import { useCircle, useMe, useSelectedAllocation } from 'hooks';
 import { useConnectorName } from 'recoilState';
 
 const AllocationScope = () => {
-  const { localTeammatesChanged, localGiftsChanged, tokenRemaining } =
-    useSelectedAllocation();
+  const {
+    localTeammatesChanged,
+    localGiftsChanged,
+    tokenRemaining,
+  } = useSelectedAllocation();
 
   useEffect(() => {
     Sentry.configureScope(scope => {

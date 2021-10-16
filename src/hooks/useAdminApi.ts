@@ -35,16 +35,15 @@ export const useAdminApi = () => {
   const updateUsersMap = useSetRecoilState(rUsersMapRaw);
 
   const getState = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) =>
-      async () => {
-        const selectedCircleId =
-          (await snapshot.getPromise(rSelectedCircleId)) ?? -1;
-        const myAddress = await snapshot.getPromise(rMyAddress);
-        return {
-          selectedCircleId,
-          myAddress,
-        };
-      }
+    ({ snapshot }: CallbackInterface) => async () => {
+      const selectedCircleId =
+        (await snapshot.getPromise(rSelectedCircleId)) ?? -1;
+      const myAddress = await snapshot.getPromise(rMyAddress);
+      return {
+        selectedCircleId,
+        myAddress,
+      };
+    }
   );
 
   const updateCircle = (params: PutCirclesParam) =>

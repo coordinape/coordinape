@@ -32,8 +32,9 @@ export const useCircle = () => {
   const callWithLoadCatch = useAsyncLoadCatch();
   const api = getApiService();
 
-  const [selectedCircleId, setSelectedCircleId] =
-    useRecoilState(rSelectedCircleId);
+  const [selectedCircleId, setSelectedCircleId] = useRecoilState(
+    rSelectedCircleId
+  );
   const availableTeammates = useRecoilValue(rAvailableTeammates);
   const selectedCircle = useRecoilValue(rSelectedCircle);
 
@@ -42,20 +43,19 @@ export const useCircle = () => {
   // selected user has team
   // if switch at '/' or any allocation path then nav to least done
   const triggerDefaultNavigation = useRecoilCallback(
-    ({ snapshot }) =>
-      async () => {
-        const circleId = await snapshot.getPromise(rSelectedCircleId);
-        const { currentEpoch } = await snapshot.getPromise(
-          rCircleEpochsStatus(circleId ?? -1)
-        );
-        if (history.location.pathname === '/') {
-          if (currentEpoch) {
-            history.push(getAllocationPath());
-          } else {
-            history.push(getHistoryPath());
-          }
+    ({ snapshot }) => async () => {
+      const circleId = await snapshot.getPromise(rSelectedCircleId);
+      const { currentEpoch } = await snapshot.getPromise(
+        rCircleEpochsStatus(circleId ?? -1)
+      );
+      if (history.location.pathname === '/') {
+        if (currentEpoch) {
+          history.push(getAllocationPath());
+        } else {
+          history.push(getHistoryPath());
         }
       }
+    }
   );
 
   const fetchUsers = useRecoilFetcher(
