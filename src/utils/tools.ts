@@ -48,3 +48,7 @@ export const assertDef = <T>(val: T | undefined, message?: string): T => {
  * Use with recoil to suspend until state is initialized.
  */
 export const neverEndingPromise = <T>() => new Promise<T>(() => void 0);
+
+export const bufferToHex = function (buf: Buffer): string {
+  return '0x' + buf.toString('hex');
+};
