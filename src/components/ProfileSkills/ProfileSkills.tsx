@@ -2,10 +2,6 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { USER_ROLE_ADMIN } from 'config/constants';
-
-import { IUser } from 'types';
-
 const useStyles = makeStyles(theme => ({
   skillItem: {
     margin: theme.spacing(0.5),
@@ -23,14 +19,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const ProfileSkills = ({
-  user,
+  skills,
+  isAdmin,
   max = 3,
 }: {
-  user: IUser;
+  skills: string[];
+  isAdmin: boolean;
   max: number;
 }) => {
   const classes = useStyles();
-  const skills = user.profile?.skills ?? ([] as string[]);
 
   return (
     <>
@@ -40,7 +37,7 @@ export const ProfileSkills = ({
             {skill}
           </div>
         ))}
-      {user.role === USER_ROLE_ADMIN && (
+      {isAdmin && (
         <div
           key="Admin"
           className={clsx(classes.skillItem, classes.adminSkillItem)}

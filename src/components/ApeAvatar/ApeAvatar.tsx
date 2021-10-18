@@ -1,20 +1,25 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { Avatar, AvatarProps } from '@material-ui/core';
 
 import { getAvatarPath, AVATAR_PLACEHOLDER } from 'utils/domain';
 
-import { IUser } from 'types';
+import { IUser, IProfile } from 'types';
 
-interface IProps extends AvatarProps {
+export const ApeAvatar = ({
+  user,
+  path,
+  children,
+  profile,
+  ...props
+}: AvatarProps & {
   user?: IUser;
   path?: string;
-}
-
-export const ApeAvatar: FC<IProps> = ({ user, path, children, ...props }) => {
-  const src = user?.profile?.avatar
-    ? getAvatarPath(user?.profile?.avatar)
-    : path ?? AVATAR_PLACEHOLDER;
+  profile?: IProfile;
+}) => {
+  // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
+  const p = profile ?? user?.profile;
+  const src = p?.avatar ? getAvatarPath(p?.avatar) : path ?? AVATAR_PLACEHOLDER;
   return (
     <Avatar src={src} alt={user?.name} {...props}>
       {children ? (

@@ -13,6 +13,7 @@ import {
   CircleSelectModal,
   ConnectWalletModal,
   LoadingModal,
+  EditProfileModal,
 } from 'components';
 import { useCircle, useMe, useWallet } from 'hooks';
 import {
@@ -23,6 +24,7 @@ import {
   rTriggerMode,
   useConnectorName,
   useSetMyAddress,
+  useStateEditProfileOpen,
 } from 'recoilState';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { getApiService } from 'services/api';
@@ -85,6 +87,7 @@ export const RecoilAppController = () => {
     useRecoilState(rCircleSelectorOpen);
   const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
+  const [editProfileOpen, setEditProfileOpen] = useStateEditProfileOpen();
   const recoilCallback = useRecoilCallback(
     ({ set }) =>
       async (active: boolean) => {
@@ -164,6 +167,10 @@ export const RecoilAppController = () => {
         visible={circleSelectorOpen}
       />
       <LoadingModal text={globalLoadingText} visible={globalLoading > 0} />
+      <EditProfileModal
+        open={editProfileOpen}
+        onClose={() => setEditProfileOpen(false)}
+      />
     </>
   );
 };
