@@ -336,8 +336,26 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 11,
     lineHeight: 1.5,
   },
+  oneLineCell: {
+    height: 48,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 11,
+    lineHeight: 1.5,
+  },
   twoLineCellTitle: {
     fontWeight: 600,
+  },
+  oneLineCellTitle: {
+    fontWeight: 600,
+    fontSize: 17,
+    marginLeft: '1em',
+  },
+  oneLineCellSubtitle: {
+    fontWeight: 400,
+    marginLeft: '0.5em',
   },
   twoLineCellSubtitle: {
     fontWeight: 400,
@@ -423,6 +441,24 @@ const AdminPage1 = () => {
   const selectedCircle = useSelectedCircle();
   const visibleUsers = useSelectedCircleUsers();
   const epochsReverse = useSelectedCircleEpochs();
+
+  const transactions = useMemo(
+    () => [
+      {
+        name: 'No Name McGee',
+        dateType: 'Deposit made on 8/1',
+        posNeg: '+',
+        value: 25000,
+      },
+      {
+        name: 'Another No name person',
+        dateType: 'Withdawl made on 8/1',
+        posNeg: '-',
+        value: 14000,
+      },
+    ],
+    []
+  );
 
   const epochs = useMemo(
     () => [
@@ -547,6 +583,32 @@ const AdminPage1 = () => {
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
+  );
+  //TODO: Need to make an interface for transaction data
+  // Transaction Columns
+  const RenderTransactionDetails = (e: any) => (
+    <div className={classes.twoLineCell}>
+      <span className={classes.twoLineCellTitle} style={{ textAlign: 'left' }}>
+        {e.name}
+      </span>
+      <span
+        className={classes.twoLineCellSubtitle}
+        style={{ textAlign: 'left' }}
+      >
+        {e.dateType} See TX on Etherscan
+      </span>
+    </div>
+  );
+
+  const RenderTransactionAmount = (e: any) => (
+    <div className={classes.oneLineCell}>
+      <p className={classes.oneLineCellTitle}>
+        {' '}
+        {e.posNeg}
+        {e.value}
+      </p>
+      <p className={classes.oneLineCellSubtitle}>usdc</p>
+    </div>
   );
 
   // Epoch Columns
@@ -701,6 +763,23 @@ const AdminPage1 = () => {
     asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
     asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
   });
+  const transactionColumns = useMemo(
+    () =>
+      [
+        {
+          label: 'Details',
+          render: RenderTransactionDetails,
+          wide: true,
+        },
+        {
+          label: 'Amount',
+          render: RenderTransactionAmount,
+          wide: true,
+        },
+      ] as ITableColumn[],
+    []
+  );
+
   return (
     <div className={classes.root}>
       <div className={classes.topMenu}>
