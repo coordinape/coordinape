@@ -242,19 +242,17 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(1, 2),
       borderRadius: '16px',
       color: theme.colors.text,
-    },
-    '&.active': {
       '&::after': {
         left: 0,
         right: 0,
         backgroundColor: theme.colors.ultraLightGray,
       },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.ultraLightGray,
-        },
+    },
+    '&:active': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.ultraLightGray,
       },
     },
   },
