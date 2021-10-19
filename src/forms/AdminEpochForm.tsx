@@ -83,7 +83,7 @@ const getZodParser = (source: IEpochFormSource) => {
     ? DateTime.fromISO(baseStartDateStr)
     : undefined;
 
-  const otherRepeating = source.epochs.find((e) => !!e.repeat);
+  const otherRepeating = source.epochs.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
     start_date,
@@ -100,8 +100,8 @@ const getZodParser = (source: IEpochFormSource) => {
     );
 
     const collisionMessage = source.epochs
-      .map((e) => getCollisionMessage(interval, repeat, e))
-      .find((m) => m !== undefined);
+      .map(e => getCollisionMessage(interval, repeat, e))
+      .find(m => m !== undefined);
 
     return collisionMessage === undefined
       ? undefined
@@ -145,8 +145,8 @@ const getZodParser = (source: IEpochFormSource) => {
       message: `Only one repeating epoch allowed.`,
     })
     .refine(
-      (v) => !getOverlapIssue(v),
-      (v) => getOverlapIssue(v) ?? {}
+      v => !getOverlapIssue(v),
+      v => getOverlapIssue(v) ?? {}
     )
     .transform(({ start_date, repeat, ...fields }) => ({
       start_date: start_date.toISO(),

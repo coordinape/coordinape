@@ -4,11 +4,11 @@ import clsx from 'clsx';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { TeammateCard } from 'components';
-import { useMe, useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
-import { useSelectedCircleUsers } from 'recoilState';
+import { ProfileCard } from 'components';
+import { useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
+import { useSelectedCircle, useSelectedMyUser } from 'recoilState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
     width: '100%',
@@ -175,11 +175,12 @@ const AllocationGive = () => {
   const classes = useStyles();
 
   const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
-  const { selectedMyUser, selectedCircle } = useMe();
-  const visibleUsers = useSelectedCircleUsers();
-  const { givePerUser, localTeammates, updateGift } = useSelectedAllocation();
+  const selectedMyUser = useSelectedMyUser();
+  const selectedCircle = useSelectedCircle();
+  const { givePerUser, localGifts, updateGift } = useSelectedAllocation();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
+
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
@@ -251,16 +252,23 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {(selectedMyUser ? visibleUsers : [])
-          .filter((a) => {
+        {selectedMyUser && (
+          <ProfileCard
+            user={selectedMyUser}
+            tokens={0}
+            note=""
+            isMe
+            tokenName={selectedCircle?.tokenName ?? 'Give'}
+          />
+        )}
+        {localGifts
+          .map(g => g.user)
+          .filter(a => {
             if (filterType & FilterType.OptIn) {
               return !a.non_receiver;
             }
             if (filterType & FilterType.NewMember) {
               return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
-            }
-            if (selectedCircle?.team_selection === 1) {
-              return localTeammates.includes(a) || givePerUser.get(a.id);
             }
             return true;
           })
@@ -282,20 +290,19 @@ const AllocationGive = () => {
               }
             }
           })
-          .map((user) =>
-            user.id === selectedMyUser?.id ? undefined : (
-              <TeammateCard
-                disabled={!epochIsActive}
-                key={user.id}
-                note={givePerUser.get(user.id)?.note || ''}
-                tokenName={selectedCircle?.token_name || 'GIVE'}
-                tokens={givePerUser.get(user.id)?.tokens || 0}
-                updateNote={(note) => updateGift(user.id, { note })}
-                updateTokens={(tokens) => updateGift(user.id, { tokens })}
-                user={user}
-              />
-            )
-          )}
+          .map(user => (
+            <ProfileCard
+              disabled={!epochIsActive}
+              key={user.id}
+              note={givePerUser.get(user.id)?.note || ''}
+              tokens={givePerUser.get(user.id)?.tokens || 0}
+              tokenName={selectedCircle?.tokenName ?? 'Give'}
+              updateGift={(update: { note?: string; tokens?: number }) =>
+                updateGift(user.id, update)
+              }
+              user={user}
+            />
+          ))}
       </div>
     </div>
   );

@@ -18,13 +18,13 @@ import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
 
-import AdminCircleModal from './AdminCircleModal';
-import AdminEpochModal from './AdminEpochModal';
-import AdminUserModal from './AdminUserModal';
+import { AdminCircleModal } from './AdminCircleModal';
+import { AdminEpochModal } from './AdminEpochModal';
+import { AdminUserModal } from './AdminUserModal';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -241,7 +241,7 @@ const AdminPage = () => {
     ) : (
       renderActions(
         () => setEditEpoch(e),
-        !e.started ? () => deleteEpoch(e.id) : undefined
+        !e.started ? () => deleteEpoch(e.id).catch(console.warn) : undefined
       )
     );
 
@@ -308,7 +308,9 @@ const AdminPage = () => {
           render: (u: IUser) =>
             renderActions(
               () => setEditUser(u),
-              u.id !== me?.id ? () => deleteUser(u.address) : undefined
+              u.id !== me?.id
+                ? () => deleteUser(u.address).catch(console.warn)
+                : undefined
             ),
           noSort: true,
         },

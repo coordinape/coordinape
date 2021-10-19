@@ -27,7 +27,7 @@ import RaribleLogo from 'assets/svgs/landing-page/rarible-logo.svg';
 import Splash from 'assets/svgs/landing-page/splash.svg';
 import SushiswapLogo from 'assets/svgs/landing-page/sushiswap-logo.svg';
 import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
-import { ConnectWalletButton, CoordinapeLogo } from 'components';
+import { CoordinapeLogo } from 'components';
 import { DocsIcon, TwitterIcon, MediumIcon, DiscordIcon } from 'icons';
 import {
   EXTERNAL_URL_DOCS,
@@ -35,11 +35,7 @@ import {
   EXTERNAL_URL_MEDIUM_ARTICLE,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import {
-  APP_URL,
-  APP_URL_OPEN_WALLET,
-  APP_URL_CREATE_CIRCLE,
-} from 'utils/domain';
+import { APP_URL_OPEN_WALLET, APP_URL_CREATE_CIRCLE } from 'utils/domain';
 
 const VALUE_PROP_REWARD =
   'Gift Circles allow DAO members to collectively reward each other making community payments more equitable and transparent.';
@@ -48,7 +44,7 @@ const VALUE_PROP_INCENTIVIZE =
 const VALUE_PROP_SCALE =
   'Understand how value moves through your organization and move more decisions and resources to the community.';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     minHeight: '100%',
@@ -99,13 +95,11 @@ const useStyles = makeStyles((theme) => ({
     '& button': {
       width: 240,
       height: 48,
-      borderRadius: 13,
     },
   },
   button: {
     minWidth: 240,
     height: 48,
-    borderRadius: 13,
   },
   logo: {
     color: theme.palette.text.primary,
@@ -406,7 +400,14 @@ const LandingPage = () => {
           />
           <Hidden xsDown>
             <a href={APP_URL_OPEN_WALLET}>
-              <ConnectWalletButton className={classes.walletButton} noAction />
+              <Button
+                className={classes.walletButton}
+                variant="outlined"
+                color="default"
+                size="small"
+              >
+                Launch Coordinape
+              </Button>
             </a>
           </Hidden>
         </div>
@@ -420,22 +421,16 @@ const LandingPage = () => {
             <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
               <Button
                 variant="contained"
-                color="secondary"
-                size="small"
+                color="default"
                 disableElevation
                 startIcon={<DiscordIcon />}
               >
                 Join our Discord
               </Button>
             </a>
-            <a href={APP_URL}>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                disableElevation
-              >
-                Launch App
+            <a href={APP_URL_CREATE_CIRCLE}>
+              <Button variant="contained" color="primary" disableElevation>
+                Start a Circle
               </Button>
             </a>
           </div>
@@ -496,7 +491,7 @@ const LandingPage = () => {
         <a href={EXTERNAL_URL_MEDIUM_ARTICLE} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             disableElevation
             className={classes.button}
           >
@@ -578,7 +573,7 @@ const LandingPage = () => {
         <a href={APP_URL_CREATE_CIRCLE} rel="noreferrer" target="_blank">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             disableElevation
             className={classes.button}
           >

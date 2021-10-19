@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useCommonStyles = makeStyles((theme) => ({
+const useCommonStyles = makeStyles(theme => ({
   scroll: {
     overflowY: 'auto',
     '&::-webkit-scrollbar': {

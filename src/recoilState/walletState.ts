@@ -13,7 +13,7 @@ export const rMyAddress = atom<string | undefined>({
   default: storage.getConnectorName() ? storage.getAddress() : undefined,
   effects_UNSTABLE: [
     ({ onSet }) => {
-      onSet((newAddress) => {
+      onSet(newAddress => {
         if (newAddress === undefined) {
           storage.clearAddress();
         } else {
@@ -32,7 +32,7 @@ export const rConnectorName = atom<ConnectorNames | undefined>({
   default: storage.getAddress() ? storage.getConnectorName() : undefined,
   effects_UNSTABLE: [
     ({ onSet }) => {
-      onSet((newId) => {
+      onSet(newId => {
         if (newId === undefined) {
           storage.clearConnectorName();
         } else {

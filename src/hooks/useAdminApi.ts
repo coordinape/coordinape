@@ -35,15 +35,16 @@ export const useAdminApi = () => {
   const updateUsersMap = useSetRecoilState(rUsersMapRaw);
 
   const getState = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () => {
-      const selectedCircleId =
-        (await snapshot.getPromise(rSelectedCircleId)) ?? -1;
-      const myAddress = await snapshot.getPromise(rMyAddress);
-      return {
-        selectedCircleId,
-        myAddress,
-      };
-    }
+    ({ snapshot }: CallbackInterface) =>
+      async () => {
+        const selectedCircleId =
+          (await snapshot.getPromise(rSelectedCircleId)) ?? -1;
+        const myAddress = await snapshot.getPromise(rMyAddress);
+        return {
+          selectedCircleId,
+          myAddress,
+        };
+      }
   );
 
   const updateCircle = (params: PutCirclesParam) =>
@@ -57,7 +58,7 @@ export const useAdminApi = () => {
       );
 
       updateCirclesMap(
-        (oldMap) =>
+        oldMap =>
           new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 
@@ -75,7 +76,7 @@ export const useAdminApi = () => {
       );
 
       updateCirclesMap(
-        (oldMap) =>
+        oldMap =>
           new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 
@@ -93,7 +94,7 @@ export const useAdminApi = () => {
           params
         );
 
-        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
+        updateEpochsMap(oldMap => new Map(oldMap.set(newEpoch.id, newEpoch)));
 
         return newEpoch;
       },
@@ -112,7 +113,7 @@ export const useAdminApi = () => {
           params
         );
 
-        updateEpochsMap((oldMap) => new Map(oldMap.set(newEpoch.id, newEpoch)));
+        updateEpochsMap(oldMap => new Map(oldMap.set(newEpoch.id, newEpoch)));
 
         return newEpoch;
       },
@@ -125,7 +126,7 @@ export const useAdminApi = () => {
       if (myAddress === undefined) throw 'myAddress required';
       await api.deleteEpoch(myAddress, selectedCircleId, epochId);
 
-      updateEpochsMap((oldMap) => {
+      updateEpochsMap(oldMap => {
         oldMap.delete(epochId);
         return new Map(oldMap);
       });
@@ -143,7 +144,7 @@ export const useAdminApi = () => {
         params
       );
 
-      updateUsersMap((oldMap) =>
+      updateUsersMap(oldMap =>
         updatedUserMapWithoutProfile(updatedUser, oldMap)
       );
 
@@ -156,7 +157,7 @@ export const useAdminApi = () => {
       if (myAddress === undefined) throw 'myAddress required';
       const newUser = await api.createUser(selectedCircleId, myAddress, params);
 
-      updateUsersMap((oldMap) => updatedUserMapWithoutProfile(newUser, oldMap));
+      updateUsersMap(oldMap => updatedUserMapWithoutProfile(newUser, oldMap));
 
       return newUser;
     });
@@ -174,7 +175,7 @@ export const useAdminApi = () => {
         userAddress
       );
 
-      updateUsersMap((oldMap) =>
+      updateUsersMap(oldMap =>
         updatedUserMapWithoutProfile(deletedUser, oldMap)
       );
     });

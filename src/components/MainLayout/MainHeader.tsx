@@ -16,7 +16,7 @@ import { useSelectedCircleEpoch, useMe, useCircle } from 'hooks';
 import { rMyAddress } from 'recoilState';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: theme.custom.appHeaderHeight,
     display: 'grid',
@@ -115,7 +115,7 @@ export const HeaderNav = () => {
   return (
     <div className={classes.navLinks}>
       {navButtonsVisible &&
-        navItems.map((navItem) => (
+        navItems.map(navItem => (
           <NavLink
             className={classes.navLink}
             isActive={(nothing, location) =>

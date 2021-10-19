@@ -18,7 +18,7 @@ export const isContract = async (
 };
 
 export const wait = <T>(something: T): Promise<T> =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
       resolve(something);
