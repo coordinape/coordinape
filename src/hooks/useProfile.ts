@@ -12,7 +12,7 @@ import { useRecoilFetcher } from './useRecoilFetcher';
 // TODO: This could be a selector, but how to trigger periodic refetch?
 export const useProfile = (address?: string) => {
   const profileMap = useRecoilValue(rProfileRaw);
-  const profile = address ? profileMap.get(address) : undefined;
+  const profile = address ? profileMap.get(address.toLowerCase()) : undefined;
 
   const fetchProfile = useRecoilFetcher(
     'rProfileRaw',

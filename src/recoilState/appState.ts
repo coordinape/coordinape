@@ -11,6 +11,10 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import {
+  getSelfIdProfile,
+  mergeSelfIdProfileInfo,
+} from '../utils/selfIdHelpers';
 import { getApiService } from 'services/api';
 import {
   createCircleWithDefaults,
@@ -219,8 +223,24 @@ export const rUsersMapRaw = atom<Map<number, IUser>>({
 
 export const rUsersMap = selector<Map<number, IUser>>({
   key: 'rUsersMap',
-  get: ({ get }: IRecoilGetParams) => {
+  get: async ({ get }: IRecoilGetParams) => {
     const usersMapRaw = new Map(get(rUsersMapRaw));
+
+    await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Array.from(usersMapRaw).map(async ([_, user]) => {
+        if (!user.address) return;
+
+        const selfIdProfile = await getSelfIdProfile(user.address);
+        if (!selfIdProfile) return;
+
+        usersMapRaw.set(user.id, {
+          ...user,
+          profile: mergeSelfIdProfileInfo(user.profile, selfIdProfile),
+        });
+      })
+    );
+
     // Profile may have updated fields missing from last we queried users.
     const profile = get(rMyProfile);
     profile?.users?.forEach(user =>
