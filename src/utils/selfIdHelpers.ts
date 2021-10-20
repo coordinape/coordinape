@@ -22,7 +22,7 @@ export const getSelfIdImageUrl = (
 
 export const mergeSelfIdProfileInfo = (
   baseProfile: IProfileEmbed,
-  selfIdProfile: BasicProfile | null
+  selfIdProfile: SelfIdProfileWithAccounts | null
 ) => {
   if (!selfIdProfile) return baseProfile;
 
@@ -33,15 +33,41 @@ export const mergeSelfIdProfileInfo = (
     avatar: baseProfile.avatar || getSelfIdImageUrl(selfIdProfile.image),
     website: baseProfile.website || selfIdProfile.url,
     bio: baseProfile.bio || selfIdProfile.description,
+    twitter_username:
+      baseProfile.twitter_username || selfIdProfile.twitter_username,
+    github_username:
+      baseProfile.github_username || selfIdProfile.github_username,
   };
 };
 
-export const getSelfIdProfile = async (address: string) => {
+export type SelfIdProfileWithAccounts = BasicProfile & {
+  github_username?: string;
+  twitter_username?: string;
+};
+
+export const getSelfIdProfile = async (
+  address: string
+): Promise<SelfIdProfileWithAccounts | null> => {
   try {
-    return await getSelfIdCore().get(
+    const basicProfile = await getSelfIdCore().get(
       'basicProfile',
       addressToCaip10String(address)
     );
+    const alsoKnownAs = await getSelfIdCore().get<'alsoKnownAs'>(
+      'alsoKnownAs',
+      addressToCaip10String(address)
+    );
+    if (!alsoKnownAs?.accounts) return basicProfile;
+
+    return {
+      ...basicProfile,
+      github_username: alsoKnownAs.accounts.find(
+        acc => acc.host === 'github.com'
+      )?.id,
+      twitter_username: alsoKnownAs.accounts.find(
+        acc => acc.host === 'twitter.com'
+      )?.id,
+    };
   } catch (e) {
     return null;
   }
