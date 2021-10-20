@@ -3,6 +3,7 @@ import React, { lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import { USER_ROLE_ADMIN } from 'config/constants';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
@@ -40,7 +41,7 @@ export const Routes = () => {
   }
   const SneakyAllocationPage = !asVoyeur ? AllocationPage : DefaultPage;
   const SneakyAdminPage =
-    (selectedMyUser && selectedMyUser.role === 1) || hasAdminView
+    (selectedMyUser && selectedMyUser.role === USER_ROLE_ADMIN) || hasAdminView
       ? AdminPage
       : DefaultPage;
 

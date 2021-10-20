@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
+import { USER_ROLE_ADMIN } from 'config/constants';
 import { useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
@@ -282,7 +283,7 @@ const AdminPage = () => {
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 1 ? 'Admin' : '-'),
+          render: (u: IUser) => (u.role === USER_ROLE_ADMIN ? 'Admin' : '-'),
         },
         {
           label: 'GIVE sent',
