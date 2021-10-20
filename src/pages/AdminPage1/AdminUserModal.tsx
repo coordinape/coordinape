@@ -186,10 +186,7 @@ export const AdminUserModal = ({
         className={classes.assetBtn}
         onClick={() => handleAssetSelect('other')}
       >
-        <span className={classes.btnSpan}>
-          <USDTIcon height={25} width={25} className={classes.icon} />
-          Other
-        </span>
+        <span className={classes.btnSpan}>Other</span>
       </button>
     </div>
   );
