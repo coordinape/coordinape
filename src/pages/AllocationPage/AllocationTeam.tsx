@@ -13,7 +13,7 @@ import {
   useSelectedCircleEpoch,
 } from 'hooks';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -386,7 +386,7 @@ const AllocationTeam = () => {
         </div>
         <div className={classes.teammatesContainer}>
           {availableTeammates
-            .filter((a) => a.non_receiver === 0)
+            .filter(a => a.non_receiver === 0)
             .sort((a, b) => {
               switch (orderType) {
                 case OrderType.Alphabetical:
@@ -405,8 +405,8 @@ const AllocationTeam = () => {
                 }
               }
             })
-            .map((user) => {
-              const selected = localTeammates.some((u) => u.id === user.id);
+            .map(user => {
+              const selected = localTeammates.some(u => u.id === user.id);
               const pendingSentGifts = givePerUser.get(user.id)?.tokens ?? 0;
               const matched =
                 keyword.length === 0 ||
@@ -415,7 +415,7 @@ const AllocationTeam = () => {
 
               return { ...user, selected, matched, pendingSentGifts };
             })
-            .map((user) => (
+            .map(user => (
               <Button
                 className={clsx(
                   classes.teammatesItem,
@@ -440,7 +440,7 @@ const AllocationTeam = () => {
               </Button>
             ))}
         </div>
-        {availableTeammates.filter((a) => a.non_receiver !== 0).length > 0 && (
+        {availableTeammates.filter(a => a.non_receiver !== 0).length > 0 && (
           <>
             <p className={classes.contentTitle}>
               These users are opted-out of receiving{' '}
@@ -449,7 +449,7 @@ const AllocationTeam = () => {
             <hr className={classes.hr} />
             <div className={classes.teammatesContainer}>
               {availableTeammates
-                .filter((a) => a.non_receiver !== 0)
+                .filter(a => a.non_receiver !== 0)
                 .sort((a, b) => {
                   switch (orderType) {
                     case OrderType.Alphabetical:
@@ -468,8 +468,8 @@ const AllocationTeam = () => {
                     }
                   }
                 })
-                .map((user) => {
-                  const selected = localTeammates.some((u) => u.id === user.id);
+                .map(user => {
+                  const selected = localTeammates.some(u => u.id === user.id);
                   const pendingSentGifts =
                     givePerUser.get(user.id)?.tokens ?? 0;
                   const matched =
@@ -479,7 +479,7 @@ const AllocationTeam = () => {
 
                   return { ...user, selected, matched, pendingSentGifts };
                 })
-                .map((user) => (
+                .map(user => (
                   <Button
                     className={clsx(
                       classes.teammatesItem,

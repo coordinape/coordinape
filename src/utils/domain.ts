@@ -27,8 +27,9 @@ export const APP_URL =
       );
 
 // TODO: Have prod remove the trailing slash
-export const STORAGE_URL = (process.env
-  .REACT_APP_S3_BASE_URL as string).replace(/\/$/, '');
+export const STORAGE_URL = (
+  process.env.REACT_APP_S3_BASE_URL as string
+).replace(/\/$/, '');
 export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
 
 // since NODE_ENV is 'production' in both production & staging,

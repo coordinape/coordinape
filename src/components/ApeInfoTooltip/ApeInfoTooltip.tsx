@@ -4,7 +4,7 @@ import { makeStyles, Tooltip, Zoom } from '@material-ui/core';
 
 import { InfoIcon } from 'icons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   tooltip: {
     fontSize: 14,
     lineHeight: 1.4,

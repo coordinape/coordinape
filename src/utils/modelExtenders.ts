@@ -106,14 +106,14 @@ export const createExtendedEpoch = (
 ): IEpoch => {
   const giftStream = iti(gifts);
   const uniqueUsers = giftStream
-    .flat((g) => [g.recipient_id, g.sender_id])
+    .flat(g => [g.recipient_id, g.sender_id])
     .distinct()
     .length();
   const activeUsers = giftStream
-    .map((g) => g.sender_id)
+    .map(g => g.sender_id)
     .distinct()
     .length();
-  const totalTokens = giftStream.map((g) => g.tokens).sum() ?? 0;
+  const totalTokens = giftStream.map(g => g.tokens).sum() ?? 0;
   const startDate = DateTime.fromISO(raw.start_date, {
     zone: 'utc',
   });
@@ -220,7 +220,7 @@ export const createExtendedNominee = (
     // TODO: Exrhizo: I mentioned to Zashton we might only send ids,
     // this way the profile is included without extra joins.
     nominations: nominee.nominations
-      .map((u) => usersMap.get(u.id))
+      .map(u => usersMap.get(u.id))
       .filter((u): u is IUser => !!u),
     vouchesNeeded: Math.max(
       0,

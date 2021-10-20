@@ -7,7 +7,7 @@ import { MAX_BIO_LENGTH } from 'config/constants';
 import { useCircle, useSelectedCircleEpoch } from 'hooks';
 import { capitalizedName } from 'utils/string';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: theme.breakpoints.values.lg,
     width: '100%',

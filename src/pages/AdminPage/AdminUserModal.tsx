@@ -10,7 +10,7 @@ import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modalBody: {
     display: 'flex',
     alignItems: 'center',
@@ -61,11 +61,10 @@ export const AdminUserModal = ({
     <AdminUserForm.FormController
       source={source}
       hideFieldErrors
-      submit={(params) =>
-        (user
-          ? updateUser(user.address, params)
-          : createUser(params)
-        ).then(() => onClose())
+      submit={params =>
+        (user ? updateUser(user.address, params) : createUser(params))
+          .then(() => onClose())
+          .catch(console.warn)
       }
     >
       {({
@@ -106,7 +105,7 @@ export const AdminUserModal = ({
             <ApeToggle {...fields.role} label="Are They Admin?" />
             <ApeToggle
               {...non_giver}
-              onChange={(v) => nonGiverOnChange(!v)}
+              onChange={v => nonGiverOnChange(!v)}
               value={!nonGiverValue}
               label="Can Give?"
             />

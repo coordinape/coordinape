@@ -12,7 +12,7 @@ import {
   FormAutocomplete,
 } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApi } from 'hooks/useApi';
+import { useApi } from 'hooks';
 import {
   useMyAddress,
   useMyAdminCircles,
@@ -20,7 +20,7 @@ import {
 } from 'recoilState';
 import * as paths from 'routes/paths';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -121,24 +121,28 @@ export const SummonCirclePage = () => {
           research_contact,
           ...params
         }) => {
-          const newCircle = await createCircle(
-            { ...params },
-            captcha_token,
-            JSON.stringify({
-              address: myAddress,
-              research_what,
-              research_who,
-              research_how_much,
-              research_org_link,
-              research_contact,
-              ...params,
-            })
-          );
-          setSelectedCircleId(newCircle.id);
-          history.push({
-            pathname: paths.getAdminPath(),
-            search: paths.NEW_CIRCLE_CREATED_PARAMS,
-          });
+          try {
+            const newCircle = await createCircle(
+              { ...params },
+              captcha_token,
+              JSON.stringify({
+                address: myAddress,
+                research_what,
+                research_who,
+                research_how_much,
+                research_org_link,
+                research_contact,
+                ...params,
+              })
+            );
+            setSelectedCircleId(newCircle.id);
+            history.push({
+              pathname: paths.getAdminPath(),
+              search: paths.NEW_CIRCLE_CREATED_PARAMS,
+            });
+          } catch (e) {
+            console.warn(e);
+          }
         }}
       >
         {({ fields, changedOutput, handleSubmit }) => (
@@ -167,16 +171,16 @@ export const SummonCirclePage = () => {
                   {...fields.protocol_name}
                   value={fields.protocol_name.value}
                   onChange={(v: string) => {
-                    const id = protocols.find((p) => p.name === v)?.id;
+                    const id = protocols.find(p => p.name === v)?.id;
                     fields.protocol_id?.onChange(id);
                     fields.protocol_name.onChange(v);
                   }}
-                  options={protocols.map((p) => p.name)}
+                  options={protocols.map(p => p.name)}
                   label="Organization Name"
                   fullWidth
                   TextFieldProps={{
                     infoTooltip:
-                      'Add to organizations that you are an admin in or create a new org.',
+                      'For security purposes, organizations are hidden on the frontend until verified. Contact an admin on Discord for more details.',
                   }}
                 />
               ) : (

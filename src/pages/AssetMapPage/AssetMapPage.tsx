@@ -15,13 +15,13 @@ import {
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 import { assertDef } from 'utils/tools';
 
-import AMDrawer from './AMDrawer';
-import AMForceGraph from './AMForceGraph';
-import RedSelect from './RedSelect';
+import { AMDrawer } from './AMDrawer';
+import { AMForceGraph } from './AMForceGraph';
+import { RedSelect } from './RedSelect';
 
 import { MetricEnum } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     height: '100%',
@@ -108,7 +108,7 @@ export const AssetMapPage = () => {
             value: -1,
           },
         ].concat(
-          amEpochs.map((e) => ({
+          amEpochs.map(e => ({
             label: e.labelGraph,
             value: e.id,
           }))
@@ -128,13 +128,13 @@ export const AssetMapPage = () => {
         <RedSelect
           value={amEpochId}
           options={epochOptions}
-          onChange={(v) => setAmEpochId(v as number)}
+          onChange={v => setAmEpochId(v as number)}
         />
         {showHiddenFeatures && (
           <RedSelect
             value={metric}
             options={metricOptions}
-            onChange={(v) => setMetric(v as MetricEnum)}
+            onChange={v => setMetric(v as MetricEnum)}
           />
         )}
       </div>

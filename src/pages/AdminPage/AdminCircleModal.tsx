@@ -12,7 +12,7 @@ import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   logoContainer: {
     position: 'relative',
     width: 96,
@@ -173,62 +173,73 @@ export const AdminCircleModal = ({
   };
 
   const editDiscordWebhook = async () => {
-    const _webhook = await getDiscordWebhook();
-    setWebhook(_webhook);
-    setAllowEdit(true);
+    try {
+      const _webhook = await getDiscordWebhook();
+      setWebhook(_webhook);
+      setAllowEdit(true);
+    } catch (e) {
+      console.warn(e);
+    }
   };
 
-  const onChangeWith = (set: (v: string) => void) => (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => set(e.target.value);
+  const onChangeWith =
+    (set: (v: string) => void) =>
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLTextAreaElement>
+    ) =>
+      set(e.target.value);
 
-  const onChangeNumberWith = (set: (v: number) => void) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => set(Math.max(0, parseInt(e.target.value) || 0));
+  const onChangeNumberWith =
+    (set: (v: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      set(Math.max(0, parseInt(e.target.value) || 0));
 
   const onSubmit = async () => {
-    if (logoData.avatarRaw) {
-      await updateCircleLogo(logoData.avatarRaw);
-      setLogoData({
-        ...logoData,
-        avatarRaw: null,
-      });
-    }
+    try {
+      if (logoData.avatarRaw) {
+        await updateCircleLogo(logoData.avatarRaw);
+        setLogoData({
+          ...logoData,
+          avatarRaw: null,
+        });
+      }
 
-    if (
-      circleName !== circle.name ||
-      vouching !== circle.vouching ||
-      tokenName !== circle.tokenName ||
-      minVouches !== circle.min_vouches ||
-      teamSelText !== circle.teamSelText ||
-      allocText !== circle.allocText ||
-      allowEdit ||
-      defaultOptIn !== circle.default_opt_in ||
-      nominationDaysLimit !== circle.nomination_days_limit ||
-      allocText !== circle.allocText ||
-      vouchingText !== circle.vouchingText ||
-      onlyGiverVouch !== circle.only_giver_vouch ||
-      teamSelection !== circle.team_selection
-    ) {
-      updateCircle({
-        name: circleName,
-        vouching: vouching,
-        token_name: tokenName,
-        min_vouches: minVouches,
-        team_sel_text: teamSelText,
-        nomination_days_limit: nominationDaysLimit,
-        alloc_text: allocText,
-        discord_webhook: webhook,
-        update_webhook: allowEdit ? 1 : 0,
-        default_opt_in: defaultOptIn,
-        vouching_text: vouchingText,
-        only_giver_vouch: onlyGiverVouch,
-        team_selection: teamSelection,
-      }).then(() => {
-        onClose();
-      });
+      if (
+        circleName !== circle.name ||
+        vouching !== circle.vouching ||
+        tokenName !== circle.tokenName ||
+        minVouches !== circle.min_vouches ||
+        teamSelText !== circle.teamSelText ||
+        allocText !== circle.allocText ||
+        allowEdit ||
+        defaultOptIn !== circle.default_opt_in ||
+        nominationDaysLimit !== circle.nomination_days_limit ||
+        allocText !== circle.allocText ||
+        vouchingText !== circle.vouchingText ||
+        onlyGiverVouch !== circle.only_giver_vouch ||
+        teamSelection !== circle.team_selection
+      ) {
+        await updateCircle({
+          name: circleName,
+          vouching: vouching,
+          token_name: tokenName,
+          min_vouches: minVouches,
+          team_sel_text: teamSelText,
+          nomination_days_limit: nominationDaysLimit,
+          alloc_text: allocText,
+          discord_webhook: webhook,
+          update_webhook: allowEdit ? 1 : 0,
+          default_opt_in: defaultOptIn,
+          vouching_text: vouchingText,
+          only_giver_vouch: onlyGiverVouch,
+          team_selection: teamSelection,
+        }).then(() => {
+          onClose();
+        });
+      }
+    } catch (e) {
+      console.warn(e);
     }
   };
 
@@ -285,7 +296,7 @@ export const AdminCircleModal = ({
         />
         <ApeToggle
           value={vouching === 1}
-          onChange={(val) => setVouching(val ? 1 : 0)}
+          onChange={val => setVouching(val ? 1 : 0)}
           label="Enable Vouching?"
         />
         <ApeTextField
@@ -358,18 +369,18 @@ export const AdminCircleModal = ({
         </div>
         <ApeToggle
           value={defaultOptIn === 1}
-          onChange={(val) => setDefaultOptIn(val ? 1 : 0)}
+          onChange={val => setDefaultOptIn(val ? 1 : 0)}
           label="Default Opt In?"
         />
         <ApeToggle
           value={onlyGiverVouch === 1}
-          onChange={(val) => setOnlyGiverVouch(val ? 1 : 0)}
+          onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
           label="Only Givers can vouch"
         />
         <ApeToggle
           value={teamSelection === 1}
-          onChange={(val) => setTeamSelection(val ? 1 : 0)}
+          onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
         />
       </div>

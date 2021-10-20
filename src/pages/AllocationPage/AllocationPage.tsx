@@ -14,6 +14,7 @@ import {
 import {
   useSelectedCircleEpoch,
   useMe,
+  useApi,
   useSelectedAllocation,
   useSelectedAllocationController,
 } from 'hooks';
@@ -32,7 +33,7 @@ import AllocationTeam from './AllocationTeam';
 
 import { IAllocationStep } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -154,7 +155,8 @@ export const AllocationPage = () => {
     saveTeammates,
   } = useSelectedAllocation();
   const { epochIsActive } = useSelectedCircleEpoch();
-  const { selectedMyUser, updateMyUser, selectedCircle } = useMe();
+  const { selectedMyUser, selectedCircle } = useMe();
+  const { updateMyUser } = useApi();
   const allSteps = selectedCircle?.team_selection === 0 ? NO_TEAM_STEPS : STEPS;
   const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
   const [epochBio, setEpochBio] = useState('');
@@ -193,33 +195,45 @@ export const AllocationPage = () => {
   }, [location]);
 
   const handleSaveEpoch = async () => {
-    await updateMyUser({
-      bio: epochBio,
-      non_receiver: nonReceiver ? 1 : 0,
-      epoch_first_visit: 0,
-    });
+    try {
+      await updateMyUser({
+        bio: epochBio,
+        non_receiver: nonReceiver ? 1 : 0,
+        epoch_first_visit: 0,
+      });
 
-    if (!(selectedCircle?.team_selection === 0 && !epochIsActive)) {
-      const _nextStep =
-        selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
-      setActiveStep(_nextStep.key);
-      history.push(_nextStep.path);
+      if (!(selectedCircle?.team_selection === 0 && !epochIsActive)) {
+        const _nextStep =
+          selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
+        setActiveStep(_nextStep.key);
+        history.push(_nextStep.path);
+      }
+    } catch (e) {
+      console.warn('handleSaveEpoch', e);
     }
   };
 
   const handleSaveTeamList = async () => {
-    await saveTeammates();
-    if (epochIsActive) {
-      setActiveStep(STEP_ALLOCATION.key);
-      history.push(STEP_ALLOCATION.path);
+    try {
+      await saveTeammates();
+      if (epochIsActive) {
+        setActiveStep(STEP_ALLOCATION.key);
+        history.push(STEP_ALLOCATION.path);
+      }
+    } catch (e) {
+      console.warn('handleSaveTeamList', e);
     }
   };
 
   const handleSaveAllocations = async () => {
-    if (localTeammatesChanged) {
-      await saveTeammates();
+    try {
+      if (localTeammatesChanged) {
+        await saveTeammates();
+      }
+      await saveGifts();
+    } catch (e) {
+      console.warn('handleSaveAllocations', e);
     }
-    await saveGifts();
   };
 
   const getHandleStep = (step: IAllocationStep) => () => {
@@ -234,7 +248,7 @@ export const AllocationPage = () => {
         activeStep={activeStep}
         classes={{ root: classes.stepperRoot }}
       >
-        {allSteps.map((step) => (
+        {allSteps.map(step => (
           <Step key={step.key} classes={{ root: classes.stepRoot }}>
             <StepButton
               onClick={getHandleStep(step)}

@@ -8,7 +8,7 @@ import { FormModal, ApeTextField } from 'components';
 import { useVouching } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   description: {
     marginTop: theme.spacing(1),
     fontSize: 16,
@@ -63,9 +63,9 @@ export const NewNominationModal = ({
   const nominateChanged =
     name.length == 0 || description.length == 0 || isAddress;
 
-  const onChangeWith = (set: (v: string) => void) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => set(e.target.value);
+  const onChangeWith =
+    (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      set(e.target.value);
 
   const onSubmit = async () => {
     if (!nominateChanged) {
@@ -75,9 +75,11 @@ export const NewNominationModal = ({
       name,
       address,
       description,
-    }).then(() => {
-      onClose();
-    });
+    })
+      .then(() => {
+        onClose();
+      })
+      .catch(console.warn);
   };
 
   return (
@@ -107,7 +109,7 @@ export const NewNominationModal = ({
         />
         <ApeTextField
           label="Why are you nominating this person?"
-          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future, I need some better helper text here please feel free to edit."
+          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
           value={description}
           className={classes.gridAllColumns}
           onChange={onChangeWith(setDescription)}

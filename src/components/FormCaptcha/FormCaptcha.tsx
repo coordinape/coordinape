@@ -13,7 +13,7 @@ const SITE_KEY = IN_PRODUCTION
   ? (process.env.REACT_APP_H_CAPTCHA as string)
   : '10000000-ffff-ffff-ffff-000000000001';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -61,7 +61,7 @@ export const FormCaptcha = ({
     <div className={clsx(className, classes.root)}>
       <HCaptcha
         sitekey={SITE_KEY}
-        onVerify={(t) => onChange(t)}
+        onVerify={t => onChange(t)}
         onExpire={() => onChange('')}
       />
       {!!error && <div className={classes.error}>{errorText}</div>}

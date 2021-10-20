@@ -3,7 +3,7 @@ export const updaterMergeArrayToIdMap = (
   updateWith: (update: (oldValue: any) => any) => void
 ) => {
   updateWith((oldValue: Map<number, any>) => {
-    newValue.forEach((v) => oldValue.set(v.id, v));
+    newValue.forEach(v => oldValue.set(v.id, v));
     return new Map(oldValue);
   });
 };

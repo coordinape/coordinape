@@ -5,7 +5,7 @@ import { transparentize } from 'polished';
 
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(0.5),
     fontSize: 14,

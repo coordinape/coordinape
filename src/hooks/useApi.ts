@@ -8,6 +8,8 @@ import {
   rMyAddress,
   rMyProfile,
   rCirclesMap,
+  rSelectedCircle,
+  rSelectedMyUser,
   useTriggerProfileReload,
 } from 'recoilState';
 import { getApiService } from 'services/api';
@@ -15,7 +17,7 @@ import { createCircleWithDefaults } from 'utils/modelExtenders';
 
 import { useAsyncLoadCatch } from './useAsyncLoadCatch';
 
-import { CreateCircleParam } from 'types';
+import { CreateCircleParam, PutUsersParam, PostProfileParam } from 'types';
 
 export const useApi = () => {
   const api = getApiService();
@@ -25,13 +27,27 @@ export const useApi = () => {
   const triggerProfileReload = useTriggerProfileReload();
 
   const getAddress = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rMyAddress)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rMyAddress)
   );
 
   const getProfile = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async () =>
-      await snapshot.getPromise(rMyProfile)
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rMyProfile)
+  );
+
+  const getSelectedCircle = useRecoilCallback(
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rSelectedCircle)
+  );
+
+  const getSelectedMyUser = useRecoilCallback(
+    ({ snapshot }: CallbackInterface) =>
+      async () =>
+        await snapshot.getPromise(rSelectedMyUser)
   );
 
   const createCircle = (
@@ -50,7 +66,7 @@ export const useApi = () => {
       );
 
       updateCirclesMap(
-        (oldMap) =>
+        oldMap =>
           new Map(oldMap.set(newCircle.id, createCircleWithDefaults(newCircle)))
       );
 
@@ -60,7 +76,73 @@ export const useApi = () => {
       return newCircle;
     });
 
+  const updateMyUser = async (params: PutUsersParam) =>
+    callWithLoadCatch(async () => {
+      const selectedCircle = await getSelectedCircle();
+      const selectedMyUser = await getSelectedMyUser();
+      if (!selectedMyUser || !selectedCircle) {
+        throw 'Need to select a circle to update circle user';
+      }
+      const updatedUser = await api.updateMyUser(
+        selectedCircle.id,
+        selectedMyUser.address,
+        {
+          name: selectedMyUser.name,
+          bio: selectedMyUser.bio,
+          non_receiver: selectedMyUser.non_receiver,
+          non_giver: selectedMyUser.non_giver,
+          epoch_first_visit: selectedMyUser.epoch_first_visit,
+          ...params,
+        }
+      );
+
+      triggerProfileReload();
+
+      return updatedUser;
+    });
+
+  const updateAvatar = async (newAvatar: File) =>
+    callWithLoadCatch(async () => {
+      const selectedCircle = await getSelectedCircle();
+      const selectedMyUser = await getSelectedMyUser();
+      if (!selectedMyUser || !selectedCircle) {
+        throw 'Need to select a circle to update circle user';
+      }
+      await api.uploadAvatar(selectedMyUser.address, newAvatar);
+
+      triggerProfileReload();
+    });
+
+  const updateBackground = async (newAvatar: File) =>
+    callWithLoadCatch(async () => {
+      const selectedCircle = await getSelectedCircle();
+      const selectedMyUser = await getSelectedMyUser();
+      if (!selectedMyUser || !selectedCircle) {
+        throw 'Need to select a circle to update circle user';
+      }
+      await api.uploadBackground(selectedMyUser.address, newAvatar);
+
+      triggerProfileReload();
+    });
+
+  const updateMyProfile = async (params: PostProfileParam) =>
+    callWithLoadCatch(async () => {
+      const selectedMyUser = await getSelectedMyUser();
+      if (!selectedMyUser) {
+        throw 'Need to select a circle to update circle user';
+      }
+      const result = await api.updateProfile(selectedMyUser.address, params);
+
+      // TODO: Could we just update with result here?
+      triggerProfileReload();
+      return result;
+    });
+
   return {
     createCircle,
+    updateMyUser,
+    updateAvatar,
+    updateBackground,
+    updateMyProfile,
   };
 };

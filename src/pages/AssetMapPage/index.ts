@@ -1,2 +1,2 @@
-import AssetMapPage from './AssetMapPage';
+import { AssetMapPage } from './AssetMapPage';
 export default AssetMapPage;

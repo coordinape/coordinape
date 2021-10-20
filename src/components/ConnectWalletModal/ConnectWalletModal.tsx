@@ -13,7 +13,7 @@ import { ConnectorNames } from 'utils/enums';
 
 import { ConnectWalletButtonItem } from './ConnectWalletButtonItem';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -130,16 +130,6 @@ export const ConnectWalletModal = ({
                     activate(ConnectorNames.WalletConnect);
                   }}
                   text="Wallet Connect"
-                />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <ConnectWalletButtonItem
-                  disabled={isConnectingToWallet}
-                  icon={ConnectorNames.WalletLink}
-                  onClick={() => {
-                    activate(ConnectorNames.WalletLink);
-                  }}
-                  text="Coinbase Wallet"
                 />
               </Grid>
             </Grid>
