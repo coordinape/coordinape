@@ -40,7 +40,7 @@ export const Routes = () => {
   }
   const SneakyAllocationPage = !asVoyeur ? AllocationPage : DefaultPage;
   const SneakyAdminPage =
-    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
+    (selectedMyUser && selectedMyUser.role === 1) || hasAdminView
       ? AdminPage
       : DefaultPage;
 

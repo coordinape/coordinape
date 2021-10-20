@@ -282,7 +282,7 @@ const AdminPage = () => {
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 0 ? '-' : 'Admin'),
+          render: (u: IUser) => (u.role === 1 ? 'Admin' : '-'),
         },
         {
           label: 'GIVE sent',
