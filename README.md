@@ -30,14 +30,18 @@ React Frontend                 ┃┃
                `\_______/^\______/
 ```
 
-# Getting started:
+# Getting started
 
+## Prerequisites
+* NodeJS v14
+* coodinate-backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
+
+## Install instructions
 1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
 2. Install packages: `yarn install`
 3. Setup a local .env file: `cp .env.example .env`
 4. Start yarn: `yarn start`
 5. Visit app: [http://localhost:3000](http://localhost:3000)
-6. Setup backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
 
 # App Structure
 
