@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { rProfileRaw } from 'recoilState';
 import { getApiService } from 'services/api';
 import { getAvatarPath } from 'utils/domain';
-import { updaterMergeItemToAddressMap } from 'utils/recoilHelpers';
+import { updaterMergeToAddressMap } from 'utils/recoilHelpers';
 
 import { useRecoilFetcher } from './useRecoilFetcher';
 
@@ -17,7 +17,7 @@ export const useProfile = (address?: string) => {
   const fetchProfile = useRecoilFetcher(
     'rProfileRaw',
     rProfileRaw,
-    updaterMergeItemToAddressMap
+    updaterMergeToAddressMap
   );
 
   useEffect(() => {

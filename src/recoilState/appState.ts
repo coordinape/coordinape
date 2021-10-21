@@ -11,10 +11,7 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
-import {
-  getSelfIdProfile,
-  mergeSelfIdProfileInfo,
-} from '../utils/selfIdHelpers';
+import { mergeSelfIdProfileInfo } from '../utils/selfIdHelpers';
 import { getApiService } from 'services/api';
 import {
   createCircleWithDefaults,
@@ -36,6 +33,7 @@ import {
   ITokenGift,
   IApiTokenGift,
   IApiEpoch,
+  ISelfIdProfile,
 } from 'types';
 
 export const rSelectedCircleId = atom<number | undefined>({
@@ -167,6 +165,11 @@ export const rFetchedAt = atomFamily<Map<string, number>, string>({
   default: new Map(),
 });
 
+export const rSelfIdProfiles = atom<Map<string, ISelfIdProfile>>({
+  key: 'rSelfIdProfiles',
+  default: new Map(),
+});
+
 export const rProfileRaw = atom<Map<string, IApiFilledProfile>>({
   key: 'rProfileRaw',
   default: new Map(),
@@ -225,27 +228,22 @@ export const rUsersMap = selector<Map<number, IUser>>({
   key: 'rUsersMap',
   get: async ({ get }: IRecoilGetParams) => {
     const usersMapRaw = new Map(get(rUsersMapRaw));
-
-    await Promise.all(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      Array.from(usersMapRaw).map(async ([_, user]) => {
-        if (!user.address) return;
-
-        const selfIdProfile = await getSelfIdProfile(user.address);
-        if (!selfIdProfile) return;
-
-        usersMapRaw.set(user.id, {
-          ...user,
-          profile: mergeSelfIdProfileInfo(user.profile, selfIdProfile),
-        });
-      })
-    );
-
+    const selfIdProfiles = get(rSelfIdProfiles);
     // Profile may have updated fields missing from last we queried users.
-    const profile = get(rMyProfile);
-    profile?.users?.forEach(user =>
-      usersMapRaw.set(user.id, { profile, ...user })
-    );
+    const profileMap = get(rProfileRaw);
+
+    iti(usersMapRaw.values()).forEach(u => {
+      usersMapRaw.set(u.id, {
+        ...u,
+        profile: mergeSelfIdProfileInfo(
+          {
+            ...u.profile,
+            ...(profileMap.get(u.address) ?? {}),
+          },
+          selfIdProfiles.get(u.address)
+        ),
+      });
+    });
     return usersMapRaw;
   },
 });

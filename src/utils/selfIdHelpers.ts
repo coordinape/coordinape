@@ -1,8 +1,9 @@
-import { BasicProfile, ImageSources } from '@datamodels/identity-profile-basic';
+import { ImageSources } from '@datamodels/identity-profile-basic';
 
-import { networkIds } from '../config/networks';
-import { getSelfIdCore } from '../services/selfid';
-import { IProfileEmbed } from '../types';
+import { networkIds } from 'config/networks';
+import { getSelfIdCore } from 'services/selfid';
+
+import { IProfileEmbed, ISelfIdProfile } from 'types';
 
 export const addressToCaip10String = (
   address: string,
@@ -15,14 +16,14 @@ export const getIpfsUrl = (
 ): string => `${ipfsEndpoint}/ipfs/${hash.slice(7)}`;
 
 export const getSelfIdImageUrl = (
-  image: ImageSources | undefined,
+  image?: ImageSources,
   ipfsEndpoint?: string
 ): string =>
   image?.original?.src ? getIpfsUrl(image.original.src, ipfsEndpoint) : '';
 
 export const mergeSelfIdProfileInfo = (
   baseProfile: IProfileEmbed,
-  selfIdProfile: SelfIdProfileWithAccounts | null
+  selfIdProfile?: ISelfIdProfile
 ) => {
   if (!selfIdProfile) return baseProfile;
 
@@ -40,35 +41,35 @@ export const mergeSelfIdProfileInfo = (
   };
 };
 
-export type SelfIdProfileWithAccounts = BasicProfile & {
-  github_username?: string;
-  twitter_username?: string;
-};
-
 export const getSelfIdProfile = async (
   address: string
-): Promise<SelfIdProfileWithAccounts | null> => {
+): Promise<ISelfIdProfile | undefined> => {
   try {
-    const basicProfile = await getSelfIdCore().get(
-      'basicProfile',
-      addressToCaip10String(address)
-    );
+    const caipAddress = addressToCaip10String(address);
+    const basicProfile = await getSelfIdCore().get('basicProfile', caipAddress);
     const alsoKnownAs = await getSelfIdCore().get<'alsoKnownAs'>(
       'alsoKnownAs',
-      addressToCaip10String(address)
+      caipAddress
     );
-    if (!alsoKnownAs?.accounts) return basicProfile;
 
     return {
       ...basicProfile,
-      github_username: alsoKnownAs.accounts.find(
+      caipAddress,
+      address,
+      github_username: alsoKnownAs?.accounts?.find(
         acc => acc.host === 'github.com'
       )?.id,
-      twitter_username: alsoKnownAs.accounts.find(
+      twitter_username: alsoKnownAs?.accounts?.find(
         acc => acc.host === 'twitter.com'
       )?.id,
     };
   } catch (e) {
-    return null;
+    return;
   }
+};
+
+export const getSelfIdProfiles = async (addresses: string[]) => {
+  return (await Promise.all(addresses.map(getSelfIdProfile))).filter(
+    p => !!p
+  ) as ISelfIdProfile[];
 };
