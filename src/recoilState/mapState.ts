@@ -107,7 +107,7 @@ export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
       .map(([, us]) => {
         const users = us.toArray();
         // Deleted users don't have profiles
-        const activeUser = us.find(u => u.deleted_at === undefined);
+        const activeUser = us.find(u => !u.deleted_at);
         const profile = activeUser?.profile ?? createFakeProfile(assertDef(us.first()));
         return {
           ...profile,
