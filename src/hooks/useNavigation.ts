@@ -27,9 +27,11 @@ export const useNavigation = () => {
     }
   };
 
-  const handlerFromGetter = <P>(get: (p: P) => string) => (p: P) => (
-    e?: React.MouseEvent<any>
-  ) => go(get(p), e);
+  const handlerFromGetter =
+    <P>(get: (p: P) => string) =>
+    (p: P) =>
+    (e?: React.MouseEvent<any>) =>
+      go(get(p), e);
 
   return {
     getToMap: handlerFromGetter(paths.getMapPath),

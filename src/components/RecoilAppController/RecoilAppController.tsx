@@ -77,26 +77,22 @@ export const RecoilAppController = () => {
 
   const { deactivate, activate } = useWallet();
   const { myProfile, hasAdminView } = useMe();
-  const {
-    selectAndFetchCircle,
-    selectedCircleId,
-    setSelectedCircleId,
-  } = useCircle();
+  const { selectAndFetchCircle, selectedCircleId, setSelectedCircleId } =
+    useCircle();
   const connectorName = useConnectorName();
   const setMyAddress = useSetMyAddress();
-  const [walletModalOpen, setWalletModalOpen] = useRecoilState(
-    rWalletModalOpen
-  );
-  const [circleSelectorOpen, setCircleSelectorOpen] = useRecoilState(
-    rCircleSelectorOpen
-  );
+  const [walletModalOpen, setWalletModalOpen] =
+    useRecoilState(rWalletModalOpen);
+  const [circleSelectorOpen, setCircleSelectorOpen] =
+    useRecoilState(rCircleSelectorOpen);
   const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
   const [editProfileOpen, setEditProfileOpen] = useStateEditProfileOpen();
   const recoilCallback = useRecoilCallback(
-    ({ set }) => async (active: boolean) => {
-      set(rTriggerMode, active);
-    }
+    ({ set }) =>
+      async (active: boolean) => {
+        set(rTriggerMode, active);
+      }
   );
 
   useEffect(() => {

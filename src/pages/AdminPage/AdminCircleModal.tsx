@@ -182,15 +182,18 @@ export const AdminCircleModal = ({
     }
   };
 
-  const onChangeWith = (set: (v: string) => void) => (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => set(e.target.value);
+  const onChangeWith =
+    (set: (v: string) => void) =>
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLTextAreaElement>
+    ) =>
+      set(e.target.value);
 
-  const onChangeNumberWith = (set: (v: number) => void) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => set(Math.max(0, parseInt(e.target.value) || 0));
+  const onChangeNumberWith =
+    (set: (v: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      set(Math.max(0, parseInt(e.target.value) || 0));
 
   const onSubmit = async () => {
     try {

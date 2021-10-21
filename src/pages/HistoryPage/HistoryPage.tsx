@@ -139,11 +139,8 @@ export const HistoryPage = () => {
 
   const circle = useSelectedCircle();
   const myUser = useSelectedMyUser();
-  const {
-    fromUserByEpoch,
-    forUserByEpoch,
-    totalReceivedByEpoch,
-  } = useUserGifts(myUser?.id ?? -1);
+  const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
+    useUserGifts(myUser?.id ?? -1);
   const {
     pastEpochs,
     // previousEpoch,
