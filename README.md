@@ -34,7 +34,7 @@ React Frontend                 ┃┃
 
 ## Prerequisites
 * NodeJS v14
-* coodinate-backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
+* coordinape-backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
 
 ## Install instructions
 1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
