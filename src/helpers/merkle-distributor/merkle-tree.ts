@@ -1,6 +1,4 @@
-import { keccak256 } from 'ethers/lib/utils';
-
-import { bufferToHex } from 'utils/tools';
+import { bufferToHex, keccak256 } from 'ethereumjs-util';
 
 export default class MerkleTree {
   private readonly elements: Buffer[];
@@ -59,7 +57,6 @@ export default class MerkleTree {
     if (!second) {
       return first;
     }
-
     return Buffer.from(keccak256(MerkleTree.sortAndConcat(first, second)));
   }
 

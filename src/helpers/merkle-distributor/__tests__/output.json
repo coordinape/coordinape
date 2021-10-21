@@ -1,0 +1,49 @@
+{
+  "merkleRoot": "0xe8398860b06055abd6590ddb63dab9ba30d0b198a163493dd94bd1bfa1a260b4",
+  "tokenTotal": "0x04a817c800",
+  "claims": {
+    "0x0000000000000000000000000000000000000001": {
+      "index": 0,
+      "amount": "0x77359400",
+      "proof": [
+        "0x3aff1553f15cdaff112eb40bb968238148a134936306e3beafc231ee6b6557ec",
+        "0x2464f01e5c70a449160c2e385f1af512794f4579f9f40f90cb8f99e01a84a1bc",
+        "0x9ce01121ea88aedbb801da102f4397a1fd648f95f32f5f6a93cd6b3e8b808c40"
+      ]
+    },
+    "0x0000000000000000000000000000000000000002": {
+      "index": 1,
+      "amount": "0xb2d05e00",
+      "proof": [
+        "0x76046fffc3297874f2d2aa3c1c51a263a48b169ec245600dffb7a8700bee4b8f",
+        "0xf2479c5348f72346a50f02dc1b2cfd2f1f38e9229ce0ee082e195f3119e1486c",
+        "0x9ce01121ea88aedbb801da102f4397a1fd648f95f32f5f6a93cd6b3e8b808c40"
+      ]
+    },
+    "0x0000000000000000000000000000000000000003": {
+      "index": 2,
+      "amount": "0xee6b2800",
+      "proof": [
+        "0x4c7d3c8adce2591a7d600ce20a4f3a27d1949c1ed7aed816a978b938f51d62b8",
+        "0x2464f01e5c70a449160c2e385f1af512794f4579f9f40f90cb8f99e01a84a1bc",
+        "0x9ce01121ea88aedbb801da102f4397a1fd648f95f32f5f6a93cd6b3e8b808c40"
+      ]
+    },
+    "0x0000000000000000000000000000000000000004": {
+      "index": 3,
+      "amount": "0x012a05f200",
+      "proof": [
+        "0x832270356c2c213f8f39beae7500f0e09ee18a95a808924162582b4333fe239f",
+        "0xf2479c5348f72346a50f02dc1b2cfd2f1f38e9229ce0ee082e195f3119e1486c",
+        "0x9ce01121ea88aedbb801da102f4397a1fd648f95f32f5f6a93cd6b3e8b808c40"
+      ]
+    },
+    "0x0000000000000000000000000000000000000005": {
+      "index": 4,
+      "amount": "0x0165a0bc00",
+      "proof": [
+        "0x766625930cdaeeea133ab453aacbbad1a75cfd3a75ebe5ad1e63b346a8f67980"
+      ]
+    }
+  }
+}
