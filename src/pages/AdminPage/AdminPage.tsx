@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
-import { USER_ROLE_ADMIN } from 'config/constants';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
@@ -149,6 +149,15 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
+const isEditable = (u: IUser): boolean => {
+  return !isCoordinapeUser(u);
+};
+
+//TODO move to a shared place?
+const isCoordinapeUser = (u: IUser): boolean => {
+  return u.role === USER_ROLE_COORDINAPE;
+};
+
 const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
@@ -175,7 +184,7 @@ const AdminPage = () => {
     setKeyword(event.target.value);
   };
 
-  const renderActions = (onEdit: () => void, onDelete?: () => void) => (
+  const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
         <IconButton onClick={onEdit} size="small">
@@ -308,7 +317,7 @@ const AdminPage = () => {
           label: 'Actions',
           render: (u: IUser) =>
             renderActions(
-              () => setEditUser(u),
+              isEditable(u) ? () => setEditUser(u) : undefined,
               u.id !== me?.id
                 ? () => deleteUser(u.address).catch(console.warn)
                 : undefined
