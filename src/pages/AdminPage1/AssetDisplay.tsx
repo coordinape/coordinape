@@ -1,3 +1,5 @@
+import { makeStyles } from '@material-ui/core';
+
 import { AlusdIcon } from 'icons/AlusdIcon';
 import { DAIIcon } from 'icons/DAIIcon';
 import { EthIcon } from 'icons/EthIcon';
@@ -5,9 +7,6 @@ import { SushiIcon } from 'icons/SushiIcon';
 import { USDCIcon } from 'icons/USDCIcon';
 import { USDTIcon } from 'icons/USDTIcon';
 import { YFIIcon } from 'icons/YFIIcon';
-
-import { makeStyles } from '@material-ui/core';
-
 
 const useStyles = makeStyles((theme) => ({
     assetBox: {
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
       icon: {
         marginRight: '0.3em',
       },
-}))
+}));
 
 interface AssetDisplay {
     setAsset: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -139,5 +138,5 @@ return (
         <span className={classes.btnSpan}>Other</span>
         </button>
     </div>
-)
+);
 }

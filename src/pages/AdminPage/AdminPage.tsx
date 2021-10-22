@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 
-import { makeStyles, Button, IconButton } from '@material-ui/core';
+import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
-import { useAdminApi } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
+import { useAdminApi, useMe } from 'hooks';
+import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow, } from 'icons';
 import {
   useSelectedCircle,
   useSelectedMyUser,
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
-import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
+import { getAdminNavigation, checkActive, NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
@@ -131,6 +131,119 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     opacity: 0.7,
+  },
+  topMenu: {
+    height: 120,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    padding: theme.spacing(0, 4),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+      gridTemplateColumns: '1fr 1fr',
+    },
+    '& > *': {
+      alignSelf: 'center',
+    },
+    '& .MuiSkeleton-root': {
+      marginLeft: theme.spacing(1.5),
+    },
+    '& .MuiSkeleton-rect': {
+      borderRadius: 5,
+    },
+  },
+  organizationLinks: {
+    justifySelf: 'stretch',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  organizationLink: {
+    margin: theme.spacing(0, 2),
+    fontSize: 20,
+    fontWeight: 700,
+    color: theme.colors.white,
+    textDecoration: 'none',
+    padding: '6px 0',
+    position: 'relative',
+    '&::after': {
+      content: `" "`,
+      position: 'absolute',
+      left: '50%',
+      right: '50%',
+      backgroundColor: theme.colors.mediumRed,
+      transition: 'all 0.3s',
+      bottom: 0,
+      height: 2,
+    },
+    '&:hover': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.mediumRed,
+      },
+    },
+    '&.active': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.red,
+      },
+      '&:hover': {
+        '&::after': {
+          left: 0,
+          right: 0,
+          backgroundColor: theme.colors.red,
+        },
+      },
+    },
+  },
+  navLinks: {
+    justifySelf: 'stretch',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  buttons: {
+    justifySelf: 'end',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  navLink: {
+    margin: theme.spacing(0, 2),
+    fontSize: 20,
+    fontWeight: 400,
+    color: theme.colors.mediumGray,
+    textDecoration: 'none',
+    padding: theme.spacing(1, 2),
+    position: 'relative',
+    '&:hover': {
+      backgroundColor: theme.colors.ultraLightGray,
+      padding: theme.spacing(1, 2),
+      borderRadius: '16px',
+      color: theme.colors.text,
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.ultraLightGray,
+      },
+    },
+    '&:active': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.ultraLightGray,
+      },
+    },
+  },
+  moreButton: {
+    margin: 0,
+    padding: theme.spacing(0, 1),
+    minWidth: 20,
+    fontSize: 17,
+    fontWeight: 800,
+    color: theme.colors.text,
   },
 }));
 
@@ -317,7 +430,12 @@ const AdminPage = () => {
       ] as ITableColumn[],
     []
   );
-
+  const { selectedMyUser, hasAdminView } = useMe();
+  const navButtonsVisible = !!selectedMyUser || hasAdminView;
+  const navItems = getAdminNavigation({
+    asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
+    asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
+  });
   const epochColumns = useMemo(
     () =>
       [
@@ -346,6 +464,44 @@ const AdminPage = () => {
 
   return (
     <div className={classes.root}>
+      <div className={classes.topMenu}>
+        <div className={classes.organizationLinks}>
+          <Avatar
+            alt="organization"
+            src="/imgs/avatar/placeholder.jpg"
+            style={{
+              width: 46,
+              height: 46,
+              borderRadius: '50%',
+              border: '1px solid rgba(94, 111, 116, 0.7)',
+              marginRight: '16px',
+            }}
+          />
+          <h2 className={classes.title}>Yearn Finance</h2>
+          <Button
+            aria-describedby="1"
+            className={classes.moreButton}
+            onClick={() => setEditCircle(true)}
+          >
+            <DownArrow />
+          </Button>
+        </div>
+        <div className={classes.navLinks}>
+          {navButtonsVisible &&
+            navItems.map(navItem => (
+              <NavLink
+                className={classes.navLink}
+                isActive={(nothing, location) =>
+                  checkActive(location.pathname, navItem)
+                }
+                key={navItem.path}
+                to={navItem.path}
+              >
+                {navItem.label}
+              </NavLink>
+            ))}
+        </div>
+    </div>  
       <h2 className={classes.title}>
         {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
       </h2>

@@ -38,8 +38,8 @@ export const getMapPath = (params?: { highlight?: string }) =>
   withSearchParams('/map', params);
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
-export const getAdminPath = () => '/circles';
-export const getAdminPath1 = () => '/admin';
+export const getAdminPath = () => '/admin/circles';
+export const getAdminPath1 = () => '/admin/vaults';
 export const getOverviewPath = () => '/admin/overview';
 export const getVaultsPath = () => '/admin/vaults';
 export const getCirclesPath = () => '/admin/circles';
@@ -97,14 +97,13 @@ export const getMainNavigation = ({
 } = {}): INavItem[] => {
   let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
   const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  const adminItems = [{ path: getAdminPath(), label: 'Circles' }];
   const adminItems1 = [{ path: getAdminPath1(), label: 'Admin' }];
 
   if (asVouchingEnabled) {
     mainItems = [...mainItems, ...vouchingItems];
   }
   if (asCircleAdmin) {
-    mainItems = [...mainItems, ...adminItems, ...adminItems1];
+    mainItems = [...mainItems, ...adminItems1];
   }
 
   return mainItems;

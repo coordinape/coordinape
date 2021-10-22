@@ -57,7 +57,7 @@ export class APIService {
   };
 
   getCircles = async (): Promise<IApiCircle[]> => {
-    const response = await axios.get('/circles');
+    const response = await axios.get('/admin/circles');
     return response.data as IApiCircle[];
   };
 
@@ -69,7 +69,7 @@ export class APIService {
   ): Promise<IApiCircle> => {
     const data = JSON.stringify(params);
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await axios.post('/circles', {
+    const response = await axios.post('/admin/circles', {
       signature,
       data,
       address,

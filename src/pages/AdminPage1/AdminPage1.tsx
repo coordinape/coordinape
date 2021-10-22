@@ -295,6 +295,7 @@ const epochDetail = (e: IEpoch) => {
 
 const AdminPage1 = () => {
   const classes = useStyles();
+  const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);

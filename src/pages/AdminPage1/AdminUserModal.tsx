@@ -10,8 +10,9 @@ import { useAdminApi } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
-import { IUser } from 'types';
 import AssetDisplay from './AssetDisplay';
+
+import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -76,16 +77,8 @@ export const AdminUserModal = ({
     >
       {({
         fields: {
-          non_giver: {
-            value: nonGiverValue,
-            onChange: nonGiverOnChange,
-            ...non_giver
-          },
           ...fields
         },
-        errors,
-        changedOutput,
-        handleSubmit,
       }) => (
         <FormModal
           onClose={onClose}
