@@ -111,7 +111,9 @@ export const getMainNavigation = ({
 };
 
 export const getAdminNavigation = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   asCircleAdmin,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   asVouchingEnabled,
 }: {
   asCircleAdmin?: boolean;
