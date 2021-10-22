@@ -33,8 +33,9 @@ React Frontend                 ┃┃
 # Getting started
 
 ## Prerequisites
-* NodeJS v14
-* coordinape-backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
+* NodeJS version 14
+
+* A backend API to connect this frontend app to. This app connects to the backend defined in REACT_APP_API_BASE_URL in the `.env` file. To setup the coordinape-backend app locally and use that as your API, [follow the instructions.](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
 
 ## Install instructions
 1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
