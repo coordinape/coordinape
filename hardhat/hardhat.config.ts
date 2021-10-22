@@ -1,12 +1,8 @@
-import dotenv from 'dotenv';
-import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
-import '@nomiclabs/hardhat-waffle';
-
-dotenv.config({ path: '../.env' });
+import { ethers } from 'ethers';
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -32,7 +28,7 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts',
   },
   mocha: {
     timeout: 50000,
@@ -49,9 +45,10 @@ const config: HardhatUserConfig = {
       },
       deploy: ['./scripts/deploy'],
 
-      forking: {
-        url: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-      },
+      // forking: {
+      //   url: process.env.ETHEREUM_RPC_URL,
+      //   blockNumber: process.env.FORKED_FROM_BLOCK,
+      // },
     },
     localhost: {
       live: false,
