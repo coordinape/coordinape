@@ -23,6 +23,7 @@ const schema = z
     role: zBooleanToNumber,
     starting_tokens: z.number(),
     repeat: EpochRepeatEnum,
+    asset: z.string(),
   })
   .strict();
 
