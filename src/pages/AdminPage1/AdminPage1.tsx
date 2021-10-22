@@ -1,41 +1,21 @@
 import React, { useState, useMemo } from 'react';
 
-import { useHistory, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import { makeStyles, Button, IconButton, Avatar, Box } from '@material-ui/core';
+import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
-import { ReactComponent as ArrowDown } from 'assets/svgs/button/arrow_down.svg';
-import { StaticTableNew, NoticeBox, ApeAvatar, DialogNotice } from 'components';
-import { useAdminApi, useProfile, useMe, useCircle } from 'hooks';
-import {
-  DeleteIcon,
-  EditIcon,
-  PlusCircleIcon,
-  DownArrow,
-  InfoIcon,
-} from 'icons';
-import {
-  useSelectedCircle,
-  useSelectedMyUser,
-  useSelectedCircleUsers,
-  useSelectedCircleEpochs,
-} from 'recoilState';
-import {
-  NEW_CIRCLE_CREATED_PARAMS,
-  getAdminNavigation,
-  checkActive,
-} from 'routes/paths';
-import * as paths from 'routes/paths';
-import { shortenAddress } from 'utils';
-import { getCSVPath } from 'utils/domain';
+import { StaticTableNew } from 'components';
+import { useAdminApi, useMe } from 'hooks';
+import { DeleteIcon, PlusCircleIcon, DownArrow, InfoIcon } from 'icons';
+import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
+import { getAdminNavigation, checkActive } from 'routes/paths';
 
-import AdminCircleModal from './AdminCircleModal';
-import AdminEpochModal from './AdminEpochModal';
+// eslint-disable-next-line import/no-named-as-default
 import AdminUserModal from './AdminUserModal';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -387,6 +367,7 @@ const useStyles = makeStyles((theme) => ({
     height: 20,
     width: 20,
     marginBottom: 0,
+  },
   valueBtn: {
     width: '110.3px',
     color: theme.colors.secondary,
@@ -415,22 +396,14 @@ const epochDetail = (e: IEpoch) => {
 
 const AdminPage1 = () => {
   const classes = useStyles();
-  const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [newUser, setNewUser] = useState<boolean>(false);
-  const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [newEpoch, setNewEpoch] = useState<boolean>(false);
-  const [editCircle, setEditCircle] = useState<boolean>(false);
-  const [newCircle, setNewCircle] = useState<boolean>(
-    window.location.search === NEW_CIRCLE_CREATED_PARAMS
-  );
+  const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
+  const [, setNewEpoch] = useState<boolean>(false);
+  const [, setEditCircle] = useState<boolean>(false);
 
-  const history = useHistory();
-
-  const { deleteUser, deleteEpoch } = useAdminApi();
-  const me = useSelectedMyUser();
+  const { deleteEpoch } = useAdminApi();
   const selectedCircle = useSelectedCircle();
-  const visibleUsers = useSelectedCircleUsers();
   const epochsReverse = useSelectedCircleEpochs();
 
   const epochs = useMemo(
@@ -567,10 +540,6 @@ const AdminPage1 = () => {
 
   // const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
 
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-  };
-
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
@@ -597,15 +566,6 @@ const AdminPage1 = () => {
     </div>
   );
 
-  // User Columns
-  const filterUser = useMemo(
-    () => (u: IUser) => {
-      const r = new RegExp(keyword);
-      return r.test(u.name) || r.test(u.address);
-    },
-    [keyword]
-  );
-
   // Epoch Columns
   const RenderEpochDetails = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
@@ -613,14 +573,7 @@ const AdminPage1 = () => {
       <span className={classes.twoLineCellSubtitle}>{epochDetail(e)}</span>
     </div>
   );
-  const RenderEpochStatus = (e: IEpoch) =>
-    e.ended ? (
-      <NoticeBox variant="error">Complete</NoticeBox>
-    ) : e.started ? (
-      <NoticeBox variant="success">Current</NoticeBox>
-    ) : (
-      <NoticeBox variant="warning">Upcoming</NoticeBox>
-    );
+
   const RenderEpochDates = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
       <span className={classes.twoLineCellTitle}>
@@ -631,22 +584,6 @@ const AdminPage1 = () => {
       </span>
     </div>
   );
-  const RenderEpochActions = (e: IEpoch) =>
-    e.ended ? (
-      <a
-        className={classes.csvLink}
-        href={getCSVPath(e.circle_id, e.id)}
-        rel="noreferrer"
-        download={`${selectedCircle?.protocol}-${selectedCircle?.name}-epoch-${e?.number}.csv`}
-      >
-        Export CSV
-      </a>
-    ) : (
-      renderActions(
-        () => setEditEpoch(e),
-        !e.started ? () => deleteEpoch(e.id) : undefined
-      )
-    );
 
   const RenderRecentEpochActions = (e: IEpoch) =>
     e.ended ? (
@@ -663,77 +600,6 @@ const AdminPage1 = () => {
         !e.started ? () => deleteEpoch(e.id) : undefined
       )
     );
-
-  const userColumns = useMemo(
-    () =>
-      [
-        {
-          label: 'Name',
-          accessor: 'name',
-          render: function UserName(u: IUser) {
-            return (
-              <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
-                <span>{u.name}</span>
-              </div>
-            );
-          },
-          wide: true,
-          leftAlign: true,
-        },
-        {
-          label: 'ETH Wallet',
-          accessor: 'address',
-          render: (u: IUser) => shortenAddress(u.address),
-        },
-        {
-          label: 'Non Giver?',
-          render: (u: IUser) => (!u.non_giver ? '-' : 'Non Giver'),
-        },
-        {
-          label: 'Opted Out?',
-          render: (u: IUser) =>
-            u.fixed_non_receiver
-              ? 'Forced Opt Out'
-              : u.non_receiver
-              ? 'Opted Out'
-              : '-',
-        },
-        {
-          label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 0 ? '-' : 'Admin'),
-        },
-        {
-          label: 'GIVE sent',
-          accessor: 'give_token_remaining',
-          render: (u: IUser) =>
-            !u.non_giver || u.starting_tokens - u.give_token_remaining != 0
-              ? `${u.starting_tokens - u.give_token_remaining}/${
-                  u.starting_tokens
-                }`
-              : '-',
-        },
-        {
-          label: 'GIVE received',
-          accessor: 'give_token_received',
-          render: (u: IUser) =>
-            u.give_token_received === 0 &&
-            (!!u.fixed_non_receiver || !!u.non_receiver)
-              ? '-'
-              : u.give_token_received,
-        },
-        {
-          label: 'Actions',
-          render: (u: IUser) =>
-            renderActions(
-              () => setEditUser(u),
-              u.id !== me?.id ? () => deleteUser(u.address) : undefined
-            ),
-          noSort: true,
-        },
-      ] as ITableColumn[],
-    []
-  );
 
   const epochColumns = useMemo(
     () =>
@@ -798,7 +664,7 @@ const AdminPage1 = () => {
         </div>
         <div className={classes.navLinks}>
           {navButtonsVisible &&
-            navItems.map((navItem) => (
+            navItems.map(navItem => (
               <NavLink
                 className={classes.navLink}
                 isActive={(nothing, location) =>

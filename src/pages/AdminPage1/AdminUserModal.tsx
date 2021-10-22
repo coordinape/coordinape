@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useMemo } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField, FormRadioSelect } from 'components';
+import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
@@ -12,7 +13,7 @@ import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   modalBody: {
     display: 'flex',
     alignItems: 'center',
@@ -65,11 +66,10 @@ export const AdminUserModal = ({
     <AdminVaultForm.FormController
       source={source}
       hideFieldErrors
-      submit={(params) =>
-        (user
-          ? updateUser(user.address, params)
-          : createUser(params)
-        ).then(() => onClose())
+      submit={params =>
+        (user ? updateUser(user.address, params) : createUser(params)).then(
+          () => onClose()
+        )
       }
     >
       {({
