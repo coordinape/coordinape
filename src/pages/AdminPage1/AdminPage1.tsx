@@ -6,7 +6,13 @@ import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
 import { StaticTableNew } from 'components';
 import { useAdminApi, useMe } from 'hooks';
-import { DeleteIcon, PlusCircleIcon, DownArrow, InfoIcon } from 'icons';
+import {
+  DeleteIcon,
+  PlusCircleIcon,
+  DownArrow,
+  InfoIcon,
+  EditIcon,
+} from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -379,6 +385,9 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     margin: 0,
   },
+  editIcon: {
+    marginLeft: '0.25em',
+  },
 }));
 
 const epochDetail = (e: IEpoch) => {
@@ -543,15 +552,18 @@ const AdminPage1 = () => {
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
-        <Button
-          className={classes.allocateBtn}
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={onEdit}
-        >
-          Allocate Funds
-        </Button>
+        <>
+          <Button
+            className={classes.allocateBtn}
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={onEdit}
+          >
+            Allocate Funds
+          </Button>
+          <EditIcon className={classes.editIcon} />
+        </>
       ) : undefined}
 
       {onDelete ? (
@@ -591,9 +603,12 @@ const AdminPage1 = () => {
         Allocate Funds
       </Button>
     ) : e.totalTokens > 0 ? (
-      <Button variant="contained" className={classes.valueBtn} size="small">
-        {e.totalTokens} <p className={classes.smallP}>usdc</p>
-      </Button>
+      <>
+        <Button variant="contained" className={classes.valueBtn} size="small">
+          {e.totalTokens} <p className={classes.smallP}>usdc</p>
+        </Button>
+        <EditIcon className={classes.editIcon} />
+      </>
     ) : (
       renderActions(
         () => setEditEpoch(e),
@@ -608,6 +623,7 @@ const AdminPage1 = () => {
           label: 'Circle:Epoch',
           render: RenderEpochDetails,
           leftAlign: true,
+          narrow: true,
         },
         {
           label: 'Details',
