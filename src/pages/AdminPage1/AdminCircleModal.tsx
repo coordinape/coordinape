@@ -12,7 +12,7 @@ import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   logoContainer: {
     position: 'relative',
     width: 96,
@@ -178,15 +178,18 @@ export const AdminCircleModal = ({
     setAllowEdit(true);
   };
 
-  const onChangeWith = (set: (v: string) => void) => (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => set(e.target.value);
+  const onChangeWith =
+    (set: (v: string) => void) =>
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLTextAreaElement>
+    ) =>
+      set(e.target.value);
 
-  const onChangeNumberWith = (set: (v: number) => void) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => set(Math.max(0, parseInt(e.target.value) || 0));
+  const onChangeNumberWith =
+    (set: (v: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      set(Math.max(0, parseInt(e.target.value) || 0));
 
   const onSubmit = async () => {
     if (logoData.avatarRaw) {
@@ -285,7 +288,7 @@ export const AdminCircleModal = ({
         />
         <ApeToggle
           value={vouching === 1}
-          onChange={(val) => setVouching(val ? 1 : 0)}
+          onChange={val => setVouching(val ? 1 : 0)}
           label="Enable Vouching?"
         />
         <ApeTextField
@@ -358,18 +361,18 @@ export const AdminCircleModal = ({
         </div>
         <ApeToggle
           value={defaultOptIn === 1}
-          onChange={(val) => setDefaultOptIn(val ? 1 : 0)}
+          onChange={val => setDefaultOptIn(val ? 1 : 0)}
           label="Default Opt In?"
         />
         <ApeToggle
           value={onlyGiverVouch === 1}
-          onChange={(val) => setOnlyGiverVouch(val ? 1 : 0)}
+          onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
           label="Only Givers can vouch"
         />
         <ApeToggle
           value={teamSelection === 1}
-          onChange={(val) => setTeamSelection(val ? 1 : 0)}
+          onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
         />
       </div>

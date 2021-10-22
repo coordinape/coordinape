@@ -9,7 +9,7 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   redColor: {
     color: theme.colors.red,
   },
@@ -40,7 +40,7 @@ export const FormRadioSelect = ({
       <FormControl component="fieldset" error={error}>
         {!!label && <FormLabel component="legend">{label}</FormLabel>}
         <RadioGroup value={value} onChange={handleChange}>
-          {options?.map((option) => (
+          {options?.map(option => (
             <FormControlLabel
               value={option.value}
               key={option.value}
