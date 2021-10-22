@@ -7,7 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { WALLET_ICONS } from 'config/constants';
 import { ConnectorNames } from 'utils/enums';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(0.2, 0),
     padding: theme.spacing(1.5, 2.2),

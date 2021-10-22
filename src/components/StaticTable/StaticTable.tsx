@@ -11,7 +11,7 @@ import { usePrevious } from 'hooks';
 
 import { ITableColumn } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

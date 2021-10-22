@@ -18,8 +18,8 @@ export const rNomineesMap = selector<Map<number, INominee>>({
   get: ({ get }: IRecoilGetParams) => {
     const userMap = get(rUsersMap);
     return iti(get(rNomineesRaw).values())
-      .map((n) => createExtendedNominee(n, userMap))
-      .toMap((g) => g.id);
+      .map(n => createExtendedNominee(n, userMap))
+      .toMap(g => g.id);
   },
 });
 
@@ -37,7 +37,7 @@ export const rActiveNominees = selector<INominee[]>({
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rNominees))
       .filter(
-        (n) =>
+        n =>
           !n.ended &&
           moment(moment.now()).diff(n.expiryDate) < 0 &&
           n.vouchesNeeded > 0

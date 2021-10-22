@@ -25,6 +25,20 @@
     "clsx",
     "imgs",
     "itiriri",
-    "rebalance"
+    "rebalance",
+    "craco",
+    "luxon",
+    "ethersproject",
+    "hcaptcha",
+    "walletconnect",
+    "walletlink",
+    "sema",
+    "languagedetector",
+    "logdown",
+    "notistack",
+    "gzipper",
+    "browserslist",
+    "recoilize",
+    "svgs"
   ]
 }

@@ -1,2 +1,2 @@
-import DefaultPage from './DefaultPage';
+import { DefaultPage } from './DefaultPage';
 export default DefaultPage;

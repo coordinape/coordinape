@@ -48,6 +48,7 @@ export const useWallet = (): {
 
     await web3Context.activate(newConnector, (error: Error) => {
       apeError(error);
+      console.error(error);
       deactivateWallet();
     });
 

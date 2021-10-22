@@ -133,39 +133,45 @@ export const createForm = <
   });
   const rBaseValue = selectorFamily<Input, string>({
     key: `${name}-BaseValue`,
-    get: (instanceKey: string) => ({ get }: IRecoilGetParams) =>
-      load(get(rSource(instanceKey))),
+    get:
+      (instanceKey: string) =>
+      ({ get }: IRecoilGetParams) =>
+        load(get(rSource(instanceKey))),
   });
   const rValue = atomFamily<Input, string>({
     key: `${name}-Value`,
     default: neverEndingPromise(),
   });
-  const untouchedFields = new Map(fieldKeys.map((k) => [k, false]));
+  const untouchedFields = new Map(fieldKeys.map(k => [k, false]));
   const rTouched = atomFamily<Map<string, boolean>, string>({
     key: `${name}-Touched`,
     default: untouchedFields,
   });
   const rParsed = selectorFamily<ZodParsedType<Effect>, string>({
     key: `${name}-Parsed`,
-    get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
-      const value = get(rValue(instanceKey));
-      const source = get(rSource(instanceKey));
-      return getZodParser(source).safeParse(value);
-    },
+    get:
+      (instanceKey: string) =>
+      ({ get }: IRecoilGetParams) => {
+        const value = get(rValue(instanceKey));
+        const source = get(rSource(instanceKey));
+        return getZodParser(source).safeParse(value);
+      },
   });
   const rChangedOutput = selectorFamily<boolean, string>({
     key: `${name}-ChangedOutput`,
-    get: (instanceKey: string) => ({ get }: IRecoilGetParams) => {
-      const source = get(rSource(instanceKey));
-      const baseOutput = getZodParser(source).safeParse(
-        get(rBaseValue(instanceKey))
-      );
-      const output = get(rParsed(instanceKey));
-      if (!baseOutput.success) {
-        return output.success;
-      }
-      return !output.success ? false : !isEqual(baseOutput.data, output.data);
-    },
+    get:
+      (instanceKey: string) =>
+      ({ get }: IRecoilGetParams) => {
+        const source = get(rSource(instanceKey));
+        const baseOutput = getZodParser(source).safeParse(
+          get(rBaseValue(instanceKey))
+        );
+        const output = get(rParsed(instanceKey));
+        if (!baseOutput.success) {
+          return output.success;
+        }
+        return !output.success ? false : !isEqual(baseOutput.data, output.data);
+      },
   });
 
   const useFormReset = (instanceKey: string) =>
@@ -177,15 +183,16 @@ export const createForm = <
 
   const useResetIfSourceChanged = () =>
     useRecoilCallback(
-      ({ set, snapshot }: CallbackInterface) => async (s: Source) => {
-        const k = getInstanceKey(s);
-        const stored = await snapshot.getPromise(rSource(k));
-        if (!isEqual(s, stored)) {
-          set(rSource(k), s);
-          await set(rValue(k), load(s));
-          await set(rTouched(k), untouchedFields);
+      ({ set, snapshot }: CallbackInterface) =>
+        async (s: Source) => {
+          const k = getInstanceKey(s);
+          const stored = await snapshot.getPromise(rSource(k));
+          if (!isEqual(s, stored)) {
+            set(rSource(k), s);
+            await set(rValue(k), load(s));
+            await set(rTouched(k), untouchedFields);
+          }
         }
-      }
     );
 
   const useFormController = (source: Source) => {
@@ -229,12 +236,15 @@ export const createForm = <
     const reset = useFormReset(instanceKey);
 
     const handleSubmit = useRecoilCallback(
-      ({ snapshot }: CallbackInterface) => async () => {
-        const value = await snapshot.getPromise(rValue(instanceKey));
-        const source = await snapshot.getPromise(rSource(instanceKey));
-        const output = (await getZodParser(source).parseAsync(value)) as Output;
-        return submit(output);
-      }
+      ({ snapshot }: CallbackInterface) =>
+        async () => {
+          const value = await snapshot.getPromise(rValue(instanceKey));
+          const source = await snapshot.getPromise(rSource(instanceKey));
+          const output = (await getZodParser(source).parseAsync(
+            value
+          )) as Output;
+          return submit(output);
+        }
     );
 
     const fieldErrors = parsed.success
@@ -244,12 +254,12 @@ export const createForm = <
           formErrors: parsed.error.flatten().formErrors,
         } as Record<string, string[]>);
 
-    const fields = (fieldKeys.reduce<Record<string, any>>((acc, field) => {
+    const fields = fieldKeys.reduce<Record<string, any>>((acc, field) => {
       acc[field] = {
         value: (value as Record<string, any>)[field],
         onChange: (newValue: any) =>
           updateValue(
-            (oldValue) => ({ ...oldValue, [field]: newValue } as Input)
+            oldValue => ({ ...oldValue, [field]: newValue } as Input)
           ),
         onBlur: () =>
           updateTouched(
@@ -264,7 +274,7 @@ export const createForm = <
         ...(fieldProps[field] ?? {}),
       };
       return acc;
-    }, {}) as unknown) as Fields;
+    }, {}) as unknown as Fields;
 
     return {
       instanceKey,

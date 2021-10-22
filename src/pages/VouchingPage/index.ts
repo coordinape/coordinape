@@ -1,2 +1,2 @@
-import VouchingPage from './VouchingPage';
+import { VouchingPage } from './VouchingPage';
 export default VouchingPage;

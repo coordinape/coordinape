@@ -266,12 +266,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#000000',
     margin: theme.spacing(6, 0),
   },
-  iconGroup: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: 54,
-    alignItems: 'baseline',
-    flexWrap: 'wrap',
+  allocateBtn: {
+    padding: '8px',
+    height: 'calc(32px * 16) * 1rem',
   },
   actionsAndEpochs: {
     display: 'flex',
@@ -390,6 +387,16 @@ const useStyles = makeStyles((theme) => ({
     height: 20,
     width: 20,
     marginBottom: 0,
+  valueBtn: {
+    width: '110.3px',
+    color: theme.colors.secondary,
+    fontWeight: 600,
+  },
+  smallP: {
+    fontSize: 12,
+    marginLeft: '0.4em',
+    padding: 0,
+    margin: 0,
   },
 }));
 
@@ -512,6 +519,48 @@ const AdminPage1 = () => {
         labelUntilEnd: '8 Days',
         labelYearEnd: '2021',
       },
+      {
+        id: 1,
+        number: 5,
+        start_date: new Date('2021-10-07T00:55:35'),
+        end_date: new Date('2021-10-30T20:57:00.000000Z'),
+        circle_id: 1,
+        created_at: new Date('2021-10-01T00:55:35.000000Z'),
+        updated_at: new Date('2021-10-07T00:55:35.000000Z'),
+        ended: false,
+        notified_start: null,
+        notified_before_end: null,
+        notified_end: null,
+        grant: 0.0,
+        regift_days: 1,
+        days: 4,
+        repeat: 2,
+        repeat_day_of_month: 7,
+        repeatEnum: 'monthly',
+        started: true,
+        startDate: new Date('2021-10-01T00:55:35.000Z'),
+        startDay: 'Thu',
+        endDate: new Date('2021-10-30T20:57:00.000Z'),
+        endDay: 'Thu',
+        interval: {
+          s: new Date('2021-10-01T00:55:35.000Z'),
+          e: new Date('2021-10-30T20:57:00.000Z'),
+        },
+        invalid: null,
+        isLuxonInterval: true,
+        totalTokens: 5000,
+        uniqueUsers: 0,
+        activeUsers: 0,
+        calculatedDays: 20,
+        labelGraph: 'This Epoch Oct 1 - 30',
+        labelDayRange: 'Oct 1 to Oct 30',
+        labelTimeStart: 'Started 12:55AM UTC',
+        labelTimeEnd: 'Ends 12:55AM UTC',
+        labelActivity: '',
+        labelUntilStart: 'The Past',
+        labelUntilEnd: '8 Days',
+        labelYearEnd: '2021',
+      },
     ],
     [epochsReverse]
   );
@@ -525,9 +574,15 @@ const AdminPage1 = () => {
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
-        <IconButton onClick={onEdit} size="small">
-          <EditIcon />
-        </IconButton>
+        <Button
+          className={classes.allocateBtn}
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={onEdit}
+        >
+          Allocate Funds
+        </Button>
       ) : undefined}
 
       {onDelete ? (
@@ -597,6 +652,10 @@ const AdminPage1 = () => {
     e.ended ? (
       <Button variant="contained" color="primary" size="small">
         Allocate Funds
+      </Button>
+    ) : e.totalTokens > 0 ? (
+      <Button variant="contained" className={classes.valueBtn} size="small">
+        {e.totalTokens} <p className={classes.smallP}>usdc</p>
       </Button>
     ) : (
       renderActions(

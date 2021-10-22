@@ -128,7 +128,7 @@ class ERC20Service {
 
       return !!(decimals && symbol);
     } catch (err) {
-      logger.error(err.message);
+      logger.error(err instanceof Error ? err.message : err);
       return false;
     }
   };

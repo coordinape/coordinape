@@ -18,7 +18,7 @@ import { assertDef } from 'utils/tools';
 
 import { IFilledProfile } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     margin: theme.spacing(3, 1.75),
@@ -137,7 +137,7 @@ const AMProfileCard = ({
   const searchRegex = useMapSearchRegex();
 
   const user = assertDef(
-    profile.users.find((u) => u.circle_id === circle.id),
+    profile.users.find(u => u.circle_id === circle.id),
     `No user matching ${circle.id}`
   );
 
@@ -197,7 +197,7 @@ const AMProfileCard = ({
           <>
             {profile?.skills && profile.skills.length > 0 && (
               <div className={classes.skillContainer}>
-                {profile.skills.slice(0, 3).map((skill) => (
+                {profile.skills.slice(0, 3).map(skill => (
                   <span
                     key={skill}
                     className={
@@ -210,10 +210,9 @@ const AMProfileCard = ({
               </div>
             )}
             {isSelected && (
-              <ProfileSocialIcons
-                profile={profile}
-                className={classes.socialContainer}
-              />
+              <div className={classes.socialContainer}>
+                <ProfileSocialIcons profile={profile} />
+              </div>
             )}
             <div className={classes.bioContainer}>
               {reactStringReplace(bio, searchRegex, (match, i) =>
