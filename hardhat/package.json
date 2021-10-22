@@ -1,0 +1,18 @@
+{
+  "name": "coordinape-contracts",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@openzeppelin/contracts": "^4.3.2",
+    "@typechain/ethers-v5": "^7.0.0",
+    "@typechain/hardhat": "^2.0.0",
+    "@types/node": "^15.0.3",
+    "ethers": "^5.4.6",
+    "hardhat": "^2.4.1",
+    "hardhat-deploy": "^0.9.0",
+    "ts-node": "^9.1.1",
+    "typechain": "^5.0.0",
+    "typescript": "^4.2.4"
+  }
+}
