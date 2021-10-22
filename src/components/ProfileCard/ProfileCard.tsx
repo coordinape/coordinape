@@ -5,11 +5,16 @@ import { makeStyles, Button } from '@material-ui/core';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import {
   ApeAvatar,
+  ApeInfoTooltip,
   ProfileSocialIcons,
   ThreeDotMenu,
   ProfileSkills,
 } from 'components';
-import { USER_ROLE_ADMIN } from 'config/constants';
+import {
+  USER_ROLE_ADMIN,
+  USER_ROLE_COORDINAPE,
+  COORDINAPE_DONATION_APEINFO_TOOLTIP_TEXT,
+} from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useSetEditProfileOpen } from 'recoilState';
 
@@ -60,6 +65,15 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     margin: theme.spacing(0.5, 0),
     fontSize: 24,
+    fontWeight: 600,
+    color: theme.colors.text,
+  },
+  coordinape_tooltip: {
+    width: '100%',
+    display: 'grid',
+    flexDirection: 'row-reverse',
+    gridTemplateColumns: '1fr 60px 1fr',
+    margin: theme.spacing(0.7),
     fontWeight: 600,
     color: theme.colors.text,
   },
@@ -148,7 +162,16 @@ export const ProfileCard = ({
             ]}
           />
         </div>
-        <span className={classes.name}>{user.name}</span>
+        <span className={classes.name}>
+          {user.name}
+          {user.role === USER_ROLE_COORDINAPE && (
+            <ApeInfoTooltip>
+              {' '}
+              {COORDINAPE_DONATION_APEINFO_TOOLTIP_TEXT}{' '}
+            </ApeInfoTooltip>
+          )}
+        </span>
+
         <div className={classes.skillContainer}>
           <ProfileSkills
             skills={user?.profile?.skills ?? []}

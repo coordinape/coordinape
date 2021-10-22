@@ -16,6 +16,10 @@ export const MAX_NAME_LENGTH = 20;
 export const MAX_BIO_LENGTH = 560;
 
 export const USER_ROLE_ADMIN = 1;
+export const USER_ROLE_COORDINAPE = 2;
+
+export const COORDINAPE_DONATION_APEINFO_TOOLTIP_TEXT =
+  'Why is Coordinape in my circle? To date Coordinape has offered our service for free. We decided that using the gift circle mechanism as our revenue model might make a lot of sense, so we’re trying that out.';
 
 export const WALLET_ICONS: { [key in ConnectorNames]: React.ElementType } = {
   [ConnectorNames.Injected]: MetaMaskSVG,
