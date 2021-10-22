@@ -1,17 +1,17 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
-import { StaticTableNew } from 'components';
 import { useAdminApi, useMe } from 'hooks';
-import { DeleteIcon, PlusCircleIcon, DownArrow, InfoIcon } from 'icons';
+import { DeleteIcon, DownArrow } from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 // eslint-disable-next-line import/no-named-as-default
-import AdminUserModal from './AdminUserModal';
+import HasVaults from './HasVaults';
+import NoVaults from './NoVaults';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
 
@@ -45,111 +45,6 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
-  },
-  noVaults: {
-    height: 434,
-    display: 'grid',
-    borderRadius: 8,
-    background: theme.colors.ultraLightGray,
-    alignItems: 'center',
-    gridTemplateColumns: '1fr',
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr',
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  withVaults: {
-    height: 434,
-    display: 'grid',
-    borderRadius: 8,
-    background: theme.colors.ultraLightGray,
-    alignItems: 'center',
-    columnGap: theme.spacing(3),
-    gridTemplateColumns: '1fr 1fr',
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr',
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  noVaultsInterior: {
-    height: 288,
-    display: 'flex',
-    borderRadius: 8,
-    background: theme.colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    marginTop: -80,
-    gridTemplateColumns: '1fr',
-    padding: theme.spacing(0, 1),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr',
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  number: {
-    color: theme.colors.black,
-    fontSize: 24,
-    margin: 0,
-    fontWeight: 600,
-    paddingRight: 8,
-  },
-  noVaultsTitle: {
-    color: theme.colors.mediumGray,
-    margin: 0,
-    fontSize: 24,
-    fontWeight: 600,
-  },
-  vaultsTitle: {
-    color: theme.colors.mediumGray,
-    margin: 0,
-    fontSize: 24,
-    fontWeight: 700,
-    padding: 0,
-    marginRight: '1em',
-  },
-  noVaultsSubtitle: {
-    color: theme.colors.mediumGray,
-    fontSize: 15,
-    fontWeight: 300,
-  },
-  vaultsSecondary: {
-    color: theme.colors.lightBlue,
-    fontSize: 15,
-    fontWeight: 300,
-    margin: 0,
-    padding: 0,
   },
   organizationLinks: {
     justifySelf: 'stretch',
@@ -272,12 +167,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 4,
     marginBottom: theme.spacing(8),
   },
-  newTable: {
-    flexGrow: 4,
-    height: 288,
-    marginTop: -80,
-    paddingTop: 0,
-  },
   userActionBar: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -347,26 +236,10 @@ const useStyles = makeStyles(theme => ({
       color: '#4e7577',
     },
   },
-  tablePlaceholderTitle: {
-    fontSize: 20,
-    lineHeight: 1.2,
-    color: theme.colors.text,
-    opacity: 0.7,
-  },
-  horizontalDisplay: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   totalValue: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-  },
-  infoIcon: {
-    height: 20,
-    width: 20,
-    marginBottom: 0,
   },
   valueBtn: {
     width: '110.3px',
@@ -401,6 +274,7 @@ const AdminPage1 = () => {
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState<boolean>(false);
   const [, setEditCircle] = useState<boolean>(false);
+  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
 
   const { deleteEpoch } = useAdminApi();
   const selectedCircle = useSelectedCircle();
@@ -678,100 +552,24 @@ const AdminPage1 = () => {
             ))}
         </div>
       </div>
-      <div className={classes.noVaults}>
-        <div className={classes.noVaultsInterior}>
-          <h2 className={classes.noVaultsTitle}>You dont have any vaults</h2>
-          <h3 className={classes.noVaultsSubtitle}>To get started</h3>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => setNewUser(true)}
-          >
-            Create a Vault
-          </Button>
-          <AdminUserModal
-            onClose={() =>
-              newUser ? setNewUser(false) : setEditUser(undefined)
-            }
-            user={editUser}
-            open={!!editUser || newUser}
-          />
-        </div>
-      </div>
-      <div className={classes.withVaults}>
-        <div>
-          <div className={classes.horizontalDisplay}>
-            <h2 className={classes.vaultsTitle}>USDC Vault</h2>
-            <Button variant="text" className={classes.vaultsSecondary}>
-              Deposit
-            </Button>{' '}
-            <h4 className={classes.vaultsSecondary}> | </h4>{' '}
-            <Button variant="text" className={classes.vaultsSecondary}>
-              {' '}
-              &nbsp;Withdaw
-            </Button>
-          </div>
-          <h4 className={classes.noVaultsSubtitle}>
-            Upcoming and Recent Epochs <InfoIcon className={classes.infoIcon} />
-          </h4>
-        </div>
-        <div>
-          <div className={classes.totalValue}>
-            <h2 className={classes.number}>0</h2>
-            <h2 className={classes.noVaultsTitle}>USDC ...</h2>
-          </div>
-          <h4 className={classes.noVaultsSubtitle}>
-            Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}
-          </h4>
-        </div>
-        <StaticTableNew
-          label="Testing"
-          className={classes.newTable}
-          columns={epochColumns}
-          data={epochs}
-          perPage={6}
-          placeholder={
-            <>
-              <h2 className={classes.tablePlaceholderTitle}>
-                You don’t have any recent epochs
-              </h2>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                startIcon={<PlusCircleIcon />}
-                onClick={() => setNewEpoch(true)}
-              >
-                Add Epoch
-              </Button>
-            </>
-          }
+      {!hasVaults ? (
+        <NoVaults
+          newUser={newUser}
+          setNewUser={setNewUser}
+          editUser={editUser}
+          setEditUser={setEditUser}
         />
-        <div className={classes.noVaultsInterior}>
-          <h2 className={classes.noVaultsTitle}>
-            There are no transactions to show yet.
-          </h2>
-          <h3 className={classes.noVaultsSubtitle}>
-            To get started, fund your vault with USDC
-          </h3>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => setNewUser(true)}
-          >
-            Fund This Vault
-          </Button>
-          <AdminUserModal
-            onClose={() =>
-              newUser ? setNewUser(false) : setEditUser(undefined)
-            }
-            user={editUser}
-            open={!!editUser || newUser}
-          />
-        </div>
-      </div>
+      ) : (
+        <HasVaults
+          newUser={newUser}
+          setNewUser={setNewUser}
+          editUser={editUser}
+          setEditUser={setEditUser}
+          setNewEpoch={setNewEpoch}
+          epochColumns={epochColumns}
+          epochs={epochs}
+        />
+      )}
     </div>
   );
 };
