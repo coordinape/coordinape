@@ -36,7 +36,7 @@
     "axios": "0.21.2",
     "clsx": "1.1.1",
     "d3-force-3d": "2.3.2",
-    "ethers": "5.4.7",
+    "ethers": "5.5.1",
     "history": "5.0.0",
     "i18next": "19.8.9",
     "i18next-browser-languagedetector": "6.0.1",
