@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTableNew } from 'components';
@@ -5,6 +7,7 @@ import { InfoIcon, PlusCircleIcon } from 'icons';
 
 // eslint-disable-next-line import/no-named-as-default
 import AdminUserModal from './AdminUserModal';
+import DepositModal from './DepositModal';
 
 import { ITableColumn, IUser } from 'types';
 
@@ -144,13 +147,23 @@ export default function HasVaults({
   epochColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   return (
     <div className={classes.withVaults}>
       <div>
+        <DepositModal open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>USDC Vault</h2>
-          <Button variant="text" className={classes.vaultsSecondary}>
+          <Button
+            variant="text"
+            className={classes.vaultsSecondary}
+            onClick={handleClick}
+          >
             Deposit
           </Button>{' '}
           <h4 className={classes.vaultsSecondary}> | </h4>{' '}
