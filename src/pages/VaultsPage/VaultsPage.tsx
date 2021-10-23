@@ -293,7 +293,7 @@ const epochDetail = (e: IEpoch) => {
         ${e.repeat ? `, repeats ${r}` : ''}`;
 };
 
-const AdminPage1 = () => {
+const VaultsPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -678,4 +678,4 @@ const AdminPage1 = () => {
   );
 };
 
-export default AdminPage1;
+export default VaultsPage;

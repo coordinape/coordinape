@@ -4,12 +4,13 @@ import { Route, Switch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import AdminPage from 'pages/AdminPage';
-import AdminPage1 from 'pages/AdminPage1';
 import AllocationPage from 'pages/AllocationPage';
+import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import HistoryPage from 'pages/HistoryPage';
 import ProfilePage from 'pages/ProfilePage';
+import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
 import { rSelectedMyUser, rSelectedCircle, rHasAdminView } from 'recoilState';
 
@@ -44,9 +45,13 @@ export const Routes = () => {
     (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
       ? AdminPage
       : DefaultPage;
-  const SneakyAdminPage1 =
+  const SneakyAdminVaultsPage =
     (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
-      ? AdminPage1
+      ? VaultsPage
+      : DefaultPage;
+  const SneakyAdminCirclesPage =
+    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
+      ? CirclesPage
       : DefaultPage;
 
   return (
@@ -62,7 +67,8 @@ export const Routes = () => {
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
       <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
-      <Route exact path={paths.getAdminPath1()} component={SneakyAdminPage1} />
+      <Route exact path={paths.getVaultsPath()} component={SneakyAdminVaultsPage} />
+      <Route exact path={paths.getCirclesPath()} component={SneakyAdminCirclesPage} />
 
       <Route
         exact
