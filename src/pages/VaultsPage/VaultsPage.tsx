@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   organizationLinks: {
     justifySelf: 'stretch',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'left',
     alignItems: 'center',
   },
   organizationLink: {
@@ -143,7 +143,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 40,
     lineHeight: 1.2,
     fontWeight: 700,
-    color: '#000000',
+    color: theme.colors.text,
     margin: theme.spacing(6, 0),
   },
   allocateBtn: {

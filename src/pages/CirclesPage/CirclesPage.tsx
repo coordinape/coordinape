@@ -155,7 +155,7 @@ const useStyles = makeStyles(theme => ({
   organizationLinks: {
     justifySelf: 'stretch',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'left',
     alignItems: 'center',
   },
   organizationLink: {
