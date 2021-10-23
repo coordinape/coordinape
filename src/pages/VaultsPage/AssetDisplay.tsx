@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
 import { AlusdIcon } from 'icons/AlusdIcon';
 import { DAIIcon } from 'icons/DAIIcon';
@@ -52,6 +52,29 @@ const useStyles = makeStyles((theme) => ({
       icon: {
         marginRight: '0.3em',
       },
+      grouped: {
+        minWidth: 102,
+        borderRadius: 8,
+        fontWeight: 300,
+        '&:not(:last-child)': {
+          borderRight: '1px solid white',
+        },
+      },
+      inactive: {
+        color: theme.colors.text,
+        background: theme.colors.lightBackground,
+        '&:hover': {
+          background: theme.colors.lightBlue + '80',
+          color: theme.colors.white,
+        },
+      },
+      active: {
+        color: theme.colors.white,
+        background: theme.colors.lightBlue,
+        '&:hover': {
+          background: theme.colors.lightBlue,
+        },
+      },
 }));
 
 interface AssetDisplay {
@@ -65,9 +88,84 @@ export default function AssetDisplay({setAsset}: AssetDisplay){
         setAsset(asset);
       };
 
-
 return (
     <div className={classes.assetBox}>
+            <ButtonGroup
+        id="buttontoken"
+        variant="contained"
+        color="default"
+        className={classes.grouped}
+      >
+ <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('DAI')}
+      >
+        <span className={classes.btnSpan}>
+          <DAIIcon height={25} width={22} className={classes.icon} />
+          DAI
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('USDC')}
+      >
+        <span className={classes.btnSpan}>
+          <USDCIcon width={25} height={22} className={classes.icon} />
+          USDC
+        </span>
+        </Button>
+        <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('YFI')}
+      >
+        <span className={classes.btnSpan}>
+          <YFIIcon width={25} height={22} className={classes.icon} />
+          YFI
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('Sushi')}
+      >
+        <span className={classes.btnSpan}>
+          <SushiIcon width={25} height={25} className={classes.icon} />
+          Sushi
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('alUSD')}
+      >
+        <span className={classes.btnSpan}>
+          <AlusdIcon height={25} width={22} className={classes.icon} />
+          alUSD
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('USDT')}
+      >
+        <span className={classes.btnSpan}>
+          <USDTIcon height={25} width={25} className={classes.icon} />
+          USDT
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('ETH')}
+      >
+        <span className={classes.btnSpan}>
+          <EthIcon height={32} width={32} className={classes.icon} />
+          ETH
+        </span>
+        </Button>
+      <Button
+        className={classes.assetBtn}
+        onClick={() => handleAssetSelect('other')}
+      >
+        <span className={classes.btnSpan}>Other</span>
+        </Button>
+      </ButtonGroup>
         <button
         className={classes.assetBtn}
         onClick={() => handleAssetSelect('DAI')}
