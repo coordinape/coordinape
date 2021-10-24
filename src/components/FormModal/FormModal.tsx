@@ -85,6 +85,7 @@ export const FormModal = ({
   open,
   onClose,
   size,
+  icon,
 }: {
   title?: string;
   subtitle?: string;
@@ -97,6 +98,7 @@ export const FormModal = ({
   open: boolean;
   onClose: () => void;
   size?: 'large' | 'medium' | 'small';
+  icon?: any;
 }) => {
   const classes = useStyles();
 
@@ -129,7 +131,9 @@ export const FormModal = ({
             variant="contained"
             color="primary"
             size="small"
-            startIcon={submitText ? undefined : <SaveIcon />}
+            startIcon={
+              icon && submitText ? icon : submitText ? undefined : <SaveIcon />
+            }
             onClick={onSubmit}
             disabled={submitDisabled}
           >

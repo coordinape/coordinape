@@ -37,7 +37,7 @@ const AdminVaultForm = createForm({
     fixed_non_receiver: !!v.user?.fixed_non_receiver ?? false,
     non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
     role: !!v.user?.role ?? false,
-    starting_tokens: v.user?.starting_tokens ?? 100,
+    starting_tokens: v.user?.starting_tokens ?? 0,
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {
