@@ -28,7 +28,7 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './contracts',
+    sources: './coordinape-protocol/contracts',
   },
   mocha: {
     timeout: 50000,
