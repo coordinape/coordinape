@@ -8,6 +8,6 @@
 
 1. Install packages: `yarn install`
 2. Setup a local .env file: `cp .env.example .env`
-3. Build hardhat: `yarn hardhat:build`
+3. Build hardhat: `yarn build`
 4. Check testnet accounts: `yarn hardhat accounts`
-5. Deploy and start testnet `yarn hardhat node`
+5. Deploy and start testnet `yarn hardhat node` or `yarn dev`

@@ -2,6 +2,10 @@
   "name": "coordinape-contracts",
   "version": "1.0.0",
   "license": "MIT",
+  "scripts": {
+    "build": "hardhat clean && hardhat compile",
+    "dev": "hardhat node"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@openzeppelin/contracts": "^4.3.2",
