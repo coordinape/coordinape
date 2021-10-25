@@ -2,6 +2,9 @@
   "name": "yearn-coordinape-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "=14"
+  },
   "dependencies": {
     "@craco/craco": "6.3.0",
     "@date-io/luxon": "1.x",
