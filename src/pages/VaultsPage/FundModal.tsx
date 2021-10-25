@@ -40,17 +40,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface DepositModalProps {
+interface FundModalProps {
   onClose: any;
-  open: boolean;
+  openfn: boolean;
   user?: IUser;
 }
 
-export default function DepositModal({
-  open,
+export default function FundModal({
+  openfn,
   onClose,
   user,
-}: DepositModalProps) {
+}: FundModalProps) {
   const classes = useStyles();
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();
@@ -84,9 +84,9 @@ export default function DepositModal({
       {({ fields: { ...fields } }) => (
         <FormModal
           onClose={handleClose}
-          open={open}
-          title={'Deposit USDC to the Coordinape Vault'}
-          subtitle={''}
+          open={openfn}
+          title={'Fund the Coordinape Vault'}
+          subtitle={'Some note about what happens'}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"

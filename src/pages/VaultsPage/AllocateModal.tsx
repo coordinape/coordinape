@@ -38,19 +38,27 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     textAlign: 'center',
   },
+  subtitle: {
+    margin: theme.spacing(0, 0, 2),
+    fontSize: 16,
+    fontWeight: 300,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
 }));
 
-interface DepositModalProps {
+interface AllocateModalProps {
   onClose: any;
-  open: boolean;
+  openal: boolean;
   user?: IUser;
 }
 
-export default function DepositModal({
-  open,
+export default function AllocateModal({
+  openal,
   onClose,
   user,
-}: DepositModalProps) {
+}: AllocateModalProps) {
   const classes = useStyles();
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();
@@ -84,8 +92,8 @@ export default function DepositModal({
       {({ fields: { ...fields } }) => (
         <FormModal
           onClose={handleClose}
-          open={open}
-          title={'Deposit USDC to the Coordinape Vault'}
+          open={openal}
+          title={'Yearn Community: E22'}
           subtitle={''}
           onSubmit={routeChange}
           submitDisabled={false}
@@ -93,6 +101,7 @@ export default function DepositModal({
           icon={<PlusCircleIcon />}
           submitText={` Deposit USDC`}
         >
+          <div className={classes.subtitle}>Allocate to</div>
           <div className={classes.oneColumn}>
             <FormTextFieldNew
               {...fields.starting_tokens}

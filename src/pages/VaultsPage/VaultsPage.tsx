@@ -17,6 +17,7 @@ import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 // eslint-disable-next-line import/no-named-as-default
+import AllocateModal from './AllocateModal';
 import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
@@ -294,6 +295,7 @@ const epochDetail = (e: IEpoch) => {
 };
 
 const VaultsPage = () => {
+  const [openal, setOpenal] = useState<boolean>(false);
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -306,6 +308,10 @@ const VaultsPage = () => {
   const { deleteEpoch } = useAdminApi();
   const selectedCircle = useSelectedCircle();
   const epochsReverse = useSelectedCircleEpochs();
+
+  const handleClickal = () => {
+    setOpenal(!open);
+  };
 
   const transactions = useMemo(
     () => [
@@ -544,7 +550,7 @@ const VaultsPage = () => {
 
   const RenderRecentEpochActions = (e: IEpoch) =>
     e.ended ? (
-      <Button variant="contained" color="primary" size="small">
+      <Button variant="contained" color="primary" size="small" onClick={handleClickal}>
         Allocate Funds
       </Button>
     ) : e.totalTokens > 0 ? (
@@ -674,6 +680,7 @@ const VaultsPage = () => {
           epochs={epochs}
         />
       )}
+    <AllocateModal openal={openal} onClose={setOpenal} />
     </div>
   );
 };

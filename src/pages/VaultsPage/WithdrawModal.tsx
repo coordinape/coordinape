@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { FormModal, FormTextFieldNew } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
-import { PlusCircleIcon } from 'icons';
+import { MinusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
@@ -40,17 +40,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface DepositModalProps {
+interface WithdrawModalProps {
   onClose: any;
-  open: boolean;
+  openwd: boolean;
   user?: IUser;
 }
 
-export default function DepositModal({
-  open,
+export default function WithdrawModal({
+  openwd,
   onClose,
   user,
-}: DepositModalProps) {
+}: WithdrawModalProps) {
   const classes = useStyles();
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();
@@ -84,14 +84,14 @@ export default function DepositModal({
       {({ fields: { ...fields } }) => (
         <FormModal
           onClose={handleClose}
-          open={open}
-          title={'Deposit USDC to the Coordinape Vault'}
+          open={openwd}
+          title={'Withdraw USDC from the Coordinape Vault'}
           subtitle={''}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"
-          icon={<PlusCircleIcon />}
-          submitText={` Deposit USDC`}
+          icon={<MinusCircleIcon />}
+          submitText={` Withdraw USDC`}
         >
           <div className={classes.oneColumn}>
             <FormTextFieldNew

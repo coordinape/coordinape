@@ -29,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
         color: theme.colors.text,
         alignItems: 'center',
         border: 'none',
+        '&:not(:last-child)': {
+          borderRight: 'none',
+          borderTopRightRadius: 20,
+          borderBottomRightRadius: 20,
+        },
+        '&:not(:first-child)': {
+          borderTopLeftRadius: 20,
+          borderBottomLeftRadius: 20,
+        },
         '&.active': {
           '&::after': {
             left: 0,
@@ -56,9 +65,9 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 102,
         borderRadius: 8,
         fontWeight: 300,
-        '&:not(:last-child)': {
-          borderRight: '1px solid white',
-        },
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        boxShadow: 'none',
       },
       inactive: {
         color: theme.colors.text,
@@ -166,75 +175,6 @@ return (
         <span className={classes.btnSpan}>Other</span>
         </Button>
       </ButtonGroup>
-        <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('DAI')}
-      >
-        <span className={classes.btnSpan}>
-          <DAIIcon height={25} width={22} className={classes.icon} />
-          DAI
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('USDC')}
-      >
-        <span className={classes.btnSpan}>
-          <USDCIcon width={25} height={22} className={classes.icon} />
-          USDC
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('YFI')}
-      >
-        <span className={classes.btnSpan}>
-          <YFIIcon width={25} height={22} className={classes.icon} />
-          YFI
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('Sushi')}
-      >
-        <span className={classes.btnSpan}>
-          <SushiIcon width={25} height={25} className={classes.icon} />
-          Sushi
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('alUSD')}
-      >
-        <span className={classes.btnSpan}>
-          <AlusdIcon height={25} width={22} className={classes.icon} />
-          alUSD
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('USDT')}
-      >
-        <span className={classes.btnSpan}>
-          <USDTIcon height={25} width={25} className={classes.icon} />
-          USDT
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('ETH')}
-      >
-        <span className={classes.btnSpan}>
-          <EthIcon height={32} width={32} className={classes.icon} />
-          ETH
-        </span>
-        </button>
-      <button
-        className={classes.assetBtn}
-        onClick={() => handleAssetSelect('other')}
-      >
-        <span className={classes.btnSpan}>Other</span>
-        </button>
     </div>
 );
 }

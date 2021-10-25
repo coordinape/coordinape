@@ -8,6 +8,8 @@ import { InfoIcon, PlusCircleIcon } from 'icons';
 // eslint-disable-next-line import/no-named-as-default
 import AdminUserModal from './AdminUserModal';
 import DepositModal from './DepositModal';
+import FundModal from './FundModal';
+import WithdrawModal from './WithdrawModal';
 
 import { ITableColumn, IUser } from 'types';
 
@@ -55,6 +57,13 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     margin: 0,
     padding: 0,
+  },
+  vaultsSecondaryh4: {
+    color: theme.colors.lightBlue,
+    fontSize: 15,
+    fontWeight: 300,
+    margin: 0,
+    padding: theme.spacing(0,0.5,0),
   },
   noVaultsSubtitle: {
     color: theme.colors.mediumGray,
@@ -148,15 +157,23 @@ export default function HasVaults({
 }: HasVaultsProps) {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
+  const [openwd, setOpenwd] = useState<boolean>(false);
+  const [openfn, setOpenfn] = useState<boolean>(false);
 
   const handleClick = () => {
     setOpen(!open);
+  };
+  const handleClickwd = () => {
+    setOpenwd(!open);
+  };
+  const handleClickfn = () => {
+    setOpenfn(!open);
   };
 
   return (
     <div className={classes.withVaults}>
       <div>
-        <DepositModal open={open} onClose={setOpen} />
+      <DepositModal open={open} onClose={setOpen}/>
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>USDC Vault</h2>
           <Button
@@ -165,11 +182,15 @@ export default function HasVaults({
             onClick={handleClick}
           >
             Deposit
-          </Button>{' '}
-          <h4 className={classes.vaultsSecondary}> | </h4>{' '}
-          <Button variant="text" className={classes.vaultsSecondary}>
-            {' '}
-            &nbsp;Withdaw
+          </Button>
+          <h4 className={classes.vaultsSecondaryh4}>|</h4>
+          <WithdrawModal openwd={openwd} onClose={setOpenwd} />
+          <Button
+            variant="text"
+            className={classes.vaultsSecondary}
+            onClick={handleClickwd}
+          >
+            Withdraw
           </Button>
         </div>
         <h4 className={classes.noVaultsSubtitle}>
@@ -219,10 +240,11 @@ export default function HasVaults({
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => setNewUser(true)}
+          onClick={handleClickfn}
         >
           Fund This Vault
         </Button>
+        <FundModal openfn={openfn} onClose={setOpenfn} />
         <AdminUserModal
           onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
           user={editUser}
