@@ -1,0 +1,3 @@
+[submodule "hardhat/coordinape-protocol"]
+	path = hardhat/coordinape-protocol
+	url = https://github.com/coordinape/coordinape-protocol.git
