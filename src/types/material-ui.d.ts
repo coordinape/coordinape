@@ -16,7 +16,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       mediumRed: string;
       darkRed: string;
       ultraLightGray: string;
-      sutileGray: string;
+      subtleGray: string;
       lightGray: string;
       mediumGray: string;
       text: string;

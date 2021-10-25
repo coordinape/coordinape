@@ -7,7 +7,7 @@ const color = {
   darkRed: '#6f3638',
   mediumRed: '#E6BCBC',
   ultraLightGray: '#EFF3F4',
-  sutileGray: '#F5F5F5',
+  subtleGray: '#F5F5F5',
   lightGray: '#C3CDCF',
   mediumGray: '#A7B0B4',
   text: '#516369',
