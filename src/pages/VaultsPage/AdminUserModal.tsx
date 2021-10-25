@@ -75,11 +75,7 @@ export const AdminUserModal = ({
         )
       }
     >
-      {({
-        fields: {
-          ...fields
-        },
-      }) => (
+      {({ fields: { ...fields } }) => (
         <FormModal
           onClose={onClose}
           open={open}
@@ -95,7 +91,8 @@ export const AdminUserModal = ({
             <div className={classes.oneColumn}>
               <FormTextField
                 {...fields.name}
-                label="...or use a custom asset" />
+                label="...or use a custom asset"
+              />
             </div>
           )}
         </FormModal>

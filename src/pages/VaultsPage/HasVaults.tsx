@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 300,
     margin: 0,
-    padding: theme.spacing(0,0.5,0),
+    padding: theme.spacing(0, 0.5, 0),
   },
   noVaultsSubtitle: {
     color: theme.colors.mediumGray,
@@ -173,7 +173,7 @@ export default function HasVaults({
   return (
     <div className={classes.withVaults}>
       <div>
-      <DepositModal open={open} onClose={setOpen}/>
+        <DepositModal open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>USDC Vault</h2>
           <Button

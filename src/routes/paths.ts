@@ -98,7 +98,7 @@ export const getMainNavigation = ({
 } = {}): INavItem[] => {
   let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
   const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  if(IN_PRODUCTION){
+  if (IN_PRODUCTION) {
     const adminItems1 = [{ path: getAdminPath(), label: 'Admin' }];
     if (asVouchingEnabled) {
       mainItems = [...mainItems, ...vouchingItems];
@@ -106,9 +106,7 @@ export const getMainNavigation = ({
     if (asCircleAdmin) {
       mainItems = [...mainItems, ...adminItems1];
     }
-  }
-  else
-  {
+  } else {
     const adminItems1 = [{ path: getVaultsPath(), label: 'Admin' }];
     if (asVouchingEnabled) {
       mainItems = [...mainItems, ...vouchingItems];

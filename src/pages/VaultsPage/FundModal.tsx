@@ -46,11 +46,7 @@ interface FundModalProps {
   user?: IUser;
 }
 
-export default function FundModal({
-  openfn,
-  onClose,
-  user,
-}: FundModalProps) {
+export default function FundModal({ openfn, onClose, user }: FundModalProps) {
   const classes = useStyles();
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();

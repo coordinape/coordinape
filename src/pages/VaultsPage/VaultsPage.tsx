@@ -550,7 +550,12 @@ const VaultsPage = () => {
 
   const RenderRecentEpochActions = (e: IEpoch) =>
     e.ended ? (
-      <Button variant="contained" color="primary" size="small" onClick={handleClickal}>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        onClick={handleClickal}
+      >
         Allocate Funds
       </Button>
     ) : e.totalTokens > 0 ? (
@@ -680,7 +685,7 @@ const VaultsPage = () => {
           epochs={epochs}
         />
       )}
-    <AllocateModal openal={openal} onClose={setOpenal} />
+      <AllocateModal openal={openal} onClose={setOpenal} />
     </div>
   );
 };

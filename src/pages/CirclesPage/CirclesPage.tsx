@@ -6,14 +6,18 @@ import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { useAdminApi, useMe } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow, } from 'icons';
+import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow } from 'icons';
 import {
   useSelectedCircle,
   useSelectedMyUser,
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
-import { getAdminNavigation, checkActive, NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
+import {
+  getAdminNavigation,
+  checkActive,
+  NEW_CIRCLE_CREATED_PARAMS,
+} from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
@@ -501,7 +505,7 @@ const CirclesPage = () => {
               </NavLink>
             ))}
         </div>
-    </div>  
+      </div>
       <h2 className={classes.title}>
         {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
       </h2>
