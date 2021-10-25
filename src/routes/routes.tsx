@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { USER_ROLE_ADMIN } from 'config/constants';
@@ -27,33 +27,22 @@ export const Routes = () => {
   const selectedCircle = useRecoilValue(rSelectedCircle);
   const hasAdminView = useRecoilValue(rHasAdminView);
 
-  // TODO: simpler way to do this? Maybe redirect?
-  const asVoyeur = !selectedMyUser && hasAdminView;
   if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
     return (
       <Switch>
+        <Route exact path={paths.getHomePath()} component={DefaultPage} />
         <Route
           exact
           path={paths.getCreateCirclePath()}
           component={CreateCirclePage}
         />
-        <Route component={DefaultPage} />
+        <Redirect to={paths.getHomePath()} />
       </Switch>
     );
   }
-  const SneakyAllocationPage = !asVoyeur ? AllocationPage : DefaultPage;
-  const SneakyAdminPage =
-    (selectedMyUser && selectedMyUser.role === USER_ROLE_ADMIN) || hasAdminView
-      ? AdminPage
-      : DefaultPage;
-  const SneakyAdminVaultsPage =
-    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
-      ? VaultsPage
-      : DefaultPage;
-  const SneakyAdminCirclesPage =
-    (selectedMyUser && selectedMyUser.role !== 0) || hasAdminView
-      ? CirclesPage
-      : DefaultPage;
+
+  const canViewAllocate = selectedMyUser && !hasAdminView;
+  const canViewAdmin = selectedMyUser?.role === USER_ROLE_ADMIN || hasAdminView;
 
   return (
     <Switch>
@@ -67,9 +56,14 @@ export const Routes = () => {
       <Route exact path={paths.getMapPath()} component={LazyAssetMapPage} />
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
-      <Route exact path={paths.getAdminPath()} component={SneakyAdminPage} />
-      <Route exact path={paths.getVaultsPath()} component={SneakyAdminVaultsPage} />
-      <Route exact path={paths.getCirclesPath()} component={SneakyAdminCirclesPage} />
+
+      {canViewAdmin && (
+        <>
+          <Route exact path={paths.getAdminPath()} component={AdminPage} />
+          <Route exact path={paths.getVaultsPath()} component={VaultsPage} />
+          <Route exact path={paths.getCirclesPath()} component={CirclesPage} />
+        </>
+      )}
 
       <Route
         exact
@@ -77,28 +71,28 @@ export const Routes = () => {
         component={CreateCirclePage}
       />
 
-      <Route
-        exact
-        path={paths.getAllocationPath()}
-        component={SneakyAllocationPage}
-      />
-      <Route
-        exact
-        path={paths.getMyTeamPath()}
-        component={SneakyAllocationPage}
-      />
-      <Route
-        exact
-        path={paths.getMyEpochPath()}
-        component={SneakyAllocationPage}
-      />
-      <Route
-        exact
-        path={paths.getGivePath()}
-        component={SneakyAllocationPage}
-      />
+      {canViewAllocate && (
+        <>
+          <Route
+            exact
+            path={paths.getAllocationPath()}
+            component={AllocationPage}
+          />
+          <Route
+            exact
+            path={paths.getMyTeamPath()}
+            component={AllocationPage}
+          />
+          <Route
+            exact
+            path={paths.getMyEpochPath()}
+            component={AllocationPage}
+          />
+          <Route exact path={paths.getGivePath()} component={AllocationPage} />
+        </>
+      )}
 
-      <Route component={DefaultPage} />
+      <Redirect to={paths.getHomePath()} />
     </Switch>
   );
 };
