@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   vaultsTitle: {
-    color: theme.colors.mediumGray,
+    color: theme.colors.text,
     margin: 0,
     fontSize: 24,
     fontWeight: 700,
@@ -51,12 +51,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  vaultsSecondary: {
-    color: theme.colors.lightBlue,
-    fontSize: 15,
-    fontWeight: 300,
-    margin: 0,
-    padding: 0,
+  depositWithdrawBtns: {
+    margin: '0 0.25em 0 0.25em',
   },
   vaultsSecondaryh4: {
     color: theme.colors.lightBlue,
@@ -177,17 +173,20 @@ export default function HasVaults({
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>USDC Vault</h2>
           <Button
-            variant="text"
-            className={classes.vaultsSecondary}
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.depositWithdrawBtns}
             onClick={handleClick}
           >
             Deposit
           </Button>
-          <h4 className={classes.vaultsSecondaryh4}>|</h4>
           <WithdrawModal openwd={openwd} onClose={setOpenwd} />
           <Button
-            variant="text"
-            className={classes.vaultsSecondary}
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.depositWithdrawBtns}
             onClick={handleClickwd}
           >
             Withdraw

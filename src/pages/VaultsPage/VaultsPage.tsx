@@ -233,6 +233,8 @@ const useStyles = makeStyles(theme => ({
   },
   twoLineCellSubtitle: {
     fontWeight: 400,
+    fontSize: 11,
+    color: theme.colors.mediumGray,
   },
   avatar: {
     width: 32,
@@ -370,7 +372,7 @@ const VaultsPage = () => {
         labelDayRange: 'Oct 7 to Oct 21',
         labelTimeStart: 'Started 12:55AM UTC',
         labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: '',
+        labelActivity: 'members will allocate ',
         labelUntilStart: 'The Past',
         labelUntilEnd: '8 Days',
         labelYearEnd: '2021',
@@ -404,15 +406,15 @@ const VaultsPage = () => {
         },
         invalid: null,
         isLuxonInterval: true,
-        totalTokens: 0,
-        uniqueUsers: 0,
+        totalTokens: 70,
+        uniqueUsers: 14,
         activeUsers: 0,
         calculatedDays: 20,
         labelGraph: 'This Epoch Oct 1 - 30',
         labelDayRange: 'Oct 1 to Oct 30',
         labelTimeStart: 'Started 12:55AM UTC',
         labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: '',
+        labelActivity: 'members have allocated',
         labelUntilStart: 'The Past',
         labelUntilEnd: '8 Days',
         labelYearEnd: '2021',
@@ -447,14 +449,14 @@ const VaultsPage = () => {
         invalid: null,
         isLuxonInterval: true,
         totalTokens: 5000,
-        uniqueUsers: 0,
+        uniqueUsers: 432,
         activeUsers: 0,
         calculatedDays: 20,
         labelGraph: 'This Epoch Oct 1 - 30',
         labelDayRange: 'Oct 1 to Oct 30',
         labelTimeStart: 'Started 12:55AM UTC',
         labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: '',
+        labelActivity: 'members have allocated',
         labelUntilStart: 'The Past',
         labelUntilEnd: '8 Days',
         labelYearEnd: '2021',
@@ -532,18 +534,21 @@ const VaultsPage = () => {
   // Epoch Columns
   const RenderEpochDetails = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>Epoch {e.number}</span>
-      <span className={classes.twoLineCellSubtitle}>{epochDetail(e)}</span>
+      <span className={classes.twoLineCellTitle}>
+        {e.circle_id}(CID): E{e.number}
+      </span>
     </div>
   );
 
   const RenderEpochDates = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
       <span className={classes.twoLineCellTitle}>
-        {e.labelYearEnd} - {e.labelDayRange}
+        {e.uniqueUsers} {e.labelActivity} {e.totalTokens} GIVE
       </span>
       <span className={classes.twoLineCellSubtitle}>
-        {e.ended ? e.labelTimeEnd : e.labelTimeStart}
+        {e.ended
+          ? `Epoch ended ${e.endDate.month} ${e.endDate.day}`
+          : `Epoch starts ${e.startDate.monthLong} and ends ${e.endDate.day}`}
       </span>
     </div>
   );
