@@ -6,13 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
 import { useAdminApi, useMe } from 'hooks';
-import {
-  DeleteIcon,
-  PlusCircleIcon,
-  DownArrow,
-  InfoIcon,
-  EditIcon,
-} from 'icons';
+import { DeleteIcon, DownArrow } from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -488,20 +482,17 @@ const VaultsPage = () => {
 
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
-      {onEdit ? (
-        <span className={classes.editSpan}>
-          <Button
-            className={classes.allocateBtn}
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={onEdit}
-          >
-            Allocate Funds
-          </Button>
-        </span>
-      ) : undefined}
-
+      <span className={classes.editSpan}>
+        <Button
+          className={classes.allocateBtn}
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={handleClickal}
+        >
+          Allocate Funds
+        </Button>
+      </span>
       {onDelete ? (
         <IconButton
           onClick={onDelete}
@@ -593,15 +584,9 @@ const VaultsPage = () => {
   const RenderRecentEpochActions = (e: IEpoch) =>
     e.ended ? (
       <>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={handleClickal}
-        >
+        <Button variant="contained" color="primary" size="small">
           Allocate Funds
         </Button>
-        <AllocateModal openal={openal} onClose={setOpenal} />
       </>
     ) : e.totalTokens > 0 ? (
       <span className={classes.editSpan}>
@@ -732,6 +717,7 @@ const VaultsPage = () => {
           transactionColumns={transactionColumns}
         />
       )}
+      <AllocateModal openal={openal} onClose={setOpenal} />
     </div>
   );
 };

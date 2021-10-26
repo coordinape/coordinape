@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextFieldNew } from 'components';
+import { FormModal, FormRadioSelect, FormTextFieldNew } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
 import { PlusCircleIcon } from 'icons';
@@ -20,8 +20,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   oneColumn: {
-    marginTop: theme.spacing(12),
-    marginBottom: theme.spacing(12),
+    marginTop: theme.spacing(6),
   },
   ethInput: {
     width: '100%',
@@ -51,6 +50,30 @@ const useStyles = makeStyles(theme => ({
     fontSize: 27,
     fontWeight: 700,
   },
+  blueText: {
+    color: theme.colors.lightBlue,
+    fontSize: 17,
+    marginBottom: 0,
+  },
+  parenText: {
+    fontSize: 17,
+    marginTop: 0,
+  },
+  radioDiv: {
+    width: '60%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: '0 auto 0 auto',
+    color: theme.colors.text,
+    fontSize: 16,
+  },
+  innerWrapper: {
+    marginTop: '2em',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 }));
 
 interface AllocateModalProps {
@@ -68,6 +91,7 @@ export default function AllocateModal({
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();
   const history = useHistory();
+  const [ongoing, setOngoing] = useState<boolean>(false);
 
   const handleClose = () => {
     onClose(false);
@@ -86,6 +110,10 @@ export default function AllocateModal({
     history.push(path);
   };
 
+  const setOngoingAllocation = () => {
+    setOngoing(!ongoing);
+  };
+
   //   TODO: Pull in real data to populate FormTextField label and update value
 
   return (
@@ -98,22 +126,35 @@ export default function AllocateModal({
         <FormModal
           onClose={handleClose}
           open={openal}
-          title={'Yearn Community: E22'}
-          subtitle={''}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"
           icon={<PlusCircleIcon />}
           submitText={`Fund This Epoch`}
         >
-          <div className={classes.subtitle}>Allocate to</div>
-          <div className={classes.largeText}>Yearn Community: E22</div>
-          <div className={classes.oneColumn}>
-            <FormTextFieldNew
-              {...fields.starting_tokens}
-              InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
-              label="Available: 264,600 USDC"
-            />
+          <div className={classes.innerWrapper}>
+            <div className={classes.subtitle}>Allocate to</div>
+            <div className={classes.largeText}>Yearn Community: E22</div>
+            <p className={classes.blueText}>Aug 15 to Aug 31</p>
+            <p className={classes.parenText}>(Repeats Monthly)</p>
+            <div className={classes.oneColumn}>
+              <FormTextFieldNew
+                {...fields.starting_tokens}
+                InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
+                label="Available: 264,600 USDC"
+              />
+            </div>
+            <div className={classes.radioDiv}>
+              <FormRadioSelect
+                {...fields.starting_tokens}
+                value="Repeat funding monthly"
+                // eslint-disable-next-line no-console
+                onChange={setOngoingAllocation}
+                options={[{ value: 'Repeat funding Monthly', label: '' }]}
+                box
+              />
+              <p>Repeat funding monthly</p>
+            </div>
           </div>
         </FormModal>
       )}
