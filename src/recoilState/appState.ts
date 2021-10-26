@@ -509,8 +509,8 @@ export const useUserGifts = (userId: number) =>
 export type IReceivedGiftsByUser = { [account: string]: number | string };
 
 // Todo: Fetch this data from API when available
-export const rUnclaimedTokensByUser = atom<Record<string, number>>({
-  key: 'rUnclaimedTokensByUser',
+export const rPreviousEpochGiftsByUser = atom<Record<string, number>>({
+  key: 'rPreviousEpochGiftsByUser',
   default: {
     '0xC49E9550452a0F321b2Eb0d7537FA9a410EA4D91': 100,
   },
@@ -530,7 +530,7 @@ export const rReceivedGiftsByUser = selectorFamily<
         g => g.recipient_id,
         g => g.tokens
       );
-      const unclaimedTokensByUser = get(rUnclaimedTokensByUser);
+      const unclaimedTokensByUser = get(rPreviousEpochGiftsByUser);
       const totalReceivedByUserMap = iti(giftsByUser.keys()).toMap(
         userId =>
           assertDef(
