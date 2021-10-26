@@ -148,8 +148,9 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(6, 0),
   },
   allocateBtn: {
-    padding: '8px',
+    padding: '12px',
     height: 'calc(32px * 16) * 1rem',
+    marginRight: '2.5em',
   },
   actionsAndEpochs: {
     display: 'flex',
@@ -278,8 +279,18 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     margin: 0,
   },
-  editIcon: {
-    marginLeft: '0.25em',
+  editTxt: {
+    color: theme.colors.lightBlue,
+    textDecoration: 'underline',
+    marginLeft: '0.3em',
+    marginRight: '0.3em',
+    cursor: 'pointer',
+  },
+  editSpan: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -470,7 +481,7 @@ const VaultsPage = () => {
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
-        <>
+        <span className={classes.editSpan}>
           <Button
             className={classes.allocateBtn}
             variant="contained"
@@ -480,8 +491,7 @@ const VaultsPage = () => {
           >
             Allocate Funds
           </Button>
-          <EditIcon className={classes.editIcon} />
-        </>
+        </span>
       ) : undefined}
 
       {onDelete ? (
@@ -564,12 +574,12 @@ const VaultsPage = () => {
         Allocate Funds
       </Button>
     ) : e.totalTokens > 0 ? (
-      <>
+      <span className={classes.editSpan}>
         <Button variant="contained" className={classes.valueBtn} size="small">
           {e.totalTokens} <p className={classes.smallP}>usdc</p>
         </Button>
-        <EditIcon className={classes.editIcon} />
-      </>
+        <p className={classes.editTxt}>Edit</p>
+      </span>
     ) : (
       renderActions(
         () => setEditEpoch(e),
