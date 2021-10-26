@@ -46,6 +46,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     textAlign: 'center',
   },
+  largeText: {
+    color: theme.colors.text,
+    fontSize: 27,
+    fontWeight: 700,
+  },
 }));
 
 interface AllocateModalProps {
@@ -99,9 +104,10 @@ export default function AllocateModal({
           submitDisabled={false}
           size="small"
           icon={<PlusCircleIcon />}
-          submitText={` Deposit USDC`}
+          submitText={`Fund This Epoch`}
         >
           <div className={classes.subtitle}>Allocate to</div>
+          <div className={classes.largeText}>Yearn Community: E22</div>
           <div className={classes.oneColumn}>
             <FormTextFieldNew
               {...fields.starting_tokens}

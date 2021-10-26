@@ -140,6 +140,8 @@ interface HasVaultsProps {
   setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
   epochColumns: ITableColumn[];
   epochs: any;
+  transactions: any;
+  transactionColumns: ITableColumn[];
 }
 
 export default function HasVaults({
@@ -150,6 +152,8 @@ export default function HasVaults({
   setNewEpoch,
   epochs,
   epochColumns,
+  transactions,
+  transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
@@ -228,28 +232,39 @@ export default function HasVaults({
           </>
         }
       />
-      <div className={classes.noVaultsInterior}>
-        <h2 className={classes.noVaultsTitle}>
-          There are no transactions to show yet.
-        </h2>
-        <h3 className={classes.noVaultsSubtitle}>
-          To get started, fund your vault with USDC
-        </h3>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={handleClickfn}
-        >
-          Fund This Vault
-        </Button>
-        <FundModal openfn={openfn} onClose={setOpenfn} />
-        <AdminUserModal
-          onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
-          user={editUser}
-          open={!!editUser || newUser}
-        />
-      </div>
+      <StaticTableNew
+        label="Transactions"
+        className={classes.newTable}
+        columns={transactionColumns}
+        data={transactions}
+        perPage={6}
+        placeholder={
+          <div className={classes.noVaultsInterior}>
+            <h2 className={classes.noVaultsTitle}>
+              There are no transactions to show yet.
+            </h2>
+            <h3 className={classes.noVaultsSubtitle}>
+              To get started, fund your vault with USDC
+            </h3>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={handleClickfn}
+            >
+              Fund This Vault
+            </Button>
+            <FundModal openfn={openfn} onClose={setOpenfn} />
+            <AdminUserModal
+              onClose={() =>
+                newUser ? setNewUser(false) : setEditUser(undefined)
+              }
+              user={editUser}
+              open={!!editUser || newUser}
+            />
+          </div>
+        }
+      />
     </div>
   );
 }

@@ -82,7 +82,7 @@ export default function FundModal({ openfn, onClose, user }: FundModalProps) {
           onClose={handleClose}
           open={openfn}
           title={'Fund the Coordinape Vault'}
-          subtitle={'Some note about what happens'}
+          subtitle={'NEED COPY FOR THIS'}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"

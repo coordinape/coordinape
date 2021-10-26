@@ -204,7 +204,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   twoLineCell: {
-    height: 48,
+    height: 60,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -212,7 +212,7 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.5,
   },
   oneLineCell: {
-    height: 48,
+    height: 60,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -234,7 +234,7 @@ const useStyles = makeStyles(theme => ({
   },
   twoLineCellSubtitle: {
     fontWeight: 400,
-    fontSize: 11,
+    fontSize: 9,
     color: theme.colors.mediumGray,
   },
   avatar: {
@@ -323,22 +323,30 @@ const VaultsPage = () => {
   const epochsReverse = useSelectedCircleEpochs();
 
   const handleClickal = () => {
-    setOpenal(!open);
+    setOpenal(!openal);
   };
 
   const transactions = useMemo(
     () => [
       {
         name: 'No Name McGee',
-        dateType: 'Deposit made on 8/1',
+        dateType: 'Deposit made on',
         posNeg: '+',
         value: 25000,
+        vaultName: '',
+        number: 2,
+        activeUsers: 15,
+        date: '11/1',
       },
       {
-        name: 'Another No name person',
-        dateType: 'Withdawl made on 8/1',
+        name: 'Bob Villa',
+        dateType: 'Distributions triggered on',
         posNeg: '-',
         value: 14000,
+        vaultName: 'Strategists',
+        number: 4,
+        activeUsers: 1,
+        date: '11/3',
       },
     ],
     []
@@ -515,20 +523,39 @@ const VaultsPage = () => {
     [keyword]
   );
   //TODO: Need to make an interface for transaction data
-  // Transaction Columns
-  const RenderTransactionDetails = (e: any) => (
-    <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle} style={{ textAlign: 'left' }}>
-        {e.name}
-      </span>
-      <span
-        className={classes.twoLineCellSubtitle}
-        style={{ textAlign: 'left' }}
-      >
-        {e.dateType} See TX on Etherscan
-      </span>
-    </div>
-  );
+  const RenderTransactionDetails = (e: any) => {
+    return e.posNeg === '-' ? (
+      <div className={classes.twoLineCell}>
+        <span
+          className={classes.twoLineCellTitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.vaultName}: {e.number} distibuted to {e.activeUsers} participants
+        </span>
+        <span
+          className={classes.twoLineCellSubtitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.dateType} {e.date}. See TX on Etherscan
+        </span>
+      </div>
+    ) : (
+      <div className={classes.twoLineCell}>
+        <span
+          className={classes.twoLineCellTitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.name} made a deposit
+        </span>
+        <span
+          className={classes.twoLineCellSubtitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.dateType} {e.date} See TX on Etherscan
+        </span>
+      </div>
+    );
+  };
 
   const RenderTransactionAmount = (e: any) => (
     <div className={classes.oneLineCell}>
@@ -565,14 +592,17 @@ const VaultsPage = () => {
 
   const RenderRecentEpochActions = (e: IEpoch) =>
     e.ended ? (
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        onClick={handleClickal}
-      >
-        Allocate Funds
-      </Button>
+      <>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={handleClickal}
+        >
+          Allocate Funds
+        </Button>
+        <AllocateModal openal={openal} onClose={setOpenal} />
+      </>
     ) : e.totalTokens > 0 ? (
       <span className={classes.editSpan}>
         <Button variant="contained" className={classes.valueBtn} size="small">
@@ -698,9 +728,10 @@ const VaultsPage = () => {
           setNewEpoch={setNewEpoch}
           epochColumns={epochColumns}
           epochs={epochs}
+          transactions={transactions}
+          transactionColumns={transactionColumns}
         />
       )}
-      <AllocateModal openal={openal} onClose={setOpenal} />
     </div>
   );
 };
