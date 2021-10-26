@@ -19,7 +19,7 @@ const schema = z
     non_giver: zBooleanToNumber,
     fixed_non_receiver: zBooleanToNumber,
     non_receiver: zBooleanToNumber,
-    admin: zBooleanToNumber,
+    role: zBooleanToNumber,
     starting_tokens: z.number(),
   })
   .strict();
@@ -34,7 +34,7 @@ const AdminUserForm = createForm({
     non_giver: !!(v.user?.non_giver ?? !v.circle.default_opt_in),
     fixed_non_receiver: !!v.user?.fixed_non_receiver ?? false,
     non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
-    admin: v.user?.role === USER_ROLE_ADMIN ?? false,
+    role: v.user?.role === USER_ROLE_ADMIN ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
   }),
   fieldKeys: Object.keys(schema.shape),
