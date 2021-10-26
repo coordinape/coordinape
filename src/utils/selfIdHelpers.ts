@@ -70,6 +70,6 @@ export const getSelfIdProfile = async (
 
 export const getSelfIdProfiles = async (addresses: string[]) => {
   return (await Promise.all(addresses.map(getSelfIdProfile))).filter(
-    p => !!p
+    p => p
   ) as ISelfIdProfile[];
 };
