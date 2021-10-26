@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ import { getAdminNavigation, checkActive } from 'routes/paths';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
+import EditModal from './EditModal';
 import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
@@ -276,9 +278,9 @@ const useStyles = makeStyles(theme => ({
   editTxt: {
     color: theme.colors.lightBlue,
     textDecoration: 'underline',
-    marginLeft: '0.3em',
-    marginRight: '0.3em',
     cursor: 'pointer',
+    background: 'none',
+    border: 'none',
   },
   editSpan: {
     display: 'flex',
@@ -311,6 +313,7 @@ const VaultsPage = () => {
   const [, setNewEpoch] = useState<boolean>(false);
   const [, setEditCircle] = useState<boolean>(false);
   const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
+  const [editOpen, setEditOpen] = useState<boolean>(false);
 
   const { deleteEpoch } = useAdminApi();
   const selectedCircle = useSelectedCircle();
@@ -318,6 +321,10 @@ const VaultsPage = () => {
 
   const handleClickal = () => {
     setOpenal(!openal);
+  };
+
+  const handleSetEdit = () => {
+    setEditOpen(!editOpen);
   };
 
   const transactions = useMemo(
@@ -593,7 +600,9 @@ const VaultsPage = () => {
         <Button variant="contained" className={classes.valueBtn} size="small">
           {e.totalTokens} <p className={classes.smallP}>usdc</p>
         </Button>
-        <p className={classes.editTxt}>Edit</p>
+        <button className={classes.editTxt} onClick={handleSetEdit}>
+          Edit
+        </button>
       </span>
     ) : (
       renderActions(
@@ -718,6 +727,7 @@ const VaultsPage = () => {
         />
       )}
       <AllocateModal openal={openal} onClose={setOpenal} />
+      <EditModal open={editOpen} onClose={setEditOpen} />
     </div>
   );
 };
