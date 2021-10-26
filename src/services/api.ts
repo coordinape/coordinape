@@ -36,6 +36,19 @@ export class APIService {
     this.provider = provider;
   }
 
+  async login(address: string) {
+    const { signature, hash } = await getSignature(
+      'Login to Coordinape',
+      this.provider
+    );
+    const response = await axios.post('/v2/login', {
+      signature,
+      hash,
+      address,
+    });
+    return response.data;
+  }
+
   getProfile = async (address: string): Promise<IApiFilledProfile> => {
     const response = await axios.get(`/profile/${address}`);
     return (response.data.profile ?? response.data) as IApiFilledProfile;
