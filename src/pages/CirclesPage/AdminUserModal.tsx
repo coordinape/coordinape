@@ -102,7 +102,7 @@ export const AdminUserModal = ({
               fullWidth
               className={classes.ethInput}
             />
-            <ApeToggle {...fields.admin} label="Are They Admin?" />
+            <ApeToggle {...fields.role} label="Are They Admin?" />
             <ApeToggle
               {...non_giver}
               onChange={v => nonGiverOnChange(!v)}
