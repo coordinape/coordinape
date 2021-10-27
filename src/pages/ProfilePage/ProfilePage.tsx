@@ -225,7 +225,7 @@ export const ProfilePage = ({
   );
 
   const recentEpochs = profile?.users?.map(user => ({
-    bio: user.bio?.length > 0 ? user.bio : 'No epoch statement made.',
+    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : 'No epoch statement made.',
     circle: user.circle,
   }));
 
