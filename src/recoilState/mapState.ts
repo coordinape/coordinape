@@ -68,7 +68,6 @@ const createFakeUser = (circleId: number): IUser => ({
   starting_tokens: 100,
   bio: 'This user was hard deleted, Inconsistent data error.',
   non_receiver: 1,
-  regift_percent: 1,
   give_token_received: 0,
   give_token_remaining: 0,
   epoch_first_visit: 0,
