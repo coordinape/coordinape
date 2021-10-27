@@ -12,6 +12,8 @@ export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.gg/coordinape';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
+// TODO: Change this to something more specific to feedback.
+export const EXTERNAL_URL_FEEDBACK = 'https://discord.gg/DPjmDWEUH5';
 
 const toSearchString = (params: Record<string, string | number>) =>
   Object.entries(params)

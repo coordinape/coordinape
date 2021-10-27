@@ -10,13 +10,10 @@ import {
   ThreeDotMenu,
   ProfileSkills,
 } from 'components';
-import {
-  USER_ROLE_ADMIN,
-  USER_ROLE_COORDINAPE,
-  COORDINAPE_DONATION_APEINFO_TOOLTIP_TEXT,
-} from 'config/constants';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useSetEditProfileOpen } from 'recoilState';
+import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
 import { GiftInput } from './GiftInput';
@@ -68,13 +65,14 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: theme.colors.text,
   },
-  coordinape_tooltip: {
-    width: '100%',
-    display: 'grid',
-    flexDirection: 'row-reverse',
-    gridTemplateColumns: '1fr 60px 1fr',
-    margin: theme.spacing(0.7),
-    fontWeight: 600,
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+  },
+  tooltip: {
+    fontWeight: 400,
     color: theme.colors.text,
   },
   skillContainer: {
@@ -165,9 +163,21 @@ export const ProfileCard = ({
         <span className={classes.name}>
           {user.name}
           {user.role === USER_ROLE_COORDINAPE && (
-            <ApeInfoTooltip>
-              {' '}
-              {COORDINAPE_DONATION_APEINFO_TOOLTIP_TEXT}{' '}
+            <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
+              <b>Why is Coordinape in my circle?</b>
+              <div>
+                To date Coordinape has offered our service for free. We decided
+                that using the gift circle mechanism as our revenue model might
+                make a lot of sense, so we’re trying that out.
+              </div>
+              <a
+                href={EXTERNAL_URL_FEEDBACK}
+                rel="noreferrer"
+                target="_blank"
+                className={classes.tooltipLink}
+              >
+                Let us know what you think
+              </a>
             </ApeInfoTooltip>
           )}
         </span>
