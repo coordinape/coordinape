@@ -149,15 +149,6 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
-const isEditable = (u: IUser): boolean => {
-  return !isCoordinapeUser(u);
-};
-
-//TODO move to a shared place?
-const isCoordinapeUser = (u: IUser): boolean => {
-  return u.role === USER_ROLE_COORDINAPE;
-};
-
 const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
@@ -317,7 +308,9 @@ const AdminPage = () => {
           label: 'Actions',
           render: (u: IUser) =>
             renderActions(
-              isEditable(u) ? () => setEditUser(u) : undefined,
+              u.role !== USER_ROLE_COORDINAPE
+                ? () => setEditUser(u)
+                : undefined,
               u.id !== me?.id
                 ? () => deleteUser(u.address).catch(console.warn)
                 : undefined
