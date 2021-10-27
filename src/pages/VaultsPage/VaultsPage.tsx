@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
 
+import { OrganizationHeader } from 'components';
 import { useAdminApi, useMe } from 'hooks';
 import { DeleteIcon, DownArrow } from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
@@ -658,54 +659,7 @@ const VaultsPage = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.topMenu}>
-        <div className={classes.organizationLinks}>
-          <Avatar
-            alt="organization"
-            src="/imgs/avatar/placeholder.jpg"
-            style={{
-              width: 46,
-              height: 46,
-              borderRadius: '50%',
-              border: '1px solid rgba(94, 111, 116, 0.7)',
-              marginRight: '16px',
-            }}
-          />
-          <h2 className={classes.title}>Yearn Finance</h2>
-          <Button
-            aria-describedby="1"
-            className={classes.moreButton}
-            onClick={() => setEditCircle(true)}
-          >
-            <DownArrow />
-          </Button>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={() => setNewUser(true)}
-            style={{
-              marginLeft: '27px',
-            }}
-          >
-            Create a Vault
-          </Button>
-        </div>
-        <div className={classes.navLinks}>
-          {navButtonsVisible &&
-            navItems.map(navItem => (
-              <NavLink
-                className={classes.navLink}
-                isActive={(nothing, location) =>
-                  checkActive(location.pathname, navItem)
-                }
-                key={navItem.path}
-                to={navItem.path}
-              >
-                {navItem.label}
-              </NavLink>
-            ))}
-        </div>
-      </div>
+      <OrganizationHeader/>
       {!hasVaults ? (
         <NoVaults
           newUser={newUser}

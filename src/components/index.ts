@@ -38,6 +38,7 @@ export * from './FormAutocomplete/FormAutocomplete';
 export * from './ApeInfoTooltip/ApeInfoTooltip';
 export * from './DialogNotice/DialogNotice';
 export * from './ThreeDotMenu/ThreeDotMenu';
+export * from './OrganizationHeader/OrganizationHeader';
 export * from './ProfileSkills/ProfileSkills';
 export * from './SkillToggles/SkillToggles';
 export * from './EditProfileModal/EditProfileModal';
