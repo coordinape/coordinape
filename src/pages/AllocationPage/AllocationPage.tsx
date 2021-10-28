@@ -163,7 +163,7 @@ export const AllocationPage = () => {
   const [nonReceiver, setNonReceiver] = useState(false);
   useEffect(() => {
     if (selectedMyUser) {
-      setEpochBio(selectedMyUser.bio);
+      setEpochBio(selectedMyUser?.bio ?? '');
       setNonReceiver(selectedMyUser.non_receiver === 1);
     }
   }, [selectedMyUser]);

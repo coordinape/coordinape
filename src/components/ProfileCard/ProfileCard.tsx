@@ -127,7 +127,7 @@ export const ProfileCard = ({
     <div className={classes.root}>
       <div className={classes.topRow}>
         <div className={classes.socialContainer}>
-          <ProfileSocialIcons profile={user.profile} />
+          {user.profile && <ProfileSocialIcons profile={user.profile} />}
         </div>
         <ApeAvatar
           user={user}
@@ -151,7 +151,7 @@ export const ProfileCard = ({
         <span className={classes.name}>{user.name}</span>
         <div className={classes.skillContainer}>
           <ProfileSkills
-            skills={user.profile.skills ?? []}
+            skills={user?.profile?.skills ?? []}
             isAdmin={user.role === USER_ROLE_ADMIN}
             max={3}
           />
