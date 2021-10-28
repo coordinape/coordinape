@@ -10,6 +10,7 @@ import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import HistoryPage from 'pages/HistoryPage';
+import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
@@ -60,6 +61,7 @@ export const Routes = () => {
       {canViewAdmin && (
         <>
           <Route exact path={paths.getAdminPath()} component={AdminPage} />
+          <Route exact path={paths.getOverviewPath()} component={OverviewPage} />
           <Route exact path={paths.getVaultsPath()} component={VaultsPage} />
           <Route exact path={paths.getCirclesPath()} component={CirclesPage} />
         </>
