@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { makeStyles, Button, Avatar } from '@material-ui/core';
 
@@ -144,6 +144,7 @@ const useStyles = makeStyles(theme => ({
 
 export const OrganizationHeader = () => {
   const selectedCircle = useSelectedCircle();
+  const location = useLocation();
   const classes = useStyles();
 
   const { selectedMyUser, hasAdminView } = useMe();
@@ -155,9 +156,25 @@ export const OrganizationHeader = () => {
   const [, setEditCircle] = useState<boolean>(false);
   // const [,setNewUser] = useState<boolean>(false);
   const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
+  const [, setPath] = useState<string>('');
+  const [isCirclePage, setIsCirclePage] = useState<boolean>(false);
+  useEffect(() => {
+    setPath(location.pathname);
+    if (location.pathname === '/admin/circles') {
+      setIsCirclePage(true);
+    }
+  }, [location]);
 
   const handleClose = () => {
     setFundModalOpen(!fundModalOpen);
+  };
+
+  const handleButtonClick = () => {
+    if (!isCirclePage) {
+      setEditCircle(true);
+    } else {
+      // Open add circle modal
+    }
   };
   return (
     <>
@@ -186,13 +203,13 @@ export const OrganizationHeader = () => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => setFundModalOpen(true)}
+            onClick={handleButtonClick}
             color="primary"
             style={{
               marginLeft: '27px',
             }}
           >
-            Create a Vault
+            {isCirclePage ? 'Add Circle' : 'Create a Vault'}
           </Button>
         </div>
         <div className={classes.navLinks}>
