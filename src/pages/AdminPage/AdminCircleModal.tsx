@@ -10,6 +10,13 @@ import { useAdminApi } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
 
+import {
+  TooltipDefaultOptIn,
+  TooltipEnableVouching,
+  TooltipOnlyGiversCanVouch,
+  TooltipTeamSelectionEnable,
+} from './AdminTooltips';
+
 import { ICircle } from 'types';
 
 const useStyles = makeStyles(theme => ({
@@ -298,6 +305,7 @@ export const AdminCircleModal = ({
           value={vouching === 1}
           onChange={val => setVouching(val ? 1 : 0)}
           label="Enable Vouching?"
+          infoTooltip={<TooltipEnableVouching />}
         />
         <ApeTextField
           label="Token name"
@@ -371,17 +379,20 @@ export const AdminCircleModal = ({
           value={defaultOptIn === 1}
           onChange={val => setDefaultOptIn(val ? 1 : 0)}
           label="Default Opt In?"
+          infoTooltip={<TooltipDefaultOptIn />}
         />
         <ApeToggle
           value={onlyGiverVouch === 1}
           onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
           label="Only Givers can vouch"
+          infoTooltip={<TooltipOnlyGiversCanVouch />}
         />
         <ApeToggle
           value={teamSelection === 1}
           onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
+          infoTooltip={<TooltipTeamSelectionEnable />}
         />
       </div>
       <div className={classes.bottomContainer}>

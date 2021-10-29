@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
   disabled: {
     opacity: 0.6,
   },
+  iconClass: {
+    verticalAlign: '-3px !important', //middle doesn't look right, hardcoded -3px
+    marginLeft: `${theme.spacing(1.25)}px !important`,
+  },
 }));
 
 export const ApeToggle = ({
@@ -94,7 +98,11 @@ export const ApeToggle = ({
       {(!!label || infoTooltip) && (
         <label htmlFor={groupId} className={classes.label}>
           {label}{' '}
-          {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+          {infoTooltip && (
+            <ApeInfoTooltip iconClassName={classes.iconClass}>
+              {infoTooltip}
+            </ApeInfoTooltip>
+          )}
         </label>
       )}
       <ButtonGroup

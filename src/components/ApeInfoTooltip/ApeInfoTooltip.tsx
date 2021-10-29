@@ -31,10 +31,13 @@ export const ApeInfoTooltip = ({
   children,
   classes,
   className,
+  iconClassName,
   ...props
-}: { children: ReactNode } & Omit<TooltipProps, 'title' | 'children'>) => {
+}: { children: ReactNode; iconClassName?: string } & Omit<
+  TooltipProps,
+  'title' | 'children'
+>) => {
   const localClasses = useStyles();
-
   return (
     <Tooltip
       title={<div>{children ?? 'blank'}</div>}
@@ -48,7 +51,10 @@ export const ApeInfoTooltip = ({
       {...props}
     >
       <span className={className}>
-        <InfoIcon inherit="inherit" className={localClasses.icon} />
+        <InfoIcon
+          inherit="inherit"
+          className={[iconClassName, localClasses.icon]}
+        />
       </span>
     </Tooltip>
   );
