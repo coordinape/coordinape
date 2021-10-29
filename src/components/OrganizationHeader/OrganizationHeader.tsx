@@ -147,7 +147,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 800,
     color: theme.colors.text,
   },
-
 }));
 
 export const OrganizationHeader = () => {
@@ -161,7 +160,7 @@ export const OrganizationHeader = () => {
     asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
   });
   const [, setEditCircle] = useState<boolean>(false);
-  const [,setNewUser] = useState<boolean>(false);
+  const [, setNewUser] = useState<boolean>(false);
   return (
     <>
       <div className={classes.topMenu}>
@@ -201,6 +200,10 @@ export const OrganizationHeader = () => {
             navItems.map(navItem => (
               <NavLink
                 className={classes.navLink}
+                activeStyle={{
+                  backgroundColor: '#EFF3F4',
+                  borderRadius: '16px',
+                }}
                 isActive={(nothing, location) =>
                   checkActive(location.pathname, navItem)
                 }
