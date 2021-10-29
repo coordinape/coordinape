@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   circleWrapper: {
-    width: '120px',
-    height: '120px',
+    width: '7.5em',
+    height: '7.5em',
     borderRadius: '50%',
     backgroundColor: theme.colors.lightGray,
   },
