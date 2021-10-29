@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { makeStyles, useMediaQuery, useTheme, Button } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 import {
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr 8fr 1fr',
+      gridTemplateColumns: '1fr 8fr',
     },
     '& > *': {
       alignSelf: 'center',
@@ -47,12 +47,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      justifySelf: 'end',
+    },
   },
   navLinks: {
     justifySelf: 'stretch',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      /*display: 'none'*/
+    },
   },
   buttons: {
     justifySelf: 'end',
@@ -183,6 +189,10 @@ export const MainHeader = () => {
     </Suspense>
   );
 
+  function toggleNavButtons() {
+    alert('hello');
+  }
+
   return !screenDownXs ? (
     <div className={classes.root}>
       <img
@@ -195,11 +205,13 @@ export const MainHeader = () => {
     </div>
   ) : (
     <div className={classes.root}>
-      <img
-        alt="logo"
-        className={classes.coordinapeLogo}
-        src="/svgs/logo/logo.svg"
-      />
+      <Button onClick={toggleNavButtons} className="responsiveMenuButton">
+        <img
+          alt="logo"
+          className={classes.coordinapeLogo}
+          src="/svgs/logo/logo.svg"
+        />
+      </Button>
       <div className={classes.smallNavAndButtons}>
         {suspendedButtons}
         {suspendedNav}
