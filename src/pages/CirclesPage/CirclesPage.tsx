@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 
-import { useHistory, NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
+import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
-import { useAdminApi, useMe } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon, DownArrow } from 'icons';
+import { StaticTable, NoticeBox, ApeAvatar, DialogNotice, OrganizationHeader } from 'components';
+import { useAdminApi } from 'hooks';
+import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
   useSelectedCircle,
   useSelectedMyUser,
@@ -14,8 +14,6 @@ import {
   useSelectedCircleEpochs,
 } from 'recoilState';
 import {
-  getAdminNavigation,
-  checkActive,
   NEW_CIRCLE_CREATED_PARAMS,
 } from 'routes/paths';
 import * as paths from 'routes/paths';
@@ -39,9 +37,35 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(0, 2, 4),
     },
   },
+  withVaults: {
+    minHeight: 668,
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    alignContent: 'space-between',
+    justifyItems: 'stretch',
+    borderRadius: 8,
+    background: theme.colors.ultraLightGray,
+    alignItems: 'center',
+    columnGap: theme.spacing(3),
+    padding: theme.spacing(0, 4),
+    margin: theme.spacing(4, 0),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+      gridTemplateColumns: '1fr',
+    },
+    '& > *': {
+      alignSelf: 'start',
+    },
+    '& .MuiSkeleton-root': {
+      marginLeft: theme.spacing(1.5),
+    },
+    '& .MuiSkeleton-rect': {
+      borderRadius: 5,
+    },
+  },
   title: {
     textTransform: 'capitalize',
-    fontSize: 40,
+    fontSize: 30,
     lineHeight: 1.2,
     fontWeight: 700,
     color: theme.colors.text,
@@ -54,15 +78,14 @@ const useStyles = makeStyles(theme => ({
   actionBar: {
     flexGrow: 1,
     display: 'flex',
-    justifyContent: 'flex-start',
-    margin: theme.spacing(0, 5, 4),
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   actionBarInner: {
     display: 'flex',
-    flexDirection: 'column',
-    width: '200px',
+    flexDirection: 'row',
     '& > *': {
-      marginBottom: theme.spacing(2),
+      marginLeft: theme.spacing(1.5),
     },
   },
   epochsTable: {
@@ -434,12 +457,6 @@ const CirclesPage = () => {
       ] as ITableColumn[],
     []
   );
-  const { selectedMyUser, hasAdminView } = useMe();
-  const navButtonsVisible = !!selectedMyUser || hasAdminView;
-  const navItems = getAdminNavigation({
-    asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
-    asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
-  });
   const epochColumns = useMemo(
     () =>
       [
@@ -468,48 +485,12 @@ const CirclesPage = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.topMenu}>
-        <div className={classes.organizationLinks}>
-          <Avatar
-            alt="organization"
-            src="/imgs/avatar/placeholder.jpg"
-            style={{
-              width: 46,
-              height: 46,
-              borderRadius: '50%',
-              border: '1px solid rgba(94, 111, 116, 0.7)',
-              marginRight: '16px',
-            }}
-          />
-          <h2 className={classes.title}>Yearn Finance</h2>
-          <Button
-            aria-describedby="1"
-            className={classes.moreButton}
-            onClick={() => setEditCircle(true)}
-          >
-            <DownArrow />
-          </Button>
-        </div>
-        <div className={classes.navLinks}>
-          {navButtonsVisible &&
-            navItems.map(navItem => (
-              <NavLink
-                className={classes.navLink}
-                isActive={(nothing, location) =>
-                  checkActive(location.pathname, navItem)
-                }
-                key={navItem.path}
-                to={navItem.path}
-              >
-                {navItem.label}
-              </NavLink>
-            ))}
-        </div>
-      </div>
+      <OrganizationHeader/>
+      <div className={classes.withVaults}>
+      <div className={classes.actionsAndEpochs}>
       <h2 className={classes.title}>
         {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
       </h2>
-      <div className={classes.actionsAndEpochs}>
         <div className={classes.actionBar}>
           <div className={classes.actionBarInner}>
             <Button
@@ -518,7 +499,7 @@ const CirclesPage = () => {
               startIcon={<EditIcon />}
               onClick={() => setEditCircle(true)}
             >
-              Edit Circle Settings
+              Circle Settings
             </Button>
             {/* <Button
               variant="contained"
@@ -558,6 +539,9 @@ const CirclesPage = () => {
               variant="contained"
               color="primary"
               size="small"
+              style={{
+                display: "none",
+              }}
               startIcon={<PlusCircleIcon />}
               onClick={() => history.push(paths.getCreateCirclePath())}
             >
@@ -565,7 +549,8 @@ const CirclesPage = () => {
             </Button>
           </div>
         </div>
-        <StaticTable
+      </div>
+      <StaticTable
           className={classes.epochsTable}
           columns={epochColumns}
           data={epochs}
@@ -587,7 +572,6 @@ const CirclesPage = () => {
             </>
           }
         />
-      </div>
       <div className={classes.userActionBar}>
         <input
           className={classes.searchInput}
@@ -619,6 +603,7 @@ const CirclesPage = () => {
           </>
         }
       />
+      </div>
       <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
         user={editUser}

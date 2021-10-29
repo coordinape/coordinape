@@ -29,12 +29,13 @@ const useStyles = makeStyles(theme => ({
   },
   twoLineCellActionTitle: {
     fontWeight: 600,
-    fontSize: 18,
+    fontSize: 16,
     textDecorationLine: 'underline',
   },
   twoLineCellActionSubtitle: {
     fontWeight: 300,
-    fontSize: 18,
+    fontSize: 16,
+    marginBottom: 5,
   },
   vaultCard: {
     display: 'grid',

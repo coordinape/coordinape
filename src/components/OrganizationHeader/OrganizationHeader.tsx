@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     alignItems: 'center',
     gridTemplateColumns: '1fr 1fr',
-    padding: theme.spacing(0, 4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
       gridTemplateColumns: '1fr 1fr',
@@ -127,7 +126,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     textTransform: 'capitalize',
-    fontSize: 40,
+    fontSize: 24,
     lineHeight: 1.2,
     fontWeight: 700,
     color: theme.colors.text,
@@ -165,8 +164,8 @@ export const OrganizationHeader = () => {
             alt="organization"
             src="/imgs/avatar/placeholder.jpg"
             style={{
-              width: 46,
-              height: 46,
+              width: 36,
+              height: 36,
               borderRadius: '50%',
               border: '1px solid rgba(94, 111, 116, 0.7)',
               marginRight: '16px',
@@ -184,6 +183,7 @@ export const OrganizationHeader = () => {
             variant="contained"
             size="small"
             onClick={() => setFundModalOpen(true)}
+            color="primary"
             style={{
               marginLeft: '27px',
             }}
