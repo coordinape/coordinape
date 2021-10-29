@@ -659,14 +659,9 @@ const VaultsPage = () => {
 
   return (
     <div className={classes.root}>
-      <OrganizationHeader/>
+      <OrganizationHeader />
       {!hasVaults ? (
-        <NoVaults
-          newUser={newUser}
-          setNewUser={setNewUser}
-          editUser={editUser}
-          setEditUser={setEditUser}
-        />
+        <NoVaults />
       ) : (
         <HasVaults
           newUser={newUser}

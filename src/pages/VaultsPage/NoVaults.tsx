@@ -1,8 +1,8 @@
+import { useState } from 'react';
+
 import { Button, makeStyles } from '@material-ui/core';
 
-import AdminUserModal from 'pages/AdminPage/AdminUserModal';
-
-import { IUser } from 'types';
+import FundModal from '../VaultsPage/FundModal';
 
 const useStyles = makeStyles(theme => ({
   noVaults: {
@@ -66,23 +66,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface NoVaultsProps {
-  newUser: boolean;
-  setNewUser: React.Dispatch<React.SetStateAction<boolean>>;
-  editUser: IUser | undefined;
-  setEditUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
-}
-
-export default function NoVaults({
-  newUser,
-  setNewUser,
-  editUser,
-  setEditUser,
-}: NoVaultsProps) {
+export default function NoVaults() {
   const classes = useStyles();
+  const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
 
   return (
     <div className={classes.noVaults}>
+      <FundModal onClose={setFundModalOpen} openfn={fundModalOpen} />
       <div className={classes.noVaultsInterior}>
         <h2 className={classes.noVaultsTitle}>You dont have any vaults</h2>
         <h3 className={classes.noVaultsSubtitle}>To get started</h3>
@@ -90,15 +80,10 @@ export default function NoVaults({
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => setNewUser(true)}
+          onClick={() => setFundModalOpen(true)}
         >
           Create a Vault
         </Button>
-        <AdminUserModal
-          onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
-          user={editUser}
-          open={!!editUser || newUser}
-        />
       </div>
     </div>
   );

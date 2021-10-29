@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button, Avatar } from '@material-ui/core';
 
+import FundModal from '../../pages/VaultsPage/FundModal';
 import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
 import { useSelectedCircle } from 'recoilState';
@@ -147,7 +148,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 800,
     color: theme.colors.text,
   },
-
 }));
 
 export const OrganizationHeader = () => {
@@ -161,10 +161,12 @@ export const OrganizationHeader = () => {
     asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
   });
   const [, setEditCircle] = useState<boolean>(false);
-  const [,setNewUser] = useState<boolean>(false);
+  // const [,setNewUser] = useState<boolean>(false);
+  const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
   return (
     <>
       <div className={classes.topMenu}>
+        <FundModal onClose={setFundModalOpen} openfn={fundModalOpen} />
         <div className={classes.organizationLinks}>
           <Avatar
             alt="organization"
@@ -188,7 +190,7 @@ export const OrganizationHeader = () => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => setNewUser(true)}
+            onClick={() => setFundModalOpen(true)}
             style={{
               marginLeft: '27px',
             }}
