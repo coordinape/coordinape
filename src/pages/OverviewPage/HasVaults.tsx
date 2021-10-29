@@ -1,5 +1,6 @@
+import { Button, makeStyles, Grid } from '@material-ui/core';
 
-import { Button, makeStyles } from '@material-ui/core';
+import CircleCard from './CircleCard';
 
 const useStyles = makeStyles(theme => ({
   editTxt: {
@@ -95,6 +96,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  verticalDisplay: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
   depositWithdrawBtns: {
     margin: '0 0.25em 0 0.25em',
   },
@@ -174,6 +182,9 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 5,
     },
   },
+  gridItem: {
+    margin: 5,
+  },
 }));
 
 export default function HasVaults() {
@@ -190,35 +201,64 @@ export default function HasVaults() {
         </div>
         <div className={classes.vaultCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellTitle}>USDC Vault</span>          
-            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>  
+            <span className={classes.twoLineCellTitle}>USDC Vault</span>
+            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>
           </div>
-        <div className={classes.editTxt}>
-          View Vault
-        </div>
+          <div className={classes.editTxt}>View Vault</div>
         </div>
         <div className={classes.vaultCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellTitle}>USDC Vault</span>          
-            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>  
+            <span className={classes.twoLineCellTitle}>USDC Vault</span>
+            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>
           </div>
-        <div className={classes.editTxt}>
-          View Vault
-        </div>
+          <div className={classes.editTxt}>View Vault</div>
         </div>
         <div className={classes.vaultCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellTitle}>USDC Vault</span>          
-            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>  
+            <span className={classes.twoLineCellTitle}>USDC Vault</span>
+            <span className={classes.twoLineCellSubtitle}>200,000 USDC</span>
           </div>
-        <div className={classes.editTxt}>
-          View Vault
-        </div>
+          <div className={classes.editTxt}>View Vault</div>
         </div>
       </div>
       <div>
-        <div className={classes.horizontalDisplay}>
+        <div className={classes.verticalDisplay}>
           <h2 className={classes.overviewTitle}>Circles</h2>
+          {/* Turn this into a .map with all circle objects: */}
+          <Grid container xs={12} justify="center" spacing={2}>
+            <Grid item xs={5}>
+              <CircleCard
+                name={'The winners'}
+                epochTitle={'1'}
+                startDays={'3'}
+                startTime={'4'}
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <CircleCard
+                name={'The Losers'}
+                epochTitle={'2'}
+                startDays={'3'}
+                startTime={'4'}
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <CircleCard
+                name={'The Sinners'}
+                epochTitle={'3'}
+                startDays={'3'}
+                startTime={'4'}
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <CircleCard
+                name={'The Saints'}
+                epochTitle={'4'}
+                startDays={'3'}
+                startTime={'4'}
+              />
+            </Grid>
+          </Grid>
         </div>
       </div>
       <div>
@@ -227,44 +267,57 @@ export default function HasVaults() {
         </div>
         <div className={classes.ActionCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellActionTitle}>Yearn Community Epoch 11</span>          
-            <span className={classes.twoLineCellActionSubtitle}>Epoch 11 was scheduled to start on November 23 but has not yet been funded.</span> 
+            <span className={classes.twoLineCellActionTitle}>
+              Yearn Community Epoch 11
+            </span>
+            <span className={classes.twoLineCellActionSubtitle}>
+              Epoch 11 was scheduled to start on November 23 but has not yet
+              been funded.
+            </span>
             <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.depositWithdrawBtns}
-          >
-            Fund Epoch
-          </Button> 
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.depositWithdrawBtns}
+            >
+              Fund Epoch
+            </Button>
           </div>
         </div>
         <div className={classes.ActionCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellActionTitle}>Strategists</span>          
-            <span className={classes.twoLineCellActionSubtitle}>Epoch 22 ended with 16 people sending 1600 total GIVE. A circle admin must confirm the epoch details in order to distribute funds.</span> 
+            <span className={classes.twoLineCellActionTitle}>Strategists</span>
+            <span className={classes.twoLineCellActionSubtitle}>
+              Epoch 22 ended with 16 people sending 1600 total GIVE. A circle
+              admin must confirm the epoch details in order to distribute funds.
+            </span>
             <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.depositWithdrawBtns}
-          >
-            Confirm and Distribute Funds
-          </Button> 
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.depositWithdrawBtns}
+            >
+              Confirm and Distribute Funds
+            </Button>
           </div>
         </div>
         <div className={classes.ActionCard}>
           <div className={classes.twoLineCell}>
-            <span className={classes.twoLineCellActionTitle}>Yearn Community Epoch 11</span>          
-            <span className={classes.twoLineCellActionSubtitle}>Epoch 11 was scheduled to start on November 23 but has not yet been funded.</span> 
+            <span className={classes.twoLineCellActionTitle}>
+              Yearn Community Epoch 11
+            </span>
+            <span className={classes.twoLineCellActionSubtitle}>
+              Epoch 11 was scheduled to start on November 23 but has not yet
+              been funded.
+            </span>
             <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.depositWithdrawBtns}
-          >
-            Fund Epoch
-          </Button> 
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.depositWithdrawBtns}
+            >
+              Fund Epoch
+            </Button>
           </div>
         </div>
       </div>
