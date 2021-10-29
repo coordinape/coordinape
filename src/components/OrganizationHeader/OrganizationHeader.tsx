@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button, Avatar } from '@material-ui/core';
 
-import FundModal from '../../pages/VaultsPage/FundModal';
 import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
+import AdminUserModal from 'pages/OverviewPage/AdminUserModal';
 import { useSelectedCircle } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -155,10 +155,14 @@ export const OrganizationHeader = () => {
   const [, setEditCircle] = useState<boolean>(false);
   // const [,setNewUser] = useState<boolean>(false);
   const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
+
+  const handleClose = () => {
+    setFundModalOpen(!fundModalOpen);
+  };
   return (
     <>
       <div className={classes.topMenu}>
-        <FundModal onClose={setFundModalOpen} openfn={fundModalOpen} />
+        <AdminUserModal onClose={handleClose} open={fundModalOpen} />
         <div className={classes.organizationLinks}>
           <Avatar
             alt="organization"
