@@ -198,7 +198,7 @@ const AdminPage = () => {
   // User Columns
   const filterUser = useMemo(
     () => (u: IUser) => {
-      const r = new RegExp(keyword);
+      const r = new RegExp(keyword, 'i');
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
