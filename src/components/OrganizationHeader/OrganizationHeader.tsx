@@ -123,13 +123,6 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.colors.ultraLightGray,
       },
     },
-    '&:active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.ultraLightGray,
-      },
-    },
   },
   title: {
     textTransform: 'capitalize',
@@ -203,6 +196,7 @@ export const OrganizationHeader = () => {
                 activeStyle={{
                   backgroundColor: '#EFF3F4',
                   borderRadius: '16px',
+                  color: '#516369',
                 }}
                 isActive={(nothing, location) =>
                   checkActive(location.pathname, navItem)
