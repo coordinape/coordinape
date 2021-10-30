@@ -252,7 +252,7 @@ export const useAllocation = (circleId: number | undefined) => {
     const copy = localGifts.slice();
     copy[idx] = {
       user,
-      tokens: tokens !== undefined ? tokens : original.tokens,
+      tokens: Math.max(0, tokens !== undefined ? tokens : original.tokens),
       note: note !== undefined ? note : original.note,
     };
     setLocalGifts(copy);
