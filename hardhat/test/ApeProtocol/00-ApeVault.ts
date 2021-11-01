@@ -1,8 +1,12 @@
-import { expect } from 'chai';
+import chai from 'chai';
+import { solidity } from 'ethereum-waffle';
 
 import { USDC_ADDRESS, USDC_YVAULT_ADDRESS } from '../constants';
 import { createApeVault } from '../utils/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
+
+chai.use(solidity);
+const { expect } = chai;
 
 describe('ApeVault', () => {
   let deploymentInfo: DeploymentInfo;
