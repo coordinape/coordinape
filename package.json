@@ -73,6 +73,7 @@
     "build:gzip": "craco build && gzipper --verbose ./build",
     "hardhat:build": "yarn --cwd hardhat build",
     "hardhat:dev": "yarn --cwd hardhat dev",
+    "hardhat:install": "yarn --cwd hardhat install",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "yarn hardhat:test && craco test",
     "eject": "craco eject",
