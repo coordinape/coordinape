@@ -305,7 +305,7 @@ const epochDetail = (e: IEpoch) => {
 };
 
 const VaultsPage = () => {
-  const [openal, setOpenal] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -321,7 +321,7 @@ const VaultsPage = () => {
   const epochsReverse = useSelectedCircleEpochs();
 
   const handleClickal = () => {
-    setOpenal(!openal);
+    setOpen(!open);
   };
 
   const handleSetEdit = () => {
@@ -675,7 +675,7 @@ const VaultsPage = () => {
           transactionColumns={transactionColumns}
         />
       )}
-      <AllocateModal openal={openal} onClose={setOpenal} />
+      <AllocateModal open={open} onClose={setOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
     </div>
   );

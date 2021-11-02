@@ -78,12 +78,12 @@ const useStyles = makeStyles(theme => ({
 
 interface AllocateModalProps {
   onClose: any;
-  openal: boolean;
+  open: boolean;
   user?: IUser;
 }
 
 export default function AllocateModal({
-  openal,
+  open,
   onClose,
   user,
 }: AllocateModalProps) {
@@ -125,7 +125,7 @@ export default function AllocateModal({
       {({ fields: { ...fields } }) => (
         <FormModal
           onClose={handleClose}
-          open={openal}
+          open={open}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"
