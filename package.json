@@ -77,7 +77,7 @@
     "lint": "eslint",
     "lint:check": "eslint \"./src/**/*.{js,ts,tsx}\"",
     "lint:fix": "yarn lint:check --fix",
-    "prettier": "prettier './src/**/*.{js,ts,tsx}'",
+    "prettier": "prettier \"./src/**/*.{js,ts,tsx}\"",
     "prettier:check": "yarn prettier --check",
     "prettier:fix": "yarn prettier --write",
     "typecheck": "tsc --noEmit",
