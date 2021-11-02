@@ -42,7 +42,6 @@ export const Routes = () => {
     );
   }
 
-  const canViewAllocate = selectedMyUser && !hasAdminView;
   const canViewAdmin = selectedMyUser?.role === USER_ROLE_ADMIN || hasAdminView;
 
   return (
@@ -58,14 +57,32 @@ export const Routes = () => {
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
 
-      {canViewAdmin && (
-        <>
-          <Route exact path={paths.getAdminPath()} component={AdminPage} />
-          <Route exact path={paths.getOverviewPath()} component={OverviewPage} />
-          <Route exact path={paths.getVaultsPath()} component={VaultsPage} />
-          <Route exact path={paths.getCirclesPath()} component={CirclesPage} />
-        </>
-      )}
+      {canViewAdmin && [
+        <Route
+          exact
+          key={paths.getAdminPath()}
+          path={paths.getAdminPath()}
+          component={AdminPage}
+        />,
+        <Route
+          exact
+          key={paths.getOverviewPath()}
+          path={paths.getOverviewPath()}
+          component={OverviewPage}
+        />,
+        <Route
+          exact
+          key={paths.getVaultsPath()}
+          path={paths.getVaultsPath()}
+          component={VaultsPage}
+        />,
+        <Route
+          exact
+          key={paths.getCirclesPath()}
+          path={paths.getCirclesPath()}
+          component={CirclesPage}
+        />,
+      ]}
 
       <Route
         exact
@@ -73,26 +90,32 @@ export const Routes = () => {
         component={CreateCirclePage}
       />
 
-      {canViewAllocate && (
-        <>
-          <Route
-            exact
-            path={paths.getAllocationPath()}
-            component={AllocationPage}
-          />
-          <Route
-            exact
-            path={paths.getMyTeamPath()}
-            component={AllocationPage}
-          />
-          <Route
-            exact
-            path={paths.getMyEpochPath()}
-            component={AllocationPage}
-          />
-          <Route exact path={paths.getGivePath()} component={AllocationPage} />
-        </>
-      )}
+      {selectedMyUser && [
+        <Route
+          exact
+          key={paths.getAllocationPath()}
+          path={paths.getAllocationPath()}
+          component={AllocationPage}
+        />,
+        <Route
+          exact
+          key={paths.getMyTeamPath()}
+          path={paths.getMyTeamPath()}
+          component={AllocationPage}
+        />,
+        <Route
+          exact
+          key={paths.getMyEpochPath()}
+          path={paths.getMyEpochPath()}
+          component={AllocationPage}
+        />,
+        <Route
+          exact
+          key={paths.getGivePath()}
+          path={paths.getGivePath()}
+          component={AllocationPage}
+        />,
+      ]}
 
       <Redirect to={paths.getHomePath()} />
     </Switch>
