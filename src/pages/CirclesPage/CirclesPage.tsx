@@ -4,7 +4,13 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { StaticTable, NoticeBox, ApeAvatar, DialogNotice, OrganizationHeader } from 'components';
+import {
+  StaticTable,
+  NoticeBox,
+  ApeAvatar,
+  DialogNotice,
+  OrganizationHeader,
+} from 'components';
 import { useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
@@ -13,9 +19,7 @@ import {
   useSelectedCircleUsers,
   useSelectedCircleEpochs,
 } from 'recoilState';
-import {
-  NEW_CIRCLE_CREATED_PARAMS,
-} from 'routes/paths';
+import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
 import { getCSVPath } from 'utils/domain';
@@ -485,23 +489,23 @@ const CirclesPage = () => {
 
   return (
     <div className={classes.root}>
-      <OrganizationHeader/>
+      <OrganizationHeader />
       <div className={classes.withVaults}>
-      <div className={classes.actionsAndEpochs}>
-      <h2 className={classes.title}>
-        {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
-      </h2>
-        <div className={classes.actionBar}>
-          <div className={classes.actionBarInner}>
-            <Button
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-              onClick={() => setEditCircle(true)}
-            >
-              Circle Settings
-            </Button>
-            {/* <Button
+        <div className={classes.actionsAndEpochs}>
+          <h2 className={classes.title}>
+            {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
+          </h2>
+          <div className={classes.actionBar}>
+            <div className={classes.actionBarInner}>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<EditIcon />}
+                onClick={() => setEditCircle(true)}
+              >
+                Circle Settings
+              </Button>
+              {/* <Button
               variant="contained"
               color="secondary"
               size="small"
@@ -517,40 +521,40 @@ const CirclesPage = () => {
             >
               Export Member CSV
             </Button> */}
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewUser(true)}
-            >
-              Add Contributor
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewEpoch(true)}
-            >
-              Add Epoch
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={{
-                display: "none",
-              }}
-              startIcon={<PlusCircleIcon />}
-              onClick={() => history.push(paths.getCreateCirclePath())}
-            >
-              Create Circle
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewUser(true)}
+              >
+                Add Contributor
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewEpoch(true)}
+              >
+                Add Epoch
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{
+                  display: 'none',
+                }}
+                startIcon={<PlusCircleIcon />}
+                onClick={() => history.push(paths.getCreateCirclePath())}
+              >
+                Create Circle
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-      <StaticTable
+        <StaticTable
           className={classes.epochsTable}
           columns={epochColumns}
           data={epochs}
@@ -572,37 +576,37 @@ const CirclesPage = () => {
             </>
           }
         />
-      <div className={classes.userActionBar}>
-        <input
-          className={classes.searchInput}
-          onChange={onChangeKeyword}
-          placeholder="🔍 Search"
-          value={keyword}
+        <div className={classes.userActionBar}>
+          <input
+            className={classes.searchInput}
+            onChange={onChangeKeyword}
+            placeholder="🔍 Search"
+            value={keyword}
+          />
+        </div>
+        <StaticTable
+          columns={userColumns}
+          data={visibleUsers}
+          perPage={15}
+          filter={filterUser}
+          sortable
+          placeholder={
+            <>
+              <h2 className={classes.tablePlaceholderTitle}>
+                You haven’t added any contributors
+              </h2>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewUser(true)}
+              >
+                Add Contributor
+              </Button>
+            </>
+          }
         />
-      </div>
-      <StaticTable
-        columns={userColumns}
-        data={visibleUsers}
-        perPage={15}
-        filter={filterUser}
-        sortable
-        placeholder={
-          <>
-            <h2 className={classes.tablePlaceholderTitle}>
-              You haven’t added any contributors
-            </h2>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewUser(true)}
-            >
-              Add Contributor
-            </Button>
-          </>
-        }
-      />
       </div>
       <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
