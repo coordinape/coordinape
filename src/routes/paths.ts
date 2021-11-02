@@ -9,7 +9,7 @@ export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
 export const EXTERNAL_URL_LANDING_PAGE = 'https://coordinape.com';
 export const EXTERNAL_URL_DOCS_REGIFT = `${EXTERNAL_URL_DOCS}/welcome/new-feature-regift`;
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
-export const EXTERNAL_URL_DISCORD = 'https://discord.gg/DPjmDWEUH5';
+export const EXTERNAL_URL_DISCORD = 'https://discord.gg/coordinape';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
 
