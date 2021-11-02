@@ -320,7 +320,7 @@ const OverviewPage = () => {
   const selectedCircle = useSelectedCircle();
   const epochsReverse = useSelectedCircleEpochs();
 
-  const handleClickal = () => {
+  const handleClick = () => {
     setOpen(!open);
   };
 
@@ -496,7 +496,7 @@ const OverviewPage = () => {
           variant="contained"
           color="primary"
           size="small"
-          onClick={handleClickal}
+          onClick={handleClick}
         >
           Allocate Funds
         </Button>
