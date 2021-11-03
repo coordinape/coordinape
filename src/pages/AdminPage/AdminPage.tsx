@@ -118,6 +118,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  actionSpacer: {
+    width: 30,
+  },
   errorColor: {
     color: theme.palette.error.main,
   },
@@ -181,7 +184,9 @@ const AdminPage = () => {
         <IconButton onClick={onEdit} size="small">
           <EditIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
 
       {onDelete ? (
         <IconButton
@@ -191,7 +196,9 @@ const AdminPage = () => {
         >
           <DeleteIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
     </div>
   );
 
