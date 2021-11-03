@@ -31,7 +31,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: '**/hardhat/node_modules'
-          key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
       - run: yarn typecheck
