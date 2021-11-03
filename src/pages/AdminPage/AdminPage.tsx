@@ -105,8 +105,11 @@ const useStyles = makeStyles(theme => ({
     width: 32,
     height: 32,
     marginRight: theme.spacing(1),
+    border: `1px solid ${theme.colors.border}`,
+    cursor: 'pointer',
+    transition: 'border-color .3s ease',
     '&:hover': {
-      cursor: 'pointer',
+      border: '1px solid rgba(239, 115, 118, 1)',
     },
   },
   avatarCell: {
