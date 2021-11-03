@@ -12,6 +12,9 @@ export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.gg/coordinape';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
+// TODO: Change this to something more specific to feedback.
+export const EXTERNAL_URL_FEEDBACK =
+  'https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a';
 
 const toSearchString = (params: Record<string, string | number>) =>
   Object.entries(params)
