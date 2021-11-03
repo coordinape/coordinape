@@ -1,5 +1,4 @@
-import chai from 'chai';
-import { solidity } from 'ethereum-waffle';
+import { expect } from 'chai';
 import { BigNumber } from 'ethers';
 
 import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
@@ -12,9 +11,6 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-
-chai.use(solidity);
-const { expect } = chai;
 
 describe('ApeRouter', () => {
   const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
