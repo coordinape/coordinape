@@ -33,7 +33,7 @@ const config: HardhatUserConfig = {
     sources: './coordinape-protocol/contracts',
   },
   mocha: {
-    timeout: 500000,
+    timeout: 50000,
   },
   networks: {
     hardhat: {
