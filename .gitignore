@@ -11,6 +11,7 @@ node_modules/
 hardhat/artifacts/
 hardhat/cache/
 hardhat/deployments/
+hardhat/typechain/
 
 # testing
 /coverage
