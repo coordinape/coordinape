@@ -6,7 +6,7 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
-import { useAdminApi } from 'hooks';
+import { useNavigation, useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
   useSelectedCircle,
@@ -105,6 +105,9 @@ const useStyles = makeStyles(theme => ({
     width: 32,
     height: 32,
     marginRight: theme.spacing(1),
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   avatarCell: {
     height: 48,
@@ -165,6 +168,7 @@ const AdminPage = () => {
   );
 
   const history = useHistory();
+  const { getToProfile } = useNavigation();
 
   const { deleteUser, deleteEpoch } = useAdminApi();
   const me = useSelectedMyUser();
@@ -262,7 +266,11 @@ const AdminPage = () => {
           render: function UserName(u: IUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
+                <ApeAvatar
+                  user={u}
+                  className={classes.avatar}
+                  onClick={getToProfile({ address: u.address })}
+                />
                 <span>{u.name}</span>
               </div>
             );
