@@ -15,6 +15,7 @@ jobs:
       CI: true
       REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
       REACT_APP_API_BASE_URL: https://myvault.live/api
+      ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -35,4 +36,4 @@ jobs:
 
       - run: yarn prettier:check
 
-      - run: yarn test
+      - run: yarn test:ci
