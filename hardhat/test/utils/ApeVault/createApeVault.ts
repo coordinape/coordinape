@@ -2,10 +2,9 @@ import {
   ApeVaultFactory,
   ApeVaultWrapper,
   ApeVaultWrapper__factory,
-} from '../../typechain';
-import { USDC_ADDRESS, ZERO_ADDRESS } from '../constants';
-
-import { Account } from './account';
+} from '../../../typechain';
+import { USDC_ADDRESS, ZERO_ADDRESS } from '../../constants';
+import { Account } from '../account';
 
 export async function createApeVault(
   apeVaultFactory: ApeVaultFactory,

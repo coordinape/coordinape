@@ -1,6 +1,7 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 import { BigNumber } from 'ethers';
+import { network } from 'hardhat';
 
 import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
 import {
@@ -10,7 +11,7 @@ import {
   USDC_YVAULT_ADDRESS,
 } from '../constants';
 import { Account } from '../utils/account';
-import { createApeVault } from '../utils/createApeVault';
+import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 
 chai.use(solidity);
@@ -27,21 +28,20 @@ describe('ApeRouter', () => {
   let user0: Account;
   let vault: ApeVaultWrapper;
 
-  before(async () => {
+  beforeEach(async () => {
     deploymentInfo = await deployProtocolFixture();
     user0 = deploymentInfo.accounts[0];
     usdc = deploymentInfo.contracts.usdc;
     usdcYVault = deploymentInfo.contracts.usdcYVault;
     apeRouter = deploymentInfo.contracts.apeRouter;
-  });
 
-  beforeEach(async () => {
     await usdc.transfer(user0.address, USER_USDC_BALANCE);
 
     usdc = usdc.connect(user0.signer);
     const userUsdcBalance = (await usdc.balanceOf(user0.address)).toString();
     expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
 
+    await usdc.approve(apeRouter.address, 0); // Reset to avoid any issues
     await usdc.approve(apeRouter.address, USER_USDC_BALANCE);
     expect(await usdc.allowance(user0.address, apeRouter.address)).to.equal(
       USER_USDC_BALANCE
@@ -54,6 +54,19 @@ describe('ApeRouter', () => {
 
     apeRouter = apeRouter.connect(user0.signer);
     usdcYVault = usdcYVault.connect(user0.signer);
+  });
+
+  afterEach(async () => {
+    await network.provider.request({
+      method: 'hardhat_reset',
+      params: [
+        {
+          forking: {
+            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+          },
+        },
+      ],
+    });
   });
 
   it('should delegate specified amount to yVault', async () => {

@@ -12,6 +12,8 @@ import {
   ERC20__factory,
   FeeRegistry,
   FeeRegistry__factory,
+  RegistryAPI,
+  RegistryAPI__factory,
   VaultAPI,
   VaultAPI__factory,
 } from '../../typechain';
@@ -19,6 +21,7 @@ import {
   USDC_ADDRESS,
   USDC_WHALE_ADDRESS,
   USDC_YVAULT_ADDRESS,
+  YEARN_REGISTRY_ADDRESS,
 } from '../constants';
 
 import { Account, getAccountFromSigner } from './account';
@@ -27,6 +30,7 @@ import { unlockSigner } from './unlockSigner';
 export type DeployedContracts = {
   usdc: ERC20;
   usdcYVault: VaultAPI;
+  yRegistry: RegistryAPI;
   apeVaultFactory: ApeVaultFactory;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
@@ -61,6 +65,10 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
   const contracts = {
     usdc: ERC20__factory.connect(USDC_ADDRESS, usdcWhale),
     usdcYVault: VaultAPI__factory.connect(USDC_YVAULT_ADDRESS, usdcWhale),
+    yRegistry: RegistryAPI__factory.connect(
+      YEARN_REGISTRY_ADDRESS,
+      deployer.signer
+    ),
     apeVaultFactory: ApeVaultFactory__factory.connect(
       fixture['ApeVaultFactory'].address,
       deployer.signer
