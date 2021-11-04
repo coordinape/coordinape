@@ -1,9 +1,10 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { network } from 'hardhat';
 
 import {
+  ApeDistributor,
   ApeRouter,
   ApeVaultWrapper,
   ERC20,
@@ -109,31 +110,80 @@ describe('Test withdrawal functions of ApeVault', () => {
   });
 });
 
-// describe('Test circle related functions of ApeVault', () => {
-//   let deploymentInfo: DeploymentInfo;
-//   let usdc: ERC20;
-//   let usdcYVault: VaultAPI;
-//   let apeRouter: ApeRouter;
-//   let vault: ApeVaultWrapper;
-//   let user0: Account;
+describe('Test circle related functions of ApeVault', () => {
+  const CIRCLE = ethers.utils.hexlify(ethers.utils.randomBytes(32));
+  let deploymentInfo: DeploymentInfo;
+  let usdcYVault: VaultAPI;
+  let apeDistributor: ApeDistributor;
+  let vault: ApeVaultWrapper;
+  let user0: Account;
 
-//   beforeEach(async () => {
-//     deploymentInfo = await deployProtocolFixture();
-//     user0 = deploymentInfo.accounts[0];
-//     usdc = deploymentInfo.contracts.usdc;
-//     usdcYVault = deploymentInfo.contracts.usdcYVault;
-//     apeRouter = deploymentInfo.contracts.apeRouter;
+  beforeEach(async () => {
+    deploymentInfo = await deployProtocolFixture();
+    user0 = deploymentInfo.accounts[0];
+    usdcYVault = deploymentInfo.contracts.usdcYVault;
+    apeDistributor = deploymentInfo.contracts.apeDistributor;
 
-//     vault = await createApeVault(
-//       deploymentInfo.contracts.apeVaultFactory,
-//       user0
-//     );
+    vault = await createApeVault(
+      deploymentInfo.contracts.apeVaultFactory,
+      user0
+    );
 
-//     apeRouter = apeRouter.connect(user0.signer);
-//     usdcYVault = usdcYVault.connect(user0.signer);
-//   });
+    apeDistributor = apeDistributor.connect(user0.signer);
+    usdcYVault = usdcYVault.connect(user0.signer);
+  });
 
-//   it('should withdraw vault tokens and transfer it to owner', async () => {});
+  afterEach(async () => {
+    await network.provider.request({
+      method: 'hardhat_reset',
+      params: [
+        {
+          forking: {
+            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+          },
+        },
+      ],
+    });
+  });
 
-//   it('should withdraw underlying tokens and transfer it to owner', async () => {});
-// });
+  it('should update allowances for the circle for given interval and epochs', async () => {
+    const INTERVAL = 60 * 60 * 24 * 14; // 14 days
+    const EPOCHS = 4;
+    const AMOUNT = 20_000_000_000;
+
+    await vault.updateAllowance(CIRCLE, USDC_ADDRESS, AMOUNT, INTERVAL, EPOCHS);
+    const { maxAmount, maxInterval } = await apeDistributor.allowances(
+      vault.address,
+      CIRCLE,
+      USDC_ADDRESS
+    );
+
+    expect(maxAmount.toNumber()).to.equal(AMOUNT);
+    expect(maxInterval.toNumber()).to.equal(INTERVAL);
+
+    const { debt, intervalStart, epochs } =
+      await apeDistributor.currentAllowances(
+        vault.address,
+        CIRCLE,
+        USDC_ADDRESS
+      );
+
+    expect(debt.toNumber()).to.equal(0);
+    expect(epochs.toNumber()).to.equal(EPOCHS);
+    expect(intervalStart.toNumber() * 1000).to.be.lessThanOrEqual(
+      new Date().getTime()
+    );
+  });
+
+  it('should update vault circle admin', async () => {
+    await vault.approveCircleAdmin(CIRCLE, user0.address);
+    expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
+      user0.address
+    );
+
+    await vault.approveCircleAdmin(CIRCLE, vault.address);
+    expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
+      vault.address
+    );
+  });
+});
