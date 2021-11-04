@@ -78,11 +78,11 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       deployer.signer
     ),
     apeDistributor: ApeDistributor__factory.connect(
-      fixture['ApeRouter'].address,
+      fixture['ApeDistributor'].address,
       deployer.signer
     ),
     feeRegistry: FeeRegistry__factory.connect(
-      fixture['ApeRouter'].address,
+      fixture['FeeRegistry'].address,
       deployer.signer
     ),
   };
