@@ -33,13 +33,19 @@ React Frontend                 ┃┃
 # Getting started
 
 ## Prerequisites
-* NodeJS v14
-* coordinape-backend API: [follow instructions](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
+* NodeJS version 14
+* A backend API to connect this frontend app to. This app connects to the backend defined in REACT_APP_API_BASE_URL in the `.env` file. To setup the coordinape-backend app locally and use that as your API, [follow the instructions.](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
+    * You can optionally use `https://staging-api.coordinape.com/api` if you don't want to run your API locally
+* An Infura project id: [Infura](https://infura.io)
+    * After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
+* A browser with MetaMask installed (it's the officially supported wallet)
 
 ## Install instructions
 1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
 2. Install packages: `yarn install`
 3. Setup a local .env file: `cp .env.example .env`
+    * set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
+    * set `REACT_APP_API_BASE_URL` to your API URL
 4. Start yarn: `yarn start`
 5. Visit app: [http://localhost:3000](http://localhost:3000)
 
@@ -95,6 +101,16 @@ The basic distinction is between `atoms` and `selectors`. `selectors` will be re
 - Forms are configured with a [Zod](https://github.com/colinhacks/zod) Parser
 - See `AdminUserForm` for a simple use
 - Doesn't have first class support of array fields
+
+## Hardhat
+
+1. Install packages: `yarn hardhat:install`
+2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
+3. Load contracts: `git submodule update --init --recursive`
+4. Build hardhat: `yarn hardhat:build`
+5. Run tests: `yarn hardhat:test`
+6. Deploy and start testnet: `yarn hardhat:dev`
+7. Check testnet accounts: `yarn --cwd hardhat hardhat accounts`
 
 # Troubleshooting
 

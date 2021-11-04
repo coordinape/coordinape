@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 
-import { makeStyles, Tooltip, Zoom } from '@material-ui/core';
+import clsx from 'clsx';
+
+import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
 import { InfoIcon } from 'icons';
 
@@ -8,8 +10,10 @@ const useStyles = makeStyles(theme => ({
   tooltip: {
     fontSize: 14,
     lineHeight: 1.4,
-    fontWeight: 400,
+    fontWeight: 300,
+    maxWidth: 240,
     padding: theme.spacing(1),
+    margin: theme.spacing(0, 2),
     borderRadius: 8,
     boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
     color: theme.colors.text,
@@ -23,18 +27,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ApeInfoTooltip = ({ children }: { children: ReactNode }) => {
-  const classes = useStyles();
+export const ApeInfoTooltip = ({
+  children,
+  classes,
+  className,
+  ...props
+}: { children: ReactNode } & Omit<TooltipProps, 'title' | 'children'>) => {
+  const localClasses = useStyles();
 
   return (
     <Tooltip
       title={<div>{children ?? 'blank'}</div>}
       placement="top-start"
       TransitionComponent={Zoom}
-      classes={{ tooltip: classes.tooltip }}
+      classes={{
+        ...classes,
+        tooltip: clsx(localClasses.tooltip, classes?.tooltip),
+      }}
+      interactive
+      {...props}
     >
-      <span>
-        <InfoIcon inherit="inherit" className={classes.icon} />
+      <span className={className}>
+        <InfoIcon inherit="inherit" className={localClasses.icon} />
       </span>
     </Tooltip>
   );

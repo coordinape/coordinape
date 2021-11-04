@@ -32,9 +32,8 @@ export interface IApiUser {
   fixed_non_receiver: number;
   starting_tokens: number;
   // User Epoch specific fields - These could be in their own table
-  bio: string;
+  bio?: string;
   non_receiver: number; // Opt out
-  regift_percent: number; // Deprecate this?
   give_token_received: number;
   give_token_remaining: number;
   epoch_first_visit: number;
@@ -47,7 +46,7 @@ export interface IApiUser {
 }
 
 export interface IApiUserProfile extends IApiUser {
-  profile: IProfileEmbed;
+  profile?: IProfileEmbed;
 }
 
 export interface IApiUserInProfile extends IApiUser {

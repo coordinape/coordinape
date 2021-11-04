@@ -5,13 +5,15 @@ import { makeStyles, Button } from '@material-ui/core';
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import {
   ApeAvatar,
+  ApeInfoTooltip,
   ProfileSocialIcons,
   ThreeDotMenu,
   ProfileSkills,
 } from 'components';
-import { USER_ROLE_ADMIN } from 'config/constants';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useSetEditProfileOpen } from 'recoilState';
+import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
 import { GiftInput } from './GiftInput';
@@ -61,6 +63,16 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5, 0),
     fontSize: 24,
     fontWeight: 600,
+    color: theme.colors.text,
+  },
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+  },
+  tooltip: {
+    fontWeight: 400,
     color: theme.colors.text,
   },
   skillContainer: {
@@ -127,7 +139,7 @@ export const ProfileCard = ({
     <div className={classes.root}>
       <div className={classes.topRow}>
         <div className={classes.socialContainer}>
-          <ProfileSocialIcons profile={user.profile} />
+          {user.profile && <ProfileSocialIcons profile={user.profile} />}
         </div>
         <ApeAvatar
           user={user}
@@ -148,10 +160,31 @@ export const ProfileCard = ({
             ]}
           />
         </div>
-        <span className={classes.name}>{user.name}</span>
+        <span className={classes.name}>
+          {user.name}
+          {user.role === USER_ROLE_COORDINAPE && (
+            <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
+              <b>Why is Coordinape in my circle?</b>
+              <div>
+                To date Coordinape has offered our service for free. We decided
+                that using the gift circle mechanism as our revenue model might
+                make a lot of sense, so we’re trying that out.
+              </div>
+              <a
+                href={EXTERNAL_URL_FEEDBACK}
+                rel="noreferrer"
+                target="_blank"
+                className={classes.tooltipLink}
+              >
+                Let us know what you think
+              </a>
+            </ApeInfoTooltip>
+          )}
+        </span>
+
         <div className={classes.skillContainer}>
           <ProfileSkills
-            skills={user.profile.skills ?? []}
+            skills={user?.profile?.skills ?? []}
             isAdmin={user.role === USER_ROLE_ADMIN}
             max={3}
           />

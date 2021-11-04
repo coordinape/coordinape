@@ -11,9 +11,11 @@ import {
   ApeAvatar,
   FormFileUpload,
 } from 'components';
+import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useProfile, useMe, useCircle, useImageUploader, useApi } from 'hooks';
 import { EditIcon } from 'icons';
 import { useSetEditProfileOpen } from 'recoilState';
+import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 import { getAvatarPath } from 'utils/domain';
 
 const useStyles = makeStyles(theme => ({
@@ -225,7 +227,7 @@ export const ProfilePage = ({
   );
 
   const recentEpochs = profile?.users?.map(user => ({
-    bio: user.bio?.length > 0 ? user.bio : 'No epoch statement made.',
+    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : 'No epoch statement made.',
     circle: user.circle,
   }));
 
@@ -283,39 +285,57 @@ export const ProfilePage = ({
         <div className={classes.socialGroup}>
           <ProfileSocialIcons profile={profile} />
         </div>
-        <div className={classes.bio}>{profile?.bio}</div>
+        <div className={classes.bio}>
+          {user?.role === USER_ROLE_COORDINAPE ? (
+            <div>
+              Coordinape is the platform you’re using right now! We currently
+              offer our service for free and invite people to allocate to us
+              from within your circles. All funds received go towards funding
+              the team and our operations.{' '}
+              <a href={EXTERNAL_URL_FEEDBACK} rel="noreferrer" target="_blank">
+                Let us know what you think.
+              </a>
+            </div>
+          ) : (
+            profile?.bio
+          )}
+        </div>
       </div>
 
-      <div className={classes.sections}>
-        <Section title="My Circles">
-          {profile?.users?.map(u => (
-            <div key={u.id} className={classes.circle}>
-              <Avatar
-                alt={u?.circle?.name}
-                src={u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined}
-              >
-                {u.circle.name}
-              </Avatar>
+      {user?.role !== USER_ROLE_COORDINAPE && (
+        <div className={classes.sections}>
+          <Section title="My Circles">
+            {profile?.users?.map(u => (
+              <div key={u.id} className={classes.circle}>
+                <Avatar
+                  alt={u?.circle?.name}
+                  src={
+                    u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
+                  }
+                >
+                  {u.circle.name}
+                </Avatar>
 
-              <span>
-                {u.circle.protocol.name} {u.circle.name}
-              </span>
-              {u?.non_receiver !== 0 && <span>Opted-Out</span>}
-            </div>
-          ))}
-        </Section>
-        <Section title="Recent Epoch Activity" asColumn>
-          {recentEpochs?.map(({ bio, circle }, i) => (
-            <div className={classes.recentEpoch} key={i}>
-              <div className={classes.recentEpochTitle}>
-                {circle.protocol.name} {circle.name}
+                <span>
+                  {u.circle.protocol.name} {u.circle.name}
+                </span>
+                {u?.non_receiver !== 0 && <span>Opted-Out</span>}
               </div>
-              <div className={classes.recentEpochStatement}>{bio}</div>
-            </div>
-          ))}
-        </Section>
-        {/* <Section title="Frequent Collaborators">TODO.</Section> */}
-      </div>
+            ))}
+          </Section>
+          <Section title="Recent Epoch Activity" asColumn>
+            {recentEpochs?.map(({ bio, circle }, i) => (
+              <div className={classes.recentEpoch} key={i}>
+                <div className={classes.recentEpochTitle}>
+                  {circle.protocol.name} {circle.name}
+                </div>
+                <div className={classes.recentEpochStatement}>{bio}</div>
+              </div>
+            ))}
+          </Section>
+          {/* <Section title="Frequent Collaborators">TODO.</Section> */}
+        </div>
+      )}
     </div>
   );
 };
