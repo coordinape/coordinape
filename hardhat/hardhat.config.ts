@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 
@@ -6,6 +6,8 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+
+dotenv.config({ path: '../.env' });
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -34,7 +36,7 @@ const config: HardhatUserConfig = {
     sources: './contracts',
   },
   mocha: {
-    timeout: 2000000,
+    timeout: 60000,
   },
   networks: {
     hardhat: {
