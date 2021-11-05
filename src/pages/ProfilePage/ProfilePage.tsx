@@ -290,8 +290,8 @@ export const ProfilePage = ({
             <div>
               Coordinape is the platform you’re using right now! We currently
               offer our service for free and invite people to allocate to us
-              from within your circles. All funds received go towards funding
-              the team and our operations.{' '}
+              from within your circles. All tokens received go to the Coordinape 
+              treasury.{' '}
               <a href={EXTERNAL_URL_FEEDBACK} rel="noreferrer" target="_blank">
                 Let us know what you think.
               </a>
