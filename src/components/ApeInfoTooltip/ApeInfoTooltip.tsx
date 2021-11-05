@@ -38,6 +38,7 @@ export const ApeInfoTooltip = ({
   'title' | 'children'
 >) => {
   const localClasses = useStyles();
+
   return (
     <Tooltip
       title={<div>{children ?? 'blank'}</div>}
@@ -48,12 +49,13 @@ export const ApeInfoTooltip = ({
         tooltip: clsx(localClasses.tooltip, classes?.tooltip),
       }}
       interactive
+      leaveDelay={100} // delay is important to make sure user can click link in tooltip
       {...props}
     >
       <span className={className}>
         <InfoIcon
           inherit="inherit"
-          className={[iconClassName, localClasses.icon]}
+          className={`${iconClassName} ${localClasses.icon}`}
         />
       </span>
     </Tooltip>

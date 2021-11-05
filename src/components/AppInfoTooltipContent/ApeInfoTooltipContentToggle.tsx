@@ -39,8 +39,12 @@ export const ApeInfoTooltipContentForToggle = ({
       <ContentSection type="no" content={noContent} />
       {documentLink && (
         <div style={{ textAlign: 'center' }}>
-          <Link className={classes.link} to={documentLink}>
-            See the document ...
+          <Link
+            className={classes.link}
+            to={{ pathname: documentLink }}
+            target="_blank"
+          >
+            See the document...
           </Link>
         </div>
       )}
