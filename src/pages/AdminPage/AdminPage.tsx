@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
-import { USER_ROLE_ADMIN } from 'config/constants';
-import { useAdminApi } from 'hooks';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import { useNavigation, useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
   useSelectedCircle,
@@ -105,6 +105,12 @@ const useStyles = makeStyles(theme => ({
     width: 32,
     height: 32,
     marginRight: theme.spacing(1),
+    border: `1px solid ${theme.colors.border}`,
+    cursor: 'pointer',
+    transition: 'border-color .3s ease',
+    '&:hover': {
+      border: '1px solid rgba(239, 115, 118, 1)',
+    },
   },
   avatarCell: {
     height: 48,
@@ -117,6 +123,9 @@ const useStyles = makeStyles(theme => ({
   tableActions: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  actionSpacer: {
+    width: 30,
   },
   errorColor: {
     color: theme.palette.error.main,
@@ -162,6 +171,7 @@ const AdminPage = () => {
   );
 
   const history = useHistory();
+  const { getToProfile } = useNavigation();
 
   const { deleteUser, deleteEpoch } = useAdminApi();
   const me = useSelectedMyUser();
@@ -175,13 +185,15 @@ const AdminPage = () => {
     setKeyword(event.target.value);
   };
 
-  const renderActions = (onEdit: () => void, onDelete?: () => void) => (
+  const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
         <IconButton onClick={onEdit} size="small">
           <EditIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
 
       {onDelete ? (
         <IconButton
@@ -191,14 +203,16 @@ const AdminPage = () => {
         >
           <DeleteIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
     </div>
   );
 
   // User Columns
   const filterUser = useMemo(
     () => (u: IUser) => {
-      const r = new RegExp(keyword);
+      const r = new RegExp(keyword, 'i');
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
@@ -255,7 +269,11 @@ const AdminPage = () => {
           render: function UserName(u: IUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
+                <ApeAvatar
+                  user={u}
+                  className={classes.avatar}
+                  onClick={getToProfile({ address: u.address })}
+                />
                 <span>{u.name}</span>
               </div>
             );
@@ -308,7 +326,9 @@ const AdminPage = () => {
           label: 'Actions',
           render: (u: IUser) =>
             renderActions(
-              () => setEditUser(u),
+              u.role !== USER_ROLE_COORDINAPE
+                ? () => setEditUser(u)
+                : undefined,
               u.id !== me?.id
                 ? () => deleteUser(u.address).catch(console.warn)
                 : undefined

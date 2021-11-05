@@ -29,6 +29,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       lightBorder: string;
       background: string;
       lightBackground: string;
+      linkBlue: string;
       almostWhite: string;
       lightBlue: string;
       darkBlue: string;
