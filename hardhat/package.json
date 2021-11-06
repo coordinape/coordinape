@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "hardhat clean && hardhat compile",
-    "dev": "hardhat node",
+    "dev": "NODE_ENV=development hardhat node",
     "test": "hardhat test"
   },
   "devDependencies": {
