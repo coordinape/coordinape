@@ -1,6 +1,6 @@
 import { Button, makeStyles } from '@material-ui/core';
 
-import AdminUserModal from 'pages/AdminPage/AdminUserModal';
+import AdminUserModal from 'pages/CirclesPage/AdminUserModal';
 
 import { IUser } from 'types';
 

@@ -4,7 +4,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { USER_ROLE_ADMIN } from 'config/constants';
-import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
@@ -62,7 +61,7 @@ export const Routes = () => {
           exact
           key={paths.getAdminPath()}
           path={paths.getAdminPath()}
-          component={AdminPage}
+          component={CirclesPage}
         />,
         <Route
           exact

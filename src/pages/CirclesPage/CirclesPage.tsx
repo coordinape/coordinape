@@ -11,7 +11,8 @@ import {
   DialogNotice,
   OrganizationHeader,
 } from 'components';
-import { useAdminApi } from 'hooks';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import { useNavigation, useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import {
   useSelectedCircle,
@@ -22,7 +23,7 @@ import {
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
-import { getCSVPath } from 'utils/domain';
+import { getCSVPath, IN_PRODUCTION } from 'utils/domain';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -135,6 +136,12 @@ const useStyles = makeStyles(theme => ({
     width: 32,
     height: 32,
     marginRight: theme.spacing(1),
+    border: `1px solid ${theme.colors.border}`,
+    cursor: 'pointer',
+    transition: 'border-color .3s ease',
+    '&:hover': {
+      border: '1px solid rgba(239, 115, 118, 1)',
+    },
   },
   avatarCell: {
     height: 48,
@@ -147,6 +154,9 @@ const useStyles = makeStyles(theme => ({
   tableActions: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  actionSpacer: {
+    width: 30,
   },
   errorColor: {
     color: theme.palette.error.main,
@@ -305,6 +315,7 @@ const CirclesPage = () => {
   );
 
   const history = useHistory();
+  const { getToProfile } = useNavigation();
 
   const { deleteUser, deleteEpoch } = useAdminApi();
   const me = useSelectedMyUser();
@@ -318,13 +329,15 @@ const CirclesPage = () => {
     setKeyword(event.target.value);
   };
 
-  const renderActions = (onEdit: () => void, onDelete?: () => void) => (
+  const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
         <IconButton onClick={onEdit} size="small">
           <EditIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
 
       {onDelete ? (
         <IconButton
@@ -334,14 +347,16 @@ const CirclesPage = () => {
         >
           <DeleteIcon />
         </IconButton>
-      ) : undefined}
+      ) : (
+        <div className={classes.actionSpacer} />
+      )}
     </div>
   );
 
   // User Columns
   const filterUser = useMemo(
     () => (u: IUser) => {
-      const r = new RegExp(keyword);
+      const r = new RegExp(keyword, 'i');
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
@@ -398,7 +413,11 @@ const CirclesPage = () => {
           render: function UserName(u: IUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
+                <ApeAvatar
+                  user={u}
+                  className={classes.avatar}
+                  onClick={getToProfile({ address: u.address })}
+                />
                 <span>{u.name}</span>
               </div>
             );
@@ -426,7 +445,7 @@ const CirclesPage = () => {
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === 0 ? '-' : 'Admin'),
+          render: (u: IUser) => (u.role === USER_ROLE_ADMIN ? 'Admin' : '-'),
         },
         {
           label: 'GIVE sent',
@@ -451,7 +470,9 @@ const CirclesPage = () => {
           label: 'Actions',
           render: (u: IUser) =>
             renderActions(
-              () => setEditUser(u),
+              u.role !== USER_ROLE_COORDINAPE
+                ? () => setEditUser(u)
+                : undefined,
               u.id !== me?.id
                 ? () => deleteUser(u.address).catch(console.warn)
                 : undefined
@@ -489,7 +510,13 @@ const CirclesPage = () => {
 
   return (
     <div className={classes.root}>
-      <OrganizationHeader />
+      {(() => {
+        if (!IN_PRODUCTION) {
+          return <OrganizationHeader />;
+        } else {
+          return null;
+        }
+      })()}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>
@@ -503,7 +530,7 @@ const CirclesPage = () => {
                 startIcon={<EditIcon />}
                 onClick={() => setEditCircle(true)}
               >
-                Circle Settings
+                Settings
               </Button>
               {/* <Button
               variant="contained"
@@ -543,13 +570,10 @@ const CirclesPage = () => {
                 variant="contained"
                 color="primary"
                 size="small"
-                style={{
-                  display: 'none',
-                }}
                 startIcon={<PlusCircleIcon />}
                 onClick={() => history.push(paths.getCreateCirclePath())}
               >
-                Create Circle
+                Add Circle
               </Button>
             </div>
           </div>
