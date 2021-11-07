@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { CreateVault, Maybe } from '../../types/contractTypes';
 import { useVaultContracts } from '../contracts/contracts';
 
-export function useVault() {
+export function UseDbank() {
   const factory = useVaultContracts()?.ApeVaultFactory;
 
   const _createApeVault = async (_params: CreateVault) => {
