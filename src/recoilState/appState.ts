@@ -233,15 +233,22 @@ export const rUsersMap = selector<Map<number, IUser>>({
     const profileMap = get(rProfileRaw);
 
     iti(usersMapRaw.values()).forEach(u => {
+      const existingProfile = profileMap.get(u.address);
       usersMapRaw.set(u.id, {
         ...u,
-        profile: mergeSelfIdProfileInfo(
-          {
-            ...u.profile,
-            ...(profileMap.get(u.address) ?? {}),
-          },
-          selfIdProfiles.get(u.address)
-        ),
+        // TODO: In the future, profile being defined should be invariant
+        // However the server has returned undefined here.
+        profile: u.profile
+          ? mergeSelfIdProfileInfo(
+              existingProfile
+                ? {
+                    ...u.profile,
+                    ...existingProfile,
+                  }
+                : u.profile,
+              selfIdProfiles.get(u.address)
+            )
+          : undefined,
       });
     });
     return usersMapRaw;
