@@ -102,6 +102,16 @@ The basic distinction is between `atoms` and `selectors`. `selectors` will be re
 - See `AdminUserForm` for a simple use
 - Doesn't have first class support of array fields
 
+## Hardhat
+
+1. Install packages: `yarn hardhat:install`
+2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
+3. Load contracts: `git submodule update --init --recursive`
+4. Build hardhat: `yarn hardhat:build`
+5. Run tests: `yarn hardhat:test`
+6. Deploy and start testnet: `yarn hardhat:dev`
+7. Check testnet accounts: `yarn --cwd hardhat hardhat accounts`
+
 # Troubleshooting
 
 - `TypeError: Cannot read properties of undefined (reading 'replace')`

@@ -15,6 +15,7 @@ jobs:
       CI: true
       REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
       REACT_APP_API_BASE_URL: https://myvault.live/api
+      ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -27,12 +28,16 @@ jobs:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
+      - uses: actions/cache@v2
+        with:
+          path: '**/hardhat/node_modules'
+          key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
+
       - run: yarn --frozen-lockfile
-
       - run: yarn typecheck
-
       - run: yarn lint:check
-
       - run: yarn prettier:check
-
-      - run: yarn test
+      - run: git submodule update --init --recursive
+      - run: yarn hardhat:install --frozen-lockfile
+      - run: yarn hardhat:build
+      - run: yarn test:ci
