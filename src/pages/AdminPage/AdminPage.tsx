@@ -302,7 +302,7 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
-const CirclesPage = () => {
+const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -665,4 +665,4 @@ const CirclesPage = () => {
   );
 };
 
-export default CirclesPage;
+export default AdminPage;
