@@ -11,6 +11,7 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import { mergeSelfIdProfileInfo } from '../utils/selfIdHelpers';
 import { getApiService } from 'services/api';
 import {
   createCircleWithDefaults,
@@ -32,6 +33,7 @@ import {
   ITokenGift,
   IApiTokenGift,
   IApiEpoch,
+  ISelfIdProfile,
 } from 'types';
 
 export const rSelectedCircleId = atom<number | undefined>({
@@ -163,6 +165,11 @@ export const rFetchedAt = atomFamily<Map<string, number>, string>({
   default: new Map(),
 });
 
+export const rSelfIdProfiles = atom<Map<string, ISelfIdProfile>>({
+  key: 'rSelfIdProfiles',
+  default: new Map(),
+});
+
 export const rProfileRaw = atom<Map<string, IApiFilledProfile>>({
   key: 'rProfileRaw',
   default: new Map(),
@@ -219,13 +226,31 @@ export const rUsersMapRaw = atom<Map<number, IUser>>({
 
 export const rUsersMap = selector<Map<number, IUser>>({
   key: 'rUsersMap',
-  get: ({ get }: IRecoilGetParams) => {
+  get: async ({ get }: IRecoilGetParams) => {
     const usersMapRaw = new Map(get(rUsersMapRaw));
+    const selfIdProfiles = get(rSelfIdProfiles);
     // Profile may have updated fields missing from last we queried users.
-    const profile = get(rMyProfile);
-    profile?.users?.forEach(user =>
-      usersMapRaw.set(user.id, { profile, ...user })
-    );
+    const profileMap = get(rProfileRaw);
+
+    iti(usersMapRaw.values()).forEach(u => {
+      const existingProfile = profileMap.get(u.address);
+      usersMapRaw.set(u.id, {
+        ...u,
+        // TODO: In the future, profile being defined should be invariant
+        // However the server has returned undefined here.
+        profile: u.profile
+          ? mergeSelfIdProfileInfo(
+              existingProfile
+                ? {
+                    ...u.profile,
+                    ...existingProfile,
+                  }
+                : u.profile,
+              selfIdProfiles.get(u.address)
+            )
+          : undefined,
+      });
+    });
     return usersMapRaw;
   },
 });
