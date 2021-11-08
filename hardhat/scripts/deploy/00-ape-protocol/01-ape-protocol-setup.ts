@@ -1,3 +1,4 @@
+import debug from 'debug';
 import { Contract } from '@ethersproject/contracts';
 import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
@@ -5,12 +6,14 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { ApeRegistry__factory } from '../../../typechain';
 
+const log = debug('coordinape:tests');
+
 async function executeTimelockedFunction(
   contract: Contract,
   method: string,
   args: Array<unknown>
 ) {
-  console.log(
+  log(
     `executing "${method}" of Contract: "${
       contract.address
     }" with (${args.join()}) arguments`
