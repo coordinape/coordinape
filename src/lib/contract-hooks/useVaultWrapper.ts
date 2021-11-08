@@ -8,25 +8,14 @@ import {
   WithdrawUnderlying,
   ApproveCircleAdmin,
   ExitVaultToken,
+  SetRegistry,
+  OverrideOnly,
+  Tap,
+  TransferOwnership,
+  UpdateAllowance,
+  ApeWithdraw,
 } from '../../types/contractTypes';
 import { useVaultContracts } from '../contracts/contracts';
-
-//     "hasAccess(address)": FunctionFragment;
-//     "owner()": FunctionFragment;
-//     "profit()": FunctionFragment;
-//     "registry()": FunctionFragment;
-//     "renounceOwnership()": FunctionFragment;
-//     "setRegistry(address)": FunctionFragment;
-//     "simpleToken()": FunctionFragment;
-//     "syncUnderlying()": FunctionFragment;
-//     "tap(uint256,uint8)": FunctionFragment;
-//     "token()": FunctionFragment;
-//     "totalAssets()": FunctionFragment;
-//     "totalVaultBalance(address)": FunctionFragment;
-//     "transferOwnership(address)": FunctionFragment;
-//     "underlyingValue()": FunctionFragment;
-//     "updateAllowance(bytes32,address,uint256,uint256,uint256)": FunctionFragment;
-//     "vault()": FunctionFragment;
 
 const handleError = (e: any) => {
   /**
@@ -42,7 +31,103 @@ const handleError = (e: any) => {
 export function useVaultWrapper() {
   const factory = useVaultContracts()?.ApeVaultWrapper;
 
-  //! Leave off on line 305, ApeVaultWrapper.ts
+  const _apeWithdraw = async (_params: ApeWithdraw) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.apeWithdraw(
+        _params._shareAmount,
+        _params._underlying,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _apeMigrate = async (_params: OverrideOnly) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.apeMigrate(_params._overrides);
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _updateAllowance = async (_params: UpdateAllowance) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.updateAllowance(
+        _params._circle,
+        _params._token,
+        _params._amount,
+        _params._interval,
+        _params._epochAmount,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _transferOwnership = async (_params: TransferOwnership) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.transferOwnership(
+        _params._newOwner,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _tap = async (_params: Tap) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.tap(
+        _params._value,
+        _params._type,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _syncUnderlying = async (_params: OverrideOnly) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.syncUnderlying(_params._overrides);
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _setRegistry = async (_params: SetRegistry) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.setRegistry(_params._registry, _params._overrides);
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _renounceOwnership = async (_params: OverrideOnly) => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.renounceOwnership(_params._overrides);
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
 
   const _exitVaultToken = async (_params: ExitVaultToken) => {
     let tx: Maybe<ethers.ContractTransaction>;
@@ -74,20 +159,17 @@ export function useVaultWrapper() {
   const _withdrawUnderlying = async (_params: WithdrawUnderlying) => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
-      tx = await factory?.apeWithdrawUnderlying(
-        _params._amount,
-        _params._overrides
-      );
+      tx = await factory?.apeWithdraw(_params._amount, _params._overrides);
     } catch (e: any) {
       handleError(e);
     }
     return tx;
   };
 
-  const _depositSimpleToken = async (_params: DepositSimpleToken) => {
+  const _withdrawSimpleToken = async (_params: DepositSimpleToken) => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
-      tx = await factory?.apeDepositSimpleToken(
+      tx = await factory?.apeWithdrawSimpleToken(
         _params._amount,
         _params._overrides
       );
@@ -110,10 +192,18 @@ export function useVaultWrapper() {
   };
 
   return {
-    _depositSimpleToken,
+    _withdrawSimpleToken,
     _addFunds,
     _withdrawUnderlying,
     _approveCircleAdmin,
     _exitVaultToken,
+    _renounceOwnership,
+    _setRegistry,
+    _syncUnderlying,
+    _tap,
+    _transferOwnership,
+    _updateAllowance,
+    _apeMigrate,
+    _apeWithdraw,
   };
 }
