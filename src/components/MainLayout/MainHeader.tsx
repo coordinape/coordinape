@@ -23,10 +23,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     background: theme.colors.primary,
     gridTemplateColumns: '1fr 1fr 1fr',
-    padding: theme.spacing(0, 4),
+    padding: theme.spacing(0, 5),
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr 8fr 1fr',
+      padding: theme.spacing(0, 2, 4),
+      height: theme.custom.appHeaderHeight + 32,
+      gridTemplateColumns: '1fr 8fr',
+      zIndex: 2,
     },
     '& > *': {
       alignSelf: 'center',
@@ -47,12 +49,22 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      justifySelf: 'end',
+    },
   },
   navLinks: {
     justifySelf: 'stretch',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      position: 'absolute',
+      width: '100%',
+      background: theme.colors.primary,
+      top: theme.custom.appHeaderHeight - 12,
+      left: '0px',
+    },
   },
   buttons: {
     justifySelf: 'end',

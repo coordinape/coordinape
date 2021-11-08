@@ -1,26 +1,29 @@
-export const updaterMergeArrayToIdMap = (
-  newValue: any[],
-  updateWith: (update: (oldValue: any) => any) => void
+export const updaterMergeToIdMap = <V extends { id: number }>(
+  newValue: V | V[],
+  updateWith: (update: (oldValue: Map<number, V>) => Map<number, V>) => void
 ) => {
-  updateWith((oldValue: Map<number, any>) => {
-    newValue.forEach(v => oldValue.set(v.id, v));
-    return new Map(oldValue);
+  updateWith((oldValue: Map<number, V>) => {
+    const result = new Map(oldValue);
+    if (Array.isArray(newValue)) {
+      newValue.forEach(v => result.set(v.id, v));
+    } else {
+      result.set(newValue.id, newValue);
+    }
+    return result;
   });
 };
 
-export const updaterMergeItemToIdMap = (
-  newValue: any,
-  updateWith: (update: (oldValue: any) => void) => void
-) =>
-  updateWith(
-    (oldValue: Map<number, any>) => new Map(oldValue.set(newValue.id, newValue))
-  );
-
-export const updaterMergeItemToAddressMap = (
-  newValue: any,
-  updateWith: (update: (oldValue: any) => void) => void
-) =>
-  updateWith(
-    (oldValue: Map<number, any>) =>
-      new Map(oldValue.set(newValue.address, newValue))
-  );
+export const updaterMergeToAddressMap = <V extends { address: string }>(
+  newValue: V | V[],
+  updateWith: (update: (oldValue: Map<string, V>) => Map<string, V>) => void
+) => {
+  updateWith((oldValue: Map<string, V>) => {
+    const result = new Map(oldValue);
+    if (Array.isArray(newValue)) {
+      newValue.forEach(v => result.set(v.address, v));
+    } else {
+      result.set(newValue.address, newValue);
+    }
+    return result;
+  });
+};

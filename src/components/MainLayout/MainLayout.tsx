@@ -3,11 +3,10 @@ import React, { Suspense } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { LoadingScreen } from 'components';
-import useCommonStyles from 'styles/common';
 
 import { MainHeader } from './MainHeader';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
     top: 0,
@@ -23,6 +22,19 @@ const useStyles = makeStyles(() => ({
       flex: 1,
     },
   },
+  scroll: {
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: theme.spacing(0.5),
+    },
+    '&::-webkit-scrollbar-track': {},
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.colors.primary,
+    },
+    [theme.breakpoints.down('xs')]: {
+      zIndex: 1, //for hamburger menu
+    },
+  },
 }));
 
 export const MainLayout = (props: {
@@ -30,13 +42,12 @@ export const MainLayout = (props: {
   children: React.ReactNode | React.ReactNode[];
 }) => {
   const classes = useStyles();
-  const commonClasses = useCommonStyles();
 
   return (
     <div className={classes.root}>
       <MainHeader />
       <Suspense fallback={<LoadingScreen />}>
-        <main className={commonClasses.scroll}>{props.children}</main>
+        <main className={classes.scroll}>{props.children}</main>
       </Suspense>
     </div>
   );

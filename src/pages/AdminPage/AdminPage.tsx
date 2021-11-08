@@ -125,6 +125,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     fontSize: 11,
     lineHeight: 1.5,
+    [theme.breakpoints.down('xs')]: {
+      height: 'auto',
+    },
   },
   twoLineCellTitle: {
     fontWeight: 600,
