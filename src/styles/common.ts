@@ -10,6 +10,9 @@ const useCommonStyles = makeStyles(theme => ({
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: theme.colors.primary,
     },
+    [theme.breakpoints.down('xs')]: {
+      zIndex: 1, //for hamburger menu
+    },
   },
   transparentButton: {
     // backgroundColor: opacify(-0.9, theme.colors.white),
