@@ -17,6 +17,7 @@ import BanklessLogo from 'assets/svgs/landing-page/bankless-logo.svg';
 import Cre8rDaoLogo from 'assets/svgs/landing-page/cre8rdao-logo.svg';
 import CreamLogo from 'assets/svgs/landing-page/cream-logo.svg';
 import DaoHausLogo from 'assets/svgs/landing-page/daohaus-logo.svg';
+import DorgDaoLogo from 'assets/svgs/landing-page/dorg-logo.svg';
 import GitcoinLogo from 'assets/svgs/landing-page/gitcoin-logo.svg';
 import GraphCard from 'assets/svgs/landing-page/graph-card.png';
 import HistoryCard from 'assets/svgs/landing-page/history-card.png';
@@ -535,6 +536,12 @@ const LandingPage = () => {
             give={0}
             epochs={0}
             name="CRE8R DAO"
+          />
+          <Partner
+            imageSrc={DorgDaoLogo}
+            give={0}
+            epochs={0}
+            name="dOrg Tech DAO"
           />
           <Partner imageSrc={DaoHausLogo} give={0} epochs={0} name="DAOhaus" />
           <div />
