@@ -15,26 +15,17 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     outline: 'none',
-    backgroundColor: theme.colors.third,
-    width: 350,
-    maxWidth: 350,
     padding: theme.spacing(4),
     userSelect: `none`,
-    boxShadow: '0px 4px 44px rgba(0, 0, 0, 0.25)',
-    backgroundImage: 'url(/svgs/whiteX_bg.svg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundPositionX: 'right',
-    backgroundPositionY: 'bottom',
     textAlign: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 30,
     lineHeight: '22px',
     color: theme.colors.third,
     textAlign: 'center',
     marginTop: 16,
   },
-  indicator: { color: theme.colors.primary },
 }));
 
 export const LoadingModal = (props: {
@@ -53,7 +44,7 @@ export const LoadingModal = (props: {
       open={visible}
     >
       <div className={classes.content}>
-        <CircularProgress className={classes.indicator} size={40} />
+        <CircularProgress size={80} />
         {text && (
           <Typography className={classes.title} component="div">
             {text}

@@ -1,6 +1,10 @@
 import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
 
+import {
+  getSelfIdProfile,
+  mergeSelfIdProfileInfo,
+} from '../utils/selfIdHelpers';
 import { API_URL } from 'utils/domain';
 import { getSignature } from 'utils/provider';
 
@@ -37,8 +41,15 @@ export class APIService {
   }
 
   getProfile = async (address: string): Promise<IApiFilledProfile> => {
-    const response = await axios.get(`/profile/${address}`);
-    return (response.data.profile ?? response.data) as IApiFilledProfile;
+    const [response, selfIdResponse] = await Promise.all([
+      axios.get(`/profile/${address}`),
+      getSelfIdProfile(address),
+    ]);
+
+    const profile = (response.data.profile ??
+      response.data) as IApiFilledProfile;
+
+    return mergeSelfIdProfileInfo(profile, selfIdResponse);
   };
 
   updateProfile = async (
