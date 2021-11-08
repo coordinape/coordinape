@@ -28,6 +28,26 @@ describe('ApeRouter', () => {
   let user0: Account;
   let vault: ApeVaultWrapper;
 
+  const addUsdcToVault = async (receiver: Account) => {
+    await usdc.transfer(receiver.address, USER_USDC_BALANCE);
+
+    const connectedUsdc = usdc.connect(receiver.signer);
+    const userUsdcBalance = (
+      await connectedUsdc.balanceOf(receiver.address)
+    ).toString();
+    expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
+
+    await connectedUsdc.approve(apeRouter.address, 0); // Reset to avoid any issues
+    await connectedUsdc.approve(apeRouter.address, USER_USDC_BALANCE);
+    expect(
+      await connectedUsdc.allowance(receiver.address, apeRouter.address)
+    ).to.equal(USER_USDC_BALANCE);
+
+    await apeRouter
+      .connect(receiver.signer)
+      .delegateDeposit(vault.address, USDC_ADDRESS, DELEGATE_AMOUNT);
+  };
+
   beforeEach(async () => {
     deploymentInfo = await deployProtocolFixture();
     user0 = deploymentInfo.accounts[0];
@@ -35,19 +55,8 @@ describe('ApeRouter', () => {
     usdcYVault = deploymentInfo.contracts.usdcYVault;
     apeRouter = deploymentInfo.contracts.apeRouter;
 
-    await usdc.transfer(user0.address, USER_USDC_BALANCE);
-
-    usdc = usdc.connect(user0.signer);
-    const userUsdcBalance = (await usdc.balanceOf(user0.address)).toString();
-    expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
-
-    await usdc.approve(apeRouter.address, 0); // Reset to avoid any issues
-    await usdc.approve(apeRouter.address, USER_USDC_BALANCE);
-    expect(await usdc.allowance(user0.address, apeRouter.address)).to.equal(
-      USER_USDC_BALANCE
-    );
-
     vault = await createApeVault(
+      deploymentInfo.contracts.apeToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );
@@ -70,11 +79,7 @@ describe('ApeRouter', () => {
   });
 
   it('should delegate specified amount to yVault', async () => {
-    await apeRouter.delegateDeposit(
-      vault.address,
-      USDC_ADDRESS,
-      DELEGATE_AMOUNT
-    );
+    await addUsdcToVault(user0);
 
     // Make sure yUSDC share is greater than 0
     expect(

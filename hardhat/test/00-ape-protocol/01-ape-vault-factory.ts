@@ -12,13 +12,14 @@ const { expect } = chai;
 describe('ApeVaultFactory', () => {
   let deploymentInfo: DeploymentInfo;
 
-  before(async () => {
+  beforeEach(async () => {
     deploymentInfo = await deployProtocolFixture();
   });
 
   it('should create vault successfully', async () => {
     const user0 = deploymentInfo.accounts[0];
     const vault = await createApeVault(
+      deploymentInfo.contracts.apeToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );
@@ -28,7 +29,7 @@ describe('ApeVaultFactory', () => {
     expect(await vault.vault()).to.equal(USDC_YVAULT_ADDRESS);
   });
 
-  after(async () => {
+  afterEach(async () => {
     await network.provider.request({
       method: 'hardhat_reset',
       params: [

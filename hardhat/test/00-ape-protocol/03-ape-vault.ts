@@ -6,12 +6,18 @@ import { network } from 'hardhat';
 import {
   ApeDistributor,
   ApeRouter,
+  ApeToken,
+  ApeVaultFactory,
   ApeVaultWrapper,
   ERC20,
   RegistryAPI,
   VaultAPI,
 } from '../../typechain';
-import { USDC_ADDRESS, USDC_DECIMAL_MULTIPLIER } from '../constants';
+import {
+  USDC_ADDRESS,
+  USDC_DECIMAL_MULTIPLIER,
+  // USDC_YVAULT_ADDRESS,
+} from '../constants';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
@@ -50,6 +56,7 @@ describe('Test withdrawal functions of ApeVault', () => {
     await usdc.approve(apeRouter.address, USER_USDC_BALANCE);
 
     vault = await createApeVault(
+      deploymentInfo.contracts.apeToken,
       deploymentInfo.contracts.apeVaultFactory,
       yGovernance
     );
@@ -125,6 +132,7 @@ describe('Test circle related functions of ApeVault', () => {
     apeDistributor = deploymentInfo.contracts.apeDistributor;
 
     vault = await createApeVault(
+      deploymentInfo.contracts.apeToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );
@@ -186,4 +194,147 @@ describe('Test circle related functions of ApeVault', () => {
       vault.address
     );
   });
+});
+
+describe('Test tap function of ApeVault', () => {
+  const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
+  const DELEGATE_AMOUNT = BigNumber.from('100').mul(USDC_DECIMAL_MULTIPLIER);
+  // const APE_BALANCE = BigNumber.from('1000');
+  const ETH_BALANCE = '0x10000000000000';
+
+  let deploymentInfo: DeploymentInfo;
+  let usdc: ERC20;
+  let usdcYVault: VaultAPI;
+  let apeToken: ApeToken;
+  let apeRouter: ApeRouter;
+  let apeDistributor: ApeDistributor;
+  let apeVaultFactory: ApeVaultFactory;
+  let vault: ApeVaultWrapper;
+  let user0: Account;
+  let distributor: Account;
+  // let deployer: Account;
+
+  // const addApeToVault = async (receiver: Account) => {
+  //   await apeToken.addMinters([receiver.address]);
+
+  //   const connectedApeToken = apeToken.connect(receiver.signer);
+  //   await connectedApeToken.mint(receiver.address, APE_BALANCE);
+  //   expect(await connectedApeToken.balanceOf(receiver.address)).to.equal(
+  //     APE_BALANCE
+  //   );
+  //   await connectedApeToken.transfer(deploymentInfo.accounts[1].address, '1');
+  //   // await vault.connect(receiver.signer).apeDepositSimpleToken(APE_BALANCE);
+  // };
+
+  const addUsdcToVault = async (receiver: Account) => {
+    await usdc.transfer(receiver.address, USER_USDC_BALANCE);
+
+    const connectedUsdc = usdc.connect(receiver.signer);
+    const userUsdcBalance = (
+      await connectedUsdc.balanceOf(receiver.address)
+    ).toString();
+    expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
+
+    await connectedUsdc.approve(apeRouter.address, 0); // Reset to avoid any issues
+    await connectedUsdc.approve(apeRouter.address, USER_USDC_BALANCE);
+    expect(
+      await connectedUsdc.allowance(receiver.address, apeRouter.address)
+    ).to.equal(USER_USDC_BALANCE);
+
+    await apeRouter
+      .connect(receiver.signer)
+      .delegateDeposit(vault.address, USDC_ADDRESS, DELEGATE_AMOUNT);
+  };
+
+  const mintEth = async (user: Account) => {
+    await network.provider.send('hardhat_setBalance', [
+      user.address,
+      ETH_BALANCE,
+    ]);
+  };
+
+  beforeEach(async () => {
+    deploymentInfo = await deployProtocolFixture();
+    user0 = deploymentInfo.accounts[0];
+    usdc = deploymentInfo.contracts.usdc;
+    usdcYVault = deploymentInfo.contracts.usdcYVault;
+    apeToken = deploymentInfo.contracts.apeToken;
+    apeDistributor = deploymentInfo.contracts.apeDistributor;
+    apeRouter = deploymentInfo.contracts.apeRouter;
+    apeVaultFactory = deploymentInfo.contracts.apeVaultFactory;
+    // deployer = deploymentInfo.deployer;
+
+    distributor = {
+      address: apeDistributor.address,
+      signer: await unlockSigner(apeDistributor.address),
+    };
+
+    vault = await createApeVault(apeToken, apeVaultFactory, user0);
+
+    apeRouter = apeRouter.connect(user0.signer);
+  });
+
+  afterEach(async () => {
+    await network.provider.request({
+      method: 'hardhat_reset',
+      params: [
+        {
+          forking: {
+            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+          },
+        },
+      ],
+    });
+  });
+
+  it('should not allow other than distributor to tap from vault', async () => {
+    vault = vault.connect(user0.signer);
+
+    const amount = ethers.utils.parseEther('0.1');
+    await expect(vault.tap(amount, 0)).to.be.revertedWith('');
+  });
+
+  it('should revert with "Not enough profit to cover epoch"', async () => {
+    vault = vault.connect(distributor.signer);
+
+    const amount = ethers.utils.parseEther('1');
+    await expect(vault.tap(amount, 0)).to.be.revertedWith(
+      'Not enough profit to cover epoch'
+    );
+  });
+
+  /*****************************************************************************
+    TODO: Simulate profit to test tap
+    Different ways to simulate this:
+    - Increase pricePerShare in yearn Vault somehow (recommended)
+    - Decrease undelyingValue in ApeVault by mocking it using hardhat setStorage
+    - Increase balance of yTokens in ApeVault without increasing underlyingValue
+  *****************************************************************************/
+  it('should tap profit from the vault and transfer it to distributor', async () => {});
+
+  it('should tap base amount from the vault and transfer it to distributor', async () => {
+    await addUsdcToVault(user0);
+    await mintEth(distributor);
+    vault = vault.connect(distributor.signer);
+
+    expect(await usdcYVault.balanceOf(distributor.address)).to.equal(0);
+
+    await vault.tap(USDC_DECIMAL_MULTIPLIER, 1);
+
+    expect(await usdcYVault.balanceOf(distributor.address)).to.equal(
+      USDC_DECIMAL_MULTIPLIER
+    );
+  });
+
+  // TODO
+  // it('should tap simpleToken from the vault and transfer it to distributor and deduct fee', async () => {
+  //   await addApeToVault(user0);
+  //   vault = vault.connect(distributor.signer);
+
+  //   expect(await apeToken.balanceOf(distributor.address)).to.equal(0);
+
+  //   await vault.tap(APE_BALANCE, 2);
+
+  //   expect(await apeToken.balanceOf(distributor.address)).to.equal(APE_BALANCE);
+  // });
 });
