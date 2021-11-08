@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { makeStyles, useMediaQuery, useTheme, Button } from '@material-ui/core';
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 import {
@@ -23,9 +23,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     background: theme.colors.primary,
     gridTemplateColumns: '1fr 1fr 1fr',
-    padding: theme.spacing(0, 4),
+    padding: theme.spacing(0, 5),
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(0, 2, 4),
+      height: theme.custom.appHeaderHeight + 32,
       gridTemplateColumns: '1fr 8fr',
       zIndex: 2,
     },
@@ -58,11 +59,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'flex-end',
     [theme.breakpoints.down('xs')]: {
-      /*display: 'none',*/
       position: 'absolute',
       width: '100%',
       background: theme.colors.primary,
-      top: theme.custom.appHeaderHeight + 'px',
+      top: theme.custom.appHeaderHeight - 12,
       left: '0px',
     },
   },
@@ -114,12 +114,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const HeaderNav = ({ isVisible = true }) => {
+export const HeaderNav = () => {
   const classes = useStyles();
   const { selectedCircle } = useCircle();
   const { selectedMyUser, hasAdminView } = useMe();
 
-  const navButtonsVisible = isVisible && (!!selectedMyUser || hasAdminView);
+  const navButtonsVisible = !!selectedMyUser || hasAdminView;
   const navItems = getMainNavigation({
     asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
     asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
@@ -167,9 +167,6 @@ export const MainHeader = () => {
   const classes = useStyles();
 
   const screenDownXs = useMediaQuery(theme.breakpoints.down('xs'));
-  //const [navItemsVisible, setNavItemsVisible] = React.useState(!screenDownXs);
-  // ^ use the above line when hamburger menu icon is implemented
-  const [navItemsVisible, setNavItemsVisible] = React.useState(true);
 
   const suspendedNav = (
     <Suspense
@@ -180,7 +177,7 @@ export const MainHeader = () => {
         </div>
       }
     >
-      <HeaderNav isVisible={navItemsVisible} />
+      <HeaderNav />
     </Suspense>
   );
 
@@ -198,10 +195,6 @@ export const MainHeader = () => {
     </Suspense>
   );
 
-  function toggleNavButtons() {
-    setNavItemsVisible(!navItemsVisible);
-  }
-
   return !screenDownXs ? (
     <div className={classes.root}>
       <img
@@ -214,13 +207,11 @@ export const MainHeader = () => {
     </div>
   ) : (
     <div className={classes.root}>
-      <Button onClick={toggleNavButtons} className="responsiveMenuButton">
-        <img
-          alt="logo"
-          className={classes.coordinapeLogo}
-          src="/svgs/logo/logo.svg"
-        />
-      </Button>
+      <img
+        alt="logo"
+        className={classes.coordinapeLogo}
+        src="/svgs/logo/logo.svg"
+      />
       <div className={classes.smallNavAndButtons}>
         {suspendedButtons}
         {suspendedNav}
