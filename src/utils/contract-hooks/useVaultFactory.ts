@@ -2,7 +2,7 @@
 import { ethers } from 'ethers';
 
 import { CreateVault, Maybe } from '../../types/contractTypes';
-import { useVaultContracts } from '../contracts/contracts';
+import { useVaultContracts } from '../../utils/contracts/contracts';
 
 export function useVault() {
   const factory = useVaultContracts()?.ApeVaultFactory;

@@ -15,7 +15,7 @@ import {
   UpdateAllowance,
   ApeWithdraw,
 } from '../../types/contractTypes';
-import { useVaultContracts } from '../contracts/contracts';
+import { useVaultContracts } from '../../utils/contracts/contracts';
 
 const handleError = (e: any) => {
   /**

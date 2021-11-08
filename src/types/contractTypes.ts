@@ -67,4 +67,38 @@ export interface ApeWithdraw {
   _overrides?: Overrides;
 }
 
+export interface Schedule {
+  _target: string;
+  _data: BytesLike;
+  _predecessor: BytesLike;
+  _salt: BytesLike;
+  _delay: BigNumberish;
+  _overrides?: Overrides;
+}
+
+export interface GetVariableFee {
+  _yield: BigNumberish;
+  _tapTotal: BigNumberish;
+  overrides?: Overrides;
+}
+
+export interface Execute {
+  _target: string;
+  _data: BytesLike;
+  _predecessor: BytesLike;
+  _salt: BytesLike;
+  _delay: BigNumberish;
+  _overrides?: Overrides;
+}
+
+export interface ChangeMinDelay {
+  _min: BigNumberish;
+  _overrides?: Overrides;
+}
+
+export interface Cancel {
+  _id: BytesLike;
+  _overrides?: Overrides;
+}
+
 export type Maybe<T> = T | undefined | null;
