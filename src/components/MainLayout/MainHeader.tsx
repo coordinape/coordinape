@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
       gridTemplateColumns: '1fr 8fr',
+      zIndex: 2,
     },
     '& > *': {
       alignSelf: 'center',
@@ -57,7 +58,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'flex-end',
     [theme.breakpoints.down('xs')]: {
-      /*display: 'none'*/
+      /*display: 'none',*/
+      position: 'absolute',
+      width: '100%',
+      background: theme.colors.primary,
+      top: theme.custom.appHeaderHeight + 'px',
+      left: '0px',
     },
   },
   buttons: {
@@ -108,12 +114,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const HeaderNav = () => {
+export const HeaderNav = ({ isVisible = true }) => {
   const classes = useStyles();
   const { selectedCircle } = useCircle();
   const { selectedMyUser, hasAdminView } = useMe();
 
-  const navButtonsVisible = !!selectedMyUser || hasAdminView;
+  const navButtonsVisible = isVisible && (!!selectedMyUser || hasAdminView);
   const navItems = getMainNavigation({
     asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
     asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
@@ -161,6 +167,9 @@ export const MainHeader = () => {
   const classes = useStyles();
 
   const screenDownXs = useMediaQuery(theme.breakpoints.down('xs'));
+  //const [navItemsVisible, setNavItemsVisible] = React.useState(!screenDownXs);
+  // ^ use the above line when hamburger menu icon is implemented
+  const [navItemsVisible, setNavItemsVisible] = React.useState(true);
 
   const suspendedNav = (
     <Suspense
@@ -171,7 +180,7 @@ export const MainHeader = () => {
         </div>
       }
     >
-      <HeaderNav />
+      <HeaderNav isVisible={navItemsVisible} />
     </Suspense>
   );
 
@@ -190,7 +199,7 @@ export const MainHeader = () => {
   );
 
   function toggleNavButtons() {
-    alert('hello');
+    setNavItemsVisible(!navItemsVisible);
   }
 
   return !screenDownXs ? (
