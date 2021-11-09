@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import padStart from 'lodash/padStart';
 
-import { createDistribution } from '..';
+import { createDistribution } from '.';
 
 const addr = (num: number) => '0x' + padStart(num.toString(), 40, '0');
 const hex2dec = (hexstr: string) => parseInt(hexstr, 16);
