@@ -7,7 +7,6 @@ import { makeStyles, Button, Avatar } from '@material-ui/core';
 import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
 import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
-import { useSelectedCircle } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -143,16 +142,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const OrganizationHeader = () => {
-  const selectedCircle = useSelectedCircle();
   const location = useLocation();
   const classes = useStyles();
 
   const { selectedMyUser, hasAdminView } = useMe();
   const navButtonsVisible = !!selectedMyUser || hasAdminView;
-  const navItems = getAdminNavigation({
-    asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
-    asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
-  });
+  const navItems = getAdminNavigation();
   const [, setEditCircle] = useState<boolean>(false);
   // const [,setNewUser] = useState<boolean>(false);
   const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
