@@ -3,6 +3,8 @@ import {
   getCreateCirclePath,
 } from 'routes/paths';
 
+import { getIpfsUrl } from './selfIdHelpers';
+
 // Including local-ape.host for hCaptcha, see the component.
 export const DOMAIN_IS_PREVIEW = window.location.hostname.match(
   /(local-ape\.host|localhost|vercel\.app)$/
@@ -45,5 +47,18 @@ export const getCSVPath = (circleId: number, epochId: number) =>
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const APP_URL_CREATE_CIRCLE = `${APP_URL}${getCreateCirclePath()}`;
 export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
-export const getAvatarPath = (avatar?: string, placeholder?: string) =>
-  avatar ? `${STORAGE_URL}/${avatar}` : placeholder || AVATAR_PLACEHOLDER;
+
+export const getAvatarPath = (avatar?: string, placeholder?: string) => {
+  if (!avatar) return placeholder || AVATAR_PLACEHOLDER;
+
+  // dont transform if its already a URL
+  if (avatar.startsWith('https://')) {
+    return avatar;
+  }
+
+  if (avatar.startsWith('ipfs://')) {
+    return getIpfsUrl(avatar);
+  }
+
+  return `${STORAGE_URL}/${avatar}`;
+};

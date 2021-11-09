@@ -4,28 +4,26 @@ import { rFetchedAt } from 'recoilState';
 
 const STALE_THRESHOLD_MS = 5 * 60 * 1000; // 5 Minutes
 
-type TFetchUpdater = (
-  newValue: any,
-  updateWith: (update: (oldValue: any) => any) => void
-) => void;
-
 // Two purposes. One is to wrap API fetching calls in a UI context so that
 // errors get sent to the error boundary. Two provide a reusable way to cache
 // results, until a certain amount of time has passed.
-export const useRecoilFetcher = (
+export const useRecoilFetcher = <K, V>(
   key: string,
-  recoilState: RecoilState<any>,
-  updater?: TFetchUpdater
-): ((
-  fetch: (...args: any[]) => Promise<any>,
+  recoilState: RecoilState<Map<K, V>>,
+  updater: (
+    newValue: V | V[],
+    updateWith: (update: (oldValue: Map<K, V>) => Map<K, V>) => void
+  ) => void
+): (<R extends V | V[]>(
+  fetch: (...args: any[]) => Promise<R>,
   args?: any[],
   reset?: boolean
-) => Promise<[() => void, any]>) => {
+) => Promise<[() => void, R | undefined]>) => {
   const [fetchedAt, updateFetchedAt] = useRecoilState(rFetchedAt(key));
   const updateValue = useSetRecoilState(recoilState);
 
-  return async (
-    fetch: (...args: any[]) => Promise<any>,
+  return async <R extends V | V[]>(
+    fetch: (...args: any[]) => Promise<R>,
     args?: any[],
     reset?: boolean
   ): Promise<[() => void, any]> => {
@@ -39,11 +37,7 @@ export const useRecoilFetcher = (
     return [
       () => {
         // Commit
-        if (updater) {
-          updater(result, updateValue);
-        } else {
-          updateValue(result);
-        }
+        updater(result, updateValue);
         updateFetchedAt(fetchedAtMap =>
           fetchedAtMap.set(paramString, +new Date())
         );
