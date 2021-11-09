@@ -14,17 +14,20 @@ import { DOMAIN_IS_PREVIEW, RENDER_APP } from './utils/domain';
 Sentry.init({
   environment: DOMAIN_IS_PREVIEW ? 'development' : 'production',
   dsn: 'https://1b672f036d56422ea7087e932011ec74@o919561.ingest.sentry.io/5863782',
+  // ignoreErrors accepts regex. Strings will match partially.
+  ignoreErrors: [
+    'MetaMask: Received invalid isUnlocked parameter.',
+    'Supported chain ids are: 1.',
+    'The user rejected the request.',
+    'pktAnnotationHighlighter', // https://github.com/LessWrong2/Lesswrong2/issues/1150
+  ],
   integrations: [
     new Integrations.BrowserTracing(),
     new CaptureConsole({
       levels: ['error'],
     }),
   ],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.1,
 });
 Sentry.setTag('landing_page', !RENDER_APP);
 

@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router';
 import { useRecoilState, useRecoilValue, useRecoilCallback } from 'recoil';
 
+import { getSelfIdProfiles } from '../utils/selfIdHelpers';
 import { useAsyncLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -12,20 +13,16 @@ import {
   rSelectedCircle,
   rCircleEpochsStatus,
   rNomineesRaw,
+  rSelfIdProfiles,
 } from 'recoilState';
 import { getHistoryPath, getAllocationPath } from 'routes/paths';
 import { getApiService } from 'services/api';
-import { updaterMergeArrayToIdMap } from 'utils/recoilHelpers';
+import {
+  updaterMergeToIdMap,
+  updaterMergeToAddressMap,
+} from 'utils/recoilHelpers';
 
 import { useRecoilFetcher } from './useRecoilFetcher';
-
-import {
-  IApiTokenGift,
-  IUser,
-  IApiEpoch,
-  IApiUserProfile,
-  IApiNominee,
-} from 'types';
 
 export const useCircle = () => {
   const history = useHistory();
@@ -58,92 +55,68 @@ export const useCircle = () => {
       }
   );
 
-  const fetchUsers = useRecoilFetcher(
+  const fetchUsersWith = useRecoilFetcher(
     'rUsersMapRaw',
     rUsersMapRaw,
-    updaterMergeArrayToIdMap
+    updaterMergeToIdMap
   );
-  const fetchGifts = useRecoilFetcher(
+  const fetchGiftsWith = useRecoilFetcher(
     'rPastGiftsRaw',
     rPastGiftsRaw,
-    updaterMergeArrayToIdMap
+    updaterMergeToIdMap
   );
-  const fetchPendingGifts = useRecoilFetcher(
+  const fetchPendingGiftsWith = useRecoilFetcher(
     'rPendingGiftsRaw',
     rPendingGiftsRaw,
-    updaterMergeArrayToIdMap
+    updaterMergeToIdMap
   );
-  const fetchEpochs = useRecoilFetcher(
+  const fetchEpochsWith = useRecoilFetcher(
     'rEpochsRaw',
     rEpochsRaw,
-    updaterMergeArrayToIdMap
+    updaterMergeToIdMap
   );
-  const fetchNominees = useRecoilFetcher(
+  const fetchNomineesWith = useRecoilFetcher(
     'rNomineesRaw',
     rNomineesRaw,
-    updaterMergeArrayToIdMap
+    updaterMergeToIdMap
+  );
+  const fetchSelfIdProfilesWith = useRecoilFetcher(
+    'rSelfIdProfiles',
+    rSelfIdProfiles,
+    updaterMergeToAddressMap
   );
 
-  const fetchUsersForCircle = async (): Promise<IUser[]> => {
-    const [commit, result] = await fetchUsers(api.getUsers, [
-      undefined,
-      selectedCircleId,
-      undefined,
-      true,
+  const fetchSelfIdProfiles = async (addresses: string[]) => {
+    const [commit, result] = await fetchSelfIdProfilesWith(getSelfIdProfiles, [
+      addresses,
     ]);
     commit();
-    return result as IApiUserProfile[];
-  };
-
-  const fetchGiftsForCircle = async (): Promise<IApiTokenGift[]> => {
-    const [commit, result] = await fetchGifts(api.getTokenGifts, [
-      selectedCircleId,
-    ]);
-    commit();
-    return result as IApiTokenGift[];
-  };
-
-  const fetchPendingGiftsForCircle = async (): Promise<IApiTokenGift[]> => {
-    const [commit, result] = await fetchPendingGifts(api.getPendingTokenGifts, [
-      selectedCircleId,
-    ]);
-    commit();
-    return result as IApiTokenGift[];
-  };
-
-  const fetchEpochsForCircle = async (): Promise<IApiEpoch[]> => {
-    const [commit, result] = await fetchEpochs(api.getEpochs, [
-      selectedCircleId,
-    ]);
-    commit();
-    return result as IApiEpoch[];
-  };
-
-  const fetchNomineesForCircle = async (): Promise<IApiNominee[]> => {
-    const [commit, result] = await fetchNominees(api.getNominees, [
-      selectedCircleId,
-    ]);
-    commit();
-    return result as IApiNominee[];
+    return result;
   };
 
   const selectAndFetchCircle = async (circleId: number) =>
     callWithLoadCatch(async () => {
       const results = await Promise.all([
-        await fetchUsers(api.getUsers, [
+        await fetchUsersWith(api.getUsers, [
           { circle_id: circleId, deleted_users: true },
         ]),
-        await fetchEpochs(api.getEpochs, [circleId]),
-        await fetchGifts(api.getTokenGifts, [{ circle_id: circleId }]),
-        await fetchPendingGifts(api.getPendingTokenGifts, [
+        await fetchEpochsWith(api.getEpochs, [circleId]),
+        await fetchGiftsWith(api.getTokenGifts, [{ circle_id: circleId }]),
+        await fetchPendingGiftsWith(api.getPendingTokenGifts, [
           { circle_id: circleId },
         ]),
-        await fetchNominees(api.getNominees, [selectedCircleId]),
+        await fetchNomineesWith(api.getNominees, [selectedCircleId]),
       ]);
 
       results.forEach(([commit]) => commit());
       setSelectedCircleId(circleId);
       triggerDefaultNavigation();
+
+      // Allow selfids to be filled in after everything else
+      const addresses = results[0][1]?.map(p => p.address);
+      if (addresses) {
+        fetchSelfIdProfiles(addresses);
+      }
     });
 
   return {
@@ -152,10 +125,5 @@ export const useCircle = () => {
     selectedCircle,
     selectAndFetchCircle,
     setSelectedCircleId,
-    fetchUsersForCircle,
-    fetchGiftsForCircle,
-    fetchPendingGiftsForCircle,
-    fetchEpochsForCircle,
-    fetchNomineesForCircle,
   };
 };
