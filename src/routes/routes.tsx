@@ -61,7 +61,7 @@ export const Routes = () => {
           exact
           key={paths.getAdminPath()}
           path={paths.getAdminPath()}
-          component={AdminPage}
+          render={() => <AdminPage legacy={true} />}
         />,
         <Route
           exact

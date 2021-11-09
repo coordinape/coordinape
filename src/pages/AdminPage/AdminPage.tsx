@@ -23,7 +23,7 @@ import {
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
-import { getCSVPath, IN_PRODUCTION } from 'utils/domain';
+import { getCSVPath } from 'utils/domain';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -305,7 +305,7 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
-const AdminPage = () => {
+const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -513,13 +513,7 @@ const AdminPage = () => {
 
   return (
     <div className={classes.root}>
-      {(() => {
-        if (!IN_PRODUCTION) {
-          return <OrganizationHeader />;
-        } else {
-          return null;
-        }
-      })()}
+      {!legacy && <OrganizationHeader />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>

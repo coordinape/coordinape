@@ -10,7 +10,6 @@ import { OrganizationHeader } from 'components';
 import { useAdminApi, useMe } from 'hooks';
 import { DeleteIcon, DownArrow } from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
-import { getAdminNavigation, checkActive } from 'routes/paths';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -635,11 +634,6 @@ const OverviewPage = () => {
     []
   );
   const { selectedMyUser, hasAdminView } = useMe();
-  const navButtonsVisible = !!selectedMyUser || hasAdminView;
-  const navItems = getAdminNavigation({
-    asCircleAdmin: selectedMyUser && selectedMyUser.role !== 0,
-    asVouchingEnabled: selectedCircle && selectedCircle.vouching !== 0,
-  });
   const transactionColumns = useMemo(
     () =>
       [

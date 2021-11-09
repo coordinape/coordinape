@@ -122,22 +122,11 @@ export const getMainNavigation = ({
   return mainItems;
 };
 
-export const getAdminNavigation = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  asCircleAdmin,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  asVouchingEnabled,
-}: {
-  asCircleAdmin?: boolean;
-  asVouchingEnabled?: boolean;
-} = {}): INavItem[] => {
-  const vaultsItem = [{ path: getVaultsPath(), label: 'Vaults' }];
-  const circlesItem = [{ path: getCirclesPath(), label: 'Circles' }];
-  const overviewItem = [{ path: getOverviewPath(), label: 'Overview' }];
-  const mainItems = [...overviewItem, ...vaultsItem, ...circlesItem];
-
-  return mainItems;
-};
+export const getAdminNavigation = (): INavItem[] => [
+  { path: getOverviewPath(), label: 'Overview' },
+  { path: getVaultsPath(), label: 'Vaults' },
+  { path: getCirclesPath(), label: 'Circles' },
+];
 
 export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_PROFILE,
