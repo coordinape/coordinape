@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
+
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
@@ -32,10 +33,10 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts',
   },
   mocha: {
-    timeout: 50000,
+    timeout: 60000,
   },
   networks: {
     hardhat: {

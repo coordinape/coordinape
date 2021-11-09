@@ -36,6 +36,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
     log: true,
   });
+  await deploy('ApeToken', {
+    contract: 'ApeToken',
+    from: deployer,
+    args: [],
+    log: true,
+  });
   return !useProxy;
 };
 export default func;
