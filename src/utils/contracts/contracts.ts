@@ -8,18 +8,17 @@ import * as ethers from 'ethers';
 // import { Maybe } from 'true-myth';
 
 // - Type Imports
-import { ApeVaultFactory } from '../../../hardhat/typechain/ApeVaultFactory';
-import { ApeVaultWrapper } from '../../../hardhat/typechain/ApeVaultWrapper';
-import { ApeVaultFactory__factory } from '../../../hardhat/typechain/factories/ApeVaultFactory__factory';
-import { ApeVaultWrapper__factory } from '../../../hardhat/typechain/factories/ApeVaultWrapper__factory';
-import { FeeRegistry__factory } from '../../../hardhat/typechain/factories/FeeRegistry__factory';
-import { IApeVault__factory } from '../../../hardhat/typechain/factories/IApeVault__factory';
-import { FeeRegistry } from '../../../hardhat/typechain/FeeRegistry';
-import { IApeVault } from '../../../hardhat/typechain/IApeVault';
-// import { VaultAPI } from '../../../hardhat/typechain/VaultAPI';
-
 import addresses from './address';
 import { chainIdToNetworkType, defaultNetworkId } from './networks';
+import { ApeVaultFactory } from './typechain/ApeVaultFactory';
+import { ApeVaultWrapper } from './typechain/ApeVaultWrapper';
+import { ApeVaultFactory__factory } from './typechain/factories/ApeVaultFactory__factory';
+import { ApeVaultWrapper__factory } from './typechain/factories/ApeVaultWrapper__factory';
+import { FeeRegistry__factory } from './typechain/factories/FeeRegistry__factory';
+import { IApeVault__factory } from './typechain/factories/IApeVault__factory';
+import { FeeRegistry } from './typechain/FeeRegistry';
+import { IApeVault } from './typechain/IApeVault';
+// import { VaultAPI } from '../../../hardhat/typechain/VaultAPI';
 
 export interface ContractAddresses {
   ApeVaultFactory: string;
@@ -54,8 +53,6 @@ function useVaultContracts(): Contracts | null {
       }
 
       contracts = addresses[chainIdToNetworkType(chainId)];
-      // Temp disable because signer is used in the return statement
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       signer = library.getSigner();
     }
 

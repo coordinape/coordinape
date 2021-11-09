@@ -167,6 +167,7 @@ export const OrganizationHeader = () => {
   const handleButtonClick = () => {
     if (!isCirclePage) {
       setEditCircle(true);
+      setFundModalOpen(true);
     } else {
       // Open add circle modal
     }
