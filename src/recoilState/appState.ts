@@ -530,7 +530,7 @@ export const rReceivedGiftsByUser = selectorFamily<
         g => g.recipient_id,
         g => g.tokens
       );
-      const unclaimedTokensByUser = get(rPreviousEpochGiftsByUser);
+      const previousTokensByUser = get(rPreviousEpochGiftsByUser);
       const totalReceivedByUserMap = iti(giftsByUser.keys()).toMap(
         userId =>
           assertDef(
@@ -543,8 +543,8 @@ export const rReceivedGiftsByUser = selectorFamily<
       const totalReceivedByUser: IReceivedGiftsByUser = {};
       totalReceivedByUserMap.forEach((val, key) => {
         if (val > 0) {
-          const unclaimedTokens = unclaimedTokensByUser[key] ?? 0;
-          totalReceivedByUser[key] = val + unclaimedTokens;
+          const previousTokens = previousTokensByUser[key] ?? 0;
+          totalReceivedByUser[key] = val + previousTokens;
         }
       });
 
