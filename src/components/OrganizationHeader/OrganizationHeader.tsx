@@ -6,7 +6,7 @@ import { makeStyles, Button, Avatar } from '@material-ui/core';
 
 import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
-import AdminUserModal from 'pages/OverviewPage/AdminUserModal';
+import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
 import { useSelectedCircle } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -179,7 +179,7 @@ export const OrganizationHeader = () => {
   return (
     <>
       <div className={classes.topMenu}>
-        <AdminUserModal onClose={handleClose} open={fundModalOpen} />
+        <CreateVaultModal onClose={handleClose} open={fundModalOpen} />
         <div className={classes.organizationLinks}>
           <Avatar
             alt="organization"

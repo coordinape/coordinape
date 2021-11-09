@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const AdminUserModal = ({
+export const CreateVaultModal = ({
   user,
   onClose,
   open,
@@ -101,4 +101,4 @@ export const AdminUserModal = ({
   );
 };
 
-export default AdminUserModal;
+export default CreateVaultModal;

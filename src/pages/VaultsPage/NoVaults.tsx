@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import AdminUserModal from 'pages/OverviewPage/AdminUserModal';
+import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
 
 const useStyles = makeStyles(theme => ({
   noVaults: {
@@ -76,7 +76,7 @@ export default function NoVaults() {
 
   return (
     <div className={classes.noVaults}>
-      <AdminUserModal onClose={handleClose} open={fundModalOpen} />
+      <CreateVaultModal onClose={handleClose} open={fundModalOpen} />
       <div className={classes.noVaultsInterior}>
         <h2 className={classes.noVaultsTitle}>You dont have any vaults</h2>
         <h3 className={classes.noVaultsSubtitle}>To get started</h3>

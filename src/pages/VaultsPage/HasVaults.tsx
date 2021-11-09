@@ -6,7 +6,7 @@ import { StaticTableNew } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
 // eslint-disable-next-line import/no-named-as-default
-import AdminUserModal from './AdminUserModal';
+import CreateVaultModal from './CreateVaultModal';
 import DepositModal from './DepositModal';
 import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
@@ -255,7 +255,7 @@ export default function HasVaults({
               Fund This Vault
             </Button>
             <FundModal openfn={openfn} onClose={setOpenfn} />
-            <AdminUserModal
+            <CreateVaultModal
               onClose={() =>
                 newUser ? setNewUser(false) : setEditUser(undefined)
               }

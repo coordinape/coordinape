@@ -13,8 +13,6 @@ import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 // eslint-disable-next-line import/no-named-as-default
-import AllocateModal from './AllocateModal';
-import EditModal from './EditModal';
 import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
@@ -670,8 +668,6 @@ const OverviewPage = () => {
       ) : (
         <HasVaults />
       )}
-      <AllocateModal open={open} onClose={setOpen} />
-      <EditModal open={editOpen} onClose={setEditOpen} />
     </div>
   );
 };
