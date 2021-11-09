@@ -1,8 +1,4 @@
 // at 5k elements for filter-map-slice itiriri is more performant
-import {
-  MerkleDistributorInfo,
-  parseBalanceMap,
-} from 'helpers/merkle-distributor/parse-balance-map';
 import iti from 'itiriri';
 import moment from 'moment';
 import {
@@ -22,7 +18,6 @@ import {
   createExtendedEpoch,
 } from 'utils/modelExtenders';
 import storage from 'utils/storage';
-import { assertDef } from 'utils/tools';
 
 import { rMyAddress } from './walletState';
 
@@ -505,70 +500,3 @@ export const rUserGifts = selectorFamily<
 });
 export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));
-
-export type IReceivedGiftsByUser = { [account: string]: number | string };
-
-// Todo: Fetch this data from API when available
-export const rPreviousEpochGiftsByUser = atom<Record<string, number>>({
-  key: 'rPreviousEpochGiftsByUser',
-  default: {
-    '0xC49E9550452a0F321b2Eb0d7537FA9a410EA4D91': 100,
-  },
-});
-
-export const rReceivedGiftsByUser = selectorFamily<
-  IReceivedGiftsByUser,
-  number
->({
-  key: 'rReceivedGiftsByUser',
-  get:
-    (epochId: number) =>
-    ({ get }: IRecoilGetParams) => {
-      const usersMap = get(rUsersMap);
-      const gifts = get(rGifts).filter(g => g.epoch_id === epochId);
-      const giftsByUser = iti(gifts).toGroups(
-        g => g.recipient_id,
-        g => g.tokens
-      );
-      const previousTokensByUser = get(rPreviousEpochGiftsByUser);
-      const totalReceivedByUserMap = iti(giftsByUser.keys()).toMap(
-        userId =>
-          assertDef(
-            usersMap.get(userId)?.address,
-            'Missing user while calculating receivedGiftsByUser'
-          ),
-        userId => iti(assertDef(giftsByUser.get(userId))).sum() ?? 0
-      );
-
-      const totalReceivedByUser: IReceivedGiftsByUser = {};
-      totalReceivedByUserMap.forEach((val, key) => {
-        if (val > 0) {
-          const previousTokens = previousTokensByUser[key] ?? 0;
-          totalReceivedByUser[key] = val + previousTokens;
-        }
-      });
-
-      return totalReceivedByUser;
-    },
-});
-
-export const useReceivedGiftsByUser = (epochId: number) =>
-  useRecoilValue(rReceivedGiftsByUser(epochId));
-
-export const rEpochMerkleRoot = selectorFamily<
-  MerkleDistributorInfo | undefined,
-  number
->({
-  key: 'rEpochMerkleRoot',
-  get:
-    (epochId: number) =>
-    ({ get }: IRecoilGetParams) => {
-      const receivedGiftsByUser = get(rReceivedGiftsByUser(epochId));
-      if (Object.keys(receivedGiftsByUser).length !== 0) {
-        return parseBalanceMap(receivedGiftsByUser);
-      }
-    },
-});
-
-export const useEpochMerkleRoot = (epochId: number) =>
-  useRecoilValue(rEpochMerkleRoot(epochId));
