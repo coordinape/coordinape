@@ -13,7 +13,10 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState';
-import { AVATAR_PLACEHOLDER, getAvatarPath } from 'utils/domain';
+import {
+  AVATAR_PLACEHOLDER,
+  getAvatarPathWithInitialsFallback,
+} from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
@@ -98,10 +101,12 @@ export const AMForceGraph = () => {
       images.current.set('', fallbackAvatar);
     }
     recoilMapGraphData.nodes.forEach(node => {
-      const path = (node as IMapNodeFG).img;
+      const { img, name } = node as IMapNodeFG;
+      const path = getAvatarPathWithInitialsFallback(img, name);
+
       if (path && !images.current.has(path)) {
         const img = new Image();
-        img.src = getAvatarPath(path);
+        img.src = path;
         images.current.set(path, img);
       }
     });
