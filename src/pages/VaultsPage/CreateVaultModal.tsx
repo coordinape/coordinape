@@ -8,7 +8,7 @@ import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
-import { useVault } from 'utils/contract-hooks/useVaultFactory';
+// import { useVault } from 'utils/contract-hooks/useVaultFactory';
 import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
@@ -51,10 +51,10 @@ export const CreateVaultModal = ({
 
   const history = useHistory();
 
-  const { _createApeVault } = useVault();
+  // const { _createApeVault } = useVault();
 
   const routeChange = async () => {
-    await _createApeVault({ _token: asset, _simpleToken: asset });
+    // await _createApeVault({ _token: asset, _simpleToken: asset });
     const path = '/admin/vaults';
     history.push(path);
   };
