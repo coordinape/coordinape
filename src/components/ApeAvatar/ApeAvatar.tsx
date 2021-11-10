@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Avatar, AvatarProps } from '@material-ui/core';
 
-import { getAvatarPathWithInitialsFallback } from 'utils/domain';
+import { getAvatarPathWithFallback } from 'utils/domain';
 
 import { IUser, IProfile } from 'types';
 
@@ -19,7 +19,7 @@ export const ApeAvatar = ({
 }) => {
   // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
   const p = profile ?? user?.profile;
-  const avatarPath = getAvatarPathWithInitialsFallback(p?.avatar, user?.name);
+  const avatarPath = getAvatarPathWithFallback(p?.avatar, user?.name);
   const src = path ?? avatarPath;
   return (
     <Avatar src={src} alt={user?.name} {...props}>
