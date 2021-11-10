@@ -370,9 +370,7 @@ const AdminPage = () => {
 
   return (
     <div className={classes.root}>
-      <h2 className={classes.title}>
-        {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
-      </h2>
+      <h2 className={classes.title}>{selectedCircle?.name}</h2>
       <div className={classes.actionsAndEpochs}>
         <div className={classes.actionBar}>
           <div className={classes.actionBarInner}>
