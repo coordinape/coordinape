@@ -21,7 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await deploy('ApeRouter', {
     contract: 'ApeRouter',
     from: deployer,
-    args: [yearnRegistry, apeVaultFactory.address],
+    args: [yearnRegistry, apeVaultFactory.address, 0],
     log: true,
   });
   await deploy('ApeDistributor', {

@@ -159,7 +159,14 @@ describe('Test circle related functions of ApeVault', () => {
     const EPOCHS = 4;
     const AMOUNT = 20_000_000_000;
 
-    await vault.updateAllowance(CIRCLE, USDC_ADDRESS, AMOUNT, INTERVAL, EPOCHS);
+    await vault.updateAllowance(
+      CIRCLE,
+      USDC_ADDRESS,
+      AMOUNT,
+      INTERVAL,
+      EPOCHS,
+      0
+    );
     const { maxAmount, maxInterval } = await apeDistributor.allowances(
       vault.address,
       CIRCLE,
