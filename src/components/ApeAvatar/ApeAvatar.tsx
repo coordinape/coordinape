@@ -19,18 +19,16 @@ export const ApeAvatar = ({
 }) => {
   // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
   const p = profile ?? user?.profile;
-  const src = p?.avatar ? getAvatarPath(p?.avatar) : path ?? AVATAR_PLACEHOLDER;
+  const placeholder = user?.name
+    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name ?? '')}`
+    : AVATAR_PLACEHOLDER;
+  const src = p?.avatar ? getAvatarPath(p?.avatar) : path ?? placeholder;
   return (
     <Avatar src={src} alt={user?.name} {...props}>
       {children ? (
         children
       ) : (
-        <img
-          alt={user?.name}
-          src={AVATAR_PLACEHOLDER}
-          width="100%"
-          height="100%"
-        />
+        <img alt={user?.name} src={placeholder} width="100%" height="100%" />
       )}
     </Avatar>
   );
