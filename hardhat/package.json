@@ -1,10 +1,19 @@
 {
+  "name": "@coordinape/hardhat",
+  "description": "Coordinape contracts",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "hardhat clean && hardhat compile",
+    "build": "hardhat clean && hardhat compile && tsc",
+    "postbuild": "cp ./typechain/*.d.ts ./dist/typechain",
     "dev": "hardhat node",
     "test": "hardhat test"
   },
+  "files": [
+    "deployments/**/*.json",
+    "deployments/**/.chainId",
+    "typechain"
+  ],
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
@@ -12,6 +21,7 @@
     "@typechain/ethers-v5": "^7.0.0",
     "@typechain/hardhat": "^2.0.0",
     "@types/chai": "^4.2.22",
+    "@types/debug": "^4.1.7",
     "@types/mocha": "^9.0.0",
     "@types/node": "^15.0.3",
     "chai": "^4.3.4",
