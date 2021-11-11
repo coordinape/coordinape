@@ -31,7 +31,9 @@ const handleError = (e: any) => {
 export function useVaultWrapper() {
   const factory = useVaultContracts()?.ApeVaultWrapper;
 
-  const _apeWithdraw = async (_params: ApeWithdraw) => {
+  const _apeWithdraw = async (
+    _params: ApeWithdraw
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.apeWithdraw(
@@ -45,7 +47,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _apeMigrate = async (_params: OverrideOnly) => {
+  const _apeMigrate = async (
+    _params: OverrideOnly
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.apeMigrate(_params._overrides);
@@ -55,7 +59,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _updateAllowance = async (_params: UpdateAllowance) => {
+  const _updateAllowance = async (
+    _params: UpdateAllowance
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.updateAllowance(
@@ -72,7 +78,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _transferOwnership = async (_params: TransferOwnership) => {
+  const _transferOwnership = async (
+    _params: TransferOwnership
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.transferOwnership(
@@ -85,7 +93,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _tap = async (_params: Tap) => {
+  const _tap = async (
+    _params: Tap
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.tap(
@@ -99,7 +109,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _syncUnderlying = async (_params: OverrideOnly) => {
+  const _syncUnderlying = async (
+    _params: OverrideOnly
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.syncUnderlying(_params._overrides);
@@ -109,7 +121,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _setRegistry = async (_params: SetRegistry) => {
+  const _setRegistry = async (
+    _params: SetRegistry
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.setRegistry(_params._registry, _params._overrides);
@@ -119,7 +133,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _renounceOwnership = async (_params: OverrideOnly) => {
+  const _renounceOwnership = async (
+    _params: OverrideOnly
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.renounceOwnership(_params._overrides);
@@ -129,7 +145,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _exitVaultToken = async (_params: ExitVaultToken) => {
+  const _exitVaultToken = async (
+    _params: ExitVaultToken
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.exitVaultToken(
@@ -142,7 +160,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _approveCircleAdmin = async (_params: ApproveCircleAdmin) => {
+  const _approveCircleAdmin = async (
+    _params: ApproveCircleAdmin
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.approveCircleAdmin(
@@ -156,7 +176,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _withdrawUnderlying = async (_params: WithdrawUnderlying) => {
+  const _withdrawUnderlying = async (
+    _params: WithdrawUnderlying
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.apeWithdraw(_params._amount, _params._overrides);
@@ -166,7 +188,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _withdrawSimpleToken = async (_params: DepositSimpleToken) => {
+  const _withdrawSimpleToken = async (
+    _params: DepositSimpleToken
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.apeWithdrawSimpleToken(
@@ -180,7 +204,9 @@ export function useVaultWrapper() {
     return tx;
   };
 
-  const _addFunds = async (_params: AddFunds) => {
+  const _addFunds = async (
+    _params: AddFunds
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.addFunds(_params._amount, _params._overrides);

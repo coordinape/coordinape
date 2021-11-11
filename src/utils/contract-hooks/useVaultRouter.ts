@@ -4,11 +4,13 @@ import { ethers } from 'ethers';
 import {
   Cancel,
   ChangeMinDelay,
-  Execute,
-  GetVariableFee,
+  DelegateDeposit,
+  DelegateWithdrawal,
   Maybe,
   OverrideOnly,
+  RemoveTokens,
   Schedule,
+  SetRegistry,
   TransferOwnership,
 } from '../../types/contractTypes';
 import { useVaultContracts } from '../../utils/contracts/contracts';
@@ -16,37 +18,12 @@ import { useVaultContracts } from '../../utils/contracts/contracts';
 const handleError = (e: any) => {
   if (e.code === 4001) {
     throw Error(`Transaction rejected by your wallet`);
-  } else {
-    throw Error('Failed to complete transaction');
   }
+  throw Error(`Failed to submit create vault.`);
 };
 
-export function useVault() {
-  const factory = useVaultContracts()?.FeeRegistry;
-
-  const _activateFee = async (
-    _params: OverrideOnly
-  ): Promise<Maybe<ethers.ContractTransaction>> => {
-    let tx: Maybe<ethers.ContractTransaction>;
-    try {
-      tx = await factory?.activateFee(_params._overrides);
-    } catch (e: any) {
-      handleError(e);
-    }
-    return tx;
-  };
-
-  const _cancel = async (
-    _params: Cancel
-  ): Promise<Maybe<ethers.ContractTransaction>> => {
-    let tx: Maybe<ethers.ContractTransaction>;
-    try {
-      tx = await factory?.cancel(_params._id, _params._overrides);
-    } catch (e: any) {
-      handleError(e);
-    }
-    return tx;
-  };
+export function useVaultRouter() {
+  const factory = useVaultContracts()?.ApeRouter;
 
   const _changeMinDelay = async (
     _params: ChangeMinDelay
@@ -60,8 +37,44 @@ export function useVault() {
     return tx;
   };
 
+  const _delegateDeposit = async (
+    _params: DelegateDeposit
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.delegateDeposit(
+        _params._apeVault,
+        _params._token,
+        _params._amount,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
+  const _delegateWithdrawal = async (
+    _params: DelegateWithdrawal
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.delegateWithdrawal(
+        _params._recipient,
+        _params._apeVault,
+        _params._token,
+        _params._shareAmount,
+        _params._underlying,
+        _params._overrides
+      );
+    } catch (e: any) {
+      handleError(e);
+    }
+    return tx;
+  };
+
   const _execute = async (
-    _params: Execute
+    _params: Schedule
   ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
@@ -79,16 +92,12 @@ export function useVault() {
     return tx;
   };
 
-  const _getVariableFee = async (
-    _params: GetVariableFee
+  const _removeTokens = async (
+    _params: RemoveTokens
   ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
-      tx = await factory?.getVariableFee(
-        _params._tapTotal,
-        _params._yield,
-        _params.overrides
-      );
+      tx = await factory?.removeTokens(_params._token, _params._overrides);
     } catch (e: any) {
       handleError(e);
     }
@@ -126,12 +135,12 @@ export function useVault() {
     return tx;
   };
 
-  const _shutdownFee = async (
-    _params: OverrideOnly
+  const _setRegistry = async (
+    _params: SetRegistry
   ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
-      tx = await factory?.shutdownFee(_params._overrides);
+      tx = await factory?.setRegistry(_params._registry, _params._overrides);
     } catch (e: any) {
       handleError(e);
     }
@@ -154,15 +163,29 @@ export function useVault() {
     return tx;
   };
 
+  const _cancel = async (
+    _params: Cancel
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
+    let tx: Maybe<ethers.ContractTransaction>;
+    try {
+      tx = await factory?.cancel(_params._id, _params._overrides);
+    } catch (e: any) {
+      handleError(e);
+    }
+
+    return tx;
+  };
+
   return {
-    _transferOwnership,
-    _shutdownFee,
-    _schedule,
-    _activateFee,
     _cancel,
+    _transferOwnership,
     _changeMinDelay,
+    _delegateDeposit,
+    _delegateWithdrawal,
     _execute,
-    _getVariableFee,
+    _removeTokens,
     _renounceOwnership,
+    _schedule,
+    _setRegistry,
   };
 }

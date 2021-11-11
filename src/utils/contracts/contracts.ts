@@ -10,6 +10,7 @@ import * as ethers from 'ethers';
 // - Type Imports
 import addresses from './address';
 import { chainIdToNetworkType, defaultNetworkId } from './networks';
+import { ApeRouter__factory, ApeRouter } from './typechain';
 import { ApeVaultFactory } from './typechain/ApeVaultFactory';
 import { ApeVaultWrapper } from './typechain/ApeVaultWrapper';
 import { ApeVaultFactory__factory } from './typechain/factories/ApeVaultFactory__factory';
@@ -24,7 +25,7 @@ export interface ContractAddresses {
   ApeVaultFactory: string;
   FeeRegistry: string;
   IApeVault: string;
-  // VaultAPI: string;
+  ApeRouter: string;
   ApeVaultWrapper: string;
 }
 
@@ -32,7 +33,7 @@ export interface Contracts {
   ApeVaultFactory: ApeVaultFactory;
   FeeRegistry: FeeRegistry;
   IApeVault: IApeVault;
-  // VaultAPI: VaultAPI;
+  ApeRouter: ApeRouter;
   ApeVaultWrapper: ApeVaultWrapper;
 }
 
@@ -61,6 +62,7 @@ function useVaultContracts(): Contracts | null {
       return null;
     }
     return {
+      ApeRouter: ApeRouter__factory.connect(contracts.ApeRouter, signer),
       ApeVaultFactory: ApeVaultFactory__factory.connect(
         contracts.ApeVaultFactory,
         signer
@@ -71,7 +73,6 @@ function useVaultContracts(): Contracts | null {
       ),
       FeeRegistry: FeeRegistry__factory.connect(contracts.FeeRegistry, signer),
       IApeVault: IApeVault__factory.connect(contracts.IApeVault, signer),
-      // VaultAPI: ApeVaultFactory__factory.connect(contracts.VaultAPI, signer),
     };
   }, [active, library, chainId]);
   return contract;

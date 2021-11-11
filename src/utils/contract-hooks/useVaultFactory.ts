@@ -7,7 +7,9 @@ import { useVaultContracts } from '../../utils/contracts/contracts';
 export function useVault() {
   const factory = useVaultContracts()?.ApeVaultFactory;
 
-  const _createApeVault = async (_params: CreateVault) => {
+  const _createApeVault = async (
+    _params: CreateVault
+  ): Promise<Maybe<ethers.ContractTransaction>> => {
     let tx: Maybe<ethers.ContractTransaction>;
     try {
       tx = await factory?.createApeVault(

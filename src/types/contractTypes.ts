@@ -95,9 +95,28 @@ export interface ChangeMinDelay {
   _min: BigNumberish;
   _overrides?: Overrides;
 }
-
 export interface Cancel {
   _id: BytesLike;
+  _overrides?: Overrides;
+}
+
+export interface RemoveTokens {
+  _token: string;
+  _overrides?: Overrides;
+}
+
+export interface DelegateWithdrawal {
+  _recipient: string;
+  _apeVault: string;
+  _token: string;
+  _shareAmount: BigNumberish;
+  _underlying: boolean;
+  _overrides?: Overrides;
+}
+export interface DelegateDeposit {
+  _apeVault: string;
+  _token: string;
+  _amount: BigNumberish;
   _overrides?: Overrides;
 }
 
