@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import uniqueId from 'lodash/uniqueId';
 
-import { InputBase, InputBaseProps } from '@material-ui/core';
+import { InputBase, InputBaseProps, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
+import { ApeTextFieldProps, ApeTextVariantType } from '../../types';
 import { ApeInfoTooltip } from 'components';
-
-import { styles } from './ApeTextField.styles';
-import { ApeTextFieldProps } from './ApeTextField.types';
 
 // ApeTextField
 //
@@ -17,13 +16,11 @@ import { ApeTextFieldProps } from './ApeTextField.types';
 
 export const ApeTextField = ({
   infoTooltip,
-  customVariant = 'primary',
+  apeVariant = 'default',
   ...props
 }: ApeTextFieldProps) => {
   // if there a custom variant search into variants styles and overwrite the base one
-  const classes = styles[customVariant]();
-  // eslint-disable-next-line no-debugger
-  debugger;
+  const classes = useBaseStyles({ variant: apeVariant });
 
   const [fallbackId] = useState(uniqueId('text-field-'));
 
@@ -143,3 +140,113 @@ export const ApeTextField = ({
     </div>
   );
 };
+
+//#region Styles
+const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
+  switch (variant) {
+    case 'token':
+      return {
+        label: {
+          margin: theme.spacing(0, 0, 1),
+          fontSize: 16,
+          fontWeight: 300,
+          lineHeight: 1.2,
+          color: theme.colors.text,
+          textAlign: 'center',
+        },
+        inputRoot: {
+          padding: theme.spacing(0, 1, 0),
+          backgroundColor: theme.colors.third,
+          borderRadius: 16,
+          color: theme.colors.text,
+          border: `1px solid ${theme.colors.third}`,
+          transition: 'border 200ms ease-out',
+          '&:focus-within': {
+            border: `1px solid ${theme.colors.lightBlue}80`,
+          },
+        },
+        input: {
+          padding: theme.spacing(0.75, 1, 0.75),
+          fontSize: 32,
+          lineHeight: 1.33,
+          fontWeight: 400,
+          textAlign: 'right',
+          '&::placeholder': {
+            color: theme.colors.text + '80',
+          },
+        },
+      };
+    default:
+      break;
+  }
+};
+
+const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
+  (theme: Theme) => ({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    rootFullWidth: {
+      width: '100%',
+    },
+    label: ({ variant }) => ({
+      fontSize: 16,
+      lineHeight: 1.3,
+      fontWeight: 700,
+      marginBottom: theme.spacing(1),
+      color: theme.colors.text,
+      ...apeVariants(theme, variant)?.label,
+    }),
+    inputRoot: ({ variant }) => ({
+      backgroundColor: theme.colors.third,
+      borderRadius: 8,
+      color: theme.colors.text,
+      border: `1px solid ${theme.colors.third}`,
+      transition: 'border 200ms ease-out',
+      '&:focus-within': {
+        border: `1px solid ${theme.colors.lightBlue}80`,
+      },
+      ...apeVariants(theme, variant)?.inputRoot,
+    }),
+    inputRootError: {
+      border: `1px solid ${theme.colors.red}dd`,
+      color: '#ad0003',
+      '&:focus-within': {
+        border: `1px solid ${theme.colors.red}`,
+      },
+    },
+    input: ({ variant }) => ({
+      padding: theme.spacing(1.75, 1, 1.75),
+      fontSize: 15,
+      lineHeight: 1.33,
+      fontWeight: 300,
+      textAlign: 'center',
+      '&::placeholder': {
+        color: theme.colors.text + '80',
+      },
+      ...apeVariants(theme, variant)?.input,
+    }),
+    helper: {
+      fontSize: 13,
+      lineHeight: 1.2,
+      color: theme.colors.text + '80',
+    },
+    error: {
+      fontSize: 13,
+      lineHeight: 1.2,
+      fontWeight: 600,
+      color: theme.colors.red,
+    },
+    multiLineInput: {
+      textAlign: 'left',
+      padding: theme.spacing(0, 1),
+    },
+    helperBox: {
+      width: '100%',
+      textAlign: 'center',
+    },
+  })
+);
+//#endregion

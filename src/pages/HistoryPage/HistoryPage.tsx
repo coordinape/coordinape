@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Divider, Typography, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
-import { ApeTabs, ApeAvatar } from 'components';
+import { ApeTabs, ApeAvatar, ApeTextField } from 'components';
 import { useSelectedCircleEpoch } from 'hooks';
 import {
   useSelectedMyUser,
@@ -197,6 +197,8 @@ export const HistoryPage = () => {
   return !selectedEpoch || !selectedEpoch || !circle ? (
     <div className={classes.root}>
       <h2 className={classes.title}>{longTimingMessage}</h2>
+      <ApeTextField></ApeTextField>
+      <ApeTextField apeVariant="token"></ApeTextField>
     </div>
   ) : (
     <div className={classes.root}>

@@ -26,7 +26,7 @@ export const FormTextFieldNew = ({
       helperText={!errorText ? helperText : errorText}
       value={value}
       onChange={handleChange}
-      customVariant="secondary"
+      apeVariant="token"
     />
   );
 };
