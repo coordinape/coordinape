@@ -22,7 +22,6 @@ export * from './StaticTableNew/StaticTableNew';
 export * from './NoticeBox/NoticeBox';
 export * from './FormModal/FormModal';
 export * from './ApeTextField/ApeTextField';
-export * from './ApeTextFieldNew/ApeTextFieldNew';
 export * from './FormRadioGroup/FormRadioGroup';
 export * from './FormRadioSelect/FormRadioSelect';
 export * from './FormTextField/FormTextField';

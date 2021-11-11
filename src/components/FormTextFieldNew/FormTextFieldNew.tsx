@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApeTextFieldNew } from 'components';
+import { ApeTextField } from 'components';
 
 export const FormTextFieldNew = ({
   value,
@@ -9,7 +9,7 @@ export const FormTextFieldNew = ({
   error,
   errorText,
   ...props
-}: Omit<React.ComponentProps<typeof ApeTextFieldNew>, 'onChange'> & {
+}: Omit<React.ComponentProps<typeof ApeTextField>, 'onChange'> & {
   onChange: (newValue: any) => void;
   errorText?: string;
 }) => {
@@ -20,12 +20,13 @@ export const FormTextFieldNew = ({
   };
 
   return (
-    <ApeTextFieldNew
+    <ApeTextField
       {...props}
       error={error}
       helperText={!errorText ? helperText : errorText}
       value={value}
       onChange={handleChange}
+      customVariant="secondary"
     />
   );
 };
