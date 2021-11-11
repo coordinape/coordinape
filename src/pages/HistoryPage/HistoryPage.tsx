@@ -197,8 +197,6 @@ export const HistoryPage = () => {
   return !selectedEpoch || !selectedEpoch || !circle ? (
     <div className={classes.root}>
       <h2 className={classes.title}>{longTimingMessage}</h2>
-      <ApeTextField></ApeTextField>
-      <ApeTextField apeVariant="token"></ApeTextField>
     </div>
   ) : (
     <div className={classes.root}>
