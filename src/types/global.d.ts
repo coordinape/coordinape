@@ -2,10 +2,10 @@ import { BigNumber } from 'ethers';
 
 export type Maybe<T> = T | null;
 
-export type NetworkId = 1;
-export type KnownToken = 'fma' | 'fss' | 'flap';
+export type NetworkId = 1 | 1337;
+export type KnownToken = 'fma' | 'fss' | 'flap' | 'usdc' | 'yvUsdc' | 'dai';
 
-export type KnownContract = 'stake';
+export type KnownContract = 'stake' | 'yRegistry';
 
 export interface INetwork {
   label: string;

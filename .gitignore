@@ -12,7 +12,6 @@ hardhat/artifacts/
 hardhat/cache/
 hardhat/deployments/
 hardhat/typechain/
-hardhat/coordinape-protocol/
 hardhat/dist/
 
 # testing

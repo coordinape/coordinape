@@ -41,6 +41,7 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       live: false,
+      allowUnlimitedContractSize: true,
       gas: 'auto',
       gasPrice: 'auto',
       gasMultiplier: 1,
