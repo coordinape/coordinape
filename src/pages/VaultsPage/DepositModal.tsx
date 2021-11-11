@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextFieldNew } from 'components';
+import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
 import { PlusCircleIcon } from 'icons';
@@ -94,10 +94,11 @@ export default function DepositModal({
           submitText={` Deposit USDC`}
         >
           <div className={classes.oneColumn}>
-            <FormTextFieldNew
+            <FormTextField
               {...fields.starting_tokens}
               InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
               label="Available: 264,600 USDC"
+              apeVariant="token"
             />
           </div>
         </FormModal>

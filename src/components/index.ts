@@ -25,7 +25,6 @@ export * from './ApeTextField/ApeTextField';
 export * from './FormRadioGroup/FormRadioGroup';
 export * from './FormRadioSelect/FormRadioSelect';
 export * from './FormTextField/FormTextField';
-export * from './FormTextFieldNew/FormTextFieldNew';
 export * from './FormDatePicker/FormDatePicker';
 export * from './FormTimePicker/FormTimePicker';
 export * from './ProfileSocialIcons/ProfileSocialIcons';
