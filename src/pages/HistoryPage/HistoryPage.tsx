@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Divider, Typography, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
-import { ApeTabs, ApeAvatar, ApeTextField } from 'components';
+import { ApeTabs, ApeAvatar } from 'components';
 import { useSelectedCircleEpoch } from 'hooks';
 import {
   useSelectedMyUser,
