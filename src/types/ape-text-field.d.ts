@@ -1,5 +1,3 @@
-import { TextFieldProps } from '@material-ui/core';
-
 export const ApeTextVariants = {
   default: 'default',
   token: 'token',
@@ -8,9 +6,7 @@ export const ApeTextVariants = {
 export type ApeTextVariantType =
   typeof ApeTextVariants[keyof typeof ApeTextVariants];
 
-interface StyleProps {
+export interface ApeTextStyleProps {
   infoTooltip?: React.ReactNode;
   apeVariant?: ApeTextVariantType;
 }
-
-export type ApeTextFieldProps = TextFieldProps & StyleProps;

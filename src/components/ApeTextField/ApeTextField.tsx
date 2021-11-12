@@ -3,16 +3,23 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import uniqueId from 'lodash/uniqueId';
 
-import { InputBase, InputBaseProps, Theme } from '@material-ui/core';
+import {
+  InputBase,
+  InputBaseProps,
+  Theme,
+  TextFieldProps,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { ApeTextFieldProps, ApeTextVariantType } from '../../types';
+import { ApeTextVariantType, ApeTextStyleProps } from '../../types';
 import { ApeInfoTooltip } from 'components';
 
 // ApeTextField
 //
 // Using the same interface as MaterialUI's TextField to make it compatible
 // with the the calendar.
+export type ApeTextFieldProps = TextFieldProps & ApeTextStyleProps;
+
 export const ApeTextField = ({
   infoTooltip,
   apeVariant = 'default',
