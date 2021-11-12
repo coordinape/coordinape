@@ -18,7 +18,7 @@ export const DOMAIN_IS_APP = window.location.host.split('.')[0] === 'app';
 
 export const RENDER_APP =
   DOMAIN_IS_APP ||
-  (DOMAIN_IS_PREVIEW && !window.location.href.match('/landing'));
+  (DOMAIN_IS_PREVIEW && window.location.pathname !== '/landing');
 
 export const APP_URL =
   DOMAIN_IS_APP || DOMAIN_IS_PREVIEW

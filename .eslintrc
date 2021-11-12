@@ -48,10 +48,16 @@
     "no-console": [
       "warn",
       {
-        "allow": ["warn", "error"]
+        "allow": [
+          "warn",
+          "error"
+        ]
       }
     ],
-    "semi": ["error", "always"],
+    "semi": [
+      "error",
+      "always"
+    ],
     "no-warning-comments": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
     "import/extensions": 0,
@@ -71,7 +77,10 @@
           "external",
           "internal",
           "parent",
-          ["sibling", "index"]
+          [
+            "sibling",
+            "index"
+          ]
         ],
         // define material-ui group that will appear separately after other main externals
         "pathGroups": [
@@ -105,7 +114,12 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     ],
     "react-hooks/rules-of-hooks": "error",
