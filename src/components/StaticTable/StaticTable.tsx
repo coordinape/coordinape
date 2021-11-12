@@ -9,7 +9,7 @@ import { Pagination } from '@material-ui/lab';
 import { Spacer } from 'components';
 import { usePrevious } from 'hooks';
 
-import { StaticTableProps, GenericObject } from 'types';
+import { StaticTableProps } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -86,6 +86,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const defaultSort = (a: any, b: any) => (a > b ? 1 : a < b ? -1 : 0);
+
+interface GenericObject {
+  [index: string]: any;
+}
 
 export const StaticTable = ({
   className,

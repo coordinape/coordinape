@@ -66,5 +66,3 @@ export interface StaticTableProps {
   placeholder?: React.ReactNode;
   label?: string;
 }
-
-export type GenericObject = Record<string, any>;
