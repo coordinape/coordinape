@@ -9,7 +9,7 @@ import { Pagination } from '@material-ui/lab';
 import { Spacer } from 'components';
 import { usePrevious } from 'hooks';
 
-import { ITableColumn } from 'types';
+import { StaticTableProps, GenericObject } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,13 +19,21 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0px 12px 26px rgba(16, 30, 115, 0.06)',
     borderRadius: theme.spacing(1),
   },
+  label: {
+    fontSize: 16,
+    lineHeight: 1.3,
+    fontWeight: 700,
+    marginBottom: theme.spacing(1),
+    color: theme.colors.text,
+  },
   table: {
     borderCollapse: 'collapse',
     position: 'relative',
   },
   headerTr: {
-    height: 60,
+    height: 48,
     borderBottom: '0.5px solid #E3E3E3',
+    background: theme.colors.subtleGray,
   },
   emptyHeader: {
     opacity: 0.5,
@@ -33,10 +41,10 @@ const useStyles = makeStyles(theme => ({
   headerTh: {
     width: '11.6%',
     fontSize: 14,
-    fontWeight: 700,
+    fontWeight: 300,
     color: theme.colors.text,
     '&:first-child': {
-      paddingLeft: theme.spacing(4),
+      paddingLeft: theme.spacing(2),
     },
   },
   tableTr: {
@@ -77,10 +85,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface GenericObject {
-  [index: string]: any;
-}
-
 const defaultSort = (a: any, b: any) => (a > b ? 1 : a < b ? -1 : 0);
 
 export const StaticTable = ({
@@ -91,15 +95,7 @@ export const StaticTable = ({
   filter,
   sortable,
   placeholder,
-}: {
-  className?: string;
-  columns: ITableColumn[];
-  data: any[];
-  perPage: number;
-  filter?: (o: any) => boolean;
-  sortable?: boolean;
-  placeholder?: React.ReactNode;
-}) => {
+}: StaticTableProps) => {
   const classes = useStyles();
 
   const [view, setView] = useState<any[]>([]);

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { StaticTableNew } from 'components';
+import { StaticTable } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
 // eslint-disable-next-line import/no-named-as-default
@@ -209,7 +209,7 @@ export default function HasVaults({
           Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}
         </h4>
       </div>
-      <StaticTableNew
+      <StaticTable
         label="Testing"
         className={classes.newTable}
         columns={epochColumns}
@@ -232,7 +232,7 @@ export default function HasVaults({
           </>
         }
       />
-      <StaticTableNew
+      <StaticTable
         label="Transactions"
         className={classes.newTable}
         columns={transactionColumns}

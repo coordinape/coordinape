@@ -18,7 +18,6 @@ export * from './SentryScopeController/SentryScopeController';
 export * from './Spacer/Spacer';
 export * from './ProfileCard/ProfileCard';
 export * from './StaticTable/StaticTable';
-export * from './StaticTableNew/StaticTableNew';
 export * from './NoticeBox/NoticeBox';
 export * from './FormModal/FormModal';
 export * from './ApeTextField/ApeTextField';
