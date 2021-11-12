@@ -24,6 +24,7 @@ export * from './SaveIcon';
 export * from './UploadIcon';
 export * from './MinusCircleIcon';
 export * from './InfoIcon';
+export * from './DownArrow';
 export * from './GithubIcon';
 export * from './TelegramIcon';
 export * from './LinkIcon';

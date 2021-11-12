@@ -4,7 +4,13 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { StaticTable, NoticeBox, ApeAvatar, DialogNotice } from 'components';
+import {
+  StaticTable,
+  NoticeBox,
+  ApeAvatar,
+  DialogNotice,
+  OrganizationHeader,
+} from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation, useAdminApi } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
@@ -36,9 +42,35 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(0, 2, 4),
     },
   },
+  withVaults: {
+    minHeight: 668,
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    alignContent: 'space-between',
+    justifyItems: 'stretch',
+    borderRadius: 8,
+    background: theme.colors.ultraLightGray,
+    alignItems: 'center',
+    columnGap: theme.spacing(3),
+    padding: theme.spacing(0, 4),
+    margin: theme.spacing(4, 0),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0, 2),
+      gridTemplateColumns: '1fr',
+    },
+    '& > *': {
+      alignSelf: 'start',
+    },
+    '& .MuiSkeleton-root': {
+      marginLeft: theme.spacing(1.5),
+    },
+    '& .MuiSkeleton-rect': {
+      borderRadius: 5,
+    },
+  },
   title: {
     textTransform: 'capitalize',
-    fontSize: 40,
+    fontSize: 30,
     lineHeight: 1.2,
     fontWeight: 700,
     color: theme.colors.text,
@@ -51,15 +83,14 @@ const useStyles = makeStyles(theme => ({
   actionBar: {
     flexGrow: 1,
     display: 'flex',
-    justifyContent: 'flex-start',
-    margin: theme.spacing(0, 5, 4),
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   actionBarInner: {
     display: 'flex',
-    flexDirection: 'column',
-    width: '200px',
+    flexDirection: 'row',
     '& > *': {
-      marginBottom: theme.spacing(2),
+      marginLeft: theme.spacing(1.5),
     },
   },
   epochsTable: {
@@ -161,7 +192,7 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
-const AdminPage = () => {
+const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -341,7 +372,6 @@ const AdminPage = () => {
       ] as ITableColumn[],
     []
   );
-
   const epochColumns = useMemo(
     () =>
       [
@@ -370,19 +400,21 @@ const AdminPage = () => {
 
   return (
     <div className={classes.root}>
-      <h2 className={classes.title}>{selectedCircle?.name}</h2>
-      <div className={classes.actionsAndEpochs}>
-        <div className={classes.actionBar}>
-          <div className={classes.actionBarInner}>
-            <Button
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-              onClick={() => setEditCircle(true)}
-            >
-              Edit Circle Settings
-            </Button>
-            {/* <Button
+      {!legacy && <OrganizationHeader />}
+      <div className={classes.withVaults}>
+        <div className={classes.actionsAndEpochs}>
+          <h2 className={classes.title}>{selectedCircle?.name}</h2>
+          <div className={classes.actionBar}>
+            <div className={classes.actionBarInner}>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<EditIcon />}
+                onClick={() => setEditCircle(true)}
+              >
+                Settings
+              </Button>
+              {/* <Button
               variant="contained"
               color="secondary"
               size="small"
@@ -398,33 +430,34 @@ const AdminPage = () => {
             >
               Export Member CSV
             </Button> */}
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewUser(true)}
-            >
-              Add Contributor
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewEpoch(true)}
-            >
-              Add Epoch
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => history.push(paths.getCreateCirclePath())}
-            >
-              Create Circle
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewUser(true)}
+              >
+                Add Contributor
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewEpoch(true)}
+              >
+                Add Epoch
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => history.push(paths.getCreateCirclePath())}
+              >
+                Add Circle
+              </Button>
+            </div>
           </div>
         </div>
         <StaticTable
@@ -449,38 +482,38 @@ const AdminPage = () => {
             </>
           }
         />
-      </div>
-      <div className={classes.userActionBar}>
-        <input
-          className={classes.searchInput}
-          onChange={onChangeKeyword}
-          placeholder="🔍 Search"
-          value={keyword}
+        <div className={classes.userActionBar}>
+          <input
+            className={classes.searchInput}
+            onChange={onChangeKeyword}
+            placeholder="🔍 Search"
+            value={keyword}
+          />
+        </div>
+        <StaticTable
+          columns={userColumns}
+          data={visibleUsers}
+          perPage={15}
+          filter={filterUser}
+          sortable
+          placeholder={
+            <>
+              <h2 className={classes.tablePlaceholderTitle}>
+                You haven’t added any contributors
+              </h2>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PlusCircleIcon />}
+                onClick={() => setNewUser(true)}
+              >
+                Add Contributor
+              </Button>
+            </>
+          }
         />
       </div>
-      <StaticTable
-        columns={userColumns}
-        data={visibleUsers}
-        perPage={15}
-        filter={filterUser}
-        sortable
-        placeholder={
-          <>
-            <h2 className={classes.tablePlaceholderTitle}>
-              You haven’t added any contributors
-            </h2>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewUser(true)}
-            >
-              Add Contributor
-            </Button>
-          </>
-        }
-      />
       <AdminUserModal
         onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
         user={editUser}

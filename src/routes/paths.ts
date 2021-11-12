@@ -1,5 +1,7 @@
 import { matchPath } from 'react-router-dom';
 
+import { IN_PRODUCTION } from 'utils/domain';
+
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 export const MAP_HIGHLIGHT_PARAM = 'highlight';
@@ -42,6 +44,9 @@ export const getMapPath = (params?: { highlight?: string }) =>
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
+export const getOverviewPath = () => '/admin/overview';
+export const getVaultsPath = () => '/admin/vaults';
+export const getCirclesPath = () => '/admin/circles';
 export const getCreateCirclePath = () => '/new-circle';
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
@@ -96,17 +101,32 @@ export const getMainNavigation = ({
 } = {}): INavItem[] => {
   let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
   const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  const adminItems = [{ path: getAdminPath(), label: 'Admin' }];
-
-  if (asVouchingEnabled) {
-    mainItems = [...mainItems, ...vouchingItems];
-  }
-  if (asCircleAdmin) {
-    mainItems = [...mainItems, ...adminItems];
+  if (IN_PRODUCTION) {
+    const adminItems1 = [{ path: getAdminPath(), label: 'Admin' }];
+    if (asVouchingEnabled) {
+      mainItems = [...mainItems, ...vouchingItems];
+    }
+    if (asCircleAdmin) {
+      mainItems = [...mainItems, ...adminItems1];
+    }
+  } else {
+    const adminItems1 = [{ path: getVaultsPath(), label: 'Admin' }];
+    if (asVouchingEnabled) {
+      mainItems = [...mainItems, ...vouchingItems];
+    }
+    if (asCircleAdmin) {
+      mainItems = [...mainItems, ...adminItems1];
+    }
   }
 
   return mainItems;
 };
+
+export const getAdminNavigation = (): INavItem[] => [
+  { path: getOverviewPath(), label: 'Overview' },
+  { path: getVaultsPath(), label: 'Vaults' },
+  { path: getCirclesPath(), label: 'Circles' },
+];
 
 export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_PROFILE,
