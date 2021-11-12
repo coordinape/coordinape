@@ -1,5 +1,5 @@
-import debug from 'debug';
 import { Contract } from '@ethersproject/contracts';
+import debug from 'debug';
 import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';

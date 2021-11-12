@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface AssetDisplay {
-  setAsset: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setAsset: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function AssetDisplay({ setAsset }: AssetDisplay) {

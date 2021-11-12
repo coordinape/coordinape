@@ -3,5 +3,5 @@ export enum ConnectorNames {
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
   Fortmatic = 'fortmatic',
-  Portis = 'portis',
+  // Portis = 'portis',
 }

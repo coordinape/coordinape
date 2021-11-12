@@ -12,7 +12,7 @@ hardhat/artifacts/
 hardhat/cache/
 hardhat/deployments/
 hardhat/typechain/
-hardhat/dist
+hardhat/dist/
 
 # testing
 /coverage

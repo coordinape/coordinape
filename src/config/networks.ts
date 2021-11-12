@@ -13,6 +13,7 @@ import {
 
 export const networkIds = {
   MAINNET: 1,
+  HARDHAT: 1337,
 } as const;
 
 const networks: { [K in NetworkId]: INetwork } = {
@@ -21,6 +22,16 @@ const networks: { [K in NetworkId]: INetwork } = {
     url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
     contracts: {
       stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
+      yRegistry: '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804',
+    },
+  },
+  // Hardhat forked mainnet
+  [networkIds.HARDHAT]: {
+    label: 'Hardhat',
+    url: `http://localhost:8545`,
+    contracts: {
+      stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
+      yRegistry: '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804',
     },
   },
 };
@@ -45,6 +56,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 18,
     addresses: {
       [networkIds.MAINNET]: '0x0f8794f66c7170c4f9163a8498371a747114f6c4',
+      [networkIds.HARDHAT]: '0x0f8794f66c7170c4f9163a8498371a747114f6c4',
     },
     image: '/images/token/FMA.png',
   },
@@ -53,6 +65,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 18,
     addresses: {
       [networkIds.MAINNET]: '0xCfb72ED3647cC8E7FA52E4F121eCdAbEfC305e7f',
+      [networkIds.HARDHAT]: '0xCfb72ED3647cC8E7FA52E4F121eCdAbEfC305e7f',
     },
     image: '/images/token/FLAP.png',
   },
@@ -61,8 +74,36 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 18,
     addresses: {
       [networkIds.MAINNET]: '0x9b7b6bbd7d87e381f07484ea104fcc6a0363df39',
+      [networkIds.HARDHAT]: '0x9b7b6bbd7d87e381f07484ea104fcc6a0363df39',
     },
     image: '/images/token/FSS.png',
+  },
+  usdc: {
+    symbol: 'USDC',
+    decimals: 6,
+    addresses: {
+      [networkIds.MAINNET]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      [networkIds.HARDHAT]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+    },
+    image: '',
+  },
+  yvUsdc: {
+    symbol: 'yvUSDC',
+    decimals: 6,
+    addresses: {
+      [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+    },
+    image: '',
+  },
+  dai: {
+    symbol: 'DAI',
+    decimals: 18,
+    addresses: {
+      [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+    },
+    image: '',
   },
 };
 
