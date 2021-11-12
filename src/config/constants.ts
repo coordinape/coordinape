@@ -1,7 +1,7 @@
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as FormaticSVG } from 'assets/svgs/wallet/fortmatic.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { ReactComponent as PortisSVG } from 'assets/svgs/wallet/portis.svg';
+// import { ReactComponent as PortisSVG } from 'assets/svgs/wallet/portis.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ConnectorNames } from 'utils/enums';
 
@@ -25,7 +25,7 @@ export const WALLET_ICONS: { [key in ConnectorNames]: React.ElementType } = {
   [ConnectorNames.WalletConnect]: WalletConnectSVG,
   [ConnectorNames.WalletLink]: CoinbaseSVG,
   [ConnectorNames.Fortmatic]: FormaticSVG,
-  [ConnectorNames.Portis]: PortisSVG,
+  // [ConnectorNames.Portis]: PortisSVG,
 };
 
 export const SKILLS = [

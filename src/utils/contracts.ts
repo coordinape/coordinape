@@ -1,8 +1,8 @@
-import { address as apeDistributorAddress } from '@coordinape/hardhat/dist/deployments/localhost/ApeDistributor.json';
-import { address as apeRouterAddress } from '@coordinape/hardhat/dist/deployments/localhost/ApeRouter.json';
-import { address as apeTokenAddress } from '@coordinape/hardhat/dist/deployments/localhost/ApeToken.json';
-import { address as apeVaultFactoryAddress } from '@coordinape/hardhat/dist/deployments/localhost/ApeVaultFactory.json';
-import { address as feeRegistryAddress } from '@coordinape/hardhat/dist/deployments/localhost/FeeRegistry.json';
+import apeDistributorInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeDistributor.json';
+import apeRouterInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeRouter.json';
+import apeTokenInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeToken.json';
+import apeVaultFactoryInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeVaultFactory.json';
+import feeRegistryInfo from '@coordinape/hardhat/dist/deployments/localhost/FeeRegistry.json';
 import {
   ApeDistributor,
   ApeDistributor__factory,
@@ -120,11 +120,11 @@ export class Contracts {
     const networkId = 1337;
     return Contracts.fromAddresses(
       {
-        apeToken: apeTokenAddress,
-        apeVaultFactory: apeVaultFactoryAddress,
-        apeRouter: apeRouterAddress,
-        apeDistributor: apeDistributorAddress,
-        feeRegistry: feeRegistryAddress,
+        apeToken: apeTokenInfo.address,
+        apeVaultFactory: apeVaultFactoryInfo.address,
+        apeRouter: apeRouterInfo.address,
+        apeDistributor: apeDistributorInfo.address,
+        feeRegistry: feeRegistryInfo.address,
         usdc: getToken(networkId, 'usdc').address,
         usdcYVault: getToken(networkId, 'yvUsdc').address,
         yRegistry: getContractAddress(networkId, 'yRegistry'),

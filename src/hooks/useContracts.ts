@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { Contracts } from 'utils/contracts';
 
-function useVaultContracts(): Contracts | undefined {
+function useContracts(): Contracts | undefined {
   const context = useWeb3React<Web3Provider>();
   const { library, active, chainId } = context;
 
@@ -22,4 +22,4 @@ function useVaultContracts(): Contracts | undefined {
   }, [active, library, chainId]);
 }
 
-export { useVaultContracts };
+export { useContracts };
