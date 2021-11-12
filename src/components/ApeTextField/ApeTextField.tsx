@@ -13,7 +13,6 @@ import { ApeInfoTooltip } from 'components';
 //
 // Using the same interface as MaterialUI's TextField to make it compatible
 // with the the calendar.
-
 export const ApeTextField = ({
   infoTooltip,
   apeVariant = 'default',
