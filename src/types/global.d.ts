@@ -55,3 +55,14 @@ export type TUpdateGift = ({
   note?: string;
   tokens?: number;
 }) => void;
+
+export interface StaticTableProps {
+  className?: string;
+  columns: ITableColumn[];
+  data: any[];
+  perPage: number;
+  filter?: (o: any) => boolean;
+  sortable?: boolean;
+  placeholder?: React.ReactNode;
+  label?: string;
+}
