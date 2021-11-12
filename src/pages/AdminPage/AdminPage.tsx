@@ -403,9 +403,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       {!legacy && <OrganizationHeader />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
-          <h2 className={classes.title}>
-            {selectedCircle?.protocol?.name} {selectedCircle?.name} Circle
-          </h2>
+          <h2 className={classes.title}>{selectedCircle?.name}</h2>
           <div className={classes.actionBar}>
             <div className={classes.actionBarInner}>
               <Button
