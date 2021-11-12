@@ -89,10 +89,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: 24,
     fontWeight: 600,
   },
-  epochsTable: {
-    flexGrow: 4,
-    marginBottom: theme.spacing(8),
-  },
   newTable: {
     flexGrow: 4,
     height: 288,

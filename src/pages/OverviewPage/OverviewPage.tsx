@@ -2,13 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useMemo } from 'react';
 
-import { NavLink } from 'react-router-dom';
-
-import { makeStyles, Button, IconButton, Avatar } from '@material-ui/core';
+import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useAdminApi, useMe } from 'hooks';
-import { DeleteIcon, DownArrow } from 'icons';
+import { DeleteIcon } from 'icons';
 import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
 
 // eslint-disable-next-line import/no-named-as-default
@@ -28,111 +26,6 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(0, 2, 4),
     },
   },
-  topMenu: {
-    height: 120,
-    display: 'grid',
-    alignItems: 'center',
-    gridTemplateColumns: '1fr 1fr',
-    padding: theme.spacing(0, 4),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr 1fr',
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  organizationLinks: {
-    justifySelf: 'stretch',
-    display: 'flex',
-    justifyContent: 'left',
-    alignItems: 'center',
-  },
-  organizationLink: {
-    margin: theme.spacing(0, 2),
-    fontSize: 20,
-    fontWeight: 700,
-    color: theme.colors.white,
-    textDecoration: 'none',
-    padding: '6px 0',
-    position: 'relative',
-    '&::after': {
-      content: `" "`,
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      backgroundColor: theme.colors.mediumRed,
-      transition: 'all 0.3s',
-      bottom: 0,
-      height: 2,
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.mediumRed,
-      },
-    },
-    '&.active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.red,
-      },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.red,
-        },
-      },
-    },
-  },
-  navLinks: {
-    justifySelf: 'stretch',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  buttons: {
-    justifySelf: 'end',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  navLink: {
-    margin: theme.spacing(0, 2),
-    fontSize: 20,
-    fontWeight: 400,
-    color: theme.colors.mediumGray,
-    textDecoration: 'none',
-    padding: theme.spacing(1, 2),
-    position: 'relative',
-    '&:hover': {
-      backgroundColor: theme.colors.ultraLightGray,
-      padding: theme.spacing(1, 2),
-      borderRadius: '16px',
-      color: theme.colors.text,
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.ultraLightGray,
-      },
-    },
-    '&:active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.ultraLightGray,
-      },
-    },
-  },
   title: {
     textTransform: 'capitalize',
     fontSize: 40,
@@ -145,57 +38,6 @@ const useStyles = makeStyles(theme => ({
     padding: '12px',
     height: 'calc(32px * 16) * 1rem',
     marginRight: '2.5em',
-  },
-  actionsAndEpochs: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  actionBar: {
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'flex-start',
-    margin: theme.spacing(0, 5, 4),
-  },
-  actionBarInner: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '200px',
-    '& > *': {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  epochsTable: {
-    flexGrow: 4,
-    marginBottom: theme.spacing(8),
-  },
-  userActionBar: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 70,
-  },
-  moreButton: {
-    margin: 0,
-    padding: theme.spacing(0, 1),
-    minWidth: 20,
-    fontSize: 17,
-    fontWeight: 800,
-    color: theme.colors.text,
-  },
-  searchInput: {
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(1),
-    fontSize: 14,
-    fontWeight: 500,
-    textAlign: 'center',
-    color: theme.colors.text,
-    background: '#fff',
-    border: 'none',
-    borderRadius: 8,
-    outline: 'none',
-    '&::placeholder': {
-      color: theme.colors.text,
-    },
   },
   twoLineCell: {
     height: 60,
@@ -231,36 +73,12 @@ const useStyles = makeStyles(theme => ({
     fontSize: 9,
     color: theme.colors.mediumGray,
   },
-  avatar: {
-    width: 32,
-    height: 32,
-    marginRight: theme.spacing(1),
-  },
-  avatarCell: {
-    height: 48,
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: 14,
-    lineHeight: 1.5,
-    fontWeight: 600,
-  },
   tableActions: {
     display: 'flex',
     justifyContent: 'center',
   },
   errorColor: {
     color: theme.palette.error.main,
-  },
-  csvLink: {
-    color: '#84C7CA',
-    '&:hover': {
-      color: '#4e7577',
-    },
-  },
-  totalValue: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   valueBtn: {
     width: '110.3px',

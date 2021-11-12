@@ -2,25 +2,15 @@ import { useState, useEffect } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { makeStyles, Button, Avatar } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
+import { ApeAvatar } from 'components';
 import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
 import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
-  morePaper: {
-    width: 170,
-    padding: theme.spacing(1, 0),
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: 8,
-    background:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
-  },
   button: {
     margin: theme.spacing(0.5, 0),
     fontSize: 16,
@@ -51,57 +41,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'left',
     alignItems: 'center',
   },
-  organizationLink: {
-    margin: theme.spacing(0, 2),
-    fontSize: 20,
-    fontWeight: 700,
-    color: theme.colors.white,
-    textDecoration: 'none',
-    padding: '6px 0',
-    position: 'relative',
-    '&::after': {
-      content: `" "`,
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      backgroundColor: theme.colors.mediumRed,
-      transition: 'all 0.3s',
-      bottom: 0,
-      height: 2,
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.mediumRed,
-      },
-    },
-    '&.active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.red,
-      },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.red,
-        },
-      },
-    },
-  },
   navLinks: {
     justifySelf: 'stretch',
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-  },
-  buttons: {
-    justifySelf: 'end',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
   },
   navLink: {
     margin: theme.spacing(0, 2),
@@ -111,6 +55,11 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     padding: theme.spacing(1, 2),
     position: 'relative',
+    '&.active': {
+      backgroundColor: '#EFF3F4',
+      borderRadius: '16px',
+      color: '#516369',
+    },
     '&:hover': {
       backgroundColor: theme.colors.ultraLightGray,
       padding: theme.spacing(1, 2),
@@ -176,7 +125,7 @@ export const OrganizationHeader = () => {
       <div className={classes.topMenu}>
         <CreateVaultModal onClose={handleClose} open={fundModalOpen} />
         <div className={classes.organizationLinks}>
-          <Avatar
+          <ApeAvatar
             alt="organization"
             src="/imgs/avatar/placeholder.jpg"
             style={{
@@ -212,11 +161,6 @@ export const OrganizationHeader = () => {
             navItems.map(navItem => (
               <NavLink
                 className={classes.navLink}
-                activeStyle={{
-                  backgroundColor: '#EFF3F4',
-                  borderRadius: '16px',
-                  color: '#516369',
-                }}
                 isActive={(nothing, location) =>
                   checkActive(location.pathname, navItem)
                 }
