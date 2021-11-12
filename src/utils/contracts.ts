@@ -1,8 +1,8 @@
-import apeDistributorInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeDistributor.json';
-import apeRouterInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeRouter.json';
-import apeTokenInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeToken.json';
-import apeVaultFactoryInfo from '@coordinape/hardhat/dist/deployments/localhost/ApeVaultFactory.json';
-import feeRegistryInfo from '@coordinape/hardhat/dist/deployments/localhost/FeeRegistry.json';
+import apeDistributorInfo from '@coordinape/hardhat/deployments/localhost/ApeDistributor.json';
+import apeRouterInfo from '@coordinape/hardhat/deployments/localhost/ApeRouter.json';
+import apeTokenInfo from '@coordinape/hardhat/deployments/localhost/ApeToken.json';
+import apeVaultFactoryInfo from '@coordinape/hardhat/deployments/localhost/ApeVaultFactory.json';
+import feeRegistryInfo from '@coordinape/hardhat/deployments/localhost/FeeRegistry.json';
 import {
   ApeDistributor,
   ApeDistributor__factory,
@@ -20,7 +20,7 @@ import {
   RegistryAPI__factory,
   VaultAPI,
   VaultAPI__factory,
-} from '@coordinape/hardhat/dist/typechain';
+} from '@coordinape/hardhat/typechain';
 import * as ethers from 'ethers';
 
 import { getContractAddress, getToken } from 'config/networks';

@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "build": "hardhat clean && hardhat compile && tsc",
-    "postbuild": "cp ./typechain/*.d.ts ./dist/typechain",
     "dev": "hardhat node",
     "test": "hardhat test"
   },
