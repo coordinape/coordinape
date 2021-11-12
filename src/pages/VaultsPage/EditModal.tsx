@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormRadioSelect, FormTextFieldNew } from 'components';
+import { FormModal, FormRadioSelect, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
 import { PlusCircleIcon } from 'icons';
@@ -138,10 +138,11 @@ export default function AllocateModal({
             <p className={classes.blueText}>Aug 15 to Aug 31</p>
             <p className={classes.parenText}>(Repeats Monthly)</p>
             <div className={classes.oneColumn}>
-              <FormTextFieldNew
+              <FormTextField
                 {...fields.starting_tokens}
                 InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
                 label="Available: 264,600 USDC"
+                apeVariant="token"
               />
             </div>
             <div className={classes.radioDiv}>
