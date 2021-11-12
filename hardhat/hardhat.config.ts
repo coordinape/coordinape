@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
+
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
@@ -24,7 +25,17 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
 
 const config: HardhatUserConfig = {
   solidity: {
-    compilers: [{ version: '0.8.2', settings: {} }],
+    compilers: [
+      {
+        version: '0.8.2',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1,
+          },
+        },
+      },
+    ],
   },
   namedAccounts: {
     deployer: {
@@ -32,10 +43,10 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts',
   },
   mocha: {
-    timeout: 50000,
+    timeout: 60000,
   },
   networks: {
     hardhat: {

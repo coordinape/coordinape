@@ -62,3 +62,11 @@ export const getAvatarPath = (avatar?: string, placeholder?: string) => {
 
   return `${STORAGE_URL}/${avatar}`;
 };
+
+export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
+  const placeholder = name
+    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(name ?? '')}`
+    : AVATAR_PLACEHOLDER;
+
+  return avatar ? getAvatarPath(avatar) : placeholder;
+};

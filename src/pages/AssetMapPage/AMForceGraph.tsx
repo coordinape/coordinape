@@ -13,7 +13,7 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState';
-import { AVATAR_PLACEHOLDER, getAvatarPath } from 'utils/domain';
+import { AVATAR_PLACEHOLDER } from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
@@ -101,7 +101,7 @@ export const AMForceGraph = () => {
       const path = (node as IMapNodeFG).img;
       if (path && !images.current.has(path)) {
         const img = new Image();
-        img.src = getAvatarPath(path);
+        img.src = path;
         images.current.set(path, img);
       }
     });

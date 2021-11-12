@@ -10,6 +10,7 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import { getAvatarPathWithFallback } from 'utils/domain';
 import { toSearchRegExp, assertDef } from 'utils/tools';
 
 import {
@@ -270,7 +271,7 @@ export const rMapGraphData = selector<GraphData>({
 
           return {
             id: address,
-            img: profile.avatar ?? '',
+            img: getAvatarPathWithFallback(profile.avatar, user.name),
             profile,
             name: user.name,
             epochId: epoch.id,

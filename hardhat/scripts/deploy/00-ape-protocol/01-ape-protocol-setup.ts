@@ -43,6 +43,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     apeFee.address,
   ]);
 
+  await executeTimelockedFunction(apeRegistry, 'setTreasury', [
+    '0x0000000000000000000000000000000000000001',
+  ]);
+
   await executeTimelockedFunction(apeRegistry, 'setRouter', [
     apeRouter.address,
   ]);

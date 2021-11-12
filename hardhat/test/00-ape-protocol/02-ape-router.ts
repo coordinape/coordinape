@@ -1,5 +1,7 @@
-import { expect } from 'chai';
+import chai from 'chai';
+import { solidity } from 'ethereum-waffle';
 import { BigNumber } from 'ethers';
+import { network } from 'hardhat';
 
 import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
 import {
@@ -9,8 +11,11 @@ import {
   USDC_YVAULT_ADDRESS,
 } from '../constants';
 import { Account } from '../utils/account';
-import { createApeVault } from '../utils/createApeVault';
+import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
+
+chai.use(solidity);
+const { expect } = chai;
 
 describe('ApeRouter', () => {
   const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
@@ -23,27 +28,35 @@ describe('ApeRouter', () => {
   let user0: Account;
   let vault: ApeVaultWrapper;
 
-  before(async () => {
+  const addUsdcToVault = async (receiver: Account) => {
+    await usdc.transfer(receiver.address, USER_USDC_BALANCE);
+
+    const connectedUsdc = usdc.connect(receiver.signer);
+    const userUsdcBalance = (
+      await connectedUsdc.balanceOf(receiver.address)
+    ).toString();
+    expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
+
+    await connectedUsdc.approve(apeRouter.address, 0); // Reset to avoid any issues
+    await connectedUsdc.approve(apeRouter.address, USER_USDC_BALANCE);
+    expect(
+      await connectedUsdc.allowance(receiver.address, apeRouter.address)
+    ).to.equal(USER_USDC_BALANCE);
+
+    await apeRouter
+      .connect(receiver.signer)
+      .delegateDeposit(vault.address, USDC_ADDRESS, DELEGATE_AMOUNT);
+  };
+
+  beforeEach(async () => {
     deploymentInfo = await deployProtocolFixture();
     user0 = deploymentInfo.accounts[0];
     usdc = deploymentInfo.contracts.usdc;
     usdcYVault = deploymentInfo.contracts.usdcYVault;
     apeRouter = deploymentInfo.contracts.apeRouter;
-  });
-
-  beforeEach(async () => {
-    await usdc.transfer(user0.address, USER_USDC_BALANCE);
-
-    usdc = usdc.connect(user0.signer);
-    const userUsdcBalance = (await usdc.balanceOf(user0.address)).toString();
-    expect(userUsdcBalance).to.equal(USER_USDC_BALANCE.toString());
-
-    await usdc.approve(apeRouter.address, USER_USDC_BALANCE);
-    expect(await usdc.allowance(user0.address, apeRouter.address)).to.equal(
-      USER_USDC_BALANCE
-    );
 
     vault = await createApeVault(
+      deploymentInfo.contracts.apeToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );
@@ -52,12 +65,21 @@ describe('ApeRouter', () => {
     usdcYVault = usdcYVault.connect(user0.signer);
   });
 
+  afterEach(async () => {
+    await network.provider.request({
+      method: 'hardhat_reset',
+      params: [
+        {
+          forking: {
+            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+          },
+        },
+      ],
+    });
+  });
+
   it('should delegate specified amount to yVault', async () => {
-    await apeRouter.delegateDeposit(
-      vault.address,
-      USDC_ADDRESS,
-      DELEGATE_AMOUNT
-    );
+    await addUsdcToVault(user0);
 
     // Make sure yUSDC share is greater than 0
     expect(
@@ -71,13 +93,13 @@ describe('ApeRouter', () => {
     );
   });
 
-  xit('should revert with "ApeRouter: vault does not exist"', async () => {
+  it('should revert with "ApeRouter: vault does not exist"', async () => {
     await expect(
       apeRouter.delegateDeposit(USDC_ADDRESS, USDC_ADDRESS, DELEGATE_AMOUNT)
     ).to.be.revertedWith('ApeRouter: Vault does not exist');
   });
 
-  xit('should revert without any revert string', async () => {
+  it('should revert without any revert string', async () => {
     await expect(
       apeRouter.delegateDeposit(
         vault.address,
@@ -87,7 +109,7 @@ describe('ApeRouter', () => {
     ).to.be.revertedWith('');
   });
 
-  xit('should revert with "ApeRouter: yearn Vault not identical"', async () => {
+  it('should revert with "ApeRouter: yearn Vault not identical"', async () => {
     await expect(
       apeRouter.delegateDeposit(vault.address, DAI_ADDRESS, DELEGATE_AMOUNT)
     ).to.be.revertedWith('ApeRouter: yearn Vault not identical');

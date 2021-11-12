@@ -18,6 +18,7 @@
     "node_modules"
   ],
   "include": [
+    "./deployments/**/*.json",
     "./scripts"
   ],
   "files": [
