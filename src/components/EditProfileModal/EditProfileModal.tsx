@@ -96,12 +96,36 @@ export const EditProfileModal = ({
 
           <h2 className={classes.sectionHeader}>Links</h2>
           <div className={classes.links}>
-            <FormTextField {...fields.twitter_username} label="Twitter" />
-            <FormTextField {...fields.github_username} label="Github" />
-            <FormTextField {...fields.telegram_username} label="Telegram" />
-            <FormTextField {...fields.discord_username} label="Discord" />
-            <FormTextField {...fields.medium_username} label="Medium" />
-            <FormTextField {...fields.website} label="Website" />
+            <FormTextField
+              {...fields.twitter_username}
+              placeholder="Enter username"
+              label="Twitter"
+            />
+            <FormTextField
+              {...fields.github_username}
+              placeholder="Enter username"
+              label="Github"
+            />
+            <FormTextField
+              {...fields.telegram_username}
+              placeholder="Enter username"
+              label="Telegram"
+            />
+            <FormTextField
+              {...fields.discord_username}
+              placeholder="Username#xxxx"
+              label="Discord"
+            />
+            <FormTextField
+              {...fields.medium_username}
+              placeholder="Enter username"
+              label="Medium"
+            />
+            <FormTextField
+              {...fields.website}
+              placeholder="Enter link"
+              label="Website"
+            />
           </div>
         </FormModal>
       )}
