@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -6,13 +6,8 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
-import { useAdminApi } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
-import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
-
-import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -34,11 +29,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const CreateVaultModal = ({
-  user,
   onClose,
   open,
 }: {
-  user?: IUser;
   open: boolean;
   onClose: () => void;
 }) => {
@@ -46,55 +39,37 @@ export const CreateVaultModal = ({
 
   const classes = useStyles();
 
-  const selectedCircle = useSelectedCircle();
-
   const history = useHistory();
-
-  const routeChange = () => {
-    const path = '/admin/vaults';
-    history.push(path);
-  };
-
-  const { updateUser, createUser } = useAdminApi();
-
-  const source = useMemo(
-    () => ({
-      user: user,
-      circle: assertDef(selectedCircle, 'Missing circle'),
-    }),
-    [user, selectedCircle]
-  );
 
   return (
     <AdminVaultForm.FormController
-      source={source}
+      source={undefined}
       hideFieldErrors
-      submit={params =>
-        (user ? updateUser(user.address, params) : createUser(params)).then(
-          () => onClose()
-        )
-      }
+      submit={params => {
+        console.warn('todo:', params);
+        const path = '/admin/vaults';
+        history.push(path);
+      }}
     >
-      {({ fields: { ...fields } }) => (
+      {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
           open={open}
           title={'Create a New Vault'}
           subtitle={'We need to have some short description here'}
-          onSubmit={routeChange}
-          submitDisabled={false}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
           size="small"
           submitText="Mint Vault"
         >
           <AssetDisplay setAsset={setAsset} />
-          {asset === 'other' && (
-            <div className={classes.oneColumn}>
-              <FormTextField
-                {...fields.name}
-                label="...or use a custom asset"
-              />
-            </div>
-          )}
+          <div className={classes.oneColumn}>
+            <FormTextField
+              {...fields.custom_asset}
+              disabled={asset !== 'other'}
+              label="...or use a custom asset"
+            />
+          </div>
         </FormModal>
       )}
     </AdminVaultForm.FormController>
