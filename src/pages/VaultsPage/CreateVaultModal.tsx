@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
-// import { useAdminApi } from 'hooks';
+import { useAdminApi } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
+// import { useVault } from 'utils/contract-hooks/useVaultFactory';
 import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
@@ -51,15 +51,15 @@ export const CreateVaultModal = ({
 
   const history = useHistory();
 
-  const { _createApeVault } = useVaultFactory();
+  // const { _createApeVault } = useVault();
 
   const routeChange = async () => {
-    await _createApeVault({ _token: asset, _simpleToken: asset });
+    // await _createApeVault({ _token: asset, _simpleToken: asset });
     const path = '/admin/vaults';
     history.push(path);
   };
 
-  // const { updateUser, createUser } = useAdminApi();
+  const { updateUser, createUser } = useAdminApi();
 
   const source = useMemo(
     () => ({
@@ -73,12 +73,11 @@ export const CreateVaultModal = ({
     <AdminVaultForm.FormController
       source={source}
       hideFieldErrors
-      submit={routeChange}
-      // submit={params =>
-      //   (user ? updateUser(user.address, params) : createUser(params)).then(
-      //     () => onClose()
-      //   )
-      // }
+      submit={params =>
+        (user ? updateUser(user.address, params) : createUser(params)).then(
+          () => onClose()
+        )
+      }
     >
       {({ fields: { ...fields } }) => (
         <FormModal
