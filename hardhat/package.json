@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
     "build": "yarn codegen && tsc",
+    "mint": "ts-node scripts/mint.ts",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "hardhat node",
     "test": "hardhat test"
