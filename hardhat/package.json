@@ -4,13 +4,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "hardhat clean && hardhat compile && tsc",
+    "compile": "hardhat clean && hardhat compile",
+    "build": "yarn codegen && tsc",
+    "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "hardhat node",
     "test": "hardhat test"
   },
   "files": [
-    "deployments/**/*.json",
-    "deployments/**/.chainId",
+    "deploymentInfo.json",
     "typechain"
   ],
   "devDependencies": {
