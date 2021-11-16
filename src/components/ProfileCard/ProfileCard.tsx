@@ -9,6 +9,7 @@ import {
   ProfileSocialIcons,
   ThreeDotMenu,
   ProfileSkills,
+  ReadMore,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1.3, 1.3, 2),
     background: theme.colors.background,
     borderRadius: 10.75,
+    overflowY: 'scroll',
   },
   topRow: {
     width: '100%',
@@ -88,11 +90,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: 'rgba(81, 99, 105, 0.5)',
     textAlign: 'center',
-    overflow: 'hidden',
-    display: '-webkit-box',
-    wordBreak: 'break-word',
-    '-webkit-line-clamp': 4,
-    '-webkit-box-orient': 'vertical',
+    WebkitLineClamp: 4,
   },
   editButton: {
     margin: theme.spacing(7, 0, 2),
@@ -135,6 +133,13 @@ export const ProfileCard = ({
   const { getToMap, getToProfile } = useNavigation();
   const setEditProfileOpen = useSetEditProfileOpen();
 
+  const userBioTextLength = user?.bio?.length ?? 0;
+  const skillsLength = user?.profile?.skills?.length ?? 0;
+
+  const hideUserBio =
+    (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
+  // eslint-disable-next-line no-debugger
+  debugger;
   return (
     <div className={classes.root}>
       <div className={classes.topRow}>
@@ -192,7 +197,11 @@ export const ProfileCard = ({
       </div>
 
       <div className={classes.bio}>
-        {isMe && !user.bio ? 'Your Epoch Statement is Blank' : user.bio}
+        {isMe && !user.bio ? (
+          'Your Epoch Statement is Blank'
+        ) : (
+          <ReadMore isHidden={hideUserBio}>{user.bio}</ReadMore>
+        )}
       </div>
 
       {!disabled && updateGift && (
