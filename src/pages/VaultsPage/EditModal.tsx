@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -6,12 +6,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormRadioSelect, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
-import { useAdminApi } from 'hooks';
 import { PlusCircleIcon } from 'icons';
-import { useSelectedCircle } from 'recoilState';
-import { assertDef } from 'utils/tools';
-
-import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -79,35 +74,15 @@ const useStyles = makeStyles(theme => ({
 interface AllocateModalProps {
   onClose: any;
   open: boolean;
-  user?: IUser;
 }
 
-export default function AllocateModal({
-  open,
-  onClose,
-  user,
-}: AllocateModalProps) {
+export default function AllocateModal({ open, onClose }: AllocateModalProps) {
   const classes = useStyles();
-  const selectedCircle = useSelectedCircle();
-  const { updateUser } = useAdminApi();
   const history = useHistory();
   const [ongoing, setOngoing] = useState<boolean>(false);
 
   const handleClose = () => {
     onClose(false);
-  };
-
-  const source = useMemo(
-    () => ({
-      user: user,
-      circle: assertDef(selectedCircle, 'Missing circle'),
-    }),
-    [user, selectedCircle]
-  );
-
-  const routeChange = () => {
-    const path = '/admin/vaults';
-    history.push(path);
   };
 
   const setOngoingAllocation = () => {
@@ -118,16 +93,20 @@ export default function AllocateModal({
 
   return (
     <AdminVaultForm.FormController
-      source={source}
+      source={undefined}
       hideFieldErrors
-      submit={params => user && updateUser(user.address, params)}
+      submit={params => {
+        console.warn('todo:', params);
+        const path = '/admin/vaults';
+        history.push(path);
+      }}
     >
-      {({ fields: { ...fields } }) => (
+      {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={handleClose}
           open={open}
-          onSubmit={routeChange}
-          submitDisabled={false}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
           size="small"
           icon={<PlusCircleIcon />}
           submitText={`Fund This Epoch`}
@@ -139,7 +118,7 @@ export default function AllocateModal({
             <p className={classes.parenText}>(Repeats Monthly)</p>
             <div className={classes.oneColumn}>
               <FormTextField
-                {...fields.starting_tokens}
+                {...fields.token}
                 InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
                 label="Available: 264,600 USDC"
                 apeVariant="token"
@@ -147,7 +126,7 @@ export default function AllocateModal({
             </div>
             <div className={classes.radioDiv}>
               <FormRadioSelect
-                {...fields.starting_tokens}
+                {...fields.token}
                 value="Repeat funding monthly"
                 // eslint-disable-next-line no-console
                 onChange={setOngoingAllocation}
