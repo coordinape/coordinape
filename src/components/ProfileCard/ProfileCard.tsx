@@ -138,8 +138,7 @@ export const ProfileCard = ({
 
   const hideUserBio =
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
-  // eslint-disable-next-line no-debugger
-  debugger;
+
   return (
     <div className={classes.root}>
       <div className={classes.topRow}>
