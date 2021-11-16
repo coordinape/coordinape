@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 
-export type DeployedContacts = {
+export type DeployedContracts = {
   [contractName: string]: {
     address: string;
   };
 };
 
 export type DeploymentInfo = {
-  [chainId: string]: DeployedContacts;
+  [chainId: string]: DeployedContracts;
 };
 
 export function createDeploymentInfo(root: string): DeploymentInfo {
