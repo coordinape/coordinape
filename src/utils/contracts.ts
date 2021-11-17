@@ -1,8 +1,4 @@
-import apeDistributorInfo from '@coordinape/hardhat/deployments/localhost/ApeDistributor.json';
-import apeRouterInfo from '@coordinape/hardhat/deployments/localhost/ApeRouter.json';
-import apeTokenInfo from '@coordinape/hardhat/deployments/localhost/ApeToken.json';
-import apeVaultFactoryInfo from '@coordinape/hardhat/deployments/localhost/ApeVaultFactory.json';
-import feeRegistryInfo from '@coordinape/hardhat/deployments/localhost/FeeRegistry.json';
+import deploymentInfo from '@coordinape/hardhat/deploymentInfo.json';
 import {
   ApeDistributor,
   ApeDistributor__factory,
@@ -24,6 +20,8 @@ import {
 import * as ethers from 'ethers';
 
 import { getContractAddress, getToken } from 'config/networks';
+
+import { NetworkId } from 'types';
 
 export class Contracts {
   usdc: ERC20;
@@ -114,17 +112,19 @@ export class Contracts {
     });
   }
 
-  // Todo: In future allow for different networks
-  // convert deployments into easily accessible shape
-  static fromLocalhost(provider: ethers.providers.Provider): Contracts {
-    const networkId = 1337;
+  static fromNetwork(
+    networkId: NetworkId,
+    provider: ethers.providers.Provider
+  ): Contracts {
     return Contracts.fromAddresses(
       {
-        apeToken: apeTokenInfo.address,
-        apeVaultFactory: apeVaultFactoryInfo.address,
-        apeRouter: apeRouterInfo.address,
-        apeDistributor: apeDistributorInfo.address,
-        feeRegistry: feeRegistryInfo.address,
+        apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
+        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
+          .address,
+        apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
+        apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
+          .address,
+        feeRegistry: (deploymentInfo as any)[networkId].FeeRegistry.address,
         usdc: getToken(networkId, 'usdc').address,
         usdcYVault: getToken(networkId, 'yvUsdc').address,
         yRegistry: getContractAddress(networkId, 'yRegistry'),
