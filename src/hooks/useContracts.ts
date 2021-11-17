@@ -18,7 +18,7 @@ function useContracts(): Contracts | undefined {
       throw new Error(`Unsupported chainId: ${chainId}`);
     }
 
-    return Contracts.fromLocalhost(library);
+    return Contracts.fromNetwork(chainId, library);
   }, [active, library, chainId]);
 }
 
