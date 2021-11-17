@@ -23,60 +23,9 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
   });
 });
 
-const config: HardhatUserConfig = {
-  solidity: {
-    compilers: [
-      {
-        version: '0.8.2',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 1,
-          },
-        },
-      },
-    ],
-  },
-  namedAccounts: {
-    deployer: {
-      default: 0,
-    },
-  },
-  paths: {
-    sources: './contracts',
-  },
-  mocha: {
-    timeout: 60000,
-  },
+module.exports = {
+  solidity: '0.8.2',
   networks: {
-    hardhat: {
-      live: false,
-      allowUnlimitedContractSize: true,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      deploy: ['./scripts/deploy'],
-
-      forking: {
-        url: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-      },
-    },
-    localhost: {
-      live: false,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      url: 'http://127.0.0.1:8545',
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      deploy: ['./scripts/deploy'],
-    },
-  },
+    hardhat: {blockGasLimit: 200000000, chainId: 1337}
+  }
 };
-module.exports = config;
