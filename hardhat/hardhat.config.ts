@@ -23,7 +23,7 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
   });
 });
 
-const config: HardhatUserConfig = {
+/*const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
@@ -79,4 +79,11 @@ const config: HardhatUserConfig = {
     },
   },
 };
-module.exports = config;
+module.exports = config;*/
+
+module.exports = {
+  solidity: '0.8.2',
+  networks: {
+    hardhat: {blockGasLimit: 200000000, chainId: 1337}
+  }
+};
