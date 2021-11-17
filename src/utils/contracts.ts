@@ -1,9 +1,7 @@
-import deploymentInfo from '@coordinape/hardhat/deploymentInfo.json';
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
   ApeDistributor,
   ApeDistributor__factory,
-  ApeVaultWrapper,
-  ApeVaultWrapper__factory,
   ApeRouter,
   ApeRouter__factory,
   ApeToken,
@@ -18,7 +16,7 @@ import {
   RegistryAPI__factory,
   VaultAPI,
   VaultAPI__factory,
-} from '@coordinape/hardhat/typechain';
+} from '@coordinape/hardhat/dist/typechain';
 import * as ethers from 'ethers';
 
 import { getContractAddress, getToken } from 'config/networks';
@@ -34,7 +32,6 @@ export class Contracts {
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
   feeRegistry: FeeRegistry;
-  apeVaultWrapper: ApeVaultWrapper;
 
   constructor(contracts: {
     usdc: ERC20;
@@ -45,7 +42,6 @@ export class Contracts {
     apeRouter: ApeRouter;
     apeDistributor: ApeDistributor;
     feeRegistry: FeeRegistry;
-    apeVaultWrapper: ApeVaultWrapper;
   }) {
     this.usdc = contracts.usdc;
     this.usdcYVault = contracts.usdcYVault;
@@ -55,7 +51,6 @@ export class Contracts {
     this.apeRouter = contracts.apeRouter;
     this.apeDistributor = contracts.apeDistributor;
     this.feeRegistry = contracts.feeRegistry;
-    this.apeVaultWrapper = contracts.apeVaultWrapper;
   }
 
   connect(signer: ethers.Signer): void {
@@ -67,7 +62,6 @@ export class Contracts {
     this.apeRouter = this.apeRouter.connect(signer);
     this.apeDistributor = this.apeDistributor.connect(signer);
     this.feeRegistry = this.feeRegistry.connect(signer);
-    this.apeVaultWrapper = this.apeVaultWrapper.connect(signer);
   }
 
   static fromAddresses(
@@ -80,7 +74,6 @@ export class Contracts {
       apeRouter: string;
       apeDistributor: string;
       feeRegistry: string;
-      apeVaultWrapper: string;
     },
     provider: ethers.providers.Provider
   ): Contracts {
@@ -107,10 +100,6 @@ export class Contracts {
       addresses.feeRegistry,
       provider
     );
-    const apeVaultWrapper = ApeVaultWrapper__factory.connect(
-      addresses.apeVaultWrapper,
-      provider
-    );
     return new Contracts({
       usdc,
       usdcYVault,
@@ -120,7 +109,6 @@ export class Contracts {
       apeRouter,
       apeDistributor,
       feeRegistry,
-      apeVaultWrapper,
     });
   }
 
@@ -140,8 +128,6 @@ export class Contracts {
         usdc: getToken(networkId, 'usdc').address,
         usdcYVault: getToken(networkId, 'yvUsdc').address,
         yRegistry: getContractAddress(networkId, 'yRegistry'),
-        apeVaultWrapper: (deploymentInfo as any)[networkId].apeVaultWrapper
-          .address,
       },
       provider
     );

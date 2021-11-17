@@ -23,7 +23,7 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
   });
 });
 
-/*const config: HardhatUserConfig = {
+const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
@@ -67,6 +67,7 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
     },
     localhost: {
       live: false,
+      allowUnlimitedContractSize: true,
       gas: 'auto',
       gasPrice: 'auto',
       gasMultiplier: 1,
@@ -75,15 +76,9 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
       accounts: {
         mnemonic: 'coordinape',
       },
+      timeout: 50000,
       deploy: ['./scripts/deploy'],
     },
   },
 };
-module.exports = config;*/
-
-module.exports = {
-  solidity: '0.8.2',
-  networks: {
-    hardhat: {blockGasLimit: 200000000, chainId: 1337}
-  }
-};
+module.exports = config;

@@ -107,7 +107,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
       >
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('DAI')}
+          onClick={() => handleAssetSelect('dai')}
         >
           <span className={classes.btnSpan}>
             <DAIIcon height={25} width={22} className={classes.icon} />
@@ -116,7 +116,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('USDC')}
+          onClick={() => handleAssetSelect('usdc')}
         >
           <span className={classes.btnSpan}>
             <USDCIcon width={25} height={22} className={classes.icon} />
@@ -125,7 +125,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('YFI')}
+          onClick={() => handleAssetSelect('yfi')}
         >
           <span className={classes.btnSpan}>
             <YFIIcon width={25} height={22} className={classes.icon} />
@@ -134,7 +134,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('Sushi')}
+          onClick={() => handleAssetSelect('sushi')}
         >
           <span className={classes.btnSpan}>
             <SushiIcon width={25} height={25} className={classes.icon} />
@@ -143,7 +143,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('alUSD')}
+          onClick={() => handleAssetSelect('alUsd')}
         >
           <span className={classes.btnSpan}>
             <AlusdIcon height={25} width={22} className={classes.icon} />
@@ -152,7 +152,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('USDT')}
+          onClick={() => handleAssetSelect('usdt')}
         >
           <span className={classes.btnSpan}>
             <USDTIcon height={25} width={25} className={classes.icon} />
@@ -161,7 +161,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          onClick={() => handleAssetSelect('ETH')}
+          onClick={() => handleAssetSelect('eth')}
         >
           <span className={classes.btnSpan}>
             <EthIcon height={32} width={32} className={classes.icon} />

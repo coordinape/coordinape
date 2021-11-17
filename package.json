@@ -75,6 +75,8 @@
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",
     "build:gzip": "craco build && gzipper --verbose ./build",
+    "hardhat:compile": "yarn --cwd hardhat compile",
+    "hardhat:codegen": "yarn --cwd hardhat codegen",
     "hardhat:build": "yarn --cwd hardhat build",
     "hardhat:dev": "yarn --cwd hardhat dev",
     "hardhat:install": "yarn --cwd hardhat install",

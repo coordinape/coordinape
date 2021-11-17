@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormTextField } from 'components';
+import { getToken } from 'config/networks';
 import AdminVaultForm from 'forms/AdminVaultForm';
 // import { useAdminApi } from 'hooks';
 import { useSelectedCircle } from 'recoilState';
@@ -13,7 +14,7 @@ import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
 
-import { IUser } from 'types';
+import { IUser, KnownToken } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -54,7 +55,15 @@ export const CreateVaultModal = ({
   const { _createApeVault } = useVaultFactory();
 
   const routeChange = async () => {
-    await _createApeVault({ _token: asset, _simpleToken: asset });
+    const token = getToken(1337, asset as KnownToken);
+    const tx = await _createApeVault({
+      _token: token.address,
+      _simpleToken: token.address,
+    });
+    if (tx) {
+      const receipt = await tx.wait();
+      console.warn(receipt);
+    }
     const path = '/admin/vaults';
     history.push(path);
   };
