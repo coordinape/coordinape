@@ -10,5 +10,7 @@ export const zStringISODateUTC = z
 
 export const zEthAddress = z
   .string()
+  .transform(s => ethers.getDefaultProvider().resolveName(s))
+  .transform(s => s || '')
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());
