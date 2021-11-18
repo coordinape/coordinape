@@ -17,6 +17,8 @@ export interface IApiCircle {
   token_name?: string;
   vouching: number;
   min_vouches: number;
+  min_vouches_percent: number;
+  calculate_vouching_percent: number;
   nomination_days_limit: number;
   vouching_text: string;
   only_giver_vouch: number;

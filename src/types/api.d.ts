@@ -50,6 +50,8 @@ export interface PutCirclesParam {
   vouching: number;
   token_name: string;
   min_vouches: number;
+  min_vouches_percent: number;
+  calculate_vouching_percent: number;
   team_sel_text?: string;
   nomination_days_limit: number;
   alloc_text?: string;
