@@ -56,14 +56,15 @@ export const CreateVaultModal = ({
 
   const routeChange = async () => {
     const token = getToken(1337, asset as KnownToken);
-    const tx = await _createApeVault({
+    const vault = await _createApeVault({
       _token: token.address,
       _simpleToken: token.address,
     });
-    if (tx) {
-      const receipt = await tx.wait();
-      console.warn(receipt);
-    }
+
+    // eslint-disable-next-line no-console
+    console.log(`vault created at: ${vault.address}`);
+    alert(`vault created at: ${vault.address}`);
+
     const path = '/admin/vaults';
     history.push(path);
   };

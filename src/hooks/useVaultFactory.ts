@@ -1,8 +1,11 @@
 // - Contract Imports
+import {
+  ApeVaultWrapper,
+  ApeVaultWrapper__factory,
+} from '@coordinape/hardhat/dist/typechain';
 import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
 
-import { CreateVault, Maybe } from '../types/contractTypes';
+import { CreateVault } from '../types/contractTypes';
 
 import { useContracts } from './useContracts';
 
@@ -12,14 +15,29 @@ export function useVaultFactory() {
 
   const _createApeVault = async (
     _params: CreateVault
-  ): Promise<Maybe<ethers.ContractTransaction>> => {
-    let tx: Maybe<ethers.ContractTransaction>;
+  ): Promise<ApeVaultWrapper> => {
     try {
       const signer = await web3Context.library.getSigner();
       if (contracts) {
         let factory = contracts.apeVaultFactory;
         factory = factory.connect(signer);
-        tx = await factory.createApeVault(_params._token, _params._simpleToken);
+        const tx = await factory.createApeVault(
+          _params._token,
+          _params._simpleToken
+        );
+        const receipt = await tx.wait();
+        if (receipt && receipt?.events) {
+          for (const event of receipt.events) {
+            if (event?.event === 'VaultCreated') {
+              const vaultAddress = event.args?.vault;
+              const vault = ApeVaultWrapper__factory.connect(
+                vaultAddress,
+                signer
+              );
+              return vault;
+            }
+          }
+        }
       }
     } catch (e: any) {
       console.error(e);
@@ -28,8 +46,7 @@ export function useVaultFactory() {
       }
       throw Error(`Failed to submit create vault.`);
     }
-
-    return tx;
+    throw Error(`Failed to create vault.`);
   };
 
   return { _createApeVault };
