@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
+
+import { ApeInfoTooltip } from 'components/ApeInfoTooltip/ApeInfoTooltip';
 
 interface ReadMoreProps {
   /** this property decide to hide the text and show the options see more or see less*/
@@ -31,16 +33,17 @@ export const ReadMore: React.FC<ReadMoreProps> = (
 ): JSX.Element => {
   const { textHidden, linkButton } = useStyles();
   const _isHidden = props.isHidden ?? true;
-  const [isHidden, setIsHidden] = useState(_isHidden);
 
   return (
-    <div>
-      <div className={isHidden ? textHidden : undefined}>{props.children}</div>
+    <span>
+      <div className={_isHidden ? textHidden : undefined}>{props.children}</div>
       {_isHidden && (
-        <button className={linkButton} onClick={() => setIsHidden(!isHidden)}>
-          {!isHidden ? 'see less' : 'see more'}
-        </button>
+        <ApeInfoTooltip
+          component={<button className={linkButton}>See more</button>}
+        >
+          {props.children}
+        </ApeInfoTooltip>
       )}
-    </div>
+    </span>
   );
 };

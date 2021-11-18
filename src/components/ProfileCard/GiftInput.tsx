@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 0.5),
   },
   textField: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(1.5),
     '& label': {
       height: 14,
       margin: theme.spacing(0, 0, 0.5),

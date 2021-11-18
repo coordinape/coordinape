@@ -33,7 +33,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1.3, 1.3, 2),
     background: theme.colors.background,
     borderRadius: 10.75,
-    overflowY: 'scroll',
   },
   topRow: {
     width: '100%',
