@@ -309,7 +309,7 @@ export const AdminCircleModal = ({
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
         >
           <ApeTextField
-            label="Mininum vouches to add member"
+            label="Minimum vouches to add member"
             value={minVouches}
             onChange={onChangeNumberWith(setMinVouches)}
             fullWidth
