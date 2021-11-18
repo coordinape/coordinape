@@ -9,6 +9,8 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
+import { ApeInfoTooltip } from 'components';
+
 const useStyles = makeStyles(theme => ({
   redColor: {
     color: theme.colors.red,
@@ -22,13 +24,15 @@ export const FormRadioGroup = ({
   options,
   errorText,
   error,
+  infoTooltip,
 }: {
-  value: string;
+  value: string | number;
   onChange: (newValue: any) => void;
   label?: string;
-  options: { value: string; label: string }[];
+  options: { value: string | number; label: string }[];
   errorText?: string;
   error?: boolean;
+  infoTooltip?: React.ReactNode;
 }) => {
   const classes = useStyles();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +42,12 @@ export const FormRadioGroup = ({
   return (
     <div>
       <FormControl component="fieldset" error={error}>
-        {!!label && <FormLabel component="legend">{label}</FormLabel>}
+        {!!label && (
+          <FormLabel component="legend">
+            {label}{' '}
+            {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+          </FormLabel>
+        )}
         <RadioGroup value={value} onChange={handleChange}>
           {options?.map(option => (
             <FormControlLabel
