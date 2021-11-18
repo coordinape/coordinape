@@ -8,7 +8,7 @@
     "build": "yarn codegen && tsc",
     "mint": "ts-node scripts/mint.ts",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "hardhat node",
+    "dev": "ganache-cli -l 8000000 --networkId 1576478390085 --deterministic --hostname=0.0.0.0 -m 'coordinape' --fork $ETHEREUM_RPC_URL",
     "test": "hardhat test"
   },
   "files": [
@@ -29,6 +29,7 @@
     "dotenv": "^10.0.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.4.6",
+    "ganache-cli": "^6.12.2",
     "hardhat": "^2.4.1",
     "hardhat-deploy": "^0.9.0",
     "ts-node": "^9.1.1",
