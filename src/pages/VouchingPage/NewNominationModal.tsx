@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { ethers } from 'ethers';
 
@@ -43,21 +43,35 @@ export const NewNominationModal = ({
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const nominateDescription = circle
-    ? `The ${circle.name} Circle requires ${
-        circle.min_vouches
-      } people total to vouch for a new member and nominations are live for ${
+  const nominateDescription = useMemo(() => {
+    if (!circle) {
+      return '';
+    }
+
+    if (circle.calculate_vouching_percent) {
+      return `The ${circle.name} Circle requires ${
+        circle.min_vouches_percent
+      }% of people to vouch for a new member and nominations are live for ${
         circle.nomination_days_limit
-      } ${(circle.nomination_days_limit || 0) > 1 ? 'days' : 'day'}. ${
-        (circle.min_vouches || 0) > 2
-          ? `If a nomination does not receive ${
-              circle.min_vouches - 1
-            } additional ${
-              circle.min_vouches > 3 ? 'vouches' : 'vouch'
-            } in that period, the nomination fails.`
-          : ''
-      }`
-    : '';
+      } ${
+        (circle.nomination_days_limit || 0) > 1 ? 'days' : 'day'
+      }. If a nomination does not receive required percentage of votes in that period, the nomination fails`;
+    }
+
+    return `The ${circle.name} Circle requires ${
+      circle.min_vouches
+    } people total to vouch for a new member and nominations are live for ${
+      circle.nomination_days_limit
+    } ${(circle.nomination_days_limit || 0) > 1 ? 'days' : 'day'}. ${
+      (circle.min_vouches || 0) > 2
+        ? `If a nomination does not receive ${
+            circle.min_vouches - 1
+          } additional ${
+            circle.min_vouches > 3 ? 'vouches' : 'vouch'
+          } in that period, the nomination fails.`
+        : ''
+    }`;
+  }, [circle]);
 
   const isAddress = ethers.utils.isAddress(address);
   const nominateChanged =
