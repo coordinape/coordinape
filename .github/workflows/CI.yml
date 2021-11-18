@@ -8,8 +8,8 @@ jobs:
     env:
       CI: true
       REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
-      REACT_APP_API_BASE_URL: https://myvault.live/api
-      ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
+      REACT_APP_API_BASE_URL: https://staging-api.coordinape.com/api
+      ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
 
     steps:
       - uses: actions/checkout@v2
