@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -9,7 +10,7 @@ import { FormModal, FormTextField } from 'components';
 import { getToken } from 'config/networks';
 import AdminVaultForm from 'forms/AdminVaultForm';
 // import { useAdminApi } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
+import { rCircleVaults, useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
@@ -49,6 +50,7 @@ export const CreateVaultModal = ({
   const classes = useStyles();
 
   const selectedCircle = useSelectedCircle();
+  const setVaults = useSetRecoilState(rCircleVaults);
 
   const history = useHistory();
 
@@ -61,9 +63,20 @@ export const CreateVaultModal = ({
       _simpleToken: token.address,
     });
 
+    setVaults(vaults => {
+      if (vaults && selectedCircle) {
+        const newVaults = { ...vaults };
+        newVaults[selectedCircle.id] = [
+          ...(vaults[selectedCircle.id] || []),
+          { id: vault.address, type: asset, transactions: [] },
+        ];
+        return newVaults;
+      }
+      return vaults;
+    });
+
     // eslint-disable-next-line no-console
     console.log(`vault created at: ${vault.address}`);
-    alert(`vault created at: ${vault.address}`);
 
     const path = '/admin/vaults';
     history.push(path);

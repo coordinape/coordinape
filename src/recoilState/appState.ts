@@ -35,6 +35,7 @@ import {
   IApiEpoch,
   ISelfIdProfile,
 } from 'types';
+import { IVault } from 'types/contracts.vault';
 
 export const rSelectedCircleId = atom<number | undefined>({
   key: 'rSelectedCircleId',
@@ -525,3 +526,8 @@ export const rUserGifts = selectorFamily<
 });
 export const useUserGifts = (userId: number) =>
   useRecoilValue(rUserGifts(userId));
+
+export const rCircleVaults = atom<Record<number, IVault[]>>({
+  key: 'rCircleVaults',
+  default: {},
+});

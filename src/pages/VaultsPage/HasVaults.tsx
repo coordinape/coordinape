@@ -12,6 +12,7 @@ import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
 import { ITableColumn, IUser } from 'types';
+import { IVault } from 'types/contracts.vault';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -136,7 +137,7 @@ interface HasVaultsProps {
   setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
   epochColumns: ITableColumn[];
   epochs: any;
-  transactions: any;
+  vault: IVault;
   transactionColumns: ITableColumn[];
 }
 
@@ -147,8 +148,8 @@ export default function HasVaults({
   setEditUser,
   setNewEpoch,
   epochs,
+  vault,
   epochColumns,
-  transactions,
   transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
@@ -171,7 +172,9 @@ export default function HasVaults({
       <div>
         <DepositModal open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
-          <h2 className={classes.vaultsTitle}>USDC Vault</h2>
+          <h2 className={classes.vaultsTitle}>
+            {vault.type.toUpperCase()} Vault
+          </h2>
           <Button
             variant="contained"
             color="primary"
@@ -232,7 +235,7 @@ export default function HasVaults({
         label="Transactions"
         className={classes.newTable}
         columns={transactionColumns}
-        data={transactions}
+        data={vault.transactions}
         perPage={6}
         placeholder={
           <div className={classes.noVaultsInterior}>

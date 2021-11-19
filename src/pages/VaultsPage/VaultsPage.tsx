@@ -2,12 +2,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useMemo } from 'react';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useAdminApi, useMe } from 'hooks';
 import { DeleteIcon } from 'icons';
-import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
+import {
+  rCircleVaults,
+  useSelectedCircle,
+  useSelectedCircleEpochs,
+} from 'recoilState';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -16,6 +22,7 @@ import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
+import { IVault } from 'types/contracts.vault';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -130,11 +137,12 @@ const VaultsPage = () => {
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState<boolean>(false);
   const [, setEditCircle] = useState<boolean>(false);
-  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
+  // const [hasVaults] = useState<boolean>(false); //Temp boolean pending data input
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
   const { deleteEpoch } = useAdminApi();
   const selectedCircle = useSelectedCircle();
+  const vaults = useRecoilValue(rCircleVaults);
   const epochsReverse = useSelectedCircleEpochs();
 
   const handleClick = () => {
@@ -145,31 +153,31 @@ const VaultsPage = () => {
     setEditOpen(!editOpen);
   };
 
-  const transactions = useMemo(
-    () => [
-      {
-        name: 'No Name McGee',
-        dateType: 'Deposit made on',
-        posNeg: '+',
-        value: 25000,
-        vaultName: '',
-        number: 2,
-        activeUsers: 15,
-        date: '11/1',
-      },
-      {
-        name: 'Bob Villa',
-        dateType: 'Distributions triggered on',
-        posNeg: '-',
-        value: 14000,
-        vaultName: 'Strategists',
-        number: 4,
-        activeUsers: 1,
-        date: '11/3',
-      },
-    ],
-    []
-  );
+  // const transactions = useMemo(
+  //   () => [
+  //     {
+  //       name: 'No Name McGee',
+  //       dateType: 'Deposit made on',
+  //       posNeg: '+',
+  //       value: 25000,
+  //       vaultName: '',
+  //       number: 2,
+  //       activeUsers: 15,
+  //       date: '11/1',
+  //     },
+  //     {
+  //       name: 'Bob Villa',
+  //       dateType: 'Distributions triggered on',
+  //       posNeg: '-',
+  //       value: 14000,
+  //       vaultName: 'Strategists',
+  //       number: 4,
+  //       activeUsers: 1,
+  //       date: '11/3',
+  //     },
+  //   ],
+  //   []
+  // );
 
   const epochs = useMemo(
     () => [
@@ -472,20 +480,23 @@ const VaultsPage = () => {
   return (
     <div className={classes.root}>
       <OrganizationHeader />
-      {!hasVaults ? (
-        <NoVaults />
+      {vaults && selectedCircle && vaults[selectedCircle.id] ? (
+        vaults[selectedCircle.id].map((vault: IVault) => (
+          <HasVaults
+            key={vault.id}
+            newUser={newUser}
+            setNewUser={setNewUser}
+            editUser={editUser}
+            setEditUser={setEditUser}
+            setNewEpoch={setNewEpoch}
+            epochColumns={epochColumns}
+            epochs={epochs}
+            vault={vault}
+            transactionColumns={transactionColumns}
+          />
+        ))
       ) : (
-        <HasVaults
-          newUser={newUser}
-          setNewUser={setNewUser}
-          editUser={editUser}
-          setEditUser={setEditUser}
-          setNewEpoch={setNewEpoch}
-          epochColumns={epochColumns}
-          epochs={epochs}
-          transactions={transactions}
-          transactionColumns={transactionColumns}
-        />
+        <NoVaults />
       )}
       <AllocateModal open={open} onClose={setOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
