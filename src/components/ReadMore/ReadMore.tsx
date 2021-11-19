@@ -47,35 +47,39 @@ export const ReadMore: React.FC<ReadMoreProps> = (
   return (
     <span>
       <div className={_isHidden ? textHidden : undefined}>{props.children}</div>
-      {_isHidden && isMobile ? (
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <div>
+      {_isHidden && (
+        <>
+          {isMobile ? (
+            <ClickAwayListener onClickAway={handleTooltipClose}>
+              <div>
+                <ApeInfoTooltip
+                  PopperProps={{
+                    disablePortal: true,
+                  }}
+                  onClose={handleTooltipClose}
+                  open={openTooltip}
+                  disableFocusListener
+                  disableHoverListener
+                  disableTouchListener
+                  component={
+                    <button onClick={handleTooltipOpen} className={linkButton}>
+                      See more
+                    </button>
+                  }
+                  placement="top"
+                >
+                  {props.children}
+                </ApeInfoTooltip>
+              </div>
+            </ClickAwayListener>
+          ) : (
             <ApeInfoTooltip
-              PopperProps={{
-                disablePortal: true,
-              }}
-              onClose={handleTooltipClose}
-              open={openTooltip}
-              disableFocusListener
-              disableHoverListener
-              disableTouchListener
-              component={
-                <button onClick={handleTooltipOpen} className={linkButton}>
-                  See more
-                </button>
-              }
-              placement="top"
+              component={<button className={linkButton}>See more</button>}
             >
               {props.children}
             </ApeInfoTooltip>
-          </div>
-        </ClickAwayListener>
-      ) : (
-        <ApeInfoTooltip
-          component={<button className={linkButton}>See more</button>}
-        >
-          {props.children}
-        </ApeInfoTooltip>
+          )}
+        </>
       )}
     </span>
   );
