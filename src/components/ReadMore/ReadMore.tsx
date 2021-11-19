@@ -64,6 +64,7 @@ export const ReadMore: React.FC<ReadMoreProps> = (
                   See more
                 </button>
               }
+              placement="top"
             >
               {props.children}
             </ApeInfoTooltip>
