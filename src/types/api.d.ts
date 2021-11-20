@@ -59,6 +59,7 @@ export interface PutCirclesParam {
   vouching_text?: string;
   only_giver_vouch: number;
   team_selection: number;
+  auto_opt_out: number;
 }
 
 export interface CreateCircleParam {
