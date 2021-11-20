@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
+import {
+  ApeAvatar,
+  FormModal,
+  ApeTextField,
+  ApeToggle,
+  FormRadioGroup,
+} from 'components';
 import { useAdminApi } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { getAvatarPath } from 'utils/domain';
@@ -124,6 +130,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const VOUCHING_CALCULATION_OPTIONS = [
+  {
+    value: 0,
+    label: 'number',
+  },
+  {
+    value: 1,
+    label: 'percentage',
+  },
+];
+
 export const AdminCircleModal = ({
   circle,
   onClose,
@@ -142,7 +159,12 @@ export const AdminCircleModal = ({
   const [circleName, setCircleName] = useState<string>(circle.name);
   const [vouching, setVouching] = useState<number>(circle.vouching);
   const [tokenName, setTokenName] = useState<string>(circle.tokenName);
+  const [calculateVouchingPercent, setCalculateVouchingPercent] =
+    useState<number>(circle.calculate_vouching_percent);
   const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
+  const [minVouchesPercent, setMinVouchesPercent] = useState<number>(
+    circle.min_vouches_percent
+  );
   const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
   const [teamSelection, setTeamSelection] = useState<number>(
     circle.team_selection
@@ -195,6 +217,52 @@ export const AdminCircleModal = ({
     (set: (v: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
       set(Math.max(0, parseInt(e.target.value) || 0));
 
+  const onChangePercentWith =
+    (set: (v: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value) || 0;
+
+      if (value > 100) return set(100);
+      if (value <= 0) return set(1);
+      set(value);
+    };
+
+  const isCircleFieldsDirty = useMemo(() => {
+    return (
+      circleName !== circle.name ||
+      vouching !== circle.vouching ||
+      tokenName !== circle.tokenName ||
+      minVouches !== circle.min_vouches ||
+      teamSelText !== circle.teamSelText ||
+      allocText !== circle.allocText ||
+      allowEdit ||
+      defaultOptIn !== circle.default_opt_in ||
+      nominationDaysLimit !== circle.nomination_days_limit ||
+      allocText !== circle.allocText ||
+      vouchingText !== circle.vouchingText ||
+      onlyGiverVouch !== circle.only_giver_vouch ||
+      teamSelection !== circle.team_selection ||
+      minVouchesPercent !== circle.min_vouches_percent ||
+      calculateVouchingPercent !== circle.calculate_vouching_percent
+    );
+  }, [
+    circle,
+    circleName,
+    vouching,
+    tokenName,
+    minVouches,
+    teamSelText,
+    allocText,
+    allowEdit,
+    defaultOptIn,
+    nominationDaysLimit,
+    allocText,
+    vouchingText,
+    onlyGiverVouch,
+    teamSelection,
+    minVouchesPercent,
+    calculateVouchingPercent,
+  ]);
+
   const onSubmit = async () => {
     try {
       if (logoData.avatarRaw) {
@@ -205,21 +273,7 @@ export const AdminCircleModal = ({
         });
       }
 
-      if (
-        circleName !== circle.name ||
-        vouching !== circle.vouching ||
-        tokenName !== circle.tokenName ||
-        minVouches !== circle.min_vouches ||
-        teamSelText !== circle.teamSelText ||
-        allocText !== circle.allocText ||
-        allowEdit ||
-        defaultOptIn !== circle.default_opt_in ||
-        nominationDaysLimit !== circle.nomination_days_limit ||
-        allocText !== circle.allocText ||
-        vouchingText !== circle.vouchingText ||
-        onlyGiverVouch !== circle.only_giver_vouch ||
-        teamSelection !== circle.team_selection
-      ) {
+      if (isCircleFieldsDirty) {
         await updateCircle({
           name: circleName,
           vouching: vouching,
@@ -234,6 +288,8 @@ export const AdminCircleModal = ({
           vouching_text: vouchingText,
           only_giver_vouch: onlyGiverVouch,
           team_selection: teamSelection,
+          min_vouches_percent: minVouchesPercent,
+          calculate_vouching_percent: calculateVouchingPercent,
         }).then(() => {
           onClose();
         });
@@ -243,21 +299,8 @@ export const AdminCircleModal = ({
     }
   };
 
-  const circleDirty =
-    logoData.avatarRaw ||
-    circleName !== circle.name ||
-    vouching !== circle.vouching ||
-    tokenName !== circle.tokenName ||
-    minVouches !== circle.min_vouches ||
-    teamSelText !== circle.teamSelText ||
-    allocText !== circle.allocText ||
-    allowEdit ||
-    defaultOptIn !== circle.default_opt_in ||
-    nominationDaysLimit !== circle.nomination_days_limit ||
-    allocText !== circle.allocText ||
-    vouchingText !== circle.vouchingText ||
-    onlyGiverVouch !== circle.only_giver_vouch ||
-    teamSelection !== circle.team_selection;
+  const circleDirty = logoData.avatarRaw || isCircleFieldsDirty;
+
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -305,16 +348,32 @@ export const AdminCircleModal = ({
           onChange={onChangeWith(setTokenName)}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
-          <ApeTextField
-            label="Minimum vouches to add member"
-            value={minVouches}
-            onChange={onChangeNumberWith(setMinVouches)}
-            fullWidth
-            disabled={vouching === 0}
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
+          <FormRadioGroup
+            value={calculateVouchingPercent}
+            onChange={value => setCalculateVouchingPercent(Number(value))}
+            options={VOUCHING_CALCULATION_OPTIONS}
+            label="Vouching type"
+            infoTooltip="Use specified number of vouches for nomination, or percentage of all circle members"
           />
+          {calculateVouchingPercent ? (
+            <ApeTextField
+              label="Minimum percentage of vouches to add member"
+              value={minVouchesPercent}
+              onChange={onChangePercentWith(setMinVouchesPercent)}
+              fullWidth
+              disabled={vouching === 0}
+              InputProps={{ endAdornment: '%' }}
+            />
+          ) : (
+            <ApeTextField
+              label="Minimum vouches to add member"
+              value={minVouches}
+              onChange={onChangeNumberWith(setMinVouches)}
+              fullWidth
+              disabled={vouching === 0}
+            />
+          )}
         </div>
         <ApeTextField
           label="Teammate selection page text"
