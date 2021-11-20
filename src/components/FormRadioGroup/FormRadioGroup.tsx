@@ -15,6 +15,10 @@ const useStyles = makeStyles(theme => ({
   redColor: {
     color: theme.colors.red,
   },
+  centered: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 export const FormRadioGroup = ({
@@ -40,7 +44,7 @@ export const FormRadioGroup = ({
   };
 
   return (
-    <div>
+    <div className={classes.centered}>
       <FormControl component="fieldset" error={error}>
         {!!label && (
           <FormLabel component="legend">
