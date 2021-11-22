@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 'inherit',
     verticalAlign: 'baseline',
     margin: theme.spacing(0, 0.5),
+    color: theme.colors.mediumGray,
+    '&:hover': {
+      color: theme.colors.text,
+    },
   },
 }));
 
