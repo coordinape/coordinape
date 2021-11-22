@@ -125,6 +125,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const YesNoToolTip = ({ yes = '', no = '' }) => {
+  return (
+    <>
+      <strong>Yes</strong> - {yes}
+      <br />
+      <strong>No</strong> - {no}
+    </>
+  );
+};
+
 export const AdminCircleModal = ({
   circle,
   onClose,
@@ -299,6 +309,14 @@ export const AdminCircleModal = ({
           value={vouching}
           onChange={val => setVouching(val)}
           label="Enable Vouching?"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Circle members can invite new people to the
+          circle; they become new members if enough other members vouch for
+          them"
+              no="Only circle admins may add new members"
+            />
+          }
         />
         <ApeTextField
           label="Token name"
@@ -366,17 +384,35 @@ export const AdminCircleModal = ({
           value={defaultOptIn}
           onChange={val => setDefaultOptIn(val)}
           label="Default Opt In?"
+          infoTooltip={
+            <YesNoToolTip
+              yes="All new members are eligible to receive GIVE"
+              no="New members need to log into Coordinape and opt in to receiving GIVE"
+            />
+          }
         />
         <ApeToggle
           value={onlyGiverVouch}
           onChange={val => setOnlyGiverVouch(val)}
           className={clsx(classes.vouchingItem, !vouching && 'disabled')}
           label="Only Givers can vouch"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Only members who are eligible to send GIVE can vouch for new members"
+              no="Anyone in the circle can vouch for new members"
+            />
+          }
         />
         <ApeToggle
           value={teamSelection}
           onChange={val => setTeamSelection(val)}
           label="Team Selection Enabled"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Members select a team during allocation and make allocations only to that team"
+              no="Members make allocations to anyone in the circle"
+            />
+          }
         />
         <ApeToggle
           value={autoOptOut}
