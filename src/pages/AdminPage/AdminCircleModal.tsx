@@ -124,6 +124,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const YesNoToolTip = ({ yes = '', no = '' }) => {
+  return (
+    <>
+      <strong>Yes</strong> - {yes}
+      <br />
+      <strong>No</strong> - {no}
+    </>
+  );
+};
+
 export const AdminCircleModal = ({
   circle,
   onClose,
@@ -298,6 +308,14 @@ export const AdminCircleModal = ({
           value={vouching === 1}
           onChange={val => setVouching(val ? 1 : 0)}
           label="Enable Vouching?"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Circle members can invite new people to the
+          circle; they become new members if enough other members vouch for
+          them"
+              no="Only circle admins may add new members"
+            />
+          }
         />
         <ApeTextField
           label="Token name"
@@ -371,17 +389,35 @@ export const AdminCircleModal = ({
           value={defaultOptIn === 1}
           onChange={val => setDefaultOptIn(val ? 1 : 0)}
           label="Default Opt In?"
+          infoTooltip={
+            <YesNoToolTip
+              yes="All new members are eligible to receive GIVE"
+              no="New members need to log into Coordinape and opt in to receiving GIVE"
+            />
+          }
         />
         <ApeToggle
           value={onlyGiverVouch === 1}
           onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
           className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
           label="Only Givers can vouch"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Only members who are eligible to send GIVE can vouch for new members"
+              no="Anyone in the circle can vouch for new members"
+            />
+          }
         />
         <ApeToggle
           value={teamSelection === 1}
           onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
+          infoTooltip={
+            <YesNoToolTip
+              yes="Members select a team during allocation and make allocations only to that team"
+              no="Members make allocations to anyone in the circle"
+            />
+          }
         />
       </div>
       <div className={classes.bottomContainer}>
