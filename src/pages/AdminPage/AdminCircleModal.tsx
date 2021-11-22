@@ -134,7 +134,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const YesNoToolTip = ({ yes = '', no = '', href = '', anchorText = '' }) => {
+const YesNoTooltip = ({ yes = '', no = '', href = '', anchorText = '' }) => {
   const classes = useStyles();
   return (
     <>
@@ -331,7 +331,7 @@ export const AdminCircleModal = ({
           onChange={val => setVouching(val)}
           label="Enable Vouching?"
           infoTooltip={
-            <YesNoToolTip
+            <YesNoTooltip
               yes="Circle members can invite new people to the
           circle; they become new members if enough other members vouch for
           them"
@@ -408,7 +408,7 @@ export const AdminCircleModal = ({
           onChange={val => setDefaultOptIn(val)}
           label="Default Opt In?"
           infoTooltip={
-            <YesNoToolTip
+            <YesNoTooltip
               yes="All new members are eligible to receive GIVE"
               no="New members need to log into Coordinape and opt in to receiving GIVE"
               href={DOCS_HREF}
@@ -422,7 +422,7 @@ export const AdminCircleModal = ({
           className={clsx(classes.vouchingItem, !vouching && 'disabled')}
           label="Only Givers can vouch"
           infoTooltip={
-            <YesNoToolTip
+            <YesNoTooltip
               yes="Only members who are eligible to send GIVE can vouch for new members"
               no="Anyone in the circle can vouch for new members"
               href={DOCS_HREF}
@@ -435,7 +435,7 @@ export const AdminCircleModal = ({
           onChange={val => setTeamSelection(val)}
           label="Team Selection Enabled"
           infoTooltip={
-            <YesNoToolTip
+            <YesNoTooltip
               yes="Members select a team during allocation and make allocations only to that team"
               no="Members make allocations to anyone in the circle"
             />
