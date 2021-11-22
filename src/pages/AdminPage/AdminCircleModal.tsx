@@ -12,6 +12,9 @@ import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
 
+const DOCS_HREF = 'https://docs.coordinape.com/welcome/admin_info';
+const DOCS_TEXT = 'See the docs...';
+
 const useStyles = makeStyles(theme => ({
   logoContainer: {
     position: 'relative',
@@ -122,14 +125,32 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     marginTop: theme.spacing(2),
   },
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+  },
 }));
 
-const YesNoToolTip = ({ yes = '', no = '' }) => {
+const YesNoToolTip = ({ yes = '', no = '', href = '', anchorText = '' }) => {
+  const classes = useStyles();
   return (
     <>
       <strong>Yes</strong> - {yes}
       <br />
       <strong>No</strong> - {no}
+      <br />
+      {href && (
+        <a
+          className={classes.tooltipLink}
+          rel="noreferrer"
+          target="_blank"
+          href={href}
+        >
+          {anchorText}
+        </a>
+      )}
     </>
   );
 };
@@ -318,6 +339,8 @@ export const AdminCircleModal = ({
           circle; they become new members if enough other members vouch for
           them"
               no="Only circle admins may add new members"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
             />
           }
         />
@@ -397,6 +420,8 @@ export const AdminCircleModal = ({
             <YesNoToolTip
               yes="All new members are eligible to receive GIVE"
               no="New members need to log into Coordinape and opt in to receiving GIVE"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
             />
           }
         />
@@ -409,6 +434,8 @@ export const AdminCircleModal = ({
             <YesNoToolTip
               yes="Only members who are eligible to send GIVE can vouch for new members"
               no="Anyone in the circle can vouch for new members"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
             />
           }
         />

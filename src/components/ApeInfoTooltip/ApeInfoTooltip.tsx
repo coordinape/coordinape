@@ -102,6 +102,7 @@ export const ApeInfoTooltip = ({
           title={<div>{children ?? 'blank'}</div>}
           placement="top-start"
           TransitionComponent={Zoom}
+          leaveDelay={50} // Allows clickable links as content, transition-out animation prevents clicking without a slight delay
           classes={{
             ...classes,
             tooltip: clsx(localClasses.tooltip, classes?.tooltip),
