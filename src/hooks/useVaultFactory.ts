@@ -20,14 +20,12 @@ export function useVaultFactory() {
       const signer = await web3Context.library.getSigner();
       if (contracts) {
         let factory = contracts.apeVaultFactory;
-        console.warn('factory', factory);
         factory = factory.connect(signer);
         const tx = await factory.createApeVault(
           _params._token,
           _params._simpleToken
         );
         const receipt = await tx.wait();
-        console.warn(receipt);
         if (receipt && receipt?.events) {
           for (const event of receipt.events) {
             if (event?.event === 'VaultCreated') {
@@ -43,7 +41,6 @@ export function useVaultFactory() {
         }
       }
     } catch (e: any) {
-      console.error(e);
       if (e.code === 4001) {
         throw Error(`Transaction rejected by your wallet`);
       }

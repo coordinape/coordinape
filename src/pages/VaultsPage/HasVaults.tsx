@@ -11,8 +11,7 @@ import DepositModal from './DepositModal';
 import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
-import { ITableColumn, IUser } from 'types';
-import { IVault } from 'types/contracts.vault';
+import { ITableColumn, IUser, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -170,7 +169,7 @@ export default function HasVaults({
   return (
     <div className={classes.withVaults}>
       <div>
-        <DepositModal open={open} onClose={setOpen} />
+        <DepositModal vault={vault} open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>
             {vault.type.toUpperCase()} Vault
@@ -243,7 +242,7 @@ export default function HasVaults({
               There are no transactions to show yet.
             </h2>
             <h3 className={classes.noVaultsSubtitle}>
-              To get started, fund your vault with USDC
+              To get started, fund your vault with {vault.type.toUpperCase()}
             </h3>
             <Button
               variant="contained"

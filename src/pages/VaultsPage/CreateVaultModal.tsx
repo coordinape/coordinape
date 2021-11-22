@@ -57,6 +57,7 @@ export const CreateVaultModal = ({
   const { _createApeVault } = useVaultFactory();
 
   const routeChange = async () => {
+    // TODO: allow admin to select simpleToken (Ex: ApeToken is a simpleToken)
     const token = getToken(1337, asset as KnownToken);
     const vault = await _createApeVault({
       _token: token.address,
@@ -68,7 +69,13 @@ export const CreateVaultModal = ({
         const newVaults = { ...vaults };
         newVaults[selectedCircle.id] = [
           ...(vaults[selectedCircle.id] || []),
-          { id: vault.address, type: asset, transactions: [] },
+          {
+            id: vault.address,
+            tokenAddress: token.address,
+            simpleTokenAddress: token.address,
+            type: asset,
+            transactions: [],
+          },
         ];
         return newVaults;
       }

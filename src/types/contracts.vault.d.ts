@@ -11,6 +11,8 @@ export interface IVaultTransaction {
 
 export interface IVault {
   id: string;
+  tokenAddress: string;
+  simpleTokenAddress: string;
   type: string;
   transactions: IVaultTransaction[];
 }
