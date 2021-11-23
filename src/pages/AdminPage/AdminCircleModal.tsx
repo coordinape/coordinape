@@ -160,6 +160,7 @@ export const AdminCircleModal = ({
   const [onlyGiverVouch, setOnlyGiverVouch] = useState<number>(
     circle.only_giver_vouch
   );
+  const [autoOptOut, setAutoOptOut] = useState<number>(circle.auto_opt_out);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,7 +219,8 @@ export const AdminCircleModal = ({
         allocText !== circle.allocText ||
         vouchingText !== circle.vouchingText ||
         onlyGiverVouch !== circle.only_giver_vouch ||
-        teamSelection !== circle.team_selection
+        teamSelection !== circle.team_selection ||
+        autoOptOut !== circle.auto_opt_out
       ) {
         await updateCircle({
           name: circleName,
@@ -234,6 +236,7 @@ export const AdminCircleModal = ({
           vouching_text: vouchingText,
           only_giver_vouch: onlyGiverVouch,
           team_selection: teamSelection,
+          auto_opt_out: autoOptOut,
         }).then(() => {
           onClose();
         });
@@ -257,7 +260,8 @@ export const AdminCircleModal = ({
     allocText !== circle.allocText ||
     vouchingText !== circle.vouchingText ||
     onlyGiverVouch !== circle.only_giver_vouch ||
-    teamSelection !== circle.team_selection;
+    teamSelection !== circle.team_selection ||
+    autoOptOut !== circle.auto_opt_out;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -382,6 +386,11 @@ export const AdminCircleModal = ({
           value={teamSelection === 1}
           onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
+        />
+        <ApeToggle
+          value={autoOptOut === 1}
+          onChange={val => setAutoOptOut(val ? 1 : 0)}
+          label="Auto Opt Out?"
         />
       </div>
       <div className={classes.bottomContainer}>
