@@ -227,7 +227,7 @@ export const ProfilePage = ({
   );
 
   const recentEpochs = profile?.users?.map(user => ({
-    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : 'No epoch statement made.',
+    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
     circle: user.circle,
   }));
 
@@ -329,7 +329,9 @@ export const ProfilePage = ({
                 <div className={classes.recentEpochTitle}>
                   {circle.protocol.name} {circle.name}
                 </div>
-                <div className={classes.recentEpochStatement}>{bio}</div>
+                {bio ? (
+                  <div className={classes.recentEpochStatement}>{bio}</div>
+                ) : null}
               </div>
             ))}
           </Section>
