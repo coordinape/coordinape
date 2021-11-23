@@ -92,7 +92,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,tsx}": [
+    "{api,src}/**/*.{js,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ]

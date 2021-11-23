@@ -1,13 +1,16 @@
-import { PrismaClient } from '@prisma/client';
 import assert from 'assert';
 import crypto from 'crypto';
+
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   try {
-    assert(req.body?.token, 'No token was provided');
-    const [expectedId, token] = req.body.token.split('|');
+    assert(req.body?.authorization, 'No token was provided');
+    const [expectedId, token] = req.body.authorization
+      .replace('Bearer ', '')
+      .split('|');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const tokenRow = await prisma.accessToken.findFirst({
