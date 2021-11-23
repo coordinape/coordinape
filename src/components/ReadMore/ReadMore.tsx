@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { makeStyles, ClickAwayListener } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components/ApeInfoTooltip/ApeInfoTooltip';
-import useMobileDetect from 'hooks/useMobileDetect';
+
 interface ReadMoreProps {
   /** this property decide to hide the text and show the options see more or see less*/
   isHidden?: boolean;
@@ -33,53 +33,16 @@ export const ReadMore: React.FC<ReadMoreProps> = (
 ): JSX.Element => {
   const { textHidden, linkButton } = useStyles();
   const _isHidden = props.isHidden ?? true;
-  const [openTooltip, setOpenTooltip] = useState(false);
-  const { isMobile } = useMobileDetect();
-
-  const handleTooltipClose = () => {
-    setOpenTooltip(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpenTooltip(true);
-  };
 
   return (
     <span>
       <div className={_isHidden ? textHidden : undefined}>{props.children}</div>
       {_isHidden && (
-        <>
-          {isMobile ? (
-            <ClickAwayListener onClickAway={handleTooltipClose}>
-              <div>
-                <ApeInfoTooltip
-                  PopperProps={{
-                    disablePortal: true,
-                  }}
-                  onClose={handleTooltipClose}
-                  open={openTooltip}
-                  disableFocusListener
-                  disableHoverListener
-                  disableTouchListener
-                  component={
-                    <button onClick={handleTooltipOpen} className={linkButton}>
-                      See more
-                    </button>
-                  }
-                  placement="top"
-                >
-                  {props.children}
-                </ApeInfoTooltip>
-              </div>
-            </ClickAwayListener>
-          ) : (
-            <ApeInfoTooltip
-              component={<button className={linkButton}>See more</button>}
-            >
-              {props.children}
-            </ApeInfoTooltip>
-          )}
-        </>
+        <ApeInfoTooltip
+          component={<button className={linkButton}>See more</button>}
+        >
+          {props.children}
+        </ApeInfoTooltip>
       )}
     </span>
   );

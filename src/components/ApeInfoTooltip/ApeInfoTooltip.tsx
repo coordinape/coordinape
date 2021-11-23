@@ -1,9 +1,16 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
+import {
+  makeStyles,
+  Tooltip,
+  Zoom,
+  TooltipProps,
+  ClickAwayListener,
+} from '@material-ui/core';
 
+import useMobileDetect from 'hooks/useMobileDetect';
 import { InfoIcon } from 'icons';
 
 const useStyles = makeStyles(theme => ({
@@ -37,25 +44,76 @@ export const ApeInfoTooltip = ({
   'title' | 'children'
 >) => {
   const localClasses = useStyles();
+  const [openTooltip, setOpenTooltip] = useState(false);
+  const { isMobile } = useMobileDetect();
+
+  const handleTooltipClose = () => {
+    setOpenTooltip(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpenTooltip(true);
+  };
+
   return (
-    <Tooltip
-      title={<div>{children ?? 'blank'}</div>}
-      placement="top-start"
-      TransitionComponent={Zoom}
-      classes={{
-        ...classes,
-        tooltip: clsx(localClasses.tooltip, classes?.tooltip),
-      }}
-      interactive
-      {...props}
-    >
-      {props.component ? (
-        <span>{props.component}</span>
+    <>
+      {isMobile ? (
+        <ClickAwayListener onClickAway={handleTooltipClose}>
+          <div>
+            <Tooltip
+              PopperProps={{
+                disablePortal: true,
+              }}
+              onClose={handleTooltipClose}
+              open={openTooltip}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+              title={<div>{children ?? 'blank'}</div>}
+              placement="top"
+              TransitionComponent={Zoom}
+              classes={{
+                ...classes,
+                tooltip: clsx(localClasses.tooltip, classes?.tooltip),
+              }}
+              interactive
+              {...props}
+            >
+              {props.component ? (
+                <span onClick={handleTooltipOpen}>{props.component}</span>
+              ) : (
+                <span className={className}>
+                  <InfoIcon
+                    onClick={handleTooltipOpen}
+                    inherit="inherit"
+                    className={localClasses.icon}
+                  />
+                </span>
+              )}
+            </Tooltip>
+          </div>
+        </ClickAwayListener>
       ) : (
-        <span className={className}>
-          <InfoIcon inherit="inherit" className={localClasses.icon} />
-        </span>
+        <Tooltip
+          title={<div>{children ?? 'blank'}</div>}
+          placement="top-start"
+          TransitionComponent={Zoom}
+          classes={{
+            ...classes,
+            tooltip: clsx(localClasses.tooltip, classes?.tooltip),
+          }}
+          interactive
+          {...props}
+        >
+          {props.component ? (
+            <span>{props.component}</span>
+          ) : (
+            <span className={className}>
+              <InfoIcon inherit="inherit" className={localClasses.icon} />
+            </span>
+          )}
+        </Tooltip>
       )}
-    </Tooltip>
+    </>
   );
 };
