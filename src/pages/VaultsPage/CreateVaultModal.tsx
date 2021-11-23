@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
+import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
@@ -15,7 +16,7 @@ import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
 
-import { IUser, KnownToken } from 'types';
+import { IUser, KnownToken, NetworkId } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -47,6 +48,8 @@ export const CreateVaultModal = ({
 }) => {
   const [asset, setAsset] = useState<string>('');
 
+  const { chainId } = useWeb3React();
+
   const classes = useStyles();
 
   const selectedCircle = useSelectedCircle();
@@ -58,7 +61,7 @@ export const CreateVaultModal = ({
 
   const routeChange = async () => {
     // TODO: allow admin to select simpleToken (Ex: ApeToken is a simpleToken)
-    const token = getToken(1337, asset as KnownToken);
+    const token = getToken(chainId as NetworkId, asset as KnownToken);
     const vault = await _createApeVault({
       _token: token.address,
       _simpleToken: token.address,

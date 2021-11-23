@@ -3,6 +3,8 @@ import { BigNumberish } from '@ethersproject/bignumber';
 import { ContractReceipt } from '@ethersproject/contracts';
 import { useWeb3React } from '@web3-react/core';
 
+import { ERC20Service } from 'services/erc20';
+
 import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
@@ -17,7 +19,13 @@ export function useVaultRouter() {
   ): Promise<ContractReceipt> => {
     try {
       const signer = await web3Context.library.getSigner();
+      const token = new ERC20Service(
+        await web3Context.library,
+        await signer.getAddress(),
+        vault.tokenAddress
+      );
       if (contracts) {
+        await token.approveUnlimited(contracts.apeRouter.address);
         const apeRouter = contracts.apeRouter.connect(signer);
         const tx = await apeRouter.delegateDeposit(
           vault.id,
