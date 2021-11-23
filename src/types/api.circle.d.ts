@@ -27,6 +27,7 @@ export interface IApiCircle {
   updated_at: Date;
   protocol_id: number;
   protocol: IProtocol;
+  auto_opt_out: number;
 }
 
 export interface ICircle extends IApiCircle {

@@ -182,6 +182,7 @@ export const AdminCircleModal = ({
   const [onlyGiverVouch, setOnlyGiverVouch] = useState<number>(
     circle.only_giver_vouch
   );
+  const [autoOptOut, setAutoOptOut] = useState<number>(circle.auto_opt_out);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -242,7 +243,8 @@ export const AdminCircleModal = ({
       onlyGiverVouch !== circle.only_giver_vouch ||
       teamSelection !== circle.team_selection ||
       minVouchesPercent !== circle.min_vouches_percent ||
-      calculateVouchingPercent !== circle.calculate_vouching_percent
+      calculateVouchingPercent !== circle.calculate_vouching_percent ||
+      autoOptOut !== circle.auto_opt_out
     );
   }, [
     circle,
@@ -290,6 +292,7 @@ export const AdminCircleModal = ({
           team_selection: teamSelection,
           min_vouches_percent: minVouchesPercent,
           calculate_vouching_percent: calculateVouchingPercent,
+          auto_opt_out: autoOptOut,
         }).then(() => {
           onClose();
         });
@@ -441,6 +444,11 @@ export const AdminCircleModal = ({
           value={teamSelection === 1}
           onChange={val => setTeamSelection(val ? 1 : 0)}
           label="Team Selection Enabled"
+        />
+        <ApeToggle
+          value={autoOptOut === 1}
+          onChange={val => setAutoOptOut(val ? 1 : 0)}
+          label="Auto Opt Out?"
         />
       </div>
       <div className={classes.bottomContainer}>
