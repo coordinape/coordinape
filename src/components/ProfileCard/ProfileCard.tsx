@@ -90,6 +90,7 @@ const useStyles = makeStyles(theme => ({
     color: 'rgba(81, 99, 105, 0.5)',
     textAlign: 'center',
     WebkitLineClamp: 4,
+    wordBreak: 'break-word',
   },
   editButton: {
     margin: theme.spacing(7, 0, 2),
