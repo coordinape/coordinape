@@ -3,9 +3,8 @@ import crypto from 'crypto';
 
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
-
 export default async function handler(req, res) {
+  const prisma = new PrismaClient();
   try {
     assert(req.headers?.authorization, 'No token was provided');
     const [expectedId, token] = req.headers.authorization
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
   } catch (e) {
     res.status(401).json({
       error: '401',
-      message: 'Token provided is invalid',
+      message: e.message || 'Unexpected error',
     });
   } finally {
     await prisma.$disconnect();
