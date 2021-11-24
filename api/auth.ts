@@ -7,12 +7,11 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   try {
-    assert(req.body?.authorization, 'No token was provided');
-    const [expectedId, token] = req.body.authorization
+    assert(req.headers?.authorization, 'No token was provided');
+    const [expectedId, token] = req.headers.authorization
       .replace('Bearer ', '')
       .split('|');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
     const tokenRow = await prisma.accessToken.findFirst({
       where: {
         tokenable_type: 'App\\Models\\Profile',
@@ -21,25 +20,16 @@ export default async function handler(req, res) {
       },
     });
     assert(tokenRow, 'The token provided was not recognized');
-
-    const profile = await prisma.profile.findFirst({
-      where: { id: tokenRow.tokenable_id },
+    res.status(200).json({
+      'X-Hasura-User-Id': tokenRow.tokenable_id.toString(),
+      'X-Hasura-Role': 'user',
     });
-
-    res.status(200).send(
-      stringify({
-        body: req.body,
-        query: req.query,
-        cookies: req.cookies,
-        profile,
-      })
-    );
   } catch (e) {
-    res.status(500).send(e.stack || e);
+    res.status(401).json({
+      error: '401',
+      message: 'Token provided is invalid',
+    });
   } finally {
     await prisma.$disconnect();
   }
 }
-
-const stringify = obj =>
-  JSON.stringify(obj, (_, v) => (typeof v === 'bigint' ? v.toString() : v));
