@@ -18,10 +18,6 @@ import * as paths from 'routes/paths';
 
 import { ICircle } from 'types';
 
-interface MenuNavigationLinksProps {
-  handleOnClick?(): void;
-}
-
 const useStyles = makeStyles(theme => ({
   avatarButton: {
     marginLeft: theme.spacing(1.5),
@@ -135,7 +131,7 @@ const CircleButton = ({
   );
 };
 
-export const MenuNavigationLinks = (props: MenuNavigationLinksProps) => {
+export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
   const classes = useStyles();
   return (
     <>

@@ -258,7 +258,7 @@ export const MainHeader = () => {
       {suspendedButtons}
     </div>
   ) : (
-    <Box className={classes.root}>
+    <div className={classes.root}>
       <img
         alt="logo"
         className={classes.coordinapeLogo}
@@ -316,7 +316,7 @@ export const MainHeader = () => {
           </Box>
         </Box>
       )}
-    </Box>
+    </div>
   );
 };
 
