@@ -1,9 +1,20 @@
-import React, { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import clsx from 'clsx';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import {
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+  Box,
+  IconButton,
+  Divider,
+  Grid,
+  ButtonBase,
+} from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import { Skeleton } from '@material-ui/lab';
 
 import {
@@ -11,6 +22,7 @@ import {
   ConnectWalletButton,
   ReceiveInfo,
   MyAvatarMenu,
+  MenuNavigationLinks,
 } from 'components';
 import { useSelectedCircleEpoch, useMe, useCircle } from 'hooks';
 import { rMyAddress } from 'recoilState';
@@ -25,9 +37,11 @@ const useStyles = makeStyles(theme => ({
     gridTemplateColumns: '1fr 1fr 1fr',
     padding: theme.spacing(0, 5),
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2, 4),
-      height: theme.custom.appHeaderHeight + 32,
-      gridTemplateColumns: '1fr 8fr',
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: theme.spacing(0, '25px'),
+      height: theme.custom.appHeaderHeight - 11,
+      position: 'relative',
       zIndex: 2,
     },
     '& > *': {
@@ -39,6 +53,14 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
+  },
+  mobileMenu: {
+    top: theme.custom.appHeaderHeight - 11,
+    left: 0,
+    position: 'absolute',
+    backgroundColor: theme.colors.ultraLightGray,
+    width: '100%',
+    height: '100vh',
   },
   coordinapeLogo: {
     justifySelf: 'start',
@@ -59,11 +81,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'flex-end',
     [theme.breakpoints.down('xs')]: {
-      position: 'absolute',
-      width: '100%',
-      background: theme.colors.primary,
-      top: theme.custom.appHeaderHeight - 12,
-      left: '0px',
+      alignItems: 'flex-start',
+      flexDirection: 'column',
     },
   },
   buttons: {
@@ -111,6 +130,34 @@ const useStyles = makeStyles(theme => ({
         },
       },
     },
+    [theme.breakpoints.down('xs')]: {
+      color: theme.colors.text,
+      fontWeight: 'normal',
+    },
+  },
+  editCircleButton: {
+    backgroundColor: theme.colors.red,
+    borderRadius: '8px',
+    width: '32px',
+    height: '32px',
+  },
+  accountInfoMobile: {
+    '& .MuiButtonBase-root': {
+      background: theme.colors.white,
+    },
+  },
+  editIcon: {
+    color: theme.colors.white,
+  },
+  mobileCircleHeading: {
+    fontSize: '24px',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    lineHeight: '30px',
+    color: theme.colors.text,
+  },
+  profileHeading: {
+    color: theme.colors.red,
   },
 }));
 
@@ -145,7 +192,6 @@ export const HeaderNav = () => {
 
 export const HeaderButtons = () => {
   const classes = useStyles();
-
   const myAddress = useRecoilValue(rMyAddress);
   const { epochIsActive } = useSelectedCircleEpoch();
 
@@ -165,6 +211,12 @@ export const HeaderButtons = () => {
 export const MainHeader = () => {
   const theme = useTheme();
   const classes = useStyles();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   const screenDownXs = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -206,17 +258,65 @@ export const MainHeader = () => {
       {suspendedButtons}
     </div>
   ) : (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <img
         alt="logo"
         className={classes.coordinapeLogo}
         src="/svgs/logo/logo.svg"
       />
-      <div className={classes.smallNavAndButtons}>
-        {suspendedButtons}
-        {suspendedNav}
-      </div>
-    </div>
+      <IconButton
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        size="small"
+        aria-label="menu"
+      >
+        {!isMobileMenuOpen ? (
+          <img alt="menu" src="/svgs/hamburger.svg" />
+        ) : (
+          <img alt="menu" src="/svgs/x-close.svg" />
+        )}
+      </IconButton>
+      {isMobileMenuOpen && (
+        <Box
+          display="flex"
+          className={classes.mobileMenu}
+          flexDirection="column"
+          py={3}
+          px={1}
+        >
+          <Box px={2} display="flex" justifyContent="space-between">
+            <div className={classes.mobileCircleHeading}>Year Finance</div>
+            <ButtonBase className={classes.editCircleButton}>
+              <EditIcon className={classes.editIcon} />
+            </ButtonBase>
+          </Box>
+          <NavLink
+            isActive={() => false}
+            className={clsx(classes.navLink, classes.profileHeading)}
+            to="/"
+          >
+            Community Grants
+          </NavLink>
+          <NavLink isActive={() => false} className={classes.navLink} to="/">
+            Core Contributors
+          </NavLink>
+          <Divider variant="fullWidth" />
+          <Box py={2}>{suspendedNav}</Box>
+          <Divider variant="fullWidth" />
+          <Box pt={3} />
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <MyAvatarMenu />
+            </Grid>
+            <Grid className={classes.accountInfoMobile} item>
+              <AccountInfo />
+            </Grid>
+          </Grid>
+          <Box py={3} display="flex" flexDirection="column" px={2}>
+            <MenuNavigationLinks />
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 };
 

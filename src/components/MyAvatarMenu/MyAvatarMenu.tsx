@@ -4,13 +4,23 @@ import clsx from 'clsx';
 import { groupBy, toPairs } from 'lodash';
 import { NavLink } from 'react-router-dom';
 
-import { Popover, makeStyles, Avatar, Divider } from '@material-ui/core';
+import {
+  Popover,
+  makeStyles,
+  Avatar,
+  Divider,
+  Hidden,
+} from '@material-ui/core';
 
 import { useMe, useCircle, useGlobalUi } from 'hooks';
 import { useCircleEpochsStatus } from 'recoilState';
 import * as paths from 'routes/paths';
 
 import { ICircle } from 'types';
+
+interface MenuNavigationLinksProps {
+  handleOnClick?(): void;
+}
 
 const useStyles = makeStyles(theme => ({
   avatarButton: {
@@ -74,6 +84,13 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: theme.colors.black,
     },
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+      padding: '6px 0',
+      fontSize: 20,
+      color: theme.colors.text,
+      fontWeight: 'normal',
+    },
   },
   selectedLink: {
     '&::before': {
@@ -118,6 +135,40 @@ const CircleButton = ({
   );
 };
 
+export const MenuNavigationLinks = (props: MenuNavigationLinksProps) => {
+  const classes = useStyles();
+  return (
+    <>
+      {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
+        if (isExternal) {
+          return (
+            <div key={path}>
+              <a
+                className={classes.link}
+                href={path}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {label}
+              </a>
+            </div>
+          );
+        }
+        return (
+          <NavLink
+            key={path}
+            to={path}
+            className={classes.link}
+            onClick={props.handleOnClick}
+          >
+            {label}
+          </NavLink>
+        );
+      })}
+    </>
+  );
+};
+
 export const MyAvatarMenu = () => {
   const classes = useStyles();
   const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
@@ -154,80 +205,67 @@ export const MyAvatarMenu = () => {
             : clsx(classes.avatarButton, 'selected')
         }
       />
-      <Popover
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        classes={{
-          paper: classes.popover,
-        }}
-        id="my-avatar-popover"
-        onClose={handleClose}
-        open={open}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
-          if (isExternal) {
-            return (
-              <div key={path}>
-                <a
-                  className={classes.link}
-                  href={path}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {label}
-                </a>
-              </div>
-            );
-          }
-          return (
-            <NavLink
-              key={path}
-              to={path}
-              className={classes.link}
-              onClick={() => setAnchorEl(null)}
-            >
-              {label}
-            </NavLink>
-          );
-        })}
-        <Divider variant="middle" className={classes.divider} />
-        <span className={classes.subHeader}>Switch Circles</span>
-        {groupedCircles.map(([protocolName, circles], idx) => (
-          <React.Fragment key={idx}>
-            <span className={classes.subSubHeader}>{protocolName}</span>
-            {circles.map(circle => (
-              <CircleButton
-                key={circle.id}
-                circle={circle}
-                selected={selectedCircle?.id === circle.id}
-                onClick={() => {
-                  setAnchorEl(null);
-                  selectedCircle?.id !== circle.id &&
-                    selectAndFetchCircle(circle.id);
-                }}
-              />
-            ))}
-          </React.Fragment>
-        ))}
-        {hasAdminView && (
-          <>
-            <Divider variant="middle" className={classes.divider} />
-            <span className={classes.subHeader}>Admin View</span>
-            {!selectedMyUser && selectedCircle ? (
-              <>
-                <button
-                  className={clsx(classes.link, classes.selectedLink)}
-                  onClick={() => setAnchorEl(null)}
-                >
-                  {selectedCircle.name}
-                </button>
+      <Hidden xsDown>
+        <Popover
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          classes={{
+            paper: classes.popover,
+          }}
+          id="my-avatar-popover"
+          onClose={handleClose}
+          open={open}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <MenuNavigationLinks handleOnClick={() => setAnchorEl(null)} />
+          <Divider variant="middle" className={classes.divider} />
+          <span className={classes.subHeader}>Switch Circles</span>
+          {groupedCircles.map(([protocolName, circles], idx) => (
+            <React.Fragment key={idx}>
+              <span className={classes.subSubHeader}>{protocolName}</span>
+              {circles.map(circle => (
+                <CircleButton
+                  key={circle.id}
+                  circle={circle}
+                  selected={selectedCircle?.id === circle.id}
+                  onClick={() => {
+                    setAnchorEl(null);
+                    selectedCircle?.id !== circle.id &&
+                      selectAndFetchCircle(circle.id);
+                  }}
+                />
+              ))}
+            </React.Fragment>
+          ))}
+          {hasAdminView && (
+            <>
+              <Divider variant="middle" className={classes.divider} />
+              <span className={classes.subHeader}>Admin View</span>
+              {!selectedMyUser && selectedCircle ? (
+                <>
+                  <button
+                    className={clsx(classes.link, classes.selectedLink)}
+                    onClick={() => setAnchorEl(null)}
+                  >
+                    {selectedCircle.name}
+                  </button>
+                  <button
+                    className={classes.link}
+                    onClick={() => {
+                      setAnchorEl(null);
+                      openCircleSelector();
+                    }}
+                  >
+                    More...
+                  </button>
+                </>
+              ) : (
                 <button
                   className={classes.link}
                   onClick={() => {
@@ -235,23 +273,13 @@ export const MyAvatarMenu = () => {
                     openCircleSelector();
                   }}
                 >
-                  More...
+                  Circle Selector
                 </button>
-              </>
-            ) : (
-              <button
-                className={classes.link}
-                onClick={() => {
-                  setAnchorEl(null);
-                  openCircleSelector();
-                }}
-              >
-                Circle Selector
-              </button>
-            )}
-          </>
-        )}
-      </Popover>
+              )}
+            </>
+          )}
+        </Popover>
+      </Hidden>
     </>
   );
 };
