@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.colors.ultraLightGray,
     width: '100%',
     height: '100vh',
+    overflowY: 'scroll',
   },
   coordinapeLogo: {
     justifySelf: 'start',
