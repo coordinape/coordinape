@@ -25,6 +25,7 @@ import {
   MenuNavigationLinks,
 } from 'components';
 import { useSelectedCircleEpoch, useMe, useCircle } from 'hooks';
+import { CloseIcon, HamburgerIcon } from 'icons';
 import { rMyAddress } from 'recoilState';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
@@ -269,11 +270,7 @@ export const MainHeader = () => {
         size="small"
         aria-label="menu"
       >
-        {!isMobileMenuOpen ? (
-          <img alt="menu" src="/svgs/hamburger.svg" />
-        ) : (
-          <img alt="menu" src="/svgs/x-close.svg" />
-        )}
+        {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
       </IconButton>
       {isMobileMenuOpen && (
         <Box
