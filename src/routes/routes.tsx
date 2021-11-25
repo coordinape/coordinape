@@ -1,9 +1,7 @@
 import React, { lazy } from 'react';
 
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 
-import { USER_ROLE_ADMIN } from 'config/constants';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
@@ -13,7 +11,10 @@ import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
-import { rSelectedMyUser, rSelectedCircle, rHasAdminView } from 'recoilState';
+import {
+  useMyProfileLoadable,
+  useSelectedCircleLoadable,
+} from 'recoilState/app';
 
 import * as paths from './paths';
 
@@ -23,11 +24,13 @@ import * as paths from './paths';
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const Routes = () => {
-  const selectedMyUser = useRecoilValue(rSelectedMyUser);
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const hasAdminView = useRecoilValue(rHasAdminView);
+  const myProfileLoadable = useMyProfileLoadable();
+  const selectedLoadable = useSelectedCircleLoadable();
 
-  if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
+  if (
+    myProfileLoadable.state !== 'hasValue' ||
+    selectedLoadable.state !== 'hasValue'
+  ) {
     return (
       <Switch>
         <Route exact path={paths.getHomePath()} component={DefaultPage} />
@@ -36,19 +39,18 @@ export const Routes = () => {
           path={paths.getCreateCirclePath()}
           component={CreateCirclePage}
         />
-        <Redirect to={paths.getHomePath()} />
       </Switch>
     );
   }
-
-  const canViewAdmin = selectedMyUser?.role === USER_ROLE_ADMIN || hasAdminView;
+  const selectedUser = selectedLoadable.contents.myUser;
+  const canViewAdmin =
+    selectedUser.isCircleAdmin || myProfileLoadable.contents.hasAdminView;
 
   return (
     <Switch>
       <Route exact path={paths.getHomePath()} component={DefaultPage} />
       <Route
         exact
-        // TODO: This use of the path pattern is odd
         path={paths.getProfilePath({ address: ':profileAddress' })}
         component={ProfilePage}
       />
@@ -89,7 +91,7 @@ export const Routes = () => {
         component={CreateCirclePage}
       />
 
-      {selectedMyUser && [
+      {selectedUser && [
         <Route
           exact
           key={paths.getAllocationPath()}

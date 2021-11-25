@@ -9,13 +9,14 @@ import SortIcon from '@material-ui/icons/Sort';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
+import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapMetric,
   useMapResults,
   useMapMeasures,
   useSetAmSearch,
-  useTriggerMode,
-} from 'recoilState';
+} from 'recoilState/map';
+import { useTriggerMode } from 'recoilState/ui';
 
 import AMProfileCard from './AMProfileCard';
 
@@ -82,6 +83,7 @@ export const AMDrawer = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
 
+  const { circle } = useSelectedCircle();
   const setSearch = useSetAmSearch();
   const metric = useMapMetric();
   const rawProfiles = useMapResults();
@@ -145,6 +147,7 @@ export const AMDrawer = () => {
             key={profile.id}
             profile={profile}
             summarize={showRank}
+            circle={circle}
           />
         ))}
       </div>

@@ -1,9 +1,10 @@
-import { ConnectorNames } from './enums';
+import { assertDef } from 'utils/tools';
 
-const STORAGE_KEY_FORCE_OPT_OUT_CIRCLE_ID_ITEM = 'forceOptOutCircleId';
-const STORAGE_KEY_CIRCLE_ID = 'circleId';
-const STORAGE_KEY_WALLET_ADDRESS = 'walletAddress';
-const STORAGE_KEY_CONNECTOR = 'connector';
+import { IAuth } from 'types';
+
+const STORAGE_KEY_FORCE_OPT_OUT_CIRCLE_ID_ITEM = 'capeForceOptOutCircleId';
+const STORAGE_KEY_CIRCLE_ID = 'capeCircleId';
+const STORAGE_AUTH = 'capeAuth';
 
 const getHasSeenForceOptOutPopupKey = (userId: number) =>
   `${STORAGE_KEY_FORCE_OPT_OUT_CIRCLE_ID_ITEM}+${userId}`;
@@ -21,18 +22,18 @@ export default {
   },
   clearCircleId: () => localStorage.removeItem(STORAGE_KEY_CIRCLE_ID),
 
-  setAddress: (address: string) =>
-    localStorage.setItem(STORAGE_KEY_WALLET_ADDRESS, address),
-  getAddress: () =>
-    localStorage.getItem(STORAGE_KEY_WALLET_ADDRESS) ?? undefined,
-  clearAddress: () => localStorage.removeItem(STORAGE_KEY_WALLET_ADDRESS),
-
-  setConnectorName: (connector: ConnectorNames) =>
-    localStorage.setItem(STORAGE_KEY_CONNECTOR, connector),
-  getConnectorName: () =>
-    (localStorage.getItem(STORAGE_KEY_CONNECTOR) as ConnectorNames) ??
-    undefined,
-  clearConnectorName: () => localStorage.removeItem(STORAGE_KEY_CONNECTOR),
+  setAuth: (auth: IAuth) =>
+    localStorage.setItem(STORAGE_AUTH, JSON.stringify(auth)),
+  getAuth: (): IAuth => {
+    try {
+      return JSON.parse(assertDef(localStorage.getItem(STORAGE_AUTH)));
+    } catch {
+      return {
+        authTokens: {},
+      };
+    }
+  },
+  clearAuth: () => localStorage.removeItem(STORAGE_AUTH),
 
   setHasSeenForceOptOutPopup: (userId: number) =>
     localStorage.setItem(getHasSeenForceOptOutPopupKey(userId), 'true'),

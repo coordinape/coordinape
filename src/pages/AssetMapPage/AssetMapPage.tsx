@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
+import { useRecoilCallback, useRecoilValue } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
+import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapEpochs,
   useStateAmEpochId,
   useStateAmMetric,
-  useSelectedCircle,
   useSetAmEgoAddress,
-  useTriggerMode,
-} from 'recoilState';
+} from 'recoilState/map';
+import { rTriggerMode } from 'recoilState/ui';
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
-import { assertDef } from 'utils/tools';
 
 import { AMDrawer } from './AMDrawer';
 import { AMForceGraph } from './AMForceGraph';
@@ -68,8 +68,8 @@ export const AssetMapPage = () => {
   const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
   const [metric, setMetric] = useStateAmMetric();
-  const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
-  const showHiddenFeatures = useTriggerMode();
+  const { circle } = useSelectedCircle();
+  const showHiddenFeatures = useRecoilValue(rTriggerMode);
 
   const metricOptions = [
     {
@@ -138,8 +138,24 @@ export const AssetMapPage = () => {
           />
         )}
       </div>
+      <DevModeInjector />
     </div>
   );
+};
+
+const DevModeInjector = () => {
+  const setMode = useRecoilCallback(({ set }) => async (active: boolean) => {
+    set(rTriggerMode, active);
+  });
+
+  useEffect(() => {
+    // Setup dev tool: trigger mode
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.mode = setMode;
+  }, [setMode]);
+
+  return <></>;
 };
 
 export default AssetMapPage;

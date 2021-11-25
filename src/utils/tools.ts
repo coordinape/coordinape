@@ -37,8 +37,11 @@ export const toSearchRegExp = (value: string) => {
   return undefined;
 };
 
-export const assertDef = <T>(val: T | undefined, message?: string): T => {
-  if (val === undefined) {
+export const assertDef = <T>(
+  val: T | undefined | null,
+  message?: string
+): T => {
+  if (val === undefined || val === null) {
     throw `I <3 NPE: ${message}`;
   }
   return val;

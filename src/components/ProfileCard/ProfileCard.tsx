@@ -13,7 +13,7 @@ import {
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
-import { useSetEditProfileOpen } from 'recoilState';
+import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';

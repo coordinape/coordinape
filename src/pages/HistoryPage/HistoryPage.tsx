@@ -4,12 +4,8 @@ import { Divider, Typography, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
 import { ApeTabs, ApeAvatar } from 'components';
-import { useSelectedCircleEpoch } from 'hooks';
-import {
-  useSelectedMyUser,
-  useUserGifts,
-  useSelectedCircle,
-} from 'recoilState';
+import { useUserGifts } from 'recoilState/allocation';
+import { useSelectedCircle } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -137,16 +133,14 @@ export const HistoryPage = () => {
   const [page, setPage] = useState<number>(0);
   const pastEpochIdx = page - 1;
 
-  const circle = useSelectedCircle();
-  const myUser = useSelectedMyUser();
-  const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
-    useUserGifts(myUser?.id ?? -1);
   const {
-    pastEpochs,
-    // previousEpoch,
-    // epochIsActive,
-    longTimingMessage,
-  } = useSelectedCircleEpoch();
+    circle,
+    myUser,
+    circleEpochsStatus: { pastEpochs, longTimingMessage },
+  } = useSelectedCircle();
+  const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
+    useUserGifts(myUser.id);
+
   const selectedEpoch = pastEpochs[pastEpochIdx];
   const selectedEpochId = selectedEpoch?.id ?? -1;
 

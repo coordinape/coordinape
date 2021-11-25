@@ -10,7 +10,8 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {
-  RecoilAppController,
+  RecoilDebugger,
+  GlobalUi,
   ErrorBoundary,
   MainLayout,
   SentryScopeController,
@@ -39,7 +40,8 @@ function App() {
               <Web3ReactProvider getLibrary={getLibrary}>
                 <BrowserRouter>
                   <MainLayout>
-                    <RecoilAppController />
+                    <RecoilDebugger />
+                    <GlobalUi />
                     <SentryScopeController />
                     <RenderRoutes />
                   </MainLayout>

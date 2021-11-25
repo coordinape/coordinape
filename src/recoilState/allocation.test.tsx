@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 
-import { useAllocationStepStatus } from 'recoilState';
+import { useAllocationStepStatus } from './allocation';
 
 test('useAllocationStepStatus has a default value', async () => {
   const TestComponent = () => {

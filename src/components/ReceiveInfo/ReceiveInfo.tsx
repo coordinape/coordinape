@@ -1,13 +1,15 @@
-import React from 'react';
+import { useState } from 'react';
 
 import clsx from 'clsx';
-import moment from 'moment';
+import iti from 'itiriri';
+import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
 import { Button, Popover, makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
-import { useMe, useMyPendingGifts } from 'hooks';
+import { useUserGifts } from 'recoilState/allocation';
+import { useSelectedCircle } from 'recoilState/app';
 import { getHistoryPath } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -111,35 +113,35 @@ const useStyles = makeStyles(theme => ({
 
 export const ReceiveInfo = () => {
   const classes = useStyles();
-  const { pendingGifts, usersMap } = useMyPendingGifts();
-  const { selectedCircle: circle, selectedMyUser: me } = useMe();
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(
+    undefined
   );
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const {
+    myUser,
+    circle: selectedCircle,
+    circleEpochsStatus: { currentEpoch, previousEpoch },
+  } = useSelectedCircle();
+  const { forUserByEpoch: myReceived } = useUserGifts(myUser?.id ?? -1);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'note-popover' : undefined;
+  const noEpoch = !currentEpoch && !previousEpoch;
+  const gifts =
+    (currentEpoch && myReceived.get(currentEpoch.id)) ??
+    (previousEpoch && myReceived.get(previousEpoch.id));
+  const totalReceived = gifts && iti(gifts).sum(({ tokens }) => tokens);
 
   return (
     <div className={classes.root}>
       <Button
-        aria-describedby={id}
         className={
           !anchorEl
             ? classes.receiveButton
             : clsx(classes.receiveButton, 'selected')
         }
-        onClick={handleClick}
+        onClick={event => setAnchorEl(event.currentTarget)}
       >
-        {me?.give_token_received || 0} {circle?.token_name || 'GIVE'}
+        {totalReceived ?? 'No'} {selectedCircle?.tokenName}{' '}
+        {!totalReceived && 'Received'}
       </Button>
       <Popover
         anchorEl={anchorEl}
@@ -150,9 +152,8 @@ export const ReceiveInfo = () => {
         classes={{
           paper: classes.popover,
         }}
-        id={id}
-        onClose={handleClose}
-        open={open}
+        onClose={() => setAnchorEl(undefined)}
+        open={!!anchorEl}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -160,33 +161,35 @@ export const ReceiveInfo = () => {
       >
         <div className={classes.regiftContainer}>
           <p className={classes.regiftTitle}>
-            You will receive {me?.give_token_received ?? 0}{' '}
-            {circle?.token_name || 'GIVE'}
+            {noEpoch
+              ? 'No Epochs in this Circle'
+              : `You have received ${totalReceived ?? 0} ${
+                  selectedCircle?.tokenName
+                }`}
           </p>
         </div>
-        {pendingGifts
-          .filter(
+        {gifts
+          ?.filter(
             tokenGift => tokenGift.tokens > 0 || tokenGift.note.length > 0
           )
-          .sort((a, b) => +new Date(b.updated_at) - +new Date(a.updated_at))
-          .map(tokenGift => (
+          ?.sort((a, b) => +new Date(b.updated_at) - +new Date(a.updated_at))
+          ?.map(tokenGift => (
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>
                 <div className={classes.noteTitle}>
                   {tokenGift.tokens > 0
                     ? `+${tokenGift.tokens} Received from `
                     : 'From '}
-                  {usersMap.get(tokenGift.sender_id)?.name ?? 'Unknown'}
+                  {tokenGift.sender?.name}
                 </div>
                 <div className={classes.noteDate}>
-                  {moment(tokenGift.updated_at).format('MMM ‘D')}
+                  {DateTime.fromISO(tokenGift.updated_at).toLocaleString(
+                    DateTime.DATE_SHORT
+                  )}
                 </div>
               </div>
               <div className={classes.noteContainer}>
-                <ApeAvatar
-                  user={usersMap.get(tokenGift.sender_id)}
-                  className={classes.avatar}
-                />
+                <ApeAvatar user={tokenGift.sender} className={classes.avatar} />
                 <div
                   className={
                     tokenGift.note.length > 0

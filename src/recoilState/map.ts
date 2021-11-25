@@ -13,14 +13,14 @@ import {
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { toSearchRegExp, assertDef } from 'utils/tools';
 
+import { rGiftsByEpoch } from './allocation';
 import {
-  rGiftsByEpoch,
   rSelectedCircleId,
   rCircleEpochsStatus,
   rUsersMap,
   rGiftsMap,
-  rCircles,
-} from './appState';
+  rCirclesMap,
+} from './app';
 
 import {
   IRecoilGetParams,
@@ -34,8 +34,7 @@ import {
   IMapNodeFG,
   MetricEnum,
   TScaler,
-  IFilledProfile,
-  IProfileEmbed,
+  IProfile,
   IUser,
 } from 'types';
 
@@ -51,13 +50,16 @@ import {
 // TODO: Think about how best to resolve this sort of thing.
 const FAKE_ID_OFFSET = 100000;
 const FAKE_ADDRESS = '0xFAKE';
-const createFakeProfile = (u: IUser): IProfileEmbed => ({
+export const createFakeProfile = (u: IUser): IProfile => ({
   id: u.id + FAKE_ID_OFFSET,
   address: u.address,
-  admin_view: 0,
+  admin_view: false,
+  ann_power: false,
+  hasAdminView: false,
   avatar: '',
   created_at: u.created_at,
   updated_at: u.updated_at,
+  users: [],
 });
 const createFakeUser = (circleId: number): IUser => ({
   name: 'HardDelete',
@@ -79,11 +81,15 @@ const createFakeUser = (circleId: number): IUser => ({
   profile: {
     id: FAKE_ID_OFFSET,
     address: FAKE_ADDRESS,
-    admin_view: 0,
+    admin_view: false,
+    ann_power: false,
     avatar: 'deleted-user_1628632000.jpg',
     created_at: '2021-07-07T23:29:18.000000Z',
     updated_at: '2021-07-07T23:29:18.000000Z',
   },
+  isCircleAdmin: false,
+  isCoordinapeUser: false,
+  teammates: [],
 });
 
 export const rUserMapWithFakes = selector<Map<number, IUser>>({
@@ -91,7 +97,7 @@ export const rUserMapWithFakes = selector<Map<number, IUser>>({
   get: ({ get }: IRecoilGetParams) => {
     const usersMap = get(rUsersMap);
     const updated = new Map(usersMap);
-    get(rCircles)
+    iti(get(rCirclesMap).values())
       .map(c => createFakeUser(c.id))
       .forEach(u => updated.set(u.id, u));
 
@@ -99,7 +105,7 @@ export const rUserMapWithFakes = selector<Map<number, IUser>>({
   },
 });
 
-export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
+export const rUserProfileMap = selector<Map<string, IProfile>>({
   key: 'rUserProfileMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rUserMapWithFakes).values())
@@ -108,16 +114,16 @@ export const rUserProfileMap = selector<Map<string, IFilledProfile>>({
         const users = us.toArray();
         // Deleted users don't have profiles
         const activeUser = us.find(u => !u.deleted_at);
-        const profile =
-          activeUser?.profile ?? createFakeProfile(assertDef(us.first()));
+        const profile = activeUser?.profile?.address
+          ? activeUser?.profile
+          : createFakeProfile(assertDef(us.first()));
         return {
           ...profile,
           users,
-        } as IFilledProfile;
+        } as IProfile;
       })
       .toMap(p => p.address),
 });
-export const useUserProfileMap = () => useRecoilValue(rUserProfileMap);
 
 //
 // Asset Map Atoms
@@ -127,29 +133,21 @@ export const rMapEpochId = atom<number | undefined>({
   key: 'rMapEpochId',
   default: undefined, // -1 to represent all
 });
-export const useStateAmEpochId = () => useRecoilState(rMapEpochId);
 
 export const rMapSearch = atom<string>({
   key: 'rMapSearch',
   default: '',
 });
-export const useStateAmSearch = () => useRecoilState(rMapSearch);
-export const useSetAmSearch = () => useSetRecoilState(rMapSearch);
 
 export const rMapEgoAddress = atom<string>({
   key: 'rMapEgoAddress',
   default: '',
 });
-export const useSetAmEgoAddress = () => useSetRecoilState(rMapEgoAddress);
-export const useStateAmEgoAddress = () => useRecoilState(rMapEgoAddress);
-export const useMapEgoAddress = () => useRecoilValue(rMapEgoAddress);
 
 export const rMapMetric = atom<MetricEnum>({
   key: 'rMapMetric',
   default: 'give',
 });
-export const useStateAmMetric = () => useRecoilState(rMapMetric);
-export const useMapMetric = () => useRecoilValue(rMapMetric);
 
 //
 // Map Selectors
@@ -164,7 +162,6 @@ export const rMapEpochs = selector<IEpoch[]>({
     return currentEpoch ? pastEpochs.concat(currentEpoch) : pastEpochs;
   },
 });
-export const useMapEpochs = () => useRecoilValue(rMapEpochs);
 
 export const rMapSearchRegex = selector<RegExp | undefined>({
   key: 'rMapSearchRegex',
@@ -172,7 +169,6 @@ export const rMapSearchRegex = selector<RegExp | undefined>({
     return toSearchRegExp(get(rMapSearch));
   },
 });
-export const useMapSearchRegex = () => useRecoilValue(rMapSearchRegex);
 
 export const rMapGifts = selector<ITokenGift[]>({
   key: 'rMapGifts',
@@ -295,7 +291,6 @@ export const rMapGraphData = selector<GraphData>({
     };
   },
 });
-export const useMapGraphData = () => useRecoilValue(rMapGraphData);
 
 // Nodes that are active in this epoch.
 export const rMapActiveNodes = selector<Set<string>>({
@@ -426,7 +421,7 @@ export const rMapBag = selector<Set<string>>({
 });
 
 // Results are the active profiles in the bag
-export const rMapResults = selector<IFilledProfile[]>({
+export const rMapResults = selector<IProfile[]>({
   key: 'rMapResults',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
@@ -439,7 +434,6 @@ export const rMapResults = selector<IFilledProfile[]>({
       .toArray();
   },
 });
-export const useMapResults = () => useRecoilValue(rMapResults);
 
 interface IMeasures {
   min: number;
@@ -519,8 +513,6 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
       };
     },
 });
-export const useMapMeasures = (metric: MetricEnum) =>
-  useRecoilValue(rMapMeasures(metric));
 
 export const AmContextDefault = {
   egoAddress: '',
@@ -679,4 +671,18 @@ export const rMapContext = selector<IMapContext>({
     };
   },
 });
+
+export const useMapResults = () => useRecoilValue(rMapResults);
+export const useMapGraphData = () => useRecoilValue(rMapGraphData);
+export const useMapSearchRegex = () => useRecoilValue(rMapSearchRegex);
+export const useMapEpochs = () => useRecoilValue(rMapEpochs);
+export const useStateAmMetric = () => useRecoilState(rMapMetric);
+export const useMapMetric = () => useRecoilValue(rMapMetric);
+export const useSetAmEgoAddress = () => useSetRecoilState(rMapEgoAddress);
+export const useStateAmEgoAddress = () => useRecoilState(rMapEgoAddress);
+export const useSetAmSearch = () => useSetRecoilState(rMapSearch);
+export const useStateAmEpochId = () => useRecoilState(rMapEpochId);
 export const useMapContext = () => useRecoilValueLoadable(rMapContext);
+
+export const useMapMeasures = (metric: MetricEnum) =>
+  useRecoilValue(rMapMeasures(metric));

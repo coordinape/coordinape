@@ -49,9 +49,6 @@ export interface IEpoch extends IApiEpoch {
   interval: Interval;
   // Calculated:
   started: boolean;
-  totalTokens: number;
-  uniqueUsers: number;
-  activeUsers: number;
   // timeUntilStart: ITiming;
   // timeUntilEnd: ITiming;
   calculatedDays: number;
@@ -59,8 +56,12 @@ export interface IEpoch extends IApiEpoch {
   labelDayRange: string;
   labelTimeStart: string;
   labelTimeEnd: string;
-  labelActivity: string;
   labelUntilStart: string;
   labelUntilEnd: string;
   labelYearEnd: string;
+  // Give related:
+  totalTokens: number;
+  uniqueUsers: number;
+  activeUsers: number;
+  labelActivity: string;
 }

@@ -12,14 +12,9 @@ import {
   OrganizationHeader,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
-import { useNavigation, useAdminApi } from 'hooks';
+import { useNavigation, useApiAdminCircle } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
-import {
-  useSelectedCircle,
-  useSelectedMyUser,
-  useSelectedCircleUsers,
-  useSelectedCircleEpochs,
-} from 'recoilState';
+import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -29,7 +24,7 @@ import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 
-import { IUser, IEpoch, ITableColumn } from 'types';
+import { IUser, ITableColumn, IEpoch } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -207,11 +202,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const history = useHistory();
   const { getToProfile } = useNavigation();
 
-  const { deleteUser, deleteEpoch } = useAdminApi();
-  const me = useSelectedMyUser();
-  const selectedCircle = useSelectedCircle();
-  const visibleUsers = useSelectedCircleUsers();
-  const epochsReverse = useSelectedCircleEpochs();
+  const {
+    circleId,
+    myUser: me,
+    users: visibleUsers,
+    circle: selectedCircle,
+    circleEpochsStatus: { epochs: epochsReverse },
+  } = useSelectedCircle();
+  const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
 
   const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
 
@@ -521,6 +519,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       />
       <AdminEpochModal
         epochs={epochs}
+        circleId={circleId}
         epoch={editEpoch}
         onClose={() =>
           newEpoch ? setNewEpoch(false) : setEditEpoch(undefined)

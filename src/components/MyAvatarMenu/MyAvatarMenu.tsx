@@ -3,11 +3,18 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { groupBy, toPairs } from 'lodash';
 import { NavLink } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
 
-import { Popover, makeStyles, Avatar, Divider } from '@material-ui/core';
+import { Popover, makeStyles, Divider } from '@material-ui/core';
 
-import { useMe, useCircle, useGlobalUi } from 'hooks';
-import { useCircleEpochsStatus } from 'recoilState';
+import { ApeAvatar } from 'components';
+import { useApiBase } from 'hooks';
+import {
+  useMyProfile,
+  rSelectedCircleState,
+  useEpochsStatus,
+} from 'recoilState/app';
+import { useSetCircleSelectorOpen } from 'recoilState/ui';
 import * as paths from 'routes/paths';
 
 import { ICircle } from 'types';
@@ -102,7 +109,7 @@ const CircleButton = ({
   onClick: () => void;
 }) => {
   const classes = useStyles();
-  const { currentEpoch } = useCircleEpochsStatus(circle.id);
+  const { currentEpoch } = useEpochsStatus(circle.id);
 
   return (
     <button
@@ -120,17 +127,17 @@ const CircleButton = ({
 
 export const MyAvatarMenu = () => {
   const classes = useStyles();
-  const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
-  const { selectAndFetchCircle, selectedCircle } = useCircle();
-  const { openCircleSelector } = useGlobalUi();
+  const { selectAndFetchCircle } = useApiBase();
+  const myProfile = useMyProfile();
+  const { hasAdminView, myUsers } = myProfile;
+  const setCircleSelectorOpen = useSetCircleSelectorOpen();
+  const selectedCircleState = useRecoilValueLoadable(rSelectedCircleState);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (myCircles.length) {
-      setAnchorEl(event.currentTarget);
-    }
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -138,15 +145,25 @@ export const MyAvatarMenu = () => {
   };
 
   const groupedCircles = useMemo(
-    () => toPairs(groupBy(myCircles, c => c.protocol.name)),
-    [myCircles]
+    () =>
+      toPairs(
+        groupBy(
+          myUsers.map(u => u.circle),
+          c => c.protocol.name
+        )
+      ),
+    [myUsers]
   );
+
+  const selectedId =
+    selectedCircleState.state === 'hasValue'
+      ? selectedCircleState.contents?.circle?.id
+      : undefined;
 
   return (
     <>
-      <Avatar
-        src={avatarPath}
-        alt={selectedMyUser?.name}
+      <ApeAvatar
+        profile={myProfile}
         onClick={handleClick}
         className={
           !anchorEl
@@ -206,10 +223,10 @@ export const MyAvatarMenu = () => {
               <CircleButton
                 key={circle.id}
                 circle={circle}
-                selected={selectedCircle?.id === circle.id}
+                selected={selectedId === circle.id}
                 onClick={() => {
                   setAnchorEl(null);
-                  selectedCircle?.id !== circle.id &&
+                  selectedCircleState?.contents?.circle?.id !== circle.id &&
                     selectAndFetchCircle(circle.id);
                 }}
               />
@@ -220,19 +237,19 @@ export const MyAvatarMenu = () => {
           <>
             <Divider variant="middle" className={classes.divider} />
             <span className={classes.subHeader}>Admin View</span>
-            {!selectedMyUser && selectedCircle ? (
+            {selectedCircleState.state === 'hasValue' ? (
               <>
                 <button
                   className={clsx(classes.link, classes.selectedLink)}
                   onClick={() => setAnchorEl(null)}
                 >
-                  {selectedCircle.name}
+                  {selectedCircleState.contents.circle.name}
                 </button>
                 <button
                   className={classes.link}
                   onClick={() => {
                     setAnchorEl(null);
-                    openCircleSelector();
+                    setCircleSelectorOpen(true);
                   }}
                 >
                   More...
@@ -243,7 +260,7 @@ export const MyAvatarMenu = () => {
                 className={classes.link}
                 onClick={() => {
                   setAnchorEl(null);
-                  openCircleSelector();
+                  setCircleSelectorOpen(true);
                 }}
               >
                 Circle Selector

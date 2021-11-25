@@ -6,8 +6,9 @@ import { transparentize } from 'polished';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
-import { useAdminApi } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
+import { useSelectedCircle } from 'recoilState/app';
 import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
@@ -134,7 +135,9 @@ export const AdminCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle, updateCircleLogo, getDiscordWebhook } = useAdminApi();
+  const { circleId } = useSelectedCircle();
+  const { updateCircle, updateCircleLogo, getDiscordWebhook } =
+    useApiAdminCircle(circleId);
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;

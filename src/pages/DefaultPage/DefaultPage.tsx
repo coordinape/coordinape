@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { Web3Provider } from '@ethersproject/providers';
+import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { rMyAddress, rSelectedCircle } from 'recoilState';
+import { LoadingScreen } from 'components';
+import { rSelectedCircleState, rMyAddress, rMyProfile } from 'recoilState/app';
 import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -25,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   title: {
-    fontSize: 54,
+    fontSize: 34,
     fontWeight: 700,
     color: theme.colors.primary,
     margin: 0,
@@ -129,82 +132,109 @@ const useStyles = makeStyles(theme => ({
 export const DefaultPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const web3Context = useWeb3React<Web3Provider>();
 
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const myAddress = useRecoilValue(rMyAddress);
+  const myAddressState = useRecoilValueLoadable(rMyAddress);
+  const myProfileState = useRecoilValueLoadable(rMyProfile);
+  const selectedCircleState = useRecoilValueLoadable(rSelectedCircleState);
+  // const myAddress = useMyAddress();
+  const myAddress = '0xFAKE';
+
+  if (myAddressState.state !== 'hasValue') {
+    return (
+      <div className={classes.root}>
+        <div className={classes.header}>
+          <p className={classes.title}>Reward Your Fellow Contributors</p>
+          <p className={classes.subTitle}>
+            {!web3Context.account
+              ? 'Connect your wallet to participate.'
+              : 'Login to Coordinape'}
+          </p>
+        </div>
+        <div className={classes.skeletonRoot}>
+          <div className={classes.skeletonHeader}>
+            <div className={classes.skeletonSubHeader} />
+            <div className={classes.skeletonSubHeader} />
+            <div className={classes.skeletonSubHeader} />
+            <div className={classes.skeletonSubHeader} />
+          </div>
+          <div className={classes.skeletonBody}>
+            <div className={classes.skeletonSubBody} />
+            <div className={classes.skeletonSubBody} />
+            <div className={classes.skeletonSubBody} />
+            <div className={classes.skeletonSubBody} />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (myProfileState.state !== 'hasValue') {
+    return <LoadingScreen />;
+  }
+
+  if (selectedCircleState.state !== 'hasValue') {
+    return (
+      <div className={classes.root}>
+        <div className={classes.header}>
+          <p className={classes.title}>Welcome!</p>
+          <div className={classes.welcomeSection}>
+            <p className={classes.welcomeText}>
+              This wallet isn&apos;t associated with a circle.
+            </p>
+            <p className={classes.welcomeText}>
+              If you are supposed to be part of a circle already, contact your
+              circle&apos;s admin to make sure they added this address:{' '}
+              {shortenAddress(myAddress)}
+            </p>
+            <p className={classes.welcomeText}>Or, create a new circle.</p>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push(paths.getCreateCirclePath())}
+              className={classes.startCircle}
+            >
+              Start a Circle
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>
-      {myAddress ? (
-        <div className={classes.header}>
-          <p className={classes.title}>
-            {!selectedCircle
-              ? 'Welcome!'
-              : `Welcome to ${selectedCircle.name}!`}
-          </p>
-          {!selectedCircle && (
-            <div className={classes.welcomeSection}>
-              <p className={classes.welcomeText}>
-                This wallet isn&apos;t associated with a circle.
-              </p>
-              <p className={classes.welcomeText}>
-                If you are supposed to be part of a circle already, contact your
-                circle&apos;s admin to make sure they added this address:{' '}
-                {shortenAddress(myAddress)}
-              </p>
-              <p className={classes.welcomeText}>Or, create a new circle.</p>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(paths.getCreateCirclePath())}
-                className={classes.startCircle}
-              >
-                Start a Circle
-              </Button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <>
-          <div className={classes.header}>
-            <p className={classes.title}>Reward Your Fellow Contributors</p>
-            <p className={classes.subTitle}>
-              Connect your wallet to participate.
-            </p>
-          </div>
-          <div className={classes.skeletonRoot}>
-            <div className={classes.skeletonHeader}>
-              <div className={classes.skeletonSubHeader} />
-              <div className={classes.skeletonSubHeader} />
-              <div className={classes.skeletonSubHeader} />
-              <div className={classes.skeletonSubHeader} />
-            </div>
-            <div className={classes.skeletonBody}>
-              <div className={classes.skeletonSubBody} />
-              <div className={classes.skeletonSubBody} />
-              <div className={classes.skeletonSubBody} />
-              <div className={classes.skeletonSubBody} />
-            </div>
-          </div>
-        </>
-      )}
-      <div className={classes.footer}>
-        <div />
-        {getNavigationFooter().map(({ path, label }) => (
-          <div key={path}>
-            <a
-              className={classes.link}
-              href={path}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {label}
-            </a>
-          </div>
-        ))}
+      <div className={classes.header}>
+        <p className={classes.title}>
+          Welcome to {selectedCircleState.contents.circle.name}!
+        </p>
       </div>
+      <Footer />
     </div>
   );
 };
 
+const Footer = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.footer}>
+      <div />
+      {getNavigationFooter().map(({ path, label }) => (
+        <div key={path}>
+          <a
+            className={classes.link}
+            href={path}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {label}
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
 export default DefaultPage;

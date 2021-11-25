@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { DateTime } from 'luxon';
 
 import { IApiUser, IUser } from './api.user.profile';
 
@@ -17,13 +17,14 @@ export interface IApiNominee {
   expiry_date: string;
   created_at: string;
   updated_at: string;
-  nominations: IApiUser[];
+  nominations?: IApiUser[];
 }
 
 export interface INominee extends IApiNominee {
   ended: boolean;
+  expired: boolean;
   nominations: IUser[];
-  expiryDate: Moment;
-  nominatedDate: Moment;
+  expiryDate: DateTime;
+  nominatedDate: DateTime;
   vouchesNeeded: number;
 }
