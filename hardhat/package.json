@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
-    "build": "yarn codegen && tsc",
+    "build": "tsc",
     "mint": "ts-node scripts/mint.ts",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "ganache-cli -l 8000000 --networkId 1576478390085 --deterministic --hostname=0.0.0.0 -m 'coordinape' --fork $ETHEREUM_RPC_URL",
