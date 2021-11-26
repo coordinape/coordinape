@@ -13,6 +13,7 @@ import {
   RegistryAPI,
   VaultAPI,
 } from '../../typechain';
+import { unlockSigner } from '../../utils/unlockSigner';
 import {
   USDC_ADDRESS,
   USDC_DECIMAL_MULTIPLIER,
@@ -21,7 +22,6 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { unlockSigner } from '../utils/unlockSigner';
 
 chai.use(solidity);
 const { expect } = chai;
