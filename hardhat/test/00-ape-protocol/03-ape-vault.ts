@@ -167,14 +167,14 @@ describe('Test circle related functions of ApeVault', () => {
       EPOCHS,
       0
     );
-    const { maxAmount, maxInterval } = await apeDistributor.allowances(
+    const { maxAmount, cooldownInterval } = await apeDistributor.allowances(
       vault.address,
       CIRCLE,
       USDC_ADDRESS
     );
 
     expect(maxAmount.toNumber()).to.equal(AMOUNT);
-    expect(maxInterval.toNumber()).to.equal(INTERVAL);
+    expect(cooldownInterval.toNumber()).to.equal(INTERVAL);
 
     const { debt, intervalStart, epochs } =
       await apeDistributor.currentAllowances(
