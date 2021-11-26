@@ -58,7 +58,7 @@ export const VouchingPage = () => {
   const { myUser, circle, activeNominees } = useSelectedCircle();
 
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
-  const cannotVouch = circle?.only_giver_vouch !== 0 && myUser?.non_giver !== 0;
+  const cannotVouch = circle.only_giver_vouch && myUser.non_giver;
 
   return !circle ? (
     <div className={classes.root}></div>

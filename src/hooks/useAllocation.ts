@@ -64,7 +64,7 @@ export const useAllocation = (circleId: number) => {
   );
   const [localGifts, setLocalGifts] = useRecoilState(rLocalGifts(circleId));
 
-  const tokenStarting = myUser?.non_giver !== 0 ? 0 : myUser.starting_tokens;
+  const tokenStarting = myUser.non_giver ? 0 : myUser.starting_tokens;
   const tokenAllocated = Array.from(localGifts).reduce(
     (sum, { tokens }: ISimpleGift) => sum + tokens,
     0
@@ -80,7 +80,7 @@ export const useAllocation = (circleId: number) => {
       .size > 0;
 
   const toggleLocalTeammate = (userId: number) => {
-    if (myUser.circle.team_selection === 0) {
+    if (!myUser.circle.team_selection) {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }
@@ -95,7 +95,7 @@ export const useAllocation = (circleId: number) => {
   };
 
   const setAllLocalTeammates = () => {
-    if (myUser.circle.team_selection === 0) {
+    if (!myUser.circle.team_selection) {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }
@@ -104,7 +104,7 @@ export const useAllocation = (circleId: number) => {
   };
 
   const clearLocalTeammates = () => {
-    if (myUser.circle.team_selection === 0) {
+    if (!myUser.circle.team_selection) {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }

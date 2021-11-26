@@ -386,7 +386,7 @@ const AllocationTeam = () => {
         </div>
         <div className={classes.teammatesContainer}>
           {availableTeammates
-            .filter(a => a.non_receiver === 0)
+            .filter(a => !a.non_receiver)
             .sort((a, b) => {
               switch (orderType) {
                 case OrderType.Alphabetical:
@@ -401,7 +401,7 @@ const AllocationTeam = () => {
                   }
                 }
                 case OrderType.Opt_In_First: {
-                  return a.non_receiver - b.non_receiver;
+                  return Number(a.non_receiver) - Number(b.non_receiver);
                 }
               }
             })
@@ -436,7 +436,7 @@ const AllocationTeam = () => {
               </Button>
             ))}
         </div>
-        {availableTeammates.filter(a => a.non_receiver !== 0).length > 0 && (
+        {availableTeammates.filter(a => a.non_receiver).length > 0 && (
           <>
             <p className={classes.contentTitle}>
               These users are opted-out of receiving{' '}
@@ -445,7 +445,7 @@ const AllocationTeam = () => {
             <hr className={classes.hr} />
             <div className={classes.teammatesContainer}>
               {availableTeammates
-                .filter(a => a.non_receiver !== 0)
+                .filter(a => a.non_receiver)
                 .sort((a, b) => {
                   switch (orderType) {
                     case OrderType.Alphabetical:
@@ -460,7 +460,7 @@ const AllocationTeam = () => {
                       }
                     }
                     case OrderType.Opt_In_First: {
-                      return a.non_receiver - b.non_receiver;
+                      return Number(a.non_receiver) - Number(b.non_receiver);
                     }
                   }
                 })

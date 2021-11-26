@@ -130,7 +130,7 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
     myUser && circle
       ? nominee.nominated_by_user_id === myUser.id ||
         nominee.nominations.some(user => user.id === myUser.id) ||
-        (circle.only_giver_vouch !== 0 && myUser.non_giver !== 0)
+        (circle.only_giver_vouch && myUser.non_giver)
       : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null

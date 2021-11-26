@@ -28,7 +28,7 @@ export interface IApiEpoch {
   circle_id: number;
   created_at: string;
   updated_at: string;
-  ended: number; // boolean
+  ended: boolean;
   grant: string; // 0.00 - stored as decimal in database
   regift_days: number;
   notified_before_end?: string;

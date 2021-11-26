@@ -27,17 +27,17 @@ export interface IApiUser {
   id: number;
   circle_id: number;
   address: string;
-  name: string; // deprecate this and move to profile?
+  name: string;
   // User Circle settings
-  non_giver: number;
-  fixed_non_receiver: number;
+  non_giver: boolean;
+  fixed_non_receiver: boolean;
   starting_tokens: number;
   // User Epoch specific fields - These could be in their own table
   bio?: string;
-  non_receiver: number; // Opt out
+  non_receiver: boolean; // Opt out
   give_token_received: number;
   give_token_remaining: number;
-  epoch_first_visit: number;
+  epoch_first_visit: boolean;
   // DB fields
   created_at: string; // 2021-07-07T23:29:18.000000Z
   updated_at: string; // 2021-07-07T23:29:18.000000Z

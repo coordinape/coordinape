@@ -48,7 +48,7 @@ export const extraCircle = (circle: IApiCircle): ICircle => {
     vouchingText:
       circle.vouching_text ||
       `Think someone new should be added to the ${circle.name} circle?\nNominate or vouch for them here.`,
-    hasVouching: circle.vouching === 1,
+    hasVouching: circle.vouching,
   };
 };
 
@@ -72,7 +72,7 @@ export const extraNominee = (
   const expiryDate = DateTime.fromISO(nominee.expiry_date);
   return {
     ...nominee,
-    ended: nominee.ended === 1,
+    ended: !!nominee.ended,
     expired: expiryDate.diffNow().milliseconds < 0,
     expiryDate,
     nominatedDate: DateTime.fromISO(nominee.nominated_date),

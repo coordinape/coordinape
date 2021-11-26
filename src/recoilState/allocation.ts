@@ -134,7 +134,7 @@ export const rTeammates = selectorFamily<IUser[], number>({
         return neverEndingPromise();
       }
 
-      if (currentUser.circle.team_selection === 0) {
+      if (!currentUser.circle.team_selection) {
         return get(rAvailableTeammates);
       }
 
@@ -168,7 +168,7 @@ export const rEpochFirstVisit = selectorFamily<boolean, number>({
     (circleId: number) =>
     ({ get }) =>
       get(rMyProfile).myUsers?.find(u => u.circle_id === circleId)
-        ?.epoch_first_visit === 1 ?? true,
+        ?.epoch_first_visit ?? true,
 });
 
 export const rAllocationStepStatus = selectorFamily<
@@ -185,11 +185,11 @@ export const rAllocationStepStatus = selectorFamily<
       }
       const pendingGiftsFrom = get(rPendingGiftsFrom(user.id));
       const completedSteps = new Set<IAllocationStep>();
-      if (user.epoch_first_visit === 0) {
+      if (!user.epoch_first_visit) {
         completedSteps.add(STEP_MY_EPOCH);
       }
       if (
-        user.epoch_first_visit === 0 &&
+        !user.epoch_first_visit &&
         user.teammates &&
         user.teammates.length > 0
       ) {
@@ -198,7 +198,7 @@ export const rAllocationStepStatus = selectorFamily<
       if (pendingGiftsFrom.length > 0) {
         completedSteps.add(STEP_ALLOCATION);
       }
-      const steps = user.circle.team_selection === 1 ? STEPS : NO_TEAM_STEPS;
+      const steps = user.circle.team_selection ? STEPS : NO_TEAM_STEPS;
       return [completedSteps, steps.find(step => !completedSteps.has(step))];
     },
 });

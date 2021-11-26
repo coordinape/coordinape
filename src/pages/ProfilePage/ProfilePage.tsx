@@ -328,7 +328,7 @@ export const ProfilePageContent = ({
               u.circle ? (
                 <div key={u.id} className={classes.circle}>
                   <Avatar
-                    alt={u?.circle?.name}
+                    alt={u.circle.name}
                     src={
                       u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
                     }
@@ -339,7 +339,7 @@ export const ProfilePageContent = ({
                   <span>
                     {u.circle.protocol.name} {u.circle.name}
                   </span>
-                  {u?.non_receiver !== 0 && <span>Opted-Out</span>}
+                  {u.non_receiver && <span>Opted-Out</span>}
                 </div>
               ) : undefined
             )}

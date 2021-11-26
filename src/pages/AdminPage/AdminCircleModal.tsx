@@ -142,28 +142,22 @@ export const AdminCircleModal = ({
     avatar: string;
     avatarRaw: File | null;
   }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
-  const [circleName, setCircleName] = useState<string>(circle.name);
-  const [vouching, setVouching] = useState<number>(circle.vouching);
-  const [tokenName, setTokenName] = useState<string>(circle.tokenName);
-  const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
-  const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
-  const [teamSelection, setTeamSelection] = useState<number>(
-    circle.team_selection
-  );
-  const [nominationDaysLimit, setNominationDaysLimit] = useState<number>(
+  const [circleName, setCircleName] = useState(circle.name);
+  const [vouching, setVouching] = useState(circle.vouching);
+  const [tokenName, setTokenName] = useState(circle.tokenName);
+  const [minVouches, setMinVouches] = useState(circle.min_vouches);
+  const [teamSelText, setTeamSelText] = useState(circle.teamSelText);
+  const [teamSelection, setTeamSelection] = useState(circle.team_selection);
+  const [nominationDaysLimit, setNominationDaysLimit] = useState(
     circle.nomination_days_limit
   );
-  const [allocText, setAllocText] = useState<string>(circle.allocText);
-  const [allowEdit, setAllowEdit] = useState<boolean>(false);
-  const [webhook, setWebhook] = useState<string>('');
-  const [defaultOptIn, setDefaultOptIn] = useState<number>(
-    circle.default_opt_in
-  );
-  const [vouchingText, setVouchingText] = useState<string>(circle.vouchingText);
-  const [onlyGiverVouch, setOnlyGiverVouch] = useState<number>(
-    circle.only_giver_vouch
-  );
-  const [autoOptOut, setAutoOptOut] = useState<number>(circle.auto_opt_out);
+  const [allocText, setAllocText] = useState(circle.allocText);
+  const [allowEdit, setAllowEdit] = useState(false);
+  const [webhook, setWebhook] = useState('');
+  const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
+  const [vouchingText, setVouchingText] = useState(circle.vouchingText);
+  const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
+  const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -302,8 +296,8 @@ export const AdminCircleModal = ({
           fullWidth
         />
         <ApeToggle
-          value={vouching === 1}
-          onChange={val => setVouching(val ? 1 : 0)}
+          value={vouching}
+          onChange={val => setVouching(val)}
           label="Enable Vouching?"
         />
         <ApeTextField
@@ -312,15 +306,13 @@ export const AdminCircleModal = ({
           onChange={onChangeWith(setTokenName)}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Mininum vouches to add member"
             value={minVouches}
             onChange={onChangeNumberWith(setMinVouches)}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeTextField
@@ -334,16 +326,14 @@ export const AdminCircleModal = ({
           }}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Length of nomination period"
             value={nominationDaysLimit}
             helperText="(# of days)"
             onChange={onChangeNumberWith(setNominationDaysLimit)}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeTextField
@@ -357,9 +347,7 @@ export const AdminCircleModal = ({
           }}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Vouching text"
             placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
@@ -371,28 +359,28 @@ export const AdminCircleModal = ({
               maxLength: 280,
             }}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeToggle
-          value={defaultOptIn === 1}
-          onChange={val => setDefaultOptIn(val ? 1 : 0)}
+          value={defaultOptIn}
+          onChange={val => setDefaultOptIn(val)}
           label="Default Opt In?"
         />
         <ApeToggle
-          value={onlyGiverVouch === 1}
-          onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+          value={onlyGiverVouch}
+          onChange={val => setOnlyGiverVouch(val)}
+          className={clsx(classes.vouchingItem, !vouching && 'disabled')}
           label="Only Givers can vouch"
         />
         <ApeToggle
-          value={teamSelection === 1}
-          onChange={val => setTeamSelection(val ? 1 : 0)}
+          value={teamSelection}
+          onChange={val => setTeamSelection(val)}
           label="Team Selection Enabled"
         />
         <ApeToggle
-          value={autoOptOut === 1}
-          onChange={val => setAutoOptOut(val ? 1 : 0)}
+          value={autoOptOut}
+          onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
         />
       </div>
