@@ -10,8 +10,8 @@ import { PutUsersParam, NominateUserParam } from 'types';
 // This could be parameterized like the admin hooks.
 export const useApiWithSelectedCircle = () => {
   const { fetchManifest, fetchCircle } = useApiBase();
-  const selectedCircleState = useSelectedCircle();
-  const { circleId, myUser } = selectedCircleState;
+  const selectedCircle = useSelectedCircle();
+  const { circleId, myUser } = selectedCircle;
 
   const updateMyUser = useRecoilLoadCatch(
     () => async (params: PutUsersParam) => {

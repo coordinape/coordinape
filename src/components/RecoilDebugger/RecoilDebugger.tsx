@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { useGetRecoilValueInfo_UNSTABLE, RecoilValueReadOnly } from 'recoil';
+import {
+  useGetRecoilValueInfo_UNSTABLE,
+  RecoilValueReadOnly,
+  useRecoilSnapshot,
+} from 'recoil';
 
 import * as recoilState from 'recoilState';
 
@@ -13,23 +17,18 @@ export const RecoilDebugger = () => {
     window.$rGetBasics = (baseCircleId?: number) => {
       logRecoilValue(getRecoilValueInfo(recoilState.rMyAddress), 'rMyAddress');
       logRecoilValue(getRecoilValueInfo(recoilState.rMyProfile), 'rMyProfile');
-      const selectedCircleState = getRecoilValueInfo(
-        recoilState.rSelectedCircleId
-      );
-      const circleId = baseCircleId ?? selectedCircleState.loadable?.contents;
-      logRecoilValue(selectedCircleState, 'rSelectedCircleId');
+      const selectedCircle = getRecoilValueInfo(recoilState.rSelectedCircleId);
+      const circleId = baseCircleId ?? selectedCircle.loadable?.contents;
+      logRecoilValue(selectedCircle, 'rSelectedCircleId');
       logRecoilValue(getRecoilValueInfo(recoilState.rManifest), 'rManifest');
       logRecoilValue(
         getRecoilValueInfo(recoilState.rFullCircle),
         'rFullCircle'
       );
+      logRecoilValue(getRecoilValueInfo(recoilState.rCircles), 'rCircles');
       logRecoilValue(
-        getRecoilValueInfo(recoilState.rCirclesState),
-        'rCirclesState'
-      );
-      logRecoilValue(
-        getRecoilValueInfo(recoilState.rCircleState(circleId)),
-        'rCircleState'
+        getRecoilValueInfo(recoilState.rCircle(circleId)),
+        'rCircle'
       );
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,10 +52,11 @@ export const RecoilDebugger = () => {
     );
   }, [getRecoilValueInfo]);
 
+  // return <RecoilObserver />;
   return <></>;
 };
 
-// The following DebugObserver and window.$recoilValues are for debugging.
+// The following RecoilObserver and window.$recoilValues are for debugging.
 interface IRecoilAtomValue {
   contents: any;
   state: string;
@@ -93,26 +93,28 @@ const logRecoilValue = (
   );
 };
 
-// const DebugObserver = () => {
-//   const snapshot = useRecoilSnapshot();
-//   React.useEffect(() => {
-//     // This only get's atoms not selectors, see:
-//     // https://github.com/facebookexperimental/Recoil/issues/1214
-//     const nodes = Array.from(snapshot.getNodes_UNSTABLE({ isModified: true }));
-//     // eslint-disable-next-line no-console
-//     console.groupCollapsed('RECOIL Δ', ...nodes.map(n => n.key));
-//     for (const node of nodes) {
-//       const loadable = snapshot.getLoadable(node);
-//       // eslint-disable-next-line no-console
-//       console.log(
-//         '-',
-//         node.key,
-//         loadable.state === 'hasValue' ? loadable.contents : loadable.state
-//       );
-//     }
-//     // eslint-disable-next-line no-console
-//     console.groupEnd();
-//   }, [snapshot]);
+export const RecoilObserver = () => {
+  const snapshot = useRecoilSnapshot();
+  React.useEffect(() => {
+    const nodes = Array.from(snapshot.getNodes_UNSTABLE({ isModified: true }));
+    // eslint-disable-next-line no-console
+    console.groupCollapsed(
+      '                          rΔ[',
+      ...nodes.map(n => n.key),
+      ']'
+    );
+    for (const node of nodes) {
+      const loadable = snapshot.getLoadable(node);
+      // eslint-disable-next-line no-console
+      console.log(
+        '-',
+        node.key,
+        loadable.state === 'hasValue' ? loadable.contents : loadable.state
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.groupEnd();
+  }, [snapshot]);
 
-//   return null;
-// };
+  return null;
+};

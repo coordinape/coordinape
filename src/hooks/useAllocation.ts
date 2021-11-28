@@ -168,11 +168,9 @@ export const useAllocation = (circleId: number) => {
       );
       await fetchCircle({ circleId: myUser.circle_id });
     },
-    [myUser],
+    [myUser, localTeammates],
     {
       success: 'Saved Teammates',
-      transformError: e =>
-        (e.message = `With hardware wallets, try shorter changes. ${e.message}`),
     }
   );
 
@@ -194,7 +192,7 @@ export const useAllocation = (circleId: number) => {
       await getApiService().postTokenGifts(myUser.circle_id, params);
       await fetchCircle({ circleId: myUser.circle_id });
     },
-    [pendingGifts, localGifts],
+    [myUser, pendingGifts, localGifts],
     { success: 'Saved Gifts' }
   );
 

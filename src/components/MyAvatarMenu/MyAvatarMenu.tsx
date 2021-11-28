@@ -11,7 +11,7 @@ import { ApeAvatar } from 'components';
 import { useApiBase } from 'hooks';
 import {
   useMyProfile,
-  rSelectedCircleState,
+  rSelectedCircle,
   useEpochsStatus,
 } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
@@ -131,7 +131,7 @@ export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
   const { hasAdminView, myUsers } = myProfile;
   const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircleState = useRecoilValueLoadable(rSelectedCircleState);
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -156,8 +156,8 @@ export const MyAvatarMenu = () => {
   );
 
   const selectedId =
-    selectedCircleState.state === 'hasValue'
-      ? selectedCircleState.contents?.circle?.id
+    selectedCircle.state === 'hasValue'
+      ? selectedCircle.contents?.circle?.id
       : undefined;
 
   return (
@@ -226,7 +226,7 @@ export const MyAvatarMenu = () => {
                 selected={selectedId === circle.id}
                 onClick={() => {
                   setAnchorEl(null);
-                  selectedCircleState?.contents?.circle?.id !== circle.id &&
+                  selectedCircle?.contents?.circle?.id !== circle.id &&
                     selectAndFetchCircle(circle.id);
                 }}
               />
@@ -237,13 +237,13 @@ export const MyAvatarMenu = () => {
           <>
             <Divider variant="middle" className={classes.divider} />
             <span className={classes.subHeader}>Admin View</span>
-            {selectedCircleState.state === 'hasValue' ? (
+            {selectedCircle.state === 'hasValue' ? (
               <>
                 <button
                   className={clsx(classes.link, classes.selectedLink)}
                   onClick={() => setAnchorEl(null)}
                 >
-                  {selectedCircleState.contents.circle.name}
+                  {selectedCircle.contents.circle.name}
                 </button>
                 <button
                   className={classes.link}

@@ -186,7 +186,7 @@ export const ProfilePage = ({
   const address = params?.profileAddress;
   const { address: myAddress } = useMyProfile();
   const isMe = address === 'me' || address === myAddress;
-  if (!isMe || !address || !address?.startsWith('0x')) {
+  if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
   }
 
@@ -200,11 +200,7 @@ const MyProfilePage = () => {
   return (
     <ProfilePageContent
       profile={myProfile}
-      circleId={
-        selectedCircle.state === 'hasValue'
-          ? selectedCircle.contents.circleId
-          : undefined
-      }
+      circleId={selectedCircle.valueMaybe()?.circleId}
       isMe
     />
   );
@@ -217,11 +213,7 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   return (
     <ProfilePageContent
       profile={profile}
-      circleId={
-        selectedCircle.state === 'hasValue'
-          ? selectedCircle.contents.circleId
-          : undefined
-      }
+      circleId={selectedCircle.valueMaybe()?.circleId}
     />
   );
 };
@@ -236,8 +228,9 @@ export const ProfilePageContent = ({
   isMe?: boolean;
 }) => {
   const classes = useStyles();
-  const user = profile?.users?.find(user => user.circle_id === circleId);
-  const name = user?.name ?? profile?.users?.[0]?.name ?? 'unknown';
+  const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
+  const user = users.find(user => user.circle_id === circleId);
+  const name = user?.name ?? users?.[0]?.name ?? 'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();

@@ -8,7 +8,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { LoadingScreen } from 'components';
-import { rSelectedCircleState, rMyAddress, rMyProfile } from 'recoilState/app';
+import { rSelectedCircle, rMyAddress, rMyProfile } from 'recoilState/app';
 import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -134,13 +134,11 @@ export const DefaultPage = () => {
   const history = useHistory();
   const web3Context = useWeb3React<Web3Provider>();
 
-  const myAddressState = useRecoilValueLoadable(rMyAddress);
-  const myProfileState = useRecoilValueLoadable(rMyProfile);
-  const selectedCircleState = useRecoilValueLoadable(rSelectedCircleState);
-  // const myAddress = useMyAddress();
-  const myAddress = '0xFAKE';
+  const myAddress = useRecoilValueLoadable(rMyAddress).valueMaybe();
+  const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
 
-  if (myAddressState.state !== 'hasValue') {
+  if (!myAddress) {
     return (
       <div className={classes.root}>
         <div className={classes.header}>
@@ -170,11 +168,11 @@ export const DefaultPage = () => {
     );
   }
 
-  if (myProfileState.state !== 'hasValue') {
+  if (!myProfile) {
     return <LoadingScreen />;
   }
 
-  if (selectedCircleState.state !== 'hasValue') {
+  if (!selectedCircle) {
     return (
       <div className={classes.root}>
         <div className={classes.header}>
@@ -208,7 +206,7 @@ export const DefaultPage = () => {
     <div className={classes.root}>
       <div className={classes.header}>
         <p className={classes.title}>
-          Welcome to {selectedCircleState.contents.circle.name}!
+          Welcome to {selectedCircle.circle.name}!
         </p>
       </div>
       <Footer />

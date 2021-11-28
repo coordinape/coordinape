@@ -9,7 +9,7 @@ import {
   rSelectedCircleIdSource,
   rCirclesMap,
   rWalletAuth,
-  rCircleState,
+  rCircle,
 } from 'recoilState/app';
 import {
   rApiManifest,
@@ -35,7 +35,7 @@ export const useApiBase = () => {
       ]);
       const {
         circleEpochsStatus: { epochIsActive },
-      } = await snapshot.getPromise(rCircleState(selectedCircleId));
+      } = await snapshot.getPromise(rCircle(selectedCircleId));
       if (history.location.pathname === '/') {
         if (epochIsActive) {
           history.push(getAllocationPath());
@@ -163,14 +163,16 @@ export const useApiBase = () => {
         set(rApiManifest, manifest);
         const fullCircle = manifest.circle;
         if (fullCircle) {
-          // TODO: refactor with old RecoilHelper
+          set(rSelectedCircleIdSource, fullCircle.circle.id);
           set(rApiFullCircle, m => {
             const result = new Map(m);
             result.set(fullCircle.circle.id, fullCircle);
             return result;
           });
-          set(rSelectedCircleIdSource, fullCircle.circle.id);
+
           fetchSelfIds(fullCircle.users.map(u => u.address));
+        } else {
+          set(rSelectedCircleIdSource, undefined);
         }
         return manifest;
       },

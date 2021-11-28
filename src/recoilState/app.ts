@@ -173,8 +173,8 @@ export const rProfile = selectorFamily({
  * Joining Base State Selectors
  *
  ***************/
-export const rCirclesState = selector({
-  key: 'rCirclesState',
+export const rCircles = selector({
+  key: 'rCircles',
   get: ({ get }) => {
     const circleMap = get(rCirclesMap);
     const allCircles = Array.from(circleMap.values());
@@ -193,8 +193,8 @@ export const rCirclesState = selector({
   },
 });
 
-export const rCircleState = selectorFamily<ICircleState, number>({
-  key: 'rCircleState',
+export const rCircle = selectorFamily<ICircleState, number>({
+  key: 'rCircle',
   get:
     (circleId: number) =>
     ({ get }) => {
@@ -217,7 +217,8 @@ export const rCircleState = selectorFamily<ICircleState, number>({
 
       const impersonate = !myUser && hasAdminView;
       const meOrPretend =
-        myUser ?? impersonate
+        myUser ??
+        (impersonate
           ? ({
               ...firstUser,
               circle: circle,
@@ -225,13 +226,9 @@ export const rCircleState = selectorFamily<ICircleState, number>({
                 .filter(u => u.id !== firstUser?.id)
                 .toArray(),
             } as IMyUser)
-          : undefined;
+          : undefined);
 
-      // TODO: What here?
-      // console.error('rCircleState impersonate', impersonate, circleId, myUser);
       if (meOrPretend === undefined || circle === undefined) {
-        // eslint-disable-next-line no-console
-        console.log('meOrPretend', meOrPretend, circle);
         return neverEndingPromise();
       }
 
@@ -253,9 +250,9 @@ export const rCircleState = selectorFamily<ICircleState, number>({
     },
 });
 
-export const rSelectedCircleState = selector({
-  key: 'rSelectedCircleState',
-  get: ({ get }) => get(rCircleState(get(rSelectedCircleId))),
+export const rSelectedCircle = selector({
+  key: 'rSelectedCircle',
+  get: ({ get }) => get(rCircle(get(rSelectedCircleId))),
 });
 
 export const rHasAdminView = selector({
@@ -370,21 +367,21 @@ export interface ICircleState {
   activeNominees: INominee[];
 }
 
-export const useCircles = () => useRecoilValue(rCirclesState);
+export const useCircles = () => useRecoilValue(rCircles);
 export const useMyAddress = () => useRecoilValue(rMyAddress);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
-export const useCircle = (id: number) => useRecoilValue(rCircleState(id));
+export const useCircle = (id: number) => useRecoilValue(rCircle(id));
 
 export const useSelectedCircle = () =>
-  useRecoilValue(rCircleState(useSelectedCircleId()));
+  useRecoilValue(rCircle(useSelectedCircleId()));
 
 export const useMyProfileLoadable = () => useRecoilValueLoadable(rMyProfile);
 export const useMyAddressLoadable = () => useRecoilValueLoadable(rMyAddress);
 
 export const useSelectedCircleLoadable = () =>
-  useRecoilValueLoadable(rCircleState(useSelectedCircleId()));
+  useRecoilValueLoadable(rCircle(useSelectedCircleId()));
 
 export const useSelectedCircleEpochsStatus = () =>
   useEpochsStatus(useSelectedCircleId());

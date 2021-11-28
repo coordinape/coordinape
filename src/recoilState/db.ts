@@ -1,5 +1,5 @@
 import iti from 'itiriri';
-import { atom, selector } from 'recoil';
+import { atom, selector, useRecoilValueLoadable } from 'recoil';
 
 import {
   extraEpoch,
@@ -141,3 +141,6 @@ export const rProfileMap = selector<Map<string, IProfile>>({
       .toMap(p => p.address);
   },
 });
+
+export const useHasCircles = () =>
+  (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;

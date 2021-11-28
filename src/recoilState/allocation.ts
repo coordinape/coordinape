@@ -16,7 +16,7 @@ import {
   rUsersMap,
   rGiftsMap,
   rPendingGiftsMap,
-  rCircleState,
+  rCircle,
   rMyProfile,
 } from './app';
 
@@ -108,7 +108,7 @@ export const rAvailableTeammates = selector({
   key: 'rAvailableTeammates',
   get: ({ get }) => {
     const selectedCircleId = get(rSelectedCircleId);
-    const { myUser } = get(rCircleState(selectedCircleId));
+    const { myUser } = get(rCircle(selectedCircleId));
     const usersMap = get(rUsersMap);
     return iti(usersMap.values())
       .filter(
