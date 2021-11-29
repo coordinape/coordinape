@@ -19,6 +19,56 @@ import {
   IProfile,
 } from 'types';
 
+export const FAKE_ADDRESS = '0xFAKE';
+// Fake users are created to when either the user data is not ready for the
+// edges or when users have been deleted that once existed.
+// Of the later there are a few from early when the coordinape team
+// was actively in the strategist circle to observe and mistakenly got some
+// give.
+// TODO: Think about how best to resolve this sort of thing.
+const FAKE_ID_OFFSET = 100000;
+export const createFakeProfile = (u: IUser): IProfile => ({
+  id: u.id + FAKE_ID_OFFSET,
+  address: u.address,
+  admin_view: false,
+  ann_power: false,
+  hasAdminView: false,
+  avatar: '',
+  created_at: u.created_at,
+  updated_at: u.updated_at,
+  users: [],
+});
+export const createFakeUser = (circleId: number): IUser => ({
+  name: 'HardDelete',
+  id: FAKE_ID_OFFSET - circleId,
+  circle_id: circleId,
+  address: FAKE_ADDRESS,
+  non_giver: true,
+  fixed_non_receiver: true,
+  starting_tokens: 100,
+  bio: 'This user was hard deleted, Inconsistent data error.',
+  non_receiver: true,
+  give_token_received: 0,
+  give_token_remaining: 0,
+  epoch_first_visit: false,
+  created_at: '2021-07-07T23:29:18.000000Z',
+  updated_at: '2021-07-07T23:29:18.000000Z',
+  deleted_at: '2021-07-07T23:29:18.000000Z',
+  role: 1,
+  profile: {
+    id: FAKE_ID_OFFSET,
+    address: FAKE_ADDRESS,
+    admin_view: false,
+    ann_power: false,
+    avatar: 'deleted-user_1628632000.jpg',
+    created_at: '2021-07-07T23:29:18.000000Z',
+    updated_at: '2021-07-07T23:29:18.000000Z',
+  },
+  isCircleAdmin: false,
+  isCoordinapeUser: false,
+  teammates: [],
+});
+
 export const extraProfile = ({ users, ...profile }: IApiProfile): IProfile => {
   return {
     ...profile,
@@ -54,14 +104,20 @@ export const extraCircle = (circle: IApiCircle): ICircle => {
 
 export const extraGift = (
   gift: IApiTokenGift,
-  usersMap: Map<number, IUser>
+  usersMap: Map<number, IUser>,
+  pending: boolean
 ): ITokenGift => {
-  const sender = usersMap.get(gift.sender_id);
-  const recipient = usersMap.get(gift.recipient_id);
+  const sender = usersMap.get(gift.sender_id) ?? createFakeUser(gift.circle_id);
+  const recipient =
+    usersMap.get(gift.recipient_id) ?? createFakeUser(gift.circle_id);
   return {
     ...gift,
     sender,
     recipient,
+    pending,
+    // Update address so map is connected correctly
+    sender_address: sender.address,
+    recipient_address: recipient.address,
   };
 };
 

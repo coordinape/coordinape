@@ -85,7 +85,7 @@ export class APIService {
   };
 
   getProfile = async (address: string): Promise<IApiProfile> => {
-    return await this.axios.get(`/v2/profile/${address}`);
+    return (await this.axios.get(`/v2/profile/${address}`)).data;
   };
 
   updateProfile = async (params: PostProfileParam): Promise<IApiProfile> => {

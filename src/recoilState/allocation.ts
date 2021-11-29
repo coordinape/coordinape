@@ -15,58 +15,15 @@ import {
   rSelectedCircleId,
   rUsersMap,
   rGiftsMap,
-  rPendingGiftsMap,
   rCircle,
   rMyProfile,
 } from './app';
 
 import { IUser, ISimpleGift, IAllocationStep } from 'types';
 
-export const rGifts = selector({
-  key: 'rGifts',
-  get: ({ get }) =>
-    Array.from(get(rGiftsMap).values()).sort(({ id: a }, { id: b }) => a - b),
-});
-
 export const rGiftsByEpoch = selector({
   key: 'rGiftsByEpoch',
-  get: ({ get }) => iti(get(rGifts)).toGroups(g => g.epoch_id),
-});
-
-export const rPendingGiftsFor = selectorFamily({
-  key: 'rPendingGiftsFor',
-  get:
-    (userId: number) =>
-    ({ get }) =>
-      iti(get(rPendingGiftsMap).values())
-        .filter(g => g.recipient_id === userId)
-        .toArray(),
-});
-
-export const rPendingGiftsFrom = selectorFamily({
-  key: 'rPendingGiftsFrom',
-  get:
-    (userId: number) =>
-    ({ get }) =>
-      iti(get(rPendingGiftsMap).values())
-        .filter(g => g.sender_id === userId)
-        .toArray(),
-});
-
-export const rGiftsFor = selectorFamily({
-  key: 'rGiftsFor',
-  get:
-    (userId: number) =>
-    ({ get }) =>
-      get(rGifts).filter(g => g.recipient_id === userId),
-});
-
-export const rGiftsFrom = selectorFamily({
-  key: 'rGiftsFrom',
-  get:
-    (userId: number) =>
-    ({ get }) =>
-      get(rGifts).filter(g => g.sender_id === userId),
+  get: ({ get }) => iti(get(rGiftsMap).values()).toGroups(g => g.epoch_id),
 });
 
 export const rUserGifts = selectorFamily({
@@ -74,10 +31,15 @@ export const rUserGifts = selectorFamily({
   get:
     (userId: number) =>
     ({ get }) => {
-      const pendingGiftsFrom = get(rPendingGiftsFrom(userId));
-      const pendingGiftsFor = get(rPendingGiftsFor(userId));
-      const giftsFrom = get(rGiftsFrom(userId));
-      const giftsFor = get(rGiftsFor(userId));
+      const sortedGifts = Array.from(get(rGiftsMap).values()).sort(
+        ({ id: a }, { id: b }) => a - b
+      );
+      const giftsFrom = iti(sortedGifts)
+        .filter(g => g.sender_id === userId)
+        .toArray();
+      const giftsFor = iti(sortedGifts)
+        .filter(g => g.recipient_id === userId)
+        .toArray();
       const fromUserByEpoch = iti(giftsFrom).toGroups(g => g.epoch_id);
       const forUserByEpoch = iti(giftsFor).toGroups(g => g.epoch_id);
       const totalReceivedByEpoch = new Map(
@@ -87,8 +49,8 @@ export const rUserGifts = selectorFamily({
         ])
       );
       return {
-        pendingGiftsFrom,
-        pendingGiftsFor,
+        pendingGiftsFrom: [...giftsFrom].filter(g => g.pending),
+        pendingGiftsFor: [...giftsFor].filter(g => g.pending),
         fromUser: giftsFrom,
         forUser: giftsFor,
         fromUserByEpoch,
@@ -98,12 +60,6 @@ export const rUserGifts = selectorFamily({
     },
 });
 
-///
-///
-///
-///
-
-// TODO: Refactor into grouping?
 export const rAvailableTeammates = selector({
   key: 'rAvailableTeammates',
   get: ({ get }) => {
@@ -121,13 +77,11 @@ export const rAvailableTeammates = selector({
   },
 });
 
-// TODO: Refactor into grouping?
-export const rTeammates = selectorFamily<IUser[], number>({
-  key: 'rTeammates',
+export const rBaseTeammates = selectorFamily<IUser[], number>({
+  key: 'rBaseTeammates',
   get:
     (circleId: number) =>
     ({ get }) => {
-      const userMap = get(rUsersMap);
       const { myUsers } = get(rMyProfile);
       const currentUser = myUsers?.find(u => u.circle_id === circleId);
       if (!currentUser) {
@@ -138,15 +92,13 @@ export const rTeammates = selectorFamily<IUser[], number>({
         return get(rAvailableTeammates);
       }
 
-      return currentUser.teammates
-        .map(t => userMap.get(t.id))
-        .filter(u => u !== undefined) as IUser[];
+      return currentUser.teammates;
     },
 });
 
 export const rLocalTeammates = atomFamily({
   key: 'rLocalTeammates',
-  default: rTeammates,
+  default: rBaseTeammates,
 });
 
 export const rLocalTeammatesChanged = selectorFamily({
@@ -154,7 +106,7 @@ export const rLocalTeammatesChanged = selectorFamily({
   get:
     (circleId: number) =>
     ({ get }) =>
-      !isEqual(get(rTeammates(circleId)), get(rLocalTeammates(circleId))),
+      !isEqual(get(rBaseTeammates(circleId)), get(rLocalTeammates(circleId))),
 });
 
 export const rLocalGifts = atomFamily<ISimpleGift[], number>({
@@ -183,7 +135,7 @@ export const rAllocationStepStatus = selectorFamily<
       if (user === undefined) {
         return [new Set(), STEP_MY_EPOCH];
       }
-      const pendingGiftsFrom = get(rPendingGiftsFrom(user.id));
+      const pendingGiftsFrom = get(rUserGifts(user.id)).pendingGiftsFrom;
       const completedSteps = new Set<IAllocationStep>();
       if (!user.epoch_first_visit) {
         completedSteps.add(STEP_MY_EPOCH);

@@ -19,4 +19,5 @@ export interface ITokenGift extends IApiTokenGift {
   // Calculated
   sender?: IUser;
   recipient?: IUser;
+  pending: boolean;
 }

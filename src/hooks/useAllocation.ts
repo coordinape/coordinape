@@ -10,6 +10,7 @@ import {
   rLocalTeammatesChanged,
   useUserGifts,
   rAllocationStepStatus,
+  rBaseTeammates,
 } from 'recoilState/allocation';
 import { rUsersMap, useCircle, useSelectedCircleId } from 'recoilState/app';
 import { getApiService } from 'services/api';
@@ -27,6 +28,7 @@ export const useAllocationController = (circleId: number) => {
   const { pendingGiftsFrom } = useUserGifts(myUser.id);
   const usersMap = useRecoilValue(rUsersMap);
 
+  const baseTeammates = useRecoilValue(rBaseTeammates(circleId));
   const [localTeammates, setLocalTeammates] = useRecoilState(
     rLocalTeammates(circleId)
   );
@@ -34,7 +36,7 @@ export const useAllocationController = (circleId: number) => {
   const setLocalGifts = useSetRecoilState(rLocalGifts(circleId));
 
   useDeepChangeEffect(() => {
-    setLocalTeammates(myUser.teammates);
+    setLocalTeammates(baseTeammates);
     setLocalGifts(getLocalGiftUpdater(myUser.teammates));
   }, [myUser.teammates]);
 

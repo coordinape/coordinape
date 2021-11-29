@@ -108,11 +108,11 @@ export const rFullCircle = selector<IFullCircle>({
     );
     const pastGifts = iti(
       iti(fullCircle.values())
-        .flat(fc => fc.token_gifts.map(g => extraGift(g, userMap)))
+        .flat(fc => fc.token_gifts.map(g => extraGift(g, userMap, false)))
         .toArray()
     );
     const allGifts = pending
-      .map(g => extraGift({ ...g, id: g.id + 1000000000000000 }, userMap))
+      .map(g => extraGift({ ...g, id: g.id + 1000000000 }, userMap, true))
       .concat(pastGifts);
     const epochs = iti(fullCircle.values()).flat(fc =>
       fc.epochs.map(e => extraEpoch(e, allGifts.toArray()))
@@ -123,7 +123,9 @@ export const rFullCircle = selector<IFullCircle>({
 
     return {
       usersMap: iti(users).toMap(u => u.id),
-      pendingGiftsMap: pending.toMap(g => g.id),
+      pendingGiftsMap: pending
+        .map(g => extraGift(g, userMap, true))
+        .toMap(g => g.id),
       pastGiftsMap: pastGifts.toMap(g => g.id),
       giftsMap: allGifts.toMap(g => g.id),
       epochsMap: epochs.toMap(e => e.id),

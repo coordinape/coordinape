@@ -11,12 +11,12 @@ import {
 } from 'types';
 
 export const useApiAdminCircle = (circleId: number) => {
-  const { fetchCircle } = useApiBase();
+  const { fetchManifest } = useApiBase();
 
   const updateCircle = useRecoilLoadCatch(
     () => async (params: PutCirclesParam) => {
       await getApiService().putCircles(circleId, params);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );
@@ -24,7 +24,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateCircleLogo = useRecoilLoadCatch(
     () => async (newAvatar: File) => {
       await getApiService().uploadCircleLogo(circleId, newAvatar);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );
@@ -32,7 +32,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const createEpoch = useRecoilLoadCatch(
     () => async (params: UpdateCreateEpochParam) => {
       await getApiService().createEpoch(circleId, params);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId],
     { hideLoading: true }
@@ -41,7 +41,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateEpoch = useRecoilLoadCatch(
     () => async (epochId: number, params: UpdateCreateEpochParam) => {
       await getApiService().updateEpoch(circleId, epochId, params);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId],
     { hideLoading: true }
@@ -50,7 +50,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
       await getApiService().deleteEpoch(circleId, epochId);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );
@@ -58,7 +58,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
       await getApiService().updateUser(circleId, userAddress, params);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );
@@ -66,7 +66,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const createUser = useRecoilLoadCatch(
     () => async (params: PostUsersParam) => {
       await getApiService().createUser(circleId, params);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );
@@ -74,7 +74,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
       await getApiService().deleteUser(circleId, userAddress);
-      await fetchCircle({ circleId });
+      await fetchManifest();
     },
     [circleId]
   );

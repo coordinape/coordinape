@@ -91,6 +91,7 @@ const logRecoilValue = (
     }`,
     info.loadable?.contents
   );
+  return info.loadable?.valueMaybe();
 };
 
 export const RecoilObserver = () => {
