@@ -1,16 +1,27 @@
 import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
-
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 dotenv.config({ path: '../.env' });
 
 const USDC_WHALE_ADDRESS = '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503';
 const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+
+export async function unlockSigner(
+  address: string,
+  hre: HardhatRuntimeEnvironment
+): Promise<ethers.Signer> {
+  await hre.network.provider.request({
+    method: 'hardhat_impersonateAccount',
+    params: [address],
+  });
+  return hre.ethers.provider.getSigner(address);
+}
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -32,6 +43,11 @@ task('mint', 'Mints the given token to specified account')
   .addParam('amount', 'The amount of tokens to mint')
   .setAction(
     async (args: { token: string; receiver: string; amount: string }, hre) => {
+      // patch provider so that impersonation would work
+      hre.ethers.provider = new ethers.providers.JsonRpcProvider(
+        hre.ethers.provider.connection.url
+      );
+
       const mintEth = async (receiver: string, amount: string) => {
         const signers = await hre.ethers.getSigners();
 
@@ -47,7 +63,7 @@ task('mint', 'Mints the given token to specified account')
 
       async function mintUsdc(receiver: string, amount: string): Promise<void> {
         // Todo: fix this
-        const usdcWhale = await hre.ethers.getSigner(USDC_WHALE_ADDRESS);
+        const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, hre);
         const usdc = new ethers.Contract(
           USDC_ADDRESS,
           ['function transfer(address to, uint amount)'],

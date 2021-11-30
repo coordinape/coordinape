@@ -6,9 +6,8 @@
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc",
-    "mint": "ts-node scripts/mint.ts",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "ganache-cli -l 8000000 --networkId 1576478390085 --deterministic --hostname=0.0.0.0 -m 'coordinape' --fork $ETHEREUM_RPC_URL",
+    "dev": "hardhat node",
     "deploy": "hardhat deploy --network localhost",
     "test": "hardhat test"
   },
