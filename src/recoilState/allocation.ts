@@ -9,7 +9,6 @@ import {
   STEPS,
   NO_TEAM_STEPS,
 } from 'routes/allocation';
-import { neverEndingPromise } from 'utils/tools';
 
 import {
   rSelectedCircleId,
@@ -82,17 +81,13 @@ export const rBaseTeammates = selectorFamily<IUser[], number>({
   get:
     (circleId: number) =>
     ({ get }) => {
-      const { myUsers } = get(rMyProfile);
-      const currentUser = myUsers?.find(u => u.circle_id === circleId);
-      if (!currentUser) {
-        return neverEndingPromise();
-      }
+      const { myUser } = get(rCircle(circleId));
 
-      if (!currentUser.circle.team_selection) {
+      if (!myUser.circle.team_selection) {
         return get(rAvailableTeammates);
       }
 
-      return currentUser.teammates;
+      return myUser.teammates;
     },
 });
 

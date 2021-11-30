@@ -7,7 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
 import { ApeAvatar } from 'components';
-import { useSelectedAllocation } from 'hooks';
+import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
@@ -293,6 +293,7 @@ enum OrderType {
 const AllocationTeam = () => {
   const classes = useStyles();
   const {
+    circleId,
     usersNotMe: availableTeammates,
     circle: selectedCircle,
     circleEpochsStatus: { epochIsActive, timingMessage },
@@ -304,7 +305,7 @@ const AllocationTeam = () => {
     toggleLocalTeammate,
     setAllLocalTeammates,
     clearLocalTeammates,
-  } = useSelectedAllocation();
+  } = useAllocation(circleId);
 
   const [keyword, setKeyword] = useState<string>('');
   const orderType = OrderType.Alphabetical as OrderType; // Was useState

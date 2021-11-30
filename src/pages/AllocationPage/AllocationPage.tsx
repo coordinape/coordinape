@@ -13,8 +13,8 @@ import {
 
 import {
   useApiWithSelectedCircle,
-  useSelectedAllocation,
-  useSelectedAllocationController,
+  useAllocation,
+  useAllocationController,
 } from 'hooks';
 import { BalanceIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
@@ -143,7 +143,13 @@ export const AllocationPage = () => {
   const location = useLocation();
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
-  useSelectedAllocationController();
+  const {
+    circleId,
+    myUser: selectedMyUser,
+    circle: selectedCircle,
+    circleEpochsStatus: { epochIsActive },
+  } = useSelectedCircle();
+  useAllocationController(circleId);
   const {
     localTeammatesChanged,
     localGiftsChanged,
@@ -152,18 +158,14 @@ export const AllocationPage = () => {
     rebalanceGifts,
     saveGifts,
     saveTeammates,
-  } = useSelectedAllocation();
-  const {
-    myUser: selectedMyUser,
-    circle: selectedCircle,
-    circleEpochsStatus: { epochIsActive },
-  } = useSelectedCircle();
+  } = useAllocation(circleId);
 
   const { updateMyUser } = useApiWithSelectedCircle();
   const allSteps = !selectedCircle.team_selection ? NO_TEAM_STEPS : STEPS;
   const fixedNonReceiver = selectedMyUser.fixed_non_receiver;
   const [epochBio, setEpochBio] = useState('');
   const [nonReceiver, setNonReceiver] = useState(false);
+
   useEffect(() => {
     if (selectedMyUser) {
       setEpochBio(selectedMyUser?.bio ?? '');

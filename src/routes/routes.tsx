@@ -44,8 +44,7 @@ export const Routes = () => {
 };
 
 export const LoggedInRoutes = () => {
-  const circleLoadable = useSelectedCircleLoadable();
-  const selectedUser = circleLoadable.valueMaybe()?.myUser;
+  const selectedUser = useSelectedCircleLoadable().valueMaybe()?.myUser;
   const hasAdminView =
     useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
 

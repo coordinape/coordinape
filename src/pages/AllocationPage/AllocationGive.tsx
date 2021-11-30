@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { Button, makeStyles } from '@material-ui/core';
 
 import { ProfileCard } from 'components';
-import { useSelectedAllocation } from 'hooks';
+import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
@@ -175,11 +175,12 @@ const AllocationGive = () => {
   const classes = useStyles();
 
   const {
+    circleId,
     myUser,
     circleEpochsStatus: { epochIsActive, longTimingMessage },
   } = useSelectedCircle();
 
-  const { givePerUser, localGifts, updateGift } = useSelectedAllocation();
+  const { givePerUser, localGifts, updateGift } = useAllocation(circleId);
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 

@@ -2,6 +2,7 @@ import iti from 'itiriri';
 import { DateTime } from 'luxon';
 
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import { assertDef } from 'utils/tools';
 
 import {
   ITiming,
@@ -138,6 +139,10 @@ export const extraNominee = (
     vouchesNeeded: Math.max(
       0,
       nominee.vouches_required - (nominee.nominations ?? []).length - 1
+    ),
+    nominator: assertDef(
+      usersMap.get(nominee.nominated_by_user_id),
+      `extraNominee missing user with id, ${nominee.nominated_by_user_id}`
     ),
   };
 };

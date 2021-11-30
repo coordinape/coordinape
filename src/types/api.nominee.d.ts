@@ -7,7 +7,6 @@ export interface IApiNominee {
   name: string;
   address: string;
   nominated_by_user_id: number;
-  nominator: IApiUser;
   circle_id: number;
   description: string;
   vouches_required: number;
@@ -27,4 +26,5 @@ export interface INominee extends IApiNominee {
   expiryDate: DateTime;
   nominatedDate: DateTime;
   vouchesNeeded: number;
+  nominator: IUser;
 }

@@ -12,7 +12,7 @@ import {
   rAllocationStepStatus,
   rBaseTeammates,
 } from 'recoilState/allocation';
-import { rUsersMap, useCircle, useSelectedCircleId } from 'recoilState/app';
+import { rUsersMap, useCircle } from 'recoilState/app';
 import { getApiService } from 'services/api';
 
 import { useDeepChangeEffect } from './useDeepChangeEffect';
@@ -291,7 +291,3 @@ const buildDiffMap = (
 
   return diff;
 };
-
-export const useSelectedAllocation = () => useAllocation(useSelectedCircleId());
-export const useSelectedAllocationController = () =>
-  useAllocationController(useSelectedCircleId());

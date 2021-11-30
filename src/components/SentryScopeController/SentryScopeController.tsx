@@ -2,11 +2,12 @@ import React, { useEffect, Suspense } from 'react';
 
 import * as Sentry from '@sentry/browser';
 
-import { useSelectedAllocation } from 'hooks';
+import { useAllocation } from 'hooks';
 import {
   useWalletAuth,
   useMyProfile,
   useSelectedCircle,
+  useSelectedCircleId,
 } from 'recoilState/app';
 
 export const SentryScopeController = () => {
@@ -23,8 +24,9 @@ export const SentryScopeController = () => {
 };
 
 const AllocationScope = () => {
+  const circleId = useSelectedCircleId();
   const { localTeammatesChanged, localGiftsChanged, tokenRemaining } =
-    useSelectedAllocation();
+    useAllocation(circleId);
 
   useEffect(() => {
     Sentry.configureScope(scope => {

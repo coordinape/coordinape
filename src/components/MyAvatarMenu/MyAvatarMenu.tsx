@@ -131,7 +131,8 @@ export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
   const { hasAdminView, myUsers } = myProfile;
   const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle);
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const selectedId = selectedCircle?.circleId;
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -154,11 +155,6 @@ export const MyAvatarMenu = () => {
       ),
     [myUsers]
   );
-
-  const selectedId =
-    selectedCircle.state === 'hasValue'
-      ? selectedCircle.contents?.circle?.id
-      : undefined;
 
   return (
     <>
@@ -226,7 +222,7 @@ export const MyAvatarMenu = () => {
                 selected={selectedId === circle.id}
                 onClick={() => {
                   setAnchorEl(null);
-                  selectedCircle?.contents?.circle?.id !== circle.id &&
+                  selectedCircle?.circleId !== circle.id &&
                     selectAndFetchCircle(circle.id);
                 }}
               />
@@ -237,13 +233,13 @@ export const MyAvatarMenu = () => {
           <>
             <Divider variant="middle" className={classes.divider} />
             <span className={classes.subHeader}>Admin View</span>
-            {selectedCircle.state === 'hasValue' ? (
+            {selectedCircle && selectedCircle.impersonate ? (
               <>
                 <button
                   className={clsx(classes.link, classes.selectedLink)}
                   onClick={() => setAnchorEl(null)}
                 >
-                  {selectedCircle.contents.circle.name}
+                  {selectedCircle.circle.name}
                 </button>
                 <button
                   className={classes.link}
