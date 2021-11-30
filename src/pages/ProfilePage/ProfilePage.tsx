@@ -210,9 +210,6 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   const profile = useProfile(address);
   const selectedCircle = useSelectedCircleLoadable();
 
-  // eslint-disable-next-line no-console
-  console.log(profile);
-
   return (
     <ProfilePageContent
       profile={profile}

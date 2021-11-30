@@ -60,15 +60,15 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
 };
 
 // myAddress is how the app knows that there is a logged in state.
-export const rMyAddress = selector({
-  key: 'rMyAddress',
-  get: async ({ get }) => {
-    const { address, authTokens } = get(rWalletAuth);
-    return address && address in authTokens
-      ? address
-      : neverEndingPromise<string>();
-  },
-});
+// export const rMyAddress = selector({
+//   key: 'rMyAddress',
+//   get: async ({ get }) => {
+//     const { address, authTokens } = get(rWalletAuth);
+//     return address && address in authTokens
+//       ? address
+//       : neverEndingPromise<string>();
+//   },
+// });
 
 export const rSelectedCircleIdSource = atom({
   key: 'rSelectedCircleIdSource',
@@ -209,8 +209,10 @@ export const rCircle = selectorFamily<ICircleState, number>({
         u => u.circle_id === circleId
       );
       const circleEpochsStatus = get(rCircleEpochsStatus(circleId));
-      const activeNominees = iti(get(rCircleNominees(circleId)))
+      const activeNominees = iti(get(rNomineesMap).values())
+        .filter(n => n.circle_id === circleId)
         .filter(n => !n.ended && !n.expired && n.vouchesNeeded > 0)
+        .sort(({ expiryDate: a }, { expiryDate: b }) => a.diff(b).milliseconds)
         .toArray();
 
       const firstUser = getCircleUsers().first();
@@ -368,7 +370,6 @@ export interface ICircleState {
 }
 
 export const useCircles = () => useRecoilValue(rCircles);
-export const useMyAddress = () => useRecoilValue(rMyAddress);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
@@ -378,7 +379,11 @@ export const useSelectedCircle = () =>
   useRecoilValue(rCircle(useSelectedCircleId()));
 
 export const useMyProfileLoadable = () => useRecoilValueLoadable(rMyProfile);
-export const useMyAddressLoadable = () => useRecoilValueLoadable(rMyAddress);
+export const useAuthToken = () => {
+  const { authTokens, address } =
+    useRecoilValueLoadable(rWalletAuth).valueMaybe() ?? {};
+  return address && authTokens?.[address];
+};
 
 export const useSelectedCircleLoadable = () =>
   useRecoilValueLoadable(rCircle(useSelectedCircleId()));

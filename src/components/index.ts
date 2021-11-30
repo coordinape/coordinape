@@ -42,3 +42,4 @@ export * from './AvatarUpload/AvatarUpload';
 export * from './FormFileUpload/FormFileUpload';
 export * from './ReadMore/ReadMore';
 export * from './GlobalUi/GlobalUi';
+export * from './WalletController/WalletController';

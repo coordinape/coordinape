@@ -126,6 +126,7 @@ export const rMapSearchRegex = selector<RegExp | undefined>({
 export const rMapGraphData = selector<GraphData>({
   key: 'rMapGraphData',
   get: async ({ get }: IRecoilGetParams) => {
+    const selectedCircleId = get(rSelectedCircleId);
     const epochs = get(rMapEpochs);
     const epochsMap = iti(epochs).toMap(e => e.id);
     const gifts = iti(get(rFullCircle).giftsMap.values());
@@ -135,11 +136,11 @@ export const rMapGraphData = selector<GraphData>({
     }
 
     const links = gifts
-      .filter(g => g.tokens > 0)
+      .filter(g => g.tokens > 0 && g.circle_id === selectedCircleId)
       .map((g): IMapEdge => {
         const epoch = assertDef(
           epochsMap.get(g.epoch_id),
-          `Missing epoch.id = ${g.id} in rMapGraphData. have ${epochs.map(
+          `Missing epoch.id = ${g.epoch_id} in rMapGraphData. have ${epochs.map(
             e => e.id
           )}`
         );

@@ -15,6 +15,7 @@ import {
   ErrorBoundary,
   MainLayout,
   SentryScopeController,
+  WalletController,
 } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
@@ -38,6 +39,7 @@ function App() {
           <ThemeProvider theme={theme}>
             <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
               <Web3ReactProvider getLibrary={getLibrary}>
+                <WalletController />
                 <BrowserRouter>
                   <MainLayout>
                     <RecoilDebugger />

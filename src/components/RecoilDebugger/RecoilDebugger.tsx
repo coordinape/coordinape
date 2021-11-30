@@ -15,7 +15,10 @@ export const RecoilDebugger = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: For Debug
     window.$rGetBasics = (baseCircleId?: number) => {
-      logRecoilValue(getRecoilValueInfo(recoilState.rMyAddress), 'rMyAddress');
+      logRecoilValue(
+        getRecoilValueInfo(recoilState.rWalletAuth),
+        'rWalletAuth'
+      );
       logRecoilValue(getRecoilValueInfo(recoilState.rMyProfile), 'rMyProfile');
       const selectedCircle = getRecoilValueInfo(recoilState.rSelectedCircleId);
       const circleId = baseCircleId ?? selectedCircle.loadable?.contents;
@@ -42,11 +45,13 @@ export const RecoilDebugger = () => {
             typeof v === 'function'
               ? (arg: any) =>
                   logRecoilValue(
-                    getRecoilValueInfo((v as (arg: any) => any)(arg))
+                    getRecoilValueInfo((v as (arg: any) => any)(arg)),
+                    k
                   )
               : () =>
                   logRecoilValue(
-                    getRecoilValueInfo(v as RecoilValueReadOnly<string>)
+                    getRecoilValueInfo(v as RecoilValueReadOnly<string>),
+                    k
                   ),
         }))
     );
@@ -88,8 +93,7 @@ const logRecoilValue = (
   console.log(
     `Δ ${key} ${info.isActive ? '  active' : 'inactive'} ${
       info.loadable?.state
-    }`,
-    info.loadable?.contents
+    }`
   );
   return info.loadable?.valueMaybe();
 };

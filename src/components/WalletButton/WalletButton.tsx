@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
@@ -7,9 +7,8 @@ import { Button, Hidden, makeStyles, Popover } from '@material-ui/core';
 
 import { WALLET_ICONS } from 'config/constants';
 import { useApiBase } from 'hooks';
-import { useWalletAuth, useMyAddressLoadable } from 'recoilState/app';
+import { useWalletAuth } from 'recoilState/app';
 import { useSetWalletModalOpen } from 'recoilState/ui';
-import { getApiService } from 'services/api';
 import { shortenAddress } from 'utils';
 
 const useStyles = makeStyles(theme => ({
@@ -28,29 +27,11 @@ export const WalletButton = () => {
 
   const web3Context = useWeb3React<Web3Provider>();
 
-  const { fetchManifest, updateAuth, logout, navigateDefault } = useApiBase();
+  const { updateAuth, logout } = useApiBase();
   const setWalletModalOpen = useSetWalletModalOpen();
-  const myAddressLoadable = useMyAddressLoadable();
   const { address, connectorName, authTokens } = useWalletAuth();
   const haveAuthToken =
     !!address && web3Context.account === address && address in authTokens;
-
-  useEffect(() => {
-    if (myAddressLoadable.state === 'hasValue' && myAddressLoadable.contents) {
-      fetchManifest().then(navigateDefault);
-    }
-  }, [myAddressLoadable]);
-
-  useEffect(() => {
-    getApiService().setProvider(web3Context.library);
-
-    if (address && web3Context.account && web3Context.account !== address) {
-      updateAuth({
-        address: web3Context.account,
-        web3Context: web3Context,
-      });
-    }
-  }, [web3Context, address]);
 
   const disconnect = () => {
     web3Context.deactivate();

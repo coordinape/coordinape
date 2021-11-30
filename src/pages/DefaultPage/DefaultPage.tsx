@@ -8,7 +8,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { LoadingScreen } from 'components';
-import { rSelectedCircle, rMyAddress, rMyProfile } from 'recoilState/app';
+import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
 import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -134,11 +134,11 @@ export const DefaultPage = () => {
   const history = useHistory();
   const web3Context = useWeb3React<Web3Provider>();
 
-  const myAddress = useRecoilValueLoadable(rMyAddress).valueMaybe();
+  const authToken = useAuthToken();
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
   const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
 
-  if (!myAddress) {
+  if (!authToken) {
     return (
       <div className={classes.root}>
         <div className={classes.header}>
@@ -184,7 +184,7 @@ export const DefaultPage = () => {
             <p className={classes.welcomeText}>
               If you are supposed to be part of a circle already, contact your
               circle&apos;s admin to make sure they added this address:{' '}
-              {shortenAddress(myAddress)}
+              {shortenAddress(myProfile.address)}
             </p>
             <p className={classes.welcomeText}>Or, create a new circle.</p>
             <Button
