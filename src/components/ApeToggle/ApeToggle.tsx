@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import uniqueId from 'lodash/uniqueId';
 
-import { makeStyles, ButtonGroup, Button, Theme } from '@material-ui/core';
+import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
 
-const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -71,7 +71,6 @@ export const ApeToggle = ({
   error,
   className,
   infoTooltip,
-  variant = 'primary',
 }: {
   value: boolean;
   onChange: (newValue: boolean) => void;
@@ -82,9 +81,8 @@ export const ApeToggle = ({
   error?: boolean;
   className?: string;
   infoTooltip?: React.ReactNode;
-  variant?: string;
 }) => {
-  const classes = useStyles({ variant });
+  const classes = useStyles();
   const [groupId] = useState(uniqueId('text-field-'));
 
   return (
