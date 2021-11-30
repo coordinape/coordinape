@@ -87,6 +87,7 @@ describe('Test withdrawal functions of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],
@@ -148,6 +149,7 @@ describe('Test circle related functions of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],
@@ -288,6 +290,7 @@ describe('Test tap function of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],

@@ -72,6 +72,7 @@ describe('ApeRouter', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],
