@@ -16,8 +16,8 @@ import {
 import { WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'routes/paths';
 import { connectors } from 'utils/connectors';
+import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 
 // TODO: why does this error?
 // import { EConnectorNames } from 'types';
