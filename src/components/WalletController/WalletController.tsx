@@ -29,8 +29,7 @@ export const WalletController = () => {
     getApiService().setProvider(web3Context.library);
     if (
       web3Context.account &&
-      ((address && web3Context.account !== address) ||
-        (!address && web3Context.account in authTokens))
+      ((address && web3Context.account !== address) || !address)
     ) {
       updateAuth({
         address: web3Context.account,

@@ -45,6 +45,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: theme.spacing(1),
     padding: theme.spacing(2, 5.5, 4),
     userSelect: `none`,
+    width: '100%',
+    maxWidth: 500,
   },
   title: {
     marginBottom: theme.spacing(3),
@@ -173,35 +175,33 @@ export const WalletAuthModal = ({
             <Typography>{connectMessage}</Typography>
           </div>
         ) : (
-          <div>
-            <Grid container spacing={1}>
-              <Grid item md={6} xs={12}>
-                <Button
-                  className={classes.button}
-                  disabled={!isMetamaskEnabled}
-                  fullWidth
-                  onClick={() => {
-                    activate(EConnectorNames.Injected);
-                  }}
-                >
-                  {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                  <WALLET_ICONS.injected />
-                </Button>
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <Button
-                  className={classes.button}
-                  fullWidth
-                  onClick={() => {
-                    activate(EConnectorNames.WalletConnect);
-                  }}
-                >
-                  Wallet Connect
-                  <WALLET_ICONS.walletconnect />
-                </Button>
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item md={6} xs={12}>
+              <Button
+                className={classes.button}
+                disabled={!isMetamaskEnabled}
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.Injected);
+                }}
+              >
+                {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
+                <WALLET_ICONS.injected />
+              </Button>
             </Grid>
-          </div>
+            <Grid item md={6} xs={12}>
+              <Button
+                className={classes.button}
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.WalletConnect);
+                }}
+              >
+                Wallet Connect
+                <WALLET_ICONS.walletconnect />
+              </Button>
+            </Grid>
+          </Grid>
         )}
         <Typography className={classes.helper}>
           New to Ethereum?{' '}
