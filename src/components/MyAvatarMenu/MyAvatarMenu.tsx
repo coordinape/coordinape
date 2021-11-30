@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
-import { groupBy, toPairs } from 'lodash';
 import { NavLink } from 'react-router-dom';
 
 import {
@@ -12,11 +11,9 @@ import {
   Hidden,
 } from '@material-ui/core';
 
+import { CirclesHeaderSection } from 'components';
 import { useMe, useCircle, useGlobalUi } from 'hooks';
-import { useCircleEpochsStatus } from 'recoilState';
 import * as paths from 'routes/paths';
-
-import { ICircle } from 'types';
 
 const useStyles = makeStyles(theme => ({
   avatarButton: {
@@ -56,13 +53,6 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.5,
     fontWeight: 600,
   },
-  subSubHeader: {
-    fontStyle: 'italic',
-    margin: theme.spacing(0.7, 0, 0, 5),
-    fontSize: 13,
-    lineHeight: 1.5,
-    fontWeight: 300,
-  },
   link: {
     position: 'relative',
     margin: theme.spacing(0, 0, 0, 5),
@@ -100,36 +90,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: '50%',
     },
   },
-  activeLink: {
-    color: theme.colors.darkRed,
-  },
 }));
-
-const CircleButton = ({
-  circle,
-  selected,
-  onClick,
-}: {
-  circle: ICircle;
-  selected: boolean;
-  onClick: () => void;
-}) => {
-  const classes = useStyles();
-  const { currentEpoch } = useCircleEpochsStatus(circle.id);
-
-  return (
-    <button
-      className={clsx(classes.link, {
-        [classes.selectedLink]: selected,
-        [classes.activeLink]: !!currentEpoch,
-      })}
-      key={circle.name}
-      onClick={onClick}
-    >
-      {circle.name}
-    </button>
-  );
-};
 
 export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
   const classes = useStyles();
@@ -168,7 +129,7 @@ export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
 export const MyAvatarMenu = () => {
   const classes = useStyles();
   const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
-  const { selectAndFetchCircle, selectedCircle } = useCircle();
+  const { selectedCircle } = useCircle();
   const { openCircleSelector } = useGlobalUi();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -183,11 +144,6 @@ export const MyAvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const groupedCircles = useMemo(
-    () => toPairs(groupBy(myCircles, c => c.protocol.name)),
-    [myCircles]
-  );
 
   return (
     <>
@@ -222,23 +178,7 @@ export const MyAvatarMenu = () => {
           <MenuNavigationLinks handleOnClick={() => setAnchorEl(null)} />
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
-          {groupedCircles.map(([protocolName, circles], idx) => (
-            <React.Fragment key={idx}>
-              <span className={classes.subSubHeader}>{protocolName}</span>
-              {circles.map(circle => (
-                <CircleButton
-                  key={circle.id}
-                  circle={circle}
-                  selected={selectedCircle?.id === circle.id}
-                  onClick={() => {
-                    setAnchorEl(null);
-                    selectedCircle?.id !== circle.id &&
-                      selectAndFetchCircle(circle.id);
-                  }}
-                />
-              ))}
-            </React.Fragment>
-          ))}
+          <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
           {hasAdminView && (
             <>
               <Divider variant="middle" className={classes.divider} />

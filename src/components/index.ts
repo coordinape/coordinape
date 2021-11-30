@@ -42,3 +42,5 @@ export * from './EditProfileModal/EditProfileModal';
 export * from './AvatarUpload/AvatarUpload';
 export * from './FormFileUpload/FormFileUpload';
 export * from './ReadMore/ReadMore';
+export * from './Atoms/';
+export * from './Molecules/CirclesHeaderSection';

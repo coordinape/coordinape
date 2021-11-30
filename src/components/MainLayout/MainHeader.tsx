@@ -1,6 +1,5 @@
 import { Suspense, useState, useEffect } from 'react';
 
-import clsx from 'clsx';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -12,9 +11,7 @@ import {
   IconButton,
   Divider,
   Grid,
-  ButtonBase,
 } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
 import { Skeleton } from '@material-ui/lab';
 
 import {
@@ -23,6 +20,7 @@ import {
   ReceiveInfo,
   MyAvatarMenu,
   MenuNavigationLinks,
+  CirclesHeaderSection,
 } from 'components';
 import { useSelectedCircleEpoch, useMe, useCircle } from 'hooks';
 import { CloseIcon, HamburgerIcon } from 'icons';
@@ -61,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     backgroundColor: theme.colors.ultraLightGray,
     width: '100%',
-    height: '100vh',
+    height: '95vh',
     overflowY: 'scroll',
   },
   coordinapeLogo: {
@@ -133,8 +131,15 @@ const useStyles = makeStyles(theme => ({
       },
     },
     [theme.breakpoints.down('xs')]: {
+      position: 'unset',
       color: theme.colors.text,
       fontWeight: 'normal',
+      '&:hover': {
+        color: theme.colors.black,
+      },
+      '&.active': {
+        color: theme.colors.red,
+      },
     },
   },
   editCircleButton: {
@@ -150,13 +155,6 @@ const useStyles = makeStyles(theme => ({
   },
   editIcon: {
     color: theme.colors.white,
-  },
-  mobileCircleHeading: {
-    fontSize: '24px',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    lineHeight: '30px',
-    color: theme.colors.text,
   },
   profileHeading: {
     color: theme.colors.red,
@@ -281,22 +279,16 @@ export const MainHeader = () => {
           py={3}
           px={1}
         >
-          <Box px={2} display="flex" justifyContent="space-between">
-            <div className={classes.mobileCircleHeading}>Year Finance</div>
-            <ButtonBase className={classes.editCircleButton}>
-              <EditIcon className={classes.editIcon} />
-            </ButtonBase>
-          </Box>
-          <NavLink
-            isActive={() => false}
-            className={clsx(classes.navLink, classes.profileHeading)}
-            to="/"
+          <Box
+            px={2}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
           >
-            Community Grants
-          </NavLink>
-          <NavLink isActive={() => false} className={classes.navLink} to="/">
-            Core Contributors
-          </NavLink>
+            <CirclesHeaderSection
+              handleOnClick={() => setIsMobileMenuOpen(false)}
+            />
+          </Box>
           <Divider variant="fullWidth" />
           <Box py={2}>{suspendedNav}</Box>
           <Divider variant="fullWidth" />
