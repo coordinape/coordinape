@@ -164,6 +164,9 @@ export const MainHeader = () => {
   const location = useLocation();
   const { address } = useWalletAuth();
 
+  if (address && isMobileMenuOpen) {
+    setIsMobileMenuOpen(false);
+  }
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
