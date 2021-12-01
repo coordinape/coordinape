@@ -120,6 +120,7 @@ export const SummonCirclePage = () => {
         }) => {
           try {
             const newCircle = await createCircle(
+              myAddress,
               { ...params },
               captcha_token,
               JSON.stringify({

@@ -172,7 +172,7 @@ export const ReceiveInfo = () => {
           ?.filter(
             tokenGift => tokenGift.tokens > 0 || tokenGift.note.length > 0
           )
-          ?.sort((a, b) => +new Date(b.updated_at) - +new Date(a.updated_at))
+          ?.sort((a, b) => +new Date(b.dts_created) - +new Date(a.dts_created))
           ?.map(tokenGift => (
             <div className={classes.note} key={tokenGift.id}>
               <div className={classes.noteHeader}>
@@ -183,8 +183,8 @@ export const ReceiveInfo = () => {
                   {tokenGift.sender?.name}
                 </div>
                 <div className={classes.noteDate}>
-                  {DateTime.fromISO(tokenGift.updated_at).toLocaleString(
-                    DateTime.DATE_SHORT
+                  {DateTime.fromSQL(tokenGift.dts_created).toLocaleString(
+                    DateTime.DATETIME_MED
                   )}
                 </div>
               </div>

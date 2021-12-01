@@ -16,7 +16,7 @@ import {
   useMapMeasures,
   useSetAmSearch,
 } from 'recoilState/map';
-import { useTriggerMode } from 'recoilState/ui';
+import { useDevMode } from 'recoilState/ui';
 
 import AMProfileCard from './AMProfileCard';
 
@@ -88,7 +88,7 @@ export const AMDrawer = () => {
   const metric = useMapMetric();
   const rawProfiles = useMapResults();
   const { measures } = useMapMeasures(metric);
-  const showHiddenFeatures = useTriggerMode();
+  const showHiddenFeatures = useDevMode();
 
   const profiles = useMemo(
     () =>
