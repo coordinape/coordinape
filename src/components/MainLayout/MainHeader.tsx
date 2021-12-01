@@ -48,6 +48,12 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 2, 4),
+      height: theme.custom.appHeaderHeight + 32,
+      gridTemplateColumns: '1fr 8fr',
+      zIndex: 2,
+    },
   },
   mobileMenu: {
     top: theme.custom.appHeaderHeight - 11,
@@ -189,37 +195,6 @@ export const MainHeader = () => {
           <MyAvatarMenu />
         </Suspense>
       </div>
-      {/* {screenDownSm ? (
-        <div className={classes.smallNavAndButtons}>
-          <div className={classes.buttons}>
-            <Suspense fallback={<></>}>
-              <ReceiveInfo />
-            </Suspense>
-            <WalletButton />
-            <Suspense fallback={<></>}>
-              <MyAvatarMenu />
-            </Suspense>
-          </div>
-          <Suspense fallback={<></>}>
-            <HeaderNav />
-          </Suspense>
-        </div>
-      ) : (
-        <>
-          <Suspense fallback={<span />}>
-            <HeaderNav />
-          </Suspense>
-          <div className={classes.buttons}>
-            <Suspense fallback={<></>}>
-              <ReceiveInfo />
-            </Suspense>
-            <WalletButton />
-            <Suspense fallback={<></>}>
-              <MyAvatarMenu />
-            </Suspense>
-          </div>
-        </>
-      )} */}
     </div>
   ) : (
     <div className={classes.root}>
