@@ -1,15 +1,17 @@
 import React from 'react';
 
 import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { Popover, makeStyles, Divider, Hidden } from '@material-ui/core';
 
-import { CirclesHeaderSection, ApeAvatar } from 'components';
+import {
+  CirclesHeaderSection,
+  ApeAvatar,
+  MenuNavigationLinks,
+} from 'components';
 import { useMyProfile, rSelectedCircle } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
-import * as paths from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
   avatarButton: {
@@ -88,41 +90,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
-  const classes = useStyles();
-
-  return (
-    <>
-      {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
-        if (isExternal) {
-          return (
-            <div key={path}>
-              <a
-                className={classes.link}
-                href={path}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {label}
-              </a>
-            </div>
-          );
-        }
-        return (
-          <NavLink
-            key={path}
-            to={path}
-            className={classes.link}
-            onClick={props.handleOnClick}
-          >
-            {label}
-          </NavLink>
-        );
-      })}
-    </>
-  );
-};
-
 export const MyAvatarMenu = () => {
   const classes = useStyles();
   const myProfile = useMyProfile();
@@ -152,7 +119,7 @@ export const MyAvatarMenu = () => {
             : clsx(classes.avatarButton, 'selected')
         }
       />
-      <Hidden xsDown>
+      <Hidden smDown>
         <Popover
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -170,32 +137,7 @@ export const MyAvatarMenu = () => {
             horizontal: 'right',
           }}
         >
-          {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
-            if (isExternal) {
-              return (
-                <div key={path}>
-                  <a
-                    className={classes.link}
-                    href={path}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {label}
-                  </a>
-                </div>
-              );
-            }
-            return (
-              <NavLink
-                key={path}
-                to={path}
-                className={classes.link}
-                onClick={() => setAnchorEl(null)}
-              >
-                {label}
-              </NavLink>
-            );
-          })}
+          <MenuNavigationLinks />
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
           <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />

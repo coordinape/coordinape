@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.colors.primary,
     gridTemplateColumns: '1fr 1fr 1fr',
     padding: theme.spacing(0, 5),
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'flex',
       justifyContent: 'space-between',
       padding: theme.spacing(0, '25px'),
@@ -47,12 +47,6 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-      height: theme.custom.appHeaderHeight + 32,
-      gridTemplateColumns: '1fr 8fr',
-      zIndex: 2,
     },
   },
   mobileMenu: {
@@ -82,16 +76,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       alignItems: 'flex-start',
       flexDirection: 'column',
-    },
-    [theme.breakpoints.down('sm')]: {
-      position: 'absolute',
-      width: '100%',
-      background: theme.colors.primary,
-      top: theme.custom.appHeaderHeight - 12,
-      left: '0px',
     },
   },
   buttons: {
@@ -139,7 +126,7 @@ const useStyles = makeStyles(theme => ({
         },
       },
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       position: 'unset',
       color: theme.colors.text,
       fontWeight: 'normal',
@@ -180,17 +167,29 @@ export const MainHeader = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  // const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
   const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
-  const screenDownXs = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return !screenDownXs ? (
+  return !screenDownSm ? (
     <div className={classes.root}>
       <img
         alt="logo"
         className={classes.coordinapeLogo}
         src="/svgs/logo/logo.svg"
       />
-      {screenDownSm ? (
+      <Suspense fallback={<span />}>
+        <HeaderNav />
+      </Suspense>
+      <div className={classes.buttons}>
+        <Suspense fallback={<></>}>
+          <ReceiveInfo />
+        </Suspense>
+        <WalletButton />
+        <Suspense fallback={<></>}>
+          <MyAvatarMenu />
+        </Suspense>
+      </div>
+      {/* {screenDownSm ? (
         <div className={classes.smallNavAndButtons}>
           <div className={classes.buttons}>
             <Suspense fallback={<></>}>
@@ -220,7 +219,7 @@ export const MainHeader = () => {
             </Suspense>
           </div>
         </>
-      )}
+      )} */}
     </div>
   ) : (
     <div className={classes.root}>
@@ -259,15 +258,6 @@ export const MainHeader = () => {
             <Suspense fallback={<span />}>
               <HeaderNav />
             </Suspense>
-            <div className={classes.buttons}>
-              <Suspense fallback={<></>}>
-                <ReceiveInfo />
-              </Suspense>
-              <WalletButton />
-              <Suspense fallback={<></>}>
-                <MyAvatarMenu />
-              </Suspense>
-            </div>
           </Box>
           <Divider variant="fullWidth" />
           <Box pt={3} />
@@ -276,7 +266,7 @@ export const MainHeader = () => {
               <MyAvatarMenu />
             </Grid>
             <Grid className={classes.accountInfoMobile} item>
-              Account
+              <WalletButton />
             </Grid>
           </Grid>
           <Box py={3} display="flex" flexDirection="column" px={2}>

@@ -15,7 +15,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 13,
     lineHeight: 1.5,
     fontWeight: 300,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '24px',
       fontStyle: 'normal',
       fontWeight: 700,

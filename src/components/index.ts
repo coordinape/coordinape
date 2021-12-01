@@ -42,6 +42,6 @@ export * from './AvatarUpload/AvatarUpload';
 export * from './FormFileUpload/FormFileUpload';
 export * from './ReadMore/ReadMore';
 export * from './Atoms';
-export * from './Molecules/CirclesHeaderSection';
+export * from './Molecules';
 export * from './GlobalUi/GlobalUi';
 export * from './WalletController/WalletController';

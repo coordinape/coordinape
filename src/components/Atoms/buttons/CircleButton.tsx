@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: theme.colors.black,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       margin: 0,
       padding: '6px 0',
       fontSize: 20,
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.colors.red,
       borderRadius: '50%',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       color: `${theme.colors.red} !important`,
       '&::before': { content: 'none' },
     },
