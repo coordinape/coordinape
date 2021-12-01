@@ -152,7 +152,7 @@ const DevModeInjector = () => {
     // Setup dev tool: trigger mode
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    window.mode = setMode;
+    window.setDevMode = setMode;
   }, [setMode]);
 
   return <></>;

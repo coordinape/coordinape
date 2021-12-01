@@ -12,7 +12,7 @@ export const WalletController = () => {
 
   const { fetchManifest, updateAuth, logout, navigateDefault } = useApiBase();
   const { address, authTokens } = useWalletAuth();
-  const authToken = address && authTokens?.[address];
+  const authToken = address && authTokens[address];
 
   useDeepChangeEffect(() => {
     if (authToken) {

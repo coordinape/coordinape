@@ -218,7 +218,7 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   );
 };
 
-export const ProfilePageContent = ({
+const ProfilePageContent = ({
   profile,
   circleId,
   isMe,
