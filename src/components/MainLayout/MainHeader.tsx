@@ -20,7 +20,7 @@ import {
   WalletButton,
 } from 'components';
 import { CloseIcon, HamburgerIcon } from 'icons';
-import { useSelectedCircle } from 'recoilState/app';
+import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -162,13 +162,26 @@ export const MainHeader = () => {
   const classes = useStyles();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { address } = useWalletAuth();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
   const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const menuIcon = !isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />;
+  const menuWalletButton = !address ? (
+    <WalletButton />
+  ) : (
+    <IconButton
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      size="small"
+      aria-label="menu"
+    >
+      {menuIcon}
+    </IconButton>
+  );
 
   return !screenDownSm ? (
     <div className={classes.root}>
@@ -197,13 +210,7 @@ export const MainHeader = () => {
         className={classes.coordinapeLogo}
         src="/svgs/logo/logo.svg"
       />
-      <IconButton
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        size="small"
-        aria-label="menu"
-      >
-        {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
-      </IconButton>
+      {menuWalletButton}
       {isMobileMenuOpen && (
         <Box
           display="flex"
@@ -218,9 +225,11 @@ export const MainHeader = () => {
             flexDirection="column"
             justifyContent="space-between"
           >
-            <CirclesHeaderSection
-              handleOnClick={() => setIsMobileMenuOpen(false)}
-            />
+            <Suspense fallback={<span />}>
+              <CirclesHeaderSection
+                handleOnClick={() => setIsMobileMenuOpen(false)}
+              />
+            </Suspense>
           </Box>
           <Divider variant="fullWidth" />
           <Box py={2}>
@@ -232,7 +241,9 @@ export const MainHeader = () => {
           <Box pt={3} />
           <Grid container spacing={2} alignItems="center">
             <Grid item>
-              <MyAvatarMenu />
+              <Suspense fallback={<span />}>
+                <MyAvatarMenu />
+              </Suspense>
             </Grid>
             <Grid className={classes.accountInfoMobile} item>
               <WalletButton />
