@@ -7,7 +7,7 @@ import {
   useRecoilCallback,
   CallbackInterface,
   selectorFamily,
-  useRecoilValue,
+  useRecoilValueLoadable,
   useRecoilState,
   useSetRecoilState,
 } from 'recoil';
@@ -154,16 +154,16 @@ export const createForm = <
       ({ get }: IRecoilGetParams) => {
         const value = get(rValue(instanceKey));
         const source = get(rSource(instanceKey));
-        return getZodParser(source).safeParse(value);
+        return getZodParser(source).safeParseAsync(value);
       },
   });
   const rChangedOutput = selectorFamily<boolean, string>({
     key: `${name}-ChangedOutput`,
     get:
       (instanceKey: string) =>
-      ({ get }: IRecoilGetParams) => {
+      async ({ get }: IRecoilGetParams) => {
         const source = get(rSource(instanceKey));
-        const baseOutput = getZodParser(source).safeParse(
+        const baseOutput = await getZodParser(source).safeParseAsync(
           get(rBaseValue(instanceKey))
         );
         const output = get(rParsed(instanceKey));
@@ -230,8 +230,8 @@ export const createForm = <
   const useForm = ({ instanceKey, submit, hideFieldErrors }: FormProps) => {
     const [value, updateValue] = useRecoilState(rValue(instanceKey));
     const [touched, updateTouched] = useRecoilState(rTouched(instanceKey));
-    const parsed = useRecoilValue(rParsed(instanceKey));
-    const changedOutput = useRecoilValue(rChangedOutput(instanceKey));
+    const parsedLoadable = useRecoilValueLoadable(rParsed(instanceKey));
+    const changedOutput = useRecoilValueLoadable(rChangedOutput(instanceKey));
 
     const reset = useFormReset(instanceKey);
 
@@ -247,11 +247,13 @@ export const createForm = <
         }
     );
 
-    const fieldErrors = parsed.success
+    const parsed =
+      parsedLoadable.state === 'hasValue' ? parsedLoadable.contents : null;
+    const fieldErrors = parsed?.success
       ? {}
       : ({
-          ...parsed.error.flatten().fieldErrors,
-          formErrors: parsed.error.flatten().formErrors,
+          ...parsed?.error.flatten().fieldErrors,
+          formErrors: parsed?.error.flatten().formErrors,
         } as Record<string, string[]>);
 
     const fields = fieldKeys.reduce<Record<string, any>>((acc, field) => {
@@ -283,7 +285,7 @@ export const createForm = <
       fields,
       value,
       changedOutput,
-      errors: mapValues(fieldErrors, (es: string[]) => es.join(', ')),
+      errors: mapValues(fieldErrors, (es: string[]) => es?.join(', ')),
     };
   };
 

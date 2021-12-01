@@ -14,6 +14,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.58",
     "@material-ui/pickers": "3.3.10",
+    "@prisma/client": "3.4.2",
     "@self.id/core": "0.1.0",
     "@sentry/integrations": "6.14.1",
     "@sentry/react": "6.14.1",
@@ -87,16 +88,16 @@
     "eject": "craco eject",
     "format:staged": "lint-staged",
     "lint": "eslint",
-    "lint:check": "eslint \"./src/**/*.{js,ts,tsx}\"",
+    "lint:check": "eslint \"{api,src}/**/*.{js,ts,tsx}\"",
     "lint:fix": "yarn lint:check --fix",
-    "prettier": "prettier \"./src/**/*.{js,ts,tsx}\"",
+    "prettier": "prettier \"{api,src}/**/*.{js,ts,tsx}\"",
     "prettier:check": "yarn prettier --check",
     "prettier:fix": "yarn prettier --write",
     "typecheck": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,tsx}": [
+    "{api,src}/**/*.{js,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ]
@@ -156,6 +157,7 @@
     "os-browserify": "0.3.0",
     "prettier": "2.4.1",
     "pretty-quick": "3.1.1",
+    "prisma": "3.4.2",
     "stream-browserify": "3.0.0",
     "typescript": "4.4.3",
     "util": "0.12.4"

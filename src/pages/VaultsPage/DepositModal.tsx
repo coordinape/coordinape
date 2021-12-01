@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
+
 import { useAdminApi } from 'hooks';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
@@ -13,6 +14,7 @@ import { useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
 import { IUser, IVault } from 'types';
+
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -44,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 interface DepositModalProps {
   onClose: any;
   open: boolean;
+
   user?: IUser;
   vault: IVault;
 }
@@ -54,9 +57,8 @@ export default function DepositModal({
   user,
   vault,
 }: DepositModalProps) {
+
   const classes = useStyles();
-  const selectedCircle = useSelectedCircle();
-  const { updateUser } = useAdminApi();
   const history = useHistory();
   const [tokenBalance] = useState('-');
 
@@ -65,6 +67,7 @@ export default function DepositModal({
   const handleClose = () => {
     onClose(false);
   };
+
 
   const source = useMemo(
     () => ({
@@ -87,30 +90,36 @@ export default function DepositModal({
 
   return (
     <AdminVaultForm.FormController
-      source={source}
+      source={undefined}
       hideFieldErrors
-      submit={params => user && updateUser(user.address, params)}
+      submit={params => {
+        console.warn('todo:', params);
+        const path = '/admin/vaults';
+        history.push(path);
+      }}
     >
-      {({ fields: { ...fields } }) => (
+      {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={handleClose}
           open={open}
           title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
           subtitle={''}
-          onSubmit={routeChange}
-          submitDisabled={false}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
           size="small"
           icon={<PlusCircleIcon />}
           submitText={`Deposit ${vault.type.toUpperCase()}`}
         >
           <div className={classes.oneColumn}>
             <FormTextField
+
               {...fields.starting_tokens}
               InputProps={{
                 startAdornment: 'MAX',
                 endAdornment: vault.type.toUpperCase(),
               }}
               label={`Available: ${tokenBalance} ${vault.type.toUpperCase()}`}
+
               apeVariant="token"
             />
           </div>

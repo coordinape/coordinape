@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
@@ -38,11 +38,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const CreateVaultModal = ({
-  user,
   onClose,
   open,
 }: {
-  user?: IUser;
   open: boolean;
   onClose: () => void;
 }) => {
@@ -51,6 +49,7 @@ export const CreateVaultModal = ({
   const { chainId } = useWeb3React();
 
   const classes = useStyles();
+
 
   const selectedCircle = useSelectedCircle();
   const setVaults = useSetRecoilState(rCircleVaults);
@@ -104,35 +103,36 @@ export const CreateVaultModal = ({
 
   return (
     <AdminVaultForm.FormController
-      source={source}
+      source={undefined}
       hideFieldErrors
+
       submit={routeChange}
       // submit={params =>
       //   (user ? updateUser(user.address, params) : createUser(params)).then(
       //     () => onClose()
       //   )
       // }
+
     >
-      {({ fields: { ...fields } }) => (
+      {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
           open={open}
           title={'Create a New Vault'}
           subtitle={'We need to have some short description here'}
-          onSubmit={routeChange}
-          submitDisabled={false}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
           size="small"
           submitText="Mint Vault"
         >
           <AssetDisplay setAsset={setAsset} />
-          {asset === 'other' && (
-            <div className={classes.oneColumn}>
-              <FormTextField
-                {...fields.name}
-                label="...or use a custom asset"
-              />
-            </div>
-          )}
+          <div className={classes.oneColumn}>
+            <FormTextField
+              {...fields.custom_asset}
+              disabled={asset !== 'other'}
+              label="...or use a custom asset"
+            />
+          </div>
         </FormModal>
       )}
     </AdminVaultForm.FormController>

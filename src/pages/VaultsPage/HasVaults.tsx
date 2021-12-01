@@ -257,7 +257,6 @@ export default function HasVaults({
               onClose={() =>
                 newUser ? setNewUser(false) : setEditUser(undefined)
               }
-              user={editUser}
               open={!!editUser || newUser}
             />
           </div>
