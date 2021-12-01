@@ -181,11 +181,11 @@ export const MainHeader = () => {
         <HeaderNav />
       </Suspense>
       <div className={classes.buttons}>
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<span />}>
           <ReceiveInfo />
         </Suspense>
         <WalletButton />
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<span />}>
           <MyAvatarMenu />
         </Suspense>
       </div>
@@ -236,6 +236,10 @@ export const MainHeader = () => {
             </Grid>
             <Grid className={classes.accountInfoMobile} item>
               <WalletButton />
+              {/* TODO: ask Alexander where the GIVES needs to be 
+              <Suspense fallback={<span />}>
+                <ReceiveInfo />
+              </Suspense> */}
             </Grid>
           </Grid>
           <Box py={3} display="flex" flexDirection="column" px={2}>
