@@ -68,8 +68,10 @@ export class APIService {
   };
 
   getManifest = async (circleId?: number): Promise<IApiManifest> => {
-    const response = await this.axios.post('/v2/manifest', {
-      circle_id: circleId,
+    const response = await this.axios.get('/v2/manifest', {
+      params: {
+        circle_id: circleId,
+      },
     });
     return response.data;
   };
@@ -101,13 +103,9 @@ export class APIService {
     captcha_token: string,
     uxresearch_json: string
   ): Promise<IApiCircle> => {
-    const data = JSON.stringify(params);
-    const { signature, hash } = await getSignature(data, this.provider);
-    const response = await this.axios.post('/circles', {
-      signature,
-      data,
+    const response = await this.axios.post('/v2/circles', {
       address,
-      hash,
+      data: JSON.stringify(params),
       captcha_token,
       uxresearch_json,
     });

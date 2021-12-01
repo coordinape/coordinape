@@ -1,4 +1,5 @@
 import { IUser } from './api.user';
+import { DateTime } from 'luxon';
 
 export interface IApiTokenGift {
   id: number;
@@ -11,8 +12,6 @@ export interface IApiTokenGift {
   tokens: number;
   note: string;
   dts_created: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface ITokenGift extends IApiTokenGift {

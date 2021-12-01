@@ -1,20 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useApiBase } from 'hooks';
-import { useMyProfile } from 'recoilState/app';
 import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 import { CreateCircleParam, PostProfileParam } from 'types';
 
-// API mutations that need the profile loaded.
 export const useApiWithProfile = () => {
-  const { address } = useMyProfile();
   const { fetchManifest } = useApiBase();
 
   const createCircle = useRecoilLoadCatch(
     () =>
       async (
+        address: string,
         params: CreateCircleParam,
         captchaToken: string,
         uxresearchJson: string
@@ -28,7 +26,7 @@ export const useApiWithProfile = () => {
         await fetchManifest();
         return result;
       },
-    [address]
+    []
   );
 
   const updateAvatar = useRecoilLoadCatch(
@@ -36,7 +34,7 @@ export const useApiWithProfile = () => {
       await getApiService().uploadAvatar(newAvatar);
       await fetchManifest();
     },
-    [address]
+    []
   );
 
   const updateBackground = useRecoilLoadCatch(
@@ -44,7 +42,7 @@ export const useApiWithProfile = () => {
       await getApiService().uploadBackground(newAvatar);
       await fetchManifest();
     },
-    [address]
+    []
   );
 
   const updateMyProfile = useRecoilLoadCatch(
@@ -52,7 +50,7 @@ export const useApiWithProfile = () => {
       await getApiService().updateProfile(params);
       await fetchManifest();
     },
-    [address]
+    []
   );
 
   return {

@@ -12,7 +12,7 @@ import {
   useStateAmMetric,
   useSetAmEgoAddress,
 } from 'recoilState/map';
-import { rTriggerMode } from 'recoilState/ui';
+import { rDevMode } from 'recoilState/ui';
 import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 
 import { AMDrawer } from './AMDrawer';
@@ -69,7 +69,7 @@ export const AssetMapPage = () => {
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
   const [metric, setMetric] = useStateAmMetric();
   const { circle } = useSelectedCircle();
-  const showHiddenFeatures = useRecoilValue(rTriggerMode);
+  const showHiddenFeatures = useRecoilValue(rDevMode);
 
   const metricOptions = [
     {
@@ -144,16 +144,16 @@ export const AssetMapPage = () => {
 };
 
 const DevModeInjector = () => {
-  const setMode = useRecoilCallback(({ set }) => async (active: boolean) => {
-    set(rTriggerMode, active);
+  const setDevMode = useRecoilCallback(({ set }) => async (active: boolean) => {
+    set(rDevMode, active);
   });
 
   useEffect(() => {
-    // Setup dev tool: trigger mode
+    // Setup dev tool: trigger DevMode
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    window.setDevMode = setMode;
-  }, [setMode]);
+    window.setDevMode = setDevMode;
+  }, [setDevMode]);
 
   return <></>;
 };

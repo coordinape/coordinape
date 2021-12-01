@@ -11,7 +11,11 @@ import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
-import { useMyProfile, useSelectedCircleLoadable } from 'recoilState/app';
+import {
+  useMyProfile,
+  useSelectedCircleLoadable,
+  useHasSelectedCircle,
+} from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 
 import * as paths from './paths';
@@ -23,8 +27,9 @@ const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const Routes = () => {
   const hasCircles = useHasCircles();
+  const hasSelectedCircle = useHasSelectedCircle();
 
-  return hasCircles ? (
+  return hasCircles && hasSelectedCircle ? (
     <LoggedInRoutes />
   ) : (
     <Switch>

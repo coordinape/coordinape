@@ -369,6 +369,8 @@ export interface ICircleState {
   activeNominees: INominee[];
 }
 
+export const useHasSelectedCircle = () =>
+  useRecoilValueLoadable(rSelectedCircleId).valueMaybe() !== undefined;
 export const useCircles = () => useRecoilValue(rCircles);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);

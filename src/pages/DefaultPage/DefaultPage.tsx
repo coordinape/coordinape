@@ -9,6 +9,7 @@ import { makeStyles, Button } from '@material-ui/core';
 
 import { LoadingScreen } from 'components';
 import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
+import { useHasCircles } from 'recoilState/db';
 import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -137,7 +138,10 @@ export const DefaultPage = () => {
   const authToken = useAuthToken();
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
   const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const hasCircles = useHasCircles();
 
+  // TODO: Split these off into separate components..
+  // But also Alex Ryan likes the idea of us making this more useful.
   if (!authToken) {
     return (
       <div className={classes.root}>
@@ -170,6 +174,24 @@ export const DefaultPage = () => {
 
   if (!myProfile) {
     return <LoadingScreen />;
+  }
+
+  // TODO: This is an edge case, if the server doesn't return a circle
+  // https://github.com/coordinape/coordinape-backend/issues/69
+  if (hasCircles && !selectedCircle) {
+    return (
+      <div className={classes.root}>
+        <div className={classes.header}>
+          <p className={classes.title}>Welcome!</p>
+          <div className={classes.welcomeSection}>
+            <p className={classes.welcomeText}>
+              Select a circle to begin from the avatar menu in the top right.
+            </p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   if (!selectedCircle) {

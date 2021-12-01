@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const rWalletModalOpen = atom({
   key: 'rWalletModalOpen',
@@ -26,12 +26,12 @@ export const rEditProfileOpen = atom({
 });
 
 // This toggles team only features
-export const rTriggerMode = atom({
-  key: 'rTriggerMode',
+export const rDevMode = atom({
+  key: 'rDevMode',
   default: false,
 });
 
-export const useTriggerMode = () => useRecoilState(rTriggerMode);
+export const useDevMode = () => useRecoilValue(rDevMode);
 export const useSetEditProfileOpen = () => useSetRecoilState(rEditProfileOpen);
 export const useSetWalletModalOpen = () => useSetRecoilState(rWalletModalOpen);
 export const useSetCircleSelectorOpen = () =>
