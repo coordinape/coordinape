@@ -12,9 +12,6 @@ import { useSetWalletModalOpen } from 'recoilState/ui';
 import { shortenAddress } from 'utils';
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    marginRight: theme.spacing(2),
-  },
   popover: {
     marginTop: theme.spacing(1),
     borderRadius: 8,
@@ -23,8 +20,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const WalletButton = () => {
-  const classes = useStyles();
-
   const web3Context = useWeb3React<Web3Provider>();
 
   const { updateAuth, logout } = useApiBase();
@@ -54,35 +49,21 @@ export const WalletButton = () => {
 
   const Icon = connectorName ? WALLET_ICONS?.[connectorName] : undefined;
 
-  if (!haveAuthToken) {
-    return (
-      <>
-        <Button
-          variant="outlined"
-          color="default"
-          size="small"
-          onClick={() =>
-            updateAuth({
-              address: connectedAddress,
-              web3Context: web3Context,
-            })
-          }
-          className={classes.button}
-        >
-          Login to Coordinape
-        </Button>
-
-        <ConnectedButton
-          Icon={Icon}
-          disconnect={disconnect}
-          address={connectedAddress}
-        />
-      </>
-    );
-  }
-
   return (
-    <ConnectedButton Icon={Icon} disconnect={disconnect} address={address} />
+    <ConnectedButton
+      Icon={Icon}
+      disconnect={disconnect}
+      address={connectedAddress}
+      onLogin={
+        !haveAuthToken
+          ? () =>
+              updateAuth({
+                address: connectedAddress,
+                web3Context: web3Context,
+              })
+          : undefined
+      }
+    />
   );
 };
 
@@ -90,10 +71,12 @@ const ConnectedButton = ({
   Icon,
   disconnect,
   address,
+  onLogin,
 }: {
   Icon?: FunctionComponent;
   disconnect: () => void;
   address: string;
+  onLogin?: () => void;
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<
@@ -133,6 +116,11 @@ const ConnectedButton = ({
           horizontal: 'right',
         }}
       >
+        {onLogin && (
+          <Button variant="contained" size="small" onClick={onLogin}>
+            Login
+          </Button>
+        )}
         <Button
           variant="contained"
           size="small"

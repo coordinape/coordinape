@@ -11,6 +11,7 @@ import {
   Divider,
   Grid,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import {
   ReceiveInfo,
@@ -19,7 +20,7 @@ import {
   CirclesHeaderSection,
   WalletButton,
 } from 'components';
-import { CloseIcon, HamburgerIcon } from 'icons';
+import { HamburgerIcon } from 'icons';
 import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
@@ -164,12 +165,13 @@ export const MainHeader = () => {
   const location = useLocation();
   const { address } = useWalletAuth();
 
-  if (address && isMobileMenuOpen) {
-    setIsMobileMenuOpen(false);
-  }
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    !address && setIsMobileMenuOpen(false);
+  }, [address]);
 
   const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -243,11 +245,11 @@ export const MainHeader = () => {
           <Divider variant="fullWidth" />
           <Box pt={3} />
           <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Suspense fallback={<span />}>
+            <Suspense fallback={null}>
+              <Grid item>
                 <MyAvatarMenu />
-              </Suspense>
-            </Grid>
+              </Grid>
+            </Suspense>
             <Grid className={classes.accountInfoMobile} item>
               <WalletButton />
               {/* TODO: ask Alexander where the GIVES needs to be 
