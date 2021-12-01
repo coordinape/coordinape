@@ -29,3 +29,4 @@ export * from './GithubIcon';
 export * from './TelegramIcon';
 export * from './LinkIcon';
 export * from './HamburgerIcon';
+export * from './CloseIcon';

@@ -11,7 +11,6 @@ import {
   Divider,
   Grid,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 
 import {
   ReceiveInfo,
@@ -20,7 +19,7 @@ import {
   CirclesHeaderSection,
   WalletButton,
 } from 'components';
-import { HamburgerIcon } from 'icons';
+import { HamburgerIcon, CloseIcon } from 'icons';
 import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
@@ -175,7 +174,6 @@ export const MainHeader = () => {
 
   const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const menuIcon = !isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />;
   const menuWalletButton = !address ? (
     <WalletButton />
   ) : (
@@ -184,7 +182,7 @@ export const MainHeader = () => {
       size="small"
       aria-label="menu"
     >
-      {menuIcon}
+      {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
     </IconButton>
   );
 
