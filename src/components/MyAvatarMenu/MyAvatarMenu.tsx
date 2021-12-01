@@ -2,17 +2,13 @@ import React from 'react';
 
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
 
-import {
-  Popover,
-  makeStyles,
-  Avatar,
-  Divider,
-  Hidden,
-} from '@material-ui/core';
+import { Popover, makeStyles, Divider, Hidden } from '@material-ui/core';
 
-import { CirclesHeaderSection } from 'components';
-import { useMe, useCircle, useGlobalUi } from 'hooks';
+import { CirclesHeaderSection, ApeAvatar } from 'components';
+import { useMyProfile, rSelectedCircle } from 'recoilState/app';
+import { useSetCircleSelectorOpen } from 'recoilState/ui';
 import * as paths from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -94,6 +90,7 @@ const useStyles = makeStyles(theme => ({
 
 export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
   const classes = useStyles();
+
   return (
     <>
       {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
@@ -128,17 +125,16 @@ export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
 
 export const MyAvatarMenu = () => {
   const classes = useStyles();
-  const { selectedMyUser, myCircles, avatarPath, hasAdminView } = useMe();
-  const { selectedCircle } = useCircle();
-  const { openCircleSelector } = useGlobalUi();
+  const myProfile = useMyProfile();
+  const { hasAdminView } = myProfile;
+  const setCircleSelectorOpen = useSetCircleSelectorOpen();
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (myCircles.length) {
-      setAnchorEl(event.currentTarget);
-    }
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -147,9 +143,8 @@ export const MyAvatarMenu = () => {
 
   return (
     <>
-      <Avatar
-        src={avatarPath}
-        alt={selectedMyUser?.name}
+      <ApeAvatar
+        profile={myProfile}
         onClick={handleClick}
         className={
           !anchorEl
@@ -175,7 +170,32 @@ export const MyAvatarMenu = () => {
             horizontal: 'right',
           }}
         >
-          <MenuNavigationLinks handleOnClick={() => setAnchorEl(null)} />
+          {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
+            if (isExternal) {
+              return (
+                <div key={path}>
+                  <a
+                    className={classes.link}
+                    href={path}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {label}
+                  </a>
+                </div>
+              );
+            }
+            return (
+              <NavLink
+                key={path}
+                to={path}
+                className={classes.link}
+                onClick={() => setAnchorEl(null)}
+              >
+                {label}
+              </NavLink>
+            );
+          })}
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
           <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
@@ -183,22 +203,22 @@ export const MyAvatarMenu = () => {
             <>
               <Divider variant="middle" className={classes.divider} />
               <span className={classes.subHeader}>Admin View</span>
-              {!selectedMyUser && selectedCircle ? (
+              {selectedCircle && selectedCircle.impersonate ? (
                 <>
                   <button
                     className={clsx(classes.link, classes.selectedLink)}
                     onClick={() => setAnchorEl(null)}
                   >
-                    {selectedCircle.name}
+                    {selectedCircle.circle.name}
                   </button>
                   <button
                     className={classes.link}
                     onClick={() => {
                       setAnchorEl(null);
-                      openCircleSelector();
+                      setCircleSelectorOpen(true);
                     }}
                   >
-                    More...
+                    Circle Selector
                   </button>
                 </>
               ) : (
@@ -206,7 +226,7 @@ export const MyAvatarMenu = () => {
                   className={classes.link}
                   onClick={() => {
                     setAnchorEl(null);
-                    openCircleSelector();
+                    setCircleSelectorOpen(true);
                   }}
                 >
                   Circle Selector

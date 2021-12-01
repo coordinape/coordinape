@@ -16,9 +16,9 @@ const schema = z
   .object({
     name: z.string().min(3, 'Name must be at least 3 characters long.'),
     address: zEthAddress,
-    non_giver: zBooleanToNumber,
-    fixed_non_receiver: zBooleanToNumber,
-    non_receiver: zBooleanToNumber,
+    non_giver: z.boolean(),
+    fixed_non_receiver: z.boolean(),
+    non_receiver: z.boolean(),
     role: zBooleanToNumber,
     starting_tokens: z.number(),
   })

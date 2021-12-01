@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { useCircleEpochsStatus } from 'recoilState';
+import { useEpochsStatus } from 'recoilState/app';
 
 import { ICircle } from 'types';
 
@@ -63,7 +63,7 @@ export const CircleButton = ({
   onClick: () => void;
 }) => {
   const classes = useStyles({});
-  const { currentEpoch } = useCircleEpochsStatus(circle.id);
+  const { currentEpoch } = useEpochsStatus(circle.id);
 
   return (
     <button

@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ApeToggle } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
-import { useAdminApi } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
+import { useApiAdminCircle } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
@@ -45,9 +45,8 @@ export const AdminUserModal = ({
 }) => {
   const classes = useStyles();
 
-  const selectedCircle = useSelectedCircle();
-
-  const { updateUser, createUser } = useAdminApi();
+  const { circle: selectedCircle, circleId } = useSelectedCircle();
+  const { updateUser, createUser } = useApiAdminCircle(circleId);
 
   const source = useMemo(
     () => ({

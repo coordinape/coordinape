@@ -5,7 +5,8 @@ import { groupBy, toPairs } from 'lodash';
 import { makeStyles, Theme } from '@material-ui/core';
 
 import { CircleButton } from 'components';
-import { useMe, useCircle } from 'hooks';
+import { useApiBase } from 'hooks';
+import { useSelectedCircle, useCircles } from 'recoilState';
 
 const useStyles = makeStyles<Theme>(theme => ({
   subSubHeader: {
@@ -25,14 +26,11 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const CirclesHeaderSection = (props: {
-  variant?: string;
-  handleOnClick?(): void;
-}) => {
+export const CirclesHeaderSection = (props: { handleOnClick?(): void }) => {
   const classes = useStyles();
-  const { myCircles } = useMe();
-  const { selectAndFetchCircle, selectedCircle } = useCircle();
-
+  const { circle: selectedCircle } = useSelectedCircle();
+  const { selectAndFetchCircle } = useApiBase();
+  const { myCircles } = useCircles();
   const groupedCircles = useMemo(
     () => toPairs(groupBy(myCircles, c => c.protocol.name)),
     [myCircles]
