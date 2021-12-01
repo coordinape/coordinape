@@ -48,12 +48,6 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-      height: theme.custom.appHeaderHeight + 32,
-      gridTemplateColumns: '1fr 8fr',
-      zIndex: 2,
-    },
   },
   mobileMenu: {
     top: theme.custom.appHeaderHeight - 11,
