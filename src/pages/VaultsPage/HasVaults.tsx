@@ -11,7 +11,7 @@ import DepositModal from './DepositModal';
 import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
-import { ITableColumn, IUser } from 'types';
+import { ITableColumn, IUser, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -136,7 +136,7 @@ interface HasVaultsProps {
   setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
   epochColumns: ITableColumn[];
   epochs: any;
-  transactions: any;
+  vault: IVault;
   transactionColumns: ITableColumn[];
 }
 
@@ -147,8 +147,8 @@ export default function HasVaults({
   setEditUser,
   setNewEpoch,
   epochs,
+  vault,
   epochColumns,
-  transactions,
   transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
@@ -169,9 +169,11 @@ export default function HasVaults({
   return (
     <div className={classes.withVaults}>
       <div>
-        <DepositModal open={open} onClose={setOpen} />
+        <DepositModal vault={vault} open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
-          <h2 className={classes.vaultsTitle}>USDC Vault</h2>
+          <h2 className={classes.vaultsTitle}>
+            {vault.type.toUpperCase()} Vault
+          </h2>
           <Button
             variant="contained"
             color="primary"
@@ -232,7 +234,7 @@ export default function HasVaults({
         label="Transactions"
         className={classes.newTable}
         columns={transactionColumns}
-        data={transactions}
+        data={vault.transactions}
         perPage={6}
         placeholder={
           <div className={classes.noVaultsInterior}>
@@ -240,7 +242,7 @@ export default function HasVaults({
               There are no transactions to show yet.
             </h2>
             <h3 className={classes.noVaultsSubtitle}>
-              To get started, fund your vault with USDC
+              To get started, fund your vault with {vault.type.toUpperCase()}
             </h3>
             <Button
               variant="contained"

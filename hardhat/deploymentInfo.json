@@ -1,4 +1,24 @@
 {
+  "4": {
+    "ApeDistributor": {
+      "address": "0xda8009f5d1878374413f30f75e62f9d39f1fc85c"
+    },
+    "ApeRegistry": {
+      "address": "0x5f0bef0b990be50dee23016301901a32a4c2586a"
+    },
+    "ApeRouter": {
+      "address": "0xba8021b809d33d26c36d6a217472c4d688720c43"
+    },
+    "ApeToken": {
+      "address": "0xd981074B61e5D5CDB8Be88f43120085C18de0326"
+    },
+    "ApeVaultFactory": {
+      "address": "0x9ecbf8c2907632dd82432cff1c1e41e68808e87d"
+    },
+    "FeeRegistry": {
+      "address": "0xdb327c42d74e03f12edb6a74309f3fcccb06712b"
+    }
+  },
   "1337": {
     "ApeDistributor": {
       "address": "0x069cD64cC7D93b7e69130808338c0c2e561F3629"

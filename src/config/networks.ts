@@ -14,6 +14,7 @@ import {
 export const networkIds = {
   MAINNET: 1,
   HARDHAT: 1337,
+  RINKEBY: 4,
 } as const;
 
 const networks: { [K in NetworkId]: INetwork } = {
@@ -32,6 +33,14 @@ const networks: { [K in NetworkId]: INetwork } = {
     contracts: {
       stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
       yRegistry: '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804',
+    },
+  },
+  [networkIds.RINKEBY]: {
+    label: 'rinkeby',
+    url: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
+    contracts: {
+      stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
+      yRegistry: '0x86bc1c17e7579a688463f34941df0a0437269f43',
     },
   },
 };
@@ -84,6 +93,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     addresses: {
       [networkIds.MAINNET]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       [networkIds.HARDHAT]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      [networkIds.RINKEBY]: '0x866CcA6D3902B030a7389A1aDeD4c32Ff3696800',
     },
     image: '',
   },
@@ -93,6 +103,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     addresses: {
       [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
       [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.RINKEBY]: '0xc33f0a62f2c9c301b522eb4f208c0e1aa8a34677',
     },
     image: '',
   },
@@ -102,6 +113,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     addresses: {
       [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
       [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.RINKEBY]: '0x7C38c1913A7d512437E7f97D83519C1f9B59239e',
     },
     image: '',
   },

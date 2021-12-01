@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -7,11 +7,12 @@ import { makeStyles } from '@material-ui/core';
 import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { useAdminApi } from 'hooks';
+import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
-import { IUser } from 'types';
+import { IUser, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -44,17 +45,22 @@ interface DepositModalProps {
   onClose: any;
   open: boolean;
   user?: IUser;
+  vault: IVault;
 }
 
 export default function DepositModal({
   open,
   onClose,
   user,
+  vault,
 }: DepositModalProps) {
   const classes = useStyles();
   const selectedCircle = useSelectedCircle();
   const { updateUser } = useAdminApi();
   const history = useHistory();
+  const [tokenBalance] = useState('-');
+
+  const { depositToken } = useVaultRouter();
 
   const handleClose = () => {
     onClose(false);
@@ -68,7 +74,11 @@ export default function DepositModal({
     [user, selectedCircle]
   );
 
-  const routeChange = () => {
+  const routeChange = async () => {
+    // TODO: replace with user entered token amount
+    const receipt = await depositToken(vault, 10);
+    // eslint-disable-next-line no-console
+    console.log(receipt);
     const path = '/admin/vaults';
     history.push(path);
   };
@@ -85,19 +95,22 @@ export default function DepositModal({
         <FormModal
           onClose={handleClose}
           open={open}
-          title={'Deposit USDC to the Coordinape Vault'}
+          title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
           subtitle={''}
           onSubmit={routeChange}
           submitDisabled={false}
           size="small"
           icon={<PlusCircleIcon />}
-          submitText={` Deposit USDC`}
+          submitText={`Deposit ${vault.type.toUpperCase()}`}
         >
           <div className={classes.oneColumn}>
             <FormTextField
               {...fields.starting_tokens}
-              InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
-              label="Available: 264,600 USDC"
+              InputProps={{
+                startAdornment: 'MAX',
+                endAdornment: vault.type.toUpperCase(),
+              }}
+              label={`Available: ${tokenBalance} ${vault.type.toUpperCase()}`}
               apeVariant="token"
             />
           </div>

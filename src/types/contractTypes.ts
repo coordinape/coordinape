@@ -20,6 +20,7 @@ export interface DepositSimpleToken {
   _amount: BigNumberish;
   _overrides?: Overrides;
 }
+
 export interface WithdrawUnderlying {
   _amount: BigNumberish;
   _overrides?: any;
@@ -113,11 +114,37 @@ export interface DelegateWithdrawal {
   _underlying: boolean;
   _overrides?: Overrides;
 }
+
 export interface DelegateDeposit {
   _apeVault: string;
   _token: string;
   _amount: BigNumberish;
   _overrides?: Overrides;
+}
+
+export interface CallStatus {
+  _id: BytesLike;
+  _overrides?: Overrides;
+}
+
+export interface TimeStamps {
+  _arg0: BytesLike;
+  _overrides?: Overrides;
+}
+
+export interface WithdrawSimpleToken {
+  _amount: BigNumberish;
+  _overrides: Overrides;
+}
+
+export interface HasAccess {
+  _arg0: string;
+  _overrides: Overrides;
+}
+
+export interface TotalVaultBalance {
+  _account: string;
+  _overrides: Overrides;
 }
 
 export type Maybe<T> = T | undefined | null;

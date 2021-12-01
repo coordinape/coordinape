@@ -53,10 +53,16 @@ export function generateDeploymentInfo(): void {
     };
   });
 
-  fs.writeFileSync(
-    path.join(projectRoot, 'deploymentInfo.json'),
-    JSON.stringify(deploymentInfo, null, 2)
-  );
+  const outputPath = path.join(projectRoot, 'deploymentInfo.json');
+  if (fs.existsSync(outputPath)) {
+    const oldDeploymentInfo = JSON.parse(
+      fs.readFileSync(outputPath).toString()
+    );
+
+    deploymentInfo = { ...oldDeploymentInfo, ...deploymentInfo };
+  }
+
+  fs.writeFileSync(outputPath, JSON.stringify(deploymentInfo, null, 2));
 }
 
 generateDeploymentInfo();

@@ -13,6 +13,7 @@ import {
   RegistryAPI,
   VaultAPI,
 } from '../../typechain';
+import { unlockSigner } from '../../utils/unlockSigner';
 import {
   USDC_ADDRESS,
   USDC_DECIMAL_MULTIPLIER,
@@ -21,7 +22,6 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { unlockSigner } from '../utils/unlockSigner';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -87,6 +87,7 @@ describe('Test withdrawal functions of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],
@@ -148,6 +149,7 @@ describe('Test circle related functions of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],
@@ -167,14 +169,14 @@ describe('Test circle related functions of ApeVault', () => {
       EPOCHS,
       0
     );
-    const { maxAmount, maxInterval } = await apeDistributor.allowances(
+    const { maxAmount, cooldownInterval } = await apeDistributor.allowances(
       vault.address,
       CIRCLE,
       USDC_ADDRESS
     );
 
     expect(maxAmount.toNumber()).to.equal(AMOUNT);
-    expect(maxInterval.toNumber()).to.equal(INTERVAL);
+    expect(cooldownInterval.toNumber()).to.equal(INTERVAL);
 
     const { debt, intervalStart, epochs } =
       await apeDistributor.currentAllowances(
@@ -288,6 +290,7 @@ describe('Test tap function of ApeVault', () => {
         {
           forking: {
             jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
           },
         },
       ],

@@ -1,4 +1,4 @@
-import deploymentInfo from '@coordinape/hardhat/deploymentInfo.json';
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
   ApeDistributor,
   ApeDistributor__factory,
@@ -16,7 +16,7 @@ import {
   RegistryAPI__factory,
   VaultAPI,
   VaultAPI__factory,
-} from '@coordinape/hardhat/typechain';
+} from '@coordinape/hardhat/dist/typechain';
 import * as ethers from 'ethers';
 
 import { getContractAddress, getToken } from 'config/networks';

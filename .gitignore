@@ -12,6 +12,8 @@ hardhat/artifacts/
 hardhat/cache/
 hardhat/typechain/
 hardhat/dist/
+hardhat/deployments/
+
 
 # testing
 /coverage
