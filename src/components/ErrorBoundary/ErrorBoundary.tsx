@@ -126,9 +126,6 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
 
 export const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { enqueueSnackbar } = useSnackbar();
-  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const enqueueSnackbar = (message: SnackbarMessage, options?: OptionsObject) =>
-  //   0;
   return (
     <InnerErrorBoundary enqueueSnackbar={enqueueSnackbar}>
       {children}

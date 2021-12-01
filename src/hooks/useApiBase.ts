@@ -29,6 +29,10 @@ export const useApiBase = () => {
 
   const navigateDefault = useRecoilLoadCatch(({ snapshot }) => async () => {
     try {
+      // When navigateDefault is called, rSelectedCircleId will hang
+      // if a circle isn't selected, which only should happen if the
+      // user doesn't have a circle. This is all a bit too clever.
+      // Ideally, clever things are isolated.
       const selectedCircleId = await Promise.race([
         snapshot.getPromise(rSelectedCircleId),
         timeoutPromise<number>(1000),

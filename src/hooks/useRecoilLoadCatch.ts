@@ -5,6 +5,25 @@ import { rGlobalLoading } from 'recoilState/ui';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
+// Make an async call with access to Recoil, errors and a loading modal.
+// Errors will trigger modal
+//
+//
+// Usage:
+// const mutation = async (...args) => { // Do things, update recoil ect }
+// const fn = useRecoilLoadCatch((i: RecoilInterface) => {
+//   // Your mutation has access to useRecoilCallback, set and get
+//   return (...args) => { // Do things, update recoil ect }
+// });
+//
+// Parameters:
+//   fn: function that returns the function you want wrapped
+//   deps: like useEffect, these will cause your closure to update
+//   options: {
+//      hideLoading: Whether to hide global loading
+//      success: Message to display on success if any
+//      transformError: To modify what the error modal displays
+//   }
 export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
   fn: (intr: CallbackInterface) => (...args: Args) => Promise<Return>,
   deps?: ReadonlyArray<unknown>,
