@@ -10,7 +10,7 @@ export interface IApiTokenGift {
   recipient_id: number;
   recipient_address: string;
   tokens: number;
-  note: string;
+  note?: string;
   dts_created: string;
 }
 
