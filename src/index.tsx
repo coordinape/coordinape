@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import ReactDOM from 'react-dom';
 
-// import App from './App';
+import App from './App';
 import AppLandingPage from './AppLandingPage';
 import reportWebVitals from './reportWebVitals';
 import './global';
@@ -34,10 +34,7 @@ Sentry.setTag('landing_page', !RENDER_APP);
 if (RENDER_APP) {
   ReactDOM.render(
     <React.StrictMode>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Server Upgrade</h1>
-        <h5>4:20AM UTC - 4:35AM UTC</h5>
-      </div>
+      <App />
     </React.StrictMode>,
     document.getElementById('root')
   );
