@@ -1,11 +1,26 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
-import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import {
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+  Box,
+  IconButton,
+  Divider,
+  Grid,
+} from '@material-ui/core';
 
-import { WalletButton, ReceiveInfo, MyAvatarMenu } from 'components';
-import { useSelectedCircle } from 'recoilState/app';
+import {
+  ReceiveInfo,
+  MyAvatarMenu,
+  MenuNavigationLinks,
+  CirclesHeaderSection,
+  WalletButton,
+} from 'components';
+import { HamburgerIcon, CloseIcon } from 'icons';
+import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -16,6 +31,14 @@ const useStyles = makeStyles(theme => ({
     background: theme.colors.primary,
     gridTemplateColumns: '1fr 1fr 1fr',
     padding: theme.spacing(0, 5),
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: theme.spacing(0, '25px'),
+      height: theme.custom.appHeaderHeight - 11,
+      position: 'relative',
+      zIndex: 2,
+    },
     '& > *': {
       alignSelf: 'center',
     },
@@ -25,12 +48,15 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-      height: theme.custom.appHeaderHeight + 32,
-      gridTemplateColumns: '1fr 8fr',
-      zIndex: 2,
-    },
+  },
+  mobileMenu: {
+    top: theme.custom.appHeaderHeight - 11,
+    left: 0,
+    position: 'absolute',
+    backgroundColor: theme.colors.ultraLightGray,
+    width: '100%',
+    height: '95vh',
+    overflowY: 'scroll',
   },
   coordinapeLogo: {
     justifySelf: 'start',
@@ -51,11 +77,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'flex-end',
     [theme.breakpoints.down('sm')]: {
-      position: 'absolute',
-      width: '100%',
-      background: theme.colors.primary,
-      top: theme.custom.appHeaderHeight - 12,
-      left: '0px',
+      alignItems: 'flex-start',
+      flexDirection: 'column',
     },
   },
   buttons: {
@@ -103,53 +126,140 @@ const useStyles = makeStyles(theme => ({
         },
       },
     },
+    [theme.breakpoints.down('sm')]: {
+      position: 'unset',
+      color: theme.colors.text,
+      fontWeight: 'normal',
+      '&:hover': {
+        color: theme.colors.black,
+      },
+      '&.active': {
+        color: theme.colors.red,
+      },
+    },
+  },
+  editCircleButton: {
+    backgroundColor: theme.colors.red,
+    borderRadius: '8px',
+    width: '32px',
+    height: '32px',
+  },
+  accountInfoMobile: {
+    '& .MuiButtonBase-root': {
+      background: theme.colors.white,
+    },
+  },
+  editIcon: {
+    color: theme.colors.white,
+  },
+  profileHeading: {
+    color: theme.colors.red,
   },
 }));
 
 export const MainHeader = () => {
   const theme = useTheme();
   const classes = useStyles();
-  const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
-  // TODO: Implment a hamburger menu
-  // const screenDownXs = useMediaQuery(theme.breakpoints.down('xs'));
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const { address } = useWalletAuth();
 
-  return (
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    !address && setIsMobileMenuOpen(false);
+  }, [address]);
+
+  const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const menuWalletButton = !address ? (
+    <WalletButton />
+  ) : (
+    <IconButton
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      size="small"
+      aria-label="menu"
+    >
+      {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
+    </IconButton>
+  );
+
+  return !screenDownSm ? (
     <div className={classes.root}>
       <img
         alt="logo"
         className={classes.coordinapeLogo}
         src="/svgs/logo/logo.svg"
       />
-      {screenDownSm ? (
-        <div className={classes.smallNavAndButtons}>
-          <div className={classes.buttons}>
-            <Suspense fallback={<></>}>
-              <ReceiveInfo />
+      <Suspense fallback={<span />}>
+        <HeaderNav />
+      </Suspense>
+      <div className={classes.buttons}>
+        <Suspense fallback={<span />}>
+          <ReceiveInfo />
+        </Suspense>
+        <WalletButton />
+        <Suspense fallback={<span />}>
+          <MyAvatarMenu />
+        </Suspense>
+      </div>
+    </div>
+  ) : (
+    <div className={classes.root}>
+      <img
+        alt="logo"
+        className={classes.coordinapeLogo}
+        src="/svgs/logo/logo.svg"
+      />
+      {menuWalletButton}
+      {isMobileMenuOpen && (
+        <Box
+          display="flex"
+          className={classes.mobileMenu}
+          flexDirection="column"
+          py={3}
+          px={1}
+        >
+          <Box
+            px={2}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
+            <Suspense fallback={<span />}>
+              <CirclesHeaderSection
+                handleOnClick={() => setIsMobileMenuOpen(false)}
+              />
             </Suspense>
-            <WalletButton />
-            <Suspense fallback={<></>}>
-              <MyAvatarMenu />
+          </Box>
+          <Divider variant="fullWidth" />
+          <Box py={2}>
+            <Suspense fallback={<span />}>
+              <HeaderNav />
             </Suspense>
-          </div>
-          <Suspense fallback={<></>}>
-            <HeaderNav />
-          </Suspense>
-        </div>
-      ) : (
-        <>
-          <Suspense fallback={<span />}>
-            <HeaderNav />
-          </Suspense>
-          <div className={classes.buttons}>
-            <Suspense fallback={<></>}>
-              <ReceiveInfo />
+          </Box>
+          <Divider variant="fullWidth" />
+          <Box pt={3} />
+          <Grid container spacing={2} alignItems="center">
+            <Suspense fallback={null}>
+              <Grid item>
+                <MyAvatarMenu />
+              </Grid>
             </Suspense>
-            <WalletButton />
-            <Suspense fallback={<></>}>
-              <MyAvatarMenu />
-            </Suspense>
-          </div>
-        </>
+            <Grid className={classes.accountInfoMobile} item>
+              <WalletButton />
+              {/* TODO: ask Alexander where the GIVES needs to be 
+              <Suspense fallback={<span />}>
+                <ReceiveInfo />
+              </Suspense> */}
+            </Grid>
+          </Grid>
+          <Box py={3} display="flex" flexDirection="column" px={2}>
+            <MenuNavigationLinks />
+          </Box>
+        </Box>
       )}
     </div>
   );

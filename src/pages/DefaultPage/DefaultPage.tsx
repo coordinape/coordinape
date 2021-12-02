@@ -57,51 +57,18 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginTop: theme.spacing(3),
   },
-  skeletonRoot: {
-    marginTop: 60,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingTop: 48,
-    paddingLeft: 114,
-    paddingRight: 114,
-    paddingBottom: 32,
-    width: '80%',
-    height: '100%',
-    background: '#DFE7E8',
-    borderRadius: 8,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  skeletonHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  skeletonSubHeader: {
-    width: '18%',
-    height: 23,
-    background: 'rgba(255, 255, 255, 0.4)',
-    borderRadius: 8,
-  },
-  skeletonBody: {
-    paddingTop: 16,
-    paddingBottom: 16,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
-  skeletonSubBody: {
-    height: 46,
-    background: 'rgba(255, 255, 255, 0.4)',
-    borderRadius: 8,
-  },
   footer: {
+    width: '100%',
     display: 'grid',
-    gridTemplateColumns: '1fr 150px 150px 150px 150px 1fr',
-    padding: theme.spacing(8, 8),
+    gridTemplateColumns: '150px 150px 150px 150px',
+    padding: theme.spacing(8),
     justifyContent: 'center',
     '& > *': {
       textAlign: 'center',
+    },
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr 1fr',
+      gridTemplateRows: '40px 40px',
     },
   },
   link: {
@@ -152,20 +119,6 @@ export const DefaultPage = () => {
               ? 'Connect your wallet to participate.'
               : 'Login to Coordinape'}
           </p>
-        </div>
-        <div className={classes.skeletonRoot}>
-          <div className={classes.skeletonHeader}>
-            <div className={classes.skeletonSubHeader} />
-            <div className={classes.skeletonSubHeader} />
-            <div className={classes.skeletonSubHeader} />
-            <div className={classes.skeletonSubHeader} />
-          </div>
-          <div className={classes.skeletonBody}>
-            <div className={classes.skeletonSubBody} />
-            <div className={classes.skeletonSubBody} />
-            <div className={classes.skeletonSubBody} />
-            <div className={classes.skeletonSubBody} />
-          </div>
         </div>
         <Footer />
       </div>
@@ -241,7 +194,6 @@ const Footer = () => {
 
   return (
     <div className={classes.footer}>
-      <div />
       {getNavigationFooter().map(({ path, label }) => (
         <div key={path}>
           <a
