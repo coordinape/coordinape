@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import clsx from 'clsx';
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
@@ -17,21 +16,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: 8,
     alignItems: 'center',
     flex: '1 0 auto',
-  },
-  receiveButton: {
-    padding: '0 15px',
-    height: 32,
-    fontSize: 12,
-    fontWeight: 600,
-    color: theme.colors.text,
-    background:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
-    borderRadius: 8,
-    display: 'flex',
-    textTransform: 'none',
-    '&.selected': {
-      color: theme.colors.selected,
-    },
   },
   popover: {
     width: 335,
@@ -133,11 +117,9 @@ export const ReceiveInfo = () => {
   return (
     <div className={classes.root}>
       <Button
-        className={
-          !anchorEl
-            ? classes.receiveButton
-            : clsx(classes.receiveButton, 'selected')
-        }
+        variant="outlined"
+        color="default"
+        size="small"
         onClick={event => setAnchorEl(event.currentTarget)}
       >
         {totalReceived ?? 'No'} {selectedCircle?.tokenName}{' '}

@@ -27,30 +27,34 @@ import { EConnectorNames } from 'types';
 export const useApiBase = () => {
   const history = useHistory();
 
-  const navigateDefault = useRecoilLoadCatch(({ snapshot }) => async () => {
-    try {
-      // When navigateDefault is called, rSelectedCircleId will hang
-      // if a circle isn't selected, which only should happen if the
-      // user doesn't have a circle. This is all a bit too clever.
-      // Ideally, clever things are isolated.
-      const selectedCircleId = await Promise.race([
-        snapshot.getPromise(rSelectedCircleId),
-        timeoutPromise<number>(1000),
-      ]);
-      const {
-        circleEpochsStatus: { epochIsActive },
-      } = await snapshot.getPromise(rCircle(selectedCircleId));
-      if (history.location.pathname === '/') {
-        if (epochIsActive) {
-          history.push(getAllocationPath());
-        } else {
-          history.push(getHistoryPath());
+  const navigateDefault = useRecoilLoadCatch(
+    ({ snapshot }) =>
+      async () => {
+        try {
+          // When navigateDefault is called, rSelectedCircleId will hang
+          // if a circle isn't selected, which only should happen if the
+          // user doesn't have a circle. This is all a bit too clever.
+          // Ideally, clever things are isolated.
+          const selectedCircleId = await Promise.race([
+            snapshot.getPromise(rSelectedCircleId),
+            timeoutPromise<number>(1000),
+          ]);
+          const {
+            circleEpochsStatus: { epochIsActive },
+          } = await snapshot.getPromise(rCircle(selectedCircleId));
+          if (history.location.pathname === '/') {
+            if (epochIsActive) {
+              history.push(getAllocationPath());
+            } else {
+              history.push(getHistoryPath());
+            }
+          }
+        } catch (e) {
+          // Timed out
         }
-      }
-    } catch (e) {
-      // Timed out
-    }
-  });
+      },
+    [history]
+  );
 
   const updateAuth = useRecoilLoadCatch(
     ({ snapshot, set }) =>

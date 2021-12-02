@@ -70,7 +70,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
         <IconButton
           size="small"
           className={classes.socialItem}
-          href={`https://medium.com/${profile.medium_username}`}
+          href={`https://${profile.medium_username}.medium.com`}
           target="_blank"
         >
           <MediumIcon />

@@ -39,8 +39,8 @@ function App() {
           <ThemeProvider theme={theme}>
             <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
               <Web3ReactProvider getLibrary={getLibrary}>
-                <WalletController />
                 <BrowserRouter>
+                  <WalletController />
                   <MainLayout>
                     <RecoilDebugger />
                     <GlobalUi />
