@@ -7,11 +7,8 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
 import { ApeAvatar } from 'components';
-import {
-  useCircle,
-  useSelectedAllocation,
-  useSelectedCircleEpoch,
-} from 'hooks';
+import { useAllocation } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -295,8 +292,12 @@ enum OrderType {
 
 const AllocationTeam = () => {
   const classes = useStyles();
-  const { availableTeammates, selectedCircle } = useCircle();
-  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
+  const {
+    circleId,
+    usersNotMe: availableTeammates,
+    circle: selectedCircle,
+    circleEpochsStatus: { epochIsActive, timingMessage },
+  } = useSelectedCircle();
 
   const {
     localTeammates,
@@ -304,7 +305,7 @@ const AllocationTeam = () => {
     toggleLocalTeammate,
     setAllLocalTeammates,
     clearLocalTeammates,
-  } = useSelectedAllocation();
+  } = useAllocation(circleId);
 
   const [keyword, setKeyword] = useState<string>('');
   const orderType = OrderType.Alphabetical as OrderType; // Was useState
@@ -386,7 +387,7 @@ const AllocationTeam = () => {
         </div>
         <div className={classes.teammatesContainer}>
           {availableTeammates
-            .filter(a => a.non_receiver === 0)
+            .filter(a => !a.non_receiver)
             .sort((a, b) => {
               switch (orderType) {
                 case OrderType.Alphabetical:
@@ -401,7 +402,7 @@ const AllocationTeam = () => {
                   }
                 }
                 case OrderType.Opt_In_First: {
-                  return a.non_receiver - b.non_receiver;
+                  return Number(a.non_receiver) - Number(b.non_receiver);
                 }
               }
             })
@@ -436,7 +437,7 @@ const AllocationTeam = () => {
               </Button>
             ))}
         </div>
-        {availableTeammates.filter(a => a.non_receiver !== 0).length > 0 && (
+        {availableTeammates.filter(a => a.non_receiver).length > 0 && (
           <>
             <p className={classes.contentTitle}>
               These users are opted-out of receiving{' '}
@@ -445,7 +446,7 @@ const AllocationTeam = () => {
             <hr className={classes.hr} />
             <div className={classes.teammatesContainer}>
               {availableTeammates
-                .filter(a => a.non_receiver !== 0)
+                .filter(a => a.non_receiver)
                 .sort((a, b) => {
                   switch (orderType) {
                     case OrderType.Alphabetical:
@@ -460,7 +461,7 @@ const AllocationTeam = () => {
                       }
                     }
                     case OrderType.Opt_In_First: {
-                      return a.non_receiver - b.non_receiver;
+                      return Number(a.non_receiver) - Number(b.non_receiver);
                     }
                   }
                 })

@@ -66,3 +66,17 @@ export interface StaticTableProps {
   placeholder?: React.ReactNode;
   label?: string;
 }
+
+export enum EConnectorNames {
+  Injected = 'injected',
+  WalletConnect = 'walletconnect',
+  WalletLink = 'walletlink',
+  Fortmatic = 'fortmatic',
+  Portis = 'portis',
+}
+
+export interface IAuth {
+  address?: string;
+  connectorName?: EConnectorNames;
+  authTokens: { [k: string]: string | undefined };
+}

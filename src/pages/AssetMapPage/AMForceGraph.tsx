@@ -12,7 +12,7 @@ import {
   useMapContext,
   useSetAmEgoAddress,
   AmContextDefault,
-} from 'recoilState';
+} from 'recoilState/map';
 import { AVATAR_PLACEHOLDER } from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';

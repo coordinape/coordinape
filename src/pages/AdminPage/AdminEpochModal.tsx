@@ -10,7 +10,7 @@ import {
   FormRadioGroup,
 } from 'components';
 import EpochForm, { summarizeEpoch } from 'forms/AdminEpochForm';
-import { useAdminApi } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 
 import { IEpoch } from 'types';
 
@@ -63,18 +63,20 @@ const useStyles = makeStyles(theme => ({
 
 export const AdminEpochModal = ({
   epoch,
+  circleId,
   epochs,
   onClose,
   open,
 }: {
   epoch?: IEpoch;
+  circleId: number;
   epochs: IEpoch[];
   open: boolean;
   onClose: () => void;
 }) => {
   const classes = useStyles();
 
-  const { createEpoch, updateEpoch } = useAdminApi();
+  const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const source = useMemo(
     () => ({

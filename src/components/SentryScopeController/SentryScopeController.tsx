@@ -1,13 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 
 import * as Sentry from '@sentry/browser';
 
-import { useCircle, useMe, useSelectedAllocation } from 'hooks';
-import { useConnectorName } from 'recoilState';
+import { useAllocation } from 'hooks';
+import {
+  useWalletAuth,
+  useMyProfile,
+  useSelectedCircle,
+  useSelectedCircleId,
+} from 'recoilState/app';
+
+export const SentryScopeController = () => {
+  return (
+    <>
+      <Suspense fallback={null}>
+        <AllocationScope />
+      </Suspense>
+      <Suspense fallback={null}>
+        <SelectedCircleScope />
+      </Suspense>
+    </>
+  );
+};
 
 const AllocationScope = () => {
+  const circleId = useSelectedCircleId();
   const { localTeammatesChanged, localGiftsChanged, tokenRemaining } =
-    useSelectedAllocation();
+    useAllocation(circleId);
 
   useEffect(() => {
     Sentry.configureScope(scope => {
@@ -27,14 +46,15 @@ const AllocationScope = () => {
   return <></>;
 };
 
-export const SentryScopeController = () => {
-  const { myCircles, selectedMyUser, hasAdminView } = useMe();
-  const { selectedCircleId, selectedCircle } = useCircle();
-  const connectorName = useConnectorName();
+const SelectedCircleScope = () => {
+  const { hasAdminView, myUsers } = useMyProfile();
+  const { myUser: selectedMyUser, circle: selectedCircle } =
+    useSelectedCircle();
+  const connectorName = useWalletAuth().connectorName;
 
   useEffect(() => {
     Sentry.configureScope(scope => {
-      scope.setTag('selected_circle_id', selectedCircleId);
+      scope.setTag('selected_circle_id', selectedCircle.id);
       scope.setTag(
         'selected_circle',
         `${selectedCircle?.protocol?.name}-${selectedCircle?.name}`
@@ -48,20 +68,9 @@ export const SentryScopeController = () => {
         'selected_circle_non_receiver',
         selectedMyUser?.non_receiver
       );
-      scope.setTag('number_circles_member_of', myCircles.length);
+      scope.setTag('number_circles_member_of', myUsers.length);
     });
-  }, [
-    selectedCircleId,
-    selectedCircle,
-    connectorName,
-    hasAdminView,
-    selectedMyUser,
-    myCircles,
-  ]);
-
-  if (selectedMyUser) {
-    return <AllocationScope />;
-  }
+  }, [selectedCircle, connectorName, hasAdminView, selectedMyUser, myUsers]);
 
   return <></>;
 };

@@ -1,10 +1,11 @@
 import { ITokenGift } from './api.gift';
-import { IApiCircle } from './api.circle';
+import { IApiCircle, ICircle } from './api.circle';
 
 export interface IApiProfile {
   id: number;
   address: string;
-  admin_view: number;
+  admin_view: boolean;
+  ann_power: boolean;
   avatar?: string;
   background?: string;
   bio?: string;
@@ -18,56 +19,54 @@ export interface IApiProfile {
   users: IApiUser[];
   created_at: string;
   updated_at: string;
+  // Specific
+  users?: IApiUser[];
 }
-
-export interface IProfileEmbed extends Omit<IApiProfile, 'users'> {}
 
 export interface IApiUser {
   id: number;
   circle_id: number;
   address: string;
-  name: string; // deprecate this and move to profile?
+  name: string;
   // User Circle settings
-  non_giver: number;
-  fixed_non_receiver: number;
+  non_giver: boolean;
+  fixed_non_receiver: boolean;
   starting_tokens: number;
   // User Epoch specific fields - These could be in their own table
   bio?: string;
-  non_receiver: number; // Opt out
+  non_receiver: boolean; // Opt out
   give_token_received: number;
   give_token_remaining: number;
-  epoch_first_visit: number;
+  epoch_first_visit: boolean;
   // DB fields
   created_at: string; // 2021-07-07T23:29:18.000000Z
   updated_at: string; // 2021-07-07T23:29:18.000000Z
   deleted_at?: string; // 2021-07-07T23:29:18.000000Z
   // Permissions
   role: number; // 1 is an admin,
+  //
+  profile?: Omit<IApiProfile, 'users'>;
+  teammates?: IApiUser[];
 }
 
-export interface IApiUserProfile extends IApiUser {
-  profile?: IProfileEmbed;
+export interface IUser extends IApiUser {
+  circle?: ICircle;
+  isCircleAdmin: boolean;
+  isCoordinapeUser: boolean;
+
+  teammates: IUser[];
 }
 
-export interface IApiUserInProfile extends IApiUser {
-  circle: IApiCircle;
-  teammates: IApiUser[];
+export interface IMyUser extends IUser {
+  circle: ICircle;
+  teammates: IUser[];
 }
 
-export interface IApiFilledProfile extends IApiProfile {
-  users?: IApiUserInProfile[];
-}
-
-// This is created on the front end
-export interface IMyUsers extends IApiUserProfile {
-  circle: IApiCircle;
-  teammates: IApiUser[];
-}
-
-// These are just wrappers, nothing extended currently:
-export interface IUser extends IApiUserProfile {}
-export interface IProfile extends IApiProfile {}
-
-export interface IFilledProfile extends IApiProfile {
+export interface IProfile extends IApiProfile {
+  hasAdminView: boolean;
   users: IUser[];
+}
+
+export interface IMyProfile extends IProfile {
+  myUsers: IMyUser[];
 }

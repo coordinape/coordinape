@@ -3,6 +3,11 @@ import { IEpoch, IUser, ITokenGift } from './models';
 
 export type IRecoilGet = <T>(recoilState: RecoilValue<T>) => T;
 
+export type IRecoilSet = <T>(
+  recoilVal: RecoilState<T>,
+  valOrUpdater: ((currVal: T) => T) | T
+) => void;
+
 export interface IRecoilGetParams {
   get: IRecoilGet;
 }
