@@ -58,14 +58,18 @@ export const rManifest = selector<IManifest>({
 
     const circles = manifest.circles.map(c => extraCircle(c));
     const epochs = manifest.active_epochs.map(e => extraEpoch(e));
+    // TODO: @exrhizo I regret asking Zashton to call this myUsers rather
+    // than same as all other profiles.
+    const myUsers = manifest.myUsers.map(u => ({
+      ...extraUser(u),
+      circle: circles.find(c => c.id === u.circle_id),
+      teammates: u.teammates ?? [],
+    }));
     const myProfile = {
       ...selfIdProfile,
       ...extraProfile(manifest.profile),
-      myUsers: manifest.myUsers.map(u => ({
-        ...extraUser(u),
-        circle: circles.find(c => c.id === u.circle_id),
-        teammates: u.teammates ?? [],
-      })),
+      myUsers,
+      users: myUsers,
     } as IMyProfile;
 
     return {
