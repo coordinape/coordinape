@@ -29,10 +29,6 @@ import {
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
-  mobileContainer: {
-    height: '100%',
-    position: 'relative',
-  },
   root: {
     height: theme.custom.appHeaderHeight,
     display: 'grid',
@@ -56,13 +52,17 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 5,
     },
   },
+  mobileContainer: {
+    height: '100vh',
+    position: 'relative',
+  },
   mobileMenu: {
-    left: 0,
     position: 'absolute',
     backgroundColor: theme.colors.ultraLightGray,
+    height: '90%',
     width: '100%',
-    height: '95vh',
-    overflowY: 'scroll',
+    overflow: 'scroll',
+    overscrollBehaviorY: 'auto',
     '-webkit-overflow-scrolling': 'touch',
     zIndex: 2,
   },
