@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '95vh',
     overflowY: 'scroll',
+    '-webkit-overflow-scrolling': 'touch',
   },
   coordinapeLogo: {
     justifySelf: 'start',
