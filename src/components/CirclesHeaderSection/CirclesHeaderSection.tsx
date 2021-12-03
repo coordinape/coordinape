@@ -6,7 +6,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 import { CircleButton } from 'components';
 import { useApiBase } from 'hooks';
-import { useSelectedCircle, useCircles } from 'recoilState/app';
+import { useSelectedCircle, useCircles } from 'recoilState';
 
 const useStyles = makeStyles<Theme>(theme => ({
   subSubHeader: {

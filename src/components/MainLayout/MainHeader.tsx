@@ -235,9 +235,33 @@ export const MainHeader = () => {
           py={3}
           px={1}
         >
+          <Box pb={2}>
+            <Suspense fallback={<span />}>
+              <HeaderNav />
+            </Suspense>
+          </Box>
+          <Divider variant="fullWidth" />
+          <Box pt={3} />
+          <Grid container spacing={2} alignItems="center">
+            <Suspense fallback={null}>
+              <Grid item>
+                <MyAvatarMenu />
+              </Grid>
+            </Suspense>
+            <Grid className={classes.accountInfoMobile} item>
+              <WalletButton />
+              {/* TODO: ask Alexander where the GIVES needs to be 
+              <Suspense fallback={<span />}>
+                <ReceiveInfo />
+              </Suspense> */}
+            </Grid>
+          </Grid>
+          <Box py={3} display="flex" flexDirection="column" px={2}>
+            <MenuNavigationLinks />
+          </Box>
           <Box
             px={2}
-            pb={2}
+            py={2}
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
@@ -265,30 +289,6 @@ export const MainHeader = () => {
               <Divider variant="fullWidth" />
             </>
           )}
-          <Box py={2}>
-            <Suspense fallback={<span />}>
-              <HeaderNav />
-            </Suspense>
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box pt={3} />
-          <Grid container spacing={2} alignItems="center">
-            <Suspense fallback={null}>
-              <Grid item>
-                <MyAvatarMenu />
-              </Grid>
-            </Suspense>
-            <Grid className={classes.accountInfoMobile} item>
-              <WalletButton />
-              {/* TODO: ask Alexander where the GIVES needs to be 
-              <Suspense fallback={<span />}>
-                <ReceiveInfo />
-              </Suspense> */}
-            </Grid>
-          </Grid>
-          <Box py={3} display="flex" flexDirection="column" px={2}>
-            <MenuNavigationLinks />
-          </Box>
         </Box>
       )}
     </div>
