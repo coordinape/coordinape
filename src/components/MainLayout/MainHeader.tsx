@@ -22,7 +22,7 @@ import {
 import { CirclesSelectorSection } from 'components/MyAvatarMenu/MyAvatarMenu';
 import { HamburgerIcon, CloseIcon } from 'icons';
 import {
-  useMyProfile,
+  useMyProfileLoadable,
   useSelectedCircle,
   useWalletAuth,
 } from 'recoilState/app';
@@ -174,8 +174,8 @@ export const MainHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
-  const myProfile = useMyProfile();
-  const { hasAdminView } = myProfile;
+  const myProfile = useMyProfileLoadable();
+  const valueProfile = myProfile.valueMaybe();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -259,6 +259,7 @@ export const MainHeader = () => {
           <Box py={3} display="flex" flexDirection="column" px={2}>
             <MenuNavigationLinks />
           </Box>
+          <Divider variant="fullWidth" />
           <Box
             px={2}
             py={2}
@@ -266,15 +267,15 @@ export const MainHeader = () => {
             flexDirection="column"
             justifyContent="space-between"
           >
-            <Suspense fallback={<span />}>
+            <Suspense fallback={null}>
               <CirclesHeaderSection
                 handleOnClick={() => setIsMobileMenuOpen(false)}
               />
             </Suspense>
           </Box>
-          <Divider variant="fullWidth" />
-          {hasAdminView && (
+          {valueProfile?.hasAdminView && (
             <>
+              <Divider variant="fullWidth" />
               <Box
                 px={2}
                 py={2}
@@ -286,7 +287,6 @@ export const MainHeader = () => {
                   handleOnClick={() => setIsMobileMenuOpen(false)}
                 />
               </Box>
-              <Divider variant="fullWidth" />
             </>
           )}
         </Box>

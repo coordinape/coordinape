@@ -146,7 +146,9 @@ export const MyAvatarMenu = () => {
           <MenuNavigationLinks />
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
-          <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
+          <Suspense fallback={null}>
+            <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
+          </Suspense>
           {hasAdminView && (
             <>
               <Divider variant="middle" className={classes.divider} />
