@@ -19,8 +19,13 @@ import {
   CirclesHeaderSection,
   WalletButton,
 } from 'components';
+import { CirclesSelectorSection } from 'components/MyAvatarMenu/MyAvatarMenu';
 import { HamburgerIcon, CloseIcon } from 'icons';
-import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
+import {
+  useMyProfile,
+  useSelectedCircle,
+  useWalletAuth,
+} from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -132,9 +137,15 @@ const useStyles = makeStyles(theme => ({
       fontWeight: 'normal',
       '&:hover': {
         color: theme.colors.black,
+        '&::after': {
+          content: 'none',
+        },
       },
       '&.active': {
         color: theme.colors.red,
+        '&::after': {
+          content: 'none',
+        },
       },
     },
   },
@@ -163,6 +174,8 @@ export const MainHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
+  const myProfile = useMyProfile();
+  const { hasAdminView } = myProfile;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -235,6 +248,22 @@ export const MainHeader = () => {
             </Suspense>
           </Box>
           <Divider variant="fullWidth" />
+          {hasAdminView && (
+            <>
+              <Box
+                px={2}
+                py={3}
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+              >
+                <CirclesSelectorSection
+                  handleOnClick={() => setIsMobileMenuOpen(false)}
+                />
+              </Box>
+              <Divider variant="fullWidth" />
+            </>
+          )}
           <Box py={2}>
             <Suspense fallback={<span />}>
               <HeaderNav />
