@@ -237,6 +237,7 @@ export const MainHeader = () => {
         >
           <Box
             px={2}
+            pb={2}
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
@@ -252,7 +253,7 @@ export const MainHeader = () => {
             <>
               <Box
                 px={2}
-                py={3}
+                py={2}
                 display="flex"
                 flexDirection="column"
                 justifyContent="space-between"
