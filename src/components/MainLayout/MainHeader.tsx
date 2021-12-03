@@ -29,6 +29,10 @@ import {
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
+  mobileContainer: {
+    height: '100%',
+    position: 'relative',
+  },
   root: {
     height: theme.custom.appHeaderHeight,
     display: 'grid',
@@ -41,8 +45,6 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between',
       padding: theme.spacing(0, '25px'),
       height: theme.custom.appHeaderHeight - 11,
-      position: 'relative',
-      zIndex: 2,
     },
     '& > *': {
       alignSelf: 'center',
@@ -55,7 +57,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   mobileMenu: {
-    top: theme.custom.appHeaderHeight - 11,
     left: 0,
     position: 'absolute',
     backgroundColor: theme.colors.ultraLightGray,
@@ -63,6 +64,7 @@ const useStyles = makeStyles(theme => ({
     height: '95vh',
     overflowY: 'scroll',
     '-webkit-overflow-scrolling': 'touch',
+    zIndex: 2,
   },
   coordinapeLogo: {
     justifySelf: 'start',
@@ -221,76 +223,80 @@ export const MainHeader = () => {
       </div>
     </div>
   ) : (
-    <div className={classes.root}>
-      <img
-        alt="logo"
-        className={classes.coordinapeLogo}
-        src="/svgs/logo/logo.svg"
-      />
-      {menuWalletButton}
+    <div>
+      <div className={classes.root}>
+        <img
+          alt="logo"
+          className={classes.coordinapeLogo}
+          src="/svgs/logo/logo.svg"
+        />
+        {menuWalletButton}
+      </div>
       {isMobileMenuOpen && (
-        <Box
-          display="flex"
-          className={classes.mobileMenu}
-          flexDirection="column"
-          py={3}
-          px={1}
-        >
-          <Box pb={2}>
-            <Suspense fallback={<span />}>
-              <HeaderNav />
-            </Suspense>
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box pt={3} />
-          <Grid container spacing={2} alignItems="center">
-            <Suspense fallback={null}>
-              <Grid item>
-                <MyAvatarMenu />
-              </Grid>
-            </Suspense>
-            <Grid className={classes.accountInfoMobile} item>
-              <WalletButton />
-              {/* TODO: ask Alexander where the GIVES needs to be 
+        <div className={classes.mobileContainer}>
+          <Box
+            display="flex"
+            className={classes.mobileMenu}
+            flexDirection="column"
+            py={3}
+            px={1}
+          >
+            <Box pb={2}>
+              <Suspense fallback={<span />}>
+                <HeaderNav />
+              </Suspense>
+            </Box>
+            <Divider variant="fullWidth" />
+            <Box pt={3} />
+            <Grid container spacing={2} alignItems="center">
+              <Suspense fallback={null}>
+                <Grid item>
+                  <MyAvatarMenu />
+                </Grid>
+              </Suspense>
+              <Grid className={classes.accountInfoMobile} item>
+                <WalletButton />
+                {/* TODO: ask Alexander where the GIVES needs to be 
               <Suspense fallback={<span />}>
                 <ReceiveInfo />
               </Suspense> */}
+              </Grid>
             </Grid>
-          </Grid>
-          <Box py={3} display="flex" flexDirection="column" px={2}>
-            <MenuNavigationLinks />
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box
-            px={2}
-            py={2}
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-          >
-            <Suspense fallback={null}>
-              <CirclesHeaderSection
-                handleOnClick={() => setIsMobileMenuOpen(false)}
-              />
-            </Suspense>
-          </Box>
-          {valueProfile?.hasAdminView && (
-            <>
-              <Divider variant="fullWidth" />
-              <Box
-                px={2}
-                py={2}
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-              >
-                <CirclesSelectorSection
+            <Box py={3} display="flex" flexDirection="column" px={2}>
+              <MenuNavigationLinks />
+            </Box>
+            <Divider variant="fullWidth" />
+            <Box
+              px={2}
+              py={2}
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+            >
+              <Suspense fallback={null}>
+                <CirclesHeaderSection
                   handleOnClick={() => setIsMobileMenuOpen(false)}
                 />
-              </Box>
-            </>
-          )}
-        </Box>
+              </Suspense>
+            </Box>
+            {valueProfile?.hasAdminView && (
+              <>
+                <Divider variant="fullWidth" />
+                <Box
+                  px={2}
+                  py={2}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="space-between"
+                >
+                  <CirclesSelectorSection
+                    handleOnClick={() => setIsMobileMenuOpen(false)}
+                  />
+                </Box>
+              </>
+            )}
+          </Box>
+        </div>
       )}
     </div>
   );
