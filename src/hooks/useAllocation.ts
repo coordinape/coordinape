@@ -261,7 +261,7 @@ const simpleGiftsToMap = (source: ISimpleGift[]): Map<number, tokenNote> =>
   new Map(source.map(g => [g.user.id, [g.tokens, g.note]]));
 
 const pendingGiftMap = (pending: ITokenGift[]): Map<number, tokenNote> =>
-  new Map(pending.map(g => [g.recipient_id, [g.tokens, g.note]]));
+  new Map(pending.map(g => [g.recipient_id, [g.tokens, g.note ?? '']]));
 
 const buildDiffMap = (
   remoteMap: Map<number, tokenNote>,

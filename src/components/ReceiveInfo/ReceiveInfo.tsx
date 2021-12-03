@@ -106,12 +106,12 @@ export const ReceiveInfo = () => {
     circle: selectedCircle,
     circleEpochsStatus: { currentEpoch, previousEpoch },
   } = useSelectedCircle();
-  const { forUserByEpoch: myReceived } = useUserGifts(myUser?.id ?? -1);
+  const { forUserByEpoch: myReceived } = useUserGifts(myUser.id);
 
   const noEpoch = !currentEpoch && !previousEpoch;
-  const gifts =
-    (currentEpoch && myReceived.get(currentEpoch.id)) ??
-    (previousEpoch && myReceived.get(previousEpoch.id));
+  const gifts = currentEpoch
+    ? myReceived.get(currentEpoch.id) ?? []
+    : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
   const totalReceived = gifts && iti(gifts).sum(({ tokens }) => tokens);
 
   return (
@@ -151,9 +151,7 @@ export const ReceiveInfo = () => {
           </p>
         </div>
         {gifts
-          ?.filter(
-            tokenGift => tokenGift.tokens > 0 || tokenGift.note.length > 0
-          )
+          ?.filter(tokenGift => tokenGift.tokens > 0 || tokenGift.note)
           ?.sort((a, b) => +new Date(b.dts_created) - +new Date(a.dts_created))
           ?.map(tokenGift => (
             <div className={classes.note} key={tokenGift.id}>
@@ -174,14 +172,10 @@ export const ReceiveInfo = () => {
                 <ApeAvatar user={tokenGift.sender} className={classes.avatar} />
                 <div
                   className={
-                    tokenGift.note.length > 0
-                      ? classes.noteBody
-                      : classes.noteEmptyBody
+                    tokenGift.note ? classes.noteBody : classes.noteEmptyBody
                   }
                 >
-                  {tokenGift.note.length > 0
-                    ? `“${tokenGift.note}”`
-                    : '-- Empty Note --'}
+                  {tokenGift.note ? `“${tokenGift.note}”` : '-- Empty Note --'}
                 </div>
               </div>
             </div>
