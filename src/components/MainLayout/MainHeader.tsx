@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   mobileContainer: {
-    height: '100vh',
+    height: '50vh',
     position: 'relative',
   },
   mobileMenu: {
