@@ -1,3 +1,4 @@
+// import { AbstractConnector } from '@web3-react/abstract-connector';
 import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
@@ -38,12 +39,10 @@ const walletlink = new WalletLinkConnector({
   appName: 'Coordinape',
 });
 
-const connectors = {
+export const connectors = {
   injected,
   walletconnect,
   walletlink,
   fortmatic,
   portis,
 };
-
-export default connectors;

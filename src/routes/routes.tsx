@@ -1,9 +1,7 @@
 import React, { lazy } from 'react';
 
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 
-import { USER_ROLE_ADMIN } from 'config/constants';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
@@ -13,7 +11,12 @@ import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
-import { rSelectedMyUser, rSelectedCircle, rHasAdminView } from 'recoilState';
+import {
+  useMyProfile,
+  useSelectedCircleLoadable,
+  useHasSelectedCircle,
+} from 'recoilState/app';
+import { useHasCircles } from 'recoilState/db';
 
 import * as paths from './paths';
 
@@ -23,32 +26,44 @@ import * as paths from './paths';
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const Routes = () => {
-  const selectedMyUser = useRecoilValue(rSelectedMyUser);
-  const selectedCircle = useRecoilValue(rSelectedCircle);
-  const hasAdminView = useRecoilValue(rHasAdminView);
+  const hasCircles = useHasCircles();
+  const hasSelectedCircle = useHasSelectedCircle();
 
-  if (!selectedCircle || (!selectedMyUser && !hasAdminView)) {
-    return (
-      <Switch>
-        <Route exact path={paths.getHomePath()} component={DefaultPage} />
-        <Route
-          exact
-          path={paths.getCreateCirclePath()}
-          component={CreateCirclePage}
-        />
-        <Redirect to={paths.getHomePath()} />
-      </Switch>
-    );
-  }
+  return hasCircles && hasSelectedCircle ? (
+    <LoggedInRoutes />
+  ) : (
+    <Switch>
+      <Route
+        exact
+        path={paths.getCreateCirclePath()}
+        component={CreateCirclePage}
+      />
+      <Route
+        exact
+        path={paths.getProfilePath({ address: ':profileAddress' })}
+        component={ProfilePage}
+      />
+      <Route path={paths.getHomePath()} component={DefaultPage} />
+    </Switch>
+  );
+};
 
-  const canViewAdmin = selectedMyUser?.role === USER_ROLE_ADMIN || hasAdminView;
+const LoggedInRoutes = () => {
+  const selectedUser = useSelectedCircleLoadable().valueMaybe()?.myUser;
+  const hasAdminView =
+    useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
 
   return (
     <Switch>
       <Route exact path={paths.getHomePath()} component={DefaultPage} />
       <Route
         exact
-        // TODO: This use of the path pattern is odd
+        path={paths.getCreateCirclePath()}
+        component={CreateCirclePage}
+      />
+
+      <Route
+        exact
         path={paths.getProfilePath({ address: ':profileAddress' })}
         component={ProfilePage}
       />
@@ -56,65 +71,61 @@ export const Routes = () => {
       <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
       <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
 
-      {canViewAdmin && [
-        <Route
-          exact
-          key={paths.getAdminPath()}
-          path={paths.getAdminPath()}
-          render={() => <AdminPage legacy={true} />}
-        />,
-        <Route
-          exact
-          key={paths.getOverviewPath()}
-          path={paths.getOverviewPath()}
-          component={OverviewPage}
-        />,
-        <Route
-          exact
-          key={paths.getVaultsPath()}
-          path={paths.getVaultsPath()}
-          component={VaultsPage}
-        />,
-        <Route
-          exact
-          key={paths.getCirclesPath()}
-          path={paths.getCirclesPath()}
-          component={AdminPage}
-        />,
-      ]}
+      <Route
+        exact
+        key={paths.getAllocationPath()}
+        path={paths.getAllocationPath()}
+        component={AllocationPage}
+      />
+      <Route
+        exact
+        key={paths.getMyTeamPath()}
+        path={paths.getMyTeamPath()}
+        component={AllocationPage}
+      />
+      <Route
+        exact
+        key={paths.getMyEpochPath()}
+        path={paths.getMyEpochPath()}
+        component={AllocationPage}
+      />
+      <Route
+        exact
+        key={paths.getGivePath()}
+        path={paths.getGivePath()}
+        component={AllocationPage}
+      />
+
+      {selectedUser && !hasAdminView && (
+        <Route path={paths.getAdminPath()}>
+          <Redirect to={paths.getHomePath()} />
+        </Route>
+      )}
 
       <Route
         exact
-        path={paths.getCreateCirclePath()}
-        component={CreateCirclePage}
+        key={paths.getAdminPath()}
+        path={paths.getAdminPath()}
+        render={() => <AdminPage legacy={true} />}
       />
-
-      {selectedMyUser && [
-        <Route
-          exact
-          key={paths.getAllocationPath()}
-          path={paths.getAllocationPath()}
-          component={AllocationPage}
-        />,
-        <Route
-          exact
-          key={paths.getMyTeamPath()}
-          path={paths.getMyTeamPath()}
-          component={AllocationPage}
-        />,
-        <Route
-          exact
-          key={paths.getMyEpochPath()}
-          path={paths.getMyEpochPath()}
-          component={AllocationPage}
-        />,
-        <Route
-          exact
-          key={paths.getGivePath()}
-          path={paths.getGivePath()}
-          component={AllocationPage}
-        />,
-      ]}
+      <Route
+        exact
+        key={paths.getOverviewPath()}
+        path={paths.getOverviewPath()}
+        component={OverviewPage}
+      />
+      <Route
+        exact
+        key={paths.getVaultsPath()}
+        path={paths.getVaultsPath()}
+        component={VaultsPage}
+      />
+      <Route
+        exact
+        key={paths.getCirclesPath()}
+        path={paths.getCirclesPath()}
+        component={AdminPage}
+      />
 
       <Redirect to={paths.getHomePath()} />
     </Switch>

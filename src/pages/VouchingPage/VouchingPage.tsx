@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, makeStyles } from '@material-ui/core';
 
-import { useMe } from 'hooks';
-import { useSelectedCircle, useActiveNominees } from 'recoilState';
+import { useSelectedCircle } from 'recoilState/app';
 
 import { NewNominationModal } from './NewNominationModal';
 import { NomineeCard } from './NomineeCard';
@@ -55,12 +54,11 @@ const useStyles = makeStyles(theme => ({
 
 export const VouchingPage = () => {
   const classes = useStyles();
-  const { selectedMyUser } = useMe();
-  const circle = useSelectedCircle();
-  const activeNominees = useActiveNominees();
+
+  const { myUser, circle, activeNominees } = useSelectedCircle();
+
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
-  const cannotVouch =
-    circle?.only_giver_vouch !== 0 && selectedMyUser?.non_giver !== 0;
+  const cannotVouch = circle.only_giver_vouch && myUser.non_giver;
 
   return !circle ? (
     <div className={classes.root}></div>

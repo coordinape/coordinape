@@ -10,10 +10,12 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {
-  RecoilAppController,
+  RecoilDebugger,
+  GlobalUi,
   ErrorBoundary,
   MainLayout,
   SentryScopeController,
+  WalletController,
 } from 'components';
 import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
@@ -38,8 +40,10 @@ function App() {
             <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
               <Web3ReactProvider getLibrary={getLibrary}>
                 <BrowserRouter>
+                  <WalletController />
                   <MainLayout>
-                    <RecoilAppController />
+                    <RecoilDebugger />
+                    <GlobalUi />
                     <SentryScopeController />
                     <RenderRoutes />
                   </MainLayout>

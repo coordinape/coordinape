@@ -12,13 +12,12 @@ import {
 } from '@material-ui/core';
 
 import {
-  useSelectedCircleEpoch,
-  useMe,
-  useApi,
-  useSelectedAllocation,
-  useSelectedAllocationController,
+  useApiWithSelectedCircle,
+  useAllocation,
+  useAllocationController,
 } from 'hooks';
 import { BalanceIcon } from 'icons';
+import { useSelectedCircle } from 'recoilState/app';
 import {
   STEP_MY_EPOCH,
   STEP_MY_TEAM,
@@ -144,7 +143,13 @@ export const AllocationPage = () => {
   const location = useLocation();
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
-  useSelectedAllocationController();
+  const {
+    circleId,
+    myUser: selectedMyUser,
+    circle: selectedCircle,
+    circleEpochsStatus: { epochIsActive },
+  } = useSelectedCircle();
+  useAllocationController(circleId);
   const {
     localTeammatesChanged,
     localGiftsChanged,
@@ -153,24 +158,24 @@ export const AllocationPage = () => {
     rebalanceGifts,
     saveGifts,
     saveTeammates,
-  } = useSelectedAllocation();
-  const { epochIsActive } = useSelectedCircleEpoch();
-  const { selectedMyUser, selectedCircle } = useMe();
-  const { updateMyUser } = useApi();
-  const allSteps = selectedCircle?.team_selection === 0 ? NO_TEAM_STEPS : STEPS;
-  const fixedNonReceiver = selectedMyUser?.fixed_non_receiver !== 0;
+  } = useAllocation(circleId);
+
+  const { updateMyUser } = useApiWithSelectedCircle();
+  const allSteps = !selectedCircle.team_selection ? NO_TEAM_STEPS : STEPS;
+  const fixedNonReceiver = selectedMyUser.fixed_non_receiver;
   const [epochBio, setEpochBio] = useState('');
   const [nonReceiver, setNonReceiver] = useState(false);
+
   useEffect(() => {
     if (selectedMyUser) {
       setEpochBio(selectedMyUser?.bio ?? '');
-      setNonReceiver(selectedMyUser.non_receiver === 1);
+      setNonReceiver(selectedMyUser.non_receiver);
     }
   }, [selectedMyUser]);
 
   const epochDirty =
     selectedMyUser?.bio !== epochBio ||
-    (selectedMyUser?.non_receiver === 1) !== nonReceiver;
+    selectedMyUser.non_receiver !== nonReceiver;
 
   useEffect(() => {
     const exactStep = allSteps.find(({ path }) =>
@@ -183,7 +188,7 @@ export const AllocationPage = () => {
       if (!completedSteps.has(STEP_MY_EPOCH)) {
         setActiveStep(STEP_MY_EPOCH.key);
       } else if (!epochIsActive) {
-        if (selectedCircle?.team_selection === 1) {
+        if (selectedCircle.team_selection) {
           setActiveStep(STEP_MY_TEAM.key);
         }
       } else {
@@ -198,13 +203,14 @@ export const AllocationPage = () => {
     try {
       await updateMyUser({
         bio: epochBio,
-        non_receiver: nonReceiver ? 1 : 0,
-        epoch_first_visit: 0,
+        non_receiver: nonReceiver,
+        epoch_first_visit: false,
       });
 
-      if (!(selectedCircle?.team_selection === 0 && !epochIsActive)) {
-        const _nextStep =
-          selectedCircle?.team_selection === 0 ? STEP_ALLOCATION : STEP_MY_TEAM;
+      if (!(!selectedCircle.team_selection && !epochIsActive)) {
+        const _nextStep = !selectedCircle.team_selection
+          ? STEP_ALLOCATION
+          : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
         history.push(_nextStep.path);
       }
@@ -255,7 +261,7 @@ export const AllocationPage = () => {
               completed={completedSteps.has(step)}
               disabled={
                 (step === STEP_ALLOCATION && !epochIsActive) ||
-                (selectedCircle?.team_selection === 0 && step === STEP_MY_TEAM)
+                (!selectedCircle.team_selection && step === STEP_MY_TEAM)
               }
             >
               {step.label}
@@ -285,11 +291,9 @@ export const AllocationPage = () => {
               ) : (
                 <Button
                   className={classes.saveButton}
-                  disabled={
-                    selectedCircle?.team_selection === 0 && !epochIsActive
-                  }
+                  disabled={!selectedCircle.team_selection && !epochIsActive}
                   onClick={getHandleStep(
-                    selectedCircle?.team_selection === 0
+                    !selectedCircle.team_selection
                       ? STEP_ALLOCATION
                       : STEP_MY_TEAM
                   )}
@@ -330,7 +334,7 @@ export const AllocationPage = () => {
             <AllocationGive />
             <div className={classes.balanceContainer}>
               <p className={classes.balanceDescription}>
-                {tokenRemaining} {selectedCircle?.token_name || 'GIVE'}
+                {tokenRemaining} {selectedCircle.tokenName}
               </p>
               <p className={classes.balanceDescription}>
                 &nbsp;left to allocate

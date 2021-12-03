@@ -12,8 +12,8 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { useMe, useVouching } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
+import { useApiWithSelectedCircle } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 
 import { INominee } from 'types';
 
@@ -124,14 +124,13 @@ const TextOnlyTooltip = withStyles({
 
 export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const classes = useStyles();
-  const { vouchUser } = useVouching();
-  const { selectedMyUser } = useMe();
-  const circle = useSelectedCircle();
+  const { vouchUser } = useApiWithSelectedCircle();
+  const { circle, myUser } = useSelectedCircle();
   const vouchDisabled =
-    selectedMyUser && circle
-      ? nominee.nominated_by_user_id === selectedMyUser.id ||
-        nominee.nominations.some(user => user.id === selectedMyUser.id) ||
-        (circle.only_giver_vouch !== 0 && selectedMyUser.non_giver !== 0)
+    myUser && circle
+      ? nominee.nominated_by_user_id === myUser.id ||
+        nominee.nominations.some(user => user.id === myUser.id) ||
+        (circle.only_giver_vouch && myUser.non_giver)
       : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -201,7 +200,7 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
               className={classes.info}
               to={`profile/${user.address}`}
             >
-              {user.id === selectedMyUser?.id ? 'You' : user.name}
+              {user.id === myUser?.id ? 'You' : user.name}
             </NavLink>
             {index < nominee.nominations.length - 1 && <>,&nbsp;</>}
           </>
@@ -228,7 +227,7 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         Vouch for {nominee.name}
       </Button>
       <span className={classes.expire}>
-        Expires {nominee.expiryDate.format('MM/DD')}
+        Expires {nominee.expiryDate.toLocal().toLocaleString()}
       </span>
     </div>
   );

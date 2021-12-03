@@ -18,8 +18,8 @@ export interface PostTokenGiftsParam {
 export interface PostUsersParam {
   name: string;
   address: string;
-  non_giver?: number;
-  fixed_non_receiver?: number;
+  non_giver?: boolean;
+  fixed_non_receiver?: boolean;
   role?: number;
   starting_tokens?: number;
 }
@@ -27,8 +27,8 @@ export interface PostUsersParam {
 export interface UpdateUsersParam {
   name: string;
   address: string;
-  non_giver?: number;
-  fixed_non_receiver?: number;
+  non_giver?: boolean;
+  fixed_non_receiver?: boolean;
   role?: number;
   starting_tokens?: number;
 }
@@ -36,9 +36,9 @@ export interface UpdateUsersParam {
 export interface PutUsersParam {
   name?: string;
   bio?: string;
-  epoch_first_visit?: number;
-  non_receiver?: number;
-  non_giver?: number;
+  epoch_first_visit?: boolean;
+  non_receiver?: boolean;
+  non_giver?: boolean;
 }
 
 export interface PostCirclesParam {
@@ -47,7 +47,7 @@ export interface PostCirclesParam {
 
 export interface PutCirclesParam {
   name: string;
-  vouching: number;
+  vouching: boolean;
   token_name: string;
   min_vouches: number;
   team_sel_text?: string;
@@ -55,11 +55,11 @@ export interface PutCirclesParam {
   alloc_text?: string;
   discord_webhook?: string;
   update_webhook: number;
-  default_opt_in: number;
+  default_opt_in: boolean;
   vouching_text?: string;
-  only_giver_vouch: number;
-  team_selection: number;
-  auto_opt_out: number;
+  only_giver_vouch: boolean;
+  team_selection: boolean;
+  auto_opt_out: boolean;
 }
 
 export interface CreateCircleParam {

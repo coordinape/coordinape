@@ -7,16 +7,15 @@ import reactStringReplace from 'react-string-replace';
 import { makeStyles, Box, Button } from '@material-ui/core';
 
 import { ApeAvatar, ProfileSocialIcons } from 'components';
-import { useSelectedCircle } from 'recoilState';
 import {
   useMapMetric,
   useStateAmEgoAddress,
   useMapMeasures,
   useMapSearchRegex,
-} from 'recoilState/mapState';
+} from 'recoilState/map';
 import { assertDef } from 'utils/tools';
 
-import { IFilledProfile } from 'types';
+import { IProfile, ICircle } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -124,13 +123,14 @@ const useStyles = makeStyles(theme => ({
 const AMProfileCard = ({
   profile,
   summarize,
+  circle,
 }: {
-  profile: IFilledProfile;
+  profile: IProfile;
   summarize: boolean;
+  circle: ICircle;
 }) => {
   const classes = useStyles();
   const elemRef = useRef<HTMLDivElement | null>(null);
-  const circle = assertDef(useSelectedCircle(), 'Missing selected circle');
   const metric = useMapMetric();
   const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
   const { min, max, measures } = useMapMeasures(metric);
@@ -157,7 +157,7 @@ const AMProfileCard = ({
 
   const bio = fullBio.length > 300 ? fullBio.slice(0, 300) + '...' : fullBio;
 
-  const onClick = (profile: IFilledProfile) => {
+  const onClick = (profile: IProfile) => {
     if (egoAddress === profile.address) {
       setEgoAddress('');
     } else {

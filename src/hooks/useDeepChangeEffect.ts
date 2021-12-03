@@ -14,5 +14,5 @@ export function useDeepChangeEffect(func: () => void, deps: DependencyList) {
     if (!prev || !isEqual(deps, prev)) {
       return func();
     }
-  }, deps);
+  }, [...deps, func]);
 }

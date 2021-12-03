@@ -1,8 +1,3 @@
-import {
-  AUTO_OPEN_WALLET_DIALOG_PARAMS,
-  getCreateCirclePath,
-} from 'routes/paths';
-
 import { getIpfsUrl } from './selfIdHelpers';
 
 // Including local-ape.host for hCaptcha, see the component.
@@ -44,8 +39,10 @@ export const IN_PRODUCTION =
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>
   `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
+export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
-export const APP_URL_CREATE_CIRCLE = `${APP_URL}${getCreateCirclePath()}`;
+export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
+export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
 export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
 
 export const getAvatarPath = (avatar?: string, placeholder?: string) => {
