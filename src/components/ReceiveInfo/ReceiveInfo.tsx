@@ -106,12 +106,12 @@ export const ReceiveInfo = () => {
     circle: selectedCircle,
     circleEpochsStatus: { currentEpoch, previousEpoch },
   } = useSelectedCircle();
-  const { forUserByEpoch: myReceived } = useUserGifts(myUser?.id ?? -1);
+  const { forUserByEpoch: myReceived } = useUserGifts(myUser.id);
 
   const noEpoch = !currentEpoch && !previousEpoch;
-  const gifts =
-    (currentEpoch && myReceived.get(currentEpoch.id)) ??
-    (previousEpoch && myReceived.get(previousEpoch.id));
+  const gifts = currentEpoch
+    ? myReceived.get(currentEpoch.id) ?? []
+    : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
   const totalReceived = gifts && iti(gifts).sum(({ tokens }) => tokens);
 
   return (
