@@ -1,5 +1,4 @@
 #!/bin/bash
-<<<<<<< HEAD
 set -e
 
 git submodule update --init --recursive
@@ -12,6 +11,4 @@ yarn link
 cd ..
 yarn link @coordinape/hardhat
 
-=======
 echo "noop -- waiting for merge"
->>>>>>> origin/master
