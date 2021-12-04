@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMemo, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
@@ -6,15 +7,13 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
-
-import { useAdminApi } from 'hooks';
+// import { useAdminApi } from 'hooks';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState';
 import { assertDef } from 'utils/tools';
 
 import { IUser, IVault } from 'types';
-
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -57,7 +56,6 @@ export default function DepositModal({
   user,
   vault,
 }: DepositModalProps) {
-
   const classes = useStyles();
   const history = useHistory();
   const [tokenBalance] = useState('-');
@@ -68,14 +66,13 @@ export default function DepositModal({
     onClose(false);
   };
 
-
-  const source = useMemo(
-    () => ({
-      user: user,
-      circle: assertDef(selectedCircle, 'Missing circle'),
-    }),
-    [user, selectedCircle]
-  );
+  // const source = useMemo(
+  //   () => ({
+  //     user: user,
+  //     circle: assertDef(selectedCircle, 'Missing circle'),
+  //   }),
+  //   [user, selectedCircle]
+  // );
 
   const routeChange = async () => {
     // TODO: replace with user entered token amount
@@ -112,14 +109,14 @@ export default function DepositModal({
         >
           <div className={classes.oneColumn}>
             <FormTextField
-
-              {...fields.starting_tokens}
+              // {...fields.starting_tokens}
+              {...fields}
+              onChange={() => null}
               InputProps={{
                 startAdornment: 'MAX',
                 endAdornment: vault.type.toUpperCase(),
               }}
               label={`Available: ${tokenBalance} ${vault.type.toUpperCase()}`}
-
               apeVariant="token"
             />
           </div>
