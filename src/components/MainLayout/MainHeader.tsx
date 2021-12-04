@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   mobileContainer: {
-    height: '50vh',
+    height: '100vh',
     position: 'relative',
   },
   mobileMenu: {
@@ -238,8 +238,9 @@ export const MainHeader = () => {
             display="flex"
             className={classes.mobileMenu}
             flexDirection="column"
-            py={3}
+            pt={3}
             px={1}
+            pb={6}
           >
             <Box pb={2}>
               <Suspense fallback={<span />}>
