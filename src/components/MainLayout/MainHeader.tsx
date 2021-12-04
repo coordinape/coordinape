@@ -55,11 +55,12 @@ const useStyles = makeStyles(theme => ({
   mobileContainer: {
     height: '100vh',
     position: 'relative',
+    backgroundColor: theme.colors.ultraLightGray,
   },
   mobileMenu: {
     position: 'absolute',
     backgroundColor: theme.colors.ultraLightGray,
-    height: '90%',
+    height: '85%',
     width: '100%',
     overflow: 'scroll',
     overscrollBehaviorY: 'auto',
