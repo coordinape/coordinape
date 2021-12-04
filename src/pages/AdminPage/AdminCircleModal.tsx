@@ -6,11 +6,15 @@ import { transparentize } from 'polished';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
-import { useAdminApi } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
+import { useSelectedCircle } from 'recoilState/app';
 import { getAvatarPath } from 'utils/domain';
 
 import { ICircle } from 'types';
+
+const DOCS_HREF = 'https://docs.coordinape.com/welcome/admin_info';
+const DOCS_TEXT = 'See the docs...';
 
 const useStyles = makeStyles(theme => ({
   logoContainer: {
@@ -122,7 +126,35 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     marginTop: theme.spacing(2),
   },
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+  },
 }));
+
+const YesNoTooltip = ({ yes = '', no = '', href = '', anchorText = '' }) => {
+  const classes = useStyles();
+  return (
+    <>
+      <strong>Yes</strong> - {yes}
+      <br />
+      <strong>No</strong> - {no}
+      <br />
+      {href && (
+        <a
+          className={classes.tooltipLink}
+          rel="noreferrer"
+          target="_blank"
+          href={href}
+        >
+          {anchorText}
+        </a>
+      )}
+    </>
+  );
+};
 
 export const AdminCircleModal = ({
   circle,
@@ -134,33 +166,29 @@ export const AdminCircleModal = ({
   circle: ICircle;
 }) => {
   const classes = useStyles();
-  const { updateCircle, updateCircleLogo, getDiscordWebhook } = useAdminApi();
+  const { circleId } = useSelectedCircle();
+  const { updateCircle, updateCircleLogo, getDiscordWebhook } =
+    useApiAdminCircle(circleId);
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
   }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
-  const [circleName, setCircleName] = useState<string>(circle.name);
-  const [vouching, setVouching] = useState<number>(circle.vouching);
-  const [tokenName, setTokenName] = useState<string>(circle.tokenName);
-  const [minVouches, setMinVouches] = useState<number>(circle.min_vouches);
-  const [teamSelText, setTeamSelText] = useState<string>(circle.teamSelText);
-  const [teamSelection, setTeamSelection] = useState<number>(
-    circle.team_selection
-  );
-  const [nominationDaysLimit, setNominationDaysLimit] = useState<number>(
+  const [circleName, setCircleName] = useState(circle.name);
+  const [vouching, setVouching] = useState(circle.vouching);
+  const [tokenName, setTokenName] = useState(circle.tokenName);
+  const [minVouches, setMinVouches] = useState(circle.min_vouches);
+  const [teamSelText, setTeamSelText] = useState(circle.teamSelText);
+  const [teamSelection, setTeamSelection] = useState(circle.team_selection);
+  const [nominationDaysLimit, setNominationDaysLimit] = useState(
     circle.nomination_days_limit
   );
-  const [allocText, setAllocText] = useState<string>(circle.allocText);
-  const [allowEdit, setAllowEdit] = useState<boolean>(false);
-  const [webhook, setWebhook] = useState<string>('');
-  const [defaultOptIn, setDefaultOptIn] = useState<number>(
-    circle.default_opt_in
-  );
-  const [vouchingText, setVouchingText] = useState<string>(circle.vouchingText);
-  const [onlyGiverVouch, setOnlyGiverVouch] = useState<number>(
-    circle.only_giver_vouch
-  );
-  const [autoOptOut, setAutoOptOut] = useState<number>(circle.auto_opt_out);
+  const [allocText, setAllocText] = useState(circle.allocText);
+  const [allowEdit, setAllowEdit] = useState(false);
+  const [webhook, setWebhook] = useState('');
+  const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
+  const [vouchingText, setVouchingText] = useState(circle.vouchingText);
+  const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
+  const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,9 +327,19 @@ export const AdminCircleModal = ({
           fullWidth
         />
         <ApeToggle
-          value={vouching === 1}
-          onChange={val => setVouching(val ? 1 : 0)}
+          value={vouching}
+          onChange={val => setVouching(val)}
           label="Enable Vouching?"
+          infoTooltip={
+            <YesNoTooltip
+              yes="Circle members can invite new people to the
+          circle; they become new members if enough other members vouch for
+          them"
+              no="Only circle admins may add new members"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
+            />
+          }
         />
         <ApeTextField
           label="Token name"
@@ -309,15 +347,13 @@ export const AdminCircleModal = ({
           onChange={onChangeWith(setTokenName)}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Mininum vouches to add member"
             value={minVouches}
             onChange={onChangeNumberWith(setMinVouches)}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeTextField
@@ -331,16 +367,14 @@ export const AdminCircleModal = ({
           }}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Length of nomination period"
             value={nominationDaysLimit}
             helperText="(# of days)"
             onChange={onChangeNumberWith(setNominationDaysLimit)}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeTextField
@@ -354,9 +388,7 @@ export const AdminCircleModal = ({
           }}
           fullWidth
         />
-        <div
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
-        >
+        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
           <ApeTextField
             label="Vouching text"
             placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
@@ -368,28 +400,50 @@ export const AdminCircleModal = ({
               maxLength: 280,
             }}
             fullWidth
-            disabled={vouching === 0}
+            disabled={!vouching}
           />
         </div>
         <ApeToggle
-          value={defaultOptIn === 1}
-          onChange={val => setDefaultOptIn(val ? 1 : 0)}
+          value={defaultOptIn}
+          onChange={val => setDefaultOptIn(val)}
           label="Default Opt In?"
+          infoTooltip={
+            <YesNoTooltip
+              yes="All new members are eligible to receive GIVE"
+              no="New members need to log into Coordinape and opt in to receiving GIVE"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
+            />
+          }
         />
         <ApeToggle
-          value={onlyGiverVouch === 1}
-          onChange={val => setOnlyGiverVouch(val ? 1 : 0)}
-          className={clsx(classes.vouchingItem, vouching === 0 && 'disabled')}
+          value={onlyGiverVouch}
+          onChange={val => setOnlyGiverVouch(val)}
+          className={clsx(classes.vouchingItem, !vouching && 'disabled')}
           label="Only Givers can vouch"
+          infoTooltip={
+            <YesNoTooltip
+              yes="Only members who are eligible to send GIVE can vouch for new members"
+              no="Anyone in the circle can vouch for new members"
+              href={DOCS_HREF}
+              anchorText={DOCS_TEXT}
+            />
+          }
         />
         <ApeToggle
-          value={teamSelection === 1}
-          onChange={val => setTeamSelection(val ? 1 : 0)}
+          value={teamSelection}
+          onChange={val => setTeamSelection(val)}
           label="Team Selection Enabled"
+          infoTooltip={
+            <YesNoTooltip
+              yes="Members select a team during allocation and make allocations only to that team"
+              no="Members make allocations to anyone in the circle"
+            />
+          }
         />
         <ApeToggle
-          value={autoOptOut === 1}
-          onChange={val => setAutoOptOut(val ? 1 : 0)}
+          value={autoOptOut}
+          onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
         />
       </div>

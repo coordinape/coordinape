@@ -1,9 +1,18 @@
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as FormaticSVG } from 'assets/svgs/wallet/fortmatic.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-// import { ReactComponent as PortisSVG } from 'assets/svgs/wallet/portis.svg';
+import { ReactComponent as PortisSVG } from 'assets/svgs/wallet/portis.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
-import { ConnectorNames } from 'utils/enums';
+
+// TODO: why does this error?
+// import { EConnectorNames } from 'types';
+enum EConnectorNames {
+  Injected = 'injected',
+  WalletConnect = 'walletconnect',
+  WalletLink = 'walletlink',
+  Fortmatic = 'fortmatic',
+  Portis = 'portis',
+}
 
 export const LOGGER_ID = 'flama';
 
@@ -20,12 +29,12 @@ export const USER_ROLE_COORDINAPE = 2;
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
-export const WALLET_ICONS: { [key in ConnectorNames]: React.ElementType } = {
-  [ConnectorNames.Injected]: MetaMaskSVG,
-  [ConnectorNames.WalletConnect]: WalletConnectSVG,
-  [ConnectorNames.WalletLink]: CoinbaseSVG,
-  [ConnectorNames.Fortmatic]: FormaticSVG,
-  // [ConnectorNames.Portis]: PortisSVG,
+export const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
+  [EConnectorNames.Injected]: MetaMaskSVG,
+  [EConnectorNames.WalletConnect]: WalletConnectSVG,
+  [EConnectorNames.WalletLink]: CoinbaseSVG,
+  [EConnectorNames.Fortmatic]: FormaticSVG,
+  [EConnectorNames.Portis]: PortisSVG,
 };
 
 export const SKILLS = [

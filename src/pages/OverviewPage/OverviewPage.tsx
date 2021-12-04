@@ -5,9 +5,9 @@ import { useState, useMemo } from 'react';
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
-import { useAdminApi, useMe } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
-import { useSelectedCircle, useSelectedCircleEpochs } from 'recoilState';
+import { useSelectedCircle } from 'recoilState/app';
 
 // eslint-disable-next-line import/no-named-as-default
 import HasVaults from './HasVaults';
@@ -131,9 +131,11 @@ const OverviewPage = () => {
   const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
-  const { deleteEpoch } = useAdminApi();
-  const selectedCircle = useSelectedCircle();
-  const epochsReverse = useSelectedCircleEpochs();
+  const {
+    circleId,
+    circleEpochsStatus: { epochs: epochsReverse },
+  } = useSelectedCircle();
+  const { deleteEpoch } = useApiAdminCircle(circleId);
 
   const handleClick = () => {
     setOpen(!open);
@@ -449,7 +451,7 @@ const OverviewPage = () => {
       ] as ITableColumn[],
     []
   );
-  const { selectedMyUser, hasAdminView } = useMe();
+
   const transactionColumns = useMemo(
     () =>
       [

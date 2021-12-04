@@ -11,7 +11,7 @@ import {
   GithubIcon,
 } from 'icons';
 
-import { IProfileEmbed } from 'types';
+import { IApiProfile } from 'types';
 
 const useStyles = makeStyles(theme => ({
   socialItem: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ProfileSocialIcons = ({ profile }: { profile: IProfileEmbed }) => {
+export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
   const classes = useStyles();
 
   return (
@@ -70,7 +70,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IProfileEmbed }) => {
         <IconButton
           size="small"
           className={classes.socialItem}
-          href={`https://medium.com/${profile.medium_username}`}
+          href={`https://${profile.medium_username}.medium.com`}
           target="_blank"
         >
           <MediumIcon />

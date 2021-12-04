@@ -3,7 +3,7 @@ import { ImageSources } from '@datamodels/identity-profile-basic';
 import { networkIds } from 'config/networks';
 import { getSelfIdCore } from 'services/selfid';
 
-import { IProfileEmbed, ISelfIdProfile } from 'types';
+import { ISelfIdProfile } from 'types';
 
 export const addressToCaip10String = (
   address: string,
@@ -20,26 +20,6 @@ export const getSelfIdImageUrl = (
   ipfsEndpoint?: string
 ): string =>
   image?.original?.src ? getIpfsUrl(image.original.src, ipfsEndpoint) : '';
-
-export const mergeSelfIdProfileInfo = (
-  baseProfile: IProfileEmbed,
-  selfIdProfile?: ISelfIdProfile
-) => {
-  if (!selfIdProfile) return baseProfile;
-
-  return {
-    ...baseProfile,
-    background:
-      baseProfile.background || getSelfIdImageUrl(selfIdProfile.background),
-    avatar: baseProfile.avatar || getSelfIdImageUrl(selfIdProfile.image),
-    website: baseProfile.website || selfIdProfile.url,
-    bio: baseProfile.bio || selfIdProfile.description,
-    twitter_username:
-      baseProfile.twitter_username || selfIdProfile.twitter_username,
-    github_username:
-      baseProfile.github_username || selfIdProfile.github_username,
-  };
-};
 
 export const getSelfIdProfile = async (
   address: string

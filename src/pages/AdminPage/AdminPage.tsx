@@ -12,14 +12,9 @@ import {
   OrganizationHeader,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
-import { useNavigation, useAdminApi } from 'hooks';
+import { useNavigation, useApiAdminCircle } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
-import {
-  useSelectedCircle,
-  useSelectedMyUser,
-  useSelectedCircleUsers,
-  useSelectedCircleEpochs,
-} from 'recoilState';
+import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
@@ -29,7 +24,7 @@ import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 
-import { IUser, IEpoch, ITableColumn } from 'types';
+import { IUser, ITableColumn, IEpoch } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -196,8 +191,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
+  const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
+    undefined
+  );
   const [newUser, setNewUser] = useState<boolean>(false);
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
+  const [deleteEpochDialog, setDeleteEpochDialog] = useState<
+    IEpoch | undefined
+  >(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [editCircle, setEditCircle] = useState<boolean>(false);
   const [newCircle, setNewCircle] = useState<boolean>(
@@ -207,11 +208,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const history = useHistory();
   const { getToProfile } = useNavigation();
 
-  const { deleteUser, deleteEpoch } = useAdminApi();
-  const me = useSelectedMyUser();
-  const selectedCircle = useSelectedCircle();
-  const visibleUsers = useSelectedCircleUsers();
-  const epochsReverse = useSelectedCircleEpochs();
+  const {
+    circleId,
+    myUser: me,
+    users: visibleUsers,
+    circle: selectedCircle,
+    circleEpochsStatus: { epochs: epochsReverse },
+  } = useSelectedCircle();
+  const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
 
   const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
 
@@ -290,7 +294,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     ) : (
       renderActions(
         () => setEditEpoch(e),
-        !e.started ? () => deleteEpoch(e.id).catch(console.warn) : undefined
+        !e.started ? () => setDeleteEpochDialog(e) : undefined
       )
     );
 
@@ -363,9 +367,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
               u.role !== USER_ROLE_COORDINAPE
                 ? () => setEditUser(u)
                 : undefined,
-              u.id !== me?.id
-                ? () => deleteUser(u.address).catch(console.warn)
-                : undefined
+              u.id !== me?.id ? () => setDeleteUserDialog(u) : undefined
             ),
           noSort: true,
         },
@@ -521,6 +523,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       />
       <AdminEpochModal
         epochs={epochs}
+        circleId={circleId}
         epoch={editEpoch}
         onClose={() =>
           newEpoch ? setNewEpoch(false) : setEditEpoch(undefined)
@@ -543,6 +546,36 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
         You’ll need to add your teammates to your circle and schedule an epoch
         before you can start allocating GIVE.
       </DialogNotice>
+
+      <DialogNotice
+        open={!!deleteUserDialog}
+        title={`Remove ${deleteUserDialog?.name} from circle`}
+        onClose={() => setDeleteUserDialog(undefined)}
+        primaryText="Remove"
+        onPrimary={
+          deleteUserDialog
+            ? () =>
+                deleteUser(deleteUserDialog.address)
+                  .then(() => setDeleteUserDialog(undefined))
+                  .catch(() => setDeleteUserDialog(undefined))
+            : undefined
+        }
+      />
+
+      <DialogNotice
+        open={!!deleteEpochDialog}
+        title={`Remove Epoch ${deleteEpochDialog?.number}`}
+        onClose={() => setDeleteUserDialog(undefined)}
+        primaryText="Remove"
+        onPrimary={
+          deleteEpochDialog
+            ? () =>
+                deleteEpoch(deleteEpochDialog?.id)
+                  .then(() => setDeleteUserDialog(undefined))
+                  .catch(() => setDeleteUserDialog(undefined))
+            : undefined
+        }
+      />
     </div>
   );
 };

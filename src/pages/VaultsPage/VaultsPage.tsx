@@ -7,13 +7,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
-import { useAdminApi, useMe } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
-import {
-  rCircleVaults,
-  useSelectedCircle,
-  useSelectedCircleEpochs,
-} from 'recoilState';
+import { useSelectedCircle, useMyProfile } from 'recoilState/app';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -140,10 +136,11 @@ const VaultsPage = () => {
   // const [hasVaults] = useState<boolean>(false); //Temp boolean pending data input
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
-  const { deleteEpoch } = useAdminApi();
-  const selectedCircle = useSelectedCircle();
-  const vaults = useRecoilValue(rCircleVaults);
-  const epochsReverse = useSelectedCircleEpochs();
+  const {
+    circleId,
+    circleEpochsStatus: { epochs: epochsReverse },
+  } = useSelectedCircle();
+  const { deleteEpoch } = useApiAdminCircle(circleId);
 
   const handleClick = () => {
     setOpen(!open);
@@ -459,7 +456,7 @@ const VaultsPage = () => {
       ] as ITableColumn[],
     []
   );
-  const { selectedMyUser, hasAdminView } = useMe();
+
   const transactionColumns = useMemo(
     () =>
       [
@@ -480,9 +477,9 @@ const VaultsPage = () => {
   return (
     <div className={classes.root}>
       <OrganizationHeader />
-      {vaults && selectedCircle && vaults[selectedCircle.id] ? (
-        vaults[selectedCircle.id].map((vault: IVault) => (
-          <HasVaults
+      {/* {vaults && selectedCircle && vaults[selectedCircle.id] ? (
+        vaults[selectedCircle.id].map((vault: IVault) => ( */}
+      {/* <HasVaults
             key={vault.id}
             newUser={newUser}
             setNewUser={setNewUser}
@@ -493,11 +490,11 @@ const VaultsPage = () => {
             epochs={epochs}
             vault={vault}
             transactionColumns={transactionColumns}
-          />
-        ))
+          /> */}
+      {/* ))
       ) : (
         <NoVaults />
-      )}
+      )} */}
       <AllocateModal open={open} onClose={setOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
     </div>

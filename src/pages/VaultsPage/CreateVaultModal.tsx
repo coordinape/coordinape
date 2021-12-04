@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+// import { useSetRecoilState } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -11,12 +11,12 @@ import { FormModal, FormTextField } from 'components';
 import { getToken } from 'config/networks';
 import AdminVaultForm from 'forms/AdminVaultForm';
 // import { useAdminApi } from 'hooks';
-import { rCircleVaults, useSelectedCircle } from 'recoilState';
-import { assertDef } from 'utils/tools';
+// import { useSelectedCircle } from 'recoilState/app';
+// import { assertDef } from 'utils/tools';
 
 import AssetDisplay from './AssetDisplay';
 
-import { IUser, KnownToken, NetworkId } from 'types';
+import { KnownToken, NetworkId } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -50,9 +50,8 @@ export const CreateVaultModal = ({
 
   const classes = useStyles();
 
-
-  const selectedCircle = useSelectedCircle();
-  const setVaults = useSetRecoilState(rCircleVaults);
+  // const selectedCircle = useSelectedCircle();
+  // const setVaults = useSetRecoilState(rCircleVaults);
 
   const history = useHistory();
 
@@ -66,23 +65,23 @@ export const CreateVaultModal = ({
       _simpleToken: token.address,
     });
 
-    setVaults(vaults => {
-      if (vaults && selectedCircle) {
-        const newVaults = { ...vaults };
-        newVaults[selectedCircle.id] = [
-          ...(vaults[selectedCircle.id] || []),
-          {
-            id: vault.address,
-            tokenAddress: token.address,
-            simpleTokenAddress: token.address,
-            type: asset,
-            transactions: [],
-          },
-        ];
-        return newVaults;
-      }
-      return vaults;
-    });
+    // setVaults(vaults => {
+    //   if (vaults && selectedCircle) {
+    //     const newVaults = { ...vaults };
+    //     newVaults[selectedCircle.id] = [
+    //       ...(vaults[selectedCircle.id] || []),
+    //       {
+    //         id: vault.address,
+    //         tokenAddress: token.address,
+    //         simpleTokenAddress: token.address,
+    //         type: asset,
+    //         transactions: [],
+    //       },
+    //     ];
+    //     return newVaults;
+    //   }
+    //   return vaults;
+    // });
 
     // eslint-disable-next-line no-console
     console.log(`vault created at: ${vault.address}`);
@@ -93,26 +92,24 @@ export const CreateVaultModal = ({
 
   // const { updateUser, createUser } = useAdminApi();
 
-  const source = useMemo(
-    () => ({
-      user: user,
-      circle: assertDef(selectedCircle, 'Missing circle'),
-    }),
-    [user, selectedCircle]
-  );
+  // const source = useMemo(
+  //   () => ({
+  //     user: user,
+  //     circle: assertDef(selectedCircle, 'Missing circle'),
+  //   }),
+  //   [user, selectedCircle]
+  // );
 
   return (
     <AdminVaultForm.FormController
       source={undefined}
       hideFieldErrors
-
       submit={routeChange}
       // submit={params =>
       //   (user ? updateUser(user.address, params) : createUser(params)).then(
       //     () => onClose()
       //   )
       // }
-
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal

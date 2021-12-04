@@ -3,9 +3,9 @@ import { Suspense } from 'react';
 import { render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 
-import { useAllocationStepStatus } from 'recoilState';
+import { useAllocationStepStatus } from './allocation';
 
-test('useAllocationStepStatus has a default value', async () => {
+test('useAllocationStepStatus is loading', async () => {
   const TestComponent = () => {
     const [completed, nextStep] = useAllocationStepStatus(0);
     return (
@@ -24,6 +24,5 @@ test('useAllocationStepStatus has a default value', async () => {
     </RecoilRoot>
   );
 
-  await screen.findByText('0 steps completed');
-  await screen.findByText('My Epoch');
+  await screen.findByText('Loading...');
 });

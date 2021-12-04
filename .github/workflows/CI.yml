@@ -1,7 +1,11 @@
 name: Typecheck, Lint and Test
 
+<<<<<<< HEAD
 
 on: [push, pull_request]
+=======
+on: [push]
+>>>>>>> origin/master
 
 
 jobs:

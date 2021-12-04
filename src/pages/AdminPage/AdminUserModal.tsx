@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ApeToggle } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
-import { useAdminApi } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
+import { useApiAdminCircle } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
@@ -45,9 +45,8 @@ export const AdminUserModal = ({
 }) => {
   const classes = useStyles();
 
-  const selectedCircle = useSelectedCircle();
-
-  const { updateUser, createUser } = useAdminApi();
+  const { circle: selectedCircle, circleId } = useSelectedCircle();
+  const { updateUser, createUser } = useApiAdminCircle(circleId);
 
   const source = useMemo(
     () => ({
@@ -104,16 +103,16 @@ export const AdminUserModal = ({
             />
             <ApeToggle {...fields.role} label="Are They Admin?" />
             <ApeToggle
+              label="Can Give?"
               {...non_giver}
               onChange={v => nonGiverOnChange(!v)}
               value={!nonGiverValue}
-              label="Can Give?"
             />
             <ApeToggle {...fields.fixed_non_receiver} label="Force Opted Out" />
             <ApeToggle
+              label="Opted Out"
               {...fields.non_receiver}
               disabled={fields.fixed_non_receiver.value}
-              label="Opted Out"
             />
           </div>
         </FormModal>

@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 'inherit',
     verticalAlign: 'baseline',
     margin: theme.spacing(0, 0.5),
+    color: theme.colors.mediumGray,
+    '&:hover': {
+      color: theme.colors.text,
+    },
   },
 }));
 
@@ -98,6 +102,7 @@ export const ApeInfoTooltip = ({
           title={<div>{children ?? 'blank'}</div>}
           placement="top-start"
           TransitionComponent={Zoom}
+          leaveDelay={50} // Allows clickable links as content, transition-out animation prevents clicking without a slight delay
           classes={{
             ...classes,
             tooltip: clsx(localClasses.tooltip, classes?.tooltip),

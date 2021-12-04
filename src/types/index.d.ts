@@ -12,3 +12,4 @@ export * from './recoil';
 export * from './selfid';
 export * from './ape-text-field';
 export * from './contracts.vault';
+export * from './api.manifest';

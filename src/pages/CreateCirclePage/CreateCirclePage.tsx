@@ -12,12 +12,8 @@ import {
   FormAutocomplete,
 } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApi } from 'hooks';
-import {
-  useMyAddress,
-  useMyAdminCircles,
-  useSetSelectedCircleId,
-} from 'recoilState';
+import { useApiWithProfile, useApiBase } from 'hooks';
+import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -82,20 +78,21 @@ export const SummonCirclePage = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const myAddress = useMyAddress();
-  const myAdminCircles = useMyAdminCircles();
-  const setSelectedCircleId = useSetSelectedCircleId();
+  const { address: myAddress, myUsers } = useMyProfile();
+  const { selectCircle } = useApiBase();
 
   const protocols = useMemo(
     () =>
       uniqBy(
-        myAdminCircles.map(({ protocol }) => protocol),
+        myUsers
+          .filter(u => u.isCircleAdmin)
+          .map(({ circle: { protocol } }) => protocol),
         'id'
       ),
-    [myAdminCircles]
+    [myUsers]
   );
 
-  const { createCircle } = useApi();
+  const { createCircle } = useApiWithProfile();
 
   if (!myAddress) {
     return (
@@ -123,6 +120,7 @@ export const SummonCirclePage = () => {
         }) => {
           try {
             const newCircle = await createCircle(
+              myAddress,
               { ...params },
               captcha_token,
               JSON.stringify({
@@ -135,7 +133,7 @@ export const SummonCirclePage = () => {
                 ...params,
               })
             );
-            setSelectedCircleId(newCircle.id);
+            selectCircle(newCircle.id);
             history.push({
               pathname: paths.getAdminPath(),
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
@@ -166,7 +164,7 @@ export const SummonCirclePage = () => {
                 label="Circle Name"
                 fullWidth
               />
-              {myAdminCircles.length ? (
+              {protocols.length ? (
                 <FormAutocomplete
                   {...fields.protocol_name}
                   value={fields.protocol_name.value}

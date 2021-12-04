@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { Button, makeStyles } from '@material-ui/core';
 
 import { ProfileCard } from 'components';
-import { useSelectedAllocation, useSelectedCircleEpoch } from 'hooks';
-import { useSelectedCircle, useSelectedMyUser } from 'recoilState';
+import { useAllocation } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -174,10 +174,13 @@ enum FilterType {
 const AllocationGive = () => {
   const classes = useStyles();
 
-  const { epochIsActive, longTimingMessage } = useSelectedCircleEpoch();
-  const selectedMyUser = useSelectedMyUser();
-  const selectedCircle = useSelectedCircle();
-  const { givePerUser, localGifts, updateGift } = useSelectedAllocation();
+  const {
+    circleId,
+    myUser,
+    circleEpochsStatus: { epochIsActive, longTimingMessage },
+  } = useSelectedCircle();
+
+  const { givePerUser, localGifts, updateGift } = useAllocation(circleId);
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 
@@ -186,8 +189,8 @@ const AllocationGive = () => {
       <div className={classes.headerContainer}>
         <h2
           className={classes.title}
-        >{`${selectedCircle?.name} ${longTimingMessage}`}</h2>
-        <h2 className={classes.subTitle}>{selectedCircle?.allocText}</h2>
+        >{`${myUser.circle.name} ${longTimingMessage}`}</h2>
+        <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
       </div>
       <div className={classes.accessaryContainer}>
         <div className={classes.filterButtonContainer}>
@@ -252,15 +255,13 @@ const AllocationGive = () => {
         </div>
       </div>
       <div className={classes.teammateContainer}>
-        {selectedMyUser && (
-          <ProfileCard
-            user={selectedMyUser}
-            tokens={0}
-            note=""
-            isMe
-            tokenName={selectedCircle?.tokenName ?? 'Give'}
-          />
-        )}
+        <ProfileCard
+          user={myUser}
+          tokens={0}
+          note=""
+          isMe
+          tokenName={myUser.circle.tokenName}
+        />
         {localGifts
           .map(g => g.user)
           .filter(a => {
@@ -296,7 +297,7 @@ const AllocationGive = () => {
               key={user.id}
               note={givePerUser.get(user.id)?.note || ''}
               tokens={givePerUser.get(user.id)?.tokens || 0}
-              tokenName={selectedCircle?.tokenName ?? 'Give'}
+              tokenName={myUser.circle.tokenName}
               updateGift={(update: { note?: string; tokens?: number }) =>
                 updateGift(user.id, update)
               }
