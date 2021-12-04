@@ -16,7 +16,7 @@ function useContracts(): Contracts | undefined {
       return;
     }
 
-    if (chainId !== 4) {
+    if (!(chainId && [1, 4, 1337].includes(chainId))) {
       throw new Error(`Unsupported chainId: ${chainId}`);
     }
 
