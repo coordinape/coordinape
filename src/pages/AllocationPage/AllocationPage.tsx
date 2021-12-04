@@ -264,7 +264,7 @@ export const AllocationPage = () => {
                 (!selectedCircle.team_selection && step === STEP_MY_TEAM)
               }
             >
-              {step.label}
+              {step.buildLabel(selectedCircle)}
             </StepButton>
           </Step>
         ))}
