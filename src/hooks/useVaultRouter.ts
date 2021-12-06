@@ -2,8 +2,10 @@
 import { BigNumberish } from '@ethersproject/bignumber';
 import { ContractReceipt } from '@ethersproject/contracts';
 import { useWeb3React } from '@web3-react/core';
+import { Signer } from 'ethers';
 
 import { ERC20Service } from 'services/erc20';
+import { handleContractError } from 'utils/handleContractError';
 
 import { useContracts } from './useContracts';
 
@@ -24,25 +26,52 @@ export function useVaultRouter() {
         await signer.getAddress(),
         vault.tokenAddress
       );
-      if (contracts) {
-        await token.approveUnlimited(contracts.apeRouter.address);
-        const apeRouter = contracts.apeRouter.connect(signer);
-        const tx = await apeRouter.delegateDeposit(
-          vault.id,
-          vault.tokenAddress,
-          amount
-        );
-        const receipt = await tx.wait();
-        return receipt;
+      if (!contracts) {
+        throw new Error('Contracts not loaded');
       }
+      // Todo: Handle this separately and conditionally in UI
+      await token.approveUnlimited(contracts.apeRouter.address);
+      // Main logic
+      const apeRouter = contracts.apeRouter.connect(signer);
+      const tx = await apeRouter.delegateDeposit(
+        vault.id,
+        vault.tokenAddress,
+        amount
+      );
+      // Todo: handle this async
+      const receipt = await tx.wait();
+      return receipt;
     } catch (e: any) {
-      console.error(e);
-      if (e.code === 4001) {
-        throw Error(`Transaction rejected by your wallet`);
-      }
+      handleContractError(e);
     }
     throw Error(`Failed to deposit to the vault.`);
   };
 
-  return { depositToken };
+  const delegateWithdrawal = async (
+    vault: IVault,
+    shareAmount: BigNumberish,
+    underlying: boolean
+  ): Promise<ContractReceipt> => {
+    if (!contracts) {
+      throw new Error('Contracts not loaded');
+    }
+    try {
+      const signer: Signer = await web3Context.library.getSigner();
+      const tx = await contracts.apeRouter.delegateWithdrawal(
+        await signer.getAddress(),
+        vault.id,
+        vault.tokenAddress,
+        shareAmount,
+        underlying
+      );
+      // Todo: handle this async
+      const receipt = await tx.wait();
+      return receipt;
+    } catch (e: any) {
+      handleContractError(e);
+    }
+    throw Error('Failed to withdraw from the vault.');
+  };
+
+  return { depositToken, delegateWithdrawal };
 }

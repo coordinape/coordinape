@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
-import { Contracts } from 'utils/contracts';
+import { Contracts } from 'services/contracts';
 
 import { NetworkId } from 'types';
 
