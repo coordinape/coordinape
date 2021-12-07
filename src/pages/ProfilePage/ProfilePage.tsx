@@ -3,13 +3,22 @@ import React from 'react';
 import { transparentize } from 'polished';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { makeStyles, Avatar, Button } from '@material-ui/core';
+import {
+  makeStyles,
+  Avatar,
+  Button,
+  Grid,
+  Hidden,
+  Typography,
+} from '@material-ui/core';
+import { styled, Theme, useTheme, withTheme } from '@material-ui/core/styles';
 
 import {
   ProfileSocialIcons,
   ProfileSkills,
   ApeAvatar,
   FormFileUpload,
+  ApeToggle,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useImageUploader, useApiWithProfile } from 'hooks';
@@ -24,6 +33,14 @@ import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
+
+const MobileSection = styled(withTheme(Grid))<Theme, { bg?: string }>(
+  ({ theme, bg }) => ({
+    padding: theme.spacing(3),
+    gap: theme.spacing(2),
+    backgroundColor: bg || theme.colors.white,
+  })
+);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: theme.breakpoints.values.lg,
     padding: theme.spacing(0, 8),
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0, 2),
     },
   },
@@ -61,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: theme.breakpoints.values.lg,
     padding: theme.spacing(0, 8),
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0, 2),
     },
   },
@@ -69,6 +86,11 @@ const useStyles = makeStyles(theme => ({
     top: 155,
     width: 143,
     height: 143,
+    [theme.breakpoints.down('sm')]: {
+      top: 0,
+      width: '96px',
+      height: '96px',
+    },
   },
   uploadButton: {
     position: 'absolute',
@@ -79,6 +101,13 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     bottom: 0,
     right: 28,
+    [theme.breakpoints.down('sm')]: {
+      position: 'relative',
+      right: 0,
+      '& .MuiButton-contained': {
+        boxShadow: 'none',
+      },
+    },
   },
   name: {
     marginTop: 18,
@@ -86,10 +115,20 @@ const useStyles = makeStyles(theme => ({
     fontSize: 30,
     fontWeight: 600,
     color: theme.colors.primary,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 24,
+      fontWeight: 600,
+      color: theme.colors.text,
+      marginTop: 0,
+      marginBottom: 0,
+    },
   },
   skillGroup: {
     display: 'flex',
     flexWrap: 'wrap',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '-4px',
+    },
   },
   socialGroup: {
     padding: theme.spacing(3, 0),
@@ -103,6 +142,9 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     fontSize: 24,
     lineHeight: 1.5,
+    [theme.breakpoints.down('sm')]: {
+      paddingBottom: 0,
+    },
   },
 
   sections: {
@@ -178,6 +220,10 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     margin: theme.spacing(0.25, 0, 3),
   },
+  // Mobile classes
+  adminContainer: {
+    backgroundColor: theme.colors.ultraLightGray,
+  },
 }));
 
 export const ProfilePage = ({
@@ -190,7 +236,13 @@ export const ProfilePage = ({
     return <></>; // todo better 404?
   }
 
-  return isMe ? <MyProfilePage /> : <OtherProfilePage address={address} />;
+  const otherProfile = address ? (
+    <OtherProfilePage address={address} />
+  ) : (
+    <p>No profile found</p>
+  );
+
+  return isMe ? <MyProfilePage /> : otherProfile;
 };
 
 const MyProfilePage = () => {
@@ -218,6 +270,11 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   );
 };
 
+const isIMyProfile = (
+  variableToCheck: IMyProfile | IProfile
+): variableToCheck is IMyProfile =>
+  (variableToCheck as IMyProfile).myUsers !== undefined;
+
 const ProfilePageContent = ({
   profile,
   circleId,
@@ -228,8 +285,10 @@ const ProfilePageContent = ({
   isMe?: boolean;
 }) => {
   const classes = useStyles();
-  const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
-  const user = users.find(user => user.circle_id === circleId);
+  const theme = useTheme();
+
+  const users = isIMyProfile(profile) ? profile.myUsers : profile?.users ?? [];
+  const user = users.find(userItem => userItem.circle_id === circleId);
   const name = user?.name ?? users?.[0]?.name ?? 'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();
@@ -242,117 +301,217 @@ const ProfilePageContent = ({
     getAvatarPath(profile?.background, '/imgs/background/profile-bg.jpg')
   );
 
-  const recentEpochs = profile?.users?.map(user => ({
-    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
-    circle: user.circle,
+  const recentEpochs = profile?.users?.map(userItem => ({
+    bio: (userItem?.bio?.length ?? 0) > 0 ? userItem.bio : null,
+    circle: userItem.circle,
   }));
 
   return (
-    <div className={classes.root}>
-      <div className={classes.header}>
-        <img src={backgroundUrl} alt={name} />
-        <div className={classes.headerInside}>
-          <ApeAvatar
-            profile={{ ...profile, users: [] }}
-            className={classes.avatar}
-          />
-          {isMe && (
-            <>
-              <FormFileUpload
-                className={classes.uploadButton}
-                editText="Edit Background"
-                uploadText="Upload Background"
-                {...backgroundUploadProps}
-                commit={f =>
-                  updateBackground(f)
-                    .catch(console.warn)
-                    .then(() => backgroundUploadProps.onChange(undefined))
-                }
-                accept="image/gif, image/jpeg, image/png"
+    <>
+      <Hidden smDown>
+        <div className={classes.root}>
+          <div className={classes.header}>
+            <img src={backgroundUrl} alt={name} />
+            <div className={classes.headerInside}>
+              <ApeAvatar
+                profile={{ ...profile, users: [] }}
+                className={classes.avatar}
               />
+              {isMe && (
+                <>
+                  <FormFileUpload
+                    className={classes.uploadButton}
+                    editText="Edit Background"
+                    uploadText="Upload Background"
+                    {...backgroundUploadProps}
+                    commit={f =>
+                      updateBackground(f)
+                        .catch(console.warn)
+                        .then(() => backgroundUploadProps.onChange(undefined))
+                    }
+                    accept="image/gif, image/jpeg, image/png"
+                  />
+                  <Button
+                    className={classes.editButton}
+                    variant="outlined"
+                    color="default"
+                    size="small"
+                    startIcon={<EditIcon />}
+                    onClick={() => setEditProfileOpen(true)}
+                  >
+                    Edit Profile
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className={classes.body}>
+            <h1 className={classes.name}>{name}</h1>
+            <div className={classes.skillGroup}>
+              <ProfileSkills
+                skills={profile.skills ?? []}
+                isAdmin={user?.role === 1}
+                max={3}
+              />
+            </div>
+            <div className={classes.socialGroup}>
+              <ProfileSocialIcons profile={profile} />
+            </div>
+            <div className={classes.bio}>
+              {user?.role === USER_ROLE_COORDINAPE ? (
+                <div>
+                  Coordinape is the platform you’re using right now! We
+                  currently offer our service for free and invite people to
+                  allocate to us from within your circles. All tokens received
+                  go to the Coordinape treasury.{' '}
+                  <a
+                    href={EXTERNAL_URL_FEEDBACK}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Let us know what you think.
+                  </a>
+                </div>
+              ) : (
+                profile?.bio
+              )}
+            </div>
+          </div>
+
+          {user && !user.isCoordinapeUser && (
+            <div className={classes.sections}>
+              <Section title="My Circles">
+                {profile?.users?.map(u =>
+                  u.circle ? (
+                    <div key={u.id} className={classes.circle}>
+                      <Avatar
+                        alt={u.circle.name}
+                        src={
+                          u.circle?.logo
+                            ? getAvatarPath(u.circle?.logo)
+                            : undefined
+                        }
+                      >
+                        {u.circle.name}
+                      </Avatar>
+
+                      <span>
+                        {u.circle.protocol.name} {u.circle.name}
+                      </span>
+                      {u.non_receiver && <span>Opted-Out</span>}
+                    </div>
+                  ) : undefined
+                )}
+              </Section>
+              <Section title="Recent Epoch Activity" asColumn>
+                {recentEpochs?.map(({ bio, circle }, i) =>
+                  circle ? (
+                    <div className={classes.recentEpoch} key={i}>
+                      <div className={classes.recentEpochTitle}>
+                        {circle.protocol.name} {circle.name}
+                      </div>
+                      <div className={classes.recentEpochStatement}>{bio}</div>
+                    </div>
+                  ) : undefined
+                )}
+              </Section>
+              {/* <Section title="Frequent Collaborators">TODO.</Section> */}
+            </div>
+          )}
+        </div>
+      </Hidden>
+      <Hidden mdUp>
+        <div className={classes.root}>
+          <MobileSection direction="column" container alignItems="center">
+            <Grid item>
+              <ApeAvatar
+                className={classes.avatar}
+                profile={{ ...profile, users: [] }}
+              />
+            </Grid>
+            <Grid item>
+              <Typography className={classes.name}>{name}</Typography>
+            </Grid>
+            <Grid item>
+              <ProfileSocialIcons profile={profile} />
+            </Grid>
+          </MobileSection>
+          {user?.role === 1 && (
+            <MobileSection
+              container
+              direction="column"
+              className={classes.adminContainer}
+              bg={theme.colors.ultraLightGray}
+            >
+              <Grid item>
+                <Typography className={classes.name}>Admin</Typography>
+              </Grid>
+              <Grid item>
+                <ApeToggle
+                  value={true}
+                  onChange={() => null}
+                  label="Can They Give?"
+                />
+              </Grid>
+              <Grid item>
+                <ApeToggle
+                  value={true}
+                  onChange={() => null}
+                  label="Force Opt Out?"
+                />
+              </Grid>
+              <Grid item>
+                <ApeToggle
+                  value={true}
+                  onChange={() => null}
+                  label="Are They Admin?"
+                />
+              </Grid>
+            </MobileSection>
+          )}
+          <MobileSection container direction="column">
+            <Grid item className={classes.bio}>
+              {user?.role === USER_ROLE_COORDINAPE ? (
+                <div>
+                  Coordinape is the platform you’re using right now! We
+                  currently offer our service for free and invite people to
+                  allocate to us from within your circles. All tokens received
+                  go to the Coordinape treasury.{' '}
+                  <a
+                    href={EXTERNAL_URL_FEEDBACK}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Let us know what you think.
+                  </a>
+                </div>
+              ) : (
+                profile?.bio
+              )}
+            </Grid>
+            <Grid item className={classes.skillGroup}>
+              <ProfileSkills
+                skills={profile.skills ?? []}
+                isAdmin={user?.role === 1}
+                max={3}
+              />
+            </Grid>
+            <Grid item>
               <Button
                 className={classes.editButton}
-                variant="outlined"
-                color="default"
+                variant="contained"
                 size="small"
                 startIcon={<EditIcon />}
                 onClick={() => setEditProfileOpen(true)}
               >
                 Edit Profile
               </Button>
-            </>
-          )}
+            </Grid>
+          </MobileSection>
         </div>
-      </div>
-
-      <div className={classes.body}>
-        <h1 className={classes.name}>{name}</h1>
-        <div className={classes.skillGroup}>
-          <ProfileSkills
-            skills={profile.skills ?? []}
-            isAdmin={user?.role === 1}
-            max={3}
-          />
-        </div>
-        <div className={classes.socialGroup}>
-          <ProfileSocialIcons profile={profile} />
-        </div>
-        <div className={classes.bio}>
-          {user?.role === USER_ROLE_COORDINAPE ? (
-            <div>
-              Coordinape is the platform you’re using right now! We currently
-              offer our service for free and invite people to allocate to us
-              from within your circles. All tokens received go to the Coordinape
-              treasury.{' '}
-              <a href={EXTERNAL_URL_FEEDBACK} rel="noreferrer" target="_blank">
-                Let us know what you think.
-              </a>
-            </div>
-          ) : (
-            profile?.bio
-          )}
-        </div>
-      </div>
-
-      {user && !user.isCoordinapeUser && (
-        <div className={classes.sections}>
-          <Section title="My Circles">
-            {profile?.users?.map(u =>
-              u.circle ? (
-                <div key={u.id} className={classes.circle}>
-                  <Avatar
-                    alt={u.circle.name}
-                    src={
-                      u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
-                    }
-                  >
-                    {u.circle.name}
-                  </Avatar>
-
-                  <span>
-                    {u.circle.protocol.name} {u.circle.name}
-                  </span>
-                  {u.non_receiver && <span>Opted-Out</span>}
-                </div>
-              ) : undefined
-            )}
-          </Section>
-          <Section title="Recent Epoch Activity" asColumn>
-            {recentEpochs?.map(({ bio, circle }, i) =>
-              circle ? (
-                <div className={classes.recentEpoch} key={i}>
-                  <div className={classes.recentEpochTitle}>
-                    {circle.protocol.name} {circle.name}
-                  </div>
-                  <div className={classes.recentEpochStatement}>{bio}</div>
-                </div>
-              ) : undefined
-            )}
-          </Section>
-          {/* <Section title="Frequent Collaborators">TODO.</Section> */}
-        </div>
-      )}
-    </div>
+      </Hidden>
+    </>
   );
 };
 

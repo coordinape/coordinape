@@ -3,7 +3,14 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import uniqueId from 'lodash/uniqueId';
 
-import { makeStyles, ButtonGroup, Button, Theme } from '@material-ui/core';
+import {
+  makeStyles,
+  ButtonGroup,
+  Button,
+  Theme,
+  useTheme,
+  useMediaQuery,
+} from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
 
@@ -12,6 +19,9 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'flex-start',
+    },
   },
   inactive: {
     color: theme.colors.text,
@@ -20,12 +30,20 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
       background: theme.colors.lightBlue + '80',
       color: theme.colors.white,
     },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '16px',
+      fontWeight: '400 !important',
+    },
   },
   active: {
     color: theme.colors.white,
     background: theme.colors.lightBlue,
     '&:hover': {
       background: theme.colors.lightBlue,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '16px',
+      fontWeight: '700 !important',
     },
   },
   grouped: {
@@ -34,6 +52,12 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     fontWeight: 300,
     '&:not(:last-child)': {
       borderRight: '1px solid white',
+      [theme.breakpoints.down('sm')]: {
+        borderRight: 'none',
+      },
+    },
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 4,
     },
   },
   label: {
@@ -42,6 +66,9 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     fontWeight: 700,
     marginBottom: theme.spacing(1),
     color: theme.colors.text,
+    [theme.breakpoints.down('sm')]: {
+      fontWeight: 400,
+    },
   },
   helper: {
     fontSize: 13,
@@ -84,6 +111,7 @@ export const ApeToggle = ({
   infoTooltip?: React.ReactNode;
   variant?: string;
 }) => {
+  const theme = useTheme();
   const classes = useStyles({ variant });
   const [groupId] = useState(uniqueId('text-field-'));
 
@@ -109,6 +137,7 @@ export const ApeToggle = ({
           grouped: classes.grouped,
           disabled: classes.disabled,
         }}
+        fullWidth={useMediaQuery(theme.breakpoints.down('sm'))}
       >
         <Button
           onClick={() => onChange(true)}
