@@ -2,8 +2,12 @@ import assert from 'assert';
 import crypto from 'crypto';
 
 import { PrismaClient } from '@prisma/client';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const prisma = new PrismaClient();
   try {
     assert(req.headers?.authorization, 'No token was provided');
