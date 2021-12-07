@@ -2684,6 +2684,13 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
+"@types/ethereumjs-util@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ethereumjs-util/-/ethereumjs-util-6.1.0.tgz#9dabd7302ec9728a7d99be15f4143977c33cd5ac"
+  integrity sha512-5N0RJldhKCKwDksdnuNHbEJuwO5pjEdtwdHj/kZLxaS84s5R1NLgYfAuDF/VZ4whYABJJvv+o0O8TXLm+F/Byw==
+  dependencies:
+    ethereumjs-util "*"
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -7058,6 +7065,17 @@ ethereumjs-tx@^2.1.1:
     ethereumjs-common "^1.5.0"
     ethereumjs-util "^6.0.0"
 
+ethereumjs-util@*, ethereumjs-util@7.1.3:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-7.1.3.tgz#b55d7b64dde3e3e45749e4c41288238edec32d23"
+  integrity sha512-y+82tEbyASO0K0X1/SRhbJJoAlfcvq8JbrG4a5cjrOks7HS/36efU/0j2flxCPOUM++HFahk33kr/ZxyC4vNuw==
+  dependencies:
+    "@types/bn.js" "^5.1.0"
+    bn.js "^5.1.2"
+    create-hash "^1.1.2"
+    ethereum-cryptography "^0.1.3"
+    rlp "^2.2.4"
+
 ethereumjs-util@5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-5.2.0.tgz#3e0c0d1741471acf1036052d048623dee54ad642"
@@ -7070,17 +7088,6 @@ ethereumjs-util@5.2.0:
     rlp "^2.0.0"
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
-
-ethereumjs-util@7.1.3:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-7.1.3.tgz#b55d7b64dde3e3e45749e4c41288238edec32d23"
-  integrity sha512-y+82tEbyASO0K0X1/SRhbJJoAlfcvq8JbrG4a5cjrOks7HS/36efU/0j2flxCPOUM++HFahk33kr/ZxyC4vNuw==
-  dependencies:
-    "@types/bn.js" "^5.1.0"
-    bn.js "^5.1.2"
-    create-hash "^1.1.2"
-    ethereum-cryptography "^0.1.3"
-    rlp "^2.2.4"
 
 ethereumjs-util@^4.3.0:
   version "4.5.1"
