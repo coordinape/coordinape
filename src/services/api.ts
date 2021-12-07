@@ -279,6 +279,10 @@ export class APIService {
     });
     return response.data;
   };
+
+  downloadCSV = async (circleId: number, epoch: number): Promise<any> => {
+    return this.axios.get(`/v2/${circleId}/csv?epoch=${epoch}`);
+  };
 }
 
 let apiService: APIService;
