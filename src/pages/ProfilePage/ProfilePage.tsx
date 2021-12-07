@@ -21,7 +21,7 @@ import {
 } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
-import { getAvatarPath } from 'utils/domain';
+import { getAvatarPath, getCircleAvatar } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
 
@@ -317,36 +317,39 @@ const ProfilePageContent = ({
       {user && !user.isCoordinapeUser && (
         <div className={classes.sections}>
           <Section title="My Circles">
-            {profile?.users?.map(u =>
-              u.circle ? (
-                <div key={u.id} className={classes.circle}>
-                  <Avatar
-                    alt={u.circle.name}
-                    src={
-                      u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
-                    }
-                  >
-                    {u.circle.name}
-                  </Avatar>
+            {profile?.users?.map(
+              u =>
+                u.circle && (
+                  <div key={u.id} className={classes.circle}>
+                    <Avatar
+                      alt={u.circle.name}
+                      src={getCircleAvatar({
+                        avatar: u.circle.logo,
+                        circleName: u.circle.name,
+                      })}
+                    >
+                      {u.circle.name}
+                    </Avatar>
 
-                  <span>
-                    {u.circle.protocol.name} {u.circle.name}
-                  </span>
-                  {u.non_receiver && <span>Opted-Out</span>}
-                </div>
-              ) : undefined
+                    <span>
+                      {u.circle.protocol.name} {u.circle.name}
+                    </span>
+                    {u.non_receiver && <span>Opted-Out</span>}
+                  </div>
+                )
             )}
           </Section>
           <Section title="Recent Epoch Activity" asColumn>
-            {recentEpochs?.map(({ bio, circle }, i) =>
-              circle ? (
-                <div className={classes.recentEpoch} key={i}>
-                  <div className={classes.recentEpochTitle}>
-                    {circle.protocol.name} {circle.name}
+            {recentEpochs?.map(
+              ({ bio, circle }, i) =>
+                circle && (
+                  <div className={classes.recentEpoch} key={i}>
+                    <div className={classes.recentEpochTitle}>
+                      {circle.protocol.name} {circle.name}
+                    </div>
+                    <div className={classes.recentEpochStatement}>{bio}</div>
                   </div>
-                  <div className={classes.recentEpochStatement}>{bio}</div>
-                </div>
-              ) : undefined
+                )
             )}
           </Section>
           {/* <Section title="Frequent Collaborators">TODO.</Section> */}
