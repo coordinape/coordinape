@@ -1,6 +1,6 @@
 {
-  "name": "yearn-coordinape-app",
-  "version": "0.1.0",
+  "name": "coordinape-app",
+  "version": "0.2.0",
   "private": true,
   "engines": {
     "node": "=14"
