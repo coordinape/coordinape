@@ -19,8 +19,13 @@ import {
   CirclesHeaderSection,
   WalletButton,
 } from 'components';
+import { CirclesSelectorSection } from 'components/MyAvatarMenu/MyAvatarMenu';
 import { HamburgerIcon, CloseIcon } from 'icons';
-import { useSelectedCircle, useWalletAuth } from 'recoilState/app';
+import {
+  useMyProfileLoadable,
+  useSelectedCircle,
+  useWalletAuth,
+} from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -36,8 +41,6 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between',
       padding: theme.spacing(0, '25px'),
       height: theme.custom.appHeaderHeight - 11,
-      position: 'relative',
-      zIndex: 2,
     },
     '& > *': {
       alignSelf: 'center',
@@ -49,14 +52,20 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 5,
     },
   },
+  mobileContainer: {
+    height: '100vh',
+    position: 'relative',
+    backgroundColor: theme.colors.ultraLightGray,
+  },
   mobileMenu: {
-    top: theme.custom.appHeaderHeight - 11,
-    left: 0,
     position: 'absolute',
     backgroundColor: theme.colors.ultraLightGray,
+    height: '85%',
     width: '100%',
-    height: '95vh',
-    overflowY: 'scroll',
+    overflow: 'scroll',
+    overscrollBehaviorY: 'auto',
+    '-webkit-overflow-scrolling': 'touch',
+    zIndex: 2,
   },
   coordinapeLogo: {
     justifySelf: 'start',
@@ -132,9 +141,15 @@ const useStyles = makeStyles(theme => ({
       fontWeight: 'normal',
       '&:hover': {
         color: theme.colors.black,
+        '&::after': {
+          content: 'none',
+        },
       },
       '&.active': {
         color: theme.colors.red,
+        '&::after': {
+          content: 'none',
+        },
       },
     },
   },
@@ -163,6 +178,8 @@ export const MainHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
+  const myProfile = useMyProfileLoadable();
+  const valueProfile = myProfile.valueMaybe();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -207,59 +224,81 @@ export const MainHeader = () => {
       </div>
     </div>
   ) : (
-    <div className={classes.root}>
-      <img
-        alt="logo"
-        className={classes.coordinapeLogo}
-        src="/svgs/logo/logo.svg"
-      />
-      {menuWalletButton}
+    <div>
+      <div className={classes.root}>
+        <img
+          alt="logo"
+          className={classes.coordinapeLogo}
+          src="/svgs/logo/logo.svg"
+        />
+        {menuWalletButton}
+      </div>
       {isMobileMenuOpen && (
-        <Box
-          display="flex"
-          className={classes.mobileMenu}
-          flexDirection="column"
-          py={3}
-          px={1}
-        >
+        <div className={classes.mobileContainer}>
           <Box
-            px={2}
             display="flex"
+            className={classes.mobileMenu}
             flexDirection="column"
-            justifyContent="space-between"
+            pt={3}
+            px={1}
+            pb={6}
           >
-            <Suspense fallback={<span />}>
-              <CirclesHeaderSection
-                handleOnClick={() => setIsMobileMenuOpen(false)}
-              />
-            </Suspense>
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box py={2}>
-            <Suspense fallback={<span />}>
-              <HeaderNav />
-            </Suspense>
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box pt={3} />
-          <Grid container spacing={2} alignItems="center">
-            <Suspense fallback={null}>
-              <Grid item>
-                <MyAvatarMenu />
-              </Grid>
-            </Suspense>
-            <Grid className={classes.accountInfoMobile} item>
-              <WalletButton />
-              {/* TODO: ask Alexander where the GIVES needs to be 
+            <Box pb={2}>
+              <Suspense fallback={<span />}>
+                <HeaderNav />
+              </Suspense>
+            </Box>
+            <Divider variant="fullWidth" />
+            <Box pt={3} />
+            <Grid container spacing={2} alignItems="center">
+              <Suspense fallback={null}>
+                <Grid item>
+                  <MyAvatarMenu />
+                </Grid>
+              </Suspense>
+              <Grid className={classes.accountInfoMobile} item>
+                <WalletButton />
+                {/* TODO: ask Alexander where the GIVES needs to be 
               <Suspense fallback={<span />}>
                 <ReceiveInfo />
               </Suspense> */}
+              </Grid>
             </Grid>
-          </Grid>
-          <Box py={3} display="flex" flexDirection="column" px={2}>
-            <MenuNavigationLinks />
+            <Box py={3} display="flex" flexDirection="column" px={2}>
+              <MenuNavigationLinks />
+            </Box>
+            <Divider variant="fullWidth" />
+            <Box
+              px={2}
+              py={2}
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+            >
+              <Suspense fallback={null}>
+                <CirclesHeaderSection
+                  handleOnClick={() => setIsMobileMenuOpen(false)}
+                />
+              </Suspense>
+            </Box>
+            {valueProfile?.hasAdminView && (
+              <>
+                <Divider variant="fullWidth" />
+                <Box
+                  px={2}
+                  py={2}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="space-between"
+                >
+                  <CirclesSelectorSection
+                    handleOnClick={() => setIsMobileMenuOpen(false)}
+                  />
+                </Box>
+              </>
+            )}
           </Box>
-        </Box>
+        </div>
       )}
     </div>
   );
