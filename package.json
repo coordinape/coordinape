@@ -62,6 +62,7 @@
     "recoil": "0.4.1",
     "source-map-explorer": "2.5.2",
     "styled-components": "5.2.3",
+    "ts-auto-mock": "3.5.0",
     "web-vitals": "1.1.0",
     "zod": "3.7.1"
   },

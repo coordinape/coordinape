@@ -1,5 +1,6 @@
 import { RecoilValue } from 'recoil';
 import { IEpoch, IUser, ITokenGift } from './models';
+import { ICircle } from './api.circle';
 
 export type IRecoilGet = <T>(recoilState: RecoilValue<T>) => T;
 
@@ -50,6 +51,6 @@ export interface IAtomEffectParams {
 
 export interface IAllocationStep {
   key: number;
-  label: string;
+  buildLabel: (circle: ICircle) => string;
   path: string;
 }
