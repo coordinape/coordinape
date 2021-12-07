@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
-import { Contracts } from 'utils/contracts';
+import { Contracts } from 'services/contracts';
 
 import { NetworkId } from 'types';
 
@@ -16,7 +16,7 @@ function useContracts(): Contracts | undefined {
       return;
     }
 
-    if (chainId !== 4) {
+    if (!(chainId && [1, 4, 1337].includes(chainId))) {
       throw new Error(`Unsupported chainId: ${chainId}`);
     }
 

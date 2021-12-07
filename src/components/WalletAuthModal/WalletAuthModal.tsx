@@ -26,7 +26,7 @@ enum EConnectorNames {
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
   Fortmatic = 'fortmatic',
-  Portis = 'portis',
+  // Portis = 'portis',
 }
 
 const useStyles = makeStyles(theme => ({
