@@ -7,7 +7,7 @@ const config = {
   react: true,
   scalarTypes: { DateTime: 'string' },
   introspection: {
-    endpoint: process.env.HASURA_URL,
+    endpoint: process.env.REACT_APP_HASURA_URL,
     headers: {
       'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
     },
