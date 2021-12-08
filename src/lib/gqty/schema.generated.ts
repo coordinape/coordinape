@@ -96,6 +96,36 @@ export interface bigint_comparison_exp {
   _nin?: InputMaybe<Array<Scalars['bigint']>>;
 }
 
+/** order by aggregate values of table "circles" */
+export interface circles_aggregate_order_by {
+  avg?: InputMaybe<circles_avg_order_by>;
+  count?: InputMaybe<order_by>;
+  max?: InputMaybe<circles_max_order_by>;
+  min?: InputMaybe<circles_min_order_by>;
+  stddev?: InputMaybe<circles_stddev_order_by>;
+  stddev_pop?: InputMaybe<circles_stddev_pop_order_by>;
+  stddev_samp?: InputMaybe<circles_stddev_samp_order_by>;
+  sum?: InputMaybe<circles_sum_order_by>;
+  var_pop?: InputMaybe<circles_var_pop_order_by>;
+  var_samp?: InputMaybe<circles_var_samp_order_by>;
+  variance?: InputMaybe<circles_variance_order_by>;
+}
+
+/** input type for inserting array relation for remote table "circles" */
+export interface circles_arr_rel_insert_input {
+  data: Array<circles_insert_input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<circles_on_conflict>;
+}
+
+/** order by avg() on columns of table "circles" */
+export interface circles_avg_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
 /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
 export interface circles_bool_exp {
   _and?: InputMaybe<Array<circles_bool_exp>>;
@@ -113,12 +143,14 @@ export interface circles_bool_exp {
   name?: InputMaybe<String_comparison_exp>;
   nomination_days_limit?: InputMaybe<Int_comparison_exp>;
   only_giver_vouch?: InputMaybe<Boolean_comparison_exp>;
+  organization?: InputMaybe<organizations_bool_exp>;
   protocol_id?: InputMaybe<Int_comparison_exp>;
   team_sel_text?: InputMaybe<String_comparison_exp>;
   team_selection?: InputMaybe<Boolean_comparison_exp>;
   telegram_id?: InputMaybe<String_comparison_exp>;
   token_name?: InputMaybe<String_comparison_exp>;
   updated_at?: InputMaybe<timestamp_comparison_exp>;
+  users?: InputMaybe<users_bool_exp>;
   vouching?: InputMaybe<Boolean_comparison_exp>;
   vouching_text?: InputMaybe<String_comparison_exp>;
 }
@@ -151,14 +183,59 @@ export interface circles_insert_input {
   name?: InputMaybe<Scalars['String']>;
   nomination_days_limit?: InputMaybe<Scalars['Int']>;
   only_giver_vouch?: InputMaybe<Scalars['Boolean']>;
+  organization?: InputMaybe<organizations_obj_rel_insert_input>;
   protocol_id?: InputMaybe<Scalars['Int']>;
   team_sel_text?: InputMaybe<Scalars['String']>;
   team_selection?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
   token_name?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
+  users?: InputMaybe<users_arr_rel_insert_input>;
   vouching?: InputMaybe<Scalars['Boolean']>;
   vouching_text?: InputMaybe<Scalars['String']>;
+}
+
+/** order by max() on columns of table "circles" */
+export interface circles_max_order_by {
+  alloc_text?: InputMaybe<order_by>;
+  created_at?: InputMaybe<order_by>;
+  discord_webhook?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  logo?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  name?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+  team_sel_text?: InputMaybe<order_by>;
+  telegram_id?: InputMaybe<order_by>;
+  token_name?: InputMaybe<order_by>;
+  updated_at?: InputMaybe<order_by>;
+  vouching_text?: InputMaybe<order_by>;
+}
+
+/** order by min() on columns of table "circles" */
+export interface circles_min_order_by {
+  alloc_text?: InputMaybe<order_by>;
+  created_at?: InputMaybe<order_by>;
+  discord_webhook?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  logo?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  name?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+  team_sel_text?: InputMaybe<order_by>;
+  telegram_id?: InputMaybe<order_by>;
+  token_name?: InputMaybe<order_by>;
+  updated_at?: InputMaybe<order_by>;
+  vouching_text?: InputMaybe<order_by>;
+}
+
+/** input type for inserting object relation for remote table "circles" */
+export interface circles_obj_rel_insert_input {
+  data: circles_insert_input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<circles_on_conflict>;
 }
 
 /** on conflict condition type for table "circles" */
@@ -182,12 +259,14 @@ export interface circles_order_by {
   name?: InputMaybe<order_by>;
   nomination_days_limit?: InputMaybe<order_by>;
   only_giver_vouch?: InputMaybe<order_by>;
+  organization?: InputMaybe<organizations_order_by>;
   protocol_id?: InputMaybe<order_by>;
   team_sel_text?: InputMaybe<order_by>;
   team_selection?: InputMaybe<order_by>;
   telegram_id?: InputMaybe<order_by>;
   token_name?: InputMaybe<order_by>;
   updated_at?: InputMaybe<order_by>;
+  users_aggregate?: InputMaybe<users_aggregate_order_by>;
   vouching?: InputMaybe<order_by>;
   vouching_text?: InputMaybe<order_by>;
 }
@@ -265,6 +344,38 @@ export interface circles_set_input {
   vouching_text?: InputMaybe<Scalars['String']>;
 }
 
+/** order by stddev() on columns of table "circles" */
+export interface circles_stddev_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
+/** order by stddev_pop() on columns of table "circles" */
+export interface circles_stddev_pop_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
+/** order by stddev_samp() on columns of table "circles" */
+export interface circles_stddev_samp_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
+/** order by sum() on columns of table "circles" */
+export interface circles_sum_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
 /** update columns of table "circles" */
 export enum circles_update_column {
   /** column name */
@@ -309,6 +420,30 @@ export enum circles_update_column {
   vouching_text = 'vouching_text',
 }
 
+/** order by var_pop() on columns of table "circles" */
+export interface circles_var_pop_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
+/** order by var_samp() on columns of table "circles" */
+export interface circles_var_samp_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
+/** order by variance() on columns of table "circles" */
+export interface circles_variance_order_by {
+  id?: InputMaybe<order_by>;
+  min_vouches?: InputMaybe<order_by>;
+  nomination_days_limit?: InputMaybe<order_by>;
+  protocol_id?: InputMaybe<order_by>;
+}
+
 /** column ordering options */
 export enum order_by {
   /** in ascending order, nulls last */
@@ -323,6 +458,114 @@ export enum order_by {
   desc_nulls_first = 'desc_nulls_first',
   /** in descending order, nulls last */
   desc_nulls_last = 'desc_nulls_last',
+}
+
+/** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+export interface organizations_bool_exp {
+  _and?: InputMaybe<Array<organizations_bool_exp>>;
+  _not?: InputMaybe<organizations_bool_exp>;
+  _or?: InputMaybe<Array<organizations_bool_exp>>;
+  circles?: InputMaybe<circles_bool_exp>;
+  created_at?: InputMaybe<timestamp_comparison_exp>;
+  id?: InputMaybe<bigint_comparison_exp>;
+  is_verified?: InputMaybe<Boolean_comparison_exp>;
+  name?: InputMaybe<String_comparison_exp>;
+  telegram_id?: InputMaybe<String_comparison_exp>;
+  updated_at?: InputMaybe<timestamp_comparison_exp>;
+}
+
+/** unique or primary key constraints on table "protocols" */
+export enum organizations_constraint {
+  /** unique or primary key constraint */
+  protocols_pkey = 'protocols_pkey',
+}
+
+/** input type for incrementing numeric columns in table "protocols" */
+export interface organizations_inc_input {
+  id?: InputMaybe<Scalars['bigint']>;
+}
+
+/** input type for inserting data into table "protocols" */
+export interface organizations_insert_input {
+  circles?: InputMaybe<circles_arr_rel_insert_input>;
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['bigint']>;
+  is_verified?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  telegram_id?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+}
+
+/** input type for inserting object relation for remote table "protocols" */
+export interface organizations_obj_rel_insert_input {
+  data: organizations_insert_input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<organizations_on_conflict>;
+}
+
+/** on conflict condition type for table "protocols" */
+export interface organizations_on_conflict {
+  constraint: organizations_constraint;
+  update_columns?: Array<organizations_update_column>;
+  where?: InputMaybe<organizations_bool_exp>;
+}
+
+/** Ordering options when selecting data from "protocols". */
+export interface organizations_order_by {
+  circles_aggregate?: InputMaybe<circles_aggregate_order_by>;
+  created_at?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  is_verified?: InputMaybe<order_by>;
+  name?: InputMaybe<order_by>;
+  telegram_id?: InputMaybe<order_by>;
+  updated_at?: InputMaybe<order_by>;
+}
+
+/** primary key columns input for table: organizations */
+export interface organizations_pk_columns_input {
+  id: Scalars['bigint'];
+}
+
+/** select columns of table "protocols" */
+export enum organizations_select_column {
+  /** column name */
+  created_at = 'created_at',
+  /** column name */
+  id = 'id',
+  /** column name */
+  is_verified = 'is_verified',
+  /** column name */
+  name = 'name',
+  /** column name */
+  telegram_id = 'telegram_id',
+  /** column name */
+  updated_at = 'updated_at',
+}
+
+/** input type for updating data in table "protocols" */
+export interface organizations_set_input {
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['bigint']>;
+  is_verified?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  telegram_id?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+}
+
+/** update columns of table "protocols" */
+export enum organizations_update_column {
+  /** column name */
+  created_at = 'created_at',
+  /** column name */
+  id = 'id',
+  /** column name */
+  is_verified = 'is_verified',
+  /** column name */
+  name = 'name',
+  /** column name */
+  telegram_id = 'telegram_id',
+  /** column name */
+  updated_at = 'updated_at',
 }
 
 /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -346,6 +589,7 @@ export interface profiles_bool_exp {
   telegram_username?: InputMaybe<String_comparison_exp>;
   twitter_username?: InputMaybe<String_comparison_exp>;
   updated_at?: InputMaybe<timestamp_comparison_exp>;
+  users?: InputMaybe<users_bool_exp>;
   website?: InputMaybe<String_comparison_exp>;
 }
 
@@ -380,7 +624,15 @@ export interface profiles_insert_input {
   telegram_username?: InputMaybe<Scalars['String']>;
   twitter_username?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
+  users?: InputMaybe<users_arr_rel_insert_input>;
   website?: InputMaybe<Scalars['String']>;
+}
+
+/** input type for inserting object relation for remote table "profiles" */
+export interface profiles_obj_rel_insert_input {
+  data: profiles_insert_input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<profiles_on_conflict>;
 }
 
 /** on conflict condition type for table "profiles" */
@@ -408,6 +660,7 @@ export interface profiles_order_by {
   telegram_username?: InputMaybe<order_by>;
   twitter_username?: InputMaybe<order_by>;
   updated_at?: InputMaybe<order_by>;
+  users_aggregate?: InputMaybe<users_aggregate_order_by>;
   website?: InputMaybe<order_by>;
 }
 
@@ -526,6 +779,38 @@ export interface timestamp_comparison_exp {
   _nin?: InputMaybe<Array<Scalars['timestamp']>>;
 }
 
+/** order by aggregate values of table "users" */
+export interface users_aggregate_order_by {
+  avg?: InputMaybe<users_avg_order_by>;
+  count?: InputMaybe<order_by>;
+  max?: InputMaybe<users_max_order_by>;
+  min?: InputMaybe<users_min_order_by>;
+  stddev?: InputMaybe<users_stddev_order_by>;
+  stddev_pop?: InputMaybe<users_stddev_pop_order_by>;
+  stddev_samp?: InputMaybe<users_stddev_samp_order_by>;
+  sum?: InputMaybe<users_sum_order_by>;
+  var_pop?: InputMaybe<users_var_pop_order_by>;
+  var_samp?: InputMaybe<users_var_samp_order_by>;
+  variance?: InputMaybe<users_variance_order_by>;
+}
+
+/** input type for inserting array relation for remote table "users" */
+export interface users_arr_rel_insert_input {
+  data: Array<users_insert_input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<users_on_conflict>;
+}
+
+/** order by avg() on columns of table "users" */
+export interface users_avg_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
 export interface users_bool_exp {
   _and?: InputMaybe<Array<users_bool_exp>>;
@@ -533,6 +818,7 @@ export interface users_bool_exp {
   _or?: InputMaybe<Array<users_bool_exp>>;
   address?: InputMaybe<String_comparison_exp>;
   bio?: InputMaybe<String_comparison_exp>;
+  circle?: InputMaybe<circles_bool_exp>;
   circle_id?: InputMaybe<bigint_comparison_exp>;
   created_at?: InputMaybe<timestamp_comparison_exp>;
   deleted_at?: InputMaybe<timestamp_comparison_exp>;
@@ -544,6 +830,7 @@ export interface users_bool_exp {
   name?: InputMaybe<String_comparison_exp>;
   non_giver?: InputMaybe<Boolean_comparison_exp>;
   non_receiver?: InputMaybe<Boolean_comparison_exp>;
+  profile?: InputMaybe<profiles_bool_exp>;
   role?: InputMaybe<Int_comparison_exp>;
   starting_tokens?: InputMaybe<Int_comparison_exp>;
   updated_at?: InputMaybe<timestamp_comparison_exp>;
@@ -569,6 +856,7 @@ export interface users_inc_input {
 export interface users_insert_input {
   address?: InputMaybe<Scalars['String']>;
   bio?: InputMaybe<Scalars['String']>;
+  circle?: InputMaybe<circles_obj_rel_insert_input>;
   circle_id?: InputMaybe<Scalars['bigint']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   deleted_at?: InputMaybe<Scalars['timestamp']>;
@@ -580,9 +868,42 @@ export interface users_insert_input {
   name?: InputMaybe<Scalars['String']>;
   non_giver?: InputMaybe<Scalars['Boolean']>;
   non_receiver?: InputMaybe<Scalars['Boolean']>;
+  profile?: InputMaybe<profiles_obj_rel_insert_input>;
   role?: InputMaybe<Scalars['Int']>;
   starting_tokens?: InputMaybe<Scalars['Int']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
+}
+
+/** order by max() on columns of table "users" */
+export interface users_max_order_by {
+  address?: InputMaybe<order_by>;
+  bio?: InputMaybe<order_by>;
+  circle_id?: InputMaybe<order_by>;
+  created_at?: InputMaybe<order_by>;
+  deleted_at?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  name?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+  updated_at?: InputMaybe<order_by>;
+}
+
+/** order by min() on columns of table "users" */
+export interface users_min_order_by {
+  address?: InputMaybe<order_by>;
+  bio?: InputMaybe<order_by>;
+  circle_id?: InputMaybe<order_by>;
+  created_at?: InputMaybe<order_by>;
+  deleted_at?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  name?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+  updated_at?: InputMaybe<order_by>;
 }
 
 /** on conflict condition type for table "users" */
@@ -596,6 +917,7 @@ export interface users_on_conflict {
 export interface users_order_by {
   address?: InputMaybe<order_by>;
   bio?: InputMaybe<order_by>;
+  circle?: InputMaybe<circles_order_by>;
   circle_id?: InputMaybe<order_by>;
   created_at?: InputMaybe<order_by>;
   deleted_at?: InputMaybe<order_by>;
@@ -607,6 +929,7 @@ export interface users_order_by {
   name?: InputMaybe<order_by>;
   non_giver?: InputMaybe<order_by>;
   non_receiver?: InputMaybe<order_by>;
+  profile?: InputMaybe<profiles_order_by>;
   role?: InputMaybe<order_by>;
   starting_tokens?: InputMaybe<order_by>;
   updated_at?: InputMaybe<order_by>;
@@ -673,6 +996,46 @@ export interface users_set_input {
   updated_at?: InputMaybe<Scalars['timestamp']>;
 }
 
+/** order by stddev() on columns of table "users" */
+export interface users_stddev_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
+/** order by stddev_pop() on columns of table "users" */
+export interface users_stddev_pop_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
+/** order by stddev_samp() on columns of table "users" */
+export interface users_stddev_samp_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
+/** order by sum() on columns of table "users" */
+export interface users_sum_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
 /** update columns of table "users" */
 export enum users_update_column {
   /** column name */
@@ -709,6 +1072,36 @@ export enum users_update_column {
   updated_at = 'updated_at',
 }
 
+/** order by var_pop() on columns of table "users" */
+export interface users_var_pop_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
+/** order by var_samp() on columns of table "users" */
+export interface users_var_samp_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
+/** order by variance() on columns of table "users" */
+export interface users_variance_order_by {
+  circle_id?: InputMaybe<order_by>;
+  give_token_received?: InputMaybe<order_by>;
+  give_token_remaining?: InputMaybe<order_by>;
+  id?: InputMaybe<order_by>;
+  role?: InputMaybe<order_by>;
+  starting_tokens?: InputMaybe<order_by>;
+}
+
 export const scalarsEnumsHash: import('gqty').ScalarsEnumsHash = {
   Boolean: true,
   Float: true,
@@ -719,6 +1112,9 @@ export const scalarsEnumsHash: import('gqty').ScalarsEnumsHash = {
   circles_select_column: true,
   circles_update_column: true,
   order_by: true,
+  organizations_constraint: true,
+  organizations_select_column: true,
+  organizations_update_column: true,
   profiles_constraint: true,
   profiles_select_column: true,
   profiles_update_column: true,
@@ -796,12 +1192,33 @@ export const generatedSchema = {
     name: { __type: 'String!' },
     nomination_days_limit: { __type: 'Int!' },
     only_giver_vouch: { __type: 'Boolean!' },
+    organization: { __type: 'organizations' },
     protocol_id: { __type: 'Int' },
     team_sel_text: { __type: 'String' },
     team_selection: { __type: 'Boolean!' },
     telegram_id: { __type: 'String' },
     token_name: { __type: 'String!' },
     updated_at: { __type: 'timestamp' },
+    users: {
+      __type: '[users!]!',
+      __args: {
+        distinct_on: '[users_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[users_order_by!]',
+        where: 'users_bool_exp',
+      },
+    },
+    users_aggregate: {
+      __type: 'users_aggregate!',
+      __args: {
+        distinct_on: '[users_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[users_order_by!]',
+        where: 'users_bool_exp',
+      },
+    },
     vouching: { __type: 'Boolean!' },
     vouching_text: { __type: 'String' },
   },
@@ -827,12 +1244,35 @@ export const generatedSchema = {
     var_samp: { __type: 'circles_var_samp_fields' },
     variance: { __type: 'circles_variance_fields' },
   },
+  circles_aggregate_order_by: {
+    avg: { __type: 'circles_avg_order_by' },
+    count: { __type: 'order_by' },
+    max: { __type: 'circles_max_order_by' },
+    min: { __type: 'circles_min_order_by' },
+    stddev: { __type: 'circles_stddev_order_by' },
+    stddev_pop: { __type: 'circles_stddev_pop_order_by' },
+    stddev_samp: { __type: 'circles_stddev_samp_order_by' },
+    sum: { __type: 'circles_sum_order_by' },
+    var_pop: { __type: 'circles_var_pop_order_by' },
+    var_samp: { __type: 'circles_var_samp_order_by' },
+    variance: { __type: 'circles_variance_order_by' },
+  },
+  circles_arr_rel_insert_input: {
+    data: { __type: '[circles_insert_input!]!' },
+    on_conflict: { __type: 'circles_on_conflict' },
+  },
   circles_avg_fields: {
     __typename: { __type: 'String!' },
     id: { __type: 'Float' },
     min_vouches: { __type: 'Float' },
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
+  },
+  circles_avg_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
   },
   circles_bool_exp: {
     _and: { __type: '[circles_bool_exp!]' },
@@ -850,12 +1290,14 @@ export const generatedSchema = {
     name: { __type: 'String_comparison_exp' },
     nomination_days_limit: { __type: 'Int_comparison_exp' },
     only_giver_vouch: { __type: 'Boolean_comparison_exp' },
+    organization: { __type: 'organizations_bool_exp' },
     protocol_id: { __type: 'Int_comparison_exp' },
     team_sel_text: { __type: 'String_comparison_exp' },
     team_selection: { __type: 'Boolean_comparison_exp' },
     telegram_id: { __type: 'String_comparison_exp' },
     token_name: { __type: 'String_comparison_exp' },
     updated_at: { __type: 'timestamp_comparison_exp' },
+    users: { __type: 'users_bool_exp' },
     vouching: { __type: 'Boolean_comparison_exp' },
     vouching_text: { __type: 'String_comparison_exp' },
   },
@@ -878,12 +1320,14 @@ export const generatedSchema = {
     name: { __type: 'String' },
     nomination_days_limit: { __type: 'Int' },
     only_giver_vouch: { __type: 'Boolean' },
+    organization: { __type: 'organizations_obj_rel_insert_input' },
     protocol_id: { __type: 'Int' },
     team_sel_text: { __type: 'String' },
     team_selection: { __type: 'Boolean' },
     telegram_id: { __type: 'String' },
     token_name: { __type: 'String' },
     updated_at: { __type: 'timestamp' },
+    users: { __type: 'users_arr_rel_insert_input' },
     vouching: { __type: 'Boolean' },
     vouching_text: { __type: 'String' },
   },
@@ -904,6 +1348,22 @@ export const generatedSchema = {
     updated_at: { __type: 'timestamp' },
     vouching_text: { __type: 'String' },
   },
+  circles_max_order_by: {
+    alloc_text: { __type: 'order_by' },
+    created_at: { __type: 'order_by' },
+    discord_webhook: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    logo: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    name: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+    team_sel_text: { __type: 'order_by' },
+    telegram_id: { __type: 'order_by' },
+    token_name: { __type: 'order_by' },
+    updated_at: { __type: 'order_by' },
+    vouching_text: { __type: 'order_by' },
+  },
   circles_min_fields: {
     __typename: { __type: 'String!' },
     alloc_text: { __type: 'String' },
@@ -921,10 +1381,30 @@ export const generatedSchema = {
     updated_at: { __type: 'timestamp' },
     vouching_text: { __type: 'String' },
   },
+  circles_min_order_by: {
+    alloc_text: { __type: 'order_by' },
+    created_at: { __type: 'order_by' },
+    discord_webhook: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    logo: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    name: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+    team_sel_text: { __type: 'order_by' },
+    telegram_id: { __type: 'order_by' },
+    token_name: { __type: 'order_by' },
+    updated_at: { __type: 'order_by' },
+    vouching_text: { __type: 'order_by' },
+  },
   circles_mutation_response: {
     __typename: { __type: 'String!' },
     affected_rows: { __type: 'Int!' },
     returning: { __type: '[circles!]!' },
+  },
+  circles_obj_rel_insert_input: {
+    data: { __type: 'circles_insert_input!' },
+    on_conflict: { __type: 'circles_on_conflict' },
   },
   circles_on_conflict: {
     constraint: { __type: 'circles_constraint!' },
@@ -944,12 +1424,14 @@ export const generatedSchema = {
     name: { __type: 'order_by' },
     nomination_days_limit: { __type: 'order_by' },
     only_giver_vouch: { __type: 'order_by' },
+    organization: { __type: 'organizations_order_by' },
     protocol_id: { __type: 'order_by' },
     team_sel_text: { __type: 'order_by' },
     team_selection: { __type: 'order_by' },
     telegram_id: { __type: 'order_by' },
     token_name: { __type: 'order_by' },
     updated_at: { __type: 'order_by' },
+    users_aggregate: { __type: 'users_aggregate_order_by' },
     vouching: { __type: 'order_by' },
     vouching_text: { __type: 'order_by' },
   },
@@ -983,12 +1465,24 @@ export const generatedSchema = {
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
   },
+  circles_stddev_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+  },
   circles_stddev_pop_fields: {
     __typename: { __type: 'String!' },
     id: { __type: 'Float' },
     min_vouches: { __type: 'Float' },
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
+  },
+  circles_stddev_pop_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
   },
   circles_stddev_samp_fields: {
     __typename: { __type: 'String!' },
@@ -997,12 +1491,24 @@ export const generatedSchema = {
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
   },
+  circles_stddev_samp_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+  },
   circles_sum_fields: {
     __typename: { __type: 'String!' },
     id: { __type: 'bigint' },
     min_vouches: { __type: 'Int' },
     nomination_days_limit: { __type: 'Int' },
     protocol_id: { __type: 'Int' },
+  },
+  circles_sum_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
   },
   circles_var_pop_fields: {
     __typename: { __type: 'String!' },
@@ -1011,12 +1517,24 @@ export const generatedSchema = {
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
   },
+  circles_var_pop_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+  },
   circles_var_samp_fields: {
     __typename: { __type: 'String!' },
     id: { __type: 'Float' },
     min_vouches: { __type: 'Float' },
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
+  },
+  circles_var_samp_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
   },
   circles_variance_fields: {
     __typename: { __type: 'String!' },
@@ -1025,6 +1543,12 @@ export const generatedSchema = {
     nomination_days_limit: { __type: 'Float' },
     protocol_id: { __type: 'Float' },
   },
+  circles_variance_order_by: {
+    id: { __type: 'order_by' },
+    min_vouches: { __type: 'order_by' },
+    nomination_days_limit: { __type: 'order_by' },
+    protocol_id: { __type: 'order_by' },
+  },
   mutation: {
     __typename: { __type: 'String!' },
     delete_circles: {
@@ -1032,6 +1556,14 @@ export const generatedSchema = {
       __args: { where: 'circles_bool_exp!' },
     },
     delete_circles_by_pk: { __type: 'circles', __args: { id: 'bigint!' } },
+    delete_organizations: {
+      __type: 'organizations_mutation_response',
+      __args: { where: 'organizations_bool_exp!' },
+    },
+    delete_organizations_by_pk: {
+      __type: 'organizations',
+      __args: { id: 'bigint!' },
+    },
     delete_profiles: {
       __type: 'profiles_mutation_response',
       __args: { where: 'profiles_bool_exp!' },
@@ -1054,6 +1586,20 @@ export const generatedSchema = {
       __args: {
         object: 'circles_insert_input!',
         on_conflict: 'circles_on_conflict',
+      },
+    },
+    insert_organizations: {
+      __type: 'organizations_mutation_response',
+      __args: {
+        objects: '[organizations_insert_input!]!',
+        on_conflict: 'organizations_on_conflict',
+      },
+    },
+    insert_organizations_one: {
+      __type: 'organizations',
+      __args: {
+        object: 'organizations_insert_input!',
+        on_conflict: 'organizations_on_conflict',
       },
     },
     insert_profiles: {
@@ -1100,6 +1646,22 @@ export const generatedSchema = {
         pk_columns: 'circles_pk_columns_input!',
       },
     },
+    update_organizations: {
+      __type: 'organizations_mutation_response',
+      __args: {
+        _inc: 'organizations_inc_input',
+        _set: 'organizations_set_input',
+        where: 'organizations_bool_exp!',
+      },
+    },
+    update_organizations_by_pk: {
+      __type: 'organizations',
+      __args: {
+        _inc: 'organizations_inc_input',
+        _set: 'organizations_set_input',
+        pk_columns: 'organizations_pk_columns_input!',
+      },
+    },
     update_profiles: {
       __type: 'profiles_mutation_response',
       __args: {
@@ -1133,6 +1695,162 @@ export const generatedSchema = {
       },
     },
   },
+  organizations: {
+    __typename: { __type: 'String!' },
+    circles: {
+      __type: '[circles!]!',
+      __args: {
+        distinct_on: '[circles_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[circles_order_by!]',
+        where: 'circles_bool_exp',
+      },
+    },
+    circles_aggregate: {
+      __type: 'circles_aggregate!',
+      __args: {
+        distinct_on: '[circles_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[circles_order_by!]',
+        where: 'circles_bool_exp',
+      },
+    },
+    created_at: { __type: 'timestamp' },
+    id: { __type: 'bigint!' },
+    is_verified: { __type: 'Boolean!' },
+    name: { __type: 'String!' },
+    telegram_id: { __type: 'String' },
+    updated_at: { __type: 'timestamp' },
+  },
+  organizations_aggregate: {
+    __typename: { __type: 'String!' },
+    aggregate: { __type: 'organizations_aggregate_fields' },
+    nodes: { __type: '[organizations!]!' },
+  },
+  organizations_aggregate_fields: {
+    __typename: { __type: 'String!' },
+    avg: { __type: 'organizations_avg_fields' },
+    count: {
+      __type: 'Int!',
+      __args: {
+        columns: '[organizations_select_column!]',
+        distinct: 'Boolean',
+      },
+    },
+    max: { __type: 'organizations_max_fields' },
+    min: { __type: 'organizations_min_fields' },
+    stddev: { __type: 'organizations_stddev_fields' },
+    stddev_pop: { __type: 'organizations_stddev_pop_fields' },
+    stddev_samp: { __type: 'organizations_stddev_samp_fields' },
+    sum: { __type: 'organizations_sum_fields' },
+    var_pop: { __type: 'organizations_var_pop_fields' },
+    var_samp: { __type: 'organizations_var_samp_fields' },
+    variance: { __type: 'organizations_variance_fields' },
+  },
+  organizations_avg_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_bool_exp: {
+    _and: { __type: '[organizations_bool_exp!]' },
+    _not: { __type: 'organizations_bool_exp' },
+    _or: { __type: '[organizations_bool_exp!]' },
+    circles: { __type: 'circles_bool_exp' },
+    created_at: { __type: 'timestamp_comparison_exp' },
+    id: { __type: 'bigint_comparison_exp' },
+    is_verified: { __type: 'Boolean_comparison_exp' },
+    name: { __type: 'String_comparison_exp' },
+    telegram_id: { __type: 'String_comparison_exp' },
+    updated_at: { __type: 'timestamp_comparison_exp' },
+  },
+  organizations_inc_input: { id: { __type: 'bigint' } },
+  organizations_insert_input: {
+    circles: { __type: 'circles_arr_rel_insert_input' },
+    created_at: { __type: 'timestamp' },
+    id: { __type: 'bigint' },
+    is_verified: { __type: 'Boolean' },
+    name: { __type: 'String' },
+    telegram_id: { __type: 'String' },
+    updated_at: { __type: 'timestamp' },
+  },
+  organizations_max_fields: {
+    __typename: { __type: 'String!' },
+    created_at: { __type: 'timestamp' },
+    id: { __type: 'bigint' },
+    name: { __type: 'String' },
+    telegram_id: { __type: 'String' },
+    updated_at: { __type: 'timestamp' },
+  },
+  organizations_min_fields: {
+    __typename: { __type: 'String!' },
+    created_at: { __type: 'timestamp' },
+    id: { __type: 'bigint' },
+    name: { __type: 'String' },
+    telegram_id: { __type: 'String' },
+    updated_at: { __type: 'timestamp' },
+  },
+  organizations_mutation_response: {
+    __typename: { __type: 'String!' },
+    affected_rows: { __type: 'Int!' },
+    returning: { __type: '[organizations!]!' },
+  },
+  organizations_obj_rel_insert_input: {
+    data: { __type: 'organizations_insert_input!' },
+    on_conflict: { __type: 'organizations_on_conflict' },
+  },
+  organizations_on_conflict: {
+    constraint: { __type: 'organizations_constraint!' },
+    update_columns: { __type: '[organizations_update_column!]!' },
+    where: { __type: 'organizations_bool_exp' },
+  },
+  organizations_order_by: {
+    circles_aggregate: { __type: 'circles_aggregate_order_by' },
+    created_at: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    is_verified: { __type: 'order_by' },
+    name: { __type: 'order_by' },
+    telegram_id: { __type: 'order_by' },
+    updated_at: { __type: 'order_by' },
+  },
+  organizations_pk_columns_input: { id: { __type: 'bigint!' } },
+  organizations_set_input: {
+    created_at: { __type: 'timestamp' },
+    id: { __type: 'bigint' },
+    is_verified: { __type: 'Boolean' },
+    name: { __type: 'String' },
+    telegram_id: { __type: 'String' },
+    updated_at: { __type: 'timestamp' },
+  },
+  organizations_stddev_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_stddev_pop_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_stddev_samp_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_sum_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'bigint' },
+  },
+  organizations_var_pop_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_var_samp_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
+  organizations_variance_fields: {
+    __typename: { __type: 'String!' },
+    id: { __type: 'Float' },
+  },
   profiles: {
     __typename: { __type: 'String!' },
     address: { __type: 'String!' },
@@ -1151,6 +1869,26 @@ export const generatedSchema = {
     telegram_username: { __type: 'String' },
     twitter_username: { __type: 'String' },
     updated_at: { __type: 'timestamp' },
+    users: {
+      __type: '[users!]!',
+      __args: {
+        distinct_on: '[users_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[users_order_by!]',
+        where: 'users_bool_exp',
+      },
+    },
+    users_aggregate: {
+      __type: 'users_aggregate!',
+      __args: {
+        distinct_on: '[users_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[users_order_by!]',
+        where: 'users_bool_exp',
+      },
+    },
     website: { __type: 'String' },
   },
   profiles_aggregate: {
@@ -1199,6 +1937,7 @@ export const generatedSchema = {
     telegram_username: { __type: 'String_comparison_exp' },
     twitter_username: { __type: 'String_comparison_exp' },
     updated_at: { __type: 'timestamp_comparison_exp' },
+    users: { __type: 'users_bool_exp' },
     website: { __type: 'String_comparison_exp' },
   },
   profiles_inc_input: { id: { __type: 'bigint' } },
@@ -1219,6 +1958,7 @@ export const generatedSchema = {
     telegram_username: { __type: 'String' },
     twitter_username: { __type: 'String' },
     updated_at: { __type: 'timestamp' },
+    users: { __type: 'users_arr_rel_insert_input' },
     website: { __type: 'String' },
   },
   profiles_max_fields: {
@@ -1262,6 +2002,10 @@ export const generatedSchema = {
     affected_rows: { __type: 'Int!' },
     returning: { __type: '[profiles!]!' },
   },
+  profiles_obj_rel_insert_input: {
+    data: { __type: 'profiles_insert_input!' },
+    on_conflict: { __type: 'profiles_on_conflict' },
+  },
   profiles_on_conflict: {
     constraint: { __type: 'profiles_constraint!' },
     update_columns: { __type: '[profiles_update_column!]!' },
@@ -1284,6 +2028,7 @@ export const generatedSchema = {
     telegram_username: { __type: 'order_by' },
     twitter_username: { __type: 'order_by' },
     updated_at: { __type: 'order_by' },
+    users_aggregate: { __type: 'users_aggregate_order_by' },
     website: { __type: 'order_by' },
   },
   profiles_pk_columns_input: { id: { __type: 'bigint!' } },
@@ -1357,6 +2102,27 @@ export const generatedSchema = {
       },
     },
     circles_by_pk: { __type: 'circles', __args: { id: 'bigint!' } },
+    organizations: {
+      __type: '[organizations!]!',
+      __args: {
+        distinct_on: '[organizations_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[organizations_order_by!]',
+        where: 'organizations_bool_exp',
+      },
+    },
+    organizations_aggregate: {
+      __type: 'organizations_aggregate!',
+      __args: {
+        distinct_on: '[organizations_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[organizations_order_by!]',
+        where: 'organizations_bool_exp',
+      },
+    },
+    organizations_by_pk: { __type: 'organizations', __args: { id: 'bigint!' } },
     profiles: {
       __type: '[profiles!]!',
       __args: {
@@ -1423,6 +2189,27 @@ export const generatedSchema = {
       },
     },
     circles_by_pk: { __type: 'circles', __args: { id: 'bigint!' } },
+    organizations: {
+      __type: '[organizations!]!',
+      __args: {
+        distinct_on: '[organizations_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[organizations_order_by!]',
+        where: 'organizations_bool_exp',
+      },
+    },
+    organizations_aggregate: {
+      __type: 'organizations_aggregate!',
+      __args: {
+        distinct_on: '[organizations_select_column!]',
+        limit: 'Int',
+        offset: 'Int',
+        order_by: '[organizations_order_by!]',
+        where: 'organizations_bool_exp',
+      },
+    },
+    organizations_by_pk: { __type: 'organizations', __args: { id: 'bigint!' } },
     profiles: {
       __type: '[profiles!]!',
       __args: {
@@ -1481,6 +2268,7 @@ export const generatedSchema = {
     __typename: { __type: 'String!' },
     address: { __type: 'String!' },
     bio: { __type: 'String' },
+    circle: { __type: 'circles!' },
     circle_id: { __type: 'bigint!' },
     created_at: { __type: 'timestamp' },
     deleted_at: { __type: 'timestamp' },
@@ -1492,6 +2280,7 @@ export const generatedSchema = {
     name: { __type: 'String!' },
     non_giver: { __type: 'Boolean!' },
     non_receiver: { __type: 'Boolean!' },
+    profile: { __type: 'profiles' },
     role: { __type: 'Int!' },
     starting_tokens: { __type: 'Int!' },
     updated_at: { __type: 'timestamp' },
@@ -1518,6 +2307,23 @@ export const generatedSchema = {
     var_samp: { __type: 'users_var_samp_fields' },
     variance: { __type: 'users_variance_fields' },
   },
+  users_aggregate_order_by: {
+    avg: { __type: 'users_avg_order_by' },
+    count: { __type: 'order_by' },
+    max: { __type: 'users_max_order_by' },
+    min: { __type: 'users_min_order_by' },
+    stddev: { __type: 'users_stddev_order_by' },
+    stddev_pop: { __type: 'users_stddev_pop_order_by' },
+    stddev_samp: { __type: 'users_stddev_samp_order_by' },
+    sum: { __type: 'users_sum_order_by' },
+    var_pop: { __type: 'users_var_pop_order_by' },
+    var_samp: { __type: 'users_var_samp_order_by' },
+    variance: { __type: 'users_variance_order_by' },
+  },
+  users_arr_rel_insert_input: {
+    data: { __type: '[users_insert_input!]!' },
+    on_conflict: { __type: 'users_on_conflict' },
+  },
   users_avg_fields: {
     __typename: { __type: 'String!' },
     circle_id: { __type: 'Float' },
@@ -1527,12 +2333,21 @@ export const generatedSchema = {
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
   },
+  users_avg_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+  },
   users_bool_exp: {
     _and: { __type: '[users_bool_exp!]' },
     _not: { __type: 'users_bool_exp' },
     _or: { __type: '[users_bool_exp!]' },
     address: { __type: 'String_comparison_exp' },
     bio: { __type: 'String_comparison_exp' },
+    circle: { __type: 'circles_bool_exp' },
     circle_id: { __type: 'bigint_comparison_exp' },
     created_at: { __type: 'timestamp_comparison_exp' },
     deleted_at: { __type: 'timestamp_comparison_exp' },
@@ -1544,6 +2359,7 @@ export const generatedSchema = {
     name: { __type: 'String_comparison_exp' },
     non_giver: { __type: 'Boolean_comparison_exp' },
     non_receiver: { __type: 'Boolean_comparison_exp' },
+    profile: { __type: 'profiles_bool_exp' },
     role: { __type: 'Int_comparison_exp' },
     starting_tokens: { __type: 'Int_comparison_exp' },
     updated_at: { __type: 'timestamp_comparison_exp' },
@@ -1559,6 +2375,7 @@ export const generatedSchema = {
   users_insert_input: {
     address: { __type: 'String' },
     bio: { __type: 'String' },
+    circle: { __type: 'circles_obj_rel_insert_input' },
     circle_id: { __type: 'bigint' },
     created_at: { __type: 'timestamp' },
     deleted_at: { __type: 'timestamp' },
@@ -1570,6 +2387,7 @@ export const generatedSchema = {
     name: { __type: 'String' },
     non_giver: { __type: 'Boolean' },
     non_receiver: { __type: 'Boolean' },
+    profile: { __type: 'profiles_obj_rel_insert_input' },
     role: { __type: 'Int' },
     starting_tokens: { __type: 'Int' },
     updated_at: { __type: 'timestamp' },
@@ -1589,6 +2407,20 @@ export const generatedSchema = {
     starting_tokens: { __type: 'Int' },
     updated_at: { __type: 'timestamp' },
   },
+  users_max_order_by: {
+    address: { __type: 'order_by' },
+    bio: { __type: 'order_by' },
+    circle_id: { __type: 'order_by' },
+    created_at: { __type: 'order_by' },
+    deleted_at: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    name: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+    updated_at: { __type: 'order_by' },
+  },
   users_min_fields: {
     __typename: { __type: 'String!' },
     address: { __type: 'String' },
@@ -1604,6 +2436,20 @@ export const generatedSchema = {
     starting_tokens: { __type: 'Int' },
     updated_at: { __type: 'timestamp' },
   },
+  users_min_order_by: {
+    address: { __type: 'order_by' },
+    bio: { __type: 'order_by' },
+    circle_id: { __type: 'order_by' },
+    created_at: { __type: 'order_by' },
+    deleted_at: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    name: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+    updated_at: { __type: 'order_by' },
+  },
   users_mutation_response: {
     __typename: { __type: 'String!' },
     affected_rows: { __type: 'Int!' },
@@ -1617,6 +2463,7 @@ export const generatedSchema = {
   users_order_by: {
     address: { __type: 'order_by' },
     bio: { __type: 'order_by' },
+    circle: { __type: 'circles_order_by' },
     circle_id: { __type: 'order_by' },
     created_at: { __type: 'order_by' },
     deleted_at: { __type: 'order_by' },
@@ -1628,6 +2475,7 @@ export const generatedSchema = {
     name: { __type: 'order_by' },
     non_giver: { __type: 'order_by' },
     non_receiver: { __type: 'order_by' },
+    profile: { __type: 'profiles_order_by' },
     role: { __type: 'order_by' },
     starting_tokens: { __type: 'order_by' },
     updated_at: { __type: 'order_by' },
@@ -1660,6 +2508,14 @@ export const generatedSchema = {
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
   },
+  users_stddev_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+  },
   users_stddev_pop_fields: {
     __typename: { __type: 'String!' },
     circle_id: { __type: 'Float' },
@@ -1668,6 +2524,14 @@ export const generatedSchema = {
     id: { __type: 'Float' },
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
+  },
+  users_stddev_pop_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
   },
   users_stddev_samp_fields: {
     __typename: { __type: 'String!' },
@@ -1678,6 +2542,14 @@ export const generatedSchema = {
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
   },
+  users_stddev_samp_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+  },
   users_sum_fields: {
     __typename: { __type: 'String!' },
     circle_id: { __type: 'bigint' },
@@ -1686,6 +2558,14 @@ export const generatedSchema = {
     id: { __type: 'bigint' },
     role: { __type: 'Int' },
     starting_tokens: { __type: 'Int' },
+  },
+  users_sum_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
   },
   users_var_pop_fields: {
     __typename: { __type: 'String!' },
@@ -1696,6 +2576,14 @@ export const generatedSchema = {
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
   },
+  users_var_pop_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+  },
   users_var_samp_fields: {
     __typename: { __type: 'String!' },
     circle_id: { __type: 'Float' },
@@ -1705,6 +2593,14 @@ export const generatedSchema = {
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
   },
+  users_var_samp_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
+  },
   users_variance_fields: {
     __typename: { __type: 'String!' },
     circle_id: { __type: 'Float' },
@@ -1713,6 +2609,14 @@ export const generatedSchema = {
     id: { __type: 'Float' },
     role: { __type: 'Float' },
     starting_tokens: { __type: 'Float' },
+  },
+  users_variance_order_by: {
+    circle_id: { __type: 'order_by' },
+    give_token_received: { __type: 'order_by' },
+    give_token_remaining: { __type: 'order_by' },
+    id: { __type: 'order_by' },
+    role: { __type: 'order_by' },
+    starting_tokens: { __type: 'order_by' },
   },
 } as const;
 
@@ -1733,12 +2637,66 @@ export interface circles {
   name: ScalarsEnums['String'];
   nomination_days_limit: ScalarsEnums['Int'];
   only_giver_vouch: ScalarsEnums['Boolean'];
+  /**
+   * An object relationship
+   */
+  organization?: Maybe<organizations>;
   protocol_id?: Maybe<ScalarsEnums['Int']>;
   team_sel_text?: Maybe<ScalarsEnums['String']>;
   team_selection: ScalarsEnums['Boolean'];
   telegram_id?: Maybe<ScalarsEnums['String']>;
   token_name: ScalarsEnums['String'];
   updated_at?: Maybe<ScalarsEnums['timestamp']>;
+  /**
+   * An array relationship
+   */
+  users: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<users_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<users_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<users_bool_exp>;
+  }) => Array<users>;
+  /**
+   * An aggregate relationship
+   */
+  users_aggregate: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<users_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<users_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<users_bool_exp>;
+  }) => users_aggregate;
   vouching: ScalarsEnums['Boolean'];
   vouching_text?: Maybe<ScalarsEnums['String']>;
 }
@@ -1924,6 +2882,12 @@ export interface Mutation {
     where: circles_bool_exp;
   }) => Maybe<circles_mutation_response>;
   delete_circles_by_pk: (args: { id: Scalars['bigint'] }) => Maybe<circles>;
+  delete_organizations: (args: {
+    where: organizations_bool_exp;
+  }) => Maybe<organizations_mutation_response>;
+  delete_organizations_by_pk: (args: {
+    id: Scalars['bigint'];
+  }) => Maybe<organizations>;
   delete_profiles: (args: {
     where: profiles_bool_exp;
   }) => Maybe<profiles_mutation_response>;
@@ -1940,6 +2904,14 @@ export interface Mutation {
     object: circles_insert_input;
     on_conflict?: Maybe<circles_on_conflict>;
   }) => Maybe<circles>;
+  insert_organizations: (args: {
+    objects: Array<organizations_insert_input>;
+    on_conflict?: Maybe<organizations_on_conflict>;
+  }) => Maybe<organizations_mutation_response>;
+  insert_organizations_one: (args: {
+    object: organizations_insert_input;
+    on_conflict?: Maybe<organizations_on_conflict>;
+  }) => Maybe<organizations>;
   insert_profiles: (args: {
     objects: Array<profiles_insert_input>;
     on_conflict?: Maybe<profiles_on_conflict>;
@@ -1966,6 +2938,16 @@ export interface Mutation {
     _set?: Maybe<circles_set_input>;
     pk_columns: circles_pk_columns_input;
   }) => Maybe<circles>;
+  update_organizations: (args: {
+    _inc?: Maybe<organizations_inc_input>;
+    _set?: Maybe<organizations_set_input>;
+    where: organizations_bool_exp;
+  }) => Maybe<organizations_mutation_response>;
+  update_organizations_by_pk: (args: {
+    _inc?: Maybe<organizations_inc_input>;
+    _set?: Maybe<organizations_set_input>;
+    pk_columns: organizations_pk_columns_input;
+  }) => Maybe<organizations>;
   update_profiles: (args: {
     _inc?: Maybe<profiles_inc_input>;
     _set?: Maybe<profiles_set_input>;
@@ -1989,6 +2971,202 @@ export interface Mutation {
 }
 
 /**
+ * columns and relationships of "protocols"
+ */
+export interface organizations {
+  __typename?: 'organizations';
+  /**
+   * An array relationship
+   */
+  circles: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<circles_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<circles_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<circles_bool_exp>;
+  }) => Array<circles>;
+  /**
+   * An aggregate relationship
+   */
+  circles_aggregate: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<circles_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<circles_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<circles_bool_exp>;
+  }) => circles_aggregate;
+  created_at?: Maybe<ScalarsEnums['timestamp']>;
+  id: ScalarsEnums['bigint'];
+  is_verified: ScalarsEnums['Boolean'];
+  name: ScalarsEnums['String'];
+  telegram_id?: Maybe<ScalarsEnums['String']>;
+  updated_at?: Maybe<ScalarsEnums['timestamp']>;
+}
+
+/**
+ * aggregated selection of "protocols"
+ */
+export interface organizations_aggregate {
+  __typename?: 'organizations_aggregate';
+  aggregate?: Maybe<organizations_aggregate_fields>;
+  nodes: Array<organizations>;
+}
+
+/**
+ * aggregate fields of "protocols"
+ */
+export interface organizations_aggregate_fields {
+  __typename?: 'organizations_aggregate_fields';
+  avg?: Maybe<organizations_avg_fields>;
+  count: (args?: {
+    columns?: Maybe<Array<organizations_select_column>>;
+    distinct?: Maybe<Scalars['Boolean']>;
+  }) => ScalarsEnums['Int'];
+  max?: Maybe<organizations_max_fields>;
+  min?: Maybe<organizations_min_fields>;
+  stddev?: Maybe<organizations_stddev_fields>;
+  stddev_pop?: Maybe<organizations_stddev_pop_fields>;
+  stddev_samp?: Maybe<organizations_stddev_samp_fields>;
+  sum?: Maybe<organizations_sum_fields>;
+  var_pop?: Maybe<organizations_var_pop_fields>;
+  var_samp?: Maybe<organizations_var_samp_fields>;
+  variance?: Maybe<organizations_variance_fields>;
+}
+
+/**
+ * aggregate avg on columns
+ */
+export interface organizations_avg_fields {
+  __typename?: 'organizations_avg_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate max on columns
+ */
+export interface organizations_max_fields {
+  __typename?: 'organizations_max_fields';
+  created_at?: Maybe<ScalarsEnums['timestamp']>;
+  id?: Maybe<ScalarsEnums['bigint']>;
+  name?: Maybe<ScalarsEnums['String']>;
+  telegram_id?: Maybe<ScalarsEnums['String']>;
+  updated_at?: Maybe<ScalarsEnums['timestamp']>;
+}
+
+/**
+ * aggregate min on columns
+ */
+export interface organizations_min_fields {
+  __typename?: 'organizations_min_fields';
+  created_at?: Maybe<ScalarsEnums['timestamp']>;
+  id?: Maybe<ScalarsEnums['bigint']>;
+  name?: Maybe<ScalarsEnums['String']>;
+  telegram_id?: Maybe<ScalarsEnums['String']>;
+  updated_at?: Maybe<ScalarsEnums['timestamp']>;
+}
+
+/**
+ * response of any mutation on the table "protocols"
+ */
+export interface organizations_mutation_response {
+  __typename?: 'organizations_mutation_response';
+  /**
+   * number of rows affected by the mutation
+   */
+  affected_rows: ScalarsEnums['Int'];
+  /**
+   * data from the rows affected by the mutation
+   */
+  returning: Array<organizations>;
+}
+
+/**
+ * aggregate stddev on columns
+ */
+export interface organizations_stddev_fields {
+  __typename?: 'organizations_stddev_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate stddev_pop on columns
+ */
+export interface organizations_stddev_pop_fields {
+  __typename?: 'organizations_stddev_pop_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate stddev_samp on columns
+ */
+export interface organizations_stddev_samp_fields {
+  __typename?: 'organizations_stddev_samp_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate sum on columns
+ */
+export interface organizations_sum_fields {
+  __typename?: 'organizations_sum_fields';
+  id?: Maybe<ScalarsEnums['bigint']>;
+}
+
+/**
+ * aggregate var_pop on columns
+ */
+export interface organizations_var_pop_fields {
+  __typename?: 'organizations_var_pop_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate var_samp on columns
+ */
+export interface organizations_var_samp_fields {
+  __typename?: 'organizations_var_samp_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
+ * aggregate variance on columns
+ */
+export interface organizations_variance_fields {
+  __typename?: 'organizations_variance_fields';
+  id?: Maybe<ScalarsEnums['Float']>;
+}
+
+/**
  * columns and relationships of "profiles"
  */
 export interface profiles {
@@ -2009,6 +3187,56 @@ export interface profiles {
   telegram_username?: Maybe<ScalarsEnums['String']>;
   twitter_username?: Maybe<ScalarsEnums['String']>;
   updated_at?: Maybe<ScalarsEnums['timestamp']>;
+  /**
+   * An array relationship
+   */
+  users: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<users_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<users_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<users_bool_exp>;
+  }) => Array<users>;
+  /**
+   * An aggregate relationship
+   */
+  users_aggregate: (args?: {
+    /**
+     * distinct select on columns
+     */
+    distinct_on?: Maybe<Array<users_select_column>>;
+    /**
+     * limit the number of rows returned
+     */
+    limit?: Maybe<Scalars['Int']>;
+    /**
+     * skip the first n rows. Use only with order_by
+     */
+    offset?: Maybe<Scalars['Int']>;
+    /**
+     * sort the rows by one or more columns
+     */
+    order_by?: Maybe<Array<users_order_by>>;
+    /**
+     * filter the rows returned
+     */
+    where?: Maybe<users_bool_exp>;
+  }) => users_aggregate;
   website?: Maybe<ScalarsEnums['String']>;
 }
 
@@ -2182,6 +3410,23 @@ export interface Query {
     where?: Maybe<circles_bool_exp>;
   }) => circles_aggregate;
   circles_by_pk: (args: { id: Scalars['bigint'] }) => Maybe<circles>;
+  organizations: (args?: {
+    distinct_on?: Maybe<Array<organizations_select_column>>;
+    limit?: Maybe<Scalars['Int']>;
+    offset?: Maybe<Scalars['Int']>;
+    order_by?: Maybe<Array<organizations_order_by>>;
+    where?: Maybe<organizations_bool_exp>;
+  }) => Array<organizations>;
+  organizations_aggregate: (args?: {
+    distinct_on?: Maybe<Array<organizations_select_column>>;
+    limit?: Maybe<Scalars['Int']>;
+    offset?: Maybe<Scalars['Int']>;
+    order_by?: Maybe<Array<organizations_order_by>>;
+    where?: Maybe<organizations_bool_exp>;
+  }) => organizations_aggregate;
+  organizations_by_pk: (args: {
+    id: Scalars['bigint'];
+  }) => Maybe<organizations>;
   profiles: (args?: {
     distinct_on?: Maybe<Array<profiles_select_column>>;
     limit?: Maybe<Scalars['Int']>;
@@ -2231,6 +3476,23 @@ export interface Subscription {
     where?: Maybe<circles_bool_exp>;
   }) => circles_aggregate;
   circles_by_pk: (args: { id: Scalars['bigint'] }) => Maybe<circles>;
+  organizations: (args?: {
+    distinct_on?: Maybe<Array<organizations_select_column>>;
+    limit?: Maybe<Scalars['Int']>;
+    offset?: Maybe<Scalars['Int']>;
+    order_by?: Maybe<Array<organizations_order_by>>;
+    where?: Maybe<organizations_bool_exp>;
+  }) => Array<organizations>;
+  organizations_aggregate: (args?: {
+    distinct_on?: Maybe<Array<organizations_select_column>>;
+    limit?: Maybe<Scalars['Int']>;
+    offset?: Maybe<Scalars['Int']>;
+    order_by?: Maybe<Array<organizations_order_by>>;
+    where?: Maybe<organizations_bool_exp>;
+  }) => organizations_aggregate;
+  organizations_by_pk: (args: {
+    id: Scalars['bigint'];
+  }) => Maybe<organizations>;
   profiles: (args?: {
     distinct_on?: Maybe<Array<profiles_select_column>>;
     limit?: Maybe<Scalars['Int']>;
@@ -2270,6 +3532,10 @@ export interface users {
   __typename?: 'users';
   address: ScalarsEnums['String'];
   bio?: Maybe<ScalarsEnums['String']>;
+  /**
+   * An object relationship
+   */
+  circle: circles;
   circle_id: ScalarsEnums['bigint'];
   created_at?: Maybe<ScalarsEnums['timestamp']>;
   deleted_at?: Maybe<ScalarsEnums['timestamp']>;
@@ -2281,6 +3547,10 @@ export interface users {
   name: ScalarsEnums['String'];
   non_giver: ScalarsEnums['Boolean'];
   non_receiver: ScalarsEnums['Boolean'];
+  /**
+   * An object relationship
+   */
+  profile?: Maybe<profiles>;
   role: ScalarsEnums['Int'];
   starting_tokens: ScalarsEnums['Int'];
   updated_at?: Maybe<ScalarsEnums['timestamp']>;
@@ -2491,6 +3761,20 @@ export interface SchemaObjectTypes {
   circles_var_pop_fields: circles_var_pop_fields;
   circles_var_samp_fields: circles_var_samp_fields;
   circles_variance_fields: circles_variance_fields;
+  organizations: organizations;
+  organizations_aggregate: organizations_aggregate;
+  organizations_aggregate_fields: organizations_aggregate_fields;
+  organizations_avg_fields: organizations_avg_fields;
+  organizations_max_fields: organizations_max_fields;
+  organizations_min_fields: organizations_min_fields;
+  organizations_mutation_response: organizations_mutation_response;
+  organizations_stddev_fields: organizations_stddev_fields;
+  organizations_stddev_pop_fields: organizations_stddev_pop_fields;
+  organizations_stddev_samp_fields: organizations_stddev_samp_fields;
+  organizations_sum_fields: organizations_sum_fields;
+  organizations_var_pop_fields: organizations_var_pop_fields;
+  organizations_var_samp_fields: organizations_var_samp_fields;
+  organizations_variance_fields: organizations_variance_fields;
   profiles: profiles;
   profiles_aggregate: profiles_aggregate;
   profiles_aggregate_fields: profiles_aggregate_fields;
@@ -2538,6 +3822,20 @@ export type SchemaObjectTypesNames =
   | 'circles_var_pop_fields'
   | 'circles_var_samp_fields'
   | 'circles_variance_fields'
+  | 'organizations'
+  | 'organizations_aggregate'
+  | 'organizations_aggregate_fields'
+  | 'organizations_avg_fields'
+  | 'organizations_max_fields'
+  | 'organizations_min_fields'
+  | 'organizations_mutation_response'
+  | 'organizations_stddev_fields'
+  | 'organizations_stddev_pop_fields'
+  | 'organizations_stddev_samp_fields'
+  | 'organizations_sum_fields'
+  | 'organizations_var_pop_fields'
+  | 'organizations_var_samp_fields'
+  | 'organizations_variance_fields'
   | 'profiles'
   | 'profiles_aggregate'
   | 'profiles_aggregate_fields'
@@ -2582,6 +3880,9 @@ export interface ScalarsEnums extends MakeNullable<Scalars> {
   circles_select_column: circles_select_column | undefined;
   circles_update_column: circles_update_column | undefined;
   order_by: order_by | undefined;
+  organizations_constraint: organizations_constraint | undefined;
+  organizations_select_column: organizations_select_column | undefined;
+  organizations_update_column: organizations_update_column | undefined;
   profiles_constraint: profiles_constraint | undefined;
   profiles_select_column: profiles_select_column | undefined;
   profiles_update_column: profiles_update_column | undefined;
