@@ -1,7 +1,6 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 import { BigNumber } from 'ethers';
-import { network } from 'hardhat';
 
 import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
 import {
@@ -13,6 +12,7 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
+import { resetNetwork } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -65,19 +65,7 @@ describe('ApeRouter', () => {
     usdcYVault = usdcYVault.connect(user0.signer);
   });
 
-  afterEach(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [
-        {
-          forking: {
-            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-            blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
-          },
-        },
-      ],
-    });
-  });
+  afterEach(resetNetwork);
 
   it('should delegate specified amount to yVault', async () => {
     await addUsdcToVault(user0);
