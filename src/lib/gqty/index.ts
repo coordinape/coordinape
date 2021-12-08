@@ -16,21 +16,23 @@ import type {
 import { generatedSchema, scalarsEnumsHash } from './schema.generated';
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (process.env.API_TOKEN) {
+    // TODO: replace this with value from login (use Axios interceptor?)
+    headers.Authorization = `Bearer ${process.env.API_TOKEN}`;
+  } else if (process.env.HASURA_ADMIN_SECRET) {
+    headers['x-hasura-admin-secret'] = process.env.HASURA_ADMIN_SECRET;
+  }
+
   assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
   const response = await fetch(process.env.REACT_APP_HASURA_URL, {
+    body: JSON.stringify({ query, variables }),
     method: 'POST',
-    // eslint-ignore-next-line
-    // @ts-ignore: the headers type is too restrictive; it doesn't allow custom headers
-    headers: {
-      'Content-Type': 'application/json',
-      // TODO: replace this with a user access key
-      'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
     mode: 'cors',
+    headers,
   });
 
   const json = await response.json();
