@@ -16,8 +16,8 @@ import type {
 import { generatedSchema, scalarsEnumsHash } from './schema.generated';
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
-  assert(process.env.HASURA_URL, 'HASURA_URL is not set');
-  const response = await fetch(process.env.HASURA_URL, {
+  assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
+  const response = await fetch(process.env.REACT_APP_HASURA_URL, {
     method: 'POST',
     // eslint-ignore-next-line
     // @ts-ignore: the headers type is too restrictive; it doesn't allow custom headers

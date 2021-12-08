@@ -1,12 +1,8 @@
-import { query, resolved } from '../../gqty';
-
-import { IApiUser } from 'types';
+import { query, resolved } from 'lib/gqty';
 
 test('basic request with standalone client', async () => {
   const resp = await resolved(() =>
-    query
-      .users({ where: { name: { _eq: 'Lawris' } } })
-      .map((user: IApiUser) => user.id)
+    query.users({ where: { name: { _eq: 'Lawris' } } }).map(user => user.id)
   );
 
   // staging data

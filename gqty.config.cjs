@@ -12,7 +12,7 @@ const config = {
       'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
     },
   },
-  destination: './src/gqty/index.ts',
+  destination: './src/lib/gqty/index.ts',
   subscriptions: false,
   javascriptOutput: false,
 };
