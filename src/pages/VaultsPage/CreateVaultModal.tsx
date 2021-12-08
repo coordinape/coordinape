@@ -55,15 +55,12 @@ export const CreateVaultModal = ({
 
   const history = useHistory();
 
-  const { _createApeVault } = useVaultFactory();
+  const { createApeVault } = useVaultFactory();
 
   const routeChange = async () => {
     // TODO: allow admin to select simpleToken (Ex: ApeToken is a simpleToken)
     const token = getToken(chainId as NetworkId, asset as KnownToken);
-    const vault = await _createApeVault({
-      _token: token.address,
-      _simpleToken: token.address,
-    });
+    const vault = await createApeVault(token.address, token.address, asset);
 
     // setVaults(vaults => {
     //   if (vaults && selectedCircle) {
@@ -84,7 +81,7 @@ export const CreateVaultModal = ({
     // });
 
     // eslint-disable-next-line no-console
-    console.log(`vault created at: ${vault.address}`);
+    console.log(`vault created at: ${vault.id}`);
 
     const path = '/admin/vaults';
     history.push(path);
