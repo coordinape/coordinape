@@ -1,6 +1,11 @@
 import { ApeVaultWrapper__factory } from '@coordinape/hardhat/dist/typechain';
 import { useWeb3React } from '@web3-react/core';
-import { BigNumberish, BytesLike, ContractTransaction } from 'ethers';
+import {
+  BigNumber,
+  BigNumberish,
+  BytesLike,
+  ContractTransaction,
+} from 'ethers';
 
 import { handleContractError } from 'utils/handleContractError';
 
@@ -112,188 +117,144 @@ export function useVaultWrapper(vault: IVault) {
   };
 
   // Todo: add all the needed getters
-  // // Getters:
+  // Getters:
 
-  // const _getAllowanceModule = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.allowanceModule(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getBestVault = async (): Promise<string> => {
+    // returns best yearn vault address
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const bestVault: string = await apeVault.bestVault();
+      return bestVault;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getVault = async (_params: OverrideOnly): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.vault(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getToken = async (): Promise<string> => {
+    // returns token address
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const token: string = await apeVault.token();
+      return token;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getUnderlyingValue = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<BigNumber>> => {
-  //   let tx: Maybe<BigNumber>;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.underlyingValue(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getSimpleToken = async (): Promise<string> => {
+    // returns simple token address
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const token: string = await apeVault.simpleToken();
+      return token;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getTotalVaultBalance = async (
-  //   _params: TotalVaultBalance
-  // ): Promise<Maybe<BigNumber>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.totalVaultBalance(
-  //       _params._account,
-  //       _params._overrides
-  //     );
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getUnderlyingValue = async (): Promise<BigNumber> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const underlyingValue: BigNumber = await apeVault.underlyingValue();
+      return underlyingValue;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getTotalAssets = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<BigNumber>> => {
-  //   let tx: Maybe<BigNumber>;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.totalAssets(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getYRegistry = async (): Promise<string> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const yRegistry: string = await apeVault.registry();
+      return yRegistry;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getToken = async (_params: OverrideOnly): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.token(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getYVault = async (): Promise<string> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const yVault: string = await apeVault.vault();
+      return yVault;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getSimpleToken = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.simpleToken(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const listVaults = async (): Promise<string[]> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const vaults: string[] = await apeVault.allVaults();
+      return vaults;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getRegistry = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.registry(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getOwner = async (): Promise<string> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const owner: string = await apeVault.owner();
+      return owner;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getProfit = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<BigNumber>> => {
-  //   let tx: Maybe<BigNumber>;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.profit(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getTotalAssets = async (): Promise<BigNumber> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const totalAssets: BigNumber = await apeVault.totalAssets();
+      return totalAssets;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getOwner = async (_params: OverrideOnly): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.owner(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getTotalVaultBalance = async (account: string): Promise<BigNumber> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const totalVaultBalance: BigNumber = await apeVault.totalVaultBalance(
+        account
+      );
+      return totalVaultBalance;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _hasAccess = async (_params: HasAccess): Promise<Maybe<boolean>> => {
-  //   let tx: Maybe<boolean>;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.hasAccess(
-  //       _params._arg0,
-  //       _params._overrides
-  //     );
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
+  const getProfit = async (): Promise<BigNumber> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const profit: BigNumber = await apeVault.profit();
+      return profit;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
-  // const _getBestVault = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.bestVault(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
-
-  // const _getApeRegistry = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.apeRegistry(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-  //   return tx;
-  // };
-
-  // const _getAllVaults = async (
-  //   _params: OverrideOnly
-  // ): Promise<Maybe<[string[]]>> => {
-  //   let tx: any;
-  //   try {
-  //     tx = await contracts?.apeVaultWrapper.allVaults(_params._overrides);
-  //   } catch (e: any) {
-  //     console.error(e);
-  //     handleContractError(e);
-  //   }
-
-  //   return tx;
-  // };
+  const hasAccess = async (account: string): Promise<boolean> => {
+    const signer = await web3Context.library.getSigner();
+    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    try {
+      const hasAccess: boolean = await apeVault.hasAccess(account);
+      return hasAccess;
+    } catch (e) {
+      return handleContractError(e);
+    }
+  };
 
   return {
     apeMigrate,
@@ -303,19 +264,17 @@ export function useVaultWrapper(vault: IVault) {
     exitVaultToken,
     syncUnderlying,
     updateAllowance,
-    // _getAllowanceModule,
-    // _getVault,
-    // _getUnderlyingValue,
-    // _getTotalVaultBalance,
-    // _getTotalAssets,
-    // _getToken,
-    // _getSimpleToken,
-    // _getRegistry,
-    // _getProfit,
-    // _getOwner,
-    // _hasAccess,
-    // _getBestVault,
-    // _getApeRegistry,
-    // _getAllVaults,
+    getBestVault,
+    getToken,
+    getSimpleToken,
+    getUnderlyingValue,
+    getYRegistry,
+    getYVault,
+    listVaults,
+    getOwner,
+    getTotalAssets,
+    getTotalVaultBalance,
+    getProfit,
+    hasAccess,
   };
 }
