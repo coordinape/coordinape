@@ -82,11 +82,15 @@ const useStyles = makeStyles(theme => ({
   },
   moreButton: {
     margin: 0,
-    padding: theme.spacing(0, 1),
+    padding: 0,
     minWidth: 20,
     fontSize: 17,
     fontWeight: 800,
     color: theme.colors.text,
+  },
+  moreButtonIcon: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -145,7 +149,7 @@ export const OrganizationHeader = () => {
             className={classes.moreButton}
             onClick={() => setEditCircle(true)}
           >
-            <DownArrow />
+            <DownArrow className={classes.moreButtonIcon} />
           </Button>
           <Button
             variant="contained"
