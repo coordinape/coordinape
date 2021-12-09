@@ -11,4 +11,3 @@ yarn link
 cd ..
 yarn link @coordinape/hardhat
 
-echo "noop -- waiting for merge"
