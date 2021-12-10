@@ -60,33 +60,6 @@ export const supportedNetworkURLs = entries(networks).reduce<{
 );
 
 export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
-  fma: {
-    symbol: 'FMA',
-    decimals: 18,
-    addresses: {
-      [networkIds.MAINNET]: '0x0f8794f66c7170c4f9163a8498371a747114f6c4',
-      [networkIds.HARDHAT]: '0x0f8794f66c7170c4f9163a8498371a747114f6c4',
-    },
-    image: '/images/token/FMA.png',
-  },
-  flap: {
-    symbol: 'FMA',
-    decimals: 18,
-    addresses: {
-      [networkIds.MAINNET]: '0xCfb72ED3647cC8E7FA52E4F121eCdAbEfC305e7f',
-      [networkIds.HARDHAT]: '0xCfb72ED3647cC8E7FA52E4F121eCdAbEfC305e7f',
-    },
-    image: '/images/token/FLAP.png',
-  },
-  fss: {
-    symbol: 'FSS',
-    decimals: 18,
-    addresses: {
-      [networkIds.MAINNET]: '0x9b7b6bbd7d87e381f07484ea104fcc6a0363df39',
-      [networkIds.HARDHAT]: '0x9b7b6bbd7d87e381f07484ea104fcc6a0363df39',
-    },
-    image: '/images/token/FSS.png',
-  },
   usdc: {
     symbol: 'USDC',
     decimals: 6,
