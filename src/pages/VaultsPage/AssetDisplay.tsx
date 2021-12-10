@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
+import { AssetEnum } from 'forms/AdminVaultForm';
 import { AlusdIcon } from 'icons/AlusdIcon';
 import { DAIIcon } from 'icons/DAIIcon';
 import { EthIcon } from 'icons/EthIcon';
@@ -63,14 +64,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface AssetDisplay {
-  setAsset: React.Dispatch<React.SetStateAction<string>>;
+  setAsset: React.Dispatch<React.SetStateAction<AssetEnum>>;
 }
 
 export default function AssetDisplay({ setAsset }: AssetDisplay) {
   const classes = useStyles();
-  const [selectedButton, setSelectedButton] = useState('');
+  const [selectedButton, setSelectedButton] = useState<AssetEnum>('DAI');
 
-  const handleAssetSelect = (asset: string) => {
+  const handleAssetSelect = (asset: AssetEnum) => {
     setSelectedButton(asset);
     setAsset(asset);
   };
@@ -85,8 +86,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
       >
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'dai' ? true : false}
-          onClick={() => handleAssetSelect('dai')}
+          data-selected={selectedButton === 'DAI' ? true : false}
+          onClick={() => handleAssetSelect('DAI')}
         >
           <span className={classes.btnSpan}>
             <DAIIcon height={25} width={22} className={classes.icon} />
@@ -95,8 +96,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'usdc' ? true : false}
-          onClick={() => handleAssetSelect('usdc')}
+          data-selected={selectedButton === 'USDC' ? true : false}
+          onClick={() => handleAssetSelect('USDC')}
         >
           <span className={classes.btnSpan}>
             <USDCIcon width={25} height={22} className={classes.icon} />
@@ -105,8 +106,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'yfi' ? true : false}
-          onClick={() => handleAssetSelect('yfi')}
+          data-selected={selectedButton === 'YFI' ? true : false}
+          onClick={() => handleAssetSelect('YFI')}
         >
           <span className={classes.btnSpan}>
             <YFIIcon width={25} height={22} className={classes.icon} />
@@ -115,8 +116,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'sushi' ? true : false}
-          onClick={() => handleAssetSelect('sushi')}
+          data-selected={selectedButton === 'SUSHI' ? true : false}
+          onClick={() => handleAssetSelect('SUSHI')}
         >
           <span className={classes.btnSpan}>
             <SushiIcon width={25} height={25} className={classes.icon} />
@@ -125,8 +126,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'alUsd' ? true : false}
-          onClick={() => handleAssetSelect('alUsd')}
+          data-selected={selectedButton === 'ALUSD' ? true : false}
+          onClick={() => handleAssetSelect('ALUSD')}
         >
           <span className={classes.btnSpan}>
             <AlusdIcon height={25} width={22} className={classes.icon} />
@@ -135,8 +136,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'usdt' ? true : false}
-          onClick={() => handleAssetSelect('usdt')}
+          data-selected={selectedButton === 'USDT' ? true : false}
+          onClick={() => handleAssetSelect('USDT')}
         >
           <span className={classes.btnSpan}>
             <USDTIcon height={25} width={25} className={classes.icon} />
@@ -145,8 +146,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'eth' ? true : false}
-          onClick={() => handleAssetSelect('eth')}
+          data-selected={selectedButton === 'ETH' ? true : false}
+          onClick={() => handleAssetSelect('ETH')}
         >
           <span className={classes.btnSpan}>
             <EthIcon height={32} width={32} className={classes.icon} />
@@ -155,8 +156,8 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
-          data-selected={selectedButton === 'other' ? true : false}
-          onClick={() => handleAssetSelect('other')}
+          data-selected={selectedButton === 'OTHER' ? true : false}
+          onClick={() => handleAssetSelect('OTHER')}
         >
           <span className={classes.btnSpan}>Other</span>
         </Button>

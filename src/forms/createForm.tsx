@@ -13,7 +13,7 @@ import {
 } from 'recoil';
 import { z } from 'zod';
 
-import { OverlaySuspense } from 'components';
+import { OverlaySuspense } from 'components/OverlaySuspense/OverlaySuspense';
 import { neverEndingPromise } from 'utils/tools';
 
 import { IRecoilGetParams } from 'types';

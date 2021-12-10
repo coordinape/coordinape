@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core';
 import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormTextField } from 'components';
 import { getToken } from 'config/networks';
-import AdminVaultForm from 'forms/AdminVaultForm';
+import AdminVaultForm, { AssetEnum } from 'forms/AdminVaultForm';
 // import { useAdminApi } from 'hooks';
 // import { useSelectedCircle } from 'recoilState/app';
 // import { assertDef } from 'utils/tools';
@@ -44,7 +44,7 @@ export const CreateVaultModal = ({
   open: boolean;
   onClose: () => void;
 }) => {
-  const [asset, setAsset] = useState<string>('');
+  const [asset, setAsset] = useState<AssetEnum>('DAI');
 
   const { chainId } = useWeb3React();
 
@@ -123,8 +123,9 @@ export const CreateVaultModal = ({
           <div className={classes.oneColumn}>
             <FormTextField
               {...fields.custom_asset}
-              disabled={asset !== 'other'}
+              disabled={asset !== 'OTHER'}
               label="...or use a custom asset"
+              onChange={() => alert('TODO')}
             />
           </div>
         </FormModal>
