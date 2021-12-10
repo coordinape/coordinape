@@ -245,17 +245,6 @@ export function useVaultWrapper(vault: IVault) {
     }
   };
 
-  const hasAccess = async (account: string): Promise<boolean> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const hasAccess: boolean = await apeVault.hasAccess(account);
-      return hasAccess;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
-
   return {
     apeMigrate,
     apeWithdraw,
@@ -275,6 +264,5 @@ export function useVaultWrapper(vault: IVault) {
     getTotalAssets,
     getTotalVaultBalance,
     getProfit,
-    hasAccess,
   };
 }
