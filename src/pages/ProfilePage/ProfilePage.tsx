@@ -6,7 +6,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import {
   makeStyles,
   Avatar,
-  Button,
   Grid,
   Hidden,
   Typography,
@@ -20,6 +19,7 @@ import {
   FormFileUpload,
   ApeToggle,
 } from 'components';
+import { Button } from 'components/StitchesButton/Button';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useImageUploader, useApiWithProfile } from 'hooks';
 import { EditIcon } from 'icons';
@@ -331,14 +331,7 @@ const ProfilePageContent = ({
                     }
                     accept="image/gif, image/jpeg, image/png"
                   />
-                  <Button
-                    className={classes.editButton}
-                    variant="outlined"
-                    color="default"
-                    size="small"
-                    startIcon={<EditIcon />}
-                    onClick={() => setEditProfileOpen(true)}
-                  >
+                  <Button onClick={() => setEditProfileOpen(true)} size="large">
                     Edit Profile
                   </Button>
                 </>
@@ -498,13 +491,8 @@ const ProfilePageContent = ({
               />
             </Grid>
             <Grid item>
-              <Button
-                className={classes.editButton}
-                variant="contained"
-                size="small"
-                startIcon={<EditIcon />}
-                onClick={() => setEditProfileOpen(true)}
-              >
+              <Button size="small" onClick={() => setEditProfileOpen(true)}>
+                <EditIcon />
                 Edit Profile
               </Button>
             </Grid>
