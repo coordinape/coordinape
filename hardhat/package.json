@@ -5,15 +5,14 @@
   "private": true,
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
-    "build": "tsc",
+    "build": "tsc && ./scripts/cp-declarations.sh",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "hardhat node",
     "deploy": "hardhat deploy --network localhost",
     "test": "hardhat test"
   },
   "files": [
-    "deploymentInfo.json",
-    "typechain"
+    "dist"
   ],
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
