@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { makeStyles, ButtonGroup, Button } from '@material-ui/core';
 
 import { AlusdIcon } from 'icons/AlusdIcon';
@@ -38,19 +40,8 @@ const useStyles = makeStyles(theme => ({
       borderTopLeftRadius: 20,
       borderBottomLeftRadius: 20,
     },
-    '&.active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.ultraLightGray,
-      },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.ultraLightGray,
-        },
-      },
+    '&[data-selected=true]': {
+      backgroundColor: theme.colors.lightGray,
     },
   },
   btnSpan: {
@@ -69,21 +60,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     boxShadow: 'none',
   },
-  inactive: {
-    color: theme.colors.text,
-    background: theme.colors.lightBackground,
-    '&:hover': {
-      background: theme.colors.lightBlue + '80',
-      color: theme.colors.white,
-    },
-  },
-  active: {
-    color: theme.colors.white,
-    background: theme.colors.lightBlue,
-    '&:hover': {
-      background: theme.colors.lightBlue,
-    },
-  },
 }));
 
 interface AssetDisplay {
@@ -92,8 +68,10 @@ interface AssetDisplay {
 
 export default function AssetDisplay({ setAsset }: AssetDisplay) {
   const classes = useStyles();
+  const [selectedButton, setSelectedButton] = useState('');
 
   const handleAssetSelect = (asset: string) => {
+    setSelectedButton(asset);
     setAsset(asset);
   };
 
@@ -107,6 +85,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
       >
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'dai' ? true : false}
           onClick={() => handleAssetSelect('dai')}
         >
           <span className={classes.btnSpan}>
@@ -116,6 +95,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'usdc' ? true : false}
           onClick={() => handleAssetSelect('usdc')}
         >
           <span className={classes.btnSpan}>
@@ -125,6 +105,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'yfi' ? true : false}
           onClick={() => handleAssetSelect('yfi')}
         >
           <span className={classes.btnSpan}>
@@ -134,6 +115,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'sushi' ? true : false}
           onClick={() => handleAssetSelect('sushi')}
         >
           <span className={classes.btnSpan}>
@@ -143,6 +125,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'alUsd' ? true : false}
           onClick={() => handleAssetSelect('alUsd')}
         >
           <span className={classes.btnSpan}>
@@ -152,6 +135,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'usdt' ? true : false}
           onClick={() => handleAssetSelect('usdt')}
         >
           <span className={classes.btnSpan}>
@@ -161,6 +145,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'eth' ? true : false}
           onClick={() => handleAssetSelect('eth')}
         >
           <span className={classes.btnSpan}>
@@ -170,6 +155,7 @@ export default function AssetDisplay({ setAsset }: AssetDisplay) {
         </Button>
         <Button
           className={classes.assetBtn}
+          data-selected={selectedButton === 'other' ? true : false}
           onClick={() => handleAssetSelect('other')}
         >
           <span className={classes.btnSpan}>Other</span>
