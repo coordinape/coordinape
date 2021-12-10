@@ -68,7 +68,6 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
       [networkIds.HARDHAT]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       [networkIds.RINKEBY]: '0x866CcA6D3902B030a7389A1aDeD4c32Ff3696800',
     },
-    image: '',
   },
   yvUsdc: {
     symbol: 'yvUSDC',
@@ -78,7 +77,6 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
       [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
       [networkIds.RINKEBY]: '0xc33f0a62f2c9c301b522eb4f208c0e1aa8a34677',
     },
-    image: '',
   },
   dai: {
     symbol: 'DAI',
@@ -88,7 +86,6 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
       [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
       [networkIds.RINKEBY]: '0x7C38c1913A7d512437E7f97D83519C1f9B59239e',
     },
-    image: '',
   },
 };
 
@@ -116,7 +113,6 @@ export const getToken = (networkId: number, tokenId: KnownToken): IToken => {
     address,
     decimals: token.decimals,
     symbol: token.symbol,
-    image: token.image,
   };
 };
 

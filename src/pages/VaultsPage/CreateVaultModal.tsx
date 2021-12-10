@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
@@ -16,7 +17,7 @@ import AdminVaultForm, { AssetEnum } from 'forms/AdminVaultForm';
 
 import AssetDisplay from './AssetDisplay';
 
-import { KnownToken, NetworkId } from 'types';
+import { KnownToken } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -59,7 +60,8 @@ export const CreateVaultModal = ({
 
   const routeChange = async () => {
     // TODO: allow admin to select simpleToken (Ex: ApeToken is a simpleToken)
-    const token = getToken(chainId as NetworkId, asset as KnownToken);
+    assert(chainId);
+    const token = getToken(chainId, asset.toLowerCase() as KnownToken);
     const vault = await createApeVault(token.address, token.address, asset);
 
     // setVaults(vaults => {

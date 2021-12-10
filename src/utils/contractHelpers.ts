@@ -7,6 +7,8 @@ import {
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { ContractTransaction, BigNumberish } from 'ethers';
 
+import { Contracts } from 'services/contracts';
+
 import { IVault } from 'types';
 
 export const handleContractError = (e: any) => {
@@ -30,7 +32,7 @@ export const makeVaultTxFn =
   };
 
 export const makeRouterTxFn =
-  (web3Context: Web3ReactContextInterface, contracts: any) =>
+  (web3Context: Web3ReactContextInterface, contracts: Contracts) =>
   async (callback: (apeRouter: ApeRouter) => Promise<ContractTransaction>) => {
     const signer = await web3Context.library.getSigner();
     const apeRouter = contracts.apeRouter.connect(signer);
@@ -38,11 +40,11 @@ export const makeRouterTxFn =
   };
 
 export const makeFactoryTxFn =
-  (web3Context: Web3ReactContextInterface, contracts: any) =>
+  (web3Context: Web3ReactContextInterface, contracts: Contracts) =>
   async (
     callback: (apeFactory: ApeVaultFactory) => Promise<ContractTransaction>
   ) => {
     const signer = await web3Context.library.getSigner();
-    const apeFactory = contracts.apeFactory.connect(signer);
+    const apeFactory = contracts.apeVaultFactory.connect(signer);
     return callback(apeFactory).catch(e => handleContractError(e));
   };

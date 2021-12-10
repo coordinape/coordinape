@@ -17,7 +17,6 @@ export interface INetwork {
 export interface IKnownTokenData {
   symbol: string;
   decimals: number;
-  image: string;
   addresses: {
     [K in NetworkId]?: string;
   };
@@ -27,7 +26,6 @@ export interface IToken {
   address: string;
   decimals: number;
   symbol: string;
-  image: string;
 }
 
 declare global {
