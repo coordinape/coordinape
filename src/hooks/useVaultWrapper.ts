@@ -1,33 +1,18 @@
-import {
-  ApeVaultWrapper,
-  ApeVaultWrapper__factory,
-} from '@coordinape/hardhat/dist/typechain';
 import { useWeb3React } from '@web3-react/core';
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
-import {
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  ContractTransaction,
-} from 'ethers';
+import { BigNumber, BigNumberish, BytesLike } from 'ethers';
 
-import { handleContractError } from 'utils/handleContractError';
+import { makeVaultTxFn } from 'utils/contractHelpers';
 
 import { IVault } from 'types';
 
-// the two levels of function creation here may seem excessive
-// ("why not just set this up inside the component?"),
-// but it sets the stage for this transaction-handling code to be shared
-// across all hooks, not just this file
-const makeVaultTxFn =
-  (web3Context: Web3ReactContextInterface, vault: IVault) =>
-  async (
-    callback: (apeVault: ApeVaultWrapper) => Promise<ContractTransaction>
-  ) => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    return callback(apeVault).catch(e => handleContractError(e));
-  };
+interface AllowanceProps {
+  circle: BytesLike;
+  tokenAddress: string;
+  amount: BigNumberish;
+  interval: BigNumberish;
+  epochAmount: BigNumber;
+  intervalStart: BigNumberish;
+}
 
 export function useVaultWrapper(vault: IVault) {
   const web3Context = useWeb3React();
@@ -38,210 +23,52 @@ export function useVaultWrapper(vault: IVault) {
   const apeWithdraw = (shareAmount: BigNumberish, underlying: boolean) =>
     runVaultTx(v => v.apeWithdraw(shareAmount, underlying));
 
-  const apeWithdrawSimpleToken = async (
-    amount: BigNumberish
-  ): Promise<ContractTransaction> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const tx = await apeVault.apeWithdrawSimpleToken(amount);
-      return tx;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const apeWithdrawSimpleToken = (amount: BigNumberish) =>
+    runVaultTx(v => v.apeWithdrawSimpleToken(amount));
 
-  const approveCircleAdmin = async (
-    circle: BytesLike,
-    adminAddress: string
-  ): Promise<ContractTransaction> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const tx = await apeVault.approveCircleAdmin(circle, adminAddress);
-      return tx;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const approveCircleAdmin = (circle: BytesLike, adminAddress: string) =>
+    runVaultTx(v => v.approveCircleAdmin(circle, adminAddress));
 
-  const exitVaultToken = async (
-    underlying: boolean
-  ): Promise<ContractTransaction> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const tx = await apeVault.exitVaultToken(underlying);
-      return tx;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const exitVaultToken = (underlying: boolean) =>
+    runVaultTx(v => v.exitVaultToken(underlying));
 
-  const syncUnderlying = async (): Promise<ContractTransaction> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const tx = await apeVault.syncUnderlying();
-      return tx;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const syncUnderlying = () => runVaultTx(v => v.syncUnderlying());
 
-  const updateAllowance = async (
-    circle: BytesLike,
-    tokenAddress: string,
-    amount: BigNumberish,
-    interval: BigNumberish,
-    epochAmount: BigNumberish,
-    intervalStart: BigNumberish
-  ): Promise<ContractTransaction> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const tx = await apeVault.updateAllowance(
-        circle,
-        tokenAddress,
-        amount,
-        interval,
-        epochAmount,
-        intervalStart
-      );
-      return tx;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const updateAllowance = (props: AllowanceProps) =>
+    runVaultTx(v =>
+      v.updateAllowance(
+        props.circle,
+        props.tokenAddress,
+        props.amount,
+        props.interval,
+        props.epochAmount,
+        props.intervalStart
+      )
+    );
 
-  // Todo: add all the needed getters
   // Getters:
+  const getBestVault = () => runVaultTx(v => v.bestVault());
 
-  const getBestVault = async (): Promise<string> => {
-    // returns best yearn vault address
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const bestVault: string = await apeVault.bestVault();
-      return bestVault;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getToken = () => runVaultTx(v => v.token());
 
-  const getToken = async (): Promise<string> => {
-    // returns token address
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const token: string = await apeVault.token();
-      return token;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getSimpleToken = () => runVaultTx(v => v.simpleToken());
 
-  const getSimpleToken = async (): Promise<string> => {
-    // returns simple token address
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const token: string = await apeVault.simpleToken();
-      return token;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getUnderlyingValue = () => runVaultTx(v => v.underlyingValue());
 
-  const getUnderlyingValue = async (): Promise<BigNumber> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const underlyingValue: BigNumber = await apeVault.underlyingValue();
-      return underlyingValue;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getYRegistry = () => runVaultTx(v => v.registry());
 
-  const getYRegistry = async (): Promise<string> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const yRegistry: string = await apeVault.registry();
-      return yRegistry;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getYVault = () => runVaultTx(v => v.vault());
 
-  const getYVault = async (): Promise<string> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const yVault: string = await apeVault.vault();
-      return yVault;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const listVaults = () => runVaultTx(v => v.allVaults());
 
-  const listVaults = async (): Promise<string[]> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const vaults: string[] = await apeVault.allVaults();
-      return vaults;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getOwner = () => runVaultTx(v => v.owner());
 
-  const getOwner = async (): Promise<string> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const owner: string = await apeVault.owner();
-      return owner;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getTotalAssets = () => runVaultTx(v => v.totalAssets());
 
-  const getTotalAssets = async (): Promise<BigNumber> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const totalAssets: BigNumber = await apeVault.totalAssets();
-      return totalAssets;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getTotalVaultBalance = (account: string) =>
+    runVaultTx(v => v.totalVaultBalance(account));
 
-  const getTotalVaultBalance = async (account: string): Promise<BigNumber> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const totalVaultBalance: BigNumber = await apeVault.totalVaultBalance(
-        account
-      );
-      return totalVaultBalance;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
-
-  const getProfit = async (): Promise<BigNumber> => {
-    const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
-    try {
-      const profit: BigNumber = await apeVault.profit();
-      return profit;
-    } catch (e) {
-      return handleContractError(e);
-    }
-  };
+  const getProfit = () => runVaultTx(v => v.profit());
 
   return {
     apeMigrate,

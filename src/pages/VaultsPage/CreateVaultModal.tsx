@@ -81,7 +81,7 @@ export const CreateVaultModal = ({
     // });
 
     // eslint-disable-next-line no-console
-    console.log(`vault created at: ${vault.id}`);
+    console.log(`vault created at: ${vault?.id}`);
 
     const path = '/admin/vaults';
     history.push(path);
