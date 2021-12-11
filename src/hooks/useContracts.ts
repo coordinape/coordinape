@@ -13,7 +13,11 @@ function useContracts(): Contracts {
   const { library, active, chainId } = context;
 
   return useMemo((): Contracts => {
-    assert(library && chainId && [1, 4, 1337].includes(chainId));
+    assert(library && chainId);
+    assert(
+      [4, 1337].includes(chainId),
+      'unsupported network! use Rinkeby or localhost'
+    );
     return Contracts.fromNetwork(chainId as NetworkId, library);
   }, [active, library, chainId]);
 }
