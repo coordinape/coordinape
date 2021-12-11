@@ -25,7 +25,6 @@ export const schema = z
       if (val == '') return true;
       return zEthAddress.parseAsync(val);
     }),
-    repeat_monthly: z.boolean(),
   })
   .strict();
 
@@ -37,7 +36,6 @@ const AdminVaultForm = createForm({
     token: 0,
     asset: 'DAI' as AssetEnum,
     custom_asset: '',
-    repeat_monthly: false,
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {},
