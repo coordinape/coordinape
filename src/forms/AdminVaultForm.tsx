@@ -14,12 +14,10 @@ const zAssetEnum = z.enum([
   'OTHER',
 ]);
 export type AssetEnum = z.infer<typeof zAssetEnum>;
-// type TEpochRepeatEnum = typeof AssetEnum['_type'];
 
 export const schema = z
   .object({
-    token: z.number(),
-    asset: zAssetEnum,
+    asset: zAssetEnum.optional(),
     custom_asset: z.string().refine(async val => {
       // TODO should be optional only when asset is not "OTHER"
       if (val == '') return true;
@@ -33,7 +31,6 @@ const AdminVaultForm = createForm({
   getInstanceKey: () => 'new',
   getZodParser: () => schema,
   load: () => ({
-    token: 0,
     asset: 'DAI' as AssetEnum,
     custom_asset: '',
   }),
