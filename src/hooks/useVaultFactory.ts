@@ -1,27 +1,28 @@
-// - Contract Imports
-import { useWeb3React } from '@web3-react/core';
-
-import { makeFactoryTxFn } from 'utils/contractHelpers';
+import { useApeSnackbar } from 'hooks';
 
 import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
 
 export function useVaultFactory() {
-  const contracts = useContracts();
-  const web3Context = useWeb3React();
-  const runVaultFactory = makeFactoryTxFn(web3Context, contracts);
+  const { apeVaultFactory: factory } = useContracts();
+  const { apeInfo, apeError } = useApeSnackbar();
 
   const createApeVault = async (
     tokenAddress: string,
     simpleTokenAddress: string,
     type: string
   ): Promise<IVault | undefined> => {
-    const tx = await runVaultFactory(v =>
-      v.createApeVault(tokenAddress, simpleTokenAddress)
-    );
-    const receipt = await tx.wait();
-    if (receipt && receipt?.events) {
+    try {
+      const tx = await factory.createApeVault(tokenAddress, simpleTokenAddress);
+      apeInfo('transaction sent');
+      const receipt = await tx.wait();
+      apeInfo('transaction mined');
+      if (!receipt?.events) {
+        apeError('VaultCreated event not found');
+        return;
+      }
+
       for (const event of receipt.events) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
@@ -35,7 +36,8 @@ export function useVaultFactory() {
           return vault;
         }
       }
-      console.error('VaultCreated event not found');
+    } catch (e) {
+      apeError(e);
     }
   };
 

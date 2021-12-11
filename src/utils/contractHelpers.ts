@@ -1,6 +1,5 @@
 import {
   ApeRouter,
-  ApeVaultFactory,
   ApeVaultWrapper,
   ApeVaultWrapper__factory,
 } from '@coordinape/hardhat/dist/typechain';
@@ -37,14 +36,4 @@ export const makeRouterTxFn =
     const signer = await web3Context.library.getSigner();
     const apeRouter = contracts.apeRouter.connect(signer);
     return callback(apeRouter).catch(e => handleContractError(e));
-  };
-
-export const makeFactoryTxFn =
-  (web3Context: Web3ReactContextInterface, contracts: Contracts) =>
-  async (
-    callback: (apeFactory: ApeVaultFactory) => Promise<ContractTransaction>
-  ) => {
-    const signer = await web3Context.library.getSigner();
-    const apeFactory = contracts.apeVaultFactory.connect(signer);
-    return callback(apeFactory).catch(e => handleContractError(e));
   };

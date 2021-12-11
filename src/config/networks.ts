@@ -6,7 +6,6 @@ import {
   IKnownTokenData,
   INetwork,
   IToken,
-  KnownContract,
   KnownToken,
   NetworkId,
 } from 'types';
@@ -17,31 +16,20 @@ export const networkIds = {
   RINKEBY: 4,
 } as const;
 
+// TODO integrate deploymentInfo.json with this
 const networks: { [K in NetworkId]: INetwork } = {
   [networkIds.MAINNET]: {
     label: 'Mainnet',
     url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
-    contracts: {
-      stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
-      yRegistry: '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804',
-    },
   },
   // Hardhat forked mainnet
   [networkIds.HARDHAT]: {
     label: 'Hardhat',
     url: `http://localhost:8545`,
-    contracts: {
-      stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
-      yRegistry: '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804',
-    },
   },
   [networkIds.RINKEBY]: {
     label: 'rinkeby',
     url: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
-    contracts: {
-      stake: '0x9b7b6BBd7d87e381F07484Ea104fcc6A0363DF39',
-      yRegistry: '0x86bc1c17e7579a688463f34941df0a0437269f43',
-    },
   },
 };
 
@@ -122,14 +110,4 @@ export const getEtherscanURL = (networkId: number): string => {
   }
   if (networkId === 1) return 'https://etherscan.io';
   return '';
-};
-
-export const getContractAddress = (
-  networkId: number,
-  contract: KnownContract
-): string => {
-  if (!validNetworkId(networkId)) {
-    throw new Error(`Unsupported network id: '${networkId}'`);
-  }
-  return networks[networkId].contracts[contract];
 };

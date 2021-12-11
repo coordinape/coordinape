@@ -18,7 +18,8 @@ function useContracts(): Contracts {
       [4, 1337].includes(chainId),
       'unsupported network! use Rinkeby or localhost'
     );
-    return Contracts.fromNetwork(chainId as NetworkId, library);
+
+    return Contracts.fromNetwork(chainId as NetworkId, library.getSigner());
   }, [active, library, chainId]);
 }
 

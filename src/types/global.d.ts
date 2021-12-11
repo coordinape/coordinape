@@ -4,14 +4,10 @@ export type Maybe<T> = T | null;
 
 export type NetworkId = 1 | 4 | 1337;
 export type KnownToken = 'usdc' | 'yvUsdc' | 'dai';
-export type KnownContract = 'stake' | 'yRegistry';
 
 export interface INetwork {
   label: string;
   url: string;
-  contracts: {
-    [key in KnownContract]: string;
-  };
 }
 
 export interface IKnownTokenData {

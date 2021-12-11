@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormTextField } from 'components';
+import { ZERO_ADDRESS } from 'config/constants';
 import { getToken } from 'config/networks';
 import AdminVaultForm, { AssetEnum } from 'forms/AdminVaultForm';
 // import { useAdminApi } from 'hooks';
@@ -62,7 +63,10 @@ export const CreateVaultModal = ({
     // TODO: allow admin to select simpleToken (Ex: ApeToken is a simpleToken)
     assert(chainId);
     const token = getToken(chainId, asset.toLowerCase() as KnownToken);
-    const vault = await createApeVault(token.address, token.address, asset);
+
+    // FIXME: this is failing on hardhat
+    // const vault = await createApeVault(token.address, ZERO_ADDRESS, asset);
+    const vault = await createApeVault(ZERO_ADDRESS, token.address, asset);
 
     // setVaults(vaults => {
     //   if (vaults && selectedCircle) {
@@ -83,7 +87,7 @@ export const CreateVaultModal = ({
     // });
 
     // eslint-disable-next-line no-console
-    console.log(`vault created at: ${vault?.id}`);
+    console.log('created vault:', vault);
 
     const path = '/admin/vaults';
     history.push(path);
