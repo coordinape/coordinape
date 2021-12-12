@@ -4,13 +4,11 @@ import { useMemo } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
+import { NetworkId } from 'config/networks';
 import { Contracts } from 'services/contracts';
 
-import { NetworkId } from 'types';
-
 function useContracts(): Contracts {
-  const context = useWeb3React<Web3Provider>();
-  const { library, active, chainId } = context;
+  const { library, active, chainId } = useWeb3React<Web3Provider>();
 
   return useMemo((): Contracts => {
     assert(library && chainId);

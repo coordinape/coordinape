@@ -2,9 +2,6 @@ import { BigNumber } from 'ethers';
 
 export type Maybe<T> = T | null;
 
-export type NetworkId = 1 | 4 | 1337;
-export type KnownToken = 'usdc' | 'yvUsdc' | 'dai';
-
 export interface INetwork {
   label: string;
   url: string;

@@ -13,9 +13,7 @@ import {
 } from '@coordinape/hardhat/dist/typechain';
 import * as ethers from 'ethers';
 
-import { getToken } from 'config/networks';
-
-import { NetworkId } from 'types';
+import { getToken, NetworkId } from 'config/networks';
 
 type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 
@@ -46,6 +44,24 @@ export class Contracts {
     this.apeVaultFactory = this.apeVaultFactory.connect(signer);
     this.apeRouter = this.apeRouter.connect(signer);
     this.apeDistributor = this.apeDistributor.connect(signer);
+  }
+
+  static fromNetwork(
+    networkId: NetworkId,
+    signerOrProvider: SignerOrProvider
+  ): Contracts {
+    return Contracts.fromAddresses(
+      {
+        apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
+        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
+          .address,
+        apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
+        apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
+          .address,
+        usdc: getToken(networkId, 'USDC').address,
+      },
+      signerOrProvider
+    );
   }
 
   static fromAddresses(
@@ -82,23 +98,5 @@ export class Contracts {
       apeRouter,
       apeDistributor,
     });
-  }
-
-  static fromNetwork(
-    networkId: NetworkId,
-    signerOrProvider: SignerOrProvider
-  ): Contracts {
-    return Contracts.fromAddresses(
-      {
-        apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
-          .address,
-        apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
-        apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
-          .address,
-        usdc: getToken(networkId, 'usdc').address,
-      },
-      signerOrProvider
-    );
   }
 }

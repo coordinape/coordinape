@@ -1,4 +1,5 @@
 import { useApeSnackbar } from 'hooks';
+import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
 
@@ -7,12 +8,17 @@ import { IVault } from 'types';
 export function useVaultFactory() {
   const { apeVaultFactory: factory } = useContracts();
   const { apeInfo, apeError } = useApeSnackbar();
+  const vaultApi = useFakeVaultApi();
 
-  const createApeVault = async (
-    tokenAddress: string,
-    simpleTokenAddress: string,
-    type: string
-  ): Promise<IVault | undefined> => {
+  const createApeVault = async ({
+    tokenAddress,
+    simpleTokenAddress,
+    type,
+  }: {
+    tokenAddress: string;
+    simpleTokenAddress: string;
+    type: string;
+  }) => {
     try {
       const tx = await factory.createApeVault(tokenAddress, simpleTokenAddress);
       apeInfo('transaction sent');
@@ -33,6 +39,7 @@ export function useVaultFactory() {
             simpleTokenAddress,
             type,
           };
+          vaultApi.addVault(vault);
           return vault;
         }
       }

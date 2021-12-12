@@ -10,6 +10,7 @@ import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle, useMyProfile } from 'recoilState/app';
+import { useVaults } from 'recoilState/vaults';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -125,16 +126,16 @@ const epochDetail = (e: IEpoch) => {
 };
 
 const VaultsPage = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [keyword, setKeyword] = useState<string>('');
+  const [keyword, setKeyword] = useState('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
-  const [newUser, setNewUser] = useState<boolean>(false);
+  const [newUser, setNewUser] = useState(false);
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [, setNewEpoch] = useState<boolean>(false);
-  const [, setEditCircle] = useState<boolean>(false);
-  // const [hasVaults] = useState<boolean>(false); //Temp boolean pending data input
-  const [editOpen, setEditOpen] = useState<boolean>(false);
+  const [, setNewEpoch] = useState(false);
+  const [, setEditCircle] = useState(false);
+  const vaults = useVaults();
+  const [editOpen, setEditOpen] = useState(false);
 
   const {
     circleId,
@@ -477,9 +478,9 @@ const VaultsPage = () => {
   return (
     <div className={classes.root}>
       <OrganizationHeader />
-      {/* {vaults && selectedCircle && vaults[selectedCircle.id] ? (
-        vaults[selectedCircle.id].map((vault: IVault) => ( */}
-      {/* <HasVaults
+      {vaults ? (
+        vaults.map(vault => (
+          <HasVaults
             key={vault.id}
             newUser={newUser}
             setNewUser={setNewUser}
@@ -490,11 +491,11 @@ const VaultsPage = () => {
             epochs={epochs}
             vault={vault}
             transactionColumns={transactionColumns}
-          /> */}
-      {/* ))
+          />
+        ))
       ) : (
         <NoVaults />
-      )} */}
+      )}
       <AllocateModal open={open} onClose={setOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
     </div>

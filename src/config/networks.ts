@@ -1,20 +1,33 @@
+import { z } from 'zod';
+
 import { entries } from 'utils/type-utils';
 
 import { INFURA_PROJECT_ID } from './constants';
 
-import {
-  IKnownTokenData,
-  INetwork,
-  IToken,
-  KnownToken,
-  NetworkId,
-} from 'types';
+import { IKnownTokenData, INetwork, IToken } from 'types';
+
+// TODO: This are coupled in a few places, make sure that they all
+// stay compatible.
+export type NetworkId = 1 | 4 | 1337;
+export type KnownToken = 'USDC' | 'yvUSDC' | 'DAI';
 
 export const networkIds = {
   MAINNET: 1,
   HARDHAT: 1337,
   RINKEBY: 4,
 } as const;
+
+export const zAssetEnum = z.enum([
+  'DAI',
+  'USDC',
+  'YFI',
+  'SUSHI',
+  'ALUSD',
+  'USDT',
+  'ETH',
+  'OTHER',
+]);
+export type TAssetEnum = z.infer<typeof zAssetEnum>;
 
 // TODO integrate deploymentInfo.json with this
 const networks: { [K in NetworkId]: INetwork } = {
@@ -48,7 +61,7 @@ export const supportedNetworkURLs = entries(networks).reduce<{
 );
 
 export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
-  usdc: {
+  USDC: {
     symbol: 'USDC',
     decimals: 6,
     addresses: {
@@ -57,7 +70,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
       [networkIds.RINKEBY]: '0x866CcA6D3902B030a7389A1aDeD4c32Ff3696800',
     },
   },
-  yvUsdc: {
+  yvUSDC: {
     symbol: 'yvUSDC',
     decimals: 6,
     addresses: {
@@ -66,7 +79,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
       [networkIds.RINKEBY]: '0xc33f0a62f2c9c301b522eb4f208c0e1aa8a34677',
     },
   },
-  dai: {
+  DAI: {
     symbol: 'DAI',
     decimals: 18,
     addresses: {
@@ -77,16 +90,16 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
   },
 };
 
-const validNetworkId = (networkId: number): networkId is NetworkId => {
-  return networks[networkId as NetworkId] !== undefined;
+export const validNetworkId = (networkId?: number): networkId is NetworkId => {
+  return !!networkId && networks[networkId as NetworkId] !== undefined;
 };
 
-export const getToken = (networkId: number, tokenId: KnownToken): IToken => {
+export const getToken = (networkId: number, tokenId: string): IToken => {
   if (!validNetworkId(networkId)) {
     throw new Error(`Unsupported network id: '${networkId}'`);
   }
 
-  const token = knownTokens[tokenId];
+  const token = knownTokens[tokenId as KnownToken];
   if (!token) {
     throw new Error(`Unsupported token id: '${tokenId}'`);
   }
@@ -103,6 +116,8 @@ export const getToken = (networkId: number, tokenId: KnownToken): IToken => {
     symbol: token.symbol,
   };
 };
+
+export const hasToken = (tokenId: string) => tokenId in knownTokens;
 
 export const getEtherscanURL = (networkId: number): string => {
   if (!validNetworkId(networkId)) {

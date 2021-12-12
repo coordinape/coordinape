@@ -11,12 +11,16 @@ export const zStringISODateUTC = z
 export const zEthAddress = z
   .string()
   .transform(s =>
-    ethers
-      .getDefaultProvider('homestead', {
-        infura: process.env.REACT_APP_INFURA_PROJECT_ID,
-      })
-      .resolveName(s)
+    s
+      ? ethers
+          .getDefaultProvider('homestead', {
+            infura: process.env.REACT_APP_INFURA_PROJECT_ID,
+          })
+          .resolveName(s)
+      : null
   )
-  .transform(s => s || '')
+  .transform(s => s ?? '')
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());
+
+// TODO: Create a wrapper that transforms and catches errors into refine

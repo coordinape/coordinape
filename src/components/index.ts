@@ -47,3 +47,4 @@ export * from './CircleButton/CircleButton';
 export * from './IconButton/IconButton';
 export * from './CirclesHeaderSection/CirclesHeaderSection';
 export * from './MenuNavigationLinks/MenuNavigationLinks';
+export * from './FormAssetSelector/FormAssetSelector';

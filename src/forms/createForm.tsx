@@ -230,8 +230,10 @@ export const createForm = <
   const useForm = ({ instanceKey, submit, hideFieldErrors }: FormProps) => {
     const [value, updateValue] = useRecoilState(rValue(instanceKey));
     const [touched, updateTouched] = useRecoilState(rTouched(instanceKey));
-    const parsedLoadable = useRecoilValueLoadable(rParsed(instanceKey));
-    const changedOutput = useRecoilValueLoadable(rChangedOutput(instanceKey));
+    const parsed = useRecoilValueLoadable(rParsed(instanceKey)).valueMaybe();
+    const changedOutput = useRecoilValueLoadable(
+      rChangedOutput(instanceKey)
+    ).valueMaybe();
 
     const reset = useFormReset(instanceKey);
 
@@ -247,8 +249,6 @@ export const createForm = <
         }
     );
 
-    const parsed =
-      parsedLoadable.state === 'hasValue' ? parsedLoadable.contents : null;
     const fieldErrors = parsed?.success
       ? {}
       : ({
@@ -286,6 +286,7 @@ export const createForm = <
       value,
       changedOutput,
       errors: mapValues(fieldErrors, (es: string[]) => es?.join(', ')),
+      ready: parsed?.success,
     };
   };
 
