@@ -25,6 +25,7 @@ export const CreateVaultModal = ({
           // eslint-disable-next-line no-console
           console.log('created vault:', vault);
           history.push('/admin/vaults');
+          onClose();
         })
       }
     >
