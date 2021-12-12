@@ -109,7 +109,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    marginTop: -80,
     gridTemplateColumns: '1fr',
     padding: theme.spacing(0, 1),
     [theme.breakpoints.down('xs')]: {
