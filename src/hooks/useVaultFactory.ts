@@ -1,3 +1,7 @@
+import assert from 'assert';
+
+import { ZERO_ADDRESS } from 'config/constants';
+import { getToken } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
@@ -11,12 +15,10 @@ export function useVaultFactory() {
   const vaultApi = useFakeVaultApi();
 
   const createApeVault = async ({
-    tokenAddress,
     simpleTokenAddress,
     type,
   }: {
-    tokenAddress: string;
-    simpleTokenAddress: string;
+    simpleTokenAddress?: string;
     type: string;
   }) => {
     if (!contracts) {
@@ -24,8 +26,18 @@ export function useVaultFactory() {
       return;
     }
     try {
-      const { apeVaultFactory: factory } = contracts;
-      const tx = await factory.createApeVault(tokenAddress, simpleTokenAddress);
+      const { apeVaultFactory: factory, networkId } = contracts;
+      assert(
+        type !== 'OTHER' || simpleTokenAddress,
+        'type is OTHER but no simple token address given; this should have been caught in form validation'
+      );
+
+      const args: [string, string] =
+        type === 'OTHER'
+          ? [ZERO_ADDRESS, simpleTokenAddress as string]
+          : [getToken(networkId, type).address, ZERO_ADDRESS];
+
+      const tx = await factory.createApeVault(...args);
       apeInfo('transaction sent');
       const receipt = await tx.wait();
       apeInfo('transaction mined');
@@ -40,8 +52,8 @@ export function useVaultFactory() {
           const vault: IVault = {
             id: vaultAddress,
             transactions: [],
-            tokenAddress,
-            simpleTokenAddress,
+            tokenAddress: args[0],
+            simpleTokenAddress: args[1],
             // TODO: Use real value:
             decimals: 5,
             type,

@@ -21,14 +21,16 @@ export const CreateVaultModal = ({
   return (
     <CreateVaultForm.FormController
       source={chainId}
-      submit={async params =>
-        createApeVault(params).then(vault => {
-          // eslint-disable-next-line no-console
-          console.log('created vault:', vault);
-          history.push('/admin/vaults');
-          onClose();
-        })
-      }
+      submit={async ({ asset: { name, custom } }) => {
+        createApeVault({ type: name, simpleTokenAddress: custom }).then(
+          vault => {
+            // eslint-disable-next-line no-console
+            console.log('created vault:', vault);
+            history.push('/admin/vaults');
+            onClose();
+          }
+        );
+      }}
     >
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
@@ -49,11 +51,8 @@ export const CreateVaultModal = ({
               {...fields.asset}
             />
           </Box>
-
-          {Object.entries(errors).map(([key, value]) => (
-            <span key={key}>
-              {key} - {value}
-            </span>
+          {Object.values(errors).map(val => (
+            <span key={val}>{val}</span>
           ))}
         </FormModal>
       )}

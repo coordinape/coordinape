@@ -2,139 +2,26 @@ import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-const DEFAULT_MEMOIZE_EXPIRY = 1000;
-
 export const zBooleanToNumber = z.boolean().transform(v => (v ? 1 : 0));
 
 export const zStringISODateUTC = z
   .string()
   .transform(s => DateTime.fromISO(s, { zone: 'utc' }));
 
-async function addressResolver(s: string) {
-  if (ethers.utils.isAddress(s)) {
-    return s.toLowerCase();
-  }
-  if (s === '') {
-    throw 'Wallet address is invalid';
-  }
-
-  const result =
-    (await ethers
+export const zEthAddress = z
+  .string()
+  .transform(s =>
+    ethers
       .getDefaultProvider('homestead', {
         infura: process.env.REACT_APP_INFURA_PROJECT_ID,
       })
-      .resolveName(s)) ?? '';
+      .resolveName(s)
+  )
+  .transform(s => s || '')
+  .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
+  .transform(s => s.toLowerCase());
 
-  if (!ethers.utils.isAddress(result)) {
-    throw 'Wallet address is invalid';
-  }
-
-  return result.toLowerCase();
-}
-
-export const zEthAddress = zTransformCatch(z.string(), addressResolver);
-
-export const zOptionalEthAddress = zTransformCatch(z.string().optional(), s =>
-  s ? addressResolver(s) : s
-);
-
-// Extend Zod to have errors thrown during transformation automatically set
-// Zod validation errors.
-//
-// Acts like a chain of refine and then transform.
-//
-// The memoization is odd, but required based on the Zod interface for refine.
-//
-// Usage:
-// See the test.
-export function zTransformCatch<
-  Input extends unknown,
-  Output extends unknown,
-  RawInput extends unknown
->(
-  schema: z.ZodType<Input, any, RawInput>,
-  transform: (input: Input) => Output | Promise<Output>,
-  {
-    memoizeExpiry,
-    defaultPath,
-  }: { memoizeExpiry?: number; defaultPath?: string[] } = {}
-) {
-  const expiry = memoizeExpiry ?? DEFAULT_MEMOIZE_EXPIRY;
-  const cache = {
-    input: undefined as string | undefined,
-    result: undefined as Output | undefined,
-    err: undefined as ZParseError | undefined,
-    ts: 0,
-  };
-
-  async function transformWithCatch(input: Input) {
-    let err = undefined as ZParseError | undefined;
-    let result = undefined as Output | undefined;
-
-    const stringInput = JSON.stringify(input);
-    if (cache.input === stringInput && cache.ts + expiry > Date.now()) {
-      return {
-        result: cache.result,
-        err: cache.err,
-      };
-    }
-
-    try {
-      result = await Promise.resolve(transform(input));
-    } catch (e: unknown) {
-      if (e instanceof ZParseError) {
-        err = e;
-      } else if (e instanceof Error) {
-        err = new ZParseError(e.message, defaultPath);
-      } else if (typeof e === 'string') {
-        err = new ZParseError(e, defaultPath);
-      } else {
-        err = new ZParseError('Error in zod transform');
-      }
-    }
-
-    cache.result = result;
-    cache.err = err;
-    cache.ts = Date.now();
-    cache.input = stringInput;
-
-    return {
-      err,
-      result,
-    };
-  }
-
-  function getLast() {
-    return {
-      err: cache.err,
-      result: cache.result,
-    };
-  }
-
-  return schema
-    .refine(
-      async v =>
-        (await Promise.resolve(transformWithCatch(v))).err === undefined,
-      () => {
-        const err = getLast().err;
-        return err === undefined
-          ? { message: 'Error in zod transform', path: defaultPath }
-          : {
-              message: err.message,
-              path: err.path,
-            };
-      }
-    )
-    .transform(
-      async v => (await Promise.resolve(transformWithCatch(v))).result as Output
-    );
-}
-
-export class ZParseError extends Error {
-  path: string[];
-  constructor(message?: string, path?: string[]) {
-    super(message);
-    this.path = path ?? [];
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export const zEthAddressOrBlank = z.string().refine(async val => {
+  if (val == '') return true;
+  return zEthAddress.parseAsync(val);
+});

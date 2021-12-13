@@ -16,7 +16,7 @@ import {
 
 export interface IFormToken {
   name: TAssetEnum;
-  custom?: string;
+  custom: string;
 }
 
 const tokens = {
@@ -65,7 +65,7 @@ export const FormAssetSelector = ({
             color="secondary"
             className={classes.assetBtn}
             data-selected={name === key}
-            onClick={() => onChange({ name: key as TAssetEnum })}
+            onClick={() => onChange({ name: key as TAssetEnum, custom: '' })}
           >
             <span className={classes.btnSpan}>
               {Icon}
