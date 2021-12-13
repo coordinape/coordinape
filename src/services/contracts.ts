@@ -24,18 +24,26 @@ export class Contracts {
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
 
-  constructor(contracts: {
-    usdc: ERC20;
-    apeToken: ApeToken;
-    apeVaultFactory: ApeVaultFactory;
-    apeRouter: ApeRouter;
-    apeDistributor: ApeDistributor;
-  }) {
+  // TODO this might not be quite the right way to do this, as the signer/provider
+  // used to create the contracts also has a network associated with it
+  networkId: NetworkId;
+
+  constructor(
+    contracts: {
+      usdc: ERC20;
+      apeToken: ApeToken;
+      apeVaultFactory: ApeVaultFactory;
+      apeRouter: ApeRouter;
+      apeDistributor: ApeDistributor;
+    },
+    networkId: NetworkId
+  ) {
     this.usdc = contracts.usdc;
     this.apeToken = contracts.apeToken;
     this.apeVaultFactory = contracts.apeVaultFactory;
     this.apeRouter = contracts.apeRouter;
     this.apeDistributor = contracts.apeDistributor;
+    this.networkId = networkId;
   }
 
   connect(signer: ethers.Signer): void {
@@ -60,7 +68,8 @@ export class Contracts {
           .address,
         usdc: getToken(networkId, 'USDC').address,
       },
-      signerOrProvider
+      signerOrProvider,
+      networkId
     );
   }
 
@@ -72,7 +81,8 @@ export class Contracts {
       apeRouter: string;
       apeDistributor: string;
     },
-    signerOrProvider: SignerOrProvider
+    signerOrProvider: SignerOrProvider,
+    networkId: NetworkId
   ): Contracts {
     const usdc = ERC20__factory.connect(addresses.usdc, signerOrProvider);
     const apeToken = ApeToken__factory.connect(
@@ -91,12 +101,15 @@ export class Contracts {
       addresses.apeDistributor,
       signerOrProvider
     );
-    return new Contracts({
-      usdc,
-      apeToken,
-      apeVaultFactory,
-      apeRouter,
-      apeDistributor,
-    });
+    return new Contracts(
+      {
+        usdc,
+        apeToken,
+        apeVaultFactory,
+        apeRouter,
+        apeDistributor,
+      },
+      networkId
+    );
   }
 }
