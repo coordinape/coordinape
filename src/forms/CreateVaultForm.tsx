@@ -15,7 +15,8 @@ const basicSchema = z.object({
 
 const schema = basicSchema.refine(
   async ({ asset }) =>
-    asset.name !== 'OTHER' || (await zEthAddress.spa(asset.custom)).success,
+    asset.name !== 'OTHER' ||
+    (asset.custom !== '' && (await zEthAddress.spa(asset.custom)).success),
   {
     message: 'Enter a valid custom asset address',
   }
