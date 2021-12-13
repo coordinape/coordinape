@@ -6,7 +6,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { ApeRegistry__factory } from '../../../typechain';
 
-const log = debug('coordinape:tests');
+const log = debug('coordinape:setup');
 
 async function executeTimelockedFunction(
   contract: Contract,

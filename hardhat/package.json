@@ -7,7 +7,7 @@
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "hardhat node",
+    "dev": "DEBUG=coordinape:setup hardhat node",
     "deploy": "hardhat deploy --network localhost",
     "test": "hardhat test"
   },
@@ -28,7 +28,6 @@
     "dotenv": "^10.0.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.4.6",
-    "ganache-cli": "^6.12.2",
     "hardhat": "^2.4.1",
     "hardhat-deploy": "^0.9.0",
     "ts-node": "^9.1.1",
