@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { makeStyles, Box, ButtonGroup, Button } from '@material-ui/core';
+import { makeStyles, Box, Button } from '@material-ui/core';
 
 import { ApeInfoTooltip, ApeTextField } from 'components';
 import { TAssetEnum } from 'config/networks';
@@ -33,6 +33,7 @@ const tokens = {
 export const FormAssetSelector = ({
   value: { name, custom },
   onChange,
+  onBlur,
   label,
   subLabel,
   infoTooltip,
@@ -41,6 +42,7 @@ export const FormAssetSelector = ({
 }: {
   value: IFormToken;
   onChange: (newValue: IFormToken) => void;
+  onBlur: () => void;
   label: string;
   subLabel: string;
   infoTooltip?: React.ReactNode;
@@ -50,21 +52,17 @@ export const FormAssetSelector = ({
   const classes = useStyles();
 
   return (
-    <div>
-      <span>
+    <div className={classes.root}>
+      <div className={classes.label}>
         {label}
         <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>
-      </span>
-      <span>{subLabel}</span>
-      <ButtonGroup
-        id="buttontoken"
-        variant="contained"
-        color="default"
-        className={classes.grouped}
-      >
+      </div>
+      <div className={classes.subLabel}>{subLabel}</div>
+      <div className={classes.grouped}>
         {Object.entries(tokens).map(([key, Icon]) => (
           <Button
             key={key}
+            color="secondary"
             className={classes.assetBtn}
             data-selected={name === key}
             onClick={() => onChange({ name: key as TAssetEnum })}
@@ -75,7 +73,7 @@ export const FormAssetSelector = ({
             </span>
           </Button>
         ))}
-      </ButtonGroup>
+      </div>
 
       <Box mt={3} mb={3}>
         <ApeTextField
@@ -85,6 +83,7 @@ export const FormAssetSelector = ({
           disabled={name !== 'OTHER'}
           value={name === 'OTHER' ? custom : ''}
           placeholder="0x0000..."
+          onBlur={onBlur}
           onChange={({ target: { value: custom } }) =>
             onChange({ name: 'OTHER', custom })
           }
@@ -97,37 +96,47 @@ export const FormAssetSelector = ({
 };
 
 const useStyles = makeStyles(theme => ({
-  assetBox: {
+  root: {
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  label: {
+    fontWeight: 700,
+    fontSize: 16,
+    lineHeight: 1.5,
+  },
+  subLabel: {
+    fontWeight: 300,
+    fontSize: 16,
+    lineHeight: 1.5,
+    marginBottom: theme.spacing(1),
+  },
+  grouped: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
     flexWrap: 'wrap',
-    width: '70%',
+    width: '100%',
+    maxWidth: 300,
+    boxShadow: 'none',
   },
   assetBtn: {
-    flex: '1 0 21%',
-    height: '50px',
-    width: '150px',
-    margin: theme.spacing(2, 2),
+    height: '37px',
+    margin: theme.spacing(1, 0.5),
     fontSize: 15,
     fontWeight: 400,
-    textDecoration: 'none',
-    position: 'relative',
-    backgroundColor: theme.colors.ultraLightGray,
-    padding: theme.spacing(1, 1),
-    borderRadius: '20px',
+    padding: theme.spacing(0.6, 1.5),
+    borderRadius: 20,
     color: theme.colors.text,
-    alignItems: 'center',
-    border: 'none',
-    '&:not(:last-child)': {
-      borderRight: 'none',
-      borderTopRightRadius: 20,
-      borderBottomRightRadius: 20,
-    },
-    '&:not(:first-child)': {
-      borderTopLeftRadius: 20,
-      borderBottomLeftRadius: 20,
-    },
+    backgroundColor: theme.colors.ultraLightGray,
     '&[data-selected=true]': {
-      backgroundColor: theme.colors.lightGray,
+      color: theme.colors.white,
+      backgroundColor: `${theme.colors.text}80`,
+    },
+    '&:hover': {
+      backgroundColor: `${theme.colors.text}80`,
+      color: theme.colors.white,
     },
   },
   btnSpan: {
@@ -135,17 +144,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     '& svg': {
-      marginRight: '0.3em',
+      margin: theme.spacing(0, 0.3, 0, -1),
     },
   },
-  grouped: {
-    minWidth: 102,
-    borderRadius: 8,
-    fontWeight: 300,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    boxShadow: 'none',
-  },
+
   redColor: {
     color: theme.colors.red,
   },

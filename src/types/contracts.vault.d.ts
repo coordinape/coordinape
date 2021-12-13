@@ -13,6 +13,7 @@ export interface IVault {
   id: string;
   tokenAddress: string;
   simpleTokenAddress: string;
+  decimals: number;
   type: string;
   transactions: IVaultTransaction[];
 }

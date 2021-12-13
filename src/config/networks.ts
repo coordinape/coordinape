@@ -160,8 +160,6 @@ export const getToken = (networkId: number, tokenId: string): IToken => {
   };
 };
 
-export const hasToken = (tokenId: string) => tokenId in knownTokens;
-
 export const getEtherscanURL = (networkId: number): string => {
   if (!validNetworkId(networkId)) {
     throw new Error(`Unsupported network id: '${networkId}'`);

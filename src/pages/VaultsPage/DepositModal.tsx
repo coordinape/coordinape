@@ -1,19 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField } from 'components';
-import AdminVaultForm from 'forms/AdminVaultForm';
-// import { useAdminApi } from 'hooks';
+import { FormModal, FormTokenField } from 'components';
+import SingleTokenForm from 'forms/SingleTokenForm';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
-import { useSelectedCircle } from 'recoilState';
-import { assertDef } from 'utils/tools';
 
-import { IUser, IVault } from 'types';
+import { IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -25,82 +21,49 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(12),
     marginBottom: theme.spacing(12),
   },
-  ethInput: {
-    width: '100%',
-    gridColumn: '1 / span 2',
-  },
-  helperBox: {
-    height: 0,
-  },
-  label: {
-    margin: theme.spacing(0, 0, 2),
-    fontSize: 16,
-    fontWeight: 300,
-    lineHeight: 1.2,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
 }));
-
-interface DepositModalProps {
-  onClose: any;
-  open: boolean;
-
-  user?: IUser;
-  vault: IVault;
-}
+const balance = 5000;
 
 export default function DepositModal({
   open,
   onClose,
-  user,
   vault,
-}: DepositModalProps) {
+}: {
+  onClose: any;
+  open: boolean;
+  vault: IVault;
+}) {
   const classes = useStyles();
   const history = useHistory();
-  const [tokenBalance] = useState('-');
-
   const { depositToken } = useVaultRouter();
 
-  const handleClose = () => {
-    onClose(false);
-  };
-
-  // const source = useMemo(
-  //   () => ({
-  //     user: user,
-  //     circle: assertDef(selectedCircle, 'Missing circle'),
-  //   }),
-  //   [user, selectedCircle]
-  // );
-
-  const routeChange = async () => {
-    // TODO: replace with user entered token amount
-    const receipt = await depositToken(vault, 10);
-    // eslint-disable-next-line no-console
-    console.log(receipt);
-    const path = '/admin/vaults';
-    history.push(path);
-  };
-
-  //   TODO: Pull in real data to populate FormTextField label and update value
+  // This doesn't need have useMemo, but when we have balance set dynamically
+  // it will.
+  const source = useMemo(
+    () => ({
+      starting: 0,
+      balance,
+    }),
+    [vault]
+  );
 
   return (
-    <AdminVaultForm.FormController
-      source={undefined}
-      hideFieldErrors
-      submit={params => {
-        console.warn('todo:', params);
-        const path = '/admin/vaults';
-        history.push(path);
-      }}
+    <SingleTokenForm.FormController
+      source={source}
+      submit={({ amount }) =>
+        depositToken(vault, amount).then(receipt => {
+          // eslint-disable-next-line no-console
+          console.log(receipt);
+          history.push('/admin/vaults');
+        })
+      }
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
-          onClose={handleClose}
+          onClose={() => onClose(false)}
           open={open}
           title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
-          subtitle={''}
+          subtitle=""
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"
@@ -108,20 +71,16 @@ export default function DepositModal({
           submitText={`Deposit ${vault.type.toUpperCase()}`}
         >
           <div className={classes.oneColumn}>
-            <FormTextField
-              // {...fields.starting_tokens}
-              {...fields}
-              onChange={() => null}
-              InputProps={{
-                startAdornment: 'MAX',
-                endAdornment: vault.type.toUpperCase(),
-              }}
-              label={`Available: ${tokenBalance} ${vault.type.toUpperCase()}`}
-              apeVariant="token"
+            <FormTokenField
+              {...fields.amount}
+              max={balance}
+              symbol={vault.type}
+              decimals={vault.decimals}
+              label={`Available: ${balance} ${vault.type.toUpperCase()}`}
             />
           </div>
         </FormModal>
       )}
-    </AdminVaultForm.FormController>
+    </SingleTokenForm.FormController>
   );
 }

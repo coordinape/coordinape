@@ -1,6 +1,8 @@
 import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
 
+import { Box } from '@material-ui/core';
+
 import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormAssetSelector } from 'components';
 import CreateVaultForm from 'forms/CreateVaultForm';
@@ -19,7 +21,6 @@ export const CreateVaultModal = ({
   return (
     <CreateVaultForm.FormController
       source={chainId}
-      hideFieldErrors
       submit={async params =>
         createApeVault(params).then(vault => {
           // eslint-disable-next-line no-console
@@ -40,15 +41,15 @@ export const CreateVaultModal = ({
           size="small"
           submitText="Mint Vault"
         >
-          <FormAssetSelector
-            label="Select an asset"
-            subLabel="This will be the asset you distribute from the vault"
-            infoTooltip="TODO: Ask someone to write this"
-            {...fields.asset}
-          />
-          {/* TODO: Improve Errors, remove hideFieldErrors and implement in 
-                    FormAssetSelector? But then the paths would need to be
-                    set to 'asset' so all errors go there */}
+          <Box pt={4}>
+            <FormAssetSelector
+              label="Select an asset"
+              subLabel="This will be the asset you distribute from the vault"
+              infoTooltip="TODO: Ask someone to write this"
+              {...fields.asset}
+            />
+          </Box>
+
           {Object.entries(errors).map(([key, value]) => (
             <span key={key}>
               {key} - {value}

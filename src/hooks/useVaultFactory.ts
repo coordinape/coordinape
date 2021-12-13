@@ -42,6 +42,8 @@ export function useVaultFactory() {
             transactions: [],
             tokenAddress,
             simpleTokenAddress,
+            // TODO: Use real value:
+            decimals: 5,
             type,
           };
           vaultApi.addVault(vault);
