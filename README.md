@@ -109,11 +109,10 @@ clever.
 3. Load contracts: `git submodule update --init --recursive`
 4. Compile contracts: `yarn hardhat:compile`
 5. Run tests: `yarn hardhat:test`
-6. Export ethereum rpc url in env: `export ETHEREUM_RPC_URL=<Your Infura or Alchemy RPC URL>`
-7. Start Ganache node: `yarn hardhat:dev`
-8. Deploy contracts: `yarn hardhat:deploy`
-9. Codegen deploymentInfo: `yarn hardhat:codegen`
-10. Build hardhat package: `yarn hardhat:build`
+6. Start Ganache node: `yarn hardhat:dev`
+7. Deploy contracts: `yarn hardhat:deploy` - Only needed if not on dev env
+8. Codegen deploymentInfo: `yarn hardhat:codegen`
+9. Build hardhat package: `yarn hardhat:build`
 
 # Troubleshooting
 
