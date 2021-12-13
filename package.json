@@ -69,9 +69,8 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
-    "console": "hasura --project ./hasura console",
+    "hasura": "hasura --project ./hasura",
     "docker:start": "docker-compose up -d",
-    "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
     "start": "craco start",
