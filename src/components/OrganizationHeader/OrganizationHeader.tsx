@@ -5,9 +5,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
-import { useMe } from 'hooks';
 import { DownArrow } from 'icons';
 import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
+import { useMyProfile, useSelectedCircle } from 'recoilState/app';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -94,8 +94,10 @@ export const OrganizationHeader = () => {
   const location = useLocation();
   const classes = useStyles();
 
-  const { selectedMyUser, hasAdminView } = useMe();
-  const navButtonsVisible = !!selectedMyUser || hasAdminView;
+  const { myUser } = useSelectedCircle();
+  const { hasAdminView } = useMyProfile();
+
+  const navButtonsVisible = !!myUser || hasAdminView;
   const navItems = getAdminNavigation();
   const [, setEditCircle] = useState<boolean>(false);
   // const [,setNewUser] = useState<boolean>(false);

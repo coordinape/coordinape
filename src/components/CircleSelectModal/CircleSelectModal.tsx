@@ -1,11 +1,7 @@
-import React from 'react';
-
-import { useRecoilValue } from 'recoil';
-
 import { Button, Modal, makeStyles } from '@material-ui/core';
 
-import { useCircle, useCircleEpoch, useMe } from 'hooks';
-import { rCircles } from 'recoilState';
+import { useApiBase } from 'hooks';
+import { useCircles, useEpochsStatus } from 'recoilState/app';
 
 import { ICircle } from 'types';
 
@@ -104,7 +100,7 @@ const CircleButton = ({
   onClick: () => void;
 }) => {
   const classes = useStyles();
-  const { timingMessage } = useCircleEpoch(circle.id);
+  const { timingMessage } = useEpochsStatus(circle.id);
 
   return (
     <Button className={classes.circle} key={circle.id} onClick={onClick}>
@@ -126,11 +122,8 @@ export const CircleSelectModal = ({
   onClose: () => void;
 }) => {
   const classes = useStyles();
-  const { selectAndFetchCircle } = useCircle();
-
-  const { myCircles, hasAdminView } = useMe();
-  const circles = useRecoilValue(rCircles);
-  const myCirclesSet = new Set(myCircles.map(c => c.id));
+  const { selectAndFetchCircle } = useApiBase();
+  const { myCircles, viewOnlyCircles } = useCircles();
 
   return (
     <Modal className={classes.modal} open={visible} onClose={onClose}>
@@ -161,26 +154,24 @@ export const CircleSelectModal = ({
               }
             />
           ))}
-          {hasAdminView ? (
+          {viewOnlyCircles.length && (
             <>
               <div className={classes.divider}>
                 <span className={classes.circleLabel}>Admin View</span>
               </div>
-              {circles
-                .filter(c => !myCirclesSet.has(c.id))
-                ?.map(circle => (
-                  <CircleButton
-                    key={circle.id}
-                    circle={circle}
-                    onClick={() =>
-                      selectAndFetchCircle(circle.id)
-                        .then(onClose)
-                        .catch(console.warn)
-                    }
-                  />
-                ))}
+              {viewOnlyCircles.map(circle => (
+                <CircleButton
+                  key={circle.id}
+                  circle={circle}
+                  onClick={() =>
+                    selectAndFetchCircle(circle.id)
+                      .then(onClose)
+                      .catch(console.warn)
+                  }
+                />
+              ))}
             </>
-          ) : null}
+          )}
         </div>
       </div>
     </Modal>

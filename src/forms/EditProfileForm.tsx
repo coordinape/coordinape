@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { createForm } from './createForm';
 
-import { IApiFilledProfile } from 'types';
+import { IProfile } from 'types';
 
 const schema = z
   .object({
@@ -22,7 +22,7 @@ const EditProfileForm = createForm({
   name: 'EditProfileForm',
   getInstanceKey: () => 'me',
   getZodParser: () => schema,
-  load: (p: IApiFilledProfile) => ({
+  load: (p: IProfile) => ({
     bio: p.bio ?? '',
     skills: p.skills ?? [],
     twitter_username: p.twitter_username ?? '',

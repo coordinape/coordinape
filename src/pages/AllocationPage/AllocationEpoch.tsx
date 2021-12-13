@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 
 import { OptInput } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
-import { useCircle, useSelectedCircleEpoch } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles(theme => ({
@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ProfilePage = ({
+const AllocationEpoch = ({
   epochBio,
   setEpochBio,
   nonReceiver,
@@ -116,8 +116,11 @@ const ProfilePage = ({
   fixedNonReceiver: boolean;
 }) => {
   const classes = useStyles();
-  const { epochIsActive, timingMessage } = useSelectedCircleEpoch();
-  const { selectedCircle } = useCircle();
+
+  const {
+    circle: selectedCircle,
+    circleEpochsStatus: { epochIsActive, timingMessage },
+  } = useSelectedCircle();
 
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEpochBio(e.target.value);
@@ -190,4 +193,4 @@ const ProfilePage = ({
   );
 };
 
-export default ProfilePage;
+export default AllocationEpoch;

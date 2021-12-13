@@ -12,11 +12,18 @@ import {
   FormFileUpload,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useProfile, useMe, useCircle, useImageUploader, useApi } from 'hooks';
+import { useImageUploader, useApiWithProfile } from 'hooks';
 import { EditIcon } from 'icons';
-import { useSetEditProfileOpen } from 'recoilState';
+import {
+  useMyProfile,
+  useSelectedCircleLoadable,
+  useProfile,
+} from 'recoilState/app';
+import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 import { getAvatarPath } from 'utils/domain';
+
+import { IMyProfile, IProfile } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -173,51 +180,60 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Section = ({
-  title,
-  children,
-  asColumn,
-}: {
-  title: string;
-  children?: React.ReactNode;
-  asColumn?: boolean;
-}) => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.section}>
-      <h4 className={classes.sectionHeader}>{title}</h4>
-      <div
-        className={asColumn ? classes.sectionBodyColumn : classes.sectionBody}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
-
 export const ProfilePage = ({
   match: { params },
 }: RouteComponentProps<{ profileAddress?: string }>) => {
+  const address = params?.profileAddress;
+  const { address: myAddress } = useMyProfile();
+  const isMe = address === 'me' || address === myAddress;
+  if (!(isMe || address?.startsWith('0x'))) {
+    return <></>; // todo better 404?
+  }
+
+  return isMe ? <MyProfilePage /> : <OtherProfilePage address={address} />;
+};
+
+const MyProfilePage = () => {
+  const myProfile = useMyProfile();
+  const selectedCircle = useSelectedCircleLoadable();
+
+  return (
+    <ProfilePageContent
+      profile={myProfile}
+      circleId={selectedCircle.valueMaybe()?.circleId}
+      isMe
+    />
+  );
+};
+
+const OtherProfilePage = ({ address }: { address: string }) => {
+  const profile = useProfile(address);
+  const selectedCircle = useSelectedCircleLoadable();
+
+  return (
+    <ProfilePageContent
+      profile={profile}
+      circleId={selectedCircle.valueMaybe()?.circleId}
+    />
+  );
+};
+
+const ProfilePageContent = ({
+  profile,
+  circleId,
+  isMe,
+}: {
+  profile: IMyProfile | IProfile;
+  circleId?: number;
+  isMe?: boolean;
+}) => {
   const classes = useStyles();
-  const { selectedCircleId } = useCircle();
+  const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
+  const user = users.find(user => user.circle_id === circleId);
+  const name = user?.name ?? users?.[0]?.name ?? 'unknown';
+
   const setEditProfileOpen = useSetEditProfileOpen();
-
-  // My or Other Profile
-  const seemsAddress = params?.profileAddress?.startsWith('0x');
-  const isMe = params?.profileAddress === 'me';
-  const { profile: aProfile } = useProfile(
-    seemsAddress ? params?.profileAddress : undefined
-  );
-  const { updateBackground } = useApi();
-
-  const { myProfile } = useMe();
-
-  const profile = isMe ? myProfile : aProfile;
-  const user = profile?.users?.find(
-    user => user.circle_id === selectedCircleId
-  );
-  const name = user?.name ?? profile?.users?.[0]?.name ?? 'unknown';
+  const { updateBackground } = useApiWithProfile();
 
   const {
     imageUrl: backgroundUrl,
@@ -230,10 +246,6 @@ export const ProfilePage = ({
     bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
     circle: user.circle,
   }));
-
-  if (!profile) {
-    return <></>;
-  }
 
   return (
     <div className={classes.root}>
@@ -302,42 +314,67 @@ export const ProfilePage = ({
         </div>
       </div>
 
-      {user?.role !== USER_ROLE_COORDINAPE && (
+      {user && !user.isCoordinapeUser && (
         <div className={classes.sections}>
           <Section title="My Circles">
-            {profile?.users?.map(u => (
-              <div key={u.id} className={classes.circle}>
-                <Avatar
-                  alt={u?.circle?.name}
-                  src={
-                    u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
-                  }
-                >
-                  {u.circle.name}
-                </Avatar>
+            {profile?.users?.map(u =>
+              u.circle ? (
+                <div key={u.id} className={classes.circle}>
+                  <Avatar
+                    alt={u.circle.name}
+                    src={
+                      u.circle?.logo ? getAvatarPath(u.circle?.logo) : undefined
+                    }
+                  >
+                    {u.circle.name}
+                  </Avatar>
 
-                <span>
-                  {u.circle.protocol.name} {u.circle.name}
-                </span>
-                {u?.non_receiver !== 0 && <span>Opted-Out</span>}
-              </div>
-            ))}
+                  <span>
+                    {u.circle.protocol.name} {u.circle.name}
+                  </span>
+                  {u.non_receiver && <span>Opted-Out</span>}
+                </div>
+              ) : undefined
+            )}
           </Section>
           <Section title="Recent Epoch Activity" asColumn>
-            {recentEpochs?.map(({ bio, circle }, i) => (
-              <div className={classes.recentEpoch} key={i}>
-                <div className={classes.recentEpochTitle}>
-                  {circle.protocol.name} {circle.name}
-                </div>
-                {bio ? (
+            {recentEpochs?.map(({ bio, circle }, i) =>
+              circle ? (
+                <div className={classes.recentEpoch} key={i}>
+                  <div className={classes.recentEpochTitle}>
+                    {circle.protocol.name} {circle.name}
+                  </div>
                   <div className={classes.recentEpochStatement}>{bio}</div>
-                ) : null}
-              </div>
-            ))}
+                </div>
+              ) : undefined
+            )}
           </Section>
           {/* <Section title="Frequent Collaborators">TODO.</Section> */}
         </div>
       )}
+    </div>
+  );
+};
+
+const Section = ({
+  title,
+  children,
+  asColumn,
+}: {
+  title: string;
+  children?: React.ReactNode;
+  asColumn?: boolean;
+}) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.section}>
+      <h4 className={classes.sectionHeader}>{title}</h4>
+      <div
+        className={asColumn ? classes.sectionBodyColumn : classes.sectionBody}
+      >
+        {children}
+      </div>
     </div>
   );
 };

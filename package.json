@@ -46,9 +46,8 @@
     "lodash": "4.17.21",
     "logdown": "3.3.1",
     "luxon": "2.0.2",
-    "moment": "2.29.1",
     "node-sass": "6.0.1",
-    "notistack": "1.0.4",
+    "notistack": "1.0.10",
     "polished": "4.1.1",
     "react": "17.0.1",
     "react-data-table-component": "6.11.7",
@@ -70,6 +69,11 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
+    "console": "hasura --project ./hasura console",
+    "docker:start": "docker-compose up -d",
+    "docker:build": "docker-compose up --build -d",
+    "docker:stop": "docker-compose down",
+    "docker:clean": "docker-compose down -v",
     "start": "craco start",
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",

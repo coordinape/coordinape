@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.colors.text,
     color: `#ffffff80`,
     width: '100%',
-    maxWidth: 757,
+    maxWidth: 600,
     borderRadius: 8,
     padding: theme.spacing(5, 8),
     overflowY: 'auto',
@@ -59,6 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// TODO: Rename to ActionDialog
 export const DialogNotice = ({
   open,
   title,
