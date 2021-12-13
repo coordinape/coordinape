@@ -6,7 +6,7 @@ import { useContracts } from './useContracts';
 import { IVault } from 'types';
 
 export function useVaultFactory() {
-  const { apeVaultFactory: factory } = useContracts();
+  const contracts = useContracts();
   const { apeInfo, apeError } = useApeSnackbar();
   const vaultApi = useFakeVaultApi();
 
@@ -19,7 +19,12 @@ export function useVaultFactory() {
     simpleTokenAddress: string;
     type: string;
   }) => {
+    if (!contracts) {
+      apeError('Contracts not loaded');
+      return;
+    }
     try {
+      const { apeVaultFactory: factory } = contracts;
       const tx = await factory.createApeVault(tokenAddress, simpleTokenAddress);
       apeInfo('transaction sent');
       const receipt = await tx.wait();

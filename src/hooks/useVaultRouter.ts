@@ -1,11 +1,12 @@
 // - Contract Imports
 import { BigNumberish } from '@ethersproject/bignumber';
-import { ContractReceipt } from '@ethersproject/contracts';
 import { useWeb3React } from '@web3-react/core';
+import { ContractTransaction } from 'ethers';
 
 import { ERC20Service } from 'services/erc20';
 import { makeRouterTxFn } from 'utils/contractHelpers';
 
+import { useApeSnackbar } from './useApeSnackbar';
 import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
@@ -13,12 +14,13 @@ import { IVault } from 'types';
 export function useVaultRouter() {
   const contracts = useContracts();
   const web3Context = useWeb3React();
-  const runVaultRouter = makeRouterTxFn(web3Context, contracts);
+  const { apeError } = useApeSnackbar();
+  const runVaultRouter = makeRouterTxFn(web3Context, contracts, apeError);
 
   const depositToken = async (
     vault: IVault,
     amount: BigNumberish
-  ): Promise<ContractReceipt> => {
+  ): Promise<ContractTransaction | undefined> => {
     const signer = await web3Context.library.getSigner();
     const token = new ERC20Service(
       await web3Context.library,
@@ -31,12 +33,9 @@ export function useVaultRouter() {
     // Todo: Handle this separately and conditionally in UI
     await token.approveUnlimited(contracts.apeRouter.address);
     // Main logic
-    const tx = await runVaultRouter(v =>
+    return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)
     );
-    // Todo: handle this async
-    const receipt = await tx.wait();
-    return receipt;
   };
 
   const delegateWithdrawal = async (
