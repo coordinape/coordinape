@@ -1,0 +1,13 @@
+table:
+  name: nominees
+  schema: public
+array_relationships:
+- name: nominations
+  using:
+    manual_configuration:
+      column_mapping:
+        id: nominee_id
+      insertion_order: null
+      remote_table:
+        name: vouches
+        schema: public

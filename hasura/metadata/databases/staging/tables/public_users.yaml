@@ -1,0 +1,33 @@
+table:
+  name: users
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+- name: profile
+  using:
+    manual_configuration:
+      column_mapping:
+        address: address
+      insertion_order: null
+      remote_table:
+        name: profiles
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - address
+    - created_at
+    - id
+    - name
+    filter:
+      _and:
+      - deleted_at:
+          _is_null: true
+      - circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user

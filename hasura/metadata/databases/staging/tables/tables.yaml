@@ -1,0 +1,7 @@
+- "!include public_circles.yaml"
+- "!include public_epoches.yaml"
+- "!include public_nominees.yaml"
+- "!include public_profiles.yaml"
+- "!include public_protocols.yaml"
+- "!include public_users.yaml"
+- "!include public_vouches.yaml"

@@ -1,0 +1,33 @@
+table:
+  name: circles
+  schema: public
+object_relationships:
+- name: organization
+  using:
+    manual_configuration:
+      column_mapping:
+        protocol_id: id
+      insertion_order: null
+      remote_table:
+        name: protocols
+        schema: public
+array_relationships:
+- name: users
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: users
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - logo
+    - name
+    filter:
+      users:
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
+  role: user
