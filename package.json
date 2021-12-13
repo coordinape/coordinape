@@ -6,6 +6,7 @@
     "node": "=14"
   },
   "dependencies": {
+    "@coordinape/hardhat": "file:./hardhat",
     "@craco/craco": "6.3.0",
     "@date-io/luxon": "1.x",
     "@hcaptcha/react-hcaptcha": "0.3.7",
@@ -43,6 +44,9 @@
     "react-string-replace": "0.4.4",
     "react-virtualized-auto-sizer": "1.0.5",
     "recoil": "0.4.1",
+    "source-map-explorer": "2.5.2",
+    "styled-components": "5.2.3",
+    "true-myth": "^4.1.1",
     "web-vitals": "1.1.0",
     "zod": "3.7.1"
   },
@@ -54,8 +58,11 @@
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",
     "build:gzip": "craco build && gzipper --verbose ./build",
+    "hardhat:compile": "yarn --cwd hardhat compile",
+    "hardhat:codegen": "yarn --cwd hardhat codegen",
     "hardhat:build": "yarn --cwd hardhat build",
     "hardhat:dev": "yarn --cwd hardhat dev",
+    "hardhat:deploy": "yarn --cwd hardhat deploy",
     "hardhat:install": "yarn --cwd hardhat install",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "craco test",
@@ -109,6 +116,7 @@
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "12.1.2",
     "@types/debug": "4.1.7",
+    "@types/ethereumjs-util": "6.1.0",
     "@types/jest": "26.0.20",
     "@types/lodash": "4.14.168",
     "@types/luxon": "2.0.2",

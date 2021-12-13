@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -82,16 +82,24 @@ const useStyles = makeStyles(theme => ({
   },
   moreButton: {
     margin: 0,
-    padding: theme.spacing(0, 1),
+    padding: 0,
     minWidth: 20,
     fontSize: 17,
     fontWeight: 800,
     color: theme.colors.text,
   },
+  moreButtonIcon: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+  },
 }));
 
-export const OrganizationHeader = () => {
-  const location = useLocation();
+type Props = {
+  buttonText?: string;
+  onButtonClick?: () => void;
+};
+
+export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
   const classes = useStyles();
 
   const { myUser } = useSelectedCircle();
@@ -99,28 +107,20 @@ export const OrganizationHeader = () => {
 
   const navButtonsVisible = !!myUser || hasAdminView;
   const navItems = getAdminNavigation();
-  const [, setEditCircle] = useState<boolean>(false);
   // const [,setNewUser] = useState<boolean>(false);
   const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
-  const [, setPath] = useState<string>('');
-  const [isCirclePage, setIsCirclePage] = useState<boolean>(false);
-  useEffect(() => {
-    setPath(location.pathname);
-    if (location.pathname === '/admin/circles') {
-      setIsCirclePage(true);
-    }
-  }, [location]);
 
   const handleClose = () => {
     setFundModalOpen(!fundModalOpen);
   };
 
   const handleButtonClick = () => {
-    if (!isCirclePage) {
-      setEditCircle(true);
-    } else {
-      // Open add circle modal
+    if (onButtonClick) {
+      onButtonClick();
+      return;
     }
+
+    setFundModalOpen(true);
   };
   return (
     <>
@@ -139,12 +139,8 @@ export const OrganizationHeader = () => {
             }}
           />
           <h2 className={classes.title}>Yearn Finance</h2>
-          <Button
-            aria-describedby="1"
-            className={classes.moreButton}
-            onClick={() => setEditCircle(true)}
-          >
-            <DownArrow />
+          <Button aria-describedby="1" className={classes.moreButton}>
+            <DownArrow className={classes.moreButtonIcon} />
           </Button>
           <Button
             variant="contained"
@@ -155,7 +151,7 @@ export const OrganizationHeader = () => {
               marginLeft: '27px',
             }}
           >
-            {isCirclePage ? 'Add Circle' : 'Create a Vault'}
+            {buttonText || 'Create a Vault'}
           </Button>
         </div>
         <div className={classes.navLinks}>

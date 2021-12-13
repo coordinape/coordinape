@@ -4,15 +4,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "hardhat clean && hardhat compile && tsc",
-    "postbuild": "cp ./typechain/*.d.ts ./dist/typechain",
-    "dev": "hardhat node",
+    "compile": "hardhat clean && hardhat compile",
+    "build": "tsc && ./scripts/cp-declarations.sh",
+    "codegen": "ts-node scripts/generate-deployment-info.ts",
+    "dev": "DEBUG=coordinape:setup hardhat node",
+    "deploy": "hardhat deploy --network localhost",
     "test": "hardhat test"
   },
   "files": [
-    "deployments/**/*.json",
-    "deployments/**/.chainId",
-    "typechain"
+    "dist"
   ],
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",

@@ -2,12 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useMemo } from 'react';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle, useMyProfile } from 'recoilState/app';
+import { useVaults } from 'recoilState/vaults';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -16,6 +19,7 @@ import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
 import { IUser, IEpoch, ITableColumn } from 'types';
+import { IVault } from 'types/contracts.vault';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -122,16 +126,16 @@ const epochDetail = (e: IEpoch) => {
 };
 
 const VaultsPage = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [keyword, setKeyword] = useState<string>('');
+  const [keyword, setKeyword] = useState('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
-  const [newUser, setNewUser] = useState<boolean>(false);
+  const [newUser, setNewUser] = useState(false);
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [, setNewEpoch] = useState<boolean>(false);
-  const [, setEditCircle] = useState<boolean>(false);
-  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
-  const [editOpen, setEditOpen] = useState<boolean>(false);
+  const [, setNewEpoch] = useState(false);
+  const [, setEditCircle] = useState(false);
+  const vaults = useVaults();
+  const [editOpen, setEditOpen] = useState(false);
 
   const {
     circleId,
@@ -147,31 +151,31 @@ const VaultsPage = () => {
     setEditOpen(!editOpen);
   };
 
-  const transactions = useMemo(
-    () => [
-      {
-        name: 'No Name McGee',
-        dateType: 'Deposit made on',
-        posNeg: '+',
-        value: 25000,
-        vaultName: '',
-        number: 2,
-        activeUsers: 15,
-        date: '11/1',
-      },
-      {
-        name: 'Bob Villa',
-        dateType: 'Distributions triggered on',
-        posNeg: '-',
-        value: 14000,
-        vaultName: 'Strategists',
-        number: 4,
-        activeUsers: 1,
-        date: '11/3',
-      },
-    ],
-    []
-  );
+  // const transactions = useMemo(
+  //   () => [
+  //     {
+  //       name: 'No Name McGee',
+  //       dateType: 'Deposit made on',
+  //       posNeg: '+',
+  //       value: 25000,
+  //       vaultName: '',
+  //       number: 2,
+  //       activeUsers: 15,
+  //       date: '11/1',
+  //     },
+  //     {
+  //       name: 'Bob Villa',
+  //       dateType: 'Distributions triggered on',
+  //       posNeg: '-',
+  //       value: 14000,
+  //       vaultName: 'Strategists',
+  //       number: 4,
+  //       activeUsers: 1,
+  //       date: '11/3',
+  //     },
+  //   ],
+  //   []
+  // );
 
   const epochs = useMemo(
     () => [
@@ -474,20 +478,23 @@ const VaultsPage = () => {
   return (
     <div className={classes.root}>
       <OrganizationHeader />
-      {!hasVaults ? (
-        <NoVaults />
+      {vaults ? (
+        vaults.map(vault => (
+          <HasVaults
+            key={vault.id}
+            newUser={newUser}
+            setNewUser={setNewUser}
+            editUser={editUser}
+            setEditUser={setEditUser}
+            setNewEpoch={setNewEpoch}
+            epochColumns={epochColumns}
+            epochs={epochs}
+            vault={vault}
+            transactionColumns={transactionColumns}
+          />
+        ))
       ) : (
-        <HasVaults
-          newUser={newUser}
-          setNewUser={setNewUser}
-          editUser={editUser}
-          setEditUser={setEditUser}
-          setNewEpoch={setNewEpoch}
-          epochColumns={epochColumns}
-          epochs={epochs}
-          transactions={transactions}
-          transactionColumns={transactionColumns}
-        />
+        <NoVaults />
       )}
       <AllocateModal open={open} onClose={setOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
