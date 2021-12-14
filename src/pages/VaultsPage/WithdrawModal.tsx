@@ -6,7 +6,7 @@ import { FormModal, FormTextField } from 'components';
 import AdminVaultForm from 'forms/AdminVaultForm';
 import { MinusCircleIcon } from 'icons';
 
-import { IUser } from 'types';
+import { IUser, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -39,11 +39,18 @@ interface WithdrawModalProps {
   onClose: any;
   openwd: boolean;
   user?: IUser;
+  vault?: IVault;
 }
 
-export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
+export default function WithdrawModal({
+  openwd,
+  onClose,
+  vault,
+}: WithdrawModalProps) {
   const classes = useStyles();
   const history = useHistory();
+  // eslint-disable-next-line no-console
+  console.log('Vault from withdraw: ', vault);
 
   const handleClose = () => {
     onClose(false);
@@ -65,19 +72,22 @@ export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
         <FormModal
           onClose={handleClose}
           open={openwd}
-          title={'Withdraw USDC from the Coordinape Vault'}
+          title={`Withdraw ${vault?.type.toUpperCase()} from the Coordinape Vault`}
           subtitle={''}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"
           icon={<MinusCircleIcon />}
-          submitText={`Withdraw USDC`}
+          submitText={`Withdraw ${vault?.type.toUpperCase()}`}
         >
           <div className={classes.oneColumn}>
             <FormTextField
               {...fields.token}
-              InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
-              label="Available: 264,600 USDC"
+              InputProps={{
+                startAdornment: 'MAX',
+                endAdornment: vault?.type.toUpperCase(),
+              }}
+              label={`Available: ????? ${vault?.type.toUpperCase()}`}
               apeVariant="token"
             />
           </div>
