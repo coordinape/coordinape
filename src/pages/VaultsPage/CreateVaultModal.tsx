@@ -24,6 +24,8 @@ export const CreateVaultModal = ({
       submit={async ({ asset: { name, custom } }) => {
         createApeVault({ type: name, simpleTokenAddress: custom }).then(
           vault => {
+            if (!vault) return;
+
             // eslint-disable-next-line no-console
             console.log('created vault:', vault);
             history.push('/admin/vaults');

@@ -1,12 +1,9 @@
-import { useState } from 'react';
-
 import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { DownArrow } from 'icons';
-import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
 import { useMyProfile, useSelectedCircle } from 'recoilState/app';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -94,11 +91,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-type Props = {
-  buttonText?: string;
-  onButtonClick?: () => void;
-};
-
+interface Props {
+  buttonText: string;
+  onButtonClick: () => void;
+}
 export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
   const classes = useStyles();
 
@@ -107,25 +103,10 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
 
   const navButtonsVisible = !!myUser || hasAdminView;
   const navItems = getAdminNavigation();
-  // const [,setNewUser] = useState<boolean>(false);
-  const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
 
-  const handleClose = () => {
-    setFundModalOpen(!fundModalOpen);
-  };
-
-  const handleButtonClick = () => {
-    if (onButtonClick) {
-      onButtonClick();
-      return;
-    }
-
-    setFundModalOpen(true);
-  };
   return (
     <>
       <div className={classes.topMenu}>
-        <CreateVaultModal onClose={handleClose} open={fundModalOpen} />
         <div className={classes.organizationLinks}>
           <ApeAvatar
             alt="organization"
@@ -145,13 +126,13 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
           <Button
             variant="contained"
             size="small"
-            onClick={handleButtonClick}
+            onClick={onButtonClick}
             color="primary"
             style={{
               marginLeft: '27px',
             }}
           >
-            {buttonText || 'Create a Vault'}
+            {buttonText}
           </Button>
         </div>
         <div className={classes.navLinks}>

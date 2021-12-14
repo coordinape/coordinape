@@ -5,13 +5,11 @@ import { Button, makeStyles } from '@material-ui/core';
 import { StaticTable } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
-// eslint-disable-next-line import/no-named-as-default
-import CreateVaultModal from './CreateVaultModal';
 import DepositModal from './DepositModal';
 import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
-import { ITableColumn, IUser, IVault } from 'types';
+import { ITableColumn, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -128,10 +126,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface HasVaultsProps {
-  newUser: boolean;
-  setNewUser: React.Dispatch<React.SetStateAction<boolean>>;
-  editUser: IUser | undefined;
-  setEditUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
   setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
   epochColumns: ITableColumn[];
   epochs: any;
@@ -140,10 +134,6 @@ interface HasVaultsProps {
 }
 
 export default function HasVaults({
-  newUser,
-  setNewUser,
-  editUser,
-  setEditUser,
   setNewEpoch,
   epochs,
   vault,
@@ -252,12 +242,6 @@ export default function HasVaults({
               Fund This Vault
             </Button>
             <FundModal openfn={openfn} onClose={setOpenfn} />
-            <CreateVaultModal
-              onClose={() =>
-                newUser ? setNewUser(false) : setEditUser(undefined)
-              }
-              open={!!editUser || newUser}
-            />
           </div>
         }
       />
