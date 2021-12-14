@@ -170,12 +170,12 @@ describe('Test circle related functions of ApeVault', () => {
   });
 
   it('should update vault circle admin', async () => {
-    await vault.approveCircleAdmin(CIRCLE, user0.address);
+    await vault.updateCircleAdmin(CIRCLE, user0.address);
     expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
       user0.address
     );
 
-    await vault.approveCircleAdmin(CIRCLE, vault.address);
+    await vault.updateCircleAdmin(CIRCLE, vault.address);
     expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
       vault.address
     );
