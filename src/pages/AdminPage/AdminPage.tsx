@@ -8,7 +8,7 @@ import {
   StaticTable,
   NoticeBox,
   ApeAvatar,
-  DialogNotice,
+  ActionDialog,
   OrganizationHeader,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
@@ -569,7 +569,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           visible={editCircle}
         />
       )}
-      <DialogNotice
+      <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."
         onClose={() => setNewCircle(false)}
@@ -577,9 +577,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       >
         You’ll need to add your teammates to your circle and schedule an epoch
         before you can start allocating GIVE.
-      </DialogNotice>
+      </ActionDialog>
 
-      <DialogNotice
+      <ActionDialog
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
         onClose={() => setDeleteUserDialog(undefined)}
@@ -594,7 +594,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
         }
       />
 
-      <DialogNotice
+      <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
         onClose={() => setDeleteUserDialog(undefined)}
