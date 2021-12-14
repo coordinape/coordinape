@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { OptInput } from 'components';
+import { OptInput, ActionDialog } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
 import { capitalizedName } from 'utils/string';
@@ -116,10 +116,12 @@ const AllocationEpoch = ({
   fixedNonReceiver: boolean;
 }) => {
   const classes = useStyles();
+  const [optOutOpen, setOptOutOpen] = useState(false);
 
   const {
     circle: selectedCircle,
     circleEpochsStatus: { epochIsActive, timingMessage },
+    myUser,
   } = useSelectedCircle();
 
   const onChangeBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -159,7 +161,13 @@ const AllocationEpoch = ({
               isChecked={nonReceiver}
               subTitle="I am paid sufficiently via other channels"
               title="Opt Out"
-              updateOpt={() => setNonReceiver(true)}
+              updateOpt={() => {
+                if (myUser.give_token_received > 0) {
+                  setOptOutOpen(true);
+                } else {
+                  setNonReceiver(true);
+                }
+              }}
             />
             <OptInput
               isChecked={!nonReceiver}
@@ -169,6 +177,20 @@ const AllocationEpoch = ({
               title="Opt In"
               updateOpt={() => setNonReceiver(false)}
             />
+            <ActionDialog
+              open={optOutOpen}
+              title={`If you Opt Out you will lose your ${myUser.give_token_received} GIVE`}
+              onClose={() => setOptOutOpen(false)}
+              onPrimary={() => {
+                setNonReceiver(true);
+                setOptOutOpen(false);
+              }}
+              primaryText="Proceed to Opt Out"
+            >
+              Opting out during an in-progress epoch will result in any GIVE you
+              have received being returned to senders. Are you sure you wish to
+              proceed? This cannot be undone.
+            </ActionDialog>
           </div>
         </>
       ) : (

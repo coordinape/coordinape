@@ -59,8 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// TODO: Rename to ActionDialog
-export const DialogNotice = ({
+export const ActionDialog = ({
   open,
   title,
   children,

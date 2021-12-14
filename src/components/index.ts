@@ -32,7 +32,7 @@ export * from './FormCaptcha/FormCaptcha';
 export * from './ApeAutocomplete/ApeAutocomplete';
 export * from './FormAutocomplete/FormAutocomplete';
 export * from './ApeInfoTooltip/ApeInfoTooltip';
-export * from './DialogNotice/DialogNotice';
+export * from './ActionDialog/ActionDialog';
 export * from './ThreeDotMenu/ThreeDotMenu';
 export * from './OrganizationHeader/OrganizationHeader';
 export * from './ProfileSkills/ProfileSkills';
