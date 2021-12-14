@@ -6,7 +6,6 @@ import { StaticTable } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
 import DepositModal from './DepositModal';
-import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
 import { ITableColumn, IVault } from 'types';
@@ -143,7 +142,6 @@ export default function HasVaults({
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [openwd, setOpenwd] = useState<boolean>(false);
-  const [openfn, setOpenfn] = useState<boolean>(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -151,9 +149,9 @@ export default function HasVaults({
   const handleClickwd = () => {
     setOpenwd(!open);
   };
-  const handleClickfn = () => {
-    setOpenfn(!open);
-  };
+  // const handleClickfn = () => {
+  //   setOpenfn(!open);
+  // };
 
   return (
     <div className={classes.withVaults}>
@@ -237,11 +235,11 @@ export default function HasVaults({
               variant="contained"
               color="primary"
               size="small"
-              onClick={handleClickfn}
+              onClick={handleClick}
             >
               Fund This Vault
             </Button>
-            <FundModal openfn={openfn} onClose={setOpenfn} />
+            <DepositModal vault={vault} open={open} onClose={setOpen} />
           </div>
         }
       />
