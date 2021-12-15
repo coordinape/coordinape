@@ -35,8 +35,23 @@
     "ApeVaultFactory": {
       "address": "0x978A2941BA6CA861DFEE872c75e9FA5C51030d63"
     },
+    "DAI": {
+      "address": "0x438a4081dCD8de676D459A61f921803D1f0Fd18f"
+    },
     "FeeRegistry": {
       "address": "0x91922e6c71effbFe0BB93Fd927BE47fB9666f604"
+    },
+    "MockRegistry": {
+      "address": "0x2736211442F10474e3A8AB2F2e5cBD937bAb0f2F"
+    },
+    "MockVaultFactory": {
+      "address": "0xE881a3138226af8237557d793FC200c71BF190d5"
+    },
+    "USDC": {
+      "address": "0x876CA44D5cAE45a6b9eDDf8Ce20AE395BfA24875"
+    },
+    "yvDAI": {
+      "address": "0x83b82435caD3EBAd7BAFa6071fDA5A77330B0803"
     }
   }
 }
