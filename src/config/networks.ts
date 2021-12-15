@@ -136,9 +136,9 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     symbol: 'ETH',
     decimals: 18,
     addresses: {
-      [networkIds.MAINNET]: '0x0000000000000000000000000000000000000000',
+      [networkIds.MAINNET]: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
       [networkIds.HARDHAT]: '0x0000000000000000000000000000000000000000',
-      [networkIds.RINKEBY]: '0x0000000000000000000000000000000000000000',
+      [networkIds.RINKEBY]: '0xc778417e063141139fce010982780140aa0cd5ab',
     },
   },
 };
