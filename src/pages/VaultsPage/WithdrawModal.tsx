@@ -45,10 +45,6 @@ export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleClose = () => {
-    onClose(false);
-  };
-
   //   TODO: Pull in real data to populate FormTextField label and update value
 
   return (
@@ -63,7 +59,7 @@ export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
-          onClose={handleClose}
+          onClose={() => onClose('')}
           open={openwd}
           title={'Withdraw USDC from the Coordinape Vault'}
           subtitle={''}
