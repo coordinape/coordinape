@@ -3,22 +3,28 @@ import { z } from 'zod';
 import { createForm } from './createForm';
 import { zEthAddress } from './formHelpers';
 
-const AssetEnum = z.enum([
+const zAssetEnum = z.enum([
   'DAI',
   'USDC',
   'YFI',
   'SUSHI',
-  'alUSD',
+  'ALUSD',
   'USDT',
+  'ETH',
   'OTHER',
 ]);
+export type AssetEnum = z.infer<typeof zAssetEnum>;
 // type TEpochRepeatEnum = typeof AssetEnum['_type'];
 
-const schema = z
+export const schema = z
   .object({
     token: z.number(),
-    asset: AssetEnum,
-    custom_asset: zEthAddress,
+    asset: zAssetEnum,
+    custom_asset: z.string().refine(async val => {
+      // TODO should be optional only when asset is not "OTHER"
+      if (val == '') return true;
+      return zEthAddress.parseAsync(val);
+    }),
     repeat_monthly: z.boolean(),
   })
   .strict();
@@ -29,7 +35,7 @@ const AdminVaultForm = createForm({
   getZodParser: () => schema,
   load: () => ({
     token: 0,
-    asset: 'DAI',
+    asset: 'DAI' as AssetEnum,
     custom_asset: '',
     repeat_monthly: false,
   }),

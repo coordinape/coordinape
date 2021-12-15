@@ -7,15 +7,18 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
-import { useSelectedCircle, useMyProfile } from 'recoilState/app';
+import { useSelectedCircle } from 'recoilState/app';
+import { useVaults } from 'recoilState/vaults';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
+// eslint-disable-next-line import/no-named-as-default
+import CreateVaultModal from './CreateVaultModal';
 import EditModal from './EditModal';
 import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
 
-import { IUser, IEpoch, ITableColumn } from 'types';
+import { IEpoch, ITableColumn } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -108,30 +111,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const epochDetail = (e: IEpoch) => {
-  const r =
-    e.repeatEnum === 'none'
-      ? ''
-      : e.repeatEnum === 'weekly'
-      ? `${e.startDay} - ${e.endDay}`
-      : 'monthly';
-  return e.ended
-    ? e.labelActivity
-    : `${Math.floor(e.calculatedDays)} ${e.calculatedDays > 1 ? 'days' : 'day'}
-        ${e.repeat ? `, repeats ${r}` : ''}`;
-};
-
 const VaultsPage = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [allocateOpen, setAllocateOpen] = useState(false);
   const classes = useStyles();
-  const [keyword, setKeyword] = useState<string>('');
-  const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
-  const [newUser, setNewUser] = useState<boolean>(false);
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [, setNewEpoch] = useState<boolean>(false);
-  const [, setEditCircle] = useState<boolean>(false);
-  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
-  const [editOpen, setEditOpen] = useState<boolean>(false);
+  const [, setNewEpoch] = useState(false);
+  const vaults = useVaults();
+  const [editOpen, setEditOpen] = useState(false);
 
   const {
     circleId,
@@ -140,172 +127,14 @@ const VaultsPage = () => {
   const { deleteEpoch } = useApiAdminCircle(circleId);
 
   const handleClick = () => {
-    setOpen(!open);
+    setAllocateOpen(!allocateOpen);
   };
 
   const handleSetEdit = () => {
     setEditOpen(!editOpen);
   };
 
-  const transactions = useMemo(
-    () => [
-      {
-        name: 'No Name McGee',
-        dateType: 'Deposit made on',
-        posNeg: '+',
-        value: 25000,
-        vaultName: '',
-        number: 2,
-        activeUsers: 15,
-        date: '11/1',
-      },
-      {
-        name: 'Bob Villa',
-        dateType: 'Distributions triggered on',
-        posNeg: '-',
-        value: 14000,
-        vaultName: 'Strategists',
-        number: 4,
-        activeUsers: 1,
-        date: '11/3',
-      },
-    ],
-    []
-  );
-
-  const epochs = useMemo(
-    () => [
-      {
-        id: 1,
-        number: 2,
-        start_date: new Date('2021-10-07T00:55:35'),
-        end_date: new Date('2021-10-21T20:57:00.000000Z'),
-        circle_id: 1,
-        created_at: new Date('2021-10-07T00:55:35.000000Z'),
-        updated_at: new Date('2021-10-07T00:55:35.000000Z'),
-        ended: false,
-        notified_start: null,
-        notified_before_end: null,
-        notified_end: null,
-        grant: 0.0,
-        regift_days: 1,
-        days: 4,
-        repeat: 2,
-        repeat_day_of_month: 7,
-        repeatEnum: 'monthly',
-        started: true,
-        startDate: new Date('2021-10-07T00:55:35.000Z'),
-        startDay: 'Thu',
-        endDate: new Date('2021-10-21T20:57:00.000Z'),
-        endDay: 'Thu',
-        interval: {
-          s: new Date('2021-10-07T00:55:35.000Z'),
-          e: new Date('2021-10-21T20:57:00.000Z'),
-        },
-        invalid: null,
-        isLuxonInterval: true,
-        totalTokens: 0,
-        uniqueUsers: 0,
-        activeUsers: 0,
-        calculatedDays: 14.83431712962963,
-        labelGraph: 'This Epoch Oct 1 - 21',
-        labelDayRange: 'Oct 7 to Oct 21',
-        labelTimeStart: 'Started 12:55AM UTC',
-        labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: 'members will allocate ',
-        labelUntilStart: 'The Past',
-        labelUntilEnd: '8 Days',
-        labelYearEnd: '2021',
-      },
-      {
-        id: 1,
-        number: 4,
-        start_date: new Date('2021-10-07T00:55:35'),
-        end_date: new Date('2021-10-30T20:57:00.000000Z'),
-        circle_id: 1,
-        created_at: new Date('2021-10-01T00:55:35.000000Z'),
-        updated_at: new Date('2021-10-07T00:55:35.000000Z'),
-        ended: false,
-        notified_start: null,
-        notified_before_end: null,
-        notified_end: null,
-        grant: 0.0,
-        regift_days: 1,
-        days: 4,
-        repeat: 2,
-        repeat_day_of_month: 7,
-        repeatEnum: 'monthly',
-        started: true,
-        startDate: new Date('2021-10-01T00:55:35.000Z'),
-        startDay: 'Thu',
-        endDate: new Date('2021-10-30T20:57:00.000Z'),
-        endDay: 'Thu',
-        interval: {
-          s: new Date('2021-10-01T00:55:35.000Z'),
-          e: new Date('2021-10-30T20:57:00.000Z'),
-        },
-        invalid: null,
-        isLuxonInterval: true,
-        totalTokens: 70,
-        uniqueUsers: 14,
-        activeUsers: 0,
-        calculatedDays: 20,
-        labelGraph: 'This Epoch Oct 1 - 30',
-        labelDayRange: 'Oct 1 to Oct 30',
-        labelTimeStart: 'Started 12:55AM UTC',
-        labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: 'members have allocated',
-        labelUntilStart: 'The Past',
-        labelUntilEnd: '8 Days',
-        labelYearEnd: '2021',
-      },
-      {
-        id: 1,
-        number: 5,
-        start_date: new Date('2021-10-07T00:55:35'),
-        end_date: new Date('2021-10-30T20:57:00.000000Z'),
-        circle_id: 1,
-        created_at: new Date('2021-10-01T00:55:35.000000Z'),
-        updated_at: new Date('2021-10-07T00:55:35.000000Z'),
-        ended: false,
-        notified_start: null,
-        notified_before_end: null,
-        notified_end: null,
-        grant: 0.0,
-        regift_days: 1,
-        days: 4,
-        repeat: 2,
-        repeat_day_of_month: 7,
-        repeatEnum: 'monthly',
-        started: true,
-        startDate: new Date('2021-10-01T00:55:35.000Z'),
-        startDay: 'Thu',
-        endDate: new Date('2021-10-30T20:57:00.000Z'),
-        endDay: 'Thu',
-        interval: {
-          s: new Date('2021-10-01T00:55:35.000Z'),
-          e: new Date('2021-10-30T20:57:00.000Z'),
-        },
-        invalid: null,
-        isLuxonInterval: true,
-        totalTokens: 5000,
-        uniqueUsers: 432,
-        activeUsers: 0,
-        calculatedDays: 20,
-        labelGraph: 'This Epoch Oct 1 - 30',
-        labelDayRange: 'Oct 1 to Oct 30',
-        labelTimeStart: 'Started 12:55AM UTC',
-        labelTimeEnd: 'Ends 12:55AM UTC',
-        labelActivity: 'members have allocated',
-        labelUntilStart: 'The Past',
-        labelUntilEnd: '8 Days',
-        labelYearEnd: '2021',
-      },
-    ],
-    [epochsReverse]
-  );
-
-  // const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
+  const epochs = useMemo(() => fakeEpochData, [epochsReverse]);
 
   const renderActions = (onEdit: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
@@ -332,14 +161,6 @@ const VaultsPage = () => {
     </div>
   );
 
-  // User Columns
-  const filterUser = useMemo(
-    () => (u: IUser) => {
-      const r = new RegExp(keyword);
-      return r.test(u.name) || r.test(u.address);
-    },
-    [keyword]
-  );
   //TODO: Need to make an interface for transaction data
   const RenderTransactionDetails = (e: any) => {
     return e.posNeg === '-' ? (
@@ -473,26 +294,160 @@ const VaultsPage = () => {
 
   return (
     <div className={classes.root}>
-      <OrganizationHeader />
-      {!hasVaults ? (
-        <NoVaults />
+      <OrganizationHeader
+        buttonText="Create a Vault"
+        onButtonClick={() => setCreateOpen(true)}
+      />
+      {vaults ? (
+        vaults.map(vault => (
+          <HasVaults
+            key={vault.id}
+            setNewEpoch={setNewEpoch}
+            epochColumns={epochColumns}
+            epochs={epochs}
+            vault={vault}
+            transactionColumns={transactionColumns}
+          />
+        ))
       ) : (
-        <HasVaults
-          newUser={newUser}
-          setNewUser={setNewUser}
-          editUser={editUser}
-          setEditUser={setEditUser}
-          setNewEpoch={setNewEpoch}
-          epochColumns={epochColumns}
-          epochs={epochs}
-          transactions={transactions}
-          transactionColumns={transactionColumns}
-        />
+        <NoVaults onCreateButtonClick={() => setCreateOpen(true)} />
       )}
-      <AllocateModal open={open} onClose={setOpen} />
+      <AllocateModal open={allocateOpen} onClose={setAllocateOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
+      {createOpen && (
+        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
+      )}
     </div>
   );
 };
 
 export default VaultsPage;
+
+const fakeEpochData = [
+  {
+    id: 1,
+    number: 2,
+    start_date: new Date('2021-10-07T00:55:35'),
+    end_date: new Date('2021-10-21T20:57:00.000000Z'),
+    circle_id: 1,
+    created_at: new Date('2021-10-07T00:55:35.000000Z'),
+    updated_at: new Date('2021-10-07T00:55:35.000000Z'),
+    ended: false,
+    notified_start: null,
+    notified_before_end: null,
+    notified_end: null,
+    grant: 0.0,
+    regift_days: 1,
+    days: 4,
+    repeat: 2,
+    repeat_day_of_month: 7,
+    repeatEnum: 'monthly',
+    started: true,
+    startDate: new Date('2021-10-07T00:55:35.000Z'),
+    startDay: 'Thu',
+    endDate: new Date('2021-10-21T20:57:00.000Z'),
+    endDay: 'Thu',
+    interval: {
+      s: new Date('2021-10-07T00:55:35.000Z'),
+      e: new Date('2021-10-21T20:57:00.000Z'),
+    },
+    invalid: null,
+    isLuxonInterval: true,
+    totalTokens: 0,
+    uniqueUsers: 0,
+    activeUsers: 0,
+    calculatedDays: 14.83431712962963,
+    labelGraph: 'This Epoch Oct 1 - 21',
+    labelDayRange: 'Oct 7 to Oct 21',
+    labelTimeStart: 'Started 12:55AM UTC',
+    labelTimeEnd: 'Ends 12:55AM UTC',
+    labelActivity: 'members will allocate ',
+    labelUntilStart: 'The Past',
+    labelUntilEnd: '8 Days',
+    labelYearEnd: '2021',
+  },
+  {
+    id: 1,
+    number: 4,
+    start_date: new Date('2021-10-07T00:55:35'),
+    end_date: new Date('2021-10-30T20:57:00.000000Z'),
+    circle_id: 1,
+    created_at: new Date('2021-10-01T00:55:35.000000Z'),
+    updated_at: new Date('2021-10-07T00:55:35.000000Z'),
+    ended: false,
+    notified_start: null,
+    notified_before_end: null,
+    notified_end: null,
+    grant: 0.0,
+    regift_days: 1,
+    days: 4,
+    repeat: 2,
+    repeat_day_of_month: 7,
+    repeatEnum: 'monthly',
+    started: true,
+    startDate: new Date('2021-10-01T00:55:35.000Z'),
+    startDay: 'Thu',
+    endDate: new Date('2021-10-30T20:57:00.000Z'),
+    endDay: 'Thu',
+    interval: {
+      s: new Date('2021-10-01T00:55:35.000Z'),
+      e: new Date('2021-10-30T20:57:00.000Z'),
+    },
+    invalid: null,
+    isLuxonInterval: true,
+    totalTokens: 70,
+    uniqueUsers: 14,
+    activeUsers: 0,
+    calculatedDays: 20,
+    labelGraph: 'This Epoch Oct 1 - 30',
+    labelDayRange: 'Oct 1 to Oct 30',
+    labelTimeStart: 'Started 12:55AM UTC',
+    labelTimeEnd: 'Ends 12:55AM UTC',
+    labelActivity: 'members have allocated',
+    labelUntilStart: 'The Past',
+    labelUntilEnd: '8 Days',
+    labelYearEnd: '2021',
+  },
+  {
+    id: 1,
+    number: 5,
+    start_date: new Date('2021-10-07T00:55:35'),
+    end_date: new Date('2021-10-30T20:57:00.000000Z'),
+    circle_id: 1,
+    created_at: new Date('2021-10-01T00:55:35.000000Z'),
+    updated_at: new Date('2021-10-07T00:55:35.000000Z'),
+    ended: false,
+    notified_start: null,
+    notified_before_end: null,
+    notified_end: null,
+    grant: 0.0,
+    regift_days: 1,
+    days: 4,
+    repeat: 2,
+    repeat_day_of_month: 7,
+    repeatEnum: 'monthly',
+    started: true,
+    startDate: new Date('2021-10-01T00:55:35.000Z'),
+    startDay: 'Thu',
+    endDate: new Date('2021-10-30T20:57:00.000Z'),
+    endDay: 'Thu',
+    interval: {
+      s: new Date('2021-10-01T00:55:35.000Z'),
+      e: new Date('2021-10-30T20:57:00.000Z'),
+    },
+    invalid: null,
+    isLuxonInterval: true,
+    totalTokens: 5000,
+    uniqueUsers: 432,
+    activeUsers: 0,
+    calculatedDays: 20,
+    labelGraph: 'This Epoch Oct 1 - 30',
+    labelDayRange: 'Oct 1 to Oct 30',
+    labelTimeStart: 'Started 12:55AM UTC',
+    labelTimeEnd: 'Ends 12:55AM UTC',
+    labelActivity: 'members have allocated',
+    labelUntilStart: 'The Past',
+    labelUntilEnd: '8 Days',
+    labelYearEnd: '2021',
+  },
+];

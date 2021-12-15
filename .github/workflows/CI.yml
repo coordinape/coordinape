@@ -28,10 +28,8 @@ jobs:
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
+      - run: ./scripts/setup-hardhat.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
-      - run: git submodule update --init --recursive
-      - run: yarn hardhat:install --frozen-lockfile
-      - run: yarn hardhat:build
       - run: yarn test:ci

@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
 import { Button, makeStyles } from '@material-ui/core';
-
-import CreateVaultModal from 'pages/VaultsPage/CreateVaultModal';
 
 const useStyles = makeStyles(theme => ({
   noVaults: {
@@ -66,17 +62,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoVaults() {
+interface Props {
+  onCreateButtonClick: () => void;
+}
+export default function NoVaults({ onCreateButtonClick }: Props) {
   const classes = useStyles();
-  const [fundModalOpen, setFundModalOpen] = useState<boolean>(false);
-
-  const handleClose = () => {
-    setFundModalOpen(!fundModalOpen);
-  };
 
   return (
     <div className={classes.noVaults}>
-      <CreateVaultModal onClose={handleClose} open={fundModalOpen} />
       <div className={classes.noVaultsInterior}>
         <h2 className={classes.noVaultsTitle}>You dont have any vaults</h2>
         <h3 className={classes.noVaultsSubtitle}>To get started</h3>
@@ -84,7 +77,7 @@ export default function NoVaults() {
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => setFundModalOpen(true)}
+          onClick={onCreateButtonClick}
         >
           Create a Vault
         </Button>

@@ -5,13 +5,11 @@ import { Button, makeStyles } from '@material-ui/core';
 import { StaticTable } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
-// eslint-disable-next-line import/no-named-as-default
-import CreateVaultModal from './CreateVaultModal';
 import DepositModal from './DepositModal';
 import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
-import { ITableColumn, IUser } from 'types';
+import { ITableColumn, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -109,7 +107,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    marginTop: -80,
     gridTemplateColumns: '1fr',
     padding: theme.spacing(0, 1),
     [theme.breakpoints.down('xs')]: {
@@ -129,26 +126,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface HasVaultsProps {
-  newUser: boolean;
-  setNewUser: React.Dispatch<React.SetStateAction<boolean>>;
-  editUser: IUser | undefined;
-  setEditUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
   setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
   epochColumns: ITableColumn[];
   epochs: any;
-  transactions: any;
+  vault: IVault;
   transactionColumns: ITableColumn[];
 }
 
 export default function HasVaults({
-  newUser,
-  setNewUser,
-  editUser,
-  setEditUser,
   setNewEpoch,
   epochs,
+  vault,
   epochColumns,
-  transactions,
   transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
@@ -169,9 +158,11 @@ export default function HasVaults({
   return (
     <div className={classes.withVaults}>
       <div>
-        <DepositModal open={open} onClose={setOpen} />
+        <DepositModal vault={vault} open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
-          <h2 className={classes.vaultsTitle}>USDC Vault</h2>
+          <h2 className={classes.vaultsTitle}>
+            {vault.type.toUpperCase()} Vault
+          </h2>
           <Button
             variant="contained"
             color="primary"
@@ -232,7 +223,7 @@ export default function HasVaults({
         label="Transactions"
         className={classes.newTable}
         columns={transactionColumns}
-        data={transactions}
+        data={vault.transactions}
         perPage={6}
         placeholder={
           <div className={classes.noVaultsInterior}>
@@ -240,7 +231,7 @@ export default function HasVaults({
               There are no transactions to show yet.
             </h2>
             <h3 className={classes.noVaultsSubtitle}>
-              To get started, fund your vault with USDC
+              To get started, fund your vault with {vault.type.toUpperCase()}
             </h3>
             <Button
               variant="contained"
@@ -251,12 +242,6 @@ export default function HasVaults({
               Fund This Vault
             </Button>
             <FundModal openfn={openfn} onClose={setOpenfn} />
-            <CreateVaultModal
-              onClose={() =>
-                newUser ? setNewUser(false) : setEditUser(undefined)
-              }
-              open={!!editUser || newUser}
-            />
           </div>
         }
       />

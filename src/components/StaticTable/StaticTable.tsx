@@ -76,12 +76,13 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2, 0),
   },
   placeholder: {
-    height: 280,
+    height: 238,
     backgroundColor: theme.colors.background,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: theme.spacing(1),
   },
 }));
 
