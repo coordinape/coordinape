@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface WithdrawModalProps {
-  onClose: any;
+  onClose: () => void;
   open?: boolean;
   user?: IUser;
 }

@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface AllocateModalProps {
-  onClose: any;
+  onClose: () => void;
   open?: boolean;
 }
 

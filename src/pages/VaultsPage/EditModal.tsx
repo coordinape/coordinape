@@ -71,12 +71,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface AllocateModalProps {
-  onClose: any;
+interface EditModalProps {
+  onClose: () => void;
   open?: boolean;
 }
 
-export default function AllocateModal({ open, onClose }: AllocateModalProps) {
+export default function EditModal({ open, onClose }: EditModalProps) {
   const classes = useStyles();
   const history = useHistory();
   const [ongoing, setOngoing] = useState<boolean>(false);
