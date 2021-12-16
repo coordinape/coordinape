@@ -301,7 +301,7 @@ const VaultsPage = () => {
         onButtonClick={() => setCreateOpen(true)}
         name={currentOrg.name}
       />
-      {vaults ? (
+      {vaults.length > 0 ? (
         vaults.map(vault => (
           <HasVaults
             key={vault.id}
