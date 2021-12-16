@@ -11,6 +11,7 @@ import { useApiAdminCircle } from 'hooks';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
+import { useCurrentOrg } from 'services/api/hooks';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
@@ -119,7 +120,6 @@ const VaultsPage = () => {
   const classes = useStyles();
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState(false);
-  const vaults = useVaults();
   const [editOpen, setEditOpen] = useState(false);
   const query = useQuery();
 
@@ -287,12 +287,8 @@ const VaultsPage = () => {
     []
   );
 
-  const currentOrg = query
-    .organizations({ where: { circles: { id: { _eq: circleId } } } })
-    .map(org => ({
-      id: org.id,
-      name: org.name,
-    }))[0];
+  const currentOrg = useCurrentOrg();
+  const vaults = useVaults(currentOrg.id);
 
   return (
     <div className={classes.root}>
@@ -317,9 +313,7 @@ const VaultsPage = () => {
       )}
       <AllocateModal open={allocateOpen} onClose={setAllocateOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
-      {createOpen && (
-        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
-      )}
+      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
     </div>
   );
 };
