@@ -3,8 +3,8 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { getToken } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
+import { useCurrentOrg } from 'hooks/gqty';
 import { useFakeVaultApi } from 'recoilState/vaults';
-import { useCurrentOrg } from 'services/api/hooks';
 
 import { useContracts } from './useContracts';
 

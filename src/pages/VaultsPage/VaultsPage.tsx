@@ -8,10 +8,10 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
+import { useCurrentOrg } from 'hooks/gqty';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
-import { useCurrentOrg } from 'services/api/hooks';
 
 // eslint-disable-next-line import/no-named-as-default
 import AllocateModal from './AllocateModal';
