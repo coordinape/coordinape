@@ -3,6 +3,7 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { getToken } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
+import { useCurrentOrg } from 'hooks/gqty';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
@@ -13,6 +14,7 @@ export function useVaultFactory() {
   const contracts = useContracts();
   const { apeInfo, apeError } = useApeSnackbar();
   const vaultApi = useFakeVaultApi();
+  const currentOrg = useCurrentOrg();
 
   const createApeVault = async ({
     simpleTokenAddress,
@@ -58,7 +60,7 @@ export function useVaultFactory() {
             decimals: 5,
             type,
           };
-          vaultApi.addVault(vault);
+          vaultApi.addVault(currentOrg.id, vault);
           return vault;
         }
       }

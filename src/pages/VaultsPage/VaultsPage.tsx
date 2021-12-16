@@ -2,10 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useMemo } from 'react';
 
+import { useQuery } from 'lib/gqty';
+
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
+import { useCurrentOrg } from 'hooks/gqty';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
@@ -117,22 +120,14 @@ const VaultsPage = () => {
   const classes = useStyles();
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState(false);
-  const vaults = useVaults();
   const [editOpen, setEditOpen] = useState(false);
+  const query = useQuery();
 
   const {
     circleId,
     circleEpochsStatus: { epochs: epochsReverse },
   } = useSelectedCircle();
   const { deleteEpoch } = useApiAdminCircle(circleId);
-
-  const handleClick = () => {
-    setAllocateOpen(!allocateOpen);
-  };
-
-  const handleSetEdit = () => {
-    setEditOpen(!editOpen);
-  };
 
   const epochs = useMemo(() => fakeEpochData, [epochsReverse]);
 
@@ -144,7 +139,7 @@ const VaultsPage = () => {
           variant="contained"
           color="primary"
           size="small"
-          onClick={handleClick}
+          onClick={() => setAllocateOpen(true)}
         >
           Allocate Funds
         </Button>
@@ -241,7 +236,7 @@ const VaultsPage = () => {
         <Button variant="contained" className={classes.valueBtn} size="small">
           {e.totalTokens} <p className={classes.smallP}>usdc</p>
         </Button>
-        <button className={classes.editTxt} onClick={handleSetEdit}>
+        <button className={classes.editTxt} onClick={() => setEditOpen(true)}>
           Edit
         </button>
       </span>
@@ -292,13 +287,16 @@ const VaultsPage = () => {
     []
   );
 
+  const currentOrg = useCurrentOrg();
+  const vaults = useVaults(currentOrg.id);
+
   return (
     <div className={classes.root}>
       <OrganizationHeader
         buttonText="Create a Vault"
         onButtonClick={() => setCreateOpen(true)}
       />
-      {vaults ? (
+      {vaults.length > 0 ? (
         vaults.map(vault => (
           <HasVaults
             key={vault.id}
@@ -314,9 +312,7 @@ const VaultsPage = () => {
       )}
       <AllocateModal open={allocateOpen} onClose={setAllocateOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
-      {createOpen && (
-        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
-      )}
+      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
     </div>
   );
 };

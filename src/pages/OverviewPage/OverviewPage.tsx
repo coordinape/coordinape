@@ -2,14 +2,12 @@ import { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
+import NoVaults from '../VaultsPage/NoVaults';
 import { OrganizationHeader } from 'components';
 import { CreateVaultModal } from 'pages/VaultsPage/CreateVaultModal';
 
 // eslint-disable-next-line import/no-named-as-default
 import HasVaults from './HasVaults';
-import NoVaults from './NoVaults';
-
-import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -105,9 +103,7 @@ const useStyles = makeStyles(theme => ({
 const OverviewPage = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const classes = useStyles();
-  const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
-  const [newUser, setNewUser] = useState<boolean>(false);
-  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
+  const [hasVaults] = useState<boolean>(false); //Temp boolean pending data input
 
   return (
     <div className={classes.root}>
@@ -116,18 +112,11 @@ const OverviewPage = () => {
         onButtonClick={() => setCreateOpen(true)}
       />
       {!hasVaults ? (
-        <NoVaults
-          newUser={newUser}
-          setNewUser={setNewUser}
-          editUser={editUser}
-          setEditUser={setEditUser}
-        />
+        <NoVaults onCreateButtonClick={() => setCreateOpen(true)} />
       ) : (
         <HasVaults />
       )}
-      {createOpen && (
-        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
-      )}
+      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
     </div>
   );
 };
