@@ -4,7 +4,6 @@ import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { DownArrow } from 'icons';
-import { useMyProfile, useSelectedCircle } from 'recoilState/app';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -102,11 +101,6 @@ export const OrganizationHeader = ({
   onButtonClick,
 }: Props) => {
   const classes = useStyles();
-
-  const { myUser } = useSelectedCircle();
-  const { hasAdminView } = useMyProfile();
-
-  const navButtonsVisible = !!myUser || hasAdminView;
   const navItems = getAdminNavigation();
 
   return (
@@ -141,19 +135,18 @@ export const OrganizationHeader = ({
           </Button>
         </div>
         <div className={classes.navLinks}>
-          {navButtonsVisible &&
-            navItems.map(navItem => (
-              <NavLink
-                className={classes.navLink}
-                isActive={(nothing, location) =>
-                  checkActive(location.pathname, navItem)
-                }
-                key={navItem.path}
-                to={navItem.path}
-              >
-                {navItem.label}
-              </NavLink>
-            ))}
+          {navItems.map(navItem => (
+            <NavLink
+              className={classes.navLink}
+              isActive={(nothing, location) =>
+                checkActive(location.pathname, navItem)
+              }
+              key={navItem.path}
+              to={navItem.path}
+            >
+              {navItem.label}
+            </NavLink>
+          ))}
         </div>
       </div>
     </>
