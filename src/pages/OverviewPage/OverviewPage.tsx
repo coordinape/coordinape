@@ -103,7 +103,7 @@ const useStyles = makeStyles(theme => ({
 const OverviewPage = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const classes = useStyles();
-  const [hasVaults] = useState<boolean>(true); //Temp boolean pending data input
+  const [hasVaults] = useState<boolean>(false); //Temp boolean pending data input
 
   return (
     <div className={classes.root}>
@@ -116,9 +116,7 @@ const OverviewPage = () => {
       ) : (
         <HasVaults />
       )}
-      {createOpen && (
-        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
-      )}
+      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
     </div>
   );
 };

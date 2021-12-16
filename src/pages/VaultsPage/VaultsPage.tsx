@@ -295,7 +295,6 @@ const VaultsPage = () => {
       <OrganizationHeader
         buttonText="Create a Vault"
         onButtonClick={() => setCreateOpen(true)}
-        name={currentOrg.name}
       />
       {vaults.length > 0 ? (
         vaults.map(vault => (
