@@ -298,7 +298,7 @@ const VaultsPage = () => {
         buttonText="Create a Vault"
         onButtonClick={() => setCreateOpen(true)}
       />
-      {vaults ? (
+      {vaults.length > 0 ? (
         vaults.map(vault => (
           <HasVaults
             key={vault.id}
