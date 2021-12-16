@@ -17,14 +17,14 @@ import type {
 import { generatedSchema, scalarsEnumsHash } from './schema.generated';
 
 assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
-const post = axios.create({
+const axiosInstance = axios.create({
   method: 'POST',
   baseURL: process.env.REACT_APP_HASURA_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
-  const response = await post({ data: { query, variables } });
+  const response = await axiosInstance({ data: { query, variables } });
   const json = await response.data;
   return json;
 };
@@ -50,7 +50,7 @@ export {
   resolved,
   refetch,
   track,
-  post as axios,
+  axiosInstance as axios,
 };
 
 const {
