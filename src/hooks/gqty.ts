@@ -1,9 +1,9 @@
 import { useQuery } from 'lib/gqty';
 
-import { useSelectedCircle } from 'recoilState';
+import { useSelectedCircleId } from 'recoilState';
 
 export const useCurrentOrg = () => {
-  const { circleId } = useSelectedCircle();
+  const circleId = useSelectedCircleId();
   const query = useQuery();
   const currentOrg = query
     .organizations({ where: { circles: { id: { _eq: circleId } } } })
