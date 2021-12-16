@@ -23,11 +23,11 @@ export const useVaults = (orgId: number) => {
 export const useFakeVaultApi = () => {
   const addVault = useRecoilCallback(
     ({ snapshot, set }) =>
-      async (org: number, v: IVault) => {
+      async (orgId: number, v: IVault) => {
         const vaults = await snapshot.getPromise(rVaults);
         set(rVaults, {
           ...vaults,
-          [org]: [...(vaults[org] || []), v],
+          [orgId]: [...(vaults[orgId] || []), v],
         });
       },
     []
