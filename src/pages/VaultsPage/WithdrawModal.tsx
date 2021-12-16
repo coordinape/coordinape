@@ -36,18 +36,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface WithdrawModalProps {
-  onClose: any;
-  openwd: boolean;
+  onClose: () => void;
+  open?: boolean;
   user?: IUser;
 }
 
-export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
+export default function WithdrawModal({ open, onClose }: WithdrawModalProps) {
   const classes = useStyles();
   const history = useHistory();
-
-  const handleClose = () => {
-    onClose(false);
-  };
 
   //   TODO: Pull in real data to populate FormTextField label and update value
 
@@ -63,8 +59,8 @@ export default function WithdrawModal({ openwd, onClose }: WithdrawModalProps) {
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
-          onClose={handleClose}
-          open={openwd}
+          onClose={onClose}
+          open={open}
           title={'Withdraw USDC from the Coordinape Vault'}
           subtitle={''}
           onSubmit={handleSubmit}

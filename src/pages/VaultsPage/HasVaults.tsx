@@ -6,7 +6,6 @@ import { StaticTable } from 'components';
 import { InfoIcon, PlusCircleIcon } from 'icons';
 
 import DepositModal from './DepositModal';
-import FundModal from './FundModal';
 import WithdrawModal from './WithdrawModal';
 
 import { ITableColumn, IVault } from 'types';
@@ -141,24 +140,17 @@ export default function HasVaults({
   transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(false);
-  const [openwd, setOpenwd] = useState<boolean>(false);
-  const [openfn, setOpenfn] = useState<boolean>(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-  const handleClickwd = () => {
-    setOpenwd(!open);
-  };
-  const handleClickfn = () => {
-    setOpenfn(!open);
-  };
+  const [modal, setModal] = useState<'' | 'deposit' | 'withdraw'>('');
+  const closeModal = () => setModal('');
 
   return (
     <div className={classes.withVaults}>
+      {modal === 'withdraw' ? (
+        <WithdrawModal onClose={closeModal} />
+      ) : modal === 'deposit' ? (
+        <DepositModal vault={vault} onClose={closeModal} />
+      ) : null}
       <div>
-        <DepositModal vault={vault} open={open} onClose={setOpen} />
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>
             {vault.type.toUpperCase()} Vault
@@ -168,17 +160,16 @@ export default function HasVaults({
             color="primary"
             size="small"
             className={classes.depositWithdrawBtns}
-            onClick={handleClick}
+            onClick={() => setModal('deposit')}
           >
             Deposit
           </Button>
-          <WithdrawModal openwd={openwd} onClose={setOpenwd} />
           <Button
             variant="contained"
             color="primary"
             size="small"
             className={classes.depositWithdrawBtns}
-            onClick={handleClickwd}
+            onClick={() => setModal('withdraw')}
           >
             Withdraw
           </Button>
@@ -237,11 +228,10 @@ export default function HasVaults({
               variant="contained"
               color="primary"
               size="small"
-              onClick={handleClickfn}
+              onClick={() => setModal('deposit')}
             >
               Fund This Vault
             </Button>
-            <FundModal openfn={openfn} onClose={setOpenfn} />
           </div>
         }
       />

@@ -37,7 +37,7 @@ export const CreateVaultModal = ({
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
           onClose={onClose}
-          open={open !== undefined ? open : true}
+          open={open}
           title={'Create a New Vault'}
           subtitle={'We need to have some short description here'}
           onSubmit={handleSubmit}
