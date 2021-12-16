@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
+import { useCurrentOrg } from 'hooks/gqty';
 import { DownArrow } from 'icons';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -91,17 +92,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-  name?: string;
   buttonText: string;
   onButtonClick: () => void;
 }
-export const OrganizationHeader = ({
-  name,
-  buttonText,
-  onButtonClick,
-}: Props) => {
+export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
   const classes = useStyles();
   const navItems = getAdminNavigation();
+  const currentOrg = useCurrentOrg();
 
   return (
     <>
@@ -118,7 +115,7 @@ export const OrganizationHeader = ({
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>{name || 'Organization name'}</h2>
+          <h2 className={classes.title}>{currentOrg.name}</h2>
           <Button aria-describedby="1" className={classes.moreButton}>
             <DownArrow className={classes.moreButtonIcon} />
           </Button>

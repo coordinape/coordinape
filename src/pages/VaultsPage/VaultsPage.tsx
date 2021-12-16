@@ -8,6 +8,7 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useApiAdminCircle } from 'hooks';
+import { useCurrentOrg } from 'hooks/gqty';
 import { DeleteIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
@@ -119,7 +120,6 @@ const VaultsPage = () => {
   const classes = useStyles();
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState(false);
-  const vaults = useVaults();
   const [editOpen, setEditOpen] = useState(false);
   const query = useQuery();
 
@@ -287,19 +287,14 @@ const VaultsPage = () => {
     []
   );
 
-  const currentOrg = query
-    .organizations({ where: { circles: { id: { _eq: circleId } } } })
-    .map(org => ({
-      id: org.id,
-      name: org.name,
-    }))[0];
+  const currentOrg = useCurrentOrg();
+  const vaults = useVaults(currentOrg.id);
 
   return (
     <div className={classes.root}>
       <OrganizationHeader
         buttonText="Create a Vault"
         onButtonClick={() => setCreateOpen(true)}
-        name={currentOrg.name}
       />
       {vaults.length > 0 ? (
         vaults.map(vault => (
@@ -317,9 +312,7 @@ const VaultsPage = () => {
       )}
       <AllocateModal open={allocateOpen} onClose={setAllocateOpen} />
       <EditModal open={editOpen} onClose={setEditOpen} />
-      {createOpen && (
-        <CreateVaultModal onClose={() => setCreateOpen(false)} open={true} />
-      )}
+      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
     </div>
   );
 };
