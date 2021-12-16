@@ -92,10 +92,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
+  name?: string;
   buttonText: string;
   onButtonClick: () => void;
 }
-export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
+export const OrganizationHeader = ({
+  name,
+  buttonText,
+  onButtonClick,
+}: Props) => {
   const classes = useStyles();
 
   const { myUser } = useSelectedCircle();
@@ -119,7 +124,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>Yearn Finance</h2>
+          <h2 className={classes.title}>{name || 'Organization name'}</h2>
           <Button aria-describedby="1" className={classes.moreButton}>
             <DownArrow className={classes.moreButtonIcon} />
           </Button>

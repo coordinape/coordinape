@@ -5,6 +5,7 @@
 import assert from 'assert';
 
 import { createReactClient } from '@gqty/react';
+import axios from 'axios';
 import type { QueryFetcher } from 'gqty';
 import { createClient } from 'gqty';
 
@@ -15,28 +16,16 @@ import type {
 } from './schema.generated';
 import { generatedSchema, scalarsEnumsHash } from './schema.generated';
 
+assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
+const post = axios.create({
+  method: 'POST',
+  baseURL: process.env.REACT_APP_HASURA_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
 const queryFetcher: QueryFetcher = async function (query, variables) {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
-
-  if (process.env.API_TOKEN) {
-    // TODO: replace this with value from login (use Axios interceptor?)
-    headers.Authorization = `Bearer ${process.env.API_TOKEN}`;
-  } else if (process.env.HASURA_ADMIN_SECRET) {
-    headers['x-hasura-admin-secret'] = process.env.HASURA_ADMIN_SECRET;
-  }
-
-  assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
-  const response = await fetch(process.env.REACT_APP_HASURA_URL, {
-    body: JSON.stringify({ query, variables }),
-    method: 'POST',
-    mode: 'cors',
-    headers,
-  });
-
-  const json = await response.json();
-
+  const response = await post({ data: { query, variables } });
+  const json = await response.data;
   return json;
 };
 
@@ -53,7 +42,16 @@ export const client = createClient<
 const { query, mutation, mutate, subscription, resolved, refetch, track } =
   client;
 
-export { query, mutation, mutate, subscription, resolved, refetch, track };
+export {
+  query,
+  mutation,
+  mutate,
+  subscription,
+  resolved,
+  refetch,
+  track,
+  post as axios,
+};
 
 const {
   graphql,
@@ -71,10 +69,10 @@ const {
   defaults: {
     // Set this flag as "true" if your usage involves React Suspense
     // Keep in mind that you can overwrite it in a per-hook basis
-    suspense: false,
+    suspense: true,
 
     // Set this flag based on your needs
-    staleWhileRevalidate: false,
+    staleWhileRevalidate: true,
   },
 });
 
