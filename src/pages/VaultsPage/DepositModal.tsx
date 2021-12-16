@@ -29,8 +29,8 @@ export default function DepositModal({
   onClose,
   vault,
 }: {
-  onClose: any;
-  open: boolean;
+  onClose: () => void;
+  open?: boolean;
   vault: IVault;
 }) {
   const classes = useStyles();
@@ -60,7 +60,7 @@ export default function DepositModal({
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
-          onClose={() => onClose('')}
+          onClose={onClose}
           open={open}
           title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
           subtitle=""

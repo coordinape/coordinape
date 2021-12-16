@@ -115,13 +115,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const VaultsPage = () => {
-  const [createOpen, setCreateOpen] = useState(false);
-  const [allocateOpen, setAllocateOpen] = useState(false);
   const classes = useStyles();
   const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [, setNewEpoch] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
   const query = useQuery();
+  const [modal, setModal] = useState<'' | 'create' | 'edit' | 'allocate'>('');
+  const closeModal = () => setModal('');
 
   const {
     circleId,
@@ -139,7 +138,7 @@ const VaultsPage = () => {
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => setAllocateOpen(true)}
+          onClick={() => setModal('allocate')}
         >
           Allocate Funds
         </Button>
@@ -236,7 +235,7 @@ const VaultsPage = () => {
         <Button variant="contained" className={classes.valueBtn} size="small">
           {e.totalTokens} <p className={classes.smallP}>usdc</p>
         </Button>
-        <button className={classes.editTxt} onClick={() => setEditOpen(true)}>
+        <button className={classes.editTxt} onClick={() => setModal('edit')}>
           Edit
         </button>
       </span>
@@ -294,7 +293,7 @@ const VaultsPage = () => {
     <div className={classes.root}>
       <OrganizationHeader
         buttonText="Create a Vault"
-        onButtonClick={() => setCreateOpen(true)}
+        onButtonClick={() => setModal('create')}
       />
       {vaults.length > 0 ? (
         vaults.map(vault => (
@@ -308,11 +307,15 @@ const VaultsPage = () => {
           />
         ))
       ) : (
-        <NoVaults onCreateButtonClick={() => setCreateOpen(true)} />
+        <NoVaults onCreateButtonClick={() => setModal('create')} />
       )}
-      <AllocateModal open={allocateOpen} onClose={setAllocateOpen} />
-      <EditModal open={editOpen} onClose={setEditOpen} />
-      {createOpen && <CreateVaultModal onClose={() => setCreateOpen(false)} />}
+      {modal === 'allocate' ? (
+        <AllocateModal onClose={closeModal} />
+      ) : modal === 'edit' ? (
+        <EditModal onClose={closeModal} />
+      ) : modal === 'create' ? (
+        <CreateVaultModal onClose={closeModal} />
+      ) : null}
     </div>
   );
 };

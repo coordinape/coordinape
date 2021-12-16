@@ -73,17 +73,13 @@ const useStyles = makeStyles(theme => ({
 
 interface AllocateModalProps {
   onClose: any;
-  open: boolean;
+  open?: boolean;
 }
 
 export default function AllocateModal({ open, onClose }: AllocateModalProps) {
   const classes = useStyles();
   const history = useHistory();
   const [ongoing, setOngoing] = useState<boolean>(false);
-
-  const handleClose = () => {
-    onClose(false);
-  };
 
   const setOngoingAllocation = () => {
     setOngoing(!ongoing);
@@ -103,7 +99,7 @@ export default function AllocateModal({ open, onClose }: AllocateModalProps) {
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
-          onClose={handleClose}
+          onClose={onClose}
           open={open}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}

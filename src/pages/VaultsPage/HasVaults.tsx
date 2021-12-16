@@ -140,20 +140,17 @@ export default function HasVaults({
   transactionColumns,
 }: HasVaultsProps) {
   const classes = useStyles();
-  const [modalToOpen, setModalToOpen] = useState<string>('');
-
-  const handleClick = (modal: string) => {
-    setModalToOpen(modal);
-  };
+  const [modal, setModal] = useState<'' | 'deposit' | 'withdraw'>('');
+  const closeModal = () => setModal('');
 
   return (
     <div className={classes.withVaults}>
+      {modal === 'withdraw' ? (
+        <WithdrawModal onClose={closeModal} />
+      ) : modal === 'deposit' ? (
+        <DepositModal vault={vault} onClose={closeModal} />
+      ) : null}
       <div>
-        <DepositModal
-          vault={vault}
-          open={modalToOpen === 'deposit'}
-          onClose={setModalToOpen}
-        />
         <div className={classes.horizontalDisplay}>
           <h2 className={classes.vaultsTitle}>
             {vault.type.toUpperCase()} Vault
@@ -163,20 +160,16 @@ export default function HasVaults({
             color="primary"
             size="small"
             className={classes.depositWithdrawBtns}
-            onClick={() => handleClick('deposit')}
+            onClick={() => setModal('deposit')}
           >
             Deposit
           </Button>
-          <WithdrawModal
-            openwd={modalToOpen === 'withdraw'}
-            onClose={setModalToOpen}
-          />
           <Button
             variant="contained"
             color="primary"
             size="small"
             className={classes.depositWithdrawBtns}
-            onClick={() => handleClick('withdraw')}
+            onClick={() => setModal('withdraw')}
           >
             Withdraw
           </Button>
@@ -235,15 +228,10 @@ export default function HasVaults({
               variant="contained"
               color="primary"
               size="small"
-              onClick={() => handleClick('deposit')}
+              onClick={() => setModal('deposit')}
             >
               Fund This Vault
             </Button>
-            <DepositModal
-              vault={vault}
-              open={modalToOpen === 'deposit'}
-              onClose={setModalToOpen}
-            />
           </div>
         }
       />
