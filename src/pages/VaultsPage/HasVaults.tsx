@@ -158,21 +158,16 @@ const useStyles = makeStyles(theme => ({
     fontSize: 9,
     color: theme.colors.mediumGray,
   },
-  tableActions: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
   allocateBtn: {
-    padding: '12px',
-    height: 'calc(32px * 16) * 1rem',
-    marginRight: '2.5em',
+    width: '70%',
   },
   errorColor: {
     color: theme.palette.error.main,
   },
   valueBtn: {
-    width: '110.3px',
-    color: theme.colors.secondary,
+    width: '70%',
+    backgroundColor: theme.colors.lightGray,
+    color: theme.colors.text,
     fontWeight: 600,
   },
   smallP: {
@@ -199,7 +194,7 @@ const useStyles = makeStyles(theme => ({
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
 interface HasVaultsProps {
-  epochs: any;
+  epochs: any[];
   vault: IVault;
 }
 export default function HasVaults({ epochs, vault }: HasVaultsProps) {
@@ -259,8 +254,8 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
         epochs={epochs}
         allocate={() => setModal('allocate')}
         edit={() => setModal('edit')}
+        tokenSymbol={vault.type.toUpperCase()}
       />
-
       <TransactionsTable
         deposit={() => setModal('deposit')}
         transactions={vault.transactions}
@@ -273,50 +268,62 @@ interface EpochsTableProps {
   epochs: IEpoch[];
   allocate: () => void;
   edit: () => void;
+  tokenSymbol: string;
 }
-const EpochsTable = ({ epochs, allocate, edit }: EpochsTableProps) => {
+const EpochsTable = ({
+  epochs,
+  tokenSymbol,
+  allocate,
+  edit,
+}: EpochsTableProps) => {
   const classes = useStyles();
 
-  const RenderEpochDetails = (e: IEpoch) => (
-    <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>
-        {e.circle_id}(CID): E{e.number}
-      </span>
-    </div>
-  );
+  const hasAllowance = (e: IEpoch) => e !== epochs[0]; // TODO
+  const allowance = (e: IEpoch): number => e && 1000; // TODO
 
-  const RenderEpochDates = (e: IEpoch) => (
-    <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>
-        {e.uniqueUsers} {e.labelActivity} {e.totalTokens} GIVE
-      </span>
-      <span className={classes.twoLineCellSubtitle}>
-        {e.ended
-          ? `Epoch ended ${e.endDate.month} ${e.endDate.day}`
-          : `Epoch starts ${e.startDate.monthLong} and ends ${e.endDate.day}`}
-      </span>
-    </div>
-  );
-
-  const RenderRecentEpochActions = (e: IEpoch) =>
-    e.ended ? (
-      <>
-        <Button variant="contained" color="primary" size="small">
-          Allocate Funds
-        </Button>
-      </>
-    ) : e.totalTokens > 0 ? (
-      <span className={classes.editSpan}>
-        <Button variant="contained" className={classes.valueBtn} size="small">
-          {e.totalTokens} <p className={classes.smallP}>usdc</p>
-        </Button>
-        <button className={classes.editTxt} onClick={edit}>
-          Edit
-        </button>
-      </span>
-    ) : (
-      <div className={classes.tableActions}>
-        <span className={classes.editSpan}>
+  const epochColumns = [
+    {
+      label: 'Circle:Epoch',
+      leftAlign: true,
+      narrow: true,
+      render: (e: IEpoch) => (
+        <div className={classes.twoLineCell}>
+          <span className={classes.twoLineCellTitle}>
+            {e.circle_id}(CID): E{e.number}
+          </span>
+        </div>
+      ),
+    },
+    {
+      label: 'Details',
+      leftAlign: true,
+      render: (e: IEpoch) => (
+        <div className={classes.twoLineCell}>
+          <span className={classes.twoLineCellTitle}>
+            {e.uniqueUsers} {e.labelActivity} {e.totalTokens} GIVE
+          </span>
+          <span className={classes.twoLineCellSubtitle}>
+            {e.ended
+              ? `Epoch ended ${e.endDate.month} ${e.endDate.day}`
+              : `Epoch starts ${e.startDate.monthLong} and ends ${e.endDate.day}`}
+          </span>
+        </div>
+      ),
+    },
+    {
+      label: 'Allowances',
+      narrow: true,
+      render: (e: IEpoch) =>
+        hasAllowance(e) ? (
+          <Button
+            variant="contained"
+            className={classes.valueBtn}
+            size="small"
+            onClick={edit}
+          >
+            {allowance(e)} {tokenSymbol}
+          </Button>
+        ) : (
           <Button
             className={classes.allocateBtn}
             variant="contained"
@@ -324,34 +331,11 @@ const EpochsTable = ({ epochs, allocate, edit }: EpochsTableProps) => {
             size="small"
             onClick={allocate}
           >
-            Allocate Funds
+            Allocate&nbsp;Funds
           </Button>
-        </span>
-      </div>
-    );
-
-  const epochColumns = useMemo(
-    () =>
-      [
-        {
-          label: 'Circle:Epoch',
-          render: RenderEpochDetails,
-          leftAlign: true,
-          narrow: true,
-        },
-        {
-          label: 'Details',
-          render: RenderEpochDates,
-          leftAlign: true,
-        },
-        {
-          label: 'Allowances',
-          render: RenderRecentEpochActions,
-          narrow: true,
-        },
-      ] as ITableColumn[],
-    []
-  );
+        ),
+    },
+  ] as ITableColumn[];
 
   return (
     <StaticTable
@@ -362,7 +346,7 @@ const EpochsTable = ({ epochs, allocate, edit }: EpochsTableProps) => {
       placeholder={
         <>
           <h2 className={classes.tablePlaceholderTitle}>
-            You don’t have any recent epochs
+            You don&apos;t have any recent epochs
           </h2>
         </>
       }

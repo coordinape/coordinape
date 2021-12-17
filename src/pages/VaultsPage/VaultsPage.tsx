@@ -2,8 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useMemo } from 'react';
 
-import { useQuery } from 'lib/gqty';
-
 import { makeStyles } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
@@ -15,8 +13,6 @@ import { useVaults } from 'recoilState/vaults';
 import CreateVaultModal from './CreateVaultModal';
 import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
-
-import { IEpoch } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,8 +37,6 @@ const useStyles = makeStyles(theme => ({
 
 const VaultsPage = () => {
   const classes = useStyles();
-  const [, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const query = useQuery();
   const [modal, setModal] = useState<'' | 'create'>('');
   const closeModal = () => setModal('');
 
