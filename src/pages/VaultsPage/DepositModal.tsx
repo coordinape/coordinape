@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
+import { useGetAnyTokenValue } from '../../hooks/useGetAnyTokenValue';
 import { FormModal, FormTokenField } from 'components';
 import SingleTokenForm from 'forms/SingleTokenForm';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -22,7 +23,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(12),
   },
 }));
-const balance = 5000;
 
 export default function DepositModal({
   open,
@@ -36,9 +36,8 @@ export default function DepositModal({
   const classes = useStyles();
   const history = useHistory();
   const { depositToken } = useVaultRouter();
+  const { balance } = useGetAnyTokenValue(vault.tokenAddress);
 
-  // This doesn't need have useMemo, but when we have balance set dynamically
-  // it will.
   const source = useMemo(
     () => ({
       starting: 0,
@@ -54,6 +53,7 @@ export default function DepositModal({
         depositToken(vault, amount).then(receipt => {
           // eslint-disable-next-line no-console
           console.log(receipt);
+          onClose(false);
           history.push('/admin/vaults');
         })
       }

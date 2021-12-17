@@ -32,7 +32,11 @@ export function useVaultRouter() {
     }
     // Todo: Handle this separately and conditionally in UI
     await token.approveUnlimited(contracts.apeRouter.address);
+    // eslint-disable-next-line no-console
+    console.log('Vault Token address', vault.tokenAddress);
     // Main logic
+    //0x4A79C6f530dfc5376380c082D0EFa707DeA5f5d3 (eth vault address)
+    //0x0000000000000000000000000000000000000000 (eth vault token address)
     return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)
     );
