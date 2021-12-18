@@ -3,6 +3,8 @@ import { BigNumber, BigNumberish, BytesLike } from 'ethers';
 
 import { makeVaultTxFn } from 'utils/contractHelpers';
 
+import { useApeSnackbar } from './useApeSnackbar';
+
 import { IVault } from 'types';
 
 interface AllowanceProps {
@@ -16,7 +18,8 @@ interface AllowanceProps {
 
 export function useVaultWrapper(vault: IVault) {
   const web3Context = useWeb3React();
-  const runVaultTx = makeVaultTxFn(web3Context, vault);
+  const { apeError } = useApeSnackbar();
+  const runVaultTx = makeVaultTxFn(web3Context, vault, apeError);
 
   const apeMigrate = () => runVaultTx(v => v.apeMigrate());
 

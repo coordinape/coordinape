@@ -14,7 +14,7 @@ import { IVault } from 'types';
 export function useVaultRouter() {
   const contracts = useContracts();
   const web3Context = useWeb3React();
-  const { apeError } = useApeSnackbar();
+  const { apeError, apeInfo } = useApeSnackbar();
   const runVaultRouter = makeRouterTxFn(web3Context, contracts, apeError);
 
   const depositToken = async (
@@ -32,11 +32,19 @@ export function useVaultRouter() {
     }
     // Todo: Handle this separately and conditionally in UI
     await token.approveUnlimited(contracts.apeRouter.address);
-    // eslint-disable-next-line no-console
-    console.log('Vault Token address', vault.tokenAddress);
-    // Main logic
-    //0x4A79C6f530dfc5376380c082D0EFa707DeA5f5d3 (eth vault address)
-    //0x0000000000000000000000000000000000000000 (eth vault token address)
+    apeInfo('Deposit pending');
+    if (vault.type === 'ETH') {
+      const tx = {
+        from: web3Context.account,
+        to: vault.id,
+        value: amount,
+      };
+      return await signer.sendTransaction(tx).then((res: any) => {
+        apeInfo('Transaction Mined');
+        // eslint-disable-next-line no-console
+        console.log(res);
+      });
+    }
     return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)
     );
