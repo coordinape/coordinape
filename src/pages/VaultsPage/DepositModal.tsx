@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
+import { ethers } from 'ethers';
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -35,8 +36,15 @@ export default function DepositModal({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const [balance, setBalance] = useState<any>();
   const { depositToken } = useVaultRouter();
-  const { balance } = useGetAnyTokenValue(vault.tokenAddress, vault.type);
+  const { bal } = useGetAnyTokenValue(vault.tokenAddress);
+
+  useEffect(() => {
+    vault.type === 'USDC' || vault.type === 'yvUSDC'
+      ? setBalance(ethers.utils.formatUnits(bal, 6))
+      : setBalance(ethers.utils.formatUnits(bal, 18));
+  }, [balance]);
 
   const source = useMemo(
     () => ({
@@ -46,17 +54,19 @@ export default function DepositModal({
     [vault]
   );
 
+  const handleSubmit = (amount: number) => {
+    depositToken(vault, amount).then(receipt => {
+      // eslint-disable-next-line no-console
+      console.log(receipt);
+      onClose(false);
+      history.push('/admin/vaults');
+    });
+  };
+
   return (
     <SingleTokenForm.FormController
       source={source}
-      submit={({ amount }) =>
-        depositToken(vault, amount).then(receipt => {
-          // eslint-disable-next-line no-console
-          console.log(receipt);
-          onClose(false);
-          history.push('/admin/vaults');
-        })
-      }
+      submit={({ amount }) => handleSubmit(amount)}
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal

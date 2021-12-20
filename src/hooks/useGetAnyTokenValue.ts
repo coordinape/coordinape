@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
 
 import { knownTokens } from 'config/networks';
 import { ERC20Service } from 'services/erc20';
 
-export function useGetAnyTokenValue(tokenAddress: string, type: string) {
-  const [balance, setBalance] = useState<any>(0);
-  const [decimals, setDecimals] = useState<number>();
+export function useGetAnyTokenValue(tokenAddress: string) {
+  const [bal, setBalance] = useState<any>(0);
   const web3Context = useWeb3React();
   const { library, account } = web3Context;
 
   useEffect(() => {
-    if (type === 'USDC' || type === 'yvUSDC') {
-      setDecimals(6);
-    } else {
-      setDecimals(18);
-    }
     getTokenBalance(tokenAddress);
   }, [tokenAddress]);
 
@@ -28,11 +21,7 @@ export function useGetAnyTokenValue(tokenAddress: string, type: string) {
       tokenAddress === knownTokens.ETH.addresses[4] ||
       tokenAddress === knownTokens.ETH.addresses[1337];
     if (isEth) {
-      library
-        .getBalance(account)
-        .then((bal: any) =>
-          setBalance(parseInt(ethers.utils.formatEther(bal)))
-        );
+      library.getBalance(account).then((_bal: any) => setBalance(_bal));
     } else {
       const signer = await web3Context.library.getSigner();
       const token = new ERC20Service(
@@ -40,9 +29,8 @@ export function useGetAnyTokenValue(tokenAddress: string, type: string) {
         await signer.getAddress(),
         tokenAddress
       );
-      const bal = await token.getBalanceOf(account ? account : '');
-      setBalance(ethers.utils.formatUnits(bal, decimals));
+      setBalance(await token.getBalanceOf(account ? account : ''));
     }
   };
-  return { getTokenBalance, balance };
+  return { getTokenBalance, bal };
 }
