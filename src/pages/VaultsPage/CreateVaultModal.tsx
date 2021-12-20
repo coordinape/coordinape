@@ -11,7 +11,7 @@ export const CreateVaultModal = ({
   onClose,
   open,
 }: {
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
 }) => {
   const history = useHistory();

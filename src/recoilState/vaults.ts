@@ -16,14 +16,19 @@ export const rVaults = atom({
   ],
 });
 
-export const useVaults = () => useRecoilValue(rVaults);
+export const useVaults = (orgId: number) => {
+  return useRecoilValue(rVaults)[orgId] || [];
+};
 
 export const useFakeVaultApi = () => {
   const addVault = useRecoilCallback(
     ({ snapshot, set }) =>
-      async (v: IVault) => {
+      async (orgId: number, v: IVault) => {
         const vaults = await snapshot.getPromise(rVaults);
-        set(rVaults, [...vaults, v]);
+        set(rVaults, {
+          ...vaults,
+          [orgId]: [...(vaults[orgId] || []), v],
+        });
       },
     []
   );
