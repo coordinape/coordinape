@@ -91,6 +91,11 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
+const forking = {
+  url: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
+  blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
+};
+
 const config: HardhatUserConfig = {
   solidity: {
     compilers: [
@@ -128,11 +133,6 @@ const config: HardhatUserConfig = {
         mnemonic: 'coordinape',
       },
       deploy: ['./scripts/deploy'],
-
-      forking: {
-        url: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-        blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
-      },
     },
     localhost: {
       live: false,
@@ -150,5 +150,10 @@ const config: HardhatUserConfig = {
     },
   },
 };
+
+if (process.env.TEST) {
+  // @ts-ignore
+  config.networks.hardhat.forking = forking;
+}
 
 export default config;

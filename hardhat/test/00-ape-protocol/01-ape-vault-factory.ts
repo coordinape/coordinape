@@ -1,6 +1,5 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
-import { network } from 'hardhat';
 
 import { USDC_ADDRESS, USDC_YVAULT_ADDRESS } from '../constants';
 import { createApeVault } from '../utils/ApeVault/createApeVault';

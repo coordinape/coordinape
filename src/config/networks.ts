@@ -74,7 +74,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 6,
     addresses: {
       [networkIds.MAINNET]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-      [networkIds.HARDHAT]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      [networkIds.HARDHAT]: '0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc',
       [networkIds.RINKEBY]: '0x866CcA6D3902B030a7389A1aDeD4c32Ff3696800',
     },
   },
@@ -83,7 +83,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 6,
     addresses: {
       [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
-      [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.HARDHAT]: '0x069cD64cC7D93b7e69130808338c0c2e561F3629',
       [networkIds.RINKEBY]: '0xc33f0a62f2c9c301b522eb4f208c0e1aa8a34677',
     },
   },
@@ -92,7 +92,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     decimals: 18,
     addresses: {
       [networkIds.MAINNET]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
-      [networkIds.HARDHAT]: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+      [networkIds.HARDHAT]: '0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5',
       [networkIds.RINKEBY]: '0x7C38c1913A7d512437E7f97D83519C1f9B59239e',
     },
   },

@@ -5,7 +5,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const useProxy = !hre.network.live;
-  const yearnRegistry = '0xE15461B18EE31b7379019Dc523231C57d1Cbc18c';
+  let yRegistry: string;
+  if (hre.network.name === 'hardhat' && !process.env.TEST) {
+    yRegistry = (await hre.deployments.get('MockRegistry')).address;
+  } else {
+    yRegistry = '0xE15461B18EE31b7379019Dc523231C57d1Cbc18c';
+  }
   const apeRegistry = await deploy('ApeRegistry', {
     contract: 'ApeRegistry',
     from: deployer,
@@ -15,13 +20,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const apeVaultFactory = await deploy('ApeVaultFactory', {
     contract: 'ApeVaultFactory',
     from: deployer,
-    args: [yearnRegistry, apeRegistry.address],
+    args: [yRegistry, apeRegistry.address],
     log: true,
   });
   await deploy('ApeRouter', {
     contract: 'ApeRouter',
     from: deployer,
-    args: [yearnRegistry, apeVaultFactory.address, 0],
+    args: [yRegistry, apeVaultFactory.address, 0],
     log: true,
   });
   await deploy('ApeDistributor', {
