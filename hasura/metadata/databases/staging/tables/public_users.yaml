@@ -17,10 +17,42 @@ object_relationships:
 select_permissions:
 - permission:
     columns:
-    - address
-    - created_at
     - id
     - name
+    - address
+    - give_token_received
+    - give_token_remaining
+    - role
+    - non_receiver
+    - circle_id
+    - created_at
+    - updated_at
+    - bio
+    - epoch_first_visit
+    - non_giver
+    - deleted_at
+    - starting_tokens
+    - fixed_non_receiver
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - address
+    - bio
+    - circle_id
+    - created_at
+    - deleted_at
+    - epoch_first_visit
+    - fixed_non_receiver
+    - give_token_received
+    - give_token_remaining
+    - id
+    - name
+    - non_giver
+    - non_receiver
+    - role
+    - starting_tokens
+    - updated_at
     filter:
       _and:
       - deleted_at:

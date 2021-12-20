@@ -22,12 +22,73 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
+    - alloc_text
+    - auto_opt_out
+    - created_at
+    - default_opt_in
+    - discord_webhook
     - id
+    - is_verified
     - logo
+    - min_vouches
     - name
+    - nomination_days_limit
+    - only_giver_vouch
+    - protocol_id
+    - team_sel_text
+    - team_selection
+    - telegram_id
+    - token_name
+    - updated_at
+    - vouching
+    - vouching_text
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - alloc_text
+    - auto_opt_out
+    - created_at
+    - default_opt_in
+    - id
+    - is_verified
+    - logo
+    - min_vouches
+    - name
+    - nomination_days_limit
+    - only_giver_vouch
+    - protocol_id
+    - team_sel_text
+    - team_selection
+    - token_name
+    - updated_at
+    - vouching
+    - vouching_text
     filter:
       users:
         profile:
           id:
             _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - alloc_text
+    - auto_opt_out
+    - default_opt_in
+    - discord_webhook
+    - logo
+    - min_vouches
+    - name
+    - nomination_days_limit
+    - only_giver_vouch
+    - team_sel_text
+    - team_selection
+    - token_name
+    - vouching
+    - vouching_text
+    filter:
+      id:
+        _in: X-Hasura-Admin-Circle-Ids
   role: user
