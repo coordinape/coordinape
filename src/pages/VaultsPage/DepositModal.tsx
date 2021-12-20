@@ -44,7 +44,7 @@ export default function DepositModal({
     vault.type === 'USDC' || vault.type === 'yvUSDC'
       ? setBalance(parseInt(ethers.utils.formatUnits(bal, 6)))
       : setBalance(parseInt(ethers.utils.formatUnits(bal, 18)));
-  }, []);
+  }, [bal]);
 
   const source = useMemo(
     () => ({
@@ -55,6 +55,8 @@ export default function DepositModal({
   );
 
   const handleSubmit = (amount: number) => {
+    // eslint-disable-next-line no-console
+    console.log('amount', amount);
     depositToken(vault, amount).then(receipt => {
       // eslint-disable-next-line no-console
       console.log(receipt);

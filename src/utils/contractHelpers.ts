@@ -49,7 +49,7 @@ export const makeRouterTxFn =
       return;
     }
     const signer = await web3Context.library.getSigner();
-    const apeRouter = contracts.apeRouter.connect(signer);
+    const apeRouter = await contracts.apeRouter.connect(signer);
     return callback(apeRouter).catch(e => handleContractError(apeError, e));
   };
 
