@@ -95,7 +95,7 @@ export const FormModal = ({
   submitText?: string;
   submitDisabled: boolean;
   className?: string;
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
   size?: 'large' | 'medium' | 'small';
   icon?: any;
@@ -103,7 +103,11 @@ export const FormModal = ({
   const classes = useStyles();
 
   return (
-    <Modal className={classes.modal} onClose={onClose} open={open}>
+    <Modal
+      className={classes.modal}
+      onClose={onClose}
+      open={open !== undefined ? open : true}
+    >
       <form
         className={clsx([classes[size ?? 'medium']], classes.body, className)}
         onSubmit={onSubmit}

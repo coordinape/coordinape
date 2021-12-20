@@ -45,6 +45,10 @@ export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
 export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
 export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
 
+const getInitialsUrl = (name: string) => {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+};
+
 export const getAvatarPath = (avatar?: string, placeholder?: string) => {
   if (!avatar) return placeholder || AVATAR_PLACEHOLDER;
 
@@ -61,9 +65,17 @@ export const getAvatarPath = (avatar?: string, placeholder?: string) => {
 };
 
 export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
-  const placeholder = name
-    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(name ?? '')}`
-    : AVATAR_PLACEHOLDER;
+  const placeholder = name ? getInitialsUrl(name) : AVATAR_PLACEHOLDER;
 
   return avatar ? getAvatarPath(avatar) : placeholder;
+};
+
+export const getCircleAvatar = ({
+  avatar,
+  circleName,
+}: {
+  avatar?: string;
+  circleName: string;
+}) => {
+  return avatar ? getAvatarPath(avatar) : getInitialsUrl(circleName);
 };

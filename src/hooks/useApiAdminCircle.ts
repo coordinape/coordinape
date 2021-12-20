@@ -86,6 +86,13 @@ export const useApiAdminCircle = (circleId: number) => {
     [circleId]
   );
 
+  const downloadCSV = useRecoilLoadCatch(
+    () => async (epoch: number) => {
+      return await getApiService().downloadCSV(circleId, epoch);
+    },
+    [circleId]
+  );
+
   return {
     updateCircle,
     updateCircleLogo,
@@ -96,5 +103,6 @@ export const useApiAdminCircle = (circleId: number) => {
     createUser,
     deleteUser,
     getDiscordWebhook,
+    downloadCSV,
   };
 };

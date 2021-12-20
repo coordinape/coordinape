@@ -121,10 +121,12 @@ clever.
 1. Install packages: `yarn hardhat:install`
 2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
 3. Load contracts: `git submodule update --init --recursive`
-4. Build hardhat: `yarn hardhat:build`
+4. Compile contracts: `yarn hardhat:compile`
 5. Run tests: `yarn hardhat:test`
-6. Deploy and start testnet: `yarn hardhat:dev`
-7. Check testnet accounts: `yarn --cwd hardhat hardhat accounts`
+6. Start Ganache node: `yarn hardhat:dev`
+7. Deploy contracts: `yarn hardhat:deploy` - Only needed if not on dev env
+8. Codegen deploymentInfo: `yarn hardhat:codegen`
+9. Build hardhat package: `yarn hardhat:build`
 
 # Troubleshooting
 

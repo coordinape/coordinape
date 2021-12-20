@@ -13,6 +13,7 @@ import {
   RegistryAPI,
   VaultAPI,
 } from '../../typechain';
+import { unlockSigner } from '../../utils/unlockSigner';
 import {
   USDC_ADDRESS,
   USDC_DECIMAL_MULTIPLIER,
@@ -21,7 +22,7 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { unlockSigner } from '../utils/unlockSigner';
+import { resetNetwork } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -80,18 +81,7 @@ describe('Test withdrawal functions of ApeVault', () => {
     await vault.setRegistry(yRegistry.address);
   });
 
-  afterEach(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [
-        {
-          forking: {
-            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-          },
-        },
-      ],
-    });
-  });
+  afterEach(resetNetwork);
 
   it('should withdraw vault tokens and transfer it to owner', async () => {
     const apeVaultBalanceBefore = await usdcYVault.balanceOf(vault.address);
@@ -141,18 +131,7 @@ describe('Test circle related functions of ApeVault', () => {
     usdcYVault = usdcYVault.connect(user0.signer);
   });
 
-  afterEach(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [
-        {
-          forking: {
-            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-          },
-        },
-      ],
-    });
-  });
+  afterEach(resetNetwork);
 
   it('should update allowances for the circle for given interval and epochs', async () => {
     const INTERVAL = 60 * 60 * 24 * 14; // 14 days
@@ -167,14 +146,14 @@ describe('Test circle related functions of ApeVault', () => {
       EPOCHS,
       0
     );
-    const { maxAmount, maxInterval } = await apeDistributor.allowances(
+    const { maxAmount, cooldownInterval } = await apeDistributor.allowances(
       vault.address,
       CIRCLE,
       USDC_ADDRESS
     );
 
     expect(maxAmount.toNumber()).to.equal(AMOUNT);
-    expect(maxInterval.toNumber()).to.equal(INTERVAL);
+    expect(cooldownInterval.toNumber()).to.equal(INTERVAL);
 
     const { debt, intervalStart, epochs } =
       await apeDistributor.currentAllowances(
@@ -281,18 +260,7 @@ describe('Test tap function of ApeVault', () => {
     apeRouter = apeRouter.connect(user0.signer);
   });
 
-  afterEach(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [
-        {
-          forking: {
-            jsonRpcUrl: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-          },
-        },
-      ],
-    });
-  });
+  afterEach(resetNetwork);
 
   it('should not allow other than distributor to tap from vault', async () => {
     vault = vault.connect(user0.signer);

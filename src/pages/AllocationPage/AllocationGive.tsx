@@ -178,6 +178,7 @@ const AllocationGive = () => {
     circleId,
     myUser,
     circleEpochsStatus: { epochIsActive, longTimingMessage },
+    circle: selectedCircle,
   } = useSelectedCircle();
 
   const { givePerUser, localGifts, updateGift } = useAllocation(circleId);
@@ -239,7 +240,7 @@ const AllocationGive = () => {
               disableRipple={true}
               onClick={() => setOrderType(OrderType.Give_Allocated)}
             >
-              Give Allocated
+              {selectedCircle.tokenName} Allocated
             </Button>
             <Button
               className={clsx(

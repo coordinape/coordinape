@@ -9,7 +9,7 @@ import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { getAvatarPath } from 'utils/domain';
+import { getCircleAvatar } from 'utils/domain';
 
 import { ICircle } from 'types';
 
@@ -172,7 +172,10 @@ export const AdminCircleModal = ({
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
-  }>({ avatar: getAvatarPath(circle.logo), avatarRaw: null });
+  }>({
+    avatar: getCircleAvatar({ avatar: circle.logo, circleName: circle.name }),
+    avatarRaw: null,
+  });
   const [circleName, setCircleName] = useState(circle.name);
   const [vouching, setVouching] = useState(circle.vouching);
   const [tokenName, setTokenName] = useState(circle.tokenName);

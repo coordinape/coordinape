@@ -19,6 +19,7 @@ import {
   VaultAPI,
   VaultAPI__factory,
 } from '../../typechain';
+import { unlockSigner } from '../../utils/unlockSigner';
 import {
   USDC_ADDRESS,
   USDC_WHALE_ADDRESS,
@@ -27,7 +28,6 @@ import {
 } from '../constants';
 
 import { Account, getAccountFromSigner } from './account';
-import { unlockSigner } from './unlockSigner';
 
 export type DeployedContracts = {
   usdc: ERC20;

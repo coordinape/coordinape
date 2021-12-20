@@ -1,78 +1,64 @@
-import { useState } from 'react';
-
+import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
-import { FormModal, FormTextField } from 'components';
-import AdminVaultForm from 'forms/AdminVaultForm';
-
-import AssetDisplay from './AssetDisplay';
-
-const useStyles = makeStyles(theme => ({
-  modalBody: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  oneColumn: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-  },
-  ethInput: {
-    width: '100%',
-    gridColumn: '1 / span 2',
-  },
-  helperBox: {
-    height: 0,
-  },
-}));
+import { useVaultFactory } from '../../hooks/useVaultFactory';
+import { FormModal, FormAssetSelector } from 'components';
+import CreateVaultForm from 'forms/CreateVaultForm';
 
 export const CreateVaultModal = ({
   onClose,
   open,
 }: {
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
 }) => {
-  const [asset, setAsset] = useState<string>();
-
-  const classes = useStyles();
-
   const history = useHistory();
+  const { chainId } = useWeb3React();
+  const { createApeVault } = useVaultFactory();
 
   return (
-    <AdminVaultForm.FormController
-      source={undefined}
-      hideFieldErrors
-      submit={params => {
-        console.warn('todo:', params);
-        const path = '/admin/vaults';
-        history.push(path);
+    <CreateVaultForm.FormController
+      source={chainId}
+      submit={async ({ asset: { name, custom } }) => {
+        createApeVault({ type: name, simpleTokenAddress: custom }).then(
+          vault => {
+            if (!vault) return;
+
+            // eslint-disable-next-line no-console
+            console.log('created vault:', vault);
+            history.push('/admin/vaults');
+            onClose();
+          }
+        );
       }}
     >
-      {({ fields, handleSubmit, changedOutput }) => (
+      {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
           onClose={onClose}
           open={open}
           title={'Create a New Vault'}
           subtitle={'We need to have some short description here'}
           onSubmit={handleSubmit}
-          submitDisabled={!changedOutput}
+          submitDisabled={!ready}
           size="small"
           submitText="Mint Vault"
         >
-          <AssetDisplay setAsset={setAsset} />
-          <div className={classes.oneColumn}>
-            <FormTextField
-              {...fields.custom_asset}
-              disabled={asset !== 'other'}
-              label="...or use a custom asset"
+          <Box pt={4}>
+            <FormAssetSelector
+              label="Select an asset"
+              subLabel="This will be the asset you distribute from the vault"
+              infoTooltip="TODO: Ask someone to write this"
+              {...fields.asset}
             />
-          </div>
+          </Box>
+          {Object.values(errors).map(val => (
+            <span key={val}>{val}</span>
+          ))}
         </FormModal>
       )}
-    </AdminVaultForm.FormController>
+    </CreateVaultForm.FormController>
   );
 };
 
