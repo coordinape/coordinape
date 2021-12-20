@@ -42,9 +42,9 @@ export default function DepositModal({
 
   useEffect(() => {
     vault.type === 'USDC' || vault.type === 'yvUSDC'
-      ? setBalance(ethers.utils.formatUnits(bal, 6))
-      : setBalance(ethers.utils.formatUnits(bal, 18));
-  }, [balance]);
+      ? setBalance(parseInt(ethers.utils.formatUnits(bal, 6)))
+      : setBalance(parseInt(ethers.utils.formatUnits(bal, 18)));
+  }, []);
 
   const source = useMemo(
     () => ({

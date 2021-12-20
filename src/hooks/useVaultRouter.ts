@@ -33,18 +33,6 @@ export function useVaultRouter() {
     // Todo: Handle this separately and conditionally in UI
     await token.approveUnlimited(contracts.apeRouter.address);
     apeInfo('Deposit pending');
-    if (vault.type === 'ETH') {
-      const tx = {
-        from: web3Context.account,
-        to: vault.id,
-        value: amount,
-      };
-      return await signer.sendTransaction(tx).then((res: any) => {
-        apeInfo('Transaction Mined');
-        // eslint-disable-next-line no-console
-        console.log(res);
-      });
-    }
     return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)
     );
