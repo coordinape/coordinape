@@ -6,12 +6,18 @@ import { ethers } from 'ethers';
 import { knownTokens } from 'config/networks';
 import { ERC20Service } from 'services/erc20';
 
-export function useGetAnyTokenValue(tokenAddress: string) {
-  const [balance, setBalance] = useState<number>(0);
+export function useGetAnyTokenValue(tokenAddress: string, type: string) {
+  const [balance, setBalance] = useState<any>(0);
+  const [decimals, setDecimals] = useState<number>();
   const web3Context = useWeb3React();
   const { library, account } = web3Context;
 
   useEffect(() => {
+    if (type === 'USDC' || type === 'yvUSDC') {
+      setDecimals(6);
+    } else {
+      setDecimals(18);
+    }
     getTokenBalance(tokenAddress);
   }, [tokenAddress]);
 
@@ -35,7 +41,7 @@ export function useGetAnyTokenValue(tokenAddress: string) {
         tokenAddress
       );
       const bal = await token.getBalanceOf(account ? account : '');
-      setBalance(parseInt(ethers.utils.formatEther(bal)));
+      setBalance(ethers.utils.formatUnits(bal, decimals));
     }
   };
   return { getTokenBalance, balance };

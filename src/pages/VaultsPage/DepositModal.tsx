@@ -36,7 +36,7 @@ export default function DepositModal({
   const classes = useStyles();
   const history = useHistory();
   const { depositToken } = useVaultRouter();
-  const { balance } = useGetAnyTokenValue(vault.tokenAddress);
+  const { balance } = useGetAnyTokenValue(vault.tokenAddress, vault.type);
 
   const source = useMemo(
     () => ({
