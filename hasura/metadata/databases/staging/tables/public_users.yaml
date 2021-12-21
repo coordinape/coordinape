@@ -1,0 +1,65 @@
+table:
+  name: users
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+- name: profile
+  using:
+    manual_configuration:
+      column_mapping:
+        address: address
+      insertion_order: null
+      remote_table:
+        name: profiles
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - name
+    - address
+    - give_token_received
+    - give_token_remaining
+    - role
+    - non_receiver
+    - circle_id
+    - created_at
+    - updated_at
+    - bio
+    - epoch_first_visit
+    - non_giver
+    - deleted_at
+    - starting_tokens
+    - fixed_non_receiver
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - address
+    - bio
+    - circle_id
+    - created_at
+    - deleted_at
+    - epoch_first_visit
+    - fixed_non_receiver
+    - give_token_received
+    - give_token_remaining
+    - id
+    - name
+    - non_giver
+    - non_receiver
+    - role
+    - starting_tokens
+    - updated_at
+    filter:
+      _and:
+      - deleted_at:
+          _is_null: true
+      - circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user
