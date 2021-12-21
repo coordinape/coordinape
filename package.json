@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@coordinape/hardhat": "file:./hardhat",
-    "@craco/craco": "6.3.0",
+    "@craco/craco": "6.4.3",
     "@date-io/luxon": "1.x",
     "@gqty/react": "^2.1.0",
     "@hcaptcha/react-hcaptcha": "0.3.7",
