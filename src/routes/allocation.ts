@@ -5,19 +5,21 @@ import { IAllocationStep } from 'types';
 
 export const STEP_MY_EPOCH = {
   key: 0,
-  label: 'My Epoch',
+  buildLabel: () => 'My Epoch',
   path: getMyEpochPath(),
 } as IAllocationStep;
 
 export const STEP_MY_TEAM = {
   key: 1,
-  label: 'Select Team',
+  buildLabel: () => 'Select Team',
   path: getMyTeamPath(),
 } as IAllocationStep;
 
 export const STEP_ALLOCATION = {
   key: 2,
-  label: 'Allocate Give',
+  buildLabel: circle => {
+    return `Allocate ${circle.tokenName}`;
+  },
   path: getGivePath(),
 } as IAllocationStep;
 

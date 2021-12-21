@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import clsx from 'clsx';
 import { useRecoilValueLoadable } from 'recoil';
@@ -50,6 +50,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 13,
     lineHeight: 1.5,
     fontWeight: 600,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '24px',
+      fontStyle: 'normal',
+      fontWeight: 700,
+      lineHeight: '30px',
+      color: theme.colors.text,
+      margin: 0,
+    },
   },
   link: {
     position: 'relative',
@@ -94,8 +102,6 @@ export const MyAvatarMenu = () => {
   const classes = useStyles();
   const myProfile = useMyProfile();
   const { hasAdminView } = myProfile;
-  const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -140,44 +146,54 @@ export const MyAvatarMenu = () => {
           <MenuNavigationLinks />
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
-          <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
+          <Suspense fallback={null}>
+            <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
+          </Suspense>
           {hasAdminView && (
             <>
               <Divider variant="middle" className={classes.divider} />
-              <span className={classes.subHeader}>Admin View</span>
-              {selectedCircle && selectedCircle.impersonate ? (
-                <>
-                  <button
-                    className={clsx(classes.link, classes.selectedLink)}
-                    onClick={() => setAnchorEl(null)}
-                  >
-                    {selectedCircle.circle.name}
-                  </button>
-                  <button
-                    className={classes.link}
-                    onClick={() => {
-                      setAnchorEl(null);
-                      setCircleSelectorOpen(true);
-                    }}
-                  >
-                    Circle Selector
-                  </button>
-                </>
-              ) : (
-                <button
-                  className={classes.link}
-                  onClick={() => {
-                    setAnchorEl(null);
-                    setCircleSelectorOpen(true);
-                  }}
-                >
-                  Circle Selector
-                </button>
-              )}
+              <CirclesSelectorSection handleOnClick={() => setAnchorEl(null)} />
             </>
           )}
         </Popover>
       </Hidden>
     </>
+  );
+};
+
+export const CirclesSelectorSection = (props: { handleOnClick?(): void }) => {
+  const classes = useStyles();
+
+  const setCircleSelectorOpen = useSetCircleSelectorOpen();
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+
+  const handleOnClick = () => {
+    if (props.handleOnClick) {
+      props.handleOnClick();
+    }
+    setCircleSelectorOpen(true);
+  };
+
+  return (
+    <Suspense fallback={null}>
+      <span className={classes.subHeader}>Admin View</span>
+      {selectedCircle && selectedCircle.impersonate ? (
+        <>
+          <button
+            className={clsx(classes.link, classes.selectedLink)}
+            onClick={props.handleOnClick}
+          >
+            {selectedCircle.circle.name}
+          </button>
+          <button className={classes.link} onClick={handleOnClick}>
+            Circle Selector
+          </button>
+        </>
+      ) : (
+        <button className={classes.link} onClick={handleOnClick}>
+          Circle Selector
+        </button>
+      )}
+    </Suspense>
   );
 };

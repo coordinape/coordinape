@@ -10,9 +10,10 @@ node_modules/
 # hardhat
 hardhat/artifacts/
 hardhat/cache/
-hardhat/deployments/
 hardhat/typechain/
-hardhat/dist
+hardhat/dist/
+hardhat/deployments/
+
 
 # testing
 /coverage
@@ -33,3 +34,5 @@ yarn-debug.log*
 yarn-error.log*
 .vscode/launch.json
 .vercel/
+.yalc
+yalc.lock

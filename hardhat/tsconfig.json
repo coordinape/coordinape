@@ -13,15 +13,11 @@
       "./scripts"
     ],
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
   "include": [
-    "./deployments/**/*.json",
-    "./scripts"
+    "./typechain"
   ],
   "files": [
-    "./hardhat.config.ts"
+    "./hardhat.config.ts",
+    "./deploymentInfo.json",
   ]
 }

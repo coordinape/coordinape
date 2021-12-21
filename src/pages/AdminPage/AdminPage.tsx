@@ -8,7 +8,7 @@ import {
   StaticTable,
   NoticeBox,
   ApeAvatar,
-  DialogNotice,
+  ActionDialog,
   OrganizationHeader,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
@@ -18,7 +18,6 @@ import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
 import { shortenAddress } from 'utils';
-import { getCSVPath } from 'utils/domain';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -161,6 +160,9 @@ const useStyles = makeStyles(theme => ({
   },
   csvLink: {
     color: '#84C7CA',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
     '&:hover': {
       color: '#4e7577',
     },
@@ -215,6 +217,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     circle: selectedCircle,
     circleEpochsStatus: { epochs: epochsReverse },
   } = useSelectedCircle();
+
+  const { downloadCSV } = useApiAdminCircle(circleId);
+
   const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
 
   const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
@@ -281,22 +286,49 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       </span>
     </div>
   );
-  const RenderEpochActions = (e: IEpoch) =>
-    e.ended ? (
-      <a
-        className={classes.csvLink}
-        href={getCSVPath(e.circle_id, e.id)}
-        rel="noreferrer"
-        download={`${selectedCircle?.protocol}-${selectedCircle?.name}-epoch-${e?.number}.csv`}
-      >
-        Export CSV
-      </a>
-    ) : (
-      renderActions(
+  const RenderEpochActions = (e: IEpoch) => {
+    if (e.ended) {
+      // this epoch is over, so there are no edit/delete actions, only download CSV
+      // assert that e.number is non-null
+      if (e.number) {
+        return downloadCSVButton(e.number);
+      } else {
+        // epoch/number is null, so we can't provide a download link
+        return <></>;
+      }
+    } else {
+      // epoch still in progress
+      return renderActions(
         () => setEditEpoch(e),
         !e.started ? () => setDeleteEpochDialog(e) : undefined
-      )
+      );
+    }
+  };
+
+  const downloadCSVButton = (epoch: number) => {
+    return (
+      <button
+        className={classes.csvLink}
+        onClick={() => {
+          // use the authed api to download the CSV
+          downloadCSV(epoch).then(res => {
+            const binaryData = [];
+            binaryData.push(res.data);
+            const href = window.URL.createObjectURL(
+              new Blob(binaryData, { type: 'text/csv' })
+            );
+            const a = document.createElement('a');
+            a.download = `${selectedCircle?.protocol.name}-${selectedCircle?.name}-epoch-${epoch}.csv`;
+            a.href = href;
+            a.click();
+            a.href = '';
+          });
+        }}
+      >
+        Export CSV
+      </button>
     );
+  };
 
   const userColumns = useMemo(
     () =>
@@ -402,7 +434,12 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {!legacy && <OrganizationHeader />}
+      {!legacy && (
+        <OrganizationHeader
+          buttonText="Add Circle"
+          onButtonClick={() => history.push(paths.getCreateCirclePath())}
+        />
+      )}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>
@@ -537,7 +574,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           visible={editCircle}
         />
       )}
-      <DialogNotice
+      <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."
         onClose={() => setNewCircle(false)}
@@ -545,9 +582,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       >
         You’ll need to add your teammates to your circle and schedule an epoch
         before you can start allocating GIVE.
-      </DialogNotice>
+      </ActionDialog>
 
-      <DialogNotice
+      <ActionDialog
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
         onClose={() => setDeleteUserDialog(undefined)}
@@ -562,7 +599,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
         }
       />
 
-      <DialogNotice
+      <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
         onClose={() => setDeleteUserDialog(undefined)}
