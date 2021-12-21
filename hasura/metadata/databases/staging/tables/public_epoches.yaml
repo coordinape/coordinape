@@ -1,6 +1,10 @@
 table:
   name: epoches
   schema: public
+configuration:
+  custom_column_names: {}
+  custom_name: epochs
+  custom_root_fields: {}
 object_relationships:
 - name: circle
   using:
