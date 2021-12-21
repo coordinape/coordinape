@@ -1,0 +1,13 @@
+table:
+  name: epoches
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    manual_configuration:
+      column_mapping:
+        circle_id: id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public

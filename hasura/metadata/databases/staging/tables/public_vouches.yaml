@@ -1,0 +1,13 @@
+table:
+  name: vouches
+  schema: public
+object_relationships:
+- name: voucher
+  using:
+    manual_configuration:
+      column_mapping:
+        voucher_id: id
+      insertion_order: null
+      remote_table:
+        name: users
+        schema: public
