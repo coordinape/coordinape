@@ -1,15 +1,17 @@
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
+import { TEST_ENV, YEARN_REGISTRY_ADDRESS } from '../../../constants';
+
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const useProxy = !hre.network.live;
   let yRegistry: string;
-  if (hre.network.name === 'hardhat' && !process.env.TEST) {
+  if (hre.network.name === 'hardhat' && !TEST_ENV) {
     yRegistry = (await hre.deployments.get('MockRegistry')).address;
   } else {
-    yRegistry = '0xE15461B18EE31b7379019Dc523231C57d1Cbc18c';
+    yRegistry = YEARN_REGISTRY_ADDRESS;
   }
   const apeRegistry = await deploy('ApeRegistry', {
     contract: 'ApeRegistry',

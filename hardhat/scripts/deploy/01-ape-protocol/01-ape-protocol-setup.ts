@@ -4,6 +4,7 @@ import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
+import { ZERO_ADDRESS } from '../../../constants';
 import { ApeRegistry__factory } from '../../../typechain';
 
 const log = debug('coordinape:setup');
@@ -43,9 +44,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     apeFee.address,
   ]);
 
-  await executeTimelockedFunction(apeRegistry, 'setTreasury', [
-    '0x0000000000000000000000000000000000000001',
-  ]);
+  await executeTimelockedFunction(apeRegistry, 'setTreasury', [ZERO_ADDRESS]);
 
   await executeTimelockedFunction(apeRegistry, 'setRouter', [
     apeRouter.address,

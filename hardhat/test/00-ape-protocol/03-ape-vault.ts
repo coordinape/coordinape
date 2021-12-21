@@ -4,6 +4,11 @@ import { BigNumber, ethers } from 'ethers';
 import { network } from 'hardhat';
 
 import {
+  USDC_ADDRESS,
+  USDC_DECIMAL_MULTIPLIER,
+  // USDC_YVAULT_ADDRESS,
+} from '../../constants';
+import {
   ApeDistributor,
   ApeRouter,
   ApeToken,
@@ -14,11 +19,6 @@ import {
   VaultAPI,
 } from '../../typechain';
 import { unlockSigner } from '../../utils/unlockSigner';
-import {
-  USDC_ADDRESS,
-  USDC_DECIMAL_MULTIPLIER,
-  // USDC_YVAULT_ADDRESS,
-} from '../constants';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';

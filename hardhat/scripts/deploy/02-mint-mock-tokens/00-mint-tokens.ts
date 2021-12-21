@@ -1,18 +1,18 @@
-import { log } from 'debug';
 import { ethers } from 'ethers';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
+import { ADMIN_ADDRESS, TEST_ENV, ZERO_ADDRESS } from '../../../constants';
 import { MockToken__factory } from '../../../typechain';
 import { unlockSigner } from '../../../utils/unlockSigner';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const signers = await hre.ethers.getSigners();
   const useProxy = !hre.network.live;
+  if (TEST_ENV) return !useProxy;
 
-  const receiver = process.env.ADMIN_ADDRESS;
-  if (process.env.TEST) return !useProxy;
-  if (!receiver) {
+  const signers = await hre.ethers.getSigners();
+  const receiver = ADMIN_ADDRESS;
+  if (receiver === ZERO_ADDRESS) {
     throw new Error('Error: ADMIN_ADDRESS is not set!');
   }
 
