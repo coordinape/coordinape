@@ -58,6 +58,7 @@ export const {
       red400: '#EF7376',
       red500: '#6f3638',
       // gray
+      gray400: '#B5BBBD',
 
       lightBackground: '#E1E1E1',
       subtleGray: '#F5F5F5',
@@ -113,10 +114,10 @@ export const {
       pill: '9999px',
     },
     fontSizes: {
-      1: '12px',
-      2: '13px',
-      3: '15px',
-      4: '17px',
+      1: '11px',
+      2: '12px',
+      3: '14px',
+      4: '16px',
       5: '19px',
       6: '21px',
       7: '27px',
