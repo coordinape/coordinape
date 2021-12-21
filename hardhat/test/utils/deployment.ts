@@ -2,6 +2,12 @@ import { Signer } from 'ethers';
 import { deployments, ethers, getNamedAccounts } from 'hardhat';
 
 import {
+  USDC_ADDRESS,
+  USDC_WHALE_ADDRESS,
+  USDC_YVAULT_ADDRESS,
+  YEARN_REGISTRY_ADDRESS,
+} from '../../constants';
+import {
   ApeDistributor,
   ApeDistributor__factory,
   ApeRouter,
@@ -20,12 +26,6 @@ import {
   VaultAPI__factory,
 } from '../../typechain';
 import { unlockSigner } from '../../utils/unlockSigner';
-import {
-  USDC_ADDRESS,
-  USDC_WHALE_ADDRESS,
-  USDC_YVAULT_ADDRESS,
-  YEARN_REGISTRY_ADDRESS,
-} from '../constants';
 
 import { Account, getAccountFromSigner } from './account';
 
