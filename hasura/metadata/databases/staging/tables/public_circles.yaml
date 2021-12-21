@@ -12,6 +12,15 @@ object_relationships:
         name: protocols
         schema: public
 array_relationships:
+- name: epochs
+  using:
+    manual_configuration:
+      column_mapping:
+        id: circle_id
+      insertion_order: null
+      remote_table:
+        name: epoches
+        schema: public
 - name: users
   using:
     foreign_key_constraint_on:
