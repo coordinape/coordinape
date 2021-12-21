@@ -2,6 +2,15 @@ table:
   name: vouches
   schema: public
 object_relationships:
+- name: nominee
+  using:
+    manual_configuration:
+      column_mapping:
+        nominee_id: id
+      insertion_order: null
+      remote_table:
+        name: nominees
+        schema: public
 - name: voucher
   using:
     manual_configuration:
@@ -11,3 +20,28 @@ object_relationships:
       remote_table:
         name: users
         schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - voucher_id
+    - nominee_id
+    - created_at
+    - updated_at
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - created_at
+    - id
+    - nominee_id
+    - updated_at
+    - voucher_id
+    filter:
+      voucher:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user
