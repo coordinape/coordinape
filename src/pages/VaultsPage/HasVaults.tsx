@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react';
 
+import { order_by } from 'lib/gqty/schema.generated';
+
 import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTable } from 'components';
+import { useCurrentOrg } from 'hooks/gqty';
 import { InfoIcon } from 'icons';
 
 import AllocateModal from './AllocateModal';
@@ -182,6 +185,7 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
   const classes = useStyles();
   const [modal, setModal] = useState<ModalLabel>('');
   const closeModal = () => setModal('');
+  const org = useCurrentOrg();
 
   return (
     <div className={classes.withVaults}>
@@ -241,6 +245,32 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
         deposit={() => setModal('deposit')}
         transactions={vault.transactions}
       />
+      <div>
+        <h3>gqty debugging</h3>
+        org: {org.name}
+        <ul>
+          {org.circles().map(c => {
+            return (
+              <li key={c.id}>
+                {c.name}
+                <ul>
+                  {c
+                    .epochs({
+                      // limit: 2,
+                      // where: { ended: { _eq: false } },
+                      order_by: [{ start_date: order_by.asc }],
+                    })
+                    .map(e => {
+                      <li key={e.id}>
+                        {e.id}: {e.start_date} - {e.end_date}
+                      </li>;
+                    })}
+                </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
