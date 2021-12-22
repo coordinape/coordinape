@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
+import { useCurrentOrg } from 'hooks/gqty';
 import { DownArrow } from 'icons';
-import { useMyProfile, useSelectedCircle } from 'recoilState/app';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -97,12 +97,8 @@ interface Props {
 }
 export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
   const classes = useStyles();
-
-  const { myUser } = useSelectedCircle();
-  const { hasAdminView } = useMyProfile();
-
-  const navButtonsVisible = !!myUser || hasAdminView;
   const navItems = getAdminNavigation();
+  const currentOrg = useCurrentOrg();
 
   return (
     <>
@@ -119,7 +115,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>Yearn Finance</h2>
+          <h2 className={classes.title}>{currentOrg.name}</h2>
           <Button aria-describedby="1" className={classes.moreButton}>
             <DownArrow className={classes.moreButtonIcon} />
           </Button>
@@ -136,19 +132,18 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
           </Button>
         </div>
         <div className={classes.navLinks}>
-          {navButtonsVisible &&
-            navItems.map(navItem => (
-              <NavLink
-                className={classes.navLink}
-                isActive={(nothing, location) =>
-                  checkActive(location.pathname, navItem)
-                }
-                key={navItem.path}
-                to={navItem.path}
-              >
-                {navItem.label}
-              </NavLink>
-            ))}
+          {navItems.map(navItem => (
+            <NavLink
+              className={classes.navLink}
+              isActive={(nothing, location) =>
+                checkActive(location.pathname, navItem)
+              }
+              key={navItem.path}
+              to={navItem.path}
+            >
+              {navItem.label}
+            </NavLink>
+          ))}
         </div>
       </div>
     </>

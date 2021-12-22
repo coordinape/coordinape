@@ -71,7 +71,9 @@ export default function NoVaults({ onCreateButtonClick }: Props) {
   return (
     <div className={classes.noVaults}>
       <div className={classes.noVaultsInterior}>
-        <h2 className={classes.noVaultsTitle}>You dont have any vaults</h2>
+        <h2 className={classes.noVaultsTitle}>
+          You don&apos;t have any vaults
+        </h2>
         <h3 className={classes.noVaultsSubtitle}>To get started</h3>
         <Button
           variant="contained"

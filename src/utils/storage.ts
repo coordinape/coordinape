@@ -33,13 +33,13 @@ export default {
   clearAuth: () => localStorage.removeItem(STORAGE_AUTH),
 
   // TODO: This is temporary until we have the api set up
-  setVaults: (vaults: IVault[]) =>
+  setVaults: (vaults: Record<number, IVault[]>) =>
     localStorage.setItem(STORAGE_VAULTS, JSON.stringify(vaults)),
-  getVaults: (): IVault[] => {
+  getVaults: (): Record<number, IVault[]> => {
     try {
       return JSON.parse(assertDef(localStorage.getItem(STORAGE_VAULTS)));
     } catch {
-      return [];
+      return {};
     }
   },
   clearVaults: () => localStorage.removeItem(STORAGE_VAULTS),
