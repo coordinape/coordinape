@@ -17,8 +17,8 @@ export const handleContractError = (apeError: (error: any) => void, e: any) => {
     apeError('Transaction rejected by your wallet');
     throw Error(`Transaction rejected by your wallet`);
   }
-  apeError('Failed to submit create vault');
-  throw Error(`Failed to submit create vault.`);
+  apeError('Transaction Failed');
+  throw Error(`Transaction failed`);
 };
 
 export const makeVaultTxFn =

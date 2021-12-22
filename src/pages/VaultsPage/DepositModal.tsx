@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { ethers } from 'ethers';
+import { BigNumber, ethers, utils } from 'ethers';
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -37,13 +37,23 @@ export default function DepositModal({
   const classes = useStyles();
   const history = useHistory();
   const [balance, setBalance] = useState<any>();
+  const [decimal, setDecimal] = useState<number>();
   const { depositToken } = useVaultRouter();
-  const { bal } = useGetAnyTokenValue(vault.tokenAddress);
+  const { bal, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
+
+  const getBalance = () => {
+    getTokenBalance(vault.tokenAddress);
+    if (vault.type === 'USDC' || vault.type === 'yvUSDC') {
+      setBalance(parseInt(ethers.utils.formatUnits(bal, 6)));
+      setDecimal(6);
+    } else {
+      setBalance(parseInt(ethers.utils.formatUnits(bal, 18)));
+      setDecimal(18);
+    }
+  };
 
   useEffect(() => {
-    vault.type === 'USDC' || vault.type === 'yvUSDC'
-      ? setBalance(parseInt(ethers.utils.formatUnits(bal, 6)))
-      : setBalance(parseInt(ethers.utils.formatUnits(bal, 18)));
+    getBalance();
   }, [bal]);
 
   const source = useMemo(
@@ -55,9 +65,11 @@ export default function DepositModal({
   );
 
   const handleSubmit = (amount: number) => {
-    // eslint-disable-next-line no-console
-    console.log('amount', amount);
-    depositToken(vault, amount).then(receipt => {
+    const _amount = BigNumber.from(
+      utils.parseUnits(amount.toString(), decimal)
+    );
+    depositToken(vault, _amount).then(receipt => {
+      getBalance();
       // eslint-disable-next-line no-console
       console.log(receipt);
       onClose(false);
