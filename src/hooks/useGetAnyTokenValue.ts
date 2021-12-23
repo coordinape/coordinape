@@ -6,7 +6,7 @@ import { knownTokens } from 'config/networks';
 import { ERC20Service } from 'services/erc20';
 
 export function useGetAnyTokenValue(tokenAddress: string) {
-  const [bal, setBalance] = useState<any>(0);
+  const [balance, setBalance] = useState<any>(0);
   const web3Context = useWeb3React();
   const { library, account } = web3Context;
 
@@ -21,7 +21,7 @@ export function useGetAnyTokenValue(tokenAddress: string) {
       tokenAddress === knownTokens.ETH.addresses[4] ||
       tokenAddress === knownTokens.ETH.addresses[1337];
     if (isEth) {
-      library.getBalance(account).then((_bal: any) => setBalance(_bal));
+      library.getBalance(account).then((_balance: any) => setBalance(_balance));
     } else {
       const signer = await web3Context.library.getSigner();
       const token = new ERC20Service(
@@ -32,5 +32,5 @@ export function useGetAnyTokenValue(tokenAddress: string) {
       setBalance(await token.getBalanceOf(account ? account : ''));
     }
   };
-  return { getTokenBalance, bal };
+  return { getTokenBalance, balance };
 }

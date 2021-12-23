@@ -9,9 +9,9 @@ import CreateVaultForm from 'forms/CreateVaultForm';
 
 export const CreateVaultModal = ({
   onClose,
-  open,
-}: {
-  open?: boolean;
+}: // open,
+{
+  // open?: boolean;
   onClose: () => void;
 }) => {
   const history = useHistory();
@@ -37,7 +37,7 @@ export const CreateVaultModal = ({
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
           onClose={onClose}
-          open={open}
+          // open={open}
           title={'Create a New Vault'}
           subtitle={'We need to have some short description here'}
           onSubmit={handleSubmit}

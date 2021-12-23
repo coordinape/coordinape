@@ -1,4 +1,4 @@
-import { atom, useRecoilCallback, useRecoilValue } from 'recoil';
+import { atom, useRecoilValue, useRecoilCallback } from 'recoil';
 
 import storage from 'utils/storage';
 

@@ -73,10 +73,9 @@ const useStyles = makeStyles(theme => ({
 
 interface EditModalProps {
   onClose: () => void;
-  open?: boolean;
 }
 
-export default function EditModal({ open, onClose }: EditModalProps) {
+export default function EditModal({ onClose }: EditModalProps) {
   const classes = useStyles();
   const history = useHistory();
   const [ongoing, setOngoing] = useState<boolean>(false);
@@ -100,7 +99,6 @@ export default function EditModal({ open, onClose }: EditModalProps) {
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
-          open={open}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"

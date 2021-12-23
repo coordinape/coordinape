@@ -36,30 +36,30 @@ export default function DepositModal({
 }) {
   const classes = useStyles();
   const history = useHistory();
-  const [balance, setBalance] = useState<any>();
+  const [max, setMax] = useState<any>();
   const [decimal, setDecimal] = useState<number>();
   const { depositToken } = useVaultRouter();
-  const { bal, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
+  const { balance, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
 
   const getBalance = () => {
     getTokenBalance(vault.tokenAddress);
     if (vault.type === 'USDC' || vault.type === 'yvUSDC') {
-      setBalance(parseInt(ethers.utils.formatUnits(bal, 6)));
+      setMax(parseInt(ethers.utils.formatUnits(balance, 6)));
       setDecimal(6);
     } else {
-      setBalance(parseInt(ethers.utils.formatUnits(bal, 18)));
+      setMax(parseInt(ethers.utils.formatUnits(balance, 18)));
       setDecimal(18);
     }
   };
 
   useEffect(() => {
     getBalance();
-  }, [bal]);
+  }, [balance]);
 
   const source = useMemo(
     () => ({
       starting: 0,
-      balance,
+      balance: max,
     }),
     [vault]
   );
@@ -72,7 +72,7 @@ export default function DepositModal({
       getBalance();
       // eslint-disable-next-line no-console
       console.log(receipt);
-      onClose(false);
+      onClose();
       history.push('/admin/vaults');
     });
   };
@@ -97,10 +97,10 @@ export default function DepositModal({
           <div className={classes.oneColumn}>
             <FormTokenField
               {...fields.amount}
-              max={balance}
+              max={max}
               symbol={vault.type}
               decimals={vault.decimals}
-              label={`Available: ${balance} ${vault.type.toUpperCase()}`}
+              label={`Available: ${max} ${vault.type.toUpperCase()}`}
             />
           </div>
         </FormModal>

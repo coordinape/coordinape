@@ -225,7 +225,9 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
       <div>
         <div className={classes.totalValue}>
           <h2 className={classes.number}>0</h2>
-          <h2 className={classes.noVaultsTitle}>USDC ...</h2>
+          <h2 className={classes.noVaultsTitle}>
+            {vault.type.toUpperCase()} ...
+          </h2>
         </div>
         <h4 className={classes.noVaultsSubtitle}>
           Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}
