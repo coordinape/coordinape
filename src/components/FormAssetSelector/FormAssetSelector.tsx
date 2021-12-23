@@ -26,7 +26,7 @@ const tokens = {
   SUSHI: <SushiIcon width={25} height={25} />,
   ALUSD: <AlusdIcon height={25} width={22} />,
   USDT: <USDTIcon height={25} width={25} />,
-  ETH: <EthIcon height={32} width={32} />,
+  WETH: <EthIcon height={32} width={32} />, // Todo: replace with WETH icon
   OTHER: <></>,
 } as { [K in TAssetEnum]: JSX.Element };
 

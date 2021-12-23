@@ -39,6 +39,41 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await dai.mint(hre.ethers.utils.parseEther('10000'));
 
+  const yfi = MockToken__factory.connect(
+    (await hre.deployments.get('YFI')).address,
+    admin
+  );
+
+  await yfi.mint(hre.ethers.utils.parseEther('10000'));
+
+  const sushi = MockToken__factory.connect(
+    (await hre.deployments.get('SUSHI')).address,
+    admin
+  );
+
+  await sushi.mint(hre.ethers.utils.parseEther('10000'));
+
+  const alUSD = MockToken__factory.connect(
+    (await hre.deployments.get('alUSD')).address,
+    admin
+  );
+
+  await alUSD.mint(hre.ethers.utils.parseEther('10000'));
+
+  const usdt = MockToken__factory.connect(
+    (await hre.deployments.get('USDT')).address,
+    admin
+  );
+
+  await usdt.mint(hre.ethers.utils.parseEther('10000'));
+
+  const weth = MockToken__factory.connect(
+    (await hre.deployments.get('WETH')).address,
+    admin
+  );
+
+  await weth.mint(hre.ethers.utils.parseEther('10000'));
+
   return !useProxy;
 };
 export default func;
