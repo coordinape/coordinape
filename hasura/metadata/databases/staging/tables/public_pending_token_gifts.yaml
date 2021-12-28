@@ -1,0 +1,77 @@
+table:
+  name: pending_token_gifts
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+- name: epoch
+  using:
+    manual_configuration:
+      column_mapping:
+        epoch_id: id
+      insertion_order: null
+      remote_table:
+        name: epoches
+        schema: public
+- name: private_received
+  using:
+    manual_configuration:
+      column_mapping:
+        recipient_id: recipient_id
+      insertion_order: null
+      remote_table:
+        name: pending_gift_private
+        schema: public
+- name: private_sent
+  using:
+    manual_configuration:
+      column_mapping:
+        sender_id: sender_id
+      insertion_order: null
+      remote_table:
+        name: pending_gift_private
+        schema: public
+- name: recipient
+  using:
+    foreign_key_constraint_on: recipient_id
+- name: sender
+  using:
+    foreign_key_constraint_on: sender_id
+select_permissions:
+- permission:
+    columns:
+    - id
+    - sender_id
+    - sender_address
+    - recipient_id
+    - recipient_address
+    - tokens
+    - note
+    - dts_created
+    - created_at
+    - updated_at
+    - circle_id
+    - epoch_id
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - circle_id
+    - created_at
+    - dts_created
+    - epoch_id
+    - id
+    - recipient_address
+    - recipient_id
+    - sender_address
+    - sender_id
+    - tokens
+    - updated_at
+    filter:
+      circle:
+        users:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+  role: user

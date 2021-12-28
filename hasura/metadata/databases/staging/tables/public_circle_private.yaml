@@ -1,0 +1,18 @@
+table:
+  name: circle_private
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - circle_id
+    - discord_webhook
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - circle_id
+    - discord_webhook
+    filter:
+      circle_id:
+        _in: X-Hasura-Admin-Circle-Ids
+  role: user

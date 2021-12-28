@@ -1,0 +1,23 @@
+table:
+  name: gift_private
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - recipient_id
+    - sender_id
+    - note
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - recipient_id
+    - sender_id
+    - note
+    filter:
+      _or:
+      - recipient_id:
+          _in: X-Hasura-Circle-User-Ids
+      - sender_id:
+          _in: X-Hasura-Circle-User-Ids
+  role: user

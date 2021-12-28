@@ -26,9 +26,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
     assert(profile, 'Profile cannot be found');
+    const users = await prisma.user.findMany({
+      where: {
+        address: profile.address,
+      },
+      select: {
+        id: true,
+        circle_id: true,
+        role: true,
+      },
+    });
     res.status(200).json({
       'X-Hasura-User-Id': tokenRow.tokenable_id.toString(),
       'X-Hasura-Role': profile.admin_view ? 'superadmin' : 'user',
+      'X-Hasura-Circle-User-Ids': `{ ${users
+        .map(u => u.id.toString())
+        .join()} }`,
+      'X-Hasura-Admin-Circle-Ids': `{ ${users
+        .filter(u => u.role === 1)
+        .map(u => u.circle_id.toString())
+        .join()} }`,
     });
   } catch (e) {
     res.status(401).json({

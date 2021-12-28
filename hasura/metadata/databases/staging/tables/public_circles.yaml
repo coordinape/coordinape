@@ -2,6 +2,15 @@ table:
   name: circles
   schema: public
 object_relationships:
+- name: circle_private
+  using:
+    manual_configuration:
+      column_mapping:
+        id: circle_id
+      insertion_order: null
+      remote_table:
+        name: circle_private
+        schema: public
 - name: organization
   using:
     manual_configuration:
@@ -12,6 +21,20 @@ object_relationships:
         name: protocols
         schema: public
 array_relationships:
+- name: burns
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: burns
+        schema: public
+- name: circle_metadata
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: circle_metadata
+        schema: public
 - name: epochs
   using:
     manual_configuration:
@@ -20,6 +43,20 @@ array_relationships:
       insertion_order: null
       remote_table:
         name: epoches
+        schema: public
+- name: pending_token_gifts
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: pending_token_gifts
+        schema: public
+- name: token_gifts
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: token_gifts
         schema: public
 - name: users
   using:
@@ -78,26 +115,4 @@ select_permissions:
         profile:
           id:
             _eq: X-Hasura-User-Id
-  role: user
-update_permissions:
-- permission:
-    check: null
-    columns:
-    - alloc_text
-    - auto_opt_out
-    - default_opt_in
-    - discord_webhook
-    - logo
-    - min_vouches
-    - name
-    - nomination_days_limit
-    - only_giver_vouch
-    - team_sel_text
-    - team_selection
-    - token_name
-    - vouching
-    - vouching_text
-    filter:
-      id:
-        _in: X-Hasura-Admin-Circle-Ids
   role: user
