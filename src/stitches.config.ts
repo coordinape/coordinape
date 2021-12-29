@@ -21,6 +21,7 @@ const spaceTokens = {
   12: '3rem',
   14: '3.5rem',
   16: '4rem',
+  17: '4.5rem',
   20: '5rem',
   24: '6rem',
   28: '7rem',

@@ -45,8 +45,12 @@ export const Button = styled('button', {
         },
       },
     },
+    size: {
+      small: {},
+    },
   },
   defaultVariants: {
     color: 'gray',
+    size: 'small',
   },
 });

@@ -6,12 +6,11 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-  Box,
   IconButton,
-  Divider,
   Grid,
 } from '@material-ui/core';
 
+import { Box, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
@@ -225,31 +224,59 @@ export const MainHeader = () => {
     </div>
   ) : (
     <div>
-      <div className={classes.root}>
+      <Box
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          background: '$primary',
+          justifyContent: 'space-between',
+          px: '$6',
+          height: '$17',
+        }}
+      >
         <img
           alt="logo"
           className={classes.coordinapeLogo}
           src="/svgs/logo/logo.svg"
         />
         {menuWalletButton}
-      </div>
+      </Box>
       {isMobileMenuOpen && (
-        <div className={classes.mobileContainer}>
+        <Box
+          css={{
+            height: '100vh',
+            position: 'relative',
+            backgroundColor: '$gray',
+          }}
+        >
           <Box
-            display="flex"
-            className={classes.mobileMenu}
-            flexDirection="column"
-            pt={3}
-            px={1}
-            pb={6}
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'absolute',
+              backgroundColor: '$gray',
+              height: '85%',
+              width: '100%',
+              overflow: 'scroll',
+              overscrollBehaviorY: 'auto',
+              '-webkit-overflow-scrolling': 'touch',
+              zIndex: 2,
+              pt: '$6',
+              px: '$2',
+              pb: '$12',
+            }}
           >
-            <Box pb={2}>
+            <Box
+              css={{
+                pb: '$4',
+              }}
+            >
               <Suspense fallback={<span />}>
                 <HeaderNav />
               </Suspense>
             </Box>
-            <Divider variant="fullWidth" />
-            <Box pt={3} />
+            <Divider />
+            <Box css={{ pt: '$6' }} />
             <Grid container spacing={2} alignItems="center">
               <Suspense fallback={null}>
                 <Grid item>
@@ -264,16 +291,25 @@ export const MainHeader = () => {
               </Suspense> */}
               </Grid>
             </Grid>
-            <Box py={3} display="flex" flexDirection="column" px={2}>
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                px: '$4',
+                py: '$6',
+              }}
+            >
               <MenuNavigationLinks />
             </Box>
-            <Divider variant="fullWidth" />
+            <Divider />
             <Box
-              px={2}
-              py={2}
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-between"
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                px: '$4',
+                py: '$4',
+              }}
             >
               <Suspense fallback={null}>
                 <CirclesHeaderSection
@@ -283,13 +319,15 @@ export const MainHeader = () => {
             </Box>
             {valueProfile?.hasAdminView && (
               <>
-                <Divider variant="fullWidth" />
+                <Divider />
                 <Box
-                  px={2}
-                  py={2}
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="space-between"
+                  css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    px: '$4',
+                    py: '$4',
+                  }}
                 >
                   <CirclesSelectorSection
                     handleOnClick={() => setIsMobileMenuOpen(false)}
@@ -298,7 +336,7 @@ export const MainHeader = () => {
               </>
             )}
           </Box>
-        </div>
+        </Box>
       )}
     </div>
   );
