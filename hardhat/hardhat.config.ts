@@ -4,6 +4,7 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
@@ -137,6 +138,20 @@ const config: HardhatUserConfig = {
       deploy: ['./scripts/deploy'],
     },
     localhost: {
+      live: false,
+      allowUnlimitedContractSize: true,
+      gas: 'auto',
+      gasPrice: 'auto',
+      gasMultiplier: 1,
+      url: 'http://127.0.0.1:8545',
+      chainId: 1337,
+      accounts: {
+        mnemonic: 'coordinape',
+      },
+      timeout: 50000,
+      deploy: ['./scripts/deploy'],
+    },
+    ganache: {
       live: false,
       allowUnlimitedContractSize: true,
       gas: 'auto',

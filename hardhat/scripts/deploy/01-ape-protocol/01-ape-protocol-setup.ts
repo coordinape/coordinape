@@ -21,8 +21,15 @@ async function executeTimelockedFunction(
   );
   const ZERO = ethers.utils.zeroPad([0], 32);
   const data = contract.interface.encodeFunctionData(method, args);
-  await contract.schedule(contract.address, data, ZERO, ZERO, 0);
-  await contract.execute(contract.address, data, ZERO, ZERO, 0);
+  try {
+    await contract.schedule(contract.address, data, ZERO, ZERO, 0);
+    await contract.execute(contract.address, data, ZERO, ZERO, 0);
+  } catch (e: any) {
+    if (e && e.message.includes('revert TimeLock: Call already scheduled'))
+      return;
+    console.error(JSON.stringify(e));
+    throw e;
+  }
 }
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {

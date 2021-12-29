@@ -4,12 +4,43 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { ADMIN_ADDRESS, TEST_ENV, ZERO_ADDRESS } from '../../../constants';
 import { MockToken__factory } from '../../../typechain';
-import { unlockSigner } from '../../../utils/unlockSigner';
+
+const tokens = [
+  'USDC',
+  'DAI',
+  'YFI',
+  'SUSHI',
+  'alUSD',
+  'USDT',
+  'WETH',
+] as const;
+
+type tokenType = typeof tokens[number];
+
+const mintToken = async (
+  hre: HardhatRuntimeEnvironment,
+  minter: string,
+  receiver: string,
+  token: tokenType,
+  amount: string
+) => {
+  const minterSigner = await hre.ethers.getSigner(minter);
+  const usdc = MockToken__factory.connect(
+    (await hre.deployments.get(token)).address,
+    minterSigner
+  );
+
+  const bigAmount = hre.ethers.utils.parseEther(amount);
+
+  await usdc.mint(bigAmount);
+  await usdc.transfer(receiver, bigAmount);
+};
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const useProxy = !hre.network.live;
   if (TEST_ENV) return !useProxy;
 
+  const { deployer } = await hre.getNamedAccounts();
   const signers = await hre.ethers.getSigners();
   const receiver = ADMIN_ADDRESS;
   if (receiver === ZERO_ADDRESS) {
@@ -23,56 +54,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await signers[0].sendTransaction(tx);
 
-  const admin = await unlockSigner(receiver);
-
-  const usdc = MockToken__factory.connect(
-    (await hre.deployments.get('USDC')).address,
-    admin
-  );
-
-  await usdc.mint(hre.ethers.utils.parseEther('10000'));
-
-  const dai = MockToken__factory.connect(
-    (await hre.deployments.get('DAI')).address,
-    admin
-  );
-
-  await dai.mint(hre.ethers.utils.parseEther('10000'));
-
-  const yfi = MockToken__factory.connect(
-    (await hre.deployments.get('YFI')).address,
-    admin
-  );
-
-  await yfi.mint(hre.ethers.utils.parseEther('10000'));
-
-  const sushi = MockToken__factory.connect(
-    (await hre.deployments.get('SUSHI')).address,
-    admin
-  );
-
-  await sushi.mint(hre.ethers.utils.parseEther('10000'));
-
-  const alUSD = MockToken__factory.connect(
-    (await hre.deployments.get('alUSD')).address,
-    admin
-  );
-
-  await alUSD.mint(hre.ethers.utils.parseEther('10000'));
-
-  const usdt = MockToken__factory.connect(
-    (await hre.deployments.get('USDT')).address,
-    admin
-  );
-
-  await usdt.mint(hre.ethers.utils.parseEther('10000'));
-
-  const weth = MockToken__factory.connect(
-    (await hre.deployments.get('WETH')).address,
-    admin
-  );
-
-  await weth.mint(hre.ethers.utils.parseEther('10000'));
+  for (const token of tokens) {
+    await mintToken(hre, deployer, receiver, token, '10000');
+  }
 
   return !useProxy;
 };

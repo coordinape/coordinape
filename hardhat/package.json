@@ -7,6 +7,7 @@
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
+    "ganache": "ganache-cli --networkId 1576478390085 --db ./data --deterministic --hostname=0.0.0.0 -m coordinape",
     "dev": "DEBUG=coordinape:setup hardhat node",
     "deploy": "hardhat deploy --network localhost",
     "test": "TEST=1 hardhat test"
@@ -16,6 +17,7 @@
   ],
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-ganache": "^2.0.1",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.4.1",
     "@typechain/ethers-v5": "^7.0.0",
@@ -28,6 +30,7 @@
     "dotenv": "^10.0.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.4.6",
+    "ganache-cli": "^6.12.2",
     "hardhat": "^2.4.1",
     "hardhat-deploy": "^0.9.0",
     "ts-node": "^9.1.1",
