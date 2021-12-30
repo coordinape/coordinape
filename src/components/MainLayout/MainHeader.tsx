@@ -60,13 +60,6 @@ export const MainHeader = () => {
         gridTemplateColumns: '1fr 1fr 1fr',
         py: 0,
         px: '$1xl',
-        '@sm': {
-          display: 'flex',
-          justifyContent: 'space-between',
-          py: 0,
-          px: '$lg',
-          height: '$4xl',
-        },
       }}
     >
       <Image
