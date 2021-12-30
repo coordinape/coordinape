@@ -54,9 +54,11 @@ export const {
       xs: '0.25rem', // 4px
       '1sm': '0.375rem', // 6px
       sm: '0.5rem', // 8px
+      sm2: '0.75rem', // 8px
       md: '1rem', // 16px
       lg: '1.5rem', // 24px
       xl: '2rem', // 32px
+      xl2: '2.25rem', // 32px
       '1xl': '2.5rem', // 40px
       '2xl': '3rem', // 48px
       '3xl': '4rem', // 64px

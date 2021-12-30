@@ -2,16 +2,10 @@ import { Suspense, useState, useEffect } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import {
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-  Grid,
-} from '@material-ui/core';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 import { CSS } from '../../stitches.config';
-import { Box, Link, Divider } from '../../ui';
+import { Box, Button, Link, Image, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
@@ -27,141 +21,6 @@ import {
   useWalletAuth,
 } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: theme.custom.appHeaderHeight,
-    display: 'grid',
-    alignItems: 'center',
-    background: theme.colors.primary,
-    gridTemplateColumns: '1fr 1fr 1fr',
-    padding: theme.spacing(0, 5),
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: theme.spacing(0, '25px'),
-      height: theme.custom.appHeaderHeight - 11,
-    },
-  },
-  mobileContainer: {
-    height: '100vh',
-    position: 'relative',
-    backgroundColor: theme.colors.ultraLightGray,
-  },
-  mobileMenu: {
-    position: 'absolute',
-    backgroundColor: theme.colors.ultraLightGray,
-    height: '85%',
-    width: '100%',
-    overflow: 'scroll',
-    overscrollBehaviorY: 'auto',
-    '-webkit-overflow-scrolling': 'touch',
-    zIndex: 2,
-  },
-  coordinapeLogo: {
-    justifySelf: 'start',
-    height: 40,
-  },
-  smallNavAndButtons: {
-    justifySelf: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    [theme.breakpoints.down('sm')]: {
-      justifySelf: 'end',
-    },
-  },
-  navLinks: {
-    justifySelf: 'stretch',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    [theme.breakpoints.down('sm')]: {
-      alignItems: 'flex-start',
-      flexDirection: 'column',
-    },
-  },
-  buttons: {
-    justifySelf: 'end',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  navLink: {
-    margin: theme.spacing(0, 2),
-    fontSize: 20,
-    fontWeight: 700,
-    color: theme.colors.white,
-    textDecoration: 'none',
-    padding: '6px 0',
-    position: 'relative',
-    '&::after': {
-      content: `" "`,
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      backgroundColor: theme.colors.mediumRed,
-      transition: 'all 0.3s',
-      bottom: 0,
-      height: 2,
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.mediumRed,
-      },
-    },
-    '&.active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.red,
-      },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.red,
-        },
-      },
-    },
-    [theme.breakpoints.down('sm')]: {
-      position: 'unset',
-      color: theme.colors.text,
-      fontWeight: 'normal',
-      '&:hover': {
-        color: theme.colors.black,
-        '&::after': {
-          content: 'none',
-        },
-      },
-      '&.active': {
-        color: theme.colors.red,
-        '&::after': {
-          content: 'none',
-        },
-      },
-    },
-  },
-  editCircleButton: {
-    backgroundColor: theme.colors.red,
-    borderRadius: '8px',
-    width: '32px',
-    height: '32px',
-  },
-  accountInfoMobile: {
-    '& .MuiButtonBase-root': {
-      background: theme.colors.white,
-    },
-  },
-  editIcon: {
-    color: theme.colors.white,
-  },
-  profileHeading: {
-    color: theme.colors.red,
-  },
-}));
 
 const cssNavLink: CSS = {
   my: 0,
@@ -225,7 +84,6 @@ const cssNavLink: CSS = {
 
 export const MainHeader = () => {
   const theme = useTheme();
-  const classes = useStyles();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
@@ -245,13 +103,14 @@ export const MainHeader = () => {
   const menuWalletButton = !address ? (
     <WalletButton />
   ) : (
-    <IconButton
+    <Button
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       size="small"
       aria-label="menu"
+      type="icon"
     >
       {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
-    </IconButton>
+    </Button>
   );
 
   return !screenDownSm ? (
@@ -273,9 +132,12 @@ export const MainHeader = () => {
         },
       }}
     >
-      <img
+      <Image
         alt="logo"
-        className={classes.coordinapeLogo}
+        css={{
+          justifySelf: 'start',
+          height: '$1xl',
+        }}
         src="/svgs/logo/logo.svg"
       />
       <Suspense fallback={<span />}>
@@ -310,9 +172,12 @@ export const MainHeader = () => {
           height: '$4xl',
         }}
       >
-        <img
+        <Image
           alt="logo"
-          className={classes.coordinapeLogo}
+          css={{
+            justifySelf: 'start',
+            height: 40,
+          }}
           src="/svgs/logo/logo.svg"
         />
         {menuWalletButton}
@@ -353,20 +218,26 @@ export const MainHeader = () => {
             </Box>
             <Divider />
             <Box css={{ pt: '$lg' }} />
-            <Grid container spacing={2} alignItems="center">
+            <Box
+              css={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '$sm',
+              }}
+            >
               <Suspense fallback={null}>
-                <Grid item>
+                <Box>
                   <MyAvatarMenu />
-                </Grid>
+                </Box>
               </Suspense>
-              <Grid className={classes.accountInfoMobile} item>
+              <Box>
                 <WalletButton />
                 {/* TODO: ask Alexander where the GIVES needs to be 
               <Suspense fallback={<span />}>
                 <ReceiveInfo />
-              </Suspense> */}
-              </Grid>
-            </Grid>
+              </Suspense>*/}
+              </Box>
+            </Box>
             <Box
               css={{
                 display: 'flex',

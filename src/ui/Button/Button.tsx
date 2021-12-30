@@ -13,19 +13,19 @@ export const Button = styled('button', {
     boxSizing: 'border-box',
   },
   '& img': {
-    paddingRight: '$2',
+    paddingRight: '$sm',
   },
-  paddingLeft: '$3',
-  paddingRight: '$3',
-  paddingTop: '$2',
-  paddingBottom: '$2',
+  paddingLeft: '$sm2',
+  paddingRight: '$sm2',
+  paddingTop: '$sm',
+  paddingBottom: '$sm',
 
   display: 'flex',
   justifyContent: 'center',
-  height: '$9',
-  fontSize: '$4',
+  height: '$xl2',
+  fontSize: '$md',
   fontWeight: '$normal',
-  borderRadius: '$1',
+  borderRadius: '$xs',
 
   color: 'White',
   variants: {
@@ -47,6 +47,14 @@ export const Button = styled('button', {
     },
     size: {
       small: {},
+    },
+    type: {
+      icon: {
+        backgroundColor: 'transparent',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
     },
   },
   defaultVariants: {
