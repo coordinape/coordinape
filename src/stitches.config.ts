@@ -2,6 +2,13 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
+export const MediaQueryKeys = {
+  xs: '(max-width: 520px)',
+  sm: '(max-width: 900px)',
+  md: '(max-width: 1200px)',
+  lg: '(max-width: 1800px)',
+} as const;
+
 export const {
   styled,
   css,
@@ -147,10 +154,10 @@ export const {
     transitions: {},
   },
   media: {
-    xs: '(max-width: 520px)',
-    sm: '(max-width: 900px)',
-    md: '(max-width: 1200px)',
-    lg: '(max-width: 1800px)',
+    xs: MediaQueryKeys.xs,
+    sm: MediaQueryKeys.sm,
+    md: MediaQueryKeys.md,
+    lg: MediaQueryKeys.lg,
     motion: '(prefers-reduced-motion)',
     hover: '(any-hover: hover)',
     dark: '(prefers-color-scheme: dark)',

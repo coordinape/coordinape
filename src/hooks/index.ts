@@ -9,3 +9,4 @@ export * from './useApiWithSelectedCircle';
 export * from './useApiWithProfile';
 export * from './useNavigation';
 export * from './useImageUploader';
+export * from './useMediaQuery';

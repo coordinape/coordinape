@@ -2,9 +2,8 @@ import { Suspense, useState, useEffect } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useMediaQuery, useTheme } from '@material-ui/core';
-
-import { CSS } from '../../stitches.config';
+import { useMediaQuery } from '../../hooks';
+import { MediaQueryKeys } from '../../stitches.config';
 import { Box, Button, Link, Image, Divider } from '../../ui';
 import {
   ReceiveInfo,
@@ -22,68 +21,7 @@ import {
 } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
-const cssNavLink: CSS = {
-  my: 0,
-  mx: '$md',
-  fontSize: '$5plus1px',
-  fontWeight: '$bold',
-  color: '$white',
-  textDecoration: 'none',
-  py: '$1sm',
-  px: 0,
-  position: 'relative',
-  '&::after': {
-    content: `" "`,
-    position: 'absolute',
-    left: '50%',
-    right: '50%',
-    backgroundColor: '$red300',
-    transition: 'all 0.3s',
-    bottom: 0,
-    height: '$2xs',
-  },
-  '&:hover': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$red300',
-    },
-  },
-  '&.active': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$red400',
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: '$red400',
-      },
-    },
-  },
-  '@sm': {
-    position: 'unset',
-    color: '$text',
-    fontWeight: 'normal',
-    '&:hover': {
-      color: '$black',
-      '&::after': {
-        content: 'none',
-      },
-    },
-    '&.active': {
-      color: '$red400',
-      '&::after': {
-        content: 'none',
-      },
-    },
-  },
-};
-
 export const MainHeader = () => {
-  const theme = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
@@ -98,7 +36,7 @@ export const MainHeader = () => {
     !address && setIsMobileMenuOpen(false);
   }, [address]);
 
-  const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const screenDownSm = useMediaQuery(MediaQueryKeys.sm);
 
   const menuWalletButton = !address ? (
     <WalletButton />
@@ -312,7 +250,65 @@ export const HeaderNav = () => {
     >
       {navItems.map(navItem => (
         <Link
-          css={cssNavLink}
+          css={{
+            my: 0,
+            mx: '$md',
+            fontSize: '$5plus1px',
+            fontWeight: '$bold',
+            color: '$white',
+            textDecoration: 'none',
+            py: '$1sm',
+            px: 0,
+            position: 'relative',
+            '&::after': {
+              content: `" "`,
+              position: 'absolute',
+              left: '50%',
+              right: '50%',
+              backgroundColor: '$red300',
+              transition: 'all 0.3s',
+              bottom: 0,
+              height: '$2xs',
+            },
+            '&:hover': {
+              '&::after': {
+                left: 0,
+                right: 0,
+                backgroundColor: '$red300',
+              },
+            },
+            '&.active': {
+              '&::after': {
+                left: 0,
+                right: 0,
+                backgroundColor: '$red400',
+              },
+              '&:hover': {
+                '&::after': {
+                  left: 0,
+                  right: 0,
+                  backgroundColor: '$red400',
+                },
+              },
+            },
+            '@sm': {
+              position: 'unset',
+              color: '$text',
+              fontWeight: 'normal',
+              '&:hover': {
+                color: '$black',
+                '&::after': {
+                  content: 'none',
+                },
+              },
+              '&.active': {
+                color: '$red400',
+                '&::after': {
+                  content: 'none',
+                },
+              },
+            },
+          }}
           as={NavLink}
           isActive={(nothing: any, location: { pathname: string }) =>
             checkActive(location.pathname, navItem)
