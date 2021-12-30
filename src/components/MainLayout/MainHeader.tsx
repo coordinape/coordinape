@@ -10,7 +10,8 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import { Box, Divider } from '../../ui';
+import { CSS } from '../../stitches.config';
+import { Box, Link, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
@@ -40,15 +41,6 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between',
       padding: theme.spacing(0, '25px'),
       height: theme.custom.appHeaderHeight - 11,
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
     },
   },
   mobileContainer: {
@@ -171,6 +163,66 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const cssNavLink: CSS = {
+  my: 0,
+  mx: '$md',
+  fontSize: '$5plus1px',
+  fontWeight: '$bold',
+  color: '$white',
+  textDecoration: 'none',
+  py: '$1sm',
+  px: 0,
+  position: 'relative',
+  '&::after': {
+    content: `" "`,
+    position: 'absolute',
+    left: '50%',
+    right: '50%',
+    backgroundColor: '$red300',
+    transition: 'all 0.3s',
+    bottom: 0,
+    height: '$2xs',
+  },
+  '&:hover': {
+    '&::after': {
+      left: 0,
+      right: 0,
+      backgroundColor: '$red300',
+    },
+  },
+  '&.active': {
+    '&::after': {
+      left: 0,
+      right: 0,
+      backgroundColor: '$red400',
+    },
+    '&:hover': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: '$red400',
+      },
+    },
+  },
+  '@sm': {
+    position: 'unset',
+    color: '$text',
+    fontWeight: 'normal',
+    '&:hover': {
+      color: '$black',
+      '&::after': {
+        content: 'none',
+      },
+    },
+    '&.active': {
+      color: '$red400',
+      '&::after': {
+        content: 'none',
+      },
+    },
+  },
+};
+
 export const MainHeader = () => {
   const theme = useTheme();
   const classes = useStyles();
@@ -203,7 +255,24 @@ export const MainHeader = () => {
   );
 
   return !screenDownSm ? (
-    <div className={classes.root}>
+    <Box
+      css={{
+        height: '$5xl',
+        display: 'grid',
+        alignItems: 'center',
+        background: '$primary',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        py: 0,
+        px: '$1xl',
+        '@sm': {
+          display: 'flex',
+          justifyContent: 'space-between',
+          py: 0,
+          px: '$lg',
+          height: '$4xl',
+        },
+      }}
+    >
       <img
         alt="logo"
         className={classes.coordinapeLogo}
@@ -212,7 +281,14 @@ export const MainHeader = () => {
       <Suspense fallback={<span />}>
         <HeaderNav />
       </Suspense>
-      <div className={classes.buttons}>
+      <Box
+        css={{
+          justifySelf: 'end',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
         <Suspense fallback={<span />}>
           <ReceiveInfo />
         </Suspense>
@@ -220,8 +296,8 @@ export const MainHeader = () => {
         <Suspense fallback={<span />}>
           <MyAvatarMenu />
         </Suspense>
-      </div>
-    </div>
+      </Box>
+    </Box>
   ) : (
     <div>
       <Box
@@ -230,8 +306,8 @@ export const MainHeader = () => {
           alignItems: 'center',
           background: '$primary',
           justifyContent: 'space-between',
-          px: '$6',
-          height: '$17',
+          px: '$lg',
+          height: '$4xl',
         }}
       >
         <img
@@ -261,14 +337,14 @@ export const MainHeader = () => {
               overscrollBehaviorY: 'auto',
               '-webkit-overflow-scrolling': 'touch',
               zIndex: 2,
-              pt: '$6',
-              px: '$2',
-              pb: '$12',
+              pt: '$lg',
+              px: '$sm',
+              pb: '$2xl',
             }}
           >
             <Box
               css={{
-                pb: '$4',
+                pb: '$md',
               }}
             >
               <Suspense fallback={<span />}>
@@ -276,7 +352,7 @@ export const MainHeader = () => {
               </Suspense>
             </Box>
             <Divider />
-            <Box css={{ pt: '$6' }} />
+            <Box css={{ pt: '$lg' }} />
             <Grid container spacing={2} alignItems="center">
               <Suspense fallback={null}>
                 <Grid item>
@@ -295,8 +371,8 @@ export const MainHeader = () => {
               css={{
                 display: 'flex',
                 flexDirection: 'column',
-                px: '$4',
-                py: '$6',
+                px: '$md',
+                py: '$lg',
               }}
             >
               <MenuNavigationLinks />
@@ -307,8 +383,8 @@ export const MainHeader = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                px: '$4',
-                py: '$4',
+                px: '$md',
+                py: '$md',
               }}
             >
               <Suspense fallback={null}>
@@ -325,8 +401,8 @@ export const MainHeader = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    px: '$4',
-                    py: '$4',
+                    px: '$md',
+                    py: '$md',
                   }}
                 >
                   <CirclesSelectorSection
@@ -343,7 +419,6 @@ export const MainHeader = () => {
 };
 
 export const HeaderNav = () => {
-  const classes = useStyles();
   const { circle, myUser } = useSelectedCircle();
 
   const navItems = getMainNavigation({
@@ -352,20 +427,32 @@ export const HeaderNav = () => {
   });
 
   return (
-    <div className={classes.navLinks}>
+    <Box
+      css={{
+        justifySelf: 'stretch',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        '@sm': {
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+        },
+      }}
+    >
       {navItems.map(navItem => (
-        <NavLink
-          className={classes.navLink}
-          isActive={(nothing, location) =>
+        <Link
+          css={cssNavLink}
+          as={NavLink}
+          isActive={(nothing: any, location: { pathname: string }) =>
             checkActive(location.pathname, navItem)
           }
           key={navItem.path}
           to={navItem.path}
         >
           {navItem.label}
-        </NavLink>
+        </Link>
       ))}
-    </div>
+    </Box>
   );
 };
 

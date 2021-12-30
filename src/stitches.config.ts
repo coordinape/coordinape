@@ -2,43 +2,6 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
-const spaceTokens = {
-  px: '1px',
-  0.5: '0.125rem',
-  1: '0.25rem',
-  1.5: '0.375rem',
-  2: '0.5rem',
-  2.5: '0.625rem',
-  3: '0.75rem',
-  3.5: '0.875rem',
-  4: '1rem',
-  5: '1.25rem',
-  6: '1.5rem',
-  7: '1.75rem',
-  8: '2rem',
-  9: '2.25rem',
-  10: '2.5rem',
-  12: '3rem',
-  14: '3.5rem',
-  16: '4rem',
-  17: '4.5rem',
-  20: '5rem',
-  24: '6rem',
-  28: '7rem',
-  32: '8rem',
-  36: '9rem',
-  40: '10rem',
-  44: '11rem',
-  48: '12rem',
-  52: '13rem',
-  56: '14rem',
-  60: '15rem',
-  64: '16rem',
-  72: '18rem',
-  80: '20rem',
-  96: '24rem',
-};
-
 export const {
   styled,
   css,
@@ -85,26 +48,37 @@ export const {
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
     },
-    space: { ...spaceTokens },
+    space: {
+      px: '1px',
+      '2xs': '0.125rem', // 2px
+      xs: '0.25rem', // 4px
+      '1sm': '0.375rem', // 6px
+      sm: '0.5rem', // 8px
+      md: '1rem', // 16px
+      lg: '1.5rem', // 24px
+      xl: '2rem', // 32px
+      '1xl': '2.5rem', // 40px
+      '2xl': '3rem', // 48px
+      '3xl': '4rem', // 64px
+      '5xl': '5rem', // 80px
+    },
     sizes: {
-      ...spaceTokens,
       max: 'max-content',
       min: 'min-content',
       full: '100%',
-      '3xs': '14rem',
-      '2xs': '16rem',
-      xs: '20rem',
-      sm: '24rem',
-      md: '28rem',
-      lg: '32rem',
-      xl: '36rem',
-      '2xl': '42rem',
-      '3xl': '48rem',
-      '4xl': '56rem',
-      '5xl': '64rem',
-      '6xl': '72rem',
-      '7xl': '80rem',
-      '8xl': '90rem',
+      px: '1px',
+      '2xs': '0.125rem', // 2px
+      xs: '0.25rem', // 4px
+      '1sm': '0.375rem', // 6px
+      sm: '0.5rem', // 8px
+      md: '1rem', // 16px
+      lg: '1.5rem', // 24px
+      xl: '2rem', // 32px
+      '1xl': '2.5rem', // 40px
+      '2xl': '3rem', // 48px
+      '3xl': '4rem', // 64px
+      '4xl': '4.5rem',
+      '5xl': '5rem', // 80px
     },
     radii: {
       1: '4px',
@@ -124,6 +98,9 @@ export const {
       7: '27px',
       8: '35px',
       9: '59px',
+
+      // non-standard
+      '5plus1px': '20px',
     },
     fontWeights: {
       hairline: 100,
@@ -168,10 +145,10 @@ export const {
     transitions: {},
   },
   media: {
-    bp1: '(min-width: 520px)',
-    bp2: '(min-width: 900px)',
-    bp3: '(min-width: 1200px)',
-    bp4: '(min-width: 1800px)',
+    xs: '(max-width: 520px)',
+    sm: '(max-width: 900px)',
+    md: '(max-width: 1200px)',
+    lg: '(max-width: 1800px)',
     motion: '(prefers-reduced-motion)',
     hover: '(any-hover: hover)',
     dark: '(prefers-color-scheme: dark)',
@@ -306,3 +283,5 @@ export const {
     }),
   },
 });
+
+export type CSS = Stitches.CSS<typeof config>;
