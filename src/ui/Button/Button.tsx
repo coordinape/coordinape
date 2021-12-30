@@ -34,7 +34,7 @@ export const Button = styled('button', {
         backgroundColor: '$red400',
         color: 'white',
         '&:hover': {
-          backgroundColor: '$red300',
+          backgroundColor: '$red500',
         },
       },
       gray: {
@@ -46,7 +46,21 @@ export const Button = styled('button', {
       },
     },
     size: {
-      small: {},
+      large: {
+        alignItems: 'center',
+        padding: '10px 24px',
+        py: '$sm1',
+        px: '$lg',
+        fontSize: '$5plus05px',
+        lineHeight: '$tall2',
+        fontWeight: '$semibold',
+        textTransform: 'none',
+        borderRadius: '$4',
+        '& > *': {
+          my: 0,
+          mx: '$sm',
+        },
+      },
     },
     type: {
       icon: {

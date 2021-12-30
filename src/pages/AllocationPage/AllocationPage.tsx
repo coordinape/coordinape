@@ -7,10 +7,10 @@ import {
   Stepper,
   Step,
   StepButton,
-  Button,
   IconButton,
 } from '@material-ui/core';
 
+import { Button } from '../../ui';
 import {
   useApiWithSelectedCircle,
   useAllocation,
@@ -282,10 +282,7 @@ export const AllocationPage = () => {
             />
             <div className={classes.buttonContainer}>
               {epochDirty ? (
-                <Button
-                  className={classes.saveButton}
-                  onClick={handleSaveEpoch}
-                >
+                <Button size="large" color="red" onClick={handleSaveEpoch}>
                   Save Epoch Settings
                 </Button>
               ) : (

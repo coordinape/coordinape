@@ -61,6 +61,7 @@ export const {
       xs: '0.25rem', // 4px
       '1sm': '0.375rem', // 6px
       sm: '0.5rem', // 8px
+      sm1: '0.625rem',
       sm2: '0.75rem', // 8px
       md: '1rem', // 16px
       lg: '1.5rem', // 24px
@@ -70,6 +71,8 @@ export const {
       '2xl': '3rem', // 48px
       '3xl': '4rem', // 64px
       '5xl': '5rem', // 80px
+
+      // non standard
     },
     sizes: {
       max: 'max-content',
@@ -110,6 +113,7 @@ export const {
 
       // non-standard
       '5plus1px': '20px',
+      '5plus05px': '19.5px',
     },
     fontWeights: {
       hairline: 100,
@@ -129,6 +133,7 @@ export const {
       short: 1.375,
       base: 1.5,
       tall: 1.625,
+      tall2: 1.75,
       taller: '2',
       '3': '.75rem',
       '4': '1rem',
