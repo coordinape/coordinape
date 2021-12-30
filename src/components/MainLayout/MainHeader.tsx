@@ -43,7 +43,6 @@ export const MainHeader = () => {
   ) : (
     <Button
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      size="small"
       aria-label="menu"
       type="icon"
     >
@@ -99,7 +98,7 @@ export const MainHeader = () => {
       </Box>
     </Box>
   ) : (
-    <div>
+    <Box>
       <Box
         css={{
           display: 'flex',
@@ -223,7 +222,7 @@ export const MainHeader = () => {
           </Box>
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
