@@ -1,16 +1,15 @@
-import { Contract } from '@ethersproject/contracts';
 import debug from 'debug';
 import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { ZERO_ADDRESS } from '../../../constants';
-import { ApeRegistry__factory } from '../../../typechain';
+import { ApeRegistry, ApeRegistry__factory } from '../../../typechain';
 
 const log = debug('coordinape:setup');
 
 async function executeTimelockedFunction(
-  contract: Contract,
+  contract: ApeRegistry,
   method: string,
   args: Array<unknown>
 ) {
@@ -20,6 +19,7 @@ async function executeTimelockedFunction(
     }" with (${args.join()}) arguments`
   );
   const ZERO = ethers.utils.zeroPad([0], 32);
+  // @ts-ignore
   const data = contract.interface.encodeFunctionData(method, args);
   try {
     await contract.schedule(contract.address, data, ZERO, ZERO, 0);
