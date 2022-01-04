@@ -249,7 +249,7 @@ export const HeaderNav = () => {
             fontWeight: '$bold',
             color: '$white',
             textDecoration: 'none',
-            py: '$1sm',
+            py: '$xs1',
             px: 0,
             position: 'relative',
             '&::after': {

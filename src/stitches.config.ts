@@ -9,6 +9,25 @@ export const MediaQueryKeys = {
   lg: '(max-width: 1800px)',
 } as const;
 
+const spaces = {
+  px: '1px',
+  '2xs': '0.125rem', // 2px
+  xs: '0.25rem', // 4px
+  xs1: '0.375rem', // 6px
+  sm: '0.5rem', // 8px
+  sm1: '0.625rem',
+  sm2: '0.75rem', // 8px
+  md: '1rem', // 16px
+  lg: '1.5rem', // 24px
+  xl: '2rem', // 32px
+  xl2: '2.25rem', // 32px
+  '1xl': '2.5rem', // 40px
+  '2xl': '3rem', // 48px
+  '3xl': '4rem', // 64px
+  '4xl': '4.5rem',
+  '5xl': '5rem', // 80px,
+};
+
 export const {
   styled,
   css,
@@ -56,21 +75,7 @@ export const {
       darkBlue: '#5D9C9F',
     },
     space: {
-      px: '1px',
-      '2xs': '0.125rem', // 2px
-      xs: '0.25rem', // 4px
-      '1sm': '0.375rem', // 6px
-      sm: '0.5rem', // 8px
-      sm1: '0.625rem',
-      sm2: '0.75rem', // 8px
-      md: '1rem', // 16px
-      lg: '1.5rem', // 24px
-      xl: '2rem', // 32px
-      xl2: '2.25rem', // 32px
-      '1xl': '2.5rem', // 40px
-      '2xl': '3rem', // 48px
-      '3xl': '4rem', // 64px
-      '5xl': '5rem', // 80px
+      ...spaces,
 
       // non standard
     },
@@ -78,19 +83,7 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
-      px: '1px',
-      '2xs': '0.125rem', // 2px
-      xs: '0.25rem', // 4px
-      '1sm': '0.375rem', // 6px
-      sm: '0.5rem', // 8px
-      md: '1rem', // 16px
-      lg: '1.5rem', // 24px
-      xl: '2rem', // 32px
-      '1xl': '2.5rem', // 40px
-      '2xl': '3rem', // 48px
-      '3xl': '4rem', // 64px
-      '4xl': '4.5rem',
-      '5xl': '5rem', // 80px
+      ...spaces,
     },
     radii: {
       1: '4px',
