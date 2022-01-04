@@ -65,7 +65,6 @@
     "hardhat:codegen": "yarn --cwd hardhat codegen",
     "hardhat:build": "yarn --cwd hardhat build",
     "hardhat:dev": "yarn --cwd hardhat dev",
-    "hardhat:ganache": "yarn --cwd hardhat ganache",
     "hardhat:deploy": "yarn --cwd hardhat deploy",
     "hardhat:install": "yarn --cwd hardhat install",
     "hardhat:test": "yarn --cwd hardhat test",

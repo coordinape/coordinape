@@ -110,7 +110,7 @@ clever.
 4. Compile contracts: `yarn hardhat:compile`
 5. Run tests: `yarn hardhat:test`
 6. Start local blockchain node: `yarn hardhat:dev`
-7. Deploy contracts: `yarn hardhat:deploy` - Only needed if not on dev env
+7. Deploy contracts: `yarn hardhat:deploy`
 8. Codegen deploymentInfo: `yarn hardhat:codegen`
 9. Build hardhat package: `yarn hardhat:build`
 10. Link hardhat package: `yarn --cwd ./hardhat link && yarn link @coordinape/hardhat`
