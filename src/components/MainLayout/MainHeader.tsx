@@ -46,7 +46,11 @@ export const MainHeader = () => {
       aria-label="menu"
       variant="ghost"
     >
-      {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
+      {!isMobileMenuOpen ? (
+        <HamburgerIcon color="white" />
+      ) : (
+        <CloseIcon color="white" />
+      )}
     </IconButton>
   );
 
