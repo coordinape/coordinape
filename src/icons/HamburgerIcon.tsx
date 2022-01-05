@@ -7,7 +7,7 @@ import { IconProps } from 'types';
 
 export const HamburgerIcon = styled(
   React.forwardRef<SVGSVGElement, IconProps>(
-    ({ color = 'white', ...props }, forwardedRef) => {
+    ({ color = 'currentColor', ...props }, forwardedRef) => {
       return (
         <svg
           width="28"
