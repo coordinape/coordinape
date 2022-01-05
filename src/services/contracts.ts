@@ -6,8 +6,8 @@ import {
   ApeRouter__factory,
   ApeToken,
   ApeToken__factory,
-  ApeVaultFactory,
-  ApeVaultFactory__factory,
+  ApeVaultFactoryBeacon,
+  ApeVaultFactoryBeacon__factory,
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
@@ -20,7 +20,7 @@ type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 export class Contracts {
   usdc: ERC20;
   apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactory;
+  apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
 
@@ -32,7 +32,7 @@ export class Contracts {
     contracts: {
       usdc: ERC20;
       apeToken: ApeToken;
-      apeVaultFactory: ApeVaultFactory;
+      apeVaultFactory: ApeVaultFactoryBeacon;
       apeRouter: ApeRouter;
       apeDistributor: ApeDistributor;
     },
@@ -89,7 +89,7 @@ export class Contracts {
       addresses.apeToken,
       signerOrProvider
     );
-    const apeVaultFactory = ApeVaultFactory__factory.connect(
+    const apeVaultFactory = ApeVaultFactoryBeacon__factory.connect(
       addresses.apeVaultFactory,
       signerOrProvider
     );
