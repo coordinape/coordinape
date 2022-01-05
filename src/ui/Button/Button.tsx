@@ -70,15 +70,6 @@ export const Button = styled('button', {
         borderRadius: '$3',
       },
     },
-    type: {
-      icon: {
-        backgroundColor: 'transparent',
-        '&:hover': {
-          backgroundColor: 'transparent',
-        },
-        px: 0,
-      },
-    },
   },
   defaultVariants: {
     color: 'gray',

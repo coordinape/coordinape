@@ -18,6 +18,7 @@ export const IconButton = styled('button', {
   userSelect: 'none',
   WebkitTapHighlightColor: 'transparent',
   color: '$gray400',
+  cursor: 'pointer',
   '&::before': {
     boxSizing: 'border-box',
   },
@@ -69,11 +70,11 @@ export const IconButton = styled('button', {
         borderWidth: '0',
         '@hover': {
           '&:hover': {
-            backgroundColor: '$lightGray',
+            backgroundColor: '$lightBackground',
           },
         },
         '&:active': {
-          backgroundColor: '$lightGray',
+          backgroundColor: '$lightBackground',
         },
       },
       ghost: {
