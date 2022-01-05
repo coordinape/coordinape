@@ -13,16 +13,28 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   } else {
     yRegistry = YEARN_REGISTRY_ADDRESS;
   }
+  const implementation = await deploy('ApeVaultWrapperImplementation', {
+    contract: 'ApeVaultWrapperImplementation',
+    from: deployer,
+    args: [],
+    log: true,
+  });
+  const apeRegistryBeacon = await deploy('ApeRegistryBeacon', {
+    contract: 'ApeRegistryBeacon',
+    from: deployer,
+    args: [implementation.address, 0],
+    log: true,
+  });
   const apeRegistry = await deploy('ApeRegistry', {
     contract: 'ApeRegistry',
     from: deployer,
     args: [0],
     log: true,
   });
-  const apeVaultFactory = await deploy('ApeVaultFactory', {
-    contract: 'ApeVaultFactory',
+  const apeVaultFactory = await deploy('ApeVaultFactoryBeacon', {
+    contract: 'ApeVaultFactoryBeacon',
     from: deployer,
-    args: [yRegistry, apeRegistry.address],
+    args: [yRegistry, apeRegistry.address, apeRegistryBeacon.address],
     log: true,
   });
   await deploy('ApeRouter', {

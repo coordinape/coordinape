@@ -45,7 +45,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const apeFee = await hre.deployments.get('FeeRegistry');
   const apeRouter = await hre.deployments.get('ApeRouter');
   const apeDistributor = await hre.deployments.get('ApeDistributor');
-  const apeVaultFactory = await hre.deployments.get('ApeVaultFactory');
+  const apeVaultFactory = await hre.deployments.get('ApeVaultFactoryBeacon');
 
   await executeTimelockedFunction(apeRegistry, 'setFeeRegistry', [
     apeFee.address,
