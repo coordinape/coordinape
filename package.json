@@ -6,6 +6,7 @@
     "node": "=14"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.6",
     "@coordinape/hardhat": "file:./hardhat",
     "@craco/craco": "6.3.0",
     "@date-io/luxon": "1.x",
@@ -33,6 +34,7 @@
     "ethers": "5.5.1",
     "gqty": "^2.1.0",
     "graphql": "^16.0.1",
+    "graphql-zeus": "^4.0.3",
     "history": "5.0.0",
     "itiriri": "2.0.1",
     "lodash": "4.17.21",
@@ -58,6 +60,7 @@
   },
   "scripts": {
     "setup": "./scripts/setup-hardhat.sh",
+    "generate-gql-client": "zeus http://localhost:8080/v1/graphql ./libs/gql --ts --header=x-hasura-admin-secret:admin-secret",
     "hasura": "hasura --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
