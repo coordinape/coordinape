@@ -9,23 +9,51 @@ export const MediaQueryKeys = {
   lg: '(max-width: 1800px)',
 } as const;
 
+// SVGIcon config
+
+export const SvgIconConfig = {
+  variants: {
+    size: {
+      sm: {
+        width: '$sm',
+        height: '$sm',
+      },
+      md: {
+        width: '$md',
+        height: '$md',
+      },
+      lg: {
+        width: '$lg',
+        height: '$lg',
+      },
+      xl: {
+        width: '$xl',
+        height: '$xl',
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'lg',
+  },
+};
+
 const spaces = {
   px: '1px',
-  '2xs': '0.125rem', // 2px
-  xs: '0.25rem', // 4px
-  xs1: '0.375rem', // 6px
-  sm: '0.5rem', // 8px
-  sm1: '0.625rem',
-  sm2: '0.75rem', // 8px
-  md: '1rem', // 16px
-  lg: '1.5rem', // 24px
-  xl: '2rem', // 32px
-  xl2: '2.25rem', // 32px
-  '1xl': '2.5rem', // 40px
-  '2xl': '3rem', // 48px
-  '3xl': '4rem', // 64px
-  '4xl': '4.5rem',
-  '5xl': '5rem', // 80px,
+  '2xs': '2px',
+  xs: '4px',
+  xs1: '6px',
+  sm: '9px',
+  sm1: '10px',
+  sm2: '12px',
+  md: '16px',
+  lg: '24px',
+  xl: '32px',
+  xl2: '36px',
+  '1xl': '40px',
+  '2xl': '48px',
+  '3xl': '64px',
+  '4xl': '72px',
+  '5xl': '80px',
 };
 
 export const {
@@ -46,7 +74,7 @@ export const {
       red200: '#F5E4E4',
       red300: '#E6BCBC',
       red400: '#EF7376',
-      red500: '#6f3638',
+      red500: '#CF7073',
       // gray
       gray400: '#B5BBBD',
 
@@ -76,8 +104,6 @@ export const {
     },
     space: {
       ...spaces,
-
-      // non standard
     },
     sizes: {
       max: 'max-content',
@@ -128,14 +154,6 @@ export const {
       tall: 1.625,
       tall2: 1.75,
       taller: '2',
-      '3': '.75rem',
-      '4': '1rem',
-      '5': '1.25rem',
-      '6': '1.5rem',
-      '7': '1.75rem',
-      '8': '2rem',
-      '9': '2.25rem',
-      '10': '2.5rem',
     },
     letterSpacings: {
       tighter: '-0.05em',
@@ -152,10 +170,7 @@ export const {
     transitions: {},
   },
   media: {
-    xs: MediaQueryKeys.xs,
-    sm: MediaQueryKeys.sm,
-    md: MediaQueryKeys.md,
-    lg: MediaQueryKeys.lg,
+    ...MediaQueryKeys,
     motion: '(prefers-reduced-motion)',
     hover: '(any-hover: hover)',
     dark: '(prefers-color-scheme: dark)',

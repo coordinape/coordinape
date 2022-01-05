@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { useMediaQuery } from '../../hooks';
 import { MediaQueryKeys } from '../../stitches.config';
-import { Box, Button, Link, Image, Divider } from '../../ui';
+import { Box, IconButton, Link, Image, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
@@ -41,13 +41,13 @@ export const MainHeader = () => {
   const menuWalletButton = !address ? (
     <WalletButton />
   ) : (
-    <Button
+    <IconButton
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       aria-label="menu"
-      type="icon"
+      variant="ghost"
     >
       {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
-    </Button>
+    </IconButton>
   );
 
   return !screenDownSm ? (

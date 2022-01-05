@@ -12,20 +12,21 @@ export const Button = styled('button', {
   '&::after': {
     boxSizing: 'border-box',
   },
+
   '& img': {
     paddingRight: '$sm',
   },
-  paddingLeft: '$sm2',
-  paddingRight: '$sm2',
-  paddingTop: '$sm',
-  paddingBottom: '$sm',
+
+  px: '$sm2',
+  py: '$sm',
 
   display: 'flex',
   justifyContent: 'center',
-  height: '$xl2',
   fontSize: '$md',
   fontWeight: '$normal',
   borderRadius: '$xs',
+  cursor: 'pointer',
+  textAlign: 'center',
 
   color: 'White',
   variants: {
@@ -48,7 +49,6 @@ export const Button = styled('button', {
     size: {
       large: {
         alignItems: 'center',
-        padding: '10px 24px',
         py: '$sm1',
         px: '$lg',
         fontSize: '$5plus05px',
@@ -61,6 +61,14 @@ export const Button = styled('button', {
           mx: '$sm',
         },
       },
+      small: {
+        py: '$sm',
+        px: '$lg',
+        fontSize: '$2',
+        fontWeight: '$medium',
+        lineHeight: '$shorter',
+        borderRadius: '$3',
+      },
     },
     type: {
       icon: {
@@ -68,11 +76,11 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: 'transparent',
         },
+        px: 0,
       },
     },
   },
   defaultVariants: {
     color: 'gray',
-    size: 'small',
   },
 });
