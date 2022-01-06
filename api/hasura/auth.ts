@@ -20,9 +20,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
     assert(tokenRow, 'The token provided was not recognized');
+    const profile = await prisma.profile.findFirst({
+      where: {
+        id: tokenRow.tokenable_id,
+      },
+    });
+    assert(profile, 'Profile cannot be found');
     res.status(200).json({
       'X-Hasura-User-Id': tokenRow.tokenable_id.toString(),
-      'X-Hasura-Role': 'user',
+      'X-Hasura-Role': profile.admin_view ? 'superadmin' : 'user',
     });
   } catch (e) {
     res.status(401).json({

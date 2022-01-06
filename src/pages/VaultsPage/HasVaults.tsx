@@ -170,25 +170,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     fontWeight: 600,
   },
-  smallP: {
-    fontSize: 12,
-    marginLeft: '0.4em',
-    padding: 0,
-    margin: 0,
-  },
-  editTxt: {
-    color: theme.colors.lightBlue,
-    textDecoration: 'underline',
-    cursor: 'pointer',
-    background: 'none',
-    border: 'none',
-  },
-  editSpan: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-end',
-  },
 }));
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';

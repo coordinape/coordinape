@@ -7,7 +7,7 @@
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "export $(xargs <../.env) && ganache-cli --networkId 1576478390085 --db ./data --deterministic --hostname=0.0.0.0 -m coordinape --unlock $HH_OWNER_ADDRESS",
+    "dev": "export $(xargs <../.env) && ganache-cli --networkId 1576478390085 --db ./data --deterministic --hostname=0.0.0.0 -m coordinape --unlock $HARDHAT_OWNER_ADDRESS",
     "deploy": "DEBUG=coordinape:setup hardhat deploy --network ganache",
     "test": "TEST=1 hardhat test"
   },

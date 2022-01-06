@@ -57,6 +57,10 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
+    "hasura": "hasura --project ./hasura",
+    "docker:start": "docker-compose up -d",
+    "docker:stop": "docker-compose down",
+    "docker:clean": "docker-compose down -v",
     "start": "craco start",
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",
