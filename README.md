@@ -50,6 +50,7 @@ React Frontend + GraphQL API   ┃┃
    - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
    - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
 4. Start yarn: `yarn start`
+   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` before `yarn start`
 5. Visit app: [http://localhost:3000](http://localhost:3000)
 
 ## Running Hasura
