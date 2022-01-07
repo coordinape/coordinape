@@ -71,10 +71,11 @@ export const {
       white: '#fff',
       black: '#000',
       // red
-      red200: '#F5E4E4',
-      red300: '#E6BCBC',
-      red400: '#EF7376',
-      red500: '#CF7073',
+      lightRed: '#F5E4E4',
+      mediumRed: '#E6BCBC',
+      darkRed: '#6f3638',
+      red: '#EF7376',
+      redHover: '#CF7073',
       // gray
       gray400: '#B5BBBD',
 

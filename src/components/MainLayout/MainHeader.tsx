@@ -261,7 +261,7 @@ export const HeaderNav = () => {
               position: 'absolute',
               left: '50%',
               right: '50%',
-              backgroundColor: '$red300',
+              backgroundColor: '$mediumRed',
               transition: 'all 0.3s',
               bottom: 0,
               height: '$2xs',
@@ -270,20 +270,20 @@ export const HeaderNav = () => {
               '&::after': {
                 left: 0,
                 right: 0,
-                backgroundColor: '$red300',
+                backgroundColor: '$mediumRed',
               },
             },
             '&.active': {
               '&::after': {
                 left: 0,
                 right: 0,
-                backgroundColor: '$red400',
+                backgroundColor: '$red',
               },
               '&:hover': {
                 '&::after': {
                   left: 0,
                   right: 0,
-                  backgroundColor: '$red400',
+                  backgroundColor: '$red',
                 },
               },
             },
@@ -298,7 +298,7 @@ export const HeaderNav = () => {
                 },
               },
               '&.active': {
-                color: '$red400',
+                color: '$red',
                 '&::after': {
                   content: 'none',
                 },

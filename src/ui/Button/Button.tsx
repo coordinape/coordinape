@@ -32,10 +32,10 @@ export const Button = styled('button', {
   variants: {
     color: {
       red: {
-        backgroundColor: '$red400',
+        backgroundColor: '$red',
         color: 'white',
         '&:hover': {
-          backgroundColor: '$red500',
+          backgroundColor: '$redHover',
         },
       },
       gray: {
