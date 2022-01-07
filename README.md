@@ -124,7 +124,7 @@ clever.
 3. Load contracts: `git submodule update --init --recursive`
 4. Compile contracts: `yarn hardhat:compile`
 5. Run tests: `yarn hardhat:test`
-6. Start local blockchain node: `yarn hardhat:dev`
+6. Start local blockchain node: `yarn hardhat:dev <your_address_here>`
 7. Deploy contracts: `yarn hardhat:deploy`
 8. Codegen deploymentInfo: `yarn hardhat:codegen`
 9. Build hardhat package: `yarn hardhat:build`
