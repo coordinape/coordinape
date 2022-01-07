@@ -1,6 +1,16 @@
 table:
   name: circle_private
   schema: public
+object_relationships:
+- name: circle
+  using:
+    manual_configuration:
+      column_mapping:
+        circle_id: id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public
 select_permissions:
 - permission:
     columns:
@@ -13,6 +23,12 @@ select_permissions:
     - circle_id
     - discord_webhook
     filter:
-      circle_id:
-        _in: X-Hasura-Admin-Circle-Ids
+      circle:
+        users:
+          _and:
+          - role:
+              _eq: 1
+          - profile:
+              id:
+                _eq: X-Hasura-User-Id
   role: user

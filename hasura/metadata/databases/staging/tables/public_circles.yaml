@@ -116,3 +116,31 @@ select_permissions:
           id:
             _eq: X-Hasura-User-Id
   role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - alloc_text
+    - auto_opt_out
+    - default_opt_in
+    - discord_webhook
+    - is_verified
+    - logo
+    - min_vouches
+    - name
+    - nomination_days_limit
+    - only_giver_vouch
+    - team_sel_text
+    - team_selection
+    - token_name
+    - vouching
+    - vouching_text
+    filter:
+      users:
+        _and:
+        - role:
+            _eq: 1
+        - profile:
+            id:
+              _eq: X-Hasura-User-Id
+  role: user

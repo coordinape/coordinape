@@ -5,20 +5,11 @@ object_relationships:
 - name: circle
   using:
     foreign_key_constraint_on: circle_id
-- name: private_received
+- name: gift_private
   using:
     manual_configuration:
       column_mapping:
-        recipient_id: recipient_id
-      insertion_order: null
-      remote_table:
-        name: gift_private
-        schema: public
-- name: private_sent
-  using:
-    manual_configuration:
-      column_mapping:
-        sender_id: sender_id
+        id: gift_id
       insertion_order: null
       remote_table:
         name: gift_private
