@@ -27,6 +27,7 @@ hardhat/data/
 .env
 .env.local
 .env.development.local
+.env.staging.local
 .env.test.local
 .env.production.local
 
