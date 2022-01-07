@@ -14,6 +14,42 @@ object_relationships:
       remote_table:
         name: profiles
         schema: public
+array_relationships:
+- name: burns
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: burns
+        schema: public
+- name: pending_received_gifts
+  using:
+    foreign_key_constraint_on:
+      column: recipient_id
+      table:
+        name: pending_token_gifts
+        schema: public
+- name: pending_sent_gifts
+  using:
+    foreign_key_constraint_on:
+      column: sender_id
+      table:
+        name: pending_token_gifts
+        schema: public
+- name: received_gifts
+  using:
+    foreign_key_constraint_on:
+      column: recipient_id
+      table:
+        name: token_gifts
+        schema: public
+- name: sent_gifts
+  using:
+    foreign_key_constraint_on:
+      column: sender_id
+      table:
+        name: token_gifts
+        schema: public
 select_permissions:
 - permission:
     columns:
