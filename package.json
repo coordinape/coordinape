@@ -57,6 +57,7 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
+    "setup": "./scripts/setup-hardhat.sh",
     "hasura": "hasura --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
