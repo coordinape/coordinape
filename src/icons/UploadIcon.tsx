@@ -41,4 +41,4 @@ export const UploadIcon = styled(
   SvgIconConfig
 );
 
-export default HamburgerIcon;
+export default UploadIcon;
