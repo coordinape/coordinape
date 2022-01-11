@@ -37,19 +37,12 @@ export default function DepositModal({
   const classes = useStyles();
   const history = useHistory();
   const [max, setMax] = useState<any>();
-  const [decimal, setDecimal] = useState<number>();
   const { depositToken } = useVaultRouter();
   const { balance, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
 
   const getBalance = () => {
     getTokenBalance(vault.tokenAddress);
-    if (vault.type === 'USDC') {
-      setMax(parseInt(ethers.utils.formatUnits(balance, 6)));
-      setDecimal(6);
-    } else {
-      setMax(parseInt(ethers.utils.formatUnits(balance, 18)));
-      setDecimal(18);
-    }
+    setMax(ethers.utils.formatUnits(balance, vault.decimals));
   };
 
   useEffect(() => {
@@ -66,7 +59,7 @@ export default function DepositModal({
 
   const handleSubmit = (amount: number) => {
     const _amount = BigNumber.from(
-      utils.parseUnits(amount.toString(), decimal)
+      utils.parseUnits(amount.toString(), vault.decimals)
     );
     depositToken(vault, _amount).then(receipt => {
       getBalance();
