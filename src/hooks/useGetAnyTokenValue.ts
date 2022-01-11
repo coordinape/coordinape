@@ -17,9 +17,9 @@ export function useGetAnyTokenValue(tokenAddress: string) {
   const getTokenBalance = async (tokenAddress: string) => {
     // Check if address is either a zero address or a weth address
     const isEth =
-      tokenAddress === knownTokens.ETH.addresses[1] ||
-      tokenAddress === knownTokens.ETH.addresses[4] ||
-      tokenAddress === knownTokens.ETH.addresses[1337];
+      tokenAddress === knownTokens.WETH.addresses[1] ||
+      tokenAddress === knownTokens.WETH.addresses[4] ||
+      tokenAddress === knownTokens.WETH.addresses[1337];
     if (isEth) {
       library.getBalance(account).then((_balance: any) => setBalance(_balance));
     } else {

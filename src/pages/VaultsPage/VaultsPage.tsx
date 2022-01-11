@@ -47,9 +47,7 @@ const VaultsPage = () => {
   const epochs = useMemo(() => fakeEpochData, [epochsReverse]);
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg.id) as unknown as [];
-  // eslint-disable-next-line no-console
-  console.log(vaults);
+  const vaults = useVaults(currentOrg.id);
 
   return (
     <div className={classes.root}>
@@ -58,7 +56,7 @@ const VaultsPage = () => {
         onButtonClick={() => setModal('create')}
       />
       {vaults && vaults.length ? (
-        vaults.map((vault: any) => (
+        vaults.map(vault => (
           <HasVaults key={vault.id} epochs={epochs} vault={vault} />
         ))
       ) : (

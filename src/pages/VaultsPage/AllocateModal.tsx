@@ -100,7 +100,6 @@ export default function AllocateModal({ onClose }: AllocateModalProps) {
         <FormModal
           onClose={onClose}
           onSubmit={handleSubmit}
-          open={false}
           submitDisabled={!changedOutput}
           size="small"
           icon={<PlusCircleIcon />}
