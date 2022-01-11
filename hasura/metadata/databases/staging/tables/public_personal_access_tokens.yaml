@@ -1,0 +1,27 @@
+table:
+  name: personal_access_tokens
+  schema: public
+object_relationships:
+- name: profile
+  using:
+    manual_configuration:
+      column_mapping:
+        tokenable_id: id
+      insertion_order: null
+      remote_table:
+        name: profiles
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - tokenable_type
+    - tokenable_id
+    - name
+    - token
+    - abilities
+    - last_used_at
+    - created_at
+    - updated_at
+    filter: {}
+  role: superadmin
