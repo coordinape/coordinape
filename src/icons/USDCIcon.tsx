@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { SvgIcon } from '@material-ui/core';
+import { SvgIcon } from './SvgIcon';
 
 export const USDCIcon = (props: any) => (
   <SvgIcon {...props}>

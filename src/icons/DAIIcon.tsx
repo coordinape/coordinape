@@ -1,5 +1,4 @@
-import { SvgIcon } from '@material-ui/core';
-
+import { SvgIcon } from './SvgIcon';
 export const DAIIcon = (props: any) => (
   <SvgIcon {...props}>
     <image

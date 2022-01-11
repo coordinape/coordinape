@@ -72,6 +72,7 @@ export interface IAuth {
 }
 
 export interface IconProps extends React.SVGAttributes<SVGElement> {
-  children?: never;
+  children?: React.ReactNode;
   color?: string;
+  inherit?: string;
 }
