@@ -1,9 +1,8 @@
 // - Contract Imports
 import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
-import { ContractTransaction } from 'ethers';
+import { ContractTransaction, ethers } from 'ethers';
 
-import { ERC20Service } from 'services/erc20';
 import { makeRouterTxFn } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
@@ -21,17 +20,13 @@ export function useVaultRouter() {
     vault: IVault,
     amount: BigNumberish
   ): Promise<ContractTransaction | undefined> => {
-    const signer = await web3Context.library.getSigner();
-    const token = new ERC20Service(
-      await web3Context.library,
-      await signer.getAddress(),
-      vault.tokenAddress
-    );
-    if (!contracts) {
-      throw new Error('Contracts not loaded');
-    }
+    if (!contracts) throw new Error('Contracts not loaded');
+    const token = contracts.getERC20(vault.tokenAddress);
     // Todo: Handle this separately and conditionally in UI
-    await token.approveUnlimited(contracts.apeRouter.address);
+    await token.approve(
+      contracts.apeRouter.address,
+      ethers.constants.MaxUint256
+    );
     apeInfo('Deposit pending');
     return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)

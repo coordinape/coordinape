@@ -1,36 +1,31 @@
 import { useEffect, useState } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
-
 import { knownTokens } from 'config/networks';
-import { ERC20Service } from 'services/erc20';
+
+import { useContracts } from './useContracts';
 
 export function useGetAnyTokenValue(tokenAddress: string) {
   const [balance, setBalance] = useState<any>(0);
-  const web3Context = useWeb3React();
-  const { library, account } = web3Context;
+  const contracts = useContracts();
+
+  const getTokenBalance = async (tokenAddress: string) => {
+    if (!contracts) return;
+    // Check if address is either a zero address or a weth address
+    const isEth = Object.values(knownTokens.WETH.addresses)
+      .map(a => a.toLowerCase())
+      .includes(tokenAddress.toLowerCase());
+    if (isEth) {
+      setBalance(await contracts.getETHBalance());
+    } else {
+      const token = contracts.getERC20(tokenAddress);
+      const address = await contracts.getMyAddress();
+      if (address) setBalance(await token.balanceOf(address));
+    }
+  };
 
   useEffect(() => {
     getTokenBalance(tokenAddress);
-  }, [tokenAddress]);
+  }, [tokenAddress, contracts]);
 
-  const getTokenBalance = async (tokenAddress: string) => {
-    // Check if address is either a zero address or a weth address
-    const isEth =
-      tokenAddress === knownTokens.WETH.addresses[1] ||
-      tokenAddress === knownTokens.WETH.addresses[4] ||
-      tokenAddress === knownTokens.WETH.addresses[1337];
-    if (isEth) {
-      library.getBalance(account).then((_balance: any) => setBalance(_balance));
-    } else {
-      const signer = await web3Context.library.getSigner();
-      const token = new ERC20Service(
-        await web3Context.library,
-        await signer.getAddress(),
-        tokenAddress
-      );
-      setBalance(await token.getBalanceOf(account ? account : ''));
-    }
-  };
   return { getTokenBalance, balance };
 }

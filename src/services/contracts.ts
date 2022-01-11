@@ -67,6 +67,30 @@ export class Contracts {
     );
   }
 
+  getERC20(address: string): ERC20 {
+    return ERC20__factory.connect(address, this.signerOrProvider);
+  }
+
+  getMyAddress() {
+    return this.signerOrProvider instanceof ethers.ethers.Signer
+      ? this.signerOrProvider.getAddress()
+      : undefined;
+  }
+
+  async getETHBalance(address?: string) {
+    if (this.signerOrProvider instanceof ethers.ethers.Signer) {
+      if (!address) return this.signerOrProvider.getBalance('latest');
+      return this.signerOrProvider.provider?.getBalance(address, 'latest');
+    }
+
+    if (!address) {
+      throw new Error(
+        'address argument is required when signer is not available'
+      );
+    }
+    return this.signerOrProvider.getBalance(address, 'latest');
+  }
+
   static fromNetwork(
     networkId: NetworkId,
     signerOrProvider: SignerOrProvider
