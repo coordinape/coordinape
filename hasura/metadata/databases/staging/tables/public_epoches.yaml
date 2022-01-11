@@ -15,6 +15,14 @@ object_relationships:
       remote_table:
         name: circles
         schema: public
+array_relationships:
+- name: burns
+  using:
+    foreign_key_constraint_on:
+      column: epoch_id
+      table:
+        name: burns
+        schema: public
 select_permissions:
 - permission:
     columns:
