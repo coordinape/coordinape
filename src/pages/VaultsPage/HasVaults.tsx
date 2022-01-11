@@ -6,7 +6,7 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTable } from 'components';
 import { knownTokens } from 'config/networks';
-import { useContractsNotNull } from 'hooks/useContracts';
+import { useContracts } from 'hooks/useContracts';
 import { InfoIcon } from 'icons';
 
 import AllocateModal from './AllocateModal';
@@ -186,10 +186,14 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
   const classes = useStyles();
   const [modal, setModal] = useState<ModalLabel>('');
   const closeModal = () => setModal('');
-  const contracts = useContractsNotNull();
-  const vaultContract = contracts.getVault(vault.id);
+  const contracts = useContracts();
+  const vaultContract = useMemo(
+    () => contracts?.getVault(vault.id),
+    [contracts]
+  );
 
-  // FIXME: this logic for fetching & formatting balance shouldn't live here
+  // TODO: update balance automatically after deposit
+  // FIXME: logic for fetching & formatting balance shouldn't live here
   const [balance, setBalance] = useState(0);
   useEffect(() => {
     const vaultType = vault.type;
@@ -199,11 +203,11 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
       return;
     }
 
-    vaultContract.underlyingValue().then(x => {
+    vaultContract?.underlyingValue().then(x => {
       const { decimals } = knownTokens[vaultType];
       setBalance(x.div(BigNumber.from(10).pow(decimals)).toNumber());
     });
-  }, [vault.id]);
+  }, [vault.id, vaultContract]);
 
   return (
     <div className={classes.withVaults}>

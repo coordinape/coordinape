@@ -20,13 +20,4 @@ function useContracts(): Contracts | undefined {
   }, [active, library, chainId]);
 }
 
-function useContractsNotNull(): Contracts {
-  const { library, active, chainId } = useWeb3React<Web3Provider>();
-
-  return useMemo((): Contracts => {
-    assert(library && chainId && SUPPORTED_CHAIN_IDS.includes(chainId));
-    return Contracts.fromNetwork(chainId as NetworkId, library.getSigner());
-  }, [active, library, chainId]);
-}
-
-export { useContracts, useContractsNotNull };
+export { useContracts };
