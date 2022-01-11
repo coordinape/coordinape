@@ -51,7 +51,7 @@ export const Button = styled('button', {
         alignItems: 'center',
         py: '$sm1',
         px: '$lg',
-        fontSize: '$5plus05px',
+        fontSize: '19.5px',
         lineHeight: '$tall2',
         fontWeight: '$semibold',
         textTransform: 'none',

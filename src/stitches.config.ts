@@ -126,14 +126,11 @@ export const {
       3: '14px',
       4: '16px',
       5: '19px',
-      6: '21px',
-      7: '27px',
-      8: '35px',
-      9: '59px',
-
-      // non-standard
-      '5plus1px': '20px',
-      '5plus05px': '19.5px',
+      6: '20px',
+      7: '21px',
+      8: '27px',
+      9: '35px',
+      10: '59px',
     },
     fontWeights: {
       hairline: 100,

@@ -249,7 +249,7 @@ export const HeaderNav = () => {
           css={{
             my: 0,
             mx: '$md',
-            fontSize: '$5plus1px',
+            fontSize: '$6',
             fontWeight: '$bold',
             color: '$white',
             textDecoration: 'none',
