@@ -8,6 +8,8 @@ import {
   ApeToken__factory,
   ApeVaultFactory,
   ApeVaultFactory__factory,
+  ApeVaultWrapperImplementation,
+  ApeVaultWrapperImplementation__factory,
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
@@ -28,6 +30,8 @@ export class Contracts {
   // used to create the contracts also has a network associated with it
   networkId: NetworkId;
 
+  signerOrProvider: SignerOrProvider;
+
   constructor(
     contracts: {
       usdc: ERC20;
@@ -36,7 +40,8 @@ export class Contracts {
       apeRouter: ApeRouter;
       apeDistributor: ApeDistributor;
     },
-    networkId: NetworkId
+    networkId: NetworkId,
+    signerOrProvider: SignerOrProvider
   ) {
     this.usdc = contracts.usdc;
     this.apeToken = contracts.apeToken;
@@ -44,6 +49,7 @@ export class Contracts {
     this.apeRouter = contracts.apeRouter;
     this.apeDistributor = contracts.apeDistributor;
     this.networkId = networkId;
+    this.signerOrProvider = signerOrProvider;
   }
 
   connect(signer: ethers.Signer): void {
@@ -52,6 +58,13 @@ export class Contracts {
     this.apeVaultFactory = this.apeVaultFactory.connect(signer);
     this.apeRouter = this.apeRouter.connect(signer);
     this.apeDistributor = this.apeDistributor.connect(signer);
+  }
+
+  getVault(address: string): ApeVaultWrapperImplementation {
+    return ApeVaultWrapperImplementation__factory.connect(
+      address,
+      this.signerOrProvider
+    );
   }
 
   static fromNetwork(
@@ -109,7 +122,8 @@ export class Contracts {
         apeRouter,
         apeDistributor,
       },
-      networkId
+      networkId,
+      signerOrProvider
     );
   }
 }

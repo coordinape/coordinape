@@ -1,3 +1,5 @@
+import { TAssetEnum } from 'config/networks';
+
 export interface IVaultTransaction {
   name: string;
   dateType: string;
@@ -14,7 +16,7 @@ export interface IVault {
   tokenAddress: string;
   simpleTokenAddress: string;
   decimals: number;
-  type: string;
+  type: TAssetEnum;
   transactions: IVaultTransaction[];
   orgId: number;
 }

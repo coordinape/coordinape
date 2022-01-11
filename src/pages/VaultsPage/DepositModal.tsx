@@ -43,7 +43,7 @@ export default function DepositModal({
 
   const getBalance = () => {
     getTokenBalance(vault.tokenAddress);
-    if (vault.type === 'USDC' || vault.type === 'yvUSDC') {
+    if (vault.type === 'USDC') {
       setMax(parseInt(ethers.utils.formatUnits(balance, 6)));
       setDecimal(6);
     } else {
