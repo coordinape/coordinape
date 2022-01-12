@@ -1,16 +1,19 @@
-import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-dotenv.config({ path: '../.env' });
-
-const USDC_WHALE_ADDRESS = '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503';
-const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+import {
+  USDC_WHALE_ADDRESS,
+  USDC_ADDRESS,
+  ETHEREUM_RPC_URL,
+  FORKED_BLOCK,
+  TEST_ENV,
+} from './constants';
 
 export async function unlockSigner(
   address: string,
@@ -62,7 +65,7 @@ task('mint', 'Mints the given token to specified account')
       };
 
       async function mintUsdc(receiver: string, amount: string): Promise<void> {
-        // Todo: fix this
+        await mintEth(USDC_WHALE_ADDRESS, '1');
         const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, hre);
         const usdc = new ethers.Contract(
           USDC_ADDRESS,
@@ -90,6 +93,11 @@ task('mint', 'Mints the given token to specified account')
       }
     }
   );
+
+const forking = {
+  url: ETHEREUM_RPC_URL,
+  blockNumber: FORKED_BLOCK,
+};
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -128,11 +136,6 @@ const config: HardhatUserConfig = {
         mnemonic: 'coordinape',
       },
       deploy: ['./scripts/deploy'],
-
-      forking: {
-        url: process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545',
-        blockNumber: +(process.env.FORKED_BLOCK ?? '13500000'),
-      },
     },
     localhost: {
       live: false,
@@ -148,7 +151,26 @@ const config: HardhatUserConfig = {
       timeout: 50000,
       deploy: ['./scripts/deploy'],
     },
+    ganache: {
+      live: false,
+      allowUnlimitedContractSize: true,
+      gas: 'auto',
+      gasPrice: 'auto',
+      gasMultiplier: 1,
+      url: 'http://127.0.0.1:8545',
+      chainId: 1337,
+      accounts: {
+        mnemonic: 'coordinape',
+      },
+      timeout: 50000,
+      deploy: ['./scripts/deploy'],
+    },
   },
 };
+
+if (TEST_ENV) {
+  // @ts-ignore
+  config.networks.hardhat.forking = forking;
+}
 
 export default config;

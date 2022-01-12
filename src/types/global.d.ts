@@ -9,7 +9,7 @@ export interface INetwork {
 
 export interface IKnownTokenData {
   symbol: string;
-  decimals: number;
+  decimals: number; // Fix: fetch this from smart-contract
   addresses: {
     [K in NetworkId]?: string;
   };

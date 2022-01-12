@@ -90,6 +90,8 @@ const useStyles = makeStyles(theme => ({
   skillGroup: {
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center',
+    padding: '0 10%',
   },
   socialGroup: {
     padding: theme.spacing(3, 0),
@@ -291,7 +293,7 @@ const ProfilePageContent = ({
           <ProfileSkills
             skills={profile.skills ?? []}
             isAdmin={user?.role === 1}
-            max={3}
+            max={50}
           />
         </div>
         <div className={classes.socialGroup}>

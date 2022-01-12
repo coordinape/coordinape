@@ -2,13 +2,13 @@ import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 import { BigNumber } from 'ethers';
 
-import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
 import {
   DAI_ADDRESS,
   USDC_ADDRESS,
   USDC_DECIMAL_MULTIPLIER,
   USDC_YVAULT_ADDRESS,
-} from '../constants';
+} from '../../constants';
+import { ApeRouter, ApeVaultWrapper, ERC20, VaultAPI } from '../../typechain';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';

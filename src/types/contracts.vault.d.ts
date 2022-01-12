@@ -16,4 +16,5 @@ export interface IVault {
   decimals: number;
   type: string;
   transactions: IVaultTransaction[];
+  orgId: number;
 }

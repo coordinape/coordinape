@@ -1,0 +1,70 @@
+table:
+  name: epoches
+  schema: public
+configuration:
+  custom_column_names: {}
+  custom_name: epochs
+  custom_root_fields: {}
+object_relationships:
+- name: circle
+  using:
+    manual_configuration:
+      column_mapping:
+        circle_id: id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public
+array_relationships:
+- name: burns
+  using:
+    foreign_key_constraint_on:
+      column: epoch_id
+      table:
+        name: burns
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - number
+    - start_date
+    - end_date
+    - circle_id
+    - created_at
+    - updated_at
+    - ended
+    - notified_start
+    - notified_before_end
+    - notified_end
+    - grant
+    - regift_days
+    - days
+    - repeat
+    - repeat_day_of_month
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - circle_id
+    - created_at
+    - days
+    - end_date
+    - ended
+    - grant
+    - id
+    - notified_before_end
+    - notified_end
+    - notified_start
+    - number
+    - repeat
+    - repeat_day_of_month
+    - start_date
+    - updated_at
+    filter:
+      circle:
+        users:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+  role: user

@@ -1,0 +1,41 @@
+table:
+  name: protocols
+  schema: public
+configuration:
+  custom_column_names: {}
+  custom_name: organizations
+  custom_root_fields: {}
+array_relationships:
+- name: circles
+  using:
+    manual_configuration:
+      column_mapping:
+        id: protocol_id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - name
+    - created_at
+    - updated_at
+    - telegram_id
+    - is_verified
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - created_at
+    - id
+    - name
+    - updated_at
+    filter:
+      circles:
+        users:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+  role: user

@@ -6,7 +6,7 @@
 ┃┗━┛┃┃┗┛┃┃┗┛┃┃┃━┃┗┛┃┃┃┃┃┃┃┃┗┛┗┓┃┗┛┃┃┃━┫
 ┗━━━┛┗━━┛┗━━┛┗┛━┗━━┛┗┛┗┛┗┛┗━━━┛┃┏━┛┗━━┛
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━
-React Frontend                 ┃┃
+React Frontend + GraphQL API   ┃┃
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━
                 __------__
               /~          ~\
@@ -40,16 +40,31 @@ React Frontend                 ┃┃
 - An Infura project id: [Infura](https://infura.io)
   - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
 - A browser with MetaMask installed (it's the officially supported wallet)
+- Docker
 
-## Install instructions
+## Getting Started (Frontend)
 
 1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
 2. Install packages: `yarn install`
 3. Setup a local .env file: `cp .env.example .env`
    - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
-   - set `REACT_APP_API_BASE_URL` to your API URL
+   - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
 4. Start yarn: `yarn start`
+   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` before `yarn start`
 5. Visit app: [http://localhost:3000](http://localhost:3000)
+
+## Running Hasura
+
+If you are making any changes to the GraphQL API / data model or want to run it locally, follow the steps below:
+
+1. Run Postgres and [Hasura](https://hasura.io/) using Docker with `yarn docker:start`.
+   - It might take several minutes to start if you're running it for the first time
+   - If you have any stale containers / run into errors, try running `yarn docker:clean` first.
+2. Once Hasura is ready (can check by running `curl localhost:8080/healthz`), run `yarn hasura console` to open up the GUI for interacting with Hasura.
+   - You'll need to install the `hasura-cli` npm module: `npm i -g hasura-cli`
+3. In the console, you can update the data model, create relationships, configure permissions, or create custom queries / mutations / triggers. [Check out this tutorial to get up to speed with how to use Hasura.](https://hasura.io/learn/graphql/hasura/introduction)
+4. Any changes you make in the Console will be reflected in your local `hasura` directory as migrations or metadata. These will be applied to the staging/production instance once merged via PR. [Check out this tutorial on how to manage migrations / metadata and other advanced Hasura functionality.](https://hasura.io/learn/graphql/hasura-advanced/introduction/)
+5. Check out the [Hasura Docs](https://hasura.io/docs/latest/graphql/core/databases/postgres/index.html) to learn about the various functionality and how to use it.
 
 # App Structure
 
@@ -109,10 +124,11 @@ clever.
 3. Load contracts: `git submodule update --init --recursive`
 4. Compile contracts: `yarn hardhat:compile`
 5. Run tests: `yarn hardhat:test`
-6. Start Ganache node: `yarn hardhat:dev`
-7. Deploy contracts: `yarn hardhat:deploy` - Only needed if not on dev env
+6. Start local blockchain node: `yarn hardhat:dev <your_address_here>`
+7. Deploy contracts: `yarn hardhat:deploy`
 8. Codegen deploymentInfo: `yarn hardhat:codegen`
 9. Build hardhat package: `yarn hardhat:build`
+10. Link hardhat package: `yarn --cwd ./hardhat link && yarn link @coordinape/hardhat`
 
 # Troubleshooting
 

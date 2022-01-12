@@ -59,6 +59,7 @@ export function useVaultFactory() {
             // TODO: Use real value:
             decimals: 5,
             type,
+            orgId: currentOrg.id,
           };
           vaultApi.addVault(currentOrg.id, vault);
           return vault;

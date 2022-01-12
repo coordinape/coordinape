@@ -1,0 +1,48 @@
+table:
+  name: gift_private
+  schema: public
+object_relationships:
+- name: recipient
+  using:
+    manual_configuration:
+      column_mapping:
+        recipient_id: id
+      insertion_order: null
+      remote_table:
+        name: users
+        schema: public
+- name: sender
+  using:
+    manual_configuration:
+      column_mapping:
+        sender_id: id
+      insertion_order: null
+      remote_table:
+        name: users
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - gift_id
+    - note
+    - recipient_id
+    - sender_id
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - gift_id
+    - note
+    - recipient_id
+    - sender_id
+    filter:
+      _or:
+      - recipient:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+      - sender:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+  role: user

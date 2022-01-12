@@ -69,7 +69,14 @@ export class APIService {
   }
 
   login = async (address: string): Promise<IApiLogin> => {
-    const data = `Login to Coordinape ${Math.floor(Date.now() / 1000)}`;
+    let now;
+    try {
+      const nowReq = await fetch('/api/time');
+      now = parseInt(await nowReq.text());
+    } catch (e) {
+      now = Date.now();
+    }
+    const data = `Login to Coordinape ${Math.floor(now / 1000)}`;
     const { signature, hash } = await getSignature(data, this.provider);
     const response = await this.axios.post('/v2/login', {
       signature,
