@@ -7,10 +7,10 @@ import {
   Stepper,
   Step,
   StepButton,
-  Button,
   IconButton,
 } from '@material-ui/core';
 
+import { Button } from '../../ui';
 import {
   useApiWithSelectedCircle,
   useAllocation,
@@ -76,24 +76,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  saveButton: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '10px 24px',
-    fontSize: 19.5,
-    lineHeight: 1.75,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    background: theme.colors.red,
-    borderRadius: 13,
-    '&.MuiButton-root:hover': {
-      background: theme.colors.darkRed,
-    },
-    '& > *': {
-      margin: theme.spacing(0, 0.5),
-    },
   },
   backButton: {
     marginRight: theme.spacing(1.5),
@@ -282,15 +264,13 @@ export const AllocationPage = () => {
             />
             <div className={classes.buttonContainer}>
               {epochDirty ? (
-                <Button
-                  className={classes.saveButton}
-                  onClick={handleSaveEpoch}
-                >
+                <Button size="large" color="red" onClick={handleSaveEpoch}>
                   Save Epoch Settings
                 </Button>
               ) : (
                 <Button
-                  className={classes.saveButton}
+                  size="large"
+                  color="red"
                   disabled={!selectedCircle.team_selection && !epochIsActive}
                   onClick={getHandleStep(
                     !selectedCircle.team_selection
@@ -310,15 +290,13 @@ export const AllocationPage = () => {
             <AllocationTeam />
             <div className={classes.buttonContainer}>
               {localTeammatesChanged ? (
-                <Button
-                  className={classes.saveButton}
-                  onClick={handleSaveTeamList}
-                >
+                <Button size="large" color="red" onClick={handleSaveTeamList}>
                   Save Teammate List
                 </Button>
               ) : (
                 <Button
-                  className={classes.saveButton}
+                  size="large"
+                  color="red"
                   disabled={!epochIsActive}
                   onClick={getHandleStep(STEP_ALLOCATION)}
                 >
@@ -351,7 +329,8 @@ export const AllocationPage = () => {
             <div className={classes.buttonContainer}>
               {localGiftsChanged && (
                 <Button
-                  className={classes.saveButton}
+                  size="large"
+                  color="red"
                   onClick={handleSaveAllocations}
                   disabled={tokenRemaining < 0}
                 >

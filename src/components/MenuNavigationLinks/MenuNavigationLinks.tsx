@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     textAlign: 'left',
     fontSize: 18,
-    lineHeight: 1.6,
     color: theme.colors.text,
     fontWeight: 300,
     textDecoration: 'none',
@@ -22,9 +21,12 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: theme.colors.black,
     },
+    [theme.breakpoints.up('sm')]: {
+      lineHeight: 1.6,
+    },
     [theme.breakpoints.down('sm')]: {
       margin: 0,
-      padding: '6px 0',
+      padding: '4px 0',
       fontSize: 20,
       color: theme.colors.text,
       fontWeight: 'normal',
@@ -40,16 +42,15 @@ export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
       {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
         if (isExternal) {
           return (
-            <div key={path}>
-              <a
-                className={classes.link}
-                href={path}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {label}
-              </a>
-            </div>
+            <a
+              key={path}
+              className={classes.link}
+              href={path}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {label}
+            </a>
           );
         }
         return (
