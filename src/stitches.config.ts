@@ -38,10 +38,7 @@ export const SvgIconConfig = {
 };
 
 const spaces = {
-  px: '1px',
-  '2xs': '2px',
   xs: '4px',
-  xs1: '6px',
   sm: '9px',
   sm1: '10px',
   sm2: '12px',

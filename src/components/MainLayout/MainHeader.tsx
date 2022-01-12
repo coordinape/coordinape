@@ -253,8 +253,8 @@ export const HeaderNav = () => {
             fontWeight: '$bold',
             color: '$white',
             textDecoration: 'none',
-            py: '$xs1',
             px: 0,
+            py: '$xs',
             position: 'relative',
             '&::after': {
               content: `" "`,
@@ -264,7 +264,7 @@ export const HeaderNav = () => {
               backgroundColor: '$mediumRed',
               transition: 'all 0.3s',
               bottom: 0,
-              height: '$2xs',
+              height: 2,
             },
             '&:hover': {
               '&::after': {
