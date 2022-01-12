@@ -57,12 +57,11 @@ export const MainHeader = () => {
   return !screenDownSm ? (
     <Box
       css={{
-        height: '$5xl',
         display: 'grid',
         alignItems: 'center',
         background: '$primary',
         gridTemplateColumns: '1fr 1fr 1fr',
-        py: 0,
+        py: '$md',
         px: '$1xl',
       }}
     >
@@ -103,7 +102,7 @@ export const MainHeader = () => {
           background: '$primary',
           justifyContent: 'space-between',
           px: '$lg',
-          height: '$4xl',
+          py: '$md',
         }}
       >
         <Image

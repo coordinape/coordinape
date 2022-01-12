@@ -47,9 +47,6 @@ const spaces = {
   xl: '32px',
   '1xl': '40px',
   '2xl': '48px',
-  '3xl': '64px',
-  '4xl': '72px',
-  '5xl': '80px',
 };
 
 export const {
