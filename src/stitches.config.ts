@@ -45,7 +45,6 @@ const spaces = {
   md: '16px',
   lg: '24px',
   xl: '32px',
-  xl2: '36px',
   '1xl': '40px',
   '2xl': '48px',
   '3xl': '64px',
