@@ -17,7 +17,7 @@ export const Button = styled('button', {
     paddingRight: '$sm',
   },
 
-  px: '$sm2',
+  px: '$lg',
   py: '$sm',
 
   display: 'flex',
@@ -49,9 +49,7 @@ export const Button = styled('button', {
     size: {
       large: {
         alignItems: 'center',
-        py: '$sm1',
-        px: '$lg',
-        fontSize: '19.5px',
+        fontSize: '$5',
         lineHeight: '$tall2',
         fontWeight: '$semibold',
         textTransform: 'none',
@@ -62,8 +60,6 @@ export const Button = styled('button', {
         },
       },
       small: {
-        py: '$sm',
-        px: '$lg',
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
@@ -73,5 +69,6 @@ export const Button = styled('button', {
   },
   defaultVariants: {
     color: 'gray',
+    size: 'small',
   },
 });

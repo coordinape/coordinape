@@ -39,9 +39,7 @@ export const SvgIconConfig = {
 
 const spaces = {
   xs: '4px',
-  sm: '9px',
-  sm1: '10px',
-  sm2: '12px',
+  sm: '8px',
   md: '16px',
   lg: '24px',
   xl: '32px',
