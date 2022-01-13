@@ -1,7 +1,6 @@
 import { styled } from '../../stitches.config';
 
-export const TextField = styled('input', {
-  // Reset
+export const Input = styled('input', {
   appearance: 'none',
   borderWidth: '0',
   boxSizing: 'border-box',
@@ -19,65 +18,36 @@ export const TextField = styled('input', {
   },
 
   // Custom
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: '$lightBackground',
+  borderRadius: '8px',
 
+  fontWeight: '$light',
+  fontSize: '$4',
+  lineHeight: '$base',
+
+  textAlign: 'center',
+
+  color: '$text',
   variants: {
     size: {
       sm: {
-        borderRadius: '$1',
-        height: '$5',
-        fontSize: '$1',
-        px: '$1',
-        lineHeight: '$sizes$5',
-        '&:-webkit-autofill::first-line': {
-          fontSize: '$1',
-        },
+        width: '175px',
+        height: '48px',
       },
       md: {
-        borderRadius: '$2',
-        height: '$6',
-        fontSize: '$3',
-        px: '$2',
-        lineHeight: '$sizes$6',
-        '&:-webkit-autofill::first-line': {
-          fontSize: '$3',
-        },
-      },
-      lg: {
-        borderRadius: '$2',
-        height: '$6',
-        fontSize: '$3',
-        px: '$2',
-        lineHeight: '$sizes$6',
-        '&:-webkit-autofill::first-line': {
-          fontSize: '$3',
-        },
+        width: '250px',
+        height: '48px',
       },
     },
     variant: {
-      ghost: {
-        boxShadow: 'none',
-        backgroundColor: 'transparent',
-        '@hover': {
-          '&:hover': {
-            boxShadow: 'inset 0 0 0 1px $colors$slateA7',
-          },
-        },
-        '&:focus': {
-          backgroundColor: '$loContrast',
-          boxShadow:
-            'inset 0px 0px 0px 1px $colors$blue8, 0px 0px 0px 1px $colors$blue8',
-        },
-        '&:disabled': {
-          backgroundColor: 'transparent',
-        },
-        '&:read-only': {
-          backgroundColor: 'transparent',
-        },
-      },
       token: {},
     },
   },
   defaultVariants: {
-    size: '1',
+    size: 'md',
   },
 });
