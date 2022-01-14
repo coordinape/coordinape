@@ -1,6 +1,7 @@
 import { matchPath } from 'react-router-dom';
 
-import { APP_PATH_CREATE_CIRCLE, IN_PRODUCTION } from 'utils/domain';
+import { IN_PRODUCTION } from 'config/env';
+import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 export const MAP_HIGHLIGHT_PARAM = 'highlight';
@@ -49,6 +50,7 @@ export const getCirclesPath = () => '/admin/circles';
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
+export const getRootAdminPath = () => '/root';
 
 interface INavItem {
   label: string;

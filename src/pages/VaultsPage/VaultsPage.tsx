@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
 
@@ -47,7 +47,7 @@ const VaultsPage = () => {
   const epochs = useMemo(() => fakeEpochData, [epochsReverse]);
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg.id);
+  const vaults = useVaults(currentOrg?.id ?? -1);
 
   return (
     <div className={classes.root}>

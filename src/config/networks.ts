@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { entries } from 'utils/type-utils';
 
-import { INFURA_PROJECT_ID } from './constants';
+import { INFURA_PROJECT_ID } from './env';
 
 import { IKnownTokenData, INetwork, IToken } from 'types';
 

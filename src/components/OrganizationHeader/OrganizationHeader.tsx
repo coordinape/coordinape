@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { DownArrow } from 'icons';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
@@ -115,7 +115,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>{currentOrg.name}</h2>
+          <h2 className={classes.title}>{currentOrg?.name}</h2>
           <Button aria-describedby="1" className={classes.moreButton}>
             <DownArrow className={classes.moreButtonIcon} />
           </Button>

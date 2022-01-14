@@ -3,7 +3,7 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { getToken } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
@@ -25,6 +25,10 @@ export function useVaultFactory() {
   }) => {
     if (!contracts) {
       apeError('Contracts not loaded');
+      return;
+    }
+    if (!currentOrg) {
+      apeError('currentOrg not loaded');
       return;
     }
     try {
@@ -59,9 +63,9 @@ export function useVaultFactory() {
             // TODO: Use real value:
             decimals: 5,
             type,
-            orgId: currentOrg.id,
+            orgId: currentOrg?.id,
           };
-          vaultApi.addVault(currentOrg.id, vault);
+          vaultApi.addVault(currentOrg?.id, vault);
           return vault;
         }
       }

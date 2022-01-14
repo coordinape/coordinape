@@ -1,8 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
-import { axios as hasuraAxios } from 'lib/gqty';
 
-import { API_URL } from 'utils/domain';
+import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import {
@@ -32,7 +31,7 @@ export class APIService {
   provider = undefined as Web3Provider | undefined;
   token = undefined as string | undefined;
   axios = axios.create({ baseURL: API_URL });
-  private interceptor = undefined as number | undefined;
+  // private interceptor = undefined as number | undefined;
 
   constructor(provider?: Web3Provider, token?: string) {
     this.provider = provider;
@@ -52,17 +51,17 @@ export class APIService {
       auth.headers = { Authorization: authHeader };
 
       // add interceptor so GQty requests have proper authorization
-      this.interceptor = hasuraAxios.interceptors.request.use(
-        config => {
-          config.headers['Authorization'] = authHeader;
-          return config;
-        },
-        error => Promise.reject(error)
-      );
-    } else {
-      if (this.interceptor) {
-        hasuraAxios.interceptors.request.eject(this.interceptor);
-      }
+      //   this.interceptor = hasuraAxios.interceptors.request.use(
+      //     config => {
+      //       config.headers['Authorization'] = authHeader;
+      //       return config;
+      //     },
+      //     error => Promise.reject(error)
+      //   );
+      // } else {
+      //   if (this.interceptor) {
+      //     hasuraAxios.interceptors.request.eject(this.interceptor);
+      //   }
     }
 
     this.axios = axios.create({ baseURL: API_URL, ...auth });

@@ -32,26 +32,34 @@ React Frontend + GraphQL API   ┃┃
 
 # Getting started
 
-## Prerequisites
+Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
-- NodeJS version 14
-- A backend API to connect this frontend app to. This app connects to the backend defined in REACT_APP_API_BASE_URL in the `.env` file. To setup the coordinape-backend app locally and use that as your API, [follow the instructions.](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
-  - You can optionally use `https://staging-api.coordinape.com/api` if you don't want to run your API locally
-- An Infura project id: [Infura](https://infura.io)
-  - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
-- A browser with MetaMask installed (it's the officially supported wallet)
+### Prerequisites
+
+- NodeJS v14
+- Hasura cli version >= 2.1.1
+- Yarn
 - Docker
 
-## Getting Started (Frontend)
+## Quick Start
 
-1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
-2. Install packages: `yarn install`
-3. Setup a local .env file: `cp .env.example .env`
-   - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
-   - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
-4. Start yarn: `yarn start`
-   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` before `yarn start`
-5. Visit app: [http://localhost:3000](http://localhost:3000)
+- `yarn install`
+- Setup `.env` by copying from `.env.example`
+  - Set `LOCAL_WALLET_ADDRESS` for the wallet you want to use w/ seeding
+- `yarn setup` - Compile contracts and init git submodules
+- `docker-compose up -d` - Start **laravel** legacy backend, **Hasura** and **postgres**
+- `vercel dev`
+- `yarn seed` - Seed the db w/ dummy data
+- Goto: http://localhost:3000 and starting giving!
+
+Additionally, to access work with the db & schema, `yarn hasura console`.
+
+If you change the schema, you'll need to run `yarn generate`
+
+## Further Setup
+
+- Get an Infura project id: [Infura](https://infura.io)
+  - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
 
 ## Running Hasura
 
