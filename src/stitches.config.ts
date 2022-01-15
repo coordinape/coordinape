@@ -296,7 +296,7 @@ export const {
 });
 
 export const globalStyles = globalCss({
-  input: {
+  'input, textarea': {
     appearance: 'none',
     borderWidth: 0,
     boxSizing: 'border-box',

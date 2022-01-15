@@ -1,6 +1,6 @@
 import { styled } from '../../stitches.config';
 
-export const Input = styled('input', {
+export const TextField = styled('input', {
   '&:focus': {
     border: '1px solid $lightBlue',
     boxSizing: 'border-box',
