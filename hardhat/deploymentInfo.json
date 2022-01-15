@@ -21,70 +21,76 @@
   },
   "1337": {
     "ApeDistributor": {
-      "address": "0x26Ecd0034D5b0BD0da2a24cfFD6230097C7703e9"
+      "address": "0x23c97a93AE2959dc85642fa9DE8f292d01527CeB"
     },
     "ApeRegistry": {
-      "address": "0x3c05842BB902C169ec85f020a40c9eF5eA0b9140"
+      "address": "0xC9B3800323a2B4113C2AfBEe46170C43D905fD59"
+    },
+    "ApeRegistryBeacon": {
+      "address": "0xD369D1481B157D1d791F78766660f5ddF715f1f2"
     },
     "ApeRouter": {
-      "address": "0xA09Bf10A101C0eA02A0b316F5C89bbd10120b556"
+      "address": "0x42c7FfF180Ce8ef5414400696d3BcdD8A6b9354b"
     },
     "ApeToken": {
-      "address": "0x0c87E9c58c4bE9CEeB8a3d8E2C70286DF9A61ab1"
+      "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
     },
-    "ApeVaultFactory": {
-      "address": "0x9CADF12F16b112dF2fD3cEb2BEABAD225C88d928"
+    "ApeVaultFactoryBeacon": {
+      "address": "0x2cF15647fceB0da112EF32803fA55494a151E32D"
+    },
+    "ApeVaultWrapperImplementation": {
+      "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
     },
     "DAI": {
-      "address": "0xa870680B1b49d2960F0C97471F2703632D30EfD1"
+      "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"
     },
     "FeeRegistry": {
-      "address": "0x701C866999BbD3cB3f0451DfCbdEab00fdDbADB9"
+      "address": "0xF65152d066fa6a6D124Af23E9181EfFf7aA4D694"
     },
     "MockRegistry": {
-      "address": "0x9eC3bf6aa0aCBA0b9709B4f8aA91415C7D4A3BbD"
+      "address": "0xB6f8ed8dB8d6AC13f9d34dC0353Bc86c445c36EC"
     },
     "MockVaultFactory": {
-      "address": "0x2820f6153fc7Df0b1dEF1673852a224082840885"
+      "address": "0x978A2941BA6CA861DFEE872c75e9FA5C51030d63"
     },
     "SUSHI": {
-      "address": "0xe1104c8E6190fD3CeC08351FFB47e6F671b7aa6d"
+      "address": "0x626a57CA09CA76db7967E08B0c03885c6EBf8b82"
     },
     "USDC": {
-      "address": "0xB6754Dd0B0A5045b4a1A97a233E96d04838311cd"
+      "address": "0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc"
     },
     "USDT": {
-      "address": "0x94EBc171831C1dE7b0cBD1C5B465cC28C327834c"
+      "address": "0xE881a3138226af8237557d793FC200c71BF190d5"
     },
     "WETH": {
-      "address": "0x8bbcD47fcd090B06B81AA8A0e0b55AD2b4688eF9"
+      "address": "0x438a4081dCD8de676D459A61f921803D1f0Fd18f"
     },
     "YFI": {
-      "address": "0x3f82A7d0ED5B14C0b193FF255629499385E47e3A"
+      "address": "0x42059a28cAaAe7807dA80C4f982ddAA04f53b2C8"
     },
     "alUSD": {
-      "address": "0xA66B51a16d6ea724198f85677452c5b05167Ee8c"
+      "address": "0xA2346FdA6A17D8B19c81f70AF4C93961235f3bE0"
     },
     "yvDAI": {
-      "address": "0xdFB377F5C5df8caA3c3e29AE94a5075176FdFC5E"
+      "address": "0x7E16Ca8c3dD9eD102B80C143b564dA3D354a9Fb9"
     },
     "yvSUSHI": {
-      "address": "0x8e991225F6b57312A701FA953340dFdE289e05e4"
+      "address": "0x369E10564901948CDD2e831C2511b33119fd317A"
     },
     "yvUSDC": {
-      "address": "0x74bcf6C02Fe9b44dc9d11C7a412601D30A15803a"
+      "address": "0x069cD64cC7D93b7e69130808338c0c2e561F3629"
     },
     "yvUSDT": {
-      "address": "0x8F9405f5B556220729f59440C53ACc7bB1C32E08"
+      "address": "0x876CA44D5cAE45a6b9eDDf8Ce20AE395BfA24875"
     },
     "yvWETH": {
-      "address": "0x88c7AD7C09Ffa687C78A442455174d7659e078A9"
+      "address": "0x83b82435caD3EBAd7BAFa6071fDA5A77330B0803"
     },
     "yvYFI": {
-      "address": "0x8DD2A9c6f4140A6fAE861d5Ec2f00cE94E5c68Cf"
+      "address": "0x544fE4EB3e85C7BCF5F30421Cb0D9c768721CB90"
     },
     "yvalUSD": {
-      "address": "0x31680b2685689DF71190bdCa9Df708ca4E61EC5A"
+      "address": "0x8fE0617403d6f897Ef5aa5154c3377A7D7cd82e4"
     }
   }
 }

@@ -6,6 +6,7 @@
     "node": "=14"
   },
   "dependencies": {
+    "@coordinape/hardhat": "file:./hardhat",
     "@craco/craco": "6.3.0",
     "@date-io/luxon": "1.x",
     "@gqty/react": "^2.1.0",

@@ -122,13 +122,11 @@ clever.
 1. Install packages: `yarn hardhat:install`
 2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
 3. Load contracts: `git submodule update --init --recursive`
-4. Compile contracts: `yarn hardhat:compile`
+4. Hardhat setup script: `./scripts/setup-hardhat.sh`
 5. Run tests: `yarn hardhat:test`
-6. Start local blockchain node: `yarn hardhat:dev <your_address_here>`
-7. Deploy contracts: `yarn hardhat:deploy`
-8. Codegen deploymentInfo: `yarn hardhat:codegen`
-9. Build hardhat package: `yarn hardhat:build`
-10. Link hardhat package: `yarn --cwd ./hardhat link && yarn link @coordinape/hardhat`
+6. Start local blockchain node: `yarn hardhat:dev`
+
+> Note: `scripts/setup-hardhat.sh` script will setup the hardhat env correctly, so you don't need to run any other hardhat specific command like `compile`, `codegen`, `build`, etc.
 
 # Troubleshooting
 
