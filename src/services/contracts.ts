@@ -61,8 +61,8 @@ export class Contracts {
     return Contracts.fromAddresses(
       {
         apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
-          .address,
+        apeVaultFactory: (deploymentInfo as any)[networkId]
+          .ApeVaultFactoryBeacon.address,
         apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
         apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
           .address,
