@@ -1,6 +1,10 @@
 import { styled } from '../../stitches.config';
 
 export const Input = styled('input', {
+  '&:focus': {
+    border: '1px solid $lightBlue',
+    boxSizing: 'border-box',
+  },
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
