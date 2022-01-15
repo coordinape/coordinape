@@ -21,6 +21,8 @@ import RenderRoutes from 'routes/routes';
 import { createTheme } from 'theme';
 import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
+import { globalStyles } from './stitches.config';
+
 import './App.css';
 
 function getLibrary(provider: any): Web3Provider {
@@ -32,6 +34,7 @@ function getLibrary(provider: any): Web3Provider {
 const theme = createTheme();
 
 function App() {
+  globalStyles();
   return (
     <RecoilRoot>
       <SnackbarProvider maxSnack={3}>

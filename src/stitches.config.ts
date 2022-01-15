@@ -295,7 +295,7 @@ export const {
   },
 });
 
-export const globalStyles: CSS = {
+export const globalStyles = globalCss({
   input: {
     appearance: 'none',
     borderWidth: 0,
@@ -332,6 +332,6 @@ export const globalStyles: CSS = {
     verticalAlign: 'middle',
     maxWidth: '100%',
   },
-};
+});
 
 export type CSS = Stitches.CSS<typeof config>;
