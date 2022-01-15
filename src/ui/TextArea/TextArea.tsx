@@ -5,6 +5,9 @@ export const TextArea = styled('textarea', {
     border: '1px solid $lightBlue',
     boxSizing: 'border-box',
   },
+  '&::placeholder': {
+    color: '$placeholder',
+  },
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -21,4 +24,12 @@ export const TextArea = styled('textarea', {
 
   textAlign: 'center',
   color: '$text',
+  variants: {
+    error: {
+      true: {
+        border: '1px solid $red',
+        boxSizing: 'border-box',
+      },
+    },
+  },
 });

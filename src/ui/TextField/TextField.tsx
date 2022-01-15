@@ -5,6 +5,9 @@ export const TextField = styled('input', {
     border: '1px solid $lightBlue',
     boxSizing: 'border-box',
   },
+  '&::placeholder': {
+    color: '$placeholder',
+  },
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -32,6 +35,12 @@ export const TextField = styled('input', {
     },
     variant: {
       token: {},
+    },
+    error: {
+      true: {
+        border: '1px solid $red',
+        boxSizing: 'border-box',
+      },
     },
   },
   defaultVariants: {
