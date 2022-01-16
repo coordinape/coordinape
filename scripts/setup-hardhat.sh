@@ -24,6 +24,7 @@ if [ -z "$VERCEL" ]; then
 fi
 
 cd hardhat
+yarn unlink >/dev/null 2>&1
 yarn link
 cd ..
 yarn link @coordinape/hardhat
