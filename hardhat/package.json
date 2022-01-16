@@ -9,7 +9,7 @@
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "export $(xargs <../.env) && hardhat node",
-    "deploy": "DEBUG=coordinape:setup hardhat deploy --network ganache",
+    "deploy": "DEBUG=coordinape:setup hardhat deploy",
     "test": "TEST=1 hardhat test"
   },
   "files": [
