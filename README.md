@@ -41,6 +41,7 @@ React Frontend + GraphQL API   ┃┃
   - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
 - A browser with MetaMask installed (it's the officially supported wallet)
 - Docker
+- [Vercel CLI](https://vercel.com/cli)
 
 ## Getting Started (Frontend)
 
@@ -49,8 +50,8 @@ React Frontend + GraphQL API   ┃┃
 3. Setup a local .env file: `cp .env.example .env`
    - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
    - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
-4. Start yarn: `yarn start`
-   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` before `yarn start`
+4. Start the dev server: `vercel dev`
+   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` first
 5. Visit app: [http://localhost:3000](http://localhost:3000)
 
 ## Running Hasura
