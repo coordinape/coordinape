@@ -41,6 +41,7 @@ React Frontend + GraphQL API   ┃┃
   - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
 - A browser with MetaMask installed (it's the officially supported wallet)
 - Docker
+- [Vercel CLI](https://vercel.com/cli)
 
 ## Getting Started (Frontend)
 
@@ -49,8 +50,8 @@ React Frontend + GraphQL API   ┃┃
 3. Setup a local .env file: `cp .env.example .env`
    - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
    - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
-4. Start yarn: `yarn start`
-   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` before `yarn start`
+4. Start the dev server: `vercel dev`
+   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` first
 5. Visit app: [http://localhost:3000](http://localhost:3000)
 
 ## Running Hasura
@@ -122,13 +123,11 @@ clever.
 1. Install packages: `yarn hardhat:install`
 2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
 3. Load contracts: `git submodule update --init --recursive`
-4. Compile contracts: `yarn hardhat:compile`
+4. Hardhat setup script: `./scripts/setup-hardhat.sh`
 5. Run tests: `yarn hardhat:test`
-6. Start local blockchain node: `yarn hardhat:dev <your_address_here>`
-7. Deploy contracts: `yarn hardhat:deploy`
-8. Codegen deploymentInfo: `yarn hardhat:codegen`
-9. Build hardhat package: `yarn hardhat:build`
-10. Link hardhat package: `yarn --cwd ./hardhat link && yarn link @coordinape/hardhat`
+6. Start local blockchain node: `yarn hardhat:dev`
+
+> Note: `scripts/setup-hardhat.sh` script will setup the hardhat env correctly, so you don't need to run any other hardhat specific command like `compile`, `codegen`, `build`, etc.
 
 # Troubleshooting
 

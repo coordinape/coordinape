@@ -6,8 +6,8 @@ import {
   ApeRouter__factory,
   ApeToken,
   ApeToken__factory,
-  ApeVaultFactory,
-  ApeVaultFactory__factory,
+  ApeVaultFactoryBeacon,
+  ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
   ERC20,
@@ -22,7 +22,7 @@ type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 export class Contracts {
   usdc: ERC20;
   apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactory;
+  apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
 
@@ -36,7 +36,7 @@ export class Contracts {
     contracts: {
       usdc: ERC20;
       apeToken: ApeToken;
-      apeVaultFactory: ApeVaultFactory;
+      apeVaultFactory: ApeVaultFactoryBeacon;
       apeRouter: ApeRouter;
       apeDistributor: ApeDistributor;
     },
@@ -98,8 +98,8 @@ export class Contracts {
     return Contracts.fromAddresses(
       {
         apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
-          .address,
+        apeVaultFactory: (deploymentInfo as any)[networkId]
+          .ApeVaultFactoryBeacon.address,
         apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
         apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
           .address,
@@ -126,7 +126,7 @@ export class Contracts {
       addresses.apeToken,
       signerOrProvider
     );
-    const apeVaultFactory = ApeVaultFactory__factory.connect(
+    const apeVaultFactory = ApeVaultFactoryBeacon__factory.connect(
       addresses.apeVaultFactory,
       signerOrProvider
     );

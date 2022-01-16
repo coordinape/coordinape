@@ -70,3 +70,8 @@ export interface IAuth {
   connectorName?: EConnectorNames;
   authTokens: { [k: string]: string | undefined };
 }
+
+export interface IconProps extends React.SVGAttributes<SVGElement> {
+  children?: never;
+  color?: string;
+}

@@ -12,8 +12,8 @@ import {
   ApeDistributor,
   ApeRouter,
   ApeToken,
-  ApeVaultFactory,
-  ApeVaultWrapper,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
   ERC20,
   RegistryAPI,
   VaultAPI,
@@ -35,7 +35,7 @@ describe('Test withdrawal functions of ApeVault', () => {
   let usdc: ERC20;
   let usdcYVault: VaultAPI;
   let apeRouter: ApeRouter;
-  let vault: ApeVaultWrapper;
+  let vault: ApeVaultWrapperImplementation;
   let yRegistry: RegistryAPI;
   let yGovernance: Account;
 
@@ -112,7 +112,7 @@ describe('Test circle related functions of ApeVault', () => {
   let deploymentInfo: DeploymentInfo;
   let usdcYVault: VaultAPI;
   let apeDistributor: ApeDistributor;
-  let vault: ApeVaultWrapper;
+  let vault: ApeVaultWrapperImplementation;
   let user0: Account;
 
   beforeEach(async () => {
@@ -170,12 +170,12 @@ describe('Test circle related functions of ApeVault', () => {
   });
 
   it('should update vault circle admin', async () => {
-    await vault.approveCircleAdmin(CIRCLE, user0.address);
+    await vault.updateCircleAdmin(CIRCLE, user0.address);
     expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
       user0.address
     );
 
-    await vault.approveCircleAdmin(CIRCLE, vault.address);
+    await vault.updateCircleAdmin(CIRCLE, vault.address);
     expect(await apeDistributor.vaultApprovals(vault.address, CIRCLE)).equal(
       vault.address
     );
@@ -194,8 +194,8 @@ describe('Test tap function of ApeVault', () => {
   let apeToken: ApeToken;
   let apeRouter: ApeRouter;
   let apeDistributor: ApeDistributor;
-  let apeVaultFactory: ApeVaultFactory;
-  let vault: ApeVaultWrapper;
+  let apeVaultFactory: ApeVaultFactoryBeacon;
+  let vault: ApeVaultWrapperImplementation;
   let user0: Account;
   let distributor: Account;
   // let deployer: Account;

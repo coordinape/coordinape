@@ -2,16 +2,9 @@ import { Suspense, useState, useEffect } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import {
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-  Box,
-  IconButton,
-  Divider,
-  Grid,
-} from '@material-ui/core';
-
+import { useMediaQuery } from '../../hooks';
+import { MediaQueryKeys } from '../../stitches.config';
+import { Box, IconButton, Link, Image, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
@@ -28,153 +21,7 @@ import {
 } from 'recoilState/app';
 import { getMainNavigation, checkActive } from 'routes/paths';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: theme.custom.appHeaderHeight,
-    display: 'grid',
-    alignItems: 'center',
-    background: theme.colors.primary,
-    gridTemplateColumns: '1fr 1fr 1fr',
-    padding: theme.spacing(0, 5),
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: theme.spacing(0, '25px'),
-      height: theme.custom.appHeaderHeight - 11,
-    },
-    '& > *': {
-      alignSelf: 'center',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  mobileContainer: {
-    height: '100vh',
-    position: 'relative',
-    backgroundColor: theme.colors.ultraLightGray,
-  },
-  mobileMenu: {
-    position: 'absolute',
-    backgroundColor: theme.colors.ultraLightGray,
-    height: '85%',
-    width: '100%',
-    overflow: 'scroll',
-    overscrollBehaviorY: 'auto',
-    '-webkit-overflow-scrolling': 'touch',
-    zIndex: 2,
-  },
-  coordinapeLogo: {
-    justifySelf: 'start',
-    height: 40,
-  },
-  smallNavAndButtons: {
-    justifySelf: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    [theme.breakpoints.down('sm')]: {
-      justifySelf: 'end',
-    },
-  },
-  navLinks: {
-    justifySelf: 'stretch',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    [theme.breakpoints.down('sm')]: {
-      alignItems: 'flex-start',
-      flexDirection: 'column',
-    },
-  },
-  buttons: {
-    justifySelf: 'end',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  navLink: {
-    margin: theme.spacing(0, 2),
-    fontSize: 20,
-    fontWeight: 700,
-    color: theme.colors.white,
-    textDecoration: 'none',
-    padding: '6px 0',
-    position: 'relative',
-    '&::after': {
-      content: `" "`,
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      backgroundColor: theme.colors.mediumRed,
-      transition: 'all 0.3s',
-      bottom: 0,
-      height: 2,
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.mediumRed,
-      },
-    },
-    '&.active': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.red,
-      },
-      '&:hover': {
-        '&::after': {
-          left: 0,
-          right: 0,
-          backgroundColor: theme.colors.red,
-        },
-      },
-    },
-    [theme.breakpoints.down('sm')]: {
-      position: 'unset',
-      color: theme.colors.text,
-      fontWeight: 'normal',
-      '&:hover': {
-        color: theme.colors.black,
-        '&::after': {
-          content: 'none',
-        },
-      },
-      '&.active': {
-        color: theme.colors.red,
-        '&::after': {
-          content: 'none',
-        },
-      },
-    },
-  },
-  editCircleButton: {
-    backgroundColor: theme.colors.red,
-    borderRadius: '8px',
-    width: '32px',
-    height: '32px',
-  },
-  accountInfoMobile: {
-    '& .MuiButtonBase-root': {
-      background: theme.colors.white,
-    },
-  },
-  editIcon: {
-    color: theme.colors.white,
-  },
-  profileHeading: {
-    color: theme.colors.red,
-  },
-}));
-
 export const MainHeader = () => {
-  const theme = useTheme();
-  const classes = useStyles();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
@@ -189,31 +36,54 @@ export const MainHeader = () => {
     !address && setIsMobileMenuOpen(false);
   }, [address]);
 
-  const screenDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const screenDownSm = useMediaQuery(MediaQueryKeys.sm);
 
   const menuWalletButton = !address ? (
     <WalletButton />
   ) : (
     <IconButton
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      size="small"
       aria-label="menu"
+      variant="ghost"
     >
-      {!isMobileMenuOpen ? <HamburgerIcon /> : <CloseIcon />}
+      {!isMobileMenuOpen ? (
+        <HamburgerIcon color="white" />
+      ) : (
+        <CloseIcon color="white" />
+      )}
     </IconButton>
   );
 
   return !screenDownSm ? (
-    <div className={classes.root}>
-      <img
+    <Box
+      css={{
+        display: 'grid',
+        alignItems: 'center',
+        background: '$primary',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        py: '$md',
+        px: '$1xl',
+      }}
+    >
+      <Image
         alt="logo"
-        className={classes.coordinapeLogo}
+        css={{
+          justifySelf: 'start',
+          height: '$1xl',
+        }}
         src="/svgs/logo/logo.svg"
       />
       <Suspense fallback={<span />}>
         <HeaderNav />
       </Suspense>
-      <div className={classes.buttons}>
+      <Box
+        css={{
+          justifySelf: 'end',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
         <Suspense fallback={<span />}>
           <ReceiveInfo />
         </Suspense>
@@ -221,59 +91,105 @@ export const MainHeader = () => {
         <Suspense fallback={<span />}>
           <MyAvatarMenu />
         </Suspense>
-      </div>
-    </div>
+      </Box>
+    </Box>
   ) : (
-    <div>
-      <div className={classes.root}>
-        <img
+    <Box>
+      <Box
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          background: '$primary',
+          justifyContent: 'space-between',
+          px: '$lg',
+          py: '$md',
+        }}
+      >
+        <Image
           alt="logo"
-          className={classes.coordinapeLogo}
+          css={{
+            justifySelf: 'start',
+            height: 40,
+          }}
           src="/svgs/logo/logo.svg"
         />
         {menuWalletButton}
-      </div>
+      </Box>
       {isMobileMenuOpen && (
-        <div className={classes.mobileContainer}>
+        <Box
+          css={{
+            height: '100vh',
+            position: 'relative',
+            backgroundColor: '$gray',
+          }}
+        >
           <Box
-            display="flex"
-            className={classes.mobileMenu}
-            flexDirection="column"
-            pt={3}
-            px={1}
-            pb={6}
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'absolute',
+              backgroundColor: '$gray',
+              height: '85%',
+              width: '100%',
+              overflow: 'scroll',
+              overscrollBehaviorY: 'auto',
+              '-webkit-overflow-scrolling': 'touch',
+              zIndex: 2,
+              pt: '$lg',
+              px: '$sm',
+              pb: '$2xl',
+            }}
           >
-            <Box pb={2}>
+            <Box
+              css={{
+                pb: '$md',
+              }}
+            >
               <Suspense fallback={<span />}>
                 <HeaderNav />
               </Suspense>
             </Box>
-            <Divider variant="fullWidth" />
-            <Box pt={3} />
-            <Grid container spacing={2} alignItems="center">
+            <Divider />
+            <Box css={{ pt: '$lg' }} />
+            <Box
+              css={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '$sm',
+              }}
+            >
               <Suspense fallback={null}>
-                <Grid item>
+                <Box>
                   <MyAvatarMenu />
-                </Grid>
+                </Box>
               </Suspense>
-              <Grid className={classes.accountInfoMobile} item>
+              <Box>
                 <WalletButton />
                 {/* TODO: ask Alexander where the GIVES needs to be 
               <Suspense fallback={<span />}>
                 <ReceiveInfo />
-              </Suspense> */}
-              </Grid>
-            </Grid>
-            <Box py={3} display="flex" flexDirection="column" px={2}>
+              </Suspense>*/}
+              </Box>
+            </Box>
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                px: '$md',
+                py: '$lg',
+              }}
+            >
               <MenuNavigationLinks />
             </Box>
-            <Divider variant="fullWidth" />
+            <Divider />
             <Box
-              px={2}
-              py={2}
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-between"
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                px: '$md',
+                py: '$md',
+              }}
             >
               <Suspense fallback={null}>
                 <CirclesHeaderSection
@@ -283,13 +199,15 @@ export const MainHeader = () => {
             </Box>
             {valueProfile?.hasAdminView && (
               <>
-                <Divider variant="fullWidth" />
+                <Divider />
                 <Box
-                  px={2}
-                  py={2}
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="space-between"
+                  css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    px: '$md',
+                    py: '$md',
+                  }}
                 >
                   <CirclesSelectorSection
                     handleOnClick={() => setIsMobileMenuOpen(false)}
@@ -298,14 +216,13 @@ export const MainHeader = () => {
               </>
             )}
           </Box>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
 export const HeaderNav = () => {
-  const classes = useStyles();
   const { circle, myUser } = useSelectedCircle();
 
   const navItems = getMainNavigation({
@@ -314,20 +231,90 @@ export const HeaderNav = () => {
   });
 
   return (
-    <div className={classes.navLinks}>
+    <Box
+      css={{
+        justifySelf: 'stretch',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        '@sm': {
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+        },
+      }}
+    >
       {navItems.map(navItem => (
-        <NavLink
-          className={classes.navLink}
-          isActive={(nothing, location) =>
+        <Link
+          css={{
+            my: 0,
+            mx: '$md',
+            fontSize: '$6',
+            fontWeight: '$bold',
+            color: '$white',
+            textDecoration: 'none',
+            px: 0,
+            py: '$xs',
+            position: 'relative',
+            '&::after': {
+              content: `" "`,
+              position: 'absolute',
+              left: '50%',
+              right: '50%',
+              backgroundColor: '$mediumRed',
+              transition: 'all 0.3s',
+              bottom: 0,
+              height: 2,
+            },
+            '&:hover': {
+              '&::after': {
+                left: 0,
+                right: 0,
+                backgroundColor: '$mediumRed',
+              },
+            },
+            '&.active': {
+              '&::after': {
+                left: 0,
+                right: 0,
+                backgroundColor: '$red',
+              },
+              '&:hover': {
+                '&::after': {
+                  left: 0,
+                  right: 0,
+                  backgroundColor: '$red',
+                },
+              },
+            },
+            '@sm': {
+              position: 'unset',
+              color: '$text',
+              fontWeight: 'normal',
+              '&:hover': {
+                color: '$black',
+                '&::after': {
+                  content: 'none',
+                },
+              },
+              '&.active': {
+                color: '$red',
+                '&::after': {
+                  content: 'none',
+                },
+              },
+            },
+          }}
+          as={NavLink}
+          isActive={(nothing: any, location: { pathname: string }) =>
             checkActive(location.pathname, navItem)
           }
           key={navItem.path}
           to={navItem.path}
         >
           {navItem.label}
-        </NavLink>
+        </Link>
       ))}
-    </div>
+    </Box>
   );
 };
 

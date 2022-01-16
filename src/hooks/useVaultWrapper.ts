@@ -29,8 +29,8 @@ export function useVaultWrapper(vault: IVault) {
   const apeWithdrawSimpleToken = (amount: BigNumberish) =>
     runVaultTx(v => v.apeWithdrawSimpleToken(amount));
 
-  const approveCircleAdmin = (circle: BytesLike, adminAddress: string) =>
-    runVaultTx(v => v.approveCircleAdmin(circle, adminAddress));
+  const updateCircleAdmin = (circle: BytesLike, adminAddress: string) =>
+    runVaultTx(v => v.updateCircleAdmin(circle, adminAddress));
 
   const exitVaultToken = (underlying: boolean) =>
     runVaultTx(v => v.exitVaultToken(underlying));
@@ -77,7 +77,7 @@ export function useVaultWrapper(vault: IVault) {
     apeMigrate,
     apeWithdraw,
     apeWithdrawSimpleToken,
-    approveCircleAdmin,
+    updateCircleAdmin,
     exitVaultToken,
     syncUnderlying,
     updateAllowance,

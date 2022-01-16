@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
+import { Button, IconButton } from 'ui';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { useCurrentOrg } from 'hooks/gqty';
-import { DownArrow } from 'icons';
+import { DownArrowIcon } from 'icons';
 import { getAdminNavigation, checkActive } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
@@ -77,18 +78,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     margin: theme.spacing(6, 0),
   },
-  moreButton: {
-    margin: 0,
-    padding: 0,
-    minWidth: 20,
-    fontSize: 17,
-    fontWeight: 800,
-    color: theme.colors.text,
-  },
-  moreButtonIcon: {
-    marginTop: theme.spacing(2),
-    marginLeft: theme.spacing(1),
-  },
 }));
 
 interface Props {
@@ -116,17 +105,13 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
             }}
           />
           <h2 className={classes.title}>{currentOrg.name}</h2>
-          <Button aria-describedby="1" className={classes.moreButton}>
-            <DownArrow className={classes.moreButtonIcon} />
-          </Button>
+          <IconButton>
+            <DownArrowIcon size="md" />
+          </IconButton>
           <Button
-            variant="contained"
-            size="small"
             onClick={onButtonClick}
-            color="primary"
-            style={{
-              marginLeft: '27px',
-            }}
+            color="red"
+            css={{ marginLeft: '$lg' }}
           >
             {buttonText}
           </Button>
