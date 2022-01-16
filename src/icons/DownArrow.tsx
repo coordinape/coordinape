@@ -1,15 +1,36 @@
-import { SvgIcon } from '@material-ui/core';
+/* eslint-disable react/display-name */
+import * as React from 'react';
 
-export const DownArrow = (props: any) => (
-  <SvgIcon {...props}>
-    <path
-      d="M1 1L7 7L13 1"
-      fill="none"
-      stroke="currentColor"
-      strokeOpacity="0.5"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </SvgIcon>
+import { styled, SvgIconConfig } from 'stitches.config';
+
+import { IconProps } from 'types';
+
+export const DownArrowIcon = styled(
+  React.forwardRef<SVGSVGElement, IconProps>(
+    ({ color = 'currentColor', ...props }, forwardedRef) => {
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+          ref={forwardedRef}
+        >
+          <path
+            d="M14 6L8 12L2 6"
+            fill="none"
+            stroke={color}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    }
+  ),
+  SvgIconConfig
 );
+
+export default DownArrowIcon;
