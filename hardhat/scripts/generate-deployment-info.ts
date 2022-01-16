@@ -40,9 +40,10 @@ export function generateDeploymentInfo(): void {
   const projectRoot = path.join(__dirname, '..');
   const root = path.join(projectRoot, 'deployments');
   if (!fs.existsSync(root)) {
-    throw new Error(
+    console.error(
       `deployments directory doesn't exist! Please deploy to a chain first.`
     );
+    process.exit(1);
   }
   let deploymentInfo: DeploymentInfo = {};
 

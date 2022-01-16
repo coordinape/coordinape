@@ -1,8 +1,8 @@
 import {
   ApeDistributor,
   ApeRouter,
-  ApeVaultWrapper,
-  ApeVaultWrapper__factory,
+  ApeVaultWrapperImplementation,
+  ApeVaultWrapperImplementation__factory,
 } from '@coordinape/hardhat/dist/typechain';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { ContractTransaction, BigNumberish } from 'ethers';
@@ -23,11 +23,14 @@ export const makeVaultTxFn =
   (web3Context: Web3ReactContextInterface, vault: IVault) =>
   async (
     callback: (
-      apeVault: ApeVaultWrapper
+      apeVault: ApeVaultWrapperImplementation
     ) => Promise<ContractTransaction | string | BigNumberish | string[]>
   ) => {
     const signer = await web3Context.library.getSigner();
-    const apeVault = ApeVaultWrapper__factory.connect(vault.id, signer);
+    const apeVault = ApeVaultWrapperImplementation__factory.connect(
+      vault.id,
+      signer
+    );
     return callback(apeVault).catch(e => handleContractError(e));
   };
 

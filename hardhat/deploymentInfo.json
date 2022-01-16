@@ -21,25 +21,31 @@
   },
   "1337": {
     "ApeDistributor": {
-      "address": "0x2997bACD026E3aE48fa57812bFb0cf61DB53baEd"
-    },
-    "ApeRegistry": {
-      "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
-    },
-    "ApeRouter": {
-      "address": "0xC9B3800323a2B4113C2AfBEe46170C43D905fD59"
-    },
-    "ApeToken": {
       "address": "0x23c97a93AE2959dc85642fa9DE8f292d01527CeB"
     },
-    "ApeVaultFactory": {
+    "ApeRegistry": {
+      "address": "0xC9B3800323a2B4113C2AfBEe46170C43D905fD59"
+    },
+    "ApeRegistryBeacon": {
       "address": "0xD369D1481B157D1d791F78766660f5ddF715f1f2"
+    },
+    "ApeRouter": {
+      "address": "0x42c7FfF180Ce8ef5414400696d3BcdD8A6b9354b"
+    },
+    "ApeToken": {
+      "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
+    },
+    "ApeVaultFactoryBeacon": {
+      "address": "0x2cF15647fceB0da112EF32803fA55494a151E32D"
+    },
+    "ApeVaultWrapperImplementation": {
+      "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
     },
     "DAI": {
       "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"
     },
     "FeeRegistry": {
-      "address": "0x3D24345bb7FEE3B0B50d66a58946722BBbB26dFf"
+      "address": "0xF65152d066fa6a6D124Af23E9181EfFf7aA4D694"
     },
     "MockRegistry": {
       "address": "0xB6f8ed8dB8d6AC13f9d34dC0353Bc86c445c36EC"

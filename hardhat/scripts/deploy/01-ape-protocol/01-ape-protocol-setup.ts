@@ -32,6 +32,77 @@ async function executeTimelockedFunction(
   }
 }
 
+async function setFeeRegistry(
+  apeRegistry: ApeRegistry,
+  apeFeeAddress: string
+): Promise<void> {
+  if ((await apeRegistry.feeRegistry()) === apeFeeAddress) {
+    log(
+      'skipping setFeeRegistry on apeRegistry since contract already have correct data'
+    );
+    return;
+  }
+  await executeTimelockedFunction(apeRegistry, 'setFeeRegistry', [
+    apeFeeAddress,
+  ]);
+}
+
+async function setTreasury(
+  apeRegistry: ApeRegistry,
+  treasuryAddress: string
+): Promise<void> {
+  if ((await apeRegistry.treasury()) === treasuryAddress) {
+    log(
+      'skipping setTreasury on apeRegistry since contract already have correct data'
+    );
+    return;
+  }
+  await executeTimelockedFunction(apeRegistry, 'setTreasury', [
+    treasuryAddress,
+  ]);
+}
+
+async function setRouter(
+  apeRegistry: ApeRegistry,
+  routerAddress: string
+): Promise<void> {
+  if ((await apeRegistry.router()) === routerAddress) {
+    log(
+      'skipping setRouter on apeRegistry since contract already have correct data'
+    );
+    return;
+  }
+  await executeTimelockedFunction(apeRegistry, 'setRouter', [routerAddress]);
+}
+
+async function setDistributor(
+  apeRegistry: ApeRegistry,
+  distributorAddress: string
+): Promise<void> {
+  if ((await apeRegistry.distributor()) === distributorAddress) {
+    log(
+      'skipping setDistributor on apeRegistry since contract already have correct data'
+    );
+    return;
+  }
+  await executeTimelockedFunction(apeRegistry, 'setDistributor', [
+    distributorAddress,
+  ]);
+}
+
+async function setFactory(
+  apeRegistry: ApeRegistry,
+  factoryAddress: string
+): Promise<void> {
+  if ((await apeRegistry.factory()) === factoryAddress) {
+    log(
+      'skipping setFactory on apeRegistry since contract already have correct data'
+    );
+    return;
+  }
+  await executeTimelockedFunction(apeRegistry, 'setFactory', [factoryAddress]);
+}
+
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const useProxy = !hre.network.live;
@@ -45,25 +116,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const apeFee = await hre.deployments.get('FeeRegistry');
   const apeRouter = await hre.deployments.get('ApeRouter');
   const apeDistributor = await hre.deployments.get('ApeDistributor');
-  const apeVaultFactory = await hre.deployments.get('ApeVaultFactory');
+  const apeVaultFactory = await hre.deployments.get('ApeVaultFactoryBeacon');
 
-  await executeTimelockedFunction(apeRegistry, 'setFeeRegistry', [
-    apeFee.address,
-  ]);
-
-  await executeTimelockedFunction(apeRegistry, 'setTreasury', [ZERO_ADDRESS]);
-
-  await executeTimelockedFunction(apeRegistry, 'setRouter', [
-    apeRouter.address,
-  ]);
-
-  await executeTimelockedFunction(apeRegistry, 'setDistributor', [
-    apeDistributor.address,
-  ]);
-
-  await executeTimelockedFunction(apeRegistry, 'setFactory', [
-    apeVaultFactory.address,
-  ]);
+  await setFeeRegistry(apeRegistry, apeFee.address);
+  await setTreasury(apeRegistry, ZERO_ADDRESS);
+  await setRouter(apeRegistry, apeRouter.address);
+  await setDistributor(apeRegistry, apeDistributor.address);
+  await setFactory(apeRegistry, apeVaultFactory.address);
 
   return !useProxy;
 };
