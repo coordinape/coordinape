@@ -13,8 +13,8 @@ if [ -z "$VERCEL" ]; then
   done
 
   yarn --cwd ./hardhat hardhat deploy --network localhost
+  yarn hardhat:codegen
 fi
-yarn hardhat:codegen
 yarn hardhat:build
 
 if [ -z "$VERCEL" ]; then
