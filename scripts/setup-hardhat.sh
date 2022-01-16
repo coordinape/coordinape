@@ -4,17 +4,22 @@ set -e
 git submodule update --init --recursive
 yarn hardhat:install --frozen-lockfile
 yarn hardhat:compile
-yarn hardhat:dev > /dev/null 2>&1 &
 
-while [ ! $(lsof -t -i:"8545") ]; do
-  sleep 1
-done
+if [ -z "$VERCEL" ]; then
+  yarn hardhat:dev > /dev/null 2>&1 &
 
-yarn --cwd ./hardhat hardhat deploy --network localhost
+  while [ ! $(lsof -t -i:"8545") ]; do
+    sleep 1
+  done
+
+  yarn --cwd ./hardhat hardhat deploy --network localhost
+fi
 yarn hardhat:codegen
 yarn hardhat:build
 
-kill $(lsof -t -i:"8545")
+if [ -z "$VERCEL" ]; then
+  kill $(lsof -t -i:"8545")
+fi
 
 cd hardhat
 yarn link
