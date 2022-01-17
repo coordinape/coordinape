@@ -48,7 +48,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const signers = await hre.ethers.getSigners();
   const receiver = HARDHAT_OWNER_ADDRESS;
   if (receiver === ZERO_ADDRESS) {
-    throw new Error('Error: ADMIN_ADDRESS is not set!');
+    throw 'HARDHAT_OWNER_ADDRESS is not set';
   }
 
   const tx = {

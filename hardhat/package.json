@@ -8,7 +8,7 @@
     "build": "tsc && ./scripts/cp-declarations.sh",
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "export $(xargs <../.env) && hardhat node",
+    "dev": "./scripts/start-node.sh",
     "deploy": "DEBUG=coordinape:setup hardhat deploy",
     "test": "TEST=1 hardhat test"
   },
