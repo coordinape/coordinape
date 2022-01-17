@@ -11,7 +11,7 @@ export interface IKnownTokenData {
   symbol: string;
   decimals: number; // Fix: fetch this from smart-contract
   addresses: {
-    [K in NetworkId]?: string;
+    [K in NetworkId]: string;
   };
 }
 

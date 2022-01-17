@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
+import { BigNumber, ethers, utils } from 'ethers';
 import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
+import { useGetAnyTokenValue } from '../../hooks/useGetAnyTokenValue';
 import { FormModal, FormTokenField } from 'components';
 import SingleTokenForm from 'forms/SingleTokenForm';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -22,7 +24,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(12),
   },
 }));
-const balance = 5000;
 
 export default function DepositModal({
   open,
@@ -35,28 +36,44 @@ export default function DepositModal({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const [max, setMax] = useState<any>();
   const { depositToken } = useVaultRouter();
+  const { balance, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
 
-  // This doesn't need have useMemo, but when we have balance set dynamically
-  // it will.
+  const getBalance = () => {
+    getTokenBalance(vault.tokenAddress);
+    setMax(ethers.utils.formatUnits(balance, vault.decimals));
+  };
+
+  useEffect(() => {
+    getBalance();
+  }, [balance]);
+
   const source = useMemo(
     () => ({
       starting: 0,
-      balance,
+      balance: max,
     }),
     [vault]
   );
 
+  const handleSubmit = (amount: number) => {
+    const _amount = BigNumber.from(
+      utils.parseUnits(amount.toString(), vault.decimals)
+    );
+    depositToken(vault, _amount).then(receipt => {
+      getBalance();
+      // eslint-disable-next-line no-console
+      console.log(receipt);
+      onClose();
+      history.push('/admin/vaults');
+    });
+  };
+
   return (
     <SingleTokenForm.FormController
       source={source}
-      submit={({ amount }) =>
-        depositToken(vault, amount).then(receipt => {
-          // eslint-disable-next-line no-console
-          console.log(receipt);
-          history.push('/admin/vaults');
-        })
-      }
+      submit={({ amount }) => handleSubmit(amount)}
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
@@ -73,10 +90,10 @@ export default function DepositModal({
           <div className={classes.oneColumn}>
             <FormTokenField
               {...fields.amount}
-              max={balance}
+              max={max}
               symbol={vault.type}
               decimals={vault.decimals}
-              label={`Available: ${balance} ${vault.type.toUpperCase()}`}
+              label={`Available: ${max} ${vault.type.toUpperCase()}`}
             />
           </div>
         </FormModal>

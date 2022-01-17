@@ -55,7 +55,7 @@ const VaultsPage = () => {
         buttonText="Create a Vault"
         onButtonClick={() => setModal('create')}
       />
-      {vaults.length > 0 ? (
+      {vaults && vaults.length ? (
         vaults.map(vault => (
           <HasVaults key={vault.id} epochs={epochs} vault={vault} />
         ))
