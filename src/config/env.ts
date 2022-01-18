@@ -35,9 +35,6 @@ export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',
   'https://missing-hasura-url.edu'
 );
-export const HASURA_ADMIN_SECRET = process.env.REACT_APP_HASURA_ADMIN_SECRET;
-export const HAS_HASURA_ROOT_ACCESS =
-  !!process.env.REACT_APP_HASURA_ADMIN_SECRET;
 
 // Unused in practice
 export const REACT_APP_FORTMATIC_API_KEY = 'unused'; // getEnvValue('REACT_APP_FORTMATIC_API_KEY', 'no-formatic-api-key');
