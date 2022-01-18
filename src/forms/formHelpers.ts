@@ -2,6 +2,8 @@ import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
+import { INFURA_PROJECT_ID } from 'config/env';
+
 export const zBooleanToNumber = z.boolean().transform(v => (v ? 1 : 0));
 
 export const zStringISODateUTC = z
@@ -13,7 +15,7 @@ export const zEthAddress = z
   .transform(s =>
     ethers
       .getDefaultProvider('homestead', {
-        infura: process.env.REACT_APP_INFURA_PROJECT_ID,
+        infura: INFURA_PROJECT_ID,
       })
       .resolveName(s)
   )

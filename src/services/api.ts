@@ -2,7 +2,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
 import { axios as hasuraAxios } from 'lib/gqty';
 
-import { API_URL } from 'utils/domain';
+import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import {

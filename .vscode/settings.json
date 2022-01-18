@@ -40,5 +40,6 @@
     "browserslist",
     "recoilize",
     "svgs"
-  ]
+  ],
+  "editor.tabSize": 2
 }

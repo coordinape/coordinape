@@ -1593,7 +1593,7 @@
   resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.13.tgz#90c71da493f20204b7a972929cc5c482d078b3fa"
   integrity sha512-AlEKV7TxjeK+jxWVKcCFrfYAk8spX9aCyiToFIiLPtfQbsjmRGLIhb5VZgptQcJdHtLXo7+m0DuurwFgUToQuA==
 
-"@date-io/luxon@1.x":
+"@date-io/luxon@1.3.13":
   version "1.3.13"
   resolved "https://registry.yarnpkg.com/@date-io/luxon/-/luxon-1.3.13.tgz#68f0134bb38ef486b2ed6df01981f814c633e28a"
   integrity sha512-9wUrJCNSMZJeYAiH+dbb45oGpnHeFP7TOH/Lt26If47gjFCkjvyINzWx+K5AGsnlP0Qosxc7hkF1yLi6ecutxw==
@@ -2031,7 +2031,7 @@
     ajv "^8.6.2"
     dids "^2.3.0"
 
-"@gqty/cli@^2.3.1":
+"@gqty/cli@2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@gqty/cli/-/cli-2.3.1.tgz#fa1a0c9b9f136dd4b5f5ec674240febc9cbfb255"
   integrity sha512-EYJ/QjgCRooUEef4M4l5byNVH93wOHYhvLDoKvrrl7CoxOyBhb/QegbWJMoPzOj4Lqt0qrCXDw2KfaLVj3esJw==
@@ -2049,7 +2049,7 @@
     mkdirp "^1.0.4"
     prettier "^2.5.0"
 
-"@gqty/react@^2.1.0":
+"@gqty/react@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@gqty/react/-/react-2.1.0.tgz#fed7aaa9a3c05e510b072fdb96107170b1634319"
   integrity sha512-aTQEE2voYBqvgLhOs1VgBczL/EUVnbYHFzY1HKCNONH+MyLW0SClGXUcAPcHYEAgkfUfJlbM8egPd5cY1aJZDg==
@@ -2897,7 +2897,7 @@
     "@stablelib/wipe" "^1.0.1"
     "@stablelib/xchacha20" "^1.0.1"
 
-"@stitches/react@^1.2.6":
+"@stitches/react@1.2.6":
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.6.tgz#61f2a3d1110334ecd33bcb7463650127d42470cb"
   integrity sha512-gRVITYj8W4jJmoiVxWDv72yCvd12VvtUUAnTzs07EqmtvGCVgKZu3Dx0x5KVCcb0b6tfgvvNH2L84YrzdM4Mag==
@@ -3508,7 +3508,7 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vercel/node@^1.12.1":
+"@vercel/node@1.12.1":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@vercel/node/-/node-1.12.1.tgz#15f42f64690f904f8a52a387123ce0958657060f"
   integrity sha512-NcawIY05BvVkWlsowaxF2hl/hJg475U8JvT2FnGykFPMx31q1/FtqyTw/awSrKfOSRXR0InrbEIDIelmS9NzPA==
@@ -8456,7 +8456,7 @@ globby@^11.0.1, globby@^11.0.3:
     merge2 "^1.3.0"
     slash "^3.0.0"
 
-gqty@^2.1.0:
+gqty@2.1.0, gqty@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/gqty/-/gqty-2.1.0.tgz#3ee81f4781a079eae2dac4a45a98dafb9ddd0bc9"
   integrity sha512-ncUvTivsa6hWH9Ro1pKq9GneRqbtL37cxcFtvOrxeHC2JXVQC+f7UHdTdDpkSETSy5U7X4+jGBxXDXTxsTYi9w==
@@ -8475,7 +8475,7 @@ graphql-tag@^2.11.0:
   dependencies:
     tslib "^2.1.0"
 
-graphql@^16.0.1:
+graphql@16.0.1:
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.0.1.tgz#93a13cd4e0e38ca8d0832e79614c8578bfd34f10"
   integrity sha512-oPvCuu6dlLdiz8gZupJ47o1clgb72r1u8NDBcQYjcV6G/iEdmE11B1bBlkhXRvV0LisP/SXRFP7tT6AgaTjpzg==
@@ -14297,7 +14297,7 @@ triple-beam@^1.2.0, triple-beam@^1.3.0:
   resolved "https://registry.yarnpkg.com/triple-beam/-/triple-beam-1.3.0.tgz#a595214c7298db8339eeeee083e4d10bd8cb8dd9"
   integrity sha512-XrHUvV5HpdLmIj4uVMxHggLbFSZYIn7HEWsqePZcI50pco+MPqJ50wMGY794X7AOOhxOBAjbkqfAbEe/QMp2Lw==
 
-"true-myth@^4.1.1":
+"true-myth@4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/true-myth/-/true-myth-4.1.1.tgz#ff4ac9d5130276e34aa338757e2416ec19248ba2"
   integrity sha512-rqy30BSpxPznbbTcAcci90oZ1YR4DqvKcNXNerG5gQBU2v4jk0cygheiul5J6ExIMrgDVuanv/MkGfqZbKrNNg==
