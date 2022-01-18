@@ -1,6 +1,15 @@
-actions: []
+actions:
+- name: create_circle
+  definition:
+    kind: synchronous
+    handler: http://host.docker.internal:3000/api/hasura/actions/create_circle
+  permissions:
+  - role: user
+  - role: superadmin
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+  - name: create_circle_input
+  objects:
+  - name: create_circle_response
   scalars: []
