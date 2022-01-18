@@ -2,7 +2,7 @@ actions:
 - name: create_circle
   definition:
     kind: synchronous
-    handler: http://host.docker.internal:3000/api/hasura/actions/create_circle
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_circle'
   permissions:
   - role: user
   - role: superadmin
