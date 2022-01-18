@@ -51,6 +51,9 @@ React Frontend + GraphQL API   ┃┃
    - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
    - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
 4. Start the dev server: `vercel dev`
+   - If you're creating a new Vercel project, use these custom settings:
+     - Build Command: `./scripts/setup-hardhat.sh && yarn build`
+     - Development Command: `craco start`
    - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` first
 5. Visit app: [http://localhost:3000](http://localhost:3000)
 
