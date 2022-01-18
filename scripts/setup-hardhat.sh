@@ -8,7 +8,8 @@ yarn hardhat:install --frozen-lockfile
 yarn hardhat:compile
 
 if [ -z "$VERCEL" ]; then
-  yarn hardhat:dev > /dev/null 2>&1 &
+  echo "Starting node for auto deployment..."
+  yarn hardhat:dev >/dev/null &
 
   while [ ! $(eval $FIND_DEV_PID) ]; do
     sleep 1
@@ -20,6 +21,7 @@ fi
 yarn hardhat:build
 
 if [ -z "$VERCEL" ]; then
+  echo "Stopping node. The 'Command failed' messages that follow are normal."
   kill $(eval $FIND_DEV_PID)
 fi
 
