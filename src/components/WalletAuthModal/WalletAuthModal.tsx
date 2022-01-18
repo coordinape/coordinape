@@ -120,6 +120,8 @@ export const WalletAuthModal = ({
         ? 'Waiting for Approval on Metamask'
         : connectorName === EConnectorNames.WalletConnect
         ? 'Opening QR for Wallet Connect'
+        : connectorName === EConnectorNames.WalletLink
+        ? 'Opening QR for Coinbase Wallet'
         : 'Connecting to wallet'
     );
 
@@ -199,6 +201,18 @@ export const WalletAuthModal = ({
               >
                 Wallet Connect
                 <WALLET_ICONS.walletconnect />
+              </Button>
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Button
+                className={classes.button}
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.WalletLink);
+                }}
+              >
+                Coinbase Wallet
+                <WALLET_ICONS.walletlink />
               </Button>
             </Grid>
           </Grid>
