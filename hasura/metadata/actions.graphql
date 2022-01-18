@@ -10,7 +10,6 @@ input create_circle_input {
   circle_name: String!
   protocol_name: String
   protocol_id: Int
-  uxresearch_json: String
 }
 
 type create_circle_response {

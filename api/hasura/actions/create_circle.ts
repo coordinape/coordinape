@@ -10,21 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     circle_name: 'required|string|max:255',
     protocol_id: 'integer',
     protocol_name: 'required_without:protocol_id|string|max:255',
-    uxresearch_json: 'json',
   };
-
-  Validator.register(
-    'json',
-    function (value) {
-      try {
-        JSON.parse(value);
-      } catch (e) {
-        return false;
-      }
-      return true;
-    },
-    'The :attribute is not a valid JSON.'
-  );
 
   const validation = new Validator(variables, rules);
   if (validation.fails()) {
