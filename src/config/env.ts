@@ -36,6 +36,10 @@ export const REACT_APP_HASURA_URL = getEnvValue(
   'https://missing-hasura-url.edu'
 );
 
+if (!IN_PRODUCTION) {
+  console.log(`Using GraphQL API URL: ${REACT_APP_HASURA_URL}`);
+}
+
 // Unused in practice
 export const REACT_APP_FORTMATIC_API_KEY = 'unused'; // getEnvValue('REACT_APP_FORTMATIC_API_KEY', 'no-formatic-api-key');
 export const REACT_APP_PORTIS_DAPP_ID = 'unused'; // getEnvValue('REACT_APP_PORTIS_DAPP_ID', 'no-portis-api-key');
