@@ -11,7 +11,6 @@ node_modules/
 hardhat/artifacts/
 hardhat/cache/
 hardhat/typechain/
-hardhat/dist/
 hardhat/deployments/
 hardhat/data/
 
