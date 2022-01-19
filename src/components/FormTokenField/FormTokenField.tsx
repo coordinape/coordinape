@@ -41,6 +41,7 @@ export const FormTokenField = ({
       value={value}
       onChange={handleChange}
       type="number"
+      onFocus={event => (event.currentTarget as HTMLInputElement).select()}
     />
   );
 };
