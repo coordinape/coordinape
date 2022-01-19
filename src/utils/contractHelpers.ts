@@ -63,7 +63,9 @@ export const makeDistributorTxFn =
     apeError: (error: any) => void
   ) =>
   async (
-    callback: (apeDistributor: ApeDistributor) => Promise<ContractTransaction>
+    callback: (
+      apeDistributor: ApeDistributor
+    ) => Promise<ContractTransaction | boolean>
   ) => {
     if (!contracts) {
       apeError('Contracts not loaded');
