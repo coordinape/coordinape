@@ -38,15 +38,10 @@ export default function DepositModal({
   const history = useHistory();
   const [max, setMax] = useState<any>();
   const { depositToken } = useVaultRouter();
-  const { balance, getTokenBalance } = useGetAnyTokenValue(vault.tokenAddress);
-
-  const getBalance = () => {
-    getTokenBalance(vault.tokenAddress);
-    setMax(ethers.utils.formatUnits(balance, vault.decimals));
-  };
+  const { balance } = useGetAnyTokenValue(vault.tokenAddress);
 
   useEffect(() => {
-    getBalance();
+    setMax(ethers.utils.formatUnits(balance, vault.decimals));
   }, [balance]);
 
   const source = useMemo(
@@ -62,7 +57,6 @@ export default function DepositModal({
       utils.parseUnits(amount.toString(), vault.decimals)
     );
     depositToken(vault, _amount).then(receipt => {
-      getBalance();
       // eslint-disable-next-line no-console
       console.log(receipt);
       onClose();
