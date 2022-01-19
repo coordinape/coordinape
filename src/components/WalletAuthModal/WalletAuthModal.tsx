@@ -6,13 +6,13 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 
 import {
   CircularProgress,
-  Grid,
   Modal,
-  Button,
+  Grid,
   Typography,
   makeStyles,
 } from '@material-ui/core';
 
+import { Button } from '../../ui';
 import { WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
@@ -178,7 +178,7 @@ export const WalletAuthModal = ({
           <Grid container spacing={2}>
             <Grid item md={6} xs={12}>
               <Button
-                className={classes.button}
+                variant="wallet"
                 disabled={!isMetamaskEnabled}
                 fullWidth
                 onClick={() => {
@@ -191,7 +191,7 @@ export const WalletAuthModal = ({
             </Grid>
             <Grid item md={6} xs={12}>
               <Button
-                className={classes.button}
+                variant="wallet"
                 fullWidth
                 onClick={() => {
                   activate(EConnectorNames.WalletConnect);
