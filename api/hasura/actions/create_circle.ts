@@ -1,32 +1,32 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GraphQLClient, gql } from 'graphql-request';
-import Validator from 'validatorjs';
+import { z } from 'zod';
+
+import { createCircleSchemaInput } from '../zod';
+
+import { MutationCreate_CircleArgs } from './hasuraCustomTypes';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const variables = req.body.input.object;
-  const rules = {
-    user_name: 'required|string|max:255',
-    address: ['required', 'regex:/^(0x)?[0-9a-f]{40}$/i'],
-    circle_name: 'required|string|max:255',
-    protocol_id: 'integer',
-    protocol_name: 'required_without:protocol_id|string|max:255',
-  };
-
-  const validation = new Validator(variables, rules);
-  if (validation.fails()) {
-    return res.status(422).json({
-      extensions: validation.errors.all(),
-      message: 'Invalid input',
-      code: '422',
-    });
+  const { object }: MutationCreate_CircleArgs = req.body.input;
+  try {
+    createCircleSchemaInput.parse(object);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(422).json({
+        extensions: err.issues,
+        message: 'Invalid input',
+        code: '422',
+      });
+    }
   }
+
   const client = new GraphQLClient(process.env.REACT_APP_HASURA_URL, {
     headers: { 'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET },
   });
-  variables.address = variables.address.toLowerCase();
+  object.address = object.address.toLowerCase();
   try {
     // attach new circle to existing organisation
-    if (variables.protocol_id) {
+    if (object.protocol_id) {
       const QUERY = gql`
         query ($address: String!, $protocol_id: Int!) {
           profiles(
@@ -44,8 +44,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       `;
       let data = await client.request(QUERY, {
-        address: variables.address,
-        protocol_id: variables.protocol_id,
+        address: object.address,
+        protocol_id: object.protocol_id,
       });
       const { profiles } = data;
       if (!profiles.length) {
@@ -117,11 +117,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `;
 
       data = await client.request(INSERT_MUTATION, {
-        circle_name: variables.circle_name,
+        circle_name: object.circle_name,
         coordinape_address: process.env.COORDINAPE_USER_ADDRESS.toLowerCase(),
-        address: variables.address,
-        user_name: variables.user_name,
-        protocol_id: variables.protocol_id,
+        address: object.address,
+        user_name: object.user_name,
+        protocol_id: object.protocol_id,
       });
       return res.status(200).json(data.insert_circles_one);
     } else {
@@ -190,11 +190,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `;
 
       const data = await client.request(INSERT_MUTATION, {
-        circle_name: variables.circle_name,
+        circle_name: object.circle_name,
         coordinape_address: process.env.COORDINAPE_USER_ADDRESS.toLowerCase(),
-        address: variables.address,
-        user_name: variables.user_name,
-        protocol_name: variables.protocol_name,
+        address: object.address,
+        user_name: object.user_name,
+        protocol_name: object.protocol_name,
       });
       return res.status(200).json(data.insert_organizations_one.circles[0]);
     }
