@@ -15,7 +15,7 @@ if [ -z "$VERCEL" ]; then
     sleep 1
   done
 
-  yarn --cwd ./hardhat hardhat deploy --network localhost
+  yarn hardhat:deploy
   yarn hardhat:codegen
 fi
 yarn hardhat:build
