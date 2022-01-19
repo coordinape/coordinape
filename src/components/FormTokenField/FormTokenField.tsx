@@ -32,7 +32,7 @@ export const FormTokenField = ({
     <ApeTextField
       {...props}
       InputProps={{
-        startAdornment: <span onClick={() => onChange(max)}>MAX</span>,
+        startAdornment: <span onClick={() => onChange(Number(max))}>MAX</span>,
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"
