@@ -46,12 +46,11 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 - `yarn init-submodule`
 - `yarn install`
-- `vercel dev` with `Want to override the settings? Y`
 - Setup `.env` by copying from `.env.example`
   - Set `HARDHAT_OWNER_ADDRESS` for the wallet you want to use w/ seeding
 - `yarn setup` - Compile contracts and init git submodules
 - `docker-compose up -d` - Start **laravel** legacy backend, **Hasura** and **postgres**
-- `vercel dev`
+- `vercel dev` with `Want to override the settings? Y`
 - `yarn seed` - Seed the db w/ dummy data
 - Goto: http://localhost:3000 and starting giving!
 
