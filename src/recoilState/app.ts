@@ -1,5 +1,6 @@
 // at 5k elements for filter-map-slice itiriri is more performant
 import iti from 'itiriri';
+import { getGql } from 'lib/gql';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -54,8 +55,10 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
   if (!token && getApiService().token) {
     getApiService().logout();
     getApiService().setAuth();
+    getGql().setToken();
   } else {
     getApiService().setAuth(token);
+    getGql().setToken(token);
   }
 };
 

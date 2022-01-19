@@ -3,7 +3,7 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { getToken, knownTokens, TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
@@ -61,9 +61,9 @@ export function useVaultFactory() {
             simpleTokenAddress: args[1],
             decimals,
             type,
-            orgId: currentOrg.id,
+            orgId: currentOrg?.id,
           };
-          vaultApi.addVault(currentOrg.id, vault);
+          vaultApi.addVault(currentOrg?.id, vault);
           return vault;
         }
       }
