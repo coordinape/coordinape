@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GraphQLClient, gql } from 'graphql-request';
 import { z } from 'zod';
 
-import { createCircleSchemaInput } from '../zod';
+import { createCircleSchemaInput } from '../../../src/lib/zod';
 
 import { MutationCreate_CircleArgs } from './hasuraCustomTypes';
 
