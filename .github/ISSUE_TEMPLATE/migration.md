@@ -2,11 +2,11 @@
 name: Laravel to Hasura Migration Template
 about: Lightweight spec for migration
 title: 'Migrate <HTTP_METHOD> <URL>'
-labels: '3', 'Phase 2' 
+labels: 3, Phase 2'
 assignees: ''
-milestones: 'Hasura Migration'
 
 ---
+
 ## Summary:
 Migrate <ENDPOINT NAME> Laravel API Endpoint functionality to Hasura.
 
