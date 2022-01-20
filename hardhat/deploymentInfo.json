@@ -30,13 +30,13 @@
       "address": "0xD369D1481B157D1d791F78766660f5ddF715f1f2"
     },
     "ApeRouter": {
-      "address": "0x42c7FfF180Ce8ef5414400696d3BcdD8A6b9354b"
+      "address": "0x3D24345bb7FEE3B0B50d66a58946722BBbB26dFf"
     },
     "ApeToken": {
       "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
     },
     "ApeVaultFactoryBeacon": {
-      "address": "0x2cF15647fceB0da112EF32803fA55494a151E32D"
+      "address": "0x2997bACD026E3aE48fa57812bFb0cf61DB53baEd"
     },
     "ApeVaultWrapperImplementation": {
       "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
