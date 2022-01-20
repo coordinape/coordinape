@@ -153,7 +153,7 @@ export const WalletAuthModal = ({
               gridTemplateColumns: 'auto auto',
               width: '$full',
               gap: '$sm',
-              '@sm': {
+              '@xs': {
                 gridTemplateColumns: 'auto',
               },
             }}
