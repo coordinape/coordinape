@@ -112,6 +112,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
             onClick={onButtonClick}
             color="red"
             css={{ marginLeft: '$lg' }}
+            size="small"
           >
             {buttonText}
           </Button>
