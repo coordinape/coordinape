@@ -47,16 +47,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         address: object.address,
         protocol_id: object.protocol_id,
       });
-      const { profiles } = data;
-      if (!profiles.length) {
-        return res.status(422).json({
-          extensions: {
-            protocol_id:
-              'Address is not an admin of any circles under this protocol',
-          },
-          message: 'Invalid input',
-          code: '422',
-        });
+      try {
+        z.object({
+          profiles: z
+            .array(
+              z.object({
+                id: z.number(),
+              })
+            )
+            .nonempty({
+              message:
+                'Address is not an admin of any circles under this protocol',
+            }),
+        }).parse(data);
+      } catch (err) {
+        if (err instanceof z.ZodError) {
+          return res.status(422).json({
+            extensions: err.issues,
+            message: 'Invalid input',
+            code: '422',
+          });
+        }
       }
 
       const INSERT_MUTATION = gql`
