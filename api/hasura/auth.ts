@@ -33,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (e) {
     res.status(401).json({
       error: '401',
-      message: (e.message as string) || 'Unexpected error',
+      message: (e as Error).message || 'Unexpected error',
     });
   } finally {
     await prisma.$disconnect();
