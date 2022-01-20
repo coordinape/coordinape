@@ -149,43 +149,38 @@ export const WalletAuthModal = ({
         ) : (
           <Box
             css={{
-              display: 'flex',
-              flexWrap: 'wrap',
+              display: 'grid',
+              gridTemplateColumns: 'auto auto',
+              width: '$full',
               gap: '$sm',
+              '@sm': {
+                gridTemplateColumns: 'auto',
+              },
             }}
           >
-            <Box
-              css={{
-                display: 'flex',
-                width: '$full',
-                gap: '$sm',
-                '@sm': {
-                  flexDirection: 'column',
-                },
+            <Button
+              variant="wallet"
+              disabled={!isMetamaskEnabled}
+              fullWidth
+              onClick={() => {
+                activate(EConnectorNames.Injected);
               }}
             >
-              <Button
-                variant="wallet"
-                disabled={!isMetamaskEnabled}
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.Injected);
-                }}
-              >
-                {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                <WALLET_ICONS.injected />
-              </Button>
-              <Button
-                variant="wallet"
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.WalletConnect);
-                }}
-              >
-                Wallet Connect
-                <WALLET_ICONS.walletconnect />
-              </Button>
-            </Box>
+              {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
+              <WALLET_ICONS.injected />
+            </Button>
+
+            <Button
+              variant="wallet"
+              fullWidth
+              onClick={() => {
+                activate(EConnectorNames.WalletConnect);
+              }}
+            >
+              Wallet Connect
+              <WALLET_ICONS.walletconnect />
+            </Button>
+
             <Button
               variant="wallet"
               fullWidth
