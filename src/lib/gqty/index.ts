@@ -2,7 +2,7 @@
  * GQTY: You can safely modify this file and Query Fetcher based on your needs
  */
 
-import assert from 'assert';
+// import assert from 'assert';
 
 import { createReactClient } from '@gqty/react';
 import axios from 'axios';
@@ -16,10 +16,10 @@ import type {
 } from './schema.generated';
 import { generatedSchema, scalarsEnumsHash } from './schema.generated';
 
-assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
+// assert(process.env.REACT_APP_HASURA_URL, 'REACT_APP_HASURA_URL is not set');
 const axiosInstance = axios.create({
   method: 'POST',
-  baseURL: process.env.REACT_APP_HASURA_URL,
+  baseURL: process.env.REACT_APP_HASURA_URL || 'http://missingurl.net',
   headers: { 'Content-Type': 'application/json' },
 });
 
