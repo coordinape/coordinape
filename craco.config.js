@@ -29,15 +29,15 @@ module.exports = {
       },
       plugins: [
         new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-        new SentryCliPlugin({
-          include: '.',
-          ignore: ['node_modules', 'craco.config.js'],
-          setCommits: {
-            auto: true,
-          },
-          org: 'kevin-siegler',
-          project: 'kevin-siegler',
-        }),
+        //new SentryCliPlugin({
+        //  include: '.',
+        //  ignore: ['node_modules', 'craco.config.js'],
+        //  setCommits: {
+        //    auto: true,
+        //  },
+        //  org: 'kevin-siegler',
+        //  project: 'kevin-siegler',
+        //}),
       ],
     },
   },

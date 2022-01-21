@@ -32,7 +32,7 @@ Sentry.init({
 Sentry.setTag('landing_page', !RENDER_APP);
 
 const myUndefinedFunction = () => {
-  throw new Error('sentry test error');
+  throw new Error('sentry test error just vercel');
 };
 
 if (RENDER_APP) {
