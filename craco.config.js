@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 module.exports = {
   webpack: {
@@ -26,7 +27,18 @@ module.exports = {
           buffer: require.resolve('buffer/'),
         },
       },
-      plugins: [new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] })],
+      plugins: [
+        new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+        new SentryCliPlugin({
+          include: '.',
+          ignore: ['node_modules', 'craco.config.js'],
+          setCommits: {
+            auto: true,
+          },
+          org: 'kevin-siegler',
+          project: 'kevin-siegler',
+        }),
+      ],
     },
   },
 };

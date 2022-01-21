@@ -13,7 +13,7 @@ import { DOMAIN_IS_PREVIEW, RENDER_APP } from './utils/domain';
 
 Sentry.init({
   environment: DOMAIN_IS_PREVIEW ? 'development' : 'production',
-  dsn: 'https://1b672f036d56422ea7087e932011ec74@o919561.ingest.sentry.io/5863782',
+  dsn: 'https://3070d0770b084a2ab4f5873a88ff4b1b@o1123412.ingest.sentry.io/6161273',
   // ignoreErrors accepts regex. Strings will match partially.
   ignoreErrors: [
     'MetaMask: Received invalid isUnlocked parameter.',
@@ -27,11 +27,16 @@ Sentry.init({
       levels: ['error'],
     }),
   ],
-  tracesSampleRate: 0.1,
+  tracesSampleRate: 1.0,
 });
 Sentry.setTag('landing_page', !RENDER_APP);
 
+const myUndefinedFunction = () => {
+  throw new Error('sentry test error');
+};
+
 if (RENDER_APP) {
+  myUndefinedFunction();
   ReactDOM.render(
     <React.StrictMode>
       <App />
@@ -39,6 +44,7 @@ if (RENDER_APP) {
     document.getElementById('root')
   );
 } else {
+  myUndefinedFunction();
   ReactDOM.render(
     <React.StrictMode>
       <AppLandingPage />
