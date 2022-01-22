@@ -32,7 +32,7 @@ Sentry.init({
 Sentry.setTag('landing_page', !RENDER_APP);
 
 const myUndefinedFunction = () => {
-  throw new Error('github and vercel');
+  throw new Error('webpack github, vercel');
 };
 
 if (RENDER_APP) {
