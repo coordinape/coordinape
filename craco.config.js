@@ -29,15 +29,14 @@ module.exports = {
       },
       plugins: [
         new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-        //new SentryCliPlugin({
-        //  include: '.',
-        //  ignore: ['node_modules', 'craco.config.js'],
-        //  setCommits: {
-        //    auto: true,
-        //  },
-        //  org: 'kevin-siegler',
-        //  project: 'kevin-siegler',
-        //}),
+        new SentryCliPlugin({
+          include: 'build',
+          release: process.env.VERCEL_GIT_COMMIT_SHA,
+          dryRun: process.env.VERCEL_GIT_COMMIT_SHA ? false : true,
+          ignore: ['node_modules', 'craco.config.js'],
+          org: 'kevin-siegler',
+          project: 'coordinape',
+        }),
       ],
     },
   },
