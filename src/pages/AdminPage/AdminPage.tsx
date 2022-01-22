@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { makeStyles, Button, IconButton } from '@material-ui/core';
+import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
 
 import {
   StaticTable,
@@ -10,6 +10,7 @@ import {
   ApeAvatar,
   ActionDialog,
   OrganizationHeader,
+  ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation, useApiAdminCircle } from 'hooks';
@@ -172,6 +173,15 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     opacity: 0.7,
+  },
+  infoIcon: {
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
+    margin: theme.spacing(0, 0.5),
+    color: theme.colors.white,
+    '&:hover': {
+      color: theme.colors.text,
+    },
   },
 }));
 
@@ -432,6 +442,24 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     []
   );
 
+  interface IconProp {
+    toolTipMessage: string;
+  }
+
+  const InfoIconText = ({ toolTipMessage }: IconProp): JSX.Element => (
+    <Typography color="inherit">
+      {toolTipMessage}
+      <a
+        href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {' '}
+        Learn More
+      </a>
+    </Typography>
+  );
+
   return (
     <div className={classes.root}>
       {!legacy && (
@@ -473,7 +501,16 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 variant="contained"
                 color="primary"
                 size="small"
-                startIcon={<PlusCircleIcon />}
+                endIcon={
+                  <ApeInfoTooltip
+                    iconTheme={classes.infoIcon}
+                    enterNextDelay={1}
+                    placement="bottom"
+                    leaveDelay={2000}
+                  >
+                    <InfoIconText toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed." />{' '}
+                  </ApeInfoTooltip>
+                }
                 onClick={() => setNewUser(true)}
               >
                 Add Contributor
@@ -482,7 +519,16 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 variant="contained"
                 color="primary"
                 size="small"
-                startIcon={<PlusCircleIcon />}
+                endIcon={
+                  <ApeInfoTooltip
+                    iconTheme={classes.infoIcon}
+                    enterNextDelay={1}
+                    placement="bottom"
+                    leaveDelay={2000}
+                  >
+                    <InfoIconText toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another." />{' '}
+                  </ApeInfoTooltip>
+                }
                 onClick={() => setNewEpoch(true)}
               >
                 Add Epoch
