@@ -37,7 +37,7 @@ export const REACT_APP_HASURA_URL = getEnvValue(
 );
 
 if (!IN_PRODUCTION) {
-  console.log(`Using GraphQL API URL: ${REACT_APP_HASURA_URL}`);
+  console.log(`Using GraphQL API URL: ${REACT_APP_HASURA_URL}`); // eslint-disable-line no-console
 }
 
 // Unused in practice
