@@ -35,7 +35,7 @@ module.exports = {
           dryRun: process.env.VERCEL_GIT_COMMIT_SHA ? false : true,
           ignore: ['node_modules', 'craco.config.js'],
           org: 'coordinape',
-          project: 'coordinape',
+          project: 'app',
         }),
       ],
     },
