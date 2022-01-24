@@ -1,17 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
-import { IS_LOCAL_ENV } from '../../api-lib/config';
-
-// I probably should not write this
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function run() {
   const prisma = new PrismaClient();
 
-  if (!IS_LOCAL_ENV) {
-    res.status(200).json('Coordinape destroyed.'); // JK
-  }
-
   try {
+    // TODO: Perhaps refactor into a transaction.
     const tables = {
       feedbacks: prisma.feedbacks,
       gift: prisma.gift,
@@ -35,23 +30,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (typeof r.count === 'number') {
         events.push(`Deleted ${r.count} from ${name}`);
       } else {
-        console.error('Failed to deleteMany', r);
-        res.status(501).json({
-          error: '501',
-          message: 'Failed to deleteMany',
-        });
+        throw `Failed to deleteMany.`;
       }
     }
 
-    res
-      .status(200)
-      .json(["Coordinape destroyed, I hope you're happy.", events]);
-  } catch (e) {
-    res.status(401).json({
-      error: '401',
-      message: e.message || 'Unexpected error',
-    });
+    console.log("Coordinape destroyed, I hope you're happy.", events);
+  } catch (error) {
+    throw error;
   } finally {
     await prisma.$disconnect();
   }
 }
+
+(async function () {
+  await run()
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
+    })
+    .then(() => {
+      process.exit(0);
+    });
+})();

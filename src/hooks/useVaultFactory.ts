@@ -61,9 +61,9 @@ export function useVaultFactory() {
             simpleTokenAddress: args[1],
             decimals,
             type,
-            orgId: currentOrg?.id,
+            orgId: currentOrg?.id ?? -1,
           };
-          vaultApi.addVault(currentOrg?.id, vault);
+          vaultApi.addVault(currentOrg?.id ?? -1, vault);
           return vault;
         }
       }

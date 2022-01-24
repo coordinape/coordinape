@@ -61,7 +61,7 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
   };
-  ['bigint']: unknown;
+  ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
     _eq?: ValueTypes['bigint'] | null;
@@ -2361,7 +2361,7 @@ export type ModelTypes = {
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
-  ['bigint']: any;
+  ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
   /** columns and relationships of "burns" */
@@ -3074,7 +3074,7 @@ export type GraphQLTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string;
   };
-  ['bigint']: any;
+  ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
     _eq?: GraphQLTypes['bigint'];

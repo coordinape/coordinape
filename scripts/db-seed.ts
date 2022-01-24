@@ -1,13 +1,11 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ethers } from 'ethers';
-import faker from 'faker/locale/en';
-import iti from 'itiriri';
+import faker from 'faker/locale/en.js';
+import itiriri from 'itiriri';
+const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import { DateTime, Duration, Interval } from 'luxon';
 import fetch from 'node-fetch';
-
-import { IS_LOCAL_ENV } from '../../api-lib/config';
-import { gql, TGiftCommon } from '../../api-lib/Gql';
-import { ValueTypes } from '../../src/lib/gql/zeusHasuraAdmin';
+import { gql, TGiftCommon } from '../api-lib/Gql';
+import { ValueTypes } from '../src/lib/gql/zeusHasuraAdmin';
 
 if (!globalThis.fetch) {
   globalThis.fetch = fetch;
@@ -35,25 +33,17 @@ const END_DATE = DateTime.fromISO('2022-04-01T00:00:00.000');
 
 type FakeDataParams = typeof defaults;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (!IS_LOCAL_ENV) {
-    res.status(401).json({
-      error: 401,
-      message: 'This route is only available locally.',
+(async function () {
+  await insertFakeData(defaults)
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
+    })
+    .then(res => {
+      console.log('Inserted: ', res);
+      process.exit(0);
     });
-  }
-
-  try {
-    const result = await insertFakeData(defaults);
-    res.status(200).json(result);
-  } catch (e) {
-    console.error('API ERROR', e);
-    res.status(501).json({
-      error: '501',
-      message: 'Server Error',
-    });
-  }
-}
+})();
 
 /*
  * insertFakeData
@@ -323,6 +313,7 @@ function fakeCircleGifts(
 ) {
   const [circleSkew, giveSkew, recieveSkew, epochSkew] =
     typeof skew === 'number' ? [skew, skew, skew, skew] : skew;
+
   const membersByCircle = iti(members)
     .groupBy(m => m.circle_id)
     .toMap(
