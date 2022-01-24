@@ -47,7 +47,7 @@ export const getAdminPath = () => '/admin';
 export const getOverviewPath = () => '/admin/overview';
 export const getVaultsPath = () => '/admin/vaults';
 export const getCirclesPath = () => '/admin/circles';
-export const getNewCirclePath = () => 'new-circle';
+export const getNewCirclePath = () => '/new-circle';
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
