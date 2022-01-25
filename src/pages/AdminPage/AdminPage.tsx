@@ -175,10 +175,10 @@ const useStyles = makeStyles(theme => ({
     opacity: 0.7,
   },
   infoIcon: {
-    fontSize: '0.9rem',
+    fontSize: '0.95rem',
     fontWeight: 300,
     verticalAlign: 'baseline',
-    marginLeft: 3,
+    // marginLeft: 3,
     color: theme.colors.white,
     '&:hover': {
       color: theme.colors.text,
@@ -445,16 +445,13 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   interface IconProp {
     toolTipMessage: string;
+    link: string;
   }
 
-  const InfoIconText = ({ toolTipMessage }: IconProp): JSX.Element => (
+  const InfoIconText = ({ toolTipMessage, link }: IconProp): JSX.Element => (
     <Typography color="inherit">
       {toolTipMessage}
-      <a
-        href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href={link} target="_blank" rel="noreferrer">
         {' '}
         Learn More
       </a>
@@ -509,7 +506,10 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                     placement="bottom"
                     leaveDelay={500}
                   >
-                    <InfoIconText toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed." />{' '}
+                    <InfoIconText
+                      link="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+                      toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed."
+                    />
                   </ApeInfoTooltip>
                 }
                 onClick={() => setNewUser(true)}
@@ -527,7 +527,10 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                     placement="bottom"
                     leaveDelay={500}
                   >
-                    <InfoIconText toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another." />{' '}
+                    <InfoIconText
+                      link=" https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+                      toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another."
+                    />
                   </ApeInfoTooltip>
                 }
                 onClick={() => setNewEpoch(true)}
