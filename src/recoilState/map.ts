@@ -183,7 +183,10 @@ export const rMapGraphData = selector<GraphData>({
 
           return {
             id: address,
-            img: getAvatarPathWithFallback(profile.avatar, user.name),
+            img: getAvatarPathWithFallback(
+              profile?.avatar || user?.profile?.avatar,
+              user.name
+            ),
             profile,
             name: user.name,
             epochId: epoch.id,
