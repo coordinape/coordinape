@@ -1,5 +1,9 @@
 import { ethers } from 'ethers';
-import faker from 'faker/locale/en.js';
+// TODO: Imports are crazy for esrun, eventually set up a build system.
+// Probably with monorepo and support other packages.
+import fakerTyped from 'faker/locale/en';
+import fakerEn from 'faker/locale/en.js';
+const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import { DateTime, Duration, Interval } from 'luxon';
@@ -210,6 +214,10 @@ function inequality(average: number, parentCount: number, skew: number) {
     );
 }
 
+function zeroToOne() {
+  return faker.datatype.float({ min: 0, max: 1, precision: 0.00001 });
+}
+
 function createSampler<T>(buckets: T[], skew: number) {
   const probs = [...buckets].map((x, i) => buckets.length + skew * i * i);
   const sum = probs.reduce((a, b) => a + b, 0);
@@ -257,6 +265,9 @@ function fakeMemebership(
     name: faker.name.firstName(),
     circle_id: circleId,
     starting_tokens: getStartingTokens(),
+    non_receiver: zeroToOne() < 0.2,
+    non_giver: zeroToOne() < 0.2,
+    fixed_non_receiver: zeroToOne() < 0.1,
   } as ValueTypes['users_insert_input'];
 }
 
@@ -300,13 +311,19 @@ function fakeEpochs(circleId: number, count: number) {
   );
 }
 
+type Unwrap<T> = T extends Promise<infer U>
+  ? U
+  : T extends (...args: any) => Promise<infer U>
+  ? U
+  : T extends (...args: any) => infer U
+  ? U
+  : T;
+type TMemberships = Unwrap<
+  ReturnType<typeof gql.insertMemberships>
+>['insert_users']['returning'];
+
 function fakeCircleGifts(
-  members: {
-    id: number;
-    address: string;
-    circle_id: number;
-    starting_tokens: number;
-  }[],
+  members: TMemberships,
   epochs: { id: number; circle_id: number; ended: boolean }[],
   count: number,
   skew: number | [number, number, number, number]
@@ -339,8 +356,9 @@ function fakeCircleGifts(
   let n = 0;
   while (gifts.length + pendingGifts.length < count) {
     n++;
-    if (n > count * 1000) {
+    if (n > count) {
       // This could happen if there aren't availableEpochs or we run out of tokens
+      // Because the available memberships don't have enough receivers
       throw new Error(
         `Unable to satisfy constraints, gifts: ${gifts.length}, ${pendingGifts.length}`
       );
@@ -358,6 +376,13 @@ function fakeCircleGifts(
     for (let i = 0; i < roundSize; i++) {
       const recipient = getRecipient();
       const sender = getSender();
+      if (
+        sender.non_giver ||
+        recipient.non_receiver ||
+        recipient.fixed_non_receiver
+      ) {
+        continue;
+      }
       const epoch = getEpoch();
       const remaining = tokenMap.get(sender.id);
       const tokens = faker.datatype.number({ min: 0, max: remaining });

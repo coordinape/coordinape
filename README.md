@@ -55,6 +55,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
+  - First time laravel is slow.
 - `vercel dev`
   - First time setup: `Want to override the settings`? `Y`
   - Runs React and the serverless functions in `api/`
@@ -176,7 +177,7 @@ Setup docker, git, hasura completions.
 # Troubleshooting
 
 - `Cannot start service app: error while creating mount source path`
-  Try resetting Docker Desktop
+  Try restarting Docker Desktop
 
 - `TypeError: Cannot read properties of undefined (reading 'replace')`
   You need to configure a local `.env` file with some private variables. Ask someone for these.
