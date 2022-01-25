@@ -202,9 +202,11 @@ export const rCircle = selectorFamily<ICircleState, number>({
         iti(users)
           .filter(u => u.circle_id === circleId)
           .filter(u => !u.deleted_at);
-      const myUser = get(rMyProfile).myUsers.find(
-        u => u.circle_id === circleId
-      );
+
+      const myProfile = get(rMyProfile);
+
+      const myUser = myProfile.myUsers.find(u => u.circle_id === circleId);
+
       const circleEpochsStatus = get(rCircleEpochsStatus(circleId));
       const activeNominees = iti(get(rNomineesMap).values())
         .filter(n => n.circle_id === circleId)
@@ -215,17 +217,17 @@ export const rCircle = selectorFamily<ICircleState, number>({
       const firstUser = getCircleUsers().first();
 
       const impersonate = !myUser && hasAdminView;
-      const meOrPretend =
-        myUser ??
-        (impersonate
-          ? ({
-              ...firstUser,
-              circle: circle,
-              teammates: getCircleUsers()
-                .filter(u => u.id !== firstUser?.id)
-                .toArray(),
-            } as IMyUser)
-          : undefined);
+      const meOrPretend = myUser
+        ? { ...myUser, profile: myProfile }
+        : impersonate
+        ? ({
+            ...firstUser,
+            circle: circle,
+            teammates: getCircleUsers()
+              .filter(u => u.id !== firstUser?.id)
+              .toArray(),
+          } as IMyUser)
+        : undefined;
 
       if (meOrPretend === undefined || circle === undefined) {
         return neverEndingPromise();
