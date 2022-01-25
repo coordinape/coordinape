@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened , reopened, synchronize]
     paths:
-      - hasura # path to Hasura config, prevents creating deployments if no changes
+      - 'hasura/**' # path to Hasura config, prevents creating deployments if no changes
     branches:
       - main
 
@@ -54,6 +54,18 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
 
+      - id: get-hasura-url
+        run: |
+          url=$(echo ${{ steps.hasura_cloud_preview.outputs.consoleURL }} | sed 's/\/console$//g')
+          echo "::set-output name=hasuraURL::$url"
+
+      - uses: Fieldguide/action-hasura-change-summary@v2
+        id: hasura-change
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_dir: ./hasura
+          hasura_endpoint: ${{steps.get-hasura-url.outputs.hasuraURL}}
+
       - uses: hasura/comment-progress@v2.1.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -63,6 +75,7 @@ jobs:
           message: |
             Console URL available at ${{steps.hasura_cloud_preview.outputs.consoleURL}}
             GraphQL Endpoint available at ${{steps.hasura_cloud_preview.outputs.graphQLEndpoint}}
+            ${{ steps.hasura-change.outputs.change_html }}
 
   remove-cloud-preview-on-failure:
     runs-on: ubuntu-latest
