@@ -73,7 +73,7 @@ export default function DepositModal({
         <FormModal
           onClose={onClose}
           open={open}
-          title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
+          title={`Deposit ${vault.type.toUpperCase()}`}
           subtitle=""
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
