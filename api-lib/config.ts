@@ -1,3 +1,9 @@
+// dotenv is needed for `./scripts/*`
+// for the api/*, perhaps conditionally disable
+// Long term, refactor for monorepo
+import dotenv from 'dotenv';
+dotenv.config();
+
 function getEnvValue<T extends string | number>(
   key: string,
   defaultVal?: T
@@ -12,6 +18,6 @@ function getEnvValue<T extends string | number>(
   return defaultVal;
 }
 
-export const HASURA_ADMIN_SECRET = <string>getEnvValue('HASURA_ADMIN_SECRET');
-export const HASURA_URL = <string>getEnvValue('HASURA_URL');
+export const NODE_HASURA_URL = <string>getEnvValue('NODE_HASURA_URL');
+export const LOCAL_SEED_ADDRESS = <string>getEnvValue('LOCAL_SEED_ADDRESS');
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';

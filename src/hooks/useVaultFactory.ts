@@ -3,7 +3,7 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { getToken, knownTokens, TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
@@ -23,10 +23,13 @@ export function useVaultFactory() {
     simpleTokenAddress?: string;
     type: TAssetEnum;
   }) => {
+    assert(currentOrg); // app should suspend until this is loaded
+
     if (!contracts) {
       apeError('Contracts not loaded');
       return;
     }
+
     try {
       const { apeVaultFactory: factory, networkId } = contracts;
       assert(

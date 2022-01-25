@@ -4,9 +4,19 @@ import crypto from 'crypto';
 import { PrismaClient } from '@prisma/client';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { IS_LOCAL_ENV } from '../../api-lib/config';
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const prisma = new PrismaClient();
   try {
+    if (IS_LOCAL_ENV && req.headers?.authorization === 'generate') {
+      // For generating libraries from inspection
+      res.status(200).json({
+        'X-Hasura-Role': req.headers?.['x-hasura-role'],
+      });
+      return;
+    }
+
     assert(req.headers?.authorization, 'No token was provided');
     const [expectedId, token] = req.headers.authorization
       .replace('Bearer ', '')
