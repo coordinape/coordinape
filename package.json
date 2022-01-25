@@ -62,7 +62,6 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
-    "init-submodule": "git submodule update --init --recursive",
     "setup": "./scripts/setup-hardhat.sh",
     "db-seed-fresh": "yarn db-clean && yarn db-seed && yarn db-add-me",
     "db-seed": "node ./scripts/tsrun.mjs ./scripts/db-seed.ts",

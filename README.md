@@ -42,59 +42,77 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - Docker
 - Vercel CLI
 
-## Quick Start
+## Coordinape is being rebuilt
 
-- `yarn init-submodule`
+- Laravel → Hasura & Vercel serverless functions
+- Material UI → Stitches + React-Query & Zeus
+
+# Quick Start
+
 - `yarn install`
-- Setup `.env` by copying from `.env.example`
-  - Set `HARDHAT_OWNER_ADDRESS` for the wallet you want to use w/ seeding
-- `yarn setup` - Compile contracts and init git submodules
-- `docker-compose up -d` - Start **laravel** legacy backend, **Hasura** and **postgres**
-- `vercel dev` with `Want to override the settings? Y`
-- `yarn seed` - Seed the db w/ dummy data
+- `yarn setup` - init git submodules and link hardhat
+- `cp .env.example .env`
+  - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
+- `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
+  - Clear the data stored in the docker volumes: `yarn docker:clean`
+- `vercel dev`
+  - First time setup: `Want to override the settings`? `Y`
+  - Runs React and the serverless functions in `api/`
+- `yarn db-seed-fresh` - Seed the db w/ dummy data
 - Goto: http://localhost:3000 and starting giving!
 
-Additionally, to access work with the db & schema, `yarn hasura console`.
+### Working with the schema
 
-If you change the schema, you'll need to run `yarn generate` Note: Requires auth hook to be running from `vercel dev`.
+- `yarn hasura console` to modify and explore the database
+- `yarn generate` after schema changes to codegen zeus & react-query libs
+- Requires the `vercel dev` serverless functions to be running
 
-## Before THIS PR TODO: Cleanup
+# Hardhat
 
-1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
-2. Install packages: `yarn install`
-3. Setup a local .env file: `cp .env.example .env`
-   - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
-   - set `REACT_APP_API_BASE_URL` to your API URL (or use the Staging API URL)
-4. Start the dev server: `vercel dev`
-   - If you're creating a new Vercel project, use these custom settings:
-     - Build Command: `./scripts/setup-hardhat.sh && yarn build`
-     - Development Command: `craco start`
-   - If you get errors related to package `@coordinape/hardhat` on app startup, run `./scripts/setup-hardhat.sh` first
-5. Visit app: [http://localhost:3000](http://localhost:3000)
+- Set `ETHEREUM_RPC_URL` in .env
+  - From Infura project id: [Infura](https://infura.io) & create new project
+- `yarn hardhat:dev <your_address_here>`
 
-## Further Setup
+#### Additionally
 
-- Get an Infura project id: [Infura](https://infura.io)
-  - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
+- `./scripts/setup-hardhat.sh` - link the react app generated code
+- `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
+- `yarn hardhat:test`
+- `yarn hardhat:deploy`
 
-## Running Hasura
+# Hasura
 
-If you are making any changes to the GraphQL API / data model or want to run it locally, follow the steps below:
+[Hasura](https://hasura.io/)
+automagically creates a
+[GraphQL API](https://hasura.io/learn/graphql/hasura/data-modeling/2-try-user-queries/)
+atop our postgres db. We use it to apply
+[migrations](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/2-migration-files/)
+and
+[manage metadata](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/3-metadata/).
+Perhaps, the easiest way to get a feel is start the app and run `yarn hasura console`.
 
-1. Run Postgres and [Hasura](https://hasura.io/) using Docker with `yarn docker:start`.
-   - It might take several minutes to start if you're running it for the first time
-   - If you have any stale containers / run into errors, try running `yarn docker:clean` first.
-2. Once Hasura is ready (can check by running `curl localhost:8080/healthz`), run `yarn hasura console` to open up the GUI for interacting with Hasura.
-   - You'll need to install the `hasura-cli` npm module: `npm i -g hasura-cli`
-3. In the console, you can update the data model, create relationships, configure permissions, or create custom queries / mutations / triggers. [Check out this tutorial to get up to speed with how to use Hasura.](https://hasura.io/learn/graphql/hasura/introduction)
-4. Any changes you make in the Console will be reflected in your local `hasura` directory as migrations or metadata. These will be applied to the staging/production instance once merged via PR. [Check out this tutorial on how to manage migrations / metadata and other advanced Hasura functionality.](https://hasura.io/learn/graphql/hasura-advanced/introduction/)
-5. Check out the [Hasura Docs](https://hasura.io/docs/latest/graphql/core/databases/postgres/index.html) to learn about the various functionality and how to use it.
+## Changes to the schema are previewed in PRs with vercel
 
-# App Structure
+Any changes you make in the Console will be reflected in your local `hasura` directory as migrations or metadata. In the feature branch a clone of the staging database will be created with the changes.
+
+These will be applied to the staging/production instance once merged via PR.
+
+## Thin Client
+
+Inspired by the [3factor app](https://3factor.app).
+We are building thin client with business logic using serverless functions and postgres constraints.
+
+- Actions
+- Mutations
+- Triggers
+- Cron jobs
+- Constraints
+
+Server logic in typescript, configured with hasura, deployed by vercel.
+
+# React App
 
 Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-### See [HistoryPage](https://github.com/coordinape/coordinape/blob/master/src/pages/HistoryPage/HistoryPage.tsx) as an exemplar top level component.
 
 ## Key libraries
 
@@ -108,6 +126,8 @@ Bootstrapped with [Create React App](https://github.com/facebook/create-react-ap
   - See forked `canvas-color-tracker` for brave compatibility
 
 ## State Management w/ [Recoil](https://recoiljs.org/)
+
+Moving towards Zeus+React-Query
 
 Recoil defines a consistent data graph that will suspend the app when `useRecoilState(rIdentifier)` has an unresolved promise. See their video and documentation.
 
@@ -141,18 +161,17 @@ clever.
 - See `AdminUserForm` for a simple use
 - Doesn't have first class support of array fields
 
-## Hardhat
+# Useful tricks
 
-1. Install packages: `yarn hardhat:install`
-2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
-3. Load contracts: `git submodule update --init --recursive`
-4. Compile contracts: `yarn hardhat:compile`
-5. Run tests: `yarn hardhat:test`
-6. Start local blockchain node: `yarn hardhat:dev <your_address_here>`
-7. Deploy contracts: `yarn hardhat:deploy`
-8. Codegen deploymentInfo: `yarn hardhat:codegen`
-9. Build hardhat package: `yarn hardhat:build`
-10. Link hardhat package: `yarn --cwd ./hardhat link && yarn link @coordinape/hardhat`
+Setup docker, git, hasura completions.
+
+### Docker
+
+- Install VS Code's docker extension
+- `docker ps` - see the running containers
+- `docker logs coordinape_graphql-engine_1 | jq -C | less -r`
+  - jq parses the hasura log output as colorized json
+- `docker exec -it app bash` - Create a shell in the container
 
 # Troubleshooting
 
