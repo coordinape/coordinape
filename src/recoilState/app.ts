@@ -1,6 +1,5 @@
 // at 5k elements for filter-map-slice itiriri is more performant
 import iti from 'itiriri';
-import { getGql } from 'lib/gql';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -50,16 +49,11 @@ export const rWalletAuth = atom({
 });
 
 const updateApiService = ({ address, authTokens }: IAuth) => {
-  const token = address ? authTokens[address] : undefined;
+  const token = address && authTokens[address];
   // eslint-disable-next-line no-console
-  if (!token && getApiService().token) {
-    getApiService().logout();
-    getApiService().setAuth();
-    getGql().setToken();
-  } else {
-    getApiService().setAuth(token);
-    getGql().setToken(token);
-  }
+  const api = getApiService();
+  if (!token && api.token) api.logout();
+  api.setAuth(token);
 };
 
 // myAddress is how the app knows that there is a logged in state.
