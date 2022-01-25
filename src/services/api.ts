@@ -305,3 +305,5 @@ export const getApiService = (): APIService => {
   apiService = new APIService();
   return apiService;
 };
+
+export const getAuthToken = () => getApiService().token;

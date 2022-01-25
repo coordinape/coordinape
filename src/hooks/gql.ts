@@ -8,7 +8,7 @@ import {
 import { useTypedQuery as _useTypedQuery } from 'lib/gql/zeusUser/reactQuery';
 import type { UseQueryOptions } from 'react-query';
 
-import { getApiService } from '../services/api';
+import { getAuthToken } from '../services/api';
 import { REACT_APP_HASURA_URL } from 'config/env';
 import { useSelectedCircle } from 'recoilState';
 
@@ -23,7 +23,6 @@ function useTypedQuery<
   zeusOptions?: OperationOptions,
   hostOptions: chainOptions[1] = {}
 ) {
-  const token = getApiService().token;
   return _useTypedQuery(
     queryKey,
     query,
@@ -33,7 +32,7 @@ function useTypedQuery<
     {
       ...hostOptions,
       method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: 'Bearer ' + getAuthToken() },
     }
   );
 }
