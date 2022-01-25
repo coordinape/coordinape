@@ -76,7 +76,7 @@ jobs:
           delete: true
           postgresDBConfig: |
             POSTGRES_SERVER_CONNECTION_URI=${{secrets.POSTGRES_STAGING_CONNECTION_URI}}
-            PG_ENV_VARS_FOR_HASURA=PG_DATABASE_URL
+            PG_ENV_VARS_FOR_HASURA=HASURA_GRAPHQL_DATABASE_URL
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
