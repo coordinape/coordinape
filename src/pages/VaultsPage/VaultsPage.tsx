@@ -47,7 +47,7 @@ const VaultsPage = () => {
   const epochs = useMemo(() => fakeEpochData, [epochsReverse]);
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id ?? -1);
+  const vaults = useVaults(currentOrg?.id);
 
   return (
     <div className={classes.root}>

@@ -16,8 +16,9 @@ export const rVaults = atom({
   ],
 });
 
-export const useVaults = (orgId: number) => {
-  return useRecoilValue(rVaults)[orgId] || [];
+export const useVaults = (orgId: number | undefined) => {
+  const vaults = useRecoilValue(rVaults);
+  return orgId ? vaults[orgId] : [];
 };
 
 export const useFakeVaultApi = () => {

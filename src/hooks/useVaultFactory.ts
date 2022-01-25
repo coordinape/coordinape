@@ -23,10 +23,13 @@ export function useVaultFactory() {
     simpleTokenAddress?: string;
     type: TAssetEnum;
   }) => {
+    assert(currentOrg); // app should suspend until this is loaded
+
     if (!contracts) {
       apeError('Contracts not loaded');
       return;
     }
+
     try {
       const { apeVaultFactory: factory, networkId } = contracts;
       assert(
@@ -61,9 +64,9 @@ export function useVaultFactory() {
             simpleTokenAddress: args[1],
             decimals,
             type,
-            orgId: currentOrg?.id ?? -1,
+            orgId: currentOrg.id,
           };
-          vaultApi.addVault(currentOrg?.id ?? -1, vault);
+          vaultApi.addVault(currentOrg.id, vault);
           return vault;
         }
       }
