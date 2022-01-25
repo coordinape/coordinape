@@ -175,9 +175,10 @@ const useStyles = makeStyles(theme => ({
     opacity: 0.7,
   },
   infoIcon: {
-    fontSize: 'inherit',
+    fontSize: '0.9rem',
+    fontWeight: 300,
     verticalAlign: 'baseline',
-    margin: theme.spacing(0, 0.5),
+    marginLeft: 3,
     color: theme.colors.white,
     '&:hover': {
       color: theme.colors.text,
@@ -506,7 +507,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                     iconTheme={classes.infoIcon}
                     enterNextDelay={1}
                     placement="bottom"
-                    leaveDelay={2000}
+                    leaveDelay={500}
                   >
                     <InfoIconText toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed." />{' '}
                   </ApeInfoTooltip>
@@ -524,7 +525,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                     iconTheme={classes.infoIcon}
                     enterNextDelay={1}
                     placement="bottom"
-                    leaveDelay={2000}
+                    leaveDelay={500}
                   >
                     <InfoIconText toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another." />{' '}
                   </ApeInfoTooltip>
