@@ -19,6 +19,7 @@ function generate() {
 
   # mac sed needs sed -i '' -e
   # for other seds try removing -i '' -e
+  # use `brew install gsed` on macos to get this
   gsed -i 's,bigint"]:any,bigint"]:number,g' $MV_PATH/index.ts
   gsed -i 's,bigint"]:unknown,bigint"]:number,g' $MV_PATH/index.ts
 }
