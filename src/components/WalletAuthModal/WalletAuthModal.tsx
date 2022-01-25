@@ -6,13 +6,12 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 
 import {
   CircularProgress,
-  Grid,
   Modal,
-  Button,
   Typography,
   makeStyles,
 } from '@material-ui/core';
 
+import { Box, Button, Text } from '../../ui';
 import { WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
@@ -29,67 +28,11 @@ enum EConnectorNames {
   // Portis = 'portis',
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    outline: 'none',
-    backgroundColor: theme.colors.white,
-    borderRadius: theme.spacing(1),
-    padding: theme.spacing(2, 5.5, 4),
-    userSelect: `none`,
-    width: '100%',
-    maxWidth: 500,
-  },
-  title: {
-    marginBottom: theme.spacing(3),
-    color: theme.colors.primary,
-    fontSize: 25,
-    fontWeight: 700,
-  },
-  helper: {
-    marginTop: theme.spacing(3),
-    textAlign: 'center',
-    fontSize: 13,
-    fontWeight: 600,
-  },
-  loader: {
-    textAlign: 'center',
-  },
-  button: {
-    margin: theme.spacing(0.2, 0),
-    padding: theme.spacing(1.5, 2.2),
-    color: theme.colors.text,
-    backgroundColor: theme.colors.transparent,
-    border: 'solid',
-    borderWidth: 2,
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.3)',
-    '& svg': {
-      height: theme.spacing(3),
-      width: theme.spacing(3),
-    },
-    '&:hover': {
-      color: theme.colors.selected,
-      background: theme.colors.third,
-    },
-    '& .MuiButton-label': {
-      fontSize: 15,
-      fontWeight: 600,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    '&.MuiButton-root.Mui-disabled': {
-      color: theme.colors.text,
-      opacity: 0.5,
-    },
   },
 }));
 
@@ -120,6 +63,8 @@ export const WalletAuthModal = ({
         ? 'Waiting for Approval on Metamask'
         : connectorName === EConnectorNames.WalletConnect
         ? 'Opening QR for Wallet Connect'
+        : connectorName === EConnectorNames.WalletLink
+        ? 'Opening QR for Coinbase Wallet'
         : 'Connecting to wallet'
     );
 
@@ -166,48 +111,100 @@ export const WalletAuthModal = ({
       onClose={() => setOpen(false)}
       open={open}
     >
-      <div className={classes.content}>
-        <h3 className={classes.title}>Connect Your Wallet</h3>
-
+      <Box
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          outline: 'none',
+          backgroundColor: '$white',
+          borderRadius: '$3',
+          padding: '$xl',
+          userSelect: `none`,
+          width: '$full',
+          maxWidth: '500px',
+        }}
+      >
+        <Text
+          as="h3"
+          css={{
+            my: '$lg',
+            color: '$primary',
+            fontSize: '25px',
+            fontWeight: '$bold',
+          }}
+        >
+          Connect Your Wallet
+        </Text>
         {isConnecting ? (
-          <div className={classes.loader}>
+          <Box
+            css={{
+              textAlign: 'center',
+            }}
+          >
             <CircularProgress />
             <Typography>{connectMessage}</Typography>
-          </div>
+          </Box>
         ) : (
-          <Grid container spacing={2}>
-            <Grid item md={6} xs={12}>
-              <Button
-                className={classes.button}
-                disabled={!isMetamaskEnabled}
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.Injected);
-                }}
-              >
-                {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                <WALLET_ICONS.injected />
-              </Button>
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <Button
-                className={classes.button}
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.WalletConnect);
-                }}
-              >
-                Wallet Connect
-                <WALLET_ICONS.walletconnect />
-              </Button>
-            </Grid>
-          </Grid>
+          <Box
+            css={{
+              display: 'grid',
+              gridTemplateColumns: 'auto auto',
+              width: '$full',
+              gap: '$sm',
+              '@xs': {
+                gridTemplateColumns: 'auto',
+              },
+            }}
+          >
+            <Button
+              variant="wallet"
+              disabled={!isMetamaskEnabled}
+              fullWidth
+              onClick={() => {
+                activate(EConnectorNames.Injected);
+              }}
+            >
+              {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
+              <WALLET_ICONS.injected />
+            </Button>
+
+            <Button
+              variant="wallet"
+              fullWidth
+              onClick={() => {
+                activate(EConnectorNames.WalletConnect);
+              }}
+            >
+              Wallet Connect
+              <WALLET_ICONS.walletconnect />
+            </Button>
+
+            <Button
+              variant="wallet"
+              fullWidth
+              onClick={() => {
+                activate(EConnectorNames.WalletLink);
+              }}
+            >
+              Coinbase Wallet
+              <WALLET_ICONS.walletlink />
+            </Button>
+          </Box>
         )}
-        <Typography className={classes.helper}>
+        <Text
+          css={{
+            fontSize: '$2',
+            marginTop: '$lg',
+            textAlign: 'center',
+            fontWeight: '$semibold',
+          }}
+        >
           New to Ethereum?{' '}
           <a href="https://ethereum.org">Learn more about wallets</a>
-        </Typography>
-      </div>
+        </Text>
+      </Box>
     </Modal>
   );
 };

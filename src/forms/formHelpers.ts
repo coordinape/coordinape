@@ -4,6 +4,11 @@ import { z } from 'zod';
 
 import { INFURA_PROJECT_ID } from 'config/env';
 
+const provider = new ethers.providers.InfuraProvider(
+  'homestead',
+  INFURA_PROJECT_ID
+);
+
 export const zBooleanToNumber = z.boolean().transform(v => (v ? 1 : 0));
 
 export const zStringISODateUTC = z
@@ -12,13 +17,7 @@ export const zStringISODateUTC = z
 
 export const zEthAddress = z
   .string()
-  .transform(s =>
-    ethers
-      .getDefaultProvider('homestead', {
-        infura: INFURA_PROJECT_ID,
-      })
-      .resolveName(s)
-  )
+  .transform(s => provider.resolveName(s))
   .transform(s => s || '')
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());
