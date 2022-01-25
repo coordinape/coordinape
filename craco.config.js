@@ -1,10 +1,19 @@
 const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 
-const { VERCEL_GIT_COMMIT_SHA, SENTRY_PROJECT, SENTRY_AUTH_TOKEN } =
-  process.env;
+const {
+  SENTRY_AUTH_TOKEN,
+  VERCEL,
+  VERCEL_ENV,
+  VERCEL_GIT_COMMIT_SHA,
+  VERCEL_URL,
+} = process.env;
 
-const shouldDryRun = !(SENTRY_PROJECT && SENTRY_AUTH_TOKEN);
+const shouldDryRun = !(
+  VERCEL &&
+  SENTRY_AUTH_TOKEN &&
+  VERCEL_ENV !== 'development'
+);
 
 module.exports = {
   webpack: {
@@ -35,6 +44,7 @@ module.exports = {
       plugins: [
         new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
         new SentryCliPlugin({
+          // include the transpiled js and sourcemaps
           include: 'build',
           // Release will utilize the vercel-specified sha if available.
           // Otherise the current branch HEAD's sha will be used instead.
@@ -49,6 +59,18 @@ module.exports = {
           ignore: ['node_modules', 'craco.config.js'],
           org: 'coordinape',
           project: 'app',
+          deploy: {
+            // Commits are auto-associated from the production Vercel environment
+            // by the Sentry-GitHub integration. The token provided to Vercel
+            // is not given the `org:read` permission necessary to
+            // set commits.
+            env: VERCEL_ENV,
+            // Not sure where this shows up in the Sentry UI, but if we can
+            // include it, why not?
+            // Sentry complains without a protocol prefix, which Vercel does
+            // not provide
+            url: 'https://' + VERCEL_URL,
+          },
         }),
       ],
     },
