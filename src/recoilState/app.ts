@@ -237,7 +237,7 @@ export const rCircle = selectorFamily<ICircleState, number>({
       return {
         circleId,
         circle,
-        myUser: meOrPretend,
+        myUser: { ...meOrPretend, profile: firstUser?.profile },
         impersonate,
         users: getCircleUsers().toArray(),
         usersNotMe: getCircleUsers()
