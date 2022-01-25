@@ -31,7 +31,6 @@ export class APIService {
   provider = undefined as Web3Provider | undefined;
   token = undefined as string | undefined;
   axios = axios.create({ baseURL: API_URL });
-  private interceptor = undefined as number | undefined;
 
   constructor(provider?: Web3Provider, token?: string) {
     this.provider = provider;
