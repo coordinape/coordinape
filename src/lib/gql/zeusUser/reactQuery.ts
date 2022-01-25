@@ -20,7 +20,7 @@ export function useTypedMutation<
   mutation: TData | ValueTypes[O],
   options?: Omit<UseMutationOptions<TResult>, 'mutationKey' | 'mutationFn'>,
   zeusOptions?: OperationOptions,
-  host = process.env.REACT_APP_HASURA_URL as string,
+  host = 'http://localhost:8080/v1/graphql',
   hostOptions: chainOptions[1] = {}
 ) {
   return useMutation<TResult>(
@@ -42,7 +42,7 @@ export function useTypedQuery<
   query: TData | ValueTypes[O],
   options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
   zeusOptions?: OperationOptions,
-  host = process.env.REACT_APP_HASURA_URL as string,
+  host = 'http://localhost:8080/v1/graphql',
   hostOptions: chainOptions[1] = {}
 ) {
   return useQuery<TResult>(
