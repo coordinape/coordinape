@@ -4,16 +4,12 @@ import crypto from 'crypto';
 import { PrismaClient } from '@prisma/client';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { NODE_HASURA_ADMIN_SECRET, IS_LOCAL_ENV } from '../../api-lib/config';
+import { IS_LOCAL_ENV } from '../../api-lib/config';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const prisma = new PrismaClient();
   try {
-    if (
-      IS_LOCAL_ENV &&
-      NODE_HASURA_ADMIN_SECRET &&
-      req.headers?.authorization === `generate-${NODE_HASURA_ADMIN_SECRET}`
-    ) {
+    if (IS_LOCAL_ENV && req.headers?.authorization === 'generate') {
       // For generating libraries from inspection
       res.status(200).json({
         'X-Hasura-Role': req.headers?.['x-hasura-role'],
