@@ -181,13 +181,12 @@ export const rMapGraphData = selector<GraphData>({
             `Missing user of circle = ${epoch.circle_id} in rMapGraphData at ${profile.address}`
           );
 
-          const p = profile ?? user?.profile;
-          let avatar = p?.avatar;
-          if (avatar === '') avatar = user?.profile?.avatar;
-
           return {
             id: address,
-            img: getAvatarPathWithFallback(avatar, user.name),
+            img: getAvatarPathWithFallback(
+              profile?.avatar || user?.profile?.avatar,
+              user.name
+            ),
             profile,
             name: user.name,
             epochId: epoch.id,
