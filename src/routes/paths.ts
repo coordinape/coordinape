@@ -44,7 +44,6 @@ export const getMapPath = (params?: { highlight?: string }) =>
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
-export const getOverviewPath = () => '/admin/overview';
 export const getVaultsPath = () => '/admin/vaults';
 export const getCirclesPath = () => '/admin/circles';
 export const getNewCirclePath = () => '/new-circle';
@@ -125,7 +124,6 @@ export const getMainNavigation = ({
 };
 
 export const getAdminNavigation = (): INavItem[] => [
-  { path: getOverviewPath(), label: 'Overview' },
   { path: getVaultsPath(), label: 'Vaults' },
   { path: getCirclesPath(), label: 'Circles' },
 ];

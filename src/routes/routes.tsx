@@ -7,7 +7,6 @@ import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import HistoryPage from 'pages/HistoryPage';
-import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
@@ -107,12 +106,6 @@ const LoggedInRoutes = () => {
         key={paths.getAdminPath()}
         path={paths.getAdminPath()}
         render={() => <AdminPage legacy={true} />}
-      />
-      <Route
-        exact
-        key={paths.getOverviewPath()}
-        path={paths.getOverviewPath()}
-        component={OverviewPage}
       />
       <Route
         exact
