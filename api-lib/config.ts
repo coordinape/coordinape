@@ -18,6 +18,7 @@ function getEnvValue<T extends string | number>(
   return defaultVal;
 }
 
-export const NODE_HASURA_URL = <string>getEnvValue('NODE_HASURA_URL');
+export const LOCAL_HASURA_URL = <string>getEnvValue('LOCAL_HASURA_URL');
+export const LOCAL_HASURA_ADMIN_SECRET = <string>getEnvValue('LOCAL_HASURA_ADMIN_SECRET');
 export const LOCAL_SEED_ADDRESS = <string>getEnvValue('LOCAL_SEED_ADDRESS');
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';

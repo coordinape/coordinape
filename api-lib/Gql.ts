@@ -1,5 +1,6 @@
 import { Gql } from '../src/lib/gql/GqlHasuraAdmin';
-import { NODE_HASURA_ADMIN_SECRET, NODE_HASURA_URL } from './config';
+
+import { LOCAL_HASURA_ADMIN_SECRET, LOCAL_HASURA_URL } from './config';
 
 export * from '../src/lib/gql/GqlHasuraAdmin';
-export const gql = new Gql(NODE_HASURA_URL, NODE_HASURA_ADMIN_SECRET);
+export const gql = new Gql(LOCAL_HASURA_URL, LOCAL_HASURA_ADMIN_SECRET);
