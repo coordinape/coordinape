@@ -21,7 +21,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const client = new GraphQLClient(process.env.REACT_APP_HASURA_URL, {
-    headers: { 'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET },
+    headers: {
+      'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+    },
   });
   object.address = object.address.toLowerCase();
   try {
