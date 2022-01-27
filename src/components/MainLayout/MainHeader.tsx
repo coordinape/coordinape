@@ -57,12 +57,11 @@ export const MainHeader = () => {
   return !screenDownSm ? (
     <Box
       css={{
-        height: '$5xl',
         display: 'grid',
         alignItems: 'center',
         background: '$primary',
         gridTemplateColumns: '1fr 1fr 1fr',
-        py: 0,
+        py: '$md',
         px: '$1xl',
       }}
     >
@@ -103,7 +102,7 @@ export const MainHeader = () => {
           background: '$primary',
           justifyContent: 'space-between',
           px: '$lg',
-          height: '$4xl',
+          py: '$md',
         }}
       >
         <Image
@@ -249,12 +248,12 @@ export const HeaderNav = () => {
           css={{
             my: 0,
             mx: '$md',
-            fontSize: '$5plus1px',
+            fontSize: '$6',
             fontWeight: '$bold',
             color: '$white',
             textDecoration: 'none',
-            py: '$xs1',
             px: 0,
+            py: '$xs',
             position: 'relative',
             '&::after': {
               content: `" "`,
@@ -264,7 +263,7 @@ export const HeaderNav = () => {
               backgroundColor: '$mediumRed',
               transition: 'all 0.3s',
               bottom: 0,
-              height: '$2xs',
+              height: 2,
             },
             '&:hover': {
               '&::after': {

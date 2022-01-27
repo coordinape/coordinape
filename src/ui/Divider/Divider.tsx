@@ -5,8 +5,8 @@ export const Divider = styled('hr', {
   boxSizing: 'border-box',
 
   border: 'none',
-  height: '$px',
-  my: '3px',
+  height: 1,
+  my: '$xs',
   mx: 0,
   alignSelf: 'stretch',
   flexShrink: 0,

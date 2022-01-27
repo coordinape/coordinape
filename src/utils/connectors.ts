@@ -5,6 +5,7 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
+import { REACT_APP_FORTMATIC_API_KEY } from 'config/env';
 import {
   networkIds,
   supportedNetworkIds,
@@ -25,12 +26,12 @@ const walletconnect = new WalletConnectConnector({
 });
 
 const fortmatic = new FortmaticConnector({
-  apiKey: process.env.REACT_APP_FORTMATIC_API_KEY as string,
+  apiKey: REACT_APP_FORTMATIC_API_KEY,
   chainId: networkIds.MAINNET,
 });
 
 // const portis = new PortisConnector({
-//   dAppId: process.env.REACT_APP_PORTIS_DAPP_ID as string,
+//   dAppId: REACT_APP_PORTIS_DAPP_ID,
 //   networks: supportedNetworkIds,
 // });
 

@@ -16,8 +16,6 @@ enum EConnectorNames {
 
 export const LOGGER_ID = 'flama';
 
-export const INFURA_PROJECT_ID = process.env.REACT_APP_INFURA_PROJECT_ID;
-
 export const TOKEN_PRICE_DECIMALS = 18;
 export const WEIGHT_DECIMALS = 18;
 

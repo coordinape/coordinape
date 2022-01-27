@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { BigNumber } from 'ethers';
 
 import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTable } from 'components';
-import { InfoIcon, PlusCircleIcon } from 'icons';
+import { knownTokens } from 'config/networks';
+import { useContracts } from 'hooks/useContracts';
+import { InfoIcon } from 'icons';
 
+import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
+import EditModal from './EditModal';
 import WithdrawModal from './WithdrawModal';
 
-import { ITableColumn, IVault } from 'types';
+import { IEpoch, ITableColumn, IVault, IVaultTransaction } from 'types';
 
 const useStyles = makeStyles(theme => ({
   withVaults: {
@@ -122,30 +128,94 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 5,
     },
   },
+  oneLineCell: {
+    height: 60,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 11,
+    lineHeight: 1.5,
+  },
+  oneLineCellTitle: {
+    fontWeight: 600,
+    fontSize: 17,
+    marginLeft: '1em',
+  },
+  oneLineCellSubtitle: {
+    fontWeight: 400,
+    marginLeft: '0.5em',
+  },
+  twoLineCell: {
+    height: 60,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    fontSize: 11,
+    lineHeight: 1.5,
+  },
+  twoLineCellTitle: {
+    fontWeight: 600,
+  },
+  twoLineCellSubtitle: {
+    fontWeight: 400,
+    fontSize: 9,
+    color: theme.colors.mediumGray,
+  },
+  allocateBtn: {
+    width: '70%',
+  },
+  errorColor: {
+    color: theme.palette.error.main,
+  },
+  valueBtn: {
+    width: '70%',
+    backgroundColor: theme.colors.lightGray,
+    color: theme.colors.text,
+    fontWeight: 600,
+  },
 }));
 
-interface HasVaultsProps {
-  setNewEpoch: React.Dispatch<React.SetStateAction<boolean>>;
-  epochColumns: ITableColumn[];
-  epochs: any;
-  vault: IVault;
-  transactionColumns: ITableColumn[];
-}
+type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
-export default function HasVaults({
-  setNewEpoch,
-  epochs,
-  vault,
-  epochColumns,
-  transactionColumns,
-}: HasVaultsProps) {
+interface HasVaultsProps {
+  epochs: any[];
+  vault: IVault;
+}
+export default function HasVaults({ epochs, vault }: HasVaultsProps) {
   const classes = useStyles();
-  const [modal, setModal] = useState<'' | 'deposit' | 'withdraw'>('');
+  const [modal, setModal] = useState<ModalLabel>('');
   const closeModal = () => setModal('');
+  const contracts = useContracts();
+  const vaultContract = useMemo(
+    () => contracts?.getVault(vault.id),
+    [contracts]
+  );
+
+  // TODO: update balance automatically after deposit
+  // FIXME: logic for fetching & formatting balance shouldn't live here
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    const vaultType = vault.type;
+    if (vaultType === 'OTHER') {
+      // TODO: need to get decimals from token contract
+      setBalance(-1);
+      return;
+    }
+
+    vaultContract?.underlyingValue().then(x => {
+      const { decimals } = knownTokens[vaultType];
+      setBalance(x.div(BigNumber.from(10).pow(decimals)).toNumber());
+    });
+  }, [vault.id, vaultContract]);
 
   return (
     <div className={classes.withVaults}>
-      {modal === 'withdraw' ? (
+      {modal === 'allocate' ? (
+        <AllocateModal onClose={closeModal} />
+      ) : modal === 'edit' ? (
+        <EditModal onClose={closeModal} />
+      ) : modal === 'withdraw' ? (
         <WithdrawModal onClose={closeModal} />
       ) : modal === 'deposit' ? (
         <DepositModal vault={vault} onClose={closeModal} />
@@ -180,61 +250,214 @@ export default function HasVaults({
       </div>
       <div>
         <div className={classes.totalValue}>
-          <h2 className={classes.number}>0</h2>
-          <h2 className={classes.noVaultsTitle}>USDC ...</h2>
+          <h2 className={classes.number}>{balance}</h2>
+          <h2 className={classes.noVaultsTitle}>{vault.type.toUpperCase()}</h2>
         </div>
         <h4 className={classes.noVaultsSubtitle}>
           Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}
         </h4>
       </div>
-      <StaticTable
-        label="Testing"
-        className={classes.newTable}
-        columns={epochColumns}
-        data={epochs}
-        perPage={6}
-        placeholder={
-          <>
-            <h2 className={classes.tablePlaceholderTitle}>
-              You don’t have any recent epochs
-            </h2>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<PlusCircleIcon />}
-              onClick={() => setNewEpoch(true)}
-            >
-              Add Epoch
-            </Button>
-          </>
-        }
+      <EpochsTable
+        epochs={epochs}
+        allocate={() => setModal('allocate')}
+        edit={() => setModal('edit')}
+        tokenSymbol={vault.type.toUpperCase()}
       />
-      <StaticTable
-        label="Transactions"
-        className={classes.newTable}
-        columns={transactionColumns}
-        data={vault.transactions}
-        perPage={6}
-        placeholder={
-          <div className={classes.noVaultsInterior}>
-            <h2 className={classes.noVaultsTitle}>
-              There are no transactions to show yet.
-            </h2>
-            <h3 className={classes.noVaultsSubtitle}>
-              To get started, fund your vault with {vault.type.toUpperCase()}
-            </h3>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => setModal('deposit')}
-            >
-              Fund This Vault
-            </Button>
-          </div>
-        }
+      <TransactionsTable
+        deposit={() => setModal('deposit')}
+        transactions={vault.transactions}
       />
     </div>
   );
 }
+
+interface EpochsTableProps {
+  epochs: IEpoch[];
+  allocate: () => void;
+  edit: () => void;
+  tokenSymbol: string;
+}
+const EpochsTable = ({
+  epochs,
+  tokenSymbol,
+  allocate,
+  edit,
+}: EpochsTableProps) => {
+  const classes = useStyles();
+
+  const hasAllowance = (e: IEpoch) => e !== epochs[0]; // TODO
+  const allowance = (e: IEpoch): number => e && 1000; // TODO
+
+  const epochColumns = [
+    {
+      label: 'Circle:Epoch',
+      leftAlign: true,
+      narrow: true,
+      render: (e: IEpoch) => (
+        <div className={classes.twoLineCell}>
+          <span className={classes.twoLineCellTitle}>
+            {e.circle_id}(CID): E{e.number}
+          </span>
+        </div>
+      ),
+    },
+    {
+      label: 'Details',
+      leftAlign: true,
+      render: (e: IEpoch) => (
+        <div className={classes.twoLineCell}>
+          <span className={classes.twoLineCellTitle}>
+            {e.uniqueUsers} {e.labelActivity} {e.totalTokens} GIVE
+          </span>
+          <span className={classes.twoLineCellSubtitle}>
+            {e.ended
+              ? `Epoch ended ${e.endDate.month} ${e.endDate.day}`
+              : `Epoch starts ${e.startDate.monthLong} and ends ${e.endDate.day}`}
+          </span>
+        </div>
+      ),
+    },
+    {
+      label: 'Allowances',
+      narrow: true,
+      render: (e: IEpoch) =>
+        hasAllowance(e) ? (
+          <Button
+            variant="contained"
+            className={classes.valueBtn}
+            size="small"
+            onClick={edit}
+          >
+            {allowance(e)} {tokenSymbol}
+          </Button>
+        ) : (
+          <Button
+            className={classes.allocateBtn}
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={allocate}
+          >
+            Allocate&nbsp;Funds
+          </Button>
+        ),
+    },
+  ] as ITableColumn[];
+
+  return (
+    <StaticTable
+      className={classes.newTable}
+      columns={epochColumns}
+      data={epochs}
+      perPage={6}
+      placeholder={
+        <>
+          <h2 className={classes.tablePlaceholderTitle}>
+            You don&apos;t have any recent epochs
+          </h2>
+        </>
+      }
+    />
+  );
+};
+
+interface TransactionsTableProps {
+  transactions: IVaultTransaction[];
+  deposit: () => void;
+}
+const TransactionsTable = ({
+  transactions,
+  deposit,
+}: TransactionsTableProps) => {
+  const classes = useStyles();
+
+  //TODO: Need to make an interface for transaction data
+  const RenderTransactionDetails = (e: any) => {
+    return e.posNeg === '-' ? (
+      <div className={classes.twoLineCell}>
+        <span
+          className={classes.twoLineCellTitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.vaultName}: {e.number} distibuted to {e.activeUsers} participants
+        </span>
+        <span
+          className={classes.twoLineCellSubtitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.dateType} {e.date}. See TX on Etherscan
+        </span>
+      </div>
+    ) : (
+      <div className={classes.twoLineCell}>
+        <span
+          className={classes.twoLineCellTitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.name} made a deposit
+        </span>
+        <span
+          className={classes.twoLineCellSubtitle}
+          style={{ textAlign: 'left' }}
+        >
+          {e.dateType} {e.date} See TX on Etherscan
+        </span>
+      </div>
+    );
+  };
+
+  const RenderTransactionAmount = (e: any) => (
+    <div className={classes.oneLineCell}>
+      <p className={classes.oneLineCellTitle}>
+        {' '}
+        {e.posNeg}
+        {e.value}
+      </p>
+      <p className={classes.oneLineCellSubtitle}>usdc</p>
+    </div>
+  );
+
+  const transactionColumns = useMemo(
+    () =>
+      [
+        {
+          label: 'Details',
+          render: RenderTransactionDetails,
+          wide: true,
+        },
+        {
+          label: 'Amount',
+          render: RenderTransactionAmount,
+          wide: true,
+        },
+      ] as ITableColumn[],
+    []
+  );
+
+  return (
+    <StaticTable
+      className={classes.newTable}
+      columns={transactionColumns}
+      data={transactions}
+      perPage={6}
+      placeholder={
+        <div className={classes.noVaultsInterior}>
+          <h2 className={classes.noVaultsTitle}>
+            There are no transactions to show yet.
+          </h2>
+          <h3 className={classes.noVaultsSubtitle}>
+            To get started, fund your vault
+          </h3>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={deposit}
+          >
+            Fund This Vault
+          </Button>
+        </div>
+      }
+    />
+  );
+};

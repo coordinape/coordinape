@@ -2,14 +2,20 @@ import { Signer } from 'ethers';
 import { deployments, ethers, getNamedAccounts } from 'hardhat';
 
 import {
+  USDC_ADDRESS,
+  USDC_WHALE_ADDRESS,
+  USDC_YVAULT_ADDRESS,
+  YEARN_REGISTRY_ADDRESS,
+} from '../../constants';
+import {
   ApeDistributor,
   ApeDistributor__factory,
   ApeRouter,
   ApeRouter__factory,
   ApeToken,
   ApeToken__factory,
-  ApeVaultFactory,
-  ApeVaultFactory__factory,
+  ApeVaultFactoryBeacon,
+  ApeVaultFactoryBeacon__factory,
   ERC20,
   ERC20__factory,
   FeeRegistry,
@@ -20,12 +26,6 @@ import {
   VaultAPI__factory,
 } from '../../typechain';
 import { unlockSigner } from '../../utils/unlockSigner';
-import {
-  USDC_ADDRESS,
-  USDC_WHALE_ADDRESS,
-  USDC_YVAULT_ADDRESS,
-  YEARN_REGISTRY_ADDRESS,
-} from '../constants';
 
 import { Account, getAccountFromSigner } from './account';
 
@@ -34,7 +34,7 @@ export type DeployedContracts = {
   usdcYVault: VaultAPI;
   yRegistry: RegistryAPI;
   apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactory;
+  apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
   feeRegistry: FeeRegistry;
@@ -60,10 +60,6 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
   };
 
   const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS);
-  ApeVaultFactory__factory.connect(
-    fixture['ApeVaultFactory'].address,
-    deployer.signer
-  );
 
   const contracts = {
     usdc: ERC20__factory.connect(USDC_ADDRESS, usdcWhale),
@@ -76,8 +72,8 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       fixture['ApeToken'].address,
       deployer.signer
     ),
-    apeVaultFactory: ApeVaultFactory__factory.connect(
-      fixture['ApeVaultFactory'].address,
+    apeVaultFactory: ApeVaultFactoryBeacon__factory.connect(
+      fixture['ApeVaultFactoryBeacon'].address,
       deployer.signer
     ),
     apeRouter: ApeRouter__factory.connect(

@@ -38,22 +38,13 @@ export const SvgIconConfig = {
 };
 
 const spaces = {
-  px: '1px',
-  '2xs': '2px',
   xs: '4px',
-  xs1: '6px',
-  sm: '9px',
-  sm1: '10px',
-  sm2: '12px',
+  sm: '8px',
   md: '16px',
   lg: '24px',
   xl: '32px',
-  xl2: '36px',
   '1xl': '40px',
   '2xl': '48px',
-  '3xl': '64px',
-  '4xl': '72px',
-  '5xl': '80px',
 };
 
 export const {
@@ -126,14 +117,11 @@ export const {
       3: '14px',
       4: '16px',
       5: '19px',
-      6: '21px',
-      7: '27px',
-      8: '35px',
-      9: '59px',
-
-      // non-standard
-      '5plus1px': '20px',
-      '5plus05px': '19.5px',
+      6: '20px',
+      7: '21px',
+      8: '27px',
+      9: '35px',
+      10: '59px',
     },
     fontWeights: {
       hairline: 100,

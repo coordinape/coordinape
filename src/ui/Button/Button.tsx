@@ -17,7 +17,7 @@ export const Button = styled('button', {
     paddingRight: '$sm',
   },
 
-  px: '$sm2',
+  px: '$lg',
   py: '$sm',
 
   display: 'flex',
@@ -49,9 +49,7 @@ export const Button = styled('button', {
     size: {
       large: {
         alignItems: 'center',
-        py: '$sm1',
-        px: '$lg',
-        fontSize: '$5plus05px',
+        fontSize: '$5',
         lineHeight: '$tall2',
         fontWeight: '$semibold',
         textTransform: 'none',
@@ -62,16 +60,46 @@ export const Button = styled('button', {
         },
       },
       small: {
-        py: '$sm',
-        px: '$lg',
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
         borderRadius: '$3',
       },
     },
-  },
-  defaultVariants: {
-    color: 'gray',
+    variant: {
+      wallet: {
+        fontSize: '15px',
+        fontWeight: 600,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        color: '$text',
+        border: 'solid',
+        margin: '1.6px 0px',
+        padding: '12px 17.6px',
+        boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
+        borderWidth: '2px',
+        borderRadius: '13px',
+        backgroundColor: '#0000',
+        minWidth: '64px',
+        '& svg': {
+          height: '$lg',
+          width: '$lg',
+        },
+        '&:hover': {
+          color: '$selected',
+          background: '$third',
+        },
+        '&:disabled': {
+          color: '$text',
+          opacity: 0.5,
+        },
+      },
+    },
+    fullWidth: {
+      true: {
+        width: '$full',
+      },
+    },
   },
 });

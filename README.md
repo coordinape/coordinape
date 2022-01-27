@@ -6,7 +6,7 @@
 ┃┗━┛┃┃┗┛┃┃┗┛┃┃┃━┃┗┛┃┃┃┃┃┃┃┃┗┛┗┓┃┗┛┃┃┃━┫
 ┗━━━┛┗━━┛┗━━┛┗┛━┗━━┛┗┛┗┛┗┛┗━━━┛┃┏━┛┗━━┛
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━
-React Frontend                 ┃┃
+React Frontend + GraphQL API   ┃┃
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━
                 __------__
               /~          ~\
@@ -32,30 +32,88 @@ React Frontend                 ┃┃
 
 # Getting started
 
-## Prerequisites
+Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
-- NodeJS version 14
-- A backend API to connect this frontend app to. This app connects to the backend defined in REACT_APP_API_BASE_URL in the `.env` file. To setup the coordinape-backend app locally and use that as your API, [follow the instructions.](https://github.com/coordinape/coordinape-backend/blob/main/README.md)
-  - You can optionally use `https://staging-api.coordinape.com/api` if you don't want to run your API locally
-- An Infura project id: [Infura](https://infura.io)
-  - After you sign up for an account, go to Ethereum > Create New Project and the project ID will be available on the settings page
-- A browser with MetaMask installed (it's the officially supported wallet)
+### Prerequisites
 
-## Install instructions
+- NodeJS v14
+- Hasura cli version >= 2.1.1
+- Yarn
+- Docker
+- Vercel CLI
 
-1. Clone the git repo: `git clone git@github.com:coordinape/coordinape.git`
-2. Install packages: `yarn install`
-3. Setup a local .env file: `cp .env.example .env`
-   - set `REACT_APP_INFURA_PROJECT_ID` to your Infura project ID (see Prerequisites)
-   - set `REACT_APP_API_BASE_URL` to your API URL
-4. Start yarn: `yarn start`
-5. Visit app: [http://localhost:3000](http://localhost:3000)
+## Coordinape is being rebuilt
 
-# App Structure
+- Laravel → Hasura & Vercel serverless functions
+- Material UI → Stitches + React-Query & Zeus
+
+# Quick Start
+
+- `yarn install`
+- `yarn setup` - init git submodules and link hardhat
+- `cp .env.example .env`
+  - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
+- `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
+  - Clear the data stored in the docker volumes: `yarn docker:clean`
+  - First time laravel is slow.
+- `vercel dev`
+  - First time setup: `Want to override the settings`? `Y`
+  - Runs React and the serverless functions in `api/`
+- `yarn db-seed-fresh` - Seed the db w/ dummy data
+- Goto: http://localhost:3000 and starting giving!
+
+### Working with the schema
+
+- `yarn hasura console` to modify and explore the database
+- `yarn generate` after schema changes to codegen zeus & react-query libs
+- Requires the `vercel dev` serverless functions to be running
+
+# Hardhat
+
+- Set `ETHEREUM_RPC_URL` in .env
+  - From Infura project id: [Infura](https://infura.io) & create new project
+- `yarn hardhat:dev <your_address_here>`
+
+#### Additionally
+
+- `./scripts/setup-hardhat.sh` - link the react app generated code
+- `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
+- `yarn hardhat:test`
+- `yarn hardhat:deploy`
+
+# Hasura
+
+[Hasura](https://hasura.io/)
+automagically creates a
+[GraphQL API](https://hasura.io/learn/graphql/hasura/data-modeling/2-try-user-queries/)
+atop our postgres db. We use it to apply
+[migrations](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/2-migration-files/)
+and
+[manage metadata](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/3-metadata/).
+Perhaps, the easiest way to get a feel is start the app and run `yarn hasura console`.
+
+## Changes to the schema are previewed in PRs with vercel
+
+Any changes you make in the Console will be reflected in your local `hasura` directory as migrations or metadata. In the feature branch a clone of the staging database will be created with the changes.
+
+These will be applied to the staging/production instance once merged via PR.
+
+## Thin Client
+
+Inspired by the [3factor app](https://3factor.app).
+We are building thin client with business logic using serverless functions and postgres constraints.
+
+- Actions
+- Mutations
+- Triggers
+- Cron jobs
+- Constraints
+
+Server logic in typescript, configured with hasura, deployed by vercel.
+
+# React App
 
 Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-### See [HistoryPage](https://github.com/coordinape/coordinape/blob/master/src/pages/HistoryPage/HistoryPage.tsx) as an exemplar top level component.
 
 ## Key libraries
 
@@ -69,6 +127,8 @@ Bootstrapped with [Create React App](https://github.com/facebook/create-react-ap
   - See forked `canvas-color-tracker` for brave compatibility
 
 ## State Management w/ [Recoil](https://recoiljs.org/)
+
+Moving towards Zeus+React-Query
 
 Recoil defines a consistent data graph that will suspend the app when `useRecoilState(rIdentifier)` has an unresolved promise. See their video and documentation.
 
@@ -102,19 +162,22 @@ clever.
 - See `AdminUserForm` for a simple use
 - Doesn't have first class support of array fields
 
-## Hardhat
+# Useful tricks
 
-1. Install packages: `yarn hardhat:install`
-2. Make sure `ETHEREUM_RPC_URL` is defined in your `.env` file
-3. Load contracts: `git submodule update --init --recursive`
-4. Compile contracts: `yarn hardhat:compile`
-5. Run tests: `yarn hardhat:test`
-6. Start Ganache node: `yarn hardhat:dev`
-7. Deploy contracts: `yarn hardhat:deploy` - Only needed if not on dev env
-8. Codegen deploymentInfo: `yarn hardhat:codegen`
-9. Build hardhat package: `yarn hardhat:build`
+Setup docker, git, hasura completions.
+
+### Docker
+
+- Install VS Code's docker extension
+- `docker ps` - see the running containers
+- `docker logs coordinape_graphql-engine_1 | jq -C | less -r`
+  - jq parses the hasura log output as colorized json
+- `docker exec -it app bash` - Create a shell in the container
 
 # Troubleshooting
+
+- `Cannot start service app: error while creating mount source path`
+  Try restarting Docker Desktop
 
 - `TypeError: Cannot read properties of undefined (reading 'replace')`
   You need to configure a local `.env` file with some private variables. Ask someone for these.

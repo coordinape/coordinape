@@ -1,0 +1,43 @@
+table:
+  name: histories
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    manual_configuration:
+      column_mapping:
+        circle_id: id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public
+- name: epoch
+  using:
+    manual_configuration:
+      column_mapping:
+        epoch_id: id
+      insertion_order: null
+      remote_table:
+        name: epoches
+        schema: public
+- name: user
+  using:
+    manual_configuration:
+      column_mapping:
+        user_id: id
+      insertion_order: null
+      remote_table:
+        name: users
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - user_id
+    - bio
+    - epoch_id
+    - circle_id
+    - created_at
+    - updated_at
+    filter: {}
+  role: superadmin

@@ -7,13 +7,7 @@ import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormAssetSelector } from 'components';
 import CreateVaultForm from 'forms/CreateVaultForm';
 
-export const CreateVaultModal = ({
-  onClose,
-  open,
-}: {
-  open?: boolean;
-  onClose: () => void;
-}) => {
+export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
   const history = useHistory();
   const { chainId } = useWeb3React();
   const { createApeVault } = useVaultFactory();
@@ -37,8 +31,7 @@ export const CreateVaultModal = ({
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
           onClose={onClose}
-          open={open}
-          title={'Create a New Vault'}
+          title="Create a New Vault"
           subtitle={'We need to have some short description here'}
           onSubmit={handleSubmit}
           submitDisabled={!ready}

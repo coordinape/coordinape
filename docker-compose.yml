@@ -1,0 +1,86 @@
+version: '3.6'
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - ${LOCAL_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
+    environment:
+      POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+
+  # Hasura
+  graphql-engine:
+    image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    ports:
+      - ${LOCAL_HASURA_PORT}:${LOCAL_HASURA_PORT}
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${LOCAL_HASURA_ADMIN_SECRET}
+      HASURA_GRAPHQL_AUTH_HOOK: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/auth
+      ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+
+  app:
+    build:
+      context: ./laravel
+      dockerfile: ./Dockerfile
+    container_name: laravel
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: ${LOCAL_POSTGRES_PORT}
+      DB_DATABASE: ${LOCAL_POSTGRES_DATABASE}
+      DB_USERNAME: ${LOCAL_POSTGRES_USER}
+      DB_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+    volumes:
+      - ./laravel:/var/www
+      - ./laravel/services/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - default
+    depends_on:
+      - graphql-engine
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile-nginx
+      args:
+        # override the defaults in the dockerfile here
+        # for resolving permissions issues w volumes
+        nginx_uid: 1000
+        nginx_gid: 1000
+    restart: unless-stopped
+    tty: true
+    ports:
+      - ${LOCAL_LARAVEL_PORT}:80
+      - "443:443"
+    volumes:
+      - ./laravel:/var/www
+      - ./laravel/services/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - default
+    depends_on:
+      - app
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  db_data: null

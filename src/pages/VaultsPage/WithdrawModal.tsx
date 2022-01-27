@@ -37,11 +37,10 @@ const useStyles = makeStyles(theme => ({
 
 interface WithdrawModalProps {
   onClose: () => void;
-  open?: boolean;
   user?: IUser;
 }
 
-export default function WithdrawModal({ open, onClose }: WithdrawModalProps) {
+export default function WithdrawModal({ onClose }: WithdrawModalProps) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -60,7 +59,6 @@ export default function WithdrawModal({ open, onClose }: WithdrawModalProps) {
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
-          open={open}
           title={'Withdraw USDC from the Coordinape Vault'}
           subtitle={''}
           onSubmit={handleSubmit}

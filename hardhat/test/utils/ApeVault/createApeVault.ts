@@ -1,17 +1,17 @@
+import { USDC_ADDRESS } from '../../../constants';
 import {
   ApeToken,
-  ApeVaultFactory,
-  ApeVaultWrapper,
-  ApeVaultWrapper__factory,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ApeVaultWrapperImplementation__factory,
 } from '../../../typechain';
-import { USDC_ADDRESS } from '../../constants';
 import { Account } from '../account';
 
 export async function createApeVault(
   apeToken: ApeToken,
-  apeVaultFactory: ApeVaultFactory,
+  apeVaultFactory: ApeVaultFactoryBeacon,
   from: Account
-): Promise<ApeVaultWrapper> {
+): Promise<ApeVaultWrapperImplementation> {
   apeVaultFactory.connect(from.signer);
 
   const tx = await apeVaultFactory.createApeVault(
@@ -23,7 +23,7 @@ export async function createApeVault(
     for (const event of receipt.events) {
       if (event?.event === 'VaultCreated') {
         const vaultAddress = event.args?.vault;
-        const vault = ApeVaultWrapper__factory.connect(
+        const vault = ApeVaultWrapperImplementation__factory.connect(
           vaultAddress,
           from.signer
         );
