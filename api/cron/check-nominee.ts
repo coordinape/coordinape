@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GraphQLClient, gql } from 'graphql-request';
 
+import { gql } from '../../api-lib/Gql';
+
+// TODO: remove this
 /*
 
         $expired_nominees = $this->model->with('circle','nominations')->where('ended',0)->pastExpiryDate()->get();
@@ -15,26 +17,73 @@ import { GraphQLClient, gql } from 'graphql-request';
 
 */
 
+async function sendSocialMessage({
+  message,
+  circleId,
+}: {
+  message: string;
+  circleId: number;
+}) {
+  // TODO: discord + telegram webhook calls
+  console.log('Circle id:', circleId, ' Message is: ', message);
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    console.log(process.env);
-
-    const client = new GraphQLClient(process.env.REACT_APP_HASURA_URL, {
-      headers: { 'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET },
+    const { nominees } = await gql.q('query')({
+      nominees: [
+        {
+          where: {
+            ended: {
+              _eq: false,
+            },
+            expiry_date: { _lte: new Date().toISOString() },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          circle_id: true,
+          nominations: [{}, { id: true }], // TODO: aggregate query somehow?
+        },
+      ],
     });
 
-    const QUERY = gql`
-      query {
-        nominees
-      }
-    `;
+    if (nominees.length > 0) {
+      const { update_nominees } = await gql.q('mutation')({
+        update_nominees: [
+          {
+            _set: {
+              ended: true,
+            },
+            where: {
+              id: {
+                _in: nominees.map(n => n.id),
+              },
+            },
+          },
+          {
+            affected_rows: true,
+            returning: {
+              name: true,
+              expiry_date: true,
+            },
+          },
+        ],
+      });
 
-    const data = await client.request(QUERY);
+      await Promise.all(
+        nominees.map(n =>
+          sendSocialMessage({
+            message: `Nominee ${n.name} has only received ${n.nominations.length} vouch(es) and has failed`,
+            circleId: n.circle_id,
+          })
+        )
+      );
+      return res.status(200).json({ update_nominees });
+    }
 
-    console.log('***** DATA *****');
-    console.log(data);
-
-    res.status(200).json({});
+    res.status(200).json({ message: 'No updates' });
   } catch (e) {
     res.status(401).json({
       error: '401',
