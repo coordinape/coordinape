@@ -1,5 +1,13 @@
-import { Runner } from '@digitak/esrun';
+import { build } from 'esbuild';
+import { execaNode } from 'execa';
+import tmp from 'tmp';
 
+tmp.setGracefulCleanup();
+const { name: tmpFile } = tmp.fileSync({
+  postfix: '.mjs',
+  tmpdir: process.cwd(),
+});
+//
 // Compile and run a ts script.
 // We like our esnext, so this file was needed to
 // set a custom tsconfig, CUSTOM_TSCONFIG_FILE.
@@ -13,29 +21,40 @@ const CUSTOM_TSCONFIG_FILE = 'tsconfig.esrun.json';
 async function run() {
   const filePath = argv[FILE_ARG_IDX];
 
-  const runner = new Runner(filePath, {
-    args: argv.slice(FILE_ARG_IDX + 1),
-  });
-
   try {
     console.log(`» esbuild ${filePath}`);
-    await runner.build({
-      tsconfig: CUSTOM_TSCONFIG_FILE,
+
+    const plugins = [];
+    plugins.push({
+      name: 'make-all-packages-external',
+      setup: build => {
+        const filter = /^[^./~$@]|^@[^/]/; // Must not start with "/", ".", "~", "$" or "@/"
+        build.onResolve({ filter }, args => {
+          return {
+            path: args.path,
+            external: true,
+          };
+        });
+      },
     });
 
-    console.log(
-      `» node --input-type=module --eval ${runner.outputCode
-        .substring(0, 50)
-        .replace('\n', ' ')}…`
-    );
-    const status = await runner.execute();
-    process.exit(status);
+    await build({
+      entryPoints: [filePath],
+      bundle: true,
+      platform: 'node',
+      format: 'esm',
+      outfile: tmpFile,
+      plugins,
+      tsconfig: CUSTOM_TSCONFIG_FILE,
+    });
+    console.log(`» node ${tmpFile}`);
+    const result = await execaNode(tmpFile);
+    console.info(result.stdout);
+    process.exit(result.exitCode);
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
 }
 
-(async function () {
-  await run();
-})();
+run();
