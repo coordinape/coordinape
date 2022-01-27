@@ -59,12 +59,7 @@ export const AssetMapPage = () => {
     if (newAddress) {
       setAmEgoAddress(newAddress);
       queryParams.delete(MAP_HIGHLIGHT_PARAM);
-      navigate(
-        {
-          search: queryParams.toString(),
-        },
-        { replace: true }
-      );
+      navigate({ search: queryParams.toString() }, { replace: true });
     }
   }, [location]);
 
