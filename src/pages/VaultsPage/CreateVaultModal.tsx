@@ -32,7 +32,7 @@ export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
         <FormModal
           onClose={onClose}
           title="Create a New Vault"
-          subtitle={'We need to have some short description here'}
+          subtitle="Vaults allow you to fund your circles with the token of your choice."
           onSubmit={handleSubmit}
           submitDisabled={!ready}
           size="small"
