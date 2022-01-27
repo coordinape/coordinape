@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
@@ -24,26 +24,24 @@ import * as paths from './paths';
 // look into this.
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
-export const Routes = () => {
+export const AppRoutes = () => {
   const hasCircles = useHasCircles();
   const hasSelectedCircle = useHasSelectedCircle();
 
   return hasCircles && hasSelectedCircle ? (
     <LoggedInRoutes />
   ) : (
-    <Switch>
+    <Routes>
       <Route
-        exact
         path={paths.getCreateCirclePath()}
-        component={CreateCirclePage}
+        element={<CreateCirclePage />}
       />
       <Route
-        exact
         path={paths.getProfilePath({ address: ':profileAddress' })}
-        component={ProfilePage}
+        element={<ProfilePage />}
       />
-      <Route path={paths.getHomePath()} component={DefaultPage} />
-    </Switch>
+      <Route path={paths.getHomePath()} element={<DefaultPage />} />
+    </Routes>
   );
 };
 
@@ -53,76 +51,63 @@ const LoggedInRoutes = () => {
     useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
 
   return (
-    <Switch>
-      <Route exact path={paths.getHomePath()} component={DefaultPage} />
-      <Route
-        exact
-        path={paths.getCreateCirclePath()}
-        component={CreateCirclePage}
-      />
+    <Routes>
+      <Route path={paths.getHomePath()} element={<DefaultPage />} />
+      <Route path={paths.getCreateCirclePath()} element={CreateCirclePage} />
 
       <Route
-        exact
         path={paths.getProfilePath({ address: ':profileAddress' })}
-        component={ProfilePage}
+        element={<ProfilePage />}
       />
-      <Route exact path={paths.getMapPath()} component={LazyAssetMapPage} />
-      <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
-      <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
+      <Route path={paths.getMapPath()} element={<LazyAssetMapPage />} />
+      <Route path={paths.getVouchingPath()} element={<VouchingPage />} />
+      <Route path={paths.getHistoryPath()} element={<HistoryPage />} />
 
       <Route
-        exact
         key={paths.getAllocationPath()}
         path={paths.getAllocationPath()}
-        component={AllocationPage}
+        element={<AllocationPage />}
       />
       <Route
-        exact
         key={paths.getMyTeamPath()}
         path={paths.getMyTeamPath()}
-        component={AllocationPage}
+        element={<AllocationPage />}
       />
       <Route
-        exact
         key={paths.getMyEpochPath()}
         path={paths.getMyEpochPath()}
-        component={AllocationPage}
+        element={<AllocationPage />}
       />
       <Route
-        exact
         key={paths.getGivePath()}
         path={paths.getGivePath()}
-        component={AllocationPage}
+        element={<AllocationPage />}
       />
 
       {selectedUser && !hasAdminView && (
-        <Route path={paths.getAdminPath()}>
-          <Redirect to={paths.getHomePath()} />
-        </Route>
+        <Route
+          path={paths.getAdminPath()}
+          element={<Navigate to={paths.getHomePath()} replace />}
+        />
       )}
 
       <Route
-        exact
         key={paths.getAdminPath()}
         path={paths.getAdminPath()}
-        render={() => <AdminPage legacy={true} />}
+        element={<AdminPage legacy={true} />}
       />
       <Route
-        exact
         key={paths.getVaultsPath()}
         path={paths.getVaultsPath()}
-        component={VaultsPage}
+        element={<VaultsPage />}
       />
       <Route
-        exact
         key={paths.getCirclesPath()}
         path={paths.getCirclesPath()}
-        component={AdminPage}
+        element={<AdminPage />}
       />
 
-      <Redirect to={paths.getHomePath()} />
-    </Switch>
+      <Route path="*" element={<Navigate to={paths.getHomePath()} replace />} />
+    </Routes>
   );
 };
-
-export default Routes;

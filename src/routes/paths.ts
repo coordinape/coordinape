@@ -143,13 +143,8 @@ export const getRelatedNavigation = (): INavItem[] => [
 ];
 
 export const checkActive = (pathname: string, navItem: INavItem): boolean =>
-  !!matchPath(pathname, {
-    exact: true,
-    path: navItem.path,
-  }) ||
-  !!navItem.subItems?.some(
-    ({ path }) => !!matchPath(pathname, { exact: true, path })
-  );
+  !!matchPath(navItem.path, pathname) ||
+  !!navItem.subItems?.some(({ path }) => !!matchPath(path, pathname));
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,
