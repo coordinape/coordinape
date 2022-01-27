@@ -53,7 +53,10 @@ const LoggedInRoutes = () => {
   return (
     <Routes>
       <Route path={paths.getHomePath()} element={<DefaultPage />} />
-      <Route path={paths.getCreateCirclePath()} element={CreateCirclePage} />
+      <Route
+        path={paths.getCreateCirclePath()}
+        element={<CreateCirclePage />}
+      />
 
       <Route
         path={paths.getProfilePath({ address: ':profileAddress' })}
