@@ -1,28 +1,39 @@
-import { REACT_APP_HASURA_URL } from 'config/env';
-import { getAuthToken } from 'services/api';
-
 import { Thunder, apiFetch, ValueTypes } from './zeusUser';
 
-const makeQuery = () =>
+const makeQuery = (url: string, getToken: () => string) =>
   Thunder(
     apiFetch([
-      REACT_APP_HASURA_URL,
+      url,
       {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer ' + getAuthToken(),
+          Authorization: 'Bearer ' + getToken(),
         },
       },
     ])
   );
 
-export const updateProfile = async (
-  id: number,
-  profile: ValueTypes['profiles_set_input']
-) =>
-  makeQuery()('mutation')({
-    update_profiles_by_pk: [
-      { set: profile, pk_columns: { id } },
-      { id: true, admin_view: true },
-    ],
-  });
+export function getGql(url: string, getToken: () => string) {
+  const updateProfile = async (
+    id: number,
+    profile: ValueTypes['profiles_set_input']
+  ) =>
+    makeQuery(url, getToken)('mutation')({
+      update_profiles_by_pk: [
+        { set: profile, pk_columns: { id } },
+        { id: true, admin_view: true },
+      ],
+    });
+
+  return { updateProfile };
+}
+/*
+example usage in app code:
+
+import { REACT_APP_HASURA_URL } from 'config/env';
+import { getAuthToken } from 'services/api';
+import { getGql } from 'lib/gql';
+
+const api = getApi(REACT_APP_HASURA_URL, getAuthToken);
+await api.updateProfile();
+*/
