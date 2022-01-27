@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -42,7 +42,7 @@ interface WithdrawModalProps {
 
 export default function WithdrawModal({ onClose }: WithdrawModalProps) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   //   TODO: Pull in real data to populate FormTextField label and update value
 
@@ -53,7 +53,7 @@ export default function WithdrawModal({ onClose }: WithdrawModalProps) {
       submit={params => {
         console.warn('todo:', params);
         const path = '/admin/vaults';
-        history.push(path);
+        navigate(path);
       }}
     >
       {({ fields, handleSubmit, changedOutput }) => (

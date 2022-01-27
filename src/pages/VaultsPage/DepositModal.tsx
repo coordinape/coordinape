@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { BigNumber, ethers, utils } from 'ethers';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -35,7 +35,7 @@ export default function DepositModal({
   vault: IVault;
 }) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [max, setMax] = useState<any>();
   const { depositToken } = useVaultRouter();
   const { balance } = useGetAnyTokenValue(vault.tokenAddress);
@@ -60,7 +60,7 @@ export default function DepositModal({
       // eslint-disable-next-line no-console
       console.log(receipt);
       onClose();
-      history.push('/admin/vaults');
+      navigate('/admin/vaults');
     });
   };
 

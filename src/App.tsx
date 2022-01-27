@@ -18,7 +18,7 @@ import {
   SentryScopeController,
   WalletController,
 } from 'components';
-import RenderRoutes from 'routes/routes';
+import { AppRoutes } from 'routes/routes';
 import { createTheme } from 'theme';
 import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
@@ -49,7 +49,7 @@ function App() {
                       <RecoilDebugger />
                       <GlobalUi />
                       <SentryScopeController />
-                      <RenderRoutes />
+                      <AppRoutes />
                     </MainLayout>
                   </BrowserRouter>
                 </Web3ReactProvider>
