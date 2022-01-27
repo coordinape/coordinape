@@ -1,6 +1,8 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes } from './const';
+import fetch from 'node-fetch';
+
 type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
