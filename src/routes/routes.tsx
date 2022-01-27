@@ -57,7 +57,6 @@ const LoggedInRoutes = () => {
         path={paths.getCreateCirclePath()}
         element={<CreateCirclePage />}
       />
-
       <Route
         path={paths.getProfilePath({ address: ':profileAddress' })}
         element={<ProfilePage />}
@@ -65,50 +64,22 @@ const LoggedInRoutes = () => {
       <Route path={paths.getMapPath()} element={<LazyAssetMapPage />} />
       <Route path={paths.getVouchingPath()} element={<VouchingPage />} />
       <Route path={paths.getHistoryPath()} element={<HistoryPage />} />
-
+      <Route path={paths.getAllocationPath()} element={<AllocationPage />} />
+      <Route path={paths.getMyTeamPath()} element={<AllocationPage />} />
+      <Route path={paths.getMyEpochPath()} element={<AllocationPage />} />
+      <Route path={paths.getGivePath()} element={<AllocationPage />} />
       <Route
-        key={paths.getAllocationPath()}
-        path={paths.getAllocationPath()}
-        element={<AllocationPage />}
-      />
-      <Route
-        key={paths.getMyTeamPath()}
-        path={paths.getMyTeamPath()}
-        element={<AllocationPage />}
-      />
-      <Route
-        key={paths.getMyEpochPath()}
-        path={paths.getMyEpochPath()}
-        element={<AllocationPage />}
-      />
-      <Route
-        key={paths.getGivePath()}
-        path={paths.getGivePath()}
-        element={<AllocationPage />}
-      />
-
-      {selectedUser && !hasAdminView && (
-        <Route
-          path={paths.getAdminPath()}
-          element={<Navigate to={paths.getHomePath()} replace />}
-        />
-      )}
-
-      <Route
-        key={paths.getAdminPath()}
         path={paths.getAdminPath()}
-        element={<AdminPage legacy={true} />}
+        element={
+          selectedUser && !hasAdminView ? (
+            <Navigate to={paths.getHomePath()} replace />
+          ) : (
+            <AdminPage legacy={true} />
+          )
+        }
       />
-      <Route
-        key={paths.getVaultsPath()}
-        path={paths.getVaultsPath()}
-        element={<VaultsPage />}
-      />
-      <Route
-        key={paths.getCirclesPath()}
-        path={paths.getCirclesPath()}
-        element={<AdminPage />}
-      />
+      <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
+      <Route path={paths.getCirclesPath()} element={<AdminPage />} />
 
       <Route path="*" element={<Navigate to={paths.getHomePath()} replace />} />
     </Routes>
