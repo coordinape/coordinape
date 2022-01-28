@@ -16240,7 +16240,7 @@ const handleFetchResponse = (
 export const apiFetch =
   (options: fetchOptions) =>
   (query: string, variables: Record<string, any> = {}) => {
-    if (!!process.env.NODE_ENV) {
+    if (!globalThis.fetch) {
       globalThis.fetch = nodeFetch as unknown as typeof fetch;
     }
     let fetchFunction = fetch;

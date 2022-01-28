@@ -44,7 +44,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           id: true,
           name: true,
           circle_id: true,
-          nominations: [{}, { id: true }], // TODO: aggregate query somehow?
+          nominations_aggregate: {
+            aggregate: { count: true },
+          },
         },
       ],
     });
@@ -75,12 +77,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await Promise.all(
         nominees.map(n =>
           sendSocialMessage({
-            message: `Nominee ${n.name} has only received ${n.nominations.length} vouch(es) and has failed`,
+            message: `Nominee ${n.name} has only received ${n.nominations_aggregate.aggregate.count} vouch(es) and has failed`,
             circleId: n.circle_id,
           })
         )
       );
-      return res.status(200).json({ update_nominees });
+      res.status(200).json({ update_nominees });
+      return;
     }
 
     res.status(200).json({ message: 'No updates' });
