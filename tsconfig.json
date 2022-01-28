@@ -15,10 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@emotion/core": ["./types/emotion-core-stub.d.ts"],
+    }
   },
-  "include": ["src"],
-  "paths": {
-    "@emotion/core": ["./emotion-core-stub.ts"]
-  }
+  "include": ["src"]
+ 
 }
