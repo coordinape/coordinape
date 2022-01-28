@@ -1,3 +1,5 @@
+import { STORAGE_URL, API_URL } from 'config/env';
+
 import { getIpfsUrl } from './selfIdHelpers';
 
 // Including local-ape.host for hCaptcha, see the component.
@@ -22,19 +24,6 @@ export const APP_URL =
         window.location.host,
         `app.${window.location.host}`
       );
-
-// TODO: Have prod remove the trailing slash
-export const STORAGE_URL = (
-  process.env.REACT_APP_S3_BASE_URL as string
-).replace(/\/$/, '');
-export const API_URL = process.env.REACT_APP_API_BASE_URL as string;
-
-// since NODE_ENV is 'production' in both production & staging,
-// we check a Vercel env var as well
-// https://vercel.com/docs/concepts/projects/environment-variables
-export const IN_PRODUCTION =
-  process.env.NODE_ENV === 'production' &&
-  process.env.REACT_APP_VERCEL_ENV !== 'preview';
 
 export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
 export const getCSVPath = (circleId: number, epochId: number) =>

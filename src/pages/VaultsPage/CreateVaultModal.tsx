@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@material-ui/core';
 
@@ -7,14 +7,8 @@ import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormAssetSelector } from 'components';
 import CreateVaultForm from 'forms/CreateVaultForm';
 
-export const CreateVaultModal = ({
-  onClose,
-  open,
-}: {
-  open?: boolean;
-  onClose: () => void;
-}) => {
-  const history = useHistory();
+export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
+  const navigate = useNavigate();
   const { chainId } = useWeb3React();
   const { createApeVault } = useVaultFactory();
 
@@ -28,7 +22,7 @@ export const CreateVaultModal = ({
 
             // eslint-disable-next-line no-console
             console.log('created vault:', vault);
-            history.push('/admin/vaults');
+            navigate('/admin/vaults');
             onClose();
           }
         );
@@ -37,9 +31,8 @@ export const CreateVaultModal = ({
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal
           onClose={onClose}
-          open={open}
-          title={'Create a New Vault'}
-          subtitle={'We need to have some short description here'}
+          title="Create a New Vault"
+          subtitle="Vaults allow you to fund your circles with the token of your choice."
           onSubmit={handleSubmit}
           submitDisabled={!ready}
           size="small"

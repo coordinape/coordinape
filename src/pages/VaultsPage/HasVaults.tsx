@@ -1,8 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { BigNumber } from 'ethers';
 
 import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTable } from 'components';
+import { knownTokens } from 'config/networks';
+import { useContracts } from 'hooks/useContracts';
 import { InfoIcon } from 'icons';
 
 import AllocateModal from './AllocateModal';
@@ -182,6 +186,28 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
   const classes = useStyles();
   const [modal, setModal] = useState<ModalLabel>('');
   const closeModal = () => setModal('');
+  const contracts = useContracts();
+  const vaultContract = useMemo(
+    () => contracts?.getVault(vault.id),
+    [contracts]
+  );
+
+  // TODO: update balance automatically after deposit
+  // FIXME: logic for fetching & formatting balance shouldn't live here
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    const vaultType = vault.type;
+    if (vaultType === 'OTHER') {
+      // TODO: need to get decimals from token contract
+      setBalance(-1);
+      return;
+    }
+
+    vaultContract?.underlyingValue().then(x => {
+      const { decimals } = knownTokens[vaultType];
+      setBalance(x.div(BigNumber.from(10).pow(decimals)).toNumber());
+    });
+  }, [vault.id, vaultContract]);
 
   return (
     <div className={classes.withVaults}>
@@ -224,8 +250,8 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
       </div>
       <div>
         <div className={classes.totalValue}>
-          <h2 className={classes.number}>0</h2>
-          <h2 className={classes.noVaultsTitle}>USDC ...</h2>
+          <h2 className={classes.number}>{balance}</h2>
+          <h2 className={classes.noVaultsTitle}>{vault.type.toUpperCase()}</h2>
         </div>
         <h4 className={classes.noVaultsSubtitle}>
           Recent Transactions <InfoIcon className={classes.infoIcon} />{' '}

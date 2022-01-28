@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -37,13 +37,12 @@ const useStyles = makeStyles(theme => ({
 
 interface WithdrawModalProps {
   onClose: () => void;
-  open?: boolean;
   user?: IUser;
 }
 
-export default function WithdrawModal({ open, onClose }: WithdrawModalProps) {
+export default function WithdrawModal({ onClose }: WithdrawModalProps) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   //   TODO: Pull in real data to populate FormTextField label and update value
 
@@ -54,13 +53,12 @@ export default function WithdrawModal({ open, onClose }: WithdrawModalProps) {
       submit={params => {
         console.warn('todo:', params);
         const path = '/admin/vaults';
-        history.push(path);
+        navigate(path);
       }}
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
-          open={open}
           title={'Withdraw USDC from the Coordinape Vault'}
           subtitle={''}
           onSubmit={handleSubmit}

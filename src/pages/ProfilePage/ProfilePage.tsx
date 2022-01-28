@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { transparentize } from 'polished';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { makeStyles, Avatar, Button } from '@material-ui/core';
 
@@ -182,10 +182,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ProfilePage = ({
-  match: { params },
-}: RouteComponentProps<{ profileAddress?: string }>) => {
-  const address = params?.profileAddress;
+export const ProfilePage = () => {
+  const { profileAddress: address } = useParams();
+
   const { address: myAddress } = useMyProfile();
   const isMe = address === 'me' || address === myAddress;
   if (!(isMe || address?.startsWith('0x'))) {

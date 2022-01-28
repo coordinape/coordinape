@@ -1,8 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import axios from 'axios';
-import { axios as hasuraAxios } from 'lib/gqty';
 
-import { API_URL } from 'utils/domain';
+import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import {
@@ -32,7 +31,6 @@ export class APIService {
   provider = undefined as Web3Provider | undefined;
   token = undefined as string | undefined;
   axios = axios.create({ baseURL: API_URL });
-  private interceptor = undefined as number | undefined;
 
   constructor(provider?: Web3Provider, token?: string) {
     this.provider = provider;
@@ -50,19 +48,6 @@ export class APIService {
     if (token) {
       const authHeader = 'Bearer ' + token;
       auth.headers = { Authorization: authHeader };
-
-      // add interceptor so GQty requests have proper authorization
-      this.interceptor = hasuraAxios.interceptors.request.use(
-        config => {
-          config.headers['Authorization'] = authHeader;
-          return config;
-        },
-        error => Promise.reject(error)
-      );
-    } else {
-      if (this.interceptor) {
-        hasuraAxios.interceptors.request.eject(this.interceptor);
-      }
     }
 
     this.axios = axios.create({ baseURL: API_URL, ...auth });
@@ -73,9 +58,11 @@ export class APIService {
     try {
       const nowReq = await fetch('/api/time');
       now = parseInt(await nowReq.text());
+      if (isNaN(now)) now = Date.now();
     } catch (e) {
       now = Date.now();
     }
+
     const data = `Login to Coordinape ${Math.floor(now / 1000)}`;
     const { signature, hash } = await getSignature(data, this.provider);
     const response = await this.axios.post('/v2/login', {
@@ -318,3 +305,5 @@ export const getApiService = (): APIService => {
   apiService = new APIService();
   return apiService;
 };
+
+export const getAuthToken = () => getApiService().token;

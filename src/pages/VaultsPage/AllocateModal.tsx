@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -73,12 +73,11 @@ const useStyles = makeStyles(theme => ({
 
 interface AllocateModalProps {
   onClose: () => void;
-  open?: boolean;
 }
 
-export default function AllocateModal({ open, onClose }: AllocateModalProps) {
+export default function AllocateModal({ onClose }: AllocateModalProps) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [ongoing, setOngoing] = useState<boolean>(false);
 
   const setOngoingAllocation = () => {
@@ -94,13 +93,12 @@ export default function AllocateModal({ open, onClose }: AllocateModalProps) {
       submit={params => {
         console.warn('todo:', params);
         const path = '/admin/vaults';
-        history.push(path);
+        navigate(path);
       }}
     >
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
-          open={open}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"

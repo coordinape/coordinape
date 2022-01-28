@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import * as paths from 'routes/paths';
 
@@ -17,13 +17,13 @@ import * as paths from 'routes/paths';
  * The handler will respond to crtl & meta click for new window.
  */
 export const useNavigation = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const go = (path: string, e?: React.MouseEvent<any>) => {
     if (e?.ctrlKey || e?.metaKey) {
       window.open(path, '_blank');
     } else {
-      history.push(path);
+      navigate(path);
     }
   };
 

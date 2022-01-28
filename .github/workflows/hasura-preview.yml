@@ -1,0 +1,95 @@
+name: 'hasura-cloud-preview'
+on:
+  pull_request:
+    types: [opened , reopened, synchronize]
+    paths:
+      - 'hasura/**' # path to Hasura config, prevents creating deployments if no changes
+    branches:
+      - main
+
+jobs:
+  hasura-cloud-preview:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.1
+
+      - name: Remove old env in Vercel if it exists
+        continue-on-error: true
+        run: npx vercel --token ${{ env.VERCEL_TOKEN }} env rm REACT_APP_HASURA_URL preview ${{ steps.branch-name.outputs.current_branch }} -y
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+      # Setting this first before deploying Hasura so Vercels git integration can pick it up.
+      # Otherwise impossible to programatically redeploy Vercel git build
+      - name: Set environment variable for preview deployment in Vercel
+        run: |
+          echo https://coordinape-${{ github.event.number }}.hasura.app/v1/graphql | npx vercel --token ${{ env.VERCEL_TOKEN }} env add REACT_APP_HASURA_URL preview ${{ steps.branch-name.outputs.current_branch }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Hasura Cloud Preview Apps
+        uses: hasura/hasura-cloud-preview-apps@v0.1.4
+        id: hasura_cloud_preview
+        with:
+          name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
+          hasuraProjectDirectoryPath: hasura
+          postgresDBConfig: |
+            POSTGRES_SERVER_CONNECTION_URI=${{secrets.POSTGRES_STAGING_CONNECTION_URI}}
+            PG_ENV_VARS_FOR_HASURA=HASURA_GRAPHQL_DATABASE_URL
+          hasuraEnv: |
+            HASURA_GRAPHQL_AUTH_HOOK=https://coordinape-git-staging-coordinape.vercel.app/api/hasura/auth
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
+
+      - id: get-hasura-url
+        run: |
+          url=$(echo ${{ steps.hasura_cloud_preview.outputs.consoleURL }} | sed 's/\/console$//g')
+          echo "::set-output name=hasuraURL::$url"
+
+      - uses: Fieldguide/action-hasura-change-summary@v2
+        id: hasura-change
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_dir: ./hasura
+          hasura_endpoint: ${{steps.get-hasura-url.outputs.hasuraURL}}
+
+      - uses: hasura/comment-progress@v2.1.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          id: hasura_preview_comment
+          number: ${{github.event.number}}
+          repository: ${{ github.repository }}
+          message: |
+            Console URL available at ${{steps.hasura_cloud_preview.outputs.consoleURL}}
+            GraphQL Endpoint available at ${{steps.hasura_cloud_preview.outputs.graphQLEndpoint}}
+            ${{ steps.hasura-change.outputs.change_html }}
+
+  remove-cloud-preview-on-failure:
+    runs-on: ubuntu-latest
+    needs: [ hasura-cloud-preview ]
+    if: always() && needs.hasura-cloud-preview.result == 'failure'
+    steps:
+      - name: Delete failed preview app
+        uses: hasura/hasura-cloud-preview-apps@v0.1.4
+        with:
+          name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
+          delete: true
+          postgresDBConfig: |
+            POSTGRES_SERVER_CONNECTION_URI=${{secrets.POSTGRES_STAGING_CONNECTION_URI}}
+            PG_ENV_VARS_FOR_HASURA=HASURA_GRAPHQL_DATABASE_URL
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}

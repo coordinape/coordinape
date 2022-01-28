@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  delete-hasura-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Hasura Cloud Preview Apps
+        uses: hasura/hasura-cloud-preview-apps@v0.1.4
+        with:
+          name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
+          delete: true
+          postgresDBConfig: |
+            POSTGRES_SERVER_CONNECTION_URI=${{secrets.POSTGRES_STAGING_CONNECTION_URI}}
+            PG_ENV_VARS_FOR_HASURA=HASURA_GRAPHQL_DATABASE_URL
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}

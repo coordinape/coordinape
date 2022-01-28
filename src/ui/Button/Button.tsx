@@ -52,9 +52,40 @@ export const Button = styled('button', {
         borderRadius: '$3',
       },
     },
-  },
-  defaultVariants: {
-    color: 'gray',
-    size: 'small',
+    variant: {
+      wallet: {
+        fontSize: '15px',
+        fontWeight: 600,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        color: '$text',
+        border: 'solid',
+        margin: '1.6px 0px',
+        padding: '12px 17.6px',
+        boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
+        borderWidth: '2px',
+        borderRadius: '13px',
+        backgroundColor: '#0000',
+        minWidth: '64px',
+        '& svg': {
+          height: '$lg',
+          width: '$lg',
+        },
+        '&:hover': {
+          color: '$selected',
+          background: '$third',
+        },
+        '&:disabled': {
+          color: '$text',
+          opacity: 0.5,
+        },
+      },
+    },
+    fullWidth: {
+      true: {
+        width: '$full',
+      },
+    },
   },
 });

@@ -3,6 +3,8 @@ import { BigNumber, BigNumberish, BytesLike } from 'ethers';
 
 import { makeVaultTxFn } from 'utils/contractHelpers';
 
+import { useApeSnackbar } from './useApeSnackbar';
+
 import { IVault } from 'types';
 
 interface AllowanceProps {
@@ -16,7 +18,8 @@ interface AllowanceProps {
 
 export function useVaultWrapper(vault: IVault) {
   const web3Context = useWeb3React();
-  const runVaultTx = makeVaultTxFn(web3Context, vault);
+  const { apeError } = useApeSnackbar();
+  const runVaultTx = makeVaultTxFn(web3Context, vault, apeError);
 
   const apeMigrate = () => runVaultTx(v => v.apeMigrate());
 
@@ -26,8 +29,8 @@ export function useVaultWrapper(vault: IVault) {
   const apeWithdrawSimpleToken = (amount: BigNumberish) =>
     runVaultTx(v => v.apeWithdrawSimpleToken(amount));
 
-  const approveCircleAdmin = (circle: BytesLike, adminAddress: string) =>
-    runVaultTx(v => v.approveCircleAdmin(circle, adminAddress));
+  const updateCircleAdmin = (circle: BytesLike, adminAddress: string) =>
+    runVaultTx(v => v.updateCircleAdmin(circle, adminAddress));
 
   const exitVaultToken = (underlying: boolean) =>
     runVaultTx(v => v.exitVaultToken(underlying));
@@ -74,7 +77,7 @@ export function useVaultWrapper(vault: IVault) {
     apeMigrate,
     apeWithdraw,
     apeWithdrawSimpleToken,
-    approveCircleAdmin,
+    updateCircleAdmin,
     exitVaultToken,
     syncUnderlying,
     updateAllowance,

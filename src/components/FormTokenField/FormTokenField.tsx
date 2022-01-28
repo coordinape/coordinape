@@ -32,7 +32,7 @@ export const FormTokenField = ({
     <ApeTextField
       {...props}
       InputProps={{
-        startAdornment: <span onClick={() => onChange(max)}>MAX</span>,
+        startAdornment: <span onClick={() => onChange(Number(max))}>MAX</span>,
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"
@@ -41,6 +41,7 @@ export const FormTokenField = ({
       value={value}
       onChange={handleChange}
       type="number"
+      onFocus={event => (event.currentTarget as HTMLInputElement).select()}
     />
   );
 };

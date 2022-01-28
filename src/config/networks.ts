@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { entries } from 'utils/type-utils';
 
-import { INFURA_PROJECT_ID } from './constants';
+import { INFURA_PROJECT_ID } from './env';
 
 import { IKnownTokenData, INetwork, IToken } from 'types';
 
@@ -81,7 +81,7 @@ export const knownTokens: { [name in KnownToken]: IKnownTokenData } = {
     addresses: {
       [networkIds.MAINNET]: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       [networkIds.HARDHAT]: '0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc',
-      [networkIds.RINKEBY]: '0x866CcA6D3902B030a7389A1aDeD4c32Ff3696800',
+      [networkIds.RINKEBY]: '0x4dbcdf9b62e891a7cec5a2568c3f4faf9e8abe2b',
     },
   },
   yvUSDC: {

@@ -4,3 +4,4 @@ export * from './Divider/Divider';
 export * from './Image/Image';
 export * from './Link/Link';
 export * from './IconButton/IconButton';
+export * from './Text/Text';

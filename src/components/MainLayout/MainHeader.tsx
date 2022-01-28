@@ -1,25 +1,25 @@
 import { Suspense, useState, useEffect } from 'react';
 
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
+import { MediaQueryKeys } from 'stitches.config';
 
-import { useMediaQuery } from '../../hooks';
-import { MediaQueryKeys } from '../../stitches.config';
-import { Box, IconButton, Link, Image, Divider } from '../../ui';
 import {
   ReceiveInfo,
   MyAvatarMenu,
   MenuNavigationLinks,
   CirclesHeaderSection,
   WalletButton,
+  CirclesSelectorSection,
 } from 'components';
-import { CirclesSelectorSection } from 'components/MyAvatarMenu/MyAvatarMenu';
+import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
 import {
   useMyProfileLoadable,
   useSelectedCircle,
   useWalletAuth,
 } from 'recoilState/app';
-import { getMainNavigation, checkActive } from 'routes/paths';
+import { getMainNavigation } from 'routes/paths';
+import { Box, IconButton, Link, Image, Divider } from 'ui';
 
 export const MainHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -305,9 +305,6 @@ export const HeaderNav = () => {
             },
           }}
           as={NavLink}
-          isActive={(nothing: any, location: { pathname: string }) =>
-            checkActive(location.pathname, navItem)
-          }
           key={navItem.path}
           to={navItem.path}
         >

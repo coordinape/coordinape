@@ -5,13 +5,8 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { DOMAIN_IS_LOCALHOST, IN_PRODUCTION } from 'utils/domain';
-
-// The test key always returns:
-// 10000000-aaaa-bbbb-cccc-000000000001
-const SITE_KEY = IN_PRODUCTION
-  ? (process.env.REACT_APP_H_CAPTCHA as string)
-  : '10000000-ffff-ffff-ffff-000000000001';
+import { CAPTCHA_SITE_KEY } from 'config/env';
+import { DOMAIN_IS_LOCALHOST } from 'utils/domain';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +55,7 @@ export const FormCaptcha = ({
   return (
     <div className={clsx(className, classes.root)}>
       <HCaptcha
-        sitekey={SITE_KEY}
+        sitekey={CAPTCHA_SITE_KEY}
         onVerify={t => onChange(t)}
         onExpire={() => onChange('')}
       />

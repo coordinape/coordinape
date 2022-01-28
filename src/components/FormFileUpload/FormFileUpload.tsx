@@ -72,7 +72,13 @@ export const FormFileUpload = ({
         )}
         {hasChanged && (
           <Button
-            onClick={() => onChange(undefined)}
+            onClick={() => {
+              onChange(undefined);
+              // This clears the fileInput so that if the user chooses the same file again, onChange still fires
+              if (fileInput.current) {
+                fileInput.current.value = '';
+              }
+            }}
             startIcon={<CloseIcon />}
             size="small"
             className={buttonClass}

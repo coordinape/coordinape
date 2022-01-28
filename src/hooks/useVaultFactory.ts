@@ -1,9 +1,9 @@
 import assert from 'assert';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import { getToken } from 'config/networks';
+import { getToken, knownTokens, TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
@@ -21,12 +21,15 @@ export function useVaultFactory() {
     type,
   }: {
     simpleTokenAddress?: string;
-    type: string;
+    type: TAssetEnum;
   }) => {
+    assert(currentOrg); // app should suspend until this is loaded
+
     if (!contracts) {
       apeError('Contracts not loaded');
       return;
     }
+
     try {
       const { apeVaultFactory: factory, networkId } = contracts;
       assert(
@@ -48,6 +51,9 @@ export function useVaultFactory() {
         return;
       }
 
+      // TODO: support simple tokens with decimal values other than 18
+      const decimals = type === 'OTHER' ? 18 : knownTokens[type].decimals;
+
       for (const event of receipt.events) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
@@ -56,8 +62,7 @@ export function useVaultFactory() {
             transactions: [],
             tokenAddress: args[0],
             simpleTokenAddress: args[1],
-            // TODO: Use real value:
-            decimals: 5,
+            decimals,
             type,
             orgId: currentOrg.id,
           };

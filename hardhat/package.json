@@ -6,9 +6,10 @@
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
+    "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "export $(xargs <../.env) && ganache-cli --networkId 1576478390085 --db ./data --deterministic --hostname=0.0.0.0 -m coordinape --unlock $HARDHAT_OWNER_ADDRESS",
-    "deploy": "DEBUG=coordinape:setup hardhat deploy --network ganache",
+    "dev": "./scripts/start-node.sh",
+    "deploy": "DEBUG=coordinape:setup hardhat deploy",
     "test": "TEST=1 hardhat test"
   },
   "files": [
@@ -18,7 +19,7 @@
     "@nomiclabs/hardhat-ethers": "2.0.2",
     "@nomiclabs/hardhat-ganache": "2.0.1",
     "@nomiclabs/hardhat-waffle": "2.0.1",
-    "@openzeppelin/contracts": "4.4.1",
+    "@openzeppelin/contracts": "4.4.2",
     "@typechain/ethers-v5": "7.0.0",
     "@typechain/hardhat": "2.0.0",
     "@types/chai": "4.2.22",

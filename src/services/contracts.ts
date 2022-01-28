@@ -6,8 +6,10 @@ import {
   ApeRouter__factory,
   ApeToken,
   ApeToken__factory,
-  ApeVaultFactory,
-  ApeVaultFactory__factory,
+  ApeVaultFactoryBeacon,
+  ApeVaultFactoryBeacon__factory,
+  ApeVaultWrapperImplementation,
+  ApeVaultWrapperImplementation__factory,
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
@@ -20,7 +22,7 @@ type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 export class Contracts {
   usdc: ERC20;
   apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactory;
+  apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
 
@@ -28,15 +30,18 @@ export class Contracts {
   // used to create the contracts also has a network associated with it
   networkId: NetworkId;
 
+  signerOrProvider: SignerOrProvider;
+
   constructor(
     contracts: {
       usdc: ERC20;
       apeToken: ApeToken;
-      apeVaultFactory: ApeVaultFactory;
+      apeVaultFactory: ApeVaultFactoryBeacon;
       apeRouter: ApeRouter;
       apeDistributor: ApeDistributor;
     },
-    networkId: NetworkId
+    networkId: NetworkId,
+    signerOrProvider: SignerOrProvider
   ) {
     this.usdc = contracts.usdc;
     this.apeToken = contracts.apeToken;
@@ -44,6 +49,7 @@ export class Contracts {
     this.apeRouter = contracts.apeRouter;
     this.apeDistributor = contracts.apeDistributor;
     this.networkId = networkId;
+    this.signerOrProvider = signerOrProvider;
   }
 
   connect(signer: ethers.Signer): void {
@@ -54,6 +60,37 @@ export class Contracts {
     this.apeDistributor = this.apeDistributor.connect(signer);
   }
 
+  getVault(address: string): ApeVaultWrapperImplementation {
+    return ApeVaultWrapperImplementation__factory.connect(
+      address,
+      this.signerOrProvider
+    );
+  }
+
+  getERC20(address: string): ERC20 {
+    return ERC20__factory.connect(address, this.signerOrProvider);
+  }
+
+  getMyAddress() {
+    return this.signerOrProvider instanceof ethers.ethers.Signer
+      ? this.signerOrProvider.getAddress()
+      : undefined;
+  }
+
+  async getETHBalance(address?: string) {
+    if (this.signerOrProvider instanceof ethers.ethers.Signer) {
+      if (!address) return this.signerOrProvider.getBalance('latest');
+      return this.signerOrProvider.provider?.getBalance(address, 'latest');
+    }
+
+    if (!address) {
+      throw new Error(
+        'address argument is required when signer is not available'
+      );
+    }
+    return this.signerOrProvider.getBalance(address, 'latest');
+  }
+
   static fromNetwork(
     networkId: NetworkId,
     signerOrProvider: SignerOrProvider
@@ -61,8 +98,8 @@ export class Contracts {
     return Contracts.fromAddresses(
       {
         apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId].ApeVaultFactory
-          .address,
+        apeVaultFactory: (deploymentInfo as any)[networkId]
+          .ApeVaultFactoryBeacon.address,
         apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
         apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
           .address,
@@ -89,7 +126,7 @@ export class Contracts {
       addresses.apeToken,
       signerOrProvider
     );
-    const apeVaultFactory = ApeVaultFactory__factory.connect(
+    const apeVaultFactory = ApeVaultFactoryBeacon__factory.connect(
       addresses.apeVaultFactory,
       signerOrProvider
     );
@@ -109,7 +146,8 @@ export class Contracts {
         apeRouter,
         apeDistributor,
       },
-      networkId
+      networkId,
+      signerOrProvider
     );
   }
 }

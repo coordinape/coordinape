@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button, IconButton } from '@material-ui/core';
+import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
 
 import {
   StaticTable,
@@ -10,6 +10,7 @@ import {
   ApeAvatar,
   ActionDialog,
   OrganizationHeader,
+  ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation, useApiAdminCircle } from 'hooks';
@@ -173,6 +174,16 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     opacity: 0.7,
   },
+  infoIcon: {
+    fontSize: '0.95rem',
+    fontWeight: 300,
+    verticalAlign: 'baseline',
+    // marginLeft: 3,
+    color: theme.colors.white,
+    '&:hover': {
+      color: theme.colors.text,
+    },
+  },
 }));
 
 const epochDetail = (e: IEpoch) => {
@@ -207,7 +218,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     window.location.search === NEW_CIRCLE_CREATED_PARAMS
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getToProfile } = useNavigation();
 
   const {
@@ -432,12 +443,27 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     []
   );
 
+  interface IconProp {
+    toolTipMessage: string;
+    link: string;
+  }
+
+  const InfoIconText = ({ toolTipMessage, link }: IconProp): JSX.Element => (
+    <Typography color="inherit">
+      {toolTipMessage}
+      <a href={link} target="_blank" rel="noreferrer">
+        {' '}
+        Learn More
+      </a>
+    </Typography>
+  );
+
   return (
     <div className={classes.root}>
       {!legacy && (
         <OrganizationHeader
           buttonText="Add Circle"
-          onButtonClick={() => history.push(paths.getCreateCirclePath())}
+          onButtonClick={() => navigate(paths.getCreateCirclePath())}
         />
       )}
       <div className={classes.withVaults}>
@@ -473,7 +499,19 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 variant="contained"
                 color="primary"
                 size="small"
-                startIcon={<PlusCircleIcon />}
+                endIcon={
+                  <ApeInfoTooltip
+                    iconTheme={classes.infoIcon}
+                    enterNextDelay={1}
+                    placement="bottom"
+                    leaveDelay={500}
+                  >
+                    <InfoIconText
+                      link="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+                      toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed."
+                    />
+                  </ApeInfoTooltip>
+                }
                 onClick={() => setNewUser(true)}
               >
                 Add Contributor
@@ -482,7 +520,19 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 variant="contained"
                 color="primary"
                 size="small"
-                startIcon={<PlusCircleIcon />}
+                endIcon={
+                  <ApeInfoTooltip
+                    iconTheme={classes.infoIcon}
+                    enterNextDelay={1}
+                    placement="bottom"
+                    leaveDelay={500}
+                  >
+                    <InfoIconText
+                      link=" https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+                      toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another."
+                    />
+                  </ApeInfoTooltip>
+                }
                 onClick={() => setNewEpoch(true)}
               >
                 Add Epoch
@@ -492,7 +542,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 color="primary"
                 size="small"
                 startIcon={<PlusCircleIcon />}
-                onClick={() => history.push(paths.getCreateCirclePath())}
+                onClick={() => navigate(paths.getCreateCirclePath())}
               >
                 Add Circle
               </Button>
