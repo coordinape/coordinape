@@ -17,5 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": "src"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "paths": {
+    "@emotion/core": ["./emotion-core-stub.ts"]
+  }
 }
