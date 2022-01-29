@@ -9,10 +9,11 @@ export const Button = styled('button', {
   display: 'flex',
   justifyContent: 'center',
   fontSize: '$md',
-  fontWeight: '$normal',
-  borderRadius: '$xs',
+  fontWeight: '$bold',
+  borderRadius: '$3',
   cursor: 'pointer',
   textAlign: 'center',
+  lineHeight: '$shorter',
 
   color: 'White',
   variants: {
