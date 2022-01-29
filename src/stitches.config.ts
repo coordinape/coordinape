@@ -101,6 +101,8 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      bg: '668px',
+      select: '15vw',
       ...spaces,
     },
     radii: {

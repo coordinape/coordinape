@@ -6,6 +6,7 @@ import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
+import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
@@ -119,7 +120,18 @@ const LoggedInRoutes = () => {
         path={paths.getCirclesPath()}
         component={AdminPage}
       />
-
+      <Route
+        exact
+        key={paths.getDistributePath({
+          circleId: ':circleId',
+          epochId: ':epochId',
+        })}
+        path={paths.getDistributePath({
+          circleId: ':circleId',
+          epochId: ':epochId',
+        })}
+        component={DistributePage}
+      />
       <Redirect to={paths.getHomePath()} />
     </Switch>
   );

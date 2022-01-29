@@ -45,6 +45,13 @@ export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
 export const getVaultsPath = () => '/admin/vaults';
+export const getDistributePath = ({
+  circleId,
+  epochId,
+}: {
+  circleId: string;
+  epochId: string;
+}) => `/admin/distribute/${circleId}/${epochId}`;
 export const getCirclesPath = () => '/admin/circles';
 export const getNewCirclePath = () => '/new-circle';
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
