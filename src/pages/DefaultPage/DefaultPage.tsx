@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { makeStyles, Button } from '@material-ui/core';
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
 
 export const DefaultPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const web3Context = useWeb3React<Web3Provider>();
 
   const authToken = useAuthToken();
@@ -165,7 +165,7 @@ export const DefaultPage = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => history.push(paths.getCreateCirclePath())}
+              onClick={() => navigate(paths.getCreateCirclePath())}
               className={classes.startCircle}
             >
               Start a Circle

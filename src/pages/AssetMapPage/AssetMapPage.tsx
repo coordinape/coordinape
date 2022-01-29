@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
@@ -50,7 +50,7 @@ interface MetricOption {
 export const AssetMapPage = () => {
   const classes = useStyles();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const setAmEgoAddress = useSetAmEgoAddress();
 
   useEffect(() => {
@@ -59,9 +59,7 @@ export const AssetMapPage = () => {
     if (newAddress) {
       setAmEgoAddress(newAddress);
       queryParams.delete(MAP_HIGHLIGHT_PARAM);
-      history.replace({
-        search: queryParams.toString(),
-      });
+      navigate({ search: queryParams.toString() }, { replace: true });
     }
   }, [location]);
 

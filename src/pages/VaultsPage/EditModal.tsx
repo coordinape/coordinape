@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -77,7 +77,7 @@ interface EditModalProps {
 
 export default function EditModal({ onClose }: EditModalProps) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [ongoing, setOngoing] = useState<boolean>(false);
 
   const setOngoingAllocation = () => {
@@ -93,7 +93,7 @@ export default function EditModal({ onClose }: EditModalProps) {
       submit={params => {
         console.warn('todo:', params);
         const path = '/admin/vaults';
-        history.push(path);
+        navigate(path);
       }}
     >
       {({ fields, handleSubmit, changedOutput }) => (

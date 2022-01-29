@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
 
@@ -218,7 +218,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     window.location.search === NEW_CIRCLE_CREATED_PARAMS
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getToProfile } = useNavigation();
 
   const {
@@ -463,7 +463,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       {!legacy && (
         <OrganizationHeader
           buttonText="Add Circle"
-          onButtonClick={() => history.push(paths.getCreateCirclePath())}
+          onButtonClick={() => navigate(paths.getCreateCirclePath())}
         />
       )}
       <div className={classes.withVaults}>
@@ -542,7 +542,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 color="primary"
                 size="small"
                 startIcon={<PlusCircleIcon />}
-                onClick={() => history.push(paths.getCreateCirclePath())}
+                onClick={() => navigate(paths.getCreateCirclePath())}
               >
                 Add Circle
               </Button>

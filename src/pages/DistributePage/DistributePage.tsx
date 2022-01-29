@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
   FormControl,
@@ -26,11 +26,9 @@ import AllocationTable from './AllocationsTable';
  * @param epochId string
  * @returns JSX.Element
  */
-const DistributePage = ({
-  match: { params },
-}: RouteComponentProps<{ circleId: string; epochId: string }>) => {
+const DistributePage = () => {
   // Route Parameters
-  const { circleId, epochId } = params;
+  const { circleId, epochId } = useParams();
   const [amount, setAmount] = useState<string>('');
   const [selectedVault, setSelectedVault] = useState<string>('');
   const [amountError] = useState<boolean>(false);

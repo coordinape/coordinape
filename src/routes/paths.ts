@@ -1,5 +1,3 @@
-import { matchPath } from 'react-router-dom';
-
 import { IN_PRODUCTION } from 'config/env';
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
@@ -148,15 +146,6 @@ export const getRelatedNavigation = (): INavItem[] => [
   NAV_ITEM_NEW_CIRCLE,
   NAV_ITEM_DOCS,
 ];
-
-export const checkActive = (pathname: string, navItem: INavItem): boolean =>
-  !!matchPath(pathname, {
-    exact: true,
-    path: navItem.path,
-  }) ||
-  !!navItem.subItems?.some(
-    ({ path }) => !!matchPath(pathname, { exact: true, path })
-  );
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,
