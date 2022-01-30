@@ -1,32 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { gql } from '../../api-lib/Gql';
-
-// TODO: remove this
-/*
-
-        $expired_nominees = $this->model->with('circle','nominations')->where('ended',0)->pastExpiryDate()->get();
-        foreach($expired_nominees as $nominee) {
-            $nominee->ended = 1;
-            $nominee->save();
-            $nominations = count($nominee->nominations);
-            $nominee_name = Utils::cleanStr($nominee->name);
-            $message = "Nominee $nominee_name has only received $nominations vouch(es) and has failed";
-            $nominee->circle->notify(new SendSocialMessage($message, true));
-        }
-
-*/
-
-async function sendSocialMessage({
-  message,
-  circleId,
-}: {
-  message: string;
-  circleId: number;
-}) {
-  // TODO: discord + telegram webhook calls
-  console.log('Circle id:', circleId, ' Message is: ', message);
-}
+import { sendSocialMessage } from '../../api-lib/sendSocialMessage';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -79,6 +54,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           sendSocialMessage({
             message: `Nominee ${n.name} has only received ${n.nominations_aggregate.aggregate.count} vouch(es) and has failed`,
             circleId: n.circle_id,
+            channels: {
+              discord: true,
+              telegram: true,
+            },
           })
         )
       );
