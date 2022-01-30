@@ -61,12 +61,12 @@
     "canvas-color-tracker": "file:./canvas-color-tracker"
   },
   "scripts": {
-    "setup": "./scripts/setup-hardhat.sh",
+    "setup": "./scripts/setup.sh",
     "db-seed-fresh": "yarn db-clean && yarn db-seed && yarn db-add-me",
     "db-seed": "node ./scripts/tsrun.mjs ./scripts/db-seed.ts",
     "db-clean": "node ./scripts/tsrun.mjs ./scripts/db-clean.ts",
     "db-add-me": "node ./scripts/tsrun.mjs ./scripts/db-add-me.ts",
-    "generate": "prisma generate && ./scripts/generate-zeus.sh",
+    "generate": "./scripts/generate-zeus.sh",
     "hasura": "hasura --envfile ../.env --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
