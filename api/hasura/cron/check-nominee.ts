@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { gql } from '../../api-lib/Gql';
-import { sendSocialMessage } from '../../api-lib/sendSocialMessage';
+import { gql } from '../../../api-lib/Gql';
+import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

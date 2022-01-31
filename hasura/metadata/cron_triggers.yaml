@@ -1,6 +1,5 @@
-cron_triggers:
-  - name: check-nominees
-    webhook: http://localhost:3000/api/cron/check-nominee
-    schedule: 1 0 * * *
-    include_in_metadata: true
-    payload: {}
+- name: check-nominee
+  webhook: '{{HASURA_GRAPHQL_CRON_URL}}/check-nominee'
+  schedule: 1 0 * * *
+  include_in_metadata: true
+  payload: {}

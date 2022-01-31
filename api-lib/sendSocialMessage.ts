@@ -45,7 +45,6 @@ export async function sendSocialMessage({
   const [{ discord_webhook, telegram_id }] = circles;
 
   if (channels?.discord && discord_webhook) {
-    // https://discord.com/api/webhooks/937364127595245569/dZGmCuPxt3knbTEl1QtvVQnyppK8CoHV9dvBdsvhobAPV7gMC-WL6Cpct5uQTgiRfpsB
     try {
       const discordWebhookPost = {
         content: msg,
@@ -70,14 +69,13 @@ export async function sendSocialMessage({
   }
 
   if (channels?.telegram && telegram_id) {
-    // https://api.telegram.org/bot<your-bot-token>/sendMessage?chat_id=<chat-id>&text=TestReply
     try {
       const telegramBotPost = {
-        chat_id: 'TODO', // what goes here?
-        text: encodeURIComponent(msg),
+        chat_id: telegram_id,
+        text: msg,
       };
       const res = await fetch(
-        `https://api.telegram.org/bot${telegram_id}/sendMessage`,
+        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
         {
           method: 'POST',
           body: JSON.stringify(telegramBotPost),
