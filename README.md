@@ -77,7 +77,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 #### Additionally
 
-- `./scripts/setup-hardhat.sh` - link the react app generated code
+- `./scripts/setup.sh` - link the react app generated code
 - `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
 - `yarn hardhat:test`
 - `yarn hardhat:deploy`
