@@ -66,7 +66,7 @@
     "db-seed": "node ./scripts/tsrun.mjs ./scripts/db-seed.ts",
     "db-clean": "node ./scripts/tsrun.mjs ./scripts/db-clean.ts",
     "db-add-me": "node ./scripts/tsrun.mjs ./scripts/db-add-me.ts",
-    "generate": "./scripts/generate-zeus.sh",
+    "generate": "prisma generate && ./scripts/generate-zeus.sh",
     "hasura": "hasura --envfile ../.env --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
