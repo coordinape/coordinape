@@ -86,7 +86,7 @@ const LoggedInRoutes = () => {
           circleId: ':circleId',
           epochId: ':epochId',
         })}
-        element={DistributePage}
+        element={<DistributePage />}
       />
 
       <Route path="*" element={<Navigate to={paths.getHomePath()} replace />} />
