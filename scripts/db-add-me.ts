@@ -1,15 +1,14 @@
 import { ethers } from 'ethers';
-import faker from 'faker/locale/en.js';
+// TODO: Imports are crazy for esrun, eventually set up a build system.
+// Probably with monorepo and support other packages.
+import fakerTyped from 'faker/locale/en';
+import fakerEn from 'faker/locale/en.js';
+const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
-
-import fetch from 'node-fetch';
+import '../api-lib/node-fetch-shim';
 import { gql } from '../api-lib/Gql';
 import { LOCAL_SEED_ADDRESS } from '../api-lib/config';
-
-if (!globalThis.fetch) {
-  globalThis.fetch = fetch;
-}
 
 export const USER_ROLE_ADMIN = 1;
 
