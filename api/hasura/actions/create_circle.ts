@@ -1,10 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GraphQLClient, gql } from 'graphql-request';
 import { z } from 'zod';
 
+import { gql } from '../../../api-lib/Gql';
+import {
+  profiles_constraint,
+  order_by,
+  profiles_update_column,
+} from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createCircleSchemaInput } from '../../../src/lib/zod';
-
-import { MutationCreate_CircleArgs } from './hasuraCustomTypes';
+import { MutationCreate_CircleArgs } from '../customTypes/createCircleCustomTypes';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { object }: MutationCreate_CircleArgs = req.body.input;
@@ -19,49 +23,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
   }
-
-  const client = new GraphQLClient(process.env.REACT_APP_HASURA_URL, {
-    headers: {
-      'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+  const address = object.address.toLowerCase();
+  const coordinapeAddress = process.env.COORDINAPE_USER_ADDRESS.toLowerCase();
+  const insertProfiles = {
+    objects: [{ address: address }, { address: coordinapeAddress }],
+    on_conflict: {
+      constraint: profiles_constraint.profiles_address_key,
+      update_columns: [profiles_update_column.address],
     },
-  });
-  object.address = object.address.toLowerCase();
+  };
+  const insertUsers = {
+    data: [
+      {
+        name: object.user_name,
+        address: address,
+        role: 1,
+      },
+      {
+        name: 'Coordinape',
+        address: coordinapeAddress,
+        role: 2,
+        non_receiver: false,
+        fixed_non_receiver: false,
+        starting_tokens: 0,
+        non_giver: true,
+        give_token_remaining: 0,
+        bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+      },
+    ],
+  };
+  const circleReturn = {
+    id: true,
+    name: true,
+    protocol_id: true,
+    team_sel_text: true,
+    alloc_text: true,
+    vouching: true,
+    min_vouches: true,
+    nomination_days_limit: true,
+    vouching_text: true,
+    logo: true,
+    default_opt_in: true,
+    team_selection: true,
+    only_giver_vouch: true,
+    auto_opt_out: true,
+  };
   try {
     // attach new circle to existing organisation
     if (object.protocol_id) {
-      const QUERY = gql`
-        query ($address: String!, $protocol_id: Int!) {
-          profiles(
-            limit: 1
+      const { profiles } = await gql.q('query')({
+        profiles: [
+          {
             where: {
-              address: { _eq: $address }
+              address: { _eq: address },
               users: {
-                role: { _eq: 1 }
-                circle: { protocol_id: { _eq: $protocol_id } }
-              }
-            }
-          ) {
-            id
-          }
-        }
-      `;
-      let data = await client.request(QUERY, {
-        address: object.address,
-        protocol_id: object.protocol_id,
+                role: { _eq: 1 },
+                circle: { protocol_id: { _eq: object.protocol_id } },
+              },
+            },
+          },
+          { id: true },
+        ],
       });
       try {
-        z.object({
-          profiles: z
-            .array(
-              z.object({
-                id: z.number(),
-              })
-            )
-            .nonempty({
-              message:
-                'Address is not an admin of any circles under this protocol',
-            }),
-        }).parse(data);
+        z.array(
+          z.object({
+            id: z.number(),
+          })
+        )
+          .nonempty({
+            message:
+              'Address is not an admin of any circles under this protocol',
+          })
+          .parse(profiles);
       } catch (err) {
         if (err instanceof z.ZodError) {
           return res.status(422).json({
@@ -72,144 +106,62 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
 
-      const INSERT_MUTATION = gql`
-        mutation (
-          $circle_name: String!
-          $coordinape_address: String!
-          $address: String!
-          $user_name: String!
-          $protocol_id: Int!
-        ) {
-          insert_circles_one(
+      const { insert_circles_one } = await gql.q('mutation')({
+        insert_circles_one: [
+          {
             object: {
-              name: $circle_name
-              protocol_id: $protocol_id
-              users: {
-                data: [
-                  { name: $user_name, address: $address, role: 1 }
-                  {
-                    name: "Coordinape"
-                    address: $coordinape_address
-                    role: 2
-                    non_receiver: false
-                    fixed_non_receiver: false
-                    starting_tokens: 0
-                    non_giver: true
-                    give_token_remaining: 0
-                    bio: "Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations."
-                  }
-                ]
-              }
-            }
-          ) {
-            id
-            name
-            protocol_id
-            team_sel_text
-            alloc_text
-            vouching
-            min_vouches
-            nomination_days_limit
-            vouching_text
-            logo
-            default_opt_in
-            team_selection
-            only_giver_vouch
-            auto_opt_out
-          }
-          insert_profiles(
-            objects: [{ address: $address }, { address: $coordinape_address }]
-            on_conflict: {
-              constraint: profiles_address_key
-              update_columns: address
-            }
-          ) {
-            affected_rows
-          }
-        }
-      `;
-
-      data = await client.request(INSERT_MUTATION, {
-        circle_name: object.circle_name,
-        coordinape_address: process.env.COORDINAPE_USER_ADDRESS.toLowerCase(),
-        address: object.address,
-        user_name: object.user_name,
-        protocol_id: object.protocol_id,
+              name: object.circle_name,
+              protocol_id: object.protocol_id,
+              users: insertUsers,
+            },
+          },
+          circleReturn,
+        ],
+        insert_profiles: [
+          insertProfiles,
+          {
+            returning: {
+              id: true,
+            },
+          },
+        ],
       });
-      return res.status(200).json(data.insert_circles_one);
+      return res.status(200).json(insert_circles_one);
     } else {
       // create a new organisation
-      const INSERT_MUTATION = gql`
-        mutation (
-          $protocol_name: String!
-          $circle_name: String!
-          $coordinape_address: String!
-          $address: String!
-          $user_name: String!
-        ) {
-          insert_organizations_one(
+      const { insert_organizations_one } = await gql.q('mutation')({
+        insert_organizations_one: [
+          {
             object: {
-              name: $protocol_name
+              name: object.protocol_name,
               circles: {
-                data: {
-                  name: $circle_name
-                  users: {
-                    data: [
-                      { name: $user_name, address: $address, role: 1 }
-                      {
-                        name: "Coordinape"
-                        address: $coordinape_address
-                        role: 2
-                        non_receiver: false
-                        fixed_non_receiver: false
-                        starting_tokens: 0
-                        non_giver: true
-                        give_token_remaining: 0
-                        bio: "Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations."
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          ) {
-            circles(order_by: { id: desc }, limit: 1) {
-              id
-              name
-              protocol_id
-              team_sel_text
-              alloc_text
-              vouching
-              min_vouches
-              nomination_days_limit
-              vouching_text
-              logo
-              default_opt_in
-              team_selection
-              only_giver_vouch
-              auto_opt_out
-            }
-          }
-          insert_profiles(
-            objects: [{ address: $address }, { address: $coordinape_address }]
-            on_conflict: {
-              constraint: profiles_address_key
-              update_columns: address
-            }
-          ) {
-            affected_rows
-          }
-        }
-      `;
-
-      const data = await client.request(INSERT_MUTATION, {
-        circle_name: object.circle_name,
-        coordinape_address: process.env.COORDINAPE_USER_ADDRESS.toLowerCase(),
-        address: object.address,
-        user_name: object.user_name,
-        protocol_name: object.protocol_name,
+                data: [
+                  {
+                    name: object.circle_name,
+                    users: insertUsers,
+                  },
+                ],
+              },
+            },
+          },
+          {
+            circles: [
+              { limit: 1, order_by: [{ id: order_by.desc }] },
+              circleReturn,
+            ],
+          },
+        ],
+        insert_profiles: [
+          insertProfiles,
+          {
+            returning: {
+              id: true,
+            },
+          },
+        ],
       });
-      return res.status(200).json(data.insert_organizations_one.circles[0]);
+
+      return res.status(200).json(insert_organizations_one.circles.pop());
     }
   } catch (e) {
     return res.status(401).json({

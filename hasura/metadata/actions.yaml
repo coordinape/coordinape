@@ -12,4 +12,13 @@ custom_types:
   - name: create_circle_input
   objects:
   - name: create_circle_response
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: users
+      source: default
+      type: array
+      field_mapping:
+        id: circle_id
   scalars: []
