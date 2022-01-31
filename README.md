@@ -63,6 +63,10 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
 - Goto: http://localhost:3000 and starting giving!
 
+### Storybook
+
+- `yarn storybook`
+
 ### Working with the schema
 
 - `yarn hasura console` to modify and explore the database

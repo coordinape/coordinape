@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 
-import { styled, SvgIconConfig } from 'stitches.config';
+import { styled, SvgIconConfig } from '../stitches.config';
 
 import { IconProps } from 'types';
 
