@@ -71,6 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // attach new circle to existing organisation
     if (object.protocol_id) {
+      //check if user is an circle admin within organisation
       const { profiles } = await gql.q('query')({
         profiles: [
           {

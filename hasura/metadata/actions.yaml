@@ -21,4 +21,12 @@ custom_types:
       type: array
       field_mapping:
         id: circle_id
+    - remote_table:
+        schema: public
+        name: protocols
+      name: protocol
+      source: default
+      type: object
+      field_mapping:
+        protocol_id: id
   scalars: []
