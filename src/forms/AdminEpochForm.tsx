@@ -200,7 +200,7 @@ export const summarizeEpoch = (value: TForm) => {
     .plus({ days: value.days })
     .toFormat(longUTCFormat);
 
-  const nextRepeat = DateTime.fromISO(value.start_date)
+  const nextRepeat = DateTime.fromISO(value.start_date, { zone: 'utc' })
     .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
     .toFormat('DD');
 
