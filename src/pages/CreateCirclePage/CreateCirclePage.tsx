@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import uniqBy from 'lodash/uniqBy';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
 
 export const SummonCirclePage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { address: myAddress, myUsers } = useMyProfile();
   const { selectCircle } = useApiBase();
@@ -128,7 +128,7 @@ export const SummonCirclePage = () => {
               })
             );
             selectCircle(newCircle.id);
-            history.push({
+            navigate({
               pathname: paths.getAdminPath(),
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
             });
