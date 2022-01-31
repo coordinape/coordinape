@@ -153,19 +153,8 @@ const DistributePage = () => {
           </Box>
         </Box>
 
-        <Box
-          css={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: '$lg',
-          }}
-        >
-          <Box
-            css={{
-              m: '$lg',
-              minWidth: '$select',
-            }}
-          >
+        <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
+          <Box css={{ m: '$lg', minWidth: '$select' }}>
             <FormControl fullWidth>
               <InputLabel>Select Vault</InputLabel>
               <Select
@@ -192,12 +181,7 @@ const DistributePage = () => {
             />
           </Box>
         </Box>
-        <Box
-          css={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <Box css={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="contained"
             color="primary"
@@ -214,21 +198,12 @@ const DistributePage = () => {
             justifyContent: 'center',
           }}
         >
-          <Box
-            css={{
-              pt: '$md',
-              color: '$text',
-            }}
-          >
+          <Box css={{ pt: '$md', color: '$text' }}>
             Please review the distribution details below and if all looks good,
             approve the Merkle root so that contributoros can claim their funds.
           </Box>
         </Box>
-        <Box
-          css={{
-            m: '$lg',
-          }}
-        >
+        <Box css={{ m: '$lg' }}>
           <AllocationTable users={users} />
         </Box>
       </Panel>
