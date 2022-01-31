@@ -12,7 +12,7 @@ function generate() {
   local MV_PATH=$GEN_PATH/$1; shift
 
   # pass the rest of the arguments to zeus
-  zeus $HASURA_GRAPHQL_ENDPOINT $GEN_PATH --ts --rq $@
+  (set -x; zeus $HASURA_GRAPHQL_ENDPOINT/v1/graphql $GEN_PATH --ts --rq $@)
   test -d $GEN_PATH/zeus
   test -d "$MV_PATH" && rm -r $MV_PATH
   mv $GEN_PATH/zeus $MV_PATH

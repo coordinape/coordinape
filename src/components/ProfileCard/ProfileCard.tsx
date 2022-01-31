@@ -223,7 +223,7 @@ export const ProfileCard = ({
 
       {isMe && !user.fixed_non_receiver && !!user.non_receiver && (
         <CardInfoText tooltip="">
-          You are opted out of receiving ${tokenName}, navigate to my epoch and
+          You are opted out of receiving ${tokenName}. Navigate to My Epoch and
           opt in to receive.
         </CardInfoText>
       )}
