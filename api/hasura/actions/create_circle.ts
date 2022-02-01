@@ -6,14 +6,14 @@ import {
   profiles_constraint,
   order_by,
   profiles_update_column,
+  ValueTypes,
 } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createCircleSchemaInput } from '../../../src/lib/zod';
-import { MutationCreate_CircleArgs } from '../customTypes/createCircleCustomTypes';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { object }: MutationCreate_CircleArgs = req.body.input;
+  const input: ValueTypes['create_circle_input'] = req.body.input.object;
   try {
-    createCircleSchemaInput.parse(object);
+    createCircleSchemaInput.parse(input);
   } catch (err) {
     if (err instanceof z.ZodError) {
       return res.status(422).json({
@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
   }
-  const address = object.address.toLowerCase();
+  const address = input.address.toLowerCase();
   const coordinapeAddress = process.env.COORDINAPE_USER_ADDRESS.toLowerCase();
   const insertProfiles = {
     objects: [{ address: address }, { address: coordinapeAddress }],
@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const insertUsers = {
     data: [
       {
-        name: object.user_name,
+        name: input.user_name,
         address: address,
         role: 1,
       },
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   };
   try {
     // attach new circle to existing organisation
-    if (object.protocol_id) {
+    if (input.protocol_id) {
       //check if user is an circle admin within organisation
       const { profiles } = await gql.q('query')({
         profiles: [
@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               address: { _eq: address },
               users: {
                 role: { _eq: 1 },
-                circle: { protocol_id: { _eq: object.protocol_id } },
+                circle: { protocol_id: { _eq: input.protocol_id } },
               },
             },
           },
@@ -111,8 +111,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         insert_circles_one: [
           {
             object: {
-              name: object.circle_name,
-              protocol_id: object.protocol_id,
+              name: input.circle_name,
+              protocol_id: input.protocol_id,
               users: insertUsers,
             },
           },
@@ -134,11 +134,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         insert_organizations_one: [
           {
             object: {
-              name: object.protocol_name,
+              name: input.protocol_name,
               circles: {
                 data: [
                   {
-                    name: object.circle_name,
+                    name: input.circle_name,
                     users: insertUsers,
                   },
                 ],
