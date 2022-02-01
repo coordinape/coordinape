@@ -3,6 +3,8 @@ import fetch from 'node-fetch';
 import { gql } from './Gql';
 
 const DISCORD_BOT_NAME = 'Caesar The Coordinape Bot';
+const DISCORD_BOT_AVATAR_URL =
+  'https://coordinape-prod.s3.amazonaws.com/assets/static/20220131-coordinape-pfp-ape.jpg';
 
 type SocialMessage = {
   message: string;
@@ -49,7 +51,7 @@ export async function sendSocialMessage({
       const discordWebhookPost = {
         content: msg,
         username: DISCORD_BOT_NAME,
-        // avatar_url: '' TODO
+        avatar_url: DISCORD_BOT_AVATAR_URL,
       };
       const res = await fetch(discord_webhook, {
         method: 'POST',
