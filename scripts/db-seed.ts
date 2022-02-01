@@ -7,13 +7,9 @@ const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import { DateTime, Duration, Interval } from 'luxon';
-import fetch from 'node-fetch';
+import '../api-lib/node-fetch-shim';
 import { gql, TGiftCommon } from '../api-lib/Gql';
 import { ValueTypes } from '../src/lib/gql/zeusHasuraAdmin';
-
-if (!globalThis.fetch) {
-  globalThis.fetch = fetch;
-}
 
 const defaults = {
   seed: 9,
@@ -344,7 +340,7 @@ function fakeCircleGifts(
     `e${g.epoch_id}-${g.sender_id}>${g.recipient_id}`;
 
   const getCircleId = createSampler(
-    iti(membersByCircle.keys()).toArray(),
+    iti(membersByCircle.keys()).toArray() as number[],
     circleSkew
   );
   const roundSize = Math.ceil(count / membersByCircle.size / 3);

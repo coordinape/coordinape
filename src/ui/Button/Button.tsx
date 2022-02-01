@@ -1,32 +1,19 @@
 import { styled } from '../../stitches.config';
 
 export const Button = styled('button', {
-  // Reset
-  all: 'unset',
-  alignItems: 'center',
-  boxSizing: 'border-box',
-  userSelect: 'none',
-  '&::before': {
-    boxSizing: 'border-box',
-  },
-  '&::after': {
-    boxSizing: 'border-box',
-  },
-
   '& img': {
     paddingRight: '$sm',
   },
-
   px: '$lg',
   py: '$sm',
-
   display: 'flex',
   justifyContent: 'center',
   fontSize: '$md',
-  fontWeight: '$normal',
-  borderRadius: '$xs',
+  fontWeight: '$bold',
+  borderRadius: '$3',
   cursor: 'pointer',
   textAlign: 'center',
+  lineHeight: '$shorter',
 
   color: 'White',
   variants: {

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import nodeFetch from 'node-fetch';
+
 import { AllTypesProps, ReturnTypes } from './const';
 type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
@@ -16240,9 +16240,6 @@ const handleFetchResponse = (
 export const apiFetch =
   (options: fetchOptions) =>
   (query: string, variables: Record<string, any> = {}) => {
-    if (!globalThis.fetch) {
-      globalThis.fetch = nodeFetch as unknown as typeof fetch;
-    }
     let fetchFunction = fetch;
     let queryString = query;
     let fetchOptions = options[1] || {};
