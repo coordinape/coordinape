@@ -13,7 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, Box, Panel } from '../../ui';
 import { FormTextField } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCircleIdForEpoch, useCurrentOrg } from 'hooks/gql';
 import { useSelectedCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
@@ -35,6 +35,8 @@ const DistributePage = () => {
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
   let vaultOptions: Array<{ value: string; label: string; id: string }> = [];
+
+  const actualCircleId = useCircleIdForEpoch(Number(epochId));
 
   const handleVaultChange = (event: ChangeEvent<{ value: unknown }>) => {
     setSelectedVault(event.target.value as string);
@@ -149,7 +151,7 @@ const DistributePage = () => {
               color: '$text',
             }}
           >
-            Strategists: Epoch 22 has ended
+            Strategists: Epoch 22 for circle {actualCircleId} has ended
           </Box>
         </Box>
 
