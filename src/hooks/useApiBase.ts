@@ -121,13 +121,6 @@ export const useApiBase = () => {
           delete authTokens[original];
         }
 
-        // if (getApiService().token) {
-        //   try {
-        //     await getApiService().logout();
-        //   } catch (e) {
-        //     console.error('Failed to logout', e);
-        //   }
-        // }
         // Logout triggered by walletAuth removal of token.
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
