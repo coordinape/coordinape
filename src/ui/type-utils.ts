@@ -25,7 +25,7 @@ export function modifyVariantsForStory<
   };
 
   type ComponentStoryProps = Omit<ComponentProps, keyof ComponentVariants> &
-    ComponentStoryVariants;
+    ComponentStoryVariants & { children: React.ReactNode };
 
   return component as unknown as (props: ComponentStoryProps) => JSX.Element;
 }
