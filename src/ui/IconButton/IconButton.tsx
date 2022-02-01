@@ -68,15 +68,15 @@ export const IconButton = styled('button', {
     },
     variant: {
       shadow: {
-        backgroundColor: 'transparent',
+        backgroundColor: '$lightBackground',
         borderWidth: '0',
         '@hover': {
           '&:hover': {
-            backgroundColor: '$lightBackground',
+            backgroundColor: '$lightGray',
           },
         },
         '&:active': {
-          backgroundColor: '$lightBackground',
+          backgroundColor: '$lightGray',
         },
       },
       ghost: {

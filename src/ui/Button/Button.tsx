@@ -37,7 +37,7 @@ export const Button = styled('button', {
       large: {
         alignItems: 'center',
         lineHeight: '$tall2',
-        fontSize: '$8',
+        fontSize: '$5',
         fontWeight: '$bold',
         textTransform: 'none',
         borderRadius: '$4',
