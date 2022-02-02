@@ -5,17 +5,8 @@ export const panelStyles = css({
   mt: '$lg',
   alignItems: 'center',
   backgroundColor: '$gray',
-  minHeight: '$bg',
+  minHeight: '$panelBg',
   borderRadius: '$3',
-  '& > *': {
-    alignSelf: 'start',
-  },
-  '& .MuiSkeleton-root': {
-    ml: '$sm',
-  },
-  '& .MuiSkeleton-rect': {
-    borderRadius: '$sm',
-  },
 });
 
 export const Panel = styled('div', panelStyles);

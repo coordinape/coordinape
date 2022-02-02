@@ -3,22 +3,19 @@ import { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar, StaticTable } from 'components';
+import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { IUser, ITableColumn } from 'types';
-
-type AllocationTableProps = {
-  users: IUser[];
-};
 
 /**
  * Component that displays a list of allocations.
  * @param users IUser[]
  * @returns
  */
-const AllocationTable = ({ users }: AllocationTableProps) => {
+const AllocationTable = ({ users }: { users: IUser[] }) => {
   const classes = useStyles();
-  const [keyword, setKeyword] = useState<string>('');
+  const [keyword, setKeyword] = useState('');
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
@@ -74,14 +71,21 @@ const AllocationTable = ({ users }: AllocationTableProps) => {
 
   return (
     <>
-      <div className={classes.userActionBar}>
+      <Box
+        css={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          height: '$5xl',
+        }}
+      >
         <input
           className={classes.searchInput}
           onChange={onChangeKeyword}
           placeholder="🔍 Search"
           value={keyword}
         />
-      </div>
+      </Box>
       <StaticTable
         columns={userColumns}
         data={users}

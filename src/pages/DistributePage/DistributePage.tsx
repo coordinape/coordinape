@@ -2,16 +2,10 @@ import { useState, ChangeEvent } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Button,
-} from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Link, Box, Panel } from '../../ui';
+import { Link, Box, Panel, Button } from '../../ui';
 import { FormTextField } from 'components';
 import { useCircleIdForEpoch, useCurrentOrg } from 'hooks/gql';
 import { useSelectedCircle } from 'recoilState';
@@ -22,14 +16,13 @@ import AllocationTable from './AllocationsTable';
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
- * @param circleId string
  * @param epochId string
  * @returns JSX.Element
  */
 const DistributePage = () => {
   // Route Parameters
-  const { circleId, epochId } = useParams();
-  const [amount, setAmount] = useState<string>('');
+  const { epochId } = useParams();
+  const [amount, setAmount] = useState('');
   const [selectedVault, setSelectedVault] = useState<string>('');
   const [amountError] = useState<boolean>(false);
   const currentOrg = useCurrentOrg();
@@ -46,21 +39,13 @@ const DistributePage = () => {
   };
 
   const { users } = useSelectedCircle();
-  const doNothing = () => alert('Not implemented');
-
-  /**
-   * NotAuthorized Prop Type for JSX.Element
-   */
-  type NotAuthorizedProps = {
-    message: string;
-  };
 
   /**
    * Shows a custom error message when unauthorized access is detected.
    * @param message string
    * @returns JSX.Element
    */
-  const NotAuthorized = ({ message }: NotAuthorizedProps): JSX.Element => (
+  const NotAuthorized = ({ message }: { message: string }) => (
     <Box
       css={{
         display: 'flex',
@@ -88,7 +73,7 @@ const DistributePage = () => {
   );
 
   // TODO: Add specific checks for Circle or Vault Admin
-  if (circleId === '1' || epochId === '1') {
+  if (!epochId) {
     return (
       <NotAuthorized message="Sorry, you are not a circle admin so you can't access this feature." />
     );
@@ -122,25 +107,27 @@ const DistributePage = () => {
           css={{
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             mt: '$lg',
           }}
         >
-          <Link
-            href={paths.getVaultsPath()}
-            css={{
-              fontSize: '$4',
-              lineHeight: '$shorter',
-              alignSelf: 'center',
-              color: '$text',
-              display: 'flex',
-              alignItems: 'center',
-              mr: '$lg',
-            }}
-          >
-            <ArrowBackIcon />
-            Back to Vaults
-          </Link>
+          <Box>
+            <Link
+              href={paths.getVaultsPath()}
+              css={{
+                fontSize: '$4',
+                lineHeight: '$shorter',
+                alignSelf: 'center',
+                color: '$text',
+                display: 'flex',
+                alignItems: 'center',
+                ml: '$lg',
+              }}
+            >
+              <ArrowBackIcon />
+              Back to Vaults
+            </Link>
+          </Box>
           <Box
             css={{
               textTransform: 'capitalize',
@@ -153,10 +140,11 @@ const DistributePage = () => {
           >
             Strategists: Epoch 22 for circle {actualCircleId} has ended
           </Box>
+          <Box></Box>
         </Box>
 
         <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
-          <Box css={{ m: '$lg', minWidth: '$select' }}>
+          <Box css={{ m: '$lg', minWidth: '$selectWidth' }}>
             <FormControl fullWidth>
               <InputLabel>Select Vault</InputLabel>
               <Select
@@ -184,12 +172,7 @@ const DistributePage = () => {
           </Box>
         </Box>
         <Box css={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={doNothing}
-          >
+          <Button color={'red'} size={'medium'}>
             Submit Distribution to Vault
           </Button>
         </Box>

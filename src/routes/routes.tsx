@@ -82,10 +82,7 @@ const LoggedInRoutes = () => {
       <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
       <Route path={paths.getCirclesPath()} element={<AdminPage />} />
       <Route
-        path={paths.getDistributePath({
-          circleId: ':circleId',
-          epochId: ':epochId',
-        })}
+        path={paths.getDistributePath({ epochId: ':epochId' })}
         element={<DistributePage />}
       />
 
