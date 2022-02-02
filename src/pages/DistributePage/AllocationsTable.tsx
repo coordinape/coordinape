@@ -105,77 +105,6 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
 export default AllocationTable;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: theme.spacing(0, 8, 4),
-    margin: 'auto',
-    maxWidth: theme.breakpoints.values.lg,
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-    },
-  },
-  withVaults: {
-    minHeight: 668,
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    alignContent: 'space-between',
-    justifyItems: 'stretch',
-    borderRadius: 8,
-    background: theme.colors.ultraLightGray,
-    alignItems: 'center',
-    columnGap: theme.spacing(3),
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr',
-    },
-    '& > *': {
-      alignSelf: 'start',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  title: {
-    textTransform: 'capitalize',
-    fontSize: 30,
-    lineHeight: 1.2,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: theme.spacing(6, 0),
-  },
-  actionsAndEpochs: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  actionBar: {
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  actionBarInner: {
-    display: 'flex',
-    flexDirection: 'row',
-    '& > *': {
-      marginLeft: theme.spacing(1.5),
-    },
-  },
-  epochsTable: {
-    flexGrow: 4,
-    marginBottom: theme.spacing(8),
-  },
-  userActionBar: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 70,
-  },
   searchInput: {
     margin: theme.spacing(0, 1),
     padding: theme.spacing(1),
@@ -190,23 +119,6 @@ const useStyles = makeStyles(theme => ({
     '&::placeholder': {
       color: theme.colors.text,
     },
-  },
-  twoLineCell: {
-    height: 48,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    fontSize: 11,
-    lineHeight: 1.5,
-    [theme.breakpoints.down('xs')]: {
-      height: 'auto',
-    },
-  },
-  twoLineCellTitle: {
-    fontWeight: 600,
-  },
-  twoLineCellSubtitle: {
-    fontWeight: 400,
   },
   avatar: {
     width: 32,
@@ -226,40 +138,5 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     lineHeight: 1.5,
     fontWeight: 600,
-  },
-  tableActions: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  actionSpacer: {
-    width: 30,
-  },
-  errorColor: {
-    color: theme.palette.error.main,
-  },
-  csvLink: {
-    color: '#84C7CA',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    '&:hover': {
-      color: '#4e7577',
-    },
-  },
-  tablePlaceholderTitle: {
-    fontSize: 20,
-    lineHeight: 1.2,
-    color: theme.colors.text,
-    opacity: 0.7,
-  },
-  infoIcon: {
-    fontSize: '0.95rem',
-    fontWeight: 300,
-    verticalAlign: 'baseline',
-    // marginLeft: 3,
-    color: theme.colors.white,
-    '&:hover': {
-      color: theme.colors.text,
-    },
   },
 }));
