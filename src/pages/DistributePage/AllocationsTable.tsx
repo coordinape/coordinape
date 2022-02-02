@@ -68,14 +68,7 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
 
   return (
     <>
-      <Box
-        css={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          height: '$5xl',
-        }}
-      >
+      <Box>
         <input
           className={classes.searchInput}
           onChange={({ target: { value } }) => setKeyword(value)}
@@ -89,11 +82,7 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
         perPage={15}
         filter={filterUser}
         sortable
-        placeholder={
-          <>
-            <h2>No users have been added.</h2>
-          </>
-        }
+        placeholder={<h2>No users have been added.</h2>}
       />
     </>
   );
@@ -103,7 +92,7 @@ export default AllocationTable;
 
 const useStyles = makeStyles(theme => ({
   searchInput: {
-    margin: theme.spacing(0, 1),
+    marginBottom: theme.spacing(1),
     padding: theme.spacing(1),
     fontSize: 14,
     fontWeight: 500,
