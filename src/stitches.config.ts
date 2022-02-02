@@ -101,6 +101,8 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      panelBg: '85vh',
+      selectWidth: '15vw',
       ...spaces,
     },
     radii: {

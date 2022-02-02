@@ -44,3 +44,9 @@ export function useCurrentOrg() {
     organizations_by_pk: [{ id }, { id: true, name: true }],
   }).data?.organizations_by_pk;
 }
+
+export function useCircleIdForEpoch(epochId: number) {
+  return useTypedQuery(`circle-for-epoch-${epochId}`, {
+    epochs_by_pk: [{ id: epochId }, { circle_id: true }],
+  }).data?.epochs_by_pk?.circle_id;
+}

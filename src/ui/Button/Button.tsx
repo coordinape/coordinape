@@ -46,6 +46,18 @@ export const Button = styled('button', {
           mx: '$sm',
         },
       },
+      medium: {
+        alignItems: 'center',
+        fontSize: '$4',
+        lineHeight: '$base',
+        fontWeight: '$semibold',
+        textTransform: 'none',
+        borderRadius: '$4',
+        '& > *': {
+          my: 0,
+          mx: '$sm',
+        },
+      },
       small: {
         fontSize: '$2',
         fontWeight: '$medium',
