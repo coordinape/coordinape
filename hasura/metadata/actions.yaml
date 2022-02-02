@@ -6,10 +6,16 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_user'
+  comment: creates a user in a circle and creates a profile if none exists
 custom_types:
   enums: []
   input_objects:
   - name: create_circle_input
+  - name: createUserInput
   objects:
   - name: create_circle_response
     relationships:
@@ -29,4 +35,5 @@ custom_types:
       type: object
       field_mapping:
         protocol_id: id
+  - name: createUserResponse
   scalars: []

@@ -24,7 +24,6 @@ export const zEthAddress = z
 
 export const zEthAddressOnly = z
   .string()
-  .transform(s => s || '')
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());
 

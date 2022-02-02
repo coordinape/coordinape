@@ -3410,6 +3410,56 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  createUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   create_circle_input: {
     address: {
       type: 'String',
@@ -5436,6 +5486,20 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   mutation_root: {
+    createUser: {
+      circle_id: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+      object: {
+        type: 'createUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     create_circle: {
       object: {
         type: 'create_circle_input',
@@ -16059,6 +16123,11 @@ export const ReturnTypes: Record<string, any> = {
     nomination_days_limit: 'Float',
     protocol_id: 'Float',
   },
+  createUserResponse: {
+    address: 'String',
+    id: 'ID',
+    name: 'String',
+  },
   create_circle_response: {
     alloc_text: 'String',
     auto_opt_out: 'Boolean',
@@ -16415,6 +16484,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   mutation_root: {
+    createUser: 'createUserResponse',
     create_circle: 'create_circle_response',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
