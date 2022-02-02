@@ -50,7 +50,8 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 # Quick Start
 
 - `yarn install`
-- `yarn setup` - init git submodules and link hardhat
+- `yarn setup`
+  - init git submodules, link hardhat & create prisma node_modules
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
@@ -61,6 +62,10 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - Runs React and the serverless functions in `api/`
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
 - Goto: http://localhost:3000 and starting giving!
+
+### Storybook
+
+- `yarn storybook`
 
 ### Working with the schema
 
@@ -76,7 +81,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 #### Additionally
 
-- `./scripts/setup-hardhat.sh` - link the react app generated code
+- `./scripts/setup.sh` - link the react app generated code
 - `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
 - `yarn hardhat:test`
 - `yarn hardhat:deploy`

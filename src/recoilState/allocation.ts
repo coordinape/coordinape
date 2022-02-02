@@ -87,7 +87,8 @@ export const rBaseTeammates = selectorFamily<IUser[], number>({
         return get(rAvailableTeammates);
       }
 
-      return myUser.teammates;
+      const teammateIds = myUser.teammates.map(t => t.id);
+      return get(rAvailableTeammates).filter(t => teammateIds.includes(t.id));
     },
 });
 

@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     color: 'rgba(81, 99, 105, 0.9)',
     width: 180,
-    textDecoration: 'underline',
     wordBreak: 'break-word',
   },
 }));
