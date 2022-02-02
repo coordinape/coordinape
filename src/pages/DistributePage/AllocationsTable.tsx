@@ -16,9 +16,6 @@ import { IUser, ITableColumn } from 'types';
 const AllocationTable = ({ users }: { users: IUser[] }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-  };
   const filterUser = useMemo(
     () => (u: IUser) => {
       const r = new RegExp(keyword, 'i');
@@ -81,7 +78,7 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
       >
         <input
           className={classes.searchInput}
-          onChange={onChangeKeyword}
+          onChange={({ target: { value } }) => setKeyword(value)}
           placeholder="🔍 Search"
           value={keyword}
         />

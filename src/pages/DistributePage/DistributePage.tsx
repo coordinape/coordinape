@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -30,13 +30,6 @@ const DistributePage = () => {
   let vaultOptions: Array<{ value: string; label: string; id: string }> = [];
 
   const actualCircleId = useCircleIdForEpoch(Number(epochId));
-
-  const handleVaultChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setSelectedVault(event.target.value as string);
-  };
-  const handleAmountChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setAmount(event.target.value as string);
-  };
 
   const { users } = useSelectedCircle();
 
@@ -150,7 +143,9 @@ const DistributePage = () => {
                 labelId="Select Vault 1"
                 label="Select Vault"
                 value={selectedVault}
-                onChange={handleVaultChange}
+                onChange={({ target: { value } }) =>
+                  setSelectedVault(value as string)
+                }
               >
                 {vaultOptions.map(vault => (
                   <MenuItem key={vault.id} value={vault.value}>
@@ -163,7 +158,7 @@ const DistributePage = () => {
           <Box>
             <FormTextField
               value={amount}
-              onChange={handleAmountChange}
+              onChange={({ target: { value } }) => setAmount(value)}
               label="Total Distribution Amount"
               error={amountError}
               errorText=""
