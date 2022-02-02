@@ -1,4 +1,11 @@
-import { Thunder, apiFetch, ValueTypes } from './zeusHasuraAdmin';
+import {
+  Thunder,
+  apiFetch,
+  ValueTypes,
+  profiles_constraint,
+  order_by,
+  profiles_update_column,
+} from './zeusHasuraAdmin';
 
 type TGql = ReturnType<typeof Thunder>;
 
@@ -254,5 +261,136 @@ export class Gql {
         },
       ],
     });
+  }
+  async insertCircleWithAdmin(
+    circleInput: ValueTypes['create_circle_input'],
+    coordinapeAddress: string
+  ) {
+    const insertProfiles = {
+      objects: [
+        { address: circleInput.address },
+        { address: coordinapeAddress },
+      ],
+      on_conflict: {
+        constraint: profiles_constraint.profiles_address_key,
+        update_columns: [profiles_update_column.address],
+      },
+    };
+    const insertUsers = {
+      data: [
+        {
+          name: circleInput.user_name,
+          address: circleInput.address,
+          role: 1,
+        },
+        {
+          name: 'Coordinape',
+          address: coordinapeAddress,
+          role: 2,
+          non_receiver: false,
+          fixed_non_receiver: false,
+          starting_tokens: 0,
+          non_giver: true,
+          give_token_remaining: 0,
+          bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+        },
+      ],
+    };
+    const circleReturn = {
+      id: true,
+      name: true,
+      protocol_id: true,
+      team_sel_text: true,
+      alloc_text: true,
+      vouching: true,
+      min_vouches: true,
+      nomination_days_limit: true,
+      vouching_text: true,
+      logo: true,
+      default_opt_in: true,
+      team_selection: true,
+      only_giver_vouch: true,
+      auto_opt_out: true,
+    };
+    let retVal;
+    if (circleInput.protocol_id) {
+      const { insert_circles_one } = await this.q('mutation')({
+        insert_circles_one: [
+          {
+            object: {
+              name: circleInput.circle_name,
+              protocol_id: circleInput.protocol_id,
+              users: insertUsers,
+            },
+          },
+          circleReturn,
+        ],
+        insert_profiles: [
+          insertProfiles,
+          {
+            returning: {
+              id: true,
+            },
+          },
+        ],
+      });
+      retVal = insert_circles_one;
+    } else {
+      const { insert_organizations_one } = await this.q('mutation')({
+        insert_organizations_one: [
+          {
+            object: {
+              name: circleInput.protocol_name,
+              circles: {
+                data: [
+                  {
+                    name: circleInput.circle_name,
+                    users: insertUsers,
+                  },
+                ],
+              },
+            },
+          },
+          {
+            circles: [
+              { limit: 1, order_by: [{ id: order_by.desc }] },
+              circleReturn,
+            ],
+          },
+        ],
+        insert_profiles: [
+          insertProfiles,
+          {
+            returning: {
+              id: true,
+            },
+          },
+        ],
+      });
+
+      retVal = insert_organizations_one?.circles.pop();
+    }
+
+    return retVal;
+  }
+
+  async checkAddressAdminInOrg(address: string, protocol_id: number) {
+    const { profiles } = await this.q('query')({
+      profiles: [
+        {
+          where: {
+            address: { _eq: address },
+            users: {
+              role: { _eq: 1 },
+              circle: { protocol_id: { _eq: protocol_id } },
+            },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    });
+    return profiles.length > 0;
   }
 }

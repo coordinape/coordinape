@@ -1,9 +1,11 @@
 import { z } from 'zod';
 
+import { zEthAddress } from '../../../src/forms/formHelpers';
+
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
-    address: z.string().regex(/^(0x)?[0-9a-f]{40}$/i),
+    address: zEthAddress,
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),

@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-import { INFURA_PROJECT_ID } from 'config/env';
+import { INFURA_PROJECT_ID } from '../config/env';
 
 const provider = new ethers.providers.InfuraProvider(
   'homestead',
