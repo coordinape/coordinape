@@ -106,12 +106,12 @@ const DistributePage = () => {
         <Box
           css={{
             display: 'flex',
-            flexWrap: 'wrap',
+            flexWrap: 'nowrap',
             justifyContent: 'space-between',
             mt: '$lg',
           }}
         >
-          <Box>
+          <Box css={{ minWidth: '15%' }}>
             <Link
               href={paths.getVaultsPath()}
               css={{
@@ -134,13 +134,12 @@ const DistributePage = () => {
               fontSize: '$9',
               lineHeight: '$shorter',
               fontWeight: 700,
-              justifyContent: 'center',
               color: '$text',
             }}
           >
             Strategists: Epoch 22 for circle {actualCircleId} has ended
           </Box>
-          <Box></Box>
+          <Box css={{ minWidth: '15%' }}></Box>
         </Box>
 
         <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
