@@ -114,3 +114,4 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 }
 
 export default authCircleAdminMiddleware(handler);
+

@@ -78,3 +78,4 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
     request_query: z.string(),
   });
 }
+
