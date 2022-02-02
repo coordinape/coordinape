@@ -171,7 +171,7 @@ const DistributePage = () => {
           </Box>
         </Box>
         <Box css={{ display: 'flex', justifyContent: 'center' }}>
-          <Button color={'red'} size={'medium'}>
+          <Button color="red" size="medium">
             Submit Distribution to Vault
           </Button>
         </Box>
