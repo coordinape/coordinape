@@ -5,31 +5,31 @@ import { z } from 'zod';
 import { INFURA_PROJECT_ID } from '../config/env';
 
 const provider = new ethers.providers.InfuraProvider(
-  'homestead',
-  INFURA_PROJECT_ID
+    'homestead',
+    INFURA_PROJECT_ID
 );
 
 export const zBooleanToNumber = z.boolean().transform(v => (v ? 1 : 0));
 
 export const zStringISODateUTC = z
-  .string()
-  .transform(s => DateTime.fromISO(s, { zone: 'utc' }));
+    .string()
+    .transform(s => DateTime.fromISO(s, { zone: 'utc' }));
 
 export const zEthAddress = z
-  .string()
-  // `resolveName` throws outright if it is passed a malformed eth address
-  // so we need to refine it first so safeParseAsync doesn't throw
-  // unexpectedly
-  .refine(validAddressOrENS, 'Wallet address is invalid')
-  .transform(s => provider.resolveName(s))
-  .refine(s => s, 'unresolved ENS name')
-  // the falsy case is unreachable, but required for soundness
-  .transform(s => (s ? s.toLowerCase() : ''));
+    .string()
+    // `resolveName` throws outright if it is passed a malformed eth address
+    // so we need to refine it first so safeParseAsync doesn't throw
+    // unexpectedly
+    .refine(validAddressOrENS, 'Wallet address is invalid')
+    .transform(s => provider.resolveName(s))
+    .refine(s => s, 'unresolved ENS name')
+    // the falsy case is unreachable, but required for soundness
+    .transform(s => (s ? s.toLowerCase() : ''));
 
 export const zEthAddressOnly = z
-  .string()
-  .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
-  .transform(s => s.toLowerCase());
+    .string()
+    .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
+    .transform(s => s.toLowerCase());
 
 function validAddressOrENS(s: string): boolean {
   return s.endsWith('.eth') || ethers.utils.isAddress(s);
