@@ -12,8 +12,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .status(200)
       .json({ message: `Discord message ${sent ? 'sent' : 'not sent'}` });
   } catch (e) {
-    res.status(401).json({
-      error: '401',
+    res.status(500).json({
+      error: '500',
       message: (e as Error).message || 'Unexpected error',
     });
   }

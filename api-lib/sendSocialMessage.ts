@@ -47,52 +47,42 @@ export async function sendSocialMessage({
   const [{ discord_webhook, telegram_id }] = circles;
 
   if (channels?.discord && discord_webhook) {
-    try {
-      const discordWebhookPost = {
-        content: msg,
-        username: DISCORD_BOT_NAME,
-        avatar_url: DISCORD_BOT_AVATAR_URL,
-      };
-      const res = await fetch(discord_webhook, {
-        method: 'POST',
-        body: JSON.stringify(discordWebhookPost),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    const discordWebhookPost = {
+      content: msg,
+      username: DISCORD_BOT_NAME,
+      avatar_url: DISCORD_BOT_AVATAR_URL,
+    };
+    const res = await fetch(discord_webhook, {
+      method: 'POST',
+      body: JSON.stringify(discordWebhookPost),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-      if (!res.ok) {
-        throw new Error(JSON.stringify(await res.json()));
-      }
-    } catch (e) {
-      // TODO: what/where do we want to log?
-      console.log('Discord webhook error:', e);
+    if (!res.ok) {
+      throw new Error(JSON.stringify(await res.json()));
     }
   }
 
   if (channels?.telegram && telegram_id) {
-    try {
-      const telegramBotPost = {
-        chat_id: telegram_id,
-        text: msg,
-      };
-      const res = await fetch(
-        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
-          method: 'POST',
-          body: JSON.stringify(telegramBotPost),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error(JSON.stringify(await res.json()));
+    const telegramBotPost = {
+      chat_id: telegram_id,
+      text: msg,
+    };
+    const res = await fetch(
+      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        method: 'POST',
+        body: JSON.stringify(telegramBotPost),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    } catch (e) {
-      // TODO: what/where do we want to log?
-      console.log('Telegram bot error:', e);
+    );
+
+    if (!res.ok) {
+      throw new Error(JSON.stringify(await res.json()));
     }
   }
 }
