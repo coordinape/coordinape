@@ -1,8534 +1,8534 @@
 /* eslint-disable */
 
-export const AllTypesProps: Record<string,any> = {
-	Boolean_comparison_exp:{
-		_eq:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"Boolean",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"Boolean",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	Int_comparison_exp:{
-		_eq:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	String_comparison_exp:{
-		_eq:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_ilike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_iregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_like:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nilike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_niregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nlike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nsimilar:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_regex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_similar:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	bigint: "String",
-	bigint_comparison_exp:{
-		_eq:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"bigint",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"bigint",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	burns_aggregate_order_by:{
-		avg:{
-			type:"burns_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"burns_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"burns_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"burns_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"burns_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"burns_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"burns_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"burns_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"burns_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"burns_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_avg_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_bool_exp:{
-		_and:{
-			type:"burns_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"burns_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"burns_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch:{
-			type:"epochs_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_max_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_min_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_order_by:{
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch:{
-			type:"epochs_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_select_column: "enum",
-	burns_stddev_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_stddev_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_stddev_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_sum_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_var_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_var_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	burns_variance_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		original_amount:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		regift_percent:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens_burnt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circle_private_bool_exp:{
-		_and:{
-			type:"circle_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"circle_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"circle_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_webhook:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circle_private_order_by:{
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_webhook:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circle_private_select_column: "enum",
-	circles:{
-		burns:{
-			distinct_on:{
-				type:"burns_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"burns_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"burns_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		epochs:{
-			distinct_on:{
-				type:"epochs_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"epochs_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"epochs_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_token_gifts:{
-			distinct_on:{
-				type:"pending_token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		token_gifts:{
-			distinct_on:{
-				type:"token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		users:{
-			distinct_on:{
-				type:"users_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"users_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"users_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	circles_aggregate_order_by:{
-		avg:{
-			type:"circles_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"circles_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"circles_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"circles_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"circles_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"circles_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"circles_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"circles_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"circles_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"circles_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_avg_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_bool_exp:{
-		_and:{
-			type:"circles_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"circles_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		alloc_text:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		auto_opt_out:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		burns:{
-			type:"burns_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_private:{
-			type:"circle_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		default_opt_in:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epochs:{
-			type:"epochs_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		is_verified:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		logo:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		only_giver_vouch:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		organization:{
-			type:"organizations_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_token_gifts:{
-			type:"pending_token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_sel_text:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_selection:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_gifts:{
-			type:"token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		users:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching_text:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_inc_input:{
-		min_vouches:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_max_order_by:{
-		alloc_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		logo:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_sel_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_min_order_by:{
-		alloc_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		logo:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_sel_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_order_by:{
-		alloc_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		auto_opt_out:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		burns_aggregate:{
-			type:"burns_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_private:{
-			type:"circle_private_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		default_opt_in:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epochs_aggregate:{
-			type:"epochs_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		is_verified:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		logo:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		only_giver_vouch:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		organization:{
-			type:"organizations_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_token_gifts_aggregate:{
-			type:"pending_token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_sel_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_selection:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_gifts_aggregate:{
-			type:"token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		users_aggregate:{
-			type:"users_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching_text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_pk_columns_input:{
-		id:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	circles_select_column: "enum",
-	circles_set_input:{
-		alloc_text:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		auto_opt_out:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		default_opt_in:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_webhook:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		is_verified:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		logo:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		only_giver_vouch:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_sel_text:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_selection:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		token_name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouching_text:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_stddev_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_stddev_pop_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_stddev_samp_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_sum_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_var_pop_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_var_samp_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	circles_variance_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min_vouches:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nomination_days_limit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	createUserInput:{
-		address:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		circle_id:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		fixed_non_receiver:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		non_giver:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		non_receiver:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	create_circle_input:{
-		circle_name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		protocol_id:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		protocol_name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	create_circle_response:{
-		users:{
-			distinct_on:{
-				type:"users_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"users_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"users_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	date: "String",
-	date_comparison_exp:{
-		_eq:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"date",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"date",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"date",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	epochs:{
-		burns:{
-			distinct_on:{
-				type:"burns_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"burns_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"burns_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	epochs_aggregate_order_by:{
-		avg:{
-			type:"epochs_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"epochs_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"epochs_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"epochs_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"epochs_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"epochs_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"epochs_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"epochs_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"epochs_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"epochs_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_avg_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_bool_exp:{
-		_and:{
-			type:"epochs_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"epochs_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"epochs_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		burns:{
-			type:"burns_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		end_date:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		ended:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"numeric_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_before_end:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_end:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_start:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		start_date:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_max_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		end_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_before_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_start:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		start_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_min_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		end_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_before_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_start:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		start_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_order_by:{
-		burns_aggregate:{
-			type:"burns_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		end_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		ended:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_before_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_end:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		notified_start:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		start_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_select_column: "enum",
-	epochs_stddev_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_stddev_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_stddev_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_sum_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_var_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_var_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	epochs_variance_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		days:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		grant:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		repeat_day_of_month:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	gift_private_bool_exp:{
-		_and:{
-			type:"gift_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"gift_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"gift_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		gift_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		note:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	gift_private_order_by:{
-		gift_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		note:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	gift_private_select_column: "enum",
-	mutation_root:{
-		createUser:{
-			object:{
-				type:"createUserInput",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		create_circle:{
-			object:{
-				type:"create_circle_input",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		update_circles:{
-			_inc:{
-				type:"circles_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			_set:{
-				type:"circles_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			where:{
-				type:"circles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		update_circles_by_pk:{
-			_inc:{
-				type:"circles_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			_set:{
-				type:"circles_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			pk_columns:{
-				type:"circles_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		update_profiles:{
-			_set:{
-				type:"profiles_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			where:{
-				type:"profiles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		update_profiles_by_pk:{
-			_set:{
-				type:"profiles_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			pk_columns:{
-				type:"profiles_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	nominees:{
-		nominations:{
-			distinct_on:{
-				type:"vouches_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"vouches_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"vouches_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	nominees_bool_exp:{
-		_and:{
-			type:"nominees_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"nominees_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"nominees_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		ended:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		expiry_date:{
-			type:"date_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominated_by_user_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominated_date:{
-			type:"date_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominations:{
-			type:"vouches_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominator:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouches_required:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	nominees_order_by:{
-		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		ended:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		expiry_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominated_by_user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominated_date:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominations_aggregate:{
-			type:"vouches_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominator:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		vouches_required:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	nominees_select_column: "enum",
-	numeric: "String",
-	numeric_comparison_exp:{
-		_eq:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"numeric",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"numeric",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	order_by: "enum",
-	organizations:{
-		circles:{
-			distinct_on:{
-				type:"circles_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"circles_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"circles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	organizations_bool_exp:{
-		_and:{
-			type:"organizations_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"organizations_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"organizations_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		circles:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	organizations_order_by:{
-		circles_aggregate:{
-			type:"circles_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	organizations_select_column: "enum",
-	pending_gift_private_bool_exp:{
-		_and:{
-			type:"pending_gift_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"pending_gift_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"pending_gift_private_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		gift_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		note:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_gift_private_order_by:{
-		gift_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		note:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_gift_private_select_column: "enum",
-	pending_token_gifts_aggregate_order_by:{
-		avg:{
-			type:"pending_token_gifts_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"pending_token_gifts_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"pending_token_gifts_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"pending_token_gifts_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"pending_token_gifts_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"pending_token_gifts_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"pending_token_gifts_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"pending_token_gifts_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"pending_token_gifts_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"pending_token_gifts_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_avg_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_bool_exp:{
-		_and:{
-			type:"pending_token_gifts_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"pending_token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"pending_token_gifts_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch:{
-			type:"epochs_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		gift_private:{
-			type:"pending_gift_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_max_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_min_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_order_by:{
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch:{
-			type:"epochs_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		gift_private:{
-			type:"pending_gift_private_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_select_column: "enum",
-	pending_token_gifts_stddev_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_stddev_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_stddev_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_sum_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_var_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_var_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	pending_token_gifts_variance_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	profiles:{
-		users:{
-			distinct_on:{
-				type:"users_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"users_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"users_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	profiles_bool_exp:{
-		_and:{
-			type:"profiles_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"profiles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"profiles_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		admin_view:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		avatar:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		background:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_username:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		github_username:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		medium_username:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		skills:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		telegram_username:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		twitter_username:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		users:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		website:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	profiles_order_by:{
-		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		admin_view:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		avatar:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		background:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_username:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		github_username:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		medium_username:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		skills:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		telegram_username:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		twitter_username:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		users_aggregate:{
-			type:"users_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		website:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	profiles_pk_columns_input:{
-		id:{
-			type:"bigint",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	profiles_select_column: "enum",
-	profiles_set_input:{
-		avatar:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		background:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		discord_username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		github_username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		medium_username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		skills:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		telegram_username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		twitter_username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		website:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	query_root:{
-		burns:{
-			distinct_on:{
-				type:"burns_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"burns_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"burns_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		burns_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		circle_private:{
-			distinct_on:{
-				type:"circle_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"circle_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"circle_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		circles:{
-			distinct_on:{
-				type:"circles_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"circles_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"circles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		circles_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		epochs:{
-			distinct_on:{
-				type:"epochs_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"epochs_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"epochs_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		epochs_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		gift_private:{
-			distinct_on:{
-				type:"gift_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"gift_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"gift_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		nominees:{
-			distinct_on:{
-				type:"nominees_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"nominees_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"nominees_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		nominees_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		organizations:{
-			distinct_on:{
-				type:"organizations_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"organizations_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"organizations_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		organizations_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		pending_gift_private:{
-			distinct_on:{
-				type:"pending_gift_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_gift_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_gift_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_token_gifts:{
-			distinct_on:{
-				type:"pending_token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_token_gifts_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		profiles:{
-			distinct_on:{
-				type:"profiles_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"profiles_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"profiles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		profiles_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		teammates:{
-			distinct_on:{
-				type:"teammates_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"teammates_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"teammates_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		teammates_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		token_gifts:{
-			distinct_on:{
-				type:"token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		token_gifts_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		users:{
-			distinct_on:{
-				type:"users_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"users_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"users_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		users_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		vouches:{
-			distinct_on:{
-				type:"vouches_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"vouches_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"vouches_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		vouches_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	subscription_root:{
-		burns:{
-			distinct_on:{
-				type:"burns_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"burns_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"burns_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		burns_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		circle_private:{
-			distinct_on:{
-				type:"circle_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"circle_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"circle_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		circles:{
-			distinct_on:{
-				type:"circles_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"circles_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"circles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		circles_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		epochs:{
-			distinct_on:{
-				type:"epochs_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"epochs_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"epochs_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		epochs_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		gift_private:{
-			distinct_on:{
-				type:"gift_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"gift_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"gift_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		nominees:{
-			distinct_on:{
-				type:"nominees_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"nominees_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"nominees_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		nominees_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		organizations:{
-			distinct_on:{
-				type:"organizations_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"organizations_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"organizations_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		organizations_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		pending_gift_private:{
-			distinct_on:{
-				type:"pending_gift_private_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_gift_private_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_gift_private_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_token_gifts:{
-			distinct_on:{
-				type:"pending_token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_token_gifts_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		profiles:{
-			distinct_on:{
-				type:"profiles_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"profiles_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"profiles_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		profiles_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		teammates:{
-			distinct_on:{
-				type:"teammates_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"teammates_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"teammates_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		teammates_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		token_gifts:{
-			distinct_on:{
-				type:"token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		token_gifts_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		users:{
-			distinct_on:{
-				type:"users_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"users_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"users_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		users_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		vouches:{
-			distinct_on:{
-				type:"vouches_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"vouches_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"vouches_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		vouches_by_pk:{
-			id:{
-				type:"bigint",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	teammates_bool_exp:{
-		_and:{
-			type:"teammates_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"teammates_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"teammates_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_mate_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		teammate:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	teammates_order_by:{
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team_mate_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		teammate:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		user_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	teammates_select_column: "enum",
-	timestamp: "String",
-	timestamp_comparison_exp:{
-		_eq:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"timestamp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"timestamp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"timestamp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	timestamptz: "String",
-	timestamptz_comparison_exp:{
-		_eq:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_gte:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_in:{
-			type:"timestamptz",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_lte:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_neq:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_nin:{
-			type:"timestamptz",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	token_gifts_aggregate_order_by:{
-		avg:{
-			type:"token_gifts_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"token_gifts_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"token_gifts_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"token_gifts_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"token_gifts_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"token_gifts_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"token_gifts_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"token_gifts_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"token_gifts_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"token_gifts_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_avg_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_bool_exp:{
-		_and:{
-			type:"token_gifts_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"token_gifts_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		gift_private:{
-			type:"gift_private_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_max_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_min_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_order_by:{
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		dts_created:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		gift_private:{
-			type:"gift_private_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_select_column: "enum",
-	token_gifts_stddev_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_stddev_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_stddev_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_sum_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_var_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_var_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	token_gifts_variance_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		recipient_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sender_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users:{
-		burns:{
-			distinct_on:{
-				type:"burns_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"burns_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"burns_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_received_gifts:{
-			distinct_on:{
-				type:"pending_token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		pending_sent_gifts:{
-			distinct_on:{
-				type:"pending_token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"pending_token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"pending_token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		received_gifts:{
-			distinct_on:{
-				type:"token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		sent_gifts:{
-			distinct_on:{
-				type:"token_gifts_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			order_by:{
-				type:"token_gifts_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
-			where:{
-				type:"token_gifts_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	users_aggregate_order_by:{
-		avg:{
-			type:"users_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"users_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"users_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"users_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"users_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"users_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"users_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"users_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"users_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"users_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_avg_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_bool_exp:{
-		_and:{
-			type:"users_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"users_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		burns:{
-			type:"burns_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		deleted_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_first_visit:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		fixed_non_receiver:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		non_giver:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		non_receiver:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_received_gifts:{
-			type:"pending_token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_sent_gifts:{
-			type:"pending_token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		profile:{
-			type:"profiles_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		received_gifts:{
-			type:"token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sent_gifts:{
-			type:"token_gifts_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_max_order_by:{
-		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		deleted_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_min_order_by:{
-		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		deleted_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_order_by:{
-		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		bio:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		burns_aggregate:{
-			type:"burns_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle:{
-			type:"circles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		deleted_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		epoch_first_visit:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		fixed_non_receiver:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		non_giver:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		non_receiver:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_received_gifts_aggregate:{
-			type:"pending_token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		pending_sent_gifts_aggregate:{
-			type:"pending_token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		profile:{
-			type:"profiles_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		received_gifts_aggregate:{
-			type:"token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sent_gifts_aggregate:{
-			type:"token_gifts_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_select_column: "enum",
-	users_stddev_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_stddev_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_stddev_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_sum_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_var_pop_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_var_samp_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	users_variance_order_by:{
-		circle_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_received:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		give_token_remaining:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		starting_tokens:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_aggregate_order_by:{
-		avg:{
-			type:"vouches_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		max:{
-			type:"vouches_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		min:{
-			type:"vouches_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev:{
-			type:"vouches_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_pop:{
-			type:"vouches_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		stddev_samp:{
-			type:"vouches_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		sum:{
-			type:"vouches_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_pop:{
-			type:"vouches_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		var_samp:{
-			type:"vouches_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		variance:{
-			type:"vouches_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_avg_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_bool_exp:{
-		_and:{
-			type:"vouches_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		_not:{
-			type:"vouches_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		_or:{
-			type:"vouches_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		created_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"bigint_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee:{
-			type:"nominees_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"timestamp_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher:{
-			type:"users_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_max_order_by:{
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_min_order_by:{
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_order_by:{
-		created_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee:{
-			type:"nominees_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		updated_at:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher:{
-			type:"users_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_select_column: "enum",
-	vouches_stddev_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_stddev_pop_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_stddev_samp_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_sum_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_var_pop_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_var_samp_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	vouches_variance_order_by:{
-		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		nominee_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		voucher_id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	}
-}
+export const AllTypesProps: Record<string, any> = {
+  Boolean_comparison_exp: {
+    _eq: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'Boolean',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'Boolean',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  Int_comparison_exp: {
+    _eq: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'Int',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'Int',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  String_comparison_exp: {
+    _eq: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _ilike: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'String',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _iregex: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _like: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nilike: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'String',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _niregex: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nlike: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nregex: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nsimilar: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _regex: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _similar: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  bigint: 'String',
+  bigint_comparison_exp: {
+    _eq: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'bigint',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'bigint',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  burns_aggregate_order_by: {
+    avg: {
+      type: 'burns_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'burns_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'burns_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'burns_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'burns_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'burns_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'burns_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'burns_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'burns_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'burns_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_bool_exp: {
+    _and: {
+      type: 'burns_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'burns_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'burns_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_max_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_min_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_order_by: {
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_select_column: 'enum',
+  burns_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  burns_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    original_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    regift_percent: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens_burnt: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_private_bool_exp: {
+    _and: {
+      type: 'circle_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'circle_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'circle_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_webhook: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_private_order_by: {
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_webhook: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_private_select_column: 'enum',
+  circles: {
+    burns: {
+      distinct_on: {
+        type: 'burns_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'burns_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'burns_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    epochs: {
+      distinct_on: {
+        type: 'epochs_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'epochs_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'epochs_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_token_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    token_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  circles_aggregate_order_by: {
+    avg: {
+      type: 'circles_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'circles_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'circles_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'circles_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'circles_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'circles_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'circles_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'circles_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'circles_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'circles_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_avg_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_bool_exp: {
+    _and: {
+      type: 'circles_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'circles_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    alloc_text: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    auto_opt_out: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    burns: {
+      type: 'burns_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_private: {
+      type: 'circle_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    default_opt_in: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epochs: {
+      type: 'epochs_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    is_verified: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    logo: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    only_giver_vouch: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    organization: {
+      type: 'organizations_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_token_gifts: {
+      type: 'pending_token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_selection: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_gifts: {
+      type: 'token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    users: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_inc_input: {
+    min_vouches: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_max_order_by: {
+    alloc_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    logo: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_min_order_by: {
+    alloc_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    logo: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_order_by: {
+    alloc_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    auto_opt_out: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    burns_aggregate: {
+      type: 'burns_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_private: {
+      type: 'circle_private_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    default_opt_in: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epochs_aggregate: {
+      type: 'epochs_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    is_verified: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    logo: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    only_giver_vouch: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    organization: {
+      type: 'organizations_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_token_gifts_aggregate: {
+      type: 'pending_token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_selection: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_gifts_aggregate: {
+      type: 'token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    users_aggregate: {
+      type: 'users_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_pk_columns_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  circles_select_column: 'enum',
+  circles_set_input: {
+    alloc_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    auto_opt_out: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    default_opt_in: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_webhook: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    is_verified: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    logo: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    only_giver_vouch: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_selection: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_stddev_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_stddev_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_stddev_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_sum_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_var_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_var_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circles_variance_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  createUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  create_circle_input: {
+    circle_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    protocol_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  create_circle_response: {
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  date: 'String',
+  date_comparison_exp: {
+    _eq: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'date',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'date',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'date',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  epochs: {
+    burns: {
+      distinct_on: {
+        type: 'burns_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'burns_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'burns_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  epochs_aggregate_order_by: {
+    avg: {
+      type: 'epochs_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'epochs_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'epochs_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'epochs_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'epochs_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'epochs_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'epochs_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'epochs_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'epochs_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'epochs_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_bool_exp: {
+    _and: {
+      type: 'epochs_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'epochs_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'epochs_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    burns: {
+      type: 'burns_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    end_date: {
+      type: 'timestamptz_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    ended: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'numeric_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_before_end: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_end: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_start: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    start_date: {
+      type: 'timestamptz_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_max_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    end_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_before_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_start: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    start_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_min_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    end_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_before_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_start: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    start_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_order_by: {
+    burns_aggregate: {
+      type: 'burns_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    end_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    ended: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_before_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_end: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    notified_start: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    start_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_select_column: 'enum',
+  epochs_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  epochs_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    days: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    grant: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    number: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat_day_of_month: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  gift_private_bool_exp: {
+    _and: {
+      type: 'gift_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'gift_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'gift_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    gift_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    note: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  gift_private_order_by: {
+    gift_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    note: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  gift_private_select_column: 'enum',
+  mutation_root: {
+    createUser: {
+      object: {
+        type: 'createUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    create_circle: {
+      object: {
+        type: 'create_circle_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_circles: {
+      _inc: {
+        type: 'circles_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      _set: {
+        type: 'circles_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      where: {
+        type: 'circles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_circles_by_pk: {
+      _inc: {
+        type: 'circles_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      _set: {
+        type: 'circles_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      pk_columns: {
+        type: 'circles_pk_columns_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_profiles: {
+      _set: {
+        type: 'profiles_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      where: {
+        type: 'profiles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_profiles_by_pk: {
+      _set: {
+        type: 'profiles_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      pk_columns: {
+        type: 'profiles_pk_columns_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+  },
+  nominees: {
+    nominations: {
+      distinct_on: {
+        type: 'vouches_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'vouches_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'vouches_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  nominees_bool_exp: {
+    _and: {
+      type: 'nominees_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'nominees_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'nominees_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    description: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    ended: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    expiry_date: {
+      type: 'date_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominated_by_user_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominated_date: {
+      type: 'date_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominations: {
+      type: 'vouches_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominator: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouches_required: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  nominees_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    description: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    ended: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    expiry_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominated_by_user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominated_date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominations_aggregate: {
+      type: 'vouches_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominator: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouches_required: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  nominees_select_column: 'enum',
+  numeric: 'String',
+  numeric_comparison_exp: {
+    _eq: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'numeric',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'numeric',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  order_by: 'enum',
+  organizations: {
+    circles: {
+      distinct_on: {
+        type: 'circles_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circles_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  organizations_bool_exp: {
+    _and: {
+      type: 'organizations_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'organizations_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'organizations_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circles: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  organizations_order_by: {
+    circles_aggregate: {
+      type: 'circles_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  organizations_select_column: 'enum',
+  pending_gift_private_bool_exp: {
+    _and: {
+      type: 'pending_gift_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'pending_gift_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'pending_gift_private_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    gift_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    note: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_gift_private_order_by: {
+    gift_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    note: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_gift_private_select_column: 'enum',
+  pending_token_gifts_aggregate_order_by: {
+    avg: {
+      type: 'pending_token_gifts_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'pending_token_gifts_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'pending_token_gifts_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'pending_token_gifts_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'pending_token_gifts_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'pending_token_gifts_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'pending_token_gifts_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'pending_token_gifts_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'pending_token_gifts_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'pending_token_gifts_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_bool_exp: {
+    _and: {
+      type: 'pending_token_gifts_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'pending_token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'pending_token_gifts_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    gift_private: {
+      type: 'pending_gift_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_max_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_min_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_order_by: {
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    gift_private: {
+      type: 'pending_gift_private_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_select_column: 'enum',
+  pending_token_gifts_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  pending_token_gifts_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  profiles: {
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  profiles_bool_exp: {
+    _and: {
+      type: 'profiles_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'profiles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'profiles_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    admin_view: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    avatar: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    background: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    github_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    medium_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    skills: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    twitter_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    users: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    website: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  profiles_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    admin_view: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    avatar: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    background: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    github_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    medium_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    skills: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    twitter_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    users_aggregate: {
+      type: 'users_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    website: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  profiles_pk_columns_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  profiles_select_column: 'enum',
+  profiles_set_input: {
+    avatar: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    background: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    github_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    medium_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    skills: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    twitter_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    website: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  query_root: {
+    burns: {
+      distinct_on: {
+        type: 'burns_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'burns_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'burns_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    burns_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    circle_private: {
+      distinct_on: {
+        type: 'circle_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circle_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circle_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    circles: {
+      distinct_on: {
+        type: 'circles_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circles_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    circles_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    epochs: {
+      distinct_on: {
+        type: 'epochs_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'epochs_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'epochs_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    epochs_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    gift_private: {
+      distinct_on: {
+        type: 'gift_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'gift_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'gift_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    nominees: {
+      distinct_on: {
+        type: 'nominees_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'nominees_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'nominees_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    nominees_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    organizations: {
+      distinct_on: {
+        type: 'organizations_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'organizations_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'organizations_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    organizations_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    pending_gift_private: {
+      distinct_on: {
+        type: 'pending_gift_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_gift_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_gift_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_token_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_token_gifts_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    profiles: {
+      distinct_on: {
+        type: 'profiles_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'profiles_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'profiles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    profiles_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    teammates: {
+      distinct_on: {
+        type: 'teammates_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'teammates_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'teammates_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    teammates_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    token_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    token_gifts_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    users_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    vouches: {
+      distinct_on: {
+        type: 'vouches_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'vouches_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'vouches_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    vouches_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+  },
+  subscription_root: {
+    burns: {
+      distinct_on: {
+        type: 'burns_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'burns_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'burns_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    burns_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    circle_private: {
+      distinct_on: {
+        type: 'circle_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circle_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circle_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    circles: {
+      distinct_on: {
+        type: 'circles_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circles_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    circles_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    epochs: {
+      distinct_on: {
+        type: 'epochs_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'epochs_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'epochs_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    epochs_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    gift_private: {
+      distinct_on: {
+        type: 'gift_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'gift_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'gift_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    nominees: {
+      distinct_on: {
+        type: 'nominees_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'nominees_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'nominees_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    nominees_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    organizations: {
+      distinct_on: {
+        type: 'organizations_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'organizations_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'organizations_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    organizations_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    pending_gift_private: {
+      distinct_on: {
+        type: 'pending_gift_private_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_gift_private_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_gift_private_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_token_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_token_gifts_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    profiles: {
+      distinct_on: {
+        type: 'profiles_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'profiles_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'profiles_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    profiles_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    teammates: {
+      distinct_on: {
+        type: 'teammates_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'teammates_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'teammates_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    teammates_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    token_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    token_gifts_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    users_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    vouches: {
+      distinct_on: {
+        type: 'vouches_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'vouches_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'vouches_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    vouches_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+  },
+  teammates_bool_exp: {
+    _and: {
+      type: 'teammates_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'teammates_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'teammates_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    teammate: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    teammate: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_select_column: 'enum',
+  timestamp: 'String',
+  timestamp_comparison_exp: {
+    _eq: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'timestamp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'timestamp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  timestamptz: 'String',
+  timestamptz_comparison_exp: {
+    _eq: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _in: {
+      type: 'timestamptz',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'timestamptz',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  token_gifts_aggregate_order_by: {
+    avg: {
+      type: 'token_gifts_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'token_gifts_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'token_gifts_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'token_gifts_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'token_gifts_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'token_gifts_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'token_gifts_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'token_gifts_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'token_gifts_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'token_gifts_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_bool_exp: {
+    _and: {
+      type: 'token_gifts_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'token_gifts_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    gift_private: {
+      type: 'gift_private_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_max_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_min_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_order_by: {
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    dts_created: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    gift_private: {
+      type: 'gift_private_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_select_column: 'enum',
+  token_gifts_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  token_gifts_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    recipient_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sender_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users: {
+    burns: {
+      distinct_on: {
+        type: 'burns_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'burns_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'burns_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_received_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    pending_sent_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    received_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    sent_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  users_aggregate_order_by: {
+    avg: {
+      type: 'users_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'users_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'users_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'users_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'users_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'users_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'users_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'users_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'users_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'users_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_bool_exp: {
+    _and: {
+      type: 'users_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'users_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    burns: {
+      type: 'burns_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    deleted_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_first_visit: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_giver: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_received_gifts: {
+      type: 'pending_token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_sent_gifts: {
+      type: 'pending_token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    profile: {
+      type: 'profiles_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    received_gifts: {
+      type: 'token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sent_gifts: {
+      type: 'token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_max_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    deleted_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_min_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    deleted_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    bio: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    burns_aggregate: {
+      type: 'burns_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle: {
+      type: 'circles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    deleted_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_first_visit: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    fixed_non_receiver: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_giver: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_received_gifts_aggregate: {
+      type: 'pending_token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    pending_sent_gifts_aggregate: {
+      type: 'pending_token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    profile: {
+      type: 'profiles_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    received_gifts_aggregate: {
+      type: 'token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sent_gifts_aggregate: {
+      type: 'token_gifts_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_select_column: 'enum',
+  users_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  users_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_received: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_aggregate_order_by: {
+    avg: {
+      type: 'vouches_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'vouches_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'vouches_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'vouches_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'vouches_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'vouches_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'vouches_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'vouches_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'vouches_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'vouches_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_avg_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_bool_exp: {
+    _and: {
+      type: 'vouches_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'vouches_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'vouches_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee: {
+      type: 'nominees_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_max_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_min_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee: {
+      type: 'nominees_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_select_column: 'enum',
+  vouches_stddev_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_stddev_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_stddev_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_sum_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_var_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_var_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vouches_variance_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nominee_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    voucher_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+};
 
-export const ReturnTypes: Record<string,any> = {
-	cached:{
-		ttl:"Int",
-		refresh:"Boolean"
-	},
-	burns:{
-		circle:"circles",
-		circle_id:"bigint",
-		created_at:"timestamp",
-		epoch:"epochs",
-		epoch_id:"bigint",
-		id:"bigint",
-		original_amount:"Int",
-		regift_percent:"Int",
-		tokens_burnt:"Int",
-		updated_at:"timestamp",
-		user:"users",
-		user_id:"bigint"
-	},
-	circle_private:{
-		circle:"circles",
-		circle_id:"bigint",
-		discord_webhook:"String"
-	},
-	circles:{
-		alloc_text:"String",
-		auto_opt_out:"Boolean",
-		burns:"burns",
-		circle_private:"circle_private",
-		created_at:"timestamp",
-		default_opt_in:"Boolean",
-		epochs:"epochs",
-		id:"bigint",
-		is_verified:"Boolean",
-		logo:"String",
-		min_vouches:"Int",
-		name:"String",
-		nomination_days_limit:"Int",
-		only_giver_vouch:"Boolean",
-		organization:"organizations",
-		pending_token_gifts:"pending_token_gifts",
-		protocol_id:"Int",
-		team_sel_text:"String",
-		team_selection:"Boolean",
-		token_gifts:"token_gifts",
-		token_name:"String",
-		updated_at:"timestamp",
-		users:"users",
-		vouching:"Boolean",
-		vouching_text:"String"
-	},
-	circles_mutation_response:{
-		affected_rows:"Int",
-		returning:"circles"
-	},
-	createUserResponse:{
-		address:"String",
-		fixed_non_receiver:"Boolean",
-		give_token_remaining:"Int",
-		id:"ID",
-		name:"String",
-		non_giver:"Boolean",
-		non_receiver:"Boolean",
-		role:"Int",
-		starting_tokens:"Int"
-	},
-	create_circle_response:{
-		circle:"circles",
-		id:"Int",
-		users:"users"
-	},
-	epochs:{
-		burns:"burns",
-		circle:"circles",
-		circle_id:"Int",
-		created_at:"timestamp",
-		days:"Int",
-		end_date:"timestamptz",
-		ended:"Boolean",
-		grant:"numeric",
-		id:"bigint",
-		notified_before_end:"timestamp",
-		notified_end:"timestamp",
-		notified_start:"timestamp",
-		number:"Int",
-		repeat:"Int",
-		repeat_day_of_month:"Int",
-		start_date:"timestamptz",
-		updated_at:"timestamp"
-	},
-	gift_private:{
-		gift_id:"bigint",
-		note:"String",
-		recipient:"users",
-		recipient_id:"bigint",
-		sender:"users",
-		sender_id:"bigint"
-	},
-	mutation_root:{
-		createUser:"createUserResponse",
-		create_circle:"create_circle_response",
-		update_circles:"circles_mutation_response",
-		update_circles_by_pk:"circles",
-		update_profiles:"profiles_mutation_response",
-		update_profiles_by_pk:"profiles"
-	},
-	nominees:{
-		address:"String",
-		circle:"circles",
-		circle_id:"Int",
-		created_at:"timestamp",
-		description:"String",
-		ended:"Boolean",
-		expiry_date:"date",
-		id:"bigint",
-		name:"String",
-		nominated_by_user_id:"Int",
-		nominated_date:"date",
-		nominations:"vouches",
-		nominator:"users",
-		updated_at:"timestamp",
-		user:"users",
-		user_id:"Int",
-		vouches_required:"Int"
-	},
-	organizations:{
-		circles:"circles",
-		created_at:"timestamp",
-		id:"bigint",
-		name:"String",
-		updated_at:"timestamp"
-	},
-	pending_gift_private:{
-		gift_id:"bigint",
-		note:"String",
-		recipient:"users",
-		recipient_id:"bigint",
-		sender:"users",
-		sender_id:"bigint"
-	},
-	pending_token_gifts:{
-		circle:"circles",
-		circle_id:"bigint",
-		created_at:"timestamp",
-		dts_created:"timestamp",
-		epoch:"epochs",
-		epoch_id:"Int",
-		gift_private:"pending_gift_private",
-		id:"bigint",
-		recipient:"users",
-		recipient_address:"String",
-		recipient_id:"bigint",
-		sender:"users",
-		sender_address:"String",
-		sender_id:"bigint",
-		tokens:"Int",
-		updated_at:"timestamp"
-	},
-	profiles:{
-		address:"String",
-		admin_view:"Boolean",
-		avatar:"String",
-		background:"String",
-		bio:"String",
-		created_at:"timestamp",
-		discord_username:"String",
-		github_username:"String",
-		id:"bigint",
-		medium_username:"String",
-		skills:"String",
-		telegram_username:"String",
-		twitter_username:"String",
-		updated_at:"timestamp",
-		users:"users",
-		website:"String"
-	},
-	profiles_mutation_response:{
-		affected_rows:"Int",
-		returning:"profiles"
-	},
-	query_root:{
-		burns:"burns",
-		burns_by_pk:"burns",
-		circle_private:"circle_private",
-		circles:"circles",
-		circles_by_pk:"circles",
-		epochs:"epochs",
-		epochs_by_pk:"epochs",
-		gift_private:"gift_private",
-		nominees:"nominees",
-		nominees_by_pk:"nominees",
-		organizations:"organizations",
-		organizations_by_pk:"organizations",
-		pending_gift_private:"pending_gift_private",
-		pending_token_gifts:"pending_token_gifts",
-		pending_token_gifts_by_pk:"pending_token_gifts",
-		profiles:"profiles",
-		profiles_by_pk:"profiles",
-		teammates:"teammates",
-		teammates_by_pk:"teammates",
-		token_gifts:"token_gifts",
-		token_gifts_by_pk:"token_gifts",
-		users:"users",
-		users_by_pk:"users",
-		vouches:"vouches",
-		vouches_by_pk:"vouches"
-	},
-	subscription_root:{
-		burns:"burns",
-		burns_by_pk:"burns",
-		circle_private:"circle_private",
-		circles:"circles",
-		circles_by_pk:"circles",
-		epochs:"epochs",
-		epochs_by_pk:"epochs",
-		gift_private:"gift_private",
-		nominees:"nominees",
-		nominees_by_pk:"nominees",
-		organizations:"organizations",
-		organizations_by_pk:"organizations",
-		pending_gift_private:"pending_gift_private",
-		pending_token_gifts:"pending_token_gifts",
-		pending_token_gifts_by_pk:"pending_token_gifts",
-		profiles:"profiles",
-		profiles_by_pk:"profiles",
-		teammates:"teammates",
-		teammates_by_pk:"teammates",
-		token_gifts:"token_gifts",
-		token_gifts_by_pk:"token_gifts",
-		users:"users",
-		users_by_pk:"users",
-		vouches:"vouches",
-		vouches_by_pk:"vouches"
-	},
-	teammates:{
-		created_at:"timestamp",
-		id:"bigint",
-		team_mate_id:"Int",
-		teammate:"users",
-		updated_at:"timestamp",
-		user:"users",
-		user_id:"Int"
-	},
-	token_gifts:{
-		circle:"circles",
-		circle_id:"bigint",
-		created_at:"timestamp",
-		dts_created:"timestamp",
-		epoch_id:"Int",
-		gift_private:"gift_private",
-		id:"bigint",
-		recipient:"users",
-		recipient_address:"String",
-		recipient_id:"bigint",
-		sender:"users",
-		sender_address:"String",
-		sender_id:"bigint",
-		tokens:"Int",
-		updated_at:"timestamp"
-	},
-	users:{
-		address:"String",
-		bio:"String",
-		burns:"burns",
-		circle:"circles",
-		circle_id:"bigint",
-		created_at:"timestamp",
-		deleted_at:"timestamp",
-		epoch_first_visit:"Boolean",
-		fixed_non_receiver:"Boolean",
-		give_token_received:"Int",
-		give_token_remaining:"Int",
-		id:"bigint",
-		name:"String",
-		non_giver:"Boolean",
-		non_receiver:"Boolean",
-		pending_received_gifts:"pending_token_gifts",
-		pending_sent_gifts:"pending_token_gifts",
-		profile:"profiles",
-		received_gifts:"token_gifts",
-		role:"Int",
-		sent_gifts:"token_gifts",
-		starting_tokens:"Int",
-		updated_at:"timestamp"
-	},
-	vouches:{
-		created_at:"timestamp",
-		id:"bigint",
-		nominee:"nominees",
-		nominee_id:"Int",
-		updated_at:"timestamp",
-		voucher:"users",
-		voucher_id:"Int"
-	}
-}
+export const ReturnTypes: Record<string, any> = {
+  cached: {
+    ttl: 'Int',
+    refresh: 'Boolean',
+  },
+  burns: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    epoch: 'epochs',
+    epoch_id: 'bigint',
+    id: 'bigint',
+    original_amount: 'Int',
+    regift_percent: 'Int',
+    tokens_burnt: 'Int',
+    updated_at: 'timestamp',
+    user: 'users',
+    user_id: 'bigint',
+  },
+  circle_private: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    discord_webhook: 'String',
+  },
+  circles: {
+    alloc_text: 'String',
+    auto_opt_out: 'Boolean',
+    burns: 'burns',
+    circle_private: 'circle_private',
+    created_at: 'timestamp',
+    default_opt_in: 'Boolean',
+    epochs: 'epochs',
+    id: 'bigint',
+    is_verified: 'Boolean',
+    logo: 'String',
+    min_vouches: 'Int',
+    name: 'String',
+    nomination_days_limit: 'Int',
+    only_giver_vouch: 'Boolean',
+    organization: 'organizations',
+    pending_token_gifts: 'pending_token_gifts',
+    protocol_id: 'Int',
+    team_sel_text: 'String',
+    team_selection: 'Boolean',
+    token_gifts: 'token_gifts',
+    token_name: 'String',
+    updated_at: 'timestamp',
+    users: 'users',
+    vouching: 'Boolean',
+    vouching_text: 'String',
+  },
+  circles_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'circles',
+  },
+  createUserResponse: {
+    address: 'String',
+    fixed_non_receiver: 'Boolean',
+    give_token_remaining: 'Int',
+    id: 'ID',
+    name: 'String',
+    non_giver: 'Boolean',
+    non_receiver: 'Boolean',
+    role: 'Int',
+    starting_tokens: 'Int',
+  },
+  create_circle_response: {
+    circle: 'circles',
+    id: 'Int',
+    users: 'users',
+  },
+  epochs: {
+    burns: 'burns',
+    circle: 'circles',
+    circle_id: 'Int',
+    created_at: 'timestamp',
+    days: 'Int',
+    end_date: 'timestamptz',
+    ended: 'Boolean',
+    grant: 'numeric',
+    id: 'bigint',
+    notified_before_end: 'timestamp',
+    notified_end: 'timestamp',
+    notified_start: 'timestamp',
+    number: 'Int',
+    repeat: 'Int',
+    repeat_day_of_month: 'Int',
+    start_date: 'timestamptz',
+    updated_at: 'timestamp',
+  },
+  gift_private: {
+    gift_id: 'bigint',
+    note: 'String',
+    recipient: 'users',
+    recipient_id: 'bigint',
+    sender: 'users',
+    sender_id: 'bigint',
+  },
+  mutation_root: {
+    createUser: 'createUserResponse',
+    create_circle: 'create_circle_response',
+    update_circles: 'circles_mutation_response',
+    update_circles_by_pk: 'circles',
+    update_profiles: 'profiles_mutation_response',
+    update_profiles_by_pk: 'profiles',
+  },
+  nominees: {
+    address: 'String',
+    circle: 'circles',
+    circle_id: 'Int',
+    created_at: 'timestamp',
+    description: 'String',
+    ended: 'Boolean',
+    expiry_date: 'date',
+    id: 'bigint',
+    name: 'String',
+    nominated_by_user_id: 'Int',
+    nominated_date: 'date',
+    nominations: 'vouches',
+    nominator: 'users',
+    updated_at: 'timestamp',
+    user: 'users',
+    user_id: 'Int',
+    vouches_required: 'Int',
+  },
+  organizations: {
+    circles: 'circles',
+    created_at: 'timestamp',
+    id: 'bigint',
+    name: 'String',
+    updated_at: 'timestamp',
+  },
+  pending_gift_private: {
+    gift_id: 'bigint',
+    note: 'String',
+    recipient: 'users',
+    recipient_id: 'bigint',
+    sender: 'users',
+    sender_id: 'bigint',
+  },
+  pending_token_gifts: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    dts_created: 'timestamp',
+    epoch: 'epochs',
+    epoch_id: 'Int',
+    gift_private: 'pending_gift_private',
+    id: 'bigint',
+    recipient: 'users',
+    recipient_address: 'String',
+    recipient_id: 'bigint',
+    sender: 'users',
+    sender_address: 'String',
+    sender_id: 'bigint',
+    tokens: 'Int',
+    updated_at: 'timestamp',
+  },
+  profiles: {
+    address: 'String',
+    admin_view: 'Boolean',
+    avatar: 'String',
+    background: 'String',
+    bio: 'String',
+    created_at: 'timestamp',
+    discord_username: 'String',
+    github_username: 'String',
+    id: 'bigint',
+    medium_username: 'String',
+    skills: 'String',
+    telegram_username: 'String',
+    twitter_username: 'String',
+    updated_at: 'timestamp',
+    users: 'users',
+    website: 'String',
+  },
+  profiles_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profiles',
+  },
+  query_root: {
+    burns: 'burns',
+    burns_by_pk: 'burns',
+    circle_private: 'circle_private',
+    circles: 'circles',
+    circles_by_pk: 'circles',
+    epochs: 'epochs',
+    epochs_by_pk: 'epochs',
+    gift_private: 'gift_private',
+    nominees: 'nominees',
+    nominees_by_pk: 'nominees',
+    organizations: 'organizations',
+    organizations_by_pk: 'organizations',
+    pending_gift_private: 'pending_gift_private',
+    pending_token_gifts: 'pending_token_gifts',
+    pending_token_gifts_by_pk: 'pending_token_gifts',
+    profiles: 'profiles',
+    profiles_by_pk: 'profiles',
+    teammates: 'teammates',
+    teammates_by_pk: 'teammates',
+    token_gifts: 'token_gifts',
+    token_gifts_by_pk: 'token_gifts',
+    users: 'users',
+    users_by_pk: 'users',
+    vouches: 'vouches',
+    vouches_by_pk: 'vouches',
+  },
+  subscription_root: {
+    burns: 'burns',
+    burns_by_pk: 'burns',
+    circle_private: 'circle_private',
+    circles: 'circles',
+    circles_by_pk: 'circles',
+    epochs: 'epochs',
+    epochs_by_pk: 'epochs',
+    gift_private: 'gift_private',
+    nominees: 'nominees',
+    nominees_by_pk: 'nominees',
+    organizations: 'organizations',
+    organizations_by_pk: 'organizations',
+    pending_gift_private: 'pending_gift_private',
+    pending_token_gifts: 'pending_token_gifts',
+    pending_token_gifts_by_pk: 'pending_token_gifts',
+    profiles: 'profiles',
+    profiles_by_pk: 'profiles',
+    teammates: 'teammates',
+    teammates_by_pk: 'teammates',
+    token_gifts: 'token_gifts',
+    token_gifts_by_pk: 'token_gifts',
+    users: 'users',
+    users_by_pk: 'users',
+    vouches: 'vouches',
+    vouches_by_pk: 'vouches',
+  },
+  teammates: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    team_mate_id: 'Int',
+    teammate: 'users',
+    updated_at: 'timestamp',
+    user: 'users',
+    user_id: 'Int',
+  },
+  token_gifts: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    dts_created: 'timestamp',
+    epoch_id: 'Int',
+    gift_private: 'gift_private',
+    id: 'bigint',
+    recipient: 'users',
+    recipient_address: 'String',
+    recipient_id: 'bigint',
+    sender: 'users',
+    sender_address: 'String',
+    sender_id: 'bigint',
+    tokens: 'Int',
+    updated_at: 'timestamp',
+  },
+  users: {
+    address: 'String',
+    bio: 'String',
+    burns: 'burns',
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    deleted_at: 'timestamp',
+    epoch_first_visit: 'Boolean',
+    fixed_non_receiver: 'Boolean',
+    give_token_received: 'Int',
+    give_token_remaining: 'Int',
+    id: 'bigint',
+    name: 'String',
+    non_giver: 'Boolean',
+    non_receiver: 'Boolean',
+    pending_received_gifts: 'pending_token_gifts',
+    pending_sent_gifts: 'pending_token_gifts',
+    profile: 'profiles',
+    received_gifts: 'token_gifts',
+    role: 'Int',
+    sent_gifts: 'token_gifts',
+    starting_tokens: 'Int',
+    updated_at: 'timestamp',
+  },
+  vouches: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    nominee: 'nominees',
+    nominee_id: 'Int',
+    updated_at: 'timestamp',
+    voucher: 'users',
+    voucher_id: 'Int',
+  },
+};

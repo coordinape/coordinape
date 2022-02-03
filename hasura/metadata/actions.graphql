@@ -32,19 +32,6 @@ input createUserInput {
 
 type create_circle_response {
   id: Int!
-  name: String!
-  protocol_id: Int!
-  team_sel_text: String
-  alloc_text: String
-  vouching: Boolean!
-  min_vouches: Int!
-  nomination_days_limit: Int!
-  vouching_text: String
-  logo: String
-  default_opt_in: Boolean!
-  team_selection: Boolean!
-  only_giver_vouch: Boolean!
-  auto_opt_out: Boolean!
 }
 
 type createUserResponse {
@@ -58,5 +45,3 @@ type createUserResponse {
   role: Int!
   starting_tokens: Int!
 }
-
-
