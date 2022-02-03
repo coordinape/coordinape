@@ -79,3 +79,26 @@ select_permissions:
             id:
               _eq: X-Hasura-User-Id
   role: user
+event_triggers:
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - ended
+  name: check-nominee-discord
+  retry_conf:
+    interval_sec: 3600
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_EVENT_TRIGGER_BASE_URL}}/check-nominee-discord"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - ended
+  name: check-nominee-telegram
+  retry_conf:
+    interval_sec: 3600
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_EVENT_TRIGGER_BASE_URL}}/check-nominee-telegram"

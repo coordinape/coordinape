@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { gql } from '../../../api-lib/Gql';
-import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -12,7 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ended: {
               _eq: false,
             },
-            expiry_date: { _lte: new Date().toISOString() },
+            expiry_date: { _lte: new Date() },
           },
         },
         {
@@ -31,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         update_nominees: [
           {
             _set: {
-              ended: true,
+              ended: true, // triggers: hasura/event-triggers/check-nominee-*.ts
             },
             where: {
               id: {
@@ -49,18 +48,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       });
 
-      await Promise.all(
-        nominees.map(n =>
-          sendSocialMessage({
-            message: `Nominee ${n.name} has only received ${n.nominations_aggregate.aggregate.count} vouch(es) and has failed`,
-            circleId: n.circle_id,
-            channels: {
-              discord: true,
-              telegram: true,
-            },
-          })
-        )
-      );
       res.status(200).json({ update_nominees });
       return;
     }
