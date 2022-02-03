@@ -2,30 +2,29 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import fetch from 'node-fetch';
 
 import { gql } from '../../../api-lib/Gql';
-import {
-  profiles_constraint,
-  ValueTypes,
-} from '../../../src/lib/gql/zeusHasuraAdmin';
+import { validateVerificationKey } from '../../../api-lib/validate';
+import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createUserSchemaInput } from '../../../src/lib/zod';
 
 // @ts-ignore
 global.fetch = fetch;
 
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse
-) {
-  // TODO authenticate that the request originated from hasura
-  console.error(request.body);
-  console.error(request.body.input);
-
+async function handler(request: VercelRequest, response: VercelResponse) {
   // Input Validation
-  const input: ValueTypes['createUserInput'] = request.body.input;
-  const result = await createUserSchemaInput.safeParseAsync(input);
+  let result;
+  try {
+    result = await createUserSchemaInput.safeParseAsync(request.body.input);
+  } catch (e: any) {
+    // This catch block is needed in case ethers.js throws for
+    // some reason (like a malformed raw ethereum address)
+    return response.status(422).json({
+      message: 'argument parse error: ' + e,
+      code: 422,
+    });
+  }
   // a `switch` gets typescript to behave soundly
   // an `if` statement doesn't recognize the result
   // disambiguation for some reason
-  console.error('result: ', result);
   switch (result.success) {
     case false:
       return response.status(422).json({
@@ -57,16 +56,15 @@ export default async function handler(
     ],
   });
 
-  if (existingUsers.length === 1) {
+  if (existingUsers.length > 0) {
     return response.status(422).json({
-      extensions: [],
       message: 'User Exists',
       code: '422',
     });
   }
 
   // Update the state after all validations have passed
-  const mutationResult = await gql.q('mutation')({
+  await gql.q('mutation')({
     // Insert the user
     insert_users_one: [
       { object: { ...createUserParams, circle_id } },
@@ -106,11 +104,11 @@ export default async function handler(
     ],
   });
 
-  console.error('dope: ', mutationResult);
-
   // TODO Figure out the correct return payload shape
 
   return response
     .status(200)
     .json({ address: 'hello', name: 'world', id: '0' });
 }
+
+export default validateVerificationKey(handler);

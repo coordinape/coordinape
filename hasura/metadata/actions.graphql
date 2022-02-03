@@ -1,14 +1,14 @@
 type Mutation {
-  create_circle(
-    object: create_circle_input!
-  ): create_circle_response
-}
-
-type Mutation {
   createUser(
     object: createUserInput!
     circle_id: Int!
   ): createUserResponse
+}
+
+type Mutation {
+  create_circle(
+    object: create_circle_input!
+  ): create_circle_response
 }
 
 input create_circle_input {
@@ -47,12 +47,9 @@ type create_circle_response {
   auto_opt_out: Boolean!
 }
 
-"Returned from createUser"
 type createUserResponse {
-  "Primary key"
-  id: ID!
-  "The ethereum address of the user"
-  address: String!
-  "human readable user name"
-  name: String!
+  """ Primary key """ id: ID!
+  """ The ethereum address of the user """ address: String!
+  """ human readable user name """ name: String!
 }
+
