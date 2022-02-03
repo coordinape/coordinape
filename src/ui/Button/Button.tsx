@@ -43,22 +43,10 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
-        fontSize: '$3',
+        fontSize: '$4',
         fontWeight: '$bold',
         lineHeight: '$shorter',
         borderRadius: '$4',
-      },
-      medium: {
-        alignItems: 'center',
-        fontSize: '$4',
-        lineHeight: '$base',
-        fontWeight: '$semibold',
-        textTransform: 'none',
-        borderRadius: '$4',
-        '& > *': {
-          my: 0,
-          mx: '$sm',
-        },
       },
       small: {
         fontSize: '$2',
