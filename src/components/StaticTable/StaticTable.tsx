@@ -77,12 +77,10 @@ const useStyles = makeStyles(theme => ({
   },
   placeholder: {
     height: 238,
-    backgroundColor: theme.colors.background,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: theme.spacing(1),
   },
 }));
 
