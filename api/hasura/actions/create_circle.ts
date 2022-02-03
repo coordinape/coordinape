@@ -27,6 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       );
       if (!isAdmin) {
         return res.status(422).json({
+          extensions: [],
           message: 'Address is not an admin of any circles under this protocol',
           code: '422',
         });

@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-import { zEthAddress } from '../../../src/forms/formHelpers';
+import { zEthAddressOnly } from '../../../src/forms/formHelpers';
 
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
-    address: zEthAddress,
+    address: zEthAddressOnly,
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),

@@ -22,6 +22,12 @@ export const zEthAddress = z
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());
 
+export const zEthAddressOnly = z
+  .string()
+  .transform(s => s || '')
+  .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
+  .transform(s => s.toLowerCase());
+
 export const zEthAddressOrBlank = z.string().refine(async val => {
   if (val == '') return true;
   return zEthAddress.parseAsync(val);

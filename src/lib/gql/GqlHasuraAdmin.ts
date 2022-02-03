@@ -4,7 +4,6 @@ import {
   ValueTypes,
   profiles_constraint,
   order_by,
-  profiles_update_column,
 } from './zeusHasuraAdmin';
 
 type TGql = ReturnType<typeof Thunder>;
@@ -266,26 +265,25 @@ export class Gql {
     circleInput: ValueTypes['create_circle_input'],
     coordinapeAddress: string
   ) {
+    const addressLc = circleInput.address.toLowerCase();
+    const coordinapeAddressLc = coordinapeAddress.toLowerCase();
     const insertProfiles = {
-      objects: [
-        { address: circleInput.address },
-        { address: coordinapeAddress },
-      ],
+      objects: [{ address: addressLc }, { address: coordinapeAddressLc }],
       on_conflict: {
         constraint: profiles_constraint.profiles_address_key,
-        update_columns: [profiles_update_column.address],
+        update_columns: [],
       },
     };
     const insertUsers = {
       data: [
         {
           name: circleInput.user_name,
-          address: circleInput.address,
+          address: addressLc,
           role: 1,
         },
         {
           name: 'Coordinape',
-          address: coordinapeAddress,
+          address: coordinapeAddressLc,
           role: 2,
           non_receiver: false,
           fixed_non_receiver: false,
@@ -379,7 +377,7 @@ export class Gql {
       profiles: [
         {
           where: {
-            address: { _eq: address },
+            address: { _ilike: address },
             users: {
               role: { _eq: 1 },
               circle: { protocol_id: { _eq: protocol_id } },
