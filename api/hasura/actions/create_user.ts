@@ -11,17 +11,7 @@ global.fetch = fetch;
 
 async function handler(request: VercelRequest, response: VercelResponse) {
   // Input Validation
-  let result;
-  try {
-    result = await createUserSchemaInput.safeParseAsync(request.body.input);
-  } catch (e: any) {
-    // This catch block is needed in case ethers.js throws for
-    // some reason (like a malformed raw ethereum address)
-    return response.status(422).json({
-      message: 'argument parse error: ' + e,
-      code: 422,
-    });
-  }
+  const result = await createUserSchemaInput.safeParseAsync(request.body.input);
   // a `switch` gets typescript to behave soundly
   // an `if` statement doesn't recognize the result
   // disambiguation for some reason
