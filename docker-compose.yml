@@ -33,6 +33,31 @@ services:
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       HASURA_ACTION_BASE_URL: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/actions
 
+
+  # for local s3 storage for images
+  localstack:
+    image: localstack/localstack:latest
+    hostname: s3
+    networks:
+      default:
+        aliases:
+          - s3.localhost.localstack.cloud
+          - s3-website.localhost.localstack.cloud
+          - coordinape.s3.localhost.localstack.cloud
+          - coordinape.s3-website.localhost.localstack.cloud
+    environment:
+      - HOSTNAME_EXTERNAL=localstack
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
+
   app:
     build:
       context: ./laravel
@@ -48,6 +73,13 @@ services:
       DB_DATABASE: ${LOCAL_POSTGRES_DATABASE}
       DB_USERNAME: ${LOCAL_POSTGRES_USER}
       DB_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+      FILESYSTEM_DRIVER: s3
+      AWS_ACCESS_KEY_ID: dontworry      #we have to put some value in here or it tries to use local ec2 metadata auth
+      AWS_SECRET_ACCESS_KEY: thisisfine #we have to put some value in here or it tries to use local ec2 metadata auth
+      AWS_ENDPOINT: http://s3.localhost.localstack.cloud:4566
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_BUCKET: coordinape
+      AWS_URL: http://localhost:4566
     volumes:
       - ./laravel:/var/www
       - ./laravel/services/php/local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -55,6 +87,7 @@ services:
       - default
     depends_on:
       - graphql-engine
+      - localstack
 
   nginx:
     container_name: nginx

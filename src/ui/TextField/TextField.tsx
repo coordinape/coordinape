@@ -1,4 +1,7 @@
+import type * as Stitches from '@stitches/react';
+
 import { styled } from '../../stitches.config';
+import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
   '&:focus': {
@@ -47,3 +50,18 @@ export const TextField = styled('input', {
     size: 'md',
   },
 });
+
+/* Storybook utility for stitches variant props
+
+NOTE: this can't live in the stories file because the storybook navigator will take a story and will crash
+      I can't figure out why it can't be defined without being exported.
+*/
+
+type ComponentVariants = Stitches.VariantProps<typeof TextField>;
+type ComponentProps = ComponentVariants;
+
+export const TextFieldStory = modifyVariantsForStory<
+  ComponentVariants,
+  ComponentProps,
+  typeof TextField
+>(TextField);

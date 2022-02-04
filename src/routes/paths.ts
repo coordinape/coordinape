@@ -46,6 +46,8 @@ export const getVaultsPath = () => '/admin/vaults';
 export const getCirclesPath = () => '/admin/circles';
 export const getNewCirclePath = () => '/new-circle';
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
+export const getDistributePath = ({ epochId }: { epochId: string }) =>
+  `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
 

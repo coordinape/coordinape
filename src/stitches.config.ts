@@ -101,6 +101,8 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      panelBg: '85vh',
+      selectWidth: '15vw',
       ...spaces,
     },
     radii: {
@@ -304,7 +306,6 @@ export const globalStyles = globalCss({
     margin: '0',
     outline: 'none',
     padding: '0',
-    width: '100%',
     WebkitTapHighlightColor: 'rgba(0,0,0,0)',
     '&::before': {
       boxSizing: 'border-box',

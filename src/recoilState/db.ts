@@ -18,7 +18,6 @@ import {
   IFullCircle,
   IManifest,
   IMyProfile,
-  IProfile,
   ISelfIdProfile,
 } from 'types';
 
@@ -30,11 +29,6 @@ export const rApiManifest = atom<IApiManifest | undefined>({
 export const rApiFullCircle = atom({
   key: 'rApiFullCircle',
   default: new Map<number, IApiFullCircle>(),
-});
-
-export const rRawProfileMap = atom({
-  key: 'rRawProfileMap',
-  default: new Map<string, IProfile>(),
 });
 
 export const rSelfIdProfileMap = atom({
@@ -137,16 +131,6 @@ export const rFullCircle = selector<IFullCircle>({
       epochsMap: epochs.toMap(e => e.id),
       nomineesMap: nominees.toMap(n => n.id),
     };
-  },
-});
-
-export const rProfileMap = selector<Map<string, IProfile>>({
-  key: 'rProfileMap',
-  get: async ({ get }) => {
-    const selfIdProfileMap = get(rSelfIdProfileMap);
-    return iti(get(rRawProfileMap).values())
-      .map(p => ({ ...selfIdProfileMap.get(p.address), ...p } as IProfile))
-      .toMap(p => p.address);
   },
 });
 
