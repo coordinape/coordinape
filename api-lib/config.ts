@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 function getEnvValue<T extends string | number>(
-  key: string,
-  defaultVal?: T
+    key: string,
+    defaultVal?: T
 ): T {
   const v = process.env[key];
   if (v) {
@@ -22,13 +22,13 @@ function getEnvValue<T extends string | number>(
 // and can be used by, script, serverless functions and react.
 // There shouldn't be a fallback if we consider vercel as requiring these.
 export const HASURA_GRAPHQL_ADMIN_SECRET = <string>(
-  getEnvValue('HASURA_GRAPHQL_ADMIN_SECRET')
+    getEnvValue('HASURA_GRAPHQL_ADMIN_SECRET')
 );
 export const NODE_HASURA_URL = <string>(
-  getEnvValue('NODE_HASURA_URL', 'missing')
+    getEnvValue('NODE_HASURA_URL', 'missing')
 );
 export const LOCAL_SEED_ADDRESS = <string>(
-  getEnvValue('LOCAL_SEED_ADDRESS', 'missing')
+    getEnvValue('LOCAL_SEED_ADDRESS', 'missing')
 );
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
