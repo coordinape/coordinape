@@ -55,7 +55,7 @@ services:
     volumes:
       - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - ./localdev/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
+      - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
 
   app:
     build:
