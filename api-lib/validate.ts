@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
 
 import { HASURA_EVENT_SECRET } from './config';
 
-export const validateVerificationKey = (handler: VercelApiHandler) => {
+export const verifyHasuraAdminMiddleware = (handler: VercelApiHandler) => {
   return async (req: VercelRequest, res: VercelResponse) => {
     if (
       !req.headers.verification_key ||
