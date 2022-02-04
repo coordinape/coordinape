@@ -1,13 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import fetch from 'node-fetch';
 
 import { gql } from '../../../api-lib/Gql';
 import { verifyHasuraAdminMiddleware } from '../../../api-lib/validate';
 import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createUserSchemaInput } from '../../../src/lib/zod';
-
-// @ts-ignore
-global.fetch = fetch;
 
 async function handler(request: VercelRequest, response: VercelResponse) {
   // Input Validation
