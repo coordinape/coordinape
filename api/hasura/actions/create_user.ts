@@ -34,7 +34,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         limit: 1,
         where: {
           name: { _eq: createUserParams.name },
-          address: { _eq: createUserParams.address },
+          address: { _ilike: createUserParams.address },
           circle_id: { _eq: circle_id },
           // ignore soft_deleted users
           deleted_at: { _is_null: true },
@@ -66,7 +66,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         _set: { ended: true },
         where: {
           circle_id: { _eq: circle_id },
-          address: { _eq: createUserParams.address },
+          address: { _ilike: createUserParams.address },
           name: { _eq: createUserParams.name },
           ended: { _eq: false },
         },

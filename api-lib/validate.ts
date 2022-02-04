@@ -1,20 +1,17 @@
 import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
 
+import { HASURA_EVENT_SECRET } from './config';
+
 export const validateVerificationKey = (handler: VercelApiHandler) => {
   return async (req: VercelRequest, res: VercelResponse) => {
-    try {
-      if (
-        !req.headers.verification_key ||
-        (req.headers.verification_key as string) !==
-          process.env.HASURA_EVENT_SECRET
-      ) {
-        throw new Error('Unauthorized access');
-      }
-    } catch (error) {
+    if (
+      !req.headers.verification_key ||
+      (req.headers.verification_key as string) !== HASURA_EVENT_SECRET
+    ) {
       // return here to prevent further execution
-      return res.status(400).json({
-        message: error.message,
-        code: error.message,
+      return res.status(401).json({
+        message: 'Unauthorized access',
+        code: 401,
       });
     }
     try {

@@ -31,3 +31,7 @@ export const LOCAL_SEED_ADDRESS = <string>(
   getEnvValue('LOCAL_SEED_ADDRESS', 'missing')
 );
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
+
+export const HASURA_EVENT_SECRET = <string>(
+  getEnvValue('HASURA_EVENT_SECRET', '')
+);
