@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 import AppLandingPage from './AppLandingPage';
-import './global';
 import { DOMAIN_IS_PREVIEW, RENDER_APP } from './utils/domain';
 
 Sentry.init({
