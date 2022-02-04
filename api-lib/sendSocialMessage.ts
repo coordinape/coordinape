@@ -1,10 +1,8 @@
 import fetch from 'node-fetch';
 
+import { TELEGRAM_BOT_BASE_URL } from './config';
+import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import { gql } from './Gql';
-
-const DISCORD_BOT_NAME = 'Caesar The Coordinape Bot';
-const DISCORD_BOT_AVATAR_URL =
-  'https://coordinape-prod.s3.amazonaws.com/assets/static/20220131-coordinape-pfp-ape.jpg';
 
 type SocialMessage = {
   message: string;
@@ -70,16 +68,13 @@ export async function sendSocialMessage({
       chat_id: telegram_id,
       text: msg,
     };
-    const res = await fetch(
-      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        body: JSON.stringify(telegramBotPost),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const res = await fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
+      method: 'POST',
+      body: JSON.stringify(telegramBotPost),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!res.ok) {
       throw new Error(JSON.stringify(await res.json()));
