@@ -43,14 +43,16 @@ export class Gql {
     );
   }
 
-  async getCircle() {
+  async getCircle(id: number) {
     return this.q('query')({
       circles_by_pk: [
-        { id: 0 },
+        { id },
         {
           id: true,
           name: true,
           team_sel_text: true,
+          discord_webhook: true,
+          telegram_id: true,
           epochs: [
             { limit: 1 },
             {

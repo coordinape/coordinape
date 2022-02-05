@@ -26,23 +26,9 @@ export async function sendSocialMessage({
 }: SocialMessage) {
   const msg = sanitize ? cleanStr(message) : message;
 
-  const { circles } = await gql.q('query')({
-    circles: [
-      {
-        where: {
-          id: {
-            _eq: circleId,
-          },
-        },
-      },
-      {
-        discord_webhook: true,
-        telegram_id: true,
-      },
-    ],
-  });
-
-  const [{ discord_webhook, telegram_id }] = circles;
+  const {
+    circles_by_pk: { discord_webhook, telegram_id },
+  } = await gql.getCircle(circleId);
 
   if (channels?.discord && discord_webhook) {
     const discordWebhookPost = {
