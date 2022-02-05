@@ -1,5 +1,4 @@
 import {
-  ApeDistributor,
   ApeRouter,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
@@ -54,26 +53,4 @@ export const makeRouterTxFn =
     const signer = await web3Context.library.getSigner();
     const apeRouter = await contracts.apeRouter.connect(signer);
     return callback(apeRouter).catch(e => handleContractError(apeError, e));
-  };
-
-export const makeDistributorTxFn =
-  (
-    web3Context: Web3ReactContextInterface,
-    contracts: Contracts | undefined,
-    apeError: (error: any) => void
-  ) =>
-  async (
-    callback: (
-      apeDistributor: ApeDistributor
-    ) => Promise<ContractTransaction | boolean>
-  ) => {
-    if (!contracts) {
-      apeError('Contracts not loaded');
-      return;
-    }
-    const signer = await web3Context.library.getSigner();
-    const apeDistributor = contracts.apeDistributor.connect(signer);
-    return callback(apeDistributor).catch(e =>
-      handleContractError(apeError, e)
-    );
   };
