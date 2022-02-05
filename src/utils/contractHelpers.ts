@@ -54,3 +54,31 @@ export const makeRouterTxFn =
     const apeRouter = await contracts.apeRouter.connect(signer);
     return callback(apeRouter).catch(e => handleContractError(apeError, e));
   };
+
+type Options = {
+  sendingMessage?: string;
+  minedMessage?: string;
+  showInfo: (message: any) => void;
+  showError: (message: any) => void;
+};
+
+export const sendAndTrackTx = async (
+  callback: () => Promise<ContractTransaction>,
+  {
+    sendingMessage = 'Sending transaction...',
+    minedMessage = 'Transaction completed',
+    showInfo,
+    showError,
+  }: Options
+) => {
+  try {
+    const promise = callback();
+    showInfo(sendingMessage);
+    const tx = await promise;
+    const receipt = await tx.wait();
+    showInfo(minedMessage);
+    return { tx, receipt }; // just guessing at a good return value here
+  } catch (e) {
+    showError(e);
+  }
+};

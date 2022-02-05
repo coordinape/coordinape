@@ -19,15 +19,16 @@ const displayError = (error: any) => {
   return data?.message || error.message || defaultErrorMessage;
 };
 
-export const useApeSnackbar = (): {
-  apeInfo: (message: string) => void;
-  apeError: (error: any) => void;
-} => {
+export const useApeSnackbar = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const showInfo = (message: string) =>
+    enqueueSnackbar(message, { variant: 'default' });
+  const showError = (error: any) =>
+    enqueueSnackbar(displayError(error), { variant: 'error' });
   return {
-    apeInfo: (message: string) =>
-      enqueueSnackbar(message, { variant: 'default' }),
-    apeError: (error: any) =>
-      enqueueSnackbar(displayError(error), { variant: 'error' }),
+    showInfo,
+    showError,
+    apeInfo: showInfo,
+    apeError: showError,
   };
 };

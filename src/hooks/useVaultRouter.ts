@@ -3,7 +3,7 @@ import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { ContractTransaction, ethers } from 'ethers';
 
-import { makeRouterTxFn } from 'utils/contractHelpers';
+import { makeRouterTxFn, sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 import { useContracts } from './useContracts';
@@ -13,8 +13,8 @@ import { IVault } from 'types';
 export function useVaultRouter() {
   const contracts = useContracts();
   const web3Context = useWeb3React();
-  const { apeError, apeInfo } = useApeSnackbar();
-  const runVaultRouter = makeRouterTxFn(web3Context, contracts, apeError);
+  const { showError, showInfo } = useApeSnackbar();
+  const runVaultRouter = makeRouterTxFn(web3Context, contracts, showError);
 
   const depositToken = async (
     vault: IVault,
@@ -22,12 +22,15 @@ export function useVaultRouter() {
   ): Promise<ContractTransaction | undefined> => {
     if (!contracts) throw new Error('Contracts not loaded');
     const token = contracts.getERC20(vault.tokenAddress);
+
     // Todo: Handle this separately and conditionally in UI
-    await token.approve(
-      contracts.apeRouter.address,
-      ethers.constants.MaxUint256
+    await sendAndTrackTx(
+      () =>
+        token.approve(contracts.apeRouter.address, ethers.constants.MaxUint256),
+      { showError, showInfo }
     );
-    apeInfo('Deposit pending');
+
+    showInfo('Deposit pending');
     return await runVaultRouter(v =>
       v.delegateDeposit(vault.id, vault.tokenAddress, amount)
     );
