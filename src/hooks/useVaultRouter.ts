@@ -1,9 +1,9 @@
 // - Contract Imports
 import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
-import { ContractTransaction, ethers } from 'ethers';
+import { ethers } from 'ethers';
 
-import { makeRouterTxFn, sendAndTrackTx } from 'utils/contractHelpers';
+import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 import { useContracts } from './useContracts';
@@ -12,14 +12,13 @@ import { IVault } from 'types';
 
 export function useVaultRouter() {
   const contracts = useContracts();
-  const web3Context = useWeb3React();
+  const { account } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
-  const runVaultRouter = makeRouterTxFn(web3Context, contracts, showError);
 
   const depositToken = async (
     vault: IVault,
     amount: BigNumberish
-  ): Promise<ContractTransaction | undefined> => {
+  ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
     const token = contracts.getERC20(vault.tokenAddress);
 
@@ -27,12 +26,25 @@ export function useVaultRouter() {
     await sendAndTrackTx(
       () =>
         token.approve(contracts.apeRouter.address, ethers.constants.MaxUint256),
-      { showError, showInfo }
+      {
+        showError,
+        showInfo,
+        signingMessage: 'Please sign the transaction to approve the transfer.',
+      }
     );
 
-    showInfo('Deposit pending');
-    return await runVaultRouter(v =>
-      v.delegateDeposit(vault.id, vault.tokenAddress, amount)
+    return sendAndTrackTx(
+      () =>
+        contracts.apeRouter.delegateDeposit(
+          vault.id,
+          vault.tokenAddress,
+          amount
+        ),
+      {
+        showError,
+        showInfo,
+        signingMessage: 'Please sign the transaction to deposit tokens.',
+      }
     );
   };
 
@@ -42,15 +54,14 @@ export function useVaultRouter() {
     shareAmount: BigNumberish,
     underlying: boolean
   ) => {
-    const signer = await web3Context.library.getSigner();
-    runVaultRouter(v =>
-      v.delegateWithdrawal(
-        signer,
-        vault.id,
-        tokenAddress,
-        shareAmount,
-        underlying
-      )
+    if (!contracts || !account)
+      throw new Error('Contracts or account not loaded');
+    return contracts?.apeRouter.delegateWithdrawal(
+      account,
+      vault.id,
+      tokenAddress,
+      shareAmount,
+      underlying
     );
   };
 
