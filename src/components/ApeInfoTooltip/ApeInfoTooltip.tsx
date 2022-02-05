@@ -42,8 +42,9 @@ export const ApeInfoTooltip = ({
   children,
   classes,
   className,
+  iconTheme,
   ...props
-}: { children: ReactNode; component?: ReactNode } & Omit<
+}: { children: ReactNode; component?: ReactNode; iconTheme?: string } & Omit<
   TooltipProps,
   'title' | 'children'
 >) => {
@@ -90,7 +91,7 @@ export const ApeInfoTooltip = ({
                   <InfoIcon
                     onClick={handleTooltipOpen}
                     inherit="inherit"
-                    className={localClasses.icon}
+                    className={iconTheme ?? localClasses.icon}
                   />
                 </span>
               )}
@@ -102,7 +103,7 @@ export const ApeInfoTooltip = ({
           title={<div>{children ?? 'blank'}</div>}
           placement="top-start"
           TransitionComponent={Zoom}
-          leaveDelay={50} // Allows clickable links as content, transition-out animation prevents clicking without a slight delay
+          leaveDelay={props.leaveDelay ?? 50} // Allows clickable links as content, transition-out animation prevents clicking without a slight delay
           classes={{
             ...classes,
             tooltip: clsx(localClasses.tooltip, classes?.tooltip),
@@ -114,7 +115,10 @@ export const ApeInfoTooltip = ({
             <span>{props.component}</span>
           ) : (
             <span className={className}>
-              <InfoIcon inherit="inherit" className={localClasses.icon} />
+              <InfoIcon
+                inherit="inherit"
+                className={iconTheme ?? localClasses.icon}
+              />
             </span>
           )}
         </Tooltip>

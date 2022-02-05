@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import iti from 'itiriri';
-import { useHistory } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 import { useRecoilLoadCatch } from 'hooks';
 import {
@@ -25,7 +25,8 @@ import { assertDef } from 'utils/tools';
 import { EConnectorNames } from 'types';
 
 export const useApiBase = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navigateDefault = useRecoilLoadCatch(
     ({ snapshot }) =>
@@ -42,11 +43,11 @@ export const useApiBase = () => {
           const {
             circleEpochsStatus: { epochIsActive },
           } = await snapshot.getPromise(rCircle(selectedCircleId));
-          if (history.location.pathname === '/') {
+          if (location.pathname === '/') {
             if (epochIsActive) {
-              history.push(getAllocationPath());
+              navigate(getAllocationPath());
             } else {
-              history.push(getHistoryPath());
+              navigate(getHistoryPath());
             }
           }
         } catch (e) {
@@ -120,13 +121,6 @@ export const useApiBase = () => {
           delete authTokens[original];
         }
 
-        // if (getApiService().token) {
-        //   try {
-        //     await getApiService().logout();
-        //   } catch (e) {
-        //     console.error('Failed to logout', e);
-        //   }
-        // }
         // Logout triggered by walletAuth removal of token.
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);

@@ -11,6 +11,7 @@ jobs:
       REACT_APP_API_BASE_URL: https://staging-api.coordinape.com/api
       REACT_APP_HASURA_URL: https://coordinape-staging.hasura.app/v1/graphql
       ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
 
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +30,7 @@ jobs:
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
-      - run: ./scripts/setup-hardhat.sh
+      - run: ./scripts/setup.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check

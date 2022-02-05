@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Button, IconButton } from 'ui';
 
 import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
-import { useCurrentOrg } from 'hooks/gqty';
+import { useCurrentOrg } from 'hooks/gql';
 import { DownArrowIcon } from 'icons';
-import { getAdminNavigation, checkActive } from 'routes/paths';
+import { getAdminNavigation } from 'routes/paths';
+import { Button, IconButton } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -104,7 +104,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>{currentOrg.name}</h2>
+          <h2 className={classes.title}>{currentOrg?.name}</h2>
           <IconButton>
             <DownArrowIcon size="md" />
           </IconButton>
@@ -112,6 +112,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
             onClick={onButtonClick}
             color="red"
             css={{ marginLeft: '$lg' }}
+            size="small"
           >
             {buttonText}
           </Button>
@@ -120,9 +121,6 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
           {navItems.map(navItem => (
             <NavLink
               className={classes.navLink}
-              isActive={(nothing, location) =>
-                checkActive(location.pathname, navItem)
-              }
               key={navItem.path}
               to={navItem.path}
             >

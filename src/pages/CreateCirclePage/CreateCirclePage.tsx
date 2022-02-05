@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import uniqBy from 'lodash/uniqBy';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
 
 export const SummonCirclePage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { address: myAddress, myUsers } = useMyProfile();
   const { selectCircle } = useApiBase();
@@ -111,9 +111,6 @@ export const SummonCirclePage = () => {
         source={undefined}
         submit={async ({
           captcha_token,
-          research_what,
-          research_who,
-          research_how_much,
           research_org_link,
           research_contact,
           ...params
@@ -125,16 +122,13 @@ export const SummonCirclePage = () => {
               captcha_token,
               JSON.stringify({
                 address: myAddress,
-                research_what,
-                research_who,
-                research_how_much,
                 research_org_link,
                 research_contact,
                 ...params,
               })
             );
             selectCircle(newCircle.id);
-            history.push({
+            navigate({
               pathname: paths.getAdminPath(),
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
             });
@@ -192,26 +186,8 @@ export const SummonCirclePage = () => {
               <FormTextField
                 {...fields.research_contact}
                 fullWidth
-                label="How can we contact you?"
+                label="Circle Point of Contact"
                 placeholder="Discord, Telegram, email, etc."
-              />
-              <FormTextField
-                {...fields.research_what}
-                fullWidth
-                label="What do you want to use Coordinape for?"
-                placeholder="Tell us what you're working on"
-              />
-              <FormTextField
-                {...fields.research_who}
-                fullWidth
-                label="How many people will be in the circle?"
-                placeholder="Estimated number of contributors"
-              />
-              <FormTextField
-                {...fields.research_how_much}
-                label="How much will you distribute each month?"
-                placeholder="Approximate value in USD"
-                fullWidth
               />
             </div>
             <FormCaptcha {...fields.captcha_token} error={false} />

@@ -1,6 +1,32 @@
-actions: []
+actions:
+- name: create_circle
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_circle'
+  permissions:
+  - role: user
+  - role: superadmin
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+  - name: create_circle_input
+  objects:
+  - name: create_circle_response
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: users
+      source: default
+      type: array
+      field_mapping:
+        id: circle_id
+    - remote_table:
+        schema: public
+        name: protocols
+      name: protocol
+      source: default
+      type: object
+      field_mapping:
+        protocol_id: id
   scalars: []

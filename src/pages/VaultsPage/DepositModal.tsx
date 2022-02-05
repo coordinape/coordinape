@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { BigNumber, ethers, utils } from 'ethers';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -36,7 +36,7 @@ export default function DepositModal({
   vault: IVault;
 }) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [max, setMax] = useState<any>();
   const { depositToken } = useVaultRouter();
   const { balance } = useGetAnyTokenValue(vault.tokenAddress);
@@ -65,7 +65,7 @@ export default function DepositModal({
         'Deposit succeeded. Reload page to see updated balance. (TODO: update automatically)'
       );
       onClose();
-      history.push('/admin/vaults');
+      navigate('/admin/vaults');
     });
   };
 
@@ -78,7 +78,7 @@ export default function DepositModal({
         <FormModal
           onClose={onClose}
           open={open}
-          title={`Deposit ${vault.type.toUpperCase()} to the Coordinape Vault`}
+          title={`Deposit ${vault.type.toUpperCase()}`}
           subtitle=""
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}

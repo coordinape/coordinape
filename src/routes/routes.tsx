@@ -1,13 +1,13 @@
 import React, { lazy } from 'react';
 
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
+import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
-import OverviewPage from 'pages/OverviewPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
@@ -25,26 +25,24 @@ import * as paths from './paths';
 // look into this.
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
-export const Routes = () => {
+export const AppRoutes = () => {
   const hasCircles = useHasCircles();
   const hasSelectedCircle = useHasSelectedCircle();
 
   return hasCircles && hasSelectedCircle ? (
     <LoggedInRoutes />
   ) : (
-    <Switch>
+    <Routes>
       <Route
-        exact
         path={paths.getCreateCirclePath()}
-        component={CreateCirclePage}
+        element={<CreateCirclePage />}
       />
       <Route
-        exact
         path={paths.getProfilePath({ address: ':profileAddress' })}
-        component={ProfilePage}
+        element={<ProfilePage />}
       />
-      <Route path={paths.getHomePath()} component={DefaultPage} />
-    </Switch>
+      <Route path={paths.getHomePath()} element={<DefaultPage />} />
+    </Routes>
   );
 };
 
@@ -54,82 +52,41 @@ const LoggedInRoutes = () => {
     useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
 
   return (
-    <Switch>
-      <Route exact path={paths.getHomePath()} component={DefaultPage} />
+    <Routes>
+      <Route path={paths.getHomePath()} element={<DefaultPage />} />
       <Route
-        exact
         path={paths.getCreateCirclePath()}
-        component={CreateCirclePage}
+        element={<CreateCirclePage />}
       />
-
       <Route
-        exact
         path={paths.getProfilePath({ address: ':profileAddress' })}
-        component={ProfilePage}
+        element={<ProfilePage />}
       />
-      <Route exact path={paths.getMapPath()} component={LazyAssetMapPage} />
-      <Route exact path={paths.getVouchingPath()} component={VouchingPage} />
-      <Route exact path={paths.getHistoryPath()} component={HistoryPage} />
-
+      <Route path={paths.getMapPath()} element={<LazyAssetMapPage />} />
+      <Route path={paths.getVouchingPath()} element={<VouchingPage />} />
+      <Route path={paths.getHistoryPath()} element={<HistoryPage />} />
+      <Route path={paths.getAllocationPath()} element={<AllocationPage />} />
+      <Route path={paths.getMyTeamPath()} element={<AllocationPage />} />
+      <Route path={paths.getMyEpochPath()} element={<AllocationPage />} />
+      <Route path={paths.getGivePath()} element={<AllocationPage />} />
       <Route
-        exact
-        key={paths.getAllocationPath()}
-        path={paths.getAllocationPath()}
-        component={AllocationPage}
-      />
-      <Route
-        exact
-        key={paths.getMyTeamPath()}
-        path={paths.getMyTeamPath()}
-        component={AllocationPage}
-      />
-      <Route
-        exact
-        key={paths.getMyEpochPath()}
-        path={paths.getMyEpochPath()}
-        component={AllocationPage}
-      />
-      <Route
-        exact
-        key={paths.getGivePath()}
-        path={paths.getGivePath()}
-        component={AllocationPage}
-      />
-
-      {selectedUser && !hasAdminView && (
-        <Route path={paths.getAdminPath()}>
-          <Redirect to={paths.getHomePath()} />
-        </Route>
-      )}
-
-      <Route
-        exact
-        key={paths.getAdminPath()}
         path={paths.getAdminPath()}
-        render={() => <AdminPage legacy={true} />}
+        element={
+          selectedUser && !hasAdminView ? (
+            <Navigate to={paths.getHomePath()} replace />
+          ) : (
+            <AdminPage legacy={true} />
+          )
+        }
       />
+      <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
+      <Route path={paths.getCirclesPath()} element={<AdminPage />} />
       <Route
-        exact
-        key={paths.getOverviewPath()}
-        path={paths.getOverviewPath()}
-        component={OverviewPage}
-      />
-      <Route
-        exact
-        key={paths.getVaultsPath()}
-        path={paths.getVaultsPath()}
-        component={VaultsPage}
-      />
-      <Route
-        exact
-        key={paths.getCirclesPath()}
-        path={paths.getCirclesPath()}
-        component={AdminPage}
+        path={paths.getDistributePath({ epochId: ':epochId' })}
+        element={<DistributePage />}
       />
 
-      <Redirect to={paths.getHomePath()} />
-    </Switch>
+      <Route path="*" element={<Navigate to={paths.getHomePath()} replace />} />
+    </Routes>
   );
 };
-
-export default Routes;

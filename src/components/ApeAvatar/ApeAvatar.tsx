@@ -18,8 +18,10 @@ export const ApeAvatar = ({
   profile?: IProfile;
 }) => {
   // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
-  const p = profile ?? user?.profile;
-  const avatarPath = getAvatarPathWithFallback(p?.avatar, user?.name);
+  const avatarPath = getAvatarPathWithFallback(
+    profile?.avatar || user?.profile?.avatar,
+    user?.name
+  );
   const src = path ?? avatarPath;
   return (
     <Avatar src={src} alt={user?.name} {...props}>

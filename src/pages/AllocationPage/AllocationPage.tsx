@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useLocation, matchPath, useHistory } from 'react-router-dom';
+import { useLocation, matchPath, useNavigate } from 'react-router-dom';
 
 import {
   makeStyles,
@@ -123,7 +123,7 @@ const useStyles = makeStyles(theme => ({
 export const AllocationPage = () => {
   const classes = useStyles();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const {
     circleId,
@@ -161,10 +161,7 @@ export const AllocationPage = () => {
 
   useEffect(() => {
     const exactStep = allSteps.find(({ path }) =>
-      matchPath(location.pathname, {
-        exact: true,
-        path,
-      })
+      matchPath(path, location.pathname)
     );
     if (exactStep === undefined) {
       if (!completedSteps.has(STEP_MY_EPOCH)) {
@@ -194,7 +191,7 @@ export const AllocationPage = () => {
           ? STEP_ALLOCATION
           : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
-        history.push(_nextStep.path);
+        navigate(_nextStep.path);
       }
     } catch (e) {
       console.warn('handleSaveEpoch', e);
@@ -206,7 +203,7 @@ export const AllocationPage = () => {
       await saveTeammates();
       if (epochIsActive) {
         setActiveStep(STEP_ALLOCATION.key);
-        history.push(STEP_ALLOCATION.path);
+        navigate(STEP_ALLOCATION.path);
       }
     } catch (e) {
       console.warn('handleSaveTeamList', e);
@@ -225,7 +222,7 @@ export const AllocationPage = () => {
   };
 
   const getHandleStep = (step: IAllocationStep) => () => {
-    history.push(step.path);
+    navigate(step.path);
     setActiveStep(step.key);
   };
 

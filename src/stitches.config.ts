@@ -101,6 +101,8 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      panelBg: '85vh',
+      selectWidth: '15vw',
       ...spaces,
     },
     radii: {
@@ -292,6 +294,44 @@ export const {
       WebkitBackgroundClip: value,
       backgroundClip: value,
     }),
+  },
+});
+
+export const globalStyles = globalCss({
+  'input, textarea': {
+    appearance: 'none',
+    borderWidth: 0,
+    boxSizing: 'border-box',
+    fontFamily: 'inherit',
+    margin: '0',
+    outline: 'none',
+    padding: '0',
+    WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+    '&::before': {
+      boxSizing: 'border-box',
+    },
+    '&::after': {
+      boxSizing: 'border-box',
+    },
+  },
+  button: {
+    all: 'unset',
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    userSelect: 'none',
+    '&::before': {
+      boxSizing: 'border-box',
+    },
+    '&::after': {
+      boxSizing: 'border-box',
+    },
+  },
+  'div, hr': {
+    boxSizing: 'border-box',
+  },
+  img: {
+    verticalAlign: 'middle',
+    maxWidth: '100%',
   },
 });
 

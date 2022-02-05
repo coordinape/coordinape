@@ -1,5 +1,3 @@
-import { matchPath } from 'react-router-dom';
-
 import { IN_PRODUCTION } from 'config/env';
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
@@ -44,10 +42,12 @@ export const getMapPath = (params?: { highlight?: string }) =>
 export const getVouchingPath = () => '/vouching';
 export const getHistoryPath = () => '/history';
 export const getAdminPath = () => '/admin';
-export const getOverviewPath = () => '/admin/overview';
 export const getVaultsPath = () => '/admin/vaults';
 export const getCirclesPath = () => '/admin/circles';
+export const getNewCirclePath = () => '/new-circle';
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
+export const getDistributePath = ({ epochId }: { epochId: string }) =>
+  `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
 
@@ -63,6 +63,7 @@ const NAV_ITEM_PROFILE = {
   path: getProfilePath({ address: 'me' }),
   label: 'My Profile',
 };
+const NAV_ITEM_NEW_CIRCLE = { path: getNewCirclePath(), label: ' Add Circle' };
 const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
 const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
 const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };
@@ -123,7 +124,6 @@ export const getMainNavigation = ({
 };
 
 export const getAdminNavigation = (): INavItem[] => [
-  { path: getOverviewPath(), label: 'Overview' },
   { path: getVaultsPath(), label: 'Vaults' },
   { path: getCirclesPath(), label: 'Circles' },
 ];
@@ -133,17 +133,14 @@ export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_EPOCH,
   NAV_ITEM_TEAM,
   { path: getHistoryPath(), label: 'My History' },
+  NAV_ITEM_NEW_CIRCLE,
   NAV_ITEM_DOCS,
 ];
 
-export const checkActive = (pathname: string, navItem: INavItem): boolean =>
-  !!matchPath(pathname, {
-    exact: true,
-    path: navItem.path,
-  }) ||
-  !!navItem.subItems?.some(
-    ({ path }) => !!matchPath(pathname, { exact: true, path })
-  );
+export const getRelatedNavigation = (): INavItem[] => [
+  NAV_ITEM_NEW_CIRCLE,
+  NAV_ITEM_DOCS,
+];
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,
