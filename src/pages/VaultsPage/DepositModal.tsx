@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core';
 import { useGetAnyTokenValue } from '../../hooks/useGetAnyTokenValue';
 import { FormModal, FormTokenField } from 'components';
 import SingleTokenForm from 'forms/SingleTokenForm';
+import { useApeSnackbar } from 'hooks';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
 
@@ -39,6 +40,7 @@ export default function DepositModal({
   const [max, setMax] = useState<any>();
   const { depositToken } = useVaultRouter();
   const { balance } = useGetAnyTokenValue(vault.tokenAddress);
+  const { showInfo } = useApeSnackbar();
 
   useEffect(() => {
     setMax(ethers.utils.formatUnits(balance, vault.decimals));
@@ -56,9 +58,12 @@ export default function DepositModal({
     const _amount = BigNumber.from(
       utils.parseUnits(amount.toString(), vault.decimals)
     );
-    depositToken(vault, _amount).then(receipt => {
-      // eslint-disable-next-line no-console
-      console.log(receipt);
+    depositToken(vault, _amount).then(({ error }) => {
+      if (error) return;
+
+      showInfo(
+        'Deposit succeeded. Reload page to see updated balance. (TODO: update automatically)'
+      );
       onClose();
       navigate('/admin/vaults');
     });

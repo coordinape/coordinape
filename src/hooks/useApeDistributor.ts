@@ -1,22 +1,54 @@
-import { useWeb3React } from '@web3-react/core';
-import { BigNumberish, BytesLike } from 'ethers';
+import { ApeDistributor } from '@coordinape/hardhat/dist/typechain';
+import { ContractTransaction, BigNumberish, BytesLike } from 'ethers';
 
-import { makeDistributorTxFn } from 'utils/contractHelpers';
+import { Contracts } from 'services/contracts';
+import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 import { useContracts } from './useContracts';
 
+type Helpers = {
+  contracts: Contracts | undefined;
+  showError: (error: any) => void;
+  showInfo: (info: any) => void;
+};
+
+// TODO: pass the contract to be used ("ApeDistributor" below) as an argument,
+// so that these helpers can be reused for all contracts. Not sure how to
+// handle the typing for that.
+const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
+  const sendTx = async (
+    callback: (apeDistributor: ApeDistributor) => Promise<ContractTransaction>
+  ) => {
+    if (!contracts) return showError('Contracts not loaded');
+
+    return sendAndTrackTx(() => callback(contracts.apeDistributor), {
+      showInfo,
+      showError,
+    });
+  };
+
+  const call = async (
+    callback: (apeDistributor: ApeDistributor) => Promise<any>
+  ) => {
+    if (!contracts) return showError('Contracts not loaded');
+
+    try {
+      return callback(contracts.apeDistributor);
+    } catch (e) {
+      showError(e);
+    }
+  };
+
+  return { sendTx, call };
+};
+
 export function useApeDistributor() {
   const contracts = useContracts();
-  const web3Context = useWeb3React();
-  const { apeError } = useApeSnackbar();
-  const rundistributorTx = makeDistributorTxFn(
-    web3Context,
-    contracts,
-    apeError
-  );
+  const { showInfo, showError } = useApeSnackbar();
+  const { sendTx, call } = makeWrappers({ contracts, showInfo, showError });
 
-  const uploadEpochRoot = (
+  const uploadEpochRoot = async (
     vault: string,
     circle: BytesLike,
     token: string,
@@ -24,9 +56,64 @@ export function useApeDistributor() {
     amount: BigNumberish,
     tapType: BigNumberish
   ) =>
-    rundistributorTx(v =>
-      v.uploadEpochRoot(vault, circle, token, root, amount, tapType)
+    sendTx(d => d.uploadEpochRoot(vault, circle, token, root, amount, tapType));
+
+  const claim = (
+    circle: BytesLike,
+    token: string,
+    epoch: BigNumberish,
+    index: BigNumberish,
+    account: string,
+    checkpoint: BigNumberish,
+    redeemShares: boolean,
+    proof: BytesLike[]
+  ) =>
+    sendTx(d =>
+      d.claim(
+        circle,
+        token,
+        epoch,
+        index,
+        account,
+        checkpoint,
+        redeemShares,
+        proof
+      )
     );
 
-  return { uploadEpochRoot };
+  const claimMany = (
+    circles: BytesLike[],
+    tokens: string[],
+    accounts: string[],
+    epochs: BigNumberish[],
+    indexes: BigNumberish[],
+    checkpoints: BigNumberish[],
+    redeemShares: boolean[],
+    proofs: BytesLike[][]
+  ) =>
+    sendTx(d => {
+      if (
+        [tokens, accounts, epochs, indexes, checkpoints, proofs].some(
+          v => v.length !== circles.length
+        )
+      ) {
+        throw new Error('All arrays must have same length');
+      }
+      return d.claimMany(
+        circles,
+        [...tokens, ...accounts],
+        [...epochs, ...indexes, ...checkpoints],
+        redeemShares,
+        proofs
+      );
+    });
+
+  const isClaimed = (
+    circle: BytesLike,
+    token: string,
+    epoch: BigNumberish,
+    index: BigNumberish
+  ) => call(d => d.isClaimed(circle, token, epoch, index)) as Promise<boolean>;
+
+  return { uploadEpochRoot, claim, claimMany, isClaimed };
 }
