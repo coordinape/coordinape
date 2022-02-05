@@ -2,46 +2,41 @@ import { ApeDistributor } from '@coordinape/hardhat/dist/typechain';
 import { ContractTransaction, BigNumberish, BytesLike } from 'ethers';
 
 import { Contracts } from 'services/contracts';
+import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 import { useContracts } from './useContracts';
 
 type Helpers = {
   contracts: Contracts | undefined;
-  apeError: (error: any) => void;
-  apeInfo: (info: any) => void;
+  showError: (error: any) => void;
+  showInfo: (info: any) => void;
 };
 
 // TODO: pass the contract to be used ("ApeDistributor" below) as an argument,
 // so that these helpers can be reused for all contracts. Not sure how to
 // handle the typing for that.
-const makeWrappers = ({ contracts, apeError, apeInfo }: Helpers) => {
+const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
   const sendTx = async (
     callback: (apeDistributor: ApeDistributor) => Promise<ContractTransaction>
   ) => {
-    if (!contracts) return apeError('Contracts not loaded');
+    if (!contracts) return showError('Contracts not loaded');
 
-    try {
-      const promise = callback(contracts.apeDistributor);
-      const tx = await promise;
-      apeInfo('transaction sent');
-      await tx.wait();
-      apeInfo('transaction mined');
-      return tx;
-    } catch (e) {
-      apeError(e);
-    }
+    return sendAndTrackTx(() => callback(contracts.apeDistributor), {
+      showInfo,
+      showError,
+    });
   };
 
   const call = async (
     callback: (apeDistributor: ApeDistributor) => Promise<any>
   ) => {
-    if (!contracts) return apeError('Contracts not loaded');
+    if (!contracts) return showError('Contracts not loaded');
 
     try {
       return callback(contracts.apeDistributor);
     } catch (e) {
-      apeError(e);
+      showError(e);
     }
   };
 
@@ -50,8 +45,8 @@ const makeWrappers = ({ contracts, apeError, apeInfo }: Helpers) => {
 
 export function useApeDistributor() {
   const contracts = useContracts();
-  const { apeInfo, apeError } = useApeSnackbar();
-  const { sendTx, call } = makeWrappers({ contracts, apeInfo, apeError });
+  const { showInfo, showError } = useApeSnackbar();
+  const { sendTx, call } = makeWrappers({ contracts, showInfo, showError });
 
   const uploadEpochRoot = async (
     vault: string,
