@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
+
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@nomiclabs/hardhat-ganache';
+// import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
@@ -94,9 +96,19 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
-const forking = {
-  url: ETHEREUM_RPC_URL,
-  blockNumber: FORKED_BLOCK,
+const forking = { url: ETHEREUM_RPC_URL, blockNumber: FORKED_BLOCK };
+
+const hardhatNetwork = {
+  live: false,
+  allowUnlimitedContractSize: true,
+  gas: 'auto' as const,
+  gasPrice: 'auto' as const,
+  gasMultiplier: 1,
+  chainId: 1337,
+  accounts: {
+    mnemonic: 'coordinape',
+  },
+  deploy: ['./scripts/deploy'],
 };
 
 const config: HardhatUserConfig = {
@@ -125,31 +137,10 @@ const config: HardhatUserConfig = {
     timeout: 60000,
   },
   networks: {
-    hardhat: {
-      live: false,
-      allowUnlimitedContractSize: true,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      deploy: ['./scripts/deploy'],
-    },
-    ganache: {
-      live: false,
-      allowUnlimitedContractSize: true,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      url: 'http://127.0.0.1:8545',
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      timeout: 50000,
-      deploy: ['./scripts/deploy'],
+    hardhat: hardhatNetwork,
+    ci: {
+      ...hardhatNetwork,
+      url: 'http://127.0.0.1:8555',
     },
   },
 };

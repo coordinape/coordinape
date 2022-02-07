@@ -4,17 +4,21 @@ import { solidity } from 'ethereum-waffle';
 import { USDC_ADDRESS, USDC_YVAULT_ADDRESS } from '../../constants';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { resetNetwork } from '../utils/network';
+import { restoreSnapshot, takeSnapshot } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
 
 describe('ApeVaultFactory', () => {
   let deploymentInfo: DeploymentInfo;
+  let snapshotId: string;
 
   beforeEach(async () => {
+    snapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
   });
+
+  afterEach(() => restoreSnapshot(snapshotId));
 
   it('should create vault successfully', async () => {
     const user0 = deploymentInfo.accounts[0];
@@ -30,6 +34,4 @@ describe('ApeVaultFactory', () => {
       expect(await vault.vault()).to.equal(USDC_YVAULT_ADDRESS);
     }
   });
-
-  afterEach(resetNetwork);
 });
