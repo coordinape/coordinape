@@ -10,6 +10,7 @@ import {
   ApeAvatar,
   MenuNavigationLinks,
 } from 'components';
+import { useSelectedCircle } from 'recoilState';
 import { useMyProfile, rSelectedCircle } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
 
@@ -101,6 +102,9 @@ const useStyles = makeStyles(theme => ({
 export const MyAvatarMenu = () => {
   const classes = useStyles();
   const myProfile = useMyProfile();
+
+  const { circle: selectedCircle } = useSelectedCircle();
+
   const { hasAdminView } = myProfile;
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -113,6 +117,19 @@ export const MyAvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const hidePaths = React.useMemo(() => {
+    const paths = [];
+    /*  rule to hide /team path, if in the future
+        there are other rules we can add them
+    */
+    const myTeam = '/team';
+    if (!selectedCircle.team_selection) {
+      paths.push(myTeam);
+    }
+
+    return paths;
+  }, [selectedCircle]);
 
   return (
     <>
@@ -143,7 +160,7 @@ export const MyAvatarMenu = () => {
             horizontal: 'right',
           }}
         >
-          <MenuNavigationLinks />
+          <MenuNavigationLinks hidePaths={hidePaths} />
           <Divider variant="middle" className={classes.divider} />
           <span className={classes.subHeader}>Switch Circles</span>
           <Suspense fallback={null}>
