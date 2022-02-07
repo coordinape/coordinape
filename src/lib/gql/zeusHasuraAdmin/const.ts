@@ -16125,8 +16125,14 @@ export const ReturnTypes: Record<string, any> = {
   },
   createUserResponse: {
     address: 'String',
+    fixed_non_receiver: 'Boolean',
+    give_token_remaining: 'Int',
     id: 'ID',
     name: 'String',
+    non_giver: 'Boolean',
+    non_receiver: 'Boolean',
+    role: 'Int',
+    starting_tokens: 'Int',
   },
   create_circle_response: {
     alloc_text: 'String',

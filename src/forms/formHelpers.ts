@@ -22,9 +22,9 @@ export const zEthAddress = z
   // unexpectedly
   .refine(validAddressOrENS, 'Wallet address is invalid')
   .transform(s => provider.resolveName(s))
-  .transform(s => s || '')
   .refine(s => s, 'unresolved ENS name')
-  .transform(s => s.toLowerCase());
+  // the falsy case is unreachable, but required for soundness
+  .transform(s => (s ? s.toLowerCase() : ''));
 
 export const zEthAddressOnly = z
   .string()

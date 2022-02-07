@@ -51,5 +51,11 @@ type createUserResponse {
   """ Primary key """ id: ID!
   """ The ethereum address of the user """ address: String!
   """ human readable user name """ name: String!
+  fixed_non_receiver: Boolean!
+  give_token_remaining: Int!
+  non_giver: Boolean!
+  non_receiver: Boolean!
+  role: Int!
+  starting_tokens: Int!
 }
 

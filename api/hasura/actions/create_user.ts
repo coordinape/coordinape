@@ -1,27 +1,24 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { authCircleAdmin } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
 import { verifyHasuraAdminMiddleware } from '../../../api-lib/validate';
 import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createUserSchemaInput } from '../../../src/lib/zod';
 
 async function handler(request: VercelRequest, response: VercelResponse) {
-  // Input Validation
   const result = await createUserSchemaInput.safeParseAsync(request.body.input);
-  // a `switch` gets typescript to behave soundly
-  // an `if` statement doesn't recognize the result
-  // disambiguation for some reason
-  switch (result.success) {
-    case false:
-      return response.status(422).json({
-        extensions: result.error.issues,
-        message: 'invalid input',
-        code: 422,
-      });
+
+  if (result.success === false) {
+    return response.status(422).json({
+      extensions: result.error.issues,
+      message: 'invalid input',
+      code: 422,
+    });
   }
 
   // External Constraint Validation
-  // I'd prefer to add this uniqueness constraint into the database
+  // It might be preferable to add this uniqueness constraint into the database
   const { object: createUserParams, circle_id } = result.data;
 
   const { users: existingUsers } = await gql.q('query')({
@@ -29,7 +26,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       {
         limit: 1,
         where: {
-          name: { _eq: createUserParams.name },
           address: { _ilike: createUserParams.address },
           circle_id: { _eq: circle_id },
           // ignore soft_deleted users
@@ -50,11 +46,21 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   }
 
   // Update the state after all validations have passed
-  await gql.q('mutation')({
+  const mutationResult = await gql.q('mutation')({
     // Insert the user
     insert_users_one: [
       { object: { ...createUserParams, circle_id } },
-      { id: true },
+      {
+        id: true,
+        name: true,
+        address: true,
+        fixed_non_receiver: true,
+        give_token_remaining: true,
+        non_giver: true,
+        non_receiver: true,
+        role: true,
+        starting_tokens: true,
+      },
     ],
     // End any active nomination
     update_nominees: [
@@ -67,7 +73,11 @@ async function handler(request: VercelRequest, response: VercelResponse) {
           ended: { _eq: false },
         },
       },
-      { returning: { id: true, address: true, name: true } },
+      {
+        returning: {
+          id: true,
+        },
+      },
     ],
     // Create a profile if none exists yet
     insert_profiles_one: [
@@ -90,11 +100,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     ],
   });
 
-  // TODO Figure out the correct return payload shape
-
-  return response
-    .status(200)
-    .json({ address: 'hello', name: 'world', id: '0' });
+  return response.status(200).json(mutationResult.insert_users_one);
 }
 
-export default verifyHasuraAdminMiddleware(handler);
+export default verifyHasuraAdminMiddleware(authCircleAdmin(handler));

@@ -7,6 +7,9 @@ actions:
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
   comment: creates a user in a circle and creates a profile if none exists
 - name: create_circle
   definition:

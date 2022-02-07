@@ -1427,10 +1427,16 @@ export type ValueTypes = {
   ['createUserResponse']: AliasType<{
     /** The ethereum address of the user */
     address?: boolean;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: boolean;
     /** Primary key */
     id?: boolean;
     /** human readable user name */
     name?: boolean;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: boolean;
+    starting_tokens?: boolean;
     __typename?: boolean;
   }>;
   ['create_circle_input']: {
@@ -7767,10 +7773,16 @@ export type ModelTypes = {
   ['createUserResponse']: {
     /** The ethereum address of the user */
     address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
     /** Primary key */
     id: string;
     /** human readable user name */
     name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
   };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
@@ -11468,10 +11480,16 @@ export type GraphQLTypes = {
     __typename: 'createUserResponse';
     /** The ethereum address of the user */
     address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
     /** Primary key */
     id: string;
     /** human readable user name */
     name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
   };
   ['create_circle_input']: {
     address: string;
