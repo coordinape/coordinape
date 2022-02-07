@@ -12,7 +12,7 @@ import {
   USDC_ADDRESS,
   ETHEREUM_RPC_URL,
   FORKED_BLOCK,
-  TEST_ENV,
+  FORK_MAINNET,
 } from './constants';
 
 export async function unlockSigner(
@@ -154,7 +154,7 @@ const config: HardhatUserConfig = {
   },
 };
 
-if (TEST_ENV) {
+if (FORK_MAINNET) {
   // @ts-ignore
   config.networks.hardhat.forking = forking;
 }

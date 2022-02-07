@@ -26,7 +26,9 @@ describe('ApeVaultFactory', () => {
 
     expect(await vault.owner()).to.equal(user0.address);
     expect(await vault.token()).to.equal(USDC_ADDRESS);
-    expect(await vault.vault()).to.equal(USDC_YVAULT_ADDRESS);
+    if (process.env.FORK_MAINNET) {
+      expect(await vault.vault()).to.equal(USDC_YVAULT_ADDRESS);
+    }
   });
 
   afterEach(resetNetwork);

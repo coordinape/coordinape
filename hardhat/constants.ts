@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers';
 
 dotenv.config({ path: '../.env' });
 
-export const TEST_ENV = process.env.TEST || process.env.CI ? true : false;
+export const FORK_MAINNET = process.env.TEST || process.env.CI;
 export const ETHEREUM_RPC_URL =
   process.env.ETHEREUM_RPC_URL ?? 'http://127.0.0.1:7545';
 export const FORKED_BLOCK = +(process.env.FORKED_BLOCK ?? '13500000');
