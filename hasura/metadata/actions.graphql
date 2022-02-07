@@ -45,3 +45,4 @@ type createUserResponse {
   role: Int!
   starting_tokens: Int!
 }
+
