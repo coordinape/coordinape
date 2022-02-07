@@ -8,12 +8,13 @@ import type {
 import { z } from 'zod';
 
 import { getUserFromAuthHeader } from './findUser';
+import { verifyHasuraAdminMiddleware } from './validate';
 
-export const authCircleAdmin =
+const middleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse) => {
     // skip auth check if no header is passed
-    // because we can assume the user is hasura-admin
+    // because we can assume the user is a hasura-admin
     if (req.headers.authorization) {
       const circleId = z.number().parse(req.body.input.circle_id);
       const { role } = await getUserFromAuthHeader(
@@ -30,3 +31,6 @@ export const authCircleAdmin =
 
     await handler(req, res);
   };
+
+export const authCircleAdminMiddleware = (handler: VercelApiHandler) =>
+  verifyHasuraAdminMiddleware(middleware(handler));

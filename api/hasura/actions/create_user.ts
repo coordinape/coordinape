@@ -1,8 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { authCircleAdmin } from '../../../api-lib/circleAdmin';
+import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
-import { verifyHasuraAdminMiddleware } from '../../../api-lib/validate';
 import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createUserSchemaInput } from '../../../src/lib/zod';
 
@@ -103,4 +102,4 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   return response.status(200).json(mutationResult.insert_users_one);
 }
 
-export default verifyHasuraAdminMiddleware(authCircleAdmin(handler));
+export default authCircleAdminMiddleware(handler);
