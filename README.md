@@ -52,6 +52,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - `yarn install`
 - `yarn setup`
   - init git submodules, link hardhat & create prisma node_modules
+- `npx prisma generate` - setup prisma node modules
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
