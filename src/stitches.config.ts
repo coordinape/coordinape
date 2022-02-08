@@ -2,6 +2,8 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
+import { colors } from './ui/colors';
+
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
   sm: '(max-width: 900px)',
@@ -93,6 +95,7 @@ export const {
       selected: '#31A5AC',
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
+      ...colors,
     },
     space: {
       ...spaces,

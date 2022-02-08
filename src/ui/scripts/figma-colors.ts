@@ -1,5 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+
 import dotenv from 'dotenv';
 import * as Figma from 'figma-api';
+
 dotenv.config();
 
 //#region constants
@@ -17,7 +21,7 @@ type Styles = {
 
 type ColorNode = {
   name: string;
-  color: unknown;
+  color: string;
 };
 //#endregion Types
 
@@ -61,11 +65,44 @@ const mapStyleToNode = (file: any, styles: Styles[]) => {
 
     if (color) {
       const { r, g, b } = color;
-      colorNodes.push({ name, color: rgbToHex(r * 256, g * 256, b * 256) });
+      colorNodes.push({ name, color: rgbToHex(r * 255, g * 255, b * 255) });
     }
   });
 
   return colorNodes;
+};
+
+const generateFile = (content: ColorNode[], fileName = 'colors.ts') => {
+  if (!content) {
+    throw new Error('No styles found');
+  }
+
+  const colorsGroupName: string[] = [];
+
+  const colors = content.reduce((prev, curr) => {
+    let colorGroupName;
+
+    if (!colorsGroupName.includes(curr.name.split('/')[0])) {
+      colorsGroupName.push(curr.name.split('/')[0]);
+      colorGroupName = curr.name.split('/')[0];
+    }
+
+    return (
+      prev +
+      (colorGroupName ? `/** ${colorGroupName}  */\n` : '') +
+      `  '${curr.name}': '${curr.color}',\n`
+    );
+  }, '');
+
+  const fileContents = `/* Updated at ${new Date().toUTCString()}*/
+export const colors = {
+${colors}
+};`;
+
+  fs.writeFileSync(path.resolve(`./src/ui/${fileName}`), fileContents);
+
+  // eslint-disable-next-line no-console
+  console.log(`Wrote ${content.length} colors to colors.ts`);
 };
 //#endregion Utils functions
 
@@ -85,7 +122,8 @@ async function main() {
 
   const result = mapStyleToNode(file, styles);
   // eslint-disable-next-line no-console
-  console.log(result, result.length);
+
+  generateFile(result);
 }
 
 (async function () {
