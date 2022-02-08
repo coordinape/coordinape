@@ -123,9 +123,8 @@ export const MyAvatarMenu = () => {
     /*  rule to hide /team path, if in the future
         there are other rules we can add them
     */
-    const myTeam = '/team';
     if (!selectedCircle.team_selection) {
-      paths.push(myTeam);
+      paths.push('/team');
     }
 
     return paths;
