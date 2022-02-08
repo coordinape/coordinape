@@ -32,11 +32,11 @@ const rgbToHex = (r: number, g: number, b: number) => {
   return color;
 };
 
-const hasChildren = (node: any) => node != null && !('children' in node);
+const noChildren = (node: any) => node != null && !('children' in node);
 const isRectangle = (node: any) => node != null && node.type === RECTANGLE;
 
 const findStyleInTree = (root: any, styleId: any) => {
-  if (hasChildren(root)) {
+  if (noChildren(root)) {
     return isRectangle(root) && root.styles && root.styles.fill === styleId
       ? root
       : undefined;
