@@ -25,8 +25,6 @@ export const getUserFromProfileId = async (
     });
     assert(user, `user for circle_id ${circleId} not found`);
     return user;
-  } catch (e) {
-    throw new e();
   } finally {
     prisma.$disconnect();
   }

@@ -24,13 +24,15 @@ const middleware =
         )
         .transform(Number.parseInt)
         .parse(sessionVariables['x-hasura-user-id']);
-      const { role } = await getUserFromProfileId(profileId, circleId);
-      if (isNotCircleAdmin(role)) {
+
+      try {
+        const { role } = await getUserFromProfileId(profileId, circleId);
+        assert(isCircleAdmin(role));
+      } catch (e) {
         res.status(401).json({
           message: 'User not circle admin',
           code: 401,
         });
-        return;
       }
     } else if (isNotHasuraAdmin(sessionVariables)) {
       res.status(401).json({
@@ -43,15 +45,12 @@ const middleware =
     await handler(req, res);
   };
 
-const hasUserId = (vars: unknown): boolean => {
-  return !!vars['x-hasura-user-id'];
-};
+const hasUserId = (vars: unknown): boolean => !!vars['x-hasura-user-id'];
 
-const isNotCircleAdmin = (role: number): boolean => role !== 1;
+const isCircleAdmin = (role: number): boolean => role === 1;
 
-const isNotHasuraAdmin = (vars: unknown): boolean => {
-  return vars['x-hasura-role'] !== 'admin';
-};
+const isNotHasuraAdmin = (vars: unknown): boolean =>
+  vars['x-hasura-role'] !== 'admin';
 
 export const authCircleAdminMiddleware = (handler: VercelApiHandler) =>
   verifyHasuraAdminMiddleware(middleware(handler));
