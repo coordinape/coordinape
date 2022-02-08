@@ -39,6 +39,13 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
+      # Format branch name to replace slashes with hyphens for constructing Vercel URL
+      - id: get-vercel-branch
+        name: Format Branch Name
+        run: |
+          branch=$(echo ${{ steps.branch-name.outputs.current_branch }} | sed 's/\//-/g')
+          echo "::set-output name=branch::$branch"
+
       - name: Hasura Cloud Preview Apps
         uses: hasura/hasura-cloud-preview-apps@v0.1.4
         id: hasura_cloud_preview
@@ -50,9 +57,11 @@ jobs:
             PG_ENV_VARS_FOR_HASURA=HASURA_GRAPHQL_DATABASE_URL
           hasuraEnv: |
             HASURA_GRAPHQL_AUTH_HOOK=https://coordinape-git-staging-coordinape.vercel.app/api/hasura/auth
+            HASURA_ACTION_BASE_URL=${{ env.VERCEL_BASE_URL }}/api/hasura/actions
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
+          VERCEL_BASE_URL: ${{ format('https://coordinape-git-{0}-coordinape.vercel.app', steps.get-vercel-branch.outputs.branch) }}
 
       - id: get-hasura-url
         run: |
