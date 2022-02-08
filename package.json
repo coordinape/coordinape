@@ -33,7 +33,7 @@
     "ethereumjs-util": "7.1.3",
     "ethers": "5.5.1",
     "faker": "5.5.3",
-    "figma-api": "^1.9.2",
+    "figma-api": "1.9.2",
     "gqty": "2.1.0",
     "graphql": "16.2.0",
     "graphql-zeus": "4.0.4",
