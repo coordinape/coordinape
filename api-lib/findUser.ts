@@ -3,26 +3,15 @@ import { createHash } from 'crypto';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 
-export const getUserFromAuthHeader = async (
-  authString: string,
+export const getUserFromProfileId = async (
+  profileId: number,
   circleId: bigint | number
 ): Promise<Prisma.PromiseReturnType<typeof prisma.user.findFirst>> => {
   const prisma = new PrismaClient();
   try {
-    const [expectedId, token] = authString.replace('Bearer ', '').split('|');
-
-    const hashedToken = createHash('sha256').update(token).digest('hex');
-    const tokenRow = await prisma.accessToken.findFirst({
-      where: {
-        tokenable_type: 'App\\Models\\Profile',
-        token: hashedToken,
-        id: parseInt(expectedId),
-      },
-    });
-    assert(tokenRow, 'The token provided was not recognized');
     const profile = await prisma.profile.findFirst({
       where: {
-        id: tokenRow.tokenable_id,
+        id: profileId,
       },
     });
     assert(profile, 'Profile cannot be found');
