@@ -15,24 +15,33 @@ const middleware =
   async (req: VercelRequest, res: VercelResponse) => {
     const sessionVariables = req.body.session_variables;
     if (hasUserId(sessionVariables)) {
-      const circleId = z.number().parse(req.body.input.circle_id);
-      const profileId = z
-        .string()
-        .refine(
-          s => Number.parseInt(s).toString() === s,
-          'profileId not an integer'
-        )
-        .transform(Number.parseInt)
-        .parse(sessionVariables['x-hasura-user-id']);
-
       try {
+        const circleId = z.number().parse(req.body.input.circle_id);
+        const profileId = z
+          .string()
+          .refine(
+            s => Number.parseInt(s).toString() === s,
+            'profileId not an integer'
+          )
+          .transform(Number.parseInt)
+          .parse(sessionVariables['x-hasura-user-id']);
+
         const { role } = await getUserFromProfileId(profileId, circleId);
         assert(isCircleAdmin(role));
-      } catch (e) {
+      } catch (err) {
+        if (err instanceof z.ZodError) {
+          res.status(422).json({
+            extensions: err.issues,
+            message: 'Invalid input',
+            code: '422',
+          });
+          return;
+        }
         res.status(401).json({
           message: 'User not circle admin',
           code: 401,
         });
+        return;
       }
     } else if (isNotHasuraAdmin(sessionVariables)) {
       res.status(401).json({
