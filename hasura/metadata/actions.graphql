@@ -10,6 +10,12 @@ type Mutation {
   ): create_circle_response
 }
 
+type Mutation {
+  upload_profile_avatar(
+    object: upload_profile_avatar_input!
+  ): upload_profile_avatar_response
+}
+
 input create_circle_input {
   user_name: String!
   circle_name: String!
@@ -29,6 +35,15 @@ input createUserInput {
   starting_tokens: Int
 }
 
+input upload_image_input {
+  user_name: String
+  image_data_base64: String!
+}
+
+input upload_profile_avatar_input {
+  image_data_base64: String!
+}
+
 type create_circle_response {
   id: Int!
 }
@@ -43,5 +58,13 @@ type createUserResponse {
   non_receiver: Boolean!
   role: Int!
   starting_tokens: Int!
+}
+
+type upload_image_response {
+  url: String
+}
+
+type upload_profile_avatar_response {
+  profile_id: Int!
 }
 

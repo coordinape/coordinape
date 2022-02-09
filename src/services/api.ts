@@ -240,9 +240,6 @@ export class APIService {
     return response.data;
   };
 
-  uploadAvatar = async (file: File): Promise<any> =>
-    this.postProfileUpload(file, 'upload-avatar');
-
   uploadBackground = async (file: File): Promise<any> =>
     this.postProfileUpload(file, 'upload-background');
 

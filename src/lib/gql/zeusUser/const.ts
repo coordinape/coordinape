@@ -3305,6 +3305,14 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
+    upload_profile_avatar: {
+      object: {
+        type: 'upload_profile_avatar_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
   },
   nominees: {
     nominations: {
@@ -6967,6 +6975,14 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  upload_profile_avatar_input: {
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   users: {
     burns: {
       distinct_on: {
@@ -8519,6 +8535,7 @@ export const ReturnTypes: Record<string, any> = {
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
+    upload_profile_avatar: 'upload_profile_avatar_response',
   },
   nominees: {
     address: 'String',
@@ -8782,6 +8799,10 @@ export const ReturnTypes: Record<string, any> = {
     recipient_id: 'Float',
     sender_id: 'Float',
     tokens: 'Float',
+  },
+  upload_profile_avatar_response: {
+    profile: 'profiles',
+    profile_id: 'Int',
   },
   users: {
     address: 'String',

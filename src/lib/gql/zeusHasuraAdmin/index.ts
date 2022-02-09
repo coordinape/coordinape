@@ -3181,6 +3181,10 @@ export type ValueTypes = {
       },
       ValueTypes['vouches']
     ];
+    upload_profile_avatar?: [
+      { object: ValueTypes['upload_profile_avatar_input'] },
+      ValueTypes['upload_profile_avatar_response']
+    ];
     __typename?: boolean;
   }>;
   /** columns and relationships of "nominees" */
@@ -6283,6 +6287,15 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | null;
     tokens?: ValueTypes['order_by'] | null;
   };
+  ['upload_profile_avatar_input']: {
+    image_data_base64: string;
+  };
+  ['upload_profile_avatar_response']: AliasType<{
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean;
+    __typename?: boolean;
+  }>;
   /** columns and relationships of "users" */
   ['users']: AliasType<{
     address?: boolean;
@@ -8455,6 +8468,7 @@ export type ModelTypes = {
     update_vouches?: ModelTypes['vouches_mutation_response'];
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: ModelTypes['vouches'];
+    upload_profile_avatar?: ModelTypes['upload_profile_avatar_response'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -9831,6 +9845,12 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
+  ['upload_profile_avatar_input']: GraphQLTypes['upload_profile_avatar_input'];
+  ['upload_profile_avatar_response']: {
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+    profile_id: number;
+  };
   /** columns and relationships of "users" */
   ['users']: {
     address: string;
@@ -12524,6 +12544,7 @@ export type GraphQLTypes = {
     update_vouches?: GraphQLTypes['vouches_mutation_response'];
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'];
+    upload_profile_avatar?: GraphQLTypes['upload_profile_avatar_response'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -14758,6 +14779,15 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['order_by'];
     sender_id?: GraphQLTypes['order_by'];
     tokens?: GraphQLTypes['order_by'];
+  };
+  ['upload_profile_avatar_input']: {
+    image_data_base64: string;
+  };
+  ['upload_profile_avatar_response']: {
+    __typename: 'upload_profile_avatar_response';
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
   };
   /** columns and relationships of "users" */
   ['users']: {

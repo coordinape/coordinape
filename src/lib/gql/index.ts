@@ -1,4 +1,4 @@
-import { Thunder, apiFetch, ValueTypes } from './zeusUser';
+import { Thunder, apiFetch, ValueTypes, $ } from './zeusUser';
 
 const makeQuery = (url: string, getToken: () => string) =>
   Thunder(
@@ -25,8 +25,27 @@ export function getGql(url: string, getToken: () => string) {
       ],
     });
 
-  return { updateProfile };
+  const uploadProfileAvatar = async (image_data_base64: string) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        upload_profile_avatar: [
+          { object: { image_data_base64: $`image_data_base64` } },
+          { profile_id: true },
+        ],
+      },
+      {
+        variables: {
+          image_data_base64,
+        },
+      }
+    );
+
+  return {
+    updateProfile,
+    updateProfileAvatar: uploadProfileAvatar,
+  };
 }
+
 /*
 example usage in app code:
 
@@ -34,6 +53,9 @@ import { REACT_APP_HASURA_URL } from 'config/env';
 import { getAuthToken } from 'services/api';
 import { getGql } from 'lib/gql';
 
-const api = getApi(REACT_APP_HASURA_URL, getAuthToken);
+// TODO: this doesnt actually work cuz getAuthToken is an optional
+// callers need to unwrap the optional and pass in to this
+
+const api = getGql(REACT_APP_HASURA_URL, getAuthToken);
 await api.updateProfile();
 */
