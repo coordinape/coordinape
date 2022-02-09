@@ -4,7 +4,7 @@
 export $(cat ../.env | sed 's/^#.*$//' | xargs)
 
 exec ./node_modules/.bin/ganache \
-  -p 8555 \
+  -p $HARDHAT_GANACHE_PORT \
   -m coordinape \
   -f $ETHEREUM_RPC_URL \
   --fork.blockNumber $HARDHAT_FORK_BLOCK \

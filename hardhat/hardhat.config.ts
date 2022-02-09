@@ -6,7 +6,6 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-// import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
@@ -15,6 +14,7 @@ import {
   ETHEREUM_RPC_URL,
   FORKED_BLOCK,
   FORK_MAINNET,
+  GANACHE_URL,
 } from './constants';
 
 export async function unlockSigner(
@@ -140,7 +140,7 @@ const config: HardhatUserConfig = {
     hardhat: hardhatNetwork,
     ci: {
       ...hardhatNetwork,
-      url: 'http://127.0.0.1:8555',
+      url: GANACHE_URL,
     },
   },
 };

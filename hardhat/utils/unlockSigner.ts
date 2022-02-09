@@ -1,6 +1,8 @@
 import { Signer } from 'ethers';
 import { ethers, network } from 'hardhat';
 
+import { GANACHE_URL } from '../constants';
+
 export async function unlockSigner(address: string): Promise<Signer> {
   const { provider } = network;
   if (process.env.GANACHE) {
@@ -12,10 +14,7 @@ export async function unlockSigner(address: string): Promise<Signer> {
 
     // we do this because Hardhat's provider code doesn't allow
     // the account to be used even after it's unlocked
-    const newProvider = new ethers.providers.JsonRpcProvider(
-      // FIXME don't hardcode this!
-      'http://localhost:8555'
-    );
+    const newProvider = new ethers.providers.JsonRpcProvider(GANACHE_URL);
     return newProvider.getSigner(address);
   }
 
