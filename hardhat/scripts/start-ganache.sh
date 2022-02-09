@@ -6,7 +6,10 @@ set -e
 SCRIPT_DIR="${0%/*}"
 
 # read .env, filtering out comments
-export $(cat $SCRIPT_DIR/../../.env | sed 's/^#.*$//' | xargs)
+DOTENV_FILE=$SCRIPT_DIR/../../.env 
+if [ -f "$DOTENV_FILE" ]; then
+  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
+fi
 
 PORT=$HARDHAT_GANACHE_PORT
 LOGFILE=$TMPDIR/ganache-$(date +%s).log
