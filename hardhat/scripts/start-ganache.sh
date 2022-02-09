@@ -1,11 +1,70 @@
 #!/bin/bash
+#
+# adapted from https://github.com/makerdao/testchain/blob/dai.js/scripts/launch
+
+set -e
 
 # read .env, filtering out comments
 export $(cat ../.env | sed 's/^#.*$//' | xargs)
 
-exec ./node_modules/.bin/ganache \
-  -p $HARDHAT_GANACHE_PORT \
-  -m coordinape \
-  -f $ETHEREUM_RPC_URL \
-  --fork.blockNumber $HARDHAT_FORK_BLOCK \
-  --miner.defaultGasPrice 0x7735940000
+PORT=$HARDHAT_GANACHE_PORT
+LOGFILE=$TMPDIR/ganache-$(date +%s).log
+
+# parse arguments
+EXECARGS=()
+while [[ "$#" > 0 ]]; do case $1 in
+  --exec) EXEC=1;;
+  -p|--port) PORT="$2"; shift;;
+  *) EXECARGS+=($1);;
+esac; shift; done
+
+if [ ! "$PORT" ]; then
+  echo "No port provided; can't continue."
+  exit 1
+fi
+
+if nc -z 127.0.0.1 $PORT; then
+  echo "Testchain is already running on port $PORT."
+
+  if [ "$EXEC" ]; then
+    # Run the command given
+    ${EXECARGS[@]}
+  else
+    echo "No command provided with --exec; nothing to do."
+    exit 1
+  fi
+else
+  echo "Starting ganache..."
+  echo "Writing output to" $LOGFILE
+  
+  ./node_modules/.bin/ganache \
+    -p $PORT \
+    -m coordinape \
+    -f $ETHEREUM_RPC_URL \
+    --fork.blockNumber $HARDHAT_FORK_BLOCK \
+    --miner.defaultGasPrice 0x7735940000 \
+    > $LOGFILE 2>&1 & PID=$!
+  
+  # Wait for the testnet to become responsive
+  sleep 5
+  until curl -s -o/dev/null http://localhost:$PORT; do
+    sleep 1
+    if [ -z "$(ps -p $PID -o pid=)" ]; then
+      echo "Ganache failed to start up."
+      exit 1
+    fi
+  done
+
+  # Kill the testnet when this script exits
+  trap "kill $PID" EXIT
+
+  if [ "$EXEC" ]; then
+    # Run the command given
+    ${EXECARGS[@]}
+  else
+    # The testnet will continue to run until the user shuts it down.
+    echo "Press Ctrl-C to stop the testchain."
+    while true; do read; done
+  fi
+fi
+
