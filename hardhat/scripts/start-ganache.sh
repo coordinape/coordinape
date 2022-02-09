@@ -12,7 +12,7 @@ if [ -f "$DOTENV_FILE" ]; then
 fi
 
 PORT=$HARDHAT_GANACHE_PORT
-LOGFILE=$TMPDIR/ganache-$(date +%s).log
+LOGFILE=${TMPDIR:-.}/ganache-$(date +%s).log
 
 # parse arguments
 EXECARGS=()
