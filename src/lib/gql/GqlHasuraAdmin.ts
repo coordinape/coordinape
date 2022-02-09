@@ -263,9 +263,10 @@ export class Gql {
   }
   async insertCircleWithAdmin(
     circleInput: ValueTypes['create_circle_input'],
+    userAddress: string,
     coordinapeAddress: string
   ) {
-    const addressLc = circleInput.address.toLowerCase();
+    const addressLc = userAddress.toLowerCase();
     const coordinapeAddressLc = coordinapeAddress.toLowerCase();
     const insertProfiles = {
       objects: [{ address: addressLc }, { address: coordinapeAddressLc }],

@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { COORDINAPE_USER_ADDRESS } from '../../../api-lib/config';
 import { gql } from '../../../api-lib/Gql';
 import { ValueTypes } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { createCircleSchemaInput } from '../../../src/lib/zod';
@@ -8,7 +9,7 @@ import { createCircleSchemaInput } from '../../../src/lib/zod';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const input: ValueTypes['create_circle_input'] = req.body.input.object;
   try {
-    await createCircleSchemaInput.parseAsync(input);
+    createCircleSchemaInput.parse(input);
   } catch (err) {
     if (err instanceof z.ZodError) {
       return res.status(422).json({
@@ -22,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (input.protocol_id) {
       const isAdmin = await gql.checkAddressAdminInOrg(
-        input.address,
+        req.body.session_variables['x-hasura-address'],
         input.protocol_id
       );
       if (!isAdmin) {
@@ -36,7 +37,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ret: ValueTypes['create_circle_response'] =
       await gql.insertCircleWithAdmin(
         input,
-        process.env.COORDINAPE_USER_ADDRESS
+        req.body.session_variables['x-hasura-address'],
+        COORDINAPE_USER_ADDRESS
       );
     return res.status(200).json(ret);
   } catch (e) {
