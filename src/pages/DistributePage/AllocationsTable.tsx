@@ -11,9 +11,22 @@ import { IUser, ITableColumn } from 'types';
 /**
  * Component that displays a list of allocations.
  * @param users IUser[]
+ * @param totalAmountInVault number
+ * @param totalGive number
+ * @param tokenName string
  * @returns
  */
-const AllocationTable = ({ users }: { users: IUser[] }) => {
+const AllocationTable = ({
+  users,
+  totalAmountInVault,
+  totalGive,
+  tokenName,
+}: {
+  users: IUser[];
+  totalAmountInVault: number;
+  totalGive: number;
+  tokenName: string;
+}) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
   const filterUser = useMemo(
@@ -48,22 +61,34 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
         },
         {
           label: 'Give Received',
-          render: () => '195 GIVE',
+          render: (u: IUser) =>
+            u.give_token_received === 0 &&
+            (!!u.fixed_non_receiver || !!u.non_receiver)
+              ? '-'
+              : u.give_token_received,
         },
         {
           label: '# of Contributor Gitfing',
-          render: () => '22',
         },
         {
           label: '% of Epoch',
-          render: () => '2.5%',
+          render: (u: IUser) =>
+            !u.non_giver || !u.starting_tokens
+              ? `${((u.give_token_received / totalGive) * 100).toFixed(2)}%`
+              : '-',
         },
         {
           label: 'Vault Funds Allocated',
-          render: () => '1680 USDC',
+          render: (u: IUser) =>
+            !u.non_giver || !u.starting_tokens
+              ? `${(
+                  (u.give_token_received / totalGive) *
+                  totalAmountInVault
+                ).toFixed(2)} ${tokenName}`
+              : '-',
         },
       ] as ITableColumn[],
-    []
+    [users]
   );
 
   return (
