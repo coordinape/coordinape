@@ -12,6 +12,7 @@ if [ -f "$DOTENV_FILE" ]; then
 fi
 
 PORT=$HARDHAT_GANACHE_PORT
+VERBOSE=$HARDHAT_GANACHE_VERBOSE
 
 # parse arguments
 EXECARGS=()
