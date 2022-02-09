@@ -11,7 +11,7 @@
     "dev": "./scripts/start-node.sh",
     "deploy": "DEBUG=coordinape:setup hardhat deploy",
     "ganache": "./scripts/start-ganache.sh",
-    "test": "TEST=1 hardhat test"
+    "test": "GANACHE=1 TEST=1 yarn ganache --exec yarn hardhat test --network ci"
   },
   "files": [
     "dist"
