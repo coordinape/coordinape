@@ -3,9 +3,10 @@
 # adapted from https://github.com/makerdao/testchain/blob/dai.js/scripts/launch
 
 set -e
+SCRIPT_DIR="${0%/*}"
 
 # read .env, filtering out comments
-export $(cat ../.env | sed 's/^#.*$//' | xargs)
+export $(cat $SCRIPT_DIR/../../.env | sed 's/^#.*$//' | xargs)
 
 PORT=$HARDHAT_GANACHE_PORT
 LOGFILE=$TMPDIR/ganache-$(date +%s).log
@@ -19,7 +20,7 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 if [ ! "$PORT" ]; then
-  echo "No port provided; can't continue."
+  echo "Missing argument -p|--port; can't continue."
   exit 1
 fi
 
@@ -36,8 +37,8 @@ if nc -z 127.0.0.1 $PORT; then
 else
   echo "Starting ganache..."
   echo "Writing output to" $LOGFILE
-  
-  ./node_modules/.bin/ganache \
+
+  $SCRIPT_DIR/../node_modules/.bin/ganache \
     -p $PORT \
     -m coordinape \
     -f $ETHEREUM_RPC_URL \
