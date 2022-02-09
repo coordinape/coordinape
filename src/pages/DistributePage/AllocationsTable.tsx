@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar, StaticTable } from 'components';
+import { zAssetEnum } from 'config/networks';
 import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -84,7 +85,9 @@ const AllocationTable = ({
               ? `${(
                   (u.give_token_received / totalGive) *
                   totalAmountInVault
-                ).toFixed(2)} ${tokenName}`
+                ).toFixed(2)} ${
+                  tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName
+                }`
               : '-',
         },
       ] as ITableColumn[],

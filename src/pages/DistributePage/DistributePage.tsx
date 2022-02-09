@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
@@ -9,7 +8,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Link, Box, Panel, Button } from '../../ui';
 import { ApeTextField } from 'components';
 import { useEpochIdForCircle, useCurrentOrg } from 'hooks/gql';
-import { useSelectedCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
@@ -26,15 +24,12 @@ import { IUser } from 'types';
 function DistributePage() {
   // Route Parameters
   const { epochId } = useParams();
-  const [amount, setAmount] = useState<number>(0);
-  const [amountError] = useState<boolean>(false);
+  const [amount, setAmount] = useState(0);
+  const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVault, setSelectedVault] = useState('');
-  const [selectedVaultIndex, setSelectedVaultIndex] = useState(0);
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
-
-  const { users } = useSelectedCircle();
 
   const { isLoading, isError, data } = useEpochIdForCircle(Number(epochId));
   if (!data?.epochs_by_pk) {
@@ -44,7 +39,7 @@ function DistributePage() {
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
 
-  const usersList: IUser[] | undefined = Array.isArray(circle?.users)
+  const users: IUser[] | undefined = Array.isArray(circle?.users)
     ? circle?.users?.map(u => {
         const user: IUser = {
           isCircleAdmin: false,
@@ -68,13 +63,6 @@ function DistributePage() {
         return user;
       })
     : [];
-
-  // eslint-disable-next-line no-console
-  console.log('usersList', usersList, selectedVault);
-  // eslint-disable-next-line no-console
-  console.log(vaults?.length, amount, selectedVaultIndex);
-  // eslint-disable-next-line no-console
-  console.log('amount', amount);
 
   const totalGive = users?.reduce((s, a) => s + a.starting_tokens, 0);
 
@@ -118,8 +106,6 @@ function DistributePage() {
       <ShowMessage message="No vaults have been associated with your address. Please create a vault." />
     );
   }
-
-  const tokenType = 'OTHER';
 
   return (
     <Box
@@ -188,16 +174,14 @@ function DistributePage() {
                 Select Vault
               </Box>
               <Select
-                label="Select Vault"
-                value={setSelectedVaultIndex}
+                value={selectedVault}
+                label="Vault"
                 onChange={({ target: { value } }) => {
-                  setSelectedVault(vaults[selectedVaultIndex].type as string);
-                  setSelectedVaultIndex(value as number);
-                  console.log('updatedValue', value);
+                  setSelectedVault(value as unknown as string);
                 }}
               >
                 {vaultOptions.map(vault => (
-                  <MenuItem key={vault.id} value={vault.value}>
+                  <MenuItem key={vault.id} value={vault.label}>
                     {vault.label}
                   </MenuItem>
                 ))}
@@ -207,11 +191,13 @@ function DistributePage() {
           <Box>
             <ApeTextField
               value={amount}
+              onBlur={({ target: { value } }) =>
+                setUpdateAmount(value as unknown as number)
+              }
               onChange={({ target: { value } }) =>
                 setAmount(value as unknown as number)
               }
               label="Total Distribution Amount"
-              error={amountError}
             />
           </Box>
         </Box>
@@ -235,8 +221,8 @@ function DistributePage() {
         <Box css={{ m: '$lg' }}>
           <AllocationTable
             users={users as IUser[]}
-            totalAmountInVault={amount as number}
-            tokenName={tokenType}
+            totalAmountInVault={updateAmount}
+            tokenName={selectedVault}
             totalGive={totalGive as number}
           />
         </Box>
