@@ -12,13 +12,13 @@ if [ -f "$DOTENV_FILE" ]; then
 fi
 
 PORT=$HARDHAT_GANACHE_PORT
-LOGFILE=${TMPDIR:-.}/ganache-$(date +%s).log
 
 # parse arguments
 EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
   -p|--port) PORT="$2"; shift;;
+  -v|--verbose) VERBOSE=1;;
   *) EXECARGS+=($1);;
 esac; shift; done
 
@@ -39,15 +39,23 @@ if nc -z 127.0.0.1 $PORT; then
   fi
 else
   echo "Starting ganache..."
-  echo "Writing output to" $LOGFILE
 
-  $SCRIPT_DIR/../node_modules/.bin/ganache \
-    -p $PORT \
-    -m coordinape \
-    -f $ETHEREUM_RPC_URL \
-    --fork.blockNumber $HARDHAT_FORK_BLOCK \
-    --miner.defaultGasPrice 0x7735940000 \
-    > $LOGFILE 2>&1 & PID=$!
+  GANACHE_ARGS=(
+    $SCRIPT_DIR/../node_modules/.bin/ganache
+      -p $PORT
+      -m coordinape
+      -f $ETHEREUM_RPC_URL
+      --fork.blockNumber $HARDHAT_FORK_BLOCK
+      --miner.defaultGasPrice 0x7735940000
+  )
+
+  if [ "$VERBOSE" ]; then
+    "${GANACHE_ARGS[@]}" 2>&1 & PID=$!
+  else
+    LOGFILE=${TMPDIR:-.}/ganache-$(date +%s).log
+    echo "Writing output to" $LOGFILE
+    "${GANACHE_ARGS[@]}" > $LOGFILE 2>&1 & PID=$!
+  fi
   
   # Wait for the testnet to become responsive
   sleep 5
