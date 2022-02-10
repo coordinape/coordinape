@@ -7,59 +7,48 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
+import { HasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
+
 import { getUserFromProfileId } from './findUser';
-import { verifyHasuraAdminMiddleware } from './validate';
+import { verifyHasuraRequestMiddleware } from './validate';
 
 const middleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse) => {
-    const sessionVariables = req.body.session_variables;
-    if (hasUserId(sessionVariables)) {
-      try {
-        const circleId = z.number().parse(req.body.input.circle_id);
-        const profileId = z
-          .string()
-          .refine(
-            s => Number.parseInt(s).toString() === s,
-            'profileId not an integer'
-          )
-          .transform(Number.parseInt)
-          .parse(sessionVariables['x-hasura-user-id']);
+    console.error(req.body);
+    try {
+      const { input: rawInput, session_variables: sessionVariables } =
+        HasuraActionRequestBody.parse(req.body);
 
-        const { role } = await getUserFromProfileId(profileId, circleId);
+      if (sessionVariables.hasuraRole !== 'admin') {
+        const { circle_id } = circleIdInput.parse(rawInput);
+        const profileId = sessionVariables.hasuraProfileId;
+
+        const { role } = await getUserFromProfileId(profileId, circle_id);
         assert(isCircleAdmin(role));
-      } catch (err) {
-        if (err instanceof z.ZodError) {
-          res.status(422).json({
-            extensions: err.issues,
-            message: 'Invalid input',
-            code: '422',
-          });
-          return;
-        }
-        res.status(401).json({
-          message: 'User not circle admin',
-          code: 401,
+      }
+    } catch (err) {
+      console.error('erroring');
+      if (err instanceof z.ZodError) {
+        res.status(422).json({
+          extensions: err.issues,
+          message: 'Invalid input',
+          code: '422',
         });
         return;
       }
-    } else if (isNotHasuraAdmin(sessionVariables)) {
       res.status(401).json({
-        message: 'Unauthorized access',
+        message: 'User not circle admin',
         code: 401,
       });
       return;
     }
+    // the admin role is validated early by zod
 
     await handler(req, res);
   };
 
-const hasUserId = (vars: unknown): boolean => !!vars['x-hasura-user-id'];
-
 const isCircleAdmin = (role: number): boolean => role === 1;
 
-const isNotHasuraAdmin = (vars: unknown): boolean =>
-  vars['x-hasura-role'] !== 'admin';
-
 export const authCircleAdminMiddleware = (handler: VercelApiHandler) =>
-  verifyHasuraAdminMiddleware(middleware(handler));
+  verifyHasuraRequestMiddleware(middleware(handler));

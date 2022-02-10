@@ -21,14 +21,53 @@ export const createCircleSchemaInput = z
 // it might be preferable to fold circle_id into the object
 export const createUserSchemaInput = z.object({
   circle_id: z.number(),
-  object: z.object({
-    name: z.string().min(3).max(255),
-    address: zEthAddressOnly,
-    non_giver: z.boolean().optional(),
-    starting_tokens: z.number().optional(),
-    give_token_remaining: z.number().optional(),
-    fixed_non_receiver: z.boolean().optional(),
-    non_receiver: z.boolean().optional(),
-    role: z.number().min(0).max(1).optional(),
-  }),
+  name: z.string().min(3).max(255),
+  address: zEthAddressOnly,
+  non_giver: z.boolean().optional(),
+  starting_tokens: z.number().optional(),
+  give_token_remaining: z.number().optional(),
+  fixed_non_receiver: z.boolean().optional(),
+  non_receiver: z.boolean().optional(),
+  role: z.number().min(0).max(1).optional(),
+});
+
+export const circleIdInput = z.object({
+  circle_id: z.number(),
+});
+
+const HasuraAdminSessionVariables = z
+  .object({
+    'x-hasura-role': z.literal('admin'),
+  })
+  .transform(vars => ({
+    hasuraRole: vars['x-hasura-role'],
+  }));
+
+const HasuraUserSessionVariables = z
+  .object({
+    'x-hasura-user-id': z
+      .string()
+      .refine(
+        s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
+        'profileId not an integer'
+      )
+      .transform(Number.parseInt),
+    'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
+  })
+  .transform(vars => ({
+    hasuraProfileId: vars['x-hasura-user-id'],
+    hasuraRole: vars['x-hasura-role'],
+  }));
+
+export const HasuraActionRequestBody = z.object({
+  // TODO accept a generic and return the mapped type for the action input.
+  input: z
+    .object({ object: z.any().refine(obj => obj, 'input object missing') })
+    .transform(obj => obj.object),
+  action: z.object({ name: z.string() }),
+  session_variables: z.union([
+    HasuraAdminSessionVariables,
+    HasuraUserSessionVariables,
+  ]),
+  request_query: z.string(),
 });

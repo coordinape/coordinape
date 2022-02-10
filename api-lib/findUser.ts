@@ -1,5 +1,4 @@
 import assert from 'assert';
-import { createHash } from 'crypto';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 

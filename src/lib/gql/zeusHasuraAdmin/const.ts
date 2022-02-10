@@ -3417,6 +3417,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
     fixed_non_receiver: {
       type: 'Boolean',
       array: false,
@@ -5487,12 +5493,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   mutation_root: {
     createUser: {
-      circle_id: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: true,
-      },
       object: {
         type: 'createUserInput',
         array: false,

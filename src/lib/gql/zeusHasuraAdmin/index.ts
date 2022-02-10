@@ -1416,6 +1416,7 @@ export type ValueTypes = {
   };
   ['createUserInput']: {
     address: string;
+    circle_id: number;
     fixed_non_receiver?: boolean | null;
     give_token_remaining?: number | null;
     name: string;
@@ -2380,7 +2381,7 @@ export type ValueTypes = {
   /** mutation root */
   ['mutation_root']: AliasType<{
     createUser?: [
-      { circle_id: number; object: ValueTypes['createUserInput'] },
+      { object: ValueTypes['createUserInput'] },
       ValueTypes['createUserResponse']
     ];
     create_circle?: [
@@ -11468,6 +11469,7 @@ export type GraphQLTypes = {
   };
   ['createUserInput']: {
     address: string;
+    circle_id: number;
     fixed_non_receiver?: boolean;
     give_token_remaining?: number;
     name: string;

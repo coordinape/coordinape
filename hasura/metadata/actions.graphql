@@ -1,7 +1,6 @@
 type Mutation {
   createUser(
     object: createUserInput!
-    circle_id: Int!
   ): createUserResponse
 }
 
@@ -20,6 +19,7 @@ input create_circle_input {
 }
 
 input createUserInput {
+  circle_id: Int!
   address: String!
   name: String!
   fixed_non_receiver: Boolean
