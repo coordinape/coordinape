@@ -17,6 +17,7 @@ export const SvgIconConfig = {
       sm: {
         width: '$sm',
         height: '$sm',
+        viewBox: '0 0 10 10',
       },
       md: {
         width: '$md',
@@ -41,6 +42,7 @@ const spaces = {
   xs: '4px',
   sm: '8px',
   md: '16px',
+  md2: '18px',
   lg: '24px',
   xl: '32px',
   '1xl': '40px',
@@ -83,6 +85,7 @@ export const {
       border: '#939EA1',
       placeholder: '#99A2A5',
       placeholderDark: '#7C898D',
+      neutralGrayDark: '#52575C',
 
       primary: '#5E6F74',
       text: '#516369',
@@ -93,6 +96,7 @@ export const {
       selected: '#31A5AC',
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
+      green: '#29D07E',
     },
     space: {
       ...spaces,

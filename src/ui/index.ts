@@ -6,3 +6,6 @@ export * from './Link/Link';
 export * from './IconButton/IconButton';
 export * from './Text/Text';
 export * from './Panel/Panel';
+
+// icons
+export * from './icons';

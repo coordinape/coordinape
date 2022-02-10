@@ -6,6 +6,7 @@ export const Text = styled('span', {
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
   display: 'block',
+  height: '$md2',
 });
 
 export default Text;
