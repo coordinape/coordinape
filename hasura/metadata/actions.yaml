@@ -76,6 +76,10 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: create_nominee
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_nominee'
 custom_types:
   enums: []
   input_objects:
@@ -84,6 +88,7 @@ custom_types:
   - name: UploadImageInput
   - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
+  - name: create_nominee_input
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -143,4 +148,5 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: create_nominee_response
   scalars: []
