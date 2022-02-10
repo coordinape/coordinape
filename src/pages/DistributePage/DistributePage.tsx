@@ -136,7 +136,7 @@ const DistributePage = () => {
         </Box>
 
         <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
-          <Box css={{ m: '$lg', minWidth: '$selectWidth' }}>
+          <Box css={{ m: '$lg', minWidth: '15vw' }}>
             <FormControl fullWidth>
               <InputLabel>Select Vault</InputLabel>
               <Select
