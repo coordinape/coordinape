@@ -1,30 +1,41 @@
 import assert from 'assert';
 
-import { PrismaClient, Prisma } from '@prisma/client';
+import { gql } from './Gql';
 
 export const getUserFromProfileId = async (
   profileId: number,
-  circleId: bigint | number
-): Promise<Prisma.PromiseReturnType<typeof prisma.user.findFirst>> => {
-  const prisma = new PrismaClient();
-  try {
-    const profile = await prisma.profile.findFirst({
-      where: {
+  circleId: number
+) => {
+  const { profiles_by_pk } = await gql.q('query')({
+    profiles_by_pk: [
+      {
         id: profileId,
       },
-    });
-    assert(profile, 'Profile cannot be found');
-    // there is no relation between profile addresses
-    // and user addresses so we manually query it here
-    const user = await prisma.user.findFirst({
-      where: {
-        address: profile.address,
-        circle_id: circleId,
+      {
+        users: [
+          {
+            where: {
+              circle_id: { _eq: circleId },
+            },
+          },
+          {
+            id: true,
+            role: true,
+            address: true,
+            circle_id: true,
+            give_token_remaining: true,
+            give_token_received: true,
+            non_giver: true,
+            non_receiver: true,
+            fixed_non_receiver: true,
+            starting_tokens: true,
+          },
+        ],
       },
-    });
-    assert(user, `user for circle_id ${circleId} not found`);
-    return user;
-  } finally {
-    prisma.$disconnect();
-  }
+    ],
+  });
+  assert(profiles_by_pk, 'Profile cannot be found');
+  const user = profiles_by_pk.users.pop();
+  assert(user, `user for circle_id ${circleId} not found`);
+  return user;
 };

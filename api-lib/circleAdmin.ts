@@ -7,6 +7,7 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
+import { GraphQLError } from '../src/lib/gql/zeusHasuraAdmin';
 import { HasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
 
 import { getUserFromProfileId } from './findUser';
@@ -15,7 +16,6 @@ import { verifyHasuraRequestMiddleware } from './validate';
 const middleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse) => {
-    console.error(req.body);
     try {
       const { input: rawInput, session_variables: sessionVariables } =
         HasuraActionRequestBody.parse(req.body);
@@ -28,7 +28,6 @@ const middleware =
         assert(isCircleAdmin(role));
       }
     } catch (err) {
-      console.error('erroring');
       if (err instanceof z.ZodError) {
         res.status(422).json({
           extensions: err.issues,
@@ -36,6 +35,12 @@ const middleware =
           code: '422',
         });
         return;
+      } else if (err instanceof GraphQLError) {
+        res.status(422).json({
+          code: 422,
+          message: 'GQL Query Error',
+          extensions: err.response.errors,
+        });
       }
       res.status(401).json({
         message: 'User not circle admin',
