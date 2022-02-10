@@ -10,7 +10,6 @@ actions:
   permissions:
   - role: user
   - role: superadmin
-  comment: creates a user in a circle and creates a profile if none exists
 - name: create_circle
   definition:
     kind: synchronous
@@ -40,11 +39,11 @@ custom_types:
         id: circle_id
     - remote_table:
         schema: public
-        name: protocols
-      name: protocol
+        name: circles
+      name: circle
       source: default
       type: object
       field_mapping:
-        protocol_id: id
+        id: id
   - name: createUserResponse
   scalars: []

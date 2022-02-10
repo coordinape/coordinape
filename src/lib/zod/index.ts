@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { zEthAddressOnly } from '../../../src/forms/formHelpers';
+
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
@@ -7,6 +9,7 @@ export const createCircleSchemaInput = z
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
   })
+  .strict()
   .refine(
     data =>
       (data.protocol_name || data.protocol_id) &&
@@ -45,20 +48,22 @@ const HasuraAdminSessionVariables = z
     }));
 
 const HasuraUserSessionVariables = z
-    .object({
-        'x-hasura-user-id': z
-            .string()
-            .refine(
-                s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
-                'profileId not an integer'
-            )
-            .transform(Number.parseInt),
-        'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
-    })
-    .transform(vars => ({
-        hasuraProfileId: vars['x-hasura-user-id'],
-        hasuraRole: vars['x-hasura-role'],
-    }));
+  .object({
+    'x-hasura-user-id': z
+      .string()
+      .refine(
+        s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
+        'profileId not an integer'
+      )
+      .transform(Number.parseInt),
+    'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
+    'x-hasura-address': zEthAddressOnly,
+  })
+  .transform(vars => ({
+    hasuraProfileId: vars['x-hasura-user-id'],
+    hasuraRole: vars['x-hasura-role'],
+    hasuraAddress: vars['x-hasura-address'],
+  }));
 
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
     inputSchema: z.ZodObject<T, 'strict' | 'strip'>

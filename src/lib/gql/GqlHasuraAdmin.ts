@@ -262,7 +262,7 @@ export class Gql {
     });
   }
   async insertCircleWithAdmin(
-    circleInput: ValueTypes['create_circle_input'],
+    circleInput: any,
     userAddress: string,
     coordinapeAddress: string
   ) {
