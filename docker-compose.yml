@@ -36,7 +36,6 @@ services:
       # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
       HASURA_ACTION_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/actions
 
-
   # for local s3 storage for images
   localstack:
     image: localstack/localstack:latest
@@ -57,33 +56,8 @@ services:
     ports:
       - '4566-4583:4566-4583'
     volumes:
-      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
-
-
-  # for local s3 storage for images
-  localstack:
-    image: localstack/localstack:latest
-    hostname: s3
-    networks:
-      default:
-        aliases:
-          - s3.localhost.localstack.cloud
-          - s3-website.localhost.localstack.cloud
-          - coordinape.s3.localhost.localstack.cloud
-          - coordinape.s3-website.localhost.localstack.cloud
-    environment:
-      - HOSTNAME_EXTERNAL=localstack
-      - AWS_DEFAULT_REGION=us-east-1
-      - EDGE_PORT=4566
-      - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
-    ports:
-      - '4566-4583:4566-4583'
-    volumes:
-      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - '${TEMPDIR:-/tmp/localstack}:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
       - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
 
   app:
