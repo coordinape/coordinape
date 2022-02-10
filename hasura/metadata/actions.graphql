@@ -50,6 +50,12 @@ input CreateUserInput {
   role: Int
   starting_tokens: Int
 }
+input create_nominee_input {
+  name: String!
+  address: String!
+  description: String!
+  circle_id: Int!
+}
 
 input create_nominee_input {
   name: String!
@@ -105,9 +111,6 @@ type UpdateProfileResponse {
 
 type UpdateCircleResponse {
   id: Int!
-}
-type create_nominee_response {
-  id: Int
 }
 
 type LogoutResponse {
