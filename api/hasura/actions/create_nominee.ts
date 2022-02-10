@@ -85,5 +85,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     message: 'Unexpected error',
   });
 }
-
-export default verifyHasuraRequestMiddleware(handler);
