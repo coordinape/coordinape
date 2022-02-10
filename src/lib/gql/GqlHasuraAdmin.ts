@@ -263,6 +263,52 @@ export class Gql {
       ],
     });
   }
+
+  async getExpiredNominees() {
+    return this.q('query')({
+      nominees: [
+        {
+          where: {
+            ended: {
+              _eq: false,
+            },
+            expiry_date: { _lte: new Date() },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          circle_id: true,
+          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      ],
+    });
+  }
+
+  async updateExpiredNominees(idList: number[]) {
+    return this.q('mutation')({
+      update_nominees: [
+        {
+          _set: {
+            ended: true,
+          },
+          where: {
+            id: {
+              _in: idList,
+            },
+          },
+        },
+        {
+          affected_rows: true,
+          returning: {
+            name: true,
+            expiry_date: true,
+          },
+        },
+      ],
+    });
+  }
+
   async insertCircleWithAdmin(
     circleInput: any,
     userAddress: string,

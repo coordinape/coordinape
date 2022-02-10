@@ -4,49 +4,13 @@ import { gql } from '../../../api-lib/Gql';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { nominees } = await gql.q('query')({
-      nominees: [
-        {
-          where: {
-            ended: {
-              _eq: false,
-            },
-            expiry_date: { _lte: new Date() },
-          },
-        },
-        {
-          id: true,
-          name: true,
-          circle_id: true,
-          nominations_aggregate: {
-            aggregate: { count: true },
-          },
-        },
-      ],
-    });
+    const { nominees } = await gql.getExpiredNominees();
 
     if (nominees.length > 0) {
-      const { update_nominees } = await gql.q('mutation')({
-        update_nominees: [
-          {
-            _set: {
-              ended: true, // triggers: hasura/event-triggers/check-nominee-*.ts
-            },
-            where: {
-              id: {
-                _in: nominees.map(n => n.id),
-              },
-            },
-          },
-          {
-            affected_rows: true,
-            returning: {
-              name: true,
-              expiry_date: true,
-            },
-          },
-        ],
-      });
+      // triggers: hasura/event-triggers/check-nominee-*.ts
+      const { update_nominees } = await gql.updateExpiredNominees(
+        nominees.map(n => n.id)
+      );
 
       res.status(200).json({ update_nominees });
       return;
