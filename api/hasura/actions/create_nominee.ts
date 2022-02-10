@@ -86,3 +86,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export default verifyHasuraRequestMiddleware(handler);
+

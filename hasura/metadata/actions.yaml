@@ -164,4 +164,5 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: create_nominee_response
   scalars: []

@@ -50,6 +50,12 @@ input CreateUserInput {
   role: Int
   starting_tokens: Int
 }
+input create_nominee_input {
+  name: String!
+  address: String!
+  description: String!
+  circle_id: Int!
+}
 
 input upload_image_input {
   image_data_base64: String!
@@ -98,6 +104,21 @@ type UpdateProfileResponse {
 
 type UpdateCircleResponse {
   id: Int!
+}
+type create_nominee_response {
+  id: Int
+  name: String
+  address: String
+  nominated_by_user_id: Int
+  circle_id: Int
+  description: String
+  nominated_date: date
+  expiry_date: date
+  vouches_required: Int
+  user_id: Int
+  ended: Boolean
+  created_at: timestamptz
+  updated_at: timestamptz
 }
 
 type LogoutResponse {
