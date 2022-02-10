@@ -191,6 +191,9 @@ Setup docker, git, hasura completions.
 - `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
   Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077
 
+- `Laravel in Docker always restarting (Windows)`
+  When log says `start.sh : not found` Change the line ending of `Laravel/services/start.sh` from CRLF to LF.
+
 ### Credits
 
 ascii art above: [image](https://www.asciiart.eu/animals/monkeys) - [font](https://textpaint.net/)
