@@ -21,8 +21,8 @@ function getEnvValue<T extends string | number>(
 // TODO: Refactor the GQL libs in a way that works as a package
 // and can be used by, script, serverless functions and react.
 // There shouldn't be a fallback if we consider vercel as requiring these.
-export const SCRIPT_HASURA_ADMIN_SECRET = <string>(
-  getEnvValue('LOCAL_HASURA_ADMIN_SECRET', '')
+export const HASURA_GRAPHQL_ADMIN_SECRET = <string>(
+  getEnvValue('HASURA_GRAPHQL_ADMIN_SECRET')
 );
 export const NODE_HASURA_URL = <string>(
   getEnvValue('NODE_HASURA_URL', 'missing')
@@ -31,3 +31,5 @@ export const LOCAL_SEED_ADDRESS = <string>(
   getEnvValue('LOCAL_SEED_ADDRESS', 'missing')
 );
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
+
+export const HASURA_EVENT_SECRET = <string>getEnvValue('HASURA_EVENT_SECRET');

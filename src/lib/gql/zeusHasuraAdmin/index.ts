@@ -1414,6 +1414,32 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
+  ['createUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    give_token_remaining?: number | null;
+    name: string;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
+  };
+  ['createUserResponse']: AliasType<{
+    /** The ethereum address of the user */
+    address?: boolean;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: boolean;
+    /** Primary key */
+    id?: boolean;
+    /** human readable user name */
+    name?: boolean;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: boolean;
+    starting_tokens?: boolean;
+    __typename?: boolean;
+  }>;
   ['create_circle_input']: {
     address: string;
     circle_name: string;
@@ -2354,6 +2380,10 @@ export type ValueTypes = {
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
+    createUser?: [
+      { object: ValueTypes['createUserInput'] },
+      ValueTypes['createUserResponse']
+    ];
     create_circle?: [
       { object: ValueTypes['create_circle_input'] },
       ValueTypes['create_circle_response']
@@ -7740,6 +7770,21 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
+  ['createUserInput']: GraphQLTypes['createUserInput'];
+  ['createUserResponse']: {
+    /** The ethereum address of the user */
+    address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
+    /** Primary key */
+    id: string;
+    /** human readable user name */
+    name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
+  };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
     alloc_text?: string;
@@ -8243,6 +8288,8 @@ export type ModelTypes = {
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: ModelTypes['createUserResponse'];
     create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
@@ -11420,6 +11467,32 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
+  ['createUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: number;
+    name: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
+  ['createUserResponse']: {
+    __typename: 'createUserResponse';
+    /** The ethereum address of the user */
+    address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
+    /** Primary key */
+    id: string;
+    /** human readable user name */
+    name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
+  };
   ['create_circle_input']: {
     address: string;
     circle_name: string;
@@ -12299,6 +12372,8 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: GraphQLTypes['createUserResponse'];
     create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];
