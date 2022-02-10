@@ -38,6 +38,7 @@ select_permissions:
     filter: {}
   role: superadmin
 - permission:
+    allow_aggregations: true
     columns:
     - circle_id
     - created_at
