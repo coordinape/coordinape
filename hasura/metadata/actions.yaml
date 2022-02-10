@@ -86,6 +86,10 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: create_nominee
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_nominee'
 custom_types:
   enums: []
   input_objects:
