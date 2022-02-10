@@ -105,6 +105,21 @@ type UpdateProfileResponse {
 type UpdateCircleResponse {
   id: Int!
 }
+type create_nominee_response {
+  id: Int
+  name: String
+  address: String
+  nominated_by_user_id: Int
+  circle_id: Int
+  description: String
+  nominated_date: date
+  expiry_date: date
+  vouches_required: Int
+  user_id: Int
+  ended: Boolean
+  created_at: timestamptz
+  updated_at: timestamptz
+}
 
 type LogoutResponse {
   id: Int

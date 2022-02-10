@@ -164,14 +164,4 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: create_nominee_response
-    relationships:
-    - remote_table:
-        schema: public
-        name: nominees
-      name: nominee
-      source: default
-      type: object
-      field_mapping:
-        id: id
   scalars: []
