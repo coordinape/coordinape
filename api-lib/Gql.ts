@@ -1,3 +1,4 @@
+import './node-fetch-shim';
 import { Gql } from '../src/lib/gql/GqlHasuraAdmin';
 import { SCRIPT_HASURA_ADMIN_SECRET, NODE_HASURA_URL } from './config';
 

@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-import { INFURA_PROJECT_ID } from 'config/env';
+import { INFURA_PROJECT_ID } from '../config/env';
 
 const provider = new ethers.providers.InfuraProvider(
   'homestead',
@@ -18,6 +18,12 @@ export const zStringISODateUTC = z
 export const zEthAddress = z
   .string()
   .transform(s => provider.resolveName(s))
+  .transform(s => s || '')
+  .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
+  .transform(s => s.toLowerCase());
+
+export const zEthAddressOnly = z
+  .string()
   .transform(s => s || '')
   .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
   .transform(s => s.toLowerCase());

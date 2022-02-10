@@ -1,13 +1,9 @@
 import {
-  ApeDistributor,
-  ApeRouter,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
 } from '@coordinape/hardhat/dist/typechain';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
-import { ContractTransaction, BigNumberish } from 'ethers';
-
-import { Contracts } from 'services/contracts';
+import { ContractTransaction, BigNumberish, ContractReceipt } from 'ethers';
 
 import { IVault } from 'types';
 
@@ -40,38 +36,40 @@ export const makeVaultTxFn =
     return callback(apeVault).catch(e => handleContractError(apeError, e));
   };
 
-export const makeRouterTxFn =
-  (
-    web3Context: Web3ReactContextInterface,
-    contracts: Contracts | undefined,
-    apeError: (error: any) => void
-  ) =>
-  async (callback: (apeRouter: ApeRouter) => Promise<ContractTransaction>) => {
-    if (!contracts) {
-      apeError('Contracts not loaded');
-      return;
-    }
-    const signer = await web3Context.library.getSigner();
-    const apeRouter = await contracts.apeRouter.connect(signer);
-    return callback(apeRouter).catch(e => handleContractError(apeError, e));
-  };
+type Options = {
+  signingMessage?: string;
+  sendingMessage?: string;
+  minedMessage?: string;
+  showInfo: (message: any) => void;
+  showError: (message: any) => void;
+};
 
-export const makeDistributorTxFn =
-  (
-    web3Context: Web3ReactContextInterface,
-    contracts: Contracts | undefined,
-    apeError: (error: any) => void
-  ) =>
-  async (
-    callback: (apeDistributor: ApeDistributor) => Promise<ContractTransaction>
-  ) => {
-    if (!contracts) {
-      apeError('Contracts not loaded');
-      return;
-    }
-    const signer = await web3Context.library.getSigner();
-    const apeDistributor = contracts.apeDistributor.connect(signer);
-    return callback(apeDistributor).catch(e =>
-      handleContractError(apeError, e)
-    );
-  };
+export type SendAndTrackTxResult = {
+  tx?: ContractTransaction;
+  receipt?: ContractReceipt;
+  error?: unknown;
+};
+
+export const sendAndTrackTx = async (
+  callback: () => Promise<ContractTransaction>,
+  {
+    signingMessage = 'Please sign the transaction.',
+    sendingMessage = 'Sending transaction...',
+    minedMessage = 'Transaction completed',
+    showInfo,
+    showError,
+  }: Options
+): Promise<SendAndTrackTxResult> => {
+  try {
+    const promise = callback();
+    showInfo(signingMessage);
+    const tx = await promise;
+    showInfo(sendingMessage);
+    const receipt = await tx.wait();
+    showInfo(minedMessage);
+    return { tx, receipt }; // just guessing at a good return value here
+  } catch (e: unknown) {
+    showError(e);
+    return { error: e }; // best behavior here TBD
+  }
+};

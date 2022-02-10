@@ -2067,6 +2067,72 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  create_circle_input: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    protocol_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  create_circle_response: {
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
   date: 'String',
   date_comparison_exp: {
     _eq: {
@@ -3073,6 +3139,14 @@ export const AllTypesProps: Record<string, any> = {
   },
   gift_private_select_column: 'enum',
   mutation_root: {
+    create_circle: {
+      object: {
+        type: 'create_circle_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     update_circles: {
       _inc: {
         type: 'circles_inc_input',
@@ -8160,6 +8234,24 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: 'Int',
     returning: 'circles',
   },
+  create_circle_response: {
+    alloc_text: 'String',
+    auto_opt_out: 'Boolean',
+    default_opt_in: 'Boolean',
+    id: 'Int',
+    logo: 'String',
+    min_vouches: 'Int',
+    name: 'String',
+    nomination_days_limit: 'Int',
+    only_giver_vouch: 'Boolean',
+    protocol: 'organizations',
+    protocol_id: 'Int',
+    team_sel_text: 'String',
+    team_selection: 'Boolean',
+    users: 'users',
+    vouching: 'Boolean',
+    vouching_text: 'String',
+  },
   epochs: {
     burns: 'burns',
     circle: 'circles',
@@ -8188,6 +8280,7 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'bigint',
   },
   mutation_root: {
+    create_circle: 'create_circle_response',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',

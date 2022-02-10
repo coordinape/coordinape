@@ -560,6 +560,45 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
+  ['create_circle_input']: {
+    address: string;
+    circle_name: string;
+    protocol_id?: number | null;
+    protocol_name?: string | null;
+    user_name: string;
+  };
+  ['create_circle_response']: AliasType<{
+    alloc_text?: boolean;
+    auto_opt_out?: boolean;
+    default_opt_in?: boolean;
+    id?: boolean;
+    logo?: boolean;
+    min_vouches?: boolean;
+    name?: boolean;
+    nomination_days_limit?: boolean;
+    only_giver_vouch?: boolean;
+    /** An object relationship */
+    protocol?: ValueTypes['organizations'];
+    protocol_id?: boolean;
+    team_sel_text?: boolean;
+    team_selection?: boolean;
+    users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['users_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['users_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | null;
+      },
+      ValueTypes['users']
+    ];
+    vouching?: boolean;
+    vouching_text?: boolean;
+    __typename?: boolean;
+  }>;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -817,6 +856,10 @@ export type ValueTypes = {
   ['gift_private_select_column']: gift_private_select_column;
   /** mutation root */
   ['mutation_root']: AliasType<{
+    create_circle?: [
+      { object: ValueTypes['create_circle_input'] },
+      ValueTypes['create_circle_response']
+    ];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -2499,6 +2542,27 @@ export type ModelTypes = {
   ['circles_var_samp_order_by']: GraphQLTypes['circles_var_samp_order_by'];
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
+  ['create_circle_input']: GraphQLTypes['create_circle_input'];
+  ['create_circle_response']: {
+    alloc_text?: string;
+    auto_opt_out: boolean;
+    default_opt_in: boolean;
+    id: number;
+    logo?: string;
+    min_vouches: number;
+    name: string;
+    nomination_days_limit: number;
+    only_giver_vouch: boolean;
+    /** An object relationship */
+    protocol: ModelTypes['organizations'];
+    protocol_id: number;
+    team_sel_text?: string;
+    team_selection: boolean;
+    /** An array relationship */
+    users: ModelTypes['users'][];
+    vouching: boolean;
+    vouching_text?: string;
+  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
@@ -2571,6 +2635,7 @@ export type ModelTypes = {
   ['gift_private_select_column']: GraphQLTypes['gift_private_select_column'];
   /** mutation root */
   ['mutation_root']: {
+    create_circle?: ModelTypes['create_circle_response'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -3516,6 +3581,34 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
+  ['create_circle_input']: {
+    address: string;
+    circle_name: string;
+    protocol_id?: number;
+    protocol_name?: string;
+    user_name: string;
+  };
+  ['create_circle_response']: {
+    __typename: 'create_circle_response';
+    alloc_text?: string;
+    auto_opt_out: boolean;
+    default_opt_in: boolean;
+    id: number;
+    logo?: string;
+    min_vouches: number;
+    name: string;
+    nomination_days_limit: number;
+    only_giver_vouch: boolean;
+    /** An object relationship */
+    protocol: GraphQLTypes['organizations'];
+    protocol_id: number;
+    team_sel_text?: string;
+    team_selection: boolean;
+    /** An array relationship */
+    users: Array<GraphQLTypes['users']>;
+    vouching: boolean;
+    vouching_text?: string;
+  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -3763,6 +3856,7 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    create_circle?: GraphQLTypes['create_circle_response'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */

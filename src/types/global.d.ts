@@ -21,12 +21,6 @@ export interface IToken {
   symbol: string;
 }
 
-declare global {
-  interface ObjectConstructor {
-    typedKeys<T>(obj: T): Array<keyof T>;
-  }
-}
-
 export interface ITableColumn {
   label: string;
   accessor?: string;

@@ -56,17 +56,6 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
   api.setAuth(token);
 };
 
-// myAddress is how the app knows that there is a logged in state.
-// export const rMyAddress = selector({
-//   key: 'rMyAddress',
-//   get: async ({ get }) => {
-//     const { address, authTokens } = get(rWalletAuth);
-//     return address && address in authTokens
-//       ? address
-//       : neverEndingPromise<string>();
-//   },
-// });
-
 export const rSelectedCircleIdSource = atom({
   key: 'rSelectedCircleIdSource',
   default: storage.getCircleId(),
