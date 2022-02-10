@@ -51,13 +51,6 @@ input CreateUserInput {
   starting_tokens: Int
 }
 
-input create_nominee_input {
-  name: String!
-  address: String!
-  description: String!
-  circle_id: Int!
-}
-
 input upload_image_input {
   image_data_base64: String!
 }
@@ -105,9 +98,6 @@ type UpdateProfileResponse {
 
 type UpdateCircleResponse {
   id: Int!
-}
-type create_nominee_response {
-  id: Int
 }
 
 type LogoutResponse {
