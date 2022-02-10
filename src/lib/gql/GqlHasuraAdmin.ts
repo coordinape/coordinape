@@ -264,6 +264,19 @@ export class Gql {
     });
   }
 
+  async getNominee(id: number) {
+    return this.q('query')({
+      nominees_by_pk: [
+        { id },
+        {
+          name: true,
+          circle_id: true,
+          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      ],
+    });
+  }
+
   async getExpiredNominees() {
     return this.q('query')({
       nominees: [

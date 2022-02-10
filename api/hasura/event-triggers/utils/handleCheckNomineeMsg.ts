@@ -15,18 +15,7 @@ export default async function handleCheckNomineeMsg(
     data.new.ended === true &&
     new Date(data.new.expiry_date) < new Date()
   ) {
-    const { nominees_by_pk } = await gql.q('query')({
-      nominees_by_pk: [
-        { id: data.new.id },
-        {
-          name: true,
-          circle_id: true,
-          nominations_aggregate: {
-            aggregate: { count: true },
-          },
-        },
-      ],
-    });
+    const { nominees_by_pk } = await gql.getNominee(data.new.id);
 
     await sendSocialMessage({
       message: `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate.aggregate.count} vouch(es) and has failed`,
