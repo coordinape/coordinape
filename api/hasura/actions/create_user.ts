@@ -6,13 +6,16 @@ import { gql } from '../../../api-lib/Gql';
 import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import {
   createUserSchemaInput,
-  HasuraActionRequestBody,
+  composeHasuraActionRequestBody,
 } from '../../../src/lib/zod';
 
 async function handler(request: VercelRequest, response: VercelResponse) {
   try {
-    const body = HasuraActionRequestBody.parse(request.body);
-    const input = createUserSchemaInput.parse(body.input);
+    const {
+      input: { object: input },
+    } = composeHasuraActionRequestBody(createUserSchemaInput).parse(
+      request.body
+    );
 
     // External Constraint Validation
     // It might be preferable to add this uniqueness constraint into the database

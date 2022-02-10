@@ -19,21 +19,25 @@ export const createCircleSchemaInput = z
 
 // this shape mirrors the shape of the original rest endpoint
 // it might be preferable to fold circle_id into the object
-export const createUserSchemaInput = z.object({
-  circle_id: z.number(),
-  name: z.string().min(3).max(255),
-  address: zEthAddressOnly,
-  non_giver: z.boolean().optional(),
-  starting_tokens: z.number().optional(),
-  give_token_remaining: z.number().optional(),
-  fixed_non_receiver: z.boolean().optional(),
-  non_receiver: z.boolean().optional(),
-  role: z.number().min(0).max(1).optional(),
-});
+export const createUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    name: z.string().min(3).max(255),
+    address: zEthAddressOnly,
+    non_giver: z.boolean().optional(),
+    starting_tokens: z.number().optional(),
+    give_token_remaining: z.number().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+  })
+  .strict();
 
-export const circleIdInput = z.object({
-  circle_id: z.number(),
-});
+export const circleIdInput = z
+  .object({
+    circle_id: z.number(),
+  })
+  .strip();
 
 const HasuraAdminSessionVariables = z
   .object({
@@ -59,15 +63,18 @@ const HasuraUserSessionVariables = z
     hasuraRole: vars['x-hasura-role'],
   }));
 
-export const HasuraActionRequestBody = z.object({
-  // TODO accept a generic and return the mapped type for the action input.
-  input: z
-    .object({ object: z.any().refine(obj => obj, 'input object missing') })
-    .transform(obj => obj.object),
-  action: z.object({ name: z.string() }),
-  session_variables: z.union([
-    HasuraAdminSessionVariables,
-    HasuraUserSessionVariables,
-  ]),
-  request_query: z.string(),
-});
+export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
+  inputSchema: z.ZodObject<T, 'strict' | 'strip'>
+) {
+  return z.object({
+    // for some reason, it's unsafe to transform the generic input
+    // to strip away the outer object
+    input: z.object({ object: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: z.union([
+      HasuraAdminSessionVariables,
+      HasuraUserSessionVariables,
+    ]),
+    request_query: z.string(),
+  });
+}

@@ -8,7 +8,7 @@ import type {
 import { z } from 'zod';
 
 import { GraphQLError } from '../src/lib/gql/zeusHasuraAdmin';
-import { HasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
+import { composeHasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
 
 import { getUserFromProfileId } from './findUser';
 import { verifyHasuraRequestMiddleware } from './validate';
@@ -17,11 +17,13 @@ const middleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse) => {
     try {
-      const { input: rawInput, session_variables: sessionVariables } =
-        HasuraActionRequestBody.parse(req.body);
+      const {
+        input: { object: input },
+        session_variables: sessionVariables,
+      } = composeHasuraActionRequestBody(circleIdInput).parse(req.body);
 
       if (sessionVariables.hasuraRole !== 'admin') {
-        const { circle_id } = circleIdInput.parse(rawInput);
+        const { circle_id } = input;
         const profileId = sessionVariables.hasuraProfileId;
 
         const { role } = await getUserFromProfileId(profileId, circle_id);
