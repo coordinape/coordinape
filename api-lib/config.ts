@@ -34,5 +34,5 @@ export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
 export const HASURA_EVENT_SECRET = <string>getEnvValue('HASURA_EVENT_SECRET');
 export const COORDINAPE_USER_ADDRESS = <string>(
-    getEnvValue('COORDINAPE_USER_ADDRESS', '')
+    getEnvValue('COORDINAPE_USER_ADDRESS')
 );
