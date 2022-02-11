@@ -100,6 +100,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     });
 
+    console.error(mutationResult);
     return response.status(200).json(mutationResult.insert_users_one);
   } catch (err) {
     if (err instanceof z.ZodError) {

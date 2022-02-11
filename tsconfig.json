@@ -20,5 +20,5 @@
       "@emotion/core": ["./types/emotion-core-stub.d.ts"]
     }
   },
-  "include": ["src", "api-lib","api"]
+  "include": ["src", "api-lib", "api"]
 }
