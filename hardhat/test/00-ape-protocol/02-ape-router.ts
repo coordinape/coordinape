@@ -17,7 +17,7 @@ import {
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { resetNetwork } from '../utils/network';
+import { takeSnapshot, restoreSnapshot } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -32,6 +32,8 @@ describe('ApeRouter', () => {
   let apeRouter: ApeRouter;
   let user0: Account;
   let vault: ApeVaultWrapperImplementation;
+  let snapshotId: string;
+  let suiteSnapshotId: string;
 
   const addUsdcToVault = async (receiver: Account) => {
     await usdc.transfer(receiver.address, USER_USDC_BALANCE);
@@ -53,7 +55,8 @@ describe('ApeRouter', () => {
       .delegateDeposit(vault.address, USDC_ADDRESS, DELEGATE_AMOUNT);
   };
 
-  beforeEach(async () => {
+  before(async () => {
+    suiteSnapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
     user0 = deploymentInfo.accounts[0];
     usdc = deploymentInfo.contracts.usdc;
@@ -70,7 +73,13 @@ describe('ApeRouter', () => {
     usdcYVault = usdcYVault.connect(user0.signer);
   });
 
-  afterEach(resetNetwork);
+  beforeEach(async () => {
+    snapshotId = await takeSnapshot();
+  });
+
+  afterEach(async () => restoreSnapshot(snapshotId));
+
+  after(async () => restoreSnapshot(suiteSnapshotId));
 
   it('should delegate specified amount to yVault', async () => {
     await addUsdcToVault(user0);

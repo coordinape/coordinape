@@ -1,11 +1,11 @@
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-import { TEST_ENV } from '../../../constants';
+import { FORK_MAINNET } from '../../../constants';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const useProxy = !hre.network.live;
-  if (TEST_ENV) return !useProxy;
+  if (FORK_MAINNET) return !useProxy;
 
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;

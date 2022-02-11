@@ -1,14 +1,14 @@
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-import { TEST_ENV, YEARN_REGISTRY_ADDRESS } from '../../../constants';
+import { FORK_MAINNET, YEARN_REGISTRY_ADDRESS } from '../../../constants';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const useProxy = !hre.network.live;
   let yRegistry: string;
-  if (hre.network.name === 'hardhat' && !TEST_ENV) {
+  if (hre.network.name === 'hardhat' && !FORK_MAINNET) {
     yRegistry = (await hre.deployments.get('MockRegistry')).address;
   } else {
     yRegistry = YEARN_REGISTRY_ADDRESS;

@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
+
 import { ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
@@ -12,7 +13,8 @@ import {
   USDC_ADDRESS,
   ETHEREUM_RPC_URL,
   FORKED_BLOCK,
-  TEST_ENV,
+  FORK_MAINNET,
+  GANACHE_URL,
 } from './constants';
 
 export async function unlockSigner(
@@ -94,9 +96,17 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
-const forking = {
-  url: ETHEREUM_RPC_URL,
-  blockNumber: FORKED_BLOCK,
+const hardhatNetwork = {
+  live: false,
+  allowUnlimitedContractSize: true,
+  gas: 'auto' as const,
+  gasPrice: 'auto' as const,
+  gasMultiplier: 1,
+  chainId: 1337,
+  accounts: {
+    mnemonic: 'coordinape',
+  },
+  deploy: ['./scripts/deploy'],
 };
 
 const config: HardhatUserConfig = {
@@ -126,37 +136,19 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      live: false,
-      allowUnlimitedContractSize: true,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      deploy: ['./scripts/deploy'],
+      ...hardhatNetwork,
+      forking: FORK_MAINNET
+        ? {
+            url: ETHEREUM_RPC_URL,
+            blockNumber: FORKED_BLOCK,
+          }
+        : undefined,
     },
-    ganache: {
-      live: false,
-      allowUnlimitedContractSize: true,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 1,
-      url: 'http://127.0.0.1:8545',
-      chainId: 1337,
-      accounts: {
-        mnemonic: 'coordinape',
-      },
-      timeout: 50000,
-      deploy: ['./scripts/deploy'],
+    ci: {
+      ...hardhatNetwork,
+      url: GANACHE_URL,
     },
   },
 };
-
-if (TEST_ENV) {
-  // @ts-ignore
-  config.networks.hardhat.forking = forking;
-}
 
 export default config;
