@@ -1,1 +1,1 @@
-export * from './ArrowDiagonalIcon';
+export * from './ArrowDownLeftIcon';

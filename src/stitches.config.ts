@@ -17,7 +17,6 @@ export const SvgIconConfig = {
       sm: {
         width: '$sm',
         height: '$sm',
-        viewBox: '0 0 10 10',
       },
       md: {
         width: '$md',

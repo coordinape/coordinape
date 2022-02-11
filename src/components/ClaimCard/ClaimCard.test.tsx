@@ -2,27 +2,19 @@ import { render } from '@testing-library/react';
 
 import { ClaimCard, ClaimCardProps } from './ClaimCard';
 
-let props: ClaimCardProps;
-
+const props: ClaimCardProps = {
+  epochInfo: [
+    {
+      title: 'Core Contributors',
+      subTitle: 'Coordinape',
+      giveInfo: 'You Received 125 GIVE',
+    },
+  ],
+  claimAmount: '1680',
+  onClaim: () => null,
+  onViewHistory: () => null,
+};
 describe('ClaimCard', () => {
-  beforeEach(() => {
-    props = {
-      epochInfo: [
-        {
-          title: 'Core Contributors',
-          subTitle: 'Coordinape',
-          giveInfo: 'You Received 125 GIVE',
-        },
-      ],
-      actionSection: {
-        actionText1: 'Claim 1680 USDC',
-        actionText2: 'View History',
-        onClaim: () => null,
-        onViewHistory: () => null,
-      },
-    };
-  });
-
   const renderComponent = (_props: ClaimCardProps) =>
     render(<ClaimCard {..._props} />);
 

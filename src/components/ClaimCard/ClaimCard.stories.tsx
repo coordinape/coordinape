@@ -6,7 +6,7 @@ import { Box } from '../../ui';
 import { ClaimCard } from './ClaimCard';
 
 export default {
-  title: 'Design System/Organisms/ClaimCard',
+  title: 'Design System/Molecules/ClaimCard',
   component: ClaimCard,
   decorators: [withDesign],
 } as ComponentMeta<typeof ClaimCard>;
@@ -36,12 +36,8 @@ SingleClaimCard.args = {
       giveInfo: 'You Received 125 GIVE',
     },
   ],
-  actionSection: {
-    actionText1: 'Claim 1680 USDC',
-    actionText2: 'View History',
-    onClaim: () => null,
-    onViewHistory: () => null,
-  },
+  onClaim: () => null,
+  onViewHistory: () => null,
 };
 
 export const TwoEpochClaimCard = Template.bind({});
@@ -59,12 +55,8 @@ TwoEpochClaimCard.args = {
       giveInfo: 'You Received 125 GIVE',
     },
   ],
-  actionSection: {
-    actionText1: 'Claim 1680 USDC',
-    actionText2: 'View History',
-    onClaim: () => null,
-    onViewHistory: () => null,
-  },
+  onClaim: () => null,
+  onViewHistory: () => null,
 };
 
 SingleClaimCard.parameters = {
