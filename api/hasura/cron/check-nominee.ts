@@ -1,8 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { gql } from '../../../api-lib/Gql';
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { nominees } = await gql.getExpiredNominees();
 
@@ -24,3 +25,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
+
+export default verifyHasuraRequestMiddleware(handler);

@@ -1,10 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { EventTriggerPayload } from '../types';
 
 import handleCheckNomineeMsg from './utils/handleCheckNomineeMsg';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const payload: EventTriggerPayload = req.body;
     const sent = await handleCheckNomineeMsg(payload, { discord: true });
@@ -18,3 +19,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
+
+export default verifyHasuraRequestMiddleware(handler);
