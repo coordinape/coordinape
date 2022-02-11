@@ -1414,28 +1414,42 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
-  ['create_circle_input']: {
+  ['createUserInput']: {
     address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    give_token_remaining?: number | null;
+    name: string;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
+  };
+  ['createUserResponse']: AliasType<{
+    /** The ethereum address of the user */
+    address?: boolean;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: boolean;
+    /** Primary key */
+    id?: boolean;
+    /** human readable user name */
+    name?: boolean;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: boolean;
+    starting_tokens?: boolean;
+    __typename?: boolean;
+  }>;
+  ['create_circle_input']: {
     circle_name: string;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
   };
   ['create_circle_response']: AliasType<{
-    alloc_text?: boolean;
-    auto_opt_out?: boolean;
-    default_opt_in?: boolean;
-    id?: boolean;
-    logo?: boolean;
-    min_vouches?: boolean;
-    name?: boolean;
-    nomination_days_limit?: boolean;
-    only_giver_vouch?: boolean;
     /** An object relationship */
-    protocol?: ValueTypes['organizations'];
-    protocol_id?: boolean;
-    team_sel_text?: boolean;
-    team_selection?: boolean;
+    circle?: ValueTypes['circles'];
+    id?: boolean;
     users?: [
       {
         /** distinct select on columns */
@@ -1462,8 +1476,6 @@ export type ValueTypes = {
       },
       ValueTypes['users_aggregate']
     ];
-    vouching?: boolean;
-    vouching_text?: boolean;
     __typename?: boolean;
   }>;
   ['date']: unknown;
@@ -2354,6 +2366,10 @@ export type ValueTypes = {
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
+    createUser?: [
+      { object: ValueTypes['createUserInput'] },
+      ValueTypes['createUserResponse']
+    ];
     create_circle?: [
       { object: ValueTypes['create_circle_input'] },
       ValueTypes['create_circle_response']
@@ -7740,28 +7756,30 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
+  ['createUserInput']: GraphQLTypes['createUserInput'];
+  ['createUserResponse']: {
+    /** The ethereum address of the user */
+    address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
+    /** Primary key */
+    id: string;
+    /** human readable user name */
+    name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
+  };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
-    alloc_text?: string;
-    auto_opt_out: boolean;
-    default_opt_in: boolean;
-    id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
     /** An object relationship */
-    protocol: ModelTypes['organizations'];
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
+    circle: ModelTypes['circles'];
+    id: number;
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -8243,6 +8261,7 @@ export type ModelTypes = {
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
+    createUser?: ModelTypes['createUserResponse'];
     create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
@@ -11420,8 +11439,33 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
-  ['create_circle_input']: {
+  ['createUserInput']: {
     address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: number;
+    name: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
+  ['createUserResponse']: {
+    __typename: 'createUserResponse';
+    /** The ethereum address of the user */
+    address: string;
+    fixed_non_receiver: boolean;
+    give_token_remaining: number;
+    /** Primary key */
+    id: string;
+    /** human readable user name */
+    name: string;
+    non_giver: boolean;
+    non_receiver: boolean;
+    role: number;
+    starting_tokens: number;
+  };
+  ['create_circle_input']: {
     circle_name: string;
     protocol_id?: number;
     protocol_name?: string;
@@ -11429,26 +11473,13 @@ export type GraphQLTypes = {
   };
   ['create_circle_response']: {
     __typename: 'create_circle_response';
-    alloc_text?: string;
-    auto_opt_out: boolean;
-    default_opt_in: boolean;
-    id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
+    circle: GraphQLTypes['circles'];
+    id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -12299,6 +12330,7 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    createUser?: GraphQLTypes['createUserResponse'];
     create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];

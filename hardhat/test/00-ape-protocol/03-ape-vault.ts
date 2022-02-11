@@ -22,16 +22,26 @@ import { unlockSigner } from '../../utils/unlockSigner';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { resetNetwork } from '../utils/network';
+import { takeSnapshot, restoreSnapshot } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
+
+let deploymentInfo: DeploymentInfo;
+let suiteSnapshotId: string;
+let snapshotId: string;
+
+before(async () => {
+  suiteSnapshotId = await takeSnapshot();
+  deploymentInfo = await deployProtocolFixture();
+});
+
+after(() => restoreSnapshot(suiteSnapshotId));
 
 describe('Test withdrawal functions of ApeVault', () => {
   const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
   const DELEGATE_AMOUNT = BigNumber.from('100').mul(USDC_DECIMAL_MULTIPLIER);
 
-  let deploymentInfo: DeploymentInfo;
   let usdc: ERC20;
   let usdcYVault: VaultAPI;
   let apeRouter: ApeRouter;
@@ -39,8 +49,7 @@ describe('Test withdrawal functions of ApeVault', () => {
   let yRegistry: RegistryAPI;
   let yGovernance: Account;
 
-  beforeEach(async () => {
-    deploymentInfo = await deployProtocolFixture();
+  before(async () => {
     usdc = deploymentInfo.contracts.usdc;
     usdcYVault = deploymentInfo.contracts.usdcYVault;
     apeRouter = deploymentInfo.contracts.apeRouter;
@@ -81,7 +90,10 @@ describe('Test withdrawal functions of ApeVault', () => {
     await vault.setRegistry(yRegistry.address);
   });
 
-  afterEach(resetNetwork);
+  beforeEach(async () => {
+    snapshotId = await takeSnapshot();
+  });
+  afterEach(() => restoreSnapshot(snapshotId));
 
   it('should withdraw vault tokens and transfer it to owner', async () => {
     const apeVaultBalanceBefore = await usdcYVault.balanceOf(vault.address);
@@ -109,14 +121,12 @@ describe('Test withdrawal functions of ApeVault', () => {
 
 describe('Test circle related functions of ApeVault', () => {
   const CIRCLE = ethers.utils.hexlify(ethers.utils.randomBytes(32));
-  let deploymentInfo: DeploymentInfo;
   let usdcYVault: VaultAPI;
   let apeDistributor: ApeDistributor;
   let vault: ApeVaultWrapperImplementation;
   let user0: Account;
 
-  beforeEach(async () => {
-    deploymentInfo = await deployProtocolFixture();
+  before(async () => {
     user0 = deploymentInfo.accounts[0];
     usdcYVault = deploymentInfo.contracts.usdcYVault;
     apeDistributor = deploymentInfo.contracts.apeDistributor;
@@ -131,7 +141,10 @@ describe('Test circle related functions of ApeVault', () => {
     usdcYVault = usdcYVault.connect(user0.signer);
   });
 
-  afterEach(resetNetwork);
+  beforeEach(async () => {
+    snapshotId = await takeSnapshot();
+  });
+  afterEach(() => restoreSnapshot(snapshotId));
 
   it('should update allowances for the circle for given interval and epochs', async () => {
     const INTERVAL = 60 * 60 * 24 * 14; // 14 days
@@ -188,7 +201,6 @@ describe('Test tap function of ApeVault', () => {
   // const APE_BALANCE = BigNumber.from('1000');
   const ETH_BALANCE = '0x10000000000000';
 
-  let deploymentInfo: DeploymentInfo;
   let usdc: ERC20;
   let usdcYVault: VaultAPI;
   let apeToken: ApeToken;
@@ -239,8 +251,7 @@ describe('Test tap function of ApeVault', () => {
     ]);
   };
 
-  beforeEach(async () => {
-    deploymentInfo = await deployProtocolFixture();
+  before(async () => {
     user0 = deploymentInfo.accounts[0];
     usdc = deploymentInfo.contracts.usdc;
     usdcYVault = deploymentInfo.contracts.usdcYVault;
@@ -260,7 +271,10 @@ describe('Test tap function of ApeVault', () => {
     apeRouter = apeRouter.connect(user0.signer);
   });
 
-  afterEach(resetNetwork);
+  beforeEach(async () => {
+    snapshotId = await takeSnapshot();
+  });
+  afterEach(() => restoreSnapshot(snapshotId));
 
   it('should not allow other than distributor to tap from vault', async () => {
     vault = vault.connect(user0.signer);

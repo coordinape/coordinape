@@ -54,7 +54,7 @@
     "source-map-explorer": "2.5.2",
     "styled-components": "5.2.3",
     "true-myth": "4.1.1",
-    "zod": "3.7.1"
+    "zod": "3.11.6"
   },
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker"
@@ -82,7 +82,7 @@
     "hardhat:install": "yarn --cwd hardhat install",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "craco test",
-    "test:ci": "CI=1 craco test --coverage && yarn hardhat:test",
+    "test:ci": "./hardhat/scripts/start-ganache.sh --exec ./scripts/ci.sh",
     "eject": "craco eject",
     "format:staged": "lint-staged",
     "lint": "eslint",

@@ -39,6 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(200).json({
       'X-Hasura-User-Id': tokenRow.tokenable_id.toString(),
       'X-Hasura-Role': profile.admin_view ? 'superadmin' : 'user',
+      'X-Hasura-Address': profile.address,
     });
   } catch (e) {
     res.status(401).json({

@@ -17,9 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-      "@emotion/core": ["./types/emotion-core-stub.d.ts"],
+      "@emotion/core": ["./types/emotion-core-stub.d.ts"]
     }
   },
-  "include": ["src"]
- 
+  "include": ["src", "api-lib","api"]
 }

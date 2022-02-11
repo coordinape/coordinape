@@ -1,8 +1,23 @@
 actions:
+- name: createUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/create_user'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: create_circle
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTION_BASE_URL}}/create_circle'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
   - role: superadmin
@@ -10,6 +25,7 @@ custom_types:
   enums: []
   input_objects:
   - name: create_circle_input
+  - name: createUserInput
   objects:
   - name: create_circle_response
     relationships:
@@ -23,10 +39,11 @@ custom_types:
         id: circle_id
     - remote_table:
         schema: public
-        name: protocols
-      name: protocol
+        name: circles
+      name: circle
       source: default
       type: object
       field_mapping:
-        protocol_id: id
+        id: id
+  - name: createUserResponse
   scalars: []
