@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { styled } from 'stitches.config';
 
 import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
 
@@ -13,11 +14,13 @@ import {
   ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import { isFeatureEnabled } from 'config/features';
 import { useNavigation, useApiAdminCircle } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
+import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { AdminCircleModal } from './AdminCircleModal';
@@ -159,15 +162,6 @@ const useStyles = makeStyles(theme => ({
   errorColor: {
     color: theme.palette.error.main,
   },
-  csvLink: {
-    color: '#84C7CA',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    '&:hover': {
-      color: '#4e7577',
-    },
-  },
   tablePlaceholderTitle: {
     fontSize: 20,
     lineHeight: 1.2,
@@ -185,6 +179,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
+const TableLink = styled(Link, {
+  color: '$lightBlue',
+  '&:hover': {
+    color: '$darkBlue',
+  },
+  textDecoration: 'none',
+});
 
 const epochDetail = (e: IEpoch) => {
   const r =
@@ -302,7 +304,16 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       // this epoch is over, so there are no edit/delete actions, only download CSV
       // assert that e.number is non-null
       if (e.number) {
-        return downloadCSVButton(e.number);
+        return (
+          <Box css={{ display: 'flex', flexDirection: 'column' }}>
+            {downloadCSVButton(e.number)}
+            {isFeatureEnabled('vaults') && (
+              <TableLink to={paths.getDistributePath(e.id)}>
+                Submit Distribution
+              </TableLink>
+            )}
+          </Box>
+        );
       } else {
         // epoch/number is null, so we can't provide a download link
         return <></>;
@@ -316,30 +327,29 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     }
   };
 
-  const downloadCSVButton = (epoch: number) => {
-    return (
-      <button
-        className={classes.csvLink}
-        onClick={() => {
-          // use the authed api to download the CSV
-          downloadCSV(epoch).then(res => {
-            const binaryData = [];
-            binaryData.push(res.data);
-            const href = window.URL.createObjectURL(
-              new Blob(binaryData, { type: 'text/csv' })
-            );
-            const a = document.createElement('a');
-            a.download = `${selectedCircle?.protocol.name}-${selectedCircle?.name}-epoch-${epoch}.csv`;
-            a.href = href;
-            a.click();
-            a.href = '';
-          });
-        }}
-      >
-        Export CSV
-      </button>
-    );
-  };
+  const downloadCSVButton = (epoch: number) => (
+    <TableLink
+      to=""
+      onClick={() => {
+        // use the authed api to download the CSV
+        downloadCSV(epoch).then(res => {
+          const binaryData = [];
+          binaryData.push(res.data);
+          const href = window.URL.createObjectURL(
+            new Blob(binaryData, { type: 'text/csv' })
+          );
+          const a = document.createElement('a');
+          a.download = `${selectedCircle?.protocol.name}-${selectedCircle?.name}-epoch-${epoch}.csv`;
+          a.href = href;
+          a.click();
+          a.href = '';
+        });
+        return false;
+      }}
+    >
+      Export CSV
+    </TableLink>
+  );
 
   const userColumns = useMemo(
     () =>
