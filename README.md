@@ -77,14 +77,14 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 - Set `ETHEREUM_RPC_URL` in .env
   - From Infura project id: [Infura](https://infura.io) & create new project
-- `yarn hardhat:dev <your_address_here>`
+- `yarn hardhat:dev`
 
 #### Additionally
 
 - `./scripts/setup.sh` - link the react app generated code
 - `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
-- `yarn hardhat:test`
-- `yarn hardhat:deploy`
+- `yarn hardhat:test` - Run tests
+  - make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node
 
 # Hasura
 

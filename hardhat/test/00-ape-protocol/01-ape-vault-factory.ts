@@ -1,7 +1,11 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 
-import { USDC_ADDRESS, USDC_YVAULT_ADDRESS } from '../../constants';
+import {
+  FORK_MAINNET,
+  USDC_ADDRESS,
+  USDC_YVAULT_ADDRESS,
+} from '../../constants';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
@@ -30,7 +34,7 @@ describe('ApeVaultFactory', () => {
 
     expect(await vault.owner()).to.equal(user0.address);
     expect(await vault.token()).to.equal(USDC_ADDRESS);
-    if (process.env.FORK_MAINNET) {
+    if (FORK_MAINNET) {
       expect(await vault.vault()).to.equal(USDC_YVAULT_ADDRESS);
     }
   });
