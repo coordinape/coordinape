@@ -3,21 +3,18 @@ import { Box, Text, Button, ArrowDownLeftIcon } from '../../ui';
 
 //#region Interfaces & Types
 
-type BaseStyledComponents = {
-  css?: CSS;
-};
-
 type EpochInfo = {
   title: string;
   subTitle: string;
   giveInfo: string;
 };
 
-export interface ClaimCardProps extends BaseStyledComponents {
+export interface ClaimCardProps {
   epochInfo: EpochInfo[];
   claimAmount: string | number;
   onClaim?(): void;
   onViewHistory?(): void;
+  css?: CSS;
 }
 
 //#endregion Interfaces
