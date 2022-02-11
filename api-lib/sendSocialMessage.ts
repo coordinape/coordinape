@@ -7,7 +7,7 @@ import { gql } from './Gql';
 type SocialMessage = {
   message: string;
   circleId: number;
-  sanitize: boolean;
+  sanitize?: boolean;
   channels: {
     discord?: boolean;
     telegram?: boolean;
@@ -26,17 +26,15 @@ export async function sendSocialMessage({
 }: SocialMessage) {
   const msg = sanitize ? cleanStr(message) : message;
 
-  const {
-    circles_by_pk: { discord_webhook, telegram_id },
-  } = await gql.getCircle(circleId);
+  const { circles_by_pk: circle } = await gql.getCircle(circleId);
 
-  if (channels?.discord && discord_webhook) {
+  if (channels?.discord && circle?.discord_webhook) {
     const discordWebhookPost = {
       content: msg,
       username: DISCORD_BOT_NAME,
       avatar_url: DISCORD_BOT_AVATAR_URL,
     };
-    const res = await fetch(discord_webhook, {
+    const res = await fetch(circle.discord_webhook, {
       method: 'POST',
       body: JSON.stringify(discordWebhookPost),
       headers: {
@@ -49,9 +47,9 @@ export async function sendSocialMessage({
     }
   }
 
-  if (TELEGRAM_BOT_BASE_URL && channels?.telegram && telegram_id) {
+  if (TELEGRAM_BOT_BASE_URL && channels?.telegram && circle?.telegram_id) {
     const telegramBotPost = {
-      chat_id: telegram_id,
+      chat_id: circle.telegram_id,
       text: msg,
     };
     const res = await fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {

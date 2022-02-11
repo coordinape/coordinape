@@ -17,13 +17,14 @@ export default async function handleCheckNomineeMsg(
   ) {
     const { nominees_by_pk } = await gql.getNominee(data.new.id);
 
-    await sendSocialMessage({
-      message: `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate.aggregate.count} vouch(es) and has failed`,
-      circleId: nominees_by_pk.circle_id,
-      channels,
-    });
-
-    return true;
+    if (nominees_by_pk) {
+      await sendSocialMessage({
+        message: `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`,
+        circleId: nominees_by_pk.circle_id,
+        channels,
+      });
+      return true;
+    }
   }
   return false;
 }
