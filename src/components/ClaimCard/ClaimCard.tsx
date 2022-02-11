@@ -61,9 +61,7 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
             gap: '$xs',
           }}
         >
-          <ArrowDownLeftIcon
-            data-testid="arrow-diagonal-icon"
-          />
+          <ArrowDownLeftIcon data-testid="arrow-diagonal-icon" />
           <Text css={{ fontSize: '$3', color: '$lightText' }}>
             {epoch.giveInfo}
           </Text>
