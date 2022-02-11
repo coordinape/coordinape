@@ -18,7 +18,6 @@ export interface ClaimCardProps extends BaseStyledComponents {
   claimAmount: string | number;
   onClaim?(): void;
   onViewHistory?(): void;
-  children?: React.ReactNode;
 }
 
 //#endregion Interfaces
