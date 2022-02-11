@@ -49,7 +49,7 @@ export async function sendSocialMessage({
     }
   }
 
-  if (channels?.telegram && telegram_id) {
+  if (TELEGRAM_BOT_BASE_URL && channels?.telegram && telegram_id) {
     const telegramBotPost = {
       chat_id: telegram_id,
       text: msg,

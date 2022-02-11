@@ -33,7 +33,6 @@ services:
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
       HASURA_CRON_BASE_URL: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/cron
       HASURA_EVENT_TRIGGER_BASE_URL: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/event-triggers
-      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       # Linux (read: non macOS or Windows) users should
       # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
