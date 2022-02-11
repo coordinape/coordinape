@@ -62,7 +62,6 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
           }}
         >
           <ArrowDownLeftIcon
-            color="darkRed"
             data-testid="arrow-diagonal-icon"
           />
           <Text css={{ fontSize: '$3', color: '$lightText' }}>
