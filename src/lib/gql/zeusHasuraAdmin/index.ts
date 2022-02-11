@@ -1441,27 +1441,15 @@ export type ValueTypes = {
     __typename?: boolean;
   }>;
   ['create_circle_input']: {
-    address: string;
     circle_name: string;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
   };
   ['create_circle_response']: AliasType<{
-    alloc_text?: boolean;
-    auto_opt_out?: boolean;
-    default_opt_in?: boolean;
-    id?: boolean;
-    logo?: boolean;
-    min_vouches?: boolean;
-    name?: boolean;
-    nomination_days_limit?: boolean;
-    only_giver_vouch?: boolean;
     /** An object relationship */
-    protocol?: ValueTypes['organizations'];
-    protocol_id?: boolean;
-    team_sel_text?: boolean;
-    team_selection?: boolean;
+    circle?: ValueTypes['circles'];
+    id?: boolean;
     users?: [
       {
         /** distinct select on columns */
@@ -1488,8 +1476,6 @@ export type ValueTypes = {
       },
       ValueTypes['users_aggregate']
     ];
-    vouching?: boolean;
-    vouching_text?: boolean;
     __typename?: boolean;
   }>;
   ['date']: unknown;
@@ -7787,26 +7773,13 @@ export type ModelTypes = {
   };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
-    alloc_text?: string;
-    auto_opt_out: boolean;
-    default_opt_in: boolean;
-    id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
     /** An object relationship */
-    protocol: ModelTypes['organizations'];
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
+    circle: ModelTypes['circles'];
+    id: number;
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -8288,7 +8261,6 @@ export type ModelTypes = {
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
-    /** creates a user in a circle and creates a profile if none exists */
     createUser?: ModelTypes['createUserResponse'];
     create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "burns" */
@@ -11494,7 +11466,6 @@ export type GraphQLTypes = {
     starting_tokens: number;
   };
   ['create_circle_input']: {
-    address: string;
     circle_name: string;
     protocol_id?: number;
     protocol_name?: string;
@@ -11502,26 +11473,13 @@ export type GraphQLTypes = {
   };
   ['create_circle_response']: {
     __typename: 'create_circle_response';
-    alloc_text?: string;
-    auto_opt_out: boolean;
-    default_opt_in: boolean;
-    id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
+    circle: GraphQLTypes['circles'];
+    id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -12372,7 +12330,6 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
-    /** creates a user in a circle and creates a profile if none exists */
     createUser?: GraphQLTypes['createUserResponse'];
     create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "burns" */

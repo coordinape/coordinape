@@ -3,8 +3,8 @@ import assert from 'assert';
 import { gql } from './Gql';
 
 export const getUserFromProfileId = async (
-  profileId: number,
-  circleId: number
+    profileId: number,
+    circleId: number
 ) => {
   const { profiles_by_pk } = await gql.q('query')({
     profiles_by_pk: [

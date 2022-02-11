@@ -5,11 +5,11 @@ import { zEthAddressOnly } from '../../../src/forms/formHelpers';
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
-    address: zEthAddressOnly,
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
   })
+  .strict()
   .refine(
     data =>
       (data.protocol_name || data.protocol_id) &&
@@ -57,14 +57,18 @@ const HasuraUserSessionVariables = z
       )
       .transform(Number.parseInt),
     'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
+    'x-hasura-address': zEthAddressOnly,
   })
   .transform(vars => ({
     hasuraProfileId: vars['x-hasura-user-id'],
     hasuraRole: vars['x-hasura-role'],
+    hasuraAddress: vars['x-hasura-address'],
   }));
 
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-  inputSchema: z.ZodObject<T, 'strict' | 'strip'>
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
 ) {
   return z.object({
     // for some reason, it's unsafe to transform the generic input

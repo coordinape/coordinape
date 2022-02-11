@@ -3467,12 +3467,6 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   create_circle_input: {
-    address: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
     circle_name: {
       type: 'String',
       array: false,
@@ -16135,23 +16129,10 @@ export const ReturnTypes: Record<string, any> = {
     starting_tokens: 'Int',
   },
   create_circle_response: {
-    alloc_text: 'String',
-    auto_opt_out: 'Boolean',
-    default_opt_in: 'Boolean',
+    circle: 'circles',
     id: 'Int',
-    logo: 'String',
-    min_vouches: 'Int',
-    name: 'String',
-    nomination_days_limit: 'Int',
-    only_giver_vouch: 'Boolean',
-    protocol: 'organizations',
-    protocol_id: 'Int',
-    team_sel_text: 'String',
-    team_selection: 'Boolean',
     users: 'users',
     users_aggregate: 'users_aggregate',
-    vouching: 'Boolean',
-    vouching_text: 'String',
   },
   epochs: {
     burns: 'burns',
