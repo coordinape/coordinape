@@ -4,6 +4,7 @@ import {
   InputType,
   OperationOptions,
   chainOptions,
+  token_gifts_select_column,
 } from 'lib/gql/zeusUser';
 import { useTypedQuery as _useTypedQuery } from 'lib/gql/zeusUser/reactQuery';
 import type { UseQueryOptions } from 'react-query';
@@ -88,6 +89,19 @@ export function useEpochIdForCircle(epochId: number) {
               created_at: true,
               updated_at: true,
               role: true,
+              received_gifts_aggregate: [
+                { where: { epoch_id: { _eq: epochId } } },
+                {
+                  aggregate: {
+                    count: [
+                      {
+                        columns: [token_gifts_select_column.recipient_id],
+                      },
+                      true,
+                    ],
+                  },
+                },
+              ],
             },
           ],
         },

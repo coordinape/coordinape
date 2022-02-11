@@ -14,7 +14,7 @@ import * as paths from 'routes/paths';
 import AllocationTable from './AllocationsTable';
 import ShowMessage from './ShowMessage';
 
-import { IUser } from 'types';
+import { AggregateCount, IUser } from 'types';
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
@@ -45,20 +45,22 @@ function DistributePage() {
           isCircleAdmin: false,
           isCoordinapeUser: false,
           teammates: [],
-          id: u.id,
-          circle_id: u.circle_id,
-          address: u.address,
-          name: u.name,
-          non_giver: u.non_giver,
-          fixed_non_receiver: u.fixed_non_receiver,
-          starting_tokens: u.starting_tokens,
-          non_receiver: u.non_receiver,
-          give_token_received: u.give_token_received,
-          give_token_remaining: u.give_token_remaining,
-          epoch_first_visit: u.epoch_first_visit,
-          created_at: u.created_at,
-          updated_at: u.updated_at,
-          role: u.role,
+          id: u?.id as unknown as number,
+          circle_id: u?.circle_id as unknown as number,
+          address: u?.address as unknown as string,
+          name: u?.name as unknown as string,
+          non_giver: u?.non_giver as unknown as boolean,
+          fixed_non_receiver: u?.fixed_non_receiver as unknown as boolean,
+          starting_tokens: u?.starting_tokens as unknown as number,
+          non_receiver: u?.non_receiver as unknown as boolean,
+          give_token_received: u?.give_token_received as unknown as number,
+          give_token_remaining: u?.give_token_remaining as unknown as number,
+          epoch_first_visit: u?.epoch_first_visit as unknown as boolean,
+          created_at: u?.created_at as unknown as string,
+          updated_at: u?.updated_at as unknown as string,
+          role: u?.role as unknown as number,
+          received_gifts_aggregate:
+            u?.received_gifts_aggregate as AggregateCount,
         };
         return user;
       })

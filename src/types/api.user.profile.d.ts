@@ -53,7 +53,7 @@ export interface IUser extends IApiUser {
   circle?: ICircle;
   isCircleAdmin: boolean;
   isCoordinapeUser: boolean;
-
+  received_gifts_aggregate?: AggregateCount;
   teammates: IUser[];
 }
 
@@ -69,4 +69,10 @@ export interface IProfile extends IApiProfile {
 
 export interface IMyProfile extends IProfile {
   myUsers: IMyUser[];
+}
+
+export interface AggregateCount {
+  aggregate?: {
+    count?: number;
+  };
 }

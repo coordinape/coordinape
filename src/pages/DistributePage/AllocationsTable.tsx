@@ -70,6 +70,10 @@ const AllocationTable = ({
         },
         {
           label: '# of Contributor Gitfing',
+          render: (u: IUser) =>
+            u.fixed_non_receiver || u.non_receiver
+              ? '-'
+              : u.received_gifts_aggregate?.aggregate?.count,
         },
         {
           label: '% of Epoch',
