@@ -90,7 +90,12 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
 export function composeHasuraActionRequestBodyWithSession<
   T extends z.ZodRawShape,
   V extends SessionVariableSchema
->(inputSchema: z.ZodObject<T, 'strict' | 'strip'>, sessionType: V) {
+>(
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>,
+  sessionType: V
+) {
   return z.object({
     input: z.object({ object: inputSchema }),
     action: z.object({ name: z.string() }),
