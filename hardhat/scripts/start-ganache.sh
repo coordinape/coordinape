@@ -43,9 +43,9 @@ else
 
   GANACHE_ARGS=(
     $SCRIPT_DIR/../node_modules/.bin/ganache
-      -p $PORT
-      -m coordinape
-      -f $ETHEREUM_RPC_URL
+      --port $PORT
+      --mnemonic coordinape
+      --fork.url $ETHEREUM_RPC_URL
       --fork.blockNumber $HARDHAT_FORK_BLOCK
       --miner.defaultGasPrice 0x7735940000
   )
