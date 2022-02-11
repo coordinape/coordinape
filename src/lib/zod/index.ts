@@ -66,7 +66,9 @@ const HasuraUserSessionVariables = z
   }));
 
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-  inputSchema: z.ZodObject<T, 'strict' | 'strip'>
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
 ) {
   return z.object({
     // for some reason, it's unsafe to transform the generic input
