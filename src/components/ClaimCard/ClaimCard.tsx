@@ -36,45 +36,44 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
       ...props.css,
     }}
   >
-    {props.epochInfo &&
-      props.epochInfo.map((epoch, index) => (
+    {props.epochInfo.map((epoch, index) => (
+      <Box
+        key={`epoch-info-${index}`}
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '$xs',
+        }}
+      >
+        <Text
+          css={{
+            fontSize: '$5',
+            color: '$neutralGrayDark',
+            fontWeight: '$bold',
+          }}
+        >
+          {epoch.title}
+        </Text>
+        <Text css={{ fontSize: '$3', color: '$gray400' }}>
+          {epoch.subTitle}
+        </Text>
         <Box
-          key={`epoch-info-${index}`}
           css={{
             display: 'flex',
-            flexDirection: 'column',
+            alignItems: 'center',
             gap: '$xs',
           }}
         >
-          <Text
-            css={{
-              fontSize: '$5',
-              color: '$neutralGrayDark',
-              fontWeight: '$bold',
-            }}
-          >
-            {epoch.title}
+          <ArrowDownLeftIcon
+            color="darkRed"
+            data-testid="arrow-diagonal-icon"
+          />
+          <Text css={{ fontSize: '$3', color: '$lightText' }}>
+            {epoch.giveInfo}
           </Text>
-          <Text css={{ fontSize: '$3', color: '$gray400' }}>
-            {epoch.subTitle}
-          </Text>
-          <Box
-            css={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '$xs',
-            }}
-          >
-            <ArrowDownLeftIcon
-              color="darkRed"
-              data-testid="arrow-diagonal-icon"
-            />
-            <Text css={{ fontSize: '$3', color: '$lightText' }}>
-              {epoch.giveInfo}
-            </Text>
-          </Box>
         </Box>
-      ))}
+      </Box>
+    ))}
     <Box
       css={{
         display: 'grid',

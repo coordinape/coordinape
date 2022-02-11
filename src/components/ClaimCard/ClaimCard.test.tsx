@@ -15,11 +15,8 @@ const props: ClaimCardProps = {
   onViewHistory: () => null,
 };
 describe('ClaimCard', () => {
-  const renderComponent = (_props: ClaimCardProps) =>
-    render(<ClaimCard {..._props} />);
-
   it('should render properly', () => {
-    const { getByText, getByTestId } = renderComponent(props);
+    const { getByText, getByTestId } = render(<ClaimCard {...props} />);
     const actionButton = getByTestId('action-button-1');
     expect(getByTestId('action-button-1')).toBeInTheDocument();
     expect(getByTestId('action-button-2')).toBeInTheDocument();
