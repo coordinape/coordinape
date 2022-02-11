@@ -1,8 +1,16 @@
-import { styled, theme } from '../../stitches.config';
+import type * as Stitches from '@stitches/react';
 
-const colorVariants = Object.keys(theme.colors).reduce(
+import { styled, theme, CSS } from '../../stitches.config';
+
+const { colors } = theme;
+
+type MappedColor = {
+  [K in keyof typeof colors]: { $$color: `$color${string}` };
+};
+
+const colorVariants = Object.keys(colors).reduce(
   (prev, curr) => ({ ...prev, [curr]: { $$color: '$colors$' + curr } }),
-  {}
+  {} as MappedColor
 );
 
 export const SvgIcon = styled('svg', {
@@ -12,9 +20,6 @@ export const SvgIcon = styled('svg', {
   verticalAlign: 'middle',
   width: '$$size',
   height: '$$size',
-  $$viewBox: '0 0 10 10',
-
-  viewBox: '$$viewBox',
   '& path': {
     stroke: '$$color',
     fill: '$color',
@@ -27,12 +32,17 @@ export const SvgIcon = styled('svg', {
       ...colorVariants,
     },
     size: {
-      sm: {
-        $$size: 10,
-        $$viewBox: '0 0 10 10',
+      xs: {
+        $$size: '10px',
       },
-      xl: {
-        $$size: '$sizes$xl',
+      sm: {
+        $$size: '12px',
+      },
+      md: {
+        $$size: '16px',
+      },
+      lg: {
+        $$size: '24px',
       },
     },
   },
@@ -41,3 +51,8 @@ export const SvgIcon = styled('svg', {
     size: 'xs',
   },
 });
+
+export type SvgIconProps = {
+  color?: keyof typeof colorVariants;
+  css?: CSS;
+} & Stitches.VariantProps<typeof SvgIcon>;
