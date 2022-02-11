@@ -28,8 +28,8 @@ if [ ! "$PORT" ]; then
   exit 1
 fi
 
-if nc -z 127.0.0.1 $PORT; then
-  echo "Testchain is already running on port $PORT."
+if nc -z 127.0.0.1 $PORT >/dev/null 2>&1; then
+  echo "Using existing testchain at port $PORT."
 
   if [ "$EXEC" ]; then
     # Run the command given
@@ -46,7 +46,7 @@ else
       --port $PORT
       --mnemonic coordinape
       --fork.url $ETHEREUM_RPC_URL
-      --fork.blockNumber $HARDHAT_FORK_BLOCK
+      --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"latest"}
       --miner.defaultGasPrice 0x7735940000
   )
 
@@ -76,7 +76,7 @@ else
     ${EXECARGS[@]}
   else
     # The testnet will continue to run until the user shuts it down.
-    echo "Press Ctrl-C to stop the testchain."
+    echo "Testchain is up. Press Ctrl-C to stop it."
     while true; do read; done
   fi
 fi

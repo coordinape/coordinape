@@ -96,8 +96,6 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
-const forking = { url: ETHEREUM_RPC_URL, blockNumber: FORKED_BLOCK };
-
 const hardhatNetwork = {
   live: false,
   allowUnlimitedContractSize: true,
@@ -137,17 +135,20 @@ const config: HardhatUserConfig = {
     timeout: 60000,
   },
   networks: {
-    hardhat: hardhatNetwork,
+    hardhat: {
+      ...hardhatNetwork,
+      forking: FORK_MAINNET
+        ? {
+            url: ETHEREUM_RPC_URL,
+            blockNumber: FORKED_BLOCK,
+          }
+        : undefined,
+    },
     ci: {
       ...hardhatNetwork,
       url: GANACHE_URL,
     },
   },
 };
-
-if (FORK_MAINNET) {
-  // @ts-ignore
-  config.networks.hardhat.forking = forking;
-}
 
 export default config;
