@@ -20,32 +20,32 @@ export const createCircleSchemaInput = z
 // this shape mirrors the shape of the original rest endpoint
 // it might be preferable to fold circle_id into the object
 export const createUserSchemaInput = z
-    .object({
-        circle_id: z.number(),
-        name: z.string().min(3).max(255),
-        address: zEthAddressOnly,
-        non_giver: z.boolean().optional(),
-        starting_tokens: z.number().optional(),
-        give_token_remaining: z.number().optional(),
-        fixed_non_receiver: z.boolean().optional(),
-        non_receiver: z.boolean().optional(),
-        role: z.number().min(0).max(1).optional(),
-    })
-    .strict();
+  .object({
+    circle_id: z.number(),
+    name: z.string().min(3).max(255),
+    address: zEthAddressOnly,
+    non_giver: z.boolean().optional(),
+    starting_tokens: z.number().optional(),
+    give_token_remaining: z.number().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+  })
+  .strict();
 
 export const circleIdInput = z
-    .object({
-        circle_id: z.number(),
-    })
-    .strip();
+  .object({
+    circle_id: z.number(),
+  })
+  .strip();
 
 const HasuraAdminSessionVariables = z
-    .object({
-        'x-hasura-role': z.literal('admin'),
-    })
-    .transform(vars => ({
-        hasuraRole: vars['x-hasura-role'],
-    }));
+  .object({
+    'x-hasura-role': z.literal('admin'),
+  })
+  .transform(vars => ({
+    hasuraRole: vars['x-hasura-role'],
+  }));
 
 const HasuraUserSessionVariables = z
   .object({
@@ -66,17 +66,17 @@ const HasuraUserSessionVariables = z
   }));
 
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-    inputSchema: z.ZodObject<T, 'strict' | 'strip'>
+  inputSchema: z.ZodObject<T, 'strict' | 'strip'>
 ) {
-    return z.object({
-        // for some reason, it's unsafe to transform the generic input
-        // to strip away the outer object
-        input: z.object({ object: inputSchema }),
-        action: z.object({ name: z.string() }),
-        session_variables: z.union([
-            HasuraAdminSessionVariables,
-            HasuraUserSessionVariables,
-        ]),
-        request_query: z.string(),
-    });
+  return z.object({
+    // for some reason, it's unsafe to transform the generic input
+    // to strip away the outer object
+    input: z.object({ object: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: z.union([
+      HasuraAdminSessionVariables,
+      HasuraUserSessionVariables,
+    ]),
+    request_query: z.string(),
+  });
 }

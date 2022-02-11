@@ -14,7 +14,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     const {
       input: { object: input },
     } = composeHasuraActionRequestBody(createUserSchemaInput).parse(
-        request.body
+      request.body
     );
 
     // External Constraint Validation
