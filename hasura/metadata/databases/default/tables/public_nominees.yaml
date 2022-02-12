@@ -93,7 +93,7 @@ event_triggers:
     interval_sec: 3600
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_EVENT_TRIGGER_BASE_URL}}/check-nominee-discord"
+  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/check-nominee-discord"
 - definition:
     enable_manual: false
     update:
@@ -107,4 +107,4 @@ event_triggers:
     interval_sec: 3600
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_EVENT_TRIGGER_BASE_URL}}/check-nominee-telegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/check-nominee-telegram"

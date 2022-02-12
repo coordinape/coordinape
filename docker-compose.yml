@@ -30,13 +30,11 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
       HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
-      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
-      HASURA_CRON_BASE_URL: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/cron
-      HASURA_EVENT_TRIGGER_BASE_URL: http://host.docker.internal:${LOCAL_VERCEL_PORT}/api/hasura/event-triggers
-      ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       # Linux (read: non macOS or Windows) users should
       # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
-      HASURA_ACTION_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/actions
+      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura
+      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
+      ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
   # for local s3 storage for images
   localstack:
