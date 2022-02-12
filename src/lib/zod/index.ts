@@ -39,7 +39,7 @@ export const circleIdInput = z
   })
   .strip();
 
-const HasuraAdminSessionVariables = z
+export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
   })
@@ -47,7 +47,7 @@ const HasuraAdminSessionVariables = z
     hasuraRole: vars['x-hasura-role'],
   }));
 
-const HasuraUserSessionVariables = z
+export const HasuraUserSessionVariables = z
   .object({
     'x-hasura-user-id': z
       .string()
@@ -65,6 +65,10 @@ const HasuraUserSessionVariables = z
     hasuraAddress: vars['x-hasura-address'],
   }));
 
+type SessionVariableSchema =
+  | typeof HasuraAdminSessionVariables
+  | typeof HasuraUserSessionVariables;
+
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
   inputSchema:
     | z.ZodObject<T, 'strict' | 'strip'>
@@ -79,6 +83,23 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
       HasuraAdminSessionVariables,
       HasuraUserSessionVariables,
     ]),
+    request_query: z.string(),
+  });
+}
+
+export function composeHasuraActionRequestBodyWithSession<
+  T extends z.ZodRawShape,
+  V extends SessionVariableSchema
+>(
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>,
+  sessionType: V
+) {
+  return z.object({
+    input: z.object({ object: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: sessionType,
     request_query: z.string(),
   });
 }
