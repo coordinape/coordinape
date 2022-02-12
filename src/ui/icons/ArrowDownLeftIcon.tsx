@@ -1,4 +1,4 @@
-import { SvgIcon, SvgIconProps } from '../SgvIcon/SvgIcon';
+import { SvgIcon, SvgIconProps } from '../SvgIcon/SvgIcon';
 
 export const ArrowDownLeftIcon = (props: SvgIconProps) => (
   <SvgIcon

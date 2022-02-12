@@ -25,19 +25,19 @@ SingleArrowDownLeftIcon.args = {
   children: (
     <>
       <Box css={{ display: 'flex', gap: '$sm' }}>
-        <Text>{`xs (10px)`}</Text>
+        <Text>xs (10px)</Text>
         <ArrowDownLeftIcon size="xs" />
       </Box>
       <Box css={{ display: 'flex', gap: '$sm' }}>
-        <Text>{`sm (12px)`}</Text>
+        <Text>sm (12px)</Text>
         <ArrowDownLeftIcon size="sm" />
       </Box>
       <Box css={{ display: 'flex', gap: '$sm' }}>
-        <Text>{`md (16px)`}</Text>
+        <Text>md (16px)</Text>
         <ArrowDownLeftIcon size="md" />
       </Box>
       <Box css={{ display: 'flex', gap: '$sm' }}>
-        <Text>{`lg (24px)`}</Text>
+        <Text>lg (24px)</Text>
         <ArrowDownLeftIcon size="lg" />
       </Box>
     </>
