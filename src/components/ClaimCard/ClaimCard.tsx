@@ -25,7 +25,10 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
     css={{
       display: 'flex',
       flexDirection: 'column',
-      minWidth: '327px',
+      width: '327px',
+      '@xs': {
+        width: '100%',
+      },
       padding: '$md',
       gap: '$md',
       borderRadius: '$1',

@@ -53,6 +53,5 @@ export const SvgIcon = styled('svg', {
 });
 
 export type SvgIconProps = {
-  color?: keyof typeof colorVariants;
   css?: CSS;
 } & Stitches.VariantProps<typeof SvgIcon>;
