@@ -8,6 +8,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Link, Box, Panel, Button } from '../../ui';
 import { ApeTextField } from 'components';
 import { useEpochIdForCircle, useCurrentOrg } from 'hooks/gql';
+import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
@@ -32,6 +33,10 @@ function DistributePage() {
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
 
   const { isLoading, isError, data } = useEpochIdForCircle(Number(epochId));
+  const { myUser: currentUser } = useCircle(
+    data?.epochs_by_pk?.circle?.id as number
+  );
+
   if (!data?.epochs_by_pk) {
     return <ShowMessage message={`Sorry, Epoch ${epochId} was not found.`} />;
   }
@@ -42,8 +47,7 @@ function DistributePage() {
 
   const totalGive = users?.reduce((s, a) => s + a.starting_tokens, 0);
 
-  //TODO: Add a check to see if the user is a circle admin
-  if (!epochId) {
+  if (!currentUser.isCircleAdmin || currentUser.role < 1) {
     return (
       <ShowMessage message="Sorry, you are not a circle admin so you can't access this feature." />
     );
