@@ -5,7 +5,7 @@ export const panelStyles = css({
   mt: '$lg',
   alignItems: 'center',
   backgroundColor: '$gray',
-  minHeight: '$panelBg',
+  minHeight: '85vh',
   borderRadius: '$3',
 });
 

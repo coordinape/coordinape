@@ -139,7 +139,7 @@ function DistributePage() {
 
         <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
           <Box
-            css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '$selectWidth' }}
+            css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '15vw' }}
           >
             <FormControl fullWidth>
               <Box

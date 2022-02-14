@@ -7,3 +7,6 @@ export * from './IconButton/IconButton';
 export * from './Text/Text';
 export * from './TextField/TextField';
 export * from './Panel/Panel';
+
+// icons
+export * from './icons';
