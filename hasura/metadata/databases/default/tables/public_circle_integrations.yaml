@@ -1,0 +1,45 @@
+table:
+  name: circle_integrations
+  schema: public
+object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      circle:
+        users:
+          _and:
+          - role:
+              _eq: 1
+          - address:
+              _eq: X-Hasura-Address
+    columns:
+    - circle_id
+    - data
+    - name
+    - type
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - circle_id
+    - id
+    - data
+    - name
+    - type
+    filter: {}
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      circle:
+        users:
+          _and:
+          - role:
+              _eq: 1
+          - address:
+              _eq: X-Hasura-Address
+  role: user

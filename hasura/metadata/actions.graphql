@@ -9,7 +9,6 @@ type Mutation {
     object: create_circle_input!
   ): create_circle_response
 }
-
 input create_circle_input {
   user_name: String!
   circle_name: String!
@@ -44,4 +43,3 @@ type createUserResponse {
   role: Int!
   starting_tokens: Int!
 }
-
