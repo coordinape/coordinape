@@ -2,16 +2,16 @@ import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, StaticTable } from 'components';
+import { NewApeAvatar, StaticTable } from 'components';
 import { zAssetEnum } from 'config/networks';
 import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
-import { IUser, ITableColumn } from 'types';
+import { IAllocateUser, ITableColumn } from 'types';
 
 /**
  * Component that displays a list of allocations.
- * @param users IUser[]
+ * @param users IAllocateUser[]
  * @param totalAmountInVault number
  * @param totalGive number
  * @param tokenName string
@@ -23,7 +23,7 @@ const AllocationTable = ({
   totalGive,
   tokenName,
 }: {
-  users: IUser[];
+  users: IAllocateUser[];
   totalAmountInVault: number;
   totalGive: number;
   tokenName: string;
@@ -31,12 +31,15 @@ const AllocationTable = ({
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
   const filterUser = useMemo(
-    () => (u: IUser) => {
+    () => (u: IAllocateUser) => {
       const r = new RegExp(keyword, 'i');
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
   );
+
+  // eslint-disable-next-line no-console
+  console.log('AR: ', totalAmountInVault, tokenName, totalGive);
 
   const userColumns = useMemo(
     () =>
@@ -44,10 +47,10 @@ const AllocationTable = ({
         {
           label: 'Name',
           accessor: 'name',
-          render: function UserName(u: IUser) {
+          render: function UserName(u: IAllocateUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
+                <NewApeAvatar name={u.name} className={classes.avatar} />
                 <span>{u.name}</span>
               </div>
             );
@@ -58,36 +61,33 @@ const AllocationTable = ({
         {
           label: 'ETH Wallet',
           accessor: 'address',
-          render: (u: IUser) => shortenAddress(u.address),
+          render: (u: IAllocateUser) => shortenAddress(u.address),
         },
         {
           label: 'Give Received',
-          render: (u: IUser) =>
-            u.give_token_received === 0 &&
-            (!!u.fixed_non_receiver || !!u.non_receiver)
-              ? '-'
-              : u.give_token_received,
+          render: (u: IAllocateUser) =>
+            u.received_gifts.length > 0 ? u.received_gifts[0].tokens : '-',
         },
         {
           label: '# of Contributor Gitfing',
-          render: (u: IUser) =>
-            u.fixed_non_receiver || u.non_receiver
-              ? '-'
-              : u.received_gifts_aggregate?.aggregate?.count,
+          render: (u: IAllocateUser) =>
+            u.received_gifts_aggregate?.aggregate?.count && '-',
         },
         {
           label: '% of Epoch',
-          render: (u: IUser) =>
-            !u.non_giver || !u.starting_tokens
-              ? `${((u.give_token_received / totalGive) * 100).toFixed(2)}%`
+          render: (u: IAllocateUser) =>
+            u.received_gifts.length > 0
+              ? `${((u.received_gifts[0].tokens / totalGive) * 100).toFixed(
+                  2
+                )}%`
               : '-',
         },
         {
           label: 'Vault Funds Allocated',
-          render: (u: IUser) =>
-            !u.non_giver || !u.starting_tokens
+          render: (u: IAllocateUser) =>
+            u.received_gifts.length > 0
               ? `${(
-                  (u.give_token_received / totalGive) *
+                  (u.received_gifts[0].tokens / totalGive) *
                   totalAmountInVault
                 ).toFixed(2)} ${
                   tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName

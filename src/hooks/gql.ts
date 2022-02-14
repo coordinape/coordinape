@@ -56,22 +56,8 @@ export function useEpochIdForCircle(epochId: number) {
         circle_id: true,
         number: true,
         circle: {
-          alloc_text: true,
-          auto_opt_out: true,
-          created_at: true,
-          default_opt_in: true,
           id: true,
-          is_verified: true,
-          logo: true,
-          min_vouches: true,
           name: true,
-          protocol_id: true,
-          team_sel_text: true,
-          team_selection: true,
-          token_name: true,
-          updated_at: true,
-          vouching: true,
-          vouching_text: true,
           users: [
             {},
             {
@@ -79,16 +65,11 @@ export function useEpochIdForCircle(epochId: number) {
               name: true,
               id: true,
               circle_id: true,
-              non_giver: true,
-              fixed_non_receiver: true,
               starting_tokens: true,
-              non_receiver: true,
-              give_token_received: true,
-              give_token_remaining: true,
-              epoch_first_visit: true,
-              created_at: true,
-              updated_at: true,
-              role: true,
+              received_gifts: [
+                { where: { epoch_id: { _eq: epochId } } },
+                { tokens: true },
+              ],
               received_gifts_aggregate: [
                 { where: { epoch_id: { _eq: epochId } } },
                 {

@@ -14,7 +14,7 @@ import * as paths from 'routes/paths';
 import AllocationTable from './AllocationsTable';
 import ShowMessage from './ShowMessage';
 
-import { AggregateCount, IUser } from 'types';
+import { IAllocateUser } from 'types';
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
@@ -38,33 +38,7 @@ function DistributePage() {
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
-
-  const users: IUser[] | undefined = Array.isArray(circle?.users)
-    ? circle?.users?.map(u => {
-        const user: IUser = {
-          isCircleAdmin: false,
-          isCoordinapeUser: false,
-          teammates: [],
-          id: u?.id as unknown as number,
-          circle_id: u?.circle_id as unknown as number,
-          address: u?.address as unknown as string,
-          name: u?.name as unknown as string,
-          non_giver: u?.non_giver as unknown as boolean,
-          fixed_non_receiver: u?.fixed_non_receiver as unknown as boolean,
-          starting_tokens: u?.starting_tokens as unknown as number,
-          non_receiver: u?.non_receiver as unknown as boolean,
-          give_token_received: u?.give_token_received as unknown as number,
-          give_token_remaining: u?.give_token_remaining as unknown as number,
-          epoch_first_visit: u?.epoch_first_visit as unknown as boolean,
-          created_at: u?.created_at as unknown as string,
-          updated_at: u?.updated_at as unknown as string,
-          role: u?.role as unknown as number,
-          received_gifts_aggregate:
-            u?.received_gifts_aggregate as AggregateCount,
-        };
-        return user;
-      })
-    : [];
+  const users = data?.epochs_by_pk?.circle?.users;
 
   const totalGive = users?.reduce((s, a) => s + a.starting_tokens, 0);
 
@@ -221,9 +195,13 @@ function DistributePage() {
           </Box>
         </Box>
         <Box css={{ m: '$lg' }}>
+          {
+            // eslint-disable-next-line no-console
+            console.log('DP: ', updateAmount, selectedVault, totalGive)
+          }
           <AllocationTable
-            users={users as IUser[]}
-            totalAmountInVault={updateAmount}
+            users={users as IAllocateUser[]}
+            totalAmountInVault={updateAmount as number}
             tokenName={selectedVault}
             totalGive={totalGive as number}
           />
