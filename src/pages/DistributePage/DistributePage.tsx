@@ -195,10 +195,6 @@ function DistributePage() {
           </Box>
         </Box>
         <Box css={{ m: '$lg' }}>
-          {
-            // eslint-disable-next-line no-console
-            console.log('DP: ', updateAmount, selectedVault, totalGive)
-          }
           <AllocationTable
             users={users as IAllocateUser[]}
             totalAmountInVault={updateAmount as number}
