@@ -45,6 +45,7 @@ export const TextField = styled('input', {
         '&:focus': {
           border: 'none',
         },
+        borderRadius: '0px',
       },
     },
     error: {

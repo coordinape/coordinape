@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { withDesign } from 'storybook-addon-designs';
 
-import { TextFieldFund } from './TextFieldFund';
+import { TextFieldFund } from '../index';
 
 export default {
   title: 'Design System/Components/TextFieldFund',
@@ -15,7 +15,11 @@ const Template: ComponentStory<typeof TextFieldFund> = args => (
 
 export const SingleTextField = Template.bind({});
 
-SingleTextField.args = {};
+SingleTextField.args = {
+  fundsAvailable: 20000,
+  // eslint-disable-next-line no-console
+  handleOnFundValue: value => console.log('VALUE', value),
+};
 
 SingleTextField.parameters = {
   design: {

@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { withDesign } from 'storybook-addon-designs';
 
-import { Box } from '../../ui';
+import { Box, Button } from '../../ui';
 
 import { AllocateFundsCard } from './AllocateFundsCard';
 
@@ -29,34 +29,32 @@ const Template: ComponentStory<typeof AllocateFundsCard> = args => {
 export const SingleAllocateFundsCard = Template.bind({});
 
 SingleAllocateFundsCard.args = {
-  epochInfo: [
-    {
-      title: 'Core Contributors',
-      subTitle: 'Coordinape',
-      giveInfo: 'You Received 125 GIVE',
-    },
-  ],
-  onClaim: () => null,
-  onViewHistory: () => null,
+  title: 'Allocate to',
+  epoch: 'Yearn Community: E22',
+  period: 'Aug 15 to Aug 31',
+  children: (
+    <Button data-testid="fund-this-epoch" size="small" color="red">
+      Fund This Epoch
+    </Button>
+  ),
 };
 
-export const TwoEpochAllocateFundsCard = Template.bind({});
+export const EditAllocateFundsCard = Template.bind({});
 
-TwoEpochAllocateFundsCard.args = {
-  epochInfo: [
-    {
-      title: 'Core Contributors E:20',
-      subTitle: 'Coordinape',
-      giveInfo: 'You Received 125 GIVE',
-    },
-    {
-      title: 'Core Contributors E:21',
-      subTitle: 'Coordinape',
-      giveInfo: 'You Received 125 GIVE',
-    },
-  ],
-  onClaim: () => null,
-  onViewHistory: () => null,
+EditAllocateFundsCard.args = {
+  title: 'Edit Allowances for',
+  epoch: 'Yearn Community: E22',
+  period: 'Aug 15 to Aug 31',
+  children: (
+    <>
+      <Button data-testid="fund-this-epoch" size="small" color="gray">
+        Remove Allowance
+      </Button>
+      <Button data-testid="fund-this-epoch" size="small" color="red">
+        Edit Allowance
+      </Button>
+    </>
+  ),
 };
 
 SingleAllocateFundsCard.parameters = {
