@@ -45,7 +45,11 @@ function DistributePage() {
   const epoch = data?.epochs_by_pk;
   const users = data?.epochs_by_pk?.circle?.users;
 
-  const totalGive = users?.reduce((s, a) => s + a.starting_tokens, 0);
+  const totalGive = users?.reduce(
+    (total, { received_gifts: g }) =>
+      total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
+    0
+  );
 
   if (!currentUser.isCircleAdmin || currentUser.role < 1) {
     return (

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -28,6 +28,7 @@ const AllocationTable = ({
   totalGive: number;
   tokenName: string;
 }) => {
+  console.log(tokenName, totalAmountInVault); // eslint-disable-line
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
   const filterUser = useMemo(
@@ -36,6 +37,12 @@ const AllocationTable = ({
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
+  );
+
+  const givenPercent = useCallback(
+    (u: IAllocateUser) =>
+      u.received_gifts.reduce((t, { tokens }) => t + tokens, 0) / totalGive,
+    [totalGive]
   );
 
   const userColumns = useMemo(
@@ -74,22 +81,18 @@ const AllocationTable = ({
           label: '% of Epoch',
           render: (u: IAllocateUser) =>
             u.received_gifts.length > 0
-              ? `${((u.received_gifts[0].tokens / totalGive) * 100).toFixed(
-                  2
-                )}%`
+              ? `${(givenPercent(u) * 100).toFixed(2)}%`
               : '-',
         },
         {
           label: 'Vault Funds Allocated',
-          render: (u: IAllocateUser) =>
-            u.received_gifts.length > 0
-              ? `${(
-                  (u.received_gifts[0].tokens / totalGive) *
-                  totalAmountInVault
-                ).toFixed(2)} ${
-                  tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName
-                }`
-              : '-',
+          render: (u: IAllocateUser) => {
+            const symbol =
+              tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName;
+            return u.received_gifts.length > 0
+              ? `${(givenPercent(u) * totalAmountInVault).toFixed(2)} ${symbol}`
+              : '-';
+          },
         },
       ] as ITableColumn[],
     [users]
