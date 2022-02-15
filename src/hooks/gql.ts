@@ -59,7 +59,7 @@ export function useEpochIdForCircle(epochId: number) {
           id: true,
           name: true,
           users: [
-            {},
+            { where: { received_gifts: { epoch_id: { _eq: epochId } } } },
             {
               address: true,
               name: true,
