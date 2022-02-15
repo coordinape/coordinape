@@ -121,8 +121,8 @@ export const {
       5: '19px',
       6: '20px',
       7: '21px',
-      8: '27px',
-      9: '35px',
+      8: '24px',
+      9: '32px',
       10: '59px',
     },
     fontWeights: {

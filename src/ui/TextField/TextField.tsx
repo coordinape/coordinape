@@ -37,7 +37,15 @@ export const TextField = styled('input', {
       },
     },
     variant: {
-      token: {},
+      fund: {
+        width: '200px',
+        fontSize: '$9',
+        fontWeight: '$normal',
+        textAlign: 'right',
+        '&:focus': {
+          border: 'none',
+        },
+      },
     },
     error: {
       true: {
