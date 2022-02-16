@@ -181,8 +181,8 @@ export const StaticTable = ({
                 {label}
                 {order.field === idx && sortable
                   ? order.ascending > 0
-                    ? ' ↓'
-                    : ' ↑'
+                    ? ' ↑'
+                    : ' ↓'
                   : ''}
               </th>
             ))}
