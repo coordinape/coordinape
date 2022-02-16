@@ -13,7 +13,7 @@ import { getAuthToken } from '../services/api';
 import { REACT_APP_HASURA_URL } from 'config/env';
 import { useSelectedCircle } from 'recoilState';
 
-function useTypedQuery<
+export function useTypedQuery<
   O extends 'query_root',
   TData extends ValueTypes[O],
   TResult = InputType<GraphQLTypes[O], TData>

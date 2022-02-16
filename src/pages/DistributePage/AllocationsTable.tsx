@@ -95,7 +95,7 @@ const AllocationTable = ({
           },
         },
       ] as ITableColumn[],
-    [users]
+    [users, totalGive, totalAmountInVault, tokenName]
   );
 
   return (

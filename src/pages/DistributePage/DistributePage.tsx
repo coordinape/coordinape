@@ -7,12 +7,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, Box, Panel, Button } from '../../ui';
 import { ApeTextField } from 'components';
-import { useEpochIdForCircle, useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
+import { useEpochIdForCircle } from './GetAllocations';
 import ShowMessage from './ShowMessage';
 
 import { IAllocateUser } from 'types';
@@ -159,7 +160,7 @@ function DistributePage() {
                 value={selectedVault}
                 label="Vault"
                 onChange={({ target: { value } }) => {
-                  setSelectedVault(value as unknown as string);
+                  setSelectedVault(String(value));
                 }}
               >
                 {vaultOptions.map(vault => (
@@ -173,12 +174,8 @@ function DistributePage() {
           <Box>
             <ApeTextField
               value={amount}
-              onBlur={({ target: { value } }) =>
-                setUpdateAmount(value as unknown as number)
-              }
-              onChange={({ target: { value } }) =>
-                setAmount(value as unknown as number)
-              }
+              onBlur={({ target: { value } }) => setUpdateAmount(Number(value))}
+              onChange={({ target: { value } }) => setAmount(Number(value))}
               label="Total Distribution Amount"
             />
           </Box>
@@ -201,12 +198,16 @@ function DistributePage() {
           </Box>
         </Box>
         <Box css={{ m: '$lg' }}>
-          <AllocationTable
-            users={users as IAllocateUser[]}
-            totalAmountInVault={updateAmount as number}
-            tokenName={selectedVault}
-            totalGive={totalGive as number}
-          />
+          {totalGive ? (
+            <AllocationTable
+              users={users as IAllocateUser[]}
+              totalAmountInVault={updateAmount}
+              tokenName={selectedVault}
+              totalGive={totalGive}
+            />
+          ) : (
+            <ShowMessage message="No GIVE was allocated for this epoch" />
+          )}
         </Box>
       </Panel>
     </Box>

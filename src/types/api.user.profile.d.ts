@@ -53,7 +53,6 @@ export interface IUser extends IApiUser {
   circle?: ICircle;
   isCircleAdmin: boolean;
   isCoordinapeUser: boolean;
-  received_gifts_aggregate?: AggregateCount;
   teammates: IUser[];
 }
 
