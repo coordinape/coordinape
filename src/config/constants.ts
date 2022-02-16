@@ -73,4 +73,5 @@ export const SKILLS = [
   'Data Analysis',
   'Risk',
   'Tokenomics',
+  'Contributor Experience',
 ];
