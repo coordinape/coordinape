@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { OptInput, ActionDialog } from 'components';
+import { OptInput, ActionDialog, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
+import useMobileDetect from 'hooks/useMobileDetect';
+import { InfoIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { capitalizedName } from 'utils/string';
 
@@ -100,6 +102,22 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  divTitle: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  learnMore: {
+    margin: '0.5em',
+  },
+  icon: {
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
+    margin: theme.spacing(0, 0.5),
+    color: theme.colors.mediumGray,
+    '&:hover': {
+      color: theme.colors.text,
+    },
+  },
 }));
 
 const AllocationEpoch = ({
@@ -117,6 +135,7 @@ const AllocationEpoch = ({
 }) => {
   const classes = useStyles();
   const [optOutOpen, setOptOutOpen] = useState(false);
+  const [phoneTooltip, setphoneTooltip] = useState(false);
 
   const {
     circle: selectedCircle,
@@ -128,16 +147,57 @@ const AllocationEpoch = ({
     setEpochBio(e.target.value);
   };
 
+  const { isMobile } = useMobileDetect();
+
   return (
     <div className={classes.root}>
       {!epochIsActive && (
         <h2 className={classes.epochTiming}>{timingMessage}</h2>
       )}
-      <span className={classes.title}>
-        {epochIsActive
-          ? 'What have you been working on this epoch?'
-          : 'What have you been working on?'}
-      </span>
+      <div className={classes.divTitle}>
+        <span className={classes.title}>
+          {epochIsActive
+            ? 'What have you been working on this epoch?'
+            : 'What have you been working on?'}
+        </span>
+        {isMobile ? (
+          <div>
+            <InfoIcon
+              inherit="inherit"
+              onClick={() => setphoneTooltip(true)}
+              className={classes.icon}
+            />
+            <ActionDialog
+              open={phoneTooltip}
+              onClose={() => setphoneTooltip(false)}
+            >
+              An Epoch is a period of time where circle members contribute value
+              & allocate GIVE tokens to one another.
+              <a
+                className={classes.learnMore}
+                rel="noreferrer"
+                target="_blank"
+                href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+              >
+                Learn More
+              </a>
+            </ActionDialog>
+          </div>
+        ) : (
+          <ApeInfoTooltip>
+            An Epoch is a period of time where circle members contribute value &
+            allocate GIVE tokens to one another.
+            <a
+              className={classes.learnMore}
+              rel="noreferrer"
+              target="_blank"
+              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+            >
+              Learn More
+            </a>
+          </ApeInfoTooltip>
+        )}
+      </div>
       <hr className={classes.hrWithMax} />
       <textarea
         className={classes.bioTextarea}

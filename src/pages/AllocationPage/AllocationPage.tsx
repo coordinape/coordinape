@@ -11,12 +11,14 @@ import {
 } from '@material-ui/core';
 
 import { Button } from '../../ui';
+import { ApeInfoTooltip, ActionDialog } from 'components';
 import {
   useApiWithSelectedCircle,
   useAllocation,
   useAllocationController,
 } from 'hooks';
-import { BalanceIcon } from 'icons';
+import useMobileDetect from 'hooks/useMobileDetect';
+import { BalanceIcon, InfoIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   STEP_MY_EPOCH,
@@ -118,6 +120,18 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     padding: '1px',
   },
+  learnMore: {
+    margin: '0.5em',
+  },
+  icon: {
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
+    margin: theme.spacing(0, 0.5),
+    color: theme.colors.mediumGray,
+    '&:hover': {
+      color: theme.colors.text,
+    },
+  },
 }));
 
 export const AllocationPage = () => {
@@ -142,11 +156,13 @@ export const AllocationPage = () => {
     saveTeammates,
   } = useAllocation(circleId);
 
+  const { isMobile } = useMobileDetect();
   const { updateMyUser } = useApiWithSelectedCircle();
   const allSteps = !selectedCircle.team_selection ? NO_TEAM_STEPS : STEPS;
   const fixedNonReceiver = selectedMyUser.fixed_non_receiver;
   const [epochBio, setEpochBio] = useState('');
   const [nonReceiver, setNonReceiver] = useState(false);
+  const [phoneTooltip, setphoneTooltip] = useState(false);
 
   useEffect(() => {
     if (selectedMyUser) {
@@ -247,6 +263,41 @@ export const AllocationPage = () => {
             </StepButton>
           </Step>
         ))}
+        {isMobile ? (
+          <div>
+            <InfoIcon
+              inherit="inherit"
+              onClick={() => setphoneTooltip(true)}
+              className={classes.icon}
+            />
+            <ActionDialog
+              open={phoneTooltip}
+              onClose={() => setphoneTooltip(false)}
+            >
+              Reward your teammates in the circle by sending them GIVE tokens.
+              <a
+                className={classes.learnMore}
+                rel="noreferrer"
+                target="_blank"
+                href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+              >
+                Learn More
+              </a>
+            </ActionDialog>
+          </div>
+        ) : (
+          <ApeInfoTooltip>
+            Reward your teammates in the circle by sending them GIVE tokens.
+            <a
+              className={classes.learnMore}
+              rel="noreferrer"
+              target="_blank"
+              href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+            >
+              Learn More
+            </a>
+          </ApeInfoTooltip>
+        )}
       </Stepper>
 
       <div className={classes.body}>
