@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 import { Button } from '../../ui';
+import { ApeInfoTooltip } from 'components';
 import {
   useApiWithSelectedCircle,
   useAllocation,
@@ -117,6 +118,18 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.primary,
     marginLeft: theme.spacing(1),
     padding: '1px',
+  },
+  learnMore: {
+    margin: '0.5em',
+  },
+  icon: {
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
+    margin: theme.spacing(0, 0.5),
+    color: theme.colors.mediumGray,
+    '&:hover': {
+      color: theme.colors.text,
+    },
   },
 }));
 
@@ -247,6 +260,17 @@ export const AllocationPage = () => {
             </StepButton>
           </Step>
         ))}
+        <ApeInfoTooltip>
+          Reward your teammates in the circle by sending them GIVE tokens.
+          <a
+            className={classes.learnMore}
+            rel="noreferrer"
+            target="_blank"
+            href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+          >
+            Learn More
+          </a>
+        </ApeInfoTooltip>
       </Stepper>
 
       <div className={classes.body}>
