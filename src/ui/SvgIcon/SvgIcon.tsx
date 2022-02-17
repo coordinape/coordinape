@@ -52,6 +52,13 @@ export const SvgIcon = styled('svg', {
   },
 });
 
+SvgIcon.defaultProps = {
+  viewBox: '0 0 10 10',
+  preserveAspectRatio: 'none',
+  fill: 'none',
+  xmlns: 'http://www.w3.org/2000/svg',
+};
+
 export type SvgIconProps = {
   css?: CSS;
 } & Stitches.VariantProps<typeof SvgIcon>;
