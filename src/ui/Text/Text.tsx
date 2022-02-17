@@ -3,10 +3,11 @@ import { styled } from '../../stitches.config';
 export const Text = styled('span', {
   lineHeight: '1',
   margin: '0',
-  fontWeight: 400,
+  fontWeight: '$normal',
   fontVariantNumeric: 'tabular-nums',
-  display: 'block',
-  height: '18px',
+  display: 'flex',
+  alignItems: 'center',
+  height: 'calc($md + 2)',
 });
 
 export default Text;

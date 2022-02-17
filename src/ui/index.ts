@@ -8,6 +8,7 @@ export * from './Text/Text';
 export * from './TextField/TextField';
 export * from './TextFieldFund/TextFieldFund';
 export * from './Panel/Panel';
+export * from './Checkbox/Checkbox';
 
 // icons
 export * from './icons';

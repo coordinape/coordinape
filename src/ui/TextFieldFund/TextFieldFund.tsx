@@ -56,7 +56,6 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
           fontSize: '$2',
           color: '$text',
           fontWeight: '$light',
-          mr: '$md',
         }}
       >{`AVAILABLE: ${props.fundsAvailable.toLocaleString(
         'en-US'

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CSS } from '../../stitches.config';
-import { Box, Text, TextFieldFund } from '../../ui';
+import { Box, Checkbox, Text, TextFieldFund } from '../../ui';
 
 //#region Interfaces & Types
 
@@ -22,7 +22,9 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
   props
 ): JSX.Element => {
   const [, setFund] = React.useState<number>();
+  const [recurringFund, setRecurringFund] = React.useState<boolean>(false);
   const fundsAvailable = getFundsAvailable();
+
   return (
     <Box
       css={{
@@ -35,6 +37,9 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
         backgroundColor: 'white',
         alignItems: 'center',
         py: '$xl',
+        '@sm': {
+          width: '100%',
+        },
         ...props.css,
       }}
     >
@@ -49,9 +54,13 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
       </Text>
       <Text
         css={{
-          fontSize: '30px',
+          fontSize: 'calc($9 - 2px)',
           color: '$text',
           fontWeight: '$bold',
+          '@sm': {
+            fontSize: '$8',
+            textAlign: 'center',
+          },
         }}
       >
         {props.epoch}
@@ -62,6 +71,10 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           color: '$lightBlue',
           fontWeight: '$normal',
           mt: '$md',
+          '@sm': {
+            fontSize: '$7',
+            textAlign: 'center',
+          },
         }}
       >
         {props.period}
@@ -71,6 +84,10 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           fontSize: '$4',
           color: '$text',
           fontWeight: '$light',
+          '@sm': {
+            fontSize: '$3',
+            textAlign: 'center',
+          },
         }}
       >
         (Repeats Monthly)
@@ -87,13 +104,23 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           handleOnFundValue={value => setFund(value)}
           fundsAvailable={fundsAvailable}
         />
+        <Box
+          css={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            width: '$full',
+          }}
+        >
+          <Checkbox
+            checked={recurringFund}
+            onCheckedChange={setRecurringFund}
+          />
+        </Box>
       </Box>
       <Box
         css={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto',
-          mt: 'calc($2xl * 2)',
-          gap: '$sm',
+          display: 'flex',
+          mt: '$2xl',
         }}
       >
         {props.children}
