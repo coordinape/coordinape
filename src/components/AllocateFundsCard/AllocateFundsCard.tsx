@@ -16,15 +16,16 @@ export interface AllocateFundsCardProps {
 //#endregion Interfaces
 // TODO: remove
 const getFundsAvailable = () => 20000;
+const getRecurringType = () => 'monthly';
 
 //#region Organisms
 export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
   props
 ): JSX.Element => {
   const [, setFund] = React.useState<number>();
-  const [recurringFund, setRecurringFund] = React.useState<boolean>(false);
+  const [isRecurringFund, setIsRecurringFund] = React.useState<boolean>(false);
   const fundsAvailable = getFundsAvailable();
-
+  const recurringLabel = getRecurringType();
   return (
     <Box
       css={{
@@ -90,7 +91,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        (Repeats Monthly)
+        {`(Repeats ${recurringLabel})`}
       </Text>
       <Box
         css={{
@@ -112,8 +113,9 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           }}
         >
           <Checkbox
-            checked={recurringFund}
-            onCheckedChange={setRecurringFund}
+            checked={isRecurringFund}
+            onCheckedChange={setIsRecurringFund}
+            label={`Fund ${recurringLabel}`}
           />
         </Box>
       </Box>

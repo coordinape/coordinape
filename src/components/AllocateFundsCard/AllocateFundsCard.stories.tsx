@@ -34,7 +34,7 @@ SingleAllocateFundsCard.args = {
   period: 'Aug 15 to Aug 31',
   children: (
     <Button data-testid="fund-this-epoch" size="small" color="red">
-      Fund This Epoch
+      Commit Budget
     </Button>
   ),
 };
