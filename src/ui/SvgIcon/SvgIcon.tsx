@@ -50,6 +50,11 @@ export const SvgIcon = styled('svg', {
           fill: '$$color',
         },
       },
+      none: {
+        '& path': {
+          fill: 'none',
+        },
+      },
     },
   },
   defaultVariants: {
