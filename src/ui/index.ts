@@ -9,6 +9,7 @@ export * from './TextField/TextField';
 export * from './TextFieldFund/TextFieldFund';
 export * from './Panel/Panel';
 export * from './Checkbox/Checkbox';
+export * from './SvgIcon/SvgIcon';
 
 // icons
 export * from './icons';

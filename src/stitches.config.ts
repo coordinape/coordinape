@@ -95,6 +95,7 @@ export const {
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
       green: '#29D07E',
+      green12: '#58B72B',
     },
     space: {
       ...spaces,

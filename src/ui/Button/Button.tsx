@@ -93,7 +93,7 @@ export const Button = styled('button', {
     outlined: {
       true: {
         backgroundColor: 'transparent',
-        border: '1px solid $gray',
+        border: '1px solid',
       },
     },
   },

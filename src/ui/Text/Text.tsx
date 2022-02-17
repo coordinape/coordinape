@@ -7,7 +7,7 @@ export const Text = styled('span', {
   fontVariantNumeric: 'tabular-nums',
   display: 'flex',
   alignItems: 'center',
-  height: 'calc($md + 2)',
+  height: 'calc($md + 2px)',
 });
 
 export default Text;
