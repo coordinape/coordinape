@@ -25,12 +25,27 @@ export function getGql(url: string, getToken: () => string) {
       ],
     });
 
-  const uploadProfileAvatar = async (image_data_base64: string) =>
+  const updateProfileAvatar = async (image_data_base64: string) =>
     makeQuery(url, getToken)('mutation')(
       {
         upload_profile_avatar: [
           { object: { image_data_base64: $`image_data_base64` } },
-          { profile_id: true },
+          { id: true },
+        ],
+      },
+      {
+        variables: {
+          image_data_base64,
+        },
+      }
+    );
+
+  const updateProfileBackground = async (image_data_base64: string) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        upload_profile_background: [
+          { object: { image_data_base64: $`image_data_base64` } },
+          { id: true },
         ],
       },
       {
@@ -41,8 +56,9 @@ export function getGql(url: string, getToken: () => string) {
     );
 
   return {
-    updateProfile,
-    updateProfileAvatar: uploadProfileAvatar,
+    updateProfile: updateProfile,
+    updateProfileAvatar,
+    updateProfileBackground,
   };
 }
 

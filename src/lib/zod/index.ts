@@ -39,7 +39,7 @@ export const circleIdInput = z
   })
   .strip();
 
-export const updateProfileAvatarInput = z
+export const uploadImageInput = z
   .object({ image_data_base64: z.string() })
   .strict();
 

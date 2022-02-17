@@ -6812,7 +6812,15 @@ export const AllTypesProps: Record<string, any> = {
     },
     upload_profile_avatar: {
       object: {
-        type: 'upload_profile_avatar_input',
+        type: 'upload_image_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    upload_profile_background: {
+      object: {
+        type: 'upload_image_input',
         array: false,
         arrayRequired: false,
         required: true,
@@ -13675,7 +13683,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
-  upload_profile_avatar_input: {
+  upload_image_input: {
     image_data_base64: {
       type: 'String',
       array: false,
@@ -16585,7 +16593,8 @@ export const ReturnTypes: Record<string, any> = {
     update_users_by_pk: 'users',
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
-    upload_profile_avatar: 'upload_profile_avatar_response',
+    upload_profile_avatar: 'update_profile_response',
+    upload_profile_background: 'update_profile_response',
   },
   nominees: {
     address: 'String',
@@ -17496,9 +17505,9 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
-  upload_profile_avatar_response: {
+  update_profile_response: {
+    id: 'Int',
     profile: 'profiles',
-    profile_id: 'Int',
   },
   users: {
     address: 'String',

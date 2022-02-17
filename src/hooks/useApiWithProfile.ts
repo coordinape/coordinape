@@ -56,7 +56,8 @@ export const useApiWithProfile = () => {
 
   const updateBackground = useRecoilLoadCatch(
     () => async (newAvatar: File) => {
-      await getApiService().uploadBackground(newAvatar);
+      const image_data_base64 = await fileToBase64(newAvatar);
+      await api.updateProfileBackground(image_data_base64);
       await fetchManifest();
     },
     []

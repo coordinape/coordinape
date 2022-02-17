@@ -1,30 +1,29 @@
-import aws from "aws-sdk";
+import aws from 'aws-sdk';
 
 const s3 = new aws.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'missing_env_var',
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'missing_env_var',
-  endpoint: process.env.AWS_ENDPOINT ? process.env.AWS_ENDPOINT : undefined,
+  accessKeyId: process.env.IMAGES_AWS_ACCESS_KEY_ID || 'missing_env_var',
+  secretAccessKey:
+    process.env.IMAGES_AWS_SECRET_ACCESS_KEY || 'missing_env_var',
+  endpoint: process.env.IMAGES_AWS_ENDPOINT || undefined,
+  region: process.env.IMAGES_AWS_REGION || undefined,
 });
 
 const uploadImage = (Key: string, Body: Buffer) => {
-  const p = {
+  const params = {
     Key,
     Body,
-    Bucket: process.env.AWS_BUCKET_IMAGES || "coordinape",
+    Bucket: process.env.IMAGES_AWS_BUCKET || 'coordinape',
   };
-  return s3.upload(p).promise();
+  return s3.upload(params).promise();
 };
 
 const deleteImage = (Key: string) => {
   return s3
     .deleteObject({
-      Bucket: process.env.AWS_BUCKET_IMAGES || "coordinape",
+      Bucket: process.env.IMAGES_AWS_BUCKET || 'coordinape',
       Key,
     })
     .promise();
 };
 
-export {
-  deleteImage,
-  uploadImage,
-};
+export { deleteImage, uploadImage };

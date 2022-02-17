@@ -26,6 +26,14 @@ actions:
     kind: synchronous
     handler: '{{HASURA_ACTION_BASE_URL}}/upload_profile_avatar'
   permissions:
+  - role: superadmin
+  - role: user
+- name: upload_profile_background
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTION_BASE_URL}}/upload_profile_background'
+  permissions:
+  - role: superadmin
   - role: user
 custom_types:
   enums: []
@@ -33,7 +41,6 @@ custom_types:
   - name: create_circle_input
   - name: createUserInput
   - name: upload_image_input
-  - name: upload_profile_avatar_input
   objects:
   - name: create_circle_response
     relationships:
@@ -54,8 +61,7 @@ custom_types:
       field_mapping:
         id: id
   - name: createUserResponse
-  - name: upload_image_response
-  - name: upload_profile_avatar_response
+  - name: update_profile_response
     relationships:
     - remote_table:
         schema: public
@@ -64,5 +70,5 @@ custom_types:
       source: default
       type: object
       field_mapping:
-        profile_id: id
+        id: id
   scalars: []
