@@ -5,6 +5,7 @@ export * from './Image/Image';
 export * from './Link/Link';
 export * from './IconButton/IconButton';
 export * from './Text/Text';
+export * from './TextField/TextField';
 export * from './Panel/Panel';
 export * from './SvgIcon/SvgIcon';
 
