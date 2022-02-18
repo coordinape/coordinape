@@ -13,8 +13,8 @@ import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useEpochIdForCircle } from './GetAllocations';
 import ShowMessage from './ShowMessage';
+import { useGetAllocations } from './useGetAllocations';
 
 import { IAllocateUser } from 'types';
 
@@ -33,7 +33,7 @@ function DistributePage() {
   const vaults = useVaults(currentOrg?.id);
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
 
-  const { isLoading, isError, data } = useEpochIdForCircle(Number(epochId));
+  const { isLoading, isError, data } = useGetAllocations(Number(epochId));
   const { myUser: currentUser } = useCircle(
     data?.epochs_by_pk?.circle?.id as number
   );

@@ -2,7 +2,7 @@ import { token_gifts_select_column } from 'lib/gql/zeusUser';
 
 import { useTypedQuery } from '../../hooks/gql';
 
-export function useEpochIdForCircle(epochId: number) {
+export function useGetAllocations(epochId: number) {
   return useTypedQuery(`circle-for-epoch-${epochId}`, {
     epochs_by_pk: [
       { id: epochId },
