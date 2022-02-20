@@ -28,7 +28,6 @@ const AllocationTable = ({
   totalGive: number;
   tokenName: string;
 }) => {
-  console.log(tokenName, totalAmountInVault); // eslint-disable-line
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
   const filterUser = useMemo(
@@ -95,7 +94,7 @@ const AllocationTable = ({
           },
         },
       ] as ITableColumn[],
-    [users, totalGive, totalAmountInVault, tokenName]
+    [users, totalAmountInVault, tokenName]
   );
 
   return (

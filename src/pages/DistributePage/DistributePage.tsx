@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { z } from 'zod';
 
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Link, Box, Panel, Button } from '../../ui';
+import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
 import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
@@ -26,9 +29,25 @@ import { IAllocateUser } from 'types';
 function DistributePage() {
   // Route Parameters
   const { epochId } = useParams();
-  const [amount, setAmount] = useState(0);
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVault, setSelectedVault] = useState('');
+
+  const schema = z.object({
+    amount: z.number(),
+    selectedVault: z.string(),
+  });
+  type DistributionForm = z.infer<typeof schema>;
+  const { register, handleSubmit, control } = useForm<DistributionForm>({
+    resolver: zodResolver(schema),
+  });
+  const onSubmit: SubmitHandler<DistributionForm> = useCallback(
+    async (value: any) => {
+      //TODO: Implement Distribution Logic
+      alert(`${value.amount} ${value.selectedVault}`);
+    },
+    []
+  );
+
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
@@ -141,50 +160,99 @@ function DistributePage() {
           </Box>
           <Box css={{ minWidth: '15%' }}></Box>
         </Box>
-
-        <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
-          <Box css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '15vw' }}>
-            <FormControl fullWidth>
-              <Box
-                css={{
-                  color: '$text',
-                  fontSize: '$4',
-                  fontWeight: '$bold',
-                  lineHeight: '$shorter',
-                  marginBottom: '$md',
-                }}
-              >
-                Select Vault
-              </Box>
-              <Select
-                value={selectedVault}
-                label="Vault"
-                onChange={({ target: { value } }) => {
-                  setSelectedVault(String(value));
-                }}
-              >
-                {vaultOptions.map(vault => (
-                  <MenuItem key={vault.id} value={vault.label}>
-                    {vault.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
+            <Box css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '15vw' }}>
+              <FormControl fullWidth>
+                <Box
+                  css={{
+                    color: '$text',
+                    fontSize: '$4',
+                    fontWeight: '$bold',
+                    lineHeight: '$shorter',
+                    marginBottom: '$md',
+                    textAlign: 'center',
+                  }}
+                >
+                  Select Vault
+                </Box>
+                <Controller
+                  name={'selectedVault'}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => {
+                    return (
+                      <>
+                        <Select
+                          value={value}
+                          label="Vault"
+                          error={!!error}
+                          onChange={({ target: { value } }) => {
+                            onChange(value);
+                            setSelectedVault(String(value));
+                          }}
+                        >
+                          {vaultOptions.map(vault => (
+                            <MenuItem key={vault.id} value={vault.label}>
+                              {vault.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {error && (
+                          <Text
+                            css={{
+                              fontSize: '$3',
+                              lineHeight: '$shorter',
+                              fontWeight: '$semibold',
+                              color: '$red',
+                              textAlign: 'center',
+                              paddingTop: '$sm',
+                            }}
+                            className="error"
+                          >
+                            {error.message}
+                          </Text>
+                        )}
+                      </>
+                    );
+                  }}
+                />
+              </FormControl>
+            </Box>
+            <Box>
+              <Controller
+                name={'amount'}
+                control={control}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <ApeTextField
+                    {...register('amount')}
+                    type="number"
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    value={value}
+                    onChange={({ target: { value } }) => {
+                      onChange(Number(value));
+                    }}
+                    onBlur={({ target: { value } }) => {
+                      setUpdateAmount(Number(value));
+                    }}
+                    label="Total Distribution Amount"
+                  />
+                )}
+              />
+            </Box>
           </Box>
-          <Box>
-            <ApeTextField
-              value={amount}
-              onBlur={({ target: { value } }) => setUpdateAmount(Number(value))}
-              onChange={({ target: { value } }) => setAmount(Number(value))}
-              label="Total Distribution Amount"
-            />
+          <Box css={{ display: 'flex', justifyContent: 'center' }}>
+            <Button color="red" size="medium">
+              Submit Distribution to Vault
+            </Button>
           </Box>
-        </Box>
-        <Box css={{ display: 'flex', justifyContent: 'center' }}>
-          <Button color="red" size="medium">
-            Submit Distribution to Vault
-          </Button>
-        </Box>
+        </form>
         <Box
           css={{
             display: 'flex',

@@ -160,9 +160,6 @@ export const useApiBase = () => {
         const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
         const manifest = await getApiService().getManifest(circleId);
 
-        // eslint-disable-next-line no-console
-        console.log('fetchManifest', manifest);
-
         set(rApiManifest, manifest);
         const fullCircle = manifest.circle;
         if (fullCircle) {
