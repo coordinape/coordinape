@@ -12,7 +12,7 @@ import { getAuthToken } from '../services/api';
 import { REACT_APP_HASURA_URL } from 'config/env';
 import { useSelectedCircle } from 'recoilState';
 
-function useTypedQuery<
+export function useTypedQuery<
   O extends 'query_root',
   TData extends ValueTypes[O],
   TResult = InputType<GraphQLTypes[O], TData>
@@ -43,10 +43,4 @@ export function useCurrentOrg() {
   return useTypedQuery(`org-${id}`, {
     organizations_by_pk: [{ id }, { id: true, name: true }],
   }).data?.organizations_by_pk;
-}
-
-export function useCircleIdForEpoch(epochId: number) {
-  return useTypedQuery(`circle-for-epoch-${epochId}`, {
-    epochs_by_pk: [{ id: epochId }, { circle_id: true }],
-  }).data?.epochs_by_pk?.circle_id;
 }

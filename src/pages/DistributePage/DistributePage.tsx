@@ -2,87 +2,94 @@ import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, Box, Panel, Button } from '../../ui';
-import { FormTextField } from 'components';
-import { useCircleIdForEpoch, useCurrentOrg } from 'hooks/gql';
-import { useSelectedCircle } from 'recoilState';
+import { ApeTextField } from 'components';
+import { useCurrentOrg } from 'hooks/gql';
+import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
+import ShowMessage from './ShowMessage';
+import { useGetAllocations } from './useGetAllocations';
+
+import { IAllocateUser } from 'types';
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
  * @param epochId string
  * @returns JSX.Element
  */
-const DistributePage = () => {
+function DistributePage() {
   // Route Parameters
   const { epochId } = useParams();
-  const [amount, setAmount] = useState('');
-  const [selectedVault, setSelectedVault] = useState<string>('');
-  const [amountError] = useState<boolean>(false);
+  const [amount, setAmount] = useState(0);
+  const [updateAmount, setUpdateAmount] = useState(0);
+  const [selectedVault, setSelectedVault] = useState('');
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
-  let vaultOptions: Array<{ value: string; label: string; id: string }> = [];
+  let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
 
-  const actualCircleId = useCircleIdForEpoch(Number(epochId));
-
-  const { users } = useSelectedCircle();
-
-  /**
-   * Shows a custom error message when unauthorized access is detected.
-   * @param message string
-   * @returns JSX.Element
-   */
-  const NotAuthorized = ({ message }: { message: string }) => (
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        m: '$lg',
-        margin: 'auto',
-        maxWidth: '90%',
-      }}
-    >
-      <Panel>
-        <Box
-          css={{
-            display: 'flex',
-            alignItems: 'center',
-            fontSize: 30,
-            mt: '$md',
-            justifyContent: 'center',
-            color: '$text',
-          }}
-        >
-          {message}
-        </Box>
-      </Panel>
-    </Box>
+  const { isLoading, isError, data } = useGetAllocations(Number(epochId));
+  const { myUser: currentUser } = useCircle(
+    data?.epochs_by_pk?.circle?.id as number
   );
 
-  // TODO: Add specific checks for Circle or Vault Admin
-  if (!epochId) {
+  if (!data?.epochs_by_pk) {
+    return <ShowMessage message={`Sorry, Epoch ${epochId} was not found.`} />;
+  }
+
+  const circle = data?.epochs_by_pk?.circle;
+  const epoch = data?.epochs_by_pk;
+  const users = data?.epochs_by_pk?.circle?.users;
+
+  const totalGive = users?.reduce(
+    (total, { received_gifts: g }) =>
+      total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
+    0
+  );
+
+  if (!currentUser.isCircleAdmin || currentUser.role < 1) {
     return (
-      <NotAuthorized message="Sorry, you are not a circle admin so you can't access this feature." />
+      <ShowMessage message="Sorry, you are not a circle admin so you can't access this feature." />
     );
   }
 
-  //Check if address is associated to any vaults
-  if (!vaults) {
+  if (isLoading) {
+    return <ShowMessage message="Loading..." />;
+  }
+
+  if (isError) {
     return (
-      <NotAuthorized message="No vaults have been associated with your address. Please create a vault." />
+      <ShowMessage message="Sorry, there was an error retreiving your epoch information." />
     );
-  } else {
-    vaultOptions = vaults.map(vault => ({
-      value: vault.id,
+  }
+
+  if (!epoch) {
+    return <ShowMessage message={`Sorry, epoch ${epochId} was not found.`} />;
+  }
+
+  if (!epoch?.ended) {
+    return (
+      <ShowMessage
+        message={`Sorry, ${circle?.name}: Epoch ${epoch?.number} is still active. You can only distribute epochs that have ended.`}
+      />
+    );
+  }
+
+  if (vaults?.length > 0) {
+    vaultOptions = vaults.map((vault, index) => ({
+      value: index,
       label: vault.type,
       id: vault.id,
     }));
+  } else {
+    return (
+      <ShowMessage message="No vaults have been associated with your address. Please create a vault." />
+    );
   }
 
   return (
@@ -126,29 +133,38 @@ const DistributePage = () => {
               textTransform: 'capitalize',
               fontSize: '$9',
               lineHeight: '$shorter',
-              fontWeight: 700,
+              fontWeight: '$bold',
               color: '$text',
             }}
           >
-            Strategists: Epoch 22 for circle {actualCircleId} has ended
+            {`${circle?.name}: Epoch ${epoch?.number} has completed`}
           </Box>
           <Box css={{ minWidth: '15%' }}></Box>
         </Box>
 
         <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
-          <Box css={{ m: '$lg', minWidth: '15vw' }}>
+          <Box css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '15vw' }}>
             <FormControl fullWidth>
-              <InputLabel>Select Vault</InputLabel>
+              <Box
+                css={{
+                  color: '$text',
+                  fontSize: '$4',
+                  fontWeight: '$bold',
+                  lineHeight: '$shorter',
+                  marginBottom: '$md',
+                }}
+              >
+                Select Vault
+              </Box>
               <Select
-                labelId="Select Vault 1"
-                label="Select Vault"
                 value={selectedVault}
-                onChange={({ target: { value } }) =>
-                  setSelectedVault(value as string)
-                }
+                label="Vault"
+                onChange={({ target: { value } }) => {
+                  setSelectedVault(String(value));
+                }}
               >
                 {vaultOptions.map(vault => (
-                  <MenuItem key={vault.id} value={vault.value}>
+                  <MenuItem key={vault.id} value={vault.label}>
                     {vault.label}
                   </MenuItem>
                 ))}
@@ -156,12 +172,11 @@ const DistributePage = () => {
             </FormControl>
           </Box>
           <Box>
-            <FormTextField
+            <ApeTextField
               value={amount}
-              onChange={({ target: { value } }) => setAmount(value)}
+              onBlur={({ target: { value } }) => setUpdateAmount(Number(value))}
+              onChange={({ target: { value } }) => setAmount(Number(value))}
               label="Total Distribution Amount"
-              error={amountError}
-              errorText=""
             />
           </Box>
         </Box>
@@ -183,11 +198,20 @@ const DistributePage = () => {
           </Box>
         </Box>
         <Box css={{ m: '$lg' }}>
-          <AllocationTable users={users} />
+          {totalGive ? (
+            <AllocationTable
+              users={users as IAllocateUser[]}
+              totalAmountInVault={updateAmount}
+              tokenName={selectedVault}
+              totalGive={totalGive}
+            />
+          ) : (
+            <ShowMessage message="No GIVE was allocated for this epoch" />
+          )}
         </Box>
       </Panel>
     </Box>
   );
-};
+}
 
 export default DistributePage;
