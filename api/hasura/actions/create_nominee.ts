@@ -57,6 +57,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         description,
         circle.nomination_days_limit,
         circle.min_vouches
+
       );
       return res.status(200).json(nominee);
     }
@@ -86,4 +87,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export default verifyHasuraRequestMiddleware(handler);
-
