@@ -2,53 +2,48 @@ import assert from 'assert';
 import { gql } from './Gql';
 
 export const getNomineeFromAddress = async (
-  address: string,
-  circleId: number
+    address: string,
+    circleId: number
 ) => {
-  const { nominees } = await gql.q('query')({
-    nominees: [
-      {
-        where: {
-          _and: [
+    const { nominees } = await gql.q('query')({
+        nominees: [
             {
-              address: { _eq: address },
-              circle_id: { _eq: circleId },
-              ended: { _eq: false },
+                where: {
+                    _and: [{
+                        address: { _eq: address }, circle_id: { _eq: circleId}, ended: { _eq: false },
+                    }]
+                }
             },
-          ],
-        },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
-
-  return nominees;
-};
-
-export const getUserFromAddress = async (address: string, circleId: number) => {
-  const { users } = await gql.q('query')({
-    users: [
-      {
-        where: {
-          _and: [
             {
-              address: { _eq: address },
-              circle_id: { _eq: circleId },
-              deleted_at: { _is_null: true },
-            },
-          ],
-        },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+                id: true
+            }
+        ]
+    })
 
-  return users;
-};
+    return nominees;
+}
+
+export const getUserFromAddress = async (
+    address: string,
+    circleId: number
+) => {
+    const { users } = await gql.q('query')({
+        users: [
+            {
+                where: {
+                    _and: [{
+                       address: { _eq: address }, circle_id: { _eq: circleId}, deleted_at: { _is_null: true }
+                    }]
+                }
+            },
+            {
+                id: true
+            }
+        ]
+    });
+
+    return users;
+}
 
 export const getUserFromProfileIdWithCircle = async (
   profileId: number,
