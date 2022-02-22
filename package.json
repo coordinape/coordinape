@@ -95,7 +95,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "figma-colors": "node ./scripts/tsrun.mjs ./src/ui/scripts/figma-colors.ts"
+    "figma-colors": "node ./scripts/tsrun.mjs ./scripts/update-figma-colors.ts"
   },
   "lint-staged": {
     "{api,src}/**/*.{js,ts,tsx}": [

@@ -95,7 +95,10 @@ const mapStyleToNode = (file: any, styles: Styles[]) => {
   return colorNodes;
 };
 
-const generateFile = (content: ColorNode[], fileName = 'colors.ts') => {
+const generateFile = (
+  content: ColorNode[],
+  fileName = './src/ui/colors.ts'
+) => {
   if (!content) {
     throw new Error('No styles found');
   }
@@ -112,20 +115,22 @@ const generateFile = (content: ColorNode[], fileName = 'colors.ts') => {
 
     return (
       prev +
-      (colorGroupName ? `/** ${colorGroupName}  */\n` : '') +
+      (colorGroupName ? `  // ${colorGroupName}\n` : '') +
       `  '${curr.name}': '${curr.color}',\n`
     );
   }, '');
 
-  const fileContents = `/* Updated at ${new Date().toUTCString()}*/
+  const fileContents = `// Updated at ${new Date().toUTCString()}
+// by scripts/update-figma-colors.ts
+
 export const colors = {
 ${colors}
 };`;
 
-  fs.writeFileSync(path.resolve(`./src/ui/${fileName}`), fileContents);
+  fs.writeFileSync(path.resolve(fileName), fileContents);
 
   // eslint-disable-next-line no-console
-  console.log(`Wrote ${content.length} colors to colors.ts`);
+  console.log(`Wrote ${content.length} colors to ${fileName}`);
 };
 //#endregion Utils functions
 
