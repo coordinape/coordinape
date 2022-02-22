@@ -1,27 +1,47 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, StaticTable } from 'components';
+import { NewApeAvatar, StaticTable } from 'components';
+import { zAssetEnum } from 'config/networks';
 import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
-import { IUser, ITableColumn } from 'types';
+import { IAllocateUser, ITableColumn } from 'types';
 
 /**
  * Component that displays a list of allocations.
- * @param users IUser[]
+ * @param users IAllocateUser[]
+ * @param totalAmountInVault number
+ * @param totalGive number
+ * @param tokenName string
  * @returns
  */
-const AllocationTable = ({ users }: { users: IUser[] }) => {
+const AllocationTable = ({
+  users,
+  totalAmountInVault,
+  totalGive,
+  tokenName,
+}: {
+  users: IAllocateUser[];
+  totalAmountInVault: number;
+  totalGive: number;
+  tokenName: string;
+}) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
   const filterUser = useMemo(
-    () => (u: IUser) => {
+    () => (u: IAllocateUser) => {
       const r = new RegExp(keyword, 'i');
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
+  );
+
+  const givenPercent = useCallback(
+    (u: IAllocateUser) =>
+      u.received_gifts.reduce((t, { tokens }) => t + tokens, 0) / totalGive,
+    [totalGive]
   );
 
   const userColumns = useMemo(
@@ -30,10 +50,10 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
         {
           label: 'Name',
           accessor: 'name',
-          render: function UserName(u: IUser) {
+          render: function UserName(u: IAllocateUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar user={u} className={classes.avatar} />
+                <NewApeAvatar name={u.name} className={classes.avatar} />
                 <span>{u.name}</span>
               </div>
             );
@@ -44,26 +64,37 @@ const AllocationTable = ({ users }: { users: IUser[] }) => {
         {
           label: 'ETH Wallet',
           accessor: 'address',
-          render: (u: IUser) => shortenAddress(u.address),
+          render: (u: IAllocateUser) => shortenAddress(u.address),
         },
         {
           label: 'Give Received',
-          render: () => '195 GIVE',
+          render: (u: IAllocateUser) =>
+            u.received_gifts.length > 0 ? u.received_gifts[0].tokens : '-',
         },
         {
           label: '# of Contributor Gitfing',
-          render: () => '22',
+          render: (u: IAllocateUser) =>
+            u.received_gifts_aggregate?.aggregate?.count && '-',
         },
         {
           label: '% of Epoch',
-          render: () => '2.5%',
+          render: (u: IAllocateUser) =>
+            u.received_gifts.length > 0
+              ? `${(givenPercent(u) * 100).toFixed(2)}%`
+              : '-',
         },
         {
           label: 'Vault Funds Allocated',
-          render: () => '1680 USDC',
+          render: (u: IAllocateUser) => {
+            const symbol =
+              tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName;
+            return u.received_gifts.length > 0
+              ? `${(givenPercent(u) * totalAmountInVault).toFixed(2)} ${symbol}`
+              : '-';
+          },
         },
       ] as ITableColumn[],
-    []
+    [users, totalGive, totalAmountInVault, tokenName]
   );
 
   return (

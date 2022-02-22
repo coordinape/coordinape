@@ -70,4 +70,8 @@ export const SKILLS = [
   'Treasury Mgmt',
   'Contract Audits',
   'Multisig',
+  'Data Analysis',
+  'Risk',
+  'Tokenomics',
+  'Contributor Experience',
 ];

@@ -6,6 +6,29 @@ import * as Figma from 'figma-api';
 
 dotenv.config();
 
+/**
+ * Go to https://www.figma.com/developers/api#authentication
+ */
+async function main() {
+  const api = new Figma.Api({
+    personalAccessToken: process.env.FIGMA_ACCESS_TOKEN || 'token',
+  });
+
+  const file = await api.getFile(FIGMA_FILE_KEY, {
+    ids: [COLORS_DOCUMENT],
+  });
+
+  const styles: Styles[] = Object.entries(file.styles)
+    .filter(([, { styleType }]) => styleType === FILL)
+    .map(([id, { name }]) => ({ name: name.replace(/\s/g, ''), id }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const result = mapStyleToNode(file, styles);
+  // eslint-disable-next-line no-console
+
+  generateFile(result);
+}
+
 //#region constants
 const FIGMA_FILE_KEY = 'L4oZwYVUdpgacZtwipGaYe';
 const COLORS_DOCUMENT = '3542:11605';
@@ -105,26 +128,6 @@ ${colors}
   console.log(`Wrote ${content.length} colors to colors.ts`);
 };
 //#endregion Utils functions
-
-async function main() {
-  const api = new Figma.Api({
-    personalAccessToken: process.env.FIGMA_ACCESS_TOKEN || 'token',
-  });
-
-  const file = await api.getFile(FIGMA_FILE_KEY, {
-    ids: [COLORS_DOCUMENT],
-  });
-
-  const styles: Styles[] = Object.entries(file.styles)
-    .filter(([, { styleType }]) => styleType === FILL)
-    .map(([id, { name }]) => ({ name: name.replace(/\s/g, ''), id }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  const result = mapStyleToNode(file, styles);
-  // eslint-disable-next-line no-console
-
-  generateFile(result);
-}
 
 (async function () {
   await main()

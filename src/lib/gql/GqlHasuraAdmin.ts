@@ -262,13 +262,12 @@ export class Gql {
     });
   }
   async insertCircleWithAdmin(
-    circleInput: ValueTypes['create_circle_input'],
+    circleInput: any,
+    userAddress: string,
     coordinapeAddress: string
   ) {
-    const addressLc = circleInput.address.toLowerCase();
-    const coordinapeAddressLc = coordinapeAddress.toLowerCase();
     const insertProfiles = {
-      objects: [{ address: addressLc }, { address: coordinapeAddressLc }],
+      objects: [{ address: userAddress }, { address: coordinapeAddress }],
       on_conflict: {
         constraint: profiles_constraint.profiles_address_key,
         update_columns: [],
@@ -278,12 +277,12 @@ export class Gql {
       data: [
         {
           name: circleInput.user_name,
-          address: addressLc,
+          address: userAddress,
           role: 1,
         },
         {
           name: 'Coordinape',
-          address: coordinapeAddressLc,
+          address: coordinapeAddress,
           role: 2,
           non_receiver: false,
           fixed_non_receiver: false,

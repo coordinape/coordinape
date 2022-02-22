@@ -4,7 +4,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
   HARDHAT_OWNER_ADDRESS,
-  TEST_ENV,
+  FORK_MAINNET,
   ZERO_ADDRESS,
 } from '../../../constants';
 import { MockToken__factory } from '../../../typechain';
@@ -42,7 +42,7 @@ const mintToken = async (
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const useProxy = !hre.network.live;
-  if (TEST_ENV) return !useProxy;
+  if (FORK_MAINNET) return !useProxy;
 
   const { deployer } = await hre.getNamedAccounts();
   const signers = await hre.ethers.getSigners();

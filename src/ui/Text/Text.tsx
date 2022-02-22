@@ -5,7 +5,9 @@ export const Text = styled('span', {
   margin: '0',
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  height: '18px',
 });
 
 export default Text;

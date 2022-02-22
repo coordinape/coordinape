@@ -34,36 +34,42 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const MenuNavigationLinks = (props: { handleOnClick?(): void }) => {
+export const MenuNavigationLinks = (props: {
+  handleOnClick?(): void;
+  hidePaths?: string[];
+}) => {
   const classes = useStyles();
 
   return (
     <>
-      {paths.getMenuNavigation().map(({ label, path, isExternal }) => {
-        if (isExternal) {
+      {paths
+        .getMenuNavigation()
+        .filter(({ path }) => !props?.hidePaths?.includes(path))
+        .map(({ label, path, isExternal }) => {
+          if (isExternal) {
+            return (
+              <a
+                key={path}
+                className={classes.link}
+                href={path}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {label}
+              </a>
+            );
+          }
           return (
-            <a
+            <NavLink
               key={path}
+              to={path}
               className={classes.link}
-              href={path}
-              rel="noreferrer"
-              target="_blank"
+              onClick={props.handleOnClick}
             >
               {label}
-            </a>
+            </NavLink>
           );
-        }
-        return (
-          <NavLink
-            key={path}
-            to={path}
-            className={classes.link}
-            onClick={props.handleOnClick}
-          >
-            {label}
-          </NavLink>
-        );
-      })}
+        })}
     </>
   );
 };

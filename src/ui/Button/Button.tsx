@@ -52,7 +52,7 @@ export const Button = styled('button', {
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
-        borderRadius: '$4',
+        borderRadius: '$3',
       },
     },
     variant: {
@@ -90,7 +90,37 @@ export const Button = styled('button', {
         width: '$full',
       },
     },
+    outlined: {
+      true: {
+        backgroundColor: 'transparent',
+        border: '1px solid',
+      },
+    },
   },
+  compoundVariants: [
+    {
+      color: 'red',
+      outlined: true,
+      css: {
+        color: '$red',
+        borderColor: '$red',
+        '&:hover': {
+          backgroundColor: '$lightRed',
+        },
+      },
+    },
+    {
+      color: 'gray',
+      outlined: true,
+      css: {
+        color: '$lightText',
+        borderColor: '$lightText',
+        '&:hover': {
+          backgroundColor: '$lightGray',
+        },
+      },
+    },
+  ],
   defaultVariants: {
     size: 'medium',
   },

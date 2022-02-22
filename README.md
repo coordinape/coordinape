@@ -52,6 +52,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - `yarn install`
 - `yarn setup`
   - init git submodules, link hardhat & create prisma node_modules
+- `npx prisma generate` - setup prisma node modules
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
@@ -77,14 +78,14 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 - Set `ETHEREUM_RPC_URL` in .env
   - From Infura project id: [Infura](https://infura.io) & create new project
-- `yarn hardhat:dev <your_address_here>`
+- `yarn hardhat:dev`
 
 #### Additionally
 
 - `./scripts/setup.sh` - link the react app generated code
 - `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
-- `yarn hardhat:test`
-- `yarn hardhat:deploy`
+- `yarn hardhat:test` - Run tests
+  - make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node
 
 # Hasura
 
@@ -189,6 +190,9 @@ Setup docker, git, hasura completions.
 
 - `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
   Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077
+
+- `Laravel in Docker always restarting (Windows)`
+  When log says `start.sh : not found` Change the line ending of `Laravel/services/start.sh` from CRLF to LF.
 
 ### Credits
 

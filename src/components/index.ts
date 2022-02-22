@@ -1,4 +1,5 @@
 export * from './ApeAvatar/ApeAvatar';
+export * from './NewApeAvatar/NewApeAvatar';
 export * from './ApeTabs/ApeTabs';
 export * from './CircleSelectModal/CircleSelectModal';
 export * from './WalletButton/WalletButton';
