@@ -6,41 +6,35 @@ import { Box, Checkbox, Text, TextFieldFund } from '../../ui';
 //#region Interfaces & Types
 
 export interface AllocateFundsCardProps {
-  title: string;
   epoch: string;
   period: string;
+  fundsAvailable: number;
+  recurringLabel: string;
+  onFundValue(value: number): void;
+  fundValue: number;
+  children?: React.ReactNode;
   css?: CSS;
-  children: React.ReactNode;
+  title?: string;
 }
 
 //#endregion Interfaces
-// TODO: remove
-const getFundsAvailable = () => 20000;
-const getRecurringType = () => 'monthly';
 
 //#region Organisms
 export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
   props
 ): JSX.Element => {
-  const [, setFund] = React.useState<number>();
   const [isRecurringFund, setIsRecurringFund] = React.useState<boolean>(false);
-  const fundsAvailable = getFundsAvailable();
-  const recurringLabel = getRecurringType();
+
   return (
     <Box
       css={{
         display: 'flex',
         flexDirection: 'column',
-        width: '550px',
-        height: '492px',
         gap: '$md',
         borderRadius: '$1',
         backgroundColor: 'white',
         alignItems: 'center',
         py: '$xl',
-        '@sm': {
-          width: '100%',
-        },
         ...props.css,
       }}
     >
@@ -91,7 +85,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        {`(Repeats ${recurringLabel})`}
+        {`(Repeats ${props.recurringLabel})`}
       </Text>
       <Box
         css={{
@@ -102,8 +96,9 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
         }}
       >
         <TextFieldFund
-          handleOnFundValue={value => setFund(value)}
-          fundsAvailable={fundsAvailable}
+          value={props.fundValue}
+          onChange={props.onFundValue}
+          fundsAvailable={props.fundsAvailable}
         />
         <Box
           css={{
@@ -115,19 +110,25 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           <Checkbox
             checked={isRecurringFund}
             onCheckedChange={setIsRecurringFund}
-            label={`Fund ${recurringLabel}`}
+            label={`Fund ${props.recurringLabel}`}
           />
         </Box>
       </Box>
-      <Box
-        css={{
-          display: 'flex',
-          mt: '$2xl',
-        }}
-      >
-        {props.children}
-      </Box>
+      {props.children && (
+        <Box
+          css={{
+            display: 'flex',
+            mt: '$2xl',
+          }}
+        >
+          {props.children}
+        </Box>
+      )}
     </Box>
   );
 };
 //#endregion
+
+AllocateFundsCard.defaultProps = {
+  title: 'Allocate to',
+};

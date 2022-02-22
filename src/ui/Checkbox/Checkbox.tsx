@@ -23,8 +23,9 @@ export const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
         css={{ ...props.css }}
       >
         <StyledCheckboxPrimitiveIndicator forceMount>
-          {/* TODO: replace the icon for svg icons when that change is merged on main */}
-          {props.checked === true && <CheckIcon size="md" color="green12" />}
+          {props.checked === true && (
+            <CheckIcon size="md" color="green12" fill />
+          )}
         </StyledCheckboxPrimitiveIndicator>
       </StyledCheckbox>
       <Text css={{ fontSize: '$3' }}>{props.label || 'No Label'}</Text>

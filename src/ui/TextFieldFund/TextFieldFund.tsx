@@ -4,16 +4,23 @@ import { Box, TextField, Text } from '../index';
 
 interface TextFieldFundProps {
   fundsAvailable: number;
-  handleOnFundValue(value: number): void;
-  token?: string;
+  onChange(value: number): void;
+  value: number;
+  coinType?: string;
 }
 
+const parseFundToNumber = (value: string) => Number(value.replace(/,/g, ''));
+const parseFundToLocale = (value: number) => value.toLocaleString('en-US');
+
 export const TextFieldFund: React.FC<TextFieldFundProps> = ({
-  handleOnFundValue,
-  token = 'USDC',
+  onChange,
+  value,
+  coinType = 'USDC',
   ...props
 }): JSX.Element => {
-  const [inputFundValue, setInputFundValue] = React.useState<string>('0');
+  const [inputFundValue, setInputFundValue] = React.useState<string>(
+    parseFundToLocale(value) || '0'
+  );
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -22,12 +29,12 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
       target: { value },
     } = event;
 
-    if (Number(value.replace(/,/g, '')) > props.fundsAvailable) {
-      setInputFundValue(props.fundsAvailable.toLocaleString('en-US'));
+    if (parseFundToNumber(value) > props.fundsAvailable) {
+      setInputFundValue(parseFundToLocale(props.fundsAvailable));
       return;
     }
 
-    setInputFundValue(Number(value.replace(/,/g, '')).toLocaleString('en-US'));
+    setInputFundValue(parseFundToLocale(parseFundToNumber(value)));
   };
 
   const handleOnMaxFund = () => {
@@ -35,7 +42,7 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
   };
 
   React.useEffect(() => {
-    handleOnFundValue(Number(inputFundValue.replace(/,/g, '')));
+    onChange(parseFundToNumber(inputFundValue));
   }, [inputFundValue]);
 
   React.useEffect(() => {
@@ -59,7 +66,7 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
         }}
       >{`AVAILABLE: ${props.fundsAvailable.toLocaleString(
         'en-US'
-      )} ${token}`}</Text>
+      )} ${coinType}`}</Text>
       <Box
         css={{
           display: 'flex',
@@ -82,7 +89,6 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
               color: '$red',
             },
           }}
-          as="button"
           onClick={handleOnMaxFund}
         >
           Max
@@ -102,7 +108,7 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
           }}
           as="span"
         >
-          {token}
+          {coinType}
         </Box>
       </Box>
     </Box>

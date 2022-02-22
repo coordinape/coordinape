@@ -9,9 +9,9 @@ import { knownTokens } from 'config/networks';
 import { useContracts } from 'hooks/useContracts';
 import { InfoIcon } from 'icons';
 
-import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
 import EditModal from './EditModal';
+import AllocateModal from './NewAllocateModal';
 import WithdrawModal from './WithdrawModal';
 
 import { IEpoch, ITableColumn, IVault, IVaultTransaction } from 'types';

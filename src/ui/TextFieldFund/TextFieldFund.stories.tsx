@@ -18,7 +18,7 @@ export const SingleTextField = Template.bind({});
 SingleTextField.args = {
   fundsAvailable: 20000,
   // eslint-disable-next-line no-console
-  handleOnFundValue: value => console.log('VALUE', value),
+  onChange: value => console.log('VALUE', value),
 };
 
 SingleTextField.parameters = {
