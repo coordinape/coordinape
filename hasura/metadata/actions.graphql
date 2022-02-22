@@ -57,13 +57,6 @@ input create_nominee_input {
   circle_id: Int!
 }
 
-input create_nominee_input {
-  name: String!
-  address: String!
-  description: String!
-  circle_id: Int!
-}
-
 input UploadImageInput {
   image_data_base64: String!
 }

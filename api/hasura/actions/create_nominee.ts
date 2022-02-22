@@ -1,5 +1,4 @@
 import assert from 'assert';
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
@@ -85,3 +84,5 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     message: 'Unexpected error',
   });
 }
+
+export default verifyHasuraRequestMiddleware(handler);
