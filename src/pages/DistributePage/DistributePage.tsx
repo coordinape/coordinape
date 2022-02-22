@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { BigNumber, utils } from 'ethers';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -8,9 +9,11 @@ import { z } from 'zod';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
+import { useApeDistributor, useCurrentOrg } from 'hooks';
+//import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
@@ -30,23 +33,17 @@ function DistributePage() {
   // Route Parameters
   const { epochId } = useParams();
   const [updateAmount, setUpdateAmount] = useState(0);
-  const [selectedVault, setSelectedVault] = useState('');
+  const [selectedVaultId, setSelectedVaultId] = useState('');
+  const { uploadEpochRoot } = useApeDistributor();
 
   const schema = z.object({
     amount: z.number(),
-    selectedVault: z.string(),
+    selectedVaultId: z.string(),
   });
   type DistributionForm = z.infer<typeof schema>;
   const { register, handleSubmit, control } = useForm<DistributionForm>({
     resolver: zodResolver(schema),
   });
-  const onSubmit: SubmitHandler<DistributionForm> = useCallback(
-    async (value: any) => {
-      //TODO: Implement Distribution Logic
-      alert(`${value.amount} ${value.selectedVault}`);
-    },
-    []
-  );
 
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
@@ -56,10 +53,6 @@ function DistributePage() {
   const { myUser: currentUser } = useCircle(
     data?.epochs_by_pk?.circle?.id as number
   );
-
-  if (!data?.epochs_by_pk) {
-    return <ShowMessage message={`Sorry, Epoch ${epochId} was not found.`} />;
-  }
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
@@ -71,10 +64,68 @@ function DistributePage() {
     0
   );
 
+  const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
+    if (!users) throw new Error('No users found');
+
+    const gifts = users.reduce((userList, user) => {
+      userList[user.address] = user.received_gifts.reduce(
+        (t, { tokens }) => t + tokens,
+        0
+      );
+      return userList;
+    }, {} as Record<string, number>);
+
+    //MOCK PREVIOUS DATA; MULTIPLY GIVES by 2
+    const previousGifts = users.reduce((userList, user) => {
+      userList[user.address] = user.received_gifts.reduce(
+        (t, { tokens }) => t * 2 + tokens,
+        0
+      );
+      return userList;
+    }, {} as Record<string, number>);
+
+    const selectedVault = vaults.find(v => v.id === value.selectedVaultId);
+
+    if (selectedVault && circle) {
+      // TODO: Determine if 18 is an appropriate value for the default precision
+      const totalDistributionAmount = BigNumber.from(
+        value.amount * selectedVault?.decimals ?? 18
+      );
+
+      // Previous Distribution mock
+      const previousDistributionMock = createDistribution(
+        previousGifts,
+        totalDistributionAmount.mul(2)
+      );
+      const distribution = createDistribution(
+        gifts,
+        totalDistributionAmount,
+        previousDistributionMock
+      );
+
+      try {
+        await uploadEpochRoot(
+          selectedVault.id,
+          utils.hexlify(circle.id),
+          selectedVault.tokenAddress,
+          distribution.merkleRoot,
+          totalDistributionAmount,
+          utils.hexlify(0)
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
   if (!currentUser.isCircleAdmin || currentUser.role < 1) {
     return (
-      <ShowMessage message="Sorry, you are not a circle admin so you can't access this feature." />
+      <ShowMessage message="Sorry, you are not a circle admin so you can't userListess this feature." />
     );
+  }
+
+  if (!data?.epochs_by_pk) {
+    return <ShowMessage message={`Sorry, Epoch ${epochId} was not found.`} />;
   }
 
   if (isLoading) {
@@ -177,7 +228,7 @@ function DistributePage() {
                   Select Vault
                 </Box>
                 <Controller
-                  name={'selectedVault'}
+                  name={'selectedVaultId'}
                   control={control}
                   render={({
                     field: { onChange, value },
@@ -191,11 +242,11 @@ function DistributePage() {
                           error={!!error}
                           onChange={({ target: { value } }) => {
                             onChange(value);
-                            setSelectedVault(String(value));
+                            setSelectedVaultId(String(value));
                           }}
                         >
                           {vaultOptions.map(vault => (
-                            <MenuItem key={vault.id} value={vault.label}>
+                            <MenuItem key={vault.id} value={vault.id}>
                               {vault.label}
                             </MenuItem>
                           ))}
@@ -270,7 +321,10 @@ function DistributePage() {
             <AllocationTable
               users={users as IAllocateUser[]}
               totalAmountInVault={updateAmount}
-              tokenName={selectedVault}
+              tokenName={
+                vaults.find(vault => vault.id === selectedVaultId)?.type ??
+                'NO VAULT'
+              }
               totalGive={totalGive}
             />
           ) : (
