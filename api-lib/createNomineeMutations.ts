@@ -117,3 +117,36 @@ export const insertNominee = async (
 
   return insert_nominees_one;
 };
+
+export const getUserFromProfileIdWithCircle = async (
+    profileId: number,
+    circleId: number
+) => {
+    const { profiles_by_pk } = await gql.q('query')({
+        profiles_by_pk: [
+            {
+                id: profileId,
+            },
+            {
+                users: [
+                    {
+                        where: {
+                            circle_id: { _eq: circleId },
+                        },
+                    },
+                    {
+                        circle: {
+                          nomination_days_limit: true,
+                          min_vouches: true
+                        },
+                        id: true,
+                    },
+                ],
+            },
+        ],
+    });
+    assert(profiles_by_pk, 'Profile cannot be found');
+    const user = profiles_by_pk.users.pop();
+    assert(user, `user for circle_id ${circleId} not found`);
+    return user;
+};
