@@ -80,6 +80,12 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTION_BASE_URL}}/create_nominee'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 custom_types:
   enums: []
   input_objects:
@@ -149,4 +155,13 @@ custom_types:
       field_mapping:
         id: id
   - name: create_nominee_response
+    relationships:
+    - remote_table:
+        schema: public
+        name: nominees
+      name: nominee
+      source: default
+      type: object
+      field_mapping:
+        id: id
   scalars: []

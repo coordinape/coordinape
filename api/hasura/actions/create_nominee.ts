@@ -1,12 +1,64 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-// import { GraphQLClient, gql } from 'graphql-request';
-// import { z } from 'zod';
+import { z } from 'zod';
 
-// import { createCircleSchemaInput } from '../../../src/lib/zod';
+import {
+  insertNominee,
+  getUserFromProfileIdWithCircle,
+} from '../../../api-lib/createNomineeMutations';
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { GraphQLError } from '../../../src/lib/gql/zeusHasuraAdmin';
+import {
+  createNomineeSchemaInput,
+  composeHasuraActionRequestBody,
+} from '../../../src/lib/zod';
 
-// import { MutationCreate_NomineeArgs } from './hasuraCustomTypes';
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
+  try {
+    const {
+      input: { object: input },
+      session_variables: sessionVariables,
+    } = composeHasuraActionRequestBody(createNomineeSchemaInput).parse(
+      req.body
+    );
+    if (sessionVariables.hasuraRole !== 'admin') {
+      const { circle_id } = input;
+      const profileId = sessionVariables.hasuraProfileId;
+      const user = await getUserFromProfileIdWithCircle(profileId, circle_id);
+      assert(user);
+      // check if user exists in nominee table same circle and not expired
+      //
+      const nominee = await insertNominee(
+        user.id,
+        circle_id,
+        input.address,
+        input.name,
+        input.description,
+        user.circle.nomination_days_limit,
+        user.circle.min_vouches
+      );
+      return res.status(200).json(nominee);
+    }
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(422).json({
+        extensions: err.issues,
+        message: 'Invalid input',
+        code: '422',
+      });
+    } else if (err instanceof GraphQLError) {
+      return res.status(422).json({
+        code: 422,
+        message: 'GQL Query Error',
+        extensions: err.response.errors,
+      });
+    }
+    return res.status(401).json({
+      message: 'User does not belong to this circle',
+      code: 401,
+    });
+  }
   return res.status(401).json({
     error: '401',
     message: 'Unexpected error',
@@ -220,3 +272,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   //     });
   // }
 }
+
+export default verifyHasuraRequestMiddleware(handler);
