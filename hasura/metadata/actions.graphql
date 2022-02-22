@@ -51,15 +51,6 @@ input CreateUserInput {
   starting_tokens: Int
 }
 
-input upload_image_input {
-  image_data_base64: String!
-}
-
-input upload_circle_image_input {
-  circle_id: Int!
-  image_data_base64: String!
-}
-
 input create_nominee_input {
   name: String!
   address: String!

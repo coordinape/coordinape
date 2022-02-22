@@ -117,4 +117,3 @@ export const insertNominee = async (
 
   return insert_nominees_one;
 };
-
