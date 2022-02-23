@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 import { Button } from '../../ui';
+import { ApeInfoTooltip } from 'components';
 import {
   useApiWithSelectedCircle,
   useAllocation,
@@ -247,6 +248,16 @@ export const AllocationPage = () => {
             </StepButton>
           </Step>
         ))}
+        <ApeInfoTooltip>
+          Reward your teammates in the circle by sending them {selectedCircle.tokenName} tokens.{' '}
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+          >
+            Learn More
+          </a>
+        </ApeInfoTooltip>
       </Stepper>
 
       <div className={classes.body}>

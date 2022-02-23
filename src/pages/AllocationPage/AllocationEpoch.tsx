@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { OptInput, ActionDialog } from 'components';
+import { OptInput, ActionDialog, ApeInfoTooltip  } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
 import { capitalizedName } from 'utils/string';
@@ -100,6 +100,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  divTitle: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
 }));
 
 const AllocationEpoch = ({
@@ -133,11 +137,24 @@ const AllocationEpoch = ({
       {!epochIsActive && (
         <h2 className={classes.epochTiming}>{timingMessage}</h2>
       )}
-      <span className={classes.title}>
-        {epochIsActive
-          ? 'What have you been working on this epoch?'
-          : 'What have you been working on?'}
-      </span>
+      <div className={classes.divTitle}>
+        <span className={classes.title}>
+          {epochIsActive
+            ? 'What have you been working on this epoch?'
+            : 'What have you been working on?'}
+        </span>
+        <ApeInfoTooltip>
+          An Epoch is a period of time where circle members contribute value &
+          allocate {selectedCircle.tokenName} tokens to one another.{' '}
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+          >
+            Learn More
+          </a>
+        </ApeInfoTooltip>
+      </div>
       <hr className={classes.hrWithMax} />
       <textarea
         className={classes.bioTextarea}

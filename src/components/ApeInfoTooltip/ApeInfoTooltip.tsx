@@ -2,14 +2,9 @@ import { ReactNode, useState } from 'react';
 
 import clsx from 'clsx';
 
-import {
-  makeStyles,
-  Tooltip,
-  Zoom,
-  TooltipProps,
-  ClickAwayListener,
-} from '@material-ui/core';
+import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
+import { ActionDialog } from 'components';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { InfoIcon } from 'icons';
 
@@ -63,41 +58,17 @@ export const ApeInfoTooltip = ({
   return (
     <>
       {isMobile ? (
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <div>
-            <Tooltip
-              PopperProps={{
-                disablePortal: true,
-              }}
-              onClose={handleTooltipClose}
-              open={openTooltip}
-              disableFocusListener
-              disableHoverListener
-              disableTouchListener
-              title={<div>{children ?? 'blank'}</div>}
-              placement="top"
-              TransitionComponent={Zoom}
-              classes={{
-                ...classes,
-                tooltip: clsx(localClasses.tooltip, classes?.tooltip),
-              }}
-              interactive
-              {...props}
-            >
-              {props.component ? (
-                <span onClick={handleTooltipOpen}>{props.component}</span>
-              ) : (
-                <span className={className}>
-                  <InfoIcon
-                    onClick={handleTooltipOpen}
-                    inherit="inherit"
-                    className={iconTheme ?? localClasses.icon}
-                  />
-                </span>
-              )}
-            </Tooltip>
-          </div>
-        </ClickAwayListener>
+        <div>
+          <InfoIcon
+            onClick={handleTooltipOpen}
+            onClose={handleTooltipClose}
+            inherit="inherit"
+            className={iconTheme ?? localClasses.icon}
+          />
+          <ActionDialog open={openTooltip} onClose={handleTooltipClose}>
+            {children}
+          </ActionDialog>
+        </div>
       ) : (
         <Tooltip
           title={<div>{children ?? 'blank'}</div>}
