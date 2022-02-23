@@ -1,5 +1,8 @@
+import { HASURA_ENABLED, REACT_APP_HASURA_URL } from '../config/env';
+import { fileToBase64 } from '../lib/base64';
+import { getGql } from '../lib/gql';
 import { useApiBase } from 'hooks';
-import { getApiService } from 'services/api';
+import { getApiService, getAuthToken } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
@@ -9,6 +12,16 @@ import {
   PostUsersParam,
   UpdateCreateEpochParam,
 } from 'types';
+
+const api = getGql(REACT_APP_HASURA_URL, () => {
+  const token = getAuthToken();
+  if (token) {
+    return token;
+  } else {
+    // TODO: ideally would figure out a better way to handle this, in a uniform way
+    return '';
+  }
+});
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchManifest } = useApiBase();
@@ -22,8 +35,13 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const updateCircleLogo = useRecoilLoadCatch(
-    () => async (newAvatar: File) => {
-      await getApiService().uploadCircleLogo(circleId, newAvatar);
+    () => async (newLogo: File) => {
+      const image_data_base64 = await fileToBase64(newLogo);
+      if (HASURA_ENABLED) {
+        await api.updateCircleLogo(circleId, image_data_base64);
+      } else {
+        await getApiService().uploadCircleLogo(circleId, newLogo);
+      }
       await fetchManifest();
     },
     [circleId]
