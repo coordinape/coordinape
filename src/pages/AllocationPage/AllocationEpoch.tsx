@@ -104,18 +104,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'flex-start',
   },
-  learnMore: {
-    margin: '0.5em',
-  },
-  icon: {
-    fontSize: 'inherit',
-    verticalAlign: 'baseline',
-    margin: theme.spacing(0, 0.5),
-    color: theme.colors.mediumGray,
-    '&:hover': {
-      color: theme.colors.text,
-    },
-  },
 }));
 
 const AllocationEpoch = ({
@@ -157,9 +145,8 @@ const AllocationEpoch = ({
         </span>
         <ApeInfoTooltip>
           An Epoch is a period of time where circle members contribute value &
-          allocate GIVE tokens to one another.
+          allocate {selectedCircle.tokenName} tokens to one another.{' '}
           <a
-            className={classes.learnMore}
             rel="noreferrer"
             target="_blank"
             href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
