@@ -48,8 +48,7 @@ export default function AllocateModal({ onClose }: AllocateModalProps) {
             css={{
               py: '$2xl',
             }}
-            onFundValue={fields.token.onChange}
-            fundValue={fields.token.value}
+            onChange={fields.token.onChange}
             epoch="Yearn Community: E22"
             period="Aug 15 to Aug 31"
             fundsAvailable={20000}

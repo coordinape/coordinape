@@ -10,8 +10,7 @@ const props: AllocateFundsCardProps = {
   period: 'Aug 15 to Aug 31',
   recurringLabel: 'monthly',
   fundsAvailable: 20000,
-  onFundValue: () => null,
-  fundValue: 1,
+  onChange: () => null,
   children: (
     <Button data-testid="fund-this-epoch" size="small" color="red">
       Fund This Epoch

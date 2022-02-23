@@ -1,49 +1,42 @@
 import React from 'react';
 
-import { Box, TextField, Text } from '../index';
+import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field';
+
+import { styled } from '../../stitches.config';
+import { Box, Text } from '../index';
 
 interface TextFieldFundProps {
   fundsAvailable: number;
   onChange(value: number): void;
-  value: number;
   coinType?: string;
 }
 
-const parseFundToNumber = (value: string) => Number(value.replace(/,/g, ''));
-const parseFundToLocale = (value: number) => value.toLocaleString('en-US');
-
 export const TextFieldFund: React.FC<TextFieldFundProps> = ({
   onChange,
-  value,
   coinType = 'USDC',
   ...props
 }): JSX.Element => {
-  const [inputFundValue, setInputFundValue] = React.useState<string>(
-    parseFundToLocale(value) || '0'
-  );
+  const [inputFundValue, setInputFundValue] = React.useState<string | number>();
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-
-    if (parseFundToNumber(value) > props.fundsAvailable) {
-      setInputFundValue(parseFundToLocale(props.fundsAvailable));
+  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (
+    value,
+    _,
+    values
+  ): void => {
+    const float = values?.float || 0;
+    if (float > props.fundsAvailable) {
+      setInputFundValue(props.fundsAvailable);
       return;
     }
-
-    setInputFundValue(parseFundToLocale(parseFundToNumber(value)));
+    setInputFundValue(value);
+    onChange(float);
   };
 
   const handleOnMaxFund = () => {
-    setInputFundValue(props.fundsAvailable.toLocaleString('en-US'));
+    setInputFundValue(props.fundsAvailable);
   };
-
-  React.useEffect(() => {
-    onChange(parseFundToNumber(inputFundValue));
-  }, [inputFundValue]);
 
   React.useEffect(() => {
     inputRef.current?.focus();
@@ -64,19 +57,19 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
           color: '$text',
           fontWeight: '$light',
         }}
-      >{`AVAILABLE: ${props.fundsAvailable.toLocaleString(
-        'en-US'
-      )} ${coinType}`}</Text>
+      >
+        AVAILABLE: {props.fundsAvailable.toLocaleString('en-US')} {coinType}
+      </Text>
       <Box
         css={{
           display: 'flex',
           backgroundColor: '$lightBackground',
-          borderRadius: '16px',
+          borderRadius: '$5',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '308px',
           height: '56px',
           px: '$md',
+          gap: '$sm',
         }}
       >
         <Box
@@ -84,7 +77,7 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
             fontSize: '$2',
             fontWeight: 'bold',
             textTransform: 'uppercase',
-            color: '#99A2A5',
+            color: '$placeholder',
             '&:hover': {
               color: '$red',
             },
@@ -93,11 +86,11 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
         >
           Max
         </Box>
-        <TextField
+        <FundTextInput
           ref={inputRef}
+          decimalsLimit={2}
           value={inputFundValue}
-          onChange={handleChange}
-          variant="fund"
+          onValueChange={handleOnValueChange}
         />
         <Box
           css={{
@@ -114,3 +107,25 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
     </Box>
   );
 };
+
+const FundTextInput = styled(CurrencyInput, {
+  '&::placeholder': {
+    color: '$placeholder',
+  },
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: '$lightBackground',
+  lineHeight: '$base',
+
+  color: '$text',
+  width: '200px',
+  fontSize: '$9',
+  fontWeight: '$normal',
+  textAlign: 'right',
+  '&:focus': {
+    border: 'none',
+  },
+  borderRadius: '0px',
+});

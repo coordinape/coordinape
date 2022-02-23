@@ -10,8 +10,7 @@ export interface AllocateFundsCardProps {
   period: string;
   fundsAvailable: number;
   recurringLabel: string;
-  onFundValue(value: number): void;
-  fundValue: number;
+  onChange(value: number): void;
   children?: React.ReactNode;
   css?: CSS;
   title?: string;
@@ -85,7 +84,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        {`(Repeats ${props.recurringLabel})`}
+        (Repeats {props.recurringLabel})
       </Text>
       <Box
         css={{
@@ -96,8 +95,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
         }}
       >
         <TextFieldFund
-          value={props.fundValue}
-          onChange={props.onFundValue}
+          onChange={props.onChange}
           fundsAvailable={props.fundsAvailable}
         />
         <Box

@@ -111,6 +111,7 @@ export const {
       2: '6px',
       3: '8px',
       4: '12px',
+      5: '16px',
       round: '50%',
       pill: '9999px',
     },
