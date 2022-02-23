@@ -3305,6 +3305,14 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
+    upload_circle_logo: {
+      object: {
+        type: 'upload_circle_image_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     upload_profile_avatar: {
       object: {
         type: 'upload_image_input',
@@ -6983,6 +6991,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  upload_circle_image_input: {
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   upload_image_input: {
     image_data_base64: {
       type: 'String',
@@ -8543,6 +8565,7 @@ export const ReturnTypes: Record<string, any> = {
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
+    upload_circle_logo: 'update_circle_response',
     upload_profile_avatar: 'update_profile_response',
     upload_profile_background: 'update_profile_response',
   },
@@ -8808,6 +8831,10 @@ export const ReturnTypes: Record<string, any> = {
     recipient_id: 'Float',
     sender_id: 'Float',
     tokens: 'Float',
+  },
+  update_circle_response: {
+    circle: 'circles',
+    id: 'Int',
   },
   update_profile_response: {
     id: 'Int',
