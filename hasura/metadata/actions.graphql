@@ -11,6 +11,12 @@ type Mutation {
 }
 
 type Mutation {
+  upload_circle_logo(
+    object: upload_circle_image_input!
+  ): update_circle_response
+}
+
+type Mutation {
   upload_profile_avatar(
     object: upload_image_input!
   ): update_profile_response
@@ -45,6 +51,11 @@ input upload_image_input {
   image_data_base64: String!
 }
 
+input upload_circle_image_input {
+  id: Int!
+  image_data_base64: String!
+}
+
 type create_circle_response {
   id: Int!
 }
@@ -62,6 +73,10 @@ type createUserResponse {
 }
 
 type update_profile_response {
+  id: Int!
+}
+
+type update_circle_response {
   id: Int!
 }
 

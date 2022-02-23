@@ -45,4 +45,13 @@ async function resizeBackground(imageBytes: Buffer) {
     .toBuffer();
 }
 
-export { resizeAvatar, resizeBackground };
+async function resizeCircleLogo(imageBytes: Buffer) {
+  const img = sharp(imageBytes);
+  return img
+    .jpeg({
+      quality: 80,
+    })
+    .toBuffer();
+}
+
+export { resizeAvatar, resizeBackground, resizeCircleLogo };
