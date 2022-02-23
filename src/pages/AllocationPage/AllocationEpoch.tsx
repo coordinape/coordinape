@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { OptInput, ActionDialog, ApeInfoTooltip  } from 'components';
+import { OptInput, ActionDialog, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
 import { capitalizedName } from 'utils/string';

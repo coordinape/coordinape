@@ -249,7 +249,8 @@ export const AllocationPage = () => {
           </Step>
         ))}
         <ApeInfoTooltip>
-          Reward your teammates in the circle by sending them {selectedCircle.tokenName} tokens.{' '}
+          Reward your teammates in the circle by sending them{' '}
+          {selectedCircle.tokenName} tokens.{' '}
           <a
             rel="noreferrer"
             target="_blank"
