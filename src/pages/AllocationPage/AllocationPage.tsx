@@ -119,18 +119,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     padding: '1px',
   },
-  learnMore: {
-    margin: '0.5em',
-  },
-  icon: {
-    fontSize: 'inherit',
-    verticalAlign: 'baseline',
-    margin: theme.spacing(0, 0.5),
-    color: theme.colors.mediumGray,
-    '&:hover': {
-      color: theme.colors.text,
-    },
-  },
 }));
 
 export const AllocationPage = () => {
@@ -261,9 +249,8 @@ export const AllocationPage = () => {
           </Step>
         ))}
         <ApeInfoTooltip>
-          Reward your teammates in the circle by sending them GIVE tokens.
+          Reward your teammates in the circle by sending them {selectedCircle.tokenName} tokens.{' '}
           <a
-            className={classes.learnMore}
             rel="noreferrer"
             target="_blank"
             href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
