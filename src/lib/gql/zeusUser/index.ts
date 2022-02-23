@@ -1105,6 +1105,10 @@ export type ValueTypes = {
       },
       ValueTypes['profiles']
     ];
+    upload_circle_logo?: [
+      { object: ValueTypes['upload_circle_image_input'] },
+      ValueTypes['update_circle_response']
+    ];
     upload_profile_avatar?: [
       { object: ValueTypes['upload_image_input'] },
       ValueTypes['update_profile_response']
@@ -2419,12 +2423,22 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | null;
     tokens?: ValueTypes['order_by'] | null;
   };
+  ['update_circle_response']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['update_profile_response']: AliasType<{
     id?: boolean;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['upload_circle_image_input']: {
+    id: number;
+    image_data_base64: string;
+  };
   ['upload_image_input']: {
     image_data_base64: string;
   };
@@ -3150,6 +3164,7 @@ export type ModelTypes = {
     update_profiles?: ModelTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: ModelTypes['profiles'];
+    upload_circle_logo?: ModelTypes['update_circle_response'];
     upload_profile_avatar?: ModelTypes['update_profile_response'];
     upload_profile_background?: ModelTypes['update_profile_response'];
   };
@@ -3618,11 +3633,17 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
+  ['update_circle_response']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+  };
   ['update_profile_response']: {
     id: number;
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['upload_circle_image_input']: GraphQLTypes['upload_circle_image_input'];
   ['upload_image_input']: GraphQLTypes['upload_image_input'];
   /** columns and relationships of "users" */
   ['users']: {
@@ -4668,6 +4689,7 @@ export type GraphQLTypes = {
     update_profiles?: GraphQLTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'];
+    upload_circle_logo?: GraphQLTypes['update_circle_response'];
     upload_profile_avatar?: GraphQLTypes['update_profile_response'];
     upload_profile_background?: GraphQLTypes['update_profile_response'];
   };
@@ -5584,11 +5606,21 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'];
     tokens?: GraphQLTypes['order_by'];
   };
+  ['update_circle_response']: {
+    __typename: 'update_circle_response';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
   ['update_profile_response']: {
     __typename: 'update_profile_response';
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['upload_circle_image_input']: {
+    id: number;
+    image_data_base64: string;
   };
   ['upload_image_input']: {
     image_data_base64: string;
