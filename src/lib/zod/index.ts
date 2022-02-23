@@ -43,6 +43,13 @@ export const uploadImageInput = z
   .object({ image_data_base64: z.string() })
   .strict();
 
+export const uploadCircleImageInput = z
+  .object({
+    id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
