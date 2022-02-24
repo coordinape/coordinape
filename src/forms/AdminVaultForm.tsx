@@ -13,7 +13,9 @@ const zAssetEnum = z.enum([
   'ETH',
   'OTHER',
 ]);
+const zRepeatEnum = z.enum(['weekly', 'monthly']);
 export type AssetEnum = z.infer<typeof zAssetEnum>;
+export type RepeatEnumType = z.infer<typeof zRepeatEnum>;
 // type TEpochRepeatEnum = typeof AssetEnum['_type'];
 
 export const schema = z
@@ -25,7 +27,10 @@ export const schema = z
       if (val == '') return true;
       return zEthAddress.parseAsync(val);
     }),
-    repeat_monthly: z.boolean(),
+    repeat: z.object({
+      value: z.boolean(),
+      type: zRepeatEnum,
+    }),
   })
   .strict();
 
@@ -37,7 +42,10 @@ const AdminVaultForm = createForm({
     token: 0,
     asset: 'DAI' as AssetEnum,
     custom_asset: '',
-    repeat_monthly: false,
+    repeat: {
+      value: false,
+      type: 'monthly',
+    },
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {},

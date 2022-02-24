@@ -48,9 +48,10 @@ export const epoch: IEpoch = {
 const props: AllocateFundsCardProps = {
   title: 'Allocate to',
   epoch,
-  recurringLabel: 'monthly',
   fundsAvailable: 20000,
   onChange: () => null,
+  onCheckedChange: () => null,
+  checkedValue: false,
   children: (
     <Button data-testid="fund-this-epoch" size="small" color="red">
       Fund This Epoch

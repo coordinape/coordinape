@@ -15,11 +15,6 @@ interface AllocateModalProps {
 export default function AllocateModal({ epoch, onClose }: AllocateModalProps) {
   // const classes = useStyles();
   const navigate = useNavigate();
-  // const [ongoing, setOngoing] = useState<boolean>(false);
-
-  // const setOngoingAllocation = () => {
-  //   setOngoing(!ongoing);
-  // };
 
   //   TODO: Pull in real data to populate FormTextField label and update value
   /**
@@ -51,8 +46,11 @@ export default function AllocateModal({ epoch, onClose }: AllocateModalProps) {
             }}
             epoch={epoch}
             onChange={fields.token.onChange}
+            checkedValue={fields.repeat.value.value}
+            onCheckedChange={(value, type) =>
+              fields.repeat.onChange({ value, type })
+            }
             fundsAvailable={20000}
-            recurringLabel="monthly"
           ></AllocateFundsCard>
         </FormModal>
       )}

@@ -10,8 +10,9 @@ import { IEpoch } from 'types';
 export interface AllocateFundsCardProps {
   epoch: IEpoch;
   fundsAvailable: number;
-  recurringLabel: string;
+  checkedValue: boolean;
   onChange(value: number): void;
+  onCheckedChange(value: boolean, type: string): void;
   children?: React.ReactNode;
   css?: CSS;
   title?: string;
@@ -24,8 +25,11 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = ({
   epoch,
   ...props
 }): JSX.Element => {
-  const [isRecurringFund, setIsRecurringFund] = React.useState<boolean>(false);
+  // const [isRecurringFund, setIsRecurringFund] = React.useState<boolean>(false);
 
+  const handleOnFundPeriod = (value: boolean) => {
+    props.onCheckedChange(value, epoch.repeatEnum);
+  };
   return (
     <Box
       css={{
@@ -108,8 +112,8 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = ({
           }}
         >
           <Checkbox
-            checked={isRecurringFund}
-            onCheckedChange={setIsRecurringFund}
+            checked={props.checkedValue}
+            onCheckedChange={handleOnFundPeriod}
             label={`Fund ${epoch.repeatEnum}`}
           />
         </Box>
