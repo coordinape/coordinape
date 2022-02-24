@@ -3,7 +3,7 @@ import React from 'react';
 import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field';
 
 import { styled } from '../../stitches.config';
-import { Box, Text } from '../index';
+import { Box, Text, TextField } from '../index';
 
 interface TextFieldFundProps {
   fundsAvailable: number;
@@ -27,7 +27,6 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
   ): void => {
     const float = values?.float || 0;
     if (float > props.fundsAvailable) {
-      setInputFundValue(props.fundsAvailable);
       return;
     }
     setInputFundValue(value);
@@ -91,6 +90,7 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
           decimalsLimit={2}
           value={inputFundValue}
           onValueChange={handleOnValueChange}
+          variant="fund"
         />
         <Box
           css={{
@@ -108,24 +108,4 @@ export const TextFieldFund: React.FC<TextFieldFundProps> = ({
   );
 };
 
-const FundTextInput = styled(CurrencyInput, {
-  '&::placeholder': {
-    color: '$placeholder',
-  },
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: '$lightBackground',
-  lineHeight: '$base',
-
-  color: '$text',
-  width: '200px',
-  fontSize: '$9',
-  fontWeight: '$normal',
-  textAlign: 'right',
-  '&:focus': {
-    border: 'none',
-  },
-  borderRadius: '0px',
-});
+const FundTextInput = styled(CurrencyInput, TextField);
