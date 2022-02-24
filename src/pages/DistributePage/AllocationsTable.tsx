@@ -69,7 +69,9 @@ const AllocationTable = ({
         {
           label: 'Give Received',
           render: (u: IAllocateUser) =>
-            u.received_gifts.length > 0 ? u.received_gifts[0].tokens : '-',
+            u.received_gifts.length > 0
+              ? u.received_gifts.reduce((t, g) => t + g.tokens, 0)
+              : '-',
         },
         {
           label: '# of Contributor Gitfing',
