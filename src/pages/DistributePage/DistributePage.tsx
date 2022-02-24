@@ -12,8 +12,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useApeDistributor, useCurrentOrg } from 'hooks';
-//import { useCurrentOrg } from 'hooks/gql';
+import { useApeDistributor, useVaultWrapper } from 'hooks';
+import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
@@ -22,7 +22,7 @@ import AllocationTable from './AllocationsTable';
 import ShowMessage from './ShowMessage';
 import { useGetAllocations } from './useGetAllocations';
 
-import { IAllocateUser } from 'types';
+import { IAllocateUser, IVault } from 'types';
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
@@ -34,20 +34,13 @@ function DistributePage() {
   const { epochId } = useParams();
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
-  const { uploadEpochRoot } = useApeDistributor();
-
-  const schema = z.object({
-    amount: z.number(),
-    selectedVaultId: z.string(),
-  });
-  type DistributionForm = z.infer<typeof schema>;
-  const { register, handleSubmit, control } = useForm<DistributionForm>({
-    resolver: zodResolver(schema),
-  });
-
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
-  let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
+  const { uploadEpochRoot } = useApeDistributor();
+  const [selectedVault, setSelectedVault] = useState<IVault | undefined>(
+    vaults[0] ?? undefined
+  );
+  const { getYVault } = useVaultWrapper(selectedVault as IVault);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
   const { myUser: currentUser } = useCircle(
@@ -64,6 +57,17 @@ function DistributePage() {
     0
   );
 
+  const schema = z.object({
+    amount: z.number(),
+    selectedVaultId: z.string(),
+  });
+  type DistributionForm = z.infer<typeof schema>;
+  const { register, handleSubmit, control } = useForm<DistributionForm>({
+    resolver: zodResolver(schema),
+  });
+
+  let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
+
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     if (!users) throw new Error('No users found');
 
@@ -75,42 +79,24 @@ function DistributePage() {
       return userList;
     }, {} as Record<string, number>);
 
-    //MOCK PREVIOUS DATA; MULTIPLY GIVES by 2
-    const previousGifts = users.reduce((userList, user) => {
-      userList[user.address] = user.received_gifts.reduce(
-        (t, { tokens }) => t * 2 + tokens,
-        0
-      );
-      return userList;
-    }, {} as Record<string, number>);
-
-    const selectedVault = vaults.find(v => v.id === value.selectedVaultId);
-
     if (selectedVault && circle) {
+      const vaultAddress = await getYVault();
+
       // TODO: Determine if 18 is an appropriate value for the default precision
       const totalDistributionAmount = BigNumber.from(
         value.amount * selectedVault?.decimals ?? 18
       );
 
-      // Previous Distribution mock
-      const previousDistributionMock = createDistribution(
-        previousGifts,
-        totalDistributionAmount.mul(2)
-      );
-      const distribution = createDistribution(
-        gifts,
-        totalDistributionAmount,
-        previousDistributionMock
-      );
+      const distribution = createDistribution(gifts, totalDistributionAmount);
 
       try {
         await uploadEpochRoot(
           selectedVault.id,
-          utils.hexlify(circle.id),
-          selectedVault.tokenAddress,
+          utils.formatBytes32String(circle.id.toString()),
+          vaultAddress.toString(),
           distribution.merkleRoot,
           totalDistributionAmount,
-          utils.hexlify(0)
+          utils.hexlify(1)
         );
       } catch (e) {
         console.error(e);
@@ -243,6 +229,7 @@ function DistributePage() {
                           onChange={({ target: { value } }) => {
                             onChange(value);
                             setSelectedVaultId(String(value));
+                            setSelectedVault(vaults.find(v => v.id === value));
                           }}
                         >
                           {vaultOptions.map(vault => (
