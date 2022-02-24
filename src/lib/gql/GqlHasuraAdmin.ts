@@ -43,14 +43,16 @@ export class Gql {
     );
   }
 
-  async getCircle() {
+  async getCircle(id: number) {
     return this.q('query')({
       circles_by_pk: [
-        { id: 0 },
+        { id },
         {
           id: true,
           name: true,
           team_sel_text: true,
+          discord_webhook: true,
+          telegram_id: true,
           epochs: [
             { limit: 1 },
             {
@@ -261,6 +263,65 @@ export class Gql {
       ],
     });
   }
+
+  async getNominee(id: number) {
+    return this.q('query')({
+      nominees_by_pk: [
+        { id },
+        {
+          name: true,
+          circle_id: true,
+          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      ],
+    });
+  }
+
+  async getExpiredNominees() {
+    return this.q('query')({
+      nominees: [
+        {
+          where: {
+            ended: {
+              _eq: false,
+            },
+            expiry_date: { _lte: new Date() },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          circle_id: true,
+          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      ],
+    });
+  }
+
+  async updateExpiredNominees(idList: number[]) {
+    return this.q('mutation')({
+      update_nominees: [
+        {
+          _set: {
+            ended: true,
+          },
+          where: {
+            id: {
+              _in: idList,
+            },
+          },
+        },
+        {
+          affected_rows: true,
+          returning: {
+            name: true,
+            expiry_date: true,
+          },
+        },
+      ],
+    });
+  }
+
   async insertCircleWithAdmin(
     circleInput: any,
     userAddress: string,

@@ -96,7 +96,8 @@
     "typecheck": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "figma-colors": "node ./scripts/tsrun.mjs ./scripts/update-figma-colors.ts"
   },
   "lint-staged": {
     "{api,src}/**/*.{js,ts,tsx}": [
@@ -173,6 +174,7 @@
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.2.0",
     "execa": "6.0.0",
+    "figma-api": "1.9.2",
     "http-browserify": "1.7.0",
     "https-browserify": "1.0.0",
     "husky": "4.3.8",

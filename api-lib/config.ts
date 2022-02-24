@@ -30,6 +30,10 @@ export const NODE_HASURA_URL = <string>(
 export const LOCAL_SEED_ADDRESS = <string>(
     getEnvValue('LOCAL_SEED_ADDRESS', 'missing')
 );
+export const TELEGRAM_BOT_BASE_URL = `https://api.telegram.org/bot${getEnvValue(
+  'TELEGRAM_BOT_TOKEN',
+  ''
+)}`;
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
 export const HASURA_EVENT_SECRET = <string>getEnvValue('HASURA_EVENT_SECRET');
