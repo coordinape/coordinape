@@ -7,7 +7,7 @@ import { AllocateFundsCard, AllocateFundsCardProps } from './AllocateFundsCard';
 
 import { IEpoch } from 'types';
 
-const epoch: IEpoch = {
+export const epoch: IEpoch = {
   id: 1,
   number: 2,
   start_date: '2021-10-07T00:55:35',
