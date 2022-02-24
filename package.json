@@ -86,7 +86,7 @@
     "hardhat:deploy": "yarn --cwd hardhat deploy",
     "hardhat:install": "yarn --cwd hardhat install",
     "hardhat:test": "yarn --cwd hardhat test",
-    "test": "craco test",
+    "test": "./hardhat/scripts/start-ganache.sh --deploy --exec craco test",
     "test:ci": "./hardhat/scripts/start-ganache.sh --exec ./scripts/ci.sh",
     "eject": "craco eject",
     "format:staged": "lint-staged",

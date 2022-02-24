@@ -18,6 +18,7 @@ VERBOSE=$HARDHAT_GANACHE_VERBOSE
 EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
+  -d|--deploy) DEPLOY=1;;
   -p|--port) PORT="$2"; shift;;
   -v|--verbose) VERBOSE=1;;
   *) EXECARGS+=($1);;
@@ -70,6 +71,10 @@ else
 
   # Kill the testnet when this script exits
   trap "kill $PID" EXIT
+
+  if [ "$DEPLOY" ]; then
+    yarn --cwd hardhat deploy --network ci
+  fi
 
   if [ "$EXEC" ]; then
     # Run the command given
