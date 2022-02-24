@@ -9,9 +9,9 @@ import { knownTokens } from 'config/networks';
 import { useContracts } from 'hooks/useContracts';
 import { InfoIcon } from 'icons';
 
+import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
 import EditModal from './EditModal';
-import AllocateModal from './NewAllocateModal';
 import WithdrawModal from './WithdrawModal';
 
 import { IEpoch, ITableColumn, IVault, IVaultTransaction } from 'types';
@@ -185,6 +185,7 @@ interface HasVaultsProps {
 export default function HasVaults({ epochs, vault }: HasVaultsProps) {
   const classes = useStyles();
   const [modal, setModal] = useState<ModalLabel>('');
+  const [selectedEpoch, setSelectEpoch] = useState<IEpoch>();
   const closeModal = () => setModal('');
   const contracts = useContracts();
   const vaultContract = useMemo(
@@ -211,8 +212,8 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
 
   return (
     <div className={classes.withVaults}>
-      {modal === 'allocate' ? (
-        <AllocateModal onClose={closeModal} />
+      {modal === 'allocate' && selectedEpoch ? (
+        <AllocateModal epoch={selectedEpoch} onClose={closeModal} />
       ) : modal === 'edit' ? (
         <EditModal onClose={closeModal} />
       ) : modal === 'withdraw' ? (
@@ -259,7 +260,10 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
       </div>
       <EpochsTable
         epochs={epochs}
-        allocate={() => setModal('allocate')}
+        allocate={(e: IEpoch) => {
+          setSelectEpoch(e);
+          setModal('allocate');
+        }}
         edit={() => setModal('edit')}
         tokenSymbol={vault.type.toUpperCase()}
       />
@@ -273,7 +277,7 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
 
 interface EpochsTableProps {
   epochs: IEpoch[];
-  allocate: () => void;
+  allocate: (e: IEpoch) => void;
   edit: () => void;
   tokenSymbol: string;
 }
@@ -336,7 +340,7 @@ const EpochsTable = ({
             variant="contained"
             color="primary"
             size="small"
-            onClick={allocate}
+            onClick={() => allocate(e)}
           >
             Allocate&nbsp;Funds
           </Button>

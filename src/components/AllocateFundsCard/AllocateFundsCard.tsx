@@ -3,11 +3,12 @@ import React from 'react';
 import { CSS } from '../../stitches.config';
 import { Box, Checkbox, Text, TextFieldFund } from '../../ui';
 
+import { IEpoch } from 'types';
+
 //#region Interfaces & Types
 
 export interface AllocateFundsCardProps {
-  epoch: string;
-  period: string;
+  epoch: IEpoch;
   fundsAvailable: number;
   recurringLabel: string;
   onChange(value: number): void;
@@ -19,9 +20,10 @@ export interface AllocateFundsCardProps {
 //#endregion Interfaces
 
 //#region Organisms
-export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
-  props
-): JSX.Element => {
+export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = ({
+  epoch,
+  ...props
+}): JSX.Element => {
   const [isRecurringFund, setIsRecurringFund] = React.useState<boolean>(false);
 
   return (
@@ -57,7 +59,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        {props.epoch}
+        {epoch.labelGraph}
       </Text>
       <Text
         css={{
@@ -71,7 +73,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        {props.period}
+        {epoch.labelDayRange}
       </Text>
       <Text
         css={{
@@ -84,7 +86,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           },
         }}
       >
-        (Repeats {props.recurringLabel})
+        (Repeats {epoch.repeatEnum})
       </Text>
       <Box
         css={{
@@ -108,7 +110,7 @@ export const AllocateFundsCard: React.FC<AllocateFundsCardProps> = (
           <Checkbox
             checked={isRecurringFund}
             onCheckedChange={setIsRecurringFund}
-            label={`Fund ${props.recurringLabel}`}
+            label={`Fund ${epoch.repeatEnum}`}
           />
         </Box>
       </Box>
