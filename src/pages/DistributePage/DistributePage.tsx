@@ -109,69 +109,33 @@ function DistributePage() {
     }
   };
 
-  if (!currentUser.isCircleAdmin || currentUser.role < 1) {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message="Sorry, you are not a circle admin so you can't access this feature."
-      />
-    );
-  }
+  const pageMessage = () => {
+    if (isLoading) return 'Loading...';
+    if (!epoch) return `Sorry, epoch ${epochId} was not found.`;
+    if (!data?.epochs_by_pk) return `Sorry, Epoch ${epochId} was not found.`;
 
-  if (!data?.epochs_by_pk) {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message={`Sorry, Epoch ${epochId} was not found.`}
-      />
-    );
-  }
+    if (!currentUser.isCircleAdmin || currentUser.role < 1)
+      return "Sorry, you are not a circle admin so you can't access this feature.";
 
-  if (isLoading) {
-    return <ShowMessage path={paths.getVaultsPath()} message="Loading..." />;
-  }
+    if (isError)
+      return 'Sorry, there was an error retrieving your epoch information.';
 
-  if (isError) {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message="Sorry, there was an error retrieving your epoch information."
-      />
-    );
-  }
+    if (!epoch?.ended)
+      return `Sorry, ${circle?.name}: Epoch ${epoch?.number} is still active. You can only distribute epochs that have ended.`;
 
-  if (!epoch) {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message={`Sorry, epoch ${epochId} was not found.`}
-      />
-    );
-  }
+    if (!vaults?.length)
+      return 'No vaults have been associated with your address. Please create a vault.';
+  };
 
-  if (!epoch?.ended) {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message={`Sorry, ${circle?.name}: Epoch ${epoch?.number} is still active. You can only distribute epochs that have ended.`}
-      />
-    );
-  }
+  const message = pageMessage();
+  if (message)
+    return <ShowMessage path={paths.getVaultsPath()} message={message} />;
 
-  if (vaults?.length > 0) {
-    vaultOptions = vaults.map((vault, index) => ({
-      value: index,
-      label: vault.type,
-      id: vault.id,
-    }));
-  } else {
-    return (
-      <ShowMessage
-        path={paths.getVaultsPath()}
-        message="No vaults have been associated with your address. Please create a vault."
-      />
-    );
-  }
+  vaultOptions = vaults.map((vault, index) => ({
+    value: index,
+    label: vault.type,
+    id: vault.id,
+  }));
 
   return (
     <Box
