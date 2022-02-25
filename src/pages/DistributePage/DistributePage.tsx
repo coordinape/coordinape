@@ -113,7 +113,7 @@ function DistributePage() {
     return (
       <ShowMessage
         path={paths.getVaultsPath()}
-        message="Sorry, you are not a circle admin so you can't userListess this feature."
+        message="Sorry, you are not a circle admin so you can't access this feature."
       />
     );
   }
@@ -135,7 +135,7 @@ function DistributePage() {
     return (
       <ShowMessage
         path={paths.getVaultsPath()}
-        message="Sorry, there was an error retreiving your epoch information."
+        message="Sorry, there was an error retrieving your epoch information."
       />
     );
   }
