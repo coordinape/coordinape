@@ -116,6 +116,7 @@ const AllocationTable = ({
         filter={filterUser}
         sortable
         placeholder={<h2>No users have been added.</h2>}
+        initialSortOrder={{ field: 2, ascending: -1 }}
       />
     </>
   );
