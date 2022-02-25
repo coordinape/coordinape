@@ -13,7 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useApeDistributor, useVaultWrapper } from 'hooks';
+import { useApeDistributor, useApeSnackbar, useVaultWrapper } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
@@ -41,6 +41,7 @@ function DistributePage() {
   const { uploadEpochRoot } = useApeDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { getYVault } = useVaultWrapper(selectedVault as IVault);
+  const { apeError } = useApeSnackbar();
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
   const { myUser: currentUser } = useCircle(
@@ -73,21 +74,22 @@ function DistributePage() {
     if (!users) throw new Error('No users found');
 
     const gifts = users.reduce((userList, user) => {
-      userList[user.address] = user.received_gifts.reduce(
+      const amount = user.received_gifts.reduce(
         (t, { tokens }) => t + tokens,
         0
       );
+      if (amount > 0) userList[user.address] = amount;
       return userList;
     }, {} as Record<string, number>);
 
     assert(selectedVault && circle);
-    const vaultAddress = await getYVault();
-    const totalDistributionAmount = BigNumber.from(
-      value.amount * selectedVault.decimals
+    const totalDistributionAmount = BigNumber.from(value.amount).mul(
+      BigNumber.from(10).pow(selectedVault.decimals)
     );
-    const distribution = createDistribution(gifts, totalDistributionAmount);
 
     try {
+      const vaultAddress = await getYVault();
+      const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
         selectedVault.id,
         utils.formatBytes32String(circle.id.toString()),
@@ -99,9 +101,11 @@ function DistributePage() {
 
       if (trx) {
         setLoadingTrx(false);
+        console.log(trx); // eslint-disable-line
       }
     } catch (e) {
       console.error(e);
+      apeError(e);
       setLoadingTrx(false);
     }
   };

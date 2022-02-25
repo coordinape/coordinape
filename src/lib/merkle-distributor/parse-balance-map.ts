@@ -54,7 +54,7 @@ export function parseBalanceMap(
     if (memo[parsed]) throw new Error(`Duplicate address: ${parsed}`);
     const parsedNum = BigNumber.from(earnings);
     if (parsedNum.lte(0))
-      throw new Error(`Invalid amount for account: ${account}`);
+      throw new Error(`Invalid amount for account ${account}: "${earnings}"`);
 
     memo[parsed] = { amount: parsedNum };
     return memo;
