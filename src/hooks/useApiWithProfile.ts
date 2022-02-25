@@ -3,7 +3,7 @@
 import { getGql } from 'lib/gql';
 
 import { fileToBase64 } from '../lib/base64';
-import { REACT_APP_HASURA_URL } from 'config/env';
+import { REACT_APP_HASURA_URL, HASURA_ENABLED } from 'config/env';
 import { useApiBase } from 'hooks';
 import { getApiService, getAuthToken } from 'services/api';
 
@@ -48,7 +48,11 @@ export const useApiWithProfile = () => {
     () => async (newAvatar: File) => {
       // TODO: ideally we would use useTypedMutation instead of this but I couldn't get the variables to work w/ mutation -CryptoGraffe
       const image_data_base64 = await fileToBase64(newAvatar);
-      await api.updateProfileAvatar(image_data_base64);
+      if (HASURA_ENABLED) {
+        await api.updateProfileAvatar(image_data_base64);
+      } else {
+        await getApiService().uploadAvatar(newAvatar);
+      }
       await fetchManifest();
     },
     []
@@ -57,7 +61,11 @@ export const useApiWithProfile = () => {
   const updateBackground = useRecoilLoadCatch(
     () => async (newAvatar: File) => {
       const image_data_base64 = await fileToBase64(newAvatar);
-      await api.updateProfileBackground(image_data_base64);
+      if (HASURA_ENABLED) {
+        await api.updateProfileBackground(image_data_base64);
+      } else {
+        await getApiService().uploadBackground(newAvatar);
+      }
       await fetchManifest();
     },
     []
