@@ -79,7 +79,7 @@ actions:
 - name: create_nominee
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTION_BASE_URL}}/create_nominee'
+    handler: '{{HASURA_API_BASE_URL}}/actions/create_nominee'
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
