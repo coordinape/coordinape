@@ -5,8 +5,12 @@ import {
   OperationOptions,
   chainOptions,
 } from 'lib/gql/zeusUser';
-import { useTypedQuery as _useTypedQuery } from 'lib/gql/zeusUser/reactQuery';
+import {
+  useTypedQuery as _useTypedQuery,
+  useTypedMutation as _useTypedMutation,
+} from 'lib/gql/zeusUser/reactQuery';
 import type { UseQueryOptions } from 'react-query';
+import { UseMutationOptions } from 'react-query';
 
 import { getAuthToken } from '../services/api';
 import { REACT_APP_HASURA_URL } from 'config/env';
@@ -27,6 +31,33 @@ export function useTypedQuery<
     queryKey,
     query,
     { ...options, suspense: true },
+    zeusOptions,
+    REACT_APP_HASURA_URL,
+    {
+      ...hostOptions,
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + getAuthToken() },
+    }
+  );
+}
+
+// this isn't used yet, but it would be great to be able to use it
+// I couldn't figure out how to get it to work with variables -CryptoGraffe
+export function useTypedMutation<
+  O extends 'mutation_root',
+  TData extends ValueTypes[O],
+  TResult = InputType<GraphQLTypes[O], TData>
+>(
+  mutationKey: string | unknown[],
+  mutation: TData | ValueTypes[O],
+  options?: Omit<UseMutationOptions<TResult>, 'mutationKey' | 'mutationFn'>,
+  zeusOptions?: OperationOptions,
+  hostOptions: chainOptions[1] = {}
+) {
+  return _useTypedMutation(
+    mutationKey,
+    mutation,
+    options, // suspense not an option here
     zeusOptions,
     REACT_APP_HASURA_URL,
     {

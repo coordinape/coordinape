@@ -229,23 +229,6 @@ export class APIService {
     return response.data;
   };
 
-  postProfileUpload = async (file: File, endpoint: string) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await this.axios.post(`/v2/${endpoint}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  };
-
-  uploadAvatar = async (file: File): Promise<any> =>
-    this.postProfileUpload(file, 'upload-avatar');
-
-  uploadBackground = async (file: File): Promise<any> =>
-    this.postProfileUpload(file, 'upload-background');
-
   postTeammates = async (
     circleId: number,
     teammates: number[]
