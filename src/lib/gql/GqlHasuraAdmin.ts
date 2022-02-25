@@ -1,10 +1,4 @@
-import {
-  Thunder,
-  apiFetch,
-  ValueTypes,
-  profiles_constraint,
-  order_by,
-} from './zeusHasuraAdmin';
+import { Thunder, apiFetch, ValueTypes, order_by } from './zeusHasuraAdmin';
 
 type TGql = ReturnType<typeof Thunder>;
 
@@ -347,13 +341,6 @@ export class Gql {
     userAddress: string,
     coordinapeAddress: string
   ) {
-    const insertProfiles = {
-      objects: [{ address: userAddress }, { address: coordinapeAddress }],
-      on_conflict: {
-        constraint: profiles_constraint.profiles_address_key,
-        update_columns: [],
-      },
-    };
     const insertUsers = {
       data: [
         {
@@ -403,14 +390,6 @@ export class Gql {
           },
           circleReturn,
         ],
-        insert_profiles: [
-          insertProfiles,
-          {
-            returning: {
-              id: true,
-            },
-          },
-        ],
       });
       retVal = insert_circles_one;
     } else {
@@ -434,14 +413,6 @@ export class Gql {
               { limit: 1, order_by: [{ id: order_by.desc }] },
               circleReturn,
             ],
-          },
-        ],
-        insert_profiles: [
-          insertProfiles,
-          {
-            returning: {
-              id: true,
-            },
           },
         ],
       });

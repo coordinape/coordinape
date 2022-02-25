@@ -12,14 +12,24 @@ type OperationTypes = 'INSERT' | 'UPDATE' | 'DELETE' | 'MANUAL';
 // the parameter, but this doesn't exist for now.
 type RelationTypes =
   | 'burns'
+  | 'burns_aggregate'
   | 'circle_metadata'
   | 'circle'
   | 'gift_private'
+  | 'received_gifts'
+  | 'received_gifts_aggregate'
+  | 'pending_received_gifts'
+  | 'pending_received_gifts_aggregate'
+  | 'sent_gifts'
+  | 'sent_gifts_aggregate'
+  | 'pending_sent_gifts'
+  | 'pending_sent_gifts_aggregate'
   | 'epoch'
   | 'recipient'
   | 'sender'
   | 'nominator'
   | 'user'
+  | 'profile'
   | 'nominations'
   | 'nominations_aggregate'
   | 'vouches';
@@ -36,8 +46,14 @@ export interface EventTriggerPayload<
     session_variables: { [x: string]: string };
     op: O;
     data: {
-      old: O extends 'INSERT' | 'MANUAL'
-        ? null
+      old: O extends 'INSERT'
+        ? O extends 'UPDATE' | 'DELETE'
+          ? Omit<GraphQLTypes[G], RelationTypes> | null
+          : null
+        : O extends 'MANUAL'
+        ? O extends 'UPDATE' | 'DELETE'
+          ? Omit<GraphQLTypes[G], RelationTypes> | null
+          : null
         : Omit<GraphQLTypes[G], RelationTypes>;
       new: O extends 'DELETE' ? null : Omit<GraphQLTypes[G], RelationTypes>;
     };
