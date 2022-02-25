@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -79,33 +80,29 @@ function DistributePage() {
       return userList;
     }, {} as Record<string, number>);
 
-    if (selectedVault && circle) {
-      const vaultAddress = await getYVault();
+    assert(selectedVault && circle);
+    const vaultAddress = await getYVault();
+    const totalDistributionAmount = BigNumber.from(
+      value.amount * selectedVault.decimals
+    );
+    const distribution = createDistribution(gifts, totalDistributionAmount);
 
-      // TODO: Determine if 18 is an appropriate value for the default precision
-      const totalDistributionAmount = BigNumber.from(
-        value.amount * selectedVault?.decimals ?? 18
+    try {
+      const trx = await uploadEpochRoot(
+        selectedVault.id,
+        utils.formatBytes32String(circle.id.toString()),
+        vaultAddress.toString(),
+        distribution.merkleRoot,
+        totalDistributionAmount,
+        utils.hexlify(1)
       );
 
-      const distribution = createDistribution(gifts, totalDistributionAmount);
-
-      try {
-        const trx = await uploadEpochRoot(
-          selectedVault.id,
-          utils.formatBytes32String(circle.id.toString()),
-          vaultAddress.toString(),
-          distribution.merkleRoot,
-          totalDistributionAmount,
-          utils.hexlify(1)
-        );
-
-        if (trx) {
-          setLoadingTrx(false);
-        }
-      } catch (e) {
-        console.error(e);
+      if (trx) {
         setLoadingTrx(false);
       }
+    } catch (e) {
+      console.error(e);
+      setLoadingTrx(false);
     }
   };
 
