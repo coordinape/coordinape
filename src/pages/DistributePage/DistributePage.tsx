@@ -32,14 +32,13 @@ import { IAllocateUser, IVault } from 'types';
 function DistributePage() {
   // Route Parameters
   const { epochId } = useParams();
+  const [loadingTrx, setLoadingTrx] = useState(false);
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
   const { uploadEpochRoot } = useApeDistributor();
-  const [selectedVault, setSelectedVault] = useState<IVault | undefined>(
-    vaults[0] ?? undefined
-  );
+  const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { getYVault } = useVaultWrapper(selectedVault as IVault);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
@@ -69,6 +68,7 @@ function DistributePage() {
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
 
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
+    setLoadingTrx(true);
     if (!users) throw new Error('No users found');
 
     const gifts = users.reduce((userList, user) => {
@@ -90,7 +90,7 @@ function DistributePage() {
       const distribution = createDistribution(gifts, totalDistributionAmount);
 
       try {
-        await uploadEpochRoot(
+        const trx = await uploadEpochRoot(
           selectedVault.id,
           utils.formatBytes32String(circle.id.toString()),
           vaultAddress.toString(),
@@ -98,39 +98,61 @@ function DistributePage() {
           totalDistributionAmount,
           utils.hexlify(1)
         );
+
+        if (trx) {
+          setLoadingTrx(false);
+        }
       } catch (e) {
         console.error(e);
+        setLoadingTrx(false);
       }
     }
   };
 
   if (!currentUser.isCircleAdmin || currentUser.role < 1) {
     return (
-      <ShowMessage message="Sorry, you are not a circle admin so you can't userListess this feature." />
+      <ShowMessage
+        path={paths.getVaultsPath()}
+        message="Sorry, you are not a circle admin so you can't userListess this feature."
+      />
     );
   }
 
   if (!data?.epochs_by_pk) {
-    return <ShowMessage message={`Sorry, Epoch ${epochId} was not found.`} />;
+    return (
+      <ShowMessage
+        path={paths.getVaultsPath()}
+        message={`Sorry, Epoch ${epochId} was not found.`}
+      />
+    );
   }
 
   if (isLoading) {
-    return <ShowMessage message="Loading..." />;
+    return <ShowMessage path={paths.getVaultsPath()} message="Loading..." />;
   }
 
   if (isError) {
     return (
-      <ShowMessage message="Sorry, there was an error retreiving your epoch information." />
+      <ShowMessage
+        path={paths.getVaultsPath()}
+        message="Sorry, there was an error retreiving your epoch information."
+      />
     );
   }
 
   if (!epoch) {
-    return <ShowMessage message={`Sorry, epoch ${epochId} was not found.`} />;
+    return (
+      <ShowMessage
+        path={paths.getVaultsPath()}
+        message={`Sorry, epoch ${epochId} was not found.`}
+      />
+    );
   }
 
   if (!epoch?.ended) {
     return (
       <ShowMessage
+        path={paths.getVaultsPath()}
         message={`Sorry, ${circle?.name}: Epoch ${epoch?.number} is still active. You can only distribute epochs that have ended.`}
       />
     );
@@ -144,7 +166,10 @@ function DistributePage() {
     }));
   } else {
     return (
-      <ShowMessage message="No vaults have been associated with your address. Please create a vault." />
+      <ShowMessage
+        path={paths.getVaultsPath()}
+        message="No vaults have been associated with your address. Please create a vault."
+      />
     );
   }
 
@@ -226,6 +251,7 @@ function DistributePage() {
                           value={value}
                           label="Vault"
                           error={!!error}
+                          disabled={loadingTrx}
                           onChange={({ target: { value } }) => {
                             onChange(value);
                             setSelectedVaultId(String(value));
@@ -273,6 +299,7 @@ function DistributePage() {
                     error={!!error}
                     helperText={error ? error.message : null}
                     value={value}
+                    disabled={loadingTrx}
                     onChange={({ target: { value } }) => {
                       onChange(Number(value));
                     }}
@@ -287,7 +314,9 @@ function DistributePage() {
           </Box>
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
             <Button color="red" size="medium">
-              Submit Distribution to Vault
+              {loadingTrx
+                ? `Transaction Pending...`
+                : `Submit Distribution to Vault`}
             </Button>
           </Box>
         </form>
@@ -315,7 +344,10 @@ function DistributePage() {
               totalGive={totalGive}
             />
           ) : (
-            <ShowMessage message="No GIVE was allocated for this epoch" />
+            <ShowMessage
+              path={paths.getVaultsPath()}
+              message="No GIVE was allocated for this epoch"
+            />
           )}
         </Box>
       </Panel>
