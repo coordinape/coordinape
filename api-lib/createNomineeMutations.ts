@@ -2,52 +2,57 @@ import assert from 'assert';
 import { gql } from './Gql';
 
 export const getNomineeFromAddress = async (
-    address: string,
-    circleId: number
+  address: string,
+  circleId: number
 ) => {
-    const { nominees } = await gql.q('query')({
-        nominees: [
+  const { nominees } = await gql.q('query')({
+    nominees: [
+      {
+        where: {
+          _and: [
             {
-                where: {
-                    _and: [{
-                        address: { _eq: address }, circle_id: { _eq: circleId}, ended: { _eq: false },
-                    }]
-                }
+              address: { _eq: address },
+              circle_id: { _eq: circleId },
+              ended: { _eq: false },
             },
-            {
-                id: true
-            }
-        ]
-    })
+          ],
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
 
-    return nominees;
-}
+  return nominees;
+};
 
-export const getUserFromAddress = async (
-    address: string,
-    circleId: number
-) => {
-    const { users } = await gql.q('query')({
-        users: [
+export const getUserFromAddress = async (address: string, circleId: number) => {
+  const { users } = await gql.q('query')({
+    users: [
+      {
+        where: {
+          _and: [
             {
-                where: {
-                    _and: [{
-                       address: { _eq: address }, circle_id: { _eq: circleId}, deleted_at: { _is_null: true }
-                    }]
-                }
+              address: { _eq: address },
+              circle_id: { _eq: circleId },
+              deleted_at: { _is_null: true },
             },
-            {
-                id: true
-            }
-        ]
-    });
+          ],
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
 
-    return users;
-}
+  return users;
+};
 
 export const getUserFromProfileIdWithCircle = async (
-    profileId: number,
-    circleId: number
+  profileId: number,
+  circleId: number
 ) => {
   const { profiles_by_pk } = await gql.q('query')({
     profiles_by_pk: [
@@ -112,3 +117,4 @@ export const insertNominee = async (
 
   return insert_nominees_one;
 };
+
