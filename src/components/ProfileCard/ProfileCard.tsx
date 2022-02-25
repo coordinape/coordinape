@@ -181,11 +181,18 @@ const ProfileCardInner = ({
           {user.role === USER_ROLE_COORDINAPE && (
             <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
               <b>Why is Coordinape in my circle?</b>
-              <div>
-                To date Coordinape has offered our service for free. We decided
-                that using the gift circle mechanism as our revenue model might
-                make a lot of sense, so we’re trying that out.
-              </div>
+              {isMe ? (
+                <div>
+                  We’re experimenting with the gift circle mechanism as our
+                  revenue model.
+                </div>
+              ) : (
+                <div>
+                  We’re experimenting with the gift circle mechanism as our
+                  revenue model. By default Coordinape appears in your circle
+                  and any user can alllocate as normal to Coordinape.
+                </div>
+              )}
               <a
                 href={EXTERNAL_URL_FEEDBACK}
                 rel="noreferrer"
