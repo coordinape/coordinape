@@ -87,6 +87,26 @@ export class Gql {
     ).circles;
   }
 
+  async getCurrentEpoch(
+    circle_id: number
+  ): Promise<typeof currentEpoch | undefined> {
+    const {
+      epochs: [currentEpoch],
+    } = await this.q('query')({
+      epochs: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            end_date: { _gt: 'now()' },
+            start_date: { _lt: 'now()' },
+          },
+        },
+        { id: true },
+      ],
+    });
+    return currentEpoch;
+  }
+
   // TODO: This is a big problem if we can't trust the type checker.
   // Why is the type inference wrong here,
   // It could be undefined

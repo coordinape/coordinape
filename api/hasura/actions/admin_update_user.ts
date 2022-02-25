@@ -37,8 +37,18 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         {
           id: true,
           fixed_non_receiver: true,
+          non_receiver: true,
           starting_tokens: true,
           give_token_remaining: true,
+          pending_received_gifts: [
+            {},
+            {
+              epoch_id: true,
+              sender_id: true,
+              sender_address: true,
+              tokens: true,
+            },
+          ],
           circle: {
             epochs: [
               {
@@ -52,12 +62,15 @@ async function handler(request: VercelRequest, response: VercelResponse) {
               {
                 start_date: true,
                 end_date: true,
+                id: true,
               },
             ],
           },
         },
       ],
     });
+
+    console.error('user:', user);
 
     if (!user) {
       return response.status(422).json({
@@ -66,21 +79,53 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       });
     }
 
-    if (user.circle.epochs.length > 0) {
+    if (user.circle.epochs.length > 0 && input.starting_tokens) {
       return response.status(422).json({
         message: 'Cannot update starting tokens during an active epoch',
         code: '422',
       });
     }
 
+    // invariant: there can only be one active epoch in a circle
+    // at a given time.
+    const currentEpoch = user.circle.epochs.pop();
+
     // Update the state after all external validations have passed
+
+    // TODO possibly move this deletion to an event eventually
+    if (
+      currentEpoch &&
+      !user.non_receiver &&
+      (input.non_receiver || input.fixed_non_receiver)
+    ) {
+      const currentPendingGifts = user.pending_received_gifts.filter(
+        gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
+      );
+      console.error('epoch time!', currentEpoch, currentPendingGifts);
+
+      if (currentPendingGifts.length > 0) {
+        await gql.q('mutation')({
+          delete_pending_token_gifts: [
+            {
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                recipient_id: { _eq: user.id },
+              },
+            },
+            {},
+          ],
+        });
+      }
+    }
+
     const mutationResult = await gql.q('mutation')({
       update_users: [
         {
           _set: {
             ...input,
             // reset remaining tokens to starting tokens
-            give_token_remaining: input.starting_tokens,
+            give_token_remaining:
+              input.starting_tokens ?? user.give_token_remaining,
             // fixed_non_receiver === true is also set for non_receiver
             non_receiver: input.fixed_non_receiver || input.non_receiver,
           },
@@ -113,7 +158,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     const returnResult = mutationResult.update_users?.returning.pop();
     assert(returnResult, 'No return from mutation');
-    return response.status(200).json(returnResult);
+
+    response.status(200).json(returnResult);
+    return;
   } catch (err) {
     if (err instanceof z.ZodError) {
       response.status(422).json({
@@ -126,6 +173,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     // throw unexpected errors to be caught by the outer 500-level response
     throw err;
   }
+
+  // TODO add profile upsert as event trigger
 }
 
 export default authCircleAdminMiddleware(handler);

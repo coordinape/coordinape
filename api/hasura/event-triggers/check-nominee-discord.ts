@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { EventTriggerPayload } from '../types';
 
 import handleCheckNomineeMsg from './utils/handleCheckNomineeMsg';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const payload: EventTriggerPayload = req.body;
+    const payload: EventTriggerPayload<'nominees', 'UPDATE'> = req.body;
     const sent = await handleCheckNomineeMsg(payload, { discord: true });
     res
       .status(200)
