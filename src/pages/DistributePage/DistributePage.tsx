@@ -338,8 +338,9 @@ function DistributePage() {
               users={users as IAllocateUser[]}
               totalAmountInVault={updateAmount}
               tokenName={
-                vaults.find(vault => vault.id === selectedVaultId)?.type ??
-                'NO VAULT'
+                selectedVaultId
+                  ? vaults.find(vault => vault.id === selectedVaultId)?.type
+                  : undefined
               }
               totalGive={totalGive}
             />
