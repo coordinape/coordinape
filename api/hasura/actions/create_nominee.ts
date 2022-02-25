@@ -24,14 +24,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     } = composeHasuraActionRequestBody(createNomineeSchemaInput).parse(
       req.body
     );
+    const { circle_id, address, name, description } = input;
+
     if (sessionVariables.hasuraRole !== 'admin') {
-      const { circle_id } = input;
       const profileId = sessionVariables.hasuraProfileId;
 
       // check if nominator is from the same circle
       const user = await getUserFromProfileIdWithCircle(profileId, circle_id);
       assert(user);
-
+      const { circle } = user;
       // check if address already exists in the circle
       const users = await getUserFromAddress(input.address, circle_id);
       if (users.length) {
@@ -52,11 +53,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const nominee = await insertNominee(
         user.id,
         circle_id,
-        input.address,
-        input.name,
-        input.description,
-        user.circle.nomination_days_limit,
-        user.circle.min_vouches
+        address,
+        name,
+        description,
+        circle.nomination_days_limit,
+        circle.min_vouches
       );
       return res.status(200).json(nominee);
     }
