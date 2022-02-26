@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+// import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
 import { ErrorResponse } from '../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../api-lib/images';
@@ -10,7 +11,7 @@ import {
   uploadCircleImageInput,
 } from '../../../src/lib/zod';
 
-export default async function (req: VercelRequest, res: VercelResponse) {
+const handler = async function (req: VercelRequest, res: VercelResponse) {
   const {
     input: { object: input },
     // session_variables: sessionVariables,
@@ -35,7 +36,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   } catch (e: any) {
     return ErrorResponse(res, e);
   }
-}
+};
 
 async function getPreviousLogo(id: number): Promise<string | undefined> {
   const { circles_by_pk } = await gql.q('query')({
@@ -73,5 +74,6 @@ function logoUpdater(id: number) {
   };
 }
 
-// TODO: this does not work and I'm not sure why
-//export default authCircleAdminMiddleware(handler);
+export default handler;
+// TODO: this throws a 401 error even tho I am circle admin, so I can't enable it -Graffe
+// export default authCircleAdminMiddleware(handler);
