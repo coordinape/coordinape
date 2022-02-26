@@ -454,6 +454,8 @@ export type ValueTypes = {
   };
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
     circle_id?: boolean;
     data?: [
       {
@@ -529,6 +531,7 @@ export type ValueTypes = {
     _and?: ValueTypes['circle_integrations_bool_exp'][];
     _not?: ValueTypes['circle_integrations_bool_exp'] | null;
     _or?: ValueTypes['circle_integrations_bool_exp'][];
+    circle?: ValueTypes['circles_bool_exp'] | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | null;
     data?: ValueTypes['json_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
@@ -544,6 +547,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "circle_integrations" */
   ['circle_integrations_insert_input']: {
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | null;
     circle_id?: ValueTypes['bigint'] | null;
     data?: ValueTypes['json'] | null;
     id?: ValueTypes['bigint'] | null;
@@ -596,6 +600,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | null;
     circle_id?: ValueTypes['order_by'] | null;
     data?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
@@ -7740,6 +7745,8 @@ export type ModelTypes = {
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
     data: ModelTypes['json'];
     id: ModelTypes['bigint'];
@@ -11234,6 +11241,8 @@ export type GraphQLTypes = {
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
     __typename: 'circle_integrations';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     data: GraphQLTypes['json'];
     id: GraphQLTypes['bigint'];
@@ -11297,6 +11306,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
     _not?: GraphQLTypes['circle_integrations_bool_exp'];
     _or?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
+    circle?: GraphQLTypes['circles_bool_exp'];
     circle_id?: GraphQLTypes['bigint_comparison_exp'];
     data?: GraphQLTypes['json_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
@@ -11312,6 +11322,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "circle_integrations" */
   ['circle_integrations_insert_input']: {
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'];
     circle_id?: GraphQLTypes['bigint'];
     data?: GraphQLTypes['json'];
     id?: GraphQLTypes['bigint'];
@@ -11364,6 +11375,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'];
     circle_id?: GraphQLTypes['order_by'];
     data?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
@@ -16816,6 +16828,7 @@ export const enum users_update_column {
 /** unique or primary key constraints on table "vouches" */
 export const enum vouches_constraint {
   vouches_pkey = 'vouches_pkey',
+  vouches_unique = 'vouches_unique',
 }
 /** select columns of table "vouches" */
 export const enum vouches_select_column {
