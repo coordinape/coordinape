@@ -70,8 +70,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     });
 
-    console.error('user:', user);
-
     if (!user) {
       return response.status(422).json({
         message: `User with address ${address} does not exist`,
@@ -101,7 +99,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       const currentPendingGifts = user.pending_received_gifts.filter(
         gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
       );
-      console.error('epoch time!', currentEpoch, currentPendingGifts);
 
       if (currentPendingGifts.length > 0) {
         await gql.q('mutation')({
@@ -112,7 +109,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
                 recipient_id: { _eq: user.id },
               },
             },
-            {},
+            { __typename: true },
           ],
         });
       }
@@ -173,8 +170,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     // throw unexpected errors to be caught by the outer 500-level response
     throw err;
   }
-
-  // TODO add profile upsert as event trigger
 }
 
 export default authCircleAdminMiddleware(handler);
