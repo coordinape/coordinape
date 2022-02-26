@@ -1,5 +1,6 @@
 export * from './useRecoilLoadCatch';
 export * from './useAllocation';
+export * from './useApeDistributor';
 export * from './useApeSnackbar';
 export * from './usePrevious';
 export * from './useDeepChangeEffect';
@@ -10,3 +11,4 @@ export * from './useApiWithProfile';
 export * from './useNavigation';
 export * from './useImageUploader';
 export * from './useMediaQuery';
+export * from './useVaultWrapper';
