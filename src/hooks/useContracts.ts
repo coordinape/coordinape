@@ -9,7 +9,7 @@ import { Contracts } from 'services/contracts';
 // FIXME: DRY
 const SUPPORTED_CHAIN_IDS = [4, 1337];
 
-function useContracts(): Contracts | undefined {
+export function useContracts(): Contracts | undefined {
   const { library, active, chainId } = useWeb3React<Web3Provider>();
 
   return useMemo((): Contracts | undefined => {
@@ -18,5 +18,3 @@ function useContracts(): Contracts | undefined {
     return Contracts.fromNetwork(chainId as NetworkId, library.getSigner());
   }, [active, library, chainId]);
 }
-
-export { useContracts };
