@@ -70,7 +70,7 @@ export function getGql(url: string, getToken: () => string | undefined) {
           {
             object: {
               image_data_base64: $`image_data_base64`,
-              id: $`circleId`,
+              circle_id: $`circleId`,
             },
           },
           { id: true },

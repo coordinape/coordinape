@@ -7678,7 +7678,7 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   upload_circle_image_input: {
-    id: {
+    circle_id: {
       type: 'Int',
       array: false,
       arrayRequired: false,
