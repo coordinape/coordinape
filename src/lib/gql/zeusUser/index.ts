@@ -2440,7 +2440,7 @@ export type ValueTypes = {
     __typename?: boolean;
   }>;
   ['upload_circle_image_input']: {
-    id: number;
+    circle_id: number;
     image_data_base64: string;
   };
   ['upload_image_input']: {
@@ -5629,7 +5629,7 @@ export type GraphQLTypes = {
     profile: GraphQLTypes['profiles'];
   };
   ['upload_circle_image_input']: {
-    id: number;
+    circle_id: number;
     image_data_base64: string;
   };
   ['upload_image_input']: {
