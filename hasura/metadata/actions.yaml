@@ -25,6 +25,10 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/upload_circle_logo'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: superadmin
   - role: user
@@ -32,6 +36,10 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/upload_profile_avatar'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
   - role: superadmin
@@ -39,6 +47,10 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/upload_profile_background'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
   - role: superadmin
