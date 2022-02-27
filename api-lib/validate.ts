@@ -18,7 +18,6 @@ export const verifyHasuraRequestMiddleware = (handler: VercelApiHandler) => {
     try {
       await handler(req, res);
     } catch (error: any) {
-      console.error(error);
       res.status(500).json({
         code: '500',
         message: 'internal error: ' + error,
