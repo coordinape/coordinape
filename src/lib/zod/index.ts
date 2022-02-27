@@ -45,7 +45,7 @@ export const uploadImageInput = z
 
 export const uploadCircleImageInput = z
   .object({
-    id: z.number(),
+    circle_id: z.number(),
     image_data_base64: z.string(),
   })
   .strict();

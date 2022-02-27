@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
+import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
 import { ErrorResponse } from '../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../api-lib/images';
@@ -21,11 +21,11 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
   ).parse(req.body);
 
   try {
-    const previousLogo = await getPreviousLogo(input.id);
+    const previousLogo = await getPreviousLogo(input.circle_id);
 
     const updater = new ImageUpdater<{ id: number }>(
       resizeCircleLogo,
-      logoUpdater(input.id)
+      logoUpdater(input.circle_id)
     );
 
     const updatedProfile = await updater.uploadImage(
@@ -74,6 +74,4 @@ function logoUpdater(id: number) {
   };
 }
 
-export default handler;
-// TODO: this throws a 401 error even tho I am circle admin, so I can't enable it -Graffe
-// export default authCircleAdminMiddleware(handler);
+export default authCircleAdminMiddleware(handler);
