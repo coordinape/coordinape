@@ -1,12 +1,14 @@
+import { useMemo } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField } from 'components';
-import AdminVaultForm from 'forms/AdminVaultForm';
+import { FormModal, FormTokenField } from 'components';
+import SingleTokenForm from 'forms/SingleTokenForm';
 import { MinusCircleIcon } from 'icons';
 
-import { IUser } from 'types';
+import { IUser, IVault } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -38,17 +40,25 @@ const useStyles = makeStyles(theme => ({
 interface WithdrawModalProps {
   onClose: () => void;
   user?: IUser;
+  vault: IVault;
 }
 
-export default function WithdrawModal({ onClose }: WithdrawModalProps) {
+export default function WithdrawModal({ onClose, vault }: WithdrawModalProps) {
   const classes = useStyles();
   const navigate = useNavigate();
+  const max = 100; // TODO get the real balance of the vault
 
-  //   TODO: Pull in real data to populate FormTextField label and update value
+  const source = useMemo(
+    () => ({
+      starting: 0,
+      balance: max,
+    }),
+    [vault]
+  );
 
   return (
-    <AdminVaultForm.FormController
-      source={undefined}
+    <SingleTokenForm.FormController
+      source={source}
       hideFieldErrors
       submit={params => {
         console.warn('todo:', params);
@@ -59,24 +69,25 @@ export default function WithdrawModal({ onClose }: WithdrawModalProps) {
       {({ fields, handleSubmit, changedOutput }) => (
         <FormModal
           onClose={onClose}
-          title={'Withdraw USDC from the Coordinape Vault'}
+          title={`Withdraw ${vault.type.toUpperCase()}`}
           subtitle={''}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"
           icon={<MinusCircleIcon />}
-          submitText={`Withdraw USDC`}
+          submitText="Withdraw"
         >
           <div className={classes.oneColumn}>
-            <FormTextField
-              {...fields.token}
-              InputProps={{ startAdornment: 'MAX', endAdornment: 'USDC' }}
-              label="Available: 264,600 USDC"
-              apeVariant="token"
+            <FormTokenField
+              {...fields.amount}
+              max={max}
+              symbol={vault.type}
+              decimals={vault.decimals}
+              label={`Max: ${max} ${vault.type.toUpperCase()}`}
             />
           </div>
         </FormModal>
       )}
-    </AdminVaultForm.FormController>
+    </SingleTokenForm.FormController>
   );
 }

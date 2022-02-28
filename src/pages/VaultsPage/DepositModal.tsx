@@ -61,6 +61,7 @@ export default function DepositModal({
     depositToken(vault, _amount).then(({ error }) => {
       if (error) return;
 
+      // TODO update balance automatically
       showInfo(
         'Deposit succeeded. Reload page to see updated balance. (TODO: update automatically)'
       );

@@ -11,7 +11,6 @@ import { InfoIcon } from 'icons';
 
 import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
-import EditModal from './EditModal';
 import WithdrawModal from './WithdrawModal';
 
 import { IEpoch, ITableColumn, IVault, IVaultTransaction } from 'types';
@@ -214,10 +213,8 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
     <div className={classes.withVaults}>
       {modal === 'allocate' && selectedEpoch ? (
         <AllocateModal epoch={selectedEpoch} onClose={closeModal} />
-      ) : modal === 'edit' ? (
-        <EditModal onClose={closeModal} />
       ) : modal === 'withdraw' ? (
-        <WithdrawModal onClose={closeModal} />
+        <WithdrawModal vault={vault} onClose={closeModal} />
       ) : modal === 'deposit' ? (
         <DepositModal vault={vault} onClose={closeModal} />
       ) : null}
