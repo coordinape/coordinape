@@ -1,5 +1,6 @@
 import { act, render } from '@testing-library/react';
 
+import { HARDHAT_CHAIN_ID } from 'config/env';
 import { TestWrapper } from 'utils/testing';
 
 import { useContracts } from './useContracts';
@@ -26,7 +27,7 @@ test('set up contracts', async () => {
   const Harness = () => {
     const contracts = useContracts();
     if (contracts) {
-      expect(contracts.networkId).toEqual(1337);
+      expect(contracts.networkId).toEqual(HARDHAT_CHAIN_ID);
     }
     return <></>;
   };

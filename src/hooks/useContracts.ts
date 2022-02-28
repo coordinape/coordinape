@@ -3,11 +3,13 @@ import { useMemo } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
+import { HARDHAT_CHAIN_ID } from 'config/env';
 import { NetworkId } from 'config/networks';
 import { Contracts } from 'services/contracts';
 
-// FIXME: DRY
-const SUPPORTED_CHAIN_IDS = [4, 1337];
+// FIXME: this should be derived from what's present in the hardhat package's
+// deployment info
+const SUPPORTED_CHAIN_IDS = [4, HARDHAT_CHAIN_ID];
 
 export function useContracts(): Contracts | undefined {
   const { library, active, chainId } = useWeb3React<Web3Provider>();

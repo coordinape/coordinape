@@ -15,6 +15,7 @@ import {
   FORKED_BLOCK,
   FORK_MAINNET,
   GANACHE_URL,
+  HARDHAT_CHAIN_ID,
 } from './constants';
 
 export async function unlockSigner(
@@ -102,7 +103,7 @@ const hardhatNetwork = {
   gas: 'auto' as const,
   gasPrice: 'auto' as const,
   gasMultiplier: 1,
-  chainId: 1337,
+  chainId: HARDHAT_CHAIN_ID,
   accounts: {
     mnemonic: 'coordinape',
   },

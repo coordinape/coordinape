@@ -6,6 +6,8 @@ import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
 import { RecoilRoot } from 'recoil';
 
+import { HARDHAT_CHAIN_ID } from 'config/env';
+
 type TestWrapperProps = {
   children: ReactElement;
   getLibrary?: (provider: any) => any; // FIXME
@@ -15,7 +17,9 @@ type TestWrapperProps = {
 const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
 
 const connector = new NetworkConnector({
-  urls: { 1337: `http://localhost:${process.env.HARDHAT_GANACHE_PORT}` },
+  urls: {
+    [HARDHAT_CHAIN_ID]: `http://localhost:${process.env.HARDHAT_GANACHE_PORT}`,
+  },
 });
 
 const Web3Activator = ({

@@ -37,3 +37,5 @@ export const REACT_APP_HASURA_URL = getEnvValue(
 );
 
 export const HASURA_ENABLED = process.env.REACT_APP_HASURA_ENABLED === 'true';
+
+export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);

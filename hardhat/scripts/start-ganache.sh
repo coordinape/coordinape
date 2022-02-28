@@ -11,6 +11,7 @@ if [ -f "$DOTENV_FILE" ]; then
   export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
 fi
 
+CHAIN_ID=${HARDHAT_CHAIN_ID:-1337}
 PORT=$HARDHAT_GANACHE_PORT
 VERBOSE=$HARDHAT_GANACHE_VERBOSE
 
@@ -44,6 +45,7 @@ else
 
   GANACHE_ARGS=(
     $SCRIPT_DIR/../node_modules/.bin/ganache
+      --chain.chainId $CHAIN_ID
       --port $PORT
       --mnemonic coordinape
       --fork.url $ETHEREUM_RPC_URL
