@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import { getToken, knownTokens, TAssetEnum } from 'config/networks';
+import { knownTokens, TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
@@ -31,7 +31,7 @@ export function useVaultFactory() {
     }
 
     try {
-      const { apeVaultFactory: factory, networkId } = contracts;
+      const { apeVaultFactory: factory, getToken } = contracts;
       assert(
         type !== 'OTHER' || simpleTokenAddress,
         'type is OTHER but no simple token address given; this should have been caught in form validation'
@@ -40,7 +40,7 @@ export function useVaultFactory() {
       const args: [string, string] =
         type === 'OTHER'
           ? [ZERO_ADDRESS, simpleTokenAddress as string]
-          : [getToken(networkId, type).address, ZERO_ADDRESS];
+          : [getToken(type).address, ZERO_ADDRESS];
 
       const tx = await factory.createApeVault(...args);
       apeInfo('transaction sent');

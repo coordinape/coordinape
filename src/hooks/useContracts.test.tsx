@@ -1,3 +1,4 @@
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import { act, render } from '@testing-library/react';
 
 import { HARDHAT_CHAIN_ID } from 'config/env';
@@ -27,7 +28,31 @@ test('set up contracts', async () => {
   const Harness = () => {
     const contracts = useContracts();
     if (contracts) {
-      expect(contracts.networkId).toEqual(HARDHAT_CHAIN_ID);
+      expect(contracts.chainId).toEqual(HARDHAT_CHAIN_ID);
+    }
+    return <></>;
+  };
+
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <Harness />
+      </TestWrapper>
+    );
+  });
+});
+
+test('getToken', async () => {
+  expect.assertions(2);
+
+  const Harness = () => {
+    const contracts = useContracts();
+    if (contracts) {
+      const dai = contracts.getToken('DAI');
+      expect(dai).toBeDefined();
+      expect(dai.address).toEqual(
+        (deploymentInfo as any)[HARDHAT_CHAIN_ID].DAI.address
+      );
     }
     return <></>;
   };

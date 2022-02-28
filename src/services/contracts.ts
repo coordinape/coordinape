@@ -15,12 +15,12 @@ import {
 } from '@coordinape/hardhat/dist/typechain';
 import * as ethers from 'ethers';
 
-import { getToken, NetworkId } from 'config/networks';
-
 type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 
+export const supportedChainIds: number[] =
+  Object.keys(deploymentInfo).map(Number);
+
 export class Contracts {
-  usdc: ERC20;
   apeToken: ApeToken;
   apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
@@ -28,32 +28,29 @@ export class Contracts {
 
   // TODO this might not be quite the right way to do this, as the signer/provider
   // used to create the contracts also has a network associated with it
-  networkId: NetworkId;
+  chainId: number;
 
   signerOrProvider: SignerOrProvider;
 
   constructor(
     contracts: {
-      usdc: ERC20;
       apeToken: ApeToken;
       apeVaultFactory: ApeVaultFactoryBeacon;
       apeRouter: ApeRouter;
       apeDistributor: ApeDistributor;
     },
-    networkId: NetworkId,
+    chainId: number,
     signerOrProvider: SignerOrProvider
   ) {
-    this.usdc = contracts.usdc;
     this.apeToken = contracts.apeToken;
     this.apeVaultFactory = contracts.apeVaultFactory;
     this.apeRouter = contracts.apeRouter;
     this.apeDistributor = contracts.apeDistributor;
-    this.networkId = networkId;
+    this.chainId = chainId;
     this.signerOrProvider = signerOrProvider;
   }
 
   connect(signer: ethers.Signer): void {
-    this.usdc = this.usdc.connect(signer);
     this.apeToken = this.apeToken.connect(signer);
     this.apeVaultFactory = this.apeVaultFactory.connect(signer);
     this.apeRouter = this.apeRouter.connect(signer);
@@ -65,6 +62,15 @@ export class Contracts {
       address,
       this.signerOrProvider
     );
+  }
+
+  getToken(symbol: string) {
+    const info = (deploymentInfo as any)[this.chainId];
+    const token = info[symbol];
+    if (!token) {
+      throw new Error(`No info for token "${symbol}" on chain ${this.chainId}`);
+    }
+    return this.getERC20(token.address);
   }
 
   getERC20(address: string): ERC20 {
@@ -91,37 +97,36 @@ export class Contracts {
     return this.signerOrProvider.getBalance(address, 'latest');
   }
 
-  static fromNetwork(
-    networkId: NetworkId,
+  static forChain(
+    chainId: number,
     signerOrProvider: SignerOrProvider
   ): Contracts {
+    const info = (deploymentInfo as any)[chainId];
+    if (!info) {
+      throw new Error(`No info for chain ${chainId}`);
+    }
     return Contracts.fromAddresses(
       {
-        apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId]
-          .ApeVaultFactoryBeacon.address,
-        apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
-        apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
-          .address,
-        usdc: getToken(networkId, 'USDC').address,
+        apeToken: info.ApeToken.address,
+        apeVaultFactory: info.ApeVaultFactoryBeacon.address,
+        apeRouter: info.ApeRouter.address,
+        apeDistributor: info.ApeDistributor.address,
       },
       signerOrProvider,
-      networkId
+      chainId
     );
   }
 
   static fromAddresses(
     addresses: {
-      usdc: string;
       apeToken: string;
       apeVaultFactory: string;
       apeRouter: string;
       apeDistributor: string;
     },
     signerOrProvider: SignerOrProvider,
-    networkId: NetworkId
+    chainId: number
   ): Contracts {
-    const usdc = ERC20__factory.connect(addresses.usdc, signerOrProvider);
     const apeToken = ApeToken__factory.connect(
       addresses.apeToken,
       signerOrProvider
@@ -140,13 +145,12 @@ export class Contracts {
     );
     return new Contracts(
       {
-        usdc,
         apeToken,
         apeVaultFactory,
         apeRouter,
         apeDistributor,
       },
-      networkId,
+      chainId,
       signerOrProvider
     );
   }
