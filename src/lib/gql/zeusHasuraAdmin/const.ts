@@ -2563,6 +2563,70 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    integrations: {
+      distinct_on: {
+        type: 'circle_integrations_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circle_integrations_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circle_integrations_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    integrations_aggregate: {
+      distinct_on: {
+        type: 'circle_integrations_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'circle_integrations_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'circle_integrations_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
     pending_token_gifts: {
       distinct_on: {
         type: 'pending_token_gifts_select_column',
@@ -17382,6 +17446,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     user_id: 'Float',
   },
+  logout_response: {
+    id: 'Int',
+    profile: 'profiles',
+  },
   mutation_root: {
     createUser: 'createUserResponse',
     create_circle: 'create_circle_response',
@@ -17454,6 +17522,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_users_one: 'users',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    logout_user: 'logout_response',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_integrations: 'circle_integrations_mutation_response',
