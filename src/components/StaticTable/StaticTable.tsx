@@ -9,7 +9,7 @@ import { Pagination } from '@material-ui/lab';
 import { Spacer } from 'components';
 import { usePrevious } from 'hooks';
 
-import { StaticTableProps } from 'types';
+import { ITableSortOrder, StaticTableProps } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -98,16 +98,19 @@ export const StaticTable = ({
   filter,
   sortable,
   placeholder,
+  initialSortOrder,
 }: StaticTableProps) => {
   const classes = useStyles();
 
   const [view, setView] = useState<any[]>([]);
   const previousView = usePrevious(view);
   const [page, setPage] = useState<number>(1);
-  const [order, setOrder] = useState<{ field: number; ascending: number }>({
-    field: 0,
-    ascending: 1,
-  });
+  const [order, setOrder] = useState<ITableSortOrder>(
+    initialSortOrder || {
+      field: 0,
+      ascending: 1,
+    }
+  );
 
   const getValueByCid = (item: GenericObject, cid: number) => {
     const { render, accessor } = columns[cid];
@@ -148,7 +151,7 @@ export const StaticTable = ({
     if (order.field !== field) {
       setOrder({ field, ascending: 1 });
     } else {
-      setOrder({ field, ascending: -order.ascending });
+      setOrder({ field, ascending: order.ascending == 1 ? -1 : 1 });
     }
   };
 

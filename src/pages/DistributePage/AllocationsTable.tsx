@@ -26,7 +26,7 @@ const AllocationTable = ({
   users: IAllocateUser[];
   totalAmountInVault: number;
   totalGive: number;
-  tokenName: string;
+  tokenName: string | undefined;
 }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState('');
@@ -69,7 +69,9 @@ const AllocationTable = ({
         {
           label: 'Give Received',
           render: (u: IAllocateUser) =>
-            u.received_gifts.length > 0 ? u.received_gifts[0].tokens : '-',
+            u.received_gifts.length > 0
+              ? u.received_gifts.reduce((t, g) => t + g.tokens, 0)
+              : '-',
         },
         {
           label: '# of Contributor Gitfing',
@@ -86,15 +88,18 @@ const AllocationTable = ({
         {
           label: 'Vault Funds Allocated',
           render: (u: IAllocateUser) => {
+            if (!tokenName) return '-';
+
             const symbol =
               tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName;
+
             return u.received_gifts.length > 0
               ? `${(givenPercent(u) * totalAmountInVault).toFixed(2)} ${symbol}`
               : '-';
           },
         },
       ] as ITableColumn[],
-    [users, totalGive, totalAmountInVault, tokenName]
+    [users, totalAmountInVault, tokenName]
   );
 
   return (
@@ -114,6 +119,7 @@ const AllocationTable = ({
         filter={filterUser}
         sortable
         placeholder={<h2>No users have been added.</h2>}
+        initialSortOrder={{ field: 2, ascending: -1 }}
       />
     </>
   );

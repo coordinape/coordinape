@@ -40,6 +40,11 @@ export type TUpdateGift = ({
   tokens?: number;
 }) => void;
 
+export interface ITableSortOrder {
+  field: number;
+  ascending: 1 | -1;
+}
+
 export interface StaticTableProps {
   className?: string;
   columns: ITableColumn[];
@@ -49,6 +54,7 @@ export interface StaticTableProps {
   sortable?: boolean;
   placeholder?: React.ReactNode;
   label?: string;
+  initialSortOrder?: ITableSortOrder;
 }
 
 export enum EConnectorNames {

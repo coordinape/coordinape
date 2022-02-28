@@ -9,7 +9,7 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
 
 /**
  *
- * @param gifts the map of GIVE allocations
+ * @param gifts the map of GIVE allocations: address => total GIVE received
  * @param totalAmount the total amount of tokens to distribute, as a fixed-point number
  * @param previousDistribution the previous epoch's distribution info
  *
@@ -32,9 +32,9 @@ export const createDistribution = (
     earnings: totalAmount.mul(gifts[address]).div(totalGive),
   }));
 
-  // handle dust amounts
+  // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);
-  assert(dust.lt(10), `dust too high: ${dust.toString()}`);
+  assert(dust.lt(20), `dust too high: ${dust.toString()}`);
   const topGift = assertDef(maxBy(Object.entries(gifts), x => x[1]));
   const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
   topBalance.earnings = topBalance.earnings.add(dust);

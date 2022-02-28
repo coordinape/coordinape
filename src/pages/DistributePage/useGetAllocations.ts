@@ -25,7 +25,6 @@ export function useGetAllocations(epochId: number) {
               name: true,
               id: true,
               circle_id: true,
-              starting_tokens: true,
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },

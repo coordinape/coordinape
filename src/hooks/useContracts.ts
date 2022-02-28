@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { useMemo } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
@@ -14,8 +13,8 @@ function useContracts(): Contracts | undefined {
   const { library, active, chainId } = useWeb3React<Web3Provider>();
 
   return useMemo((): Contracts | undefined => {
-    assert(library && chainId);
-    if (!SUPPORTED_CHAIN_IDS.includes(chainId)) return undefined;
+    if (!library || !chainId || !SUPPORTED_CHAIN_IDS.includes(chainId))
+      return undefined;
     return Contracts.fromNetwork(chainId as NetworkId, library.getSigner());
   }, [active, library, chainId]);
 }
