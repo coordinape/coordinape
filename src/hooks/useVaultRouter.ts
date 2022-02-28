@@ -25,7 +25,7 @@ export function useVaultRouter() {
     // Todo: Handle this separately and conditionally in UI
     await sendAndTrackTx(
       () =>
-        token.approve(contracts.apeRouter.address, ethers.constants.MaxUint256),
+        token.approve(contracts.router.address, ethers.constants.MaxUint256),
       {
         showError,
         showInfo,
@@ -35,11 +35,7 @@ export function useVaultRouter() {
 
     return sendAndTrackTx(
       () =>
-        contracts.apeRouter.delegateDeposit(
-          vault.id,
-          vault.tokenAddress,
-          amount
-        ),
+        contracts.router.delegateDeposit(vault.id, vault.tokenAddress, amount),
       {
         showError,
         showInfo,
@@ -56,7 +52,7 @@ export function useVaultRouter() {
   ) => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
-    return contracts?.apeRouter.delegateWithdrawal(
+    return contracts.router.delegateWithdrawal(
       account,
       vault.id,
       tokenAddress,

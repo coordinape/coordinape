@@ -4,8 +4,6 @@ import {
   ApeDistributor__factory,
   ApeRouter,
   ApeRouter__factory,
-  ApeToken,
-  ApeToken__factory,
   ApeVaultFactoryBeacon,
   ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation,
@@ -21,40 +19,37 @@ export const supportedChainIds: number[] =
   Object.keys(deploymentInfo).map(Number);
 
 export class Contracts {
-  apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactoryBeacon;
-  apeRouter: ApeRouter;
-  apeDistributor: ApeDistributor;
+  vaultFactory: ApeVaultFactoryBeacon;
+  router: ApeRouter;
+  distributor: ApeDistributor;
 
-  // TODO this might not be quite the right way to do this, as the signer/provider
-  // used to create the contracts also has a network associated with it
+  // TODO this might not be quite the right way to do this, as the
+  // signer/provider used to create the contracts also has a network associated
+  // with it
   chainId: number;
 
   signerOrProvider: SignerOrProvider;
 
   constructor(
     contracts: {
-      apeToken: ApeToken;
-      apeVaultFactory: ApeVaultFactoryBeacon;
-      apeRouter: ApeRouter;
-      apeDistributor: ApeDistributor;
+      vaultFactory: ApeVaultFactoryBeacon;
+      router: ApeRouter;
+      distributor: ApeDistributor;
     },
     chainId: number,
     signerOrProvider: SignerOrProvider
   ) {
-    this.apeToken = contracts.apeToken;
-    this.apeVaultFactory = contracts.apeVaultFactory;
-    this.apeRouter = contracts.apeRouter;
-    this.apeDistributor = contracts.apeDistributor;
+    this.vaultFactory = contracts.vaultFactory;
+    this.router = contracts.router;
+    this.distributor = contracts.distributor;
     this.chainId = chainId;
     this.signerOrProvider = signerOrProvider;
   }
 
   connect(signer: ethers.Signer): void {
-    this.apeToken = this.apeToken.connect(signer);
-    this.apeVaultFactory = this.apeVaultFactory.connect(signer);
-    this.apeRouter = this.apeRouter.connect(signer);
-    this.apeDistributor = this.apeDistributor.connect(signer);
+    this.vaultFactory = this.vaultFactory.connect(signer);
+    this.router = this.router.connect(signer);
+    this.distributor = this.distributor.connect(signer);
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
@@ -107,10 +102,9 @@ export class Contracts {
     }
     return Contracts.fromAddresses(
       {
-        apeToken: info.ApeToken.address,
-        apeVaultFactory: info.ApeVaultFactoryBeacon.address,
-        apeRouter: info.ApeRouter.address,
-        apeDistributor: info.ApeDistributor.address,
+        vaultFactory: info.ApeVaultFactoryBeacon.address,
+        router: info.ApeRouter.address,
+        distributor: info.ApeDistributor.address,
       },
       signerOrProvider,
       chainId
@@ -118,37 +112,21 @@ export class Contracts {
   }
 
   static fromAddresses(
-    addresses: {
-      apeToken: string;
-      apeVaultFactory: string;
-      apeRouter: string;
-      apeDistributor: string;
-    },
+    addresses: { vaultFactory: string; router: string; distributor: string },
     signerOrProvider: SignerOrProvider,
     chainId: number
   ): Contracts {
-    const apeToken = ApeToken__factory.connect(
-      addresses.apeToken,
-      signerOrProvider
-    );
-    const apeVaultFactory = ApeVaultFactoryBeacon__factory.connect(
-      addresses.apeVaultFactory,
-      signerOrProvider
-    );
-    const apeRouter = ApeRouter__factory.connect(
-      addresses.apeRouter,
-      signerOrProvider
-    );
-    const apeDistributor = ApeDistributor__factory.connect(
-      addresses.apeDistributor,
-      signerOrProvider
-    );
     return new Contracts(
       {
-        apeToken,
-        apeVaultFactory,
-        apeRouter,
-        apeDistributor,
+        vaultFactory: ApeVaultFactoryBeacon__factory.connect(
+          addresses.vaultFactory,
+          signerOrProvider
+        ),
+        router: ApeRouter__factory.connect(addresses.router, signerOrProvider),
+        distributor: ApeDistributor__factory.connect(
+          addresses.distributor,
+          signerOrProvider
+        ),
       },
       chainId,
       signerOrProvider

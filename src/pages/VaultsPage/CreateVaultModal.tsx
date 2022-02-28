@@ -10,22 +10,20 @@ import CreateVaultForm from 'forms/CreateVaultForm';
 export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
   const navigate = useNavigate();
   const { chainId } = useWeb3React();
-  const { createApeVault } = useVaultFactory();
+  const { createVault } = useVaultFactory();
 
   return (
     <CreateVaultForm.FormController
       source={chainId}
       submit={async ({ asset: { name, custom } }) => {
-        createApeVault({ type: name, simpleTokenAddress: custom }).then(
-          vault => {
-            if (!vault) return;
+        createVault({ type: name, simpleTokenAddress: custom }).then(vault => {
+          if (!vault) return;
 
-            // eslint-disable-next-line no-console
-            console.log('created vault:', vault);
-            navigate('/admin/vaults');
-            onClose();
-          }
-        );
+          // eslint-disable-next-line no-console
+          console.log('created vault:', vault);
+          navigate('/admin/vaults');
+          onClose();
+        });
       }}
     >
       {({ fields, handleSubmit, ready, errors }) => (

@@ -16,7 +16,7 @@ export function useVaultFactory() {
   const vaultApi = useFakeVaultApi();
   const currentOrg = useCurrentOrg();
 
-  const createApeVault = async ({
+  const createVault = async ({
     simpleTokenAddress,
     type,
   }: {
@@ -31,7 +31,7 @@ export function useVaultFactory() {
     }
 
     try {
-      const { apeVaultFactory: factory, getToken } = contracts;
+      const { vaultFactory, getToken } = contracts;
       assert(
         type !== 'OTHER' || simpleTokenAddress,
         'type is OTHER but no simple token address given; this should have been caught in form validation'
@@ -42,7 +42,7 @@ export function useVaultFactory() {
           ? [ZERO_ADDRESS, simpleTokenAddress as string]
           : [getToken(type).address, ZERO_ADDRESS];
 
-      const tx = await factory.createApeVault(...args);
+      const tx = await vaultFactory.createApeVault(...args);
       apeInfo('transaction sent');
       const receipt = await tx.wait();
       apeInfo('transaction mined');
@@ -75,5 +75,5 @@ export function useVaultFactory() {
     }
   };
 
-  return { createApeVault };
+  return { createVault };
 }
