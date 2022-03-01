@@ -21,6 +21,7 @@ export const adminUpdateUserSchemaInput = z
   .object({
     circle_id: z.number(),
     address: zEthAddressOnly,
+    new_address: zEthAddressOnly.optional(),
     name: z.string().min(3).max(255).optional(),
     starting_tokens: z.number().optional(),
     non_giver: z.boolean().default(false),

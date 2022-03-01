@@ -101,9 +101,72 @@ export class Gql {
     return currentEpoch;
   }
 
+  async getUserAndCurrentEpoch(
+    address: string,
+    circleId: number
+  ): Promise<typeof user | undefined> {
+    const {
+      users: [user],
+    } = await this.q('query')({
+      users: [
+        {
+          limit: 1,
+          where: {
+            address: { _ilike: address },
+            circle_id: { _eq: circleId },
+            // ignore soft_deleted users
+            deleted_at: { _is_null: true },
+          },
+        },
+        {
+          id: true,
+          fixed_non_receiver: true,
+          non_receiver: true,
+          starting_tokens: true,
+          give_token_received: true,
+          give_token_remaining: true,
+          pending_received_gifts: [
+            // the join filters down to only gifts to the user
+            {},
+            {
+              epoch_id: true,
+              sender_id: true,
+              sender_address: true,
+              tokens: true,
+            },
+          ],
+          circle: {
+            epochs: [
+              {
+                where: {
+                  _and: [
+                    { end_date: { _gt: 'now()' } },
+                    { start_date: { _lt: 'now()' } },
+                  ],
+                },
+              },
+              {
+                start_date: true,
+                end_date: true,
+                id: true,
+              },
+            ],
+          },
+        },
+      ],
+    });
+    return user;
+  }
+
   // TODO: This is a big problem if we can't trust the type checker.
   // Why is the type inference wrong here,
   // It could be undefined
+  //
+  // update: This isn't a problem with the return types per se,
+  // since this returns an array type and if there are no matches the
+  // array just returns empty. The issue is we can't statically destructure
+  // these arrays because the typechecker infers that we know the length
+  // of the array when destructuring
   async getProfileAndMembership(address: string) {
     return await this.q('query')({
       users: [

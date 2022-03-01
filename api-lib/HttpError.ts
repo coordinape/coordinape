@@ -4,11 +4,11 @@ export interface HttpError extends Error {
   httpStatus: number;
 }
 
-export class InternalServerError extends Error {
+export class InternalServerError extends Error implements HttpError {
   httpStatus = 500;
 }
 
-export class PayloadTooLargeError extends Error {
+export class PayloadTooLargeError extends Error implements HttpError {
   httpStatus = 413;
 }
 

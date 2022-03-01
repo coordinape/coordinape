@@ -5,6 +5,17 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    name?: string | null;
+    new_address?: string | null;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -16,6 +27,17 @@ export type ValueTypes = {
     _lte?: boolean | null;
     _neq?: boolean | null;
     _nin?: boolean[];
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    give_token_remaining?: number | null;
+    name: string;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -61,6 +83,12 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
   };
+  ['UserResponse']: AliasType<{
+    /** An object relationship */
+    UserResponse?: ValueTypes['users'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -1695,42 +1723,28 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | null;
-    give_token_remaining?: number | null;
-    name: string;
-    non_giver?: boolean | null;
-    non_receiver?: boolean | null;
-    role?: number | null;
-    starting_tokens?: number | null;
-  };
-  ['createUserResponse']: AliasType<{
-    /** The ethereum address of the user */
-    address?: boolean;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: boolean;
-    /** Primary key */
-    id?: boolean;
-    /** human readable user name */
-    name?: boolean;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: boolean;
-    starting_tokens?: boolean;
-    __typename?: boolean;
-  }>;
   ['create_circle_input']: {
+    address: string;
     circle_name: string;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
   };
   ['create_circle_response']: AliasType<{
+    alloc_text?: boolean;
+    auto_opt_out?: boolean;
     /** An object relationship */
     circle?: ValueTypes['circles'];
+    default_opt_in?: boolean;
     id?: boolean;
+    logo?: boolean;
+    min_vouches?: boolean;
+    name?: boolean;
+    nomination_days_limit?: boolean;
+    only_giver_vouch?: boolean;
+    protocol_id?: boolean;
+    team_sel_text?: boolean;
+    team_selection?: boolean;
     users?: [
       {
         /** distinct select on columns */
@@ -1757,6 +1771,8 @@ export type ValueTypes = {
       },
       ValueTypes['users_aggregate']
     ];
+    vouching?: boolean;
+    vouching_text?: boolean;
     __typename?: boolean;
   }>;
   ['date']: unknown;
@@ -2653,9 +2669,13 @@ export type ValueTypes = {
   }>;
   /** mutation root */
   ['mutation_root']: AliasType<{
+    adminUpdateUser?: [
+      { object: ValueTypes['AdminUpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
     createUser?: [
-      { object: ValueTypes['createUserInput'] },
-      ValueTypes['createUserResponse']
+      { object: ValueTypes['CreateUserInput'] },
+      ValueTypes['UserResponse']
     ];
     create_circle?: [
       { object: ValueTypes['create_circle_input'] },
@@ -7549,12 +7569,19 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UserResponse']: {
+    /** An object relationship */
+    UserResponse: ModelTypes['users'];
+    id: string;
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -8324,30 +8351,28 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
-  ['createUserInput']: GraphQLTypes['createUserInput'];
-  ['createUserResponse']: {
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
+    alloc_text?: string;
+    auto_opt_out: boolean;
     /** An object relationship */
     circle: ModelTypes['circles'];
+    default_opt_in: boolean;
     id: number;
+    logo?: string;
+    min_vouches: number;
+    name: string;
+    nomination_days_limit: number;
+    only_giver_vouch: boolean;
+    protocol_id: number;
+    team_sel_text?: string;
+    team_selection: boolean;
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
+    vouching: boolean;
+    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -8834,7 +8859,9 @@ export type ModelTypes = {
   };
   /** mutation root */
   ['mutation_root']: {
-    createUser?: ModelTypes['createUserResponse'];
+    adminUpdateUser?: ModelTypes['UserResponse'];
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: ModelTypes['UserResponse'];
     create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
@@ -10810,6 +10837,17 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    name?: string;
+    new_address?: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean;
@@ -10821,6 +10859,17 @@ export type GraphQLTypes = {
     _lte?: boolean;
     _neq?: boolean;
     _nin?: Array<boolean>;
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: number;
+    name: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -10865,6 +10914,12 @@ export type GraphQLTypes = {
     _regex?: string;
     /** does the column match the given SQL regular expression */
     _similar?: string;
+  };
+  ['UserResponse']: {
+    __typename: 'UserResponse';
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
+    id: string;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -12296,33 +12351,8 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: number;
-    name: string;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: number;
-    starting_tokens?: number;
-  };
-  ['createUserResponse']: {
-    __typename: 'createUserResponse';
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
   ['create_circle_input']: {
+    address: string;
     circle_name: string;
     protocol_id?: number;
     protocol_name?: string;
@@ -12330,13 +12360,26 @@ export type GraphQLTypes = {
   };
   ['create_circle_response']: {
     __typename: 'create_circle_response';
+    alloc_text?: string;
+    auto_opt_out: boolean;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
+    default_opt_in: boolean;
     id: number;
+    logo?: string;
+    min_vouches: number;
+    name: string;
+    nomination_days_limit: number;
+    only_giver_vouch: boolean;
+    protocol_id: number;
+    team_sel_text?: string;
+    team_selection: boolean;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
+    vouching: boolean;
+    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -13193,7 +13236,9 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
-    createUser?: GraphQLTypes['createUserResponse'];
+    adminUpdateUser?: GraphQLTypes['UserResponse'];
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: GraphQLTypes['UserResponse'];
     create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];

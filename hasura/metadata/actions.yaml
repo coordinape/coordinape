@@ -80,9 +80,9 @@ custom_types:
   enums: []
   input_objects:
   - name: create_circle_input
-  - name: upload_image_input
   - name: upload_circle_image_input
   - name: CreateUserInput
+  - name: upload_image_input
   - name: AdminUpdateUserInput
   objects:
   - name: create_circle_response
@@ -123,6 +123,16 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: UserResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: UserResponse
+      source: default
+      type: object
+      field_mapping:
+        id: id
   - name: logoutResponse
     relationships:
     - remote_table:
@@ -133,6 +143,4 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: CreateUserResponse
-  - name: AdminUpdateUserResponse
   scalars: []

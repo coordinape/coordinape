@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
+import { ErrorResponseWithStatusCode } from '../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -19,57 +20,37 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     );
 
     // Validate no epoches are active for the requested user
-    const { circle_id, address } = input;
+    const { circle_id, address, new_address } = input;
 
-    const {
-      users: [user],
-    } = await gql.q('query')({
-      users: [
-        {
-          limit: 1,
-          where: {
-            address: { _ilike: address },
-            circle_id: { _eq: circle_id },
-            // ignore soft_deleted users
-            deleted_at: { _is_null: true },
-          },
-        },
-        {
-          id: true,
-          fixed_non_receiver: true,
-          non_receiver: true,
-          starting_tokens: true,
-          give_token_remaining: true,
-          pending_received_gifts: [
-            {},
-            {
-              epoch_id: true,
-              sender_id: true,
-              sender_address: true,
-              tokens: true,
+    if (new_address) {
+      const {
+        users: [existingUserWithNewAddress],
+      } = await gql.q('query')({
+        users: [
+          {
+            limit: 1,
+            where: {
+              address: { _ilike: new_address },
+              circle_id: { _eq: circle_id },
+              // ignore soft_deleted users
+              deleted_at: { _is_null: true },
             },
-          ],
-          circle: {
-            epochs: [
-              {
-                where: {
-                  _and: [
-                    { end_date: { _gt: 'now()' } },
-                    { start_date: { _lt: 'now()' } },
-                  ],
-                },
-              },
-              {
-                start_date: true,
-                end_date: true,
-                id: true,
-              },
-            ],
           },
-        },
-      ],
-    });
+          { id: true },
+        ],
+      });
 
+      if (existingUserWithNewAddress) {
+        ErrorResponseWithStatusCode(
+          response,
+          { message: 'address exists' },
+          422
+        );
+        return;
+      }
+    }
+
+    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
       return response.status(422).json({
         message: `User with address ${address} does not exist`,
@@ -90,37 +71,22 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     // Update the state after all external validations have passed
 
-    // TODO possibly move this deletion to an event eventually
-    if (
-      currentEpoch &&
-      !user.non_receiver &&
-      (input.non_receiver || input.fixed_non_receiver)
-    ) {
-      const currentPendingGifts = user.pending_received_gifts.filter(
-        gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
-      );
-
-      if (currentPendingGifts.length > 0) {
-        await gql.q('mutation')({
-          delete_pending_token_gifts: [
-            {
-              where: {
-                epoch_id: { _eq: currentEpoch.id },
-                recipient_id: { _eq: user.id },
-              },
-            },
-            { __typename: true },
-          ],
-        });
-      }
-    }
-
     const mutationResult = await gql.q('mutation')({
       update_users: [
         {
           _set: {
             ...input,
-            // reset remaining tokens to starting tokens
+            // falls back to undefined and is therefore not updated in the DB
+            // if new_address is not included
+            address: input.new_address,
+            // reset give_token_received if a user is opted out of an
+            // active epoch
+            give_token_received:
+              input.fixed_non_receiver || input.non_receiver
+                ? 0
+                : user.give_token_received,
+            // set remaining tokens to starting tokens if starting tokens
+            // has been changed.
             give_token_remaining:
               input.starting_tokens ?? user.give_token_remaining,
             // fixed_non_receiver === true is also set for non_receiver
@@ -140,14 +106,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         {
           returning: {
             id: true,
-            circle_id: true,
-            address: true,
-            name: true,
-            non_giver: true,
-            starting_tokens: true,
-            fixed_non_receiver: true,
-            non_receiver: true,
-            role: true,
           },
         },
       ],
@@ -155,6 +113,32 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     const returnResult = mutationResult.update_users?.returning.pop();
     assert(returnResult, 'No return from mutation');
+
+    // TODO possibly move this deletion to an event eventually
+    if (
+      currentEpoch &&
+      !user.non_receiver &&
+      (input.non_receiver || input.fixed_non_receiver)
+    ) {
+      const currentPendingGifts = user.pending_received_gifts.filter(
+        gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
+      );
+
+      if (currentPendingGifts.length > 0) {
+        await gql.q('mutation')({
+          delete_pending_token_gifts: [
+            {
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                recipient_id: { _eq: user.id },
+              },
+            },
+            // something needs to be returned in the mutation
+            { __typename: true },
+          ],
+        });
+      }
+    }
 
     response.status(200).json(returnResult);
     return;

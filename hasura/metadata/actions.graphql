@@ -1,13 +1,13 @@
 type Mutation {
   adminUpdateUser(
     object: AdminUpdateUserInput!
-  ): AdminUpdateUserResponse
+  ): UserResponse
 }
 
 type Mutation {
   createUser(
     object: CreateUserInput!
-  ): CreateUserResponse
+  ): UserResponse
 }
 
 type Mutation {
@@ -74,6 +74,7 @@ type create_circle_response {
 input AdminUpdateUserInput {
   circle_id: Int!
   address: String!
+  new_address: String
   name: String
   non_giver: Boolean
   starting_tokens: Int
@@ -99,18 +100,6 @@ type create_circle_response {
   auto_opt_out: Boolean!
 }
 
-type CreateUserResponse {
-  """ Primary key """ id: ID!
-  """ The ethereum address of the user """ address: String!
-  """ human readable user name """ name: String!
-  fixed_non_receiver: Boolean!
-  give_token_remaining: Int!
-  non_giver: Boolean!
-  non_receiver: Boolean!
-  role: Int!
-  starting_tokens: Int!
-}
-
 type update_profile_response {
   id: Int!
 }
@@ -123,14 +112,6 @@ type logoutResponse {
   id: Int
 }
 
-type AdminUpdateUserResponse {
+type UserResponse {
   id: ID!
-  circle_id: Int!
-  address: String!
-  name: String!
-  non_giver: Boolean!
-  starting_tokens: Int!
-  fixed_non_receiver: Boolean!
-  non_receiver: Boolean!
-  role: Int!
 }
