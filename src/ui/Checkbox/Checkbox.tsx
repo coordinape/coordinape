@@ -13,25 +13,31 @@ export interface CheckboxProps {
 }
 
 // Controlled Checkbox
-export const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
-  return (
-    <Box css={{ display: 'flex', gap: '$sm', alignItems: 'center' }}>
-      <StyledCheckbox
-        data-testid="radix-checkbox"
-        checked={props.checked}
-        onCheckedChange={props.onCheckedChange}
-        css={{ ...props.css }}
-      >
-        <StyledCheckboxPrimitiveIndicator forceMount>
-          {props.checked === true && (
-            <CheckIcon size="md" color="green12" fill />
-          )}
-        </StyledCheckboxPrimitiveIndicator>
-      </StyledCheckbox>
-      <Text css={{ fontSize: '$3' }}>{props.label || 'No Label'}</Text>
-    </Box>
-  );
-};
+export const Checkbox: React.FC<CheckboxProps> = React.forwardRef(
+  // TODO: implement this https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35572
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (props, ref): JSX.Element => {
+    return (
+      <Box css={{ display: 'flex', gap: '$sm', alignItems: 'center' }}>
+        <StyledCheckbox
+          data-testid="radix-checkbox"
+          checked={props.checked}
+          onCheckedChange={props.onCheckedChange}
+          css={{ ...props.css }}
+        >
+          <StyledCheckboxPrimitiveIndicator forceMount>
+            {props.checked === true && (
+              <CheckIcon size="md" color="green12" fill />
+            )}
+          </StyledCheckboxPrimitiveIndicator>
+        </StyledCheckbox>
+        <Text css={{ fontSize: '$3' }}>{props.label || 'No Label'}</Text>
+      </Box>
+    );
+  }
+);
+
+Checkbox.displayName = 'Checkbox';
 
 // StyledCheckbox just CheckboxPrimitive.Root from radix
 export const StyledCheckbox = styled(CheckboxPrimitive.Root, {

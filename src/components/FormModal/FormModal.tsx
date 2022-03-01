@@ -3,6 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { Button, Modal, makeStyles, IconButton } from '@material-ui/core';
+import MuiDialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { SaveIcon } from 'icons';
@@ -109,6 +110,7 @@ export const FormModal = ({
       open={open !== undefined ? open : true}
     >
       <form
+        id="modal-form"
         className={clsx([classes[size ?? 'medium']], classes.body, className)}
         onSubmit={onSubmit}
       >
@@ -138,14 +140,59 @@ export const FormModal = ({
             startIcon={
               icon && submitText ? icon : submitText ? undefined : <SaveIcon />
             }
-            onClick={onSubmit}
             disabled={submitDisabled}
+            type="submit"
+            form="modal-form"
           >
             {submitText ? submitText : 'Save'}
           </Button>
         )}
       </form>
     </Modal>
+  );
+};
+
+export const Dialog = ({
+  title,
+  subtitle,
+  children,
+  errors,
+  open,
+  onClose,
+}: {
+  title?: string;
+  subtitle?: string;
+  children: React.ReactNode;
+  errors?: { [x: string]: string };
+  open?: boolean;
+  onClose: () => void;
+}) => {
+  const classes = useStyles();
+
+  return (
+    <MuiDialog
+      className={classes.modal}
+      onClose={onClose}
+      open={open !== undefined ? open : true}
+    >
+      <IconButton
+        className={classes.closeButton}
+        onClick={onClose}
+        aria-label="close"
+      >
+        <CloseIcon />
+      </IconButton>
+      {!!title && <h3 className={classes.title}>{title}</h3>}
+      {!!subtitle && <h4 className={classes.subtitle}>{subtitle}</h4>}
+      {children}
+      {errors !== undefined && (
+        <div className={classes.errors}>
+          {Object.values(errors).map((error, i) => (
+            <div key={i}>{error}</div>
+          ))}
+        </div>
+      )}
+    </MuiDialog>
   );
 };
 
