@@ -1031,7 +1031,6 @@ export type ValueTypes = {
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
-
   ['logout_response']: AliasType<{
     id?: boolean;
     /** An object relationship */
@@ -1073,7 +1072,6 @@ export type ValueTypes = {
       },
       ValueTypes['circle_integrations']
     ];
-    /** Purges the access token and logs the user out */
     logout_user?: ValueTypes['logout_response'];
     update_circles?: [
       {
@@ -3175,7 +3173,6 @@ export type ModelTypes = {
     insert_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
-    /** Purges the access token and logs the user out */
     logout_user?: ModelTypes['logout_response'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
@@ -4711,7 +4708,6 @@ export type GraphQLTypes = {
     insert_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
-    /** Purges the access token and logs the user out */
     logout_user?: GraphQLTypes['logout_response'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];

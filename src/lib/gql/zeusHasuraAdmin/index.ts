@@ -3120,7 +3120,6 @@ export type ValueTypes = {
       },
       ValueTypes['vouches']
     ];
-    /** Purges the access token and logs the user out */
     logout_user?: ValueTypes['logout_response'];
     update_burns?: [
       {
@@ -8975,7 +8974,6 @@ export type ModelTypes = {
     insert_vouches?: ModelTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
-    /** Purges the access token and logs the user out */
     logout_user?: ModelTypes['logout_response'];
     /** update data of the table: "burns" */
     update_burns?: ModelTypes['burns_mutation_response'];
@@ -13335,7 +13333,6 @@ export type GraphQLTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
-    /** Purges the access token and logs the user out */
     logout_user?: GraphQLTypes['logout_response'];
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'];
@@ -16851,7 +16848,6 @@ export const enum users_update_column {
 /** unique or primary key constraints on table "vouches" */
 export const enum vouches_constraint {
   vouches_pkey = 'vouches_pkey',
-  vouches_unique = 'vouches_unique',
 }
 /** select columns of table "vouches" */
 export const enum vouches_select_column {

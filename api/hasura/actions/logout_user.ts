@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { gql } from '../../../api-lib/Gql';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { GraphQLError } from '../../../src/lib/gql/zeusHasuraAdmin';
 import { HasuraUserSessionVariables } from '../../../src/lib/zod';
 
 async function handler(request: VercelRequest, response: VercelResponse) {
@@ -30,12 +29,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       return response.status(422).json({
         extensions: err.issues,
         message: 'Invalid input',
-        code: '422',
-      });
-    } else if (err instanceof GraphQLError) {
-      return response.status(422).json({
-        extensions: err.response.errors,
-        message: 'GQL Query Error',
         code: '422',
       });
     }
