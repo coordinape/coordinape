@@ -13,6 +13,8 @@ import {
 } from '@coordinape/hardhat/dist/typechain';
 import * as ethers from 'ethers';
 
+import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+
 type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 
 export const supportedChainIds: number[] =
@@ -61,11 +63,24 @@ export class Contracts {
 
   getToken(symbol: string) {
     const info = (deploymentInfo as any)[this.chainId];
-    const token = info[symbol];
-    if (!token) {
-      throw new Error(`No info for token "${symbol}" on chain ${this.chainId}`);
+    let { address } = info[symbol] || {};
+
+    // workaround for mainnet-forked testchains
+    if (
+      !address &&
+      [HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID].includes(this.chainId)
+    ) {
+      address = (deploymentInfo as any)[1][symbol]?.address;
+      if (!address)
+        throw new Error(
+          `No info for token "${symbol}" on chain ${this.chainId}`
+        );
+      console.warn(
+        `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
+      );
     }
-    return this.getERC20(token.address);
+
+    return this.getERC20(address);
   }
 
   getERC20(address: string): ERC20 {
