@@ -37,7 +37,3 @@ export const REACT_APP_HASURA_URL = getEnvValue(
 );
 
 export const HASURA_ENABLED = process.env.REACT_APP_HASURA_ENABLED === 'true';
-
-// Unused in practice
-export const REACT_APP_FORTMATIC_API_KEY = 'unused'; // getEnvValue('REACT_APP_FORTMATIC_API_KEY', 'no-formatic-api-key');
-export const REACT_APP_PORTIS_DAPP_ID = 'unused'; // getEnvValue('REACT_APP_PORTIS_DAPP_ID', 'no-portis-api-key');
