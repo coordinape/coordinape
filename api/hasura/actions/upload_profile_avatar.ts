@@ -8,8 +8,9 @@ import {
   profileUpdateAvatarMutation,
   userAndImageData,
 } from '../../../api-lib/profileImages';
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-export default async function (req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   const { input, hasuraProfileId } = userAndImageData(req);
   const { avatar: previousAvatar } = await profileImages(hasuraProfileId);
 
@@ -28,3 +29,5 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     return ErrorResponse(res, e);
   }
 }
+
+export default verifyHasuraRequestMiddleware(handler);

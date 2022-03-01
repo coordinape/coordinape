@@ -452,6 +452,254 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
+  /** columns and relationships of "circle_integrations" */
+  ['circle_integrations']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean;
+    data?: [
+      {
+        /** JSON select path */ path?: string | null;
+      },
+      boolean
+    ];
+    id?: boolean;
+    name?: boolean;
+    type?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregated selection of "circle_integrations" */
+  ['circle_integrations_aggregate']: AliasType<{
+    aggregate?: ValueTypes['circle_integrations_aggregate_fields'];
+    nodes?: ValueTypes['circle_integrations'];
+    __typename?: boolean;
+  }>;
+  /** aggregate fields of "circle_integrations" */
+  ['circle_integrations_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['circle_integrations_avg_fields'];
+    count?: [
+      {
+        columns?: ValueTypes['circle_integrations_select_column'][];
+        distinct?: boolean | null;
+      },
+      boolean
+    ];
+    max?: ValueTypes['circle_integrations_max_fields'];
+    min?: ValueTypes['circle_integrations_min_fields'];
+    stddev?: ValueTypes['circle_integrations_stddev_fields'];
+    stddev_pop?: ValueTypes['circle_integrations_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['circle_integrations_stddev_samp_fields'];
+    sum?: ValueTypes['circle_integrations_sum_fields'];
+    var_pop?: ValueTypes['circle_integrations_var_pop_fields'];
+    var_samp?: ValueTypes['circle_integrations_var_samp_fields'];
+    variance?: ValueTypes['circle_integrations_variance_fields'];
+    __typename?: boolean;
+  }>;
+  /** order by aggregate values of table "circle_integrations" */
+  ['circle_integrations_aggregate_order_by']: {
+    avg?: ValueTypes['circle_integrations_avg_order_by'] | null;
+    count?: ValueTypes['order_by'] | null;
+    max?: ValueTypes['circle_integrations_max_order_by'] | null;
+    min?: ValueTypes['circle_integrations_min_order_by'] | null;
+    stddev?: ValueTypes['circle_integrations_stddev_order_by'] | null;
+    stddev_pop?: ValueTypes['circle_integrations_stddev_pop_order_by'] | null;
+    stddev_samp?: ValueTypes['circle_integrations_stddev_samp_order_by'] | null;
+    sum?: ValueTypes['circle_integrations_sum_order_by'] | null;
+    var_pop?: ValueTypes['circle_integrations_var_pop_order_by'] | null;
+    var_samp?: ValueTypes['circle_integrations_var_samp_order_by'] | null;
+    variance?: ValueTypes['circle_integrations_variance_order_by'] | null;
+  };
+  /** input type for inserting array relation for remote table "circle_integrations" */
+  ['circle_integrations_arr_rel_insert_input']: {
+    data: ValueTypes['circle_integrations_insert_input'][];
+    /** on conflict condition */
+    on_conflict?: ValueTypes['circle_integrations_on_conflict'] | null;
+  };
+  /** aggregate avg on columns */
+  ['circle_integrations_avg_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by avg() on columns of table "circle_integrations" */
+  ['circle_integrations_avg_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** Boolean expression to filter rows from the table "circle_integrations". All fields are combined with a logical 'AND'. */
+  ['circle_integrations_bool_exp']: {
+    _and?: ValueTypes['circle_integrations_bool_exp'][];
+    _not?: ValueTypes['circle_integrations_bool_exp'] | null;
+    _or?: ValueTypes['circle_integrations_bool_exp'][];
+    circle?: ValueTypes['circles_bool_exp'] | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | null;
+    data?: ValueTypes['json_comparison_exp'] | null;
+    id?: ValueTypes['bigint_comparison_exp'] | null;
+    name?: ValueTypes['String_comparison_exp'] | null;
+    type?: ValueTypes['String_comparison_exp'] | null;
+  };
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: circle_integrations_constraint;
+  /** input type for incrementing numeric columns in table "circle_integrations" */
+  ['circle_integrations_inc_input']: {
+    circle_id?: ValueTypes['bigint'] | null;
+    id?: ValueTypes['bigint'] | null;
+  };
+  /** input type for inserting data into table "circle_integrations" */
+  ['circle_integrations_insert_input']: {
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | null;
+    circle_id?: ValueTypes['bigint'] | null;
+    data?: ValueTypes['json'] | null;
+    id?: ValueTypes['bigint'] | null;
+    name?: string | null;
+    type?: string | null;
+  };
+  /** aggregate max on columns */
+  ['circle_integrations_max_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    name?: boolean;
+    type?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by max() on columns of table "circle_integrations" */
+  ['circle_integrations_max_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    name?: ValueTypes['order_by'] | null;
+    type?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate min on columns */
+  ['circle_integrations_min_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    name?: boolean;
+    type?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by min() on columns of table "circle_integrations" */
+  ['circle_integrations_min_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    name?: ValueTypes['order_by'] | null;
+    type?: ValueTypes['order_by'] | null;
+  };
+  /** response of any mutation on the table "circle_integrations" */
+  ['circle_integrations_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['circle_integrations'];
+    __typename?: boolean;
+  }>;
+  /** on conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: {
+    constraint: ValueTypes['circle_integrations_constraint'];
+    update_columns: ValueTypes['circle_integrations_update_column'][];
+    where?: ValueTypes['circle_integrations_bool_exp'] | null;
+  };
+  /** Ordering options when selecting data from "circle_integrations". */
+  ['circle_integrations_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | null;
+    circle_id?: ValueTypes['order_by'] | null;
+    data?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    name?: ValueTypes['order_by'] | null;
+    type?: ValueTypes['order_by'] | null;
+  };
+  /** primary key columns input for table: circle_integrations */
+  ['circle_integrations_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "circle_integrations" */
+  ['circle_integrations_select_column']: circle_integrations_select_column;
+  /** input type for updating data in table "circle_integrations" */
+  ['circle_integrations_set_input']: {
+    circle_id?: ValueTypes['bigint'] | null;
+    data?: ValueTypes['json'] | null;
+    id?: ValueTypes['bigint'] | null;
+    name?: string | null;
+    type?: string | null;
+  };
+  /** aggregate stddev on columns */
+  ['circle_integrations_stddev_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by stddev() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['circle_integrations_stddev_pop_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by stddev_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['circle_integrations_stddev_samp_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by stddev_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate sum on columns */
+  ['circle_integrations_sum_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by sum() on columns of table "circle_integrations" */
+  ['circle_integrations_sum_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** update columns of table "circle_integrations" */
+  ['circle_integrations_update_column']: circle_integrations_update_column;
+  /** aggregate var_pop on columns */
+  ['circle_integrations_var_pop_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by var_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_var_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate var_samp on columns */
+  ['circle_integrations_var_samp_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by var_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_var_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
+  /** aggregate variance on columns */
+  ['circle_integrations_variance_fields']: AliasType<{
+    circle_id?: boolean;
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** order by variance() on columns of table "circle_integrations" */
+  ['circle_integrations_variance_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+  };
   /** columns and relationships of "circle_metadata" */
   ['circle_metadata']: AliasType<{
     /** An object relationship */
@@ -919,6 +1167,32 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     id?: boolean;
+    integrations?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations']
+    ];
+    integrations_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations_aggregate']
+    ];
     is_verified?: boolean;
     logo?: boolean;
     min_vouches?: boolean;
@@ -1092,6 +1366,7 @@ export type ValueTypes = {
     discord_webhook?: ValueTypes['String_comparison_exp'] | null;
     epochs?: ValueTypes['epochs_bool_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
+    integrations?: ValueTypes['circle_integrations_bool_exp'] | null;
     is_verified?: ValueTypes['Boolean_comparison_exp'] | null;
     logo?: ValueTypes['String_comparison_exp'] | null;
     min_vouches?: ValueTypes['Int_comparison_exp'] | null;
@@ -1132,6 +1407,9 @@ export type ValueTypes = {
     discord_webhook?: string | null;
     epochs?: ValueTypes['epochs_arr_rel_insert_input'] | null;
     id?: ValueTypes['bigint'] | null;
+    integrations?:
+      | ValueTypes['circle_integrations_arr_rel_insert_input']
+      | null;
     is_verified?: boolean | null;
     logo?: string | null;
     min_vouches?: number | null;
@@ -1257,6 +1535,9 @@ export type ValueTypes = {
     discord_webhook?: ValueTypes['order_by'] | null;
     epochs_aggregate?: ValueTypes['epochs_aggregate_order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    integrations_aggregate?:
+      | ValueTypes['circle_integrations_aggregate_order_by']
+      | null;
     is_verified?: ValueTypes['order_by'] | null;
     logo?: ValueTypes['order_by'] | null;
     min_vouches?: ValueTypes['order_by'] | null;
@@ -2382,6 +2663,17 @@ export type ValueTypes = {
       ValueTypes['burns_mutation_response']
     ];
     delete_burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    delete_circle_integrations?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_integrations_bool_exp'];
+      },
+      ValueTypes['circle_integrations_mutation_response']
+    ];
+    delete_circle_integrations_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['circle_integrations']
+    ];
     delete_circle_metadata?: [
       {
         /** filter the rows which have to be deleted */
@@ -2555,6 +2847,22 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['burns_on_conflict'] | null;
       },
       ValueTypes['burns']
+    ];
+    insert_circle_integrations?: [
+      {
+        /** the rows to be inserted */
+        objects: ValueTypes['circle_integrations_insert_input'][] /** on conflict condition */;
+        on_conflict?: ValueTypes['circle_integrations_on_conflict'] | null;
+      },
+      ValueTypes['circle_integrations_mutation_response']
+    ];
+    insert_circle_integrations_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['circle_integrations_insert_input'] /** on conflict condition */;
+        on_conflict?: ValueTypes['circle_integrations_on_conflict'] | null;
+      },
+      ValueTypes['circle_integrations']
     ];
     insert_circle_metadata?: [
       {
@@ -2829,6 +3137,30 @@ export type ValueTypes = {
         pk_columns: ValueTypes['burns_pk_columns_input'];
       },
       ValueTypes['burns']
+    ];
+    update_circle_integrations?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['circle_integrations_inc_input']
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['circle_integrations_set_input']
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['circle_integrations_bool_exp'];
+      },
+      ValueTypes['circle_integrations_mutation_response']
+    ];
+    update_circle_integrations_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['circle_integrations_inc_input']
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['circle_integrations_set_input'] | null;
+        pk_columns: ValueTypes['circle_integrations_pk_columns_input'];
+      },
+      ValueTypes['circle_integrations']
     ];
     update_circle_metadata?: [
       {
@@ -3180,6 +3512,10 @@ export type ValueTypes = {
         pk_columns: ValueTypes['vouches_pk_columns_input'];
       },
       ValueTypes['vouches']
+    ];
+    upload_circle_logo?: [
+      { object: ValueTypes['upload_circle_image_input'] },
+      ValueTypes['update_circle_response']
     ];
     upload_profile_avatar?: [
       { object: ValueTypes['upload_image_input'] },
@@ -4767,6 +5103,36 @@ export type ValueTypes = {
       ValueTypes['burns_aggregate']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    circle_integrations?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations']
+    ];
+    circle_integrations_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations_aggregate']
+    ];
+    circle_integrations_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['circle_integrations']
+    ];
     circle_metadata?: [
       {
         /** distinct select on columns */
@@ -5241,6 +5607,36 @@ export type ValueTypes = {
       ValueTypes['burns_aggregate']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    circle_integrations?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations']
+    ];
+    circle_integrations_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['circle_integrations_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['circle_integrations_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | null;
+      },
+      ValueTypes['circle_integrations_aggregate']
+    ];
+    circle_integrations_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['circle_integrations']
+    ];
     circle_metadata?: [
       {
         /** distinct select on columns */
@@ -6291,12 +6687,22 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | null;
     tokens?: ValueTypes['order_by'] | null;
   };
+  ['update_circle_response']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['update_profile_response']: AliasType<{
     id?: boolean;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['upload_circle_image_input']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
   ['upload_image_input']: {
     image_data_base64: string;
   };
@@ -7337,6 +7743,140 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
+  /** columns and relationships of "circle_integrations" */
+  ['circle_integrations']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    circle_id: ModelTypes['bigint'];
+    data: ModelTypes['json'];
+    id: ModelTypes['bigint'];
+    name: string;
+    type: string;
+  };
+  /** aggregated selection of "circle_integrations" */
+  ['circle_integrations_aggregate']: {
+    aggregate?: ModelTypes['circle_integrations_aggregate_fields'];
+    nodes: ModelTypes['circle_integrations'][];
+  };
+  /** aggregate fields of "circle_integrations" */
+  ['circle_integrations_aggregate_fields']: {
+    avg?: ModelTypes['circle_integrations_avg_fields'];
+    count: number;
+    max?: ModelTypes['circle_integrations_max_fields'];
+    min?: ModelTypes['circle_integrations_min_fields'];
+    stddev?: ModelTypes['circle_integrations_stddev_fields'];
+    stddev_pop?: ModelTypes['circle_integrations_stddev_pop_fields'];
+    stddev_samp?: ModelTypes['circle_integrations_stddev_samp_fields'];
+    sum?: ModelTypes['circle_integrations_sum_fields'];
+    var_pop?: ModelTypes['circle_integrations_var_pop_fields'];
+    var_samp?: ModelTypes['circle_integrations_var_samp_fields'];
+    variance?: ModelTypes['circle_integrations_variance_fields'];
+  };
+  /** order by aggregate values of table "circle_integrations" */
+  ['circle_integrations_aggregate_order_by']: GraphQLTypes['circle_integrations_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "circle_integrations" */
+  ['circle_integrations_arr_rel_insert_input']: GraphQLTypes['circle_integrations_arr_rel_insert_input'];
+  /** aggregate avg on columns */
+  ['circle_integrations_avg_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by avg() on columns of table "circle_integrations" */
+  ['circle_integrations_avg_order_by']: GraphQLTypes['circle_integrations_avg_order_by'];
+  /** Boolean expression to filter rows from the table "circle_integrations". All fields are combined with a logical 'AND'. */
+  ['circle_integrations_bool_exp']: GraphQLTypes['circle_integrations_bool_exp'];
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: GraphQLTypes['circle_integrations_constraint'];
+  /** input type for incrementing numeric columns in table "circle_integrations" */
+  ['circle_integrations_inc_input']: GraphQLTypes['circle_integrations_inc_input'];
+  /** input type for inserting data into table "circle_integrations" */
+  ['circle_integrations_insert_input']: GraphQLTypes['circle_integrations_insert_input'];
+  /** aggregate max on columns */
+  ['circle_integrations_max_fields']: {
+    circle_id?: ModelTypes['bigint'];
+    id?: ModelTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** order by max() on columns of table "circle_integrations" */
+  ['circle_integrations_max_order_by']: GraphQLTypes['circle_integrations_max_order_by'];
+  /** aggregate min on columns */
+  ['circle_integrations_min_fields']: {
+    circle_id?: ModelTypes['bigint'];
+    id?: ModelTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** order by min() on columns of table "circle_integrations" */
+  ['circle_integrations_min_order_by']: GraphQLTypes['circle_integrations_min_order_by'];
+  /** response of any mutation on the table "circle_integrations" */
+  ['circle_integrations_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: ModelTypes['circle_integrations'][];
+  };
+  /** on conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: GraphQLTypes['circle_integrations_on_conflict'];
+  /** Ordering options when selecting data from "circle_integrations". */
+  ['circle_integrations_order_by']: GraphQLTypes['circle_integrations_order_by'];
+  /** primary key columns input for table: circle_integrations */
+  ['circle_integrations_pk_columns_input']: GraphQLTypes['circle_integrations_pk_columns_input'];
+  /** select columns of table "circle_integrations" */
+  ['circle_integrations_select_column']: GraphQLTypes['circle_integrations_select_column'];
+  /** input type for updating data in table "circle_integrations" */
+  ['circle_integrations_set_input']: GraphQLTypes['circle_integrations_set_input'];
+  /** aggregate stddev on columns */
+  ['circle_integrations_stddev_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_order_by']: GraphQLTypes['circle_integrations_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['circle_integrations_stddev_pop_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_pop_order_by']: GraphQLTypes['circle_integrations_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['circle_integrations_stddev_samp_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_samp_order_by']: GraphQLTypes['circle_integrations_stddev_samp_order_by'];
+  /** aggregate sum on columns */
+  ['circle_integrations_sum_fields']: {
+    circle_id?: ModelTypes['bigint'];
+    id?: ModelTypes['bigint'];
+  };
+  /** order by sum() on columns of table "circle_integrations" */
+  ['circle_integrations_sum_order_by']: GraphQLTypes['circle_integrations_sum_order_by'];
+  /** update columns of table "circle_integrations" */
+  ['circle_integrations_update_column']: GraphQLTypes['circle_integrations_update_column'];
+  /** aggregate var_pop on columns */
+  ['circle_integrations_var_pop_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by var_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_var_pop_order_by']: GraphQLTypes['circle_integrations_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['circle_integrations_var_samp_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by var_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_var_samp_order_by']: GraphQLTypes['circle_integrations_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['circle_integrations_variance_fields']: {
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by variance() on columns of table "circle_integrations" */
+  ['circle_integrations_variance_order_by']: GraphQLTypes['circle_integrations_variance_order_by'];
   /** columns and relationships of "circle_metadata" */
   ['circle_metadata']: {
     /** An object relationship */
@@ -7582,6 +8122,10 @@ export type ModelTypes = {
     /** An aggregate relationship */
     epochs_aggregate: ModelTypes['epochs_aggregate'];
     id: ModelTypes['bigint'];
+    /** An array relationship */
+    integrations: ModelTypes['circle_integrations'][];
+    /** An aggregate relationship */
+    integrations_aggregate: ModelTypes['circle_integrations_aggregate'];
     is_verified: boolean;
     logo?: string;
     min_vouches: number;
@@ -8284,6 +8828,10 @@ export type ModelTypes = {
     delete_burns?: ModelTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
     delete_burns_by_pk?: ModelTypes['burns'];
+    /** delete data from the table: "circle_integrations" */
+    delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
+    /** delete single row from the table: "circle_integrations" */
+    delete_circle_integrations_by_pk?: ModelTypes['circle_integrations'];
     /** delete data from the table: "circle_metadata" */
     delete_circle_metadata?: ModelTypes['circle_metadata_mutation_response'];
     /** delete single row from the table: "circle_metadata" */
@@ -8346,6 +8894,10 @@ export type ModelTypes = {
     insert_burns?: ModelTypes['burns_mutation_response'];
     /** insert a single row into the table: "burns" */
     insert_burns_one?: ModelTypes['burns'];
+    /** insert data into the table: "circle_integrations" */
+    insert_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
+    /** insert a single row into the table: "circle_integrations" */
+    insert_circle_integrations_one?: ModelTypes['circle_integrations'];
     /** insert data into the table: "circle_metadata" */
     insert_circle_metadata?: ModelTypes['circle_metadata_mutation_response'];
     /** insert a single row into the table: "circle_metadata" */
@@ -8414,6 +8966,10 @@ export type ModelTypes = {
     update_burns?: ModelTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
     update_burns_by_pk?: ModelTypes['burns'];
+    /** update data of the table: "circle_integrations" */
+    update_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
+    /** update single row of the table: "circle_integrations" */
+    update_circle_integrations_by_pk?: ModelTypes['circle_integrations'];
     /** update data of the table: "circle_metadata" */
     update_circle_metadata?: ModelTypes['circle_metadata_mutation_response'];
     /** update single row of the table: "circle_metadata" */
@@ -8472,6 +9028,7 @@ export type ModelTypes = {
     update_vouches?: ModelTypes['vouches_mutation_response'];
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: ModelTypes['vouches'];
+    upload_circle_logo?: ModelTypes['update_circle_response'];
     upload_profile_avatar?: ModelTypes['update_profile_response'];
     upload_profile_background?: ModelTypes['update_profile_response'];
   };
@@ -9338,6 +9895,12 @@ export type ModelTypes = {
     burns_aggregate: ModelTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: ModelTypes['burns'];
+    /** fetch data from the table: "circle_integrations" */
+    circle_integrations: ModelTypes['circle_integrations'][];
+    /** fetch aggregated fields from the table: "circle_integrations" */
+    circle_integrations_aggregate: ModelTypes['circle_integrations_aggregate'];
+    /** fetch data from the table: "circle_integrations" using primary key columns */
+    circle_integrations_by_pk?: ModelTypes['circle_integrations'];
     /** An array relationship */
     circle_metadata: ModelTypes['circle_metadata'][];
     /** An aggregate relationship */
@@ -9436,6 +9999,12 @@ export type ModelTypes = {
     burns_aggregate: ModelTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: ModelTypes['burns'];
+    /** fetch data from the table: "circle_integrations" */
+    circle_integrations: ModelTypes['circle_integrations'][];
+    /** fetch aggregated fields from the table: "circle_integrations" */
+    circle_integrations_aggregate: ModelTypes['circle_integrations_aggregate'];
+    /** fetch data from the table: "circle_integrations" using primary key columns */
+    circle_integrations_by_pk?: ModelTypes['circle_integrations'];
     /** An array relationship */
     circle_metadata: ModelTypes['circle_metadata'][];
     /** An aggregate relationship */
@@ -9850,11 +10419,17 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
+  ['update_circle_response']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+  };
   ['update_profile_response']: {
     id: number;
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['upload_circle_image_input']: GraphQLTypes['upload_circle_image_input'];
   ['upload_image_input']: GraphQLTypes['upload_image_input'];
   /** columns and relationships of "users" */
   ['users']: {
@@ -10663,6 +11238,243 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
+  /** columns and relationships of "circle_integrations" */
+  ['circle_integrations']: {
+    __typename: 'circle_integrations';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    data: GraphQLTypes['json'];
+    id: GraphQLTypes['bigint'];
+    name: string;
+    type: string;
+  };
+  /** aggregated selection of "circle_integrations" */
+  ['circle_integrations_aggregate']: {
+    __typename: 'circle_integrations_aggregate';
+    aggregate?: GraphQLTypes['circle_integrations_aggregate_fields'];
+    nodes: Array<GraphQLTypes['circle_integrations']>;
+  };
+  /** aggregate fields of "circle_integrations" */
+  ['circle_integrations_aggregate_fields']: {
+    __typename: 'circle_integrations_aggregate_fields';
+    avg?: GraphQLTypes['circle_integrations_avg_fields'];
+    count: number;
+    max?: GraphQLTypes['circle_integrations_max_fields'];
+    min?: GraphQLTypes['circle_integrations_min_fields'];
+    stddev?: GraphQLTypes['circle_integrations_stddev_fields'];
+    stddev_pop?: GraphQLTypes['circle_integrations_stddev_pop_fields'];
+    stddev_samp?: GraphQLTypes['circle_integrations_stddev_samp_fields'];
+    sum?: GraphQLTypes['circle_integrations_sum_fields'];
+    var_pop?: GraphQLTypes['circle_integrations_var_pop_fields'];
+    var_samp?: GraphQLTypes['circle_integrations_var_samp_fields'];
+    variance?: GraphQLTypes['circle_integrations_variance_fields'];
+  };
+  /** order by aggregate values of table "circle_integrations" */
+  ['circle_integrations_aggregate_order_by']: {
+    avg?: GraphQLTypes['circle_integrations_avg_order_by'];
+    count?: GraphQLTypes['order_by'];
+    max?: GraphQLTypes['circle_integrations_max_order_by'];
+    min?: GraphQLTypes['circle_integrations_min_order_by'];
+    stddev?: GraphQLTypes['circle_integrations_stddev_order_by'];
+    stddev_pop?: GraphQLTypes['circle_integrations_stddev_pop_order_by'];
+    stddev_samp?: GraphQLTypes['circle_integrations_stddev_samp_order_by'];
+    sum?: GraphQLTypes['circle_integrations_sum_order_by'];
+    var_pop?: GraphQLTypes['circle_integrations_var_pop_order_by'];
+    var_samp?: GraphQLTypes['circle_integrations_var_samp_order_by'];
+    variance?: GraphQLTypes['circle_integrations_variance_order_by'];
+  };
+  /** input type for inserting array relation for remote table "circle_integrations" */
+  ['circle_integrations_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['circle_integrations_insert_input']>;
+    /** on conflict condition */
+    on_conflict?: GraphQLTypes['circle_integrations_on_conflict'];
+  };
+  /** aggregate avg on columns */
+  ['circle_integrations_avg_fields']: {
+    __typename: 'circle_integrations_avg_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by avg() on columns of table "circle_integrations" */
+  ['circle_integrations_avg_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** Boolean expression to filter rows from the table "circle_integrations". All fields are combined with a logical 'AND'. */
+  ['circle_integrations_bool_exp']: {
+    _and?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
+    _not?: GraphQLTypes['circle_integrations_bool_exp'];
+    _or?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
+    circle?: GraphQLTypes['circles_bool_exp'];
+    circle_id?: GraphQLTypes['bigint_comparison_exp'];
+    data?: GraphQLTypes['json_comparison_exp'];
+    id?: GraphQLTypes['bigint_comparison_exp'];
+    name?: GraphQLTypes['String_comparison_exp'];
+    type?: GraphQLTypes['String_comparison_exp'];
+  };
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: circle_integrations_constraint;
+  /** input type for incrementing numeric columns in table "circle_integrations" */
+  ['circle_integrations_inc_input']: {
+    circle_id?: GraphQLTypes['bigint'];
+    id?: GraphQLTypes['bigint'];
+  };
+  /** input type for inserting data into table "circle_integrations" */
+  ['circle_integrations_insert_input']: {
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'];
+    circle_id?: GraphQLTypes['bigint'];
+    data?: GraphQLTypes['json'];
+    id?: GraphQLTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** aggregate max on columns */
+  ['circle_integrations_max_fields']: {
+    __typename: 'circle_integrations_max_fields';
+    circle_id?: GraphQLTypes['bigint'];
+    id?: GraphQLTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** order by max() on columns of table "circle_integrations" */
+  ['circle_integrations_max_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    name?: GraphQLTypes['order_by'];
+    type?: GraphQLTypes['order_by'];
+  };
+  /** aggregate min on columns */
+  ['circle_integrations_min_fields']: {
+    __typename: 'circle_integrations_min_fields';
+    circle_id?: GraphQLTypes['bigint'];
+    id?: GraphQLTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** order by min() on columns of table "circle_integrations" */
+  ['circle_integrations_min_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    name?: GraphQLTypes['order_by'];
+    type?: GraphQLTypes['order_by'];
+  };
+  /** response of any mutation on the table "circle_integrations" */
+  ['circle_integrations_mutation_response']: {
+    __typename: 'circle_integrations_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_integrations']>;
+  };
+  /** on conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: {
+    constraint: GraphQLTypes['circle_integrations_constraint'];
+    update_columns: Array<GraphQLTypes['circle_integrations_update_column']>;
+    where?: GraphQLTypes['circle_integrations_bool_exp'];
+  };
+  /** Ordering options when selecting data from "circle_integrations". */
+  ['circle_integrations_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'];
+    circle_id?: GraphQLTypes['order_by'];
+    data?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    name?: GraphQLTypes['order_by'];
+    type?: GraphQLTypes['order_by'];
+  };
+  /** primary key columns input for table: circle_integrations */
+  ['circle_integrations_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "circle_integrations" */
+  ['circle_integrations_select_column']: circle_integrations_select_column;
+  /** input type for updating data in table "circle_integrations" */
+  ['circle_integrations_set_input']: {
+    circle_id?: GraphQLTypes['bigint'];
+    data?: GraphQLTypes['json'];
+    id?: GraphQLTypes['bigint'];
+    name?: string;
+    type?: string;
+  };
+  /** aggregate stddev on columns */
+  ['circle_integrations_stddev_fields']: {
+    __typename: 'circle_integrations_stddev_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** aggregate stddev_pop on columns */
+  ['circle_integrations_stddev_pop_fields']: {
+    __typename: 'circle_integrations_stddev_pop_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** aggregate stddev_samp on columns */
+  ['circle_integrations_stddev_samp_fields']: {
+    __typename: 'circle_integrations_stddev_samp_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by stddev_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_stddev_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** aggregate sum on columns */
+  ['circle_integrations_sum_fields']: {
+    __typename: 'circle_integrations_sum_fields';
+    circle_id?: GraphQLTypes['bigint'];
+    id?: GraphQLTypes['bigint'];
+  };
+  /** order by sum() on columns of table "circle_integrations" */
+  ['circle_integrations_sum_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** update columns of table "circle_integrations" */
+  ['circle_integrations_update_column']: circle_integrations_update_column;
+  /** aggregate var_pop on columns */
+  ['circle_integrations_var_pop_fields']: {
+    __typename: 'circle_integrations_var_pop_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by var_pop() on columns of table "circle_integrations" */
+  ['circle_integrations_var_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** aggregate var_samp on columns */
+  ['circle_integrations_var_samp_fields']: {
+    __typename: 'circle_integrations_var_samp_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by var_samp() on columns of table "circle_integrations" */
+  ['circle_integrations_var_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
+  /** aggregate variance on columns */
+  ['circle_integrations_variance_fields']: {
+    __typename: 'circle_integrations_variance_fields';
+    circle_id?: number;
+    id?: number;
+  };
+  /** order by variance() on columns of table "circle_integrations" */
+  ['circle_integrations_variance_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+  };
   /** columns and relationships of "circle_metadata" */
   ['circle_metadata']: {
     __typename: 'circle_metadata';
@@ -11048,6 +11860,10 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    integrations: Array<GraphQLTypes['circle_integrations']>;
+    /** An aggregate relationship */
+    integrations_aggregate: GraphQLTypes['circle_integrations_aggregate'];
     is_verified: boolean;
     logo?: string;
     min_vouches: number;
@@ -11148,6 +11964,7 @@ export type GraphQLTypes = {
     discord_webhook?: GraphQLTypes['String_comparison_exp'];
     epochs?: GraphQLTypes['epochs_bool_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
+    integrations?: GraphQLTypes['circle_integrations_bool_exp'];
     is_verified?: GraphQLTypes['Boolean_comparison_exp'];
     logo?: GraphQLTypes['String_comparison_exp'];
     min_vouches?: GraphQLTypes['Int_comparison_exp'];
@@ -11188,6 +12005,7 @@ export type GraphQLTypes = {
     discord_webhook?: string;
     epochs?: GraphQLTypes['epochs_arr_rel_insert_input'];
     id?: GraphQLTypes['bigint'];
+    integrations?: GraphQLTypes['circle_integrations_arr_rel_insert_input'];
     is_verified?: boolean;
     logo?: string;
     min_vouches?: number;
@@ -11309,6 +12127,7 @@ export type GraphQLTypes = {
     discord_webhook?: GraphQLTypes['order_by'];
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'];
     id?: GraphQLTypes['order_by'];
+    integrations_aggregate?: GraphQLTypes['circle_integrations_aggregate_order_by'];
     is_verified?: GraphQLTypes['order_by'];
     logo?: GraphQLTypes['order_by'];
     min_vouches?: GraphQLTypes['order_by'];
@@ -12361,6 +13180,10 @@ export type GraphQLTypes = {
     delete_burns?: GraphQLTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
     delete_burns_by_pk?: GraphQLTypes['burns'];
+    /** delete data from the table: "circle_integrations" */
+    delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
+    /** delete single row from the table: "circle_integrations" */
+    delete_circle_integrations_by_pk?: GraphQLTypes['circle_integrations'];
     /** delete data from the table: "circle_metadata" */
     delete_circle_metadata?: GraphQLTypes['circle_metadata_mutation_response'];
     /** delete single row from the table: "circle_metadata" */
@@ -12423,6 +13246,10 @@ export type GraphQLTypes = {
     insert_burns?: GraphQLTypes['burns_mutation_response'];
     /** insert a single row into the table: "burns" */
     insert_burns_one?: GraphQLTypes['burns'];
+    /** insert data into the table: "circle_integrations" */
+    insert_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
+    /** insert a single row into the table: "circle_integrations" */
+    insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
     /** insert data into the table: "circle_metadata" */
     insert_circle_metadata?: GraphQLTypes['circle_metadata_mutation_response'];
     /** insert a single row into the table: "circle_metadata" */
@@ -12491,6 +13318,10 @@ export type GraphQLTypes = {
     update_burns?: GraphQLTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
     update_burns_by_pk?: GraphQLTypes['burns'];
+    /** update data of the table: "circle_integrations" */
+    update_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
+    /** update single row of the table: "circle_integrations" */
+    update_circle_integrations_by_pk?: GraphQLTypes['circle_integrations'];
     /** update data of the table: "circle_metadata" */
     update_circle_metadata?: GraphQLTypes['circle_metadata_mutation_response'];
     /** update single row of the table: "circle_metadata" */
@@ -12549,6 +13380,7 @@ export type GraphQLTypes = {
     update_vouches?: GraphQLTypes['vouches_mutation_response'];
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'];
+    upload_circle_logo?: GraphQLTypes['update_circle_response'];
     upload_profile_avatar?: GraphQLTypes['update_profile_response'];
     upload_profile_background?: GraphQLTypes['update_profile_response'];
   };
@@ -14004,6 +14836,12 @@ export type GraphQLTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'];
+    /** fetch data from the table: "circle_integrations" */
+    circle_integrations: Array<GraphQLTypes['circle_integrations']>;
+    /** fetch aggregated fields from the table: "circle_integrations" */
+    circle_integrations_aggregate: GraphQLTypes['circle_integrations_aggregate'];
+    /** fetch data from the table: "circle_integrations" using primary key columns */
+    circle_integrations_by_pk?: GraphQLTypes['circle_integrations'];
     /** An array relationship */
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
@@ -14103,6 +14941,12 @@ export type GraphQLTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'];
+    /** fetch data from the table: "circle_integrations" */
+    circle_integrations: Array<GraphQLTypes['circle_integrations']>;
+    /** fetch aggregated fields from the table: "circle_integrations" */
+    circle_integrations_aggregate: GraphQLTypes['circle_integrations_aggregate'];
+    /** fetch data from the table: "circle_integrations" using primary key columns */
+    circle_integrations_by_pk?: GraphQLTypes['circle_integrations'];
     /** An array relationship */
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
@@ -14786,11 +15630,21 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'];
     tokens?: GraphQLTypes['order_by'];
   };
+  ['update_circle_response']: {
+    __typename: 'update_circle_response';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
   ['update_profile_response']: {
     __typename: 'update_profile_response';
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['upload_circle_image_input']: {
+    circle_id: number;
+    image_data_base64: string;
   };
   ['upload_image_input']: {
     image_data_base64: string;
@@ -15525,6 +16379,26 @@ export const enum burns_update_column {
   updated_at = 'updated_at',
   user_id = 'user_id',
 }
+/** unique or primary key constraints on table "circle_integrations" */
+export const enum circle_integrations_constraint {
+  circle_integrations_pkey = 'circle_integrations_pkey',
+}
+/** select columns of table "circle_integrations" */
+export const enum circle_integrations_select_column {
+  circle_id = 'circle_id',
+  data = 'data',
+  id = 'id',
+  name = 'name',
+  type = 'type',
+}
+/** update columns of table "circle_integrations" */
+export const enum circle_integrations_update_column {
+  circle_id = 'circle_id',
+  data = 'data',
+  id = 'id',
+  name = 'name',
+  type = 'type',
+}
 /** unique or primary key constraints on table "circle_metadata" */
 export const enum circle_metadata_constraint {
   circle_metadata_pkey = 'circle_metadata_pkey',
@@ -15954,6 +16828,7 @@ export const enum users_update_column {
 /** unique or primary key constraints on table "vouches" */
 export const enum vouches_constraint {
   vouches_pkey = 'vouches_pkey',
+  vouches_unique = 'vouches_unique',
 }
 /** select columns of table "vouches" */
 export const enum vouches_select_column {

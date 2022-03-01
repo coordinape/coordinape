@@ -55,10 +55,35 @@ export function getGql(url: string, getToken: () => string) {
       }
     );
 
+  const updateCircleLogo = async (
+    circleId: number,
+    image_data_base64: string
+  ) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        upload_circle_logo: [
+          {
+            object: {
+              image_data_base64: $`image_data_base64`,
+              circle_id: $`circleId`,
+            },
+          },
+          { id: true },
+        ],
+      },
+      {
+        variables: {
+          circleId: circleId,
+          image_data_base64,
+        },
+      }
+    );
+
   return {
-    updateProfile: updateProfile,
+    updateProfile,
     updateProfileAvatar,
     updateProfileBackground,
+    updateCircleLogo,
   };
 }
 
