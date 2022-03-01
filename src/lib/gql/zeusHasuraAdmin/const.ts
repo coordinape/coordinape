@@ -17382,6 +17382,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     user_id: 'Float',
   },
+  logout_response: {
+    id: 'Int',
+    profile: 'profiles',
+  },
   mutation_root: {
     createUser: 'createUserResponse',
     create_circle: 'create_circle_response',
@@ -17454,6 +17458,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_users_one: 'users',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    logout_user: 'logout_response',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_integrations: 'circle_integrations_mutation_response',
