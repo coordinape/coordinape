@@ -1032,6 +1032,12 @@ export type ValueTypes = {
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
+  ['logout_response']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
   /** mutation root */
   ['mutation_root']: AliasType<{
     createUser?: [
@@ -1067,6 +1073,7 @@ export type ValueTypes = {
       },
       ValueTypes['circle_integrations']
     ];
+    logout_user?: ValueTypes['logout_response'];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -3150,6 +3157,11 @@ export type ModelTypes = {
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
+  ['logout_response']: {
+    id?: number;
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+  };
   /** mutation root */
   ['mutation_root']: {
     createUser?: ModelTypes['createUserResponse'];
@@ -3162,6 +3174,7 @@ export type ModelTypes = {
     insert_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
+    logout_user?: ModelTypes['logout_response'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -4678,6 +4691,12 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['json'];
     _nin?: Array<GraphQLTypes['json']>;
   };
+  ['logout_response']: {
+    __typename: 'logout_response';
+    id?: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
@@ -4691,6 +4710,7 @@ export type GraphQLTypes = {
     insert_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
+    logout_user?: GraphQLTypes['logout_response'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */

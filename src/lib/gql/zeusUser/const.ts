@@ -9257,6 +9257,10 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
+  logout_response: {
+    id: 'Int',
+    profile: 'profiles',
+  },
   mutation_root: {
     createUser: 'createUserResponse',
     create_circle: 'create_circle_response',
@@ -9264,6 +9268,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_integrations_by_pk: 'circle_integrations',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
+    logout_user: 'logout_response',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',
