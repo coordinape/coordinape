@@ -21,6 +21,16 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: logoutUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/logout_user'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: superadmin
+  - role: user
 - name: upload_circle_logo
   definition:
     kind: synchronous
@@ -30,8 +40,8 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
+  - role: superadmin
 - name: upload_profile_avatar
   definition:
     kind: synchronous
@@ -97,6 +107,16 @@ custom_types:
         schema: public
         name: circles
       name: circle
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: logoutResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: profiles
+      name: profile
       source: default
       type: object
       field_mapping:
