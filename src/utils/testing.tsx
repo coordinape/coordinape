@@ -1,10 +1,17 @@
 import { ReactElement, Suspense, useEffect } from 'react';
 
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
 import { RecoilRoot } from 'recoil';
+
+import {
+  HARDHAT_CHAIN_ID,
+  HARDHAT_PORT,
+  HARDHAT_GANACHE_CHAIN_ID,
+  HARDHAT_GANACHE_PORT,
+} from 'config/env';
 
 type TestWrapperProps = {
   children: ReactElement;
@@ -14,24 +21,17 @@ type TestWrapperProps = {
 
 const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
 
-const connector = (() => {
-  const {
-    TEST_ON_HARDHAT_NODE,
-    HARDHAT_CHAIN_ID,
-    HARDHAT_PORT,
-    HARDHAT_GANACHE_CHAIN_ID,
-    HARDHAT_GANACHE_PORT,
-  } = process.env;
+const chainId = process.env.TEST_ON_HARDHAT_NODE
+  ? HARDHAT_CHAIN_ID
+  : HARDHAT_GANACHE_CHAIN_ID;
+const port = process.env.TEST_ON_HARDHAT_NODE
+  ? HARDHAT_PORT
+  : HARDHAT_GANACHE_PORT;
+const rpcUrl = `http://localhost:${port}`;
 
-  const chainId = (
-    TEST_ON_HARDHAT_NODE ? HARDHAT_CHAIN_ID : HARDHAT_GANACHE_CHAIN_ID
-  ) as string;
-  const port = TEST_ON_HARDHAT_NODE ? HARDHAT_PORT : HARDHAT_GANACHE_PORT;
-
-  return new NetworkConnector({
-    urls: { [chainId]: `http://localhost:${port}` },
-  });
-})();
+const connector = new NetworkConnector({
+  urls: { [chainId]: rpcUrl },
+});
 
 const Web3Activator = ({
   children,
@@ -63,4 +63,18 @@ export const TestWrapper = ({
       </SnackbarProvider>
     </RecoilRoot>
   );
+};
+
+const provider = new JsonRpcProvider(rpcUrl);
+
+export const takeSnapshot = async (): Promise<string> => {
+  return (await provider.send('evm_snapshot', [])) as string;
+};
+
+export const restoreSnapshot = async (snapshotId?: string) => {
+  if (!snapshotId) {
+    console.error('No snapshot ID provided; not reverting.');
+    return;
+  }
+  return provider.send('evm_revert', [snapshotId]);
 };
