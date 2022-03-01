@@ -1,37 +1,45 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import assert from 'assert';
 
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import { act, render, waitFor } from '@testing-library/react';
+
+import { HARDHAT_CHAIN_ID } from 'config/env';
 import { TestWrapper } from 'utils/testing';
 
+import { useContracts } from './useContracts';
 import { useVaultFactory } from './useVaultFactory';
 
-const getLibrary = (provider: any) => {
-  console.log('getLibrary', provider); // eslint-disable-line
-  return;
-};
+import { IVault } from 'types';
 
-xtest('fails gracefully when contracts are not yet loaded', async () => {
-  expect.assertions(1);
-
+test('create a vault', async () => {
   let done = false;
 
   const Harness = () => {
-    const { createApeVault } = useVaultFactory();
+    const { createVault } = useVaultFactory(1);
+    const contracts = useContracts();
+    if (!contracts) return null;
 
-    createApeVault({ simpleTokenAddress: '0x0', type: 'USDC' }).then(result => {
-      expect(result).toBeUndefined();
-      console.log('result: ', result);
-      done = true;
-    });
-    return <div>Hello world</div>;
+    createVault({ simpleTokenAddress: '0x0', type: 'USDC' }).then(
+      (vault: IVault | undefined) => {
+        expect(vault).toBeTruthy();
+        assert(vault);
+        expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
+        expect(vault?.tokenAddress).toEqual(
+          (deploymentInfo as any)[HARDHAT_CHAIN_ID].USDC.address
+        );
+        done = true;
+      }
+    );
+    return null;
   };
 
-  render(
-    <TestWrapper getLibrary={getLibrary}>
-      <Harness />
-    </TestWrapper>
-  );
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <Harness />
+      </TestWrapper>
+    );
+  });
 
-  screen.debug();
-
-  await waitFor(() => done);
+  await waitFor(() => expect(done).toBeTruthy());
 });

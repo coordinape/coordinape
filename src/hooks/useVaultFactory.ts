@@ -3,18 +3,16 @@ import assert from 'assert';
 import { ZERO_ADDRESS } from 'config/constants';
 import { knownTokens, TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
 
-export function useVaultFactory() {
+export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
   const { apeInfo, apeError } = useApeSnackbar();
   const vaultApi = useFakeVaultApi();
-  const currentOrg = useCurrentOrg();
 
   const createVault = async ({
     simpleTokenAddress,
@@ -23,15 +21,10 @@ export function useVaultFactory() {
     simpleTokenAddress?: string;
     type: TAssetEnum;
   }) => {
-    assert(currentOrg); // app should suspend until this is loaded
-
-    if (!contracts) {
-      apeError('Contracts not loaded');
-      return;
-    }
+    assert(contracts && orgId, 'called before hooks were ready');
 
     try {
-      const { vaultFactory, getToken } = contracts;
+      const { vaultFactory } = contracts;
       assert(
         type !== 'OTHER' || simpleTokenAddress,
         'type is OTHER but no simple token address given; this should have been caught in form validation'
@@ -40,7 +33,7 @@ export function useVaultFactory() {
       const args: [string, string] =
         type === 'OTHER'
           ? [ZERO_ADDRESS, simpleTokenAddress as string]
-          : [getToken(type).address, ZERO_ADDRESS];
+          : [contracts.getToken(type).address, ZERO_ADDRESS];
 
       const tx = await vaultFactory.createApeVault(...args);
       apeInfo('transaction sent');
@@ -64,13 +57,14 @@ export function useVaultFactory() {
             simpleTokenAddress: args[1],
             decimals,
             type,
-            orgId: currentOrg.id,
+            orgId,
           };
-          vaultApi.addVault(currentOrg.id, vault);
+          vaultApi.addVault(orgId, vault);
           return vault;
         }
       }
     } catch (e) {
+      console.error(e);
       apeError(e);
     }
   };
