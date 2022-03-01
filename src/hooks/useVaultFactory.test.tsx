@@ -48,4 +48,4 @@ test('create a vault', async () => {
   });
 
   await waitFor(() => expect(done).toBeTruthy());
-});
+}, 10000);
