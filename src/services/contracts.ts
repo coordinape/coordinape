@@ -11,9 +11,12 @@ import {
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
+import debug from 'debug';
 import * as ethers from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+
+const log = debug('coordinape:contracts');
 
 type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 
@@ -75,7 +78,7 @@ export class Contracts {
         throw new Error(
           `No info for token "${symbol}" on chain ${this.chainId}`
         );
-      console.warn(
+      log(
         `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
       );
     }
