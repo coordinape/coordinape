@@ -11,7 +11,7 @@ if [ -f "$DOTENV_FILE" ]; then
   export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
 fi
 
-CHAIN_ID=${HARDHAT_CHAIN_ID:-1337}
+CHAIN_ID=${HARDHAT_GANACHE_CHAIN_ID:-1338}
 PORT=$HARDHAT_GANACHE_PORT
 VERBOSE=$HARDHAT_GANACHE_VERBOSE
 
@@ -19,8 +19,9 @@ VERBOSE=$HARDHAT_GANACHE_VERBOSE
 EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
-  -d|--deploy) DEPLOY=1;;
+  --deploy) DEPLOY=1;;
   -p|--port) PORT="$2"; shift;;
+  --rebuild) REBUILD=1;;
   -v|--verbose) VERBOSE=1;;
   *) EXECARGS+=($1);;
 esac; shift; done
@@ -75,7 +76,18 @@ else
   trap "kill $PID" EXIT
 
   if [ "$DEPLOY" ]; then
-    yarn --cwd hardhat deploy --network ci
+    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci
+  fi
+
+  if [ "$REBUILD" ]; then
+    yarn hardhat:codegen
+    yarn hardhat:build
+
+    cd hardhat
+    yarn unlink >/dev/null 2>&1 || echo -n
+    yarn link
+    cd ..
+    yarn link @coordinape/hardhat
   fi
 
   if [ "$EXEC" ]; then

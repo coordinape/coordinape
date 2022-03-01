@@ -15,7 +15,6 @@ import {
   FORKED_BLOCK,
   FORK_MAINNET,
   GANACHE_URL,
-  HARDHAT_CHAIN_ID,
 } from './constants';
 
 export async function unlockSigner(
@@ -97,13 +96,12 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
-const hardhatNetwork = {
+const sharedNetworkSettings = {
   live: false,
   allowUnlimitedContractSize: true,
   gas: 'auto' as const,
   gasPrice: 'auto' as const,
   gasMultiplier: 1,
-  chainId: HARDHAT_CHAIN_ID,
   accounts: {
     mnemonic: 'coordinape',
   },
@@ -137,7 +135,8 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      ...hardhatNetwork,
+      ...sharedNetworkSettings,
+      chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
       forking: FORK_MAINNET
         ? {
             url: ETHEREUM_RPC_URL,
@@ -146,7 +145,8 @@ const config: HardhatUserConfig = {
         : undefined,
     },
     ci: {
-      ...hardhatNetwork,
+      ...sharedNetworkSettings,
+      chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
     },
   },

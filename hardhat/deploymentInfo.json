@@ -92,5 +92,79 @@
     "yvalUSD": {
       "address": "0x8fE0617403d6f897Ef5aa5154c3377A7D7cd82e4"
     }
+  },
+  "1338": {
+    "ApeDistributor": {
+      "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"
+    },
+    "ApeRegistry": {
+      "address": "0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc"
+    },
+    "ApeRegistryBeacon": {
+      "address": "0x978A2941BA6CA861DFEE872c75e9FA5C51030d63"
+    },
+    "ApeRouter": {
+      "address": "0x91922e6c71effbFe0BB93Fd927BE47fB9666f604"
+    },
+    "ApeToken": {
+      "address": "0x15135c52D14D98EB746c76F66200e4b0b84851ae"
+    },
+    "ApeVaultFactoryBeacon": {
+      "address": "0x069cD64cC7D93b7e69130808338c0c2e561F3629"
+    },
+    "ApeVaultWrapperImplementation": {
+      "address": "0xB6f8ed8dB8d6AC13f9d34dC0353Bc86c445c36EC"
+    },
+    "DAI": {
+      "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"
+    },
+    "FeeRegistry": {
+      "address": "0x7E16Ca8c3dD9eD102B80C143b564dA3D354a9Fb9"
+    },
+    "MockRegistry": {
+      "address": "0xB6f8ed8dB8d6AC13f9d34dC0353Bc86c445c36EC"
+    },
+    "MockVaultFactory": {
+      "address": "0x978A2941BA6CA861DFEE872c75e9FA5C51030d63"
+    },
+    "SUSHI": {
+      "address": "0x626a57CA09CA76db7967E08B0c03885c6EBf8b82"
+    },
+    "USDC": {
+      "address": "0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc"
+    },
+    "USDT": {
+      "address": "0xE881a3138226af8237557d793FC200c71BF190d5"
+    },
+    "WETH": {
+      "address": "0x438a4081dCD8de676D459A61f921803D1f0Fd18f"
+    },
+    "YFI": {
+      "address": "0x42059a28cAaAe7807dA80C4f982ddAA04f53b2C8"
+    },
+    "alUSD": {
+      "address": "0xA2346FdA6A17D8B19c81f70AF4C93961235f3bE0"
+    },
+    "yvDAI": {
+      "address": "0x7E16Ca8c3dD9eD102B80C143b564dA3D354a9Fb9"
+    },
+    "yvSUSHI": {
+      "address": "0x369E10564901948CDD2e831C2511b33119fd317A"
+    },
+    "yvUSDC": {
+      "address": "0x069cD64cC7D93b7e69130808338c0c2e561F3629"
+    },
+    "yvUSDT": {
+      "address": "0x876CA44D5cAE45a6b9eDDf8Ce20AE395BfA24875"
+    },
+    "yvWETH": {
+      "address": "0x83b82435caD3EBAd7BAFa6071fDA5A77330B0803"
+    },
+    "yvYFI": {
+      "address": "0x544fE4EB3e85C7BCF5F30421Cb0D9c768721CB90"
+    },
+    "yvalUSD": {
+      "address": "0x8fE0617403d6f897Ef5aa5154c3377A7D7cd82e4"
+    }
   }
 }

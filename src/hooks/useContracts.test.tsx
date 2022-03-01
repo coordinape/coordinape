@@ -1,7 +1,7 @@
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
-import { act, render } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
+import { BigNumber } from 'ethers';
 
-import { HARDHAT_CHAIN_ID } from 'config/env';
 import { TestWrapper } from 'utils/testing';
 
 import { useContracts } from './useContracts';
@@ -23,12 +23,14 @@ test('return undefined when the web3 provider is not ready', async () => {
 });
 
 test('set up contracts', async () => {
-  expect.assertions(1);
+  let balance: BigNumber | undefined;
 
   const Harness = () => {
     const contracts = useContracts();
     if (contracts) {
-      expect(contracts.chainId).toEqual(HARDHAT_CHAIN_ID);
+      (async () => {
+        balance = await contracts.getETHBalance();
+      })();
     }
     return <></>;
   };
@@ -40,6 +42,13 @@ test('set up contracts', async () => {
       </TestWrapper>
     );
   });
+
+  // assuming the test user has been funded with 1000 ETH
+  await waitFor(() =>
+    expect(balance?.div(BigNumber.from(10).pow(18)).toNumber()).toBeGreaterThan(
+      900
+    )
+  );
 });
 
 test('getToken', async () => {
@@ -51,7 +60,7 @@ test('getToken', async () => {
       const dai = contracts.getToken('DAI');
       expect(dai).toBeDefined();
       expect(dai.address).toEqual(
-        (deploymentInfo as any)[HARDHAT_CHAIN_ID].DAI.address
+        (deploymentInfo as any)[contracts.chainId].DAI.address
       );
     }
     return <></>;

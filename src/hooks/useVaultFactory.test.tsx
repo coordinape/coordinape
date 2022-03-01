@@ -11,11 +11,11 @@ import { useVaultFactory } from './useVaultFactory';
 
 import { IVault } from 'types';
 
-test('create a vault', async () => {
+xtest('create a vault', async () => {
   let done = false;
 
   const Harness = () => {
-    const { createVault } = useVaultFactory(1);
+    const { createVault } = useVaultFactory(101); // fake org id
     const contracts = useContracts();
     if (!contracts) return null;
 

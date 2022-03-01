@@ -15,7 +15,6 @@ export const FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
-export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);
 export const HARDHAT_OWNER_ADDRESS =
   process.env.HARDHAT_OWNER_ADDRESS ?? ZERO_ADDRESS;
 
