@@ -1,17 +1,25 @@
 import assert from 'assert';
 
-import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import { act, render, waitFor } from '@testing-library/react';
 
-import { HARDHAT_CHAIN_ID } from 'config/env';
-import { TestWrapper } from 'utils/testing';
+import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
 import { useContracts } from './useContracts';
 import { useVaultFactory } from './useVaultFactory';
 
 import { IVault } from 'types';
 
-xtest('create a vault', async () => {
+let snapshotId: string;
+
+beforeAll(async () => {
+  snapshotId = await takeSnapshot();
+});
+
+afterAll(async () => {
+  await restoreSnapshot(snapshotId);
+});
+
+test('create a vault', async () => {
   let done = false;
 
   const Harness = () => {
@@ -19,14 +27,12 @@ xtest('create a vault', async () => {
     const contracts = useContracts();
     if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: '0x0', type: 'USDC' }).then(
+    createVault({ simpleTokenAddress: '0x0', type: 'DAI' }).then(
       (vault: IVault | undefined) => {
         expect(vault).toBeTruthy();
         assert(vault);
         expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
-        expect(vault?.tokenAddress).toEqual(
-          (deploymentInfo as any)[HARDHAT_CHAIN_ID].USDC.address
-        );
+        expect(vault?.tokenAddress).toEqual(contracts.getToken('DAI').address);
         done = true;
       }
     );
