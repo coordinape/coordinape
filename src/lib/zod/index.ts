@@ -87,7 +87,7 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
       HasuraAdminSessionVariables,
       HasuraUserSessionVariables,
     ]),
-    request_query: z.string(),
+    request_query: z.string().optional(),
   });
 }
 
@@ -104,6 +104,6 @@ export function composeHasuraActionRequestBodyWithSession<
     input: z.object({ object: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: sessionType,
-    request_query: z.string(),
+    request_query: z.string().optional(),
   });
 }
