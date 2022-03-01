@@ -11,6 +11,10 @@ type Mutation {
 }
 
 type Mutation {
+  logoutUser: logoutResponse
+}
+
+type Mutation {
   upload_circle_logo(
     object: upload_circle_image_input!
   ): update_circle_response
@@ -78,5 +82,9 @@ type update_profile_response {
 
 type update_circle_response {
   id: Int!
+}
+
+type logoutResponse {
+  id: Int
 }
 
