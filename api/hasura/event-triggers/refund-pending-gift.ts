@@ -9,29 +9,58 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 async function handler(req: VercelRequest, res: VercelResponse) {
   // no parsing should be needed here since this data comes straight from
   // the database and zeus keeps this consistent for us
-  const payload: EventTriggerPayload<'pending_token_gifts', 'DELETE'> =
-    req.body;
-  const { sender_id, tokens: tokensToRefund } = payload.event.data.old;
+  const payload: EventTriggerPayload<
+    'pending_token_gifts',
+    'DELETE' | 'UPDATE'
+  > = req.body;
+  const {
+    recipient_id,
+    sender_id,
+    tokens: tokensToRefund,
+    circle_id,
+  } = payload.event.data.old;
+
+  const newTokenAmount = payload.event.data.new?.tokens ?? 0;
+
+  if (tokensToRefund === 0 || newTokenAmount != 0) {
+    res.status(200).json({
+      message: `Not a refund event.`,
+    });
+    return;
+  }
 
   try {
-    const { users_by_pk } = await gql.q('query')({
+    const { users_by_pk: sender } = await gql.q('query')({
       users_by_pk: [
         { id: sender_id },
         {
+          non_giver: true,
           give_token_remaining: true,
-          circle_id: true,
           name: true,
         },
       ],
     });
-    assert(users_by_pk, `dangling give without user: ${sender_id}`);
+    const { users_by_pk: recipient } = await gql.q('query')({
+      users_by_pk: [
+        { id: recipient_id },
+        {
+          non_receiver: true,
+          give_token_remaining: true,
+          name: true,
+        },
+      ],
+    });
+    assert(sender, `dangling give without user: ${sender_id}`);
+    assert(recipient, `dangling give without user: ${recipient_id}`);
     const {
       give_token_remaining: originalGive,
       name: senderName,
-      circle_id,
-    } = users_by_pk;
+      non_giver,
+    } = sender;
 
-    if (tokensToRefund > 0) {
+    const { name: recipientName, non_receiver } = recipient;
+
+    if (tokensToRefund > 0 && (non_giver || non_receiver)) {
       const { update_users_by_pk: result } = await gql.q('mutation')({
         update_users_by_pk: [
           {
@@ -47,7 +76,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       );
       res.status(200).json({
         message:
-          `${tokensToRefund} GIVE refunded to ${senderName} in circle #${circle_id}, ` +
+          `${tokensToRefund} GIVE refunded to ${senderName} from ${recipientName} in circle #${circle_id}, ` +
           `bringing their remaining GIVE to ${result.give_token_remaining}`,
       });
       return;

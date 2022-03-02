@@ -121,17 +121,32 @@ export class Gql {
         {
           id: true,
           fixed_non_receiver: true,
+          non_giver: true,
           non_receiver: true,
           starting_tokens: true,
           give_token_received: true,
           give_token_remaining: true,
+          pending_sent_gifts: [
+            // the join filters down to only gifts to the user
+            {},
+            {
+              id: true,
+              epoch_id: true,
+              recipient_id: true,
+              recipient_address: true,
+              note: true,
+              tokens: true,
+            },
+          ],
           pending_received_gifts: [
             // the join filters down to only gifts to the user
             {},
             {
+              id: true,
               epoch_id: true,
               sender_id: true,
               sender_address: true,
+              note: true,
               tokens: true,
             },
           ],

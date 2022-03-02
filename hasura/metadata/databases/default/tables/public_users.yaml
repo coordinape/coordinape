@@ -120,6 +120,7 @@ event_triggers:
     enable_manual: false
     update:
       columns:
+      - non_giver
       - non_receiver
   headers:
   - name: verification_key
@@ -134,6 +135,7 @@ event_triggers:
     enable_manual: false
     update:
       columns:
+      - non_giver
       - non_receiver
   headers:
   - name: verification_key

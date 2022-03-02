@@ -71,6 +71,9 @@ event_triggers:
     delete:
       columns: "*"
     enable_manual: false
+    update:
+      columns:
+      - tokens
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
@@ -84,6 +87,9 @@ event_triggers:
     delete:
       columns: "*"
     enable_manual: false
+    update:
+      columns:
+      - tokens
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
@@ -97,6 +103,9 @@ event_triggers:
     delete:
       columns: "*"
     enable_manual: false
+    update:
+      columns:
+      - tokens
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET

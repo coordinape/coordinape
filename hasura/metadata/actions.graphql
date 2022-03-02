@@ -98,3 +98,4 @@ type logoutResponse {
 type UserResponse {
   id: ID!
 }
+

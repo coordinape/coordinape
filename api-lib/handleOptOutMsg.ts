@@ -27,5 +27,24 @@ export default async function handleOptOutMsg(
       return true;
     }
   }
+  if (data.old.non_giver === false && data.new.non_giver === true) {
+    const currentEpoch = await gql.getCurrentEpoch(data.new.circle_id);
+
+    if (currentEpoch) {
+      await sendSocialMessage({
+        // note: give_token_received is susceptible to inconsistencies
+        // and will be deprecated. This total will be removed when the column
+        // is removed
+        message:
+          `${data.new.name} can no longer allocate GIVE during the current epoch.\n` +
+          `A Total of ${
+            data.old.starting_tokens - data.old.give_token_remaining
+          } GIVE was refunded`,
+        circleId: data.new.circle_id,
+        channels,
+      });
+      return true;
+    }
+  }
   return false;
 }
