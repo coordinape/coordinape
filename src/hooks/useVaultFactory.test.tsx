@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import { act, render, waitFor } from '@testing-library/react';
 
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
@@ -20,22 +18,19 @@ afterAll(async () => {
 });
 
 test('create a vault', async () => {
-  let done = false;
+  let vault: IVault;
+  let daiAddress: string;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const contracts = useContracts();
     if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: '0x0', type: 'DAI' }).then(
-      (vault: IVault | undefined) => {
-        expect(vault).toBeTruthy();
-        assert(vault);
-        expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
-        expect(vault?.tokenAddress).toEqual(contracts.getToken('DAI').address);
-        done = true;
-      }
-    );
+    daiAddress = contracts.getToken('DAI').address;
+
+    createVault({ simpleTokenAddress: '0x0', type: 'DAI' }).then(v => {
+      if (v) vault = v;
+    });
     return null;
   };
 
@@ -47,5 +42,9 @@ test('create a vault', async () => {
     );
   });
 
-  await waitFor(() => expect(done).toBeTruthy());
+  await waitFor(() => {
+    expect(vault).toBeTruthy();
+    expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
+    expect(vault.tokenAddress).toEqual(daiAddress);
+  });
 }, 10000);
