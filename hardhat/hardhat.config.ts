@@ -6,7 +6,6 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
   USDC_WHALE_ADDRESS,
@@ -16,17 +15,7 @@ import {
   FORK_MAINNET,
   GANACHE_URL,
 } from './constants';
-
-export async function unlockSigner(
-  address: string,
-  hre: HardhatRuntimeEnvironment
-): Promise<ethers.Signer> {
-  await hre.network.provider.request({
-    method: 'hardhat_impersonateAccount',
-    params: [address],
-  });
-  return hre.ethers.provider.getSigner(address);
-}
+import { unlockSigner } from './utils/unlockSigner';
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -48,11 +37,6 @@ task('mint', 'Mints the given token to specified account')
   .addParam('amount', 'The amount of tokens to mint')
   .setAction(
     async (args: { token: string; receiver: string; amount: string }, hre) => {
-      // patch provider so that impersonation would work
-      hre.ethers.provider = new ethers.providers.JsonRpcProvider(
-        hre.ethers.provider.connection.url
-      );
-
       const mintEth = async (receiver: string, amount: string) => {
         const signers = await hre.ethers.getSigners();
 
