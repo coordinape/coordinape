@@ -20,34 +20,23 @@ export const getNomineeFromAddress = async (
       },
       {
         id: true,
+        name: true,
+        address: true,
+        nominated_by_user_id: true,
+        circle_id: true,
+        description: true,
+        nominated_date: true,
+        expiry_date: true,
+        vouches_required: true,
+        user_id: true,
+        ended: true,
+        created_at: true,
+        updated_at: true
       },
     ],
   });
 
-  return nominees;
-};
-
-export const getUserFromAddress = async (address: string, circleId: number) => {
-  const { users } = await gql.q('query')({
-    users: [
-      {
-        where: {
-          _and: [
-            {
-              address: { _eq: address },
-              circle_id: { _eq: circleId },
-              deleted_at: { _is_null: true },
-            },
-          ],
-        },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
-
-  return users;
+  return nominees.pop();
 };
 
 export const getUserFromProfileIdWithCircle = async (
@@ -84,29 +73,27 @@ export const getUserFromProfileIdWithCircle = async (
 };
 
 export const insertNominee = async (
-  nominatedByUserId: number,
-  circleId: number,
-  address: string,
-  name: string,
-  description: string,
-  nominationDaysLimit: number,
-  vouchesRequired: number
+    params:{
+      nominated_by_user_id: number,
+      circle_id: number,
+      address: string,
+      name: string,
+      description: string,
+      nomination_days_limit: number,
+      vouches_required: number
+    }
 ) => {
   const today = new Date();
   const expiry = new Date();
-  expiry.setDate(today.getDate() + nominationDaysLimit);
+  expiry.setDate(today.getDate() + params.nomination_days_limit);
+  const input: {} = params
   const { insert_nominees_one } = await gql.q('mutation')({
     insert_nominees_one: [
       {
         object: {
-          address: address,
-          circle_id: circleId,
-          name: name,
-          description: description,
-          nominated_by_user_id: nominatedByUserId,
+          ... params,
           nominated_date: today,
           expiry_date: expiry,
-          vouches_required: vouchesRequired,
         },
       },
       {

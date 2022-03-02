@@ -3,6 +3,12 @@ type Mutation {
 }
 
 type Mutation {
+  createUser(
+    object: createUserInput!
+  ): createUserResponse
+}
+
+type Mutation {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
@@ -27,9 +33,9 @@ type Mutation {
 }
 
 type Mutation {
-  create_nominee(
-    object: create_nominee_input!
-  ): create_nominee_response
+  createNominee(
+    object: CreateNomineeInput!
+  ): CreateNomineeResponse
 }
 
 input CreateCircleInput {
@@ -49,13 +55,6 @@ input CreateUserInput {
   non_receiver: Boolean
   role: Int
   starting_tokens: Int
-}
-
-input create_nominee_input {
-  name: String!
-  address: String!
-  description: String!
-  circle_id: Int!
 }
 
 input UploadImageInput {
@@ -79,6 +78,12 @@ input AdminUpdateUserInput {
   role: Int
 }
 
+input CreateNomineeInput {
+  name: String!
+  address: String!
+  description: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -99,6 +104,6 @@ type UserResponse {
   id: ID!
 }
 
-type create_nominee_response {
+type CreateNomineeResponse {
   id: Int
 }
