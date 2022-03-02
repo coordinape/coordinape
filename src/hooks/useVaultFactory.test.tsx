@@ -42,9 +42,12 @@ test('create a vault', async () => {
     );
   });
 
-  await waitFor(() => {
-    expect(vault).toBeTruthy();
-    expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
-    expect(vault.tokenAddress).toEqual(daiAddress);
-  });
+  await waitFor(
+    () => {
+      expect(vault).toBeTruthy();
+      expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
+      expect(vault.tokenAddress).toEqual(daiAddress);
+    },
+    { timeout: 10000 }
+  );
 }, 10000);
