@@ -2,7 +2,7 @@ actions:
 - name: adminUpdateUser
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/admin_update_user'
+    handler: '{{HASURA_API_BASE_URL}}/actions/adminUpdateUser'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -13,7 +13,7 @@ actions:
 - name: createUser
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/create_user'
+    handler: '{{HASURA_API_BASE_URL}}/actions/createUser'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -22,10 +22,10 @@ actions:
   - role: user
   - role: superadmin
   comment: creates a user in a circle and creates a profile if none exists
-- name: create_circle
+- name: createCircle
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/create_circle'
+    handler: '{{HASURA_API_BASE_URL}}/actions/createCircle'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -36,17 +36,17 @@ actions:
 - name: logoutUser
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/logout_user'
+    handler: '{{HASURA_API_BASE_URL}}/actions/logoutUser'
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: superadmin
   - role: user
-- name: upload_circle_logo
+- name: uploadCircleLogo
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/upload_circle_logo'
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadCircleLogo'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -54,10 +54,10 @@ actions:
   permissions:
   - role: user
   - role: superadmin
-- name: upload_profile_avatar
+- name: uploadProfileAvatar
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/upload_profile_avatar'
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadProfileAvatar'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -65,10 +65,10 @@ actions:
   permissions:
   - role: user
   - role: superadmin
-- name: upload_profile_background
+- name: uploadProfileBackground
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/upload_profile_background'
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadProfileBackground'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -79,13 +79,12 @@ actions:
 custom_types:
   enums: []
   input_objects:
-  - name: create_circle_input
-  - name: upload_circle_image_input
+  - name: CreateCircleInput
   - name: CreateUserInput
-  - name: upload_image_input
+  - name: UploadImageInput
   - name: AdminUpdateUserInput
   objects:
-  - name: create_circle_response
+  - name: CreateCircleResponse
     relationships:
     - remote_table:
         schema: public
@@ -103,7 +102,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: update_profile_response
+  - name: UpdateProfileResponse
     relationships:
     - remote_table:
         schema: public
@@ -113,7 +112,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: update_circle_response
+  - name: UpdateCircleResponse
     relationships:
     - remote_table:
         schema: public
@@ -133,7 +132,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: logoutResponse
+  - name: LogoutResponse
     relationships:
     - remote_table:
         schema: public

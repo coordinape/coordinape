@@ -11,34 +11,34 @@ type Mutation {
 }
 
 type Mutation {
-  create_circle(
-    object: create_circle_input!
-  ): create_circle_response
+  createCircle(
+    object: CreateCircleInput!
+  ): CreateCircleResponse
 }
 
 type Mutation {
-  logoutUser: logoutResponse
+  logoutUser: LogoutResponse
 }
 
 type Mutation {
-  upload_circle_logo(
-    object: upload_circle_image_input!
-  ): update_circle_response
+  uploadCircleLogo(
+    object: UploadCircleImageInput!
+  ): UpdateCircleResponse
 }
 
 type Mutation {
-  upload_profile_avatar(
-    object: upload_image_input!
-  ): update_profile_response
+  uploadProfileAvatar(
+    object: UploadImageInput!
+  ): UpdateProfileResponse
 }
 
 type Mutation {
-  upload_profile_background(
-    object: upload_image_input!
-  ): update_profile_response
+  uploadProfileBackground(
+    object: UploadImageInput!
+  ): UpdateProfileResponse
 }
 
-input create_circle_input {
+input CreateCircleInput {
   user_name: String!
   address: String!
   circle_name: String!
@@ -58,17 +58,13 @@ input CreateUserInput {
   starting_tokens: Int
 }
 
-input upload_image_input {
+input UploadImageInput {
   image_data_base64: String!
 }
 
-input upload_circle_image_input {
+input UploadCircleImageInput {
   circle_id: Int!
   image_data_base64: String!
-}
-
-type create_circle_response {
-  id: Int!
 }
 
 input AdminUpdateUserInput {
@@ -83,19 +79,35 @@ input AdminUpdateUserInput {
   role: Int
 }
 
-type update_profile_response {
+type CreateCircleResponse {
+  id: Int!
+  name: String!
+  protocol_id: Int!
+  team_sel_text: String
+  alloc_text: String
+  vouching: Boolean!
+  min_vouches: Int!
+  nomination_days_limit: Int!
+  vouching_text: String
+  logo: String
+  default_opt_in: Boolean!
+  team_selection: Boolean!
+  only_giver_vouch: Boolean!
+  auto_opt_out: Boolean!
+}
+
+type UpdateProfileResponse {
   id: Int!
 }
 
-type update_circle_response {
+type UpdateCircleResponse {
   id: Int!
 }
 
-type logoutResponse {
+type LogoutResponse {
   id: Int
 }
 
 type UserResponse {
   id: ID!
 }
-

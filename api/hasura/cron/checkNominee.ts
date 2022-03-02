@@ -8,7 +8,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const { nominees } = await gql.getExpiredNominees();
 
     if (nominees.length > 0) {
-      // triggers: hasura/event-triggers/check-nominee-*.ts
+      // triggers: hasura/event_triggers/checkNominee*.ts
       const { update_nominees } = await gql.updateExpiredNominees(
         nominees.map(n => n.id)
       );
