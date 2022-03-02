@@ -1,4 +1,4 @@
-import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import { ERC20 } from '@coordinape/hardhat/dist/typechain';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
 
@@ -52,17 +52,11 @@ test('set up contracts', async () => {
 });
 
 test('getToken', async () => {
-  expect.assertions(2);
+  let dai: ERC20;
 
   const Harness = () => {
     const contracts = useContracts();
-    if (contracts) {
-      const dai = contracts.getToken('DAI');
-      expect(dai).toBeDefined();
-      expect(dai.address).toEqual(
-        (deploymentInfo as any)[contracts.chainId].DAI.address
-      );
-    }
+    if (contracts) dai = contracts.getToken('DAI');
     return <></>;
   };
 
@@ -72,5 +66,10 @@ test('getToken', async () => {
         <Harness />
       </TestWrapper>
     );
+  });
+
+  await waitFor(async () => {
+    expect(dai).toBeDefined();
+    expect(await dai.symbol()).toEqual('DAI');
   });
 });
