@@ -9,7 +9,7 @@ CREATE TABLE "public"."vault_transactions"
   "value" varchar NOT NULL,
   "date" Date NOT NULL,
   "vault_id" bigint NOT NULL,
-  "created_by" bigint NOT NULL,
+  "created_by" bigint,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now(),
   PRIMARY KEY ("id") ,
