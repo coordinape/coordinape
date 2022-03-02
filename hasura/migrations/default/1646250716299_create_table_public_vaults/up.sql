@@ -6,7 +6,7 @@ CREATE TABLE "public"."vaults"
   "type" integer NOT NULL,
   "org_id" bigint NOT NULL,
   "decimals" integer NOT NULL,
-  "vault_owner" bigint NOT NULL,
+  "owner_id" bigint NOT NULL,
   "created_by" bigint NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now(),
