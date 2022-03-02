@@ -61,8 +61,6 @@ export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
-  Fortmatic = 'fortmatic',
-  // Portis = 'portis',
 }
 
 export interface IAuth {

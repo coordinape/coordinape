@@ -1,16 +1,8 @@
-// import { AbstractConnector } from '@web3-react/abstract-connector';
-import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
-// import { PortisConnector } from '@web3-react/portis-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
-import { REACT_APP_FORTMATIC_API_KEY } from 'config/env';
-import {
-  networkIds,
-  supportedNetworkIds,
-  supportedNetworkURLs,
-} from 'config/networks';
+import { supportedNetworkIds, supportedNetworkURLs } from 'config/networks';
 
 const POLLING_INTERVAL = 12000;
 
@@ -25,25 +17,9 @@ const walletconnect = new WalletConnectConnector({
   pollingInterval: POLLING_INTERVAL,
 });
 
-const fortmatic = new FortmaticConnector({
-  apiKey: REACT_APP_FORTMATIC_API_KEY,
-  chainId: networkIds.MAINNET,
-});
-
-// const portis = new PortisConnector({
-//   dAppId: REACT_APP_PORTIS_DAPP_ID,
-//   networks: supportedNetworkIds,
-// });
-
 const walletlink = new WalletLinkConnector({
   url: supportedNetworkURLs[1],
   appName: 'Coordinape',
 });
 
-export const connectors = {
-  injected,
-  walletconnect,
-  walletlink,
-  fortmatic,
-  // portis,
-};
+export const connectors = { injected, walletconnect, walletlink };
