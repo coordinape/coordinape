@@ -67,15 +67,15 @@ export function useVaultFactory(orgId?: number) {
 
       throw new Error('VaultCreated event not found');
     } catch (e) {
+      console.error(e);
+
       if ((e as any).message?.match(/method=.decimals/)) {
         apeError(
           "The custom asset must be an ERC20 token. (Couldn't call the decimals() method)"
         );
-        return;
+      } else {
+        apeError(e);
       }
-
-      console.error(e);
-      apeError(e);
     }
   };
 
