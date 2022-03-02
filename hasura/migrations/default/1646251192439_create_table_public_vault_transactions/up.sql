@@ -4,7 +4,7 @@ CREATE TABLE "public"."vault_transactions"
   "name" varchar NOT NULL,
   "date_type" varchar NOT NULL,
   "posneg" varchar NOT NULL,
-  "trx_number" varchar NOT NULL,
+  "tx_hash" varchar NOT NULL,
   "active_users" varchar NOT NULL,
   "value" varchar NOT NULL,
   "date" Date NOT NULL,
