@@ -47,12 +47,8 @@ export function useVaultFactory(orgId?: number) {
       apeInfo('transaction sent');
       const receipt = await tx.wait();
       apeInfo('transaction mined');
-      if (!receipt?.events) {
-        apeError('VaultCreated event not found');
-        return;
-      }
 
-      for (const event of receipt.events) {
+      for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
           const vault: IVault = {
@@ -68,6 +64,8 @@ export function useVaultFactory(orgId?: number) {
           return vault;
         }
       }
+
+      throw new Error('VaultCreated event not found');
     } catch (e) {
       if ((e as any).message?.match(/method=.decimals/)) {
         apeError(
