@@ -2,17 +2,21 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b, _c;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.ZERO_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.TEST_ENV = void 0;
+exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.ZERO_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.FORK_MAINNET = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const ethers_1 = require("ethers");
 dotenv_1.default.config({ path: '../.env' });
-exports.TEST_ENV = process.env.TEST || process.env.CI ? true : false;
+exports.FORK_MAINNET = process.env.FORK_MAINNET || process.env.CI;
+exports.GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
+exports.GANACHE_URL = `http://127.0.0.1:${exports.GANACHE_PORT}`;
 exports.ETHEREUM_RPC_URL = (_a = process.env.ETHEREUM_RPC_URL) !== null && _a !== void 0 ? _a : 'http://127.0.0.1:7545';
-exports.FORKED_BLOCK = +((_b = process.env.FORKED_BLOCK) !== null && _b !== void 0 ? _b : '13500000');
+exports.FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
+    ? parseInt(process.env.HARDHAT_FORK_BLOCK)
+    : undefined;
 exports.ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-exports.HARDHAT_OWNER_ADDRESS = (_c = process.env.HARDHAT_OWNER_ADDRESS) !== null && _c !== void 0 ? _c : exports.ZERO_ADDRESS;
+exports.HARDHAT_OWNER_ADDRESS = (_b = process.env.HARDHAT_OWNER_ADDRESS) !== null && _b !== void 0 ? _b : exports.ZERO_ADDRESS;
 exports.YEARN_REGISTRY_ADDRESS = '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804';
 exports.USDC_WHALE_ADDRESS = '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503';
 exports.USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';

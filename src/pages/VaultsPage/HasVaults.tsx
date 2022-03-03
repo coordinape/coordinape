@@ -5,7 +5,6 @@ import { BigNumber } from 'ethers';
 import { Button, makeStyles } from '@material-ui/core';
 
 import { StaticTable } from 'components';
-import { knownTokens } from 'config/networks';
 import { useContracts } from 'hooks/useContracts';
 import { InfoIcon } from 'icons';
 
@@ -204,8 +203,7 @@ export default function HasVaults({ epochs, vault }: HasVaultsProps) {
     }
 
     vaultContract?.underlyingValue().then(x => {
-      const { decimals } = knownTokens[vaultType];
-      setBalance(x.div(BigNumber.from(10).pow(decimals)).toNumber());
+      setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
     });
   }, [vault.id, vaultContract]);
 

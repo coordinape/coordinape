@@ -4,7 +4,6 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@nomiclabs/hardhat-ganache';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 export declare function unlockSigner(address: string, hre: HardhatRuntimeEnvironment): Promise<ethers.Signer>;
 declare const config: HardhatUserConfig;

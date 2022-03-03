@@ -1,13 +1,12 @@
 import { ImageSources } from '@datamodels/identity-profile-basic';
 
-import { networkIds } from 'config/networks';
 import { getSelfIdCore } from 'services/selfid';
 
 import { ISelfIdProfile } from 'types';
 
 export const addressToCaip10String = (
   address: string,
-  chainId: number = networkIds.MAINNET
+  chainId = 1 // mainnet
 ) => `${address}@eip155:${chainId}`;
 
 export const getIpfsUrl = (

@@ -12,5 +12,5 @@ if [ ! "$HARDHAT_FORK_BLOCK" ]; then
   echo
 fi
 
-yarn --cwd hardhat test
 craco test --coverage
+yarn --cwd hardhat test
