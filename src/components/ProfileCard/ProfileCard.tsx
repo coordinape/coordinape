@@ -16,10 +16,12 @@ import {
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { rLocalGift } from 'recoilState';
+import { useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
+import { ContributionSummary } from './ContributionSummary';
 import { GiftInput } from './GiftInput';
 
 import { IUser } from 'types';
@@ -94,6 +96,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     WebkitLineClamp: 4,
     wordBreak: 'break-word',
+    width: '100%',
+    overflowY: 'auto',
   },
   editButton: {
     margin: theme.spacing(7, 0, 2),
@@ -143,6 +147,7 @@ const ProfileCardInner = ({
       tokens: tokens || gift.tokens || 0,
     });
   };
+  const contributions = useContributions(user.address);
 
   return (
     <div className={classes.root}>
@@ -203,7 +208,9 @@ const ProfileCardInner = ({
       </div>
 
       <div className={classes.bio}>
-        {isMe && !user.bio ? (
+        {contributions?.contributions.length ? (
+          <ContributionSummary contributions={contributions} />
+        ) : isMe && !user.bio ? (
           'Your Epoch Statement is Blank'
         ) : (
           <ReadMore isHidden={hideUserBio}>{user.bio}</ReadMore>
