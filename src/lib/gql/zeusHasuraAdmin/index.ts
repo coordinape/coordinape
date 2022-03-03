@@ -5,6 +5,17 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    name?: string | null;
+    new_address?: string | null;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -16,6 +27,17 @@ export type ValueTypes = {
     _lte?: boolean | null;
     _neq?: boolean | null;
     _nin?: boolean[];
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    give_token_remaining?: number | null;
+    name: string;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -61,6 +83,12 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
   };
+  ['UserResponse']: AliasType<{
+    /** An object relationship */
+    UserResponse?: ValueTypes['users'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -1695,33 +1723,8 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | null;
-    give_token_remaining?: number | null;
-    name: string;
-    non_giver?: boolean | null;
-    non_receiver?: boolean | null;
-    role?: number | null;
-    starting_tokens?: number | null;
-  };
-  ['createUserResponse']: AliasType<{
-    /** The ethereum address of the user */
-    address?: boolean;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: boolean;
-    /** Primary key */
-    id?: boolean;
-    /** human readable user name */
-    name?: boolean;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: boolean;
-    starting_tokens?: boolean;
-    __typename?: boolean;
-  }>;
   ['create_circle_input']: {
+    address: string;
     circle_name: string;
     protocol_id?: number | null;
     protocol_name?: string | null;
@@ -2645,7 +2648,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
-  ['logout_response']: AliasType<{
+  ['logoutResponse']: AliasType<{
     id?: boolean;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -2653,9 +2656,13 @@ export type ValueTypes = {
   }>;
   /** mutation root */
   ['mutation_root']: AliasType<{
+    adminUpdateUser?: [
+      { object: ValueTypes['AdminUpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
     createUser?: [
-      { object: ValueTypes['createUserInput'] },
-      ValueTypes['createUserResponse']
+      { object: ValueTypes['CreateUserInput'] },
+      ValueTypes['UserResponse']
     ];
     create_circle?: [
       { object: ValueTypes['create_circle_input'] },
@@ -3120,7 +3127,7 @@ export type ValueTypes = {
       },
       ValueTypes['vouches']
     ];
-    logout_user?: ValueTypes['logout_response'];
+    logoutUser?: ValueTypes['logoutResponse'];
     update_burns?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7549,12 +7556,19 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UserResponse']: {
+    /** An object relationship */
+    UserResponse: ModelTypes['users'];
+    id: string;
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -8324,21 +8338,6 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
-  ['createUserInput']: GraphQLTypes['createUserInput'];
-  ['createUserResponse']: {
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
     /** An object relationship */
@@ -8827,14 +8826,16 @@ export type ModelTypes = {
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
-  ['logout_response']: {
+  ['logoutResponse']: {
     id?: number;
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
   /** mutation root */
   ['mutation_root']: {
-    createUser?: ModelTypes['createUserResponse'];
+    adminUpdateUser?: ModelTypes['UserResponse'];
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: ModelTypes['UserResponse'];
     create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
@@ -8974,7 +8975,7 @@ export type ModelTypes = {
     insert_vouches?: ModelTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
-    logout_user?: ModelTypes['logout_response'];
+    logoutUser?: ModelTypes['logoutResponse'];
     /** update data of the table: "burns" */
     update_burns?: ModelTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
@@ -10810,6 +10811,17 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    name?: string;
+    new_address?: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean;
@@ -10821,6 +10833,17 @@ export type GraphQLTypes = {
     _lte?: boolean;
     _neq?: boolean;
     _nin?: Array<boolean>;
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: number;
+    name: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -10865,6 +10888,12 @@ export type GraphQLTypes = {
     _regex?: string;
     /** does the column match the given SQL regular expression */
     _similar?: string;
+  };
+  ['UserResponse']: {
+    __typename: 'UserResponse';
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
+    id: string;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -12296,33 +12325,8 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: number;
-    name: string;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: number;
-    starting_tokens?: number;
-  };
-  ['createUserResponse']: {
-    __typename: 'createUserResponse';
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
   ['create_circle_input']: {
+    address: string;
     circle_name: string;
     protocol_id?: number;
     protocol_name?: string;
@@ -13184,8 +13188,8 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['json'];
     _nin?: Array<GraphQLTypes['json']>;
   };
-  ['logout_response']: {
-    __typename: 'logout_response';
+  ['logoutResponse']: {
+    __typename: 'logoutResponse';
     id?: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
@@ -13193,7 +13197,9 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
-    createUser?: GraphQLTypes['createUserResponse'];
+    adminUpdateUser?: GraphQLTypes['UserResponse'];
+    /** creates a user in a circle and creates a profile if none exists */
+    createUser?: GraphQLTypes['UserResponse'];
     create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];
@@ -13333,7 +13339,7 @@ export type GraphQLTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
-    logout_user?: GraphQLTypes['logout_response'];
+    logoutUser?: GraphQLTypes['logoutResponse'];
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
