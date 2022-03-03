@@ -12,6 +12,6 @@ CREATE TABLE "public"."vaults"
   "updated_at" timestamp NOT NULL DEFAULT now(),
   PRIMARY KEY ("id") ,
   FOREIGN KEY ("org_id") REFERENCES "public"."protocols"("id") ON UPDATE no action ON DELETE no action,
-  FOREIGN KEY ("vault_owner") REFERENCES "public"."users"("id") ON UPDATE no action ON DELETE no action,
+  FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON UPDATE no action ON DELETE no action,
   UNIQUE ("id")
 );
