@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import clsx from 'clsx';
+import { useApi } from 'lib/gql';
 import { transparentize } from 'polished';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles, Button, IconButton } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
+import {
+  ApeAvatar,
+  FormModal,
+  ApeTextField,
+  ApeToggle,
+  ActionDialog,
+} from 'components';
 import { useApiAdminCircle } from 'hooks';
-import { UploadIcon, EditIcon } from 'icons';
+import { useCurrentCircleIntegrations } from 'hooks/gql';
+import {
+  UploadIcon,
+  EditIcon,
+  DeleteIcon,
+  DeworkIcon,
+  DeworkLogo,
+} from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
+import { getDeworkCallbackPath } from 'routes/paths';
 import { getCircleAvatar } from 'utils/domain';
 
 import { ICircle } from 'types';
@@ -48,6 +63,9 @@ const useStyles = makeStyles(theme => ({
         background: 'rgba(81, 99, 105, 0.9)',
       },
     },
+  },
+  errorColor: {
+    color: theme.palette.error.main,
   },
   logoAvatar: {
     width: 96,
@@ -106,6 +124,22 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 700,
     color: theme.colors.text,
     textAlign: 'center',
+  },
+  integrationContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  integrationRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  },
+  integrationText: {
+    color: theme.colors.text,
+    margin: 0,
+    flex: 1,
+  },
+  integrationIcon: {
+    color: theme.colors.text,
   },
   input: {
     width: 500,
@@ -192,6 +226,19 @@ export const AdminCircleModal = ({
   const [vouchingText, setVouchingText] = useState(circle.vouchingText);
   const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
   const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
+
+  const { integrations, refetch: refetchIntegrations } =
+    useCurrentCircleIntegrations();
+  const [deleteIntegration, setDeleteIntegration] =
+    useState<typeof integrations[number]>();
+  const { deleteCircleIntegration } = useApi();
+  const handleDeleteIntegration = useCallback(async () => {
+    if (deleteIntegration) {
+      await deleteCircleIntegration(deleteIntegration.id);
+      await refetchIntegrations();
+      setDeleteIntegration(undefined);
+    }
+  }, [deleteCircleIntegration, refetchIntegrations, deleteIntegration]);
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -448,6 +495,42 @@ export const AdminCircleModal = ({
           value={autoOptOut}
           onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
+        />
+      </div>
+      <div style={{ display: 'grid' }}>
+        <p className={classes.subTitle}>Integrations</p>
+        <div className={classes.integrationContainer}>
+          {integrations.map((integration, index) => (
+            <div key={index} className={classes.integrationRow}>
+              <DeworkLogo size="md" className={classes.integrationIcon} />
+              <p className={classes.integrationText}>{integration.name}</p>
+              <IconButton
+                onClick={() => setDeleteIntegration(integration)}
+                className={classes.errorColor}
+                size="small"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          ))}
+        </div>
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<DeworkIcon size="md" />}
+          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${
+            window.location.origin
+          }${getDeworkCallbackPath()}`}
+        >
+          Connect Dework
+        </Button>
+
+        <ActionDialog
+          open={!!deleteIntegration}
+          title={`Remove ${deleteIntegration?.name} from circle`}
+          onClose={() => setDeleteIntegration(undefined)}
+          primaryText="Remove Integration"
+          onPrimary={deleteIntegration ? handleDeleteIntegration : undefined}
         />
       </div>
       <div className={classes.bottomContainer}>

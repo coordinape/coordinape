@@ -75,3 +75,29 @@ export function useCurrentOrg() {
     organizations_by_pk: [{ id }, { id: true, name: true }],
   }).data?.organizations_by_pk;
 }
+
+export function useCircleIdForEpoch(epochId: number) {
+  return useTypedQuery(`circle-for-epoch-${epochId}`, {
+    epochs_by_pk: [{ id: epochId }, { circle_id: true }],
+  }).data?.epochs_by_pk?.circle_id;
+}
+
+export function useCurrentCircleIntegrations() {
+  const { circleId } = useSelectedCircle();
+  const query = useTypedQuery(`circle-integrations-${circleId}`, {
+    circles_by_pk: [
+      { id: circleId },
+      {
+        id: true,
+        integrations: [
+          {},
+          { id: true, type: true, name: true, data: [{ path: '$' }, true] },
+        ],
+      },
+    ],
+  });
+  return {
+    refetch: query.refetch,
+    integrations: query.data?.circles_by_pk?.integrations ?? [],
+  };
+}
