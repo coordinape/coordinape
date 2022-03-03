@@ -362,8 +362,6 @@ export type ValueTypes = {
   };
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: AliasType<{
-    /** An object relationship */
-    circle?: ValueTypes['circles'];
     circle_id?: boolean;
     data?: [
       {
@@ -400,7 +398,6 @@ export type ValueTypes = {
     _and?: ValueTypes['circle_integrations_bool_exp'][];
     _not?: ValueTypes['circle_integrations_bool_exp'] | null;
     _or?: ValueTypes['circle_integrations_bool_exp'][];
-    circle?: ValueTypes['circles_bool_exp'] | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | null;
     data?: ValueTypes['json_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
@@ -411,6 +408,7 @@ export type ValueTypes = {
   ['circle_integrations_insert_input']: {
     circle_id?: ValueTypes['bigint'] | null;
     data?: ValueTypes['json'] | null;
+    id?: ValueTypes['bigint'] | null;
     name?: string | null;
     type?: string | null;
   };
@@ -438,7 +436,6 @@ export type ValueTypes = {
   }>;
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
-    circle?: ValueTypes['circles_order_by'] | null;
     circle_id?: ValueTypes['order_by'] | null;
     data?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
@@ -1164,6 +1161,31 @@ export type ValueTypes = {
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
       ValueTypes['UserResponse']
+    ];
+    delete_circle_integrations?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_integrations_bool_exp'];
+      },
+      ValueTypes['circle_integrations_mutation_response']
+    ];
+    delete_circle_integrations_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['circle_integrations']
+    ];
+    insert_circle_integrations?: [
+      {
+        /** the rows to be inserted */
+        objects: ValueTypes['circle_integrations_insert_input'][];
+      },
+      ValueTypes['circle_integrations_mutation_response']
+    ];
+    insert_circle_integrations_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['circle_integrations_insert_input'];
+      },
+      ValueTypes['circle_integrations']
     ];
     update_circles?: [
       {
@@ -3045,8 +3067,6 @@ export type ModelTypes = {
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
-    /** An object relationship */
-    circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
     data: ModelTypes['json'];
     id: ModelTypes['bigint'];
@@ -3260,11 +3280,8 @@ export type ModelTypes = {
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
-    adminUpdateUser?: ModelTypes['UserResponse'];
-    createCircle?: ModelTypes['CreateCircleResponse'];
-    createNominee?: ModelTypes['CreateNomineeResponse'];
-    createUser?: ModelTypes['UserResponse'];
-    deleteEpoch?: ModelTypes['DeleteEpochResponse'];
+    createUser?: ModelTypes['createUserResponse'];
+    create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -3273,9 +3290,6 @@ export type ModelTypes = {
     insert_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
-    logoutUser?: ModelTypes['LogoutResponse'];
-    /** Update own user */
-    updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -4209,8 +4223,6 @@ export type GraphQLTypes = {
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
     __typename: 'circle_integrations';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     data: GraphQLTypes['json'];
     id: GraphQLTypes['bigint'];
@@ -4241,7 +4253,6 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
     _not?: GraphQLTypes['circle_integrations_bool_exp'];
     _or?: Array<GraphQLTypes['circle_integrations_bool_exp']>;
-    circle?: GraphQLTypes['circles_bool_exp'];
     circle_id?: GraphQLTypes['bigint_comparison_exp'];
     data?: GraphQLTypes['json_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
@@ -4252,6 +4263,7 @@ export type GraphQLTypes = {
   ['circle_integrations_insert_input']: {
     circle_id?: GraphQLTypes['bigint'];
     data?: GraphQLTypes['json'];
+    id?: GraphQLTypes['bigint'];
     name?: string;
     type?: string;
   };
@@ -4279,7 +4291,6 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
-    circle?: GraphQLTypes['circles_order_by'];
     circle_id?: GraphQLTypes['order_by'];
     data?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
@@ -4850,11 +4861,8 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
-    adminUpdateUser?: GraphQLTypes['UserResponse'];
-    createCircle?: GraphQLTypes['CreateCircleResponse'];
-    createNominee?: GraphQLTypes['CreateNomineeResponse'];
-    createUser?: GraphQLTypes['UserResponse'];
-    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
+    createUser?: GraphQLTypes['createUserResponse'];
+    create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -4863,9 +4871,6 @@ export type GraphQLTypes = {
     insert_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
-    logoutUser?: GraphQLTypes['LogoutResponse'];
-    /** Update own user */
-    updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */

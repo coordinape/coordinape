@@ -6,6 +6,7 @@ import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
+import DeworkCallbackPage from 'pages/DeworkCallbackPage';
 import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
@@ -89,7 +90,12 @@ const LoggedInRoutes = () => {
         element={<IntegrationCallbackPage />}
       />
       <Route
-        path={getDistributePath(':epochId')}
+        key={paths.getDeworkCallbackPath()}
+        path={paths.getDeworkCallbackPath()}
+        element={<DeworkCallbackPage />}
+      />
+      <Route
+        path={paths.getDistributePath(':epochId')}
         element={<DistributePage />}
       />
 

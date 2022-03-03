@@ -1622,6 +1622,363 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  circle_integrations: {
+    data: {
+      path: {
+        type: 'String',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  circle_integrations_aggregate_order_by: {
+    avg: {
+      type: 'circle_integrations_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'circle_integrations_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'circle_integrations_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'circle_integrations_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'circle_integrations_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'circle_integrations_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'circle_integrations_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'circle_integrations_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'circle_integrations_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'circle_integrations_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_avg_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_bool_exp: {
+    _and: {
+      type: 'circle_integrations_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'circle_integrations_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'circle_integrations_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    data: {
+      type: 'json_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    type: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_insert_input: {
+    circle_id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    data: {
+      type: 'json',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    type: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_max_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    type: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_min_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    type: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    data: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    type: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_select_column: 'enum',
+  circle_integrations_stddev_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_stddev_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_stddev_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_sum_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_var_pop_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_var_samp_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  circle_integrations_variance_order_by: {
+    circle_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   circle_private_bool_exp: {
     _and: {
       type: 'circle_private_bool_exp',
@@ -3962,6 +4319,38 @@ export const AllTypesProps: Record<string, any> = {
     updateUser: {
       payload: {
         type: 'UpdateUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    delete_circle_integrations: {
+      where: {
+        type: 'circle_integrations_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    delete_circle_integrations_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    insert_circle_integrations: {
+      objects: {
+        type: 'circle_integrations_insert_input',
+        array: true,
+        arrayRequired: true,
+        required: true,
+      },
+    },
+    insert_circle_integrations_one: {
+      object: {
+        type: 'circle_integrations_insert_input',
         array: false,
         arrayRequired: false,
         required: true,
@@ -9307,7 +9696,6 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'bigint',
   },
   circle_integrations: {
-    circle: 'circles',
     circle_id: 'bigint',
     data: 'json',
     id: 'bigint',
@@ -9385,17 +9773,12 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'bigint',
   },
   mutation_root: {
-    adminUpdateUser: 'UserResponse',
-    createCircle: 'CreateCircleResponse',
-    createNominee: 'CreateNomineeResponse',
-    createUser: 'UserResponse',
-    deleteEpoch: 'DeleteEpochResponse',
+    createUser: 'createUserResponse',
+    create_circle: 'create_circle_response',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
-    logoutUser: 'LogoutResponse',
-    updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',
