@@ -42,12 +42,32 @@ const tokens = {
   },
 };
 
+task('balance', 'Show token balance')
+  .addParam('token', 'The token symbol')
+  .addParam('address', 'The address to check')
+  .setAction(async (args: { token: 'USDC' | 'DAI'; address: string }, hre) => {
+    const contract = new ethers.Contract(
+      tokens[args.token].addr,
+      [
+        'function balanceOf(address) view returns (uint256)',
+        'function decimals() view returns (uint8)',
+      ],
+      hre.ethers.provider
+    );
+    const decimals = await contract.decimals();
+    console.log(
+      (await contract.balanceOf(args.address))
+        .div(BigNumber.from(10).pow(decimals))
+        .toNumber()
+    );
+  });
+
 task('mint', 'Mints the given token to specified account')
-  .addParam('token', 'The token to mint')
-  .addParam('receiver', 'The receiver of the minted token')
-  .addParam('amount', 'The amount of tokens to mint')
+  .addParam('token', 'The token symbol')
+  .addParam('address', 'The recipient')
+  .addParam('amount', 'The amount to mint')
   .setAction(
-    async (args: { token: string; receiver: string; amount: string }, hre) => {
+    async (args: { token: string; address: string; amount: string }, hre) => {
       const mintEth = async (receiver: string, amount: string) => {
         const signers = await hre.ethers.getSigners();
         await signers[0].sendTransaction({
@@ -82,10 +102,10 @@ task('mint', 'Mints the given token to specified account')
       switch (args.token) {
         case 'USDC':
         case 'DAI':
-          await mintToken(args.token, args.receiver, args.amount);
+          await mintToken(args.token, args.address, args.amount);
           break;
         case 'ETH':
-          await mintEth(args.receiver, args.amount);
+          await mintEth(args.address, args.amount);
           break;
         default:
           console.error(`Unknown token name: ${args.token}`);
