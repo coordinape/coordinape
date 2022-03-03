@@ -1,14 +1,14 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Signer } from 'ethers';
 
-import { GANACHE_URL } from '../constants';
+import { GANACHE_URL, GANACHE_NETWORK_NAME } from '../constants';
 
 export async function unlockSigner(
   address: string,
   { ethers, network }: { ethers: any; network: any }
 ): Promise<Signer> {
-  const { provider } = network;
-  if (process.env.GANACHE) {
+  const { provider, name } = network;
+  if (name === GANACHE_NETWORK_NAME) {
     await provider.request({ method: 'evm_addAccount', params: [address, ''] });
     await provider.request({
       method: 'personal_unlockAccount',

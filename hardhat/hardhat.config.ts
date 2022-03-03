@@ -11,6 +11,7 @@ import {
   ETHEREUM_RPC_URL,
   FORKED_BLOCK,
   FORK_MAINNET,
+  GANACHE_NETWORK_NAME,
   GANACHE_URL,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
@@ -141,7 +142,7 @@ const config: HardhatUserConfig = {
           }
         : undefined,
     },
-    ci: {
+    [GANACHE_NETWORK_NAME]: {
       ...sharedNetworkSettings,
       chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
