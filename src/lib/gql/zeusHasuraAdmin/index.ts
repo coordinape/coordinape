@@ -1731,20 +1731,9 @@ export type ValueTypes = {
     user_name: string;
   };
   ['create_circle_response']: AliasType<{
-    alloc_text?: boolean;
-    auto_opt_out?: boolean;
     /** An object relationship */
     circle?: ValueTypes['circles'];
-    default_opt_in?: boolean;
     id?: boolean;
-    logo?: boolean;
-    min_vouches?: boolean;
-    name?: boolean;
-    nomination_days_limit?: boolean;
-    only_giver_vouch?: boolean;
-    protocol_id?: boolean;
-    team_sel_text?: boolean;
-    team_selection?: boolean;
     users?: [
       {
         /** distinct select on columns */
@@ -1771,8 +1760,6 @@ export type ValueTypes = {
       },
       ValueTypes['users_aggregate']
     ];
-    vouching?: boolean;
-    vouching_text?: boolean;
     __typename?: boolean;
   }>;
   ['date']: unknown;
@@ -2661,7 +2648,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
-  ['logout_response']: AliasType<{
+  ['logoutResponse']: AliasType<{
     id?: boolean;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -3140,7 +3127,7 @@ export type ValueTypes = {
       },
       ValueTypes['vouches']
     ];
-    logout_user?: ValueTypes['logout_response'];
+    logoutUser?: ValueTypes['logoutResponse'];
     update_burns?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8353,26 +8340,13 @@ export type ModelTypes = {
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
   ['create_circle_input']: GraphQLTypes['create_circle_input'];
   ['create_circle_response']: {
-    alloc_text?: string;
-    auto_opt_out: boolean;
     /** An object relationship */
     circle: ModelTypes['circles'];
-    default_opt_in: boolean;
     id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -8852,7 +8826,7 @@ export type ModelTypes = {
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
-  ['logout_response']: {
+  ['logoutResponse']: {
     id?: number;
     /** An object relationship */
     profile: ModelTypes['profiles'];
@@ -9001,7 +8975,7 @@ export type ModelTypes = {
     insert_vouches?: ModelTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
-    logout_user?: ModelTypes['logout_response'];
+    logoutUser?: ModelTypes['logoutResponse'];
     /** update data of the table: "burns" */
     update_burns?: ModelTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
@@ -12360,26 +12334,13 @@ export type GraphQLTypes = {
   };
   ['create_circle_response']: {
     __typename: 'create_circle_response';
-    alloc_text?: string;
-    auto_opt_out: boolean;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    default_opt_in: boolean;
     id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -13227,8 +13188,8 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['json'];
     _nin?: Array<GraphQLTypes['json']>;
   };
-  ['logout_response']: {
-    __typename: 'logout_response';
+  ['logoutResponse']: {
+    __typename: 'logoutResponse';
     id?: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
@@ -13378,7 +13339,7 @@ export type GraphQLTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'];
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
-    logout_user?: GraphQLTypes['logout_response'];
+    logoutUser?: GraphQLTypes['logoutResponse'];
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
