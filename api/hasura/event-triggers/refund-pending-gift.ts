@@ -45,7 +45,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { id: recipient_id },
         {
           non_receiver: true,
-          give_token_remaining: true,
+          give_token_received: true,
           name: true,
         },
       ],
@@ -58,10 +58,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       non_giver,
     } = sender;
 
-    const { name: recipientName, non_receiver } = recipient;
+    const {
+      give_token_received: originalReceived,
+      name: recipientName,
+      non_receiver,
+    } = recipient;
 
     if (tokensToRefund > 0 && (non_giver || non_receiver)) {
-      const { update_users_by_pk: result } = await gql.q('mutation')({
+      const { update_users_by_pk: remainingResult } = await gql.q('mutation')({
         update_users_by_pk: [
           {
             pk_columns: { id: sender_id },
@@ -70,19 +74,28 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           { give_token_remaining: true },
         ],
       });
+      const { update_users_by_pk: receivedResult } = await gql.q('mutation')({
+        update_users_by_pk: [
+          {
+            pk_columns: { id: recipient_id },
+            _set: { give_token_received: originalReceived - tokensToRefund },
+          },
+          { give_token_received: true },
+        ],
+      });
       assert(
-        result,
+        remainingResult && receivedResult,
         `GIVE refund mutation failed unexpectedly for ${senderName} in circle #${circle_id}`
       );
       res.status(200).json({
         message:
           `${tokensToRefund} GIVE refunded to ${senderName} from ${recipientName} in circle #${circle_id}, ` +
-          `bringing their remaining GIVE to ${result.give_token_remaining}`,
+          `bringing their remaining GIVE to ${remainingResult.give_token_remaining}`,
       });
       return;
     }
     res.status(200).json({
-      message: `No GIVE to refund for ${senderName} in circle #${circle_id}`,
+      message: `No GIVE to refund to ${senderName} in circle #${circle_id}`,
     });
   } catch (e) {
     res.status(500).json({

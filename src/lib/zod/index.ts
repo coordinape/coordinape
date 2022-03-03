@@ -24,10 +24,10 @@ export const adminUpdateUserSchemaInput = z
     new_address: zEthAddressOnly.optional(),
     name: z.string().min(3).max(255).optional(),
     starting_tokens: z.number().optional(),
-    non_giver: z.boolean().default(false),
-    fixed_non_receiver: z.boolean().default(false),
-    non_receiver: z.boolean().default(false),
-    role: z.number().min(0).max(1).default(0),
+    non_giver: z.boolean().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
   })
   .strict();
 
