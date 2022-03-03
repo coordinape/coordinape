@@ -1,9 +1,9 @@
 import { gql } from '../../../../api-lib/Gql';
 import { sendSocialMessage } from '../../../../api-lib/sendSocialMessage';
-import { EventTriggerPayload } from '../../types';
+import { EventTriggerPayload } from '../../../../api-lib/types';
 
 export default async function handleCheckNomineeMsg(
-  payload: EventTriggerPayload,
+  payload: EventTriggerPayload<'nominees', 'UPDATE'>,
   channels: { discord?: boolean; telegram?: boolean }
 ) {
   const {

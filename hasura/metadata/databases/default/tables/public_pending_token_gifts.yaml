@@ -66,3 +66,52 @@ select_permissions:
             id:
               _eq: X-Hasura-User-Id
   role: user
+event_triggers:
+- definition:
+    delete:
+      columns: "*"
+    enable_manual: false
+    update:
+      columns:
+      - tokens
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refund-give-discord
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-give-discord"
+- definition:
+    delete:
+      columns: "*"
+    enable_manual: false
+    update:
+      columns:
+      - tokens
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refund-give-telegram
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-give-telegram"
+- definition:
+    delete:
+      columns: "*"
+    enable_manual: false
+    update:
+      columns:
+      - tokens
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refund-pending-gift
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-pending-gift"

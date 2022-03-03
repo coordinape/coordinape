@@ -1,6 +1,62 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  AdminUpdateUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   Boolean_comparison_exp: {
     _eq: {
       type: 'Boolean',
@@ -55,6 +111,62 @@ export const AllTypesProps: Record<string, any> = {
       array: true,
       arrayRequired: false,
       required: true,
+    },
+  },
+  CreateUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
     },
   },
   Int_comparison_exp: {
@@ -3985,63 +4097,13 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
-  createUserInput: {
+  create_circle_input: {
     address: {
       type: 'String',
       array: false,
       arrayRequired: false,
       required: true,
     },
-    circle_id: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    fixed_non_receiver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    give_token_remaining: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    non_giver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    non_receiver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    role: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    starting_tokens: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-  },
-  create_circle_input: {
     circle_name: {
       type: 'String',
       array: false,
@@ -6061,9 +6123,17 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   mutation_root: {
+    adminUpdateUser: {
+      object: {
+        type: 'AdminUpdateUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     createUser: {
       object: {
-        type: 'createUserInput',
+        type: 'CreateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -16669,6 +16739,10 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  UserResponse: {
+    UserResponse: 'users',
+    id: 'ID',
+  },
   burns: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -17141,17 +17215,6 @@ export const ReturnTypes: Record<string, any> = {
     nomination_days_limit: 'Float',
     protocol_id: 'Float',
   },
-  createUserResponse: {
-    address: 'String',
-    fixed_non_receiver: 'Boolean',
-    give_token_remaining: 'Int',
-    id: 'ID',
-    name: 'String',
-    non_giver: 'Boolean',
-    non_receiver: 'Boolean',
-    role: 'Int',
-    starting_tokens: 'Int',
-  },
   create_circle_response: {
     circle: 'circles',
     id: 'Int',
@@ -17494,12 +17557,13 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     user_id: 'Float',
   },
-  logout_response: {
+  logoutResponse: {
     id: 'Int',
     profile: 'profiles',
   },
   mutation_root: {
-    createUser: 'createUserResponse',
+    adminUpdateUser: 'UserResponse',
+    createUser: 'UserResponse',
     create_circle: 'create_circle_response',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
@@ -17570,7 +17634,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_users_one: 'users',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
-    logout_user: 'logout_response',
+    logoutUser: 'logoutResponse',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_integrations: 'circle_integrations_mutation_response',
