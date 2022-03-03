@@ -3,6 +3,7 @@ CREATE TABLE "public"."vault_transactions"
   "id" bigserial NOT NULL,
   "name" varchar NOT NULL,
   "tx_hash" varchar NOT NULL,
+  "description" varchar NULL,
   "value" bigint,
   "date" Date NOT NULL,
   "vault_id" bigint NOT NULL,
