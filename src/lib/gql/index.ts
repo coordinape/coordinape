@@ -45,6 +45,26 @@ export function getGql(url: string, getToken: () => string | undefined) {
       }
     );
 
+  const getCurrentEpoch = async (
+    circle_id: number
+  ): Promise<typeof currentEpoch | undefined> => {
+    const {
+      epochs: [currentEpoch],
+    } = await makeQuery(url, getToken)('query')({
+      epochs: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            end_date: { _gt: 'now()' },
+            start_date: { _lt: 'now()' },
+          },
+        },
+        { id: true },
+      ],
+    });
+    return currentEpoch;
+  };
+
   const updateProfileBackground = async (image_data_base64: string) =>
     makeQuery(url, getToken)('mutation')(
       {
@@ -114,6 +134,7 @@ export function getGql(url: string, getToken: () => string | undefined) {
 
   return {
     updateProfile,
+    getCurrentEpoch,
     updateProfileAvatar,
     updateProfileBackground,
     updateCircleLogo,
