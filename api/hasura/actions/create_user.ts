@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
-import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
 import {
   createUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -77,25 +76,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
           returning: {
             id: true,
           },
-        },
-      ],
-      // Create a profile if none exists yet
-      insert_profiles_one: [
-        {
-          object: { address: address },
-
-          // This clause allows gql to catch the conflict and do nothing
-          // hasura calls this an "upsert"
-          on_conflict: {
-            constraint: profiles_constraint.profiles_address_key,
-            // Don't update the entry at all if a profile exists
-            // Don't want to touch the timestamp if we aren't actually
-            // modifying anything
-            update_columns: [],
-          },
-        },
-        {
-          address: true,
         },
       ],
     });

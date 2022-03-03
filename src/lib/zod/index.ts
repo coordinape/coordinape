@@ -17,8 +17,20 @@ export const createCircleSchemaInput = z
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
-// this shape mirrors the shape of the original rest endpoint
-// it might be preferable to fold circle_id into the object
+export const adminUpdateUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    address: zEthAddressOnly,
+    new_address: zEthAddressOnly.optional(),
+    name: z.string().min(3).max(255).optional(),
+    starting_tokens: z.number().optional(),
+    non_giver: z.boolean().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+  })
+  .strict();
+
 export const createUserSchemaInput = z
   .object({
     circle_id: z.number(),
