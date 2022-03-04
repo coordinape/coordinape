@@ -71,6 +71,7 @@ export const {
       gray400: '#B5BBBD',
 
       lightBackground: '#E1E1E1',
+      surfaceGray: '#eef3f4',
       subtleGray: '#F5F5F5',
       almostWhite: '#F6F7F8',
       third: '#EAEAEB',
