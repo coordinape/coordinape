@@ -35,6 +35,16 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/createUser'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+    permissions:
+    - role: user
+    - role: superadmin
+- name: deleteEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -117,6 +127,7 @@ custom_types:
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
+  - name: DeleteEpochInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -196,4 +207,5 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteEpochResponse
   scalars: []
