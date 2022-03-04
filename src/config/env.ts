@@ -38,6 +38,11 @@ export const REACT_APP_HASURA_URL = getEnvValue(
 
 export const HASURA_ENABLED = process.env.REACT_APP_HASURA_ENABLED === 'true';
 
-// Unused in practice
-export const REACT_APP_FORTMATIC_API_KEY = 'unused'; // getEnvValue('REACT_APP_FORTMATIC_API_KEY', 'no-formatic-api-key');
-export const REACT_APP_PORTIS_DAPP_ID = 'unused'; // getEnvValue('REACT_APP_PORTIS_DAPP_ID', 'no-portis-api-key');
+export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);
+export const HARDHAT_PORT: number = +(process.env.HARDHAT_PORT || 8545);
+export const HARDHAT_GANACHE_CHAIN_ID: number = +(
+  process.env.HARDHAT_GANACHE_CHAIN_ID || 1338
+);
+export const HARDHAT_GANACHE_PORT: number = +(
+  process.env.HARDHAT_GANACHE_PORT || 8546
+);

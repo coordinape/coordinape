@@ -16,6 +16,21 @@ const shouldDryRun = !(
 );
 
 module.exports = {
+  jest: {
+    configure: {
+      collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+      coverageReporters: ['json', 'lcov', 'text-summary'],
+      transform: {
+        '.(ts|tsx)': 'ts-jest',
+      },
+      globals: {
+        'ts-jest': {
+          compiler: 'ttypescript',
+        },
+      },
+      setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
+    },
+  },
   webpack: {
     configure: {
       module: {

@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
-
 import { render, screen } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import { createMock } from 'ts-auto-mock';
 
 import { ICircle } from '../types';
+import { TestWrapper } from 'utils/testing';
 
 import { useAllocationStepStatus } from './allocation';
 
@@ -21,11 +19,9 @@ test('useAllocationStepStatus is loading', async () => {
   };
 
   render(
-    <RecoilRoot>
-      <Suspense fallback="Loading...">
-        <TestComponent />
-      </Suspense>
-    </RecoilRoot>
+    <TestWrapper>
+      <TestComponent />
+    </TestWrapper>
   );
 
   await screen.findByText('Loading...');

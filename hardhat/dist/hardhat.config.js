@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable no-console */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.unlockSigner = void 0;
 const ethers_1 = require("ethers");
@@ -7,7 +8,6 @@ require("@typechain/hardhat");
 require("hardhat-deploy");
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-ganache");
 const constants_1 = require("./constants");
 async function unlockSigner(address, hre) {
     await hre.network.provider.request({
@@ -62,9 +62,16 @@ exports.unlockSigner = unlockSigner;
             process.exit(1);
     }
 });
-const forking = {
-    url: constants_1.ETHEREUM_RPC_URL,
-    blockNumber: constants_1.FORKED_BLOCK,
+const sharedNetworkSettings = {
+    live: false,
+    allowUnlimitedContractSize: true,
+    gas: 'auto',
+    gasPrice: 'auto',
+    gasMultiplier: 1,
+    accounts: {
+        mnemonic: 'coordinape',
+    },
+    deploy: ['./scripts/deploy'],
 };
 const config = {
     solidity: {
@@ -93,49 +100,20 @@ const config = {
     },
     networks: {
         hardhat: {
-            live: false,
-            allowUnlimitedContractSize: true,
-            gas: 'auto',
-            gasPrice: 'auto',
-            gasMultiplier: 1,
-            chainId: 1337,
-            accounts: {
-                mnemonic: 'coordinape',
-            },
-            deploy: ['./scripts/deploy'],
+            ...sharedNetworkSettings,
+            chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
+            forking: constants_1.FORK_MAINNET
+                ? {
+                    url: constants_1.ETHEREUM_RPC_URL,
+                    blockNumber: constants_1.FORKED_BLOCK,
+                }
+                : undefined,
         },
-        localhost: {
-            live: false,
-            allowUnlimitedContractSize: true,
-            gas: 'auto',
-            gasPrice: 'auto',
-            gasMultiplier: 1,
-            url: 'http://127.0.0.1:8545',
-            chainId: 1337,
-            accounts: {
-                mnemonic: 'coordinape',
-            },
-            timeout: 50000,
-            deploy: ['./scripts/deploy'],
-        },
-        ganache: {
-            live: false,
-            allowUnlimitedContractSize: true,
-            gas: 'auto',
-            gasPrice: 'auto',
-            gasMultiplier: 1,
-            url: 'http://127.0.0.1:8545',
-            chainId: 1337,
-            accounts: {
-                mnemonic: 'coordinape',
-            },
-            timeout: 50000,
-            deploy: ['./scripts/deploy'],
+        ci: {
+            ...sharedNetworkSettings,
+            chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
+            url: constants_1.GANACHE_URL,
         },
     },
 };
-if (constants_1.TEST_ENV) {
-    // @ts-ignore
-    config.networks.hardhat.forking = forking;
-}
 exports.default = config;

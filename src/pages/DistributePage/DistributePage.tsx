@@ -13,7 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useApeDistributor, useApeSnackbar, useVaultWrapper } from 'hooks';
+import { useDistributor, useApeSnackbar, useVaultWrapper } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
@@ -38,7 +38,7 @@ function DistributePage() {
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
-  const { uploadEpochRoot } = useApeDistributor();
+  const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { getYVault } = useVaultWrapper(selectedVault as IVault);
   const { apeError } = useApeSnackbar();
