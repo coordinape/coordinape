@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { FormModal, FormTokenField } from 'components';
 import SingleTokenForm from 'forms/SingleTokenForm';
-import { useApeSnackbar } from 'hooks';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
@@ -20,17 +19,19 @@ import { IVault } from 'types';
 
 export default function DepositModal({
   open,
+  onDeposit,
   onClose,
   vault,
 }: {
   onClose: () => void;
+  onDeposit: () => void;
   open?: boolean;
   vault: IVault;
 }) {
-  const { showInfo } = useApeSnackbar();
   const navigate = useNavigate();
   const [max, setMax] = useState<any>();
   const contracts = useContracts();
+  (window as any).contracts = contracts;
   const [selectedContracts, setSelectedContracts] = useState<Contracts>();
 
   useEffect(() => {
@@ -72,10 +73,7 @@ export default function DepositModal({
 
     depositToken(vault, _amount).then(({ error }) => {
       if (error) return;
-
-      showInfo(
-        'Deposit succeeded. Reload page to see updated balance. (TODO: update automatically)'
-      );
+      onDeposit();
       onClose();
       navigate('/admin/vaults');
     });
