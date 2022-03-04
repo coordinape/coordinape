@@ -62,6 +62,13 @@ export const uploadCircleImageInput = z
   })
   .strict();
 
+export const deleteEpochInput = z
+  .object({
+    id: z.number(),
+    circle_id: z.number(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
@@ -100,7 +107,7 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
   return z.object({
     // for some reason, it's unsafe to transform the generic input
     // to strip away the outer object
-    input: z.object({ object: inputSchema }),
+    input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: z.union([
       HasuraAdminSessionVariables,

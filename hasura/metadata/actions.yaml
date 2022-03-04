@@ -1,15 +1,4 @@
 actions:
-- name: adminUpdateUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/admin_update_user'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  - role: superadmin
 - name: createUser
   definition:
     kind: synchronous
@@ -21,11 +10,21 @@ actions:
   permissions:
   - role: user
   - role: superadmin
-  comment: creates a user in a circle and creates a profile if none exists
 - name: create_circle
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/create_circle'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
+- name: deleteEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
     forward_client_headers: true
     headers:
     - name: verification_key
@@ -80,10 +79,10 @@ custom_types:
   enums: []
   input_objects:
   - name: create_circle_input
-  - name: upload_circle_image_input
-  - name: CreateUserInput
+  - name: createUserInput
   - name: upload_image_input
-  - name: AdminUpdateUserInput
+  - name: upload_circle_image_input
+  - name: DeleteEpochInput
   objects:
   - name: create_circle_response
     relationships:
@@ -103,6 +102,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: createUserResponse
   - name: update_profile_response
     relationships:
     - remote_table:
@@ -123,16 +123,6 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: UserResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: UserResponse
-      source: default
-      type: object
-      field_mapping:
-        id: id
   - name: logoutResponse
     relationships:
     - remote_table:
@@ -143,4 +133,5 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteEpochResponse
   scalars: []
