@@ -46,8 +46,8 @@ export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
               {...fields.asset}
             />
           </Box>
-          {Object.values(errors).map(val => (
-            <span key={val}>{val}</span>
+          {Object.values(errors).map((val, index) => (
+            <span key={`${index} ${val}`}>{val}</span>
           ))}
         </FormModal>
       )}
