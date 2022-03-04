@@ -3,15 +3,14 @@ import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 
+import { Contracts } from 'services/contracts';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
-import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
 
-export function useVaultRouter() {
-  const contracts = useContracts();
+export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
 

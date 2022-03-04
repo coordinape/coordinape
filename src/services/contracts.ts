@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
   ApeDistributor,
@@ -91,9 +93,11 @@ export class Contracts {
   }
 
   getMyAddress() {
-    return this.signerOrProvider instanceof ethers.ethers.Signer
-      ? this.signerOrProvider.getAddress()
-      : undefined;
+    const signer =
+      this.signerOrProvider instanceof ethers.ethers.Signer
+        ? this.signerOrProvider
+        : (this.signerOrProvider as any).getSigner();
+    return signer.getAddress();
   }
 
   async getETHBalance(address?: string) {
@@ -114,35 +118,23 @@ export class Contracts {
     chainId: number,
     signerOrProvider: SignerOrProvider
   ): Contracts {
+    assert(chainId !== 1, 'No support for mainnet yet');
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
       throw new Error(`No info for chain ${chainId}`);
     }
-    return Contracts.fromAddresses(
-      {
-        vaultFactory: info.ApeVaultFactoryBeacon.address,
-        router: info.ApeRouter.address,
-        distributor: info.ApeDistributor.address,
-      },
-      signerOrProvider,
-      chainId
-    );
-  }
-
-  static fromAddresses(
-    addresses: { vaultFactory: string; router: string; distributor: string },
-    signerOrProvider: SignerOrProvider,
-    chainId: number
-  ): Contracts {
     return new Contracts(
       {
         vaultFactory: ApeVaultFactoryBeacon__factory.connect(
-          addresses.vaultFactory,
+          info.ApeVaultFactoryBeacon.address,
           signerOrProvider
         ),
-        router: ApeRouter__factory.connect(addresses.router, signerOrProvider),
+        router: ApeRouter__factory.connect(
+          info.ApeRouter.address,
+          signerOrProvider
+        ),
         distributor: ApeDistributor__factory.connect(
-          addresses.distributor,
+          info.ApeDistributor.address,
           signerOrProvider
         ),
       },
