@@ -1,19 +1,13 @@
 type Mutation {
-  adminUpdateUser(
-    object: AdminUpdateUserInput!
-  ): UserResponse
+  adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
 type Mutation {
-  createUser(
-    object: CreateUserInput!
-  ): UserResponse
+  createUser(payload: CreateUserInput!): UserResponse
 }
 
 type Mutation {
-  createCircle(
-    object: CreateCircleInput!
-  ): CreateCircleResponse
+  createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
 type Mutation {
@@ -21,21 +15,15 @@ type Mutation {
 }
 
 type Mutation {
-  uploadCircleLogo(
-    object: UploadCircleImageInput!
-  ): UpdateCircleResponse
+  uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
 }
 
 type Mutation {
-  uploadProfileAvatar(
-    object: UploadImageInput!
-  ): UpdateProfileResponse
+  uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
 }
 
 type Mutation {
-  uploadProfileBackground(
-    object: UploadImageInput!
-  ): UpdateProfileResponse
+  uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
 }
 
 input CreateCircleInput {

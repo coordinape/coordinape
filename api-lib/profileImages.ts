@@ -15,7 +15,7 @@ export const userAndImageData = (
   hasuraProfileId: number;
 } => {
   const {
-    input: { object: input },
+    input: { payload: input },
     session_variables: sessionVariables,
   } = composeHasuraActionRequestBodyWithSession(
     uploadImageInput,

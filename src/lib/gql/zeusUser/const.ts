@@ -113,6 +113,72 @@ export const AllTypesProps: Record<string, any> = {
       required: true,
     },
   },
+  CreateCircleInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    protocol_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  CreateCircleResponse: {
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
   CreateUserInput: {
     address: {
       type: 'String',
@@ -339,6 +405,28 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: false,
+    },
+  },
+  UploadCircleImageInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  UploadImageInput: {
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
     },
   },
   bigint: 'String',
@@ -2618,72 +2706,6 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
-  create_circle_input: {
-    address: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    circle_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    protocol_id: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    protocol_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    user_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-  },
-  create_circle_response: {
-    users: {
-      distinct_on: {
-        type: 'users_select_column',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      limit: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      offset: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      order_by: {
-        type: 'users_order_by',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      where: {
-        type: 'users_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-    },
-  },
   date: 'String',
   date_comparison_exp: {
     _eq: {
@@ -3748,24 +3770,24 @@ export const AllTypesProps: Record<string, any> = {
   },
   mutation_root: {
     adminUpdateUser: {
-      object: {
+      payload: {
         type: 'AdminUpdateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    createUser: {
-      object: {
-        type: 'CreateUserInput',
+    createCircle: {
+      payload: {
+        type: 'CreateCircleInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    create_circle: {
-      object: {
-        type: 'create_circle_input',
+    createUser: {
+      payload: {
+        type: 'CreateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -3871,25 +3893,25 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
-    upload_circle_logo: {
-      object: {
-        type: 'upload_circle_image_input',
+    uploadCircleLogo: {
+      payload: {
+        type: 'UploadCircleImageInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    upload_profile_avatar: {
-      object: {
-        type: 'upload_image_input',
+    uploadProfileAvatar: {
+      payload: {
+        type: 'UploadImageInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    upload_profile_background: {
-      object: {
-        type: 'upload_image_input',
+    uploadProfileBackground: {
+      payload: {
+        type: 'UploadImageInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -7637,28 +7659,6 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
-  upload_circle_image_input: {
-    circle_id: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    image_data_base64: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-  },
-  upload_image_input: {
-    image_data_base64: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-  },
   users: {
     burns: {
       distinct_on: {
@@ -9110,6 +9110,36 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  CreateCircleResponse: {
+    alloc_text: 'String',
+    auto_opt_out: 'Boolean',
+    circle: 'circles',
+    default_opt_in: 'Boolean',
+    id: 'Int',
+    logo: 'String',
+    min_vouches: 'Int',
+    name: 'String',
+    nomination_days_limit: 'Int',
+    only_giver_vouch: 'Boolean',
+    protocol_id: 'Int',
+    team_sel_text: 'String',
+    team_selection: 'Boolean',
+    users: 'users',
+    vouching: 'Boolean',
+    vouching_text: 'String',
+  },
+  LogoutResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
+  UpdateCircleResponse: {
+    circle: 'circles',
+    id: 'Int',
+  },
+  UpdateProfileResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
   UserResponse: {
     UserResponse: 'users',
     id: 'ID',
@@ -9178,11 +9208,6 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: 'Int',
     returning: 'circles',
   },
-  create_circle_response: {
-    circle: 'circles',
-    id: 'Int',
-    users: 'users',
-  },
   epochs: {
     burns: 'burns',
     circle: 'circles',
@@ -9210,26 +9235,22 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
-  logoutResponse: {
-    id: 'Int',
-    profile: 'profiles',
-  },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
+    createCircle: 'CreateCircleResponse',
     createUser: 'UserResponse',
-    create_circle: 'create_circle_response',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
-    logoutUser: 'logoutResponse',
+    logoutUser: 'LogoutResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
-    upload_circle_logo: 'update_circle_response',
-    upload_profile_avatar: 'update_profile_response',
-    upload_profile_background: 'update_profile_response',
+    uploadCircleLogo: 'UpdateCircleResponse',
+    uploadProfileAvatar: 'UpdateProfileResponse',
+    uploadProfileBackground: 'UpdateProfileResponse',
   },
   nominees: {
     address: 'String',
@@ -9497,14 +9518,6 @@ export const ReturnTypes: Record<string, any> = {
     recipient_id: 'Float',
     sender_id: 'Float',
     tokens: 'Float',
-  },
-  update_circle_response: {
-    circle: 'circles',
-    id: 'Int',
-  },
-  update_profile_response: {
-    id: 'Int',
-    profile: 'profiles',
   },
   users: {
     address: 'String',
