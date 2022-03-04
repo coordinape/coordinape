@@ -39,7 +39,7 @@ export default function DepositModal({
 
   const onConnectSecondWallet = (provider: Web3Provider) => {
     assert(contracts);
-    const newContracts = Contracts.forChain(contracts.chainId, provider);
+    const newContracts = new Contracts(contracts.chainId, provider);
     setSelectedContracts(newContracts);
     (window as any).contracts = newContracts;
   };
