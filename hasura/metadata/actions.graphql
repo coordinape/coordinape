@@ -35,6 +35,12 @@ type Mutation {
 }
 
 type Mutation {
+deleteEpoch(
+payload: DeleteEpochInput!
+): DeleteEpochResponse
+}
+
+type Mutation {
   vouch(payload: VouchInput!): VouchOutput
 }
 
@@ -45,7 +51,7 @@ input CreateCircleInput {
   protocol_id: Int
 }
 
-input CreateUserInput {
+input createUserInput {
   circle_id: Int!
   address: String!
   name: String!
@@ -78,6 +84,11 @@ input AdminUpdateUserInput {
   role: Int
 }
 
+input DeleteEpochInput {
+  id: Int!
+  circle_id: Int!
+}
+
 input CreateNomineeInput {
   name: String!
   circle_id: Int!
@@ -97,6 +108,18 @@ input VouchInput {
   nominee_id: Int!
 }
 
+type createUserResponse {
+  """ Primary key """ id: ID!
+  """ The ethereum address of the user """ address: String!
+  """ human readable user name """ name: String!
+  fixed_non_receiver: Boolean!
+  give_token_remaining: Int!
+  non_giver: Boolean!
+  non_receiver: Boolean!
+  role: Int!
+  starting_tokens: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -113,8 +136,8 @@ type LogoutResponse {
   id: Int
 }
 
-type UserResponse {
-  id: ID!
+type DeleteEpochResponse {
+  success: Boolean!
 }
 
 type CreateNomineeResponse {

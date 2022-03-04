@@ -87,6 +87,13 @@ export const vouchInput = z
   })
   .strict();
 
+export const deleteEpochInput = z
+    .object({
+            id: z.number(),
+            circle_id: z.number(),
+    })
+    .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
