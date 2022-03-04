@@ -28,7 +28,6 @@ type Mutation {
 
 input CreateCircleInput {
   user_name: String!
-  address: String!
   circle_name: String!
   protocol_name: String
   protocol_id: Int
@@ -69,19 +68,6 @@ input AdminUpdateUserInput {
 
 type CreateCircleResponse {
   id: Int!
-  name: String!
-  protocol_id: Int!
-  team_sel_text: String
-  alloc_text: String
-  vouching: Boolean!
-  min_vouches: Int!
-  nomination_days_limit: Int!
-  vouching_text: String
-  logo: String
-  default_opt_in: Boolean!
-  team_selection: Boolean!
-  only_giver_vouch: Boolean!
-  auto_opt_out: Boolean!
 }
 
 type UpdateProfileResponse {

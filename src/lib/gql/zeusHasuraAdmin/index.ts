@@ -29,27 +29,15 @@ export type ValueTypes = {
     _nin?: boolean[];
   };
   ['CreateCircleInput']: {
-    address: string;
     circle_name: string;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
-    alloc_text?: boolean;
-    auto_opt_out?: boolean;
     /** An object relationship */
     circle?: ValueTypes['circles'];
-    default_opt_in?: boolean;
     id?: boolean;
-    logo?: boolean;
-    min_vouches?: boolean;
-    name?: boolean;
-    nomination_days_limit?: boolean;
-    only_giver_vouch?: boolean;
-    protocol_id?: boolean;
-    team_sel_text?: boolean;
-    team_selection?: boolean;
     users?: [
       {
         /** distinct select on columns */
@@ -76,8 +64,6 @@ export type ValueTypes = {
       },
       ValueTypes['users_aggregate']
     ];
-    vouching?: boolean;
-    vouching_text?: boolean;
     __typename?: boolean;
   }>;
   ['CreateUserInput']: {
@@ -7574,26 +7560,13 @@ export type ModelTypes = {
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
-    alloc_text?: string;
-    auto_opt_out: boolean;
     /** An object relationship */
     circle: ModelTypes['circles'];
-    default_opt_in: boolean;
     id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -10861,7 +10834,6 @@ export type GraphQLTypes = {
     _nin?: Array<boolean>;
   };
   ['CreateCircleInput']: {
-    address: string;
     circle_name: string;
     protocol_id?: number;
     protocol_name?: string;
@@ -10869,26 +10841,13 @@ export type GraphQLTypes = {
   };
   ['CreateCircleResponse']: {
     __typename: 'CreateCircleResponse';
-    alloc_text?: string;
-    auto_opt_out: boolean;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    default_opt_in: boolean;
     id: number;
-    logo?: string;
-    min_vouches: number;
-    name: string;
-    nomination_days_limit: number;
-    only_giver_vouch: boolean;
-    protocol_id: number;
-    team_sel_text?: string;
-    team_selection: boolean;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
-    vouching: boolean;
-    vouching_text?: string;
   };
   ['CreateUserInput']: {
     address: string;
