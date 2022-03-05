@@ -100,7 +100,7 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
   return z.object({
     // for some reason, it's unsafe to transform the generic input
     // to strip away the outer object
-    input: z.object({ object: inputSchema }),
+    input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: z.union([
       HasuraAdminSessionVariables,
@@ -120,7 +120,7 @@ export function composeHasuraActionRequestBodyWithSession<
   sessionType: V
 ) {
   return z.object({
-    input: z.object({ object: inputSchema }),
+    input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: sessionType,
     request_query: z.string().optional(),

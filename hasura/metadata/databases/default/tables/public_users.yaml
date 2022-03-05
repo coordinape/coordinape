@@ -110,12 +110,12 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: create-profile
+  name: createProfile
   retry_conf:
     interval_sec: 10
     num_retries: 10
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/create-profile"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/createProfile"
 - definition:
     enable_manual: false
     update:
@@ -125,12 +125,12 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: opt-out-discord
+  name: optOutDiscord
   retry_conf:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/opt-out-discord"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/optOutDiscord"
 - definition:
     enable_manual: false
     update:
@@ -140,9 +140,9 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: opt-out-telegram
+  name: optOutTelegram
   retry_conf:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/opt-out-telegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/optOutTelegram"
