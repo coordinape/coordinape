@@ -141,11 +141,44 @@
   },
   "overrides": [
     {
-      "files": [
-        "**/*.stories.*"
-      ],
+      "files": ["**/*.stories.*"],
       "rules": {
         "import/no-anonymous-default-export": "off"
+      }
+    },
+    {
+      "files": ["{api}/**/*.ts"],
+      "plugins": ["unicorn"],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "camelCase"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.graphql"],
+      "parser": "@graphql-eslint/eslint-plugin",
+      "plugins": ["@graphql-eslint"],
+      "rules": {
+        "@graphql-eslint/known-type-names": "off",
+        "@graphql-eslint/no-unreachable-types": "off",
+        "@graphql-eslint/strict-id-in-types": "off",
+        "@graphql-eslint/naming-convention": [
+          "error",
+          {
+            "types": "PascalCase",
+            "InputValueDefinition": "snake_case",
+            "Argument": "snake_case",
+            "FieldDefinition[parent.name.value!=Mutation]": "snake_case",
+            "FieldDefinition[parent.name.value=Mutation]": "camelCase"
+          }
+        ]
+      },
+      "parserOptions": {
+        "schema": "./hasura/metadata/actions.graphql"
       }
     }
   ]
