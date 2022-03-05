@@ -132,6 +132,8 @@ export class Gql {
             {
               id: true,
               epoch_id: true,
+              sender_id: true,
+              sender_address: true,
               recipient_id: true,
               recipient_address: true,
               note: true,
@@ -146,6 +148,8 @@ export class Gql {
               epoch_id: true,
               sender_id: true,
               sender_address: true,
+              recipient_id: true,
+              recipient_address: true,
               note: true,
               tokens: true,
             },

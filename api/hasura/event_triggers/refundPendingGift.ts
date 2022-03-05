@@ -3,106 +3,166 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { gql } from '../../../api-lib/Gql';
+import { ErrorResponse } from '../../../api-lib/HttpError';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { ValueTypes } from '../../../src/lib/gql/zeusHasuraAdmin';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   // no parsing should be needed here since this data comes straight from
   // the database and zeus keeps this consistent for us
-  const payload: EventTriggerPayload<
-    'pending_token_gifts',
-    'DELETE' | 'UPDATE'
-  > = req.body;
   const {
-    recipient_id,
-    sender_id,
-    tokens: tokensToRefund,
-    circle_id,
-  } = payload.event.data.old;
+    event: { data },
+  }: EventTriggerPayload<'users', 'UPDATE'> = req.body;
 
-  const newTokenAmount = payload.event.data.new?.tokens ?? 0;
+  const { address, circle_id } = data.new;
 
-  if (tokensToRefund === 0 || newTokenAmount != 0) {
-    res.status(200).json({
-      message: `Not a refund event.`,
-    });
-    return;
-  }
+  const newNonGiver = !data.old.non_giver && data.new.non_giver;
+  const newNonReceiver = !data.old.non_receiver && data.new.non_receiver;
 
+  const results = [];
   try {
-    const { users_by_pk: sender } = await gql.q('query')({
-      users_by_pk: [
-        { id: sender_id },
-        {
-          non_giver: true,
-          give_token_remaining: true,
-          name: true,
-        },
-      ],
-    });
-    const { users_by_pk: recipient } = await gql.q('query')({
-      users_by_pk: [
-        { id: recipient_id },
-        {
-          non_receiver: true,
-          give_token_received: true,
-          name: true,
-        },
-      ],
-    });
-    assert(sender, `dangling give without user: ${sender_id}`);
-    assert(recipient, `dangling give without user: ${recipient_id}`);
-    const {
-      give_token_remaining: originalGive,
-      name: senderName,
-      non_giver,
-    } = sender;
+    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
+    assert(user, 'panic: user must exist');
 
-    const {
-      give_token_received: originalReceived,
-      name: recipientName,
-      non_receiver,
-    } = recipient;
+    const { pending_sent_gifts, pending_received_gifts, id: userId } = user;
 
-    if (tokensToRefund > 0 && (non_giver || non_receiver)) {
-      const { update_users_by_pk: remainingResult } = await gql.q('mutation')({
-        update_users_by_pk: [
-          {
-            pk_columns: { id: sender_id },
-            _set: { give_token_remaining: originalGive + tokensToRefund },
-          },
-          { give_token_remaining: true },
-        ],
-      });
-      const { update_users_by_pk: receivedResult } = await gql.q('mutation')({
-        update_users_by_pk: [
-          {
-            pk_columns: { id: recipient_id },
-            _set: { give_token_received: originalReceived - tokensToRefund },
-          },
-          { give_token_received: true },
-        ],
-      });
-      assert(
-        remainingResult && receivedResult,
-        `GIVE refund mutation failed unexpectedly for ${senderName} in circle #${circle_id}`
-      );
+    const currentEpoch = user.circle.epochs.pop();
+    if (
+      !currentEpoch ||
+      !(newNonGiver || newNonReceiver) ||
+      (newNonGiver && pending_sent_gifts.length === 0) ||
+      (newNonReceiver && pending_received_gifts.length === 0)
+    ) {
       res.status(200).json({
-        message:
-          `${tokensToRefund} GIVE refunded to ${senderName} from ${recipientName} in circle #${circle_id}, ` +
-          `bringing their remaining GIVE to ${remainingResult.give_token_remaining}`,
+        message: `Not a refund event.`,
       });
       return;
     }
-    res.status(200).json({
-      message: `No GIVE to refund to ${senderName} in circle #${circle_id}`,
-    });
+
+    if (newNonGiver) {
+      const totalRefund = pending_sent_gifts
+        .map(gift => gift.tokens)
+        .reduce((total, tokens) => tokens + total);
+
+      const refundMutations = pending_sent_gifts.reduce((ops, gift) => {
+        if (gift.tokens > 0)
+          ops[gift.id] = {
+            update_users_by_pk: [
+              {
+                pk_columns: { id: gift.recipient_id },
+                _inc: { give_token_received: -gift.tokens },
+              },
+              { give_token_received: true },
+            ],
+          };
+        return ops;
+      }, {} as { [aliasKey: number]: ValueTypes['mutation_root'] });
+
+      const result = await gql.q('mutation')({
+        delete_pending_token_gifts: [
+          {
+            where: {
+              epoch_id: { _eq: currentEpoch.id },
+              sender_id: { _eq: user.id },
+              note: { _eq: '' },
+            },
+          },
+          // something needs to be returned in the mutation
+          { __typename: true, affected_rows: true },
+        ],
+        update_pending_token_gifts: [
+          {
+            _set: { tokens: 0 },
+            where: {
+              epoch_id: { _eq: currentEpoch.id },
+              sender_id: { _eq: user.id },
+              _not: { note: { _eq: '' } },
+            },
+          },
+          { __typename: true, affected_rows: true },
+        ],
+        __alias: {
+          refundToUser: {
+            update_users_by_pk: [
+              {
+                pk_columns: { id: userId },
+                _inc: { give_token_remaining: totalRefund },
+              },
+              { give_token_remaining: true, id: true },
+            ],
+          },
+          ...refundMutations,
+        },
+      });
+      results.push(result);
+    }
+
+    if (newNonReceiver) {
+      const totalRefund = pending_received_gifts
+        .map(gift => gift.tokens)
+        .reduce((total, tokens) => tokens + total);
+
+      const refundMutations = pending_received_gifts.reduce((muts, gift) => {
+        if (gift.tokens > 0)
+          muts[gift.id] = {
+            update_users_by_pk: [
+              {
+                pk_columns: { id: gift.sender_id },
+                _inc: { give_token_remaining: gift.tokens },
+              },
+              { give_token_remaining: true, id: true },
+            ],
+          };
+        return muts;
+      }, {} as { [aliasKey: number]: ValueTypes['mutation_root'] });
+
+      const result = await gql.q('mutation')({
+        delete_pending_token_gifts: [
+          {
+            where: {
+              epoch_id: { _eq: currentEpoch.id },
+              recipient_id: { _eq: user.id },
+              note: { _eq: '' },
+            },
+          },
+          // something needs to be returned in the mutation
+          { __typename: true, affected_rows: true },
+        ],
+        update_pending_token_gifts: [
+          {
+            _set: { tokens: 0 },
+            where: {
+              epoch_id: { _eq: currentEpoch.id },
+              recipient_id: { _eq: user.id },
+              _not: { note: { _eq: '' } },
+            },
+          },
+          { __typename: true, affected_rows: true },
+        ],
+        __alias: {
+          refundFromUser: {
+            update_users_by_pk: [
+              {
+                pk_columns: { id: userId },
+                _inc: { give_token_received: -totalRefund },
+              },
+              { give_token_received: true, id: true },
+            ],
+          },
+          ...refundMutations,
+        },
+      });
+      results.push(result);
+    }
   } catch (e) {
-    res.status(500).json({
-      error: '500',
-      message: (e as Error).message || 'Unexpected error',
-    });
+    ErrorResponse(res, e);
   }
+
+  res.status(200).json({
+    message: `refunds completed`,
+    results,
+  });
 }
 
 export default verifyHasuraRequestMiddleware(handler);
