@@ -3,11 +3,11 @@ type Mutation {
 }
 
 type Mutation {
-  createUser(payload: CreateUserInput!): UserResponse
+  createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
 type Mutation {
-  createCircle(payload: CreateCircleInput!): CreateCircleResponse
+  createUser(payload: CreateUserInput!): UserResponse
 }
 
 type Mutation {

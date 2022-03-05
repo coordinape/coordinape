@@ -10,6 +10,17 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createCircle
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createCircle'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: createUser
   definition:
     kind: synchronous
@@ -22,17 +33,6 @@ actions:
   - role: user
   - role: superadmin
   comment: creates a user in a circle and creates a profile if none exists
-- name: createCircle
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/createCircle'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  - role: superadmin
 - name: logoutUser
   definition:
     kind: synchronous
@@ -82,6 +82,7 @@ custom_types:
   - name: CreateCircleInput
   - name: CreateUserInput
   - name: UploadImageInput
+  - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
   objects:
   - name: CreateCircleResponse
@@ -122,22 +123,22 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: UserResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: UserResponse
-      source: default
-      type: object
-      field_mapping:
-        id: id
   - name: LogoutResponse
     relationships:
     - remote_table:
         schema: public
         name: profiles
       name: profile
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: UserResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: UserResponse
       source: default
       type: object
       field_mapping:
