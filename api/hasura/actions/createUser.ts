@@ -11,7 +11,7 @@ import {
 async function handler(request: VercelRequest, response: VercelResponse) {
   try {
     const {
-      input: { object: input },
+      input: { payload: input },
     } = composeHasuraActionRequestBody(createUserSchemaInput).parse(
       request.body
     );

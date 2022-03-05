@@ -28,6 +28,31 @@ export type ValueTypes = {
     _neq?: boolean | null;
     _nin?: boolean[];
   };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    protocol_id?: number | null;
+    protocol_name?: string | null;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['users_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['users_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | null;
+      },
+      ValueTypes['users']
+    ];
+    __typename?: boolean;
+  }>;
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -51,6 +76,12 @@ export type ValueTypes = {
     _neq?: number | null;
     _nin?: number[];
   };
+  ['LogoutResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | null;
@@ -82,6 +113,25 @@ export type ValueTypes = {
     _regex?: string | null;
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
+  };
+  ['UpdateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  ['UpdateProfileResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
   };
   ['UserResponse']: AliasType<{
     /** An object relationship */
@@ -740,32 +790,6 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | null;
     protocol_id?: ValueTypes['order_by'] | null;
   };
-  ['create_circle_input']: {
-    address: string;
-    circle_name: string;
-    protocol_id?: number | null;
-    protocol_name?: string | null;
-    user_name: string;
-  };
-  ['create_circle_response']: AliasType<{
-    /** An object relationship */
-    circle?: ValueTypes['circles'];
-    id?: boolean;
-    users?: [
-      {
-        /** distinct select on columns */
-        distinct_on?: ValueTypes['users_select_column'][] /** limit the number of rows returned */;
-        limit?:
-          | number
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?: number | null /** sort the rows by one or more columns */;
-        order_by?: ValueTypes['users_order_by'][] /** filter the rows returned */;
-        where?: ValueTypes['users_bool_exp'] | null;
-      },
-      ValueTypes['users']
-    ];
-    __typename?: boolean;
-  }>;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -1034,25 +1058,19 @@ export type ValueTypes = {
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
-  ['logoutResponse']: AliasType<{
-    id?: boolean;
-    /** An object relationship */
-    profile?: ValueTypes['profiles'];
-    __typename?: boolean;
-  }>;
   /** mutation root */
   ['mutation_root']: AliasType<{
     adminUpdateUser?: [
-      { object: ValueTypes['AdminUpdateUserInput'] },
+      { payload: ValueTypes['AdminUpdateUserInput'] },
       ValueTypes['UserResponse']
+    ];
+    createCircle?: [
+      { payload: ValueTypes['CreateCircleInput'] },
+      ValueTypes['CreateCircleResponse']
     ];
     createUser?: [
-      { object: ValueTypes['CreateUserInput'] },
+      { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
-    ];
-    create_circle?: [
-      { object: ValueTypes['create_circle_input'] },
-      ValueTypes['create_circle_response']
     ];
     delete_circle_integrations?: [
       {
@@ -1079,7 +1097,7 @@ export type ValueTypes = {
       },
       ValueTypes['circle_integrations']
     ];
-    logoutUser?: ValueTypes['logoutResponse'];
+    logoutUser?: ValueTypes['LogoutResponse'];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -1122,17 +1140,17 @@ export type ValueTypes = {
       },
       ValueTypes['profiles']
     ];
-    upload_circle_logo?: [
-      { object: ValueTypes['upload_circle_image_input'] },
-      ValueTypes['update_circle_response']
+    uploadCircleLogo?: [
+      { payload: ValueTypes['UploadCircleImageInput'] },
+      ValueTypes['UpdateCircleResponse']
     ];
-    upload_profile_avatar?: [
-      { object: ValueTypes['upload_image_input'] },
-      ValueTypes['update_profile_response']
+    uploadProfileAvatar?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
     ];
-    upload_profile_background?: [
-      { object: ValueTypes['upload_image_input'] },
-      ValueTypes['update_profile_response']
+    uploadProfileBackground?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
     ];
     __typename?: boolean;
   }>;
@@ -2440,25 +2458,6 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | null;
     tokens?: ValueTypes['order_by'] | null;
   };
-  ['update_circle_response']: AliasType<{
-    /** An object relationship */
-    circle?: ValueTypes['circles'];
-    id?: boolean;
-    __typename?: boolean;
-  }>;
-  ['update_profile_response']: AliasType<{
-    id?: boolean;
-    /** An object relationship */
-    profile?: ValueTypes['profiles'];
-    __typename?: boolean;
-  }>;
-  ['upload_circle_image_input']: {
-    circle_id: number;
-    image_data_base64: string;
-  };
-  ['upload_image_input']: {
-    image_data_base64: string;
-  };
   /** columns and relationships of "users" */
   ['users']: AliasType<{
     address?: boolean;
@@ -2875,11 +2874,36 @@ export type ModelTypes = {
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
+  ['CreateCircleResponse']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: ModelTypes['users'][];
+  };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LogoutResponse']: {
+    id?: number;
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UpdateCircleResponse']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+  };
+  ['UpdateProfileResponse']: {
+    id: number;
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+  };
+  ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
+  ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UserResponse']: {
     /** An object relationship */
     UserResponse: ModelTypes['users'];
@@ -3074,14 +3098,6 @@ export type ModelTypes = {
   ['circles_var_samp_order_by']: GraphQLTypes['circles_var_samp_order_by'];
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
-  ['create_circle_input']: GraphQLTypes['create_circle_input'];
-  ['create_circle_response']: {
-    /** An object relationship */
-    circle: ModelTypes['circles'];
-    id: number;
-    /** An array relationship */
-    users: ModelTypes['users'][];
-  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
@@ -3155,17 +3171,12 @@ export type ModelTypes = {
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
-  ['logoutResponse']: {
-    id?: number;
-    /** An object relationship */
-    profile: ModelTypes['profiles'];
-  };
   /** mutation root */
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
+    createCircle?: ModelTypes['CreateCircleResponse'];
     /** creates a user in a circle and creates a profile if none exists */
     createUser?: ModelTypes['UserResponse'];
-    create_circle?: ModelTypes['create_circle_response'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -3174,7 +3185,7 @@ export type ModelTypes = {
     insert_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
-    logoutUser?: ModelTypes['logoutResponse'];
+    logoutUser?: ModelTypes['LogoutResponse'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -3183,9 +3194,9 @@ export type ModelTypes = {
     update_profiles?: ModelTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: ModelTypes['profiles'];
-    upload_circle_logo?: ModelTypes['update_circle_response'];
-    upload_profile_avatar?: ModelTypes['update_profile_response'];
-    upload_profile_background?: ModelTypes['update_profile_response'];
+    uploadCircleLogo?: ModelTypes['UpdateCircleResponse'];
+    uploadProfileAvatar?: ModelTypes['UpdateProfileResponse'];
+    uploadProfileBackground?: ModelTypes['UpdateProfileResponse'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -3652,18 +3663,6 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
-  ['update_circle_response']: {
-    /** An object relationship */
-    circle: ModelTypes['circles'];
-    id: number;
-  };
-  ['update_profile_response']: {
-    id: number;
-    /** An object relationship */
-    profile: ModelTypes['profiles'];
-  };
-  ['upload_circle_image_input']: GraphQLTypes['upload_circle_image_input'];
-  ['upload_image_input']: GraphQLTypes['upload_image_input'];
   /** columns and relationships of "users" */
   ['users']: {
     address: string;
@@ -3795,6 +3794,20 @@ export type GraphQLTypes = {
     _neq?: boolean;
     _nin?: Array<boolean>;
   };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    protocol_id?: number;
+    protocol_name?: string;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: {
+    __typename: 'CreateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: Array<GraphQLTypes['users']>;
+  };
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -3817,6 +3830,12 @@ export type GraphQLTypes = {
     _lte?: number;
     _neq?: number;
     _nin?: Array<number>;
+  };
+  ['LogoutResponse']: {
+    __typename: 'LogoutResponse';
+    id?: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -3849,6 +3868,25 @@ export type GraphQLTypes = {
     _regex?: string;
     /** does the column match the given SQL regular expression */
     _similar?: string;
+  };
+  ['UpdateCircleResponse']: {
+    __typename: 'UpdateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateProfileResponse']: {
+    __typename: 'UpdateProfileResponse';
+    id: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
   };
   ['UserResponse']: {
     __typename: 'UserResponse';
@@ -4421,21 +4459,6 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'];
     protocol_id?: GraphQLTypes['order_by'];
   };
-  ['create_circle_input']: {
-    address: string;
-    circle_name: string;
-    protocol_id?: number;
-    protocol_name?: string;
-    user_name: string;
-  };
-  ['create_circle_response']: {
-    __typename: 'create_circle_response';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
-    id: number;
-    /** An array relationship */
-    users: Array<GraphQLTypes['users']>;
-  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -4693,19 +4716,13 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['json'];
     _nin?: Array<GraphQLTypes['json']>;
   };
-  ['logoutResponse']: {
-    __typename: 'logoutResponse';
-    id?: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
-  };
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'];
+    createCircle?: GraphQLTypes['CreateCircleResponse'];
     /** creates a user in a circle and creates a profile if none exists */
     createUser?: GraphQLTypes['UserResponse'];
-    create_circle?: GraphQLTypes['create_circle_response'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -4714,7 +4731,7 @@ export type GraphQLTypes = {
     insert_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
-    logoutUser?: GraphQLTypes['logoutResponse'];
+    logoutUser?: GraphQLTypes['LogoutResponse'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -4723,9 +4740,9 @@ export type GraphQLTypes = {
     update_profiles?: GraphQLTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'];
-    upload_circle_logo?: GraphQLTypes['update_circle_response'];
-    upload_profile_avatar?: GraphQLTypes['update_profile_response'];
-    upload_profile_background?: GraphQLTypes['update_profile_response'];
+    uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'];
+    uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'];
+    uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -5639,25 +5656,6 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['order_by'];
     sender_id?: GraphQLTypes['order_by'];
     tokens?: GraphQLTypes['order_by'];
-  };
-  ['update_circle_response']: {
-    __typename: 'update_circle_response';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
-    id: number;
-  };
-  ['update_profile_response']: {
-    __typename: 'update_profile_response';
-    id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
-  };
-  ['upload_circle_image_input']: {
-    circle_id: number;
-    image_data_base64: string;
-  };
-  ['upload_image_input']: {
-    image_data_base64: string;
   };
   /** columns and relationships of "users" */
   ['users']: {
