@@ -13,7 +13,7 @@ import {
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
   const {
-    input: { object: input },
+    input: { payload: input },
     // session_variables: sessionVariables,
   } = composeHasuraActionRequestBodyWithSession(
     uploadCircleImageInput,

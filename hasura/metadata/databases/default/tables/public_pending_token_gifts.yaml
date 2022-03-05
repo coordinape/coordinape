@@ -77,12 +77,12 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: refund-give-discord
+  name: refundGiveDiscord
   retry_conf:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-give-discord"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundGiveDiscord"
 - definition:
     delete:
       columns: "*"
@@ -93,12 +93,12 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: refund-give-telegram
+  name: refundGiveTelegram
   retry_conf:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-give-telegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundGiveTelegram"
 - definition:
     delete:
       columns: "*"
@@ -109,9 +109,9 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: refund-pending-gift
+  name: refundPendingGift
   retry_conf:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/refund-pending-gift"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundPendingGift"
