@@ -65,10 +65,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       });
     }
 
-    // invariant: there can only be one active epoch in a circle
-    // at a given time.
-    const currentEpoch = user.circle.epochs.pop();
-
     // Update the state after all external validations have passed
 
     const mutationResult = await gql.q('mutation')({
@@ -79,12 +75,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
             // falls back to undefined and is therefore not updated in the DB
             // if new_address is not included
             address: input.new_address,
-            // reset give_token_received if a user is opted out of an
-            // active epoch
-            give_token_received:
-              input.fixed_non_receiver || input.non_receiver
-                ? 0
-                : user.give_token_received,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
             give_token_remaining:
@@ -113,78 +103,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     const returnResult = mutationResult.update_users?.returning.pop();
     assert(returnResult, 'No return from mutation');
-
-    // TODO possibly move this deletion to an event eventually
-    if (currentEpoch) {
-      const currentPendingReceivedGifts = user.pending_received_gifts.filter(
-        gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
-      );
-
-      if (
-        !user.non_receiver &&
-        (input.non_receiver || input.fixed_non_receiver) &&
-        currentPendingReceivedGifts.length > 0
-      ) {
-        await gql.q('mutation')({
-          delete_pending_token_gifts: [
-            {
-              where: {
-                epoch_id: { _eq: currentEpoch.id },
-                recipient_id: { _eq: user.id },
-                note: { _eq: '' },
-              },
-            },
-            // something needs to be returned in the mutation
-            { __typename: true },
-          ],
-          update_pending_token_gifts: [
-            {
-              _set: { tokens: 0 },
-              where: {
-                epoch_id: { _eq: currentEpoch.id },
-                recipient_id: { _eq: user.id },
-                _not: { note: { _eq: '' } },
-              },
-            },
-            { __typename: true },
-          ],
-        });
-      }
-
-      const currentPendingSentGifts = user.pending_sent_gifts.filter(
-        gift => gift.epoch_id === currentEpoch.id && gift.tokens > 0
-      );
-      if (
-        !user.non_giver &&
-        input.non_giver &&
-        currentPendingSentGifts.length > 0
-      ) {
-        await gql.q('mutation')({
-          delete_pending_token_gifts: [
-            {
-              where: {
-                epoch_id: { _eq: currentEpoch.id },
-                sender_id: { _eq: user.id },
-                note: { _eq: '' },
-              },
-            },
-            // something needs to be returned in the mutation
-            { __typename: true },
-          ],
-          update_pending_token_gifts: [
-            {
-              _set: { tokens: 0 },
-              where: {
-                epoch_id: { _eq: currentEpoch.id },
-                sender_id: { _eq: user.id },
-                _not: { note: { _eq: '' } },
-              },
-            },
-            { __typename: true },
-          ],
-        });
-      }
-    }
 
     response.status(200).json(returnResult);
     return;
