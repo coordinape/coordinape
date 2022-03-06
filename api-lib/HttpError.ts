@@ -43,6 +43,10 @@ export class BadRequestError extends Error implements HttpError {
   httpStatus = 400;
 }
 
+export class UnauthorizedError extends Error {
+  httpStatus = 401;
+}
+
 export class UnprocessableError extends Error implements HttpError {
   httpStatus = 422;
   details?: any;

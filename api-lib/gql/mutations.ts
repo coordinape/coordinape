@@ -335,3 +335,42 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
   });
   return update_nominees_by_pk;
 }
+
+export async function deleteTeammate(userId: number) {
+  const { delete_teammates } = await adminClient.mutate({
+    delete_teammates: [
+      {
+        where: {
+          _or: [
+            {
+              team_mate_id: { _eq: userId },
+            },
+            {
+              user_id: { _eq: userId },
+            },
+          ],
+        },
+      },
+      {
+        affected_rows: true,
+      },
+    ],
+  });
+  if (!delete_teammates?.affected_rows) {
+    throw 'delete of teammate failed';
+  }
+  return;
+}
+
+export async function deleteGift(giftId: number) {
+  return await adminClient.mutate({
+    delete_pending_token_gifts_by_pk: [
+      {
+        id: giftId,
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+}

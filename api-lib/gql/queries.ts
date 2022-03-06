@@ -1,3 +1,5 @@
+import { NotFoundError } from '../HttpError';
+
 import { adminClient } from './adminClient';
 
 export async function getCircle(id: number) {
@@ -267,4 +269,34 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
       },
     ],
   });
+}
+
+export async function getPendingGifts(senderId: number) {
+  const { users_by_pk } = await adminClient.query({
+    users_by_pk: [
+      {
+        id: senderId,
+      },
+      {
+        pending_sent_gifts: [
+          {},
+          {
+            id: true,
+            recipient_id: true,
+          },
+        ],
+        pending_received_gifts: [
+          {},
+          {
+            sender_id: true,
+            id: true,
+          },
+        ],
+      },
+    ],
+  });
+  if (!users_by_pk) {
+    throw new NotFoundError('unable to find gifts from user we are deleting');
+  }
+  return users_by_pk;
 }

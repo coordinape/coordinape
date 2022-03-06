@@ -12,6 +12,7 @@ import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
 import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord';
 import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegram';
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
+import userDeleted from '../../../api-lib/event_triggers/userDeleted';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
 import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
 import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
@@ -35,6 +36,7 @@ const STAGING_HANDLERS: HandlerDict = {
   refundGiveTelegram,
   refundGiveDiscord,
   refundPendingGift,
+  userDeleted,
   vouchDiscord,
   vouchTelegram,
 };
