@@ -45,21 +45,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .map(gift => gift.tokens)
         .reduce((total, tokens) => tokens + total);
 
-      const refundMutations = pending_sent_gifts.reduce((ops, gift) => {
-        if (gift.tokens > 0)
-          ops[gift.id] = {
-            update_users_by_pk: [
-              {
-                pk_columns: { id: gift.recipient_id },
-                _inc: { give_token_received: -gift.tokens },
-              },
-              { give_token_received: true },
-            ],
-          };
-        return ops;
-      }, {} as { [aliasKey: number]: ValueTypes['mutation_root'] });
+      const refundFromCounterpartyMutations = pending_sent_gifts.reduce(
+        (ops, gift) => {
+          if (gift.tokens > 0)
+            ops[gift.id] = {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: gift.recipient_id },
+                  _inc: { give_token_received: -gift.tokens },
+                },
+                { give_token_received: true },
+              ],
+            };
+          return ops;
+        },
+        {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
+      );
 
-      const result = await gql.q('mutation')({
+      const newNonGiverResult = await gql.q('mutation')({
         delete_pending_token_gifts: [
           {
             where: {
@@ -92,10 +95,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               { give_token_remaining: true, id: true },
             ],
           },
-          ...refundMutations,
+          ...refundFromCounterpartyMutations,
         },
       });
-      results.push(result);
+      results.push(newNonGiverResult);
     }
 
     if (newNonReceiver) {
@@ -103,21 +106,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .map(gift => gift.tokens)
         .reduce((total, tokens) => tokens + total);
 
-      const refundMutations = pending_received_gifts.reduce((muts, gift) => {
-        if (gift.tokens > 0)
-          muts[gift.id] = {
-            update_users_by_pk: [
-              {
-                pk_columns: { id: gift.sender_id },
-                _inc: { give_token_remaining: gift.tokens },
-              },
-              { give_token_remaining: true, id: true },
-            ],
-          };
-        return muts;
-      }, {} as { [aliasKey: number]: ValueTypes['mutation_root'] });
+      const refundToCounterpartyMutations = pending_received_gifts.reduce(
+        (muts, gift) => {
+          if (gift.tokens > 0)
+            muts[gift.id] = {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: gift.sender_id },
+                  _inc: { give_token_remaining: gift.tokens },
+                },
+                { give_token_remaining: true, id: true },
+              ],
+            };
+          return muts;
+        },
+        {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
+      );
 
-      const result = await gql.q('mutation')({
+      const newNonReceiverResult = await gql.q('mutation')({
         delete_pending_token_gifts: [
           {
             where: {
@@ -150,10 +156,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               { give_token_received: true, id: true },
             ],
           },
-          ...refundMutations,
+          ...refundToCounterpartyMutations,
         },
       });
-      results.push(result);
+      results.push(newNonReceiverResult);
     }
   } catch (e) {
     ErrorResponse(res, e);
