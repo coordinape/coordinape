@@ -146,3 +146,18 @@ event_triggers:
     num_retries: 5
     timeout_sec: 60
   webhook: "{{HASURA_API_BASE_URL}}/event_triggers/optOutTelegram"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refundPendingGift
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundPendingGift"
