@@ -154,7 +154,6 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: createUserResponse
   - name: CreateNomineeResponse
     relationships:
     - remote_table:

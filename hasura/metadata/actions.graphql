@@ -3,12 +3,6 @@ type Mutation {
 }
 
 type Mutation {
-  createUser(
-    object: createUserInput!
-  ): createUserResponse
-}
-
-type Mutation {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
@@ -33,9 +27,7 @@ type Mutation {
 }
 
 type Mutation {
-  createNominee(
-    object: CreateNomineeInput!
-  ): CreateNomineeResponse
+  createNominee(object: CreateNomineeInput!): CreateNomineeResponse
 }
 
 input CreateCircleInput {
