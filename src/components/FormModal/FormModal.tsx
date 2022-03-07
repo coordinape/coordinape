@@ -131,21 +131,15 @@ export const FormModal = ({
           <Button
             css={{ mt: '$lg', gap: '$xs' }}
             color="red"
-            size="small"
+            size="medium"
             onClick={event => {
               event.preventDefault();
               onSubmit();
             }}
             disabled={submitDisabled}
           >
-            {!icon && !submitText ? (
-              <SaveIcon />
-            ) : (
-              <>
-                {icon}
-                {submitText ? submitText : 'Save'}
-              </>
-            )}
+            {icon || (!submitText && <SaveIcon />)}
+            {submitText || 'Save'}
           </Button>
         )}
       </form>
