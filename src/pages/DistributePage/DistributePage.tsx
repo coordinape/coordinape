@@ -37,6 +37,8 @@ function DistributePage() {
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const currentOrg = useCurrentOrg();
+  // eslint-disable-next-line no-console
+  console.log('currentOrg', currentOrg);
   const vaults = useVaults(currentOrg?.id);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
