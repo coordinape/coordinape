@@ -42,6 +42,14 @@ const tokens = {
   },
 };
 
+task('mine', 'Mine a block').setAction(async (_, hre) => {
+  await hre.network.provider.request({
+    method: 'evm_mine',
+    params: [1],
+  });
+  console.log(await hre.ethers.provider.getBlockNumber());
+});
+
 task('balance', 'Show token balance')
   .addParam('token', 'The token symbol')
   .addParam('address', 'The address to check')

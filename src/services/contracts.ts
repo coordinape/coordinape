@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
   ApeDistributor,
@@ -13,14 +11,13 @@ import {
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
-import * as ethers from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
 const log = debug('coordinape:contracts');
-
-type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 
 export const supportedChainIds: number[] =
   Object.keys(deploymentInfo).map(Number);
@@ -35,34 +32,36 @@ export class Contracts {
   // with it
   chainId: number;
 
-  signerOrProvider: SignerOrProvider;
+  provider: JsonRpcProvider;
+  signer: Signer;
 
-  constructor(
-    contracts: {
-      vaultFactory: ApeVaultFactoryBeacon;
-      router: ApeRouter;
-      distributor: ApeDistributor;
-    },
-    chainId: number,
-    signerOrProvider: SignerOrProvider
-  ) {
-    this.vaultFactory = contracts.vaultFactory;
-    this.router = contracts.router;
-    this.distributor = contracts.distributor;
+  constructor(chainId: number, provider: JsonRpcProvider) {
     this.chainId = chainId;
-    this.signerOrProvider = signerOrProvider;
-  }
+    this.provider = provider;
+    this.signer = provider.getSigner();
 
-  connect(signer: ethers.Signer): void {
-    this.vaultFactory = this.vaultFactory.connect(signer);
-    this.router = this.router.connect(signer);
-    this.distributor = this.distributor.connect(signer);
+    const info = (deploymentInfo as any)[chainId];
+    if (!info) {
+      throw new Error(`No info for chain ${chainId}`);
+    }
+    this.vaultFactory = ApeVaultFactoryBeacon__factory.connect(
+      info.ApeVaultFactoryBeacon.address,
+      this.signer
+    );
+    this.router = ApeRouter__factory.connect(
+      info.ApeRouter.address,
+      this.signer
+    );
+    this.distributor = ApeDistributor__factory.connect(
+      info.ApeDistributor.address,
+      this.signer
+    );
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(
       address,
-      this.signerOrProvider
+      this.provider
     );
   }
 
@@ -89,57 +88,21 @@ export class Contracts {
   }
 
   getERC20(address: string): ERC20 {
-    return ERC20__factory.connect(address, this.signerOrProvider);
+    return ERC20__factory.connect(address, this.signer);
   }
 
   getMyAddress() {
-    const signer =
-      this.signerOrProvider instanceof ethers.ethers.Signer
-        ? this.signerOrProvider
-        : (this.signerOrProvider as any).getSigner();
-    return signer.getAddress();
+    return this.signer.getAddress();
   }
 
   async getETHBalance(address?: string) {
-    if (this.signerOrProvider instanceof ethers.ethers.Signer) {
-      if (!address) return this.signerOrProvider.getBalance('latest');
-      return this.signerOrProvider.provider?.getBalance(address, 'latest');
-    }
+    if (!address && this.signer) return this.signer.getBalance('latest');
 
     if (!address) {
       throw new Error(
         'address argument is required when signer is not available'
       );
     }
-    return this.signerOrProvider.getBalance(address, 'latest');
-  }
-
-  static forChain(
-    chainId: number,
-    signerOrProvider: SignerOrProvider
-  ): Contracts {
-    assert(chainId !== 1, 'No support for mainnet yet');
-    const info = (deploymentInfo as any)[chainId];
-    if (!info) {
-      throw new Error(`No info for chain ${chainId}`);
-    }
-    return new Contracts(
-      {
-        vaultFactory: ApeVaultFactoryBeacon__factory.connect(
-          info.ApeVaultFactoryBeacon.address,
-          signerOrProvider
-        ),
-        router: ApeRouter__factory.connect(
-          info.ApeRouter.address,
-          signerOrProvider
-        ),
-        distributor: ApeDistributor__factory.connect(
-          info.ApeDistributor.address,
-          signerOrProvider
-        ),
-      },
-      chainId,
-      signerOrProvider
-    );
+    return this.provider.getBalance(address, 'latest');
   }
 }

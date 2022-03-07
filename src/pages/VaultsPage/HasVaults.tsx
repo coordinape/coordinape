@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
 
+import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { Box, Button, Text } from 'ui';
 
@@ -16,28 +17,19 @@ type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
 export default function HasVaults({ vault }: { vault: IVault }) {
   const [modal, setModal] = useState<ModalLabel>('');
+  const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
-  const vaultContract = useMemo(
-    () => contracts?.getVault(vault.id),
-    [contracts]
-  );
 
-  // TODO: update balance automatically after deposit
-  // FIXME: logic for fetching & formatting balance shouldn't live here
-  const [balance, setBalance] = useState(0);
-  useEffect(() => {
-    const vaultType = vault.type;
-    if (vaultType === 'OTHER') {
-      // TODO: need to get decimals from token contract
-      setBalance(-1);
-      return;
-    }
+  const updateBalance = () =>
+    contracts
+      ?.getVault(vault.id)
+      .underlyingValue()
+      .then(x => {
+        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
+      });
 
-    vaultContract?.underlyingValue().then(x => {
-      setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
-    });
-  }, [vault.id, vaultContract]);
+  useBlockListener(updateBalance, [vault.id]);
 
   return (
     <Box
@@ -57,7 +49,11 @@ export default function HasVaults({ vault }: { vault: IVault }) {
       ) : modal === 'withdraw' ? (
         <WithdrawModal onClose={closeModal} />
       ) : modal === 'deposit' ? (
-        <DepositModal vault={vault} onClose={closeModal} />
+        <DepositModal
+          vault={vault}
+          onClose={closeModal}
+          onDeposit={updateBalance}
+        />
       ) : null}
       <Text
         css={{ fontSize: '$7', fontWeight: '$semibold', color: '$primary' }}

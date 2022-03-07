@@ -11,6 +11,6 @@ export function useContracts(): Contracts | undefined {
   return useMemo((): Contracts | undefined => {
     if (!library || !chainId || !supportedChainIds.includes(chainId))
       return undefined;
-    return Contracts.forChain(chainId, library.getSigner());
+    return new Contracts(chainId, library);
   }, [active, library, chainId]);
 }
