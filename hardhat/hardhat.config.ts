@@ -13,6 +13,7 @@ import {
   FORK_MAINNET,
   GANACHE_NETWORK_NAME,
   GANACHE_URL,
+  HARDHAT_OWNER_ADDRESS,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
 
@@ -72,7 +73,7 @@ task('balance', 'Show token balance')
 
 task('mint', 'Mints the given token to specified account')
   .addParam('token', 'The token symbol')
-  .addParam('address', 'The recipient')
+  .addParam('address', 'The recipient', HARDHAT_OWNER_ADDRESS)
   .addParam('amount', 'The amount to mint')
   .setAction(
     async (args: { token: string; address: string; amount: string }, hre) => {
