@@ -19,7 +19,7 @@ import {
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
-      input: { object: input },
+      input: { payload: input },
       session_variables: sessionVariables,
     } = composeHasuraActionRequestBody(createNomineeSchemaInput).parse(
       req.body

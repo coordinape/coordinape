@@ -1,4 +1,5 @@
 import assert from 'assert';
+
 import { gql } from './Gql';
 
 export const getNomineeFromAddress = async (
@@ -31,7 +32,7 @@ export const getNomineeFromAddress = async (
         user_id: true,
         ended: true,
         created_at: true,
-        updated_at: true
+        updated_at: true,
       },
     ],
   });
@@ -72,26 +73,23 @@ export const getUserFromProfileIdWithCircle = async (
   return user;
 };
 
-export const insertNominee = async (
-    params:{
-      nominated_by_user_id: number,
-      circle_id: number,
-      address: string,
-      name: string,
-      description: string,
-      nomination_days_limit: number,
-      vouches_required: number
-    }
-) => {
+export const insertNominee = async (params: {
+  nominated_by_user_id: number;
+  circle_id: number;
+  address: string;
+  name: string;
+  description: string;
+  nomination_days_limit: number;
+  vouches_required: number;
+}) => {
   const today = new Date();
   const expiry = new Date();
   expiry.setDate(today.getDate() + params.nomination_days_limit);
-  const input: {} = params
   const { insert_nominees_one } = await gql.q('mutation')({
     insert_nominees_one: [
       {
         object: {
-          ... params,
+          ...params,
           nominated_date: today,
           expiry_date: expiry,
         },

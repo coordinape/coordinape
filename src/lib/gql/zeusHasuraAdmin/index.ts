@@ -66,6 +66,18 @@ export type ValueTypes = {
     ];
     __typename?: boolean;
   }>;
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    nominee?: ValueTypes['nominees'];
+    __typename?: boolean;
+  }>;
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -3098,6 +3110,10 @@ export type ValueTypes = {
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
       ValueTypes['CreateCircleResponse']
+    ];
+    createNominee?: [
+      { payload: ValueTypes['CreateNomineeInput'] },
+      ValueTypes['CreateNomineeResponse']
     ];
     createUser?: [
       { payload: ValueTypes['CreateUserInput'] },
@@ -8867,6 +8883,12 @@ export type ModelTypes = {
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
   };
+  ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
+  ['CreateNomineeResponse']: {
+    id?: number;
+    /** An object relationship */
+    nominee: ModelTypes['nominees'];
+  };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
@@ -10421,6 +10443,7 @@ export type ModelTypes = {
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
     createCircle?: ModelTypes['CreateCircleResponse'];
+    createNominee?: ModelTypes['CreateNomineeResponse'];
     /** creates a user in a circle and creates a profile if none exists */
     createUser?: ModelTypes['UserResponse'];
     /** delete data from the table: "burns" */
@@ -12817,6 +12840,18 @@ export type GraphQLTypes = {
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
+  };
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: {
+    __typename: 'CreateNomineeResponse';
+    id?: number;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['CreateUserInput']: {
     address: string;
@@ -15590,6 +15625,7 @@ export type GraphQLTypes = {
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'];
     createCircle?: GraphQLTypes['CreateCircleResponse'];
+    createNominee?: GraphQLTypes['CreateNomineeResponse'];
     /** creates a user in a circle and creates a profile if none exists */
     createUser?: GraphQLTypes['UserResponse'];
     /** delete data from the table: "burns" */

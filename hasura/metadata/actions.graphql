@@ -27,7 +27,7 @@ type Mutation {
 }
 
 type Mutation {
-  createNominee(object: CreateNomineeInput!): CreateNomineeResponse
+  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
 input CreateCircleInput {
@@ -72,6 +72,7 @@ input AdminUpdateUserInput {
 
 input CreateNomineeInput {
   name: String!
+  circle_id: Int!
   address: String!
   description: String!
 }

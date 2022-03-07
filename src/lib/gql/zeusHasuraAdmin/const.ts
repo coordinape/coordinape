@@ -205,6 +205,32 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
   },
+  CreateNomineeInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    description: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   CreateUserInput: {
     address: {
       type: 'String',
@@ -6726,6 +6752,14 @@ export const AllTypesProps: Record<string, any> = {
     createCircle: {
       payload: {
         type: 'CreateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createNominee: {
+      payload: {
+        type: 'CreateNomineeInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -18817,6 +18851,10 @@ export const ReturnTypes: Record<string, any> = {
     users: 'users',
     users_aggregate: 'users_aggregate',
   },
+  CreateNomineeResponse: {
+    id: 'Int',
+    nominee: 'nominees',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -19848,6 +19886,7 @@ export const ReturnTypes: Record<string, any> = {
   mutation_root: {
     adminUpdateUser: 'UserResponse',
     createCircle: 'CreateCircleResponse',
+    createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
