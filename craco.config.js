@@ -1,5 +1,5 @@
-const SentryCliPlugin = require('@sentry/webpack-plugin');
 const webpack = require('webpack');
+const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 const {
   SENTRY_AUTH_TOKEN,
