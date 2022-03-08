@@ -30,8 +30,8 @@ async function main() {
 }
 
 //#region constants
-const FIGMA_FILE_KEY = 'L4oZwYVUdpgacZtwipGaYe';
-const COLORS_DOCUMENT = '3542:11605';
+const FIGMA_FILE_KEY = 'ZHiNW0Wf2bj2VHVIqpjMuh';
+const COLORS_DOCUMENT = '105:2263';
 const FILL = 'FILL';
 const RECTANGLE = 'RECTANGLE';
 //#endregion constants
