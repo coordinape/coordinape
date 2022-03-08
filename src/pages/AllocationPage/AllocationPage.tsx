@@ -51,9 +51,9 @@ const useStyles = makeStyles(theme => ({
   body: {
     flex: 1,
     display: 'flex',
-    alignItems: 'start',
+    alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'auto',
+    flexDirection: 'column',
     width: '100%',
   },
   stepRoot: {
@@ -78,6 +78,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  tooltipContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 50,
+    marginTop: -100,
   },
   backButton: {
     marginRight: theme.spacing(1.5),
@@ -314,6 +322,29 @@ export const AllocationPage = () => {
           <>
             <AllocationTeam />
             <div className={classes.buttonContainer}>
+              {localTeammatesChanged ? (
+                <Button
+                  size="large"
+                  color="red"
+                  onClick={handleSaveTeamList}
+                  className={classes.btn}
+                >
+                  Save Teammate List
+                </Button>
+              ) : (
+                <Button
+                  size="large"
+                  color="red"
+                  disabled={!epochIsActive}
+                  onClick={getHandleStep(STEP_ALLOCATION)}
+                  className={classes.btn}
+                >
+                  Continue with this team
+                </Button>
+              )}
+            </div>
+
+            <div className={classes.tooltipContainer}>
               <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
                 <b>Why is Coordinape in my circle?</b>
                 <div>
@@ -338,26 +369,6 @@ export const AllocationPage = () => {
               >
                 Why is Coordinape in my circle?
               </a>
-              {localTeammatesChanged ? (
-                <Button
-                  size="large"
-                  color="red"
-                  onClick={handleSaveTeamList}
-                  className={classes.btn}
-                >
-                  Save Teammate List
-                </Button>
-              ) : (
-                <Button
-                  size="large"
-                  color="red"
-                  disabled={!epochIsActive}
-                  onClick={getHandleStep(STEP_ALLOCATION)}
-                  className={classes.btn}
-                >
-                  Continue with this team
-                </Button>
-              )}
             </div>
           </>
         )}
