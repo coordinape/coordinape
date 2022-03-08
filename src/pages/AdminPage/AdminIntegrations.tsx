@@ -7,7 +7,7 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql';
 import { DeleteIcon, DeworkIcon, DeworkLogo } from 'icons';
-import { getDeworkCallbackPath } from 'routes/paths';
+import { getIntegrationCallbackPath } from 'routes/paths';
 
 const useStyles = makeStyles(theme => ({
   errorColor: {
@@ -77,7 +77,7 @@ export const AdminIntegrations = () => {
         startIcon={<DeworkIcon size="md" />}
         href={`https://app.dework.xyz/apps/install/coordinape?redirect=${
           window.location.origin
-        }${getDeworkCallbackPath()}`}
+        }${getIntegrationCallbackPath()}`}
       >
         Connect Dework
       </Button>

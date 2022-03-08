@@ -6,9 +6,9 @@ import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
-import DeworkCallbackPage from 'pages/DeworkCallbackPage';
 import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
+import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import VouchingPage from 'pages/VouchingPage';
@@ -83,9 +83,9 @@ const LoggedInRoutes = () => {
       <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
       <Route path={paths.getCirclesPath()} element={<AdminPage />} />
       <Route
-        key={paths.getDeworkCallbackPath()}
-        path={paths.getDeworkCallbackPath()}
-        element={<DeworkCallbackPage />}
+        key={paths.getIntegrationCallbackPath()}
+        path={paths.getIntegrationCallbackPath()}
+        element={<IntegrationCallbackPage />}
       />
       <Route
         path={paths.getDistributePath(':epochId')}
