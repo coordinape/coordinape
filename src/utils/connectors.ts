@@ -1,49 +1,26 @@
-// import { AbstractConnector } from '@web3-react/abstract-connector';
-import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
-// import { PortisConnector } from '@web3-react/portis-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
-import { REACT_APP_FORTMATIC_API_KEY } from 'config/env';
-import {
-  networkIds,
-  supportedNetworkIds,
-  supportedNetworkURLs,
-} from 'config/networks';
+import { INFURA_PROJECT_ID } from 'config/env';
+import { supportedChainIds } from 'services/contracts';
 
-const POLLING_INTERVAL = 12000;
+export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 
-const injected = new InjectedConnector({
-  supportedChainIds: supportedNetworkIds,
-});
+const injected = new InjectedConnector({ supportedChainIds });
 
-const walletconnect = new WalletConnectConnector({
-  rpc: { 1: supportedNetworkURLs[1] },
-  bridge: 'https://bridge.walletconnect.org',
-  qrcode: true,
-  pollingInterval: POLLING_INTERVAL,
-});
-
-const fortmatic = new FortmaticConnector({
-  apiKey: REACT_APP_FORTMATIC_API_KEY,
-  chainId: networkIds.MAINNET,
-});
-
-// const portis = new PortisConnector({
-//   dAppId: REACT_APP_PORTIS_DAPP_ID,
-//   networks: supportedNetworkIds,
-// });
+export const makeWalletConnectConnector = () =>
+  new WalletConnectConnector({
+    rpc: { 1: MAINNET_RPC_URL },
+  });
 
 const walletlink = new WalletLinkConnector({
-  url: supportedNetworkURLs[1],
+  url: MAINNET_RPC_URL,
   appName: 'Coordinape',
 });
 
 export const connectors = {
   injected,
-  walletconnect,
+  walletconnect: makeWalletConnectConnector(),
   walletlink,
-  fortmatic,
-  // portis,
 };

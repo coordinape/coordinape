@@ -2,11 +2,12 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { Button, Modal, makeStyles, IconButton } from '@material-ui/core';
+import { Modal, makeStyles, IconButton } from '@material-ui/core';
 import MuiDialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { SaveIcon } from 'icons';
+import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -60,9 +61,6 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     textAlign: 'center',
-  },
-  saveButton: {
-    marginTop: theme.spacing(3),
   },
   errors: {
     display: 'flex',
@@ -133,18 +131,19 @@ export const FormModal = ({
         )}
         {!!onSubmit && (
           <Button
-            className={classes.saveButton}
-            variant="contained"
-            color="primary"
-            size="small"
-            startIcon={
-              icon && submitText ? icon : submitText ? undefined : <SaveIcon />
-            }
+            css={{ mt: '$lg', gap: '$xs' }}
+            color="red"
+            size="medium"
+            onClick={event => {
+              event.preventDefault();
+              onSubmit();
+            }}
             disabled={submitDisabled}
             type="submit"
             form="modal-form"
           >
-            {submitText ? submitText : 'Save'}
+            {icon || (!submitText && <SaveIcon />)}
+            {submitText || 'Save'}
           </Button>
         )}
       </form>

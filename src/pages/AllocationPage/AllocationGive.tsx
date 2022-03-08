@@ -181,7 +181,7 @@ const AllocationGive = () => {
     circle: selectedCircle,
   } = useSelectedCircle();
 
-  const { givePerUser, localGifts, updateGift } = useAllocation(circleId);
+  const { givePerUser, localGifts } = useAllocation(circleId);
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 
@@ -262,6 +262,7 @@ const AllocationGive = () => {
           note=""
           isMe
           tokenName={myUser.circle.tokenName}
+          circleId={myUser.circle_id}
         />
         {localGifts
           .map(g => g.user)
@@ -299,9 +300,7 @@ const AllocationGive = () => {
               note={givePerUser.get(user.id)?.note || ''}
               tokens={givePerUser.get(user.id)?.tokens || 0}
               tokenName={myUser.circle.tokenName}
-              updateGift={(update: { note?: string; tokens?: number }) =>
-                updateGift(user.id, update)
-              }
+              circleId={myUser.circle.id}
               user={user}
             />
           ))}

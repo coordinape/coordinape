@@ -2,25 +2,6 @@ import { BigNumber } from 'ethers';
 
 export type Maybe<T> = T | null;
 
-export interface INetwork {
-  label: string;
-  url: string;
-}
-
-export interface IKnownTokenData {
-  symbol: string;
-  decimals: number; // Fix: fetch this from smart-contract
-  addresses: {
-    [K in NetworkId]: string;
-  };
-}
-
-export interface IToken {
-  address: string;
-  decimals: number;
-  symbol: string;
-}
-
 export interface ITableColumn {
   label: string;
   accessor?: string;
@@ -61,8 +42,6 @@ export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
-  Fortmatic = 'fortmatic',
-  // Portis = 'portis',
 }
 
 export interface IAuth {

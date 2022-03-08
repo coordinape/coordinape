@@ -15,7 +15,6 @@ export const Button = styled('button', {
   textAlign: 'center',
   lineHeight: '$shorter',
 
-  color: 'White',
   variants: {
     color: {
       red: {
@@ -123,6 +122,7 @@ export const Button = styled('button', {
   ],
   defaultVariants: {
     size: 'medium',
+    color: 'gray',
   },
 });
 

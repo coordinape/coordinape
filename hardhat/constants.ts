@@ -4,6 +4,7 @@ import { BigNumber } from 'ethers';
 dotenv.config({ path: '../.env' });
 
 export const FORK_MAINNET = process.env.FORK_MAINNET || process.env.CI;
+export const GANACHE_NETWORK_NAME = 'ci';
 export const GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 export const GANACHE_URL = `http://127.0.0.1:${GANACHE_PORT}`;
 export const ETHEREUM_RPC_URL =
@@ -14,6 +15,7 @@ export const FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
   : undefined;
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export const HARDHAT_OWNER_ADDRESS =
   process.env.HARDHAT_OWNER_ADDRESS ?? ZERO_ADDRESS;
 

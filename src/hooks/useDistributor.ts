@@ -22,7 +22,7 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
   ) => {
     if (!contracts) return showError('Contracts not loaded');
 
-    return sendAndTrackTx(() => callback(contracts.apeDistributor), {
+    return sendAndTrackTx(() => callback(contracts.distributor), {
       showInfo,
       showError,
     });
@@ -34,7 +34,7 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
     if (!contracts) return showError('Contracts not loaded');
 
     try {
-      return callback(contracts.apeDistributor);
+      return callback(contracts.distributor);
     } catch (e) {
       showError(e);
     }
@@ -43,7 +43,7 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
   return { sendTx, call };
 };
 
-export function useApeDistributor() {
+export function useDistributor() {
   const contracts = useContracts();
   const { showInfo, showError } = useApeSnackbar();
   const { sendTx, call } = makeWrappers({ contracts, showInfo, showError });

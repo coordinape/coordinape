@@ -1,60 +1,54 @@
 import assert from 'assert';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import { getToken, knownTokens, TAssetEnum } from 'config/networks';
+import { TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gql';
 import { useFakeVaultApi } from 'recoilState/vaults';
 
 import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
 
-export function useVaultFactory() {
+export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
   const { apeInfo, apeError } = useApeSnackbar();
   const vaultApi = useFakeVaultApi();
-  const currentOrg = useCurrentOrg();
 
-  const createApeVault = async ({
+  const createVault = async ({
     simpleTokenAddress,
     type,
   }: {
     simpleTokenAddress?: string;
     type: TAssetEnum;
   }) => {
-    assert(currentOrg); // app should suspend until this is loaded
-
-    if (!contracts) {
-      apeError('Contracts not loaded');
-      return;
-    }
+    assert(contracts && orgId, 'called before hooks were ready');
 
     try {
-      const { apeVaultFactory: factory, networkId } = contracts;
+      const { vaultFactory } = contracts;
       assert(
         type !== 'OTHER' || simpleTokenAddress,
         'type is OTHER but no simple token address given; this should have been caught in form validation'
       );
 
-      const args: [string, string] =
-        type === 'OTHER'
-          ? [ZERO_ADDRESS, simpleTokenAddress as string]
-          : [getToken(networkId, type).address, ZERO_ADDRESS];
+      let args: [string, string], decimals: number;
 
-      const tx = await factory.createApeVault(...args);
+      if (type === 'OTHER') {
+        args = [ZERO_ADDRESS, simpleTokenAddress as string];
+        decimals = await contracts
+          .getERC20(simpleTokenAddress as string)
+          .decimals();
+      } else {
+        const tokenAddress = contracts.getToken(type).address;
+        args = [tokenAddress, ZERO_ADDRESS];
+        decimals = await contracts.getERC20(tokenAddress).decimals();
+      }
+
+      const tx = await vaultFactory.createApeVault(...args);
       apeInfo('transaction sent');
       const receipt = await tx.wait();
       apeInfo('transaction mined');
-      if (!receipt?.events) {
-        apeError('VaultCreated event not found');
-        return;
-      }
 
-      // TODO: support simple tokens with decimal values other than 18
-      const decimals = type === 'OTHER' ? 18 : knownTokens[type].decimals;
-
-      for (const event of receipt.events) {
+      for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
           const vault: IVault = {
@@ -64,16 +58,26 @@ export function useVaultFactory() {
             simpleTokenAddress: args[1],
             decimals,
             type,
-            orgId: currentOrg.id,
+            orgId,
           };
-          vaultApi.addVault(currentOrg.id, vault);
+          vaultApi.addVault(orgId, vault);
           return vault;
         }
       }
+
+      throw new Error('VaultCreated event not found');
     } catch (e) {
-      apeError(e);
+      console.error(e);
+
+      if ((e as any).message?.match(/method=.decimals/)) {
+        apeError(
+          "The custom asset must be an ERC20 token. (Couldn't call the decimals() method)"
+        );
+      } else {
+        apeError(e);
+      }
     }
   };
 
-  return { createApeVault };
+  return { createVault };
 }

@@ -56,7 +56,7 @@ describe('Test withdrawal functions of ApeVault', () => {
     yRegistry = deploymentInfo.contracts.yRegistry;
 
     const govAddress = await yRegistry.governance();
-    const govSigner = await unlockSigner(govAddress);
+    const govSigner = await unlockSigner(govAddress, { ethers, network });
     yGovernance = {
       address: govAddress,
       signer: govSigner,
@@ -72,7 +72,7 @@ describe('Test withdrawal functions of ApeVault', () => {
     );
 
     const vaultOwner = await vault.owner();
-    const vaultSigner = await unlockSigner(vaultOwner);
+    const vaultSigner = await unlockSigner(vaultOwner, { ethers, network });
 
     vault = vault.connect(vaultSigner);
     await vault.transferOwnership(yGovernance.address);
@@ -263,7 +263,7 @@ describe('Test tap function of ApeVault', () => {
 
     distributor = {
       address: apeDistributor.address,
-      signer: await unlockSigner(apeDistributor.address),
+      signer: await unlockSigner(apeDistributor.address, { ethers, network }),
     };
 
     vault = await createApeVault(apeToken, apeVaultFactory, user0);

@@ -1,5 +1,5 @@
 import { Signer } from 'ethers';
-import { deployments, ethers, getNamedAccounts } from 'hardhat';
+import { deployments, ethers, getNamedAccounts, network } from 'hardhat';
 
 import {
   USDC_ADDRESS,
@@ -59,7 +59,7 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
     signer: deployerSigner,
   };
 
-  const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS);
+  const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, { ethers, network });
 
   const contracts = {
     usdc: ERC20__factory.connect(USDC_ADDRESS, usdcWhale),

@@ -11,7 +11,7 @@
     "dev": "./scripts/start-node.sh",
     "deploy": "DEBUG=coordinape:setup hardhat deploy",
     "ganache": "./scripts/start-ganache.sh",
-    "test": "GANACHE=1 FORK_MAINNET=1 ./scripts/start-ganache.sh --exec hardhat test --network ci"
+    "test": "FORK_MAINNET=1 ./scripts/start-ganache.sh --exec hardhat test --network ci"
   },
   "files": [
     "dist"
