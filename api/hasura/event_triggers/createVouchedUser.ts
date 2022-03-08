@@ -25,7 +25,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             where: {
               address: { _ilike: address },
               circle_id: { _eq: circle_id },
-              // ignore soft_deleted users
               deleted_at: { _is_null: true },
             },
           },
@@ -42,29 +41,34 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      await gql.q('mutation')({
-        // Insert the user
+      const { insert_users_one } = await gql.q('mutation')({
         insert_users_one: [
           { object: { name, address, circle_id } },
           {
             id: true,
           },
         ],
-        // End current nomination
-        update_nominees: [
-          {
-            _set: { ended: true },
-            where: {
-              id: { _eq: id },
-            },
-          },
-          {
-            returning: {
-              id: true,
-            },
-          },
-        ],
       });
+
+      if (insert_users_one) {
+        await gql.q('mutation')({
+          // End current nomination
+          update_nominees: [
+            {
+              _set: { ended: true, user_id: insert_users_one.id },
+              where: {
+                id: { _eq: id },
+              },
+            },
+            {
+              returning: {
+                id: true,
+              },
+            },
+          ],
+        });
+      }
+
       res.status(200).json({ message: `user/profile created for ${address}` });
       return;
     }
