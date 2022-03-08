@@ -13,7 +13,8 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { GraphQLError } from '../../../src/lib/gql/zeusHasuraAdmin';
 import {
   createNomineeSchemaInput,
-  composeHasuraActionRequestBody,
+  composeHasuraActionRequestBodyWithSession,
+  HasuraUserSessionVariables,
 } from '../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
@@ -21,15 +22,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       input: { payload: input },
       session_variables: sessionVariables,
-    } = composeHasuraActionRequestBody(createNomineeSchemaInput).parse(
-      req.body
-    );
-    if (sessionVariables.hasuraRole === 'admin') {
-      return res.json(422).json({
-        message: 'Invalid input',
-        code: '422',
-      });
-    }
+    } = composeHasuraActionRequestBodyWithSession(
+      createNomineeSchemaInput,
+      HasuraUserSessionVariables
+    ).parse(req.body);
+
     const profileId = sessionVariables.hasuraProfileId;
     const { circle_id, address, name, description } = input;
 
