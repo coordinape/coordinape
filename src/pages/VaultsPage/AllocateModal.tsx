@@ -7,7 +7,7 @@ import { Dialog } from 'components';
 import { IEpoch } from 'types';
 
 interface AllocateModalProps {
-  epoch: IEpoch;
+  epoch?: Partial<IEpoch>;
   onClose: () => void;
 }
 
@@ -18,7 +18,10 @@ const schema = z.object({
 });
 type BudgetForm = z.infer<typeof schema>;
 
-export default function AllocateModal({ epoch, onClose }: AllocateModalProps) {
+export default function AllocateModal({
+  epoch = {},
+  onClose,
+}: AllocateModalProps) {
   // TODO: implement zodResolver when all the fields are available
   const {
     register,
