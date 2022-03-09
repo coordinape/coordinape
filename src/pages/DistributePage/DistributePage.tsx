@@ -2,7 +2,7 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, FixedNumber, utils } from 'ethers';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -21,7 +21,12 @@ import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
 import ShowMessage from './ShowMessage';
-import { useGetAllocations } from './useGetAllocations';
+import {
+  useGetAllocations,
+  useSaveDistribution,
+  IDistribution,
+  IClaim,
+} from './useGetAllocations';
 
 import { IAllocateUser, IVault } from 'types';
 
@@ -35,15 +40,15 @@ function DistributePage() {
   const { epochId } = useParams();
   const [loadingTrx, setLoadingTrx] = useState(false);
   const [updateAmount, setUpdateAmount] = useState(0);
+  const [distributionDTO, setDistributionDTO] = useState<IDistribution>();
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const currentOrg = useCurrentOrg();
-  // eslint-disable-next-line no-console
-  console.log('currentOrg', currentOrg);
   const vaults = useVaults(currentOrg?.id);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { getYVault } = useVaultWrapper(selectedVault as IVault);
   const { apeError } = useApeSnackbar();
+  const { mutateAsync } = useSaveDistribution(distributionDTO);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
   const { myUser: currentUser } = useCircle(
@@ -102,8 +107,22 @@ function DistributePage() {
       );
 
       if (trx) {
+        const claims: IClaim[] = [];
+        const updateDistribution: IDistribution = {
+          total_amount: Number(
+            FixedNumber.from(totalDistributionAmount, 'fixed128x18')
+          ),
+          epoch_id: Number(epochId),
+          merkle_root: distribution.merkleRoot,
+          vault_address: selectedVaultId,
+          claims: {
+            data: claims,
+          },
+          created_by: currentUser?.id,
+        };
+        setDistributionDTO(updateDistribution);
+        await mutateAsync();
         setLoadingTrx(false);
-        console.log(trx); // eslint-disable-line
       }
     } catch (e) {
       console.error(e);
@@ -280,7 +299,7 @@ function DistributePage() {
             </Box>
           </Box>
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
-            <Button color="red" size="medium">
+            <Button color="red" size="medium" disabled={loadingTrx}>
               {loadingTrx
                 ? `Transaction Pending...`
                 : `Submit Distribution to Vault`}

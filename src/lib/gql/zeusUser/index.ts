@@ -999,6 +999,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -1013,7 +1014,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | null;
-    total_amount?: ValueTypes['String_comparison_exp'] | null;
+    total_amount?: ValueTypes['bigint_comparison_exp'] | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
     vault?: ValueTypes['vaults_bool_exp'] | null;
@@ -1027,7 +1028,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
-    total_amount?: string | null;
+    total_amount?: ValueTypes['bigint'] | null;
     updated_at?: ValueTypes['timestamp'] | null;
     vault?: ValueTypes['vaults_obj_rel_insert_input'] | null;
     vault_id?: ValueTypes['bigint'] | null;
@@ -1088,6 +1089,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -1095,6 +1097,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -1102,6 +1105,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by sum() on columns of table "distributions" */
@@ -1109,6 +1113,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -1116,6 +1121,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -1123,6 +1129,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** order by variance() on columns of table "distributions" */
@@ -1130,6 +1137,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** columns and relationships of "epoches" */
@@ -3955,7 +3963,7 @@ export type ModelTypes = {
     epoch_id: ModelTypes['bigint'];
     id: ModelTypes['bigint'];
     merkle_root: string;
-    total_amount: string;
+    total_amount: ModelTypes['bigint'];
     updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
@@ -4683,14 +4691,14 @@ export type ModelTypes = {
   ['users_variance_order_by']: GraphQLTypes['users_variance_order_by'];
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
-    created_at: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamp'];
     created_by?: ModelTypes['bigint'];
     date: ModelTypes['date'];
     description?: string;
     id: ModelTypes['bigint'];
     name: string;
     tx_hash: string;
-    updated_at: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     value?: ModelTypes['bigint'];
@@ -4739,7 +4747,7 @@ export type ModelTypes = {
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
-    created_at: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamp'];
     created_by: ModelTypes['bigint'];
     decimals: number;
     /** An array relationship */
@@ -4752,7 +4760,7 @@ export type ModelTypes = {
     simple_token_address?: string;
     token_address?: string;
     type: number;
-    updated_at: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
     /** An array relationship */
@@ -5673,7 +5681,7 @@ export type GraphQLTypes = {
     epoch_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     merkle_root: string;
-    total_amount: string;
+    total_amount: GraphQLTypes['bigint'];
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
@@ -5704,6 +5712,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -5718,7 +5727,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     merkle_root?: GraphQLTypes['String_comparison_exp'];
-    total_amount?: GraphQLTypes['String_comparison_exp'];
+    total_amount?: GraphQLTypes['bigint_comparison_exp'];
     updated_at?: GraphQLTypes['timestamp_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
     vault?: GraphQLTypes['vaults_bool_exp'];
@@ -5732,7 +5741,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
+    total_amount?: GraphQLTypes['bigint'];
     updated_at?: GraphQLTypes['timestamp'];
     vault?: GraphQLTypes['vaults_obj_rel_insert_input'];
     vault_id?: GraphQLTypes['bigint'];
@@ -5793,6 +5802,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -5800,6 +5810,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -5807,6 +5818,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by sum() on columns of table "distributions" */
@@ -5814,6 +5826,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -5821,6 +5834,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -5828,6 +5842,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** order by variance() on columns of table "distributions" */
@@ -5835,6 +5850,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** columns and relationships of "epoches" */
@@ -7289,14 +7305,14 @@ export type GraphQLTypes = {
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     __typename: 'vault_transactions';
-    created_at: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'];
     date: GraphQLTypes['date'];
     description?: string;
     id: GraphQLTypes['bigint'];
     name: string;
     tx_hash: string;
-    updated_at: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     value?: GraphQLTypes['bigint'];
@@ -7464,7 +7480,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
-    created_at: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamp'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
     /** An array relationship */
@@ -7477,7 +7493,7 @@ export type GraphQLTypes = {
     simple_token_address?: string;
     token_address?: string;
     type: number;
-    updated_at: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     /** An array relationship */
