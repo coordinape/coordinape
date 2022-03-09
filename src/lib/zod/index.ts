@@ -31,7 +31,7 @@ export const adminUpdateUserSchemaInput = z
   })
   .strict();
 
-export const createNomineeSchemaInput = z
+export const createNomineeInputSchema = z
   .object({
     name: z.string().min(3).max(255),
     circle_id: z.number().int().positive(),

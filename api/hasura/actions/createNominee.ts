@@ -13,7 +13,7 @@ import {
 } from '../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
-  createNomineeSchemaInput,
+  createNomineeInputSchema,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
 } from '../../../src/lib/zod';
@@ -24,7 +24,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       input: { payload: input },
       session_variables: sessionVariables,
     } = composeHasuraActionRequestBodyWithSession(
-      createNomineeSchemaInput,
+      createNomineeInputSchema,
       HasuraUserSessionVariables
     ).parse(req.body);
 
