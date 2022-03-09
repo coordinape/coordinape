@@ -6,6 +6,10 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
 import {
+  ErrorResponse,
+  ErrorResponseWithStatusCode,
+} from '../../../api-lib/HttpError';
+import {
   deleteEpochInput,
   composeHasuraActionRequestBody,
 } from '../../../src/lib/zod';
@@ -33,22 +37,19 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         },
       ],
     });
-    assert(delete_epochs, 'Epoch cannot be deleted');
+    assert(delete_epochs);
     return response
-      .status(204)
+      .status(200)
       .json({ success: delete_epochs.affected_rows > 0 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return response.status(422).json({
-        extensions: err.issues,
-        message: 'Invalid input',
-        code: '422',
-      });
+      return ErrorResponseWithStatusCode(
+        response,
+        { message: 'Invalid input' },
+        422
+      );
     }
-    return response.status(401).json({
-      message: 'Epoch cannot be deleted',
-      code: 401,
-    });
+    return ErrorResponse(response, err);
   }
 }
 
