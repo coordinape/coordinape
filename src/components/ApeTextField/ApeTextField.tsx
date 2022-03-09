@@ -22,6 +22,7 @@ type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
 
 interface ApeTextStyleProps {
   infoTooltip?: React.ReactNode;
+  subtitle?: React.ReactNode;
   apeVariant?: ApeTextVariantType;
 }
 
@@ -33,6 +34,7 @@ export type ApeTextFieldProps = TextFieldProps & ApeTextStyleProps;
 
 export const ApeTextField = ({
   infoTooltip,
+  subtitle,
   apeVariant = 'default',
   ...props
 }: ApeTextFieldProps) => {
@@ -141,6 +143,7 @@ export const ApeTextField = ({
           {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
         </label>
       )}
+      {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
       <InputBase {...mergedInputProps} />
       <div className={classes.helperBox}>
         {helperText && (
@@ -212,11 +215,18 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontSize: 16,
       lineHeight: 1.3,
       fontWeight: 700,
-      marginBottom: theme.spacing(1),
+      // marginBottom: theme.spacing(1),
       color: theme.colors.text,
       ...apeVariants(theme, variant)?.label,
     }),
+    subLabel: {
+      padding: theme.spacing(0, 0, 1),
+      fontSize: 15,
+      lineHeight: 1,
+      color: theme.colors.text + '80',
+    },
     inputRoot: ({ variant }) => ({
+      margin: theme.spacing(1),
       backgroundColor: theme.colors.third,
       borderRadius: 8,
       color: theme.colors.text,
