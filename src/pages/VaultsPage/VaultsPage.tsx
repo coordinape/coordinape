@@ -11,8 +11,8 @@ import { useVaults } from 'recoilState/vaults';
 
 // eslint-disable-next-line import/no-named-as-default
 import CreateVaultModal from './CreateVaultModal';
-import HasVaults from './HasVaults';
 import NoVaults from './NoVaults';
+import VaultRow from './VaultRow';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,8 +49,8 @@ const VaultsPage = () => {
         buttonText="Create a Vault"
         onButtonClick={() => setModal('create')}
       />
-      {vaults && vaults.length ? (
-        vaults.map(vault => <HasVaults key={vault.id} vault={vault} />)
+      {vaults?.length > 0 ? (
+        vaults.map(vault => <VaultRow key={vault.id} vault={vault} />)
       ) : (
         <NoVaults onCreateButtonClick={() => setModal('create')} />
       )}
