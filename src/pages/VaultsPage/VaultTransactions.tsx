@@ -82,12 +82,14 @@ export const TransactionTable = ({ rows }: { rows: any[] }) => (
     }}
   >
     <thead>
-      <th>Date</th>
-      <th>Circle</th>
-      <th>Type</th>
-      <th>Details</th>
-      <th>Amount</th>
-      <th>Transaction</th>
+      <tr>
+        <th>Date</th>
+        <th>Circle</th>
+        <th>Type</th>
+        <th>Details</th>
+        <th>Amount</th>
+        <th>Transaction</th>
+      </tr>
     </thead>
     <tbody>
       {rows.map(row => (
