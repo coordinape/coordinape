@@ -1,4 +1,9 @@
-import { Thunder, apiFetch, ValueTypes, order_by } from './zeusHasuraAdmin';
+import {
+  Thunder,
+  apiFetch,
+  ValueTypes,
+  order_by,
+} from './__generated__/zeusAdmin';
 
 type TGql = ReturnType<typeof Thunder>;
 
@@ -12,7 +17,7 @@ export type TGiftCommon = {
   sender_id: number;
 };
 
-export class Gql {
+export class AdminClient {
   q: TGql;
 
   constructor(endpoint: string, hasuraSecret: string) {

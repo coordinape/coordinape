@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { REACT_APP_HASURA_URL } from 'config/env';
 import { getAuthToken } from 'services/api';
 
-import { Thunder, apiFetch, ValueTypes, $ } from './zeusUser';
+import { Thunder, apiFetch, ValueTypes, $ } from './__generated__/zeusUser';
 
 const makeQuery = (url: string, getToken: () => string | undefined) =>
   Thunder(
@@ -18,7 +18,7 @@ const makeQuery = (url: string, getToken: () => string | undefined) =>
     ])
   );
 
-export function getGql(url: string, getToken: () => string | undefined) {
+export function getUserClient(url: string, getToken: () => string | undefined) {
   const updateProfile = async (
     id: number,
     profile: ValueTypes['profiles_set_input']

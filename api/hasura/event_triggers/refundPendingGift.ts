@@ -6,7 +6,7 @@ import { gql } from '../../../api-lib/Gql';
 import { ErrorResponse } from '../../../api-lib/HttpError';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { ValueTypes } from '../../../src/lib/gql/zeusHasuraAdmin';
+import { ValueTypes } from '../../../src/lib/gql/__generated__/zeusAdmin';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   // no parsing should be needed here since this data comes straight from

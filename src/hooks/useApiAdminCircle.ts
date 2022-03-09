@@ -1,6 +1,6 @@
 import { HASURA_ENABLED, REACT_APP_HASURA_URL } from '../config/env';
 import { fileToBase64 } from '../lib/base64';
-import { getGql } from '../lib/gql';
+import { getUserClient } from '../lib/gql/userClient';
 import { useApiBase } from 'hooks';
 import { getApiService, getAuthToken } from 'services/api';
 
@@ -13,7 +13,7 @@ import {
   UpdateCreateEpochParam,
 } from 'types';
 
-const api = getGql(REACT_APP_HASURA_URL, () => {
+const api = getUserClient(REACT_APP_HASURA_URL, () => {
   const token = getAuthToken();
   if (token) {
     return token;
