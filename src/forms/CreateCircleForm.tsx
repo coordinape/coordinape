@@ -18,7 +18,7 @@ const schema = z
     // TODO: Implment nested fields in createForm
     // Research Questions
     research_org_link: z.string(),
-    research_contact: z.string(),
+    research_contact: z.string().min(4, 'Circle Point of Contact is Required.'),
     research_what: z.string(),
     research_who: z.string(),
     research_how_much: z.string(),
