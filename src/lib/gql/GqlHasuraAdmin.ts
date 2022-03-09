@@ -367,6 +367,9 @@ export class Gql {
         {
           name: true,
           circle_id: true,
+          nominator: {
+            name: true,
+          },
           nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
         },
       ],
