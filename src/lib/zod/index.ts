@@ -31,6 +31,17 @@ export const adminUpdateUserSchemaInput = z
   })
   .strict();
 
+export const createNomineeInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    address: zEthAddressOnly,
+    description: z.string().min(3).max(1000),
+  })
+  .strict();
+
+// this shape mirrors the shape of the original rest endpoint
+// it might be preferable to fold circle_id into the object
 export const createUserSchemaInput = z
   .object({
     circle_id: z.number(),

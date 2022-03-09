@@ -10,20 +10,27 @@ export default async function handleCheckNomineeMsg(
     event: { data },
   } = payload;
 
-  if (
-    data.old.ended === false &&
-    data.new.ended === true &&
-    new Date(data.new.expiry_date) < new Date()
-  ) {
+  if (data.old.ended === false && data.new.ended === true) {
     const { nominees_by_pk } = await gql.getNominee(data.new.id);
 
     if (nominees_by_pk) {
-      await sendSocialMessage({
-        message: `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`,
-        circleId: nominees_by_pk.circle_id,
-        channels,
-      });
-      return true;
+      const vouches =
+        (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
+      let message;
+      if (vouches >= data.new.vouches_required) {
+        message = `${nominees_by_pk.name} has received enough vouches and is now in the circle`;
+      } else if (new Date(data.new.expiry_date) < new Date()) {
+        message = `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`;
+      }
+
+      if (message) {
+        await sendSocialMessage({
+          message,
+          circleId: nominees_by_pk.circle_id,
+          channels,
+        });
+        return true;
+      }
     }
   }
   return false;
