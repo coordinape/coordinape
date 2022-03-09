@@ -115,7 +115,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
         <TransactionTable rows={dummyTableData} />
 
         <Box css={{ textAlign: 'center', mt: '$md' }}>
-          <AppLink css={{ color: '$lightGrey' }} to={paths.vaultTxs(vault.id)}>
+          <AppLink css={{ color: '$lightText' }} to={paths.vaultTxs(vault.id)}>
             View All Transactions
           </AppLink>
         </Box>
