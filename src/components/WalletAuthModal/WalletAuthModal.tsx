@@ -68,10 +68,7 @@ export const WalletAuthModal = ({
 
     // Reset WalletConnect before reactivate
     // https://github.com/NoahZinsmeister/web3-react/issues/124
-    if (
-      newConnector instanceof WalletConnectConnector &&
-      newConnector.walletConnectProvider?.wc?.uri
-    ) {
+    if (newConnector instanceof WalletConnectConnector) {
       newConnector.walletConnectProvider = undefined;
     }
 

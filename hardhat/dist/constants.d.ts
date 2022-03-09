@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
 export declare const FORK_MAINNET: string | undefined;
+export declare const GANACHE_NETWORK_NAME = "ci";
 export declare const GANACHE_PORT: string | undefined;
 export declare const GANACHE_URL: string;
 export declare const ETHEREUM_RPC_URL: string;

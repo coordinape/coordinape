@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.ZERO_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.FORK_MAINNET = void 0;
+exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.ZERO_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.GANACHE_NETWORK_NAME = exports.FORK_MAINNET = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const ethers_1 = require("ethers");
 dotenv_1.default.config({ path: '../.env' });
 exports.FORK_MAINNET = process.env.FORK_MAINNET || process.env.CI;
+exports.GANACHE_NETWORK_NAME = 'ci';
 exports.GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 exports.GANACHE_URL = `http://127.0.0.1:${exports.GANACHE_PORT}`;
 exports.ETHEREUM_RPC_URL = (_a = process.env.ETHEREUM_RPC_URL) !== null && _a !== void 0 ? _a : 'http://127.0.0.1:7545';

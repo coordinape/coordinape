@@ -4,6 +4,7 @@ import { BigNumber } from 'ethers';
 dotenv.config({ path: '../.env' });
 
 export const FORK_MAINNET = process.env.FORK_MAINNET || process.env.CI;
+export const GANACHE_NETWORK_NAME = 'ci';
 export const GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 export const GANACHE_URL = `http://127.0.0.1:${GANACHE_PORT}`;
 export const ETHEREUM_RPC_URL =

@@ -1,17 +1,15 @@
 // - Contract Imports
 import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
 
+import { Contracts } from 'services/contracts';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
-import { useContracts } from './useContracts';
 
 import { IVault } from 'types';
 
-export function useVaultRouter() {
-  const contracts = useContracts();
+export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
 
@@ -21,17 +19,24 @@ export function useVaultRouter() {
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
     const token = contracts.getERC20(vault.tokenAddress);
-
-    // Todo: Handle this separately and conditionally in UI
-    await sendAndTrackTx(
-      () =>
-        token.approve(contracts.router.address, ethers.constants.MaxUint256),
-      {
-        showError,
-        showInfo,
-        signingMessage: 'Please sign the transaction to approve the transfer.',
-      }
+    const myAddress = await contracts.getMyAddress();
+    const allowance = await token.allowance(
+      myAddress,
+      contracts.router.address
     );
+
+    if (allowance.lt(amount)) {
+      const result = await sendAndTrackTx(
+        () => token.approve(contracts.router.address, amount),
+        {
+          showError,
+          showInfo,
+          signingMessage:
+            'Please sign the transaction to approve the transfer.',
+        }
+      );
+      if (result.error) return result;
+    }
 
     return sendAndTrackTx(
       () =>
