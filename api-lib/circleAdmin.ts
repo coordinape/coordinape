@@ -7,7 +7,7 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
-import { GraphQLError } from '../src/lib/gql/zeusHasuraAdmin';
+import { GraphQLError } from '../src/lib/gql/__generated__/zeusAdmin';
 import { composeHasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
 
 import { getUserFromProfileId } from './findUser';

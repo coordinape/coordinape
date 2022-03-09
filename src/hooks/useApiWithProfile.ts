@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-console */
-import { getGql } from 'lib/gql';
+import { getUserClient } from 'lib/gql/userClient';
 
 import { fileToBase64 } from '../lib/base64';
 import { REACT_APP_HASURA_URL, HASURA_ENABLED } from 'config/env';
@@ -11,7 +11,7 @@ import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 import { CreateCircleParam, PostProfileParam } from 'types';
 
-const api = getGql(REACT_APP_HASURA_URL, () => {
+const api = getUserClient(REACT_APP_HASURA_URL, () => {
   const token = getAuthToken();
   if (token) {
     return token;
