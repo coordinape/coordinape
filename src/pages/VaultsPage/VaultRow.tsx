@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
-import { Link } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
-import { Box, Button, LinkWrapper, Text } from 'ui';
+import { AppLink, Box, Button, Text } from 'ui';
 
 import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
@@ -116,9 +115,9 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
         <TransactionTable rows={dummyTableData} />
 
         <Box css={{ textAlign: 'center', mt: '$md' }}>
-          <LinkWrapper css={{ '> a': { color: '$lightGrey' } }}>
-            <Link to={paths.vaultTxs(vault.id)}>View All Transactions</Link>
-          </LinkWrapper>
+          <AppLink css={{ color: '$lightGrey' }} to={paths.vaultTxs(vault.id)}>
+            View All Transactions
+          </AppLink>
         </Box>
       </Box>
     </Box>
