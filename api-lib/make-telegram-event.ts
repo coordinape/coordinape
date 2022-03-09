@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { GraphQLTypes } from '../src/lib/gql/zeusHasuraAdmin';
+import { GraphQLTypes } from '../src/lib/gql/__generated__/zeusAdmin';
 
 import { EventTriggerPayload, OperationTypes } from './types';
 
