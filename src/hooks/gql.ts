@@ -4,11 +4,11 @@ import {
   InputType,
   OperationOptions,
   chainOptions,
-} from 'lib/gql/zeusUser';
+} from 'lib/gql/__generated__/zeusUser';
 import {
   useTypedQuery as _useTypedQuery,
   useTypedMutation as _useTypedMutation,
-} from 'lib/gql/zeusUser/reactQuery';
+} from 'lib/gql/__generated__/zeusUser/reactQuery';
 import type { UseQueryOptions } from 'react-query';
 import { UseMutationOptions } from 'react-query';
 

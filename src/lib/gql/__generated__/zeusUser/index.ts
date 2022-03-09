@@ -3198,7 +3198,6 @@ export type ModelTypes = {
     adminUpdateUser?: ModelTypes['UserResponse'];
     createCircle?: ModelTypes['CreateCircleResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
-    /** creates a user in a circle and creates a profile if none exists */
     createUser?: ModelTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
@@ -4757,7 +4756,6 @@ export type GraphQLTypes = {
     adminUpdateUser?: GraphQLTypes['UserResponse'];
     createCircle?: GraphQLTypes['CreateCircleResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
-    /** creates a user in a circle and creates a profile if none exists */
     createUser?: GraphQLTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];

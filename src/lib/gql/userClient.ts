@@ -1,4 +1,4 @@
-import { Thunder, apiFetch, ValueTypes, $ } from './zeusUser';
+import { Thunder, apiFetch, ValueTypes, $ } from './__generated__/zeusUser';
 
 const makeQuery = (url: string, getToken: () => string) =>
   Thunder(
@@ -13,7 +13,7 @@ const makeQuery = (url: string, getToken: () => string) =>
     ])
   );
 
-export function getGql(url: string, getToken: () => string) {
+export function getUserClient(url: string, getToken: () => string) {
   const updateProfile = async (
     id: number,
     profile: ValueTypes['profiles_set_input']
