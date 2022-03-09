@@ -26,6 +26,10 @@ type Mutation {
   uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
 }
 
+type Mutation {
+  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
+}
+
 input CreateCircleInput {
   user_name: String!
   circle_name: String!
@@ -66,6 +70,13 @@ input AdminUpdateUserInput {
   role: Int
 }
 
+input CreateNomineeInput {
+  name: String!
+  circle_id: Int!
+  address: String!
+  description: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -84,4 +95,8 @@ type LogoutResponse {
 
 type UserResponse {
   id: ID!
+}
+
+type CreateNomineeResponse {
+  id: Int
 }
