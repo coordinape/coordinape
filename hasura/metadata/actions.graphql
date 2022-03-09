@@ -51,7 +51,7 @@ input CreateCircleInput {
   protocol_id: Int
 }
 
-input createUserInput {
+input CreateUserInput {
   circle_id: Int!
   address: String!
   name: String!
@@ -112,18 +112,6 @@ type create_circle_response {
   id: Int!
 }
 
-type createUserResponse {
-  """ Primary key """ id: ID!
-  """ The ethereum address of the user """ address: String!
-  """ human readable user name """ name: String!
-  fixed_non_receiver: Boolean!
-  give_token_remaining: Int!
-  non_giver: Boolean!
-  non_receiver: Boolean!
-  role: Int!
-  starting_tokens: Int!
-}
-
 type CreateCircleResponse {
   id: Int!
 }
@@ -138,6 +126,10 @@ type UpdateCircleResponse {
 
 type LogoutResponse {
   id: Int
+}
+
+type UserResponse {
+  id: ID!
 }
 
 type DeleteEpochResponse {
