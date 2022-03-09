@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { gql } from '../../../api-lib/Gql';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { profiles_constraint } from '../../../src/lib/gql/zeusHasuraAdmin';
+import { profiles_constraint } from '../../../src/lib/gql/__generated__/zeusAdmin';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

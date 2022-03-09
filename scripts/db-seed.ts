@@ -7,9 +7,10 @@ const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import { DateTime, Duration, Interval } from 'luxon';
+
 import '../api-lib/node-fetch-shim';
 import { gql, TGiftCommon } from '../api-lib/Gql';
-import { ValueTypes } from '../src/lib/gql/zeusHasuraAdmin';
+import { ValueTypes } from '../src/lib/gql/__generated__/zeusAdmin';
 
 const defaults = {
   seed: 9,

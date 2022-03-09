@@ -1,4 +1,4 @@
-import { token_gifts_select_column } from 'lib/gql/zeusUser';
+import { token_gifts_select_column } from 'lib/gql/__generated__/zeusUser';
 
 import { useTypedQuery } from '../../hooks/gql';
 
