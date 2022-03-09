@@ -39,3 +39,38 @@ export const getUserFromProfileId = async (
   assert(user, `user for circle_id ${circleId} not found`);
   return user;
 };
+
+export const getUserFromAddress = async (
+    address: string,
+    circleId: number
+) => {
+  const { users } = await gql.q('query')({
+    users: [
+      {
+        where: {
+          _and: [
+            {
+              address: { _eq: address },
+              circle_id: { _eq: circleId },
+              deleted_at: { _is_null: true },
+            },
+          ],
+        },
+      },
+      {
+        id: true,
+        role: true,
+        address: true,
+        circle_id: true,
+        give_token_remaining: true,
+        give_token_received: true,
+        non_giver: true,
+        non_receiver: true,
+        fixed_non_receiver: true,
+        starting_tokens: true,
+      },
+    ],
+  });
+
+  return users.pop();
+};
