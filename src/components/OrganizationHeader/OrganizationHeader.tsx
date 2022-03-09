@@ -4,9 +4,8 @@ import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { useCurrentOrg } from 'hooks/gql';
-import { DownArrowIcon } from 'icons';
 import { getAdminNavigation } from 'routes/paths';
-import { Button, IconButton } from 'ui';
+import { Box } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -76,23 +75,23 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     fontWeight: 700,
     color: theme.colors.text,
-    margin: theme.spacing(6, 0),
+    margin: theme.spacing(5, 0),
   },
 }));
 
-interface Props {
-  buttonText: string;
-  onButtonClick: () => void;
-}
-export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
+export const OrganizationHeader = () => {
   const classes = useStyles();
   const navItems = getAdminNavigation();
   const currentOrg = useCurrentOrg();
 
   return (
     <>
-      <div className={classes.topMenu}>
-        <div className={classes.organizationLinks}>
+      <Box
+        css={{
+          display: 'flex',
+        }}
+      >
+        <Box css={{ flexGrow: 1 }} className={classes.organizationLinks}>
           <ApeAvatar
             alt="organization"
             src="/imgs/avatar/placeholder.jpg"
@@ -105,18 +104,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
             }}
           />
           <h2 className={classes.title}>{currentOrg?.name}</h2>
-          <IconButton>
-            <DownArrowIcon size="md" />
-          </IconButton>
-          <Button
-            onClick={onButtonClick}
-            color="red"
-            css={{ marginLeft: '$lg' }}
-            size="small"
-          >
-            {buttonText}
-          </Button>
-        </div>
+        </Box>
         <div className={classes.navLinks}>
           {navItems.map(navItem => (
             <NavLink
@@ -128,7 +116,7 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
             </NavLink>
           ))}
         </div>
-      </div>
+      </Box>
     </>
   );
 };

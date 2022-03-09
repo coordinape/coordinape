@@ -1,20 +1,24 @@
 import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
+import { Link } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
-import { Box, Button, Text } from 'ui';
+import { paths } from 'routes/paths';
+import { Box, Button, LinkWrapper, Text } from 'ui';
 
 import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
+import { dummyTableData, TransactionTable } from './VaultTransactions';
 import WithdrawModal from './WithdrawModal';
 
 import { IVault } from 'types';
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
-export default function VaultRow({ vault }: { vault: IVault }) {
+export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
@@ -35,9 +39,10 @@ export default function VaultRow({ vault }: { vault: IVault }) {
       css={{
         background: '$surfaceGray',
         padding: '$lg',
-        borderRadius: '$2',
+        borderRadius: '$3',
         display: 'flex',
         flexDirection: 'column',
+        ...css,
       }}
     >
       {modal === 'allocate' ? (
@@ -72,7 +77,7 @@ export default function VaultRow({ vault }: { vault: IVault }) {
         <Button color="red" size="small" onClick={() => setModal('deposit')}>
           Deposit
         </Button>
-        <Button color="red" size="small" onClick={() => setModal('withdraw')}>
+        <Button color="gray" size="small" onClick={() => setModal('withdraw')}>
           Withdraw
         </Button>
       </Box>
@@ -87,23 +92,34 @@ export default function VaultRow({ vault }: { vault: IVault }) {
           verticalAlign: 'middle',
         }}
       >
-        <Box
-          css={{
-            fontSize: '$7',
-            fontWeight: '$semibold',
-            color: '$primary',
-          }}
-        >
+        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
           Current Balance
-        </Box>
-        <Text>
+        </Text>
+        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
           {balance} {vault.type.toUpperCase()}
         </Text>
-        <span></span>
-        <Box css={{ fontSize: '$7', color: '$primary' }}>
+        <Text font="source">
+          <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
+          &nbsp;Unique Contributors Paid
+        </Text>
+        <Text font="source" css={{ fontSize: '$7' }}>
           Funds After Commitment
+        </Text>
+        <Text font="source" css={{ fontSize: '$7' }}>
+          -1 {vault.type.toUpperCase()}
+        </Text>
+      </Box>
+      <Text css={{ color: '$gray400', fontSize: '$6', my: '$md' }}>
+        Recent Transactions
+      </Text>
+      <Box>
+        <TransactionTable rows={dummyTableData} />
+
+        <Box css={{ textAlign: 'center', mt: '$md' }}>
+          <LinkWrapper css={{ '> a': { color: '$lightGrey' } }}>
+            <Link to={paths.vaultTxs(vault.id)}>View All Transactions</Link>
+          </LinkWrapper>
         </Box>
-        <Text>-1 {vault.type.toUpperCase()}</Text>
       </Box>
     </Box>
   );

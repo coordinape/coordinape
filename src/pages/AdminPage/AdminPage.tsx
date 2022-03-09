@@ -470,12 +470,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {!legacy && (
-        <OrganizationHeader
-          buttonText="Add Circle"
-          onButtonClick={() => navigate(paths.getCreateCirclePath())}
-        />
-      )}
+      {!legacy && <OrganizationHeader />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>

@@ -32,20 +32,37 @@ const withSearchParams = (
     ? `${path}?${toSearchString(params)}`
     : path;
 
-export const getHomePath = () => '/';
-export const getAllocationPath = () => '/allocation';
-export const getMyTeamPath = () => '/team';
-export const getMyEpochPath = () => '/epoch';
-export const getGivePath = () => '/give';
+export const paths = {
+  home: '/',
+  allocation: '/allocation',
+  team: '/team',
+  epoch: '/epoch',
+  give: '/give',
+  vouching: '/vouching',
+  history: '/history',
+  admin: '/admin',
+  vaults: '/admin/vaults',
+  vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
+  adminCircles: '/admin/circles',
+};
+
+// these getters for static paths are deprecated -- use paths above instead
+export const getHomePath = () => paths.home;
+export const getAllocationPath = () => paths.allocation;
+export const getMyTeamPath = () => paths.team;
+export const getMyEpochPath = () => paths.epoch;
+export const getGivePath = () => paths.give;
+export const getVouchingPath = () => paths.vouching;
+export const getHistoryPath = () => paths.history;
+export const getAdminPath = () => paths.admin;
+export const getVaultsPath = () => paths.vaults;
+export const getCirclesPath = () => paths.adminCircles;
+
+// this one is different because it's used on the landing page
+export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
+
 export const getMapPath = (params?: { highlight?: string }) =>
   withSearchParams('/map', params);
-export const getVouchingPath = () => '/vouching';
-export const getHistoryPath = () => '/history';
-export const getAdminPath = () => '/admin';
-export const getVaultsPath = () => '/admin/vaults';
-export const getCirclesPath = () => '/admin/circles';
-export const getNewCirclePath = () => '/new-circle';
-export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
 export const getDistributePath = (epochId: number | string) =>
   `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
@@ -63,7 +80,10 @@ const NAV_ITEM_PROFILE = {
   path: getProfilePath({ address: 'me' }),
   label: 'My Profile',
 };
-const NAV_ITEM_NEW_CIRCLE = { path: getNewCirclePath(), label: ' Add Circle' };
+const NAV_ITEM_NEW_CIRCLE = {
+  path: getCreateCirclePath(),
+  label: ' Add Circle',
+};
 const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
 const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
 const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };
