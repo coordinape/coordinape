@@ -1,4 +1,5 @@
 import { VercelResponse } from '@vercel/node';
+import { ZodIssue } from 'zod';
 
 export interface HttpError extends Error {
   httpStatus: number;
@@ -25,5 +26,16 @@ export function ErrorResponseWithStatusCode(
   return res.status(statusCode).json({
     error: `${statusCode}`,
     message: error.message || 'Unexpected error',
+  });
+}
+
+export function zodParserErrorResponse(
+  res: VercelResponse,
+  issues: ZodIssue[]
+): VercelResponse {
+  return res.status(422).json({
+    extensions: issues,
+    message: 'Invalid input',
+    code: '422',
   });
 }
