@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
 
@@ -41,7 +41,7 @@ const VaultsPage = () => {
   const closeModal = () => setModal('');
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const vaults = useVaults(currentOrg.data?.id);
 
   return (
     <div className={classes.root}>
