@@ -2,76 +2,97 @@ import {
   ValueTypes,
   GraphQLTypes,
   InputType,
-  OperationOptions,
-  chainOptions,
+  Thunder,
+  apiFetch,
 } from 'lib/gql/__generated__/zeusUser';
-import {
-  useTypedQuery as _useTypedQuery,
-  useTypedMutation as _useTypedMutation,
-} from 'lib/gql/__generated__/zeusUser/reactQuery';
 import type { UseQueryOptions } from 'react-query';
-import { UseMutationOptions } from 'react-query';
+import { useMutation, UseMutationOptions, useQuery } from 'react-query';
 
 import { getAuthToken } from '../services/api';
 import { REACT_APP_HASURA_URL } from 'config/env';
 import { useSelectedCircle } from 'recoilState';
 
-export function useTypedQuery<
-  O extends 'query_root',
-  TData extends ValueTypes[O],
-  TResult = InputType<GraphQLTypes[O], TData>
->(
-  queryKey: string,
-  query: TData | ValueTypes[O],
-  options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
-  zeusOptions?: OperationOptions,
-  hostOptions: chainOptions[1] = {}
-) {
-  return _useTypedQuery(
-    queryKey,
-    query,
-    { ...options, suspense: true },
-    zeusOptions,
+const thunder = Thunder(async (...params) => {
+  const fetch = apiFetch([
     REACT_APP_HASURA_URL,
     {
-      ...hostOptions,
       method: 'POST',
-      headers: { Authorization: 'Bearer ' + getAuthToken() },
-    }
+      headers: {
+        Authorization: 'Bearer ' + getAuthToken(),
+      },
+    },
+  ]);
+
+  return fetch(...params);
+});
+
+export function useTypedQuery<
+  TData extends ValueTypes['query_root'],
+  TResult = InputType<GraphQLTypes['query_root'], TData>
+>(
+  queryKey: string | [string, ...unknown[]],
+  query: TData | ValueTypes['query_root'],
+  options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
+  variables?: Record<string, any>
+) {
+  return useQuery<TResult>(
+    queryKey,
+    () =>
+      thunder('query')(query, {
+        operationName: typeof queryKey === 'string' ? queryKey : queryKey[0],
+        variables,
+      }) as Promise<TResult>,
+    options
   );
 }
 
-// this isn't used yet, but it would be great to be able to use it
-// I couldn't figure out how to get it to work with variables -CryptoGraffe
+// Example usage of useTypedMutation inside a React Component
+//
+// const createNomineeMutation = useTypedMutation(
+//   (payload: ValueTypes['CreateNomineeInput']) => ({
+//     createNominee: [
+//       { payload: payload },
+//       {
+//         nominee: {
+//           id: true,
+//           name: true,
+//         },
+//       },
+//     ],
+//   }),
+//   {
+//     onSuccess: data => {
+//       console.log('Successfully created nominee', data.createNominee?.nominee.name);
+//     },
+//     onError: (e, payload) => {
+//       console.warn('Failed to create nominee', (e as Error).message, payload);
+//     },
+//   }
+// );
+//
+// const createNominee = useCallback(() => {
+//   createNomineeMutation.mutate({ address: '', name: '', circle_id: 1, description: '' });
+// }, []);
+
 export function useTypedMutation<
-  O extends 'mutation_root',
-  TData extends ValueTypes[O],
-  TResult = InputType<GraphQLTypes[O], TData>
+  TMutation extends ValueTypes['mutation_root'],
+  TResult = InputType<GraphQLTypes['mutation_root'], TMutation>,
+  TVariables = void
 >(
-  mutationKey: string | unknown[],
-  mutation: TData | ValueTypes[O],
-  options?: Omit<UseMutationOptions<TResult>, 'mutationKey' | 'mutationFn'>,
-  zeusOptions?: OperationOptions,
-  hostOptions: chainOptions[1] = {}
+  mutationFn: (variables: TVariables) => TMutation,
+  options?: Omit<UseMutationOptions<TResult, unknown, TVariables>, 'mutationFn'>
 ) {
-  return _useTypedMutation(
-    mutationKey,
-    mutation,
-    options, // suspense not an option here
-    zeusOptions,
-    REACT_APP_HASURA_URL,
-    {
-      ...hostOptions,
-      method: 'POST',
-      headers: { Authorization: 'Bearer ' + getAuthToken() },
-    }
+  return useMutation<TResult, unknown, TVariables>(
+    (variables: TVariables) =>
+      thunder('mutation')(mutationFn(variables)) as Promise<TResult>,
+    options
   );
 }
 
 export function useCurrentOrg() {
   const id = useSelectedCircle().circle.protocol_id;
 
-  return useTypedQuery(`org-${id}`, {
+  return useTypedQuery(['org', id], {
     organizations_by_pk: [{ id }, { id: true, name: true }],
   }).data?.organizations_by_pk;
 }

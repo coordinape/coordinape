@@ -179,11 +179,12 @@ export const rCircles = selector({
   },
 });
 
-export const rCircle = selectorFamily<ICircleState, number>({
+export const rCircle = selectorFamily<ICircleState, number | undefined>({
   key: 'rCircle',
   get:
-    (circleId: number) =>
+    circleId =>
     ({ get }) => {
+      if (!circleId) return neverEndingPromise();
       const circle = get(rCirclesMap).get(circleId);
       const hasAdminView = get(rHasAdminView);
       const users = iti(get(rUsersMap).values()).toArray();
@@ -363,7 +364,8 @@ export const useCircles = () => useRecoilValue(rCircles);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
-export const useCircle = (id: number) => useRecoilValue(rCircle(id));
+export const useCircle = (id: number | undefined) =>
+  useRecoilValue(rCircle(id));
 
 export const useSelectedCircle = () =>
   useRecoilValue(rCircle(useSelectedCircleId()));
