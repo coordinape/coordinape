@@ -4,8 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import * as queries from '../../../api-lib/gql/queries';
+import { gql } from '../../../api-lib/Gql';
 import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
@@ -26,7 +25,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     if (new_address) {
       const {
         users: [existingUserWithNewAddress],
-      } = await adminClient.query({
+      } = await gql.q('query')({
         users: [
           {
             limit: 1,
@@ -51,7 +50,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       }
     }
 
-    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
+    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
       return response.status(422).json({
         message: `User with address ${address} does not exist`,
@@ -68,7 +67,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     // Update the state after all external validations have passed
 
-    const mutationResult = await adminClient.mutate({
+    const mutationResult = await gql.q('mutation')({
       update_users: [
         {
           _set: {
@@ -78,13 +77,20 @@ async function handler(request: VercelRequest, response: VercelResponse) {
             address: input.new_address,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
-            give_token_remaining: input.starting_tokens,
+            give_token_remaining:
+              input.starting_tokens ?? user.give_token_remaining,
             // fixed_non_receiver === true is also set for non_receiver
             non_receiver: input.fixed_non_receiver || input.non_receiver,
           },
           where: {
-            circle_id: { _eq: circle_id },
-            address: { _ilike: address },
+            _and: [
+              { circle_id: { _eq: circle_id } },
+              {
+                address: {
+                  _ilike: address,
+                },
+              },
+            ],
           },
         },
         {

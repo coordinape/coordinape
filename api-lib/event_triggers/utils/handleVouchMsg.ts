@@ -1,4 +1,4 @@
-import * as queries from '../../../api-lib/gql/queries';
+import { gql } from '../../Gql';
 import { NotFoundError } from '../../HttpError';
 import { sendSocialMessage } from '../../sendSocialMessage';
 import { EventTriggerPayload } from '../../types';
@@ -12,7 +12,7 @@ export default async function handleVouchMsg(
   } = payload;
 
   // Unfortunately we have to look the vouch/voucher up here because the relationships aren't sent in the event
-  const { vouches } = await queries.getExistingVouch(
+  const { vouches } = await gql.getExistingVouch(
     data.new.nominee_id,
     data.new.voucher_id
   );
@@ -24,7 +24,7 @@ export default async function handleVouchMsg(
 
   const nomineeId = data.new.nominee_id;
 
-  const { nominees_by_pk } = await queries.getNominee(nomineeId);
+  const { nominees_by_pk } = await gql.getNominee(nomineeId);
   if (!nominees_by_pk) {
     throw 'nominee not found ' + nomineeId;
   }
