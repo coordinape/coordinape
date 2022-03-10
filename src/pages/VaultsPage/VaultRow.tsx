@@ -6,7 +6,7 @@ import { CSS } from 'stitches.config';
 import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Text } from 'ui';
+import { AppLink, Box, Button, Panel, Text } from 'ui';
 
 import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
@@ -34,16 +34,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
   useBlockListener(updateBalance, [vault.id]);
 
   return (
-    <Box
-      css={{
-        background: '$surfaceGray',
-        padding: '$lg',
-        borderRadius: '$3',
-        display: 'flex',
-        flexDirection: 'column',
-        ...css,
-      }}
-    >
+    <Panel css={css}>
       {modal === 'allocate' ? (
         <AllocateModal onClose={closeModal} />
       ) : modal === 'withdraw' ? (
@@ -108,7 +99,14 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
           -1 {vault.type.toUpperCase()}
         </Text>
       </Box>
-      <Text css={{ color: '$gray400', fontSize: '$6', my: '$md' }}>
+      <Text
+        css={{
+          color: '$gray400',
+          fontSize: '$6',
+          marginTop: '$lg',
+          marginBottom: '$md',
+        }}
+      >
         Recent Transactions
       </Text>
       <Box>
@@ -120,6 +118,6 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
           </AppLink>
         </Box>
       </Box>
-    </Box>
+    </Panel>
   );
 }

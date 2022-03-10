@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { OrganizationHeader } from 'components';
 import { useCurrentOrg } from 'hooks/gql';
 import { useVaults } from 'recoilState/vaults';
-import { Box, Link, Text } from 'ui';
+import { Link, Panel, Text } from 'ui';
+import { OrgLayout } from 'ui/layouts';
 
 export const VaultTransactions = () => {
   const { id } = useParams();
@@ -14,35 +14,20 @@ export const VaultTransactions = () => {
   const vault = vaults.find(v => v.id === id);
 
   if (!vault) {
+    // TODO
     return <>404</>;
   }
 
   return (
-    <Box
-      css={{
-        maxWidth: '$mediumScreen',
-        margin: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '$md',
-      }}
-    >
-      <OrganizationHeader />
-      <Box
-        css={{
-          background: '$surfaceGray',
-          padding: '$lg',
-          borderRadius: '$3',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+    <OrgLayout>
+      <Panel>
         <Text
           css={{
             fontSize: '$8',
             fontWeight: '$bold',
             mb: '$lg',
+            display: 'block',
+            textAlign: 'center',
           }}
         >
           All Transactions for {vault.type.toUpperCase()} Vault
@@ -50,8 +35,8 @@ export const VaultTransactions = () => {
         <TransactionTable
           rows={[...dummyTableData, ...dummyTableData, ...dummyTableData]}
         />
-      </Box>
-    </Box>
+      </Panel>
+    </OrgLayout>
   );
 };
 

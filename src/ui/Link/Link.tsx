@@ -1,4 +1,4 @@
-import { Link as RRLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { styled } from '../../stitches.config';
 
@@ -7,7 +7,7 @@ export const Link = styled('a', {
   textDecoration: 'none',
 });
 
-export const AppLink = styled(RRLink, {
+export const AppLink = styled(NavLink, {
   color: '$lightBlue',
   textDecoration: 'none',
 });

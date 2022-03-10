@@ -76,8 +76,6 @@ export const {
       surfaceGray: '#eef3f4',
       subtleGray: '#F5F5F5',
       almostWhite: '#fbfbfb',
-      third: '#EAEAEB',
-      gray: '#EFF3F4',
 
       lightBorder: '#DEDEDE',
       lightGray: '#C3CDCF',

@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(0, 8, 4),
+    padding: theme.spacing(0, 0, 4),
     margin: 'auto',
     maxWidth: theme.breakpoints.values.lg,
     [theme.breakpoints.down('sm')]: {
@@ -470,7 +470,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {!legacy && <OrganizationHeader />}
+      {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>

@@ -143,11 +143,6 @@ export const getMainNavigation = ({
   return mainItems;
 };
 
-export const getAdminNavigation = (): INavItem[] => [
-  { path: getVaultsPath(), label: 'Vaults' },
-  { path: getCirclesPath(), label: 'Circles' },
-];
-
 export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_PROFILE,
   NAV_ITEM_EPOCH,
