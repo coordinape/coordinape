@@ -115,7 +115,7 @@ event_triggers:
     interval_sec: 10
     num_retries: 10
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/createProfile"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
 - definition:
     enable_manual: false
     update:
@@ -130,7 +130,7 @@ event_triggers:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/optOutDiscord"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
 - definition:
     enable_manual: false
     update:
@@ -145,7 +145,7 @@ event_triggers:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/optOutTelegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
 - definition:
     enable_manual: false
     update:
@@ -160,4 +160,4 @@ event_triggers:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundPendingGift"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"

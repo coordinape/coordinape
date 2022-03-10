@@ -2,11 +2,11 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { gql } from '../../../api-lib/Gql';
-import { ErrorResponse } from '../../../api-lib/HttpError';
-import { EventTriggerPayload } from '../../../api-lib/types';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { ValueTypes } from '../../../src/lib/gql/__generated__/zeusAdmin';
+import { ValueTypes } from '../../src/lib/gql/__generated__/zeusAdmin';
+import { gql } from '../Gql';
+import { ErrorResponse } from '../HttpError';
+import { EventTriggerPayload } from '../types';
+import { verifyHasuraRequestMiddleware } from '../validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   // no parsing should be needed here since this data comes straight from
