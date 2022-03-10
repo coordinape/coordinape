@@ -6,13 +6,13 @@ import { Box } from '@material-ui/core';
 import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormAssetSelector } from 'components';
 import CreateVaultForm from 'forms/CreateVaultForm';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 
 export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
   const navigate = useNavigate();
   const { chainId } = useWeb3React();
   const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.id);
+  const { createVault } = useVaultFactory(currentOrg.data?.id);
 
   return (
     <CreateVaultForm.FormController
