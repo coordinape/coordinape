@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'recoilState/vaults';
 import { Box, Button, Modal, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
@@ -13,7 +13,7 @@ const VaultsPage = () => {
   const closeModal = () => setModal('');
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const vaults = useVaults(currentOrg.data?.id);
 
   return (
     <OrgLayout>
