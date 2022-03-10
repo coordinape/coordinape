@@ -1,6 +1,6 @@
-import { gql } from '../../../../api-lib/Gql';
-import { sendSocialMessage } from '../../../../api-lib/sendSocialMessage';
-import { EventTriggerPayload } from '../../../../api-lib/types';
+import { gql } from '../../Gql';
+import { sendSocialMessage } from '../../sendSocialMessage';
+import { EventTriggerPayload } from '../../types';
 
 export default async function handleCheckNomineeMsg(
   payload: EventTriggerPayload<'nominees', 'UPDATE'>,
