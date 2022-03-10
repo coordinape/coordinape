@@ -1,4 +1,4 @@
-import { $, ValueTypes } from './__generated__/zeusUser';
+import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
 export const updateProfile = async (

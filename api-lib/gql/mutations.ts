@@ -1,8 +1,4 @@
-import {
-  order_by,
-  ValueTypes,
-} from '../../src/lib/gql/__generated__/zeusAdmin';
-
+import { order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(
