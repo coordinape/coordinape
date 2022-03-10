@@ -82,7 +82,7 @@ event_triggers:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundGiveDiscord"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
 - definition:
     delete:
       columns: "*"
@@ -98,4 +98,4 @@ event_triggers:
     interval_sec: 10
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/refundGiveTelegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
