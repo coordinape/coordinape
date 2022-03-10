@@ -2,9 +2,9 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { gql } from '../../../api-lib/Gql';
-import { EventTriggerPayload } from '../../../api-lib/types';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { gql } from '../Gql';
+import { EventTriggerPayload } from '../types';
+import { verifyHasuraRequestMiddleware } from '../validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
