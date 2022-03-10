@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { ValueTypes } from '../../src/lib/gql/__generated__/zeusAdmin';
 import { gql } from '../Gql';
-import { ErrorResponse } from '../HttpError';
+import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -161,7 +161,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       results.push(newNonReceiverResult);
     }
   } catch (e) {
-    ErrorResponse(res, e);
+    errorResponse(res, e);
   }
 
   res.status(200).json({

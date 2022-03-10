@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 import { getUserFromAddress } from '../../../api-lib/findUser';
 import {
-  ErrorResponse,
-  ErrorResponseWithStatusCode,
+  errorResponse,
+  errorResponseWithStatusCode,
 } from '../../../api-lib/HttpError';
 import {
   insertNominee,
@@ -37,7 +37,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       circle_id
     );
     if (!nominator) {
-      return ErrorResponseWithStatusCode(
+      return errorResponseWithStatusCode(
         res,
         { message: 'Nominator does not belong to this circle' },
         422
@@ -52,7 +52,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     // check if address already exists in the circle
     const user = await getUserFromAddress(address, circle_id);
     if (user) {
-      return ErrorResponseWithStatusCode(
+      return errorResponseWithStatusCode(
         res,
         { message: 'User with address already exists in the circle' },
         422
@@ -62,7 +62,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     // check if user exists in nominee table same circle and not ended
     const checkAddressExists = await getNomineeFromAddress(address, circle_id);
     if (checkAddressExists) {
-      return ErrorResponseWithStatusCode(
+      return errorResponseWithStatusCode(
         res,
         { message: 'User with address already exists as a nominee' },
         422
@@ -82,13 +82,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json(nominee);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return ErrorResponseWithStatusCode(
+      return errorResponseWithStatusCode(
         res,
         { message: 'Invalid input' },
         422
       );
     }
-    return ErrorResponse(res, err);
+    return errorResponse(res, err);
   }
 }
 

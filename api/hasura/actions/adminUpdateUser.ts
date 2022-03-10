@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
-import { ErrorResponseWithStatusCode } from '../../../api-lib/HttpError';
+import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -41,7 +41,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       });
 
       if (existingUserWithNewAddress) {
-        ErrorResponseWithStatusCode(
+        errorResponseWithStatusCode(
           response,
           { message: 'address exists' },
           422
