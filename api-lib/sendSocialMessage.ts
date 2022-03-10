@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import { TELEGRAM_BOT_BASE_URL } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
-import { gql } from './Gql';
+import * as queries from './gql/queries';
 
 type SocialMessage = {
   message: string;
@@ -26,7 +26,7 @@ export async function sendSocialMessage({
 }: SocialMessage) {
   const msg = sanitize ? cleanStr(message) : message;
 
-  const { circles_by_pk: circle } = await gql.getCircle(circleId);
+  const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
   if (channels?.discord && circle?.discord_webhook) {
     const discordWebhookPost = {

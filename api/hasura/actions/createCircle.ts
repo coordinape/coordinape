@@ -2,7 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../api-lib/config';
-import { gql } from '../../../api-lib/Gql';
+import * as mutations from '../../../api-lib/gql/mutations';
+import * as queries from '../../../api-lib/gql/queries';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   createCircleSchemaInput,
@@ -18,7 +19,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (sessionVariables.hasuraRole !== 'admin') {
       if (input.protocol_id) {
-        const isAdmin = await gql.checkAddressAdminInOrg(
+        const isAdmin = await queries.checkAddressAdminInOrg(
           sessionVariables.hasuraAddress,
           input.protocol_id
         );
@@ -31,7 +32,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
       }
-      const ret = await gql.insertCircleWithAdmin(
+      const ret = await mutations.insertCircleWithAdmin(
         input,
         sessionVariables.hasuraAddress,
         COORDINAPE_USER_ADDRESS

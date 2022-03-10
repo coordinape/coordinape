@@ -1,6 +1,7 @@
 import assert from 'assert';
 
-import { gql } from './Gql';
+import { adminClient } from './gql/adminClient';
+import * as queries from './gql/queries';
 import { sendSocialMessage } from './sendSocialMessage';
 import { EventTriggerPayload } from './types';
 
@@ -18,15 +19,15 @@ export default async function handleRefundGiveMsg(
     return false;
   }
 
-  const currentEpoch = await gql.getCurrentEpoch(data.old.circle_id);
+  const currentEpoch = await queries.getCurrentEpoch(data.old.circle_id);
   if (currentEpoch) {
-    const { users_by_pk: sender } = await gql.q('query')({
+    const { users_by_pk: sender } = await adminClient.query({
       users_by_pk: [
         { id: data.old.sender_id },
         { name: true, non_giver: true },
       ],
     });
-    const { users_by_pk: recipient } = await gql.q('query')({
+    const { users_by_pk: recipient } = await adminClient.query({
       users_by_pk: [
         { id: data.old.recipient_id },
         { name: true, non_receiver: true },
