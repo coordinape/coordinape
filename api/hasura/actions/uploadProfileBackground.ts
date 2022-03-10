@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { ErrorResponse } from '../../../api-lib/HttpError';
+import { errorResponse } from '../../../api-lib/HttpError';
 import { resizeBackground } from '../../../api-lib/images';
 import { ImageUpdater } from '../../../api-lib/ImageUpdater';
 import {
@@ -28,7 +28,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     return res.status(200).json(updatedProfile);
   } catch (e: any) {
-    return ErrorResponse(res, e);
+    return errorResponse(res, e);
   }
 }
 

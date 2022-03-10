@@ -81,6 +81,12 @@ export const uploadCircleImageInput = z
   })
   .strict();
 
+export const vouchInput = z
+  .object({
+    nominee_id: z.number(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),

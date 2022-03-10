@@ -12,6 +12,8 @@ import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
 import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord';
 import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegram';
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
+import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
+import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { GraphQLTypes } from '../../../src/lib/gql/__generated__/zeusAdmin';
@@ -33,6 +35,8 @@ const STAGING_HANDLERS: HandlerDict = {
   refundGiveTelegram,
   refundGiveDiscord,
   refundPendingGift,
+  vouchDiscord,
+  vouchTelegram,
 };
 
 async function eventHandler(req: VercelRequest, res: VercelResponse) {
