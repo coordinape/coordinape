@@ -3,7 +3,10 @@ import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
 import { VERCEL_ENV } from '../../../api-lib/config';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
+import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
+import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createProfile from '../../../api-lib/event_triggers/createProfile';
+import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
 import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord';
@@ -21,7 +24,10 @@ const STAGING_HANDLERS: HandlerDict = {
   ...PROD_HANDLERS,
   checkNomineeDiscord,
   checkNomineeTelegram,
+  createNomineeDiscord,
+  createNomineeTelegram,
   createProfile,
+  createVouchedUser,
   optOutDiscord,
   optOutTelegram,
   refundGiveTelegram,
