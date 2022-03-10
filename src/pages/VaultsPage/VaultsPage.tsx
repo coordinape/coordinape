@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core';
 
 import { OrganizationHeader } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
-import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
 
 // eslint-disable-next-line import/no-named-as-default
