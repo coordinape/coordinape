@@ -5,10 +5,12 @@ import fakerTyped from 'faker/locale/en';
 import fakerEn from 'faker/locale/en.js';
 const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
+
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import '../api-lib/node-fetch-shim';
-import { gql } from '../api-lib/Gql';
 import { LOCAL_SEED_ADDRESS } from '../api-lib/config';
+import * as mutations from '../api-lib/gql/mutations';
+import * as queries from '../api-lib/gql/queries';
 
 export const USER_ROLE_ADMIN = 1;
 
@@ -20,11 +22,11 @@ async function run() {
     throw new Error('Invalid address, parameter: ' + address);
   }
 
-  const circles = await gql.getCircles();
-  const profileResponse = await gql.getProfileAndMembership(address);
+  const circles = await queries.getCircles();
+  const profileResponse = await queries.getProfileAndMembership(address);
 
   if (profileResponse.profiles.length === 0) {
-    await gql.insertProfiles([
+    await mutations.insertProfiles([
       {
         address,
       },
@@ -42,7 +44,8 @@ async function run() {
     }))
     .toArray();
 
-  return (await gql.insertMemberships(newMemberships)).insert_users?.returning;
+  return (await mutations.insertMemberships(newMemberships)).insert_users
+    ?.returning;
 }
 
 (async function () {

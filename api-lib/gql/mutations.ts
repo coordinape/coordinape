@@ -1,0 +1,271 @@
+import {
+  order_by,
+  ValueTypes,
+} from '../../src/lib/gql/__generated__/zeusAdmin';
+
+import { adminClient } from './adminClient';
+
+export async function insertProfiles(
+  profiles: ValueTypes['profiles_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_profiles: [
+      {
+        objects: profiles,
+      },
+      {
+        returning: {
+          address: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertMemberships(
+  users: ValueTypes['users_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_users: [
+      {
+        objects: users,
+      },
+      {
+        returning: {
+          id: true,
+          address: true,
+          circle_id: true,
+          starting_tokens: true,
+          non_giver: true,
+          non_receiver: true,
+          fixed_non_receiver: true,
+        },
+      },
+    ],
+  });
+}
+
+// TODO: this isn't used, more of an idea, and for example.
+export async function updateCircles(
+  circleId: number,
+  circle: ValueTypes['circles_set_input']
+) {
+  return adminClient.mutate({
+    update_circles: [
+      {
+        where: {
+          id: {
+            _eq: circleId,
+          },
+        },
+        _set: circle,
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertOrganizations(
+  orgs: ValueTypes['organizations_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_organizations: [
+      {
+        objects: orgs,
+      },
+      {
+        returning: {
+          id: true,
+          name: true,
+          circles: [{}, { id: true }],
+          circles_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      },
+    ],
+  });
+}
+
+export async function insertEpochs(
+  epochs: ValueTypes['epochs_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_epochs: [
+      {
+        objects: epochs,
+      },
+      {
+        returning: {
+          id: true,
+          circle_id: true,
+          ended: true,
+          start_date: true,
+          end_date: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertGifts(
+  gifts: ValueTypes['token_gifts_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_token_gifts: [
+      {
+        objects: gifts,
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertPendingGifts(
+  gifts: ValueTypes['pending_token_gifts_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_pending_token_gifts: [
+      {
+        objects: gifts,
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertNominees(
+  nominees: ValueTypes['nominees_insert_input'][]
+) {
+  return adminClient.mutate({
+    insert_nominees: [
+      { objects: nominees },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function updateExpiredNominees(idList: number[]) {
+  return adminClient.mutate({
+    update_nominees: [
+      {
+        _set: {
+          ended: true,
+        },
+        where: {
+          id: {
+            _in: idList,
+          },
+        },
+      },
+      {
+        affected_rows: true,
+        returning: {
+          name: true,
+          expiry_date: true,
+        },
+      },
+    ],
+  });
+}
+
+export async function insertCircleWithAdmin(
+  circleInput: any,
+  userAddress: string,
+  coordinapeAddress: string
+) {
+  const insertUsers = {
+    data: [
+      {
+        name: circleInput.user_name,
+        address: userAddress,
+        role: 1,
+      },
+      {
+        name: 'Coordinape',
+        address: coordinapeAddress,
+        role: 2,
+        non_receiver: false,
+        fixed_non_receiver: false,
+        starting_tokens: 0,
+        non_giver: true,
+        give_token_remaining: 0,
+        bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+      },
+    ],
+  };
+  const circleReturn = {
+    id: true,
+    name: true,
+    protocol_id: true,
+    team_sel_text: true,
+    alloc_text: true,
+    vouching: true,
+    min_vouches: true,
+    nomination_days_limit: true,
+    vouching_text: true,
+    logo: true,
+    default_opt_in: true,
+    team_selection: true,
+    only_giver_vouch: true,
+    auto_opt_out: true,
+  };
+  let retVal;
+  if (circleInput.protocol_id) {
+    const { insert_circles_one } = await adminClient.mutate({
+      insert_circles_one: [
+        {
+          object: {
+            name: circleInput.circle_name,
+            protocol_id: circleInput.protocol_id,
+            users: insertUsers,
+          },
+        },
+        circleReturn,
+      ],
+    });
+    retVal = insert_circles_one;
+  } else {
+    const { insert_organizations_one } = await adminClient.mutate({
+      insert_organizations_one: [
+        {
+          object: {
+            name: circleInput.protocol_name,
+            circles: {
+              data: [
+                {
+                  name: circleInput.circle_name,
+                  users: insertUsers,
+                },
+              ],
+            },
+          },
+        },
+        {
+          circles: [
+            { limit: 1, order_by: [{ id: order_by.desc }] },
+            circleReturn,
+          ],
+        },
+      ],
+    });
+
+    retVal = insert_organizations_one?.circles.pop();
+  }
+
+  return retVal;
+}

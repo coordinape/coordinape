@@ -4,7 +4,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { gql } from '../../../api-lib/Gql';
+import { adminClient } from '../../../api-lib/gql/adminClient';
+import * as queries from '../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
@@ -25,7 +26,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     if (new_address) {
       const {
         users: [existingUserWithNewAddress],
-      } = await gql.q('query')({
+      } = await adminClient.query({
         users: [
           {
             limit: 1,
@@ -50,7 +51,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       }
     }
 
-    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
+    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
       return response.status(422).json({
         message: `User with address ${address} does not exist`,
@@ -67,7 +68,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     // Update the state after all external validations have passed
 
-    const mutationResult = await gql.q('mutation')({
+    const mutationResult = await adminClient.mutate({
       update_users: [
         {
           _set: {

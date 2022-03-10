@@ -1,12 +1,12 @@
 import assert from 'assert';
 
-import { gql } from './Gql';
+import { adminClient } from './gql/adminClient';
 
 export const getNomineeFromAddress = async (
   address: string,
   circleId: number
 ) => {
-  const { nominees } = await gql.q('query')({
+  const { nominees } = await adminClient.query({
     nominees: [
       {
         where: {
@@ -44,7 +44,7 @@ export const getUserFromProfileIdWithCircle = async (
   profileId: number,
   circleId: number
 ) => {
-  const { profiles_by_pk } = await gql.q('query')({
+  const { profiles_by_pk } = await adminClient.query({
     profiles_by_pk: [
       {
         id: profileId,
@@ -85,7 +85,7 @@ export const insertNominee = async (params: {
   const today = new Date();
   const expiry = new Date();
   expiry.setDate(today.getDate() + params.nomination_days_limit);
-  const { insert_nominees_one } = await gql.q('mutation')({
+  const { insert_nominees_one } = await adminClient.mutate({
     insert_nominees_one: [
       {
         object: {

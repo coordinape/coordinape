@@ -1,8 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { profiles_constraint } from '../../src/lib/gql/__generated__/zeusAdmin';
-import { gql } from '../Gql';
-import { EventTriggerPayload } from '../types';
+import { adminClient } from '../../gql/adminClient';
+import { EventTriggerPayload } from '../../types';
+import { verifyHasuraRequestMiddleware } from '../../validate';
+import { profiles_constraint } from '../../../src/lib/gql/__generated__/zeusAdmin';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -11,7 +12,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (data.old?.address !== data.new.address) {
-      const { insert_profiles_one } = await gql.q('mutation')({
+      const { insert_profiles_one } = await adminClient.mutate({
         // Create a profile if none exists yet
         insert_profiles_one: [
           {
