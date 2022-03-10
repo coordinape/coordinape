@@ -1,7 +1,7 @@
 import { REACT_APP_HASURA_URL } from '../../config/env';
 import { getAuthToken } from '../../services/api';
 
-import { apiFetch, Thunder } from './__generated__/zeusUser';
+import { apiFetch, Thunder } from './__generated__/zeus';
 
 const thunder = Thunder(async (...params) => {
   return apiFetch([
