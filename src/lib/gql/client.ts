@@ -4,7 +4,7 @@ import { getAuthToken } from '../../services/api';
 import { apiFetch, Thunder } from './__generated__/zeusUser';
 
 const thunder = Thunder(async (...params) => {
-  const fetch = apiFetch([
+  return apiFetch([
     REACT_APP_HASURA_URL,
     {
       method: 'POST',
@@ -12,9 +12,7 @@ const thunder = Thunder(async (...params) => {
         Authorization: 'Bearer ' + getAuthToken(),
       },
     },
-  ]);
-
-  return fetch(...params);
+  ])(...params);
 });
 
 export const client = {
