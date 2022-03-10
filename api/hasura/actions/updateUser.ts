@@ -4,6 +4,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { gql } from '../../../api-lib/Gql';
+import {
+  zodParserErrorResponse,
+  ErrorResponse,
+} from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   updateUserSchemaInput,
@@ -27,9 +31,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     const user = await gql.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
-      return response.status(422).json({
+      return ErrorResponse(response, {
         message: `User with address ${address} does not exist`,
-        code: '422',
+        code: 422,
       });
     }
 
@@ -75,12 +79,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   } catch (err) {
     if (err instanceof z.ZodError) {
-      response.status(422).json({
-        extensions: err.issues,
-        message: 'Invalid input',
-        code: '422',
-      });
-      return;
+      return zodParserErrorResponse(response, err.issues);
     }
     // throw unexpected errors to be caught by the outer 500-level response
     throw err;
