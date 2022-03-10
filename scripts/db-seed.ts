@@ -9,7 +9,7 @@ const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import { DateTime, Duration, Interval } from 'luxon';
 
 import '../api-lib/node-fetch-shim';
-import { gql, TGiftCommon } from '../api-lib/Gql';
+import * as mutations from '../api-lib/gql/mutations';
 import { ValueTypes } from '../src/lib/gql/__generated__/zeusAdmin';
 
 const defaults = {
@@ -33,6 +33,16 @@ const BEGIN_DATE = DateTime.fromISO('2021-04-01T00:00:00.000');
 const END_DATE = DateTime.fromISO('2022-04-01T00:00:00.000');
 
 type FakeDataParams = typeof defaults;
+
+export type TGiftCommon = {
+  circle_id: number;
+  epoch_id: number;
+  note: string;
+  recipient_address: string;
+  recipient_id: number;
+  sender_address: string;
+  sender_id: number;
+};
 
 (async function () {
   await insertFakeData(defaults)
@@ -75,7 +85,7 @@ async function insertFakeData({
     circleSkew
   );
   const orgsResult = (
-    await gql.insertOrganizations(
+    await mutations.insertOrganizations(
       makeArray(orgCount).map((x, i) => ({
         name: faker.company.companyName(),
         circles: {
@@ -88,10 +98,10 @@ async function insertFakeData({
   /*
    * Insert Profiles
    **/
-  const profileResponse = await gql.insertProfiles(
+  const profileResponse = await mutations.insertProfiles(
     makeArray(profileCount).map(() => fakeProfile())
   );
-  const circleIds = orgsResult?.flatMap(o => o.circles.map(c => c.id));
+  const circleIds = orgsResult?.flatMap(o => o.circles.map(c => c.id)) || [];
   const profAddrs =
     profileResponse.insert_profiles?.returning?.map(p => p.address) ?? [];
 
@@ -104,7 +114,7 @@ async function insertFakeData({
   const memberships = getUniquePairs(getCircleId, getAddr, memberCount).map(
     ([circleId, addr]) => fakeMemebership(circleId, addr, getStartTokens)
   );
-  const membershipResponse = await gql.insertMemberships(memberships);
+  const membershipResponse = await mutations.insertMemberships(memberships);
   const members = membershipResponse.insert_users?.returning ?? [];
 
   /*
@@ -115,7 +125,7 @@ async function insertFakeData({
     circleIds.length,
     epochSkew
   );
-  const epochResponse = await gql.insertEpochs(
+  const epochResponse = await mutations.insertEpochs(
     circleIds.flatMap((circleId, i) =>
       fakeEpochs(circleId, getCircleEpochCount(i))
     )
@@ -131,8 +141,8 @@ async function insertFakeData({
     giftCount,
     giveSkew
   );
-  await gql.insertGifts(gifts);
-  await gql.insertPendingGifts(pendingGifts);
+  await mutations.insertGifts(gifts);
+  await mutations.insertPendingGifts(pendingGifts);
 
   /*
    * Insert Nominees
@@ -145,7 +155,7 @@ async function insertFakeData({
   const getNominatoor = createSampler(members, membershipSkew);
 
   const nomineesResponse = (
-    await gql.insertNominees(
+    await mutations.insertNominees(
       nominees.map(({ address }) => {
         const nominator = getNominatoor();
         const start = DateTime.fromJSDate(
@@ -165,17 +175,17 @@ async function insertFakeData({
         };
       })
     )
-  ).insert_nominees.returning;
+  ).insert_nominees?.returning;
 
   return {
     counts: {
-      orgs: orgsResult.length,
-      circles: circleIds.length,
+      orgs: orgsResult?.length,
+      circles: circleIds?.length,
       profiles: profAddrs.length,
       epochs: epochs.length,
       gifts: gifts.length,
       pendingGifts: pendingGifts.length,
-      nominees: nomineesResponse.length,
+      nominees: nomineesResponse?.length,
     },
   };
 }
@@ -315,9 +325,11 @@ type Unwrap<T> = T extends Promise<infer U>
   : T extends (...args: any) => infer U
   ? U
   : T;
-type TMemberships = Unwrap<
-  ReturnType<typeof gql.insertMemberships>
->['insert_users']['returning'];
+
+type TMemberships = Exclude<
+  Unwrap<ReturnType<typeof mutations.insertMemberships>>['insert_users'],
+  undefined
+>['returning'];
 
 function fakeCircleGifts(
   members: TMemberships,
@@ -368,8 +380,8 @@ function fakeCircleGifts(
     }
     const getEpoch = createSampler(availableEpochs, epochSkew);
 
-    const getSender = createSampler(users, giveSkew);
-    const getRecipient = createSampler(users, recieveSkew);
+    const getSender = createSampler(users || [], giveSkew);
+    const getRecipient = createSampler(users || [], recieveSkew);
     for (let i = 0; i < roundSize; i++) {
       const recipient = getRecipient();
       const sender = getSender();
@@ -381,7 +393,7 @@ function fakeCircleGifts(
         continue;
       }
       const epoch = getEpoch();
-      const remaining = tokenMap.get(sender.id);
+      const remaining = tokenMap.get(sender.id) || 0;
       const tokens = faker.datatype.number({ min: 0, max: remaining });
       const g = {
         circle_id: circleId,

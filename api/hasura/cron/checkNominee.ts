@@ -1,15 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { gql } from '../../../api-lib/Gql';
+import * as mutations from '../../../api-lib/gql/mutations';
+import * as queries from '../../../api-lib/gql/queries';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { nominees } = await gql.getExpiredNominees();
+    const { nominees } = await queries.getExpiredNominees();
 
     if (nominees.length > 0) {
       // triggers: hasura/event_triggers/checkNominee*.ts
-      const { update_nominees } = await gql.updateExpiredNominees(
+      const { update_nominees } = await mutations.updateExpiredNominees(
         nominees.map(n => n.id)
       );
 

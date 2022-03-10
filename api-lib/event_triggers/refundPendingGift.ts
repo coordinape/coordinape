@@ -2,8 +2,9 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { adminClient } from '../gql/adminClient';
+import * as queries from '../gql/queries';
 import { ValueTypes } from '../../src/lib/gql/__generated__/zeusAdmin';
-import { gql } from '../Gql';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
@@ -21,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const results = [];
   try {
-    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
+    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
     assert(user, 'panic: user must exist');
 
     const { pending_sent_gifts, pending_received_gifts, id: userId } = user;
@@ -61,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
       );
 
-      const newNonGiverResult = await gql.q('mutation')({
+      const newNonGiverResult = await adminClient.mutate({
         delete_pending_token_gifts: [
           {
             where: {
@@ -122,7 +123,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
       );
 
-      const newNonReceiverResult = await gql.q('mutation')({
+      const newNonReceiverResult = await adminClient.mutate({
         delete_pending_token_gifts: [
           {
             where: {
