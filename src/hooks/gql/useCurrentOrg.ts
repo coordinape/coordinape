@@ -1,6 +1,6 @@
+import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { client } from '../../lib/gql/client';
 import { useSelectedCircle } from '../../recoilState';
 
 export function useCurrentOrg() {

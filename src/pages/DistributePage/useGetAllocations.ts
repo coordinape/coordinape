@@ -1,7 +1,6 @@
 import { token_gifts_select_column } from 'lib/gql/__generated__/zeusUser';
+import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
-
-import { client } from '../../lib/gql/client';
 
 export function useGetAllocations(epochId: number) {
   // FIXME (minor): if this query's structure were changed
