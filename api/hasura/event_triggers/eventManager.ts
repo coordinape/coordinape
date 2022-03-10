@@ -11,7 +11,7 @@ import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegr
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { GraphQLTypes } from '../../../src/lib/gql/zeusHasuraAdmin';
+import { GraphQLTypes } from '../../../src/lib/gql/__generated__/zeusAdmin';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
