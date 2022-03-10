@@ -1,4 +1,4 @@
-import { gql } from './Gql';
+import * as queries from './gql/queries';
 import { sendSocialMessage } from './sendSocialMessage';
 import { EventTriggerPayload } from './types';
 
@@ -11,7 +11,7 @@ export default async function handleOptOutMsg(
   } = payload;
 
   if (data.old.non_receiver === false && data.new.non_receiver === true) {
-    const currentEpoch = await gql.getCurrentEpoch(data.new.circle_id);
+    const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
 
     if (currentEpoch) {
       await sendSocialMessage({
@@ -28,7 +28,7 @@ export default async function handleOptOutMsg(
     }
   }
   if (data.old.non_giver === false && data.new.non_giver === true) {
-    const currentEpoch = await gql.getCurrentEpoch(data.new.circle_id);
+    const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
 
     if (currentEpoch) {
       await sendSocialMessage({

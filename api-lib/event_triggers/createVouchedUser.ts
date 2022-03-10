@@ -2,7 +2,8 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { gql } from '../Gql';
+import { adminClient } from '../gql/adminClient';
+import * as queries from '../api-lib/gql/queries';
 import { EventTriggerPayload } from '../types';
 import { verifyHasuraRequestMiddleware } from '../validate';
 
@@ -13,12 +14,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { name, address, circle_id, vouches_required, id } = data.new;
   try {
-    const { nominees_by_pk } = await gql.getNominee(id);
+    const { nominees_by_pk } = await queries.getNominee(id);
     assert(nominees_by_pk);
     const vouches =
       (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
     if (vouches >= vouches_required) {
-      const { users: existingUsers } = await gql.q('query')({
+      const { users: existingUsers } = await adminClient.query({
         users: [
           {
             limit: 1,
@@ -41,7 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      const { insert_users_one } = await gql.q('mutation')({
+      const { insert_users_one } = await adminClient.mutate({
         insert_users_one: [
           { object: { name, address, circle_id } },
           {
@@ -51,7 +52,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       });
 
       if (insert_users_one) {
-        await gql.q('mutation')({
+        await adminClient.mutate({
           // End current nomination
           update_nominees: [
             {

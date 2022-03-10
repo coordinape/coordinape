@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { gql } from '../../../api-lib/Gql';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   createUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -20,7 +20,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     // It might be preferable to add this uniqueness constraint into the database
     const { circle_id, address, name } = input;
 
-    const { users: existingUsers } = await gql.q('query')({
+    const { users: existingUsers } = await adminClient.query({
       users: [
         {
           limit: 1,
@@ -45,7 +45,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     }
 
     // Update the state after all validations have passed
-    const mutationResult = await gql.q('mutation')({
+    const mutationResult = await adminClient.mutate({
       // Insert the user
       insert_users_one: [
         { object: input },
