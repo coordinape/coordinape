@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { gql } from '../../../api-lib/Gql';
 import {
   zodParserErrorResponse,
-  ErrorResponse,
+  errorResponse,
 } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
@@ -31,7 +31,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     const user = await gql.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
-      return ErrorResponse(response, {
+      return errorResponse(response, {
         message: `User with address ${address} does not exist`,
         code: 422,
       });

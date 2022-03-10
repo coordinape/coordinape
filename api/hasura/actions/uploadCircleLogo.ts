@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { gql } from '../../../api-lib/Gql';
-import { ErrorResponse } from '../../../api-lib/HttpError';
+import { errorResponse } from '../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../api-lib/images';
 import { ImageUpdater } from '../../../api-lib/ImageUpdater';
 import {
@@ -34,7 +34,7 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
     );
     return res.status(200).json(updatedProfile);
   } catch (e: any) {
-    return ErrorResponse(res, e);
+    return errorResponse(res, e);
   }
 };
 
