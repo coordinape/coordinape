@@ -1,11 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { EventTriggerPayload } from '../types';
-import { verifyHasuraRequestMiddleware } from '../validate';
 
 import handleCheckNomineeMsg from './utils/handleCheckNomineeMsg';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const payload: EventTriggerPayload<'nominees', 'UPDATE'> = req.body;
     const sent = await handleCheckNomineeMsg(payload, { telegram: true });
@@ -19,5 +18,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
-
-export default verifyHasuraRequestMiddleware(handler);

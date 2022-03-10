@@ -3,9 +3,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { profiles_constraint } from '../../src/lib/gql/__generated__/zeusAdmin';
 import { gql } from '../Gql';
 import { EventTriggerPayload } from '../types';
-import { verifyHasuraRequestMiddleware } from '../validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     event: { data },
   }: EventTriggerPayload<'users', 'UPDATE' | 'INSERT'> = req.body;
@@ -50,5 +49,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
-
-export default verifyHasuraRequestMiddleware(handler);
