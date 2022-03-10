@@ -15,6 +15,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateUser(payload: UpdateUserInput!): UserResponse
+}
+
+type Mutation {
   uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
 }
 
@@ -75,6 +79,14 @@ input CreateNomineeInput {
   circle_id: Int!
   address: String!
   description: String!
+}
+
+input UpdateUserInput {
+  circle_id: Int!
+  name: String
+  non_receiver: Boolean
+  epoch_first_visit: Boolean
+  bio: String
 }
 
 type CreateCircleResponse {
