@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { GraphQLTypes } from '../src/lib/gql/__generated__/zeusAdmin';
-
+import { GraphQLTypes } from './gql/__generated__/zeus';
 import { EventTriggerPayload, OperationTypes } from './types';
 
 export default function makeDiscordEvent<

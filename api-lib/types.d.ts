@@ -1,4 +1,4 @@
-import { GraphQLTypes } from '../src/lib/gql/__generated__/zeusAdmin';
+import { GraphQLTypes } from './gql/__generated__/zeus';
 
 type OperationTypes = 'INSERT' | 'UPDATE' | 'DELETE' | 'MANUAL';
 

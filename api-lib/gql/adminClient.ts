@@ -1,7 +1,8 @@
 import '../node-fetch-shim';
 
-import { apiFetch, Thunder } from '../../src/lib/gql/__generated__/zeusAdmin';
 import { HASURA_GRAPHQL_ADMIN_SECRET, NODE_HASURA_URL } from '../config';
+
+import { apiFetch, Thunder } from './__generated__/zeus';
 
 const thunder = Thunder(async (...params) => {
   return apiFetch([
