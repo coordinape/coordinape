@@ -45,9 +45,7 @@ function DistributePage() {
   const { apeError } = useApeSnackbar();
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
-  const { myUser: currentUser } = useCircle(
-    data?.epochs_by_pk?.circle?.id as number
-  );
+  const { myUser: currentUser } = useCircle(data?.epochs_by_pk?.circle?.id);
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
