@@ -46,34 +46,6 @@ export function useTypedQuery<
   );
 }
 
-// Example usage of useTypedMutation inside a React Component
-//
-// const createNomineeMutation = useTypedMutation(
-//   (payload: ValueTypes['CreateNomineeInput']) => ({
-//     createNominee: [
-//       { payload: payload },
-//       {
-//         nominee: {
-//           id: true,
-//           name: true,
-//         },
-//       },
-//     ],
-//   }),
-//   {
-//     onSuccess: data => {
-//       console.log('Successfully created nominee', data.createNominee?.nominee.name);
-//     },
-//     onError: (e, payload) => {
-//       console.warn('Failed to create nominee', (e as Error).message, payload);
-//     },
-//   }
-// );
-//
-// const createNominee = useCallback(() => {
-//   createNomineeMutation.mutate({ address: '', name: '', circle_id: 1, description: '' });
-// }, []);
-
 export function useTypedMutation<
   TMutation extends ValueTypes['mutation_root'],
   TResult = InputType<GraphQLTypes['mutation_root'], TMutation>,
@@ -87,14 +59,6 @@ export function useTypedMutation<
       thunder('mutation')(mutationFn(variables)) as Promise<TResult>,
     options
   );
-}
-
-export function useCurrentOrg() {
-  const id = useSelectedCircle().circle.protocol_id;
-
-  return useTypedQuery(['org', id], {
-    organizations_by_pk: [{ id }, { id: true, name: true }],
-  }).data?.organizations_by_pk;
 }
 
 export function useCurrentCircleIntegrations() {
