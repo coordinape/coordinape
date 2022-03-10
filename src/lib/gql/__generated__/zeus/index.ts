@@ -853,6 +853,19 @@ export type ValueTypes = {
     days?: boolean;
     end_date?: boolean;
     ended?: boolean;
+    epoch_pending_token_gifts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['pending_token_gifts_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['pending_token_gifts_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['pending_token_gifts_bool_exp'] | null;
+      },
+      ValueTypes['pending_token_gifts']
+    ];
     grant?: boolean;
     id?: boolean;
     notified_before_end?: boolean;
@@ -901,6 +914,9 @@ export type ValueTypes = {
     days?: ValueTypes['Int_comparison_exp'] | null;
     end_date?: ValueTypes['timestamptz_comparison_exp'] | null;
     ended?: ValueTypes['Boolean_comparison_exp'] | null;
+    epoch_pending_token_gifts?:
+      | ValueTypes['pending_token_gifts_bool_exp']
+      | null;
     grant?: ValueTypes['numeric_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     notified_before_end?: ValueTypes['timestamp_comparison_exp'] | null;
@@ -955,6 +971,9 @@ export type ValueTypes = {
     days?: ValueTypes['order_by'] | null;
     end_date?: ValueTypes['order_by'] | null;
     ended?: ValueTypes['order_by'] | null;
+    epoch_pending_token_gifts_aggregate?:
+      | ValueTypes['pending_token_gifts_aggregate_order_by']
+      | null;
     grant?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     notified_before_end?: ValueTypes['order_by'] | null;
@@ -3162,6 +3181,8 @@ export type ModelTypes = {
     days?: number;
     end_date: ModelTypes['timestamptz'];
     ended: boolean;
+    /** An array relationship */
+    epoch_pending_token_gifts: ModelTypes['pending_token_gifts'][];
     grant: ModelTypes['numeric'];
     id: ModelTypes['bigint'];
     notified_before_end?: ModelTypes['timestamp'];
@@ -4565,6 +4586,8 @@ export type GraphQLTypes = {
     days?: number;
     end_date: GraphQLTypes['timestamptz'];
     ended: boolean;
+    /** An array relationship */
+    epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     notified_before_end?: GraphQLTypes['timestamp'];
@@ -4612,6 +4635,7 @@ export type GraphQLTypes = {
     days?: GraphQLTypes['Int_comparison_exp'];
     end_date?: GraphQLTypes['timestamptz_comparison_exp'];
     ended?: GraphQLTypes['Boolean_comparison_exp'];
+    epoch_pending_token_gifts?: GraphQLTypes['pending_token_gifts_bool_exp'];
     grant?: GraphQLTypes['numeric_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     notified_before_end?: GraphQLTypes['timestamp_comparison_exp'];
@@ -4666,6 +4690,7 @@ export type GraphQLTypes = {
     days?: GraphQLTypes['order_by'];
     end_date?: GraphQLTypes['order_by'];
     ended?: GraphQLTypes['order_by'];
+    epoch_pending_token_gifts_aggregate?: GraphQLTypes['pending_token_gifts_aggregate_order_by'];
     grant?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     notified_before_end?: GraphQLTypes['order_by'];
