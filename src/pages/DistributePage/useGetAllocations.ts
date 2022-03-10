@@ -1,4 +1,4 @@
-import { token_gifts_select_column } from 'lib/gql/__generated__/zeusUser';
+import { token_gifts_select_column } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
