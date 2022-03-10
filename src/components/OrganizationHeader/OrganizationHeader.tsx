@@ -1,7 +1,7 @@
 import { styled, CSS } from 'stitches.config';
 
 import { ApeAvatar } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Text } from 'ui';
 

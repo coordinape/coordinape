@@ -14,7 +14,7 @@ import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
 import { useDistributor, useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
@@ -39,7 +39,7 @@ function DistributePage() {
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const vaults = useVaults(currentOrg.data?.id);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { apeError } = useApeSnackbar();
