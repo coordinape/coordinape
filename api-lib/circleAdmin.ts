@@ -7,10 +7,10 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
-import { GraphQLError } from '../src/lib/gql/__generated__/zeusAdmin';
 import { composeHasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
 
 import { getUserFromProfileId } from './findUser';
+import { GraphQLError } from './gql/__generated__/zeus';
 import { verifyHasuraRequestMiddleware } from './validate';
 
 const middleware =
