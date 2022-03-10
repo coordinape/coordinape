@@ -1,32 +1,33 @@
 import { Suspense, useState, useEffect } from 'react';
 
 import { useLocation, NavLink } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys } from 'stitches.config';
 
 import {
   ReceiveInfo,
   MyAvatarMenu,
   MenuNavigationLinks,
-  CirclesHeaderSection,
   WalletButton,
-  CirclesSelectorSection,
 } from 'components';
 import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
 import {
-  useMyProfileLoadable,
+  rSelectedCircle,
   useSelectedCircle,
   useWalletAuth,
 } from 'recoilState/app';
-import { getMainNavigation } from 'routes/paths';
+import { useHasCircles } from 'recoilState/db';
+import { getMainNavigation, getCirclesNavigation } from 'routes/paths';
 import { Box, IconButton, Link, Image, Divider } from 'ui';
 
 export const MainHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
-  const myProfile = useMyProfileLoadable();
-  const valueProfile = myProfile.valueMaybe();
+  const hasCircles = useHasCircles();
+  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const breadcrumb = `${selectedCircle?.circle.protocol.name} > ${selectedCircle?.circle.name}`;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -65,14 +66,28 @@ export const MainHeader = () => {
         px: '$1xl',
       }}
     >
-      <Image
-        alt="logo"
-        css={{
-          justifySelf: 'start',
-          height: '$1xl',
+      <div
+        style={{
+          display: 'flex',
         }}
-        src="/svgs/logo/logo.svg"
-      />
+      >
+        <Image
+          alt="logo"
+          css={{
+            justifySelf: 'start',
+            height: '$1xl',
+          }}
+          src="/svgs/logo/logo.svg"
+        />
+        {hasCircles && (
+          <Suspense fallback={<span />}>
+            <CircleNav />{' '}
+            <div style={{ marginTop: '1em', color: '#B5BBBD' }}>
+              {breadcrumb}
+            </div>
+          </Suspense>
+        )}
+      </div>
       <Suspense fallback={<span />}>
         <HeaderNav />
       </Suspense>
@@ -146,6 +161,7 @@ export const MainHeader = () => {
               }}
             >
               <Suspense fallback={<span />}>
+                <CircleNav />
                 <HeaderNav />
               </Suspense>
             </Box>
@@ -181,40 +197,6 @@ export const MainHeader = () => {
             >
               <MenuNavigationLinks />
             </Box>
-            <Divider />
-            <Box
-              css={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                px: '$md',
-                py: '$md',
-              }}
-            >
-              <Suspense fallback={null}>
-                <CirclesHeaderSection
-                  handleOnClick={() => setIsMobileMenuOpen(false)}
-                />
-              </Suspense>
-            </Box>
-            {valueProfile?.hasAdminView && (
-              <>
-                <Divider />
-                <Box
-                  css={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    px: '$md',
-                    py: '$md',
-                  }}
-                >
-                  <CirclesSelectorSection
-                    handleOnClick={() => setIsMobileMenuOpen(false)}
-                  />
-                </Box>
-              </>
-            )}
           </Box>
         </Box>
       )}
@@ -222,92 +204,102 @@ export const MainHeader = () => {
   );
 };
 
+const linkStyle = {
+  my: 0,
+  mx: '$md',
+  fontSize: '$6',
+  fontWeight: '$bold',
+  color: '$white',
+  textDecoration: 'none',
+  px: 0,
+  py: '$xs',
+  position: 'relative',
+  '&::after': {
+    content: `" "`,
+    position: 'absolute',
+    left: '50%',
+    right: '50%',
+    backgroundColor: '$mediumRed',
+    transition: 'all 0.3s',
+    bottom: 0,
+    height: 2,
+  },
+  '&:hover': {
+    '&::after': {
+      left: 0,
+      right: 0,
+      backgroundColor: '$mediumRed',
+    },
+  },
+  '&.active': {
+    '&::after': {
+      left: 0,
+      right: 0,
+      backgroundColor: '$red',
+    },
+    '&:hover': {
+      '&::after': {
+        left: 0,
+        right: 0,
+        backgroundColor: '$red',
+      },
+    },
+  },
+  '@sm': {
+    position: 'unset',
+    color: '$text',
+    fontWeight: 'normal',
+    '&:hover': {
+      color: '$black',
+      '&::after': {
+        content: 'none',
+      },
+    },
+    '&.active': {
+      color: '$red',
+      '&::after': {
+        content: 'none',
+      },
+    },
+  },
+};
+
+const boxStyle = {
+  justifySelf: 'stretch',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  '@sm': {
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+  },
+};
+
+export const CircleNav = () => {
+  const circleNavItems = getCirclesNavigation();
+
+  return (
+    <Box css={boxStyle}>
+      {circleNavItems.map(navItem => (
+        <Link css={linkStyle} as={NavLink} key={navItem.path} to={navItem.path}>
+          {navItem.label}
+        </Link>
+      ))}
+    </Box>
+  );
+};
+
 export const HeaderNav = () => {
   const { circle, myUser } = useSelectedCircle();
-
   const navItems = getMainNavigation({
     asCircleAdmin: myUser.isCircleAdmin,
     asVouchingEnabled: circle.hasVouching,
   });
 
   return (
-    <Box
-      css={{
-        justifySelf: 'stretch',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        '@sm': {
-          alignItems: 'flex-start',
-          flexDirection: 'column',
-        },
-      }}
-    >
+    <Box css={boxStyle}>
       {navItems.map(navItem => (
-        <Link
-          css={{
-            my: 0,
-            mx: '$md',
-            fontSize: '$6',
-            fontWeight: '$bold',
-            color: '$white',
-            textDecoration: 'none',
-            px: 0,
-            py: '$xs',
-            position: 'relative',
-            '&::after': {
-              content: `" "`,
-              position: 'absolute',
-              left: '50%',
-              right: '50%',
-              backgroundColor: '$mediumRed',
-              transition: 'all 0.3s',
-              bottom: 0,
-              height: 2,
-            },
-            '&:hover': {
-              '&::after': {
-                left: 0,
-                right: 0,
-                backgroundColor: '$mediumRed',
-              },
-            },
-            '&.active': {
-              '&::after': {
-                left: 0,
-                right: 0,
-                backgroundColor: '$red',
-              },
-              '&:hover': {
-                '&::after': {
-                  left: 0,
-                  right: 0,
-                  backgroundColor: '$red',
-                },
-              },
-            },
-            '@sm': {
-              position: 'unset',
-              color: '$text',
-              fontWeight: 'normal',
-              '&:hover': {
-                color: '$black',
-                '&::after': {
-                  content: 'none',
-                },
-              },
-              '&.active': {
-                color: '$red',
-                '&::after': {
-                  content: 'none',
-                },
-              },
-            },
-          }}
-          as={NavLink}
-          key={navItem.path}
-          to={navItem.path}
-        >
+        <Link css={linkStyle} as={NavLink} key={navItem.path} to={navItem.path}>
           {navItem.label}
         </Link>
       ))}

@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
+import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributePage from 'pages/DistributePage';
@@ -79,8 +80,8 @@ const LoggedInRoutes = () => {
           )
         }
       />
+      <Route path={paths.getCirclesPath()} element={<CirclesPage />} />
       <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
-      <Route path={paths.getCirclesPath()} element={<AdminPage />} />
       <Route
         path={paths.getDistributePath(':epochId')}
         element={<DistributePage />}
