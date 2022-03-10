@@ -1,4 +1,4 @@
-import { gql } from '../../Gql';
+import * as queries from '../../gql/queries';
 import { sendSocialMessage } from '../../sendSocialMessage';
 import { EventTriggerPayload } from '../../types';
 
@@ -11,7 +11,7 @@ export default async function handleCheckNomineeMsg(
   } = payload;
 
   if (data.old.ended === false && data.new.ended === true) {
-    const { nominees_by_pk } = await gql.getNominee(data.new.id);
+    const { nominees_by_pk } = await queries.getNominee(data.new.id);
 
     if (nominees_by_pk) {
       const vouches =

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import { gql } from '../../../api-lib/Gql';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { HasuraUserSessionVariables } from '../../../src/lib/zod';
 
@@ -10,7 +10,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     const { hasuraProfileId } = HasuraUserSessionVariables.parse(
       request.body.session_variables
     );
-    await gql.q('mutation')({
+    await adminClient.mutate({
       delete_personal_access_tokens: [
         {
           where: {

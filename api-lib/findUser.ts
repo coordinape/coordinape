@@ -1,12 +1,12 @@
 import assert from 'assert';
 
-import { gql } from './Gql';
+import { adminClient } from './gql/adminClient';
 
 export const getUserFromProfileId = async (
   profileId: number,
   circleId: number
 ) => {
-  const { profiles_by_pk } = await gql.q('query')({
+  const { profiles_by_pk } = await adminClient.query({
     profiles_by_pk: [
       {
         id: profileId,
@@ -42,7 +42,7 @@ export const getUserFromProfileId = async (
 };
 
 export const getUserFromAddress = async (address: string, circleId: number) => {
-  const { users } = await gql.q('query')({
+  const { users } = await adminClient.query({
     users: [
       {
         where: {
