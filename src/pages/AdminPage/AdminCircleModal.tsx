@@ -11,6 +11,8 @@ import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { getCircleAvatar } from 'utils/domain';
 
+import { AdminIntegrations } from './AdminIntegrations';
+
 import { ICircle } from 'types';
 
 const DOCS_HREF = 'https://docs.coordinape.com/welcome/admin_info';
@@ -48,6 +50,9 @@ const useStyles = makeStyles(theme => ({
         background: 'rgba(81, 99, 105, 0.9)',
       },
     },
+  },
+  errorColor: {
+    color: theme.palette.error.main,
   },
   logoAvatar: {
     width: 96,
@@ -450,6 +455,7 @@ export const AdminCircleModal = ({
           label="Auto Opt Out?"
         />
       </div>
+      <AdminIntegrations />
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
         {allowEdit && (
