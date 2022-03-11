@@ -65,7 +65,7 @@ export function useVaultFactory(orgId?: number) {
         }
       }
 
-      throw new Error('VaultCreated event not found');
+      if (receipt) throw new Error('VaultCreated event not found');
     } catch (e) {
       console.error(e);
 

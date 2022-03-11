@@ -23,6 +23,9 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$redHover',
         },
+        '&[disabled]': {
+          opacity: 0.5,
+        },
       },
       gray: {
         backgroundColor: '$border',

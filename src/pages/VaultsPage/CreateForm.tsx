@@ -1,11 +1,11 @@
 import { MouseEvent, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ethers } from 'ethers';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
-import { zEthAddress, zEthAddressOrBlank } from 'forms/formHelpers';
 import { useCurrentOrg } from 'hooks/gql';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -20,13 +20,13 @@ const useFormSetup = (
   const schema = z
     .object({
       symbol: AssetEnum.optional(),
-      customAddress: zEthAddressOrBlank,
+      customAddress: z.string().optional(),
     })
     .refine(
       async ({ symbol, customAddress }) => {
         if (symbol) return true;
 
-        if (!(await zEthAddress.spa(customAddress)).success) {
+        if (!customAddress || !ethers.utils.isAddress(customAddress)) {
           setCustomSymbol(undefined);
           return false;
         }
@@ -41,13 +41,16 @@ const useFormSetup = (
           return false;
         }
       },
-      { message: 'Select an asset or enter a valid ERC20 token address' }
+      {
+        message: 'Select an asset or enter a valid ERC20 token address',
+        path: ['customAddress'],
+      }
     );
 
   type FormSchema = z.infer<typeof schema>;
   const resolver = zodResolver(schema);
 
-  return useForm<FormSchema>({ resolver });
+  return useForm<FormSchema>({ resolver, mode: 'onBlur' });
 };
 
 export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
@@ -60,15 +63,15 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
   } = useFormSetup(contracts, setCustomSymbol);
 
   const {
-    field: { onChange },
+    field: { onChange, onBlur },
   } = useController({ name: 'symbol', control });
 
-  const { field } = useController({
+  const { field: customAddressField } = useController({
     name: 'customAddress',
     defaultValue: '',
     control,
@@ -80,6 +83,13 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
     if (event) event.preventDefault();
     setAsset(symbol);
     onChange({ target: { value: symbol } });
+    onBlur();
+
+    if (symbol) {
+      customAddressField.onChange({ target: { value: '' } });
+      customAddressField.onBlur();
+      setCustomSymbol(undefined);
+    }
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
@@ -139,9 +149,13 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         onFocus={() => pickAsset(undefined)}
         placeholder="0x0000..."
         css={{ width: '100%' }}
-        {...field}
+        {...customAddressField}
       />
-      <Button color="red" css={{ mt: '$lg', width: '100%' }}>
+      <Button
+        color="red"
+        css={{ mt: '$lg', width: '100%' }}
+        disabled={!isValid}
+      >
         Create Vault
       </Button>
       {!isEmpty(errors) && (
