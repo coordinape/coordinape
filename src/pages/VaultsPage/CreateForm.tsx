@@ -11,7 +11,7 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { DAIIcon, USDCIcon, USDTIcon, YFIIcon } from 'icons';
 import { AssetEnum, Asset } from 'services/contracts';
-import { Box, Button, Modal, Text, TextField } from 'ui';
+import { Box, Button, Form, Text, TextField } from 'ui';
 
 const schema = z
   .object({
@@ -27,10 +27,10 @@ const schema = z
     { message: 'Select an asset or enter a valid address' }
   );
 
-type CreateVaultForm = z.infer<typeof schema>;
+type CreateVaultFormSchema = z.infer<typeof schema>;
 const resolver = zodResolver(schema);
 
-export const CreateModal = ({ onClose }: { onClose: () => void }) => {
+export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
   const [asset, setAsset] = useState<Asset | undefined>();
@@ -38,12 +38,12 @@ export const CreateModal = ({ onClose }: { onClose: () => void }) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<CreateVaultForm>({ resolver });
+  } = useForm<CreateVaultFormSchema>({ resolver });
   const currentOrg = useCurrentOrg();
   const { createVault } = useVaultFactory(currentOrg?.id);
 
   const {
-    field: { onChange, onBlur },
+    field: { onChange },
   } = useController({ name: 'symbol', control });
 
   const { field } = useController({
@@ -58,7 +58,6 @@ export const CreateModal = ({ onClose }: { onClose: () => void }) => {
     if (event) event.preventDefault();
     setAsset(symbol);
     onChange({ target: { value: symbol } });
-    onBlur();
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
@@ -69,65 +68,60 @@ export const CreateModal = ({ onClose }: { onClose: () => void }) => {
         // eslint-disable-next-line no-console
         console.log('created vault:', vault);
         navigate('/admin/vaults');
-        onClose();
+        onSuccess();
       }
     );
   };
 
   return (
-    <Modal
-      onClose={onClose}
-      title="Create a New Vault"
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
       css={{
-        '> form': {
-          width: '100%',
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-        },
+        width: '100%',
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Text font="source" bold css={{ fontSize: '$5', mb: '$sm' }}>
-          Select a Vault Asset
+      <Text font="source" bold css={{ fontSize: '$5', mb: '$sm' }}>
+        Select a Vault Asset
+      </Text>
+      <Text font="source" css={{ fontSize: '$4' }}>
+        Vaults allow you to fund your circles with the asset of your choice.
+      </Text>
+      <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
+        {contracts.getAvailableTokens().map(symbol => (
+          <AssetButton
+            key={symbol}
+            data-selected={symbol === asset}
+            onClick={event => pickAsset(symbol, event)}
+          >
+            {icons[symbol]()}
+            <Text css={{ ml: '$xs' }}>{symbol}</Text>
+          </AssetButton>
+        ))}
+      </Box>
+      <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
+      <Text variant="formLabel" css={{ width: '100%' }}>
+        Token contract address
+      </Text>
+      <TextField
+        onFocus={() => pickAsset(undefined)}
+        placeholder="0x0000..."
+        css={{ width: '100%' }}
+        {...field}
+      />
+      <Button color="red" css={{ mt: '$lg', width: '100%' }}>
+        Create Vault
+      </Button>
+      {!isEmpty(errors) && (
+        <Text color="red" css={{ mt: '$sm' }}>
+          {Object.values(errors)
+            .map(e => e.message)
+            .join('. ')}
         </Text>
-        <Text font="source" css={{ fontSize: '$4' }}>
-          Vaults allow you to fund your circles with the asset of your choice.
-        </Text>
-        <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
-          {contracts.getAvailableTokens().map(symbol => (
-            <AssetButton
-              key={symbol}
-              data-selected={symbol === asset}
-              onClick={event => pickAsset(symbol, event)}
-            >
-              {icons[symbol]()}
-              <Text css={{ ml: '$xs' }}>{symbol}</Text>
-            </AssetButton>
-          ))}
-        </Box>
-        <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
-        <Text variant="formLabel" css={{ width: '100%' }}>
-          Token contract address
-        </Text>
-        <TextField
-          onFocus={() => pickAsset(undefined)}
-          placeholder="0x0000..."
-          css={{ width: '100%' }}
-          {...field}
-        />
-        <Button color="red" css={{ mt: '$lg', width: '100%' }}>
-          Create Vault
-        </Button>
-        {!isEmpty(errors) && (
-          <Text color="red" css={{ mt: '$sm' }}>
-            {Object.values(errors)
-              .map(e => e.message)
-              .join('. ')}
-          </Text>
-        )}
-      </form>
-    </Modal>
+      )}
+    </Form>
   );
 };
 

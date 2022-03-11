@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { useCurrentOrg } from 'hooks/gql';
 import { useVaults } from 'recoilState/vaults';
-import { Box, Button, Panel, Text } from 'ui';
+import { Box, Button, Modal, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
 
-import { CreateModal } from './CreateModal';
+import { CreateForm } from './CreateForm';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
@@ -32,7 +32,11 @@ const VaultsPage = () => {
       ) : (
         <Panel>There are no vaults in your organization yet.</Panel>
       )}
-      {modal === 'create' && <CreateModal onClose={closeModal} />}
+      {modal === 'create' && (
+        <Modal onClose={closeModal} title="Create a New Vault">
+          <CreateForm onSuccess={closeModal} />
+        </Modal>
+      )}
     </OrgLayout>
   );
 };
