@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof ClaimCard> = args => {
         display: 'grid',
         placeItems: 'center',
         padding: '$md',
-        backgroundColor: '$gray',
+        backgroundColor: '$surfaceGray',
       }}
     >
       <ClaimCard {...args}>{args.children}</ClaimCard>

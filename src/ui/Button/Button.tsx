@@ -25,10 +25,10 @@ export const Button = styled('button', {
         },
       },
       gray: {
-        backgroundColor: '$gray400',
+        backgroundColor: '$border',
         color: 'white',
         '&:hover': {
-          backgroundColor: '$lightGray',
+          backgroundColor: '$lightText',
         },
       },
     },
@@ -76,7 +76,7 @@ export const Button = styled('button', {
         },
         '&:hover': {
           color: '$selected',
-          background: '$third',
+          background: '$surfaceGray',
         },
         '&:disabled': {
           color: '$text',

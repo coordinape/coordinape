@@ -1,42 +1,15 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
-import { makeStyles } from '@material-ui/core';
-
-import { OrganizationHeader } from 'components';
 import { useCurrentOrg } from 'hooks/gql';
-import { useSelectedCircle } from 'recoilState/app';
 import { useVaults } from 'recoilState/vaults';
+import { Box, Button, Panel, Text } from 'ui';
+import { OrgLayout } from 'ui/layouts';
 
 // eslint-disable-next-line import/no-named-as-default
 import CreateVaultModal from './CreateVaultModal';
-import HasVaults from './HasVaults';
-import NoVaults from './NoVaults';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: theme.spacing(0, 8, 4),
-    margin: 'auto',
-    maxWidth: theme.breakpoints.values.lg,
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-    },
-  },
-  title: {
-    textTransform: 'capitalize',
-    fontSize: 40,
-    lineHeight: 1.2,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: theme.spacing(6, 0),
-  },
-}));
+import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
-  const classes = useStyles();
   const [modal, setModal] = useState<'' | 'create'>('');
   const closeModal = () => setModal('');
 
@@ -44,18 +17,22 @@ const VaultsPage = () => {
   const vaults = useVaults(currentOrg?.id);
 
   return (
-    <div className={classes.root}>
-      <OrganizationHeader
-        buttonText="Create a Vault"
-        onButtonClick={() => setModal('create')}
-      />
-      {vaults && vaults.length ? (
-        vaults.map(vault => <HasVaults key={vault.id} vault={vault} />)
+    <OrgLayout>
+      <Box css={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Text css={{ fontSize: '$8', fontWeight: '$bold' }}>Vaults</Text>
+        <Button color="red" size="small" onClick={() => setModal('create')}>
+          Add Vault
+        </Button>
+      </Box>
+      {vaults?.length > 0 ? (
+        vaults.map(vault => (
+          <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
+        ))
       ) : (
-        <NoVaults onCreateButtonClick={() => setModal('create')} />
+        <Panel>There are no vaults in your organization yet.</Panel>
       )}
-      {modal === 'create' ? <CreateVaultModal onClose={closeModal} /> : null}
-    </div>
+      {modal === 'create' && <CreateVaultModal onClose={closeModal} />}
+    </OrgLayout>
   );
 };
 

@@ -16,8 +16,6 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    background:
-      'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.4) 100%), #E5E5E5',
     '& > main': {
       flex: 1,
     },

@@ -141,11 +141,8 @@ function DistributePage() {
   return (
     <Box
       css={{
-        display: 'flex',
-        flexDirection: 'column',
-        m: '$lg',
-        margin: 'auto',
-        maxWidth: '90%',
+        margin: '$lg auto',
+        maxWidth: '$mediumScreen',
       }}
     >
       <Panel>
@@ -154,7 +151,6 @@ function DistributePage() {
             display: 'flex',
             flexWrap: 'nowrap',
             justifyContent: 'space-between',
-            mt: '$lg',
           }}
         >
           <Box css={{ minWidth: '15%' }}>
@@ -297,7 +293,7 @@ function DistributePage() {
             approve the Merkle root so that contributoros can claim their funds.
           </Box>
         </Box>
-        <Box css={{ m: '$lg' }}>
+        <Box css={{ mt: '$lg' }}>
           {totalGive ? (
             <AllocationTable
               users={users as IAllocateUser[]}
@@ -310,10 +306,16 @@ function DistributePage() {
               totalGive={totalGive}
             />
           ) : (
-            <ShowMessage
-              path={paths.getVaultsPath()}
-              message="No GIVE was allocated for this epoch"
-            />
+            <Text
+              css={{
+                fontSize: '$7',
+                fontWeight: '$bold',
+                textAlign: 'center',
+                display: 'block',
+              }}
+            >
+              No GIVE was allocated for this epoch
+            </Text>
           )}
         </Box>
       </Panel>
