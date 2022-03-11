@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { BigNumber } from 'ethers';
 import { CSS } from 'stitches.config';
@@ -20,6 +20,7 @@ type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [balance, setBalance] = useState(0);
+  const [symbol, setSymbol] = useState<string>(vault.type);
   const closeModal = () => setModal('');
   const contracts = useContracts();
 
@@ -32,6 +33,12 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
       });
 
   useBlockListener(updateBalance, [vault.id]);
+
+  useEffect(() => {
+    if (vault.type === 'OTHER') {
+      contracts?.getERC20(vault.simpleTokenAddress).symbol().then(setSymbol);
+    }
+  }, [contracts]);
 
   return (
     <Panel css={css}>
@@ -62,7 +69,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
             flexGrow: 1,
           }}
         >
-          {vault.type.toUpperCase()} Vault
+          {symbol} Vault
         </Text>
         <Button color="red" size="small" onClick={() => setModal('deposit')}>
           Deposit
