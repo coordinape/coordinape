@@ -13,8 +13,9 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useDistributor, useApeSnackbar, useVaultWrapper } from 'hooks';
+import { useDistributor, useApeSnackbar } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql';
+import { useContracts } from 'hooks/useContracts';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
@@ -36,11 +37,11 @@ function DistributePage() {
   const [loadingTrx, setLoadingTrx] = useState(false);
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
+  const contracts = useContracts();
   const currentOrg = useCurrentOrg();
   const vaults = useVaults(currentOrg?.id);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
-  const { getYVault } = useVaultWrapper(selectedVault as IVault);
   const { apeError } = useApeSnackbar();
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
@@ -88,12 +89,13 @@ function DistributePage() {
     );
 
     try {
-      const vaultAddress = await getYVault();
+      assert(contracts);
+      const yVaultAddress = await contracts.getVault(selectedVault.id).vault();
       const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
         selectedVault.id,
         utils.formatBytes32String(circle.id.toString()),
-        vaultAddress.toString(),
+        yVaultAddress.toString(),
         distribution.merkleRoot,
         totalDistributionAmount,
         utils.hexlify(1)
