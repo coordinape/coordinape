@@ -7,7 +7,9 @@ import { supportedChainIds } from 'services/contracts';
 
 export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 
-const injected = new InjectedConnector({ supportedChainIds });
+const injected = new InjectedConnector({
+  supportedChainIds: [...supportedChainIds, 1],
+});
 
 export const makeWalletConnectConnector = () =>
   new WalletConnectConnector({

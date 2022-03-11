@@ -20,8 +20,15 @@ import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
 const log = debug('coordinape:contracts');
 
-export const supportedChainIds: number[] =
-  Object.keys(deploymentInfo).map(Number);
+const requiredContracts = [
+  'ApeVaultFactoryBeacon',
+  'ApeRouter',
+  'ApeDistributor',
+];
+
+export const supportedChainIds: number[] = Object.entries(deploymentInfo)
+  .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
+  .map(x => Number(x[0]));
 
 const symbols = ['DAI', 'USDC', 'USDT', 'YFI'] as const;
 export const AssetEnum = z.enum(symbols);
