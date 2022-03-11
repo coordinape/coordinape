@@ -8,6 +8,7 @@ import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
+import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -83,6 +84,10 @@ const LoggedInRoutes = () => {
       <Route path={paths.vaults} element={<VaultsPage />} />
       <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
       <Route path={paths.adminCircles} element={<AdminPage />} />
+      <Route
+        path={paths.connectIntegration}
+        element={<IntegrationCallbackPage />}
+      />
       <Route
         path={getDistributePath(':epochId')}
         element={<DistributePage />}

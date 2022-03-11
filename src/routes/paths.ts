@@ -67,6 +67,7 @@ export const getDistributePath = (epochId: number | string) =>
   `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
+export const getIntegrationCallbackPath = () => `/connect-integration`;
 
 interface INavItem {
   label: string;

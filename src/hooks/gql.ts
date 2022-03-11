@@ -75,3 +75,23 @@ export function useCurrentOrg() {
     organizations_by_pk: [{ id }, { id: true, name: true }],
   }).data?.organizations_by_pk;
 }
+
+export function useCurrentCircleIntegrations() {
+  const { circleId } = useSelectedCircle();
+  const query = useTypedQuery(`circle-integrations-${circleId}`, {
+    circles_by_pk: [
+      { id: circleId },
+      {
+        id: true,
+        integrations: [
+          {},
+          { id: true, type: true, name: true, data: [{ path: '$' }, true] },
+        ],
+      },
+    ],
+  });
+  return {
+    refetch: query.refetch,
+    integrations: query.data?.circles_by_pk?.integrations ?? [],
+  };
+}
