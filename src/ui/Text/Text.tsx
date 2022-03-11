@@ -24,6 +24,9 @@ export const Text = styled('span', {
       default: {
         color: '$text',
       },
+      red: {
+        color: '$red',
+      },
     },
     bold: {
       true: {

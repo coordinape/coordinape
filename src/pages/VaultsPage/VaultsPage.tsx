@@ -6,12 +6,10 @@ import { Box, Button, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
 
 import { CreateModal } from './CreateModal';
-// eslint-disable-next-line import/no-named-as-default
-import CreateVaultModal from './CreateVaultModal';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
-  const [modal, setModal] = useState<'' | 'create' | 'create2'>('');
+  const [modal, setModal] = useState<'' | 'create'>('');
   const closeModal = () => setModal('');
 
   const currentOrg = useCurrentOrg();
@@ -26,9 +24,6 @@ const VaultsPage = () => {
         <Button color="red" size="small" onClick={() => setModal('create')}>
           Add Vault
         </Button>
-        <Button color="red" size="small" onClick={() => setModal('create2')}>
-          Add Vault 2
-        </Button>
       </Box>
       {vaults?.length > 0 ? (
         vaults.map(vault => (
@@ -37,8 +32,7 @@ const VaultsPage = () => {
       ) : (
         <Panel>There are no vaults in your organization yet.</Panel>
       )}
-      {modal === 'create' && <CreateVaultModal onClose={closeModal} />}
-      {modal === 'create2' && <CreateModal onClose={closeModal} />}
+      {modal === 'create' && <CreateModal onClose={closeModal} />}
     </OrgLayout>
   );
 };

@@ -14,6 +14,7 @@ import {
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
+import { z } from 'zod';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
@@ -21,6 +22,10 @@ const log = debug('coordinape:contracts');
 
 export const supportedChainIds: number[] =
   Object.keys(deploymentInfo).map(Number);
+
+const symbols = ['DAI', 'USDC', 'USDT', 'YFI'] as const;
+export const AssetEnum = z.enum(symbols);
+export type Asset = z.infer<typeof AssetEnum>;
 
 export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
@@ -62,6 +67,10 @@ export class Contracts {
       address,
       this.provider
     );
+  }
+
+  getAvailableTokens() {
+    return symbols.filter(s => !!this.getTokenAddress(s));
   }
 
   getTokenAddress(symbol: string) {

@@ -1,32 +1,33 @@
 import { useWeb3React } from '@web3-react/core';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@material-ui/core';
 
-import { useVaultFactory } from '../../hooks/useVaultFactory';
+// import { useVaultFactory } from '../../hooks/useVaultFactory';
 import { FormModal, FormAssetSelector } from 'components';
 import CreateVaultForm from 'forms/CreateVaultForm';
-import { useCurrentOrg } from 'hooks/gql';
+// import { useCurrentOrg } from 'hooks/gql';
 
 export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { chainId } = useWeb3React();
-  const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.id);
+  // const currentOrg = useCurrentOrg();
+  // const { createVault } = useVaultFactory(currentOrg?.id);
 
   return (
     <CreateVaultForm.FormController
       source={chainId}
-      submit={async ({ asset: { name, custom } }) => {
-        createVault({ type: name, simpleTokenAddress: custom }).then(vault => {
-          if (!vault) return;
+      submit={() => alert('disabled')}
+      // submit={async ({ asset: { name, custom } }) => {
+      //   createVault({ type: name, simpleTokenAddress: custom }).then(vault => {
+      //     if (!vault) return;
 
-          // eslint-disable-next-line no-console
-          console.log('created vault:', vault);
-          navigate('/admin/vaults');
-          onClose();
-        });
-      }}
+      //     // eslint-disable-next-line no-console
+      //     console.log('created vault:', vault);
+      //     navigate('/admin/vaults');
+      //     onClose();
+      //   });
+      // }}
     >
       {({ fields, handleSubmit, ready, errors }) => (
         <FormModal

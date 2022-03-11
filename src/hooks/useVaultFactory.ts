@@ -1,9 +1,9 @@
 import assert from 'assert';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import { TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
 import { useFakeVaultApi } from 'recoilState/vaults';
+import { Asset } from 'services/contracts';
 
 import { useContracts } from './useContracts';
 
@@ -19,20 +19,20 @@ export function useVaultFactory(orgId?: number) {
     type,
   }: {
     simpleTokenAddress?: string;
-    type: TAssetEnum;
+    type?: Asset;
   }) => {
     assert(contracts && orgId, 'called before hooks were ready');
 
     try {
       const { vaultFactory } = contracts;
       assert(
-        type !== 'OTHER' || simpleTokenAddress,
+        type || simpleTokenAddress,
         'type is OTHER but no simple token address given; this should have been caught in form validation'
       );
 
       let args: [string, string], decimals: number;
 
-      if (type === 'OTHER') {
+      if (!type) {
         args = [ZERO_ADDRESS, simpleTokenAddress as string];
         decimals = await contracts
           .getERC20(simpleTokenAddress as string)
@@ -57,7 +57,7 @@ export function useVaultFactory(orgId?: number) {
             tokenAddress: args[0],
             simpleTokenAddress: args[1],
             decimals,
-            type,
+            type: type || 'OTHER', // FIXME
             orgId,
           };
           vaultApi.addVault(orgId, vault);
