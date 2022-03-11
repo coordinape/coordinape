@@ -10,37 +10,59 @@ import { useCurrentOrg } from 'hooks/gql';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { DAIIcon, USDCIcon, USDTIcon, YFIIcon } from 'icons';
-import { AssetEnum, Asset } from 'services/contracts';
+import { AssetEnum, Asset, Contracts } from 'services/contracts';
 import { Box, Button, Form, Text, TextField } from 'ui';
 
-const schema = z
-  .object({
-    symbol: AssetEnum.optional(),
-    customAddress: zEthAddressOrBlank,
-  })
-  .refine(
-    async ({ symbol, customAddress }) => {
-      return !!symbol || (await zEthAddress.spa(customAddress)).success;
-      // TODO we could also check that the address is a valid ERC20 contract
-      // here instead of during createVault
-    },
-    { message: 'Select an asset or enter a valid address' }
-  );
+const useFormSetup = (
+  contracts: Contracts | undefined,
+  setCustomSymbol: (s: string | undefined) => void
+) => {
+  const schema = z
+    .object({
+      symbol: AssetEnum.optional(),
+      customAddress: zEthAddressOrBlank,
+    })
+    .refine(
+      async ({ symbol, customAddress }) => {
+        if (symbol) return true;
 
-type CreateVaultFormSchema = z.infer<typeof schema>;
-const resolver = zodResolver(schema);
+        if (!(await zEthAddress.spa(customAddress)).success) {
+          setCustomSymbol(undefined);
+          return false;
+        }
+
+        if (!contracts) return false;
+        const token = contracts.getERC20(customAddress);
+        try {
+          await token.decimals(); // just ensuring that this call succeeds
+          setCustomSymbol(await token.symbol());
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      { message: 'Select an asset or enter a valid ERC20 token address' }
+    );
+
+  type FormSchema = z.infer<typeof schema>;
+  const resolver = zodResolver(schema);
+
+  return useForm<FormSchema>({ resolver });
+};
 
 export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
+  const currentOrg = useCurrentOrg();
+  const { createVault } = useVaultFactory(currentOrg?.id);
   const [asset, setAsset] = useState<Asset | undefined>();
+  const [customSymbol, setCustomSymbol] = useState<string | undefined>();
+
   const {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<CreateVaultFormSchema>({ resolver });
-  const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.id);
+  } = useFormSetup(contracts, setCustomSymbol);
 
   const {
     field: { onChange },
@@ -104,6 +126,14 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
       <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
       <Text variant="formLabel" css={{ width: '100%' }}>
         Token contract address
+        {customSymbol && (
+          <span>
+            &nbsp;-{' '}
+            <Text inline bold>
+              {customSymbol}
+            </Text>
+          </span>
+        )}
       </Text>
       <TextField
         onFocus={() => pickAsset(undefined)}

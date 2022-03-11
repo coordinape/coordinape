@@ -33,6 +33,11 @@ export const Text = styled('span', {
         fontWeight: '$bold',
       },
     },
+    inline: {
+      true: {
+        display: 'inline',
+      },
+    },
     variant: {
       formLabel: {
         color: '$gray400',
