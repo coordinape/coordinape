@@ -7,6 +7,10 @@ type Mutation {
 }
 
 type Mutation {
+  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
+}
+
+type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
 }
 
@@ -31,7 +35,7 @@ type Mutation {
 }
 
 type Mutation {
-  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
+  vouch(payload: VouchInput!): VouchOutput
 }
 
 input CreateCircleInput {
@@ -89,6 +93,10 @@ input UpdateUserInput {
   bio: String
 }
 
+input VouchInput {
+  nominee_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -111,4 +119,8 @@ type UserResponse {
 
 type CreateNomineeResponse {
   id: Int
+}
+
+type VouchOutput {
+  id: Int!
 }

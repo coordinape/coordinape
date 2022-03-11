@@ -56,6 +56,7 @@ export class AdminApi {
           team_sel_text: true,
           discord_webhook: true,
           telegram_id: true,
+          only_giver_vouch: true,
           epochs: [
             { limit: 1 },
             {
@@ -374,12 +375,21 @@ export class AdminApi {
       nominees_by_pk: [
         { id },
         {
+          id: true,
+          address: true,
           name: true,
           circle_id: true,
           nominator: {
             name: true,
           },
+          user_id: true,
+          ended: true,
+          vouches_required: true,
+          nominated_by_user_id: true,
           nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          circle: {
+            only_giver_vouch: true,
+          },
         },
       ],
     });
@@ -428,6 +438,91 @@ export class AdminApi {
         },
       ],
     });
+  }
+
+  async getExistingVouch(nomineeId: number, voucherId: number) {
+    return this.q('query')({
+      vouches: [
+        {
+          where: {
+            nominee_id: { _eq: nomineeId },
+            voucher_id: { _eq: voucherId },
+          },
+        },
+        {
+          id: true,
+          voucher: {
+            name: true,
+          },
+        },
+      ],
+    });
+  }
+
+  async insertUser(address: string, name: string, circleId: number) {
+    const { insert_users_one } = await this.q('mutation')({
+      insert_users_one: [
+        {
+          object: {
+            address: address,
+            circle_id: circleId,
+            name: name,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    });
+    return insert_users_one;
+  }
+
+  async updateNomineeUser(nomineeId: number, userId: number) {
+    const { update_nominees_by_pk } = await this.q('mutation')({
+      update_nominees_by_pk: [
+        {
+          pk_columns: {
+            id: nomineeId,
+          },
+          _set: {
+            user_id: userId,
+            ended: true,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    });
+    return update_nominees_by_pk;
+  }
+
+  async insertVouch(nomineeId: number, voucherId: number) {
+    const { insert_vouches_one } = await this.q('mutation')({
+      insert_vouches_one: [
+        {
+          object: {
+            nominee_id: nomineeId,
+            voucher_id: voucherId,
+          },
+        },
+        {
+          id: true,
+          nominee: {
+            id: true,
+            address: true,
+            name: true,
+            circle_id: true,
+            user_id: true,
+            ended: true,
+            vouches_required: true,
+            nominated_by_user_id: true,
+            nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          },
+        },
+      ],
+    });
+    return insert_vouches_one;
   }
 
   async insertCircleWithAdmin(
