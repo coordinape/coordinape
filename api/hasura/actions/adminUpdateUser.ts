@@ -77,20 +77,13 @@ async function handler(request: VercelRequest, response: VercelResponse) {
             address: input.new_address,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
-            give_token_remaining:
-              input.starting_tokens ?? user.give_token_remaining,
+            give_token_remaining: input.starting_tokens,
             // fixed_non_receiver === true is also set for non_receiver
             non_receiver: input.fixed_non_receiver || input.non_receiver,
           },
           where: {
-            _and: [
-              { circle_id: { _eq: circle_id } },
-              {
-                address: {
-                  _ilike: address,
-                },
-              },
-            ],
+            circle_id: { _eq: circle_id },
+            address: { _ilike: address },
           },
         },
         {
