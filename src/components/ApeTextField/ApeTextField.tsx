@@ -215,7 +215,6 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontSize: 16,
       lineHeight: 1.3,
       fontWeight: 700,
-      // marginBottom: theme.spacing(1),
       color: theme.colors.text,
       ...apeVariants(theme, variant)?.label,
     }),
