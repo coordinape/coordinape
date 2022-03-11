@@ -101,7 +101,15 @@ export const DefaultPage = () => {
 
   const Wrapper = ({ children }: { children: ReactNode }) => (
     <div className={classes.root}>
-      <Box css={{ maxWidth: '700px', mx: 'auto', pt: '$2xl', px: '$lg' }}>
+      <Box
+        css={{
+          maxWidth: '700px',
+          mx: 'auto',
+          pt: '$2xl',
+          px: '$lg',
+          textAlign: 'center',
+        }}
+      >
         {children}
         <Footer />
       </Box>
