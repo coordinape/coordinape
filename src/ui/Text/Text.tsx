@@ -7,7 +7,30 @@ export const Text = styled('span', {
   fontVariantNumeric: 'tabular-nums',
   display: 'flex',
   alignItems: 'center',
-  height: '18px',
+
+  variants: {
+    font: {
+      source: {
+        fontFamily: 'Source Sans Pro',
+      },
+      space: {
+        fontFamily: 'Space Grotesk',
+      },
+      inter: {
+        fontFamily: 'Inter',
+      },
+    },
+    color: {
+      default: {
+        color: '$text',
+      },
+    },
+  },
+
+  defaultVariants: {
+    font: 'space',
+    color: 'default',
+  },
 });
 
 export default Text;

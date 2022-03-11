@@ -11,20 +11,16 @@ function ShowMessage({ message, path }: { message: string; path?: string }) {
   return (
     <Box
       css={{
-        display: 'flex',
-        flexDirection: 'column',
-        m: '$lg',
-        margin: 'auto',
-        maxWidth: '90%',
+        margin: '$lg auto',
+        maxWidth: '$mediumScreen',
       }}
     >
-      <Panel>
+      <Panel css={{ minHeight: '60vh' }}>
         <Box
           css={{
             display: 'flex',
             flexWrap: 'nowrap',
             justifyContent: 'space-between',
-            mt: '$lg',
           }}
         >
           <Box css={{ minWidth: '15%' }}>
