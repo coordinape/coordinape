@@ -44,6 +44,7 @@ export const paths = {
   vaults: '/admin/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
   adminCircles: '/admin/circles',
+  connectIntegration: '/connect-integration',
 };
 
 // these getters for static paths are deprecated -- use paths above instead
@@ -67,7 +68,6 @@ export const getDistributePath = (epochId: number | string) =>
   `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
-export const getIntegrationCallbackPath = () => `/connect-integration`;
 
 interface INavItem {
   label: string;
