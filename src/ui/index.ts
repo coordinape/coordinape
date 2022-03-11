@@ -4,10 +4,11 @@ export * from './Divider/Divider';
 export * from './Image/Image';
 export * from './Link/Link';
 export * from './IconButton/IconButton';
-export * from './Text/Text';
-export * from './TextField/TextField';
+export * from './Modal';
 export * from './Panel/Panel';
 export * from './SvgIcon/SvgIcon';
+export * from './Text/Text';
+export * from './TextField/TextField';
 
 // icons
 export * from './icons';

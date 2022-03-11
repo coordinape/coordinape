@@ -26,12 +26,7 @@ export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
   router: ApeRouter;
   distributor: ApeDistributor;
-
-  // TODO this might not be quite the right way to do this, as the
-  // signer/provider used to create the contracts also has a network associated
-  // with it
   chainId: number;
-
   provider: JsonRpcProvider;
   signer: Signer;
 
@@ -58,6 +53,10 @@ export class Contracts {
     );
   }
 
+  getDeploymentInfo(): Record<string, any> {
+    return (deploymentInfo as any)[this.chainId];
+  }
+
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(
       address,
@@ -65,7 +64,7 @@ export class Contracts {
     );
   }
 
-  getToken(symbol: string) {
+  getTokenAddress(symbol: string) {
     const info = (deploymentInfo as any)[this.chainId];
     let { address } = info[symbol] || {};
 
@@ -75,14 +74,19 @@ export class Contracts {
       [HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID].includes(this.chainId)
     ) {
       address = (deploymentInfo as any)[1][symbol]?.address;
-      if (!address)
-        throw new Error(
-          `No info for token "${symbol}" on chain ${this.chainId}`
-        );
+      if (!address) return undefined;
       log(
         `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
       );
     }
+
+    return address;
+  }
+
+  getToken(symbol: string) {
+    const address = this.getTokenAddress(symbol);
+    if (!address)
+      throw new Error(`No info for token "${symbol}" on chain ${this.chainId}`);
 
     return this.getERC20(address);
   }

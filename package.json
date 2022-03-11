@@ -17,6 +17,7 @@
     "@material-ui/lab": "4.0.0-alpha.58",
     "@material-ui/pickers": "3.3.10",
     "@prisma/client": "3.4.2",
+    "@radix-ui/react-dialog": "^0.1.7",
     "@self.id/core": "0.1.0",
     "@sentry/integrations": "6.17.1",
     "@sentry/react": "6.17.1",
