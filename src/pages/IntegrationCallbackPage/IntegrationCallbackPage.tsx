@@ -7,7 +7,7 @@ import { Typography } from '@material-ui/core';
 
 import { LoadingModal } from 'components';
 import { useSelectedCircle } from 'recoilState';
-import { getCirclesPath } from 'routes/paths';
+import { paths } from 'routes/paths';
 import { Button } from 'ui';
 
 interface ConnectIntegrationConfig {
@@ -88,7 +88,7 @@ export const IntegrationCallbackPage: FC = () => {
               css={{ width: '100%', marginTop: '$lg' }}
               color="red"
               size="large"
-              onClick={() => navigate(getCirclesPath())}
+              onClick={() => navigate(paths.adminCircles)}
             >
               Back to Circle Overview
             </Button>
