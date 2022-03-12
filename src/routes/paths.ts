@@ -57,7 +57,6 @@ export const getVouchingPath = () => paths.vouching;
 export const getHistoryPath = () => paths.history;
 export const getAdminPath = () => paths.admin;
 export const getVaultsPath = () => paths.vaults;
-export const getCirclesPath = () => paths.adminCircles;
 
 // this one is different because it's used on the landing page
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
