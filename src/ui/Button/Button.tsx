@@ -15,7 +15,6 @@ export const Button = styled('button', {
   textAlign: 'center',
   lineHeight: '$shorter',
 
-  color: 'White',
   variants: {
     color: {
       red: {
@@ -26,10 +25,10 @@ export const Button = styled('button', {
         },
       },
       gray: {
-        backgroundColor: '$gray400',
+        backgroundColor: '$border',
         color: 'white',
         '&:hover': {
-          backgroundColor: '$lightGray',
+          backgroundColor: '$lightText',
         },
       },
     },
@@ -77,7 +76,7 @@ export const Button = styled('button', {
         },
         '&:hover': {
           color: '$selected',
-          background: '$third',
+          background: '$surfaceGray',
         },
         '&:disabled': {
           color: '$text',
@@ -123,6 +122,7 @@ export const Button = styled('button', {
   ],
   defaultVariants: {
     size: 'medium',
+    color: 'gray',
   },
 });
 

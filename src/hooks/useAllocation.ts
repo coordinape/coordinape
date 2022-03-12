@@ -56,7 +56,6 @@ export const useAllocation = (circleId: number) => {
 
   const [completedSteps] = useRecoilValue(rAllocationStepStatus(circleId));
   const availableTeammates = useRecoilValue(rAvailableTeammates);
-  const usersMap = useRecoilValue(rUsersMap);
   const localTeammatesChanged = useRecoilValue(
     rLocalTeammatesChanged(circleId)
   );
@@ -112,31 +111,6 @@ export const useAllocation = (circleId: number) => {
     }
     setLocalTeammates([]);
     setLocalGifts(getLocalGiftUpdater([]));
-  };
-
-  const updateGift = (
-    id: number,
-    { note, tokens }: { note?: string; tokens?: number }
-  ) => {
-    const idx = localGifts.findIndex(g => g.user.id === id);
-    const original = localGifts[idx];
-    const user = usersMap.get(id);
-    if (!user) {
-      throw `User ${id} not found in userMap`;
-    }
-    if (idx === -1) {
-      return [
-        ...localGifts,
-        { user, tokens: tokens ?? 0, note: note ?? '' } as ISimpleGift,
-      ];
-    }
-    const copy = localGifts.slice();
-    copy[idx] = {
-      user,
-      tokens: Math.max(0, tokens !== undefined ? tokens : original.tokens),
-      note: note !== undefined ? note : original.note,
-    };
-    setLocalGifts(copy);
   };
 
   const rebalanceGifts = () => {
@@ -212,7 +186,6 @@ export const useAllocation = (circleId: number) => {
     rebalanceGifts,
     saveGifts,
     saveTeammates,
-    updateGift,
   };
 };
 

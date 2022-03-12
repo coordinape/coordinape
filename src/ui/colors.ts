@@ -1,4 +1,4 @@
-// Updated at Tue, 22 Feb 2022 23:21:29 GMT
+// Updated at Tue, 08 Mar 2022 03:02:53 GMT
 // by scripts/update-figma-colors.ts
 
 export const colors = {
@@ -60,6 +60,7 @@ export const colors = {
   'Teal/8': '#93d2e0',
   // Yellow
   'Yellow/1': '#fff9e9',
+  'Yellow/12': '#ffbe19',
   'Yellow/16': '#ce9400',
   'Yellow/20': '#936a00',
   'Yellow/24': '#3b2a00',

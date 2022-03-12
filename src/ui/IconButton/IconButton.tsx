@@ -40,7 +40,7 @@ export const IconButton = styled('button', {
   '&:disabled': {
     pointerEvents: 'none',
     backgroundColor: 'transparent',
-    color: '$gray',
+    color: '$surfaceGray',
   },
 
   variants: {

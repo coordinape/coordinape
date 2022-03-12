@@ -4,8 +4,6 @@ import {
   ApeDistributor__factory,
   ApeRouter,
   ApeRouter__factory,
-  ApeToken,
-  ApeToken__factory,
   ApeVaultFactoryBeacon,
   ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation,
@@ -13,141 +11,98 @@ import {
   ERC20,
   ERC20__factory,
 } from '@coordinape/hardhat/dist/typechain';
-import * as ethers from 'ethers';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { JsonRpcProvider } from '@ethersproject/providers';
+import debug from 'debug';
 
-import { getToken, NetworkId } from 'config/networks';
+import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
-type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
+const log = debug('coordinape:contracts');
+
+export const supportedChainIds: number[] =
+  Object.keys(deploymentInfo).map(Number);
 
 export class Contracts {
-  usdc: ERC20;
-  apeToken: ApeToken;
-  apeVaultFactory: ApeVaultFactoryBeacon;
-  apeRouter: ApeRouter;
-  apeDistributor: ApeDistributor;
+  vaultFactory: ApeVaultFactoryBeacon;
+  router: ApeRouter;
+  distributor: ApeDistributor;
 
-  // TODO this might not be quite the right way to do this, as the signer/provider
-  // used to create the contracts also has a network associated with it
-  networkId: NetworkId;
+  // TODO this might not be quite the right way to do this, as the
+  // signer/provider used to create the contracts also has a network associated
+  // with it
+  chainId: number;
 
-  signerOrProvider: SignerOrProvider;
+  provider: JsonRpcProvider;
+  signer: Signer;
 
-  constructor(
-    contracts: {
-      usdc: ERC20;
-      apeToken: ApeToken;
-      apeVaultFactory: ApeVaultFactoryBeacon;
-      apeRouter: ApeRouter;
-      apeDistributor: ApeDistributor;
-    },
-    networkId: NetworkId,
-    signerOrProvider: SignerOrProvider
-  ) {
-    this.usdc = contracts.usdc;
-    this.apeToken = contracts.apeToken;
-    this.apeVaultFactory = contracts.apeVaultFactory;
-    this.apeRouter = contracts.apeRouter;
-    this.apeDistributor = contracts.apeDistributor;
-    this.networkId = networkId;
-    this.signerOrProvider = signerOrProvider;
-  }
+  constructor(chainId: number, provider: JsonRpcProvider) {
+    this.chainId = chainId;
+    this.provider = provider;
+    this.signer = provider.getSigner();
 
-  connect(signer: ethers.Signer): void {
-    this.usdc = this.usdc.connect(signer);
-    this.apeToken = this.apeToken.connect(signer);
-    this.apeVaultFactory = this.apeVaultFactory.connect(signer);
-    this.apeRouter = this.apeRouter.connect(signer);
-    this.apeDistributor = this.apeDistributor.connect(signer);
+    const info = (deploymentInfo as any)[chainId];
+    if (!info) {
+      throw new Error(`No info for chain ${chainId}`);
+    }
+    this.vaultFactory = ApeVaultFactoryBeacon__factory.connect(
+      info.ApeVaultFactoryBeacon.address,
+      this.signer
+    );
+    this.router = ApeRouter__factory.connect(
+      info.ApeRouter.address,
+      this.signer
+    );
+    this.distributor = ApeDistributor__factory.connect(
+      info.ApeDistributor.address,
+      this.signer
+    );
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(
       address,
-      this.signerOrProvider
+      this.provider
     );
   }
 
+  getToken(symbol: string) {
+    const info = (deploymentInfo as any)[this.chainId];
+    let { address } = info[symbol] || {};
+
+    // workaround for mainnet-forked testchains
+    if (
+      !address &&
+      [HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID].includes(this.chainId)
+    ) {
+      address = (deploymentInfo as any)[1][symbol]?.address;
+      if (!address)
+        throw new Error(
+          `No info for token "${symbol}" on chain ${this.chainId}`
+        );
+      log(
+        `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
+      );
+    }
+
+    return this.getERC20(address);
+  }
+
   getERC20(address: string): ERC20 {
-    return ERC20__factory.connect(address, this.signerOrProvider);
+    return ERC20__factory.connect(address, this.signer);
   }
 
   getMyAddress() {
-    return this.signerOrProvider instanceof ethers.ethers.Signer
-      ? this.signerOrProvider.getAddress()
-      : undefined;
+    return this.signer.getAddress();
   }
 
   async getETHBalance(address?: string) {
-    if (this.signerOrProvider instanceof ethers.ethers.Signer) {
-      if (!address) return this.signerOrProvider.getBalance('latest');
-      return this.signerOrProvider.provider?.getBalance(address, 'latest');
-    }
+    if (!address && this.signer) return this.signer.getBalance('latest');
 
     if (!address) {
       throw new Error(
         'address argument is required when signer is not available'
       );
     }
-    return this.signerOrProvider.getBalance(address, 'latest');
-  }
-
-  static fromNetwork(
-    networkId: NetworkId,
-    signerOrProvider: SignerOrProvider
-  ): Contracts {
-    return Contracts.fromAddresses(
-      {
-        apeToken: (deploymentInfo as any)[networkId].ApeToken.address,
-        apeVaultFactory: (deploymentInfo as any)[networkId]
-          .ApeVaultFactoryBeacon.address,
-        apeRouter: (deploymentInfo as any)[networkId].ApeRouter.address,
-        apeDistributor: (deploymentInfo as any)[networkId].ApeDistributor
-          .address,
-        usdc: getToken(networkId, 'USDC').address,
-      },
-      signerOrProvider,
-      networkId
-    );
-  }
-
-  static fromAddresses(
-    addresses: {
-      usdc: string;
-      apeToken: string;
-      apeVaultFactory: string;
-      apeRouter: string;
-      apeDistributor: string;
-    },
-    signerOrProvider: SignerOrProvider,
-    networkId: NetworkId
-  ): Contracts {
-    const usdc = ERC20__factory.connect(addresses.usdc, signerOrProvider);
-    const apeToken = ApeToken__factory.connect(
-      addresses.apeToken,
-      signerOrProvider
-    );
-    const apeVaultFactory = ApeVaultFactoryBeacon__factory.connect(
-      addresses.apeVaultFactory,
-      signerOrProvider
-    );
-    const apeRouter = ApeRouter__factory.connect(
-      addresses.apeRouter,
-      signerOrProvider
-    );
-    const apeDistributor = ApeDistributor__factory.connect(
-      addresses.apeDistributor,
-      signerOrProvider
-    );
-    return new Contracts(
-      {
-        usdc,
-        apeToken,
-        apeVaultFactory,
-        apeRouter,
-        apeDistributor,
-      },
-      networkId,
-      signerOrProvider
-    );
+    return this.provider.getBalance(address, 'latest');
   }
 }

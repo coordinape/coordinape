@@ -1,32 +1,21 @@
 /* eslint-disable no-console */
 
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { task, HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
-  USDC_WHALE_ADDRESS,
-  USDC_ADDRESS,
   ETHEREUM_RPC_URL,
   FORKED_BLOCK,
   FORK_MAINNET,
+  GANACHE_NETWORK_NAME,
   GANACHE_URL,
+  HARDHAT_OWNER_ADDRESS,
 } from './constants';
-
-export async function unlockSigner(
-  address: string,
-  hre: HardhatRuntimeEnvironment
-): Promise<ethers.Signer> {
-  await hre.network.provider.request({
-    method: 'hardhat_impersonateAccount',
-    params: [address],
-  });
-  return hre.ethers.provider.getSigner(address);
-}
+import { unlockSigner } from './utils/unlockSigner';
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -42,52 +31,90 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
   });
 });
 
-task('mint', 'Mints the given token to specified account')
-  .addParam('token', 'The token to mint')
-  .addParam('receiver', 'The receiver of the minted token')
-  .addParam('amount', 'The amount of tokens to mint')
-  .setAction(
-    async (args: { token: string; receiver: string; amount: string }, hre) => {
-      // patch provider so that impersonation would work
-      hre.ethers.provider = new ethers.providers.JsonRpcProvider(
-        hre.ethers.provider.connection.url
-      );
+// FIXME: DRY
+const tokens = {
+  DAI: {
+    addr: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+    whale: '0x8d6f396d210d385033b348bcae9e4f9ea4e045bd',
+  },
+  USDC: {
+    addr: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+    whale: '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',
+  },
+};
 
+task('mine', 'Mine a block').setAction(async (_, hre) => {
+  await hre.network.provider.request({
+    method: 'evm_mine',
+    params: [1],
+  });
+  console.log(await hre.ethers.provider.getBlockNumber());
+});
+
+task('balance', 'Show token balance')
+  .addParam('token', 'The token symbol')
+  .addParam('address', 'The address to check')
+  .setAction(async (args: { token: 'USDC' | 'DAI'; address: string }, hre) => {
+    const contract = new ethers.Contract(
+      tokens[args.token].addr,
+      [
+        'function balanceOf(address) view returns (uint256)',
+        'function decimals() view returns (uint8)',
+      ],
+      hre.ethers.provider
+    );
+    const decimals = await contract.decimals();
+    console.log(
+      (await contract.balanceOf(args.address))
+        .div(BigNumber.from(10).pow(decimals))
+        .toNumber()
+    );
+  });
+
+task('mint', 'Mints the given token to specified account')
+  .addParam('token', 'The token symbol')
+  .addParam('address', 'The recipient', HARDHAT_OWNER_ADDRESS)
+  .addParam('amount', 'The amount to mint')
+  .setAction(
+    async (args: { token: string; address: string; amount: string }, hre) => {
       const mintEth = async (receiver: string, amount: string) => {
         const signers = await hre.ethers.getSigners();
-
-        const tx = {
+        await signers[0].sendTransaction({
           to: receiver,
           value: ethers.utils.parseEther(amount),
-        };
-
-        await signers[0].sendTransaction(tx);
-
-        console.log(`Minted ${amount} ETH to ${receiver} successfully!`);
+        });
+        console.log(`Sent ${amount} ETH to ${receiver}`);
       };
 
-      async function mintUsdc(receiver: string, amount: string): Promise<void> {
-        await mintEth(USDC_WHALE_ADDRESS, '1');
-        const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, hre);
-        const usdc = new ethers.Contract(
-          USDC_ADDRESS,
-          ['function transfer(address to, uint amount)'],
-          usdcWhale
+      const mintToken = async (
+        symbol: 'USDC' | 'DAI',
+        receiver: string,
+        amount: string
+      ) => {
+        const { whale, addr } = tokens[symbol];
+        await mintEth(whale, '0.1');
+        const sender = await unlockSigner(whale, hre);
+        const contract = new ethers.Contract(
+          addr,
+          [
+            'function transfer(address,uint)',
+            'function decimals() view returns (uint8)',
+          ],
+          sender
         );
-
-        const usdcAmount = ethers.utils.parseUnits(amount, 'mwei');
-
-        await usdc.transfer(receiver, usdcAmount);
-
-        console.log(`Minted ${amount} USDC to ${receiver} successfully!`);
-      }
+        const decimals = await contract.decimals();
+        const wei = BigNumber.from(10).pow(decimals).mul(amount);
+        await contract.transfer(receiver, wei);
+        console.log(`Sent ${amount} ${symbol} to ${receiver}`);
+      };
 
       switch (args.token) {
         case 'USDC':
-          await mintUsdc(args.receiver, args.amount);
+        case 'DAI':
+          await mintToken(args.token, args.address, args.amount);
           break;
         case 'ETH':
-          await mintEth(args.receiver, args.amount);
+          await mintEth(args.address, args.amount);
           break;
         default:
           console.error(`Unknown token name: ${args.token}`);
@@ -96,13 +123,12 @@ task('mint', 'Mints the given token to specified account')
     }
   );
 
-const hardhatNetwork = {
+const sharedNetworkSettings = {
   live: false,
   allowUnlimitedContractSize: true,
   gas: 'auto' as const,
   gasPrice: 'auto' as const,
   gasMultiplier: 1,
-  chainId: 1337,
   accounts: {
     mnemonic: 'coordinape',
   },
@@ -136,7 +162,8 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      ...hardhatNetwork,
+      ...sharedNetworkSettings,
+      chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
       forking: FORK_MAINNET
         ? {
             url: ETHEREUM_RPC_URL,
@@ -144,8 +171,9 @@ const config: HardhatUserConfig = {
           }
         : undefined,
     },
-    ci: {
-      ...hardhatNetwork,
+    [GANACHE_NETWORK_NAME]: {
+      ...sharedNetworkSettings,
+      chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
     },
   },

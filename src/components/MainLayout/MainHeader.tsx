@@ -135,7 +135,7 @@ export const MainHeader = () => {
           css={{
             height: '100vh',
             position: 'relative',
-            backgroundColor: '$gray',
+            backgroundColor: '$surfaceGray',
           }}
         >
           <Box
@@ -143,7 +143,7 @@ export const MainHeader = () => {
               display: 'flex',
               flexDirection: 'column',
               position: 'absolute',
-              backgroundColor: '$gray',
+              backgroundColor: '$surfaceGray',
               height: '85%',
               width: '100%',
               overflow: 'scroll',

@@ -44,6 +44,13 @@ array_relationships:
       remote_table:
         name: epoches
         schema: public
+- name: integrations
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: circle_integrations
+        schema: public
 - name: pending_token_gifts
   using:
     foreign_key_constraint_on:

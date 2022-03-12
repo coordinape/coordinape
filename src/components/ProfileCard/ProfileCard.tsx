@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
@@ -13,10 +15,13 @@ import {
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
+import { useContributions } from 'hooks/useContributions';
+import { rLocalGift } from 'recoilState';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
+import { ContributionSummary } from './ContributionSummary';
 import { GiftInput } from './GiftInput';
 
 import { IUser } from 'types';
@@ -91,6 +96,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     WebkitLineClamp: 4,
     wordBreak: 'break-word',
+    width: '100%',
+    overflowY: 'auto',
   },
   editButton: {
     margin: theme.spacing(7, 0, 2),
@@ -104,20 +111,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-type TUpdateGift = ({
-  note,
-  tokens,
-}: {
-  note?: string;
-  tokens?: number;
-}) => void;
-
-export const ProfileCard = ({
+const ProfileCardInner = ({
   user,
   tokens,
   note,
   disabled,
-  updateGift,
+  circleId,
   isMe,
   tokenName,
 }: {
@@ -125,7 +124,7 @@ export const ProfileCard = ({
   tokens: number;
   note: string;
   disabled?: boolean;
-  updateGift?: TUpdateGift;
+  circleId: number;
   isMe?: boolean;
   tokenName: string;
 }) => {
@@ -138,6 +137,17 @@ export const ProfileCard = ({
 
   const hideUserBio =
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
+
+  const contributions = useContributions(user.address);
+  const [gift, setGift] = useRecoilState(rLocalGift(user.id, circleId));
+
+  const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
+    setGift({
+      user,
+      note: note || gift.note || '',
+      tokens: tokens || gift.tokens || 0,
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -159,7 +169,9 @@ export const ProfileCard = ({
               },
               {
                 label: 'View Profile',
-                onClick: getToProfile({ address: isMe ? 'me' : user.address }),
+                onClick: getToProfile({
+                  address: isMe ? 'me' : user.address,
+                }),
               },
             ]}
           />
@@ -196,14 +208,16 @@ export const ProfileCard = ({
       </div>
 
       <div className={classes.bio}>
-        {isMe && !user.bio ? (
+        {contributions?.contributions.length ? (
+          <ContributionSummary contributions={contributions} />
+        ) : isMe && !user.bio ? (
           'Your Epoch Statement is Blank'
         ) : (
           <ReadMore isHidden={hideUserBio}>{user.bio}</ReadMore>
         )}
       </div>
 
-      {!disabled && updateGift && (
+      {!disabled && !isMe && (
         <GiftInput
           tokens={
             user.fixed_non_receiver || user.non_receiver ? undefined : tokens
@@ -241,3 +255,6 @@ export const ProfileCard = ({
     </div>
   );
 };
+
+export const ProfileCard = React.memo(ProfileCardInner);
+ProfileCard.displayName = 'ProfileCard';

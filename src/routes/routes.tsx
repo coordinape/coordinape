@@ -9,8 +9,10 @@ import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributePage from 'pages/DistributePage';
 import HistoryPage from 'pages/HistoryPage';
+import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
+import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 import VouchingPage from 'pages/VouchingPage';
 import {
   useMyProfile,
@@ -19,7 +21,13 @@ import {
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 
-import * as paths from './paths';
+import {
+  paths,
+  getCreateCirclePath,
+  getProfilePath,
+  getMapPath,
+  getDistributePath,
+} from './paths';
 
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
@@ -34,15 +42,12 @@ export const AppRoutes = () => {
     <LoggedInRoutes />
   ) : (
     <Routes>
+      <Route path={getCreateCirclePath()} element={<CreateCirclePage />} />
       <Route
-        path={paths.getCreateCirclePath()}
-        element={<CreateCirclePage />}
-      />
-      <Route
-        path={paths.getProfilePath({ address: ':profileAddress' })}
+        path={getProfilePath({ address: ':profileAddress' })}
         element={<ProfilePage />}
       />
-      <Route path={paths.getHomePath()} element={<DefaultPage />} />
+      <Route path={paths.home} element={<DefaultPage />} />
     </Routes>
   );
 };
@@ -54,40 +59,43 @@ const LoggedInRoutes = () => {
 
   return (
     <Routes>
-      <Route path={paths.getHomePath()} element={<DefaultPage />} />
+      <Route path={paths.home} element={<DefaultPage />} />
+      <Route path={getCreateCirclePath()} element={<CreateCirclePage />} />
       <Route
-        path={paths.getCreateCirclePath()}
-        element={<CreateCirclePage />}
-      />
-      <Route
-        path={paths.getProfilePath({ address: ':profileAddress' })}
+        path={getProfilePath({ address: ':profileAddress' })}
         element={<ProfilePage />}
       />
-      <Route path={paths.getMapPath()} element={<LazyAssetMapPage />} />
-      <Route path={paths.getVouchingPath()} element={<VouchingPage />} />
-      <Route path={paths.getHistoryPath()} element={<HistoryPage />} />
-      <Route path={paths.getAllocationPath()} element={<AllocationPage />} />
-      <Route path={paths.getMyTeamPath()} element={<AllocationPage />} />
-      <Route path={paths.getMyEpochPath()} element={<AllocationPage />} />
-      <Route path={paths.getGivePath()} element={<AllocationPage />} />
+      <Route path={getMapPath()} element={<LazyAssetMapPage />} />
+      <Route path={paths.vouching} element={<VouchingPage />} />
+      <Route path={paths.history} element={<HistoryPage />} />
+      <Route path={paths.allocation} element={<AllocationPage />} />
+      <Route path={paths.team} element={<AllocationPage />} />
+      <Route path={paths.epoch} element={<AllocationPage />} />
+      <Route path={paths.give} element={<AllocationPage />} />
       <Route
-        path={paths.getAdminPath()}
+        path={paths.admin}
         element={
           selectedUser && !hasAdminView ? (
-            <Navigate to={paths.getHomePath()} replace />
+            <Navigate to={paths.home} replace />
           ) : (
             <AdminPage legacy={true} />
           )
         }
       />
-      <Route path={paths.getCirclesPath()} element={<CirclesPage />} />
-      <Route path={paths.getVaultsPath()} element={<VaultsPage />} />
+      <Route path={paths.circles} element={<CirclesPage />} />
+      <Route path={paths.vaults} element={<VaultsPage />} />
+      <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
+      <Route path={paths.adminCircles} element={<AdminPage />} />
       <Route
-        path={paths.getDistributePath(':epochId')}
+        path={paths.connectIntegration}
+        element={<IntegrationCallbackPage />}
+      />
+      <Route
+        path={getDistributePath(':epochId')}
         element={<DistributePage />}
       />
 
-      <Route path="*" element={<Navigate to={paths.getHomePath()} replace />} />
+      <Route path="*" element={<Navigate to={paths.home} replace />} />
     </Routes>
   );
 };

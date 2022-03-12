@@ -1,6 +1,11 @@
-import { Thunder, apiFetch, ValueTypes } from './zeusUser';
+import { useMemo } from 'react';
 
-const makeQuery = (url: string, getToken: () => string) =>
+import { REACT_APP_HASURA_URL } from 'config/env';
+import { getAuthToken } from 'services/api';
+
+import { Thunder, apiFetch, ValueTypes, $ } from './zeusUser';
+
+const makeQuery = (url: string, getToken: () => string | undefined) =>
   Thunder(
     apiFetch([
       url,
@@ -13,7 +18,7 @@ const makeQuery = (url: string, getToken: () => string) =>
     ])
   );
 
-export function getGql(url: string, getToken: () => string) {
+export function getGql(url: string, getToken: () => string | undefined) {
   const updateProfile = async (
     id: number,
     profile: ValueTypes['profiles_set_input']
@@ -25,15 +30,73 @@ export function getGql(url: string, getToken: () => string) {
       ],
     });
 
-  return { updateProfile };
+  const updateProfileAvatar = async (image_data_base64: string) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        upload_profile_avatar: [
+          { object: { image_data_base64: $`image_data_base64` } },
+          { id: true },
+        ],
+      },
+      {
+        variables: {
+          image_data_base64,
+        },
+      }
+    );
+
+  const updateProfileBackground = async (image_data_base64: string) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        upload_profile_background: [
+          { object: { image_data_base64: $`image_data_base64` } },
+          { id: true },
+        ],
+      },
+      {
+        variables: {
+          image_data_base64,
+        },
+      }
+    );
+
+  const createCircleIntegration = async (
+    circleId: number,
+    type: string,
+    name: string,
+    data: any
+  ) =>
+    makeQuery(url, getToken)('mutation')(
+      {
+        insert_circle_integrations_one: [
+          {
+            object: {
+              circle_id: circleId,
+              type,
+              name,
+              data: $`data`,
+            },
+          },
+          { id: true },
+        ],
+      },
+      { variables: { data } }
+    );
+
+  const deleteCircleIntegration = async (id: number) =>
+    makeQuery(url, getToken)('mutation')({
+      delete_circle_integrations_by_pk: [{ id }, { id: true }],
+    });
+
+  return {
+    updateProfile: updateProfile,
+    updateProfileAvatar,
+    updateProfileBackground,
+    createCircleIntegration,
+    deleteCircleIntegration,
+  };
 }
-/*
-example usage in app code:
 
-import { REACT_APP_HASURA_URL } from 'config/env';
-import { getAuthToken } from 'services/api';
-import { getGql } from 'lib/gql';
-
-const api = getApi(REACT_APP_HASURA_URL, getAuthToken);
-await api.updateProfile();
-*/
+export function useApi() {
+  return useMemo(() => getGql(REACT_APP_HASURA_URL, getAuthToken), []);
+}

@@ -2,6 +2,8 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
+// import { colors } from 'ui/colors';
+
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
   sm: '(max-width: 900px)',
@@ -71,10 +73,9 @@ export const {
       gray400: '#B5BBBD',
 
       lightBackground: '#E1E1E1',
+      surfaceGray: '#eef3f4',
       subtleGray: '#F5F5F5',
-      almostWhite: '#F6F7F8',
-      third: '#EAEAEB',
-      gray: '#EFF3F4',
+      almostWhite: '#fbfbfb',
 
       lightBorder: '#DEDEDE',
       lightGray: '#C3CDCF',
@@ -95,6 +96,8 @@ export const {
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
       green: '#29D07E',
+
+      // ...colors
     },
     space: {
       ...spaces,
@@ -103,6 +106,7 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      mediumScreen: '1280px',
       ...spaces,
     },
     radii: {
@@ -121,9 +125,8 @@ export const {
       5: '19px',
       6: '20px',
       7: '21px',
-      8: '27px',
+      8: '30px',
       9: '35px',
-      10: '59px',
     },
     fontWeights: {
       hairline: 100,
@@ -146,19 +149,6 @@ export const {
       tall2: 1.75,
       taller: '2',
     },
-    letterSpacings: {
-      tighter: '-0.05em',
-      tight: '-0.025em',
-      normal: '0',
-      wide: '0.025em',
-      wider: '0.05em',
-      widest: '0.1em',
-    },
-    borderWidths: {},
-    borderStyles: {},
-    shadows: {},
-    zIndices: {},
-    transitions: {},
   },
   media: {
     ...MediaQueryKeys,

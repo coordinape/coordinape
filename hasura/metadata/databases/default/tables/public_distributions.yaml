@@ -1,0 +1,3 @@
+table:
+  name: distributions
+  schema: public

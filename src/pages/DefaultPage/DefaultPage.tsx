@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
@@ -12,7 +12,7 @@ import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 import { getNavigationFooter } from 'routes/paths';
 import * as paths from 'routes/paths';
-import { shortenAddress } from 'utils';
+import { Box } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,13 +20,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  header: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingTop: 70,
-    maxWidth: '60%',
-    textAlign: 'center',
   },
   title: {
     fontSize: 34,
@@ -43,7 +36,6 @@ const useStyles = makeStyles(theme => ({
   },
   welcomeSection: {
     width: '100%',
-    maxWidth: 480,
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'column',
@@ -107,21 +99,35 @@ export const DefaultPage = () => {
   const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
   const hasCircles = useHasCircles();
 
+  const Wrapper = ({ children }: { children: ReactNode }) => (
+    <div className={classes.root}>
+      <Box
+        css={{
+          maxWidth: '700px',
+          mx: 'auto',
+          pt: '$2xl',
+          px: '$lg',
+          textAlign: 'center',
+        }}
+      >
+        {children}
+        <Footer />
+      </Box>
+    </div>
+  );
+
   // TODO: Split these off into separate components..
   // But also Alex Ryan likes the idea of us making this more useful.
   if (!authToken) {
     return (
-      <div className={classes.root}>
-        <div className={classes.header}>
-          <p className={classes.title}>Reward Your Fellow Contributors</p>
-          <p className={classes.subTitle}>
-            {!web3Context.account
-              ? 'Connect your wallet to participate.'
-              : 'Login to Coordinape'}
-          </p>
-        </div>
-        <Footer />
-      </div>
+      <Wrapper>
+        <p className={classes.title}>Reward Your Fellow Contributors</p>
+        <p className={classes.subTitle}>
+          {!web3Context.account
+            ? 'Connect your wallet to participate.'
+            : 'Login to Coordinape'}
+        </p>
+      </Wrapper>
     );
   }
 
@@ -133,59 +139,48 @@ export const DefaultPage = () => {
   // https://github.com/coordinape/coordinape-backend/issues/69
   if (hasCircles && !selectedCircle) {
     return (
-      <div className={classes.root}>
-        <div className={classes.header}>
-          <p className={classes.title}>Welcome!</p>
-          <div className={classes.welcomeSection}>
-            <p className={classes.welcomeText}>
-              Select a circle to begin from the avatar menu in the top right.
-            </p>
-          </div>
+      <Wrapper>
+        <p className={classes.title}>Welcome!</p>
+        <div className={classes.welcomeSection}>
+          <p className={classes.welcomeText}>
+            Select a circle to begin from the avatar menu in the top right.
+          </p>
         </div>
-        <Footer />
-      </div>
+      </Wrapper>
     );
   }
 
   if (!selectedCircle) {
     return (
-      <div className={classes.root}>
-        <div className={classes.header}>
-          <p className={classes.title}>Welcome!</p>
-          <div className={classes.welcomeSection}>
-            <p className={classes.welcomeText}>
-              This wallet isn&apos;t associated with a circle.
-            </p>
-            <p className={classes.welcomeText}>
-              If you are supposed to be part of a circle already, contact your
-              circle&apos;s admin to make sure they added this address:{' '}
-              {shortenAddress(myProfile.address)}
-            </p>
-            <p className={classes.welcomeText}>Or, create a new circle.</p>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => navigate(paths.getCreateCirclePath())}
-              className={classes.startCircle}
-            >
-              Start a Circle
-            </Button>
-          </div>
+      <Wrapper>
+        <p className={classes.title}>Welcome!</p>
+        <div className={classes.welcomeSection}>
+          <p className={classes.welcomeText}>
+            This wallet isn&apos;t associated with a circle.
+          </p>
+          <p className={classes.welcomeText}>
+            If you are supposed to be part of a circle already, contact your
+            circle&apos;s admin to make sure they added this address:{' '}
+            {myProfile.address}
+          </p>
+          <p className={classes.welcomeText}>Or, create a new circle.</p>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(paths.getCreateCirclePath())}
+            className={classes.startCircle}
+          >
+            Start a Circle
+          </Button>
         </div>
-        <Footer />
-      </div>
+      </Wrapper>
     );
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.header}>
-        <p className={classes.title}>
-          Welcome to {selectedCircle.circle.name}!
-        </p>
-      </div>
-      <Footer />
-    </div>
+    <Wrapper>
+      <p className={classes.title}>Welcome to {selectedCircle.circle.name}!</p>
+    </Wrapper>
   );
 };
 
