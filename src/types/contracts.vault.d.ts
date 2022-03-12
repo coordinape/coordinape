@@ -23,4 +23,5 @@ export interface IVault {
   // note that this won't work anymore as a single field
   // if we start using vaults with both token & simpleToken
   decimals: number;
+  symbol?: string;
 }

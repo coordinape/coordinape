@@ -136,7 +136,7 @@ function DistributePage() {
 
   vaultOptions = vaults.map((vault, index) => ({
     value: index,
-    label: vault.type,
+    label: vault.symbol || '...',
     id: vault.id,
   }));
 
@@ -302,7 +302,7 @@ function DistributePage() {
               totalAmountInVault={updateAmount}
               tokenName={
                 selectedVaultId
-                  ? vaults.find(vault => vault.id === selectedVaultId)?.type
+                  ? vaults.find(vault => vault.id === selectedVaultId)?.symbol
                   : undefined
               }
               totalGive={totalGive}
