@@ -265,3 +265,73 @@ export async function insertCircleWithAdmin(
 
   return retVal;
 }
+
+export async function insertVouch(nomineeId: number, voucherId: number) {
+  const { insert_vouches_one } = await adminClient.mutate({
+    insert_vouches_one: [
+      {
+        object: {
+          nominee_id: nomineeId,
+          voucher_id: voucherId,
+        },
+      },
+      {
+        id: true,
+        nominee: {
+          id: true,
+          address: true,
+          name: true,
+          circle_id: true,
+          user_id: true,
+          ended: true,
+          vouches_required: true,
+          nominated_by_user_id: true,
+          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        },
+      },
+    ],
+  });
+  return insert_vouches_one;
+}
+
+export async function insertUser(
+  address: string,
+  name: string,
+  circleId: number
+) {
+  const { insert_users_one } = await adminClient.mutate({
+    insert_users_one: [
+      {
+        object: {
+          address: address,
+          circle_id: circleId,
+          name: name,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return insert_users_one;
+}
+
+export async function updateNomineeUser(nomineeId: number, userId: number) {
+  const { update_nominees_by_pk } = await adminClient.mutate({
+    update_nominees_by_pk: [
+      {
+        pk_columns: {
+          id: nomineeId,
+        },
+        _set: {
+          user_id: userId,
+          ended: true,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return update_nominees_by_pk;
+}
