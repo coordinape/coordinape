@@ -3,7 +3,8 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import { gql } from '../../../api-lib/Gql';
+import { adminClient } from '../../../api-lib/gql/adminClient';
+import * as queries from '../../../api-lib/gql/queries';
 import {
   zodParserErrorResponse,
   errorResponse,
@@ -29,7 +30,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     const { circle_id } = payload;
     const { hasuraAddress: address } = session_variables;
 
-    const user = await gql.getUserAndCurrentEpoch(address, circle_id);
+    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
     if (!user) {
       return errorResponse(response, {
         message: `User with address ${address} does not exist`,
@@ -39,7 +40,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     // Update the state after all external validations have passed
 
-    const mutationResult = await gql.q('mutation')({
+    const mutationResult = await adminClient.mutate({
       update_users: [
         {
           _set: {

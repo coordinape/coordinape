@@ -14,9 +14,9 @@ import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegr
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
 import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
+import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { GraphQLTypes } from '../../../src/lib/gql/__generated__/zeusAdmin';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
