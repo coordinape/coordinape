@@ -186,12 +186,21 @@ export async function getNominee(id: number) {
     nominees_by_pk: [
       { id },
       {
+        id: true,
+        address: true,
         name: true,
         circle_id: true,
         nominator: {
           name: true,
         },
+        user_id: true,
+        ended: true,
+        vouches_required: true,
+        nominated_by_user_id: true,
         nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+        circle: {
+          only_giver_vouch: true,
+        },
       },
     ],
   });
@@ -239,4 +248,23 @@ export async function checkAddressAdminInOrg(
     ],
   });
   return profiles.length > 0;
+}
+
+export async function getExistingVouch(nomineeId: number, voucherId: number) {
+  return adminClient.query({
+    vouches: [
+      {
+        where: {
+          nominee_id: { _eq: nomineeId },
+          voucher_id: { _eq: voucherId },
+        },
+      },
+      {
+        id: true,
+        voucher: {
+          name: true,
+        },
+      },
+    ],
+  });
 }
