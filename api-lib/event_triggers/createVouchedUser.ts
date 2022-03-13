@@ -3,7 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../gql/adminClient';
-import * as queries from '../api-lib/gql/queries';
+import * as queries from '../gql/queries';
 import { EventTriggerPayload } from '../types';
 import { verifyHasuraRequestMiddleware } from '../validate';
 

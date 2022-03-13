@@ -1,7 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getUserFromProfileId } from '../../../api-lib/findUser';
-import { gql } from '../../../api-lib/Gql';
+import * as mutations from '../../../api-lib/gql/mutations';
+import * as queries from '../../../api-lib/gql/queries';
 import {
   BadRequestError,
   errorResponse,
@@ -81,7 +82,7 @@ async function validate(nomineeId: number, voucherProfileId: number) {
     );
   }
 
-  const { vouches } = await gql.getExistingVouch(nomineeId, voucher.id);
+  const { vouches } = await queries.getExistingVouch(nomineeId, voucher.id);
 
   if (vouches.pop()) {
     throw new ForbiddenError('voucher has already vouched for this nominee');
@@ -96,7 +97,7 @@ async function vouch(nomineeId: number, voucher: Voucher) {
   // vouch for the nominee
 
   // this inserts the vouch and also fetches the nominee with updated vouch count
-  const insert_vouches = await gql.insertVouch(nomineeId, voucher.id);
+  const insert_vouches = await mutations.insertVouch(nomineeId, voucher.id);
   if (!insert_vouches?.nominee) {
     throw new InternalServerError('unable to add vouch');
   }
@@ -118,7 +119,7 @@ async function convertNomineeToUser(nominee: Nominee) {
   // Get the nominee into the user table
   let userId = nominee.user_id;
   if (!userId) {
-    const addedUser = await gql.insertUser(
+    const addedUser = await mutations.insertUser(
       nominee.address,
       nominee.name,
       nominee.circle_id
@@ -132,7 +133,7 @@ async function convertNomineeToUser(nominee: Nominee) {
   // The profile is automatically created by the createProfile event trigger, if needed
 
   // attach the user id to the nominee, and mark the nomination ended
-  const updatedNominee = await gql.updateNomineeUser(nominee.id, userId);
+  const updatedNominee = await mutations.updateNomineeUser(nominee.id, userId);
   if (!updatedNominee) {
     throw new InternalServerError('unable to update nominee userId');
   }
@@ -143,7 +144,7 @@ async function convertNomineeToUser(nominee: Nominee) {
 }
 
 async function getNominee(nomineeId: number) {
-  const nom = await gql.getNominee(nomineeId);
+  const nom = await queries.getNominee(nomineeId);
   if (!nom.nominees_by_pk) {
     throw `nominee ${nomineeId} not found`;
   }
