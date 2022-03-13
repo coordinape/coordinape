@@ -2,9 +2,9 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { ValueTypes } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
 import * as queries from '../gql/queries';
-import { ValueTypes } from '../../src/lib/gql/__generated__/zeusAdmin';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 

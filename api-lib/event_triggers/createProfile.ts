@@ -1,9 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { adminClient } from '../../gql/adminClient';
-import { EventTriggerPayload } from '../../types';
-import { verifyHasuraRequestMiddleware } from '../../validate';
-import { profiles_constraint } from '../../../src/lib/gql/__generated__/zeusAdmin';
+import { profiles_constraint } from '../gql/__generated__/zeus';
+import { adminClient } from '../gql/adminClient';
+import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
