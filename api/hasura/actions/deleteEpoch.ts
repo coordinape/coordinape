@@ -4,10 +4,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { gql } from '../../../api-lib/Gql';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
-  ErrorResponse,
-  ErrorResponseWithStatusCode,
+  errorResponse,
+  errorResponseWithStatusCode,
 } from '../../../api-lib/HttpError';
 import {
   deleteEpochInput,
@@ -21,7 +21,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     } = composeHasuraActionRequestBody(deleteEpochInput).parse(request.body);
 
     const { circle_id, id } = input;
-    const { delete_epochs } = await gql.q('mutation')({
+    const { delete_epochs } = await adminClient.mutate({
       delete_epochs: [
         {
           where: {
@@ -43,13 +43,13 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       .json({ success: delete_epochs.affected_rows > 0 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return ErrorResponseWithStatusCode(
+      return errorResponseWithStatusCode(
         response,
         { message: 'Invalid input' },
         422
       );
     }
-    return ErrorResponse(response, err);
+    return errorResponse(response, err);
   }
 }
 
