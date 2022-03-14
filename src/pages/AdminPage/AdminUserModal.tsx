@@ -51,11 +51,6 @@ export const AdminUserModal = ({
   const { circle: selectedCircle, circleId } = useSelectedCircle();
   const { updateUser, createUser } = useApiAdminCircle(circleId);
 
-  const [cachedOptOutStatus] = useState(
-    !!user?.fixed_non_receiver ||
-      !!user?.non_receiver ||
-      !selectedCircle.default_opt_in
-  );
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
@@ -64,6 +59,10 @@ export const AdminUserModal = ({
     setHasAcceptedOptOutWarning(false);
   }, [user?.address]);
 
+  const isOptedOut =
+    !!user?.fixed_non_receiver ||
+    !!user?.non_receiver ||
+    !selectedCircle.default_opt_in;
   const hasGiveAllocated = !!user?.give_token_received;
   const userIsAccount =
     account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
@@ -83,8 +82,8 @@ export const AdminUserModal = ({
         hideFieldErrors
         submit={params => {
           const showWarning =
-            cachedOptOutStatus !== params.non_receiver && hasGiveAllocated;
-          if (showWarning && !hasAcceptedOptOutWarning) {
+            isOptedOut && hasGiveAllocated && !hasAcceptedOptOutWarning;
+          if (showWarning) {
             setShowOptOutChangeWarning(true);
           } else {
             setShowOptOutChangeWarning(false);
