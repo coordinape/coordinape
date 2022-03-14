@@ -21,6 +21,17 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createEpoch'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
+  comment: createEpoch
 - name: createNominee
   definition:
     kind: synchronous
@@ -117,6 +128,7 @@ custom_types:
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
+  - name: CreateEpochInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -192,6 +204,16 @@ custom_types:
         schema: public
         name: nominees
       name: nominee
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: EpochResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: epoches
+      name: epoch
       source: default
       type: object
       field_mapping:
