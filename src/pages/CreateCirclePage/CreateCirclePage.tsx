@@ -230,7 +230,7 @@ export const SummonCirclePage = () => {
                   </div>
                   <a
                     className={classes.link}
-                    href={paths.EXTERNAL_URL_DISCORD}
+                    href={paths.EXTERNAL_URL_DISCORD_SUPPORT}
                     rel="noreferrer"
                     target="_blank"
                   >
