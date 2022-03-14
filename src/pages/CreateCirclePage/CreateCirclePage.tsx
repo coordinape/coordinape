@@ -13,6 +13,7 @@ import {
 } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile, useApiBase } from 'hooks';
+import { DiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
 
@@ -71,6 +72,34 @@ const useStyles = makeStyles(theme => ({
   },
   saveButton: {
     margin: theme.spacing(3, 0, 5),
+  },
+  titleSupport: {
+    fontSize: 20,
+    lineHeight: 1,
+    fontWeight: 300,
+    color: theme.colors.primary,
+    margin: theme.spacing(7, 2, 4),
+  },
+  label: {
+    fontSize: 16,
+    lineHeight: 1.3,
+    fontWeight: 700,
+    color: theme.colors.text,
+  },
+  subLabel: {
+    padding: theme.spacing(0, 0, 1),
+    fontSize: 15,
+    lineHeight: 1,
+    color: theme.colors.text + '80',
+  },
+  discordButton: {
+    backgroundColor: '#5865F2',
+    width: '100%',
+    margin: theme.spacing(1),
+    borderRadius: 8,
+  },
+  link: {
+    width: '100%',
   },
 }));
 
@@ -183,12 +212,39 @@ export const SummonCirclePage = () => {
                   infoTooltip="A circle admin can add to an existing organization."
                 />
               )}
-              <FormTextField
-                {...fields.research_contact}
-                fullWidth
-                label="Circle Point of Contact"
-                placeholder="Discord, Telegram, email, etc."
-              />
+            </div>
+            <div className={classes.titleSupport}>Coordinape Support</div>
+            <div className={classes.bodyInner}>
+              <div className={classes.twoColumnGrid}>
+                <FormTextField
+                  {...fields.research_contact}
+                  fullWidth
+                  label="Circle Point of Contact"
+                  placeholder="Discord #0000, Telegram, Twitter or Email "
+                  subtitle="We use this as follow-up & support"
+                />
+                <div className={classes.root}>
+                  <div className={classes.label}>Need More Help?</div>
+                  <div className={classes.subLabel}>
+                    Join Our Discord for Information & Support
+                  </div>
+                  <a
+                    className={classes.link}
+                    href={paths.EXTERNAL_URL_DISCORD}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Button
+                      className={classes.discordButton}
+                      variant="contained"
+                      disableElevation
+                      startIcon={<DiscordIcon />}
+                    >
+                      Join Coordinape Discord
+                    </Button>
+                  </a>
+                </div>
+              </div>
             </div>
             <FormCaptcha {...fields.captcha_token} error={false} />
             <Button
