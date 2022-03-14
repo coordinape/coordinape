@@ -84,9 +84,14 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
       <Text
         font="source"
         bold
-        css={{ fontSize: '$5', mb: '$sm', textAlign: 'center' }}
+        css={{
+          display: 'block',
+          fontSize: '$5',
+          mb: '$sm',
+          textAlign: 'center',
+        }}
       >
-        Sorry, no token contracts found for this network.
+        Sorry, this network is not supported.
       </Text>
     );
 
