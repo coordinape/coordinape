@@ -220,7 +220,7 @@ export const SummonCirclePage = () => {
                   {...fields.research_contact}
                   fullWidth
                   label="Circle Point of Contact"
-                  placeholder="Discord, Telegram, email, etc."
+                  placeholder="Discord #0000, Telegram, Twitter or Email "
                   subtitle="We use this as follow-up & support"
                 />
                 <div className={classes.root}>
