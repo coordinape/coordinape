@@ -8,7 +8,7 @@ import {
   SnackbarKey,
 } from 'notistack';
 
-import { EXTERNAL_URL_DISCORD } from 'routes/paths';
+import { EXTERNAL_URL_DISCORD_SUPPORT } from 'routes/paths';
 
 interface IInnerProps {
   children: ReactNode;
@@ -83,8 +83,9 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
           <h1>Oh Geez!</h1>
           <h5>An uncaught error hit the react error boundary.</h5>
           <p>
-            Get technical support on <a href={EXTERNAL_URL_DISCORD}>Discord</a>{' '}
-            or refresh to return to the app.
+            Get technical support on{' '}
+            <a href={EXTERNAL_URL_DISCORD_SUPPORT}>Discord</a> or refresh to
+            return to the app.
           </p>
         </div>
         <div
