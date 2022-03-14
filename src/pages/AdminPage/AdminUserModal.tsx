@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { useEffect, useMemo, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
@@ -66,6 +64,10 @@ export const AdminUserModal = ({
     setHasAcceptedOptOutWarning(false);
   }, [user?.address]);
 
+  const hasGiveAllocated = !!user?.give_token_received;
+  const userIsAccount =
+    account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
+
   const source = useMemo(
     () => ({
       user: user,
@@ -73,12 +75,6 @@ export const AdminUserModal = ({
     }),
     [user, selectedCircle]
   );
-
-  const hasGiveAllocated = true;
-  const userIsAccount =
-    account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
-  console.log(userIsAccount, account, user?.address);
-  // console.log(user, cachedOptOutStatus, hasGiveAllocated);
 
   return (
     <>
@@ -88,7 +84,6 @@ export const AdminUserModal = ({
         submit={params => {
           const showWarning =
             cachedOptOutStatus !== params.non_receiver && hasGiveAllocated;
-          console.log(showWarning, !hasAcceptedOptOutWarning);
           if (showWarning && !hasAcceptedOptOutWarning) {
             setShowOptOutChangeWarning(true);
           } else {
