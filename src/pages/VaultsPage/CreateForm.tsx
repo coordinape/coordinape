@@ -77,7 +77,16 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
     control,
   });
 
-  if (!contracts) return null;
+  if (!contracts)
+    return (
+      <Text
+        font="source"
+        bold
+        css={{ fontSize: '$5', mb: '$sm', textAlign: 'center' }}
+      >
+        Sorry, no token contracts found for this network.
+      </Text>
+    );
 
   const pickAsset = (symbol: Asset | undefined, event?: MouseEvent) => {
     if (event) event.preventDefault();
