@@ -62,7 +62,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
             flexGrow: 1,
           }}
         >
-          {vault.type.toUpperCase()} Vault
+          {vault.symbol || '...'} Vault
         </Text>
         <Button color="red" size="small" onClick={() => setModal('deposit')}>
           Deposit
