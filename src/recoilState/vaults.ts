@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react';
+
 import { atom, useRecoilValue, useRecoilCallback } from 'recoil';
 
+import { useContracts } from 'hooks/useContracts';
 import storage from 'utils/storage';
 
 import { IVault } from 'types';
@@ -18,7 +21,28 @@ export const rVaults = atom({
 
 export const useVaults = (orgId: number | undefined) => {
   const vaults = useRecoilValue(rVaults);
-  return orgId ? vaults[orgId] : [];
+  const [orgVaults, setOrgVaults] = useState(orgId ? vaults[orgId] : []);
+
+  // look up custom vault symbols from chain.
+  // maybe in the future we can just store this in the DB instead
+  const contracts = useContracts();
+  useEffect(() => {
+    if (!contracts) return;
+    (async () => {
+      for (const vault of Object.values(orgVaults)) {
+        if (vault.type !== 'OTHER') {
+          vault.symbol = vault.type;
+        } else {
+          vault.symbol = await contracts
+            .getERC20(vault.simpleTokenAddress)
+            .symbol();
+        }
+      }
+      setOrgVaults([...orgVaults]);
+    })();
+  }, [contracts]);
+
+  return orgVaults;
 };
 
 export const useFakeVaultApi = () => {

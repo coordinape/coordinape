@@ -24,6 +24,29 @@ export const Text = styled('span', {
       default: {
         color: '$text',
       },
+      red: {
+        color: '$red',
+      },
+    },
+    bold: {
+      true: {
+        fontWeight: '$bold',
+      },
+    },
+    inline: {
+      true: {
+        display: 'inline',
+      },
+    },
+    variant: {
+      formLabel: {
+        color: '$gray400',
+        textTransform: 'uppercase',
+        fontSize: '$3',
+        fontFamily: 'Inter',
+        fontWeight: '$semibold',
+        mb: '$xs',
+      },
     },
   },
 

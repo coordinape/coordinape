@@ -8,6 +8,7 @@ export const OrgLayout = ({ children }: { children: ReactNode }) => {
     <Box
       css={{
         maxWidth: '$mediumScreen',
+        px: '$lg',
         margin: '$xl auto $lg',
         display: 'flex',
         flexDirection: 'column',
