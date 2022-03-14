@@ -68,10 +68,12 @@ export function useTypedMutation<
   );
 }
 
+// Leaving this in here for now but we should determine where global queries should go
 export function useCurrentOrg() {
   const id = useSelectedCircle().circle.protocol_id;
 
+  //return useQuery([`org-${id}`], () => client.query({ organizations_by_pk: [{ id }, { id: true, name: true }]}));
   return useTypedQuery(`org-${id}`, {
     organizations_by_pk: [{ id }, { id: true, name: true }],
-  }).data?.organizations_by_pk;
+  });
 }

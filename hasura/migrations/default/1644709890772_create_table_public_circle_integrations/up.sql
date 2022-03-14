@@ -1,1 +1,0 @@
-CREATE TABLE "public"."circle_integrations" ("id" bigserial NOT NULL, "circle_id" bigint NOT NULL, "name" text NOT NULL, "type" text NOT NULL, "data" json NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("circle_id") REFERENCES "public"."circles"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"));

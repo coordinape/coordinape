@@ -40,8 +40,8 @@ const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
   const closeModal = () => setModal('');
 
-  const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const { data: currentOrg } = useCurrentOrg();
+  const vaults = useVaults(currentOrg?.organizations_by_pk?.id);
 
   return (
     <div className={classes.root}>

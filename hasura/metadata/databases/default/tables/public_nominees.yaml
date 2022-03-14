@@ -88,12 +88,12 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: check-nominee-discord
+  name: checkNomineeDiscord
   retry_conf:
     interval_sec: 3600
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/check-nominee-discord"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/checkNomineeDiscord"
 - definition:
     enable_manual: false
     update:
@@ -102,9 +102,48 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: check-nominee-telegram
+  name: checkNomineeTelegram
   retry_conf:
     interval_sec: 3600
     num_retries: 5
     timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event-triggers/check-nominee-telegram"
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/checkNomineeTelegram"
+- definition:
+    enable_manual: false
+    insert:
+      columns: "*"
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: createNomineeDiscord
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/createNomineeDiscord"
+- definition:
+    enable_manual: false
+    insert:
+      columns: "*"
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: createNomineeTelegram
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/createNomineeTelegram"
+- definition:
+    enable_manual: false
+    insert:
+      columns: "*"
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: createVouchedUser
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/createVouchedUser"

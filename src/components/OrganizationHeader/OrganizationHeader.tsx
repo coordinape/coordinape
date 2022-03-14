@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
+import { useCurrentOrg } from '../../hooks/gql';
 import { ApeAvatar } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
 import { DownArrowIcon } from 'icons';
 import { getAdminNavigation } from 'routes/paths';
 import { Button, IconButton } from 'ui';
@@ -87,7 +87,7 @@ interface Props {
 export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
   const classes = useStyles();
   const navItems = getAdminNavigation();
-  const currentOrg = useCurrentOrg();
+  const { data: currentOrg } = useCurrentOrg();
 
   return (
     <>
@@ -104,7 +104,9 @@ export const OrganizationHeader = ({ buttonText, onButtonClick }: Props) => {
               marginRight: '16px',
             }}
           />
-          <h2 className={classes.title}>{currentOrg?.name}</h2>
+          <h2 className={classes.title}>
+            {currentOrg?.organizations_by_pk?.name}
+          </h2>
           <IconButton>
             <DownArrowIcon size="md" />
           </IconButton>

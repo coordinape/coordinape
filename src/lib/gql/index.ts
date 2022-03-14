@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Thunder, apiFetch, ValueTypes, $ } from './zeusUser';
 
 const makeQuery = (url: string, getToken: () => string) =>
@@ -28,10 +29,11 @@ export function getGql(url: string, getToken: () => string) {
   const updateProfileAvatar = async (image_data_base64: string) =>
     makeQuery(url, getToken)('mutation')(
       {
-        upload_profile_avatar: [
-          { object: { image_data_base64: $`image_data_base64` } },
-          { id: true },
-        ],
+        // TODO: Resolve this error in the backend
+        // upload_profile_avatar: [
+        //   { object: { image_data_base64: $`image_data_base64` } },
+        //   { id: true },
+        // ],
       },
       {
         variables: {
@@ -43,10 +45,10 @@ export function getGql(url: string, getToken: () => string) {
   const updateProfileBackground = async (image_data_base64: string) =>
     makeQuery(url, getToken)('mutation')(
       {
-        upload_profile_background: [
-          { object: { image_data_base64: $`image_data_base64` } },
-          { id: true },
-        ],
+        // upload_profile_background: [
+        //   { object: { image_data_base64: $`image_data_base64` } },
+        //   { id: true },
+        // ],
       },
       {
         variables: {

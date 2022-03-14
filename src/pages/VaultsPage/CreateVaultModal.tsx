@@ -11,8 +11,8 @@ import { useCurrentOrg } from 'hooks/gql';
 export const CreateVaultModal = ({ onClose }: { onClose: () => void }) => {
   const navigate = useNavigate();
   const { chainId } = useWeb3React();
-  const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.id);
+  const { data: currentOrg } = useCurrentOrg();
+  const { createVault } = useVaultFactory(currentOrg?.organizations_by_pk?.id);
 
   return (
     <CreateVaultForm.FormController

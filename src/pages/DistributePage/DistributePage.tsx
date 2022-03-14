@@ -20,13 +20,9 @@ import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
+import { useSaveDistribution, IDistribution, IClaim } from './mutations';
+import { useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
-import {
-  useGetAllocations,
-  useSaveDistribution,
-  IDistribution,
-  IClaim,
-} from './useGetAllocations';
 
 import { IAllocateUser, IVault } from 'types';
 
@@ -42,8 +38,13 @@ function DistributePage() {
   const [updateAmount, setUpdateAmount] = useState(0);
   const [distributionDTO, setDistributionDTO] = useState<IDistribution>();
   const [selectedVaultId, setSelectedVaultId] = useState('');
-  const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+
+  const { data: currentOrg } = useCurrentOrg();
+  // eslint-disable-next-line no-console
+  console.log('currentOrg', currentOrg);
+  const vaults = useVaults(currentOrg?.organizations_by_pk?.id);
+  // eslint-disable-next-line no-console
+  console.log('vaults', vaults);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { getYVault } = useVaultWrapper(selectedVault as IVault);
@@ -51,6 +52,7 @@ function DistributePage() {
   const { mutateAsync } = useSaveDistribution(distributionDTO);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
+
   const { myUser: currentUser } = useCircle(
     data?.epochs_by_pk?.circle?.id as number
   );

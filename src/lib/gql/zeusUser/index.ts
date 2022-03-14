@@ -5,6 +5,17 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    name?: string | null;
+    new_address?: string | null;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -16,6 +27,54 @@ export type ValueTypes = {
     _lte?: boolean | null;
     _neq?: boolean | null;
     _nin?: boolean[];
+  };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    protocol_id?: number | null;
+    protocol_name?: string | null;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['users_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['users_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | null;
+      },
+      ValueTypes['users']
+    ];
+    __typename?: boolean;
+  }>;
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    nominee?: ValueTypes['nominees'];
+    __typename?: boolean;
+  }>;
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | null;
+    give_token_remaining?: number | null;
+    name: string;
+    non_giver?: boolean | null;
+    non_receiver?: boolean | null;
+    role?: number | null;
+    starting_tokens?: number | null;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -29,6 +88,12 @@ export type ValueTypes = {
     _neq?: number | null;
     _nin?: number[];
   };
+  ['LogoutResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | null;
@@ -61,6 +126,31 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
   };
+  ['UpdateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
+  ['UpdateProfileResponse']: AliasType<{
+    id?: boolean;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
+  };
+  ['UserResponse']: AliasType<{
+    /** An object relationship */
+    UserResponse?: ValueTypes['users'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -716,13 +806,16 @@ export type ValueTypes = {
   ['claims']: AliasType<{
     address?: boolean;
     amount?: boolean;
+    claimed?: boolean;
+    created_at?: boolean;
+    created_by?: boolean;
     /** An object relationship */
     distribution?: ValueTypes['distributions'];
     distribution_id?: boolean;
-    flag?: boolean;
     id?: boolean;
     index?: boolean;
     proof?: boolean;
+    updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean;
@@ -749,6 +842,7 @@ export type ValueTypes = {
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -761,12 +855,15 @@ export type ValueTypes = {
     _or?: ValueTypes['claims_bool_exp'][];
     address?: ValueTypes['String_comparison_exp'] | null;
     amount?: ValueTypes['bigint_comparison_exp'] | null;
+    claimed?: ValueTypes['Boolean_comparison_exp'] | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    created_by?: ValueTypes['bigint_comparison_exp'] | null;
     distribution?: ValueTypes['distributions_bool_exp'] | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | null;
-    flag?: ValueTypes['Boolean_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     index?: ValueTypes['bigint_comparison_exp'] | null;
     proof?: ValueTypes['String_comparison_exp'] | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | null;
   };
@@ -774,32 +871,41 @@ export type ValueTypes = {
   ['claims_insert_input']: {
     address?: string | null;
     amount?: ValueTypes['bigint'] | null;
+    claimed?: boolean | null;
+    created_at?: ValueTypes['timestamp'] | null;
+    created_by?: ValueTypes['bigint'] | null;
     distribution?: ValueTypes['distributions_obj_rel_insert_input'] | null;
     distribution_id?: ValueTypes['bigint'] | null;
-    flag?: boolean | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
     proof?: string | null;
+    updated_at?: ValueTypes['timestamp'] | null;
     user_id?: ValueTypes['bigint'] | null;
   };
   /** order by max() on columns of table "claims" */
   ['claims_max_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** order by min() on columns of table "claims" */
   ['claims_min_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** response of any mutation on the table "claims" */
@@ -814,12 +920,15 @@ export type ValueTypes = {
   ['claims_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    claimed?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution?: ValueTypes['distributions_order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
-    flag?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -828,6 +937,7 @@ export type ValueTypes = {
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -836,6 +946,7 @@ export type ValueTypes = {
   /** order by stddev_pop() on columns of table "claims" */
   ['claims_stddev_pop_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -844,6 +955,7 @@ export type ValueTypes = {
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -852,6 +964,7 @@ export type ValueTypes = {
   /** order by sum() on columns of table "claims" */
   ['claims_sum_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -860,6 +973,7 @@ export type ValueTypes = {
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -868,6 +982,7 @@ export type ValueTypes = {
   /** order by var_samp() on columns of table "claims" */
   ['claims_var_samp_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
@@ -876,62 +991,12 @@ export type ValueTypes = {
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | null;
-    give_token_remaining?: number | null;
-    name: string;
-    non_giver?: boolean | null;
-    non_receiver?: boolean | null;
-    role?: number | null;
-    starting_tokens?: number | null;
-  };
-  ['createUserResponse']: AliasType<{
-    /** The ethereum address of the user */
-    address?: boolean;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: boolean;
-    /** Primary key */
-    id?: boolean;
-    /** human readable user name */
-    name?: boolean;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: boolean;
-    starting_tokens?: boolean;
-    __typename?: boolean;
-  }>;
-  ['create_circle_input']: {
-    circle_name: string;
-    protocol_id?: number | null;
-    protocol_name?: string | null;
-    user_name: string;
-  };
-  ['create_circle_response']: AliasType<{
-    /** An object relationship */
-    circle?: ValueTypes['circles'];
-    id?: boolean;
-    users?: [
-      {
-        /** distinct select on columns */
-        distinct_on?: ValueTypes['users_select_column'][] /** limit the number of rows returned */;
-        limit?:
-          | number
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?: number | null /** sort the rows by one or more columns */;
-        order_by?: ValueTypes['users_order_by'][] /** filter the rows returned */;
-        where?: ValueTypes['users_bool_exp'] | null;
-      },
-      ValueTypes['users']
-    ];
-    __typename?: boolean;
-  }>;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -1397,13 +1462,21 @@ export type ValueTypes = {
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
-    createUser?: [
-      { object: ValueTypes['createUserInput'] },
-      ValueTypes['createUserResponse']
+    adminUpdateUser?: [
+      { payload: ValueTypes['AdminUpdateUserInput'] },
+      ValueTypes['UserResponse']
     ];
-    create_circle?: [
-      { object: ValueTypes['create_circle_input'] },
-      ValueTypes['create_circle_response']
+    createCircle?: [
+      { payload: ValueTypes['CreateCircleInput'] },
+      ValueTypes['CreateCircleResponse']
+    ];
+    createNominee?: [
+      { payload: ValueTypes['CreateNomineeInput'] },
+      ValueTypes['CreateNomineeResponse']
+    ];
+    createUser?: [
+      { payload: ValueTypes['CreateUserInput'] },
+      ValueTypes['UserResponse']
     ];
     delete_circle_integrations?: [
       {
@@ -1484,6 +1557,7 @@ export type ValueTypes = {
       },
       ValueTypes['vaults']
     ];
+    logoutUser?: ValueTypes['LogoutResponse'];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -1526,13 +1600,17 @@ export type ValueTypes = {
       },
       ValueTypes['profiles']
     ];
-    upload_profile_avatar?: [
-      { object: ValueTypes['upload_image_input'] },
-      ValueTypes['update_profile_response']
+    uploadCircleLogo?: [
+      { payload: ValueTypes['UploadCircleImageInput'] },
+      ValueTypes['UpdateCircleResponse']
     ];
-    upload_profile_background?: [
-      { object: ValueTypes['upload_image_input'] },
-      ValueTypes['update_profile_response']
+    uploadProfileAvatar?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
+    ];
+    uploadProfileBackground?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
     ];
     __typename?: boolean;
   }>;
@@ -2964,15 +3042,6 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | null;
     tokens?: ValueTypes['order_by'] | null;
   };
-  ['update_profile_response']: AliasType<{
-    id?: boolean;
-    /** An object relationship */
-    profile?: ValueTypes['profiles'];
-    __typename?: boolean;
-  }>;
-  ['upload_image_input']: {
-    image_data_base64: string;
-  };
   /** columns and relationships of "users" */
   ['users']: AliasType<{
     address?: boolean;
@@ -3466,11 +3535,12 @@ export type ValueTypes = {
     /** An object relationship */
     protocol?: ValueTypes['organizations'];
     simple_token_address?: boolean;
+    symbol?: boolean;
     token_address?: boolean;
-    type?: boolean;
     updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
+    vault_address?: boolean;
     vault_transactions?: [
       {
         /** distinct select on columns */
@@ -3500,10 +3570,11 @@ export type ValueTypes = {
     owner_id?: ValueTypes['bigint_comparison_exp'] | null;
     protocol?: ValueTypes['organizations_bool_exp'] | null;
     simple_token_address?: ValueTypes['String_comparison_exp'] | null;
+    symbol?: ValueTypes['String_comparison_exp'] | null;
     token_address?: ValueTypes['String_comparison_exp'] | null;
-    type?: ValueTypes['Int_comparison_exp'] | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
+    vault_address?: ValueTypes['String_comparison_exp'] | null;
     vault_transactions?: ValueTypes['vault_transactions_bool_exp'] | null;
   };
   /** input type for inserting data into table "vaults" */
@@ -3516,9 +3587,10 @@ export type ValueTypes = {
     org_id?: ValueTypes['bigint'] | null;
     owner_id?: ValueTypes['bigint'] | null;
     simple_token_address?: string | null;
+    symbol?: string | null;
     token_address?: string | null;
-    type?: number | null;
     updated_at?: ValueTypes['timestamp'] | null;
+    vault_address?: string | null;
     vault_transactions?:
       | ValueTypes['vault_transactions_arr_rel_insert_input']
       | null;
@@ -3548,10 +3620,11 @@ export type ValueTypes = {
     owner_id?: ValueTypes['order_by'] | null;
     protocol?: ValueTypes['organizations_order_by'] | null;
     simple_token_address?: ValueTypes['order_by'] | null;
+    symbol?: ValueTypes['order_by'] | null;
     token_address?: ValueTypes['order_by'] | null;
-    type?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
+    vault_address?: ValueTypes['order_by'] | null;
     vault_transactions_aggregate?:
       | ValueTypes['vault_transactions_aggregate_order_by']
       | null;
@@ -3677,12 +3750,50 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
+  ['CreateCircleResponse']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: ModelTypes['users'][];
+  };
+  ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
+  ['CreateNomineeResponse']: {
+    id?: number;
+    /** An object relationship */
+    nominee: ModelTypes['nominees'];
+  };
+  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LogoutResponse']: {
+    id?: number;
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UpdateCircleResponse']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+  };
+  ['UpdateProfileResponse']: {
+    id: number;
+    /** An object relationship */
+    profile: ModelTypes['profiles'];
+  };
+  ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
+  ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
+  ['UserResponse']: {
+    /** An object relationship */
+    UserResponse: ModelTypes['users'];
+    id: string;
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -3876,13 +3987,16 @@ export type ModelTypes = {
   ['claims']: {
     address: string;
     amount: ModelTypes['bigint'];
+    claimed: boolean;
+    created_at: ModelTypes['timestamp'];
+    created_by: ModelTypes['bigint'];
     /** An object relationship */
     distribution: ModelTypes['distributions'];
     distribution_id: ModelTypes['bigint'];
-    flag: boolean;
     id: ModelTypes['bigint'];
     index: ModelTypes['bigint'];
     proof: string;
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
     user_id: ModelTypes['bigint'];
@@ -3926,29 +4040,6 @@ export type ModelTypes = {
   ['claims_var_samp_order_by']: GraphQLTypes['claims_var_samp_order_by'];
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: GraphQLTypes['claims_variance_order_by'];
-  ['createUserInput']: GraphQLTypes['createUserInput'];
-  ['createUserResponse']: {
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
-  ['create_circle_input']: GraphQLTypes['create_circle_input'];
-  ['create_circle_response']: {
-    /** An object relationship */
-    circle: ModelTypes['circles'];
-    id: number;
-    /** An array relationship */
-    users: ModelTypes['users'][];
-  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
@@ -4084,8 +4175,10 @@ export type ModelTypes = {
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
-    createUser?: ModelTypes['createUserResponse'];
-    create_circle?: ModelTypes['create_circle_response'];
+    adminUpdateUser?: ModelTypes['UserResponse'];
+    createCircle?: ModelTypes['CreateCircleResponse'];
+    createNominee?: ModelTypes['CreateNomineeResponse'];
+    createUser?: ModelTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -4110,6 +4203,7 @@ export type ModelTypes = {
     insert_vaults?: ModelTypes['vaults_mutation_response'];
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: ModelTypes['vaults'];
+    logoutUser?: ModelTypes['LogoutResponse'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -4118,8 +4212,9 @@ export type ModelTypes = {
     update_profiles?: ModelTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: ModelTypes['profiles'];
-    upload_profile_avatar?: ModelTypes['update_profile_response'];
-    upload_profile_background?: ModelTypes['update_profile_response'];
+    uploadCircleLogo?: ModelTypes['UpdateCircleResponse'];
+    uploadProfileAvatar?: ModelTypes['UpdateProfileResponse'];
+    uploadProfileBackground?: ModelTypes['UpdateProfileResponse'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -4618,12 +4713,6 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
-  ['update_profile_response']: {
-    id: number;
-    /** An object relationship */
-    profile: ModelTypes['profiles'];
-  };
-  ['upload_image_input']: GraphQLTypes['upload_image_input'];
   /** columns and relationships of "users" */
   ['users']: {
     address: string;
@@ -4758,11 +4847,12 @@ export type ModelTypes = {
     /** An object relationship */
     protocol: ModelTypes['organizations'];
     simple_token_address?: string;
+    symbol: string;
     token_address?: string;
-    type: number;
     updated_at?: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
+    vault_address?: string;
     /** An array relationship */
     vault_transactions: ModelTypes['vault_transactions'][];
   };
@@ -4826,6 +4916,17 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    name?: string;
+    new_address?: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean;
@@ -4838,6 +4939,43 @@ export type GraphQLTypes = {
     _neq?: boolean;
     _nin?: Array<boolean>;
   };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    protocol_id?: number;
+    protocol_name?: string;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: {
+    __typename: 'CreateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: Array<GraphQLTypes['users']>;
+  };
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: {
+    __typename: 'CreateNomineeResponse';
+    id?: number;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean;
+    give_token_remaining?: number;
+    name: string;
+    non_giver?: boolean;
+    non_receiver?: boolean;
+    role?: number;
+    starting_tokens?: number;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number;
@@ -4849,6 +4987,12 @@ export type GraphQLTypes = {
     _lte?: number;
     _neq?: number;
     _nin?: Array<number>;
+  };
+  ['LogoutResponse']: {
+    __typename: 'LogoutResponse';
+    id?: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -4881,6 +5025,31 @@ export type GraphQLTypes = {
     _regex?: string;
     /** does the column match the given SQL regular expression */
     _similar?: string;
+  };
+  ['UpdateCircleResponse']: {
+    __typename: 'UpdateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateProfileResponse']: {
+    __typename: 'UpdateProfileResponse';
+    id: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
+  };
+  ['UserResponse']: {
+    __typename: 'UserResponse';
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
+    id: string;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -5452,13 +5621,16 @@ export type GraphQLTypes = {
     __typename: 'claims';
     address: string;
     amount: GraphQLTypes['bigint'];
+    claimed: boolean;
+    created_at: GraphQLTypes['timestamp'];
+    created_by: GraphQLTypes['bigint'];
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
     distribution_id: GraphQLTypes['bigint'];
-    flag: boolean;
     id: GraphQLTypes['bigint'];
     index: GraphQLTypes['bigint'];
     proof: string;
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
@@ -5484,6 +5656,7 @@ export type GraphQLTypes = {
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5496,12 +5669,15 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['claims_bool_exp']>;
     address?: GraphQLTypes['String_comparison_exp'];
     amount?: GraphQLTypes['bigint_comparison_exp'];
+    claimed?: GraphQLTypes['Boolean_comparison_exp'];
+    created_at?: GraphQLTypes['timestamp_comparison_exp'];
+    created_by?: GraphQLTypes['bigint_comparison_exp'];
     distribution?: GraphQLTypes['distributions_bool_exp'];
     distribution_id?: GraphQLTypes['bigint_comparison_exp'];
-    flag?: GraphQLTypes['Boolean_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     index?: GraphQLTypes['bigint_comparison_exp'];
     proof?: GraphQLTypes['String_comparison_exp'];
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
     user_id?: GraphQLTypes['bigint_comparison_exp'];
   };
@@ -5509,32 +5685,41 @@ export type GraphQLTypes = {
   ['claims_insert_input']: {
     address?: string;
     amount?: GraphQLTypes['bigint'];
+    claimed?: boolean;
+    created_at?: GraphQLTypes['timestamp'];
+    created_by?: GraphQLTypes['bigint'];
     distribution?: GraphQLTypes['distributions_obj_rel_insert_input'];
     distribution_id?: GraphQLTypes['bigint'];
-    flag?: boolean;
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
     proof?: string;
+    updated_at?: GraphQLTypes['timestamp'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** order by max() on columns of table "claims" */
   ['claims_max_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** order by min() on columns of table "claims" */
   ['claims_min_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** response of any mutation on the table "claims" */
@@ -5549,12 +5734,15 @@ export type GraphQLTypes = {
   ['claims_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    claimed?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution?: GraphQLTypes['distributions_order_by'];
     distribution_id?: GraphQLTypes['order_by'];
-    flag?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -5563,6 +5751,7 @@ export type GraphQLTypes = {
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5571,6 +5760,7 @@ export type GraphQLTypes = {
   /** order by stddev_pop() on columns of table "claims" */
   ['claims_stddev_pop_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5579,6 +5769,7 @@ export type GraphQLTypes = {
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5587,6 +5778,7 @@ export type GraphQLTypes = {
   /** order by sum() on columns of table "claims" */
   ['claims_sum_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5595,6 +5787,7 @@ export type GraphQLTypes = {
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5603,6 +5796,7 @@ export type GraphQLTypes = {
   /** order by var_samp() on columns of table "claims" */
   ['claims_var_samp_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
@@ -5611,50 +5805,11 @@ export type GraphQLTypes = {
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
-  };
-  ['createUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean;
-    give_token_remaining?: number;
-    name: string;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: number;
-    starting_tokens?: number;
-  };
-  ['createUserResponse']: {
-    __typename: 'createUserResponse';
-    /** The ethereum address of the user */
-    address: string;
-    fixed_non_receiver: boolean;
-    give_token_remaining: number;
-    /** Primary key */
-    id: string;
-    /** human readable user name */
-    name: string;
-    non_giver: boolean;
-    non_receiver: boolean;
-    role: number;
-    starting_tokens: number;
-  };
-  ['create_circle_input']: {
-    circle_name: string;
-    protocol_id?: number;
-    protocol_name?: string;
-    user_name: string;
-  };
-  ['create_circle_response']: {
-    __typename: 'create_circle_response';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
-    id: number;
-    /** An array relationship */
-    users: Array<GraphQLTypes['users']>;
   };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -6100,8 +6255,10 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
-    createUser?: GraphQLTypes['createUserResponse'];
-    create_circle?: GraphQLTypes['create_circle_response'];
+    adminUpdateUser?: GraphQLTypes['UserResponse'];
+    createCircle?: GraphQLTypes['CreateCircleResponse'];
+    createNominee?: GraphQLTypes['CreateNomineeResponse'];
+    createUser?: GraphQLTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -6126,6 +6283,7 @@ export type GraphQLTypes = {
     insert_vaults?: GraphQLTypes['vaults_mutation_response'];
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'];
+    logoutUser?: GraphQLTypes['LogoutResponse'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -6134,8 +6292,9 @@ export type GraphQLTypes = {
     update_profiles?: GraphQLTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'];
-    upload_profile_avatar?: GraphQLTypes['update_profile_response'];
-    upload_profile_background?: GraphQLTypes['update_profile_response'];
+    uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'];
+    uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'];
+    uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'];
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -7082,15 +7241,6 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'];
     tokens?: GraphQLTypes['order_by'];
   };
-  ['update_profile_response']: {
-    __typename: 'update_profile_response';
-    id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
-  };
-  ['upload_image_input']: {
-    image_data_base64: string;
-  };
   /** columns and relationships of "users" */
   ['users']: {
     __typename: 'users';
@@ -7491,11 +7641,12 @@ export type GraphQLTypes = {
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
     simple_token_address?: string;
+    symbol: string;
     token_address?: string;
-    type: number;
     updated_at?: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
+    vault_address?: string;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
   };
@@ -7513,10 +7664,11 @@ export type GraphQLTypes = {
     owner_id?: GraphQLTypes['bigint_comparison_exp'];
     protocol?: GraphQLTypes['organizations_bool_exp'];
     simple_token_address?: GraphQLTypes['String_comparison_exp'];
+    symbol?: GraphQLTypes['String_comparison_exp'];
     token_address?: GraphQLTypes['String_comparison_exp'];
-    type?: GraphQLTypes['Int_comparison_exp'];
     updated_at?: GraphQLTypes['timestamp_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
+    vault_address?: GraphQLTypes['String_comparison_exp'];
     vault_transactions?: GraphQLTypes['vault_transactions_bool_exp'];
   };
   /** input type for inserting data into table "vaults" */
@@ -7529,9 +7681,10 @@ export type GraphQLTypes = {
     org_id?: GraphQLTypes['bigint'];
     owner_id?: GraphQLTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
     updated_at?: GraphQLTypes['timestamp'];
+    vault_address?: string;
     vault_transactions?: GraphQLTypes['vault_transactions_arr_rel_insert_input'];
   };
   /** response of any mutation on the table "vaults" */
@@ -7557,10 +7710,11 @@ export type GraphQLTypes = {
     owner_id?: GraphQLTypes['order_by'];
     protocol?: GraphQLTypes['organizations_order_by'];
     simple_token_address?: GraphQLTypes['order_by'];
+    symbol?: GraphQLTypes['order_by'];
     token_address?: GraphQLTypes['order_by'];
-    type?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
+    vault_address?: GraphQLTypes['order_by'];
     vault_transactions_aggregate?: GraphQLTypes['vault_transactions_aggregate_order_by'];
   };
   /** select columns of table "vaults" */
@@ -7732,11 +7886,14 @@ export const enum circles_select_column {
 export const enum claims_select_column {
   address = 'address',
   amount = 'amount',
+  claimed = 'claimed',
+  created_at = 'created_at',
+  created_by = 'created_by',
   distribution_id = 'distribution_id',
-  flag = 'flag',
   id = 'id',
   index = 'index',
   proof = 'proof',
+  updated_at = 'updated_at',
   user_id = 'user_id',
 }
 /** select columns of table "distributions" */
@@ -7909,9 +8066,10 @@ export const enum vaults_select_column {
   org_id = 'org_id',
   owner_id = 'owner_id',
   simple_token_address = 'simple_token_address',
+  symbol = 'symbol',
   token_address = 'token_address',
-  type = 'type',
   updated_at = 'updated_at',
+  vault_address = 'vault_address',
 }
 /** select columns of table "vouches" */
 export const enum vouches_select_column {

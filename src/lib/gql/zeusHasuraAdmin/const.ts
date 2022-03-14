@@ -1,6 +1,62 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  AdminUpdateUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   Boolean_comparison_exp: {
     _eq: {
       type: 'Boolean',
@@ -55,6 +111,180 @@ export const AllTypesProps: Record<string, any> = {
       array: true,
       arrayRequired: false,
       required: true,
+    },
+  },
+  CreateCircleInput: {
+    circle_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    protocol_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  CreateCircleResponse: {
+    users: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    users_aggregate: {
+      distinct_on: {
+        type: 'users_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'users_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'users_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  CreateNomineeInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    description: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  CreateUserInput: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    give_token_remaining: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
     },
   },
   Int_comparison_exp: {
@@ -227,6 +457,28 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: false,
+    },
+  },
+  UploadCircleImageInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  UploadImageInput: {
+    image_data_base64: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
     },
   },
   bigint: 'String',
@@ -4170,12 +4422,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    flag: {
-      type: 'Boolean_comparison_exp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     id: {
       type: 'bigint_comparison_exp',
       array: false,
@@ -4291,12 +4537,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     distribution_id: {
       type: 'bigint',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    flag: {
-      type: 'Boolean',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4525,12 +4765,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    flag: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     id: {
       type: 'order_by',
       array: false,
@@ -4610,12 +4844,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     distribution_id: {
       type: 'bigint',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    flag: {
-      type: 'Boolean',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4916,154 +5144,6 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: false,
-    },
-  },
-  createUserInput: {
-    address: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    circle_id: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    fixed_non_receiver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    give_token_remaining: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    non_giver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    non_receiver: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    role: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    starting_tokens: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-  },
-  create_circle_input: {
-    circle_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-    protocol_id: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    protocol_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    user_name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-  },
-  create_circle_response: {
-    users: {
-      distinct_on: {
-        type: 'users_select_column',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      limit: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      offset: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      order_by: {
-        type: 'users_order_by',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      where: {
-        type: 'users_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-    },
-    users_aggregate: {
-      distinct_on: {
-        type: 'users_select_column',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      limit: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      offset: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      order_by: {
-        type: 'users_order_by',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      where: {
-        type: 'users_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
     },
   },
   date: 'String',
@@ -7881,17 +7961,33 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   mutation_root: {
-    createUser: {
-      object: {
-        type: 'createUserInput',
+    adminUpdateUser: {
+      payload: {
+        type: 'AdminUpdateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    create_circle: {
-      object: {
-        type: 'create_circle_input',
+    createCircle: {
+      payload: {
+        type: 'CreateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createNominee: {
+      payload: {
+        type: 'CreateNomineeInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createUser: {
+      payload: {
+        type: 'CreateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -9625,17 +9721,25 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
-    upload_profile_avatar: {
-      object: {
-        type: 'upload_image_input',
+    uploadCircleLogo: {
+      payload: {
+        type: 'UploadCircleImageInput',
         array: false,
         arrayRequired: false,
         required: true,
       },
     },
-    upload_profile_background: {
-      object: {
-        type: 'upload_image_input',
+    uploadProfileAvatar: {
+      payload: {
+        type: 'UploadImageInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    uploadProfileBackground: {
+      payload: {
+        type: 'UploadImageInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -17218,14 +17322,6 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
-  upload_image_input: {
-    image_data_base64: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: true,
-    },
-  },
   users: {
     burns: {
       distinct_on: {
@@ -19725,14 +19821,14 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    token_address: {
+    symbol: {
       type: 'String_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
-      type: 'Int_comparison_exp',
+    token_address: {
+      type: 'String_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -19794,12 +19890,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    type: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
   },
   vaults_insert_input: {
     created_at: {
@@ -19856,14 +19946,14 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    token_address: {
+    symbol: {
       type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
-      type: 'Int',
+    token_address: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -19982,13 +20072,13 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    token_address: {
+    symbol: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
+    token_address: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -20071,14 +20161,14 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    token_address: {
+    symbol: {
       type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
-      type: 'Int',
+    token_address: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -20659,6 +20749,32 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  CreateCircleResponse: {
+    circle: 'circles',
+    id: 'Int',
+    users: 'users',
+    users_aggregate: 'users_aggregate',
+  },
+  CreateNomineeResponse: {
+    id: 'Int',
+    nominee: 'nominees',
+  },
+  LogoutResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
+  UpdateCircleResponse: {
+    circle: 'circles',
+    id: 'Int',
+  },
+  UpdateProfileResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
+  UserResponse: {
+    UserResponse: 'users',
+    id: 'ID',
+  },
   burns: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -21139,7 +21255,6 @@ export const ReturnTypes: Record<string, any> = {
     created_by: 'bigint',
     distribution: 'distributions',
     distribution_id: 'bigint',
-    flag: 'Boolean',
     id: 'bigint',
     index: 'bigint',
     proof: 'String',
@@ -21255,23 +21370,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     index: 'Float',
     user_id: 'Float',
-  },
-  createUserResponse: {
-    address: 'String',
-    fixed_non_receiver: 'Boolean',
-    give_token_remaining: 'Int',
-    id: 'ID',
-    name: 'String',
-    non_giver: 'Boolean',
-    non_receiver: 'Boolean',
-    role: 'Int',
-    starting_tokens: 'Int',
-  },
-  create_circle_response: {
-    circle: 'circles',
-    id: 'Int',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
   },
   distributions: {
     claims: 'claims',
@@ -21722,8 +21820,10 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   mutation_root: {
-    createUser: 'createUserResponse',
-    create_circle: 'create_circle_response',
+    adminUpdateUser: 'UserResponse',
+    createCircle: 'CreateCircleResponse',
+    createNominee: 'CreateNomineeResponse',
+    createUser: 'UserResponse',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
     delete_circle_integrations: 'circle_integrations_mutation_response',
@@ -21809,6 +21909,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults_one: 'vaults',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    logoutUser: 'LogoutResponse',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_integrations: 'circle_integrations_mutation_response',
@@ -21850,8 +21951,9 @@ export const ReturnTypes: Record<string, any> = {
     update_vaults_by_pk: 'vaults',
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
-    upload_profile_avatar: 'update_profile_response',
-    upload_profile_background: 'update_profile_response',
+    uploadCircleLogo: 'UpdateCircleResponse',
+    uploadProfileAvatar: 'UpdateProfileResponse',
+    uploadProfileBackground: 'UpdateProfileResponse',
   },
   nominees: {
     address: 'String',
@@ -22792,10 +22894,6 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
-  update_profile_response: {
-    id: 'Int',
-    profile: 'profiles',
-  },
   users: {
     address: 'String',
     bio: 'String',
@@ -23057,8 +23155,8 @@ export const ReturnTypes: Record<string, any> = {
     owner_id: 'bigint',
     protocol: 'organizations',
     simple_token_address: 'String',
+    symbol: 'String',
     token_address: 'String',
-    type: 'Int',
     updated_at: 'timestamp',
     user: 'users',
     vault_address: 'String',
@@ -23088,7 +23186,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_max_fields: {
     created_at: 'timestamp',
@@ -23098,8 +23195,8 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'bigint',
     owner_id: 'bigint',
     simple_token_address: 'String',
+    symbol: 'String',
     token_address: 'String',
-    type: 'Int',
     updated_at: 'timestamp',
     vault_address: 'String',
   },
@@ -23111,8 +23208,8 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'bigint',
     owner_id: 'bigint',
     simple_token_address: 'String',
+    symbol: 'String',
     token_address: 'String',
-    type: 'Int',
     updated_at: 'timestamp',
     vault_address: 'String',
   },
@@ -23126,7 +23223,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_stddev_pop_fields: {
     created_by: 'Float',
@@ -23134,7 +23230,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_stddev_samp_fields: {
     created_by: 'Float',
@@ -23142,7 +23237,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_sum_fields: {
     created_by: 'bigint',
@@ -23150,7 +23244,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     owner_id: 'bigint',
-    type: 'Int',
   },
   vaults_var_pop_fields: {
     created_by: 'Float',
@@ -23158,7 +23251,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_var_samp_fields: {
     created_by: 'Float',
@@ -23166,7 +23258,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vaults_variance_fields: {
     created_by: 'Float',
@@ -23174,7 +23265,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     owner_id: 'Float',
-    type: 'Float',
   },
   vouches: {
     created_at: 'timestamp',

@@ -34,30 +34,32 @@ insert_permissions:
               id:
                 _eq: X-Hasura-User-Id
     columns:
-    - id
-    - token_address
-    - simple_token_address
-    - type
-    - org_id
-    - decimals
-    - owner_id
-    - created_by
     - created_at
+    - created_by
+    - decimals
+    - id
+    - org_id
+    - owner_id
+    - simple_token_address
+    - symbol
+    - token_address
     - updated_at
+    - vault_address
   role: user
 select_permissions:
 - permission:
     columns:
-    - id
-    - token_address
-    - simple_token_address
-    - type
-    - org_id
-    - decimals
-    - owner_id
-    - created_by
     - created_at
+    - created_by
+    - decimals
+    - id
+    - org_id
+    - owner_id
+    - simple_token_address
+    - symbol
+    - token_address
     - updated_at
+    - vault_address
     filter:
       protocol:
         circles:
