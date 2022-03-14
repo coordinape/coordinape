@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { useWeb3React } from '@web3-react/core';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -45,6 +47,7 @@ export const AdminUserModal = ({
   open: boolean;
   onClose: () => void;
 }) => {
+  const { account } = useWeb3React();
   const classes = useStyles();
 
   const { circle: selectedCircle, circleId } = useSelectedCircle();
@@ -59,6 +62,10 @@ export const AdminUserModal = ({
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
 
+  useEffect(() => {
+    setHasAcceptedOptOutWarning(false);
+  }, [user?.address]);
+
   const source = useMemo(
     () => ({
       user: user,
@@ -67,7 +74,10 @@ export const AdminUserModal = ({
     [user, selectedCircle]
   );
 
-  const hasGiveAllocated = !!user?.give_token_received;
+  const hasGiveAllocated = true;
+  const userIsAccount =
+    account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
+  console.log(userIsAccount, account, user?.address);
   // console.log(user, cachedOptOutStatus, hasGiveAllocated);
 
   return (
@@ -76,12 +86,13 @@ export const AdminUserModal = ({
         source={source}
         hideFieldErrors
         submit={params => {
-          // console.log(user?.non_receiver !== params.non_receiver, params, user);
           const showWarning =
             cachedOptOutStatus !== params.non_receiver && hasGiveAllocated;
+          console.log(showWarning, !hasAcceptedOptOutWarning);
           if (showWarning && !hasAcceptedOptOutWarning) {
             setShowOptOutChangeWarning(true);
           } else {
+            setShowOptOutChangeWarning(false);
             (user ? updateUser(user.address, params) : createUser(params))
               .then(() => onClose())
               .catch(console.warn);
@@ -145,14 +156,19 @@ export const AdminUserModal = ({
       </AdminUserForm.FormController>
       <ActionDialog
         open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-        title="This user has GIVE allocated."
+        title={
+          userIsAccount
+            ? 'You have GIVE allocated.'
+            : 'This user has GIVE allocated.'
+        }
         onPrimary={() => {
           setHasAcceptedOptOutWarning(true);
           setShowOptOutChangeWarning(false);
         }}
       >
-        Changing their opt-in status will remove all GIVE allocated to them.
-        This cannot be undone.
+        {userIsAccount
+          ? 'Changing opt-in status will remove all GIVE allocated to you. This cannot be undone.'
+          : 'Changing their opt-in status will remove all GIVE allocated to them. This cannot be undone.'}
       </ActionDialog>
     </>
   );
