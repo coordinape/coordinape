@@ -255,6 +255,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  DeleteEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   Int_comparison_exp: {
     _eq: {
       type: 'Int',
@@ -422,6 +436,38 @@ export const AllTypesProps: Record<string, any> = {
     },
     _similar: {
       type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  UpdateUserInput: {
+    bio: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    epoch_first_visit: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3829,6 +3875,14 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
+    deleteEpoch: {
+      payload: {
+        type: 'DeleteEpochInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     delete_circle_integrations: {
       where: {
         type: 'circle_integrations_bool_exp',
@@ -3856,6 +3910,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_circle_integrations_one: {
       object: {
         type: 'circle_integrations_insert_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateUser: {
+      payload: {
+        type: 'UpdateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -9163,6 +9225,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     nominee: 'nominees',
   },
+  DeleteEpochResponse: {
+    success: 'Boolean',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -9279,11 +9344,13 @@ export const ReturnTypes: Record<string, any> = {
     createCircle: 'CreateCircleResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    deleteEpoch: 'DeleteEpochResponse',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
     logoutUser: 'LogoutResponse',
+    updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',

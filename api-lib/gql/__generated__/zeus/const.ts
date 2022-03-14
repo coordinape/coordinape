@@ -473,6 +473,38 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateUserInput: {
+    bio: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    epoch_first_visit: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   UploadCircleImageInput: {
     circle_id: {
       type: 'Int',
@@ -7709,6 +7741,14 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: false,
+      },
+    },
+    updateUser: {
+      payload: {
+        type: 'UpdateUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
       },
     },
     update_burns: {
@@ -20020,6 +20060,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_integrations: 'circle_integrations_mutation_response',

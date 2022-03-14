@@ -38,9 +38,9 @@ actions:
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
-    permissions:
-    - role: user
-    - role: superadmin
+  permissions:
+  - role: user
+  - role: superadmin
 - name: deleteEpoch
   definition:
     kind: synchronous
@@ -124,10 +124,10 @@ custom_types:
   - name: UploadImageInput
   - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
+  - name: DeleteEpochInput
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
-  - name: DeleteEpochInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -187,6 +187,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteEpochResponse
   - name: CreateNomineeResponse
     relationships:
     - remote_table:
@@ -207,5 +208,4 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: DeleteEpochResponse
   scalars: []

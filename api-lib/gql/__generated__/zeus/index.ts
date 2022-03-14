@@ -159,6 +159,13 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['UpdateUserInput']: {
+    bio?: string | null;
+    circle_id: number;
+    epoch_first_visit?: boolean | null;
+    name?: string | null;
+    non_receiver?: boolean | null;
+  };
   ['UploadCircleImageInput']: {
     circle_id: number;
     image_data_base64: string;
@@ -3702,6 +3709,10 @@ export type ValueTypes = {
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateUser?: [
+      { payload: ValueTypes['UpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
     update_burns?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8935,6 +8946,7 @@ export type ModelTypes = {
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UserResponse']: {
@@ -10649,6 +10661,8 @@ export type ModelTypes = {
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "burns" */
     update_burns?: ModelTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */
@@ -12966,6 +12980,13 @@ export type GraphQLTypes = {
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateUserInput']: {
+    bio?: string;
+    circle_id: number;
+    epoch_first_visit?: boolean;
+    name?: string;
+    non_receiver?: boolean;
   };
   ['UploadCircleImageInput']: {
     circle_id: number;
@@ -15849,6 +15870,8 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'];
     /** update single row of the table: "burns" */

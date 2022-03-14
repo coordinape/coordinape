@@ -76,6 +76,14 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: AliasType<{
+    success?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | null;
@@ -138,6 +146,13 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['UpdateUserInput']: {
+    bio?: string | null;
+    circle_id: number;
+    epoch_first_visit?: boolean | null;
+    name?: string | null;
+    non_receiver?: boolean | null;
+  };
   ['UploadCircleImageInput']: {
     circle_id: number;
     image_data_base64: string;
@@ -1097,6 +1112,10 @@ export type ValueTypes = {
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
     ];
+    deleteEpoch?: [
+      { payload: ValueTypes['DeleteEpochInput'] },
+      ValueTypes['DeleteEpochResponse']
+    ];
     delete_circle_integrations?: [
       {
         /** filter the rows which have to be deleted */
@@ -1123,6 +1142,10 @@ export type ValueTypes = {
       ValueTypes['circle_integrations']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateUser?: [
+      { payload: ValueTypes['UpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -2915,6 +2938,10 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
+  ['DeleteEpochResponse']: {
+    success: boolean;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LogoutResponse']: {
@@ -2934,6 +2961,7 @@ export type ModelTypes = {
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UserResponse']: {
@@ -3215,6 +3243,7 @@ export type ModelTypes = {
     createCircle?: ModelTypes['CreateCircleResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
+    deleteEpoch?: ModelTypes['DeleteEpochResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: ModelTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -3224,6 +3253,8 @@ export type ModelTypes = {
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -3870,6 +3901,14 @@ export type GraphQLTypes = {
     role?: number;
     starting_tokens?: number;
   };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: {
+    __typename: 'DeleteEpochResponse';
+    success: boolean;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number;
@@ -3931,6 +3970,13 @@ export type GraphQLTypes = {
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateUserInput']: {
+    bio?: string;
+    circle_id: number;
+    epoch_first_visit?: boolean;
+    name?: string;
+    non_receiver?: boolean;
   };
   ['UploadCircleImageInput']: {
     circle_id: number;
@@ -4783,6 +4829,7 @@ export type GraphQLTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?: GraphQLTypes['circle_integrations_mutation_response'];
     /** delete single row from the table: "circle_integrations" */
@@ -4792,6 +4839,8 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
