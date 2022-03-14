@@ -1,5 +1,6 @@
 import { act, render, waitFor } from '@testing-library/react';
 
+import { Asset } from 'services/contracts';
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
 import { useContracts } from './useContracts';
@@ -28,7 +29,7 @@ test('create a vault', async () => {
 
     daiAddress = contracts.getToken('DAI').address;
 
-    createVault({ simpleTokenAddress: '0x0', type: 'DAI' }).then(v => {
+    createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
       if (v) vault = v;
     });
     return null;

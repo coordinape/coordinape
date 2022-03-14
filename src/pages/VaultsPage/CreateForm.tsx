@@ -10,7 +10,7 @@ import { useCurrentOrg } from 'hooks/gql';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { DAIIcon, USDCIcon, USDTIcon, YFIIcon } from 'icons';
-import { AssetEnum, Asset, Contracts } from 'services/contracts';
+import { Asset, Contracts } from 'services/contracts';
 import { Box, Button, Form, Text, TextField } from 'ui';
 
 const useFormSetup = (
@@ -19,7 +19,7 @@ const useFormSetup = (
 ) => {
   const schema = z
     .object({
-      symbol: AssetEnum.optional(),
+      symbol: z.nativeEnum(Asset).optional(),
       customAddress: z.string().optional(),
     })
     .refine(
