@@ -46,7 +46,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         );
         return;
       }
-      if (repeat === 2) {
+      if (repeat === EPOCH_REPEAT.MONTHLY) {
         repeat_day_of_month = start_date.day;
       }
     }
