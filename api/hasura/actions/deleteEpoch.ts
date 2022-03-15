@@ -7,7 +7,7 @@ import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   errorResponse,
-  errorResponseWithStatusCode,
+  zodParserErrorResponse,
 } from '../../../api-lib/HttpError';
 import {
   deleteEpochInput,
@@ -40,14 +40,10 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     assert(delete_epochs);
     return response
       .status(200)
-      .json({ success: delete_epochs.affected_rows > 0 });
+      .json({ success: delete_epochs.affected_rows === 1 });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return errorResponseWithStatusCode(
-        response,
-        { message: 'Invalid input' },
-        422
-      );
+      return zodParserErrorResponse(response, err.issues);
     }
     return errorResponse(response, err);
   }
