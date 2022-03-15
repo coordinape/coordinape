@@ -427,6 +427,38 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateUserInput: {
+    bio: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    epoch_first_visit: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   UploadCircleImageInput: {
     circle_id: {
       type: 'Int',
@@ -1374,12 +1406,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    id: {
-      type: 'bigint',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     name: {
       type: 'String',
       array: false,
@@ -1701,38 +1727,6 @@ export const AllTypesProps: Record<string, any> = {
       },
       where: {
         type: 'epochs_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-    },
-    integrations: {
-      distinct_on: {
-        type: 'circle_integrations_select_column',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      limit: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      offset: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      order_by: {
-        type: 'circle_integrations_order_by',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      where: {
-        type: 'circle_integrations_bool_exp',
         array: false,
         arrayRequired: false,
         required: false,
@@ -3899,33 +3893,9 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
-    delete_circle_integrations: {
-      where: {
-        type: 'circle_integrations_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: true,
-      },
-    },
-    delete_circle_integrations_by_pk: {
-      id: {
-        type: 'bigint',
-        array: false,
-        arrayRequired: false,
-        required: true,
-      },
-    },
-    insert_circle_integrations: {
-      objects: {
-        type: 'circle_integrations_insert_input',
-        array: true,
-        arrayRequired: true,
-        required: true,
-      },
-    },
-    insert_circle_integrations_one: {
-      object: {
-        type: 'circle_integrations_insert_input',
+    updateUser: {
+      payload: {
+        type: 'UpdateUserInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -5639,46 +5609,6 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
     burns_by_pk: {
-      id: {
-        type: 'bigint',
-        array: false,
-        arrayRequired: false,
-        required: true,
-      },
-    },
-    circle_integrations: {
-      distinct_on: {
-        type: 'circle_integrations_select_column',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      limit: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      offset: {
-        type: 'Int',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-      order_by: {
-        type: 'circle_integrations_order_by',
-        array: true,
-        arrayRequired: false,
-        required: true,
-      },
-      where: {
-        type: 'circle_integrations_bool_exp',
-        array: false,
-        arrayRequired: false,
-        required: false,
-      },
-    },
-    circle_integrations_by_pk: {
       id: {
         type: 'bigint',
         array: false,
@@ -9394,6 +9324,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
     logoutUser: 'LogoutResponse',
+    updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_profiles: 'profiles_mutation_response',

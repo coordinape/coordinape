@@ -138,6 +138,13 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['UpdateUserInput']: {
+    bio?: string | null;
+    circle_id: number;
+    epoch_first_visit?: boolean | null;
+    name?: string | null;
+    non_receiver?: boolean | null;
+  };
   ['UploadCircleImageInput']: {
     circle_id: number;
     image_data_base64: string;
@@ -396,7 +403,6 @@ export type ValueTypes = {
   ['circle_integrations_insert_input']: {
     circle_id?: ValueTypes['bigint'] | null;
     data?: ValueTypes['json'] | null;
-    id?: ValueTypes['bigint'] | null;
     name?: string | null;
     type?: string | null;
   };
@@ -1124,6 +1130,10 @@ export type ValueTypes = {
       ValueTypes['circle_integrations']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateUser?: [
+      { payload: ValueTypes['UpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -2935,6 +2945,7 @@ export type ModelTypes = {
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UserResponse']: {
@@ -3225,6 +3236,8 @@ export type ModelTypes = {
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: ModelTypes['circle_integrations'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
@@ -3933,6 +3946,13 @@ export type GraphQLTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
   };
+  ['UpdateUserInput']: {
+    bio?: string;
+    circle_id: number;
+    epoch_first_visit?: boolean;
+    name?: string;
+    non_receiver?: boolean;
+  };
   ['UploadCircleImageInput']: {
     circle_id: number;
     image_data_base64: string;
@@ -4186,7 +4206,6 @@ export type GraphQLTypes = {
   ['circle_integrations_insert_input']: {
     circle_id?: GraphQLTypes['bigint'];
     data?: GraphQLTypes['json'];
-    id?: GraphQLTypes['bigint'];
     name?: string;
     type?: string;
   };
@@ -4794,6 +4813,8 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?: GraphQLTypes['circle_integrations'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    /** Update own user */
+    updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
