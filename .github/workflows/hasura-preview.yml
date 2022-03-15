@@ -59,6 +59,8 @@ jobs:
           hasuraEnv: |
             HASURA_GRAPHQL_AUTH_HOOK=https://coordinape-git-staging-coordinape.vercel.app/api/hasura/auth
             HASURA_ACTION_BASE_URL=${{ env.VERCEL_BASE_URL }}/api/hasura/actions
+            HASURA_API_BASE_URL=${{ env.VERCEL_BASE_URL }}/api/hasura
+            HASURA_EVENT_SECRET=${{secrets.HASURA_PREVIEW_EVENT_SECRET}}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
