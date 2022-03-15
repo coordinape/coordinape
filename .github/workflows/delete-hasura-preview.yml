@@ -22,6 +22,7 @@ jobs:
 
       - name: Hasura Cloud Preview Apps
         uses: hasura/hasura-cloud-preview-apps@v0.1.5
+        continue-on-error: true
         with:
           name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
           delete: true
@@ -31,3 +32,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
+
+      - name: Done
+        run: echo "Done"
