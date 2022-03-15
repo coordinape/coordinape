@@ -94,6 +94,7 @@ jobs:
     if: always() && needs.hasura-cloud-preview.result == 'failure'
     steps:
       - name: Delete failed preview app
+        continue-on-error: true
         uses: hasura/hasura-cloud-preview-apps@v0.1.5
         with:
           name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
@@ -104,3 +105,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
+
+      - name: Done
+        run: echo "Done"
