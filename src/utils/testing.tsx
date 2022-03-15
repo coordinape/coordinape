@@ -4,6 +4,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
+import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import {
@@ -57,7 +58,9 @@ export const TestWrapper = ({
       <SnackbarProvider>
         <Web3ReactProvider getLibrary={getLibrary}>
           <Web3Activator enabled={withWeb3}>
-            <Suspense fallback="Loading...">{children}</Suspense>
+            <MemoryRouter>
+              <Suspense fallback="Loading...">{children}</Suspense>
+            </MemoryRouter>
           </Web3Activator>
         </Web3ReactProvider>
       </SnackbarProvider>

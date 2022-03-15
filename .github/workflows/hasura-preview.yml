@@ -47,7 +47,7 @@ jobs:
           echo "::set-output name=branch::$branch"
 
       - name: Hasura Cloud Preview Apps
-        uses: hasura/hasura-cloud-preview-apps@v0.1.4
+        uses: hasura/hasura-cloud-preview-apps@v0.1.5
         id: hasura_cloud_preview
         with:
           name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
@@ -92,7 +92,7 @@ jobs:
     if: always() && needs.hasura-cloud-preview.result == 'failure'
     steps:
       - name: Delete failed preview app
-        uses: hasura/hasura-cloud-preview-apps@v0.1.4
+        uses: hasura/hasura-cloud-preview-apps@v0.1.5
         with:
           name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
           delete: true

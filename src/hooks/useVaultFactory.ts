@@ -1,9 +1,10 @@
 import assert from 'assert';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import { TAssetEnum } from 'config/networks';
 import { useApeSnackbar } from 'hooks';
 import { useFakeVaultApi } from 'recoilState/vaults';
+import { Asset } from 'services/contracts';
+import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useContracts } from './useContracts';
 
@@ -11,7 +12,7 @@ import { IVault } from 'types';
 
 export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
-  const { apeInfo, apeError } = useApeSnackbar();
+  const { showInfo, showError } = useApeSnackbar();
   const vaultApi = useFakeVaultApi();
 
   const createVault = async ({
@@ -19,20 +20,20 @@ export function useVaultFactory(orgId?: number) {
     type,
   }: {
     simpleTokenAddress?: string;
-    type: TAssetEnum;
+    type?: Asset;
   }) => {
     assert(contracts && orgId, 'called before hooks were ready');
 
-    try {
-      const { vaultFactory } = contracts;
-      assert(
-        type !== 'OTHER' || simpleTokenAddress,
-        'type is OTHER but no simple token address given; this should have been caught in form validation'
-      );
+    // should be caught by form validation
+    assert(
+      type || simpleTokenAddress,
+      'type & simple token address are both blank'
+    );
 
+    try {
       let args: [string, string], decimals: number;
 
-      if (type === 'OTHER') {
+      if (!type) {
         args = [ZERO_ADDRESS, simpleTokenAddress as string];
         decimals = await contracts
           .getERC20(simpleTokenAddress as string)
@@ -43,10 +44,10 @@ export function useVaultFactory(orgId?: number) {
         decimals = await contracts.getERC20(tokenAddress).decimals();
       }
 
-      const tx = await vaultFactory.createApeVault(...args);
-      apeInfo('transaction sent');
-      const receipt = await tx.wait();
-      apeInfo('transaction mined');
+      const { receipt } = await sendAndTrackTx(
+        () => contracts.vaultFactory.createApeVault(...args),
+        { showInfo, showError }
+      );
 
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
@@ -57,7 +58,7 @@ export function useVaultFactory(orgId?: number) {
             tokenAddress: args[0],
             simpleTokenAddress: args[1],
             decimals,
-            type,
+            type: type || 'OTHER',
             orgId,
           };
           vaultApi.addVault(orgId, vault);
@@ -65,16 +66,16 @@ export function useVaultFactory(orgId?: number) {
         }
       }
 
-      throw new Error('VaultCreated event not found');
+      if (receipt) throw new Error('VaultCreated event not found');
     } catch (e) {
       console.error(e);
 
       if ((e as any).message?.match(/method=.decimals/)) {
-        apeError(
+        showError(
           "The custom asset must be an ERC20 token. (Couldn't call the decimals() method)"
         );
       } else {
-        apeError(e);
+        showError(e);
       }
     }
   };

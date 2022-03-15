@@ -29,6 +29,13 @@ const tokens = {
         whale: '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',
     },
 };
+(0, config_1.task)('mine', 'Mine a block').setAction(async (_, hre) => {
+    await hre.network.provider.request({
+        method: 'evm_mine',
+        params: [1],
+    });
+    console.log(await hre.ethers.provider.getBlockNumber());
+});
 (0, config_1.task)('balance', 'Show token balance')
     .addParam('token', 'The token symbol')
     .addParam('address', 'The address to check')
@@ -44,7 +51,7 @@ const tokens = {
 });
 (0, config_1.task)('mint', 'Mints the given token to specified account')
     .addParam('token', 'The token symbol')
-    .addParam('address', 'The recipient')
+    .addParam('address', 'The recipient', constants_1.HARDHAT_OWNER_ADDRESS)
     .addParam('amount', 'The amount to mint')
     .setAction(async (args, hre) => {
     const mintEth = async (receiver, amount) => {

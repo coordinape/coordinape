@@ -3,7 +3,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { NewApeAvatar, StaticTable } from 'components';
-import { zAssetEnum } from 'config/networks';
 import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -89,12 +88,10 @@ const AllocationTable = ({
           label: 'Vault Funds Allocated',
           render: (u: IAllocateUser) => {
             if (!tokenName) return '-';
-
-            const symbol =
-              tokenName === zAssetEnum.Enum.OTHER ? `OTHER COIN` : tokenName;
-
             return u.received_gifts.length > 0
-              ? `${(givenPercent(u) * totalAmountInVault).toFixed(2)} ${symbol}`
+              ? `${(givenPercent(u) * totalAmountInVault).toFixed(
+                  2
+                )} ${tokenName}`
               : '-';
           },
         },

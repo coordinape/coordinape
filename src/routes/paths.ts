@@ -10,6 +10,7 @@ export const EXTERNAL_URL_LANDING_PAGE = 'https://coordinape.com';
 export const EXTERNAL_URL_DOCS_REGIFT = `${EXTERNAL_URL_DOCS}/welcome/new-feature-regift`;
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.gg/coordinape';
+export const EXTERNAL_URL_DISCORD_SUPPORT = 'https://discord.gg/BG3fDAvzuB';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
 // TODO: Change this to something more specific to feedback.

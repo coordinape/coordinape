@@ -20,7 +20,7 @@ export const zEthAddress = z
   // `resolveName` throws outright if it is passed a malformed eth address
   // so we need to refine it first so safeParseAsync doesn't throw
   // unexpectedly
-  .refine(validAddressOrENS, 'Wallet address is invalid')
+  .refine(validAddressOrENS, 'Address is invalid')
   .transform(s => provider.resolveName(s))
   .refine(s => s, 'unresolved ENS name')
   // the falsy case is unreachable, but required for soundness
@@ -28,7 +28,7 @@ export const zEthAddress = z
 
 export const zEthAddressOnly = z
   .string()
-  .refine(s => ethers.utils.isAddress(s), 'Wallet address is invalid')
+  .refine(s => ethers.utils.isAddress(s), 'Address is invalid')
   .transform(s => s.toLowerCase());
 
 function validAddressOrENS(s: string): boolean {

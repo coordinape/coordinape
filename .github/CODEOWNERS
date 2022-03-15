@@ -1,0 +1,15 @@
+/api/       @topocount
+/api-lib/   @topocount
+/docker/    @topocount
+/hasura/    @topocount
+/prisma/    @topocount
+/scripts/   @topocount
+
+/src/       @teeolendo
+/hardhat/   @teeolendo
+
+/api/       @zashton
+/api-lib/   @zashton
+/hasura/    @zashton
+
+/src/       @levity

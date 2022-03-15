@@ -2,11 +2,10 @@ import { useState } from 'react';
 
 import { useCurrentOrg } from 'hooks/gql';
 import { useVaults } from 'recoilState/vaults';
-import { Box, Button, Panel, Text } from 'ui';
+import { Box, Button, Modal, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
 
-// eslint-disable-next-line import/no-named-as-default
-import CreateVaultModal from './CreateVaultModal';
+import { CreateForm } from './CreateForm';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
@@ -18,8 +17,10 @@ const VaultsPage = () => {
 
   return (
     <OrgLayout>
-      <Box css={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Text css={{ fontSize: '$8', fontWeight: '$bold' }}>Vaults</Text>
+      <Box css={{ display: 'flex' }}>
+        <Text css={{ fontSize: '$8', fontWeight: '$bold', flexGrow: 1 }}>
+          Vaults
+        </Text>
         <Button color="red" size="small" onClick={() => setModal('create')}>
           Add Vault
         </Button>
@@ -31,7 +32,11 @@ const VaultsPage = () => {
       ) : (
         <Panel>There are no vaults in your organization yet.</Panel>
       )}
-      {modal === 'create' && <CreateVaultModal onClose={closeModal} />}
+      {modal === 'create' && (
+        <Modal onClose={closeModal} title="Create a New Vault">
+          <CreateForm onSuccess={closeModal} />
+        </Modal>
+      )}
     </OrgLayout>
   );
 };
