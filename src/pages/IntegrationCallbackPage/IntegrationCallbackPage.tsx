@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useApi } from 'lib/gql';
+import * as mutations from 'lib/gql/mutations';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
@@ -46,14 +46,12 @@ export const IntegrationCallbackPage: FC = () => {
   );
   const { circleId } = useSelectedCircle();
 
-  const { createCircleIntegration } = useApi();
-
   const connectIntegration = useCallback(async () => {
     const integration = integrationConfigs.find(i => i.test(params));
     if (integration) {
       const data = integration.create(params);
       try {
-        await createCircleIntegration(
+        await mutations.createCircleIntegration(
           circleId,
           integration.name,
           data.integrationName,
@@ -66,7 +64,8 @@ export const IntegrationCallbackPage: FC = () => {
     } else {
       setStatus('failed');
     }
-  }, [createCircleIntegration]);
+  }, []);
+
   useEffect(() => {
     connectIntegration();
   }, []);

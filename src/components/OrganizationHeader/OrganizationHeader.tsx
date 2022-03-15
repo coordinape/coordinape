@@ -37,7 +37,7 @@ export const OrganizationHeader = ({ css = {} }: { css?: CSS }) => {
         }}
       />
       <Text css={{ fontWeight: '$bold', fontSize: '$8', flexGrow: 1 }}>
-        {currentOrg?.name}
+        {currentOrg.data?.name}
       </Text>
       <BigLink to={paths.vaults}>Vaults</BigLink>
       <BigLink to={paths.adminCircles}>Circles</BigLink>
