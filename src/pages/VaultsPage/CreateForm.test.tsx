@@ -10,9 +10,11 @@ import { TestWrapper } from 'utils/testing';
 
 import { CreateForm } from './CreateForm';
 
-jest.mock('hooks/gql', () => {
+jest.mock('hooks/gql/useCurrentOrg', () => {
   return {
-    useCurrentOrg: jest.fn(() => ({ id: 101, name: 'Mock Org' })),
+    useCurrentOrg: jest
+      .fn()
+      .mockReturnValue({ data: { id: 101, name: 'Mock Org' } }),
   };
 });
 
