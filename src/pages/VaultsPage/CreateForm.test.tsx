@@ -6,7 +6,6 @@ import {
   waitFor,
 } from '@testing-library/react';
 
-import 'hooks/gql';
 import { TestWrapper } from 'utils/testing';
 
 import { CreateForm } from './CreateForm';
