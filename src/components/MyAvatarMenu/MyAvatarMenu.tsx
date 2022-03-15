@@ -1,13 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
-import { useRecoilValueLoadable } from 'recoil';
 
 import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
 import { ApeAvatar, MenuNavigationLinks } from 'components';
-import { useMyProfile, rSelectedCircle } from 'recoilState/app';
-import { useSetCircleSelectorOpen } from 'recoilState/ui';
+import { useMyProfile } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
   avatarButton: {
@@ -142,42 +140,5 @@ export const MyAvatarMenu = () => {
         </Popover>
       </Hidden>
     </>
-  );
-};
-
-export const CirclesSelectorSection = (props: { handleOnClick?(): void }) => {
-  const classes = useStyles();
-
-  const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-
-  const handleOnClick = () => {
-    if (props.handleOnClick) {
-      props.handleOnClick();
-    }
-    setCircleSelectorOpen(true);
-  };
-
-  return (
-    <Suspense fallback={null}>
-      <span className={classes.subHeader}>Admin View</span>
-      {selectedCircle && selectedCircle.impersonate ? (
-        <>
-          <button
-            className={clsx(classes.link, classes.selectedLink)}
-            onClick={props.handleOnClick}
-          >
-            {selectedCircle.circle.name}
-          </button>
-          <button className={classes.link} onClick={handleOnClick}>
-            Circle Selector
-          </button>
-        </>
-      ) : (
-        <button className={classes.link} onClick={handleOnClick}>
-          Circle Selector
-        </button>
-      )}
-    </Suspense>
   );
 };

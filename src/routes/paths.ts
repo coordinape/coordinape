@@ -153,9 +153,6 @@ export const getAdminNavigation = (): INavItem[] => [
   { path: getCirclesPath(), label: 'Circles' },
   { path: getVaultsPath(), label: 'Vaults' },
 ];
-export const getCirclesNavigation = (): INavItem[] => [
-  { path: getCirclesPath(), label: 'Circles' },
-];
 
 export const getVouchingNavigation = (): INavItem[] => [
   { path: getVouchingPath(), label: 'Vouching' },

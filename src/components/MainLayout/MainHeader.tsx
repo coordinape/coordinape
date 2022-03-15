@@ -18,7 +18,7 @@ import {
   useWalletAuth,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { getMainNavigation, getCirclesNavigation } from 'routes/paths';
+import { getMainNavigation, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Divider } from 'ui';
 
 export const MainHeader = () => {
@@ -69,6 +69,7 @@ export const MainHeader = () => {
       <div
         style={{
           display: 'flex',
+          alignItems: 'center',
         }}
       >
         <Image
@@ -81,10 +82,7 @@ export const MainHeader = () => {
         />
         {hasCircles && (
           <Suspense fallback={<span />}>
-            <CircleNav />{' '}
-            <div style={{ marginTop: '1em', color: '#B5BBBD' }}>
-              {breadcrumb}
-            </div>
+            <CircleNav /> <div style={{ color: '#B5BBBD' }}>{breadcrumb}</div>
           </Suspense>
         )}
       </div>
@@ -276,7 +274,7 @@ const boxStyle = {
 };
 
 export const CircleNav = () => {
-  const circleNavItems = getCirclesNavigation();
+  const circleNavItems = [{ path: paths.circles, label: 'Circles' }];
 
   return (
     <Box css={boxStyle}>
