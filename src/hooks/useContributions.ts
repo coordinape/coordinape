@@ -4,7 +4,7 @@ import { useQueries } from 'react-query';
 
 import { useSelectedCircle } from 'recoilState';
 
-import { useCurrentCircleIntegrations } from './gql';
+import { useCurrentCircleIntegrations } from './gql/useCurrentCircleIntegrations';
 
 interface Contribution {
   title: string;
@@ -22,12 +22,12 @@ interface Response {
 }
 
 export function useContributionUsers(): ContributionUser[] {
-  const { integrations } = useCurrentCircleIntegrations();
+  const integrations = useCurrentCircleIntegrations();
   const epoch = useSelectedCircle().circleEpochsStatus.currentEpoch;
 
   const responses = useQueries(
-    epoch
-      ? integrations
+    epoch && integrations.data
+      ? integrations.data
           .filter(i => i.type === 'dework')
           .map(i => ({
             queryKey: `circle-integration-contributions-${i.id}-${epoch.id}`,

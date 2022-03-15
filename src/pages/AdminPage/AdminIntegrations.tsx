@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 
-import { useApi } from 'lib/gql';
+import * as mutations from 'lib/gql/mutations';
 
 import { makeStyles, Button, IconButton } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
-import { useCurrentCircleIntegrations } from 'hooks/gql';
+import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { DeleteIcon, DeworkIcon, DeworkLogo } from 'icons';
 import { paths } from 'routes/paths';
 
@@ -40,24 +40,23 @@ const useStyles = makeStyles(theme => ({
 export const AdminIntegrations = () => {
   const classes = useStyles();
 
-  const { integrations, refetch: refetchIntegrations } =
-    useCurrentCircleIntegrations();
+  const integrations = useCurrentCircleIntegrations();
   const [deleteIntegration, setDeleteIntegration] =
-    useState<typeof integrations[number]>();
-  const { deleteCircleIntegration } = useApi();
+    useState<Exclude<typeof integrations['data'], undefined>[number]>();
+
   const handleDeleteIntegration = useCallback(async () => {
     if (deleteIntegration) {
-      await deleteCircleIntegration(deleteIntegration.id);
-      await refetchIntegrations();
+      await mutations.deleteCircleIntegration(deleteIntegration.id);
+      await integrations.refetch();
       setDeleteIntegration(undefined);
     }
-  }, [deleteCircleIntegration, refetchIntegrations, deleteIntegration]);
+  }, [integrations.refetch, deleteIntegration]);
 
   return (
     <div style={{ display: 'grid' }}>
       <p className={classes.subTitle}>Integrations</p>
       <div className={classes.integrationContainer}>
-        {integrations.map((integration, index) => (
+        {integrations.data?.map((integration, index) => (
           <div key={index} className={classes.integrationRow}>
             <DeworkLogo size="md" className={classes.integrationIcon} />
             <p className={classes.integrationText}>{integration.name}</p>

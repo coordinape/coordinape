@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'recoilState/vaults';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
@@ -10,7 +10,7 @@ export const VaultTransactions = () => {
   const { id } = useParams();
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const vaults = useVaults(currentOrg.data?.id);
   const vault = vaults.find(v => v.id === id);
 
   if (!vault) {
