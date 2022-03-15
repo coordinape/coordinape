@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
@@ -7,6 +8,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   errorResponse,
   errorResponseWithStatusCode,
+  zodParserErrorResponse,
 } from '../../../api-lib/HttpError';
 import {
   createEpochInput,
@@ -19,7 +21,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       input: { payload: input },
     } = composeHasuraActionRequestBody(createEpochInput).parse(request.body);
     const { circle_id, repeat, start_date, days } = input;
-    //let repeat_day_of_month = 0;
+    let repeat_day_of_month = 0;
     if (repeat > 0) {
       const { epochs } = await adminClient.query({
         epochs: [
@@ -44,9 +46,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         );
         return;
       }
-      // if (repeat === 2) {
-      //   repeat_day_of_month = start_date.day;
-      // }
+      if (repeat === 2) {
+        repeat_day_of_month = start_date.day;
+      }
     }
 
     const end_date = start_date.plus({ days: days });
@@ -74,17 +76,38 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         {
           message:
             `This epoch overlaps with an existing epoch that occurs between ` +
-            `${new Date(epoch?.start_date).toLocaleString()} and ` +
-            `${new Date(epoch?.end_date).toLocaleString()}. ` +
+            `${DateTime.fromISO(epoch?.start_date).toLocaleString(
+              DateTime.DATETIME_SHORT
+            )} and ` +
+            `${DateTime.fromISO(epoch?.end_date).toLocaleString(
+              DateTime.DATETIME_SHORT
+            )}. ` +
             `Please adjust epoch settings to avoid overlapping with existing epochs`,
         },
         422
       );
       return;
     }
+
+    const { insert_epochs_one } = await adminClient.mutate({
+      insert_epochs_one: [
+        {
+          object: {
+            ...input,
+            end_date,
+            repeat_day_of_month,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    });
+
+    response.status(200).json(insert_epochs_one);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      errorResponseWithStatusCode(response, { message: 'Invalid input' }, 422);
+      zodParserErrorResponse(response, err.issues);
       return;
     }
     errorResponse(response, err);
