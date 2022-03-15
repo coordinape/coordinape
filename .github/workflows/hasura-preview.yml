@@ -6,6 +6,7 @@ on:
       - 'hasura/**' # path to Hasura config, prevents creating deployments if no changes
     branches:
       - main
+      - hasura-next
 
 jobs:
   hasura-cloud-preview:
