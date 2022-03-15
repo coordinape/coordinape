@@ -2856,6 +2856,38 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    epoch_pending_token_gifts: {
+      distinct_on: {
+        type: 'pending_token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'pending_token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'pending_token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
   },
   epochs_aggregate_order_by: {
     avg: {
@@ -3026,6 +3058,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     ended: {
       type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_pending_token_gifts: {
+      type: 'pending_token_gifts_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3302,6 +3340,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     ended: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_pending_token_gifts_aggregate: {
+      type: 'pending_token_gifts_aggregate_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -9295,6 +9339,7 @@ export const ReturnTypes: Record<string, any> = {
     days: 'Int',
     end_date: 'timestamptz',
     ended: 'Boolean',
+    epoch_pending_token_gifts: 'pending_token_gifts',
     grant: 'numeric',
     id: 'bigint',
     notified_before_end: 'timestamp',

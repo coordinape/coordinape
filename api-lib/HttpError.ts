@@ -81,3 +81,12 @@ export function zodParserErrorResponse(
   ue.details = issues;
   errorResponse(res, ue);
 }
+
+export function errorLog(message: string) {
+  Sentry.captureMessage(message);
+  console.error(message);
+}
+
+export const sentryFlush = async () => {
+  await Sentry.flush(awaitSentryFlushMs);
+};
