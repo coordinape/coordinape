@@ -160,6 +160,11 @@ export const MainHeader = () => {
             >
               <Suspense fallback={<span />}>
                 <CircleNav />
+                <div
+                  style={{ margin: 0, marginLeft: '1rem', color: '#B5BBBD' }}
+                >
+                  {breadcrumb}
+                </div>
                 <HeaderNav />
               </Suspense>
             </Box>
