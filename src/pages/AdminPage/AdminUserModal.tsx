@@ -1,4 +1,3 @@
-/* eslint no-console: */
 import { useEffect, useMemo, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
@@ -64,9 +63,7 @@ export const AdminUserModal = ({
   const hasGiveAllocated = !!user?.give_token_received;
   const userIsAccount =
     account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
-  console.log(isOptedOut, !!user?.fixed_non_receiver, !!user?.non_receiver);
 
-  console.log('circle, ', selectedCircle);
   const source = useMemo(
     () => ({
       user: user,
@@ -86,13 +83,7 @@ export const AdminUserModal = ({
             (!!params?.fixed_non_receiver || !!params?.non_receiver);
           const showWarning =
             hasOptOutChanged && hasGiveAllocated && !hasAcceptedOptOutWarning;
-          console.log(
-            'showWarning',
-            showWarning,
-            isOptedOut,
-            hasGiveAllocated,
-            !hasAcceptedOptOutWarning
-          );
+
           if (showWarning) {
             setShowOptOutChangeWarning(true);
           } else {
