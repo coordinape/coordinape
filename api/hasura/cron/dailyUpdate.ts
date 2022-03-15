@@ -2,12 +2,15 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
-import { DateTime, DurationObjectUnits } from 'luxon';
+import { DateTime, DurationObjectUnits, Settings } from 'luxon';
 
 import { pending_token_gifts_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+
+Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const yesterday = DateTime.now().minus({ days: 1 }).toISO();
@@ -134,7 +137,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const message = dedent`
         ${circle.organization?.name} / ${circle.name}
 
-        ${epochStartDate.toISODate()} to ${epochEndDate.toISODate()}
+        ${epochStartDate.toLocaleString(
+          DateTime.DATETIME_FULL
+        )} to ${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}
         Total Allocations: ${totalAllocations ?? 0}
         ${circle.token_name || 'GIVE'} sent: ${tokensSent ?? 0}
         Opt outs: ${optOuts ?? 0}
@@ -154,7 +159,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
         } catch (e: unknown) {
           if (e instanceof Error)
-            console.error(
+            errorLog(
               `Telegram Daily Update error for circle #${circle.id}: ` +
                 e.message
             );
@@ -171,7 +176,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
         } catch (e: unknown) {
           if (e instanceof Error)
-            console.error(
+            errorLog(
               `Discord Daily Update error for circle #${circle.id}: ` +
                 e.message
             );
