@@ -4,6 +4,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
@@ -53,17 +54,27 @@ export const TestWrapper = ({
   getLibrary = defaultGetLibrary,
   withWeb3 = false,
 }: TestWrapperProps) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
   return (
     <RecoilRoot>
-      <SnackbarProvider>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <Web3Activator enabled={withWeb3}>
-            <MemoryRouter>
-              <Suspense fallback="Loading...">{children}</Suspense>
-            </MemoryRouter>
-          </Web3Activator>
-        </Web3ReactProvider>
-      </SnackbarProvider>
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3Activator enabled={withWeb3}>
+              <MemoryRouter>
+                <Suspense fallback="Loading...">{children}</Suspense>
+              </MemoryRouter>
+            </Web3Activator>
+          </Web3ReactProvider>
+        </SnackbarProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };
