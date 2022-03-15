@@ -45,6 +45,7 @@ export const paths = {
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
   adminCircles: '/admin/circles',
   connectIntegration: '/connect-integration',
+  circles: '/circles',
 };
 
 // these getters for static paths are deprecated -- use paths above instead
@@ -57,6 +58,7 @@ export const getVouchingPath = () => paths.vouching;
 export const getHistoryPath = () => paths.history;
 export const getAdminPath = () => paths.admin;
 export const getVaultsPath = () => paths.vaults;
+export const getCirclesPath = () => paths.circles;
 
 // this one is different because it's used on the landing page
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
@@ -120,7 +122,11 @@ export const getMainNavigation = ({
   asCircleAdmin?: boolean;
   asVouchingEnabled?: boolean;
 } = {}): INavItem[] => {
-  let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
+  let mainItems = [
+    { path: getHistoryPath(), label: 'History' },
+    NAV_ITEM_ALLOCATE,
+    { path: getMapPath(), label: 'Map' },
+  ];
   const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
   if (IN_PRODUCTION) {
     const adminItems1 = [{ path: getAdminPath(), label: 'Admin' }];
@@ -143,12 +149,21 @@ export const getMainNavigation = ({
   return mainItems;
 };
 
+export const getAdminNavigation = (): INavItem[] => [
+  { path: getCirclesPath(), label: 'Circles' },
+  { path: getVaultsPath(), label: 'Vaults' },
+];
+
+export const getVouchingNavigation = (): INavItem[] => [
+  { path: getVouchingPath(), label: 'Vouching' },
+];
+
+export const getGiveNavigation = (): INavItem[] => [
+  { path: getGivePath(), label: 'Allocate' },
+];
+
 export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_PROFILE,
-  NAV_ITEM_EPOCH,
-  NAV_ITEM_TEAM,
-  { path: getHistoryPath(), label: 'My History' },
-  NAV_ITEM_NEW_CIRCLE,
   NAV_ITEM_DOCS,
 ];
 

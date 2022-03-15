@@ -1,18 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
-import { useRecoilValueLoadable } from 'recoil';
 
-import { Popover, makeStyles, Divider, Hidden } from '@material-ui/core';
+import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
-import {
-  CirclesHeaderSection,
-  ApeAvatar,
-  MenuNavigationLinks,
-} from 'components';
-import { useSelectedCircle } from 'recoilState';
-import { useMyProfile, rSelectedCircle } from 'recoilState/app';
-import { useSetCircleSelectorOpen } from 'recoilState/ui';
+import { ApeAvatar, MenuNavigationLinks } from 'components';
+import { useMyProfile } from 'recoilState/app';
 
 const useStyles = makeStyles(theme => ({
   avatarButton: {
@@ -103,10 +96,6 @@ export const MyAvatarMenu = () => {
   const classes = useStyles();
   const myProfile = useMyProfile();
 
-  const { circle: selectedCircle } = useSelectedCircle();
-
-  const { hasAdminView } = myProfile;
-
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
@@ -117,18 +106,6 @@ export const MyAvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const hidePaths = React.useMemo(() => {
-    const paths = [];
-    /*  rule to hide /team path, if in the future
-        there are other rules we can add them
-    */
-    if (!selectedCircle.team_selection) {
-      paths.push('/team');
-    }
-
-    return paths;
-  }, [selectedCircle]);
 
   return (
     <>
@@ -159,57 +136,9 @@ export const MyAvatarMenu = () => {
             horizontal: 'right',
           }}
         >
-          <MenuNavigationLinks hidePaths={hidePaths} />
-          <Divider variant="middle" className={classes.divider} />
-          <span className={classes.subHeader}>Switch Circles</span>
-          <Suspense fallback={null}>
-            <CirclesHeaderSection handleOnClick={() => setAnchorEl(null)} />
-          </Suspense>
-          {hasAdminView && (
-            <>
-              <Divider variant="middle" className={classes.divider} />
-              <CirclesSelectorSection handleOnClick={() => setAnchorEl(null)} />
-            </>
-          )}
+          <MenuNavigationLinks />
         </Popover>
       </Hidden>
     </>
-  );
-};
-
-export const CirclesSelectorSection = (props: { handleOnClick?(): void }) => {
-  const classes = useStyles();
-
-  const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-
-  const handleOnClick = () => {
-    if (props.handleOnClick) {
-      props.handleOnClick();
-    }
-    setCircleSelectorOpen(true);
-  };
-
-  return (
-    <Suspense fallback={null}>
-      <span className={classes.subHeader}>Admin View</span>
-      {selectedCircle && selectedCircle.impersonate ? (
-        <>
-          <button
-            className={clsx(classes.link, classes.selectedLink)}
-            onClick={props.handleOnClick}
-          >
-            {selectedCircle.circle.name}
-          </button>
-          <button className={classes.link} onClick={handleOnClick}>
-            Circle Selector
-          </button>
-        </>
-      ) : (
-        <button className={classes.link} onClick={handleOnClick}>
-          Circle Selector
-        </button>
-      )}
-    </Suspense>
   );
 };
