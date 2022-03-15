@@ -35,6 +35,7 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/createUser'
+    forward_client_headers: true
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
@@ -45,7 +46,6 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
-    forward_client_headers: true
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
