@@ -6,3 +6,16 @@
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
+- name: dailyUpdate
+  webhook: '{{HASURA_API_BASE_URL}}/cron/dailyUpdate'
+  schedule: 0 21 * * *
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    timeout_seconds: 1200
+    tolerance_seconds: 21600
+    retry_interval_seconds: 10
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
