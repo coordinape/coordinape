@@ -2,8 +2,6 @@ import { utils } from 'ethers';
 
 import { encodeCircleId, decodeCircleId } from './index';
 
-// this is pretty trivial now but will become more complex when we add version
-// prefixes, etc.
 test('encode & decode circle id', () => {
   const encoded = encodeCircleId(777);
   const expected =
