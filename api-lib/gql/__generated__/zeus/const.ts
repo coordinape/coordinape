@@ -4295,6 +4295,120 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
   },
+  claims_aggregate_order_by: {
+    avg: {
+      type: 'claims_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'claims_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'claims_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'claims_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'claims_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'claims_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'claims_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'claims_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'claims_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'claims_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_arr_rel_insert_input: {
+    data: {
+      type: 'claims_insert_input',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    on_conflict: {
+      type: 'claims_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_avg_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   claims_bool_exp: {
     _and: {
       type: 'claims_bool_exp',
@@ -4326,6 +4440,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distribution: {
+      type: 'distributions_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'bigint_comparison_exp',
       array: false,
@@ -4352,6 +4472,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     proof: {
       type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4409,6 +4535,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distribution: {
+      type: 'distributions_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'bigint',
       array: false,
@@ -4439,8 +4571,102 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    user: {
+      type: 'users_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     user_id: {
       type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_max_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    proof: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_min_order_by: {
+    address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    proof: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4479,6 +4705,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distribution: {
+      type: 'distributions_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -4505,6 +4737,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     proof: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4575,7 +4813,231 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  claims_stddev_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_stddev_pop_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_stddev_samp_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_sum_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   claims_update_column: 'enum',
+  claims_var_pop_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_var_samp_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  claims_variance_order_by: {
+    amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   date: 'String',
   date_comparison_exp: {
     _eq: {
@@ -4633,6 +5095,72 @@ export const AllTypesProps: Record<string, any> = {
       required: true,
     },
   },
+  distributions: {
+    claims: {
+      distinct_on: {
+        type: 'claims_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'claims_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'claims_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    claims_aggregate: {
+      distinct_on: {
+        type: 'claims_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'claims_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'claims_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
   distributions_aggregate_fields: {
     count: {
       columns: {
@@ -4647,6 +5175,114 @@ export const AllTypesProps: Record<string, any> = {
         arrayRequired: false,
         required: false,
       },
+    },
+  },
+  distributions_aggregate_order_by: {
+    avg: {
+      type: 'distributions_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'distributions_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'distributions_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'distributions_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'distributions_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'distributions_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'distributions_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'distributions_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'distributions_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'distributions_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_arr_rel_insert_input: {
+    data: {
+      type: 'distributions_insert_input',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    on_conflict: {
+      type: 'distributions_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_avg_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
     },
   },
   distributions_bool_exp: {
@@ -4668,6 +5304,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    claims: {
+      type: 'claims_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp_comparison_exp',
       array: false,
@@ -4676,6 +5318,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     created_by: {
       type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4706,6 +5354,18 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault: {
+      type: 'vaults_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4745,6 +5405,12 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   distributions_insert_input: {
+    claims: {
+      type: 'claims_arr_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp',
       array: false,
@@ -4753,6 +5419,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     created_by: {
       type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_obj_rel_insert_input',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4787,8 +5459,134 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    user: {
+      type: 'users_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault: {
+      type: 'vaults_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_max_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    merkle_root: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_min_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    merkle_root: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_obj_rel_insert_input: {
+    data: {
+      type: 'distributions_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    on_conflict: {
+      type: 'distributions_on_conflict',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4815,6 +5613,12 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   distributions_order_by: {
+    claims_aggregate: {
+      type: 'claims_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'order_by',
       array: false,
@@ -4823,6 +5627,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     created_by: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch: {
+      type: 'epochs_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4853,6 +5663,18 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault: {
+      type: 'vaults_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -4923,7 +5745,189 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  distributions_stddev_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_stddev_pop_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_stddev_samp_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_sum_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   distributions_update_column: 'enum',
+  distributions_var_pop_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_var_samp_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_variance_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   epochs: {
     burns: {
       distinct_on: {
@@ -17769,6 +18773,114 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
   },
+  vault_transactions_aggregate_order_by: {
+    avg: {
+      type: 'vault_transactions_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'vault_transactions_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'vault_transactions_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'vault_transactions_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'vault_transactions_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'vault_transactions_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'vault_transactions_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'vault_transactions_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'vault_transactions_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'vault_transactions_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_arr_rel_insert_input: {
+    data: {
+      type: 'vault_transactions_insert_input',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    on_conflict: {
+      type: 'vault_transactions_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_avg_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   vault_transactions_bool_exp: {
     _and: {
       type: 'vault_transactions_bool_exp',
@@ -17836,8 +18948,20 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     value: {
       type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault: {
+      type: 'vaults_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -17925,14 +19049,150 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    user: {
+      type: 'users_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     value: {
       type: 'bigint',
       array: false,
       arrayRequired: false,
       required: false,
     },
+    vault: {
+      type: 'vaults_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_max_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    description: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tx_hash: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_min_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    date: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    description: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    tx_hash: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18007,8 +19267,20 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     value: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault: {
+      type: 'vaults_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18091,7 +19363,319 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  vault_transactions_stddev_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_stddev_pop_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_stddev_samp_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_sum_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   vault_transactions_update_column: 'enum',
+  vault_transactions_var_pop_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_var_samp_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vault_transactions_variance_order_by: {
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    value: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vaults: {
+    distributions: {
+      distinct_on: {
+        type: 'distributions_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'distributions_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'distributions_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    distributions_aggregate: {
+      distinct_on: {
+        type: 'distributions_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'distributions_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'distributions_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    vault_transactions: {
+      distinct_on: {
+        type: 'vault_transactions_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'vault_transactions_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'vault_transactions_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    vault_transactions_aggregate: {
+      distinct_on: {
+        type: 'vault_transactions_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'vault_transactions_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'vault_transactions_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
   vaults_aggregate_fields: {
     count: {
       columns: {
@@ -18145,6 +19729,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distributions: {
+      type: 'distributions_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     id: {
       type: 'bigint_comparison_exp',
       array: false,
@@ -18159,6 +19749,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     owner_id: {
       type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol: {
+      type: 'organizations_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18183,6 +19779,18 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_transactions: {
+      type: 'vault_transactions_bool_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18246,6 +19854,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distributions: {
+      type: 'distributions_arr_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     id: {
       type: 'bigint',
       array: false,
@@ -18260,6 +19874,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     owner_id: {
       type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol: {
+      type: 'organizations_obj_rel_insert_input',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18284,6 +19904,32 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_transactions: {
+      type: 'vault_transactions_arr_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  vaults_obj_rel_insert_input: {
+    data: {
+      type: 'vaults_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    on_conflict: {
+      type: 'vaults_on_conflict',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18328,6 +19974,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distributions_aggregate: {
+      type: 'distributions_aggregate_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     id: {
       type: 'order_by',
       array: false,
@@ -18342,6 +19994,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     owner_id: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    protocol: {
+      type: 'organizations_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18366,6 +20024,18 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_transactions_aggregate: {
+      type: 'vault_transactions_aggregate_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -19513,11 +21183,13 @@ export const ReturnTypes: Record<string, any> = {
   claims: {
     address: 'String',
     amount: 'bigint',
+    distribution: 'distributions',
     distribution_id: 'bigint',
     flag: 'Boolean',
     id: 'bigint',
     index: 'bigint',
     proof: 'String',
+    user: 'users',
     user_id: 'bigint',
   },
   claims_aggregate: {
@@ -19616,13 +21288,18 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   distributions: {
+    claims: 'claims',
+    claims_aggregate: 'claims_aggregate',
     created_at: 'timestamp',
     created_by: 'bigint',
+    epoch: 'epochs',
     epoch_id: 'bigint',
     id: 'bigint',
     merkle_root: 'String',
     total_amount: 'String',
     updated_at: 'timestamp',
+    user: 'users',
+    vault: 'vaults',
     vault_id: 'bigint',
   },
   distributions_aggregate: {
@@ -21282,7 +22959,9 @@ export const ReturnTypes: Record<string, any> = {
     name: 'String',
     tx_hash: 'String',
     updated_at: 'timestamp',
+    user: 'users',
     value: 'bigint',
+    vault: 'vaults',
     vault_id: 'bigint',
   },
   vault_transactions_aggregate: {
@@ -21382,13 +23061,19 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamp',
     created_by: 'bigint',
     decimals: 'Int',
+    distributions: 'distributions',
+    distributions_aggregate: 'distributions_aggregate',
     id: 'bigint',
     org_id: 'bigint',
     owner_id: 'bigint',
+    protocol: 'organizations',
     simple_token_address: 'String',
     token_address: 'String',
     type: 'Int',
     updated_at: 'timestamp',
+    user: 'users',
+    vault_transactions: 'vault_transactions',
+    vault_transactions_aggregate: 'vault_transactions_aggregate',
   },
   vaults_aggregate: {
     aggregate: 'vaults_aggregate_fields',

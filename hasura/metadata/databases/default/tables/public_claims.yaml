@@ -1,3 +1,52 @@
 table:
   name: claims
   schema: public
+object_relationships:
+- name: distribution
+  using:
+    foreign_key_constraint_on: distribution_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      distribution:
+        vault:
+          protocol:
+            circles:
+              users:
+                profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+    columns:
+    - id
+    - distribution_id
+    - index
+    - proof
+    - address
+    - flag
+    - amount
+    - user_id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - id
+    - distribution_id
+    - index
+    - proof
+    - address
+    - flag
+    - amount
+    - user_id
+    filter:
+      distribution:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+  role: user
