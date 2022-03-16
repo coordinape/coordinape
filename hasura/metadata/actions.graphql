@@ -23,7 +23,7 @@ type Mutation {
 }
 
 type Mutation {
-  updateUser(payload: UpdateUserInput!): UserResponse)
+  updateUser(payload: UpdateUserInput!): UserResponse
 }
 
 type Mutation {
@@ -106,10 +106,6 @@ input VouchInput {
   nominee_id: Int!
 }
 
-type create_circle_response {
-  id: Int!
-}
-
 type CreateCircleResponse {
   id: Int!
 }
@@ -128,10 +124,6 @@ type LogoutResponse {
 
 type UserResponse {
   id: ID!
-}
-
-type DeleteEpochResponse {
-  success: Boolean!
 }
 
 type DeleteEpochResponse {
