@@ -144,8 +144,8 @@ const ProfileCardInner = ({
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({
       user,
-      note: note || gift?.note || '',
-      tokens: tokens === undefined ? gift?.tokens || 0 : tokens,
+      note: note || gift.note || '',
+      tokens: tokens === undefined ? gift.tokens || 0 : tokens,
     });
   };
 
