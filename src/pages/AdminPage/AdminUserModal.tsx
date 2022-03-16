@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-
-import { useWeb3React } from '@web3-react/core';
+import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -42,10 +40,9 @@ export const AdminUserModal = ({
   open,
 }: {
   user?: IUser;
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
 }) => {
-  const { account } = useWeb3React();
   const classes = useStyles();
 
   const { circle: selectedCircle, circleId } = useSelectedCircle();
@@ -55,14 +52,8 @@ export const AdminUserModal = ({
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
 
-  useEffect(() => {
-    setHasAcceptedOptOutWarning(false);
-  }, [user?.address]);
-
   const isOptedOut = !!user?.fixed_non_receiver || !!user?.non_receiver;
   const hasGiveAllocated = !!user?.give_token_received;
-  const userIsAccount =
-    account?.toLocaleLowerCase() === user?.address.toLocaleLowerCase();
 
   const source = useMemo(
     () => ({
@@ -109,7 +100,7 @@ export const AdminUserModal = ({
         }) => (
           <FormModal
             onClose={onClose}
-            open={open}
+            open={open === undefined ? true : open}
             title={user ? `Edit ${user.name}` : 'Create User'}
             onSubmit={handleSubmit}
             submitDisabled={!changedOutput}
@@ -146,25 +137,20 @@ export const AdminUserModal = ({
                 disabled={fields.fixed_non_receiver.value}
               />
             </div>
+            <ActionDialog
+              open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
+              title="This user has GIVE allocated."
+              onPrimary={() => {
+                setHasAcceptedOptOutWarning(true);
+                setShowOptOutChangeWarning(false);
+              }}
+            >
+              Changing their opt-in status will remove all GIVE allocated to
+              them. This cannot be undone.
+            </ActionDialog>
           </FormModal>
         )}
       </AdminUserForm.FormController>
-      <ActionDialog
-        open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-        title={
-          userIsAccount
-            ? 'You have GIVE allocated.'
-            : 'This user has GIVE allocated.'
-        }
-        onPrimary={() => {
-          setHasAcceptedOptOutWarning(true);
-          setShowOptOutChangeWarning(false);
-        }}
-      >
-        {userIsAccount
-          ? 'Changing opt-in status will remove all GIVE allocated to you. This cannot be undone.'
-          : 'Changing their opt-in status will remove all GIVE allocated to them. This cannot be undone.'}
-      </ActionDialog>
     </>
   );
 };
