@@ -64,94 +64,89 @@ export const AdminUserModal = ({
   );
 
   return (
-    <>
-      <AdminUserForm.FormController
-        source={source}
-        hideFieldErrors
-        submit={params => {
-          const hasOptOutChanged =
-            isOptedOut !==
-            (!!params?.fixed_non_receiver || !!params?.non_receiver);
-          const showWarning =
-            hasOptOutChanged && hasGiveAllocated && !hasAcceptedOptOutWarning;
+    <AdminUserForm.FormController
+      source={source}
+      hideFieldErrors
+      submit={params => {
+        const hasOptOutChanged =
+          isOptedOut !==
+          (!!params?.fixed_non_receiver || !!params?.non_receiver);
+        const showWarning =
+          hasOptOutChanged && hasGiveAllocated && !hasAcceptedOptOutWarning;
 
-          if (showWarning) {
-            setShowOptOutChangeWarning(true);
-          } else {
-            setShowOptOutChangeWarning(false);
-            (user ? updateUser(user.address, params) : createUser(params))
-              .then(() => onClose())
-              .catch(console.warn);
-          }
-        }}
-      >
-        {({
-          fields: {
-            non_giver: {
-              value: nonGiverValue,
-              onChange: nonGiverOnChange,
-              ...non_giver
-            },
-            ...fields
+        if (showWarning) {
+          setShowOptOutChangeWarning(true);
+        } else {
+          setShowOptOutChangeWarning(false);
+          (user ? updateUser(user.address, params) : createUser(params))
+            .then(() => onClose())
+            .catch(console.warn);
+        }
+      }}
+    >
+      {({
+        fields: {
+          non_giver: {
+            value: nonGiverValue,
+            onChange: nonGiverOnChange,
+            ...non_giver
           },
-          errors,
-          changedOutput,
-          handleSubmit,
-        }) => (
-          <FormModal
-            onClose={onClose}
-            open={open === undefined ? true : open}
-            title={user ? `Edit ${user.name}` : 'Create User'}
-            onSubmit={handleSubmit}
-            submitDisabled={!changedOutput}
-            errors={errors}
-            size="small"
+          ...fields
+        },
+        errors,
+        changedOutput,
+        handleSubmit,
+      }) => (
+        <FormModal
+          onClose={onClose}
+          open={open === undefined ? true : open}
+          title={user ? `Edit ${user.name}` : 'Create User'}
+          onSubmit={handleSubmit}
+          submitDisabled={!changedOutput}
+          errors={errors}
+          size="small"
+        >
+          <div className={classes.twoColumn}>
+            <FormTextField {...fields.name} label="Contributor Name" />
+            <FormTextField
+              {...fields.starting_tokens}
+              type="number"
+              label="Starting Tokens"
+            />
+            <FormTextField
+              {...fields.address}
+              label="Contributor ETH address"
+              fullWidth
+              className={classes.ethInput}
+            />
+            <ApeToggle {...fields.role} label="Are They Admin?" />
+            <ApeToggle
+              label="Can Give?"
+              {...non_giver}
+              onChange={v => nonGiverOnChange(!v)}
+              value={!nonGiverValue}
+            />
+            <ApeToggle {...fields.fixed_non_receiver} label="Force Opted Out" />
+            <ApeToggle
+              label="Opted Out"
+              {...fields.non_receiver}
+              disabled={fields.fixed_non_receiver.value}
+            />
+          </div>
+          <ActionDialog
+            open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
+            title="This user has GIVE allocated."
+            onPrimary={() => {
+              setHasAcceptedOptOutWarning(true);
+              setShowOptOutChangeWarning(false);
+            }}
           >
-            <div className={classes.twoColumn}>
-              <FormTextField {...fields.name} label="Contributor Name" />
-              <FormTextField
-                {...fields.starting_tokens}
-                type="number"
-                label="Starting Tokens"
-              />
-              <FormTextField
-                {...fields.address}
-                label="Contributor ETH address"
-                fullWidth
-                className={classes.ethInput}
-              />
-              <ApeToggle {...fields.role} label="Are They Admin?" />
-              <ApeToggle
-                label="Can Give?"
-                {...non_giver}
-                onChange={v => nonGiverOnChange(!v)}
-                value={!nonGiverValue}
-              />
-              <ApeToggle
-                {...fields.fixed_non_receiver}
-                label="Force Opted Out"
-              />
-              <ApeToggle
-                label="Opted Out"
-                {...fields.non_receiver}
-                disabled={fields.fixed_non_receiver.value}
-              />
-            </div>
-            <ActionDialog
-              open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-              title="This user has GIVE allocated."
-              onPrimary={() => {
-                setHasAcceptedOptOutWarning(true);
-                setShowOptOutChangeWarning(false);
-              }}
-            >
-              Changing their opt-in status will remove all GIVE allocated to
-              them. This cannot be undone.
-            </ActionDialog>
-          </FormModal>
-        )}
-      </AdminUserForm.FormController>
-    </>
+            Changing their opt-in status will remove all GIVE allocated to them.
+            This cannot be undone.
+          </ActionDialog>
+        </FormModal>
+      )}
+    </AdminUserForm.FormController>
   );
 };
 
