@@ -145,7 +145,7 @@ const ProfileCardInner = ({
     setGift({
       user,
       note: note || gift.note || '',
-      tokens: tokens || gift.tokens || 0,
+      tokens: tokens === undefined ? gift.tokens || 0 : tokens,
     });
   };
 
