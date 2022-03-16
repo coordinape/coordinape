@@ -2863,6 +2863,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -2876,6 +2882,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -2919,6 +2931,30 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    claimed: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    createdByUser: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'timestamptz_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution: {
       type: 'distributions_bool_exp',
       array: false,
@@ -2927,12 +2963,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     distribution_id: {
       type: 'bigint_comparison_exp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    flag: {
-      type: 'Boolean_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -2951,6 +2981,24 @@ export const AllTypesProps: Record<string, any> = {
     },
     proof: {
       type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updatedByUser: {
+      type: 'users_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamptz_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
+      type: 'bigint_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -2993,12 +3041,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    flag: {
-      type: 'Boolean',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     id: {
       type: 'bigint',
       array: false,
@@ -3037,6 +3079,18 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3056,6 +3110,18 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     proof: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3081,6 +3147,18 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3100,6 +3178,18 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     proof: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3125,6 +3215,30 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    claimed: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    createdByUser: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution: {
       type: 'distributions_order_by',
       array: false,
@@ -3132,12 +3246,6 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     distribution_id: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    flag: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3156,6 +3264,24 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     proof: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updatedByUser: {
+      type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3182,6 +3308,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3195,6 +3327,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3214,6 +3352,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3227,6 +3371,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3246,6 +3396,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3259,6 +3415,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3278,6 +3440,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3291,6 +3459,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3310,6 +3484,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3323,6 +3503,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3342,6 +3528,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3355,6 +3547,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3374,6 +3572,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    created_by: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     distribution_id: {
       type: 'order_by',
       array: false,
@@ -3387,6 +3591,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_by: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3585,6 +3795,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -3654,13 +3870,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     total_amount: {
-      type: 'String_comparison_exp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    updated_at: {
-      type: 'timestamp_comparison_exp',
+      type: 'numeric_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3691,18 +3901,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    created_at: {
-      type: 'timestamp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    created_by: {
-      type: 'bigint',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     epoch_id: {
       type: 'bigint',
       array: false,
@@ -3722,13 +3920,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     total_amount: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    updated_at: {
-      type: 'timestamp',
+      type: 'numeric',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3783,12 +3975,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    updated_at: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -3828,12 +4014,6 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     total_amount: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    updated_at: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3903,12 +4083,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    updated_at: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     user: {
       type: 'users_order_by',
       array: false,
@@ -3948,6 +4122,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -3969,6 +4149,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    total_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -4000,6 +4186,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -4021,6 +4213,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    total_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -4052,6 +4250,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -4078,6 +4282,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -4099,6 +4309,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    total_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -11241,7 +11457,7 @@ export const AllTypesProps: Record<string, any> = {
       required: true,
     },
     created_at: {
-      type: 'timestamp_comparison_exp',
+      type: 'timestamptz_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -11276,12 +11492,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    owner_id: {
-      type: 'bigint_comparison_exp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     protocol: {
       type: 'organizations_bool_exp',
       array: false,
@@ -11294,20 +11504,20 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    symbol: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     token_address: {
       type: 'String_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
-      type: 'Int_comparison_exp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     updated_at: {
-      type: 'timestamp_comparison_exp',
+      type: 'timestamptz_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -11326,18 +11536,6 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   vaults_insert_input: {
-    created_at: {
-      type: 'timestamp',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    created_by: {
-      type: 'bigint',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     decimals: {
       type: 'Int',
       array: false,
@@ -11362,13 +11560,13 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    owner_id: {
-      type: 'bigint',
+    simple_token_address: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    simple_token_address: {
+    symbol: {
       type: 'String',
       array: false,
       arrayRequired: false,
@@ -11376,18 +11574,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     token_address: {
       type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    type: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
-    updated_at: {
-      type: 'timestamp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -11444,12 +11630,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    owner_id: {
-      type: 'order_by',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     protocol: {
       type: 'organizations_order_by',
       array: false,
@@ -11462,13 +11642,13 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    token_address: {
+    symbol: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
     },
-    type: {
+    token_address: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -11999,12 +12179,18 @@ export const ReturnTypes: Record<string, any> = {
   claims: {
     address: 'String',
     amount: 'bigint',
+    claimed: 'Boolean',
+    createdByUser: 'users',
+    created_at: 'timestamptz',
+    created_by: 'bigint',
     distribution: 'distributions',
     distribution_id: 'bigint',
-    flag: 'Boolean',
     id: 'bigint',
     index: 'bigint',
     proof: 'String',
+    updatedByUser: 'users',
+    updated_at: 'timestamptz',
+    updated_by: 'bigint',
     user: 'users',
     user_id: 'bigint',
   },
@@ -12020,8 +12206,7 @@ export const ReturnTypes: Record<string, any> = {
     epoch_id: 'bigint',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'String',
-    updated_at: 'timestamp',
+    total_amount: 'numeric',
     user: 'users',
     vault: 'vaults',
     vault_id: 'bigint',
@@ -12416,18 +12601,17 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'vault_transactions',
   },
   vaults: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     created_by: 'bigint',
     decimals: 'Int',
     distributions: 'distributions',
     id: 'bigint',
     org_id: 'bigint',
-    owner_id: 'bigint',
     protocol: 'organizations',
     simple_token_address: 'String',
+    symbol: 'String',
     token_address: 'String',
-    type: 'Int',
-    updated_at: 'timestamp',
+    updated_at: 'timestamptz',
     user: 'users',
     vault_transactions: 'vault_transactions',
   },

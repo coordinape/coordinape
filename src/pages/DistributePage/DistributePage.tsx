@@ -2,7 +2,7 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, FixedNumber, utils } from 'ethers';
 import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -22,8 +22,9 @@ import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
+import { useSaveDistribution, IDistribution, IClaim } from './mutations';
+import { useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
-import { useGetAllocations } from './useGetAllocations';
 
 import { IAllocateUser, IVault } from 'types';
 
@@ -37,6 +38,7 @@ function DistributePage() {
   const { epochId } = useParams();
   const [loadingTrx, setLoadingTrx] = useState(false);
   const [updateAmount, setUpdateAmount] = useState(0);
+  const [distributionDTO, setDistributionDTO] = useState<IDistribution>();
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
@@ -44,6 +46,7 @@ function DistributePage() {
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { apeError } = useApeSnackbar();
+  const { mutateAsync } = useSaveDistribution(distributionDTO);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
   const { myUser: currentUser } = useCircle(data?.epochs_by_pk?.circle?.id);
@@ -101,8 +104,22 @@ function DistributePage() {
       );
 
       if (trx) {
+        const claims: IClaim[] = [];
+        const updateDistribution: IDistribution = {
+          total_amount: Number(
+            FixedNumber.from(totalDistributionAmount, 'fixed128x18')
+          ),
+          epoch_id: Number(epochId),
+          merkle_root: distribution.merkleRoot,
+          vault_address: selectedVaultId,
+          claims: {
+            data: claims,
+          },
+          created_by: currentUser?.id,
+        };
+        setDistributionDTO(updateDistribution);
+        await mutateAsync();
         setLoadingTrx(false);
-        console.log(trx); // eslint-disable-line
       }
     } catch (e) {
       console.error(e);
@@ -275,7 +292,7 @@ function DistributePage() {
             </Box>
           </Box>
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
-            <Button color="red" size="medium">
+            <Button color="red" size="medium" disabled={loadingTrx}>
               {loadingTrx
                 ? `Transaction Pending...`
                 : `Submit Distribution to Vault`}

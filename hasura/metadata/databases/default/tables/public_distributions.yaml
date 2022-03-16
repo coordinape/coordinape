@@ -30,26 +30,24 @@ insert_permissions:
               id:
                 _eq: X-Hasura-User-Id
     columns:
-    - created_by
     - epoch_id
     - id
-    - vault_id
     - merkle_root
     - total_amount
-    - created_at
-    - updated_at
+    - vault_id
+    set:
+      created_by: x-hasura-User-Id
   role: user
 select_permissions:
 - permission:
     columns:
-    - id
+    - created_at
+    - created_by
     - epoch_id
+    - id
     - merkle_root
     - total_amount
     - vault_id
-    - created_by
-    - created_at
-    - updated_at
     filter:
       epoch:
         circle:

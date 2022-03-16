@@ -1826,13 +1826,21 @@ export type ValueTypes = {
   ['claims']: AliasType<{
     address?: boolean;
     amount?: boolean;
+    claimed?: boolean;
+    /** An object relationship */
+    createdByUser?: ValueTypes['users'];
+    created_at?: boolean;
+    created_by?: boolean;
     /** An object relationship */
     distribution?: ValueTypes['distributions'];
     distribution_id?: boolean;
-    flag?: boolean;
     id?: boolean;
     index?: boolean;
     proof?: boolean;
+    /** An object relationship */
+    updatedByUser?: ValueTypes['users'];
+    updated_at?: boolean;
+    updated_by?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean;
@@ -1888,18 +1896,22 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['claims_avg_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** Boolean expression to filter rows from the table "claims". All fields are combined with a logical 'AND'. */
@@ -1909,12 +1921,18 @@ export type ValueTypes = {
     _or?: ValueTypes['claims_bool_exp'][];
     address?: ValueTypes['String_comparison_exp'] | null;
     amount?: ValueTypes['bigint_comparison_exp'] | null;
+    claimed?: ValueTypes['Boolean_comparison_exp'] | null;
+    createdByUser?: ValueTypes['users_bool_exp'] | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | null;
+    created_by?: ValueTypes['bigint_comparison_exp'] | null;
     distribution?: ValueTypes['distributions_bool_exp'] | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | null;
-    flag?: ValueTypes['Boolean_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     index?: ValueTypes['bigint_comparison_exp'] | null;
     proof?: ValueTypes['String_comparison_exp'] | null;
+    updatedByUser?: ValueTypes['users_bool_exp'] | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | null;
+    updated_by?: ValueTypes['bigint_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | null;
   };
@@ -1923,21 +1941,29 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "claims" */
   ['claims_inc_input']: {
     amount?: ValueTypes['bigint'] | null;
+    created_by?: ValueTypes['bigint'] | null;
     distribution_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
+    updated_by?: ValueTypes['bigint'] | null;
     user_id?: ValueTypes['bigint'] | null;
   };
   /** input type for inserting data into table "claims" */
   ['claims_insert_input']: {
     address?: string | null;
     amount?: ValueTypes['bigint'] | null;
+    claimed?: boolean | null;
+    createdByUser?: ValueTypes['users_obj_rel_insert_input'] | null;
+    created_at?: ValueTypes['timestamptz'] | null;
+    created_by?: ValueTypes['bigint'] | null;
     distribution?: ValueTypes['distributions_obj_rel_insert_input'] | null;
     distribution_id?: ValueTypes['bigint'] | null;
-    flag?: boolean | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
     proof?: string | null;
+    updatedByUser?: ValueTypes['users_obj_rel_insert_input'] | null;
+    updated_at?: ValueTypes['timestamptz'] | null;
+    updated_by?: ValueTypes['bigint'] | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | null;
     user_id?: ValueTypes['bigint'] | null;
   };
@@ -1945,10 +1971,14 @@ export type ValueTypes = {
   ['claims_max_fields']: AliasType<{
     address?: boolean;
     amount?: boolean;
+    created_at?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
     proof?: boolean;
+    updated_at?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
@@ -1956,20 +1986,28 @@ export type ValueTypes = {
   ['claims_max_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate min on columns */
   ['claims_min_fields']: AliasType<{
     address?: boolean;
     amount?: boolean;
+    created_at?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
     proof?: boolean;
+    updated_at?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
@@ -1977,10 +2015,14 @@ export type ValueTypes = {
   ['claims_min_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** response of any mutation on the table "claims" */
@@ -2001,12 +2043,18 @@ export type ValueTypes = {
   ['claims_order_by']: {
     address?: ValueTypes['order_by'] | null;
     amount?: ValueTypes['order_by'] | null;
+    claimed?: ValueTypes['order_by'] | null;
+    createdByUser?: ValueTypes['users_order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution?: ValueTypes['distributions_order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
-    flag?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
+    updatedByUser?: ValueTypes['users_order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2020,79 +2068,99 @@ export type ValueTypes = {
   ['claims_set_input']: {
     address?: string | null;
     amount?: ValueTypes['bigint'] | null;
+    claimed?: boolean | null;
+    created_at?: ValueTypes['timestamptz'] | null;
+    created_by?: ValueTypes['bigint'] | null;
     distribution_id?: ValueTypes['bigint'] | null;
-    flag?: boolean | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
     proof?: string | null;
+    updated_at?: ValueTypes['timestamptz'] | null;
+    updated_by?: ValueTypes['bigint'] | null;
     user_id?: ValueTypes['bigint'] | null;
   };
   /** aggregate stddev on columns */
   ['claims_stddev_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate stddev_pop on columns */
   ['claims_stddev_pop_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by stddev_pop() on columns of table "claims" */
   ['claims_stddev_pop_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate stddev_samp on columns */
   ['claims_stddev_samp_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate sum on columns */
   ['claims_sum_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by sum() on columns of table "claims" */
   ['claims_sum_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** update columns of table "claims" */
@@ -2100,52 +2168,64 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate var_samp on columns */
   ['claims_var_samp_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by var_samp() on columns of table "claims" */
   ['claims_var_samp_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate variance on columns */
   ['claims_variance_fields']: AliasType<{
     amount?: boolean;
+    created_by?: boolean;
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
   }>;
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: {
     amount?: ValueTypes['order_by'] | null;
+    created_by?: ValueTypes['order_by'] | null;
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
   ['date']: unknown;
@@ -2197,7 +2277,6 @@ export type ValueTypes = {
     id?: boolean;
     merkle_root?: boolean;
     total_amount?: boolean;
-    updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
     /** An object relationship */
@@ -2257,6 +2336,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2265,6 +2345,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -2279,8 +2360,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | null;
-    total_amount?: ValueTypes['String_comparison_exp'] | null;
-    updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    total_amount?: ValueTypes['numeric_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
     vault?: ValueTypes['vaults_bool_exp'] | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | null;
@@ -2292,6 +2372,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['bigint'] | null;
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
+    total_amount?: ValueTypes['numeric'] | null;
     vault_id?: ValueTypes['bigint'] | null;
   };
   /** input type for inserting data into table "distributions" */
@@ -2303,8 +2384,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
-    total_amount?: string | null;
-    updated_at?: ValueTypes['timestamp'] | null;
+    total_amount?: ValueTypes['numeric'] | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | null;
     vault?: ValueTypes['vaults_obj_rel_insert_input'] | null;
     vault_id?: ValueTypes['bigint'] | null;
@@ -2317,7 +2397,6 @@ export type ValueTypes = {
     id?: boolean;
     merkle_root?: boolean;
     total_amount?: boolean;
-    updated_at?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2329,7 +2408,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
-    updated_at?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate min on columns */
@@ -2340,7 +2418,6 @@ export type ValueTypes = {
     id?: boolean;
     merkle_root?: boolean;
     total_amount?: boolean;
-    updated_at?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2352,7 +2429,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
-    updated_at?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** response of any mutation on the table "distributions" */
@@ -2385,7 +2461,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
-    updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
     vault?: ValueTypes['vaults_order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
@@ -2403,8 +2478,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
-    total_amount?: string | null;
-    updated_at?: ValueTypes['timestamp'] | null;
+    total_amount?: ValueTypes['numeric'] | null;
     vault_id?: ValueTypes['bigint'] | null;
   };
   /** aggregate stddev on columns */
@@ -2412,6 +2486,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2420,6 +2495,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate stddev_pop on columns */
@@ -2427,6 +2503,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2435,6 +2512,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate stddev_samp on columns */
@@ -2442,6 +2520,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2450,6 +2529,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate sum on columns */
@@ -2457,6 +2537,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2465,6 +2546,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** update columns of table "distributions" */
@@ -2474,6 +2556,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2482,6 +2565,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate var_samp on columns */
@@ -2489,6 +2573,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2497,6 +2582,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate variance on columns */
@@ -2504,6 +2590,7 @@ export type ValueTypes = {
     created_by?: boolean;
     epoch_id?: boolean;
     id?: boolean;
+    total_amount?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2512,6 +2599,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
+    total_amount?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** columns and relationships of "epoches" */
@@ -8836,12 +8924,11 @@ export type ValueTypes = {
     ];
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
     /** An object relationship */
     protocol?: ValueTypes['organizations'];
     simple_token_address?: boolean;
+    symbol?: boolean;
     token_address?: boolean;
-    type?: boolean;
     updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -8906,8 +8993,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** Boolean expression to filter rows from the table "vaults". All fields are combined with a logical 'AND'. */
@@ -8915,18 +9000,17 @@ export type ValueTypes = {
     _and?: ValueTypes['vaults_bool_exp'][];
     _not?: ValueTypes['vaults_bool_exp'] | null;
     _or?: ValueTypes['vaults_bool_exp'][];
-    created_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | null;
     decimals?: ValueTypes['Int_comparison_exp'] | null;
     distributions?: ValueTypes['distributions_bool_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | null;
-    owner_id?: ValueTypes['bigint_comparison_exp'] | null;
     protocol?: ValueTypes['organizations_bool_exp'] | null;
     simple_token_address?: ValueTypes['String_comparison_exp'] | null;
+    symbol?: ValueTypes['String_comparison_exp'] | null;
     token_address?: ValueTypes['String_comparison_exp'] | null;
-    type?: ValueTypes['Int_comparison_exp'] | null;
-    updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
     vault_transactions?: ValueTypes['vault_transactions_bool_exp'] | null;
   };
@@ -8938,23 +9022,20 @@ export type ValueTypes = {
     decimals?: number | null;
     id?: ValueTypes['bigint'] | null;
     org_id?: ValueTypes['bigint'] | null;
-    owner_id?: ValueTypes['bigint'] | null;
-    type?: number | null;
   };
   /** input type for inserting data into table "vaults" */
   ['vaults_insert_input']: {
-    created_at?: ValueTypes['timestamp'] | null;
+    created_at?: ValueTypes['timestamptz'] | null;
     created_by?: ValueTypes['bigint'] | null;
     decimals?: number | null;
     distributions?: ValueTypes['distributions_arr_rel_insert_input'] | null;
     id?: ValueTypes['bigint'] | null;
     org_id?: ValueTypes['bigint'] | null;
-    owner_id?: ValueTypes['bigint'] | null;
     protocol?: ValueTypes['organizations_obj_rel_insert_input'] | null;
     simple_token_address?: string | null;
+    symbol?: string | null;
     token_address?: string | null;
-    type?: number | null;
-    updated_at?: ValueTypes['timestamp'] | null;
+    updated_at?: ValueTypes['timestamptz'] | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | null;
     vault_transactions?:
       | ValueTypes['vault_transactions_arr_rel_insert_input']
@@ -8967,10 +9048,9 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
     simple_token_address?: boolean;
+    symbol?: boolean;
     token_address?: boolean;
-    type?: boolean;
     updated_at?: boolean;
     __typename?: boolean;
   }>;
@@ -8981,10 +9061,9 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
     simple_token_address?: boolean;
+    symbol?: boolean;
     token_address?: boolean;
-    type?: boolean;
     updated_at?: boolean;
     __typename?: boolean;
   }>;
@@ -9018,11 +9097,10 @@ export type ValueTypes = {
       | null;
     id?: ValueTypes['order_by'] | null;
     org_id?: ValueTypes['order_by'] | null;
-    owner_id?: ValueTypes['order_by'] | null;
     protocol?: ValueTypes['organizations_order_by'] | null;
     simple_token_address?: ValueTypes['order_by'] | null;
+    symbol?: ValueTypes['order_by'] | null;
     token_address?: ValueTypes['order_by'] | null;
-    type?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
     vault_transactions_aggregate?:
@@ -9037,16 +9115,15 @@ export type ValueTypes = {
   ['vaults_select_column']: vaults_select_column;
   /** input type for updating data in table "vaults" */
   ['vaults_set_input']: {
-    created_at?: ValueTypes['timestamp'] | null;
+    created_at?: ValueTypes['timestamptz'] | null;
     created_by?: ValueTypes['bigint'] | null;
     decimals?: number | null;
     id?: ValueTypes['bigint'] | null;
     org_id?: ValueTypes['bigint'] | null;
-    owner_id?: ValueTypes['bigint'] | null;
     simple_token_address?: string | null;
+    symbol?: string | null;
     token_address?: string | null;
-    type?: number | null;
-    updated_at?: ValueTypes['timestamp'] | null;
+    updated_at?: ValueTypes['timestamptz'] | null;
   };
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: AliasType<{
@@ -9054,8 +9131,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate stddev_pop on columns */
@@ -9064,8 +9139,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate stddev_samp on columns */
@@ -9074,8 +9147,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate sum on columns */
@@ -9084,8 +9155,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** update columns of table "vaults" */
@@ -9096,8 +9165,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate var_samp on columns */
@@ -9106,8 +9173,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate variance on columns */
@@ -9116,8 +9181,6 @@ export type ValueTypes = {
     decimals?: boolean;
     id?: boolean;
     org_id?: boolean;
-    owner_id?: boolean;
-    type?: boolean;
     __typename?: boolean;
   }>;
   /** columns and relationships of "vouches" */
@@ -10222,13 +10285,21 @@ export type ModelTypes = {
   ['claims']: {
     address: string;
     amount: ModelTypes['bigint'];
+    claimed: boolean;
+    /** An object relationship */
+    createdByUser: ModelTypes['users'];
+    created_at: ModelTypes['timestamptz'];
+    created_by: ModelTypes['bigint'];
     /** An object relationship */
     distribution: ModelTypes['distributions'];
     distribution_id: ModelTypes['bigint'];
-    flag: boolean;
     id: ModelTypes['bigint'];
     index: ModelTypes['bigint'];
     proof: string;
+    /** An object relationship */
+    updatedByUser: ModelTypes['users'];
+    updated_at: ModelTypes['timestamptz'];
+    updated_by: ModelTypes['bigint'];
     /** An object relationship */
     user: ModelTypes['users'];
     user_id: ModelTypes['bigint'];
@@ -10259,9 +10330,11 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['claims_avg_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by avg() on columns of table "claims" */
@@ -10278,10 +10351,14 @@ export type ModelTypes = {
   ['claims_max_fields']: {
     address?: string;
     amount?: ModelTypes['bigint'];
+    created_at?: ModelTypes['timestamptz'];
+    created_by?: ModelTypes['bigint'];
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
     proof?: string;
+    updated_at?: ModelTypes['timestamptz'];
+    updated_by?: ModelTypes['bigint'];
     user_id?: ModelTypes['bigint'];
   };
   /** order by max() on columns of table "claims" */
@@ -10290,10 +10367,14 @@ export type ModelTypes = {
   ['claims_min_fields']: {
     address?: string;
     amount?: ModelTypes['bigint'];
+    created_at?: ModelTypes['timestamptz'];
+    created_by?: ModelTypes['bigint'];
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
     proof?: string;
+    updated_at?: ModelTypes['timestamptz'];
+    updated_by?: ModelTypes['bigint'];
     user_id?: ModelTypes['bigint'];
   };
   /** order by min() on columns of table "claims" */
@@ -10318,9 +10399,11 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['claims_stddev_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev() on columns of table "claims" */
@@ -10328,9 +10411,11 @@ export type ModelTypes = {
   /** aggregate stddev_pop on columns */
   ['claims_stddev_pop_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev_pop() on columns of table "claims" */
@@ -10338,9 +10423,11 @@ export type ModelTypes = {
   /** aggregate stddev_samp on columns */
   ['claims_stddev_samp_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev_samp() on columns of table "claims" */
@@ -10348,9 +10435,11 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     amount?: ModelTypes['bigint'];
+    created_by?: ModelTypes['bigint'];
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
+    updated_by?: ModelTypes['bigint'];
     user_id?: ModelTypes['bigint'];
   };
   /** order by sum() on columns of table "claims" */
@@ -10360,9 +10449,11 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by var_pop() on columns of table "claims" */
@@ -10370,9 +10461,11 @@ export type ModelTypes = {
   /** aggregate var_samp on columns */
   ['claims_var_samp_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by var_samp() on columns of table "claims" */
@@ -10380,9 +10473,11 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['claims_variance_fields']: {
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by variance() on columns of table "claims" */
@@ -10403,8 +10498,7 @@ export type ModelTypes = {
     epoch_id: ModelTypes['bigint'];
     id: ModelTypes['bigint'];
     merkle_root: string;
-    total_amount: string;
-    updated_at: ModelTypes['timestamp'];
+    total_amount: ModelTypes['numeric'];
     /** An object relationship */
     user: ModelTypes['users'];
     /** An object relationship */
@@ -10439,6 +10533,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by avg() on columns of table "distributions" */
@@ -10458,8 +10553,7 @@ export type ModelTypes = {
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: ModelTypes['timestamp'];
+    total_amount?: ModelTypes['numeric'];
     vault_id?: ModelTypes['bigint'];
   };
   /** order by max() on columns of table "distributions" */
@@ -10471,8 +10565,7 @@ export type ModelTypes = {
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: ModelTypes['timestamp'];
+    total_amount?: ModelTypes['numeric'];
     vault_id?: ModelTypes['bigint'];
   };
   /** order by min() on columns of table "distributions" */
@@ -10501,6 +10594,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev() on columns of table "distributions" */
@@ -10510,6 +10604,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -10519,6 +10614,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -10528,6 +10624,7 @@ export type ModelTypes = {
     created_by?: ModelTypes['bigint'];
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
+    total_amount?: ModelTypes['numeric'];
     vault_id?: ModelTypes['bigint'];
   };
   /** order by sum() on columns of table "distributions" */
@@ -10539,6 +10636,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -10548,6 +10646,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -10557,6 +10656,7 @@ export type ModelTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by variance() on columns of table "distributions" */
@@ -13130,7 +13230,7 @@ export type ModelTypes = {
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
-    created_at: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamptz'];
     created_by: ModelTypes['bigint'];
     decimals: number;
     /** An array relationship */
@@ -13139,13 +13239,12 @@ export type ModelTypes = {
     distributions_aggregate: ModelTypes['distributions_aggregate'];
     id: ModelTypes['bigint'];
     org_id: ModelTypes['bigint'];
-    owner_id: ModelTypes['bigint'];
     /** An object relationship */
     protocol: ModelTypes['organizations'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type: number;
-    updated_at: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamptz'];
     /** An object relationship */
     user: ModelTypes['users'];
     /** An array relationship */
@@ -13178,8 +13277,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** Boolean expression to filter rows from the table "vaults". All fields are combined with a logical 'AND'. */
   ['vaults_bool_exp']: GraphQLTypes['vaults_bool_exp'];
@@ -13191,29 +13288,27 @@ export type ModelTypes = {
   ['vaults_insert_input']: GraphQLTypes['vaults_insert_input'];
   /** aggregate max on columns */
   ['vaults_max_fields']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamptz'];
     created_by?: ModelTypes['bigint'];
     decimals?: number;
     id?: ModelTypes['bigint'];
     org_id?: ModelTypes['bigint'];
-    owner_id?: ModelTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamptz'];
   };
   /** aggregate min on columns */
   ['vaults_min_fields']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamptz'];
     created_by?: ModelTypes['bigint'];
     decimals?: number;
     id?: ModelTypes['bigint'];
     org_id?: ModelTypes['bigint'];
-    owner_id?: ModelTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamptz'];
   };
   /** response of any mutation on the table "vaults" */
   ['vaults_mutation_response']: {
@@ -13240,8 +13335,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate stddev_pop on columns */
   ['vaults_stddev_pop_fields']: {
@@ -13249,8 +13342,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate stddev_samp on columns */
   ['vaults_stddev_samp_fields']: {
@@ -13258,8 +13349,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
@@ -13267,8 +13356,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: ModelTypes['bigint'];
     org_id?: ModelTypes['bigint'];
-    owner_id?: ModelTypes['bigint'];
-    type?: number;
   };
   /** update columns of table "vaults" */
   ['vaults_update_column']: GraphQLTypes['vaults_update_column'];
@@ -13278,8 +13365,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate var_samp on columns */
   ['vaults_var_samp_fields']: {
@@ -13287,8 +13372,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate variance on columns */
   ['vaults_variance_fields']: {
@@ -13296,8 +13379,6 @@ export type ModelTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** columns and relationships of "vouches" */
   ['vouches']: {
@@ -15044,13 +15125,21 @@ export type GraphQLTypes = {
     __typename: 'claims';
     address: string;
     amount: GraphQLTypes['bigint'];
+    claimed: boolean;
+    /** An object relationship */
+    createdByUser: GraphQLTypes['users'];
+    created_at: GraphQLTypes['timestamptz'];
+    created_by: GraphQLTypes['bigint'];
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
     distribution_id: GraphQLTypes['bigint'];
-    flag: boolean;
     id: GraphQLTypes['bigint'];
     index: GraphQLTypes['bigint'];
     proof: string;
+    /** An object relationship */
+    updatedByUser: GraphQLTypes['users'];
+    updated_at: GraphQLTypes['timestamptz'];
+    updated_by: GraphQLTypes['bigint'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
@@ -15100,17 +15189,21 @@ export type GraphQLTypes = {
   ['claims_avg_fields']: {
     __typename: 'claims_avg_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** Boolean expression to filter rows from the table "claims". All fields are combined with a logical 'AND'. */
@@ -15120,12 +15213,18 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['claims_bool_exp']>;
     address?: GraphQLTypes['String_comparison_exp'];
     amount?: GraphQLTypes['bigint_comparison_exp'];
+    claimed?: GraphQLTypes['Boolean_comparison_exp'];
+    createdByUser?: GraphQLTypes['users_bool_exp'];
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'];
+    created_by?: GraphQLTypes['bigint_comparison_exp'];
     distribution?: GraphQLTypes['distributions_bool_exp'];
     distribution_id?: GraphQLTypes['bigint_comparison_exp'];
-    flag?: GraphQLTypes['Boolean_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     index?: GraphQLTypes['bigint_comparison_exp'];
     proof?: GraphQLTypes['String_comparison_exp'];
+    updatedByUser?: GraphQLTypes['users_bool_exp'];
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'];
+    updated_by?: GraphQLTypes['bigint_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
     user_id?: GraphQLTypes['bigint_comparison_exp'];
   };
@@ -15134,21 +15233,29 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "claims" */
   ['claims_inc_input']: {
     amount?: GraphQLTypes['bigint'];
+    created_by?: GraphQLTypes['bigint'];
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** input type for inserting data into table "claims" */
   ['claims_insert_input']: {
     address?: string;
     amount?: GraphQLTypes['bigint'];
+    claimed?: boolean;
+    createdByUser?: GraphQLTypes['users_obj_rel_insert_input'];
+    created_at?: GraphQLTypes['timestamptz'];
+    created_by?: GraphQLTypes['bigint'];
     distribution?: GraphQLTypes['distributions_obj_rel_insert_input'];
     distribution_id?: GraphQLTypes['bigint'];
-    flag?: boolean;
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
     proof?: string;
+    updatedByUser?: GraphQLTypes['users_obj_rel_insert_input'];
+    updated_at?: GraphQLTypes['timestamptz'];
+    updated_by?: GraphQLTypes['bigint'];
     user?: GraphQLTypes['users_obj_rel_insert_input'];
     user_id?: GraphQLTypes['bigint'];
   };
@@ -15157,20 +15264,28 @@ export type GraphQLTypes = {
     __typename: 'claims_max_fields';
     address?: string;
     amount?: GraphQLTypes['bigint'];
+    created_at?: GraphQLTypes['timestamptz'];
+    created_by?: GraphQLTypes['bigint'];
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
     proof?: string;
+    updated_at?: GraphQLTypes['timestamptz'];
+    updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** order by max() on columns of table "claims" */
   ['claims_max_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate min on columns */
@@ -15178,20 +15293,28 @@ export type GraphQLTypes = {
     __typename: 'claims_min_fields';
     address?: string;
     amount?: GraphQLTypes['bigint'];
+    created_at?: GraphQLTypes['timestamptz'];
+    created_by?: GraphQLTypes['bigint'];
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
     proof?: string;
+    updated_at?: GraphQLTypes['timestamptz'];
+    updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** order by min() on columns of table "claims" */
   ['claims_min_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** response of any mutation on the table "claims" */
@@ -15212,12 +15335,18 @@ export type GraphQLTypes = {
   ['claims_order_by']: {
     address?: GraphQLTypes['order_by'];
     amount?: GraphQLTypes['order_by'];
+    claimed?: GraphQLTypes['order_by'];
+    createdByUser?: GraphQLTypes['users_order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution?: GraphQLTypes['distributions_order_by'];
     distribution_id?: GraphQLTypes['order_by'];
-    flag?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
+    updatedByUser?: GraphQLTypes['users_order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15231,79 +15360,99 @@ export type GraphQLTypes = {
   ['claims_set_input']: {
     address?: string;
     amount?: GraphQLTypes['bigint'];
+    claimed?: boolean;
+    created_at?: GraphQLTypes['timestamptz'];
+    created_by?: GraphQLTypes['bigint'];
     distribution_id?: GraphQLTypes['bigint'];
-    flag?: boolean;
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
     proof?: string;
+    updated_at?: GraphQLTypes['timestamptz'];
+    updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** aggregate stddev on columns */
   ['claims_stddev_fields']: {
     __typename: 'claims_stddev_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate stddev_pop on columns */
   ['claims_stddev_pop_fields']: {
     __typename: 'claims_stddev_pop_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev_pop() on columns of table "claims" */
   ['claims_stddev_pop_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate stddev_samp on columns */
   ['claims_stddev_samp_fields']: {
     __typename: 'claims_stddev_samp_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     __typename: 'claims_sum_fields';
     amount?: GraphQLTypes['bigint'];
+    created_by?: GraphQLTypes['bigint'];
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
   /** order by sum() on columns of table "claims" */
   ['claims_sum_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** update columns of table "claims" */
@@ -15312,51 +15461,63 @@ export type GraphQLTypes = {
   ['claims_var_pop_fields']: {
     __typename: 'claims_var_pop_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate var_samp on columns */
   ['claims_var_samp_fields']: {
     __typename: 'claims_var_samp_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by var_samp() on columns of table "claims" */
   ['claims_var_samp_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate variance on columns */
   ['claims_variance_fields']: {
     __typename: 'claims_variance_fields';
     amount?: number;
+    created_by?: number;
     distribution_id?: number;
     id?: number;
     index?: number;
+    updated_by?: number;
     user_id?: number;
   };
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: {
     amount?: GraphQLTypes['order_by'];
+    created_by?: GraphQLTypes['order_by'];
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
   ['date']: any;
@@ -15386,8 +15547,7 @@ export type GraphQLTypes = {
     epoch_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     merkle_root: string;
-    total_amount: string;
-    updated_at: GraphQLTypes['timestamp'];
+    total_amount: GraphQLTypes['numeric'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     /** An object relationship */
@@ -15441,6 +15601,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by avg() on columns of table "distributions" */
@@ -15448,6 +15609,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -15462,8 +15624,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     merkle_root?: GraphQLTypes['String_comparison_exp'];
-    total_amount?: GraphQLTypes['String_comparison_exp'];
-    updated_at?: GraphQLTypes['timestamp_comparison_exp'];
+    total_amount?: GraphQLTypes['numeric_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
     vault?: GraphQLTypes['vaults_bool_exp'];
     vault_id?: GraphQLTypes['bigint_comparison_exp'];
@@ -15475,6 +15636,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
+    total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** input type for inserting data into table "distributions" */
@@ -15486,8 +15648,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    total_amount?: GraphQLTypes['numeric'];
     user?: GraphQLTypes['users_obj_rel_insert_input'];
     vault?: GraphQLTypes['vaults_obj_rel_insert_input'];
     vault_id?: GraphQLTypes['bigint'];
@@ -15500,8 +15661,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** order by max() on columns of table "distributions" */
@@ -15512,7 +15672,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
-    updated_at?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate min on columns */
@@ -15523,8 +15682,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** order by min() on columns of table "distributions" */
@@ -15535,7 +15693,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
-    updated_at?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** response of any mutation on the table "distributions" */
@@ -15568,7 +15725,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
-    updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
     vault?: GraphQLTypes['vaults_order_by'];
     vault_id?: GraphQLTypes['order_by'];
@@ -15586,8 +15742,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
-    total_amount?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** aggregate stddev on columns */
@@ -15596,6 +15751,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev() on columns of table "distributions" */
@@ -15603,6 +15759,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate stddev_pop on columns */
@@ -15611,6 +15768,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -15618,6 +15776,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate stddev_samp on columns */
@@ -15626,6 +15785,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -15633,6 +15793,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate sum on columns */
@@ -15641,6 +15802,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
+    total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** order by sum() on columns of table "distributions" */
@@ -15648,6 +15810,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** update columns of table "distributions" */
@@ -15658,6 +15821,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -15665,6 +15829,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate var_samp on columns */
@@ -15673,6 +15838,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -15680,6 +15846,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate variance on columns */
@@ -15688,6 +15855,7 @@ export type GraphQLTypes = {
     created_by?: number;
     epoch_id?: number;
     id?: number;
+    total_amount?: number;
     vault_id?: number;
   };
   /** order by variance() on columns of table "distributions" */
@@ -15695,6 +15863,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
+    total_amount?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** columns and relationships of "epoches" */
@@ -19865,7 +20034,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
-    created_at: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
     /** An array relationship */
@@ -19874,13 +20043,12 @@ export type GraphQLTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
-    owner_id: GraphQLTypes['bigint'];
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type: number;
-    updated_at: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     /** An array relationship */
@@ -19916,26 +20084,23 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** Boolean expression to filter rows from the table "vaults". All fields are combined with a logical 'AND'. */
   ['vaults_bool_exp']: {
     _and?: Array<GraphQLTypes['vaults_bool_exp']>;
     _not?: GraphQLTypes['vaults_bool_exp'];
     _or?: Array<GraphQLTypes['vaults_bool_exp']>;
-    created_at?: GraphQLTypes['timestamp_comparison_exp'];
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'];
     created_by?: GraphQLTypes['bigint_comparison_exp'];
     decimals?: GraphQLTypes['Int_comparison_exp'];
     distributions?: GraphQLTypes['distributions_bool_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     org_id?: GraphQLTypes['bigint_comparison_exp'];
-    owner_id?: GraphQLTypes['bigint_comparison_exp'];
     protocol?: GraphQLTypes['organizations_bool_exp'];
     simple_token_address?: GraphQLTypes['String_comparison_exp'];
+    symbol?: GraphQLTypes['String_comparison_exp'];
     token_address?: GraphQLTypes['String_comparison_exp'];
-    type?: GraphQLTypes['Int_comparison_exp'];
-    updated_at?: GraphQLTypes['timestamp_comparison_exp'];
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
     vault_transactions?: GraphQLTypes['vault_transactions_bool_exp'];
   };
@@ -19947,53 +20112,48 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
-    type?: number;
   };
   /** input type for inserting data into table "vaults" */
   ['vaults_insert_input']: {
-    created_at?: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamptz'];
     created_by?: GraphQLTypes['bigint'];
     decimals?: number;
     distributions?: GraphQLTypes['distributions_arr_rel_insert_input'];
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
     protocol?: GraphQLTypes['organizations_obj_rel_insert_input'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamptz'];
     user?: GraphQLTypes['users_obj_rel_insert_input'];
     vault_transactions?: GraphQLTypes['vault_transactions_arr_rel_insert_input'];
   };
   /** aggregate max on columns */
   ['vaults_max_fields']: {
     __typename: 'vaults_max_fields';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamptz'];
     created_by?: GraphQLTypes['bigint'];
     decimals?: number;
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamptz'];
   };
   /** aggregate min on columns */
   ['vaults_min_fields']: {
     __typename: 'vaults_min_fields';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamptz'];
     created_by?: GraphQLTypes['bigint'];
     decimals?: number;
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamptz'];
   };
   /** response of any mutation on the table "vaults" */
   ['vaults_mutation_response']: {
@@ -20023,11 +20183,10 @@ export type GraphQLTypes = {
     distributions_aggregate?: GraphQLTypes['distributions_aggregate_order_by'];
     id?: GraphQLTypes['order_by'];
     org_id?: GraphQLTypes['order_by'];
-    owner_id?: GraphQLTypes['order_by'];
     protocol?: GraphQLTypes['organizations_order_by'];
     simple_token_address?: GraphQLTypes['order_by'];
+    symbol?: GraphQLTypes['order_by'];
     token_address?: GraphQLTypes['order_by'];
-    type?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
     vault_transactions_aggregate?: GraphQLTypes['vault_transactions_aggregate_order_by'];
@@ -20040,16 +20199,15 @@ export type GraphQLTypes = {
   ['vaults_select_column']: vaults_select_column;
   /** input type for updating data in table "vaults" */
   ['vaults_set_input']: {
-    created_at?: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamptz'];
     created_by?: GraphQLTypes['bigint'];
     decimals?: number;
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
     simple_token_address?: string;
+    symbol?: string;
     token_address?: string;
-    type?: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamptz'];
   };
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: {
@@ -20058,8 +20216,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate stddev_pop on columns */
   ['vaults_stddev_pop_fields']: {
@@ -20068,8 +20224,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate stddev_samp on columns */
   ['vaults_stddev_samp_fields']: {
@@ -20078,8 +20232,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
@@ -20088,8 +20240,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: GraphQLTypes['bigint'];
     org_id?: GraphQLTypes['bigint'];
-    owner_id?: GraphQLTypes['bigint'];
-    type?: number;
   };
   /** update columns of table "vaults" */
   ['vaults_update_column']: vaults_update_column;
@@ -20100,8 +20250,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate var_samp on columns */
   ['vaults_var_samp_fields']: {
@@ -20110,8 +20258,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** aggregate variance on columns */
   ['vaults_variance_fields']: {
@@ -20120,8 +20266,6 @@ export type GraphQLTypes = {
     decimals?: number;
     id?: number;
     org_id?: number;
-    owner_id?: number;
-    type?: number;
   };
   /** columns and relationships of "vouches" */
   ['vouches']: {
@@ -20518,22 +20662,30 @@ export const enum claims_constraint {
 export const enum claims_select_column {
   address = 'address',
   amount = 'amount',
+  claimed = 'claimed',
+  created_at = 'created_at',
+  created_by = 'created_by',
   distribution_id = 'distribution_id',
-  flag = 'flag',
   id = 'id',
   index = 'index',
   proof = 'proof',
+  updated_at = 'updated_at',
+  updated_by = 'updated_by',
   user_id = 'user_id',
 }
 /** update columns of table "claims" */
 export const enum claims_update_column {
   address = 'address',
   amount = 'amount',
+  claimed = 'claimed',
+  created_at = 'created_at',
+  created_by = 'created_by',
   distribution_id = 'distribution_id',
-  flag = 'flag',
   id = 'id',
   index = 'index',
   proof = 'proof',
+  updated_at = 'updated_at',
+  updated_by = 'updated_by',
   user_id = 'user_id',
 }
 /** unique or primary key constraints on table "distributions" */
@@ -20548,7 +20700,6 @@ export const enum distributions_select_column {
   id = 'id',
   merkle_root = 'merkle_root',
   total_amount = 'total_amount',
-  updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
 /** update columns of table "distributions" */
@@ -20559,7 +20710,6 @@ export const enum distributions_update_column {
   id = 'id',
   merkle_root = 'merkle_root',
   total_amount = 'total_amount',
-  updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
 /** unique or primary key constraints on table "epoches" */
@@ -20954,10 +21104,9 @@ export const enum vaults_select_column {
   decimals = 'decimals',
   id = 'id',
   org_id = 'org_id',
-  owner_id = 'owner_id',
   simple_token_address = 'simple_token_address',
+  symbol = 'symbol',
   token_address = 'token_address',
-  type = 'type',
   updated_at = 'updated_at',
 }
 /** update columns of table "vaults" */
@@ -20967,10 +21116,9 @@ export const enum vaults_update_column {
   decimals = 'decimals',
   id = 'id',
   org_id = 'org_id',
-  owner_id = 'owner_id',
   simple_token_address = 'simple_token_address',
+  symbol = 'symbol',
   token_address = 'token_address',
-  type = 'type',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "vouches" */

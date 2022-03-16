@@ -2,9 +2,15 @@ table:
   name: claims
   schema: public
 object_relationships:
+- name: createdByUser
+  using:
+    foreign_key_constraint_on: created_by
 - name: distribution
   using:
     foreign_key_constraint_on: distribution_id
+- name: updatedByUser
+  using:
+    foreign_key_constraint_on: updated_by
 - name: user
   using:
     foreign_key_constraint_on: user_id
@@ -21,25 +27,31 @@ insert_permissions:
                   id:
                     _eq: X-Hasura-User-Id
     columns:
-    - id
+    - address
+    - amount
     - distribution_id
+    - id
     - index
     - proof
-    - address
-    - flag
-    - amount
     - user_id
+    set:
+      created_by: x-hasura-User-Id
+      updated_at: x-hasura-User-Id
   role: user
 select_permissions:
 - permission:
     columns:
-    - id
+    - address
+    - amount
+    - claimed
+    - created_at
+    - created_by
     - distribution_id
+    - id
     - index
     - proof
-    - address
-    - flag
-    - amount
+    - updated_at
+    - updated_by
     - user_id
     filter:
       distribution:
