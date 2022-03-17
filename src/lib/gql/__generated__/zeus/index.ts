@@ -53,6 +53,13 @@ export type ValueTypes = {
     ];
     __typename?: boolean;
   }>;
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['CreateNomineeInput']: {
     address: string;
     circle_id: number;
@@ -82,6 +89,12 @@ export type ValueTypes = {
   };
   ['DeleteEpochResponse']: AliasType<{
     success?: boolean;
+    __typename?: boolean;
+  }>;
+  ['EpochResponse']: AliasType<{
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    id?: boolean;
     __typename?: boolean;
   }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -1122,6 +1135,10 @@ export type ValueTypes = {
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
       ValueTypes['CreateCircleResponse']
+    ];
+    createEpoch?: [
+      { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     createNominee?: [
       { payload: ValueTypes['CreateNomineeInput'] },
@@ -2950,6 +2967,7 @@ export type ModelTypes = {
     /** An array relationship */
     users: ModelTypes['users'][];
   };
+  ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number;
@@ -2960,6 +2978,11 @@ export type ModelTypes = {
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
+  };
+  ['EpochResponse']: {
+    /** An object relationship */
+    epoch: ModelTypes['epochs'];
+    id: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
@@ -3262,6 +3285,8 @@ export type ModelTypes = {
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
     createCircle?: ModelTypes['CreateCircleResponse'];
+    /** createEpoch */
+    createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
     deleteEpoch?: ModelTypes['DeleteEpochResponse'];
@@ -3899,6 +3924,13 @@ export type GraphQLTypes = {
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
   };
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
+  };
   ['CreateNomineeInput']: {
     address: string;
     circle_id: number;
@@ -3929,6 +3961,12 @@ export type GraphQLTypes = {
   ['DeleteEpochResponse']: {
     __typename: 'DeleteEpochResponse';
     success: boolean;
+  };
+  ['EpochResponse']: {
+    __typename: 'EpochResponse';
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    id: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -4852,6 +4890,8 @@ export type GraphQLTypes = {
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'];
     createCircle?: GraphQLTypes['CreateCircleResponse'];
+    /** createEpoch */
+    createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
