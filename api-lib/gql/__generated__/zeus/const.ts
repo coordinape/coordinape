@@ -6295,6 +6295,237 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  feedbacks_aggregate_fields: {
+    count: {
+      columns: {
+        type: 'feedbacks_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      distinct: {
+        type: 'Boolean',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+  },
+  feedbacks_bool_exp: {
+    _and: {
+      type: 'feedbacks_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _not: {
+      type: 'feedbacks_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _or: {
+      type: 'feedbacks_bool_exp',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    created_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    message: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_constraint: 'enum',
+  feedbacks_inc_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_insert_input: {
+    created_at: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    message: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_on_conflict: {
+    constraint: {
+      type: 'feedbacks_constraint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    update_columns: {
+      type: 'feedbacks_update_column',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    where: {
+      type: 'feedbacks_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    message: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_pk_columns_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  feedbacks_select_column: 'enum',
+  feedbacks_set_input: {
+    created_at: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    message: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    telegram_username: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  feedbacks_update_column: 'enum',
   gift_private_aggregate_fields: {
     count: {
       columns: {
@@ -7037,6 +7268,22 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
+    delete_feedbacks: {
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    delete_feedbacks_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     delete_gift_private: {
       where: {
         type: 'gift_private_bool_exp',
@@ -7452,6 +7699,34 @@ export const AllTypesProps: Record<string, any> = {
       },
       on_conflict: {
         type: 'epochs_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    insert_feedbacks: {
+      objects: {
+        type: 'feedbacks_insert_input',
+        array: true,
+        arrayRequired: true,
+        required: true,
+      },
+      on_conflict: {
+        type: 'feedbacks_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    insert_feedbacks_one: {
+      object: {
+        type: 'feedbacks_insert_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+      on_conflict: {
+        type: 'feedbacks_on_conflict',
         array: false,
         arrayRequired: false,
         required: false,
@@ -8128,6 +8403,46 @@ export const AllTypesProps: Record<string, any> = {
       },
       pk_columns: {
         type: 'epochs_pk_columns_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_feedbacks: {
+      _inc: {
+        type: 'feedbacks_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      _set: {
+        type: 'feedbacks_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_feedbacks_by_pk: {
+      _inc: {
+        type: 'feedbacks_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      _set: {
+        type: 'feedbacks_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      pk_columns: {
+        type: 'feedbacks_pk_columns_input',
         array: false,
         arrayRequired: false,
         required: true,
@@ -12339,6 +12654,78 @@ export const AllTypesProps: Record<string, any> = {
         required: true,
       },
     },
+    feedbacks: {
+      distinct_on: {
+        type: 'feedbacks_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'feedbacks_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    feedbacks_aggregate: {
+      distinct_on: {
+        type: 'feedbacks_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'feedbacks_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    feedbacks_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     gift_private: {
       distinct_on: {
         type: 'gift_private_select_column',
@@ -13894,6 +14281,78 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
     epochs_by_pk: {
+      id: {
+        type: 'bigint',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    feedbacks: {
+      distinct_on: {
+        type: 'feedbacks_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'feedbacks_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    feedbacks_aggregate: {
+      distinct_on: {
+        type: 'feedbacks_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'feedbacks_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'feedbacks_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    feedbacks_by_pk: {
       id: {
         type: 'bigint',
         array: false,
@@ -19872,6 +20331,83 @@ export const ReturnTypes: Record<string, any> = {
     repeat: 'Float',
     repeat_day_of_month: 'Float',
   },
+  feedbacks: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    message: 'String',
+    telegram_username: 'String',
+    updated_at: 'timestamp',
+    user_id: 'Int',
+  },
+  feedbacks_aggregate: {
+    aggregate: 'feedbacks_aggregate_fields',
+    nodes: 'feedbacks',
+  },
+  feedbacks_aggregate_fields: {
+    avg: 'feedbacks_avg_fields',
+    count: 'Int',
+    max: 'feedbacks_max_fields',
+    min: 'feedbacks_min_fields',
+    stddev: 'feedbacks_stddev_fields',
+    stddev_pop: 'feedbacks_stddev_pop_fields',
+    stddev_samp: 'feedbacks_stddev_samp_fields',
+    sum: 'feedbacks_sum_fields',
+    var_pop: 'feedbacks_var_pop_fields',
+    var_samp: 'feedbacks_var_samp_fields',
+    variance: 'feedbacks_variance_fields',
+  },
+  feedbacks_avg_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_max_fields: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    message: 'String',
+    telegram_username: 'String',
+    updated_at: 'timestamp',
+    user_id: 'Int',
+  },
+  feedbacks_min_fields: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    message: 'String',
+    telegram_username: 'String',
+    updated_at: 'timestamp',
+    user_id: 'Int',
+  },
+  feedbacks_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'feedbacks',
+  },
+  feedbacks_stddev_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_stddev_pop_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_stddev_samp_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_sum_fields: {
+    id: 'bigint',
+    user_id: 'Int',
+  },
+  feedbacks_var_pop_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_var_samp_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
+  feedbacks_variance_fields: {
+    id: 'Float',
+    user_id: 'Float',
+  },
   gift_private: {
     gift_id: 'bigint',
     note: 'String',
@@ -20073,6 +20609,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_distributions_by_pk: 'distributions',
     delete_epochs: 'epochs_mutation_response',
     delete_epochs_by_pk: 'epochs',
+    delete_feedbacks: 'feedbacks_mutation_response',
+    delete_feedbacks_by_pk: 'feedbacks',
     delete_gift_private: 'gift_private_mutation_response',
     delete_histories: 'histories_mutation_response',
     delete_histories_by_pk: 'histories',
@@ -20115,6 +20653,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_distributions_one: 'distributions',
     insert_epochs: 'epochs_mutation_response',
     insert_epochs_one: 'epochs',
+    insert_feedbacks: 'feedbacks_mutation_response',
+    insert_feedbacks_one: 'feedbacks',
     insert_gift_private: 'gift_private_mutation_response',
     insert_gift_private_one: 'gift_private',
     insert_histories: 'histories_mutation_response',
@@ -20160,6 +20700,8 @@ export const ReturnTypes: Record<string, any> = {
     update_distributions_by_pk: 'distributions',
     update_epochs: 'epochs_mutation_response',
     update_epochs_by_pk: 'epochs',
+    update_feedbacks: 'feedbacks_mutation_response',
+    update_feedbacks_by_pk: 'feedbacks',
     update_gift_private: 'gift_private_mutation_response',
     update_histories: 'histories_mutation_response',
     update_histories_by_pk: 'histories',
@@ -20809,6 +21351,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
+    feedbacks: 'feedbacks',
+    feedbacks_aggregate: 'feedbacks_aggregate',
+    feedbacks_by_pk: 'feedbacks',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     histories: 'histories',
@@ -20874,6 +21419,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
+    feedbacks: 'feedbacks',
+    feedbacks_aggregate: 'feedbacks_aggregate',
+    feedbacks_by_pk: 'feedbacks',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     histories: 'histories',
