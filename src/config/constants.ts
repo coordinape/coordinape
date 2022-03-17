@@ -68,4 +68,8 @@ export const SKILLS = [
   'Risk',
   'Tokenomics',
   'Contributor Experience',
+  'People & Governance',
+  'Development & Engineering',
+  'Growth & Marketing',
+  'DAO Teams',
 ];
