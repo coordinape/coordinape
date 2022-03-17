@@ -14,20 +14,27 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
+import { isUserAdmin } from '../../utils/userHelpers';
 import { ApeTextField } from 'components';
 import { useDistributor, useApeSnackbar } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
-import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
 import { useSaveDistribution, IDistribution, IClaim } from './mutations';
-import { useGetAllocations } from './queries';
+import { useCurrentUserForEpoch, useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
 
 import { IAllocateUser, IVault } from 'types';
+
+const DistributionFormSchema = z.object({
+  amount: z.number(),
+  selectedVaultId: z.string(),
+});
+
+type DistributionForm = z.infer<typeof DistributionFormSchema>;
 
 /**
  * Displays a list of allocations and allows generation of Merkle Root for a given circle and epoch.
@@ -41,19 +48,25 @@ function DistributePage() {
   const [updateAmount, setUpdateAmount] = useState(0);
   const [distributionDTO, setDistributionDTO] = useState<IDistribution>();
   const [selectedVaultId, setSelectedVaultId] = useState('');
+
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-
-  const vaults = useVaults(2);
+  const vaults = useVaults(currentOrg.data?.id);
 
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { apeError } = useApeSnackbar();
   const { mutateAsync } = useSaveDistribution(distributionDTO);
 
-  const { isLoading, isError, data } = useGetAllocations(Number(epochId));
+  const {
+    isLoading: isAllocationsLoading,
+    isError,
+    data,
+  } = useGetAllocations(Number(epochId));
 
-  const { myUser: currentUser } = useCircle(data?.epochs_by_pk?.circle?.id);
+  const currentUser = useCurrentUserForEpoch(Number(epochId));
+
+  const isLoading = isAllocationsLoading || currentUser.isLoading;
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
@@ -65,13 +78,8 @@ function DistributePage() {
     0
   );
 
-  const schema = z.object({
-    amount: z.number(),
-    selectedVaultId: z.string(),
-  });
-  type DistributionForm = z.infer<typeof schema>;
   const { register, handleSubmit, control } = useForm<DistributionForm>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(DistributionFormSchema),
   });
 
   let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
@@ -96,6 +104,7 @@ function DistributePage() {
 
     try {
       assert(contracts);
+      assert(currentUser.data);
       const yVaultAddress = await contracts.getVault(selectedVault.id).vault();
       const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
@@ -119,7 +128,7 @@ function DistributePage() {
           claims: {
             data: claims,
           },
-          created_by: currentUser?.id,
+          created_by: currentUser.data.id,
         };
         setDistributionDTO(updateDistribution);
         await mutateAsync();
@@ -137,7 +146,7 @@ function DistributePage() {
     if (!epoch) return `Sorry, epoch ${epochId} was not found.`;
     if (!data?.epochs_by_pk) return `Sorry, Epoch ${epochId} was not found.`;
 
-    if (!currentUser.isCircleAdmin || currentUser.role < 1)
+    if (currentUser.data && !isUserAdmin(currentUser.data))
       return "Sorry, you are not a circle admin so you can't access this feature.";
 
     if (isError)
