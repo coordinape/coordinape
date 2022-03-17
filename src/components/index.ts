@@ -29,7 +29,6 @@ export * from './FormTimePicker/FormTimePicker';
 export * from './ProfileSocialIcons/ProfileSocialIcons';
 export * from './OverlaySuspense/OverlaySuspense';
 export * from './ApeToggle/ApeToggle';
-export * from './FormCaptcha/FormCaptcha';
 export * from './ApeAutocomplete/ApeAutocomplete';
 export * from './FormAutocomplete/FormAutocomplete';
 export * from './ApeInfoTooltip/ApeInfoTooltip';

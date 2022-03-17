@@ -120,6 +120,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     protocol_id: {
       type: 'Int',
       array: false,
@@ -3235,6 +3241,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp_comparison_exp',
       array: false,
@@ -3438,6 +3450,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp',
       array: false,
@@ -3590,6 +3608,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'order_by',
       array: false,
@@ -3671,6 +3695,12 @@ export const AllTypesProps: Record<string, any> = {
   },
   circles_min_order_by: {
     alloc_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3816,6 +3846,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     circle_private: {
       type: 'circle_private_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
+      type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3983,6 +4019,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     auto_opt_out: {
       type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -19838,6 +19880,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_metadata: 'circle_metadata',
     circle_metadata_aggregate: 'circle_metadata_aggregate',
     circle_private: 'circle_private',
+    contact: 'String',
     created_at: 'timestamp',
     default_opt_in: 'Boolean',
     discord_webhook: 'String',
@@ -19893,6 +19936,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   circles_max_fields: {
     alloc_text: 'String',
+    contact: 'String',
     created_at: 'timestamp',
     discord_webhook: 'String',
     id: 'bigint',
@@ -19909,6 +19953,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   circles_min_fields: {
     alloc_text: 'String',
+    contact: 'String',
     created_at: 'timestamp',
     discord_webhook: 'String',
     id: 'bigint',

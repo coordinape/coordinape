@@ -1,3 +1,5 @@
+import { CreateCircleParam, IApiCircle } from '../../types';
+
 import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
@@ -104,4 +106,55 @@ export const logout = async (): Promise<boolean> => {
     return true;
   }
   return false;
+};
+
+export const createCircle = async (
+  params: CreateCircleParam
+): Promise<IApiCircle> => {
+  const { createCircle } = await client.mutate({
+    createCircle: [
+      {
+        payload: params,
+      },
+      {
+        id: true,
+        circle: {
+          id: true,
+          name: true,
+          logo: true,
+          default_opt_in: true,
+          is_verified: true,
+          alloc_text: true,
+          team_sel_text: true,
+          token_name: true,
+          vouching: true,
+          min_vouches: true,
+          nomination_days_limit: true,
+          vouching_text: true,
+          only_giver_vouch: true,
+          team_selection: true,
+          created_at: true,
+          updated_at: true,
+          protocol_id: true,
+          organization: {
+            id: true,
+            name: true,
+            created_at: true,
+            updated_at: true,
+          },
+          auto_opt_out: true,
+        },
+      },
+    ],
+  });
+  if (!createCircle) {
+    throw 'unable to create circle';
+  }
+  if (!createCircle.circle.organization) {
+    throw 'circle created but protocol / organization not found after creation';
+  }
+  return {
+    ...createCircle.circle,
+    protocol: createCircle.circle.organization,
+  };
 };

@@ -67,6 +67,7 @@ export interface CreateCircleParam {
   circle_name: string;
   protocol_name?: string;
   protocol_id?: number;
+  contact: string;
 }
 
 export interface UpdateCreateEpochParam {
