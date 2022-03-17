@@ -107,6 +107,7 @@ export const GiftInput = ({
             },
             startAdornment: (
               <IconButton
+                data-testid="decrement"
                 className={classes.spinButton}
                 onClick={() => updateGift({ tokens: tokens - 1 })}
                 disableRipple
@@ -116,6 +117,7 @@ export const GiftInput = ({
             ),
             endAdornment: (
               <IconButton
+                data-testid="increment"
                 className={classes.spinButton}
                 onClick={() => updateGift({ tokens: tokens + 1 })}
                 disableRipple
