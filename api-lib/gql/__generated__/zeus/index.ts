@@ -2766,6 +2766,179 @@ export type ValueTypes = {
     repeat?: ValueTypes['order_by'] | null;
     repeat_day_of_month?: ValueTypes['order_by'] | null;
   };
+  /** columns and relationships of "feedbacks" */
+  ['feedbacks']: AliasType<{
+    created_at?: boolean;
+    id?: boolean;
+    message?: boolean;
+    telegram_username?: boolean;
+    updated_at?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregated selection of "feedbacks" */
+  ['feedbacks_aggregate']: AliasType<{
+    aggregate?: ValueTypes['feedbacks_aggregate_fields'];
+    nodes?: ValueTypes['feedbacks'];
+    __typename?: boolean;
+  }>;
+  /** aggregate fields of "feedbacks" */
+  ['feedbacks_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['feedbacks_avg_fields'];
+    count?: [
+      {
+        columns?: ValueTypes['feedbacks_select_column'][];
+        distinct?: boolean | null;
+      },
+      boolean
+    ];
+    max?: ValueTypes['feedbacks_max_fields'];
+    min?: ValueTypes['feedbacks_min_fields'];
+    stddev?: ValueTypes['feedbacks_stddev_fields'];
+    stddev_pop?: ValueTypes['feedbacks_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['feedbacks_stddev_samp_fields'];
+    sum?: ValueTypes['feedbacks_sum_fields'];
+    var_pop?: ValueTypes['feedbacks_var_pop_fields'];
+    var_samp?: ValueTypes['feedbacks_var_samp_fields'];
+    variance?: ValueTypes['feedbacks_variance_fields'];
+    __typename?: boolean;
+  }>;
+  /** aggregate avg on columns */
+  ['feedbacks_avg_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** Boolean expression to filter rows from the table "feedbacks". All fields are combined with a logical 'AND'. */
+  ['feedbacks_bool_exp']: {
+    _and?: ValueTypes['feedbacks_bool_exp'][];
+    _not?: ValueTypes['feedbacks_bool_exp'] | null;
+    _or?: ValueTypes['feedbacks_bool_exp'][];
+    created_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    id?: ValueTypes['bigint_comparison_exp'] | null;
+    message?: ValueTypes['String_comparison_exp'] | null;
+    telegram_username?: ValueTypes['String_comparison_exp'] | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
+    user_id?: ValueTypes['Int_comparison_exp'] | null;
+  };
+  /** unique or primary key constraints on table "feedbacks" */
+  ['feedbacks_constraint']: feedbacks_constraint;
+  /** input type for incrementing numeric columns in table "feedbacks" */
+  ['feedbacks_inc_input']: {
+    id?: ValueTypes['bigint'] | null;
+    user_id?: number | null;
+  };
+  /** input type for inserting data into table "feedbacks" */
+  ['feedbacks_insert_input']: {
+    created_at?: ValueTypes['timestamp'] | null;
+    id?: ValueTypes['bigint'] | null;
+    message?: string | null;
+    telegram_username?: string | null;
+    updated_at?: ValueTypes['timestamp'] | null;
+    user_id?: number | null;
+  };
+  /** aggregate max on columns */
+  ['feedbacks_max_fields']: AliasType<{
+    created_at?: boolean;
+    id?: boolean;
+    message?: boolean;
+    telegram_username?: boolean;
+    updated_at?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate min on columns */
+  ['feedbacks_min_fields']: AliasType<{
+    created_at?: boolean;
+    id?: boolean;
+    message?: boolean;
+    telegram_username?: boolean;
+    updated_at?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** response of any mutation on the table "feedbacks" */
+  ['feedbacks_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['feedbacks'];
+    __typename?: boolean;
+  }>;
+  /** on conflict condition type for table "feedbacks" */
+  ['feedbacks_on_conflict']: {
+    constraint: ValueTypes['feedbacks_constraint'];
+    update_columns: ValueTypes['feedbacks_update_column'][];
+    where?: ValueTypes['feedbacks_bool_exp'] | null;
+  };
+  /** Ordering options when selecting data from "feedbacks". */
+  ['feedbacks_order_by']: {
+    created_at?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    message?: ValueTypes['order_by'] | null;
+    telegram_username?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
+  /** primary key columns input for table: feedbacks */
+  ['feedbacks_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "feedbacks" */
+  ['feedbacks_select_column']: feedbacks_select_column;
+  /** input type for updating data in table "feedbacks" */
+  ['feedbacks_set_input']: {
+    created_at?: ValueTypes['timestamp'] | null;
+    id?: ValueTypes['bigint'] | null;
+    message?: string | null;
+    telegram_username?: string | null;
+    updated_at?: ValueTypes['timestamp'] | null;
+    user_id?: number | null;
+  };
+  /** aggregate stddev on columns */
+  ['feedbacks_stddev_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['feedbacks_stddev_pop_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['feedbacks_stddev_samp_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate sum on columns */
+  ['feedbacks_sum_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** update columns of table "feedbacks" */
+  ['feedbacks_update_column']: feedbacks_update_column;
+  /** aggregate var_pop on columns */
+  ['feedbacks_var_pop_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate var_samp on columns */
+  ['feedbacks_var_samp_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
+  /** aggregate variance on columns */
+  ['feedbacks_variance_fields']: AliasType<{
+    id?: boolean;
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   /** columns and relationships of "gift_private" */
   ['gift_private']: AliasType<{
     gift_id?: boolean;
@@ -3257,6 +3430,17 @@ export type ValueTypes = {
       ValueTypes['epochs_mutation_response']
     ];
     delete_epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    delete_feedbacks?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['feedbacks_bool_exp'];
+      },
+      ValueTypes['feedbacks_mutation_response']
+    ];
+    delete_feedbacks_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['feedbacks']
+    ];
     delete_gift_private?: [
       {
         /** filter the rows which have to be deleted */
@@ -3522,6 +3706,22 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['epochs_on_conflict'] | null;
       },
       ValueTypes['epochs']
+    ];
+    insert_feedbacks?: [
+      {
+        /** the rows to be inserted */
+        objects: ValueTypes['feedbacks_insert_input'][] /** on conflict condition */;
+        on_conflict?: ValueTypes['feedbacks_on_conflict'] | null;
+      },
+      ValueTypes['feedbacks_mutation_response']
+    ];
+    insert_feedbacks_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['feedbacks_insert_input'] /** on conflict condition */;
+        on_conflict?: ValueTypes['feedbacks_on_conflict'] | null;
+      },
+      ValueTypes['feedbacks']
     ];
     insert_gift_private?: [
       {
@@ -3928,6 +4128,30 @@ export type ValueTypes = {
         pk_columns: ValueTypes['epochs_pk_columns_input'];
       },
       ValueTypes['epochs']
+    ];
+    update_feedbacks?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['feedbacks_inc_input']
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['feedbacks_set_input']
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['feedbacks_bool_exp'];
+      },
+      ValueTypes['feedbacks_mutation_response']
+    ];
+    update_feedbacks_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['feedbacks_inc_input']
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['feedbacks_set_input'] | null;
+        pk_columns: ValueTypes['feedbacks_pk_columns_input'];
+      },
+      ValueTypes['feedbacks']
     ];
     update_gift_private?: [
       {
@@ -6031,6 +6255,33 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    feedbacks?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['feedbacks_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['feedbacks_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['feedbacks_bool_exp'] | null;
+      },
+      ValueTypes['feedbacks']
+    ];
+    feedbacks_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['feedbacks_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['feedbacks_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['feedbacks_bool_exp'] | null;
+      },
+      ValueTypes['feedbacks_aggregate']
+    ];
+    feedbacks_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['feedbacks']];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -6649,6 +6900,33 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    feedbacks?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['feedbacks_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['feedbacks_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['feedbacks_bool_exp'] | null;
+      },
+      ValueTypes['feedbacks']
+    ];
+    feedbacks_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['feedbacks_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['feedbacks_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['feedbacks_bool_exp'] | null;
+      },
+      ValueTypes['feedbacks_aggregate']
+    ];
+    feedbacks_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['feedbacks']];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -10268,6 +10546,119 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: GraphQLTypes['epochs_variance_order_by'];
+  /** columns and relationships of "feedbacks" */
+  ['feedbacks']: {
+    created_at?: ModelTypes['timestamp'];
+    id: ModelTypes['bigint'];
+    message: string;
+    telegram_username: string;
+    updated_at?: ModelTypes['timestamp'];
+    user_id: number;
+  };
+  /** aggregated selection of "feedbacks" */
+  ['feedbacks_aggregate']: {
+    aggregate?: ModelTypes['feedbacks_aggregate_fields'];
+    nodes: ModelTypes['feedbacks'][];
+  };
+  /** aggregate fields of "feedbacks" */
+  ['feedbacks_aggregate_fields']: {
+    avg?: ModelTypes['feedbacks_avg_fields'];
+    count: number;
+    max?: ModelTypes['feedbacks_max_fields'];
+    min?: ModelTypes['feedbacks_min_fields'];
+    stddev?: ModelTypes['feedbacks_stddev_fields'];
+    stddev_pop?: ModelTypes['feedbacks_stddev_pop_fields'];
+    stddev_samp?: ModelTypes['feedbacks_stddev_samp_fields'];
+    sum?: ModelTypes['feedbacks_sum_fields'];
+    var_pop?: ModelTypes['feedbacks_var_pop_fields'];
+    var_samp?: ModelTypes['feedbacks_var_samp_fields'];
+    variance?: ModelTypes['feedbacks_variance_fields'];
+  };
+  /** aggregate avg on columns */
+  ['feedbacks_avg_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** Boolean expression to filter rows from the table "feedbacks". All fields are combined with a logical 'AND'. */
+  ['feedbacks_bool_exp']: GraphQLTypes['feedbacks_bool_exp'];
+  /** unique or primary key constraints on table "feedbacks" */
+  ['feedbacks_constraint']: GraphQLTypes['feedbacks_constraint'];
+  /** input type for incrementing numeric columns in table "feedbacks" */
+  ['feedbacks_inc_input']: GraphQLTypes['feedbacks_inc_input'];
+  /** input type for inserting data into table "feedbacks" */
+  ['feedbacks_insert_input']: GraphQLTypes['feedbacks_insert_input'];
+  /** aggregate max on columns */
+  ['feedbacks_max_fields']: {
+    created_at?: ModelTypes['timestamp'];
+    id?: ModelTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: ModelTypes['timestamp'];
+    user_id?: number;
+  };
+  /** aggregate min on columns */
+  ['feedbacks_min_fields']: {
+    created_at?: ModelTypes['timestamp'];
+    id?: ModelTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: ModelTypes['timestamp'];
+    user_id?: number;
+  };
+  /** response of any mutation on the table "feedbacks" */
+  ['feedbacks_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: ModelTypes['feedbacks'][];
+  };
+  /** on conflict condition type for table "feedbacks" */
+  ['feedbacks_on_conflict']: GraphQLTypes['feedbacks_on_conflict'];
+  /** Ordering options when selecting data from "feedbacks". */
+  ['feedbacks_order_by']: GraphQLTypes['feedbacks_order_by'];
+  /** primary key columns input for table: feedbacks */
+  ['feedbacks_pk_columns_input']: GraphQLTypes['feedbacks_pk_columns_input'];
+  /** select columns of table "feedbacks" */
+  ['feedbacks_select_column']: GraphQLTypes['feedbacks_select_column'];
+  /** input type for updating data in table "feedbacks" */
+  ['feedbacks_set_input']: GraphQLTypes['feedbacks_set_input'];
+  /** aggregate stddev on columns */
+  ['feedbacks_stddev_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate stddev_pop on columns */
+  ['feedbacks_stddev_pop_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate stddev_samp on columns */
+  ['feedbacks_stddev_samp_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate sum on columns */
+  ['feedbacks_sum_fields']: {
+    id?: ModelTypes['bigint'];
+    user_id?: number;
+  };
+  /** update columns of table "feedbacks" */
+  ['feedbacks_update_column']: GraphQLTypes['feedbacks_update_column'];
+  /** aggregate var_pop on columns */
+  ['feedbacks_var_pop_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate var_samp on columns */
+  ['feedbacks_var_samp_fields']: {
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate variance on columns */
+  ['feedbacks_variance_fields']: {
+    id?: number;
+    user_id?: number;
+  };
   /** columns and relationships of "gift_private" */
   ['gift_private']: {
     gift_id?: ModelTypes['bigint'];
@@ -10559,6 +10950,10 @@ export type ModelTypes = {
     delete_epochs?: ModelTypes['epochs_mutation_response'];
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: ModelTypes['epochs'];
+    /** delete data from the table: "feedbacks" */
+    delete_feedbacks?: ModelTypes['feedbacks_mutation_response'];
+    /** delete single row from the table: "feedbacks" */
+    delete_feedbacks_by_pk?: ModelTypes['feedbacks'];
     /** delete data from the table: "gift_private" */
     delete_gift_private?: ModelTypes['gift_private_mutation_response'];
     /** delete data from the table: "histories" */
@@ -10643,6 +11038,10 @@ export type ModelTypes = {
     insert_epochs?: ModelTypes['epochs_mutation_response'];
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: ModelTypes['epochs'];
+    /** insert data into the table: "feedbacks" */
+    insert_feedbacks?: ModelTypes['feedbacks_mutation_response'];
+    /** insert a single row into the table: "feedbacks" */
+    insert_feedbacks_one?: ModelTypes['feedbacks'];
     /** insert data into the table: "gift_private" */
     insert_gift_private?: ModelTypes['gift_private_mutation_response'];
     /** insert a single row into the table: "gift_private" */
@@ -10732,6 +11131,10 @@ export type ModelTypes = {
     update_epochs?: ModelTypes['epochs_mutation_response'];
     /** update single row of the table: "epoches" */
     update_epochs_by_pk?: ModelTypes['epochs'];
+    /** update data of the table: "feedbacks" */
+    update_feedbacks?: ModelTypes['feedbacks_mutation_response'];
+    /** update single row of the table: "feedbacks" */
+    update_feedbacks_by_pk?: ModelTypes['feedbacks'];
     /** update data of the table: "gift_private" */
     update_gift_private?: ModelTypes['gift_private_mutation_response'];
     /** update data of the table: "histories" */
@@ -11692,6 +12095,12 @@ export type ModelTypes = {
     epochs_aggregate: ModelTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: ModelTypes['epochs'];
+    /** fetch data from the table: "feedbacks" */
+    feedbacks: ModelTypes['feedbacks'][];
+    /** fetch aggregated fields from the table: "feedbacks" */
+    feedbacks_aggregate: ModelTypes['feedbacks_aggregate'];
+    /** fetch data from the table: "feedbacks" using primary key columns */
+    feedbacks_by_pk?: ModelTypes['feedbacks'];
     /** fetch data from the table: "gift_private" */
     gift_private: ModelTypes['gift_private'][];
     /** fetch aggregated fields from the table: "gift_private" */
@@ -11820,6 +12229,12 @@ export type ModelTypes = {
     epochs_aggregate: ModelTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: ModelTypes['epochs'];
+    /** fetch data from the table: "feedbacks" */
+    feedbacks: ModelTypes['feedbacks'][];
+    /** fetch aggregated fields from the table: "feedbacks" */
+    feedbacks_aggregate: ModelTypes['feedbacks_aggregate'];
+    /** fetch data from the table: "feedbacks" using primary key columns */
+    feedbacks_by_pk?: ModelTypes['feedbacks'];
     /** fetch data from the table: "gift_private" */
     gift_private: ModelTypes['gift_private'][];
     /** fetch aggregated fields from the table: "gift_private" */
@@ -15355,6 +15770,173 @@ export type GraphQLTypes = {
     repeat?: GraphQLTypes['order_by'];
     repeat_day_of_month?: GraphQLTypes['order_by'];
   };
+  /** columns and relationships of "feedbacks" */
+  ['feedbacks']: {
+    __typename: 'feedbacks';
+    created_at?: GraphQLTypes['timestamp'];
+    id: GraphQLTypes['bigint'];
+    message: string;
+    telegram_username: string;
+    updated_at?: GraphQLTypes['timestamp'];
+    user_id: number;
+  };
+  /** aggregated selection of "feedbacks" */
+  ['feedbacks_aggregate']: {
+    __typename: 'feedbacks_aggregate';
+    aggregate?: GraphQLTypes['feedbacks_aggregate_fields'];
+    nodes: Array<GraphQLTypes['feedbacks']>;
+  };
+  /** aggregate fields of "feedbacks" */
+  ['feedbacks_aggregate_fields']: {
+    __typename: 'feedbacks_aggregate_fields';
+    avg?: GraphQLTypes['feedbacks_avg_fields'];
+    count: number;
+    max?: GraphQLTypes['feedbacks_max_fields'];
+    min?: GraphQLTypes['feedbacks_min_fields'];
+    stddev?: GraphQLTypes['feedbacks_stddev_fields'];
+    stddev_pop?: GraphQLTypes['feedbacks_stddev_pop_fields'];
+    stddev_samp?: GraphQLTypes['feedbacks_stddev_samp_fields'];
+    sum?: GraphQLTypes['feedbacks_sum_fields'];
+    var_pop?: GraphQLTypes['feedbacks_var_pop_fields'];
+    var_samp?: GraphQLTypes['feedbacks_var_samp_fields'];
+    variance?: GraphQLTypes['feedbacks_variance_fields'];
+  };
+  /** aggregate avg on columns */
+  ['feedbacks_avg_fields']: {
+    __typename: 'feedbacks_avg_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** Boolean expression to filter rows from the table "feedbacks". All fields are combined with a logical 'AND'. */
+  ['feedbacks_bool_exp']: {
+    _and?: Array<GraphQLTypes['feedbacks_bool_exp']>;
+    _not?: GraphQLTypes['feedbacks_bool_exp'];
+    _or?: Array<GraphQLTypes['feedbacks_bool_exp']>;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'];
+    id?: GraphQLTypes['bigint_comparison_exp'];
+    message?: GraphQLTypes['String_comparison_exp'];
+    telegram_username?: GraphQLTypes['String_comparison_exp'];
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'];
+    user_id?: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** unique or primary key constraints on table "feedbacks" */
+  ['feedbacks_constraint']: feedbacks_constraint;
+  /** input type for incrementing numeric columns in table "feedbacks" */
+  ['feedbacks_inc_input']: {
+    id?: GraphQLTypes['bigint'];
+    user_id?: number;
+  };
+  /** input type for inserting data into table "feedbacks" */
+  ['feedbacks_insert_input']: {
+    created_at?: GraphQLTypes['timestamp'];
+    id?: GraphQLTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: GraphQLTypes['timestamp'];
+    user_id?: number;
+  };
+  /** aggregate max on columns */
+  ['feedbacks_max_fields']: {
+    __typename: 'feedbacks_max_fields';
+    created_at?: GraphQLTypes['timestamp'];
+    id?: GraphQLTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: GraphQLTypes['timestamp'];
+    user_id?: number;
+  };
+  /** aggregate min on columns */
+  ['feedbacks_min_fields']: {
+    __typename: 'feedbacks_min_fields';
+    created_at?: GraphQLTypes['timestamp'];
+    id?: GraphQLTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: GraphQLTypes['timestamp'];
+    user_id?: number;
+  };
+  /** response of any mutation on the table "feedbacks" */
+  ['feedbacks_mutation_response']: {
+    __typename: 'feedbacks_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['feedbacks']>;
+  };
+  /** on conflict condition type for table "feedbacks" */
+  ['feedbacks_on_conflict']: {
+    constraint: GraphQLTypes['feedbacks_constraint'];
+    update_columns: Array<GraphQLTypes['feedbacks_update_column']>;
+    where?: GraphQLTypes['feedbacks_bool_exp'];
+  };
+  /** Ordering options when selecting data from "feedbacks". */
+  ['feedbacks_order_by']: {
+    created_at?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    message?: GraphQLTypes['order_by'];
+    telegram_username?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
+  /** primary key columns input for table: feedbacks */
+  ['feedbacks_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "feedbacks" */
+  ['feedbacks_select_column']: feedbacks_select_column;
+  /** input type for updating data in table "feedbacks" */
+  ['feedbacks_set_input']: {
+    created_at?: GraphQLTypes['timestamp'];
+    id?: GraphQLTypes['bigint'];
+    message?: string;
+    telegram_username?: string;
+    updated_at?: GraphQLTypes['timestamp'];
+    user_id?: number;
+  };
+  /** aggregate stddev on columns */
+  ['feedbacks_stddev_fields']: {
+    __typename: 'feedbacks_stddev_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate stddev_pop on columns */
+  ['feedbacks_stddev_pop_fields']: {
+    __typename: 'feedbacks_stddev_pop_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate stddev_samp on columns */
+  ['feedbacks_stddev_samp_fields']: {
+    __typename: 'feedbacks_stddev_samp_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate sum on columns */
+  ['feedbacks_sum_fields']: {
+    __typename: 'feedbacks_sum_fields';
+    id?: GraphQLTypes['bigint'];
+    user_id?: number;
+  };
+  /** update columns of table "feedbacks" */
+  ['feedbacks_update_column']: feedbacks_update_column;
+  /** aggregate var_pop on columns */
+  ['feedbacks_var_pop_fields']: {
+    __typename: 'feedbacks_var_pop_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate var_samp on columns */
+  ['feedbacks_var_samp_fields']: {
+    __typename: 'feedbacks_var_samp_fields';
+    id?: number;
+    user_id?: number;
+  };
+  /** aggregate variance on columns */
+  ['feedbacks_variance_fields']: {
+    __typename: 'feedbacks_variance_fields';
+    id?: number;
+    user_id?: number;
+  };
   /** columns and relationships of "gift_private" */
   ['gift_private']: {
     __typename: 'gift_private';
@@ -15775,6 +16357,10 @@ export type GraphQLTypes = {
     delete_epochs?: GraphQLTypes['epochs_mutation_response'];
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: GraphQLTypes['epochs'];
+    /** delete data from the table: "feedbacks" */
+    delete_feedbacks?: GraphQLTypes['feedbacks_mutation_response'];
+    /** delete single row from the table: "feedbacks" */
+    delete_feedbacks_by_pk?: GraphQLTypes['feedbacks'];
     /** delete data from the table: "gift_private" */
     delete_gift_private?: GraphQLTypes['gift_private_mutation_response'];
     /** delete data from the table: "histories" */
@@ -15859,6 +16445,10 @@ export type GraphQLTypes = {
     insert_epochs?: GraphQLTypes['epochs_mutation_response'];
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: GraphQLTypes['epochs'];
+    /** insert data into the table: "feedbacks" */
+    insert_feedbacks?: GraphQLTypes['feedbacks_mutation_response'];
+    /** insert a single row into the table: "feedbacks" */
+    insert_feedbacks_one?: GraphQLTypes['feedbacks'];
     /** insert data into the table: "gift_private" */
     insert_gift_private?: GraphQLTypes['gift_private_mutation_response'];
     /** insert a single row into the table: "gift_private" */
@@ -15948,6 +16538,10 @@ export type GraphQLTypes = {
     update_epochs?: GraphQLTypes['epochs_mutation_response'];
     /** update single row of the table: "epoches" */
     update_epochs_by_pk?: GraphQLTypes['epochs'];
+    /** update data of the table: "feedbacks" */
+    update_feedbacks?: GraphQLTypes['feedbacks_mutation_response'];
+    /** update single row of the table: "feedbacks" */
+    update_feedbacks_by_pk?: GraphQLTypes['feedbacks'];
     /** update data of the table: "gift_private" */
     update_gift_private?: GraphQLTypes['gift_private_mutation_response'];
     /** update data of the table: "histories" */
@@ -17497,6 +18091,12 @@ export type GraphQLTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'];
+    /** fetch data from the table: "feedbacks" */
+    feedbacks: Array<GraphQLTypes['feedbacks']>;
+    /** fetch aggregated fields from the table: "feedbacks" */
+    feedbacks_aggregate: GraphQLTypes['feedbacks_aggregate'];
+    /** fetch data from the table: "feedbacks" using primary key columns */
+    feedbacks_by_pk?: GraphQLTypes['feedbacks'];
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -17626,6 +18226,12 @@ export type GraphQLTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'];
+    /** fetch data from the table: "feedbacks" */
+    feedbacks: Array<GraphQLTypes['feedbacks']>;
+    /** fetch aggregated fields from the table: "feedbacks" */
+    feedbacks_aggregate: GraphQLTypes['feedbacks_aggregate'];
+    /** fetch data from the table: "feedbacks" using primary key columns */
+    feedbacks_by_pk?: GraphQLTypes['feedbacks'];
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -19661,6 +20267,28 @@ export const enum epochs_update_column {
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "feedbacks" */
+export const enum feedbacks_constraint {
+  feedbacks_pkey = 'feedbacks_pkey',
+}
+/** select columns of table "feedbacks" */
+export const enum feedbacks_select_column {
+  created_at = 'created_at',
+  id = 'id',
+  message = 'message',
+  telegram_username = 'telegram_username',
+  updated_at = 'updated_at',
+  user_id = 'user_id',
+}
+/** update columns of table "feedbacks" */
+export const enum feedbacks_update_column {
+  created_at = 'created_at',
+  id = 'id',
+  message = 'message',
+  telegram_username = 'telegram_username',
+  updated_at = 'updated_at',
+  user_id = 'user_id',
 }
 /** select columns of table "gift_private" */
 export const enum gift_private_select_column {
