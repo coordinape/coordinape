@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField, ApeToggle } from 'components';
+import { FormModal, FormTextField, ApeToggle, ActionDialog } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
@@ -40,13 +40,20 @@ export const AdminUserModal = ({
   open,
 }: {
   user?: IUser;
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
 }) => {
   const classes = useStyles();
 
   const { circle: selectedCircle, circleId } = useSelectedCircle();
   const { updateUser, createUser } = useApiAdminCircle(circleId);
+
+  const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
+  const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
+    useState(false);
+
+  const isOptedOut = !!user?.fixed_non_receiver || !!user?.non_receiver;
+  const hasGiveAllocated = !!user?.give_token_received;
 
   const source = useMemo(
     () => ({
@@ -60,11 +67,22 @@ export const AdminUserModal = ({
     <AdminUserForm.FormController
       source={source}
       hideFieldErrors
-      submit={params =>
-        (user ? updateUser(user.address, params) : createUser(params))
-          .then(() => onClose())
-          .catch(console.warn)
-      }
+      submit={params => {
+        const hasOptOutChanged =
+          isOptedOut !==
+          (!!params?.fixed_non_receiver || !!params?.non_receiver);
+        const showWarning =
+          hasOptOutChanged && hasGiveAllocated && !hasAcceptedOptOutWarning;
+
+        if (showWarning) {
+          setShowOptOutChangeWarning(true);
+        } else {
+          setShowOptOutChangeWarning(false);
+          (user ? updateUser(user.address, params) : createUser(params))
+            .then(() => onClose())
+            .catch(console.warn);
+        }
+      }}
     >
       {({
         fields: {
@@ -81,7 +99,7 @@ export const AdminUserModal = ({
       }) => (
         <FormModal
           onClose={onClose}
-          open={open}
+          open={open === undefined ? true : open}
           title={user ? `Edit ${user.name}` : 'Create User'}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
@@ -115,6 +133,17 @@ export const AdminUserModal = ({
               disabled={fields.fixed_non_receiver.value}
             />
           </div>
+          <ActionDialog
+            open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
+            title="This user has GIVE allocated."
+            onPrimary={() => {
+              setHasAcceptedOptOutWarning(true);
+              setShowOptOutChangeWarning(false);
+            }}
+          >
+            Changing their opt-in status will remove all GIVE allocated to them.
+            This cannot be undone.
+          </ActionDialog>
         </FormModal>
       )}
     </AdminUserForm.FormController>
