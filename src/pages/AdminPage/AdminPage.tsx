@@ -608,11 +608,12 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           }
         />
       </div>
-      <AdminUserModal
-        onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
-        user={editUser}
-        open={!!editUser || newUser}
-      />
+      {(editUser || newUser) && (
+        <AdminUserModal
+          onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
+          user={editUser}
+        />
+      )}
       <AdminEpochModal
         epochs={epochs}
         circleId={circleId}
