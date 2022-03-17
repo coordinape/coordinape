@@ -1,5 +1,6 @@
 // at 5k elements for filter-map-slice itiriri is more performant
 import iti from 'itiriri';
+import * as mutations from 'lib/gql/mutations';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -52,7 +53,7 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
   const token = address && authTokens[address];
   // eslint-disable-next-line no-console
   const api = getApiService();
-  if (!token && api.token) api.logout();
+  if (!token && api.token) mutations.logout();
   api.setAuth(token);
 };
 

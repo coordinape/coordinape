@@ -74,10 +74,6 @@ export class APIService {
     return response.data;
   };
 
-  logout = async (): Promise<boolean> => {
-    return (await this.axios.post('/v2/logout')).data;
-  };
-
   getManifest = async (circleId?: number): Promise<IApiManifest> => {
     const response = await this.axios.get('/v2/manifest', {
       params: {
