@@ -118,7 +118,7 @@ const ProfileCardInner = ({
   disabled,
   circleId,
   isMe,
-  tokenName,
+  tokenName = 'GIVE',
 }: {
   user: IUser;
   tokens: number;
@@ -126,7 +126,7 @@ const ProfileCardInner = ({
   disabled?: boolean;
   circleId: number;
   isMe?: boolean;
-  tokenName: string;
+  tokenName?: string;
 }) => {
   const classes = useStyles();
   const { getToMap, getToProfile } = useNavigation();
@@ -143,8 +143,8 @@ const ProfileCardInner = ({
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({
       user,
-      note: note || gift.note || '',
-      tokens: tokens === undefined ? gift.tokens || 0 : tokens,
+      note: note || gift?.note || '',
+      tokens: tokens === undefined ? gift?.tokens || 0 : tokens,
     });
   };
   const contributions = useContributions(user.address);

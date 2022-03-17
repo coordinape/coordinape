@@ -114,16 +114,15 @@ export const rLocalGifts = atomFamily<ISimpleGift[], number>({
 // and the wrapper below to combine multiple params into a single one
 const PARAM_OFFSET = 1000000;
 
-const rLocalGiftRaw = selectorFamily<ISimpleGift, number>({
+const rLocalGiftRaw = selectorFamily<ISimpleGift | undefined, number>({
   key: 'rLocalGift',
   get:
     (circleAndUserId: number) =>
     ({ get }) => {
       const userId = Math.floor(circleAndUserId / PARAM_OFFSET);
       const circleId = circleAndUserId % PARAM_OFFSET;
-      return get(rLocalGifts(circleId)).find(
-        gift => gift.user.id === userId
-      ) as ISimpleGift;
+      const localGifts = get(rLocalGifts(circleId));
+      return localGifts.find(({ user: { id } }) => id === userId);
     },
   set:
     (circleAndUserId: number) =>
@@ -139,7 +138,8 @@ const rLocalGiftRaw = selectorFamily<ISimpleGift, number>({
       let updatedGifts;
       if (idx === -1) {
         const user = get(rUsersMap).get(userId);
-        updatedGifts = [...localGifts, { user, tokens, note } as ISimpleGift];
+        const gift: ISimpleGift = { user, tokens, note };
+        updatedGifts = [...localGifts, gift];
       } else {
         const gift = localGifts[idx];
         updatedGifts = localGifts.slice();
