@@ -2,7 +2,6 @@
 /api-lib/   @topocount
 /docker/    @topocount
 /hasura/    @topocount
-/prisma/    @topocount
 /scripts/   @topocount
 
 /src/       @teeolendo

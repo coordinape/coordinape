@@ -1,13 +1,12 @@
 import assert from 'assert';
 import crypto from 'crypto';
 
-import { PrismaClient } from '@prisma/client';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { IS_LOCAL_ENV } from '../../api-lib/config';
+import { adminClient } from '../../api-lib/gql/adminClient';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const prisma = new PrismaClient();
   try {
     if (IS_LOCAL_ENV && req.headers?.authorization === 'generate') {
       // For generating libraries from inspection
@@ -22,22 +21,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .replace('Bearer ', '')
       .split('|');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    const tokenRow = await prisma.accessToken.findFirst({
-      where: {
-        tokenable_type: 'App\\Models\\Profile',
-        token: hashedToken,
-        id: parseInt(expectedId),
-      },
+    const tokenRow = await adminClient.query({
+      personal_access_tokens: [
+        {
+          where: {
+            tokenable_type: { _eq: 'App\\Models\\Profile' },
+            id: { _eq: parseInt(expectedId) },
+            token: { _eq: hashedToken },
+          },
+        },
+        {
+          tokenable_id: true,
+        },
+      ],
     });
-    assert(tokenRow, 'The token provided was not recognized');
-    const profile = await prisma.profile.findFirst({
-      where: {
-        id: tokenRow.tokenable_id,
-      },
+    const tokenableId = tokenRow.personal_access_tokens[0]?.tokenable_id;
+
+    assert(tokenableId, 'The token provided was not recognized');
+
+    const { profiles_by_pk: profile } = await adminClient.query({
+      profiles_by_pk: [
+        { id: tokenableId },
+        { admin_view: true, address: true },
+      ],
     });
+
     assert(profile, 'Profile cannot be found');
     res.status(200).json({
-      'X-Hasura-User-Id': tokenRow.tokenable_id.toString(),
+      'X-Hasura-User-Id': tokenableId.toString(),
       'X-Hasura-Role': profile.admin_view ? 'superadmin' : 'user',
       'X-Hasura-Address': profile.address,
     });
@@ -46,7 +57,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       error: '401',
       message: (e as Error).message || 'Unexpected error',
     });
-  } finally {
-    await prisma.$disconnect();
   }
 }
