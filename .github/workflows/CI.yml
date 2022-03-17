@@ -38,3 +38,8 @@ jobs:
       - run: yarn lint:check
       - run: yarn prettier:check
       - run: yarn test:ci
+      - name: Codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov 
+          chmod +x codecov 
+          ./codecov
