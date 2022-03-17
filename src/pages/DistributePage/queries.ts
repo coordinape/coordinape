@@ -2,6 +2,40 @@ import { token_gifts_select_column } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import useConnectedAddress from '../../hooks/useConnectedAddress';
+
+export function useCurrentUserForEpoch(epochId: number) {
+  const address = useConnectedAddress();
+
+  return useQuery(['user-for-epoch', epochId], async () => {
+    const { users } = await client.query({
+      users: [
+        {
+          where: {
+            circle: {
+              epochs: {
+                id: { _eq: epochId },
+              },
+            },
+            address: {
+              _ilike: address,
+            },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          address: true,
+          role: true,
+          circle_id: true,
+        },
+      ],
+    });
+
+    return users[0];
+  });
+}
+
 export function useGetAllocations(epochId: number) {
   // FIXME (minor): if this query's structure were changed
   // from: epoch -> circle -> users -> gifts
