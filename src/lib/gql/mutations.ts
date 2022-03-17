@@ -93,3 +93,15 @@ export const deleteCircleIntegration = async (id: number) =>
   client.mutate({
     delete_circle_integrations_by_pk: [{ id }, { id: true }],
   });
+
+export const logout = async (): Promise<boolean> => {
+  const { logoutUser } = await client.mutate({
+    logoutUser: {
+      id: true,
+    },
+  });
+  if (logoutUser?.id) {
+    return true;
+  }
+  return false;
+};
