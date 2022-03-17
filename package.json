@@ -68,7 +68,7 @@
   },
   "scripts": {
     "setup": "./scripts/setup.sh",
-    "db-seed-fresh": "yarn db-clean && yarn db-seed && yarn db-add-me",
+    "db-seed-fresh": "./scripts/reseed_hasura.sh",
     "db-seed": "node ./scripts/tsrun.mjs ./scripts/db-seed.ts",
     "db-clean": "node ./scripts/tsrun.mjs ./scripts/db-clean.ts",
     "db-add-me": "node ./scripts/tsrun.mjs ./scripts/db-add-me.ts",
