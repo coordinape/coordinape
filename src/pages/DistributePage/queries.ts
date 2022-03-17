@@ -7,8 +7,8 @@ export function useGetAllocations(epochId: number) {
   // from: epoch -> circle -> users -> gifts
   // to: epoch -> gifts -> users
   // that would remove the need to repeatedly pass epochId as an argument
-  return useQuery(['circle-for-epoch', epochId], () => {
-    return client.query({
+  return useQuery(['circle-for-epoch', epochId], async () => {
+    return await client.query({
       epochs_by_pk: [
         { id: epochId },
         {

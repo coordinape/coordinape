@@ -1,8 +1,10 @@
 import assert from 'assert';
 
+import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { addVault } from 'lib/gql/mutations';
+
 import { ZERO_ADDRESS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
-import { useFakeVaultApi } from 'recoilState/vaults';
 import { Asset } from 'services/contracts';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -13,7 +15,6 @@ import { IVault } from 'types';
 export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
   const { showInfo, showError } = useApeSnackbar();
-  const vaultApi = useFakeVaultApi();
 
   const createVault = async ({
     simpleTokenAddress,
@@ -52,16 +53,27 @@ export function useVaultFactory(orgId?: number) {
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
+          //TODO: Refactor the codebase and retire the IVault interface and return the mutation result
           const vault: IVault = {
-            id: vaultAddress,
-            transactions: [],
+            orgId,
             tokenAddress: args[0],
             simpleTokenAddress: args[1],
             decimals,
+            id: vaultAddress,
+            transactions: [],
             type: type || 'OTHER',
-            orgId,
           };
-          vaultApi.addVault(orgId, vault);
+
+          const vaultDTO: ValueTypes['vaults_insert_input'] = {
+            decimals,
+            vault_address: vaultAddress,
+            org_id: orgId,
+            simple_token_address: args[1],
+            token_address: args[0],
+            symbol: type || 'OTHER',
+          };
+          await addVault(vaultDTO);
+
           return vault;
         }
       }

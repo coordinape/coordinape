@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import assert from 'assert';
 import { useState } from 'react';
 
@@ -41,13 +43,16 @@ function DistributePage() {
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg.data?.id);
+
+  const vaults = useVaults(2);
+
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { apeError } = useApeSnackbar();
   const { mutateAsync } = useSaveDistribution(distributionDTO);
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
+
   const { myUser: currentUser } = useCircle(data?.epochs_by_pk?.circle?.id);
 
   const circle = data?.epochs_by_pk?.circle;

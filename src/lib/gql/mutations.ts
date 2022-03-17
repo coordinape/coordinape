@@ -93,3 +93,23 @@ export const deleteCircleIntegration = async (id: number) =>
   client.mutate({
     delete_circle_integrations_by_pk: [{ id }, { id: true }],
   });
+
+export const addVault = async (vault: ValueTypes['vaults_insert_input']) =>
+  await client.mutate({
+    insert_vaults_one: [
+      {
+        object: vault,
+      },
+      {
+        id: true,
+        org_id: true,
+        token_address: true,
+        simple_token_address: true,
+        symbol: true,
+        decimals: true,
+        vault_address: true,
+        created_at: true,
+        created_by: true,
+      },
+    ],
+  });

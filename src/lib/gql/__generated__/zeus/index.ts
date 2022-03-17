@@ -3588,6 +3588,7 @@ export type ValueTypes = {
     updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
+    vault_address?: boolean;
     vault_transactions?: [
       {
         /** distinct select on columns */
@@ -3620,6 +3621,7 @@ export type ValueTypes = {
     token_address?: ValueTypes['String_comparison_exp'] | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
+    vault_address?: ValueTypes['String_comparison_exp'] | null;
     vault_transactions?: ValueTypes['vault_transactions_bool_exp'] | null;
   };
   /** input type for inserting data into table "vaults" */
@@ -3631,6 +3633,7 @@ export type ValueTypes = {
     simple_token_address?: string | null;
     symbol?: string | null;
     token_address?: string | null;
+    vault_address?: string | null;
     vault_transactions?:
       | ValueTypes['vault_transactions_arr_rel_insert_input']
       | null;
@@ -3663,6 +3666,7 @@ export type ValueTypes = {
     token_address?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
+    vault_address?: ValueTypes['order_by'] | null;
     vault_transactions_aggregate?:
       | ValueTypes['vault_transactions_aggregate_order_by']
       | null;
@@ -4905,6 +4909,7 @@ export type ModelTypes = {
     updated_at: ModelTypes['timestamptz'];
     /** An object relationship */
     user: ModelTypes['users'];
+    vault_address: string;
     /** An array relationship */
     vault_transactions: ModelTypes['vault_transactions'][];
   };
@@ -7729,6 +7734,7 @@ export type GraphQLTypes = {
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user: GraphQLTypes['users'];
+    vault_address: string;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
   };
@@ -7749,6 +7755,7 @@ export type GraphQLTypes = {
     token_address?: GraphQLTypes['String_comparison_exp'];
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
+    vault_address?: GraphQLTypes['String_comparison_exp'];
     vault_transactions?: GraphQLTypes['vault_transactions_bool_exp'];
   };
   /** input type for inserting data into table "vaults" */
@@ -7760,6 +7767,7 @@ export type GraphQLTypes = {
     simple_token_address?: string;
     symbol?: string;
     token_address?: string;
+    vault_address?: string;
     vault_transactions?: GraphQLTypes['vault_transactions_arr_rel_insert_input'];
   };
   /** response of any mutation on the table "vaults" */
@@ -7788,6 +7796,7 @@ export type GraphQLTypes = {
     token_address?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
+    vault_address?: GraphQLTypes['order_by'];
     vault_transactions_aggregate?: GraphQLTypes['vault_transactions_aggregate_order_by'];
   };
   /** select columns of table "vaults" */
@@ -8141,6 +8150,7 @@ export const enum vaults_select_column {
   symbol = 'symbol',
   token_address = 'token_address',
   updated_at = 'updated_at',
+  vault_address = 'vault_address',
 }
 /** select columns of table "vouches" */
 export const enum vouches_select_column {
