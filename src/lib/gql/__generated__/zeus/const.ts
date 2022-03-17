@@ -11528,6 +11528,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    vault_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_transactions: {
       type: 'vault_transactions_bool_exp',
       array: false,
@@ -11573,6 +11579,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     token_address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_address: {
       type: 'String',
       array: false,
       arrayRequired: false,
@@ -11662,6 +11674,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     user: {
       type: 'users_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_address: {
+      type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -12613,6 +12631,7 @@ export const ReturnTypes: Record<string, any> = {
     token_address: 'String',
     updated_at: 'timestamptz',
     user: 'users',
+    vault_address: 'String',
     vault_transactions: 'vault_transactions',
   },
   vaults_mutation_response: {

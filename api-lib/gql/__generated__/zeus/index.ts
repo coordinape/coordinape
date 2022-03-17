@@ -8932,6 +8932,7 @@ export type ValueTypes = {
     updated_at?: boolean;
     /** An object relationship */
     user?: ValueTypes['users'];
+    vault_address?: boolean;
     vault_transactions?: [
       {
         /** distinct select on columns */
@@ -9012,6 +9013,7 @@ export type ValueTypes = {
     token_address?: ValueTypes['String_comparison_exp'] | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | null;
     user?: ValueTypes['users_bool_exp'] | null;
+    vault_address?: ValueTypes['String_comparison_exp'] | null;
     vault_transactions?: ValueTypes['vault_transactions_bool_exp'] | null;
   };
   /** unique or primary key constraints on table "vaults" */
@@ -9037,6 +9039,7 @@ export type ValueTypes = {
     token_address?: string | null;
     updated_at?: ValueTypes['timestamptz'] | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | null;
+    vault_address?: string | null;
     vault_transactions?:
       | ValueTypes['vault_transactions_arr_rel_insert_input']
       | null;
@@ -9052,6 +9055,7 @@ export type ValueTypes = {
     symbol?: boolean;
     token_address?: boolean;
     updated_at?: boolean;
+    vault_address?: boolean;
     __typename?: boolean;
   }>;
   /** aggregate min on columns */
@@ -9065,6 +9069,7 @@ export type ValueTypes = {
     symbol?: boolean;
     token_address?: boolean;
     updated_at?: boolean;
+    vault_address?: boolean;
     __typename?: boolean;
   }>;
   /** response of any mutation on the table "vaults" */
@@ -9103,6 +9108,7 @@ export type ValueTypes = {
     token_address?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     user?: ValueTypes['users_order_by'] | null;
+    vault_address?: ValueTypes['order_by'] | null;
     vault_transactions_aggregate?:
       | ValueTypes['vault_transactions_aggregate_order_by']
       | null;
@@ -9124,6 +9130,7 @@ export type ValueTypes = {
     symbol?: string | null;
     token_address?: string | null;
     updated_at?: ValueTypes['timestamptz'] | null;
+    vault_address?: string | null;
   };
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: AliasType<{
@@ -13247,6 +13254,7 @@ export type ModelTypes = {
     updated_at: ModelTypes['timestamptz'];
     /** An object relationship */
     user: ModelTypes['users'];
+    vault_address: string;
     /** An array relationship */
     vault_transactions: ModelTypes['vault_transactions'][];
     /** An aggregate relationship */
@@ -13297,6 +13305,7 @@ export type ModelTypes = {
     symbol?: string;
     token_address?: string;
     updated_at?: ModelTypes['timestamptz'];
+    vault_address?: string;
   };
   /** aggregate min on columns */
   ['vaults_min_fields']: {
@@ -13309,6 +13318,7 @@ export type ModelTypes = {
     symbol?: string;
     token_address?: string;
     updated_at?: ModelTypes['timestamptz'];
+    vault_address?: string;
   };
   /** response of any mutation on the table "vaults" */
   ['vaults_mutation_response']: {
@@ -20051,6 +20061,7 @@ export type GraphQLTypes = {
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user: GraphQLTypes['users'];
+    vault_address: string;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** An aggregate relationship */
@@ -20102,6 +20113,7 @@ export type GraphQLTypes = {
     token_address?: GraphQLTypes['String_comparison_exp'];
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'];
     user?: GraphQLTypes['users_bool_exp'];
+    vault_address?: GraphQLTypes['String_comparison_exp'];
     vault_transactions?: GraphQLTypes['vault_transactions_bool_exp'];
   };
   /** unique or primary key constraints on table "vaults" */
@@ -20127,6 +20139,7 @@ export type GraphQLTypes = {
     token_address?: string;
     updated_at?: GraphQLTypes['timestamptz'];
     user?: GraphQLTypes['users_obj_rel_insert_input'];
+    vault_address?: string;
     vault_transactions?: GraphQLTypes['vault_transactions_arr_rel_insert_input'];
   };
   /** aggregate max on columns */
@@ -20141,6 +20154,7 @@ export type GraphQLTypes = {
     symbol?: string;
     token_address?: string;
     updated_at?: GraphQLTypes['timestamptz'];
+    vault_address?: string;
   };
   /** aggregate min on columns */
   ['vaults_min_fields']: {
@@ -20154,6 +20168,7 @@ export type GraphQLTypes = {
     symbol?: string;
     token_address?: string;
     updated_at?: GraphQLTypes['timestamptz'];
+    vault_address?: string;
   };
   /** response of any mutation on the table "vaults" */
   ['vaults_mutation_response']: {
@@ -20189,6 +20204,7 @@ export type GraphQLTypes = {
     token_address?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     user?: GraphQLTypes['users_order_by'];
+    vault_address?: GraphQLTypes['order_by'];
     vault_transactions_aggregate?: GraphQLTypes['vault_transactions_aggregate_order_by'];
   };
   /** primary key columns input for table: vaults */
@@ -20208,6 +20224,7 @@ export type GraphQLTypes = {
     symbol?: string;
     token_address?: string;
     updated_at?: GraphQLTypes['timestamptz'];
+    vault_address?: string;
   };
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: {
@@ -21108,6 +21125,7 @@ export const enum vaults_select_column {
   symbol = 'symbol',
   token_address = 'token_address',
   updated_at = 'updated_at',
+  vault_address = 'vault_address',
 }
 /** update columns of table "vaults" */
 export const enum vaults_update_column {
@@ -21120,6 +21138,7 @@ export const enum vaults_update_column {
   symbol = 'symbol',
   token_address = 'token_address',
   updated_at = 'updated_at',
+  vault_address = 'vault_address',
 }
 /** unique or primary key constraints on table "vouches" */
 export const enum vouches_constraint {

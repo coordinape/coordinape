@@ -20089,6 +20089,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    vault_address: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_transactions: {
       type: 'vault_transactions_bool_exp',
       array: false,
@@ -20192,6 +20198,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     user: {
       type: 'users_obj_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_address: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -20310,6 +20322,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    vault_address: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_transactions_aggregate: {
       type: 'vault_transactions_aggregate_order_by',
       array: false,
@@ -20377,6 +20395,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     updated_at: {
       type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vault_address: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -23376,6 +23400,7 @@ export const ReturnTypes: Record<string, any> = {
     token_address: 'String',
     updated_at: 'timestamptz',
     user: 'users',
+    vault_address: 'String',
     vault_transactions: 'vault_transactions',
     vault_transactions_aggregate: 'vault_transactions_aggregate',
   },
@@ -23412,6 +23437,7 @@ export const ReturnTypes: Record<string, any> = {
     symbol: 'String',
     token_address: 'String',
     updated_at: 'timestamptz',
+    vault_address: 'String',
   },
   vaults_min_fields: {
     created_at: 'timestamptz',
@@ -23423,6 +23449,7 @@ export const ReturnTypes: Record<string, any> = {
     symbol: 'String',
     token_address: 'String',
     updated_at: 'timestamptz',
+    vault_address: 'String',
   },
   vaults_mutation_response: {
     affected_rows: 'Int',
