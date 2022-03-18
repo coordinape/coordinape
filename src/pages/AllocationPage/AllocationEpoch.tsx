@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
+import capitalize from 'lodash/capitalize';
+
 import { makeStyles } from '@material-ui/core';
 
 import { OptInput, ActionDialog, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
-import { capitalizedName } from 'utils/string';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -160,7 +161,7 @@ const AllocationEpoch = ({
         className={classes.bioTextarea}
         maxLength={MAX_BIO_LENGTH}
         onChange={onChangeBio}
-        placeholder={`Tell us about your contributions in the ${capitalizedName(
+        placeholder={`Tell us about your contributions in the ${capitalize(
           selectedCircle?.name
         )} Circle this epoch...`}
         value={epochBio}
@@ -170,7 +171,7 @@ const AllocationEpoch = ({
           <p className={classes.titleTwo}>
             Should you receive {selectedCircle?.token_name || 'GIVE'}{' '}
             distributions in the{' '}
-            <b>{capitalizedName(selectedCircle?.name)} Circle</b> this epoch?
+            <b>{capitalize(selectedCircle?.name)} Circle</b> this epoch?
           </p>
           <hr className={classes.optHr} />
           <div className={classes.optInputContainer}>

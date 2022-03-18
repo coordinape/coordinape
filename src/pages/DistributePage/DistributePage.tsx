@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber, FixedNumber, utils } from 'ethers';
+import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -109,7 +108,7 @@ function DistributePage() {
       const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
         selectedVault.id,
-        utils.formatBytes32String(circle.id.toString()),
+        encodeCircleId(circle.id),
         yVaultAddress.toString(),
         distribution.merkleRoot,
         totalDistributionAmount,
