@@ -111,7 +111,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 0,
     justifyContent: 'flex-start',
     fontSize: 16,
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
     opacity: 1.0,
     '&:hover': {
       background: '#2a8499',
