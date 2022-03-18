@@ -27,45 +27,22 @@ export interface IDistribution {
   updated_at?: string;
 }
 
-export function useSaveDistribution(distribution: IDistribution | undefined) {
+export function useSaveEpochDistribution(
+  distribution: ValueTypes['distributions_insert_input'] | undefined
+) {
   return useMutation(() => {
     return client.mutate({
       insert_distributions_one: [
         {
-          object: {
-            created_by: distribution?.created_by,
-            epoch_id: distribution?.epoch_id,
-            merkle_root: distribution?.merkle_root,
-            total_amount: distribution?.total_amount,
-            vault_address: distribution?.vault_address,
-            claims: distribution?.claims,
-          },
+          object: { ...distribution },
         },
         {
           id: true,
           created_at: true,
-          updated_at: true,
           epoch_id: true,
           vault_id: true,
           created_by: true,
           merkle_root: true,
-        },
-      ],
-    });
-  });
-}
-
-export function useSaveEpochDistribution(
-  distribution: ValueTypes['distributions_insert_input']
-) {
-  return useMutation(`save-epoch-dist`, () => {
-    return client.mutate({
-      insert_distributions_one: [
-        {
-          object: distribution,
-        },
-        {
-          id: true,
         },
       ],
     });

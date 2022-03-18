@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber, FixedNumber, utils } from 'ethers';
+import { GraphQLTypes, ValueTypes } from 'lib/gql/__generated__/zeus';
 import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -17,20 +18,20 @@ import { isUserAdmin } from '../../utils/userHelpers';
 import { ApeTextField } from 'components';
 import { useDistributor, useApeSnackbar } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
+import { useVaults } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
-import { useVaults } from 'recoilState/vaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useSaveDistribution, IDistribution, IClaim } from './mutations';
+import { useSaveEpochDistribution } from './mutations';
 import { useCurrentUserForEpoch, useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
 
-import { IAllocateUser, IVault } from 'types';
+import { IAllocateUser } from 'types';
 
 const DistributionFormSchema = z.object({
   amount: z.number(),
-  selectedVaultId: z.string(),
+  selectedVaultId: z.number(),
 });
 
 type DistributionForm = z.infer<typeof DistributionFormSchema>;
@@ -45,17 +46,22 @@ function DistributePage() {
   const { epochId } = useParams();
   const [loadingTrx, setLoadingTrx] = useState(false);
   const [updateAmount, setUpdateAmount] = useState(0);
-  const [distributionDTO, setDistributionDTO] = useState<IDistribution>();
   const [selectedVaultId, setSelectedVaultId] = useState('');
 
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg.data?.id);
+  const { isLoading: vaultLoading, data: vaults } = useVaults(
+    currentOrg.data?.id as number
+  );
 
   const { uploadEpochRoot } = useDistributor();
-  const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
+  const [selectedVault, setSelectedVault] = useState<
+    GraphQLTypes['vaults'] | undefined
+  >();
   const { apeError } = useApeSnackbar();
-  const { mutateAsync } = useSaveDistribution(distributionDTO);
+  const [distributionDTO, setDistributionDTO] =
+    useState<ValueTypes['distributions_insert_input']>();
+  const { mutateAsync } = useSaveEpochDistribution(distributionDTO);
 
   const {
     isLoading: isAllocationsLoading,
@@ -65,7 +71,8 @@ function DistributePage() {
 
   const currentUser = useCurrentUserForEpoch(Number(epochId));
 
-  const isLoading = isAllocationsLoading || currentUser.isLoading;
+  const isLoading =
+    isAllocationsLoading || currentUser.isLoading || vaultLoading;
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
@@ -81,7 +88,7 @@ function DistributePage() {
     resolver: zodResolver(DistributionFormSchema),
   });
 
-  let vaultOptions: Array<{ value: number; label: string; id: string }> = [];
+  let vaultOptions: Array<{ value: number; label: string; id: number }> = [];
 
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
@@ -104,10 +111,12 @@ function DistributePage() {
     try {
       assert(contracts);
       assert(currentUser.data);
-      const yVaultAddress = await contracts.getVault(selectedVault.id).vault();
+      const yVaultAddress = await contracts
+        .getVault(selectedVault.vault_address)
+        .vault();
       const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
-        selectedVault.id,
+        selectedVault.vault_address,
         encodeCircleId(circle.id),
         yVaultAddress.toString(),
         distribution.merkleRoot,
@@ -116,14 +125,23 @@ function DistributePage() {
       );
 
       if (trx) {
-        const claims: IClaim[] = [];
-        const updateDistribution: IDistribution = {
+        const claims: ValueTypes['claims_insert_input'][] = Object.entries(
+          distribution.claims
+        ).map(([address, claim]) => ({
+          address,
+          index: claim.index,
+          amount: Number(FixedNumber.from(claim.amount, 'fixed128x18')),
+          proof: claim.proof.toString(),
+          user_id: users.find(({ address }) => address === address)?.id,
+        }));
+
+        const updateDistribution: ValueTypes['distributions_insert_input'] = {
           total_amount: Number(
             FixedNumber.from(totalDistributionAmount, 'fixed128x18')
           ),
           epoch_id: Number(epochId),
           merkle_root: distribution.merkleRoot,
-          vault_address: selectedVaultId,
+          vault_address: selectedVault.vault_address,
           claims: {
             data: claims,
           },
@@ -162,11 +180,12 @@ function DistributePage() {
   if (message)
     return <ShowMessage path={paths.getVaultsPath()} message={message} />;
 
-  vaultOptions = vaults.map((vault, index) => ({
-    value: index,
-    label: vault.symbol || '...',
-    id: vault.id,
-  }));
+  if (vaults)
+    vaultOptions = vaults.map(vault => ({
+      value: vault.id,
+      label: vault.symbol || '...',
+      id: vault.id,
+    }));
 
   return (
     <Box
@@ -246,7 +265,11 @@ function DistributePage() {
                           onChange={({ target: { value } }) => {
                             onChange(value);
                             setSelectedVaultId(String(value));
-                            setSelectedVault(vaults.find(v => v.id === value));
+                            setSelectedVault(
+                              vaults?.find(
+                                v => v.id === Number(value)
+                              ) as GraphQLTypes['vaults']
+                            );
                           }}
                         >
                           {vaultOptions.map(vault => (
@@ -330,7 +353,8 @@ function DistributePage() {
               totalAmountInVault={updateAmount}
               tokenName={
                 selectedVaultId
-                  ? vaults.find(vault => vault.id === selectedVaultId)?.symbol
+                  ? vaults?.find(vault => vault.id === Number(selectedVaultId))
+                      ?.symbol
                   : undefined
               }
               totalGive={totalGive}
