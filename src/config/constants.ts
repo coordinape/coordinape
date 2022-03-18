@@ -30,6 +30,10 @@ export const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
 };
 
 export const SKILLS = [
+  'People & Governance',
+  'Development & Engineering',
+  'Growth & Marketing',
+  'DAO Teams',
   'Community Mgmt',
   'Discord',
   'Social Media',
@@ -68,8 +72,4 @@ export const SKILLS = [
   'Risk',
   'Tokenomics',
   'Contributor Experience',
-  '*People & Governance',
-  '*Development & Engineering',
-  '*Growth & Marketing',
-  '*DAO Teams',
 ];
