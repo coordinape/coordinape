@@ -3,7 +3,13 @@ import React, { Suspense } from 'react';
 import clsx from 'clsx';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { Popover, makeStyles, Divider, Hidden } from '@material-ui/core';
+import {
+  Popover,
+  makeStyles,
+  Divider,
+  Hidden,
+  Button,
+} from '@material-ui/core';
 
 import {
   CirclesHeaderSection,
@@ -32,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   popover: {
     width: 237,
     marginTop: theme.spacing(0.5),
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(2, 0, 0),
     borderRadius: 8,
     background:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
@@ -95,6 +101,21 @@ const useStyles = makeStyles(theme => ({
       height: '8px',
       backgroundColor: theme.colors.red,
       borderRadius: '50%',
+    },
+  },
+  feedbackButton: {
+    backgroundColor: '#2a849b',
+    width: '100%',
+    margin: theme.spacing(1.5, 0, 0),
+    padding: theme.spacing(1.5, 0, 1.5, 5),
+    borderRadius: 0,
+    justifyContent: 'flex-start',
+    fontSize: 16,
+    fontWeight: 'bold', 
+    opacity: 1.0,
+    '&:hover': {
+      background: '#2a8499',
+      opacity: 0.9,
     },
   },
 }));
@@ -171,6 +192,23 @@ export const MyAvatarMenu = () => {
               <CirclesSelectorSection handleOnClick={() => setAnchorEl(null)} />
             </>
           )}
+          <a
+            href={
+              'https://notionforms.io/forms/give-us-your-feedback-improve-coordinape'
+            }
+            rel="noreferrer"
+            target="_blank"
+          >
+            <Button
+              className={classes.feedbackButton}
+              disableElevation
+              variant="contained"
+              color="primary"
+              onClick={() => {}}
+            >
+              Give Feedback
+            </Button>
+          </a>
         </Popover>
       </Hidden>
     </>
