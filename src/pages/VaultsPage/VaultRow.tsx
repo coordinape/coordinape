@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
+import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { CSS } from 'stitches.config';
 
 import { useBlockListener } from 'hooks/useBlockListener';
@@ -13,11 +14,15 @@ import DepositModal from './DepositModal';
 import { dummyTableData, TransactionTable } from './VaultTransactions';
 import WithdrawModal from './WithdrawModal';
 
-import { IVault } from 'types';
-
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
-export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
+export function VaultRow({
+  vault,
+  css = {},
+}: {
+  vault: GraphQLTypes['vaults'];
+  css?: CSS;
+}) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
@@ -25,7 +30,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
 
   const updateBalance = () =>
     contracts
-      ?.getVault(vault.id)
+      ?.getVault(vault.vault_address)
       .underlyingValue()
       .then(x => {
         setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
@@ -86,7 +91,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
           Current Balance
         </Text>
         <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
-          {balance} {vault.type.toUpperCase()}
+          {balance} {vault.symbol?.toUpperCase()}
         </Text>
         <Text font="source">
           <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
@@ -96,7 +101,7 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
           Funds After Commitment
         </Text>
         <Text font="source" css={{ fontSize: '$7' }}>
-          -1 {vault.type.toUpperCase()}
+          -1 {vault.symbol?.toUpperCase()}
         </Text>
       </Box>
       <Text
@@ -113,7 +118,10 @@ export function VaultRow({ vault, css = {} }: { vault: IVault; css?: CSS }) {
         <TransactionTable rows={dummyTableData} />
 
         <Box css={{ textAlign: 'center', mt: '$md' }}>
-          <AppLink css={{ color: '$lightText' }} to={paths.vaultTxs(vault.id)}>
+          <AppLink
+            css={{ color: '$lightText' }}
+            to={paths.vaultTxs(vault.vault_address)}
+          >
             View All Transactions
           </AppLink>
         </Box>
