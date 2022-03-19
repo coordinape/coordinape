@@ -5,6 +5,7 @@ import dedent from 'dedent';
 import { DateTime, Settings } from 'luxon';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -16,8 +17,12 @@ type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
-  await notifyEpochStart(epochResult);
-  res.send(200);
+  const results = await Promise.all([
+    notifyEpochStart(epochResult),
+    notifyEpochEnd(epochResult),
+  ]);
+
+  res.status(200).json({ message: results });
 }
 
 async function getEpochsToNotify() {
@@ -41,6 +46,7 @@ async function getEpochsToNotify() {
             start_date: true,
             end_date: true,
             circle: {
+              id: true,
               name: true,
               telegram_id: true,
               discord_webhook: true,
@@ -68,14 +74,27 @@ async function getEpochsToNotify() {
             },
           },
           {
+            id: true,
             circle_id: true,
             number: true,
             end_date: true,
             circle: {
+              id: true,
               name: true,
               telegram_id: true,
               discord_webhook: true,
               organization: { name: true },
+              users: [
+                {
+                  where: {
+                    non_giver: { _eq: false },
+                    give_token_remaining: { _gt: 0 },
+                  },
+                },
+                {
+                  name: true,
+                },
+              ],
             },
           },
         ],
@@ -118,22 +137,9 @@ async function getEpochsToNotify() {
 
 async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
   const sendNotifications = epochs.map(async epoch => {
-    const {
-      start_date,
-      end_date,
-      circle_id,
-      circle,
-      number: epochNumber,
-    } = epoch;
+    const { start_date, end_date, circle, number: epochNumber } = epoch;
 
-    if (epochNumber == null)
-      try {
-        await setNextEpochNumber(epoch);
-      } catch (e: unknown) {
-        // throwing here creates a promise rejection
-        if (e instanceof Error)
-          throw `Error getting next number for epoch id ${epoch.id}: ${e.message}`;
-      }
+    if (epochNumber == null) await setNextEpochNumber(epoch);
 
     assert(circle, 'panic: no circle for epoch');
     const epochStartDate = DateTime.fromISO(start_date);
@@ -148,55 +154,21 @@ async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
         )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
       `;
 
-    let notified = false;
-
     if (circle.discord_webhook)
-      try {
-        await sendSocialMessage({
-          message,
-          circleId: circle_id,
-          channels: { discord: true },
-          sanitize: false,
-        });
-        notified = true;
-      } catch (e: unknown) {
-        // throwing here creates a promise rejection
-        if (e instanceof Error)
-          throw `Error sending discord notification for epoch id ${epoch.id}: ${e.message}`;
-      }
+      await notifyAndUpdateEpoch(
+        message,
+        { discord: true },
+        epoch,
+        updateEpochStartNotification
+      );
 
     if (circle.telegram_id)
-      try {
-        await sendSocialMessage({
-          message,
-          circleId: circle_id,
-          channels: { telegram: true },
-          sanitize: false,
-        });
-        notified = true;
-      } catch (e: unknown) {
-        // throwing here creates a promise rejection
-        if (e instanceof Error)
-          throw `Error sending telegram notification for epoch id ${epoch.id}: ${e.message}`;
-      }
-
-    if (notified)
-      try {
-        await adminClient.mutate({
-          update_epochs_by_pk: [
-            {
-              pk_columns: { id: epoch.id },
-              _set: {
-                notified_start: DateTime.now().toISO(),
-              },
-            },
-            { id: true },
-          ],
-        });
-      } catch (e: unknown) {
-        if (e instanceof Error)
-          throw `Error updating start notification for epoch id ${epoch.id}: ${e.message}`;
-      }
+      await notifyAndUpdateEpoch(
+        message,
+        { telegram: true },
+        epoch,
+        updateEpochStartNotification
+      );
   });
 
   const results = await Promise.allSettled(sendNotifications);
@@ -207,7 +179,124 @@ async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
     })
     .filter(r => r);
 
-  return [errors];
+  return errors;
+}
+
+async function notifyEpochEnd({ notifyEnd: { epochs } }: EpochsToNotify) {
+  const notifyEpochsEnding = epochs
+    .filter(e => e.circle?.telegram_id || e.circle?.discord_webhook)
+    .map(async epoch => {
+      const { circle } = epoch;
+      assert(circle, 'panic: no circle for epoch');
+
+      const usersHodlingGive = circle.users.map(u => u.name);
+
+      const message = dedent`
+      ${circle.organization?.name}/${
+        circle.name
+      } epoch ends in less than 24 hours!
+      Users that have yet to fully allocate their GIVE:
+      ${usersHodlingGive.join(', ')}
+    `;
+
+      if (circle.discord_webhook)
+        await notifyAndUpdateEpoch(
+          message,
+          { discord: true },
+          epoch,
+          updateEpochEndNotification
+        );
+
+      if (circle.telegram_id)
+        await notifyAndUpdateEpoch(
+          message,
+          { telegram: true },
+          epoch,
+          updateEpochEndNotification
+        );
+    });
+  const results = await Promise.allSettled(notifyEpochsEnding);
+
+  const errors = results
+    .map(r => {
+      if (r.status === 'rejected') return r.reason;
+    })
+    .filter(r => r);
+
+  return errors;
+}
+
+async function notifyAndUpdateEpoch(
+  message: string,
+  channel: { telegram: true } | { discord: true },
+  epoch: { id: number; circle_id: number },
+  updateFn:
+    | typeof updateEpochStartNotification
+    | typeof updateEpochEndNotification
+) {
+  await notifyEpochStatus(message, channel, epoch);
+  await updateFn(epoch.id);
+}
+
+async function updateEpochStartNotification(epochId: number) {
+  try {
+    await adminClient.mutate({
+      update_epochs_by_pk: [
+        {
+          pk_columns: { id: epochId },
+          _set: {
+            notified_start: DateTime.now().toISO(),
+          },
+        },
+        { id: true },
+      ],
+    });
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      throw `Error updating start notification for epoch id ${epochId}: ${e.message}`;
+  }
+}
+
+async function updateEpochEndNotification(epochId: number) {
+  try {
+    await adminClient.mutate({
+      update_epochs_by_pk: [
+        {
+          pk_columns: { id: epochId },
+          _set: {
+            notified_before_end: DateTime.now().toISO(),
+          },
+        },
+        { id: true },
+      ],
+    });
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      throw `Error updating start notification for epoch id ${epochId}: ${e.message}`;
+  }
+}
+
+async function notifyEpochStatus(
+  message: string,
+  channel: { telegram: true } | { discord: true },
+  { id: epochId, circle_id }: { id: number; circle_id: number }
+) {
+  try {
+    await sendSocialMessage({
+      message,
+      circleId: circle_id,
+      channels: channel,
+      sanitize: false,
+    });
+  } catch (e: unknown) {
+    // throwing here creates a promise rejection
+    if (e instanceof Error)
+      errorLog(
+        `Error sending telegram notification for epoch id ${epochId}: ${e.message}`
+      );
+    return false;
+  }
+  return true;
 }
 
 async function setNextEpochNumber({
@@ -217,29 +306,39 @@ async function setNextEpochNumber({
   id: number;
   circle_id: number;
 }) {
-  const lastEpochResult = await adminClient.query({
-    epochs_aggregate: [
-      {
-        where: {
-          circle_id: { _eq: circle_id },
-          ended: { _eq: true },
+  let lastEpochResult;
+  try {
+    lastEpochResult = await adminClient.query({
+      epochs_aggregate: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            ended: { _eq: true },
+          },
         },
-      },
-      { aggregate: { max: { number: true } } },
-    ],
-  });
+        { aggregate: { max: { number: true } } },
+      ],
+    });
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      throw `Error getting next number for epoch id ${epochId}: ${e.message}`;
+  }
   const currentEpochNumber =
-    (lastEpochResult.epochs_aggregate.aggregate?.max?.number ?? 0) + 1;
-  await adminClient.mutate({
-    update_epochs_by_pk: [
-      {
-        pk_columns: { id: epochId },
-        _set: { number: currentEpochNumber },
-      },
-      { number: true },
-    ],
-  });
-  return currentEpochNumber;
+    (lastEpochResult?.epochs_aggregate.aggregate?.max?.number ?? 0) + 1;
+  try {
+    await adminClient.mutate({
+      update_epochs_by_pk: [
+        {
+          pk_columns: { id: epochId },
+          _set: { number: currentEpochNumber },
+        },
+        { number: true },
+      ],
+    });
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      throw `Error setting next number for epoch id ${epochId}: ${e.message}`;
+  }
 }
 
 export default verifyHasuraRequestMiddleware(handler);
