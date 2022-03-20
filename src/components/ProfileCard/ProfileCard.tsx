@@ -70,6 +70,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 24,
     fontWeight: 600,
     color: theme.colors.text,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tooltipLink: {
     display: 'block',
@@ -77,9 +80,15 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: theme.colors.linkBlue,
   },
+  tooltipButton: {
+    marginTop: '16px',
+  },
   tooltip: {
     fontWeight: 400,
     color: theme.colors.text,
+    padding: '28px',
+    minWidth: '296px',
+    minHeight: '263px',
   },
   skillContainer: {
     gridColumn: '1 / 4',
@@ -176,27 +185,45 @@ const ProfileCardInner = ({
             ]}
           />
         </div>
-        <span className={classes.name}>
-          {user.name}
+        <div className={classes.name}>
+          <span>{user.name}</span>
           {user.role === USER_ROLE_COORDINAPE && (
-            <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
-              <b>Why is Coordinape in my circle?</b>
-              <div>
-                To date Coordinape has offered our service for free. We decided
-                that using the gift circle mechanism as our revenue model might
-                make a lot of sense, so we’re trying that out.
-              </div>
-              <a
-                href={EXTERNAL_URL_FEEDBACK}
-                rel="noreferrer"
-                target="_blank"
-                className={classes.tooltipLink}
-              >
-                Let us know what you think
-              </a>
-            </ApeInfoTooltip>
+            <span
+              style={{
+                marginTop: '8px',
+              }}
+            >
+              <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
+                {user.role !== 2 ? <></> : <></>}
+                <b>Why is Coordinape in my circle?</b>
+                <div>
+                  To date Coordinape has offered our service for free. We
+                  decided that using the gift circle mechanism as our revenue
+                  model might make a lot of sense, so we’re trying that out.
+                </div>
+                <a
+                  href={EXTERNAL_URL_FEEDBACK}
+                  rel="noreferrer"
+                  target="_blank"
+                  className={classes.tooltipLink}
+                >
+                  Let us know what you think
+                </a>
+                <div className={classes.tooltipButton}>
+                  {user.role === USER_ROLE_COORDINAPE ? (
+                    <div className={classes.tooltipButton}>
+                      <Button variant="contained" size="small">
+                        See Circle Setting
+                      </Button>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </ApeInfoTooltip>
+            </span>
           )}
-        </span>
+        </div>
 
         <div className={classes.skillContainer}>
           <ProfileSkills
