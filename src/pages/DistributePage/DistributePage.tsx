@@ -92,6 +92,7 @@ function DistributePage() {
 
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
+    assert(selectedVault && circle);
     if (!users) throw new Error('No users found');
 
     const gifts = users.reduce((userList, user) => {
@@ -103,9 +104,9 @@ function DistributePage() {
       return userList;
     }, {} as Record<string, number>);
 
-    assert(selectedVault && circle);
+    const denominator = BigNumber.from(10).pow(selectedVault?.decimals);
     const totalDistributionAmount = BigNumber.from(value.amount).mul(
-      BigNumber.from(10).pow(selectedVault.decimals)
+      denominator
     );
 
     try {
@@ -124,13 +125,25 @@ function DistributePage() {
         utils.hexlify(1)
       );
 
+      // eslint-disable-next-line no-console
+      console.log(
+        selectedVault.decimals,
+        totalDistributionAmount,
+        gifts,
+        distribution
+      );
+
       if (trx) {
         const claims: ValueTypes['claims_insert_input'][] = Object.entries(
           distribution.claims
         ).map(([address, claim]) => ({
           address,
           index: claim.index,
-          amount: Number(FixedNumber.from(claim.amount, 'fixed128x18')),
+          amount: Number(
+            FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
+              FixedNumber.from(denominator)
+            )
+          ),
           proof: claim.proof.toString(),
           user_id: users.find(({ address }) => address === address)?.id,
         }));
@@ -141,11 +154,10 @@ function DistributePage() {
           ),
           epoch_id: Number(epochId),
           merkle_root: distribution.merkleRoot,
-          vault_address: selectedVault.vault_address,
           claims: {
             data: claims,
           },
-          created_by: currentUser.data.id,
+          vault_id: Number(selectedVault.id),
         };
         setDistributionDTO(updateDistribution);
         await mutateAsync();

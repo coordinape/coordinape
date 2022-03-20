@@ -19,24 +19,22 @@ insert_permissions:
     backend_only: false
     check:
       distribution:
-        vault:
-          protocol:
-            circles:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
     columns:
     - address
     - amount
-    - distribution_id
     - id
     - index
     - proof
     - user_id
     set:
       created_by: x-hasura-User-Id
-      updated_at: x-hasura-User-Id
+      updated_by: x-hasura-User-Id
   role: user
 select_permissions:
 - permission:

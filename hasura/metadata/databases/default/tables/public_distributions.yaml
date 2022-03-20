@@ -5,9 +5,6 @@ object_relationships:
 - name: epoch
   using:
     foreign_key_constraint_on: epoch_id
-- name: user
-  using:
-    foreign_key_constraint_on: created_by
 - name: vault
   using:
     foreign_key_constraint_on: vault_id
@@ -31,7 +28,6 @@ insert_permissions:
                 _eq: X-Hasura-User-Id
     columns:
     - epoch_id
-    - id
     - merkle_root
     - total_amount
     - vault_id
@@ -41,13 +37,13 @@ insert_permissions:
 select_permissions:
 - permission:
     columns:
-    - created_at
     - created_by
     - epoch_id
     - id
+    - vault_id
     - merkle_root
     - total_amount
-    - vault_id
+    - created_at
     filter:
       epoch:
         circle:
