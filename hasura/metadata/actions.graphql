@@ -15,6 +15,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -78,6 +82,11 @@ input AdminUpdateUserInput {
   role: Int
 }
 
+input DeleteEpochInput {
+  id: Int!
+  circle_id: Int!
+}
+
 input CreateNomineeInput {
   name: String!
   circle_id: Int!
@@ -115,6 +124,10 @@ type LogoutResponse {
 
 type UserResponse {
   id: ID!
+}
+
+type DeleteEpochResponse {
+  success: Boolean!
 }
 
 type CreateNomineeResponse {

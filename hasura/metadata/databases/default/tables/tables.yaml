@@ -6,6 +6,7 @@
 - "!include public_claims.yaml"
 - "!include public_distributions.yaml"
 - "!include public_epoches.yaml"
+- "!include public_feedbacks.yaml"
 - "!include public_gift_private.yaml"
 - "!include public_histories.yaml"
 - "!include public_nominees.yaml"

@@ -42,6 +42,43 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+<<<<<<< HEAD
+- name: logoutUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/logoutUser'
+=======
+- name: deleteEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
+>>>>>>> 774ca73e6136a0648b0b4bf298fb2f84c7faef60
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+<<<<<<< HEAD
+  - role: superadmin
+  - role: user
+- name: updateUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/updateUser'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: superadmin
+  - role: user
+  comment: Update own user
+- name: uploadCircleLogo
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadCircleLogo'
+    forward_client_headers: true
+=======
+  - role: user
+  - role: superadmin
 - name: logoutUser
   definition:
     kind: synchronous
@@ -56,12 +93,25 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/updateUser'
+>>>>>>> 774ca73e6136a0648b0b4bf298fb2f84c7faef60
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
+  - role: superadmin
+- name: uploadProfileAvatar
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadProfileAvatar'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+<<<<<<< HEAD
+=======
   comment: Update own user
 - name: uploadCircleLogo
   definition:
@@ -84,6 +134,7 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
+>>>>>>> 774ca73e6136a0648b0b4bf298fb2f84c7faef60
   - role: superadmin
 - name: uploadProfileBackground
   definition:
@@ -114,6 +165,10 @@ custom_types:
   - name: UploadImageInput
   - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
+<<<<<<< HEAD
+=======
+  - name: DeleteEpochInput
+>>>>>>> 774ca73e6136a0648b0b4bf298fb2f84c7faef60
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
@@ -176,6 +231,10 @@ custom_types:
       type: object
       field_mapping:
         id: id
+<<<<<<< HEAD
+=======
+  - name: DeleteEpochResponse
+>>>>>>> 774ca73e6136a0648b0b4bf298fb2f84c7faef60
   - name: CreateNomineeResponse
     relationships:
     - remote_table:

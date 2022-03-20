@@ -8,12 +8,17 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
+import { ThemeProvider } from '@material-ui/styles';
+
 import {
   HARDHAT_CHAIN_ID,
   HARDHAT_PORT,
   HARDHAT_GANACHE_CHAIN_ID,
   HARDHAT_GANACHE_PORT,
 } from 'config/env';
+import { createTheme } from 'theme';
+
+const theme = createTheme();
 
 type TestWrapperProps = {
   children: ReactElement;
@@ -69,7 +74,9 @@ export const TestWrapper = ({
           <Web3ReactProvider getLibrary={getLibrary}>
             <Web3Activator enabled={withWeb3}>
               <MemoryRouter>
-                <Suspense fallback="Loading...">{children}</Suspense>
+                <ThemeProvider theme={theme}>
+                  <Suspense fallback="Loading...">{children}</Suspense>
+                </ThemeProvider>
               </MemoryRouter>
             </Web3Activator>
           </Web3ReactProvider>
@@ -92,3 +99,5 @@ export const restoreSnapshot = async (snapshotId?: string) => {
   }
   return provider.send('evm_revert', [snapshotId]);
 };
+
+export * from './testing/recoil';

@@ -90,6 +90,7 @@ function DistributePage() {
 
   let vaultOptions: Array<{ value: number; label: string; id: number }> = [];
 
+  //TODO: Migrate this method to a separate file and enable previous distributions
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
     assert(selectedVault && circle);
@@ -123,14 +124,6 @@ function DistributePage() {
         distribution.merkleRoot,
         totalDistributionAmount,
         utils.hexlify(1)
-      );
-
-      // eslint-disable-next-line no-console
-      console.log(
-        selectedVault.decimals,
-        totalDistributionAmount,
-        gifts,
-        distribution
       );
 
       if (trx) {

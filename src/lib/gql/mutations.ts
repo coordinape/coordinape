@@ -113,3 +113,15 @@ export const addVault = async (vault: ValueTypes['vaults_insert_input']) =>
       },
     ],
   });
+
+export const logout = async (): Promise<boolean> => {
+  const { logoutUser } = await client.mutate({
+    logoutUser: {
+      id: true,
+    },
+  });
+  if (logoutUser?.id) {
+    return true;
+  }
+  return false;
+};
