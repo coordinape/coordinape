@@ -91,12 +91,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     lineHeight: 1,
     color: theme.colors.text + '80',
+    textAlign: 'center',
   },
   discordButton: {
     backgroundColor: '#5865F2',
     margin: theme.spacing(1),
     borderRadius: 8,
     fontSize: 15, 
+    textAlign: 'center',
     height: '100%'
   },
 }));
