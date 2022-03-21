@@ -96,6 +96,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#5865F2',
     margin: theme.spacing(1),
     borderRadius: 8,
+    fontSize: 15, 
+    height: '100%'
   },
 }));
 
