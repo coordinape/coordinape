@@ -4,6 +4,11 @@ export const DISCORD_BOT_AVATAR_URL =
 
 export const CIRCLES = {
   YEARN: {
-    COMMUNITY: 1,
-  },
+      COMMUNITY: 1,
+  }
+};
+  
+export const EPOCH_REPEAT = {
+  WEEKLY: 1,
+  MONTHLY: 2,
 };
