@@ -3933,14 +3933,14 @@
     did-resolver "^3.1.0"
     key-did-resolver "^1.4.0"
 
-"@sentry/browser@6.18.2":
-  version "6.18.2"
-  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-6.18.2.tgz#f980add635c242420a7f0c4dd3ed5668f1f39513"
-  integrity sha512-EsqKSNboi2gOiMuEwQranLucxrARi00y2vgUnaPXcqTKTlVlHDetoWHvq8/r29idA1JHGka5tDrwrmWccWIkrg==
+"@sentry/browser@6.19.1":
+  version "6.19.1"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-6.19.1.tgz#b941368c230dad721e4fc29873eac52fef4107de"
+  integrity sha512-nU73PecOoMwrsw2WRJW+oQSSfgGkcY3So3JH7qwRHnnk4Gx56TkDfS0AOrNRsSpIQXj1UbSFIWKzz6ajsOg9OA==
   dependencies:
-    "@sentry/core" "6.18.2"
-    "@sentry/types" "6.18.2"
-    "@sentry/utils" "6.18.2"
+    "@sentry/core" "6.19.1"
+    "@sentry/types" "6.19.1"
+    "@sentry/utils" "6.19.1"
     tslib "^1.9.3"
 
 "@sentry/cli@^1.73.0":
@@ -3965,6 +3965,17 @@
     "@sentry/minimal" "6.18.2"
     "@sentry/types" "6.18.2"
     "@sentry/utils" "6.18.2"
+    tslib "^1.9.3"
+
+"@sentry/core@6.19.1":
+  version "6.19.1"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-6.19.1.tgz#9672d0d19d4fe438be6e186b2b10a79826f19a03"
+  integrity sha512-ZSIFnwYCzABK1jX1iMwUbaAoWbbJear0wM+gSZvJpSUJ1dAXV1OZyL7kXtEJRtATahIlcrMou5ewIoeJizeWAw==
+  dependencies:
+    "@sentry/hub" "6.19.1"
+    "@sentry/minimal" "6.19.1"
+    "@sentry/types" "6.19.1"
+    "@sentry/utils" "6.19.1"
     tslib "^1.9.3"
 
 "@sentry/hub@6.18.2":
@@ -4028,14 +4039,14 @@
     tslib "^1.9.3"
 
 "@sentry/react@^6.18.2":
-  version "6.18.2"
-  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-6.18.2.tgz#9ba69862c1cf0bd9a47870c8836358db7200c421"
-  integrity sha512-TgCgoiduaPLq/YDh1urF+ZckIGiIzhMFPHs9tlMaqFkEwPOOENJTiPiwTs56x39/2B0tn3XNfY8Un8kG5hsINQ==
+  version "6.19.1"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-6.19.1.tgz#7baf18e35562ceeb5cfb34894f16c5aac607580d"
+  integrity sha512-/fBuRTZzMlXunoFJLmvlFzjEte3MCbU2t3Pihr5idMlWBddfJiaM1j9N6+SugVpYoeLfRwxq/ZWV/4wVOb7T3Q==
   dependencies:
-    "@sentry/browser" "6.18.2"
-    "@sentry/minimal" "6.18.2"
-    "@sentry/types" "6.18.2"
-    "@sentry/utils" "6.18.2"
+    "@sentry/browser" "6.19.1"
+    "@sentry/minimal" "6.19.1"
+    "@sentry/types" "6.19.1"
+    "@sentry/utils" "6.19.1"
     hoist-non-react-statics "^3.3.2"
     tslib "^1.9.3"
 
