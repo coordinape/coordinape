@@ -8,6 +8,7 @@ export const createCircleSchemaInput = z
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
+    contact: z.string().min(3).max(255).optional(),
   })
   .strict()
   .refine(

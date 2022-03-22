@@ -3,16 +3,11 @@ import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 
-import {
-  FormCaptcha,
-  FormTextField,
-  ApeTextField,
-  FormAutocomplete,
-} from 'components';
+import { ApeTextField, FormAutocomplete, FormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApiWithProfile, useApiBase } from 'hooks';
+import { useApiBase, useApiWithProfile } from 'hooks';
 import { DiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
@@ -97,9 +92,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#5865F2',
     margin: theme.spacing(1),
     borderRadius: 8,
-    fontSize: 15, 
+    fontSize: 15,
     textAlign: 'center',
-    height: '100%'
+    height: '100%',
   },
 }));
 
@@ -138,24 +133,9 @@ export const SummonCirclePage = () => {
       <h2 className={classes.title}>Create a Circle</h2>
       <CreateCircleForm.FormController
         source={undefined}
-        submit={async ({
-          captcha_token,
-          research_org_link,
-          research_contact,
-          ...params
-        }) => {
+        submit={async ({ ...params }) => {
           try {
-            const newCircle = await createCircle(
-              myAddress,
-              { ...params },
-              captcha_token,
-              JSON.stringify({
-                address: myAddress,
-                research_org_link,
-                research_contact,
-                ...params,
-              })
-            );
+            const newCircle = await createCircle({ ...params });
             selectCircle(newCircle.id);
             navigate({
               pathname: paths.getAdminPath(),
@@ -216,7 +196,7 @@ export const SummonCirclePage = () => {
             <div className={classes.titleSupport}>Coordinape Support</div>
             <div className={classes.twoColumnGrid}>
               <FormTextField
-                {...fields.research_contact}
+                {...fields.contact}
                 fullWidth
                 label="Circle Point of Contact"
                 placeholder="Discord #0000, Telegram, Twitter or Email "
@@ -241,7 +221,6 @@ export const SummonCirclePage = () => {
                 </Button>
               </div>
             </div>
-            <FormCaptcha {...fields.captcha_token} error={false} />
             <Button
               className={classes.saveButton}
               variant="contained"

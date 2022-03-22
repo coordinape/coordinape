@@ -14,14 +14,7 @@ const schema = z
       .string()
       .min(3, 'Org name must be at least 3 characters long.'),
     protocol_id: z.number().optional(),
-    captcha_token: z.string().min(1, 'Please be a human.'),
-    // TODO: Implment nested fields in createForm
-    // Research Questions
-    research_org_link: z.string(),
-    research_contact: z.string().min(4, 'Circle Point of Contact is Required.'),
-    research_what: z.string(),
-    research_who: z.string(),
-    research_how_much: z.string(),
+    contact: z.string().min(4, 'Circle Point of Contact is Required.'),
   })
   .strict();
 
@@ -34,12 +27,7 @@ const CreateCircleForm = createForm({
     circle_name: '',
     protocol_name: '',
     protocol_id: undefined,
-    captcha_token: '',
-    research_org_link: '',
-    research_contact: '',
-    research_what: '',
-    research_who: '',
-    research_how_much: '',
+    contact: '',
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {},

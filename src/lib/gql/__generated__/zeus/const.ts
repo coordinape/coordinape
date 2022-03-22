@@ -120,6 +120,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     protocol_id: {
       type: 'Int',
       array: false,

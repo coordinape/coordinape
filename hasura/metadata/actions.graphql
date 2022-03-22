@@ -47,6 +47,7 @@ input CreateCircleInput {
   circle_name: String!
   protocol_name: String
   protocol_id: Int
+  contact: String
 }
 
 input CreateUserInput {

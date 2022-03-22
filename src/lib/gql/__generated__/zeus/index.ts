@@ -30,6 +30,7 @@ export type ValueTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string | null;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
@@ -3111,7 +3112,7 @@ export type ModelTypes = {
     burns: ModelTypes['burns'][];
     /** An object relationship */
     circle_private?: ModelTypes['circle_private'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     default_opt_in: boolean;
     /** An array relationship */
     epochs: ModelTypes['epochs'][];
@@ -3128,7 +3129,7 @@ export type ModelTypes = {
     organization?: ModelTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     /** An array relationship */
@@ -3136,7 +3137,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     vouching: boolean;
@@ -3328,10 +3329,10 @@ export type ModelTypes = {
   ['organizations']: {
     /** An array relationship */
     circles: ModelTypes['circles'][];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     name: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: GraphQLTypes['organizations_bool_exp'];
@@ -3887,6 +3888,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string;
     protocol_id?: number;
     protocol_name?: string;
     user_name: string;
@@ -4357,7 +4359,7 @@ export type GraphQLTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
@@ -4374,7 +4376,7 @@ export type GraphQLTypes = {
     organization?: GraphQLTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     /** An array relationship */
@@ -4382,7 +4384,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     vouching: boolean;
@@ -4969,10 +4971,10 @@ export type GraphQLTypes = {
     __typename: 'organizations';
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     name: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: {

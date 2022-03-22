@@ -11,6 +11,7 @@ import { composeHasuraActionRequestBody, circleIdInput } from '../src/lib/zod';
 
 import { getUserFromProfileId } from './findUser';
 import { GraphQLError } from './gql/__generated__/zeus';
+import { UnauthorizedError } from './HttpError';
 import { verifyHasuraRequestMiddleware } from './validate';
 
 const middleware =
@@ -30,25 +31,11 @@ const middleware =
         assert(isCircleAdmin(role));
       }
     } catch (err) {
-      if (err instanceof z.ZodError) {
-        res.status(422).json({
-          extensions: err.issues,
-          message: 'Invalid input',
-          code: '422',
-        });
-        return;
-      } else if (err instanceof GraphQLError) {
-        res.status(422).json({
-          code: 422,
-          message: 'GQL Query Error',
-          extensions: err.response.errors,
-        });
+      if (err instanceof z.ZodError || err instanceof GraphQLError) {
+        // let the default errorHandlers handle this
+        throw err;
       }
-      res.status(401).json({
-        message: 'User not circle admin',
-        code: 401,
-      });
-      return;
+      throw new UnauthorizedError('User not circle admin');
     }
     // the admin role is validated early by zod
 

@@ -21,7 +21,6 @@ import {
   UpdateCreateEpochParam,
   NominateUserParam,
   IApiNominee,
-  CreateCircleParam,
   IApiFullCircle,
 } from 'types';
 
@@ -104,21 +103,6 @@ export class APIService {
     return response.data;
   };
 
-  createCircle = async (
-    address: string,
-    params: CreateCircleParam,
-    captcha_token: string,
-    uxresearch_json: string
-  ): Promise<IApiCircle> => {
-    const response = await this.axios.post('/v2/circles', {
-      address,
-      data: JSON.stringify(params),
-      captcha_token,
-      uxresearch_json,
-    });
-    return response.data;
-  };
-
   putCircles = async (
     circleId: number,
     params: PutCirclesParam
@@ -128,25 +112,6 @@ export class APIService {
       `/v2/${circleId}/admin/circles/${circleId}`,
       {
         data,
-      }
-    );
-    return response.data as IApiCircle;
-  };
-
-  uploadCircleLogo = async (
-    circleId: number,
-    file: File
-  ): Promise<IApiCircle> => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('data', file.name);
-    const response = await this.axios.post(
-      `/v2/${circleId}/admin/upload-logo`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       }
     );
     return response.data as IApiCircle;
@@ -224,23 +189,6 @@ export class APIService {
     );
     return response.data;
   };
-
-  postProfileUpload = async (file: File, endpoint: string) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await this.axios.post(`/v2/${endpoint}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  };
-
-  uploadAvatar = async (file: File): Promise<any> =>
-    this.postProfileUpload(file, 'upload-avatar');
-
-  uploadBackground = async (file: File): Promise<any> =>
-    this.postProfileUpload(file, 'upload-background');
 
   postTeammates = async (
     circleId: number,
