@@ -47,11 +47,11 @@ export const CirclesHeaderSection = (props: { handleOnClick?(): void }) => {
               circle={circle}
               selected={selectedCircle?.id === circle.id}
               onClick={() => {
-                if (props.handleOnClick) {
-                  props.handleOnClick();
-                }
-                selectedCircle?.id !== circle.id &&
-                  selectAndFetchCircle(circle.id);
+                if (selectedCircle?.id === circle.id) return;
+
+                selectAndFetchCircle(circle.id).then(() => {
+                  if (props.handleOnClick) props.handleOnClick();
+                });
               }}
             />
           ))}

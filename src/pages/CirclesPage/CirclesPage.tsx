@@ -1,16 +1,18 @@
 import React, { Suspense } from 'react';
 
+import { useNavigate } from 'react-router';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { CirclesHeaderSection, MenuNavigationLinks } from 'components';
 import { useMyProfile, rSelectedCircle } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
+import { paths } from 'routes/paths';
 import { Box } from 'ui';
 
 export const CirclesPage = () => {
   const myProfile = useMyProfile();
-
   const { hasAdminView } = myProfile;
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -19,6 +21,7 @@ export const CirclesPage = () => {
         flexDirection: 'column',
         margin: '$md auto',
         maxWidth: '$mediumScreen',
+        pl: '$xl',
         '> *': {
           ml: '0 !important',
         },
@@ -32,7 +35,7 @@ export const CirclesPage = () => {
       </Box>
       <MenuNavigationLinks />
       <Suspense fallback={null}>
-        <CirclesHeaderSection />
+        <CirclesHeaderSection handleOnClick={() => navigate(paths.history)} />
       </Suspense>
       {hasAdminView && (
         <>

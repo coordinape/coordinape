@@ -49,8 +49,8 @@ const useStyles = makeStyles(theme => ({
     background: theme.colors.ultraLightGray,
     alignItems: 'center',
     columnGap: theme.spacing(3),
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
+    padding: theme.spacing(0, 4, 4),
+    margin: theme.spacing(4, 4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
       gridTemplateColumns: '1fr',

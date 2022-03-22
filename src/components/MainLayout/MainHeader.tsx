@@ -31,7 +31,11 @@ const mainLinks = [
 export const MainHeader = () => {
   const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
-  const breadcrumb = circle ? `${circle.protocol.name} > ${circle.name}` : '';
+  const location = useLocation();
+  const inCircle =
+    circle && ![paths.vaults, paths.circles].includes(location.pathname);
+
+  const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return <MobileHeader breadcrumb={breadcrumb} />;
@@ -56,19 +60,15 @@ export const MainHeader = () => {
         }}
         src="/svgs/logo/logo.svg"
       />
-      {hasCircles && (
-        <Suspense fallback={null}>
-          <TopLevelLinks links={mainLinks} />
-          <Box css={{ color: '$gray400', ml: '$md', flex: '1 1 0' }}>
-            {breadcrumb}
-          </Box>
-        </Suspense>
-      )}
+      {hasCircles && <TopLevelLinks links={mainLinks} />}
+      <Box css={{ color: '$gray400', ml: '$md', flex: '1 1 0' }}>
+        {breadcrumb}
+      </Box>
       <Box
         css={{ display: 'flex', justifySelf: 'flex-end', alignItems: 'center' }}
       >
         <Suspense fallback={null}>
-          <CircleNav />
+          {inCircle && <CircleNav />}
           <ReceiveInfo />
         </Suspense>
         <WalletButton />

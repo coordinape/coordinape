@@ -51,9 +51,6 @@ export const HistoryPage = () => {
 
   return (
     <Box css={{ maxWidth: '$mediumScreen', ml: 'auto', mr: 'auto', p: '$xl' }}>
-      <Header bold css={{ fontSize: '$9', color: '$text' }}>
-        {circle.name} History
-      </Header>
       {page === 0 && nextEpoch && (
         <>
           <Header>Next</Header>
