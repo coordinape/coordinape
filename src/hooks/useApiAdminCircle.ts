@@ -61,7 +61,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
-      await getApiService().updateUser(circleId, userAddress, params);
+      await mutations.adminUpdateUser(circleId, userAddress, params);
       await fetchManifest();
     },
     [circleId]

@@ -17,7 +17,6 @@ import {
   PostUsersParam,
   PutCirclesParam,
   PutUsersParam,
-  UpdateUsersParam,
   UpdateCreateEpochParam,
   NominateUserParam,
   IApiNominee,
@@ -156,20 +155,6 @@ export class APIService {
     const response = await this.axios.post(`/v2/${circleId}/admin/users`, {
       data: JSON.stringify(params),
     });
-    return response.data;
-  };
-
-  updateUser = async (
-    circleId: number,
-    originalAddress: string,
-    params: UpdateUsersParam
-  ): Promise<IApiUser> => {
-    const response = await this.axios.put(
-      `/v2/${circleId}/admin/users/${originalAddress}`,
-      {
-        data: JSON.stringify(params),
-      }
-    );
     return response.data;
   };
 

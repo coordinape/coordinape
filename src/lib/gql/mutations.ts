@@ -1,4 +1,4 @@
-import { CreateCircleParam, IApiCircle } from '../../types';
+import { CreateCircleParam, IApiCircle, UpdateUsersParam } from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
@@ -156,4 +156,38 @@ export const createCircle = async (
     ...createCircle.circle,
     protocol: createCircle.circle.organization,
   };
+};
+
+export const adminUpdateUser = async (
+  circleId: number,
+  originalAddress: string,
+  params: UpdateUsersParam
+) => {
+  const new_address =
+    params.address.toLowerCase() != originalAddress.toLowerCase()
+      ? params.address.toLowerCase()
+      : undefined;
+
+  // const startingTokens = params.starting_tokens
+  const { adminUpdateUser } = await client.mutate({
+    adminUpdateUser: [
+      {
+        payload: {
+          circle_id: circleId,
+          name: params.name,
+          address: originalAddress,
+          new_address,
+          fixed_non_receiver: params.fixed_non_receiver,
+          role: params.role,
+          starting_tokens: params.starting_tokens,
+          non_giver: params.non_giver,
+          non_receiver: params.non_receiver || params.fixed_non_receiver,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return adminUpdateUser;
 };
