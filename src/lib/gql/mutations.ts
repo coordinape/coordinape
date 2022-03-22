@@ -179,9 +179,9 @@ export const adminUpdateUser = async (
           new_address,
           fixed_non_receiver: params.fixed_non_receiver,
           role: params.role,
-          // starting_tokens: params.starting_tokens,
+          starting_tokens: params.starting_tokens,
           non_giver: params.non_giver,
-          non_receiver: params.fixed_non_receiver,
+          non_receiver: params.non_receiver || params.fixed_non_receiver,
         },
       },
       {
