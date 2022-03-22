@@ -229,7 +229,8 @@ export async function getExpiredNominees() {
 
 export async function checkAddressAdminInOrg(
   address: string,
-  protocol_id: number
+  protocol_id: number,
+  protocol_name = '%%'
 ) {
   const { profiles } = await adminClient.query({
     profiles: [
@@ -238,7 +239,10 @@ export async function checkAddressAdminInOrg(
           address: { _ilike: address },
           users: {
             role: { _eq: 1 },
-            circle: { protocol_id: { _eq: protocol_id } },
+            circle: {
+              protocol_id: { _eq: protocol_id },
+              organization: { name: { _ilike: protocol_name } },
+            },
           },
         },
       },

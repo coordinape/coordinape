@@ -11,9 +11,7 @@ export const createCircleSchemaInput = z
   })
   .strict()
   .refine(
-    data =>
-      (data.protocol_name || data.protocol_id) &&
-      !(data.protocol_name && data.protocol_id),
+    data => data.protocol_name || data.protocol_id,
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
