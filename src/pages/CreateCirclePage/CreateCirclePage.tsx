@@ -3,11 +3,11 @@ import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 
-import { FormTextField, ApeTextField, FormAutocomplete } from 'components';
+import { ApeTextField, FormAutocomplete, FormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApiWithProfile, useApiBase } from 'hooks';
+import { useApiBase, useApiWithProfile } from 'hooks';
 import { DiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
@@ -92,9 +92,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#5865F2',
     margin: theme.spacing(1),
     borderRadius: 8,
-    fontSize: 15, 
+    fontSize: 15,
     textAlign: 'center',
-    height: '100%'
+    height: '100%',
   },
 }));
 
