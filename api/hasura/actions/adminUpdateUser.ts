@@ -5,7 +5,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import * as queries from '../../../api-lib/gql/queries';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
+import {
+  errorResponseWithStatusCode,
+  UnprocessableError,
+} from '../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -21,7 +24,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Validate no epoches are active for the requested user
   const { circle_id, address, new_address } = input;
 
-  if (new_address) {
+  // new_address that matches existing address can pass through
+  if (new_address && new_address !== address) {
     const {
       users: [existingUserWithNewAddress],
     } = await adminClient.query({
@@ -47,17 +51,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const user = await queries.getUserAndCurrentEpoch(address, circle_id);
   if (!user) {
-    return res.status(422).json({
-      message: `User with address ${address} does not exist`,
-      code: '422',
-    });
+    throw new UnprocessableError(`User with address ${address} does not exist`);
   }
 
-  if (user.circle.epochs.length > 0 && input.starting_tokens) {
-    return res.status(422).json({
-      message: 'Cannot update starting tokens during an active epoch',
-      code: '422',
-    });
+  if (
+    user.circle.epochs.length > 0 &&
+    input.starting_tokens &&
+    input.starting_tokens !== user.starting_tokens
+  ) {
+    throw new UnprocessableError(`User with address ${address} does not exist`);
   }
 
   // Update the state after all external validations have passed
