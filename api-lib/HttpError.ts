@@ -4,9 +4,10 @@ import * as Sentry from '@sentry/node';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as Tracing from '@sentry/tracing';
 import { VercelResponse } from '@vercel/node';
-import { ZodIssue } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 
 import { SENTRY_DSN } from './config';
+import { GraphQLError } from './gql/__generated__/zeus';
 
 const awaitSentryFlushMs = 1000;
 
@@ -43,12 +44,23 @@ export class BadRequestError extends Error implements HttpError {
   httpStatus = 400;
 }
 
+export class UnauthorizedError extends Error implements HttpError {
+  httpStatus = 401;
+}
+
 export class UnprocessableError extends Error implements HttpError {
   httpStatus = 422;
   details?: any;
 }
 
 export function errorResponse(res: VercelResponse, error: any): void {
+  if (error instanceof ZodError) {
+    return zodParserErrorResponse(res, error.issues);
+  } else if (error instanceof GraphQLError) {
+    const ue = new UnprocessableError('GQL Query Error');
+    ue.details = error.response.errors;
+    return errorResponse(res, ue);
+  }
   const statusCode = error.httpStatus || 500;
   errorResponseWithStatusCode(res, error, statusCode);
 }
@@ -73,11 +85,19 @@ export function errorResponseWithStatusCode(
   });
 }
 
-export function zodParserErrorResponse(
-  res: VercelResponse,
-  issues: ZodIssue[]
-): void {
-  const ue = new UnprocessableError('data validation error');
+function zodParserErrorResponse(res: VercelResponse, issues: ZodIssue[]): void {
+  let msg = 'Invalid input';
+  if (issues.length > 0) {
+    msg = msg + ':';
+  }
+  for (let i = 0; i < issues.length; i++) {
+    msg = msg + ' ' + issues[i].message;
+    if (i < issues.length - 1) {
+      msg = msg + ',';
+    }
+  }
+
+  const ue = new UnprocessableError(msg);
   ue.details = issues;
   errorResponse(res, ue);
 }
