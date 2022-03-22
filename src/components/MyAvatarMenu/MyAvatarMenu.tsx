@@ -158,20 +158,3 @@ export const MyAvatarMenu = () => {
     </>
   );
 };
-
-/*
-feedbackButton: {
-    backgroundColor: '#2a849b',
-    margin: theme.spacing(1.5, 0, 0),
-    padding: theme.spacing(1.5, 0, 1.5, 5),
-    borderRadius: 0,
-    justifyContent: 'flex-start',
-    fontSize: 16,
-    fontWeight: 'bold',
-    opacity: 1.0,
-    '&:hover': {
-      background: '#2a8499',
-      opacity: 0.9,
-    },
-  },
-*/

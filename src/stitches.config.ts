@@ -97,6 +97,7 @@ export const {
       darkBlue: '#5D9C9F',
 
       teal: '#53b7cd', // Teal/12
+      darkTeal: '#246e7e', // Teal/20
 
       green: '#57b62b', // Green/12
 
