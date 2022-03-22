@@ -50,7 +50,7 @@ export const HistoryPage = () => {
       : 'MMMM dd';
 
   return (
-    <Box css={{ maxWidth: '1600px', ml: 'auto', mr: 'auto', p: '$xl' }}>
+    <Box css={{ maxWidth: '$mediumScreen', ml: 'auto', mr: 'auto', p: '$xl' }}>
       <Header bold css={{ fontSize: '$9', color: '$text' }}>
         {circle.name} History
       </Header>
@@ -83,7 +83,7 @@ export const HistoryPage = () => {
               </Text>
             </Box>
             <Box css={{ display: 'flex' }}>
-              <Minicards
+              <Minicard
                 icon={<Account />}
                 title={`Nomination`}
                 left={numberOfNominees > 0}
@@ -97,13 +97,13 @@ export const HistoryPage = () => {
                 linkpaths={paths.vouching}
                 linkLabel="Go Vouching"
               />
-              <Minicards
+              <Minicard
                 icon={<ControlPoint />}
                 title={`Allocation`}
                 left={percentageTokenRemaining > 0}
                 content={
                   percentageTokenRemaining > 0
-                    ? `Allocate Your Remaning ${percentageTokenRemaining}%`
+                    ? `Allocate Your Remaining ${percentageTokenRemaining}%`
                     : `No More GIVE Tokens to Allocate`
                 }
                 linkpaths={paths.allocation}
@@ -191,13 +191,13 @@ const EpochPanel = ({
         </button>
       </Box>
       <Panel nested>
-        <Text variant="formLabel">Total Distribution</Text>
-        <Text bold css={{ fontSize: '$6', mb: '$md' }}>
-          {totalAllocated} {tokenName}
-        </Text>
         <Text variant="formLabel">You received</Text>
-        <Text bold css={{ fontSize: '$6' }}>
+        <Text bold css={{ fontSize: '$6', mb: '$md' }}>
           {totalReceived} {tokenName}
+        </Text>
+        <Text variant="formLabel">Total Distributed</Text>
+        <Text bold css={{ fontSize: '$6' }}>
+          {totalAllocated} {tokenName}
         </Text>
       </Panel>
       {shortPanelShow ? (
@@ -295,7 +295,7 @@ const EpochPanel = ({
               ))
             ) : (
               <Box css={{ mt: '$md' }}>
-                <Text variant="formLabel">You did not Received Notes</Text>
+                <Text variant="formLabel">You did not receive any notes</Text>
               </Box>
             )
           ) : sent.length > 0 ? (
@@ -306,7 +306,7 @@ const EpochPanel = ({
             ))
           ) : (
             <Box css={{ mt: '$md' }}>
-              <Text variant="formLabel">You did not Sent Notes</Text>
+              <Text variant="formLabel">You did not send any notes</Text>
             </Box>
           )}
         </Panel>
@@ -339,6 +339,7 @@ const Paginator = ({ css, pages, current, onSelect }: PaginatorProps) => {
         justifyContent: 'flex-end',
         '> *': {
           width: '$xl',
+          height: '$xl !important',
           fontFamily: 'Inter',
           fontSize: '$4',
           fontWeight: '$normal',
@@ -365,7 +366,7 @@ const Paginator = ({ css, pages, current, onSelect }: PaginatorProps) => {
               : {
                   borderRadius: '$1',
                   backgroundColor: '$teal !important',
-                  color: '$redHover !important',
+                  color: 'white !important',
                 }
           }
           onClick={() => onSelect(n)}
@@ -384,7 +385,7 @@ const Paginator = ({ css, pages, current, onSelect }: PaginatorProps) => {
   );
 };
 
-type Minicard = {
+type MinicardProps = {
   icon?: any;
   title?: string;
   content: any;
@@ -393,14 +394,14 @@ type Minicard = {
   linkLabel: string;
 };
 
-const Minicards = ({
+const Minicard = ({
   icon,
   title,
   content,
   left,
   linkpaths,
   linkLabel,
-}: Minicard) => {
+}: MinicardProps) => {
   const colorText = left ? 'red' : '$gray400';
   return (
     <Panel nested css={{ mr: '$md' }}>
