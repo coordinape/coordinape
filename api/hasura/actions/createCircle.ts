@@ -21,13 +21,17 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       if (input.protocol_id) {
         const isAdmin = await queries.checkAddressAdminInOrg(
           sessionVariables.hasuraAddress,
-          input.protocol_id
+          input.protocol_id,
+          input.protocol_name || '%%'
         );
         if (!isAdmin) {
           return res.status(422).json({
             extensions: [],
-            message:
-              'Address is not an admin of any circles under this protocol',
+            message: `Address is not an admin of any circles under protocol with id ${
+              input.protocol_id
+            }${
+              input.protocol_name ? ` and name '${input.protocol_name}'` : ''
+            }`,
             code: '422',
           });
         }
