@@ -1,6 +1,8 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { withDesign } from 'storybook-addon-designs';
 
+import { Box } from '../Box/Box';
+
 import { Button, ButtonStory } from './Button';
 
 export default {
@@ -10,15 +12,24 @@ export default {
 } as ComponentMeta<typeof ButtonStory>;
 
 const Template: ComponentStory<typeof ButtonStory> = args => (
-  <Button {...args}>{args.children}</Button>
+  <Box css={{ display: 'flex', gap: '$sm' }}>
+    <Button size="small" {...args}>
+      Small {args.children}
+    </Button>
+    <Button size="medium" {...args}>
+      Medium {args.children}
+    </Button>
+    <Button size="large" {...args}>
+      Large {args.children}
+    </Button>
+  </Box>
 );
 
 export const SingleButton = Template.bind({});
 
 SingleButton.args = {
   color: 'red',
-  size: 'medium',
-  children: 'Edit',
+  children: 'Button',
 };
 
 SingleButton.parameters = {

@@ -3,12 +3,13 @@ import React, { FunctionComponent } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
-import { Button, Hidden, makeStyles, Popover } from '@material-ui/core';
+import { makeStyles, Popover } from '@material-ui/core';
 
 import { WALLET_ICONS } from 'config/constants';
 import { useApiBase } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
 import { useSetWalletModalOpen } from 'recoilState/ui';
+import { Box, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 const useStyles = makeStyles(theme => ({
@@ -37,8 +38,7 @@ export const WalletButton = () => {
   if (!connectedAddress) {
     return (
       <Button
-        variant="outlined"
-        color="default"
+        color="oldGray"
         size="small"
         onClick={() => setWalletModalOpen(true)}
       >
@@ -86,18 +86,15 @@ const ConnectedButton = ({
   return (
     <>
       <Button
-        variant="outlined"
-        color="default"
+        color="oldGray"
         size="small"
-        startIcon={
-          Icon ? (
-            <Hidden smDown>
-              <Icon />
-            </Hidden>
-          ) : undefined
-        }
         onClick={event => setAnchorEl(event.currentTarget)}
       >
+        {Icon && (
+          <Box css={{ mr: '$sm', display: 'flex' }}>
+            <Icon />
+          </Box>
+        )}
         {shortenAddress(address)}
       </Button>
       <Popover
@@ -117,12 +114,12 @@ const ConnectedButton = ({
         }}
       >
         {onLogin && (
-          <Button variant="contained" size="small" onClick={onLogin}>
+          <Button color="oldGray" size="small" onClick={onLogin}>
             Login
           </Button>
         )}
         <Button
-          variant="contained"
+          color="oldGray"
           size="small"
           onClick={() => {
             disconnect();

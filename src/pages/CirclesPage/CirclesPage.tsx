@@ -5,6 +5,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { CirclesHeaderSection, MenuNavigationLinks } from 'components';
 import { useMyProfile, rSelectedCircle } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
+import { Box } from 'ui';
 
 export const CirclesPage = () => {
   const myProfile = useMyProfile();
@@ -12,7 +13,23 @@ export const CirclesPage = () => {
   const { hasAdminView } = myProfile;
 
   return (
-    <div>
+    <Box
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '$md auto',
+        maxWidth: '$mediumScreen',
+        '> *': {
+          ml: '0 !important',
+        },
+      }}
+    >
+      <Box css={{ fontWeight: 'bold' }}>
+        Placeholder Layout{' '}
+        <span role="img" aria-label="Under Construction">
+          🚧
+        </span>
+      </Box>
       <MenuNavigationLinks />
       <Suspense fallback={null}>
         <CirclesHeaderSection />
@@ -22,7 +39,7 @@ export const CirclesPage = () => {
           <CirclesSelectorSection />
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

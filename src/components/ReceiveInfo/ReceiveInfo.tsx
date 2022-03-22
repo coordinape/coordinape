@@ -4,12 +4,13 @@ import iti from 'itiriri';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
-import { Button, Popover, makeStyles } from '@material-ui/core';
+import { Popover, makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { getHistoryPath } from 'routes/paths';
+import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,8 +118,7 @@ export const ReceiveInfo = () => {
   return (
     <div className={classes.root}>
       <Button
-        variant="outlined"
-        color="default"
+        color="oldGray"
         size="small"
         onClick={event => setAnchorEl(event.currentTarget)}
       >

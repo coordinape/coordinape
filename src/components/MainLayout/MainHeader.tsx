@@ -10,6 +10,7 @@ import {
   MenuNavigationLinks,
   WalletButton,
 } from 'components';
+import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
 import {
@@ -19,15 +20,70 @@ import {
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 import { getMainNavigation, paths } from 'routes/paths';
+import type { INavItem } from 'routes/paths';
 import { Box, IconButton, Link, Image, Divider } from 'ui';
 
+const mainLinks = [
+  { path: paths.circles, label: 'Circles' },
+  isFeatureEnabled('vaults') && { path: paths.vaults, label: 'Vaults' },
+].filter(x => x) as INavItem[];
+
 export const MainHeader = () => {
+  const hasCircles = useHasCircles();
+  const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
+  const breadcrumb = circle ? `${circle.protocol.name} > ${circle.name}` : '';
+
+  if (useMediaQuery(MediaQueryKeys.sm))
+    return <MobileHeader breadcrumb={breadcrumb} />;
+
+  return (
+    <Box
+      css={{
+        px: '$1xl',
+        height: '82px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: '$primary',
+      }}
+    >
+      <Image
+        alt="logo"
+        css={{
+          justifySelf: 'start',
+          height: '$1xl',
+          mr: '$md',
+        }}
+        src="/svgs/logo/logo.svg"
+      />
+      {hasCircles && (
+        <Suspense fallback={null}>
+          <TopLevelLinks links={mainLinks} />
+          <Box css={{ color: '$gray400', ml: '$md', flex: '1 1 0' }}>
+            {breadcrumb}
+          </Box>
+        </Suspense>
+      )}
+      <Box
+        css={{ display: 'flex', justifySelf: 'flex-end', alignItems: 'center' }}
+      >
+        <Suspense fallback={null}>
+          <CircleNav />
+          <ReceiveInfo />
+        </Suspense>
+        <WalletButton />
+        <Suspense fallback={null}>
+          <MyAvatarMenu />
+        </Suspense>
+      </Box>
+    </Box>
+  );
+};
+
+const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
-  const hasCircles = useHasCircles();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-  const breadcrumb = `${selectedCircle?.circle.protocol.name} > ${selectedCircle?.circle.name}`;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -36,8 +92,6 @@ export const MainHeader = () => {
   useEffect(() => {
     !address && setIsMobileMenuOpen(false);
   }, [address]);
-
-  const screenDownSm = useMediaQuery(MediaQueryKeys.sm);
 
   const menuWalletButton = !address ? (
     <WalletButton />
@@ -55,58 +109,7 @@ export const MainHeader = () => {
     </IconButton>
   );
 
-  return !screenDownSm ? (
-    <Box
-      css={{
-        display: 'grid',
-        alignItems: 'center',
-        background: '$primary',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        py: '$md',
-        px: '$1xl',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Image
-          alt="logo"
-          css={{
-            justifySelf: 'start',
-            height: '$1xl',
-          }}
-          src="/svgs/logo/logo.svg"
-        />
-        {hasCircles && (
-          <Suspense fallback={<span />}>
-            <CircleNav /> <div style={{ color: '#B5BBBD' }}>{breadcrumb}</div>
-          </Suspense>
-        )}
-      </div>
-      <Suspense fallback={<span />}>
-        <HeaderNav />
-      </Suspense>
-      <Box
-        css={{
-          justifySelf: 'end',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
-        <Suspense fallback={<span />}>
-          <ReceiveInfo />
-        </Suspense>
-        <WalletButton />
-        <Suspense fallback={<span />}>
-          <MyAvatarMenu />
-        </Suspense>
-      </Box>
-    </Box>
-  ) : (
+  return (
     <Box>
       <Box
         css={{
@@ -159,13 +162,11 @@ export const MainHeader = () => {
               }}
             >
               <Suspense fallback={<span />}>
-                <CircleNav />
-                <div
-                  style={{ margin: 0, marginLeft: '1rem', color: '#B5BBBD' }}
-                >
+                <TopLevelLinks links={mainLinks} />
+                <Box css={{ margin: 0, marginLeft: '1rem', color: '$gray400' }}>
                   {breadcrumb}
-                </div>
-                <HeaderNav />
+                </Box>
+                <CircleNav />
               </Suspense>
             </Box>
             <Divider />
@@ -267,23 +268,21 @@ const linkStyle = {
   },
 };
 
-const boxStyle = {
-  justifySelf: 'stretch',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  '@sm': {
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-  },
-};
-
-export const CircleNav = () => {
-  const circleNavItems = [{ path: paths.circles, label: 'Circles' }];
-
+export const TopLevelLinks = ({ links }: { links: INavItem[] }) => {
   return (
-    <Box css={boxStyle}>
-      {circleNavItems.map(navItem => (
+    <Box
+      css={{
+        justifySelf: 'stretch',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        '@sm': {
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+        },
+      }}
+    >
+      {links.map(navItem => (
         <Link css={linkStyle} as={NavLink} key={navItem.path} to={navItem.path}>
           {navItem.label}
         </Link>
@@ -292,22 +291,15 @@ export const CircleNav = () => {
   );
 };
 
-export const HeaderNav = () => {
+// this has to be split out into its own component so it can suspend
+const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
-  const navItems = getMainNavigation({
+  const links = getMainNavigation({
     asCircleAdmin: myUser.isCircleAdmin,
     asVouchingEnabled: circle.hasVouching,
   });
 
-  return (
-    <Box css={boxStyle}>
-      {navItems.map(navItem => (
-        <Link css={linkStyle} as={NavLink} key={navItem.path} to={navItem.path}>
-          {navItem.label}
-        </Link>
-      ))}
-    </Box>
-  );
+  return <TopLevelLinks links={links} />;
 };
 
 export default MainHeader;
