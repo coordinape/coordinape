@@ -1,3 +1,4 @@
+name: 'delete-hasura-preview'
 on:
   pull_request:
     types: [closed]
@@ -8,8 +9,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.1
+
+      - name: Remove Vercel env variable for preview instance
+        continue-on-error: true
+        run: npx vercel --token ${{ env.VERCEL_TOKEN }} env rm REACT_APP_HASURA_URL preview ${{ steps.branch-name.outputs.current_branch }} -y
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
       - name: Hasura Cloud Preview Apps
         uses: hasura/hasura-cloud-preview-apps@v0.1.5
+        continue-on-error: true
         with:
           name: "coordinape-${{github.env.GITHUB_HEAD_REF}}${{github.event.number}}"
           delete: true
@@ -19,3 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           HASURA_CLOUD_ACCESS_TOKEN: ${{secrets.HASURA_CLOUD_ACCESS_TOKEN}}
+
+      - name: Done
+        run: echo "Done"

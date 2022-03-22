@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { DAIIcon, USDCIcon, USDTIcon, YFIIcon } from 'icons';
@@ -59,7 +59,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.id);
+  const { createVault } = useVaultFactory(currentOrg?.data?.id);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
 

@@ -3,16 +3,11 @@ import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 
-import {
-  FormCaptcha,
-  FormTextField,
-  ApeTextField,
-  FormAutocomplete,
-} from 'components';
+import { ApeTextField, FormAutocomplete, FormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApiWithProfile, useApiBase } from 'hooks';
+import { useApiBase, useApiWithProfile } from 'hooks';
 import { DiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
@@ -91,15 +86,15 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     lineHeight: 1,
     color: theme.colors.text + '80',
+    textAlign: 'center',
   },
   discordButton: {
     backgroundColor: '#5865F2',
-    width: '100%',
     margin: theme.spacing(1),
     borderRadius: 8,
-  },
-  link: {
-    width: '100%',
+    fontSize: 15,
+    textAlign: 'center',
+    height: '100%',
   },
 }));
 
@@ -138,24 +133,9 @@ export const SummonCirclePage = () => {
       <h2 className={classes.title}>Create a Circle</h2>
       <CreateCircleForm.FormController
         source={undefined}
-        submit={async ({
-          captcha_token,
-          research_org_link,
-          research_contact,
-          ...params
-        }) => {
+        submit={async ({ ...params }) => {
           try {
-            const newCircle = await createCircle(
-              myAddress,
-              { ...params },
-              captcha_token,
-              JSON.stringify({
-                address: myAddress,
-                research_org_link,
-                research_contact,
-                ...params,
-              })
-            );
+            const newCircle = await createCircle({ ...params });
             selectCircle(newCircle.id);
             navigate({
               pathname: paths.paths.adminCircles,
@@ -214,39 +194,33 @@ export const SummonCirclePage = () => {
               )}
             </div>
             <div className={classes.titleSupport}>Coordinape Support</div>
-            <div className={classes.bodyInner}>
-              <div className={classes.twoColumnGrid}>
-                <FormTextField
-                  {...fields.research_contact}
-                  fullWidth
-                  label="Circle Point of Contact"
-                  placeholder="Discord #0000, Telegram, Twitter or Email "
-                  subtitle="We use this as follow-up & support"
-                />
-                <div className={classes.root}>
-                  <div className={classes.label}>Need More Help?</div>
-                  <div className={classes.subLabel}>
-                    Join Our Discord for Information & Support
-                  </div>
-                  <a
-                    className={classes.link}
-                    href={paths.EXTERNAL_URL_DISCORD_SUPPORT}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <Button
-                      className={classes.discordButton}
-                      variant="contained"
-                      disableElevation
-                      startIcon={<DiscordIcon />}
-                    >
-                      Join Coordinape Discord
-                    </Button>
-                  </a>
+            <div className={classes.twoColumnGrid}>
+              <FormTextField
+                {...fields.contact}
+                fullWidth
+                label="Circle Point of Contact"
+                placeholder="Discord #0000, Telegram, Twitter or Email "
+                subtitle="We use this as follow-up & support"
+              />
+              <div className={classes.root}>
+                <div className={classes.label}>Need More Help?</div>
+                <div className={classes.subLabel}>
+                  Join Our Discord for Information & Support
                 </div>
+                <Button
+                  className={classes.discordButton}
+                  variant="contained"
+                  disableElevation
+                  startIcon={<DiscordIcon />}
+                  fullWidth
+                  target="_blank"
+                  rel="noreferrer"
+                  href={paths.EXTERNAL_URL_DISCORD_SUPPORT}
+                >
+                  Join Coordinape Discord
+                </Button>
               </div>
             </div>
-            <FormCaptcha {...fields.captcha_token} error={false} />
             <Button
               className={classes.saveButton}
               variant="contained"

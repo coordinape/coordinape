@@ -1,5 +1,6 @@
 // at 5k elements for filter-map-slice itiriri is more performant
 import iti from 'itiriri';
+import * as mutations from 'lib/gql/mutations';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -52,7 +53,7 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
   const token = address && authTokens[address];
   // eslint-disable-next-line no-console
   const api = getApiService();
-  if (!token && api.token) api.logout();
+  if (!token && api.token) mutations.logout();
   api.setAuth(token);
 };
 
@@ -179,11 +180,12 @@ export const rCircles = selector({
   },
 });
 
-export const rCircle = selectorFamily<ICircleState, number>({
+export const rCircle = selectorFamily<ICircleState, number | undefined>({
   key: 'rCircle',
   get:
-    (circleId: number) =>
+    circleId =>
     ({ get }) => {
+      if (!circleId) return neverEndingPromise();
       const circle = get(rCirclesMap).get(circleId);
       const hasAdminView = get(rHasAdminView);
       const users = iti(get(rUsersMap).values()).toArray();
@@ -363,7 +365,8 @@ export const useCircles = () => useRecoilValue(rCircles);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
-export const useCircle = (id: number) => useRecoilValue(rCircle(id));
+export const useCircle = (id: number | undefined) =>
+  useRecoilValue(rCircle(id));
 
 export const useSelectedCircle = () =>
   useRecoilValue(rCircle(useSelectedCircleId()));

@@ -99,3 +99,65 @@ select_permissions:
               id:
                 _eq: X-Hasura-User-Id
   role: user
+event_triggers:
+- definition:
+    enable_manual: false
+    insert:
+      columns: "*"
+    update:
+      columns:
+      - address
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: createProfile
+  retry_conf:
+    interval_sec: 10
+    num_retries: 10
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: optOutDiscord
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: optOutTelegram
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refundPendingGift
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"

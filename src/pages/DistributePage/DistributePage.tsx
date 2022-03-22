@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber, utils } from 'ethers';
+import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -14,7 +15,7 @@ import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
 import { useDistributor, useApeSnackbar } from 'hooks';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
 import { useCircle } from 'recoilState';
 import { useVaults } from 'recoilState/vaults';
@@ -39,15 +40,13 @@ function DistributePage() {
   const [selectedVaultId, setSelectedVaultId] = useState('');
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg?.id);
+  const vaults = useVaults(currentOrg.data?.id);
   const { uploadEpochRoot } = useDistributor();
   const [selectedVault, setSelectedVault] = useState<IVault | undefined>();
   const { apeError } = useApeSnackbar();
 
   const { isLoading, isError, data } = useGetAllocations(Number(epochId));
-  const { myUser: currentUser } = useCircle(
-    data?.epochs_by_pk?.circle?.id as number
-  );
+  const { myUser: currentUser } = useCircle(data?.epochs_by_pk?.circle?.id);
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
@@ -94,7 +93,7 @@ function DistributePage() {
       const distribution = createDistribution(gifts, totalDistributionAmount);
       const trx = await uploadEpochRoot(
         selectedVault.id,
-        utils.formatBytes32String(circle.id.toString()),
+        encodeCircleId(circle.id),
         yVaultAddress.toString(),
         distribution.merkleRoot,
         totalDistributionAmount,

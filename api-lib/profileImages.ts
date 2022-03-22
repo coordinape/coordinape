@@ -6,7 +6,7 @@ import {
   uploadImageInput,
 } from '../src/lib/zod';
 
-import { gql } from './Gql';
+import { adminClient } from './gql/adminClient';
 
 export const userAndImageData = (
   req: VercelRequest
@@ -15,7 +15,7 @@ export const userAndImageData = (
   hasuraProfileId: number;
 } => {
   const {
-    input: { object: input },
+    input: { payload: input },
     session_variables: sessionVariables,
   } = composeHasuraActionRequestBodyWithSession(
     uploadImageInput,
@@ -42,7 +42,7 @@ const profileUpdateImageMutation = (
 ) => {
   // save the new image id in the db
   return async (fileName: string) => {
-    const mutationResult = await gql.q('mutation')({
+    const mutationResult = await adminClient.mutate({
       update_profiles_by_pk: [
         {
           _set: _set(fileName),
@@ -66,7 +66,7 @@ export const profileImages = async (
   hasuraProfileId: number
 ): Promise<{ avatar?: string; background?: string }> => {
   // Figure out if there was a previous avatar, because we'll need to delete it
-  const { profiles_by_pk } = await gql.q('query')({
+  const { profiles_by_pk } = await adminClient.query({
     profiles_by_pk: [
       {
         id: hasuraProfileId,

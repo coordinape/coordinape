@@ -23,6 +23,8 @@ function parseBase64(imageDataBase64: string): Buffer {
 }
 
 async function resizeAvatar(imageBytes: Buffer) {
+  // convert to a small jpeg w/ 80% quality
+  // This is small because of the map view which needs to show lots of small avatars in a canvas
   const img = sharp(imageBytes);
   return img
     .resize({
@@ -37,6 +39,7 @@ async function resizeAvatar(imageBytes: Buffer) {
 }
 
 async function resizeBackground(imageBytes: Buffer) {
+  // convert to jpeg w/ 80% image quality
   const img = sharp(imageBytes);
   return img
     .jpeg({
@@ -45,4 +48,14 @@ async function resizeBackground(imageBytes: Buffer) {
     .toBuffer();
 }
 
-export { resizeAvatar, resizeBackground };
+async function resizeCircleLogo(imageBytes: Buffer) {
+  // convert to jpeg w/ 80% image quality
+  const img = sharp(imageBytes);
+  return img
+    .jpeg({
+      quality: 80,
+    })
+    .toBuffer();
+}
+
+export { resizeAvatar, resizeBackground, resizeCircleLogo };

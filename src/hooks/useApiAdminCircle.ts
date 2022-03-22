@@ -1,3 +1,6 @@
+import * as mutations from 'lib/gql/mutations';
+
+import { fileToBase64 } from '../lib/base64';
 import { useApiBase } from 'hooks';
 import { getApiService } from 'services/api';
 
@@ -22,8 +25,9 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const updateCircleLogo = useRecoilLoadCatch(
-    () => async (newAvatar: File) => {
-      await getApiService().uploadCircleLogo(circleId, newAvatar);
+    () => async (newLogo: File) => {
+      const image_data_base64 = await fileToBase64(newLogo);
+      await mutations.updateCircleLogo(circleId, image_data_base64);
       await fetchManifest();
     },
     [circleId]
@@ -57,7 +61,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
-      await getApiService().updateUser(circleId, userAddress, params);
+      await mutations.adminUpdateUser(circleId, userAddress, params);
       await fetchManifest();
     },
     [circleId]

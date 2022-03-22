@@ -1,7 +1,7 @@
 import { CSS } from 'stitches.config';
 
 import { ApeAvatar } from 'components';
-import { useCurrentOrg } from 'hooks/gql';
+import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { Box, Text } from 'ui';
 
 export const OrganizationHeader = ({ css = {} }: { css?: CSS }) => {
@@ -21,7 +21,7 @@ export const OrganizationHeader = ({ css = {} }: { css?: CSS }) => {
         }}
       />
       <Text css={{ fontWeight: '$bold', fontSize: '$8', flexGrow: 1 }}>
-        {currentOrg?.name}
+        {currentOrg.data?.name}
       </Text>
     </Box>
   );

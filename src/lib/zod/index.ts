@@ -8,17 +8,47 @@ export const createCircleSchemaInput = z
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
+    contact: z.string().min(3).max(255).optional(),
   })
   .strict()
   .refine(
-    data =>
-      (data.protocol_name || data.protocol_id) &&
-      !(data.protocol_name && data.protocol_id),
+    data => data.protocol_name || data.protocol_id,
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
-// this shape mirrors the shape of the original rest endpoint
-// it might be preferable to fold circle_id into the object
+export const adminUpdateUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    address: zEthAddressOnly,
+    new_address: zEthAddressOnly.optional(),
+    name: z.string().min(3).max(255).optional(),
+    starting_tokens: z.number().optional(),
+    non_giver: z.boolean().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+  })
+  .strict();
+
+export const createNomineeInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    address: zEthAddressOnly,
+    description: z.string().min(3).max(1000),
+  })
+  .strict();
+
+export const updateUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    name: z.string().min(3).max(255).optional(),
+    non_receiver: z.boolean().optional(),
+    epoch_first_visit: z.boolean().optional(),
+    bio: z.string().optional(),
+  })
+  .strict();
+
 export const createUserSchemaInput = z
   .object({
     circle_id: z.number(),
@@ -41,6 +71,26 @@ export const circleIdInput = z
 
 export const uploadImageInput = z
   .object({ image_data_base64: z.string() })
+  .strict();
+
+export const uploadCircleImageInput = z
+  .object({
+    circle_id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
+
+export const vouchInput = z
+  .object({
+    nominee_id: z.number(),
+  })
+  .strict();
+
+export const deleteEpochInput = z
+  .object({
+    id: z.number().int().positive(),
+    circle_id: z.number().int().positive(),
+  })
   .strict();
 
 export const HasuraAdminSessionVariables = z
@@ -81,13 +131,13 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
   return z.object({
     // for some reason, it's unsafe to transform the generic input
     // to strip away the outer object
-    input: z.object({ object: inputSchema }),
+    input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: z.union([
       HasuraAdminSessionVariables,
       HasuraUserSessionVariables,
     ]),
-    request_query: z.string(),
+    request_query: z.string().optional(),
   });
 }
 
@@ -101,9 +151,9 @@ export function composeHasuraActionRequestBodyWithSession<
   sessionType: V
 ) {
   return z.object({
-    input: z.object({ object: inputSchema }),
+    input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: sessionType,
-    request_query: z.string(),
+    request_query: z.string().optional(),
   });
 }

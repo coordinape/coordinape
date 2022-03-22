@@ -51,17 +51,17 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 - `yarn install`
 - `yarn setup`
-  - init git submodules, link hardhat & create prisma node_modules
-- `npx prisma generate` - setup prisma node modules
+  - init git submodules & link hardhat
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
   - First time laravel is slow.
+- `yarn db-seed-fresh` - Seed the db w/ dummy data
+  > ⚠️ Don't seed the database with `vercel dev` running
 - `vercel dev`
   - First time setup: `Want to override the settings`? `Y`
   - Runs React and the serverless functions in `api/`
-- `yarn db-seed-fresh` - Seed the db w/ dummy data
 - Goto: http://localhost:3000 and starting giving!
 
 ### Storybook

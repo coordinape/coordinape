@@ -1,35 +1,56 @@
 type Mutation {
-  createUser(
-    object: createUserInput!
-  ): createUserResponse
+  adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
 type Mutation {
-  create_circle(
-    object: create_circle_input!
-  ): create_circle_response
+  createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
 type Mutation {
-  upload_profile_avatar(
-    object: upload_image_input!
-  ): update_profile_response
+  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
 type Mutation {
-  upload_profile_background(
-    object: upload_image_input!
-  ): update_profile_response
+  createUser(payload: CreateUserInput!): UserResponse
 }
 
-input create_circle_input {
+type Mutation {
+  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
+}
+
+type Mutation {
+  logoutUser: LogoutResponse
+}
+
+type Mutation {
+  updateUser(payload: UpdateUserInput!): UserResponse
+}
+
+type Mutation {
+  uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
+}
+
+type Mutation {
+  uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
+}
+
+type Mutation {
+  uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
+}
+
+type Mutation {
+  vouch(payload: VouchInput!): VouchOutput
+}
+
+input CreateCircleInput {
   user_name: String!
   circle_name: String!
   protocol_name: String
   protocol_id: Int
+  contact: String
 }
 
-input createUserInput {
+input CreateUserInput {
   circle_id: Int!
   address: String!
   name: String!
@@ -41,27 +62,79 @@ input createUserInput {
   starting_tokens: Int
 }
 
-input upload_image_input {
+input UploadImageInput {
   image_data_base64: String!
 }
 
-type create_circle_response {
+input UploadCircleImageInput {
+  circle_id: Int!
+  image_data_base64: String!
+}
+
+input AdminUpdateUserInput {
+  circle_id: Int!
+  address: String!
+  new_address: String
+  name: String
+  non_giver: Boolean
+  starting_tokens: Int
+  fixed_non_receiver: Boolean
+  non_receiver: Boolean
+  role: Int
+}
+
+input DeleteEpochInput {
+  id: Int!
+  circle_id: Int!
+}
+
+input CreateNomineeInput {
+  name: String!
+  circle_id: Int!
+  address: String!
+  description: String!
+}
+
+input UpdateUserInput {
+  circle_id: Int!
+  name: String
+  non_receiver: Boolean
+  epoch_first_visit: Boolean
+  bio: String
+}
+
+input VouchInput {
+  nominee_id: Int!
+}
+
+type CreateCircleResponse {
   id: Int!
 }
 
-type createUserResponse {
-  """ Primary key """ id: ID!
-  """ The Ethereum address of the user """ address: String!
-  """ human readable user name """ name: String!
-  fixed_non_receiver: Boolean!
-  give_token_remaining: Int!
-  non_giver: Boolean!
-  non_receiver: Boolean!
-  role: Int!
-  starting_tokens: Int!
-}
-
-type update_profile_response {
+type UpdateProfileResponse {
   id: Int!
 }
 
+type UpdateCircleResponse {
+  id: Int!
+}
+
+type LogoutResponse {
+  id: Int
+}
+
+type UserResponse {
+  id: ID!
+}
+
+type DeleteEpochResponse {
+  success: Boolean!
+}
+
+type CreateNomineeResponse {
+  id: Int
+}
+
+type VouchOutput {
+  id: Int!
+}
