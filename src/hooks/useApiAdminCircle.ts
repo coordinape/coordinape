@@ -69,7 +69,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const createUser = useRecoilLoadCatch(
     () => async (params: PostUsersParam) => {
-      await getApiService().createUser(circleId, params);
+      await mutations.createUser(circleId, params);
       await fetchManifest();
     },
     [circleId]
