@@ -181,8 +181,7 @@ export const adminUpdateUser = async (
           role: params.role,
           // starting_tokens: params.starting_tokens,
           non_giver: params.non_giver,
-          // TODO: no idea how to handle this one
-          //  non_receiver: params.
+          non_receiver: params.fixed_non_receiver,
         },
       },
       {
