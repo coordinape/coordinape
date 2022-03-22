@@ -105,7 +105,6 @@ const useStyles = makeStyles(theme => ({
   },
   feedbackButton: {
     backgroundColor: '#2a849b',
-    width: '100%',
     margin: theme.spacing(1.5, 0, 0),
     padding: theme.spacing(1.5, 0, 1.5, 5),
     borderRadius: 0,
@@ -192,23 +191,20 @@ export const MyAvatarMenu = () => {
               <CirclesSelectorSection handleOnClick={() => setAnchorEl(null)} />
             </>
           )}
-          <a
-            href={
-              'https://notionforms.io/forms/give-us-your-feedback-improve-coordinape'
-            }
-            rel="noreferrer"
-            target="_blank"
-          >
             <Button
               className={classes.feedbackButton}
               disableElevation
+              fullWidth
               variant="contained"
               color="primary"
+              href={
+                'https://notionforms.io/forms/give-us-your-feedback-improve-coordinape'
+              }
+              target="_blank"
               onClick={() => {}}
             >
               Give Feedback
             </Button>
-          </a>
         </Popover>
       </Hidden>
     </>
