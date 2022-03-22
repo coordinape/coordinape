@@ -158,7 +158,7 @@ export const SummonCirclePage = () => {
             );
             selectCircle(newCircle.id);
             navigate({
-              pathname: paths.getAdminPath(),
+              pathname: paths.paths.adminCircles,
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
             });
           } catch (e) {

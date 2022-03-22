@@ -1,4 +1,3 @@
-import { IN_PRODUCTION } from 'config/env';
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
@@ -57,9 +56,7 @@ export const getMyEpochPath = () => paths.epoch;
 export const getGivePath = () => paths.give;
 export const getVouchingPath = () => paths.vouching;
 export const getHistoryPath = () => paths.history;
-export const getAdminPath = () => paths.admin;
 export const getVaultsPath = () => paths.vaults;
-export const getCirclesPath = () => paths.circles;
 
 // this one is different because it's used on the landing page
 export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
@@ -71,7 +68,7 @@ export const getDistributePath = (epochId: number | string) =>
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
 
-interface INavItem {
+export interface INavItem {
   label: string;
   path: string;
   icon?: (props: any) => JSX.Element;
@@ -123,28 +120,17 @@ export const getMainNavigation = ({
   asCircleAdmin?: boolean;
   asVouchingEnabled?: boolean;
 } = {}): INavItem[] => {
-  let mainItems = [
+  const mainItems = [
     { path: getHistoryPath(), label: 'History' },
     NAV_ITEM_ALLOCATE,
     { path: getMapPath(), label: 'Map' },
   ];
-  const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  if (IN_PRODUCTION) {
-    const adminItems1 = [{ path: getAdminPath(), label: 'Admin' }];
-    if (asVouchingEnabled) {
-      mainItems = [...mainItems, ...vouchingItems];
-    }
-    if (asCircleAdmin) {
-      mainItems = [...mainItems, ...adminItems1];
-    }
-  } else {
-    const adminItems1 = [{ path: getVaultsPath(), label: 'Admin' }];
-    if (asVouchingEnabled) {
-      mainItems = [...mainItems, ...vouchingItems];
-    }
-    if (asCircleAdmin) {
-      mainItems = [...mainItems, ...adminItems1];
-    }
+
+  if (asVouchingEnabled) {
+    mainItems.push({ path: getVouchingPath(), label: 'Vouching' });
+  }
+  if (asCircleAdmin) {
+    mainItems.push({ path: paths.adminCircles, label: 'Admin' });
   }
 
   return mainItems;
