@@ -85,7 +85,7 @@ export const HistoryPage = () => {
             <Box css={{ display: 'flex' }}>
               <Minicards
                 icon={<Account />}
-                title={`Nominations`}
+                title={`Nomination`}
                 left={numberOfNominees > 0}
                 content={
                   numberOfNominees > 0
@@ -99,7 +99,7 @@ export const HistoryPage = () => {
               />
               <Minicards
                 icon={<ControlPoint />}
-                title={`Nominations`}
+                title={`Allocation`}
                 left={percentageTokenRemaining > 0}
                 content={
                   percentageTokenRemaining > 0
