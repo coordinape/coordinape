@@ -1,4 +1,5 @@
 import { act, render, waitFor } from '@testing-library/react';
+import * as mutations from 'lib/gql/mutations';
 
 import { Asset } from 'services/contracts';
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
@@ -9,6 +10,14 @@ import { useVaultFactory } from './useVaultFactory';
 import { IVault } from 'types';
 
 let snapshotId: string;
+
+jest.mock('lib/gql/mutations');
+const mockMutation = mutations.addVault as jest.Mock;
+
+mockMutation.mockImplementation(() => {
+  //TODO: Add a more robust mock if we choose to return a real response from Hasura
+  return true;
+}) as jest.MockedFunction<typeof mutations.addVault>;
 
 beforeAll(async () => {
   snapshotId = await takeSnapshot();
@@ -84,6 +93,6 @@ test('create a vault with a custom asset', async () => {
       expect(vault.simpleTokenAddress).toEqual(yamAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 10000 }
+    { timeout: 100000 }
   );
-}, 10000);
+}, 100000);
