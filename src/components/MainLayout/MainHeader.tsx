@@ -29,12 +29,61 @@ const mainLinks = [
 ].filter(x => x) as INavItem[];
 
 export const MainHeader = () => {
+  const hasCircles = useHasCircles();
+  const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
+  const breadcrumb = circle ? `${circle.protocol.name} > ${circle.name}` : '';
+
+  if (useMediaQuery(MediaQueryKeys.sm))
+    return <MobileHeader breadcrumb={breadcrumb} />;
+
+  return (
+    <Box
+      css={{
+        px: '$1xl',
+        height: '82px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: '$primary',
+      }}
+    >
+      <Image
+        alt="logo"
+        css={{
+          justifySelf: 'start',
+          height: '$1xl',
+          mr: '$md',
+        }}
+        src="/svgs/logo/logo.svg"
+      />
+      {hasCircles && (
+        <Suspense fallback={null}>
+          <TopLevelLinks links={mainLinks} />
+          <Box css={{ color: '$gray400', ml: '$md', flex: '1 1 0' }}>
+            {breadcrumb}
+          </Box>
+        </Suspense>
+      )}
+      <Box
+        css={{ display: 'flex', justifySelf: 'flex-end', alignItems: 'center' }}
+      >
+        <Suspense fallback={null}>
+          <CircleNav />
+          <ReceiveInfo />
+        </Suspense>
+        <WalletButton />
+        <Suspense fallback={null}>
+          <MyAvatarMenu />
+        </Suspense>
+      </Box>
+    </Box>
+  );
+};
+
+const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { address } = useWalletAuth();
-  const hasCircles = useHasCircles();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-  const breadcrumb = `${selectedCircle?.circle.protocol.name} > ${selectedCircle?.circle.name}`;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -43,8 +92,6 @@ export const MainHeader = () => {
   useEffect(() => {
     !address && setIsMobileMenuOpen(false);
   }, [address]);
-
-  const showMobileHeader = useMediaQuery(MediaQueryKeys.sm);
 
   const menuWalletButton = !address ? (
     <WalletButton />
@@ -62,60 +109,7 @@ export const MainHeader = () => {
     </IconButton>
   );
 
-  return !showMobileHeader ? (
-    <Box
-      css={{
-        display: 'grid',
-        alignItems: 'center',
-        background: '$primary',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        px: '$1xl',
-        height: '82px',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Image
-          alt="logo"
-          css={{
-            justifySelf: 'start',
-            height: '$1xl',
-            mr: '$md',
-          }}
-          src="/svgs/logo/logo.svg"
-        />
-        {hasCircles && (
-          <Suspense fallback={<span />}>
-            <TopLevelLinks links={mainLinks} />
-            <Box css={{ color: '$gray400', ml: '$md' }}>{breadcrumb}</Box>
-          </Suspense>
-        )}
-      </div>
-      <Suspense fallback={<span />}>
-        <CircleNav />
-      </Suspense>
-      <Box
-        css={{
-          justifySelf: 'end',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
-        <Suspense fallback={<span />}>
-          <ReceiveInfo />
-        </Suspense>
-        <WalletButton />
-        <Suspense fallback={<span />}>
-          <MyAvatarMenu />
-        </Suspense>
-      </Box>
-    </Box>
-  ) : (
+  return (
     <Box>
       <Box
         css={{
