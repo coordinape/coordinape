@@ -117,7 +117,6 @@ export const createCircle = async (
         payload: params,
       },
       {
-        id: true,
         circle: {
           id: true,
           name: true,
