@@ -4,8 +4,8 @@ export interface IProtocol {
   id: number;
   name: string;
   is_verified?: boolean;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface IApiCircle {
@@ -23,8 +23,8 @@ export interface IApiCircle {
   vouching_text?: string;
   only_giver_vouch: boolean;
   team_selection: boolean;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
   protocol_id: number;
   protocol: IProtocol;
   auto_opt_out: boolean;
