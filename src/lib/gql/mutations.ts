@@ -2,6 +2,7 @@ import {
   CreateCircleParam,
   IApiCircle,
   PostUsersParam,
+  NominateUserParam,
   UpdateUsersParam,
 } from '../../types';
 
@@ -237,4 +238,24 @@ export const createUser = async (circleId: number, params: PostUsersParam) => {
       },
     ],
   });
+};
+
+export const createNominee = async (
+  circleId: number,
+  params: NominateUserParam
+) => {
+  const { createNominee } = await client.mutate({
+    createNominee: [
+      {
+        payload: {
+          circle_id: circleId,
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return createNominee;
 };
