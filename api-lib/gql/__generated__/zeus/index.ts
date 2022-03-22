@@ -9850,7 +9850,7 @@ export type ModelTypes = {
     /** An object relationship */
     circle_private?: ModelTypes['circle_private'];
     contact?: string;
-    created_at: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
     /** An array relationship */
@@ -9883,7 +9883,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
@@ -11384,12 +11384,12 @@ export type ModelTypes = {
     circles: ModelTypes['circles'][];
     /** An aggregate relationship */
     circles_aggregate: ModelTypes['circles_aggregate'];
-    created_at: ModelTypes['timestamp'];
+    created_at?: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     is_verified: boolean;
     name: string;
     telegram_id?: string;
-    updated_at: ModelTypes['timestamp'];
+    updated_at?: ModelTypes['timestamp'];
   };
   /** aggregated selection of "protocols" */
   ['organizations_aggregate']: {
@@ -14478,7 +14478,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'];
     contact?: string;
-    created_at: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
     /** An array relationship */
@@ -14511,7 +14511,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
@@ -16913,12 +16913,12 @@ export type GraphQLTypes = {
     circles: Array<GraphQLTypes['circles']>;
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
-    created_at: GraphQLTypes['timestamp'];
+    created_at?: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     name: string;
     telegram_id?: string;
-    updated_at: GraphQLTypes['timestamp'];
+    updated_at?: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "protocols" */
   ['organizations_aggregate']: {

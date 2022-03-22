@@ -4,6 +4,8 @@
 -- alter table "public"."circles" add column "contact" text
 --  null;
 
+alter table "public"."circles" drop column "contact";
+
 alter table "public"."protocols" alter column "updated_at" drop not null;
 
 alter table "public"."protocols" alter column "created_at" drop not null;
