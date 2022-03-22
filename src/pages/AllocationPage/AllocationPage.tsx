@@ -26,6 +26,7 @@ import {
   STEPS,
   NO_TEAM_STEPS,
 } from 'routes/allocation';
+import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
 import AllocationEpoch from './AllocationEpoch';
 import AllocationGive from './AllocationGive';
@@ -50,8 +51,9 @@ const useStyles = makeStyles(theme => ({
   body: {
     flex: 1,
     display: 'flex',
-    alignItems: 'start',
+    alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
     overflow: 'auto',
     width: '100%',
   },
@@ -74,9 +76,16 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  tooltipContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '2%',
   },
   backButton: {
     marginRight: theme.spacing(1.5),
@@ -118,6 +127,21 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.primary,
     marginLeft: theme.spacing(1),
     padding: '1px',
+  },
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    marginTop: 16,
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+    textDecoration: 'underline',
+  },
+  tooltip: {
+    fontWeight: 400,
+    color: theme.colors.text,
+  },
+  btn: {
+    marginTop: 32,
   },
 }));
 
@@ -299,7 +323,12 @@ export const AllocationPage = () => {
             <AllocationTeam />
             <div className={classes.buttonContainer}>
               {localTeammatesChanged ? (
-                <Button size="large" color="red" onClick={handleSaveTeamList}>
+                <Button
+                  size="large"
+                  color="red"
+                  onClick={handleSaveTeamList}
+                  className={classes.btn}
+                >
                   Save Teammate List
                 </Button>
               ) : (
@@ -308,10 +337,37 @@ export const AllocationPage = () => {
                   color="red"
                   disabled={!epochIsActive}
                   onClick={getHandleStep(STEP_ALLOCATION)}
+                  className={classes.btn}
                 >
                   Continue with this team
                 </Button>
               )}
+            </div>
+            <div className={classes.tooltipContainer}>
+              <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
+                <b>Why is Coordinape in my circle?</b>
+                <div>
+                  To date Coordinape has offered our service for free. We
+                  decided that using the gift circle mechanism as our revenue
+                  model might make a lot of sense, so we’re trying that out.
+                </div>
+                <a
+                  href={EXTERNAL_URL_FEEDBACK}
+                  rel="noreferrer"
+                  target="_blank"
+                  className={classes.tooltipLink}
+                >
+                  Let us know what you think
+                </a>
+              </ApeInfoTooltip>
+              <a
+                className={classes.tooltipLink}
+                href={EXTERNAL_URL_FEEDBACK}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Why is Coordinape in my circle?
+              </a>
             </div>
           </>
         )}
