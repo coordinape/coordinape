@@ -2,6 +2,7 @@ name: 'hasura-cloud-preview'
 on:
   pull_request:
     types: [opened , reopened, synchronize]
+    if: ${{ !github.event.pull_request.head.repo.fork }}
     paths:
       - 'hasura/**' # path to Hasura config, prevents creating deployments if no changes
     branches:
