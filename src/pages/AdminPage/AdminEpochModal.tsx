@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     fontWeight: 100,
     color: theme.colors.text,
-    padding: '0px 50px',
+    padding: '0px 100px',
   },
   modalExternalLink: {
     textDecoration: 'underline',
