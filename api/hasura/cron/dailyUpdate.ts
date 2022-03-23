@@ -153,8 +153,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const emptyBioNotif =
         circle.id === CIRCLES.YEARN.COMMUNITY
           ? dedent`
-            Opted in contributors who have NOT entered a statement for Epoch:
-            ${circle.emptyBio.users.map(u => u.name).join(', ')}
+              Opted in contributors who have NOT entered a statement for Epoch:
+              ${circle.emptyBio.users.map(u => u.name).join(', ')}
           `
           : ``;
 
