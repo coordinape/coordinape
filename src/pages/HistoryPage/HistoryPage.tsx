@@ -12,7 +12,8 @@ import { useAllocation, useAllocationController } from 'hooks';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, Button, Panel, Text, Link } from 'ui';
+import { Box, Button, Panel, Text, Link, AppLink } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 
 import { IEpoch, ITokenGift } from 'types';
 
@@ -48,6 +49,24 @@ export const HistoryPage = () => {
     currentEpoch?.endDate.month === currentEpoch?.startDate.month
       ? 'dd'
       : 'MMMM dd';
+
+  if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
+    return (
+      <SingleColumnLayout>
+        <p>
+          This circle has no epochs yet.{' '}
+          {myUser.role === 1 ? (
+            <>
+              <AppLink to={paths.adminCircles}>Visit the admin page</AppLink> to
+              create one.
+            </>
+          ) : (
+            <>Please return once your admin has created one.</>
+          )}
+        </p>
+      </SingleColumnLayout>
+    );
+  }
 
   return (
     <Box css={{ maxWidth: '$mediumScreen', ml: 'auto', mr: 'auto', p: '$xl' }}>

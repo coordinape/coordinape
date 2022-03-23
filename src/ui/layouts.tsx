@@ -1,9 +1,19 @@
 import { ReactNode } from 'react';
 
+import { CSS } from 'stitches.config';
+
 import { OrganizationHeader } from 'components';
 import { Box } from 'ui';
 
-export const OrgLayout = ({ children }: { children: ReactNode }) => {
+type SingleColumnLayoutProps = {
+  children: ReactNode;
+  css?: CSS;
+};
+
+export const SingleColumnLayout = ({
+  children,
+  css = {},
+}: SingleColumnLayoutProps) => {
   return (
     <Box
       css={{
@@ -13,10 +23,19 @@ export const OrgLayout = ({ children }: { children: ReactNode }) => {
         display: 'flex',
         flexDirection: 'column',
         gap: '$md',
+        ...css,
       }}
     >
-      <OrganizationHeader css={{ mb: '$xl' }} />
       {children}
     </Box>
+  );
+};
+
+export const OrgLayout = ({ children, css = {} }: SingleColumnLayoutProps) => {
+  return (
+    <SingleColumnLayout css={css}>
+      <OrganizationHeader css={{ mb: '$xl' }} />
+      {children}
+    </SingleColumnLayout>
   );
 };
