@@ -1,76 +1,74 @@
-import React, { Suspense } from 'react';
-
+import { client } from 'lib/gql/client';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
-import { useRecoilValueLoadable } from 'recoil';
 
-import { CirclesHeaderSection, MenuNavigationLinks } from 'components';
-import { useMyProfile, rSelectedCircle } from 'recoilState/app';
-import { useSetCircleSelectorOpen } from 'recoilState/ui';
+import { useApiBase } from 'hooks';
 import { paths } from 'routes/paths';
-import { Box } from 'ui';
+import { Box, Panel, Text } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 
 export const CirclesPage = () => {
-  const myProfile = useMyProfile();
-  const { hasAdminView } = myProfile;
   const navigate = useNavigate();
+  const { selectAndFetchCircle } = useApiBase();
 
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '$md auto',
-        maxWidth: '$mediumScreen',
-        pl: '$xl',
-        '> *': {
-          ml: '0 !important',
+  const query = useQuery('myOrgs', () =>
+    client.query({
+      organizations: [
+        {},
+        {
+          id: true,
+          name: true,
+          circles: [
+            {},
+            {
+              id: true,
+              name: true,
+            },
+          ],
         },
-      }}
-    >
-      <Box css={{ fontWeight: 'bold' }}>
-        Placeholder Layout{' '}
-        <span role="img" aria-label="Under Construction">
-          🚧
-        </span>
-      </Box>
-      <MenuNavigationLinks />
-      <Suspense fallback={null}>
-        <CirclesHeaderSection handleOnClick={() => navigate(paths.history)} />
-      </Suspense>
-      {hasAdminView && (
-        <>
-          <CirclesSelectorSection />
-        </>
-      )}
-    </Box>
+      ],
+    })
   );
-};
 
-export const CirclesSelectorSection = (props: { handleOnClick?(): void }) => {
-  const setCircleSelectorOpen = useSetCircleSelectorOpen();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const orgs = query.data?.organizations;
 
-  const handleOnClick = () => {
-    if (props.handleOnClick) {
-      props.handleOnClick();
-    }
-    setCircleSelectorOpen(true);
-  };
+  const pickCircle = (id: number) =>
+    selectAndFetchCircle(id).then(() => navigate(paths.history));
 
   return (
-    <div>
-      <span>Admin View</span>
-      {selectedCircle && selectedCircle.impersonate ? (
-        <>
-          <button onClick={props.handleOnClick}>
-            {selectedCircle.circle.name}
-          </button>
-          <button onClick={handleOnClick}>Circle Selector</button>
-        </>
-      ) : (
-        <button onClick={handleOnClick}>Circle Selector</button>
-      )}
-    </div>
+    <SingleColumnLayout>
+      {query.isLoading && 'Loading...'}
+      {orgs?.map(org => (
+        <Box
+          key={org.id}
+          css={{
+            mb: '$lg',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '$md',
+          }}
+        >
+          <Text variant="sectionHeader">{org.name}</Text>
+          {org.circles.map(circle => (
+            <Panel
+              key={circle.id}
+              css={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '$md',
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+              onClick={() => pickCircle(circle.id)}
+            >
+              <Text variant="sectionHeader">{circle.name}</Text>
+            </Panel>
+          ))}
+        </Box>
+      ))}
+    </SingleColumnLayout>
   );
 };
 

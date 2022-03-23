@@ -42,6 +42,10 @@ export const Text = styled('span', {
       },
     },
     variant: {
+      sectionHeader: {
+        fontSize: '$8',
+        fontWeight: '$bold',
+      },
       formLabel: {
         color: '$gray400',
         textTransform: 'uppercase',
