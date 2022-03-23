@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber, FixedNumber, utils } from 'ethers';
-import { GraphQLTypes, ValueTypes } from 'lib/gql/__generated__/zeus';
+import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -55,9 +55,7 @@ function DistributePage() {
   );
 
   const { uploadEpochRoot } = useDistributor();
-  const [selectedVault, setSelectedVault] = useState<
-    GraphQLTypes['vaults'] | undefined
-  >();
+  const selectedVault = vaults?.find(v => v.id === Number(selectedVaultId));
   const { apeError } = useApeSnackbar();
   const [distributionDTO, setDistributionDTO] =
     useState<ValueTypes['distributions_insert_input']>();
@@ -105,7 +103,7 @@ function DistributePage() {
       return userList;
     }, {} as Record<string, number>);
 
-    const denominator = BigNumber.from(10).pow(selectedVault?.decimals);
+    const denominator = BigNumber.from(10).pow(selectedVault.decimals);
     const totalDistributionAmount = BigNumber.from(value.amount).mul(
       denominator
     );
@@ -254,7 +252,7 @@ function DistributePage() {
                   Select Vault
                 </Box>
                 <Controller
-                  name={'selectedVaultId'}
+                  name="selectedVaultId"
                   control={control}
                   render={({
                     field: { onChange, value },
@@ -270,11 +268,6 @@ function DistributePage() {
                           onChange={({ target: { value } }) => {
                             onChange(value);
                             setSelectedVaultId(String(value));
-                            setSelectedVault(
-                              vaults?.find(
-                                v => v.id === Number(value)
-                              ) as GraphQLTypes['vaults']
-                            );
                           }}
                         >
                           {vaultOptions.map(vault => (
