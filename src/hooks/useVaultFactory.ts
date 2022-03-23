@@ -10,8 +10,6 @@ import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useContracts } from './useContracts';
 
-import { IVault } from 'types';
-
 export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
   const { showInfo, showError } = useApeSnackbar();
@@ -32,17 +30,21 @@ export function useVaultFactory(orgId?: number) {
     );
 
     try {
-      let args: [string, string], decimals: number;
+      let args: [string, string], decimals: number, symbol: string;
 
       if (!type) {
         args = [ZERO_ADDRESS, simpleTokenAddress as string];
         decimals = await contracts
           .getERC20(simpleTokenAddress as string)
           .decimals();
+        symbol = await contracts
+          .getERC20(simpleTokenAddress as string)
+          .symbol();
       } else {
         const tokenAddress = contracts.getToken(type).address;
         args = [tokenAddress, ZERO_ADDRESS];
         decimals = await contracts.getERC20(tokenAddress).decimals();
+        symbol = await contracts.getERC20(tokenAddress).symbol();
       }
 
       const { receipt } = await sendAndTrackTx(
@@ -53,26 +55,16 @@ export function useVaultFactory(orgId?: number) {
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
-          //TODO: Refactor the codebase and retire the IVault interface and return the mutation result
-          const vault: IVault = {
-            orgId,
-            tokenAddress: args[0],
-            simpleTokenAddress: args[1],
-            decimals,
-            id: vaultAddress,
-            transactions: [],
-            type: type || 'OTHER',
-          };
 
-          const vaultDTO: ValueTypes['vaults_insert_input'] = {
+          const vault: ValueTypes['vaults_insert_input'] = {
             decimals,
             vault_address: vaultAddress,
             org_id: orgId,
             simple_token_address: args[1],
             token_address: args[0],
-            symbol: type || 'OTHER',
+            symbol: symbol,
           };
-          await addVault(vaultDTO);
+          await addVault(vault);
 
           return vault;
         }

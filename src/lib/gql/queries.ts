@@ -19,21 +19,3 @@ export const getCurrentEpoch = async (
   });
   return currentEpoch;
 };
-
-export async function getVaults(orgId: number) {
-  return await client.query({
-    vaults: [
-      {
-        where: { org_id: { _eq: orgId } },
-      },
-      {
-        id: true,
-        vault_address: true,
-        token_address: true,
-        simple_token_address: true,
-        symbol: true,
-        created_by: true,
-      },
-    ],
-  });
-}
