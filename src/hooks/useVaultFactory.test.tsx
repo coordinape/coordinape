@@ -93,6 +93,6 @@ test('create a vault with a custom asset', async () => {
       expect(vault.simpleTokenAddress).toEqual(yamAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 100000 }
+    { timeout: 10000 }
   );
-}, 100000);
+}, 10000);
