@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { DateTime } from 'luxon';
 import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { EPOCH_REPEAT } from '../../../api-lib/constants';
+import { formatShortDateTime } from '../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   errorResponse,
@@ -35,13 +35,23 @@ async function handler(request: VercelRequest, response: VercelResponse) {
           },
           {
             id: true,
+            start_date: true,
+            end_date: true,
           },
         ],
       });
       if (epochs.length) {
+        const overlappingEpoch = epochs.pop();
         errorResponseWithStatusCode(
           response,
-          { message: 'You cannot have more than one repeating active epoch.' },
+          {
+            message:
+              `You cannot have more than one repeating active epoch. ` +
+              `Dates overlap with epoch id #${overlappingEpoch?.id} ` +
+              `that occurs between ` +
+              `${formatShortDateTime(overlappingEpoch?.start_date)} and ` +
+              `${formatShortDateTime(overlappingEpoch?.end_date)}`,
+          },
           422
         );
         return;
@@ -76,12 +86,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         {
           message:
             `This epoch overlaps with an existing epoch that occurs between ` +
-            `${DateTime.fromISO(epoch?.start_date).toLocaleString(
-              DateTime.DATETIME_SHORT
-            )} and ` +
-            `${DateTime.fromISO(epoch?.end_date).toLocaleString(
-              DateTime.DATETIME_SHORT
-            )}. ` +
+            `${formatShortDateTime(epoch?.start_date)} and ` +
+            `${formatShortDateTime(epoch?.end_date)}. ` +
             `Please adjust epoch settings to avoid overlapping with existing epochs`,
         },
         422
