@@ -37,7 +37,7 @@ const VaultsPage = () => {
         ))
       ) : (
         <Panel>
-          {isLoading
+          {isLoading || currentOrg.isLoading
             ? `Loading...`
             : `There are no vaults in your organization yet.`}
         </Panel>
