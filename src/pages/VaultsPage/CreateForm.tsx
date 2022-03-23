@@ -59,7 +59,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.data?.id);
+  const { createVault } = useVaultFactory(currentOrg.data?.id);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
 

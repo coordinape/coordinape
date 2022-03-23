@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
+
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 
 import { useApiBase } from 'hooks';
+import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -10,6 +13,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 export const CirclesPage = () => {
   const navigate = useNavigate();
   const { selectAndFetchCircle } = useApiBase();
+  const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
 
   const query = useQuery('myOrgs', () =>
     client.query({
@@ -32,8 +36,16 @@ export const CirclesPage = () => {
 
   const orgs = query.data?.organizations;
 
-  const pickCircle = (id: number) =>
+  useEffect(() => {
+    if (orgs && !currentOrgId) {
+      setCurrentOrgId(orgs[0].id);
+    }
+  }, [orgs]);
+
+  const pickCircle = (id: number) => {
+    setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
     selectAndFetchCircle(id).then(() => navigate(paths.history));
+  };
 
   return (
     <SingleColumnLayout>
