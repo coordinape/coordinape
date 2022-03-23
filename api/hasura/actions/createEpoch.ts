@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { EPOCH_REPEAT } from '../../../api-lib/constants';
@@ -8,7 +7,6 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   errorResponse,
   errorResponseWithStatusCode,
-  zodParserErrorResponse,
 } from '../../../api-lib/HttpError';
 import {
   createEpochInput,
@@ -112,10 +110,6 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
     response.status(200).json(insert_epochs_one);
   } catch (err) {
-    if (err instanceof z.ZodError) {
-      zodParserErrorResponse(response, err.issues);
-      return;
-    }
     errorResponse(response, err);
     return;
   }
