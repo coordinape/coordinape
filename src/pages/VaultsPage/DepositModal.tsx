@@ -12,7 +12,7 @@ import SingleTokenForm from 'forms/SingleTokenForm';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
-import { Contracts } from 'services/contracts';
+import { Contracts, Asset } from 'services/contracts';
 import { Box, Button } from 'ui';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
@@ -50,10 +50,9 @@ export default function DepositModal({
     if (!selectedContracts) return;
 
     (async () => {
-      const tokenAddress =
-        vault.symbol === 'OTHER'
-          ? vault.simple_token_address
-          : vault.token_address;
+      const tokenAddress = Object.values(Asset).includes(vault?.symbol as Asset)
+        ? vault.simple_token_address
+        : vault.token_address;
       const token = selectedContracts.getERC20(tokenAddress as string);
       const address = await selectedContracts.getMyAddress();
       if (address) {

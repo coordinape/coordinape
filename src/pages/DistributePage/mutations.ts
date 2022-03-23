@@ -27,24 +27,24 @@ export interface IDistribution {
   updated_at?: string;
 }
 
-export function useSaveEpochDistribution(
-  distribution: ValueTypes['distributions_insert_input'] | undefined
-) {
-  return useMutation(() => {
-    return client.mutate({
-      insert_distributions_one: [
-        {
-          object: { ...distribution },
-        },
-        {
-          id: true,
-          created_at: true,
-          epoch_id: true,
-          vault_id: true,
-          created_by: true,
-          merkle_root: true,
-        },
-      ],
-    });
-  });
+export function useSaveEpochDistribution() {
+  return useMutation(
+    (distribution?: ValueTypes['distributions_insert_input']) => {
+      return client.mutate({
+        insert_distributions_one: [
+          {
+            object: { ...distribution },
+          },
+          {
+            id: true,
+            created_at: true,
+            epoch_id: true,
+            vault_id: true,
+            created_by: true,
+            merkle_root: true,
+          },
+        ],
+      });
+    }
+  );
 }

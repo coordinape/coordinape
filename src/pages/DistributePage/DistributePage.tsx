@@ -57,9 +57,7 @@ function DistributePage() {
   const { uploadEpochRoot } = useDistributor();
   const selectedVault = vaults?.find(v => v.id === Number(selectedVaultId));
   const { apeError } = useApeSnackbar();
-  const [distributionDTO, setDistributionDTO] =
-    useState<ValueTypes['distributions_insert_input']>();
-  const { mutateAsync } = useSaveEpochDistribution(distributionDTO);
+  const { mutateAsync } = useSaveEpochDistribution();
 
   const {
     isLoading: isAllocationsLoading,
@@ -115,43 +113,43 @@ function DistributePage() {
         .getVault(selectedVault.vault_address)
         .vault();
       const distribution = createDistribution(gifts, totalDistributionAmount);
-      const trx = await uploadEpochRoot(
-        selectedVault.vault_address,
-        encodeCircleId(circle.id),
-        yVaultAddress.toString(),
-        distribution.merkleRoot,
-        totalDistributionAmount,
-        utils.hexlify(1)
-      );
+      const claims: ValueTypes['claims_insert_input'][] = Object.entries(
+        distribution.claims
+      ).map(([address, claim]) => ({
+        address,
+        index: claim.index,
+        amount: Number(
+          FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
+            FixedNumber.from(denominator)
+          )
+        ),
+        proof: claim.proof.toString(),
+        user_id: users.find(({ address }) => address === address)?.id,
+      }));
+
+      const updateDistribution: ValueTypes['distributions_insert_input'] = {
+        total_amount: Number(
+          FixedNumber.from(totalDistributionAmount, 'fixed128x18')
+        ),
+        epoch_id: Number(epochId),
+        merkle_root: distribution.merkleRoot,
+        claims: {
+          data: claims,
+        },
+        vault_id: Number(selectedVault.id),
+      };
+
+      const trx = await mutateAsync(updateDistribution);
 
       if (trx) {
-        const claims: ValueTypes['claims_insert_input'][] = Object.entries(
-          distribution.claims
-        ).map(([address, claim]) => ({
-          address,
-          index: claim.index,
-          amount: Number(
-            FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
-              FixedNumber.from(denominator)
-            )
-          ),
-          proof: claim.proof.toString(),
-          user_id: users.find(({ address }) => address === address)?.id,
-        }));
-
-        const updateDistribution: ValueTypes['distributions_insert_input'] = {
-          total_amount: Number(
-            FixedNumber.from(totalDistributionAmount, 'fixed128x18')
-          ),
-          epoch_id: Number(epochId),
-          merkle_root: distribution.merkleRoot,
-          claims: {
-            data: claims,
-          },
-          vault_id: Number(selectedVault.id),
-        };
-        setDistributionDTO(updateDistribution);
-        await mutateAsync();
+        await uploadEpochRoot(
+          selectedVault.vault_address,
+          encodeCircleId(circle.id),
+          yVaultAddress.toString(),
+          distribution.merkleRoot,
+          totalDistributionAmount,
+          utils.hexlify(1)
+        );
         setLoadingTrx(false);
       }
     } catch (e) {
