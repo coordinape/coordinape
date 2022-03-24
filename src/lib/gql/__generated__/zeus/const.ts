@@ -2841,6 +2841,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: true,
       required: true,
     },
+    on_conflict: {
+      type: 'claims_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
   },
   claims_avg_order_by: {
     amount: {
@@ -3002,6 +3008,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  claims_constraint: 'enum',
   claims_insert_input: {
     address: {
       type: 'String',
@@ -3182,6 +3189,26 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  claims_on_conflict: {
+    constraint: {
+      type: 'claims_constraint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    update_columns: {
+      type: 'claims_update_column',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    where: {
+      type: 'claims_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   claims_order_by: {
     address: {
       type: 'order_by',
@@ -3280,7 +3307,23 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  claims_pk_columns_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   claims_select_column: 'enum',
+  claims_set_input: {
+    claimed: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   claims_stddev_order_by: {
     amount: {
       type: 'order_by',
@@ -3457,6 +3500,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  claims_update_column: 'enum',
   claims_var_pop_order_by: {
     amount: {
       type: 'order_by',
@@ -3760,6 +3804,7 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  distributions_constraint: 'enum',
   distributions_insert_input: {
     claims: {
       type: 'claims_arr_rel_insert_input',
@@ -3804,6 +3849,32 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: true,
+    },
+    on_conflict: {
+      type: 'distributions_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_on_conflict: {
+    constraint: {
+      type: 'distributions_constraint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    update_columns: {
+      type: 'distributions_update_column',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    where: {
+      type: 'distributions_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
     },
   },
   distributions_order_by: {
@@ -3868,7 +3939,24 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  distributions_pk_columns_input: {
+    id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   distributions_select_column: 'enum',
+  distributions_set_input: {
+    saved_on_chain: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  distributions_update_column: 'enum',
   epochs: {
     burns: {
       distinct_on: {
@@ -4990,6 +5078,12 @@ export const AllTypesProps: Record<string, any> = {
         arrayRequired: true,
         required: true,
       },
+      on_conflict: {
+        type: 'claims_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
     },
     insert_claims_one: {
       object: {
@@ -4997,6 +5091,12 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: true,
+      },
+      on_conflict: {
+        type: 'claims_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
       },
     },
     insert_distributions: {
@@ -5006,6 +5106,12 @@ export const AllTypesProps: Record<string, any> = {
         arrayRequired: true,
         required: true,
       },
+      on_conflict: {
+        type: 'distributions_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
     },
     insert_distributions_one: {
       object: {
@@ -5013,6 +5119,12 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: true,
+      },
+      on_conflict: {
+        type: 'distributions_on_conflict',
+        array: false,
+        arrayRequired: false,
+        required: false,
       },
     },
     insert_vault_transactions: {
@@ -5090,6 +5202,62 @@ export const AllTypesProps: Record<string, any> = {
       },
       pk_columns: {
         type: 'circles_pk_columns_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_claims: {
+      _set: {
+        type: 'claims_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      where: {
+        type: 'claims_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_claims_by_pk: {
+      _set: {
+        type: 'claims_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      pk_columns: {
+        type: 'claims_pk_columns_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_distributions: {
+      _set: {
+        type: 'distributions_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      where: {
+        type: 'distributions_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    update_distributions_by_pk: {
+      _set: {
+        type: 'distributions_set_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      pk_columns: {
+        type: 'distributions_pk_columns_input',
         array: false,
         arrayRequired: false,
         required: true,
@@ -11762,6 +11930,10 @@ export const ReturnTypes: Record<string, any> = {
     updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
+    update_claims: 'claims_mutation_response',
+    update_claims_by_pk: 'claims',
+    update_distributions: 'distributions_mutation_response',
+    update_distributions_by_pk: 'distributions',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     uploadCircleLogo: 'UpdateCircleResponse',

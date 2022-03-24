@@ -2271,6 +2271,7 @@ columns and relationships of "distributions" */
     epoch_id?: boolean;
     id?: boolean;
     merkle_root?: boolean;
+    saved_on_chain?: boolean;
     total_amount?: boolean;
     /** An object relationship */
     vault?: ValueTypes['vaults'];
@@ -2325,6 +2326,7 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | null;
+    saved_on_chain?: ValueTypes['Boolean_comparison_exp'] | null;
     total_amount?: ValueTypes['numeric_comparison_exp'] | null;
     vault?: ValueTypes['vaults_bool_exp'] | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | null;
@@ -2348,6 +2350,7 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
+    saved_on_chain?: boolean | null;
     total_amount?: ValueTypes['numeric'] | null;
     vault?: ValueTypes['vaults_obj_rel_insert_input'] | null;
     vault_id?: ValueTypes['bigint'] | null;
@@ -2403,6 +2406,7 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
+    saved_on_chain?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
     vault?: ValueTypes['vaults_order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
@@ -2420,6 +2424,7 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
+    saved_on_chain?: boolean | null;
     total_amount?: ValueTypes['numeric'] | null;
     vault_id?: ValueTypes['bigint'] | null;
   };
@@ -10355,6 +10360,7 @@ columns and relationships of "distributions" */
     epoch_id: ModelTypes['bigint'];
     id: ModelTypes['bigint'];
     merkle_root?: string;
+    saved_on_chain: boolean;
     total_amount: ModelTypes['numeric'];
     /** An object relationship */
     vault: ModelTypes['vaults'];
@@ -13068,7 +13074,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     protocol: ModelTypes['organizations'];
     simple_token_address?: string;
-    symbol?: string;
+    symbol: string;
     token_address?: string;
     updated_at: ModelTypes['timestamptz'];
     /** An object relationship */
@@ -15371,6 +15377,7 @@ columns and relationships of "distributions" */
     epoch_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string;
+    saved_on_chain: boolean;
     total_amount: GraphQLTypes['numeric'];
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
@@ -15418,6 +15425,7 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     merkle_root?: GraphQLTypes['String_comparison_exp'];
+    saved_on_chain?: GraphQLTypes['Boolean_comparison_exp'];
     total_amount?: GraphQLTypes['numeric_comparison_exp'];
     vault?: GraphQLTypes['vaults_bool_exp'];
     vault_id?: GraphQLTypes['bigint_comparison_exp'];
@@ -15441,6 +15449,7 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
+    saved_on_chain?: boolean;
     total_amount?: GraphQLTypes['numeric'];
     vault?: GraphQLTypes['vaults_obj_rel_insert_input'];
     vault_id?: GraphQLTypes['bigint'];
@@ -15496,6 +15505,7 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
+    saved_on_chain?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
     vault?: GraphQLTypes['vaults_order_by'];
     vault_id?: GraphQLTypes['order_by'];
@@ -15513,6 +15523,7 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
+    saved_on_chain?: boolean;
     total_amount?: GraphQLTypes['numeric'];
     vault_id?: GraphQLTypes['bigint'];
   };
@@ -19756,7 +19767,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
     simple_token_address?: string;
-    symbol?: string;
+    symbol: string;
     token_address?: string;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -20413,6 +20424,7 @@ export const enum distributions_select_column {
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',
+  saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
   vault_id = 'vault_id',
 }
@@ -20423,6 +20435,7 @@ export const enum distributions_update_column {
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',
+  saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
   vault_id = 'vault_id',
 }

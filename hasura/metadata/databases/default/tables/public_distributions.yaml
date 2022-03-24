@@ -52,3 +52,16 @@ select_permissions:
               id:
                 _eq: X-Hasura-User-Id
   role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - saved_on_chain
+    filter:
+      epoch:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user

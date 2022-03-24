@@ -46,9 +46,6 @@ test('create a vault', async () => {
     daiAddress = contracts.getToken('DAI').address;
 
     createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
-      // eslint-disable-next-line no-console
-      console.log(v);
-      console.log(typeof v);
       if (v) vault = v as ValueTypes['vaults'];
     });
     return null;
@@ -69,9 +66,9 @@ test('create a vault', async () => {
       expect(vault.token_address).toEqual(daiAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 100000 }
+    { timeout: 10000 }
   );
-}, 100000);
+}, 10000);
 
 test('create a vault with a custom asset', async () => {
   let vault: ValueTypes['vaults'];
@@ -83,9 +80,6 @@ test('create a vault with a custom asset', async () => {
     if (!contracts) return null;
 
     createVault({ simpleTokenAddress: yamAddress }).then(v => {
-      // eslint-disable-next-line no-console
-      console.log(v);
-      console.log(typeof v);
       if (v) vault = v as ValueTypes['vaults'];
     });
     return null;
@@ -106,6 +100,6 @@ test('create a vault with a custom asset', async () => {
       expect(vault.simple_token_address).toEqual(yamAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 100000 }
+    { timeout: 10000 }
   );
-}, 100000);
+}, 10000);

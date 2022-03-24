@@ -48,3 +48,17 @@ export function useSaveEpochDistribution() {
     }
   );
 }
+
+export function useUpdateDistribution() {
+  return useMutation((id: number) => {
+    return client.mutate({
+      update_distributions_by_pk: [
+        {
+          _set: { saved_on_chain: true },
+          pk_columns: { id },
+        },
+        { id: true },
+      ],
+    });
+  });
+}

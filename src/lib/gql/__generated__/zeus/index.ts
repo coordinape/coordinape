@@ -859,6 +859,8 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: ValueTypes['claims_insert_input'][];
+    /** on conflict condition */
+    on_conflict?: ValueTypes['claims_on_conflict'] | null;
   };
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
@@ -892,6 +894,8 @@ export type ValueTypes = {
     user?: ValueTypes['users_bool_exp'] | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | null;
   };
+  /** unique or primary key constraints on table "claims" */
+  ['claims_constraint']: claims_constraint;
   /** input type for inserting data into table "claims" */
   ['claims_insert_input']: {
     address?: string | null;
@@ -938,6 +942,12 @@ export type ValueTypes = {
     returning?: ValueTypes['claims'];
     __typename?: boolean;
   }>;
+  /** on conflict condition type for table "claims" */
+  ['claims_on_conflict']: {
+    constraint: ValueTypes['claims_constraint'];
+    update_columns: ValueTypes['claims_update_column'][];
+    where?: ValueTypes['claims_bool_exp'] | null;
+  };
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: {
     address?: ValueTypes['order_by'] | null;
@@ -957,8 +967,16 @@ export type ValueTypes = {
     user?: ValueTypes['users_order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
+  /** primary key columns input for table: claims */
+  ['claims_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
   /** select columns of table "claims" */
   ['claims_select_column']: claims_select_column;
+  /** input type for updating data in table "claims" */
+  ['claims_set_input']: {
+    claimed?: boolean | null;
+  };
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: ValueTypes['order_by'] | null;
@@ -999,6 +1017,8 @@ export type ValueTypes = {
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
+  /** update columns of table "claims" */
+  ['claims_update_column']: claims_update_column;
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: ValueTypes['order_by'] | null;
@@ -1089,6 +1109,8 @@ columns and relationships of "distributions" */
     vault?: ValueTypes['vaults_bool_exp'] | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | null;
   };
+  /** unique or primary key constraints on table "distributions" */
+  ['distributions_constraint']: distributions_constraint;
   /** input type for inserting data into table "distributions" */
   ['distributions_insert_input']: {
     claims?: ValueTypes['claims_arr_rel_insert_input'] | null;
@@ -1109,6 +1131,14 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: ValueTypes['distributions_insert_input'];
+    /** on conflict condition */
+    on_conflict?: ValueTypes['distributions_on_conflict'] | null;
+  };
+  /** on conflict condition type for table "distributions" */
+  ['distributions_on_conflict']: {
+    constraint: ValueTypes['distributions_constraint'];
+    update_columns: ValueTypes['distributions_update_column'][];
+    where?: ValueTypes['distributions_bool_exp'] | null;
   };
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: {
@@ -1123,8 +1153,18 @@ columns and relationships of "distributions" */
     vault?: ValueTypes['vaults_order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
+  /** primary key columns input for table: distributions */
+  ['distributions_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
   /** select columns of table "distributions" */
   ['distributions_select_column']: distributions_select_column;
+  /** input type for updating data in table "distributions" */
+  ['distributions_set_input']: {
+    saved_on_chain?: boolean | null;
+  };
+  /** update columns of table "distributions" */
+  ['distributions_update_column']: distributions_update_column;
   /** columns and relationships of "epoches" */
   ['epochs']: AliasType<{
     burns?: [
@@ -1445,27 +1485,32 @@ columns and relationships of "distributions" */
     insert_claims?: [
       {
         /** the rows to be inserted */
-        objects: ValueTypes['claims_insert_input'][];
+        objects: ValueTypes['claims_insert_input'][] /** on conflict condition */;
+        on_conflict?: ValueTypes['claims_on_conflict'] | null;
       },
       ValueTypes['claims_mutation_response']
     ];
     insert_claims_one?: [
       {
-        /** the row to be inserted */ object: ValueTypes['claims_insert_input'];
+        /** the row to be inserted */
+        object: ValueTypes['claims_insert_input'] /** on conflict condition */;
+        on_conflict?: ValueTypes['claims_on_conflict'] | null;
       },
       ValueTypes['claims']
     ];
     insert_distributions?: [
       {
         /** the rows to be inserted */
-        objects: ValueTypes['distributions_insert_input'][];
+        objects: ValueTypes['distributions_insert_input'][] /** on conflict condition */;
+        on_conflict?: ValueTypes['distributions_on_conflict'] | null;
       },
       ValueTypes['distributions_mutation_response']
     ];
     insert_distributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['distributions_insert_input'];
+        object: ValueTypes['distributions_insert_input'] /** on conflict condition */;
+        on_conflict?: ValueTypes['distributions_on_conflict'] | null;
       },
       ValueTypes['distributions']
     ];
@@ -1524,6 +1569,42 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['circles_pk_columns_input'];
       },
       ValueTypes['circles']
+    ];
+    update_claims?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['claims_set_input']
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['claims_bool_exp'];
+      },
+      ValueTypes['claims_mutation_response']
+    ];
+    update_claims_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['claims_set_input'] | null;
+        pk_columns: ValueTypes['claims_pk_columns_input'];
+      },
+      ValueTypes['claims']
+    ];
+    update_distributions?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['distributions_set_input']
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['distributions_bool_exp'];
+      },
+      ValueTypes['distributions_mutation_response']
+    ];
+    update_distributions_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['distributions_set_input'] | null;
+        pk_columns: ValueTypes['distributions_pk_columns_input'];
+      },
+      ValueTypes['distributions']
     ];
     update_profiles?: [
       {
@@ -3940,6 +4021,8 @@ export type ModelTypes = {
   ['claims_avg_order_by']: GraphQLTypes['claims_avg_order_by'];
   /** Boolean expression to filter rows from the table "claims". All fields are combined with a logical 'AND'. */
   ['claims_bool_exp']: GraphQLTypes['claims_bool_exp'];
+  /** unique or primary key constraints on table "claims" */
+  ['claims_constraint']: GraphQLTypes['claims_constraint'];
   /** input type for inserting data into table "claims" */
   ['claims_insert_input']: GraphQLTypes['claims_insert_input'];
   /** order by max() on columns of table "claims" */
@@ -3953,10 +4036,16 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: ModelTypes['claims'][];
   };
+  /** on conflict condition type for table "claims" */
+  ['claims_on_conflict']: GraphQLTypes['claims_on_conflict'];
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: GraphQLTypes['claims_order_by'];
+  /** primary key columns input for table: claims */
+  ['claims_pk_columns_input']: GraphQLTypes['claims_pk_columns_input'];
   /** select columns of table "claims" */
   ['claims_select_column']: GraphQLTypes['claims_select_column'];
+  /** input type for updating data in table "claims" */
+  ['claims_set_input']: GraphQLTypes['claims_set_input'];
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: GraphQLTypes['claims_stddev_order_by'];
   /** order by stddev_pop() on columns of table "claims" */
@@ -3965,6 +4054,8 @@ export type ModelTypes = {
   ['claims_stddev_samp_order_by']: GraphQLTypes['claims_stddev_samp_order_by'];
   /** order by sum() on columns of table "claims" */
   ['claims_sum_order_by']: GraphQLTypes['claims_sum_order_by'];
+  /** update columns of table "claims" */
+  ['claims_update_column']: GraphQLTypes['claims_update_column'];
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: GraphQLTypes['claims_var_pop_order_by'];
   /** order by var_samp() on columns of table "claims" */
@@ -3995,6 +4086,8 @@ columns and relationships of "distributions" */
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
   ['distributions_bool_exp']: GraphQLTypes['distributions_bool_exp'];
+  /** unique or primary key constraints on table "distributions" */
+  ['distributions_constraint']: GraphQLTypes['distributions_constraint'];
   /** input type for inserting data into table "distributions" */
   ['distributions_insert_input']: GraphQLTypes['distributions_insert_input'];
   /** response of any mutation on the table "distributions" */
@@ -4006,10 +4099,18 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: GraphQLTypes['distributions_obj_rel_insert_input'];
+  /** on conflict condition type for table "distributions" */
+  ['distributions_on_conflict']: GraphQLTypes['distributions_on_conflict'];
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
+  /** primary key columns input for table: distributions */
+  ['distributions_pk_columns_input']: GraphQLTypes['distributions_pk_columns_input'];
   /** select columns of table "distributions" */
   ['distributions_select_column']: GraphQLTypes['distributions_select_column'];
+  /** input type for updating data in table "distributions" */
+  ['distributions_set_input']: GraphQLTypes['distributions_set_input'];
+  /** update columns of table "distributions" */
+  ['distributions_update_column']: GraphQLTypes['distributions_update_column'];
   /** columns and relationships of "epoches" */
   ['epochs']: {
     /** An array relationship */
@@ -4119,6 +4220,14 @@ columns and relationships of "distributions" */
     update_circles?: ModelTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
     update_circles_by_pk?: ModelTypes['circles'];
+    /** update data of the table: "claims" */
+    update_claims?: ModelTypes['claims_mutation_response'];
+    /** update single row of the table: "claims" */
+    update_claims_by_pk?: ModelTypes['claims'];
+    /** update data of the table: "distributions" */
+    update_distributions?: ModelTypes['distributions_mutation_response'];
+    /** update single row of the table: "distributions" */
+    update_distributions_by_pk?: ModelTypes['distributions'];
     /** update data of the table: "profiles" */
     update_profiles?: ModelTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
@@ -4756,7 +4865,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     protocol: ModelTypes['organizations'];
     simple_token_address?: string;
-    symbol?: string;
+    symbol: string;
     token_address?: string;
     updated_at: ModelTypes['timestamptz'];
     /** An object relationship */
@@ -5582,6 +5691,8 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['claims_insert_input']>;
+    /** on conflict condition */
+    on_conflict?: GraphQLTypes['claims_on_conflict'];
   };
   /** order by avg() on columns of table "claims" */
   ['claims_avg_order_by']: {
@@ -5615,6 +5726,8 @@ export type GraphQLTypes = {
     user?: GraphQLTypes['users_bool_exp'];
     user_id?: GraphQLTypes['bigint_comparison_exp'];
   };
+  /** unique or primary key constraints on table "claims" */
+  ['claims_constraint']: claims_constraint;
   /** input type for inserting data into table "claims" */
   ['claims_insert_input']: {
     address?: string;
@@ -5661,6 +5774,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
+  /** on conflict condition type for table "claims" */
+  ['claims_on_conflict']: {
+    constraint: GraphQLTypes['claims_constraint'];
+    update_columns: Array<GraphQLTypes['claims_update_column']>;
+    where?: GraphQLTypes['claims_bool_exp'];
+  };
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: {
     address?: GraphQLTypes['order_by'];
@@ -5680,8 +5799,16 @@ export type GraphQLTypes = {
     user?: GraphQLTypes['users_order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
+  /** primary key columns input for table: claims */
+  ['claims_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
   /** select columns of table "claims" */
   ['claims_select_column']: claims_select_column;
+  /** input type for updating data in table "claims" */
+  ['claims_set_input']: {
+    claimed?: boolean;
+  };
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'];
@@ -5722,6 +5849,8 @@ export type GraphQLTypes = {
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
+  /** update columns of table "claims" */
+  ['claims_update_column']: claims_update_column;
   /** order by var_pop() on columns of table "claims" */
   ['claims_var_pop_order_by']: {
     amount?: GraphQLTypes['order_by'];
@@ -5801,6 +5930,8 @@ columns and relationships of "distributions" */
     vault?: GraphQLTypes['vaults_bool_exp'];
     vault_id?: GraphQLTypes['bigint_comparison_exp'];
   };
+  /** unique or primary key constraints on table "distributions" */
+  ['distributions_constraint']: distributions_constraint;
   /** input type for inserting data into table "distributions" */
   ['distributions_insert_input']: {
     claims?: GraphQLTypes['claims_arr_rel_insert_input'];
@@ -5821,6 +5952,14 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: GraphQLTypes['distributions_insert_input'];
+    /** on conflict condition */
+    on_conflict?: GraphQLTypes['distributions_on_conflict'];
+  };
+  /** on conflict condition type for table "distributions" */
+  ['distributions_on_conflict']: {
+    constraint: GraphQLTypes['distributions_constraint'];
+    update_columns: Array<GraphQLTypes['distributions_update_column']>;
+    where?: GraphQLTypes['distributions_bool_exp'];
   };
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: {
@@ -5835,8 +5974,18 @@ columns and relationships of "distributions" */
     vault?: GraphQLTypes['vaults_order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
+  /** primary key columns input for table: distributions */
+  ['distributions_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
   /** select columns of table "distributions" */
   ['distributions_select_column']: distributions_select_column;
+  /** input type for updating data in table "distributions" */
+  ['distributions_set_input']: {
+    saved_on_chain?: boolean;
+  };
+  /** update columns of table "distributions" */
+  ['distributions_update_column']: distributions_update_column;
   /** columns and relationships of "epoches" */
   ['epochs']: {
     __typename: 'epochs';
@@ -6123,6 +6272,14 @@ columns and relationships of "distributions" */
     update_circles?: GraphQLTypes['circles_mutation_response'];
     /** update single row of the table: "circles" */
     update_circles_by_pk?: GraphQLTypes['circles'];
+    /** update data of the table: "claims" */
+    update_claims?: GraphQLTypes['claims_mutation_response'];
+    /** update single row of the table: "claims" */
+    update_claims_by_pk?: GraphQLTypes['claims'];
+    /** update data of the table: "distributions" */
+    update_distributions?: GraphQLTypes['distributions_mutation_response'];
+    /** update single row of the table: "distributions" */
+    update_distributions_by_pk?: GraphQLTypes['distributions'];
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'];
     /** update single row of the table: "profiles" */
@@ -7474,7 +7631,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
     simple_token_address?: string;
-    symbol?: string;
+    symbol: string;
     token_address?: string;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -7706,6 +7863,10 @@ export const enum circles_select_column {
   vouching = 'vouching',
   vouching_text = 'vouching_text',
 }
+/** unique or primary key constraints on table "claims" */
+export const enum claims_constraint {
+  claims_pkey = 'claims_pkey',
+}
 /** select columns of table "claims" */
 export const enum claims_select_column {
   address = 'address',
@@ -7721,6 +7882,14 @@ export const enum claims_select_column {
   updated_by = 'updated_by',
   user_id = 'user_id',
 }
+/** update columns of table "claims" */
+export const enum claims_update_column {
+  claimed = 'claimed',
+}
+/** unique or primary key constraints on table "distributions" */
+export const enum distributions_constraint {
+  distributions_pkey = 'distributions_pkey',
+}
 /** select columns of table "distributions" */
 export const enum distributions_select_column {
   created_at = 'created_at',
@@ -7730,6 +7899,10 @@ export const enum distributions_select_column {
   merkle_root = 'merkle_root',
   total_amount = 'total_amount',
   vault_id = 'vault_id',
+}
+/** update columns of table "distributions" */
+export const enum distributions_update_column {
+  saved_on_chain = 'saved_on_chain',
 }
 /** select columns of table "epoches" */
 export const enum epochs_select_column {

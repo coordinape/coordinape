@@ -5512,6 +5512,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    saved_on_chain: {
+      type: 'Boolean_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     total_amount: {
       type: 'numeric_comparison_exp',
       array: false,
@@ -5603,6 +5609,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     merkle_root: {
       type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    saved_on_chain: {
+      type: 'Boolean',
       array: false,
       arrayRequired: false,
       required: false,
@@ -5703,6 +5715,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    saved_on_chain: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     total_amount: {
       type: 'order_by',
       array: false,
@@ -5758,6 +5776,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     merkle_root: {
       type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    saved_on_chain: {
+      type: 'Boolean',
       array: false,
       arrayRequired: false,
       required: false,
@@ -21069,6 +21093,7 @@ export const ReturnTypes: Record<string, any> = {
     epoch_id: 'bigint',
     id: 'bigint',
     merkle_root: 'String',
+    saved_on_chain: 'Boolean',
     total_amount: 'numeric',
     vault: 'vaults',
     vault_id: 'bigint',

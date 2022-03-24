@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { isUserAdmin } from 'lib/users';
 import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -14,7 +15,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
-import { isUserAdmin } from '../../utils/userHelpers';
 import { ApeTextField } from 'components';
 import { useDistributor, useApeSnackbar } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
@@ -23,7 +23,7 @@ import { useContracts } from 'hooks/useContracts';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useSaveEpochDistribution } from './mutations';
+import { useSaveEpochDistribution, useUpdateDistribution } from './mutations';
 import { useCurrentUserForEpoch, useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
 
@@ -58,6 +58,8 @@ function DistributePage() {
   const selectedVault = vaults?.find(v => v.id === Number(selectedVaultId));
   const { apeError } = useApeSnackbar();
   const { mutateAsync } = useSaveEpochDistribution();
+  const { mutateAsync: updateDistributionMutateAsync } =
+    useUpdateDistribution();
 
   const {
     isLoading: isAllocationsLoading,
@@ -139,19 +141,22 @@ function DistributePage() {
         vault_id: Number(selectedVault.id),
       };
 
-      const trx = await mutateAsync(updateDistribution);
+      const { insert_distributions_one } = await mutateAsync(
+        updateDistribution
+      );
+      assert(insert_distributions_one, 'Distribution was not saved.');
 
-      if (trx) {
-        await uploadEpochRoot(
-          selectedVault.vault_address,
-          encodeCircleId(circle.id),
-          yVaultAddress.toString(),
-          distribution.merkleRoot,
-          totalDistributionAmount,
-          utils.hexlify(1)
-        );
-        setLoadingTrx(false);
-      }
+      await uploadEpochRoot(
+        selectedVault.vault_address,
+        encodeCircleId(circle.id),
+        yVaultAddress.toString(),
+        distribution.merkleRoot,
+        totalDistributionAmount,
+        utils.hexlify(1)
+      );
+
+      await updateDistributionMutateAsync(insert_distributions_one.id);
+      setLoadingTrx(false);
     } catch (e) {
       console.error(e);
       apeError(e);
