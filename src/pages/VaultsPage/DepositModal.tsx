@@ -4,6 +4,7 @@ import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers, utils } from 'ethers';
+import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { useNavigate } from 'react-router-dom';
 
 import { FormModal, FormTokenField } from 'components';
@@ -11,11 +12,9 @@ import SingleTokenForm from 'forms/SingleTokenForm';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
-import { Contracts } from 'services/contracts';
+import { Contracts, Asset } from 'services/contracts';
 import { Box, Button } from 'ui';
 import { makeWalletConnectConnector } from 'utils/connectors';
-
-import { IVault } from 'types';
 
 export default function DepositModal({
   open,
@@ -26,7 +25,7 @@ export default function DepositModal({
   onClose: () => void;
   onDeposit: () => void;
   open?: boolean;
-  vault: IVault;
+  vault: GraphQLTypes['vaults'];
 }) {
   const navigate = useNavigate();
   const [max, setMax] = useState<any>();
@@ -51,9 +50,10 @@ export default function DepositModal({
     if (!selectedContracts) return;
 
     (async () => {
-      const tokenAddress =
-        vault.type === 'OTHER' ? vault.simpleTokenAddress : vault.tokenAddress;
-      const token = selectedContracts.getERC20(tokenAddress);
+      const tokenAddress = Object.values(Asset).includes(vault?.symbol as Asset)
+        ? vault.simple_token_address
+        : vault.token_address;
+      const token = selectedContracts.getERC20(tokenAddress as string);
       const address = await selectedContracts.getMyAddress();
       if (address) {
         const balance = await token.balanceOf(address);
@@ -88,13 +88,13 @@ export default function DepositModal({
         <FormModal
           onClose={onClose}
           open={open}
-          title={`Deposit ${vault.type.toUpperCase()}`}
+          title={`Deposit ${vault.symbol?.toUpperCase()}`}
           subtitle=""
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           size="small"
           icon={<PlusCircleIcon />}
-          submitText={`Deposit ${vault.type.toUpperCase()}`}
+          submitText={`Deposit ${vault.symbol?.toUpperCase()}`}
         >
           <Box css={{ my: '$2xl' }}>
             <SecondWallet
@@ -104,9 +104,9 @@ export default function DepositModal({
             <FormTokenField
               {...fields.amount}
               max={max}
-              symbol={vault.type}
+              symbol={vault.symbol as string}
               decimals={vault.decimals}
-              label={`Available: ${max} ${vault.type.toUpperCase()}`}
+              label={`Available: ${max} ${vault.symbol?.toUpperCase()}`}
             />
           </Box>
         </FormModal>

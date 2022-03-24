@@ -1,3 +1,78 @@
 table:
   name: claims
   schema: public
+object_relationships:
+- name: createdByUser
+  using:
+    foreign_key_constraint_on: created_by
+- name: distribution
+  using:
+    foreign_key_constraint_on: distribution_id
+- name: updatedByUser
+  using:
+    foreign_key_constraint_on: updated_by
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      distribution:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+    columns:
+    - address
+    - amount
+    - id
+    - index
+    - proof
+    - user_id
+    set:
+      created_by: x-hasura-User-Id
+      updated_by: x-hasura-User-Id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - address
+    - amount
+    - claimed
+    - created_at
+    - created_by
+    - distribution_id
+    - id
+    - index
+    - proof
+    - updated_at
+    - updated_by
+    - user_id
+    filter:
+      distribution:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - claimed
+    filter:
+      distribution:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+    set:
+      updated_by: x-hasura-User-Id
+  role: user

@@ -112,9 +112,6 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
     createVault({ type: symbol, simpleTokenAddress: customAddress }).then(
       vault => {
         if (!vault) return;
-
-        // eslint-disable-next-line no-console
-        console.log('created vault:', vault);
         navigate('/admin/vaults');
         onSuccess();
       }

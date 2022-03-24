@@ -96,6 +96,26 @@ export const deleteCircleIntegration = async (id: number) =>
     delete_circle_integrations_by_pk: [{ id }, { id: true }],
   });
 
+export const addVault = (vault: ValueTypes['vaults_insert_input']) =>
+  client.mutate({
+    insert_vaults_one: [
+      {
+        object: vault,
+      },
+      {
+        id: true,
+        org_id: true,
+        token_address: true,
+        simple_token_address: true,
+        symbol: true,
+        decimals: true,
+        vault_address: true,
+        created_at: true,
+        created_by: true,
+      },
+    ],
+  });
+
 export const logout = async (): Promise<boolean> => {
   const { logoutUser } = await client.mutate({
     logoutUser: {

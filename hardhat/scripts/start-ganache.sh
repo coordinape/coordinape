@@ -31,6 +31,11 @@ if [ ! "$PORT" ]; then
   exit 1
 fi
 
+if [ ! "$ETHEREUM_RPC_URL" ]; then
+  echo "Env doesn't have ETHEREUM_RPC_URL set; can't continue."
+  exit 1
+fi
+
 if nc -z 127.0.0.1 $PORT >/dev/null 2>&1; then
   echo "Using existing testchain at port $PORT."
 
@@ -50,7 +55,7 @@ else
       --port $PORT
       --mnemonic coordinape
       --fork.url $ETHEREUM_RPC_URL
-      --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"latest"}
+      --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
       --miner.defaultGasPrice 0x7735940000
   )
 
