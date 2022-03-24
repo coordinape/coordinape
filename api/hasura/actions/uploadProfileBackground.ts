@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { errorResponse } from '../../../api-lib/HttpError';
 import { resizeBackground } from '../../../api-lib/images';
 import { ImageUpdater } from '../../../api-lib/ImageUpdater';
 import {
@@ -21,15 +20,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     profileUpdateBackgroundMutation(hasuraProfileId)
   );
 
-  try {
-    const updatedProfile = await updater.uploadImage(
-      input.image_data_base64,
-      previousBackground
-    );
-    return res.status(200).json(updatedProfile);
-  } catch (e: any) {
-    return errorResponse(res, e);
-  }
+  const updatedProfile = await updater.uploadImage(
+    input.image_data_base64,
+    previousBackground
+  );
+  return res.status(200).json(updatedProfile);
 }
 
 export default verifyHasuraRequestMiddleware(handler);

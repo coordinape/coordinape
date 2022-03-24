@@ -2,7 +2,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../api-lib/images';
 import { ImageUpdater } from '../../../api-lib/ImageUpdater';
 import {
@@ -20,22 +19,18 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
     HasuraUserSessionVariables
   ).parse(req.body);
 
-  try {
-    const previousLogo = await getPreviousLogo(input.circle_id);
+  const previousLogo = await getPreviousLogo(input.circle_id);
 
-    const updater = new ImageUpdater<{ id: number }>(
-      resizeCircleLogo,
-      logoUpdater(input.circle_id)
-    );
+  const updater = new ImageUpdater<{ id: number }>(
+    resizeCircleLogo,
+    logoUpdater(input.circle_id)
+  );
 
-    const updatedProfile = await updater.uploadImage(
-      input.image_data_base64,
-      previousLogo
-    );
-    return res.status(200).json(updatedProfile);
-  } catch (e: any) {
-    return errorResponse(res, e);
-  }
+  const updatedProfile = await updater.uploadImage(
+    input.image_data_base64,
+    previousLogo
+  );
+  return res.status(200).json(updatedProfile);
 };
 
 async function getPreviousLogo(id: number): Promise<string | undefined> {

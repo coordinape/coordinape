@@ -15,7 +15,6 @@ Sentry.init({
   // ignoreErrors accepts regex. Strings will match partially.
   ignoreErrors: [
     'MetaMask: Received invalid isUnlocked parameter.',
-    'Supported chain ids are: 1.',
     'The user rejected the request.',
     'pktAnnotationHighlighter', // https://github.com/LessWrong2/Lesswrong2/issues/1150
   ],

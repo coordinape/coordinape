@@ -30,6 +30,7 @@ export type ValueTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string | null;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
@@ -53,6 +54,13 @@ export type ValueTypes = {
     ];
     __typename?: boolean;
   }>;
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['CreateNomineeInput']: {
     address: string;
     circle_id: number;
@@ -76,6 +84,12 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['EpochResponse']: AliasType<{
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | null;
@@ -1448,6 +1462,10 @@ columns and relationships of "distributions" */
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
       ValueTypes['CreateCircleResponse']
+    ];
+    createEpoch?: [
+      { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     createNominee?: [
       { payload: ValueTypes['CreateNomineeInput'] },
@@ -3761,6 +3779,7 @@ export type ModelTypes = {
     /** An array relationship */
     users: ModelTypes['users'][];
   };
+  ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number;
@@ -3768,6 +3787,11 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['EpochResponse']: {
+    /** An object relationship */
+    epoch: ModelTypes['epochs'];
+    id: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LogoutResponse']: {
@@ -3935,7 +3959,7 @@ export type ModelTypes = {
     organization?: ModelTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     /** An array relationship */
@@ -4187,6 +4211,7 @@ columns and relationships of "distributions" */
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
     createCircle?: ModelTypes['CreateCircleResponse'];
+    createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */
@@ -4959,6 +4984,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string;
     protocol_id?: number;
     protocol_name?: string;
     user_name: string;
@@ -4970,6 +4996,13 @@ export type GraphQLTypes = {
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
+  };
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['CreateNomineeInput']: {
     address: string;
@@ -4993,6 +5026,12 @@ export type GraphQLTypes = {
     non_receiver?: boolean;
     role?: number;
     starting_tokens?: number;
+  };
+  ['EpochResponse']: {
+    __typename: 'EpochResponse';
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    id: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -5438,7 +5477,7 @@ export type GraphQLTypes = {
     organization?: GraphQLTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     /** An array relationship */
@@ -6239,6 +6278,7 @@ columns and relationships of "distributions" */
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'];
     createCircle?: GraphQLTypes['CreateCircleResponse'];
+    createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
     /** delete data from the table: "circle_integrations" */

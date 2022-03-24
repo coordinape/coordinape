@@ -2,13 +2,17 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import {
+  errorResponse,
+  errorResponseWithStatusCode,
+} from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { HasuraUserSessionVariables } from '../../../src/lib/zod';
 
-async function handler(request: VercelRequest, response: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { hasuraProfileId } = HasuraUserSessionVariables.parse(
-      request.body.session_variables
+      req.body.session_variables
     );
     await adminClient.mutate({
       delete_personal_access_tokens: [
@@ -23,19 +27,12 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         },
       ],
     });
-    return response.status(200).json({ id: hasuraProfileId });
+    return res.status(200).json({ id: hasuraProfileId });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return response.status(422).json({
-        extensions: err.issues,
-        message: 'Invalid input',
-        code: '422',
-      });
+      return errorResponse(res, err);
     }
-    return response.status(401).json({
-      message: 'Unexpected error',
-      code: '401',
-    });
+    return errorResponseWithStatusCode(res, 'Unexpected error', 401);
   }
 }
 

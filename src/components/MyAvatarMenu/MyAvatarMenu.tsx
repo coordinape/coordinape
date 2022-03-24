@@ -4,20 +4,20 @@ import clsx from 'clsx';
 import { useRecoilValueLoadable } from 'recoil';
 
 import {
-  Popover,
-  makeStyles,
+  Button,
   Divider,
   Hidden,
-  Button,
+  makeStyles,
+  Popover,
 } from '@material-ui/core';
 
 import {
-  CirclesHeaderSection,
   ApeAvatar,
+  CirclesHeaderSection,
   MenuNavigationLinks,
 } from 'components';
 import { useSelectedCircle } from 'recoilState';
-import { useMyProfile, rSelectedCircle } from 'recoilState/app';
+import { rSelectedCircle, useMyProfile } from 'recoilState/app';
 import { useSetCircleSelectorOpen } from 'recoilState/ui';
 
 const useStyles = makeStyles(theme => ({
@@ -105,7 +105,6 @@ const useStyles = makeStyles(theme => ({
   },
   feedbackButton: {
     backgroundColor: '#2a849b',
-    width: '100%',
     margin: theme.spacing(1.5, 0, 0),
     padding: theme.spacing(1.5, 0, 1.5, 5),
     borderRadius: 0,
@@ -192,23 +191,20 @@ export const MyAvatarMenu = () => {
               <CirclesSelectorSection handleOnClick={() => setAnchorEl(null)} />
             </>
           )}
-          <a
+          <Button
+            className={classes.feedbackButton}
+            disableElevation
+            fullWidth
+            variant="contained"
+            color="primary"
             href={
               'https://notionforms.io/forms/give-us-your-feedback-improve-coordinape'
             }
-            rel="noreferrer"
             target="_blank"
+            onClick={() => {}}
           >
-            <Button
-              className={classes.feedbackButton}
-              disableElevation
-              variant="contained"
-              color="primary"
-              onClick={() => {}}
-            >
-              Give Feedback
-            </Button>
-          </a>
+            Give Feedback
+          </Button>
         </Popover>
       </Hidden>
     </>

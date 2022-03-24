@@ -120,6 +120,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     protocol_id: {
       type: 'Int',
       array: false,
@@ -203,6 +209,38 @@ export const AllTypesProps: Record<string, any> = {
         arrayRequired: false,
         required: false,
       },
+    },
+  },
+  CreateEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    days: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    grant: {
+      type: 'Float',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    start_date: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: true,
     },
   },
   CreateNomineeInput: {
@@ -3221,6 +3259,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'String_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp_comparison_exp',
       array: false,
@@ -3424,6 +3468,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'timestamp',
       array: false,
@@ -3576,6 +3626,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    contact: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     created_at: {
       type: 'order_by',
       array: false,
@@ -3657,6 +3713,12 @@ export const AllTypesProps: Record<string, any> = {
   },
   circles_min_order_by: {
     alloc_text: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3802,6 +3864,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     circle_private: {
       type: 'circle_private_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
+      type: 'order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3969,6 +4037,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     auto_opt_out: {
       type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    contact: {
+      type: 'String',
       array: false,
       arrayRequired: false,
       required: false,
@@ -7764,6 +7838,14 @@ export const AllTypesProps: Record<string, any> = {
     createCircle: {
       payload: {
         type: 'CreateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createEpoch: {
+      payload: {
+        type: 'CreateEpochInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -20455,6 +20537,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     nominee: 'nominees',
   },
+  EpochResponse: {
+    epoch: 'epochs',
+    id: 'ID',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -20816,6 +20902,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_metadata: 'circle_metadata',
     circle_metadata_aggregate: 'circle_metadata_aggregate',
     circle_private: 'circle_private',
+    contact: 'String',
     created_at: 'timestamp',
     default_opt_in: 'Boolean',
     discord_webhook: 'String',
@@ -20871,6 +20958,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   circles_max_fields: {
     alloc_text: 'String',
+    contact: 'String',
     created_at: 'timestamp',
     discord_webhook: 'String',
     id: 'bigint',
@@ -20887,6 +20975,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   circles_min_fields: {
     alloc_text: 'String',
+    contact: 'String',
     created_at: 'timestamp',
     discord_webhook: 'String',
     id: 'bigint',
@@ -21534,6 +21623,7 @@ export const ReturnTypes: Record<string, any> = {
   mutation_root: {
     adminUpdateUser: 'UserResponse',
     createCircle: 'CreateCircleResponse',
+    createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
     delete_burns: 'burns_mutation_response',

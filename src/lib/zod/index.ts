@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
-import { zEthAddressOnly } from '../../../src/forms/formHelpers';
+import {
+  zEthAddressOnly,
+  zStringISODateUTC,
+} from '../../../src/forms/formHelpers';
 
 export const createCircleSchemaInput = z
   .object({
@@ -8,12 +11,11 @@ export const createCircleSchemaInput = z
     circle_name: z.string().min(3).max(255),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
+    contact: z.string().min(3).max(255).optional(),
   })
   .strict()
   .refine(
-    data =>
-      (data.protocol_name || data.protocol_id) &&
-      !(data.protocol_name && data.protocol_id),
+    data => data.protocol_name || data.protocol_id,
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
@@ -93,6 +95,36 @@ export const deleteEpochInput = z
     circle_id: z.number().int().positive(),
   })
   .strict();
+
+export const createEpochInput = z
+  .object({
+    circle_id: z.number().int().positive(),
+    start_date: zStringISODateUTC,
+    repeat: z.number().int().min(0).max(2),
+    days: z
+      .number()
+      .min(1, 'Must be at least one day.')
+      .max(100, 'cant be more than 100 days'),
+    grant: z.number().positive().min(1).max(1000000000).optional(),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    let message;
+    if (val.days > 7 && val.repeat === 1) {
+      message =
+        'You cannot have more than 7 days length for a weekly repeating epoch.';
+    } else if (val.days > 28 && val.repeat === 2) {
+      message =
+        'You cannot have more than 28 days length for a monthly repeating epoch.';
+    }
+
+    if (message) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message,
+      });
+    }
+  });
 
 export const HasuraAdminSessionVariables = z
   .object({

@@ -120,6 +120,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: true,
     },
+    contact: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     protocol_id: {
       type: 'Int',
       array: false,
@@ -171,6 +177,38 @@ export const AllTypesProps: Record<string, any> = {
         arrayRequired: false,
         required: false,
       },
+    },
+  },
+  CreateEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    days: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    grant: {
+      type: 'Float',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    repeat: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    start_date: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: true,
     },
   },
   CreateNomineeInput: {
@@ -5018,6 +5056,14 @@ export const AllTypesProps: Record<string, any> = {
     createCircle: {
       payload: {
         type: 'CreateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createEpoch: {
+      payload: {
+        type: 'CreateEpochInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -11759,6 +11805,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     nominee: 'nominees',
   },
+  EpochResponse: {
+    epoch: 'epochs',
+    id: 'ID',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -11912,6 +11962,7 @@ export const ReturnTypes: Record<string, any> = {
   mutation_root: {
     adminUpdateUser: 'UserResponse',
     createCircle: 'CreateCircleResponse',
+    createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
     delete_circle_integrations: 'circle_integrations_mutation_response',

@@ -46,7 +46,7 @@ export const WalletAuthModal = ({
   const classes = useStyles();
   const [connectMessage, setConnectMessage] = useState<string>('');
 
-  const { apeError } = useApeSnackbar();
+  const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
   const walletAuth = useWalletAuth();
 
@@ -73,13 +73,17 @@ export const WalletAuthModal = ({
     }
 
     const timeoutHandle = setTimeout(() => {
-      apeError('Wallet activation timed out.');
+      showError('Wallet activation timed out.');
       web3Context.deactivate();
     }, WALLET_TIMEOUT);
 
     await web3Context.activate(newConnector, (error: Error) => {
-      apeError(error);
-      console.error(error);
+      if (error.message.match(/Unsupported chain id/)) {
+        showInfo('Switch to mainnet to continue.');
+      } else {
+        showError(error);
+        console.error(error);
+      }
       web3Context.deactivate();
     });
 

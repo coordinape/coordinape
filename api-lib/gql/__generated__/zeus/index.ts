@@ -30,6 +30,7 @@ export type ValueTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string | null;
     protocol_id?: number | null;
     protocol_name?: string | null;
     user_name: string;
@@ -66,6 +67,13 @@ export type ValueTypes = {
     ];
     __typename?: boolean;
   }>;
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['CreateNomineeInput']: {
     address: string;
     circle_id: number;
@@ -89,6 +97,12 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['EpochResponse']: AliasType<{
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | null;
@@ -1256,6 +1270,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     circle_private?: ValueTypes['circle_private'];
+    contact?: boolean;
     created_at?: boolean;
     default_opt_in?: boolean;
     discord_webhook?: boolean;
@@ -1480,6 +1495,7 @@ export type ValueTypes = {
     burns?: ValueTypes['burns_bool_exp'] | null;
     circle_metadata?: ValueTypes['circle_metadata_bool_exp'] | null;
     circle_private?: ValueTypes['circle_private_bool_exp'] | null;
+    contact?: ValueTypes['String_comparison_exp'] | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | null;
     discord_webhook?: ValueTypes['String_comparison_exp'] | null;
@@ -1521,6 +1537,7 @@ export type ValueTypes = {
     burns?: ValueTypes['burns_arr_rel_insert_input'] | null;
     circle_metadata?: ValueTypes['circle_metadata_arr_rel_insert_input'] | null;
     circle_private?: ValueTypes['circle_private_obj_rel_insert_input'] | null;
+    contact?: string | null;
     created_at?: ValueTypes['timestamp'] | null;
     default_opt_in?: boolean | null;
     discord_webhook?: string | null;
@@ -1553,6 +1570,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['circles_max_fields']: AliasType<{
     alloc_text?: boolean;
+    contact?: boolean;
     created_at?: boolean;
     discord_webhook?: boolean;
     id?: boolean;
@@ -1571,6 +1589,7 @@ export type ValueTypes = {
   /** order by max() on columns of table "circles" */
   ['circles_max_order_by']: {
     alloc_text?: ValueTypes['order_by'] | null;
+    contact?: ValueTypes['order_by'] | null;
     created_at?: ValueTypes['order_by'] | null;
     discord_webhook?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
@@ -1588,6 +1607,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['circles_min_fields']: AliasType<{
     alloc_text?: boolean;
+    contact?: boolean;
     created_at?: boolean;
     discord_webhook?: boolean;
     id?: boolean;
@@ -1606,6 +1626,7 @@ export type ValueTypes = {
   /** order by min() on columns of table "circles" */
   ['circles_min_order_by']: {
     alloc_text?: ValueTypes['order_by'] | null;
+    contact?: ValueTypes['order_by'] | null;
     created_at?: ValueTypes['order_by'] | null;
     discord_webhook?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
@@ -1649,6 +1670,7 @@ export type ValueTypes = {
       | ValueTypes['circle_metadata_aggregate_order_by']
       | null;
     circle_private?: ValueTypes['circle_private_order_by'] | null;
+    contact?: ValueTypes['order_by'] | null;
     created_at?: ValueTypes['order_by'] | null;
     default_opt_in?: ValueTypes['order_by'] | null;
     discord_webhook?: ValueTypes['order_by'] | null;
@@ -1688,6 +1710,7 @@ export type ValueTypes = {
   ['circles_set_input']: {
     alloc_text?: string | null;
     auto_opt_out?: boolean | null;
+    contact?: string | null;
     created_at?: ValueTypes['timestamp'] | null;
     default_opt_in?: boolean | null;
     discord_webhook?: string | null;
@@ -3410,6 +3433,10 @@ columns and relationships of "distributions" */
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
       ValueTypes['CreateCircleResponse']
+    ];
+    createEpoch?: [
+      { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     createNominee?: [
       { payload: ValueTypes['CreateNomineeInput'] },
@@ -9331,6 +9358,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     users_aggregate: ModelTypes['users_aggregate'];
   };
+  ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number;
@@ -9338,6 +9366,11 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['EpochResponse']: {
+    /** An object relationship */
+    epoch: ModelTypes['epochs'];
+    id: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LogoutResponse']: {
@@ -9937,6 +9970,7 @@ export type ModelTypes = {
     circle_metadata_aggregate: ModelTypes['circle_metadata_aggregate'];
     /** An object relationship */
     circle_private?: ModelTypes['circle_private'];
+    contact?: string;
     created_at?: ModelTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
@@ -9961,7 +9995,7 @@ export type ModelTypes = {
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
     /** An aggregate relationship */
     pending_token_gifts_aggregate: ModelTypes['pending_token_gifts_aggregate'];
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     telegram_id?: string;
@@ -10021,6 +10055,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['circles_max_fields']: {
     alloc_text?: string;
+    contact?: string;
     created_at?: ModelTypes['timestamp'];
     discord_webhook?: string;
     id?: ModelTypes['bigint'];
@@ -10040,6 +10075,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['circles_min_fields']: {
     alloc_text?: string;
+    contact?: string;
     created_at?: ModelTypes['timestamp'];
     discord_webhook?: string;
     id?: ModelTypes['bigint'];
@@ -10981,6 +11017,7 @@ columns and relationships of "distributions" */
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
     createCircle?: ModelTypes['CreateCircleResponse'];
+    createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
     /** delete data from the table: "burns" */
@@ -13389,6 +13426,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleInput']: {
     circle_name: string;
+    contact?: string;
     protocol_id?: number;
     protocol_name?: string;
     user_name: string;
@@ -13402,6 +13440,13 @@ export type GraphQLTypes = {
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
+  };
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['CreateNomineeInput']: {
     address: string;
@@ -13425,6 +13470,12 @@ export type GraphQLTypes = {
     non_receiver?: boolean;
     role?: number;
     starting_tokens?: number;
+  };
+  ['EpochResponse']: {
+    __typename: 'EpochResponse';
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    id: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -14516,6 +14567,7 @@ export type GraphQLTypes = {
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'];
+    contact?: string;
     created_at?: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
@@ -14540,7 +14592,7 @@ export type GraphQLTypes = {
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
-    protocol_id?: number;
+    protocol_id: number;
     team_sel_text?: string;
     team_selection: boolean;
     telegram_id?: string;
@@ -14623,6 +14675,7 @@ export type GraphQLTypes = {
     burns?: GraphQLTypes['burns_bool_exp'];
     circle_metadata?: GraphQLTypes['circle_metadata_bool_exp'];
     circle_private?: GraphQLTypes['circle_private_bool_exp'];
+    contact?: GraphQLTypes['String_comparison_exp'];
     created_at?: GraphQLTypes['timestamp_comparison_exp'];
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'];
     discord_webhook?: GraphQLTypes['String_comparison_exp'];
@@ -14664,6 +14717,7 @@ export type GraphQLTypes = {
     burns?: GraphQLTypes['burns_arr_rel_insert_input'];
     circle_metadata?: GraphQLTypes['circle_metadata_arr_rel_insert_input'];
     circle_private?: GraphQLTypes['circle_private_obj_rel_insert_input'];
+    contact?: string;
     created_at?: GraphQLTypes['timestamp'];
     default_opt_in?: boolean;
     discord_webhook?: string;
@@ -14693,6 +14747,7 @@ export type GraphQLTypes = {
   ['circles_max_fields']: {
     __typename: 'circles_max_fields';
     alloc_text?: string;
+    contact?: string;
     created_at?: GraphQLTypes['timestamp'];
     discord_webhook?: string;
     id?: GraphQLTypes['bigint'];
@@ -14710,6 +14765,7 @@ export type GraphQLTypes = {
   /** order by max() on columns of table "circles" */
   ['circles_max_order_by']: {
     alloc_text?: GraphQLTypes['order_by'];
+    contact?: GraphQLTypes['order_by'];
     created_at?: GraphQLTypes['order_by'];
     discord_webhook?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
@@ -14728,6 +14784,7 @@ export type GraphQLTypes = {
   ['circles_min_fields']: {
     __typename: 'circles_min_fields';
     alloc_text?: string;
+    contact?: string;
     created_at?: GraphQLTypes['timestamp'];
     discord_webhook?: string;
     id?: GraphQLTypes['bigint'];
@@ -14745,6 +14802,7 @@ export type GraphQLTypes = {
   /** order by min() on columns of table "circles" */
   ['circles_min_order_by']: {
     alloc_text?: GraphQLTypes['order_by'];
+    contact?: GraphQLTypes['order_by'];
     created_at?: GraphQLTypes['order_by'];
     discord_webhook?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
@@ -14786,6 +14844,7 @@ export type GraphQLTypes = {
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'];
     circle_metadata_aggregate?: GraphQLTypes['circle_metadata_aggregate_order_by'];
     circle_private?: GraphQLTypes['circle_private_order_by'];
+    contact?: GraphQLTypes['order_by'];
     created_at?: GraphQLTypes['order_by'];
     default_opt_in?: GraphQLTypes['order_by'];
     discord_webhook?: GraphQLTypes['order_by'];
@@ -14821,6 +14880,7 @@ export type GraphQLTypes = {
   ['circles_set_input']: {
     alloc_text?: string;
     auto_opt_out?: boolean;
+    contact?: string;
     created_at?: GraphQLTypes['timestamp'];
     default_opt_in?: boolean;
     discord_webhook?: string;
@@ -16437,6 +16497,7 @@ columns and relationships of "distributions" */
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'];
     createCircle?: GraphQLTypes['CreateCircleResponse'];
+    createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
     /** delete data from the table: "burns" */
@@ -20337,6 +20398,7 @@ export const enum circles_constraint {
 export const enum circles_select_column {
   alloc_text = 'alloc_text',
   auto_opt_out = 'auto_opt_out',
+  contact = 'contact',
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
   discord_webhook = 'discord_webhook',
@@ -20360,6 +20422,7 @@ export const enum circles_select_column {
 export const enum circles_update_column {
   alloc_text = 'alloc_text',
   auto_opt_out = 'auto_opt_out',
+  contact = 'contact',
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
   discord_webhook = 'discord_webhook',

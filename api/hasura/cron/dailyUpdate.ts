@@ -4,6 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
 import { DateTime, DurationObjectUnits, Settings } from 'luxon';
 
+import { CIRCLES } from '../../../api-lib/constants';
 import { pending_token_gifts_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
@@ -52,6 +53,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 users_aggregate: [
                   { where: { non_receiver: { _eq: false }, role: { _lt: 2 } } },
                   { aggregate: { count: [{}, true] } },
+                ],
+              },
+              emptyBio: {
+                users: [
+                  {
+                    where: {
+                      bio: { _is_null: true },
+                      non_receiver: { _eq: false },
+                      // for YEARN COMMUNITY circle only
+                      circle_id: { _eq: CIRCLES.YEARN.COMMUNITY },
+                    },
+                  },
+                  {
+                    name: true,
+                  },
                 ],
               },
             },
@@ -134,8 +150,16 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const optedInUsers =
         circle.receiversTotal.users_aggregate.aggregate?.count;
 
+      const emptyBioNotif =
+        circle.id === CIRCLES.YEARN.COMMUNITY
+          ? dedent`
+              Opted in contributors who have NOT entered a statement for Epoch:
+              ${circle.emptyBio.users.map(u => u.name).join(', ')}
+          `
+          : ``;
+
       const message = dedent`
-        ${circle.organization?.name} / ${circle.name}
+        ${circle.organization?.name} / ${circle.name} Epoch #${epoch.number}
 
         ${epochStartDate.toLocaleString(
           DateTime.DATETIME_FULL
@@ -147,6 +171,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         epoch ending ${timeStringFromDuration(epochTimeRemaining)} from now!
         Users that made new allocations today:
           ${sendersToday.join(', ')}
+        ${emptyBioNotif}
       `;
 
       if (circle.telegram_id) {

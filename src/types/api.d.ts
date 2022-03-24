@@ -29,6 +29,7 @@ export interface UpdateUsersParam {
   address: string;
   non_giver?: boolean;
   fixed_non_receiver?: boolean;
+  non_receiver?: boolean;
   role?: number;
   starting_tokens?: number;
 }
@@ -67,6 +68,7 @@ export interface CreateCircleParam {
   circle_name: string;
   protocol_name?: string;
   protocol_id?: number;
+  contact: string;
 }
 
 export interface UpdateCreateEpochParam {
