@@ -224,12 +224,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    give_token_remaining: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     name: {
       type: 'String',
       array: false,

@@ -210,7 +210,6 @@ export const createUser = async (circleId: number, params: PostUsersParam) => {
           non_receiver: params.fixed_non_receiver || params.non_receiver,
           fixed_non_receiver: params.fixed_non_receiver,
           starting_tokens: params.starting_tokens,
-          give_token_remaining: params.starting_tokens,
         },
       },
       {
