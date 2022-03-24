@@ -12,7 +12,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 Settings.defaultZone = 'utc';
 
-type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
+export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
@@ -135,7 +135,9 @@ async function getEpochsToNotify() {
   return result;
 }
 
-async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
+export async function notifyEpochStart({
+  notifyStart: { epochs },
+}: EpochsToNotify) {
   const sendNotifications = epochs.map(async epoch => {
     const { start_date, end_date, circle, number: epochNumber } = epoch;
 
@@ -147,12 +149,12 @@ async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
     const eligibleUsersCount = circle.users_aggregate.aggregate?.count;
 
     const message = dedent`
-        A new ${circle.organization?.name}/${circle.name} epoch is active!
-        ${eligibleUsersCount} users will be participating and the duration of the epoch will be:
-        **${epochStartDate.toLocaleString(
-          DateTime.DATETIME_FULL
-        )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
-      `;
+      A new ${circle.organization?.name}/${circle.name} epoch is active!
+      ${eligibleUsersCount} users will be participating and the duration of the epoch will be:
+      **${epochStartDate.toLocaleString(
+        DateTime.DATETIME_FULL
+      )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
+    `;
 
     if (circle.discord_webhook)
       await notifyAndUpdateEpoch(
@@ -182,7 +184,9 @@ async function notifyEpochStart({ notifyStart: { epochs } }: EpochsToNotify) {
   return errors;
 }
 
-async function notifyEpochEnd({ notifyEnd: { epochs } }: EpochsToNotify) {
+export async function notifyEpochEnd({
+  notifyEnd: { epochs },
+}: EpochsToNotify) {
   const notifyEpochsEnding = epochs
     .filter(e => e.circle?.telegram_id || e.circle?.discord_webhook)
     .map(async epoch => {
