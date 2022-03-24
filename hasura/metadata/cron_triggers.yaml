@@ -21,7 +21,7 @@
     value_from_env: HASURA_EVENT_SECRET
 - name: epoch
   webhook: '{{HASURA_API_BASE_URL}}/cron/epochs'
-  schedule: '*/1 * * * *'
+  schedule: '*/5 * * * *'
   include_in_metadata: true
   payload: {}
   retry_conf:
