@@ -7,3 +7,8 @@ export const CIRCLES = {
     COMMUNITY: 1,
   },
 };
+
+export const EPOCH_REPEAT = {
+  WEEKLY: 1,
+  MONTHLY: 2,
+};

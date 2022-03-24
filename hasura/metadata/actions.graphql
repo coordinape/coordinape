@@ -7,6 +7,10 @@ type Mutation {
 }
 
 type Mutation {
+  createEpoch(payload: CreateEpochInput!): EpochResponse
+}
+
+type Mutation {
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
@@ -107,6 +111,14 @@ input VouchInput {
   nominee_id: Int!
 }
 
+input CreateEpochInput {
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -137,4 +149,8 @@ type CreateNomineeResponse {
 
 type VouchOutput {
   id: Int!
+}
+
+type EpochResponse {
+  id: ID!
 }
