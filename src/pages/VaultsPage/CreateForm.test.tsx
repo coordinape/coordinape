@@ -10,14 +10,6 @@ import { TestWrapper } from 'utils/testing';
 
 import { CreateForm } from './CreateForm';
 
-jest.mock('hooks/gql/useCurrentOrg', () => {
-  return {
-    useCurrentOrg: jest
-      .fn()
-      .mockReturnValue({ data: { id: 101, name: 'Mock Org' } }),
-  };
-});
-
 test('select an asset', async () => {
   await act(async () => {
     await render(
