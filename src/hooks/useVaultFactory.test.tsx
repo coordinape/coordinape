@@ -11,7 +11,7 @@ let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
-    addVaults: jest.fn().mockReturnValue({
+    addVault: jest.fn().mockReturnValue({
       created_at: new Date(),
       created_by: 21,
       decimals: 18,
@@ -62,7 +62,7 @@ test('create a vault', async () => {
   await waitFor(
     () => {
       expect(vault).toBeTruthy();
-      expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
+      expect(vault.vault_address).toMatch(/0x[a-fA-F0-9]{40}/);
       expect(vault.token_address).toEqual(daiAddress);
       expect(vault.decimals).toEqual(18);
     },
@@ -96,7 +96,7 @@ test('create a vault with a custom asset', async () => {
   await waitFor(
     () => {
       expect(vault).toBeTruthy();
-      expect(vault.id).toMatch(/0x[a-fA-F0-9]{40}/);
+      expect(vault.vault_address).toMatch(/0x[a-fA-F0-9]{40}/);
       expect(vault.simple_token_address).toEqual(yamAddress);
       expect(vault.decimals).toEqual(18);
     },
