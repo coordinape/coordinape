@@ -39,16 +39,16 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         ],
       });
       if (epochs.length) {
-        const overlappingEpoch = epochs.pop();
+        const repeatingEpoch = epochs.pop();
         errorResponseWithStatusCode(
           response,
           {
             message:
               `You cannot have more than one repeating active epoch. ` +
-              `Dates overlap with epoch id #${overlappingEpoch?.id} ` +
+              `Dates overlap with epoch id #${repeatingEpoch?.id} ` +
               `that occurs between ` +
-              `${formatShortDateTime(overlappingEpoch?.start_date)} and ` +
-              `${formatShortDateTime(overlappingEpoch?.end_date)}`,
+              `${formatShortDateTime(repeatingEpoch?.start_date)} and ` +
+              `${formatShortDateTime(repeatingEpoch?.end_date)}`,
           },
           422
         );
@@ -78,14 +78,14 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     });
     if (epochs.length) {
-      const epoch = epochs.pop();
+      const overlappingEpoch = epochs.pop();
       errorResponseWithStatusCode(
         response,
         {
           message:
             `This epoch overlaps with an existing epoch that occurs between ` +
-            `${formatShortDateTime(epoch?.start_date)} and ` +
-            `${formatShortDateTime(epoch?.end_date)}. ` +
+            `${formatShortDateTime(overlappingEpoch?.start_date)} and ` +
+            `${formatShortDateTime(overlappingEpoch?.end_date)}. ` +
             `Please adjust epoch settings to avoid overlapping with existing epochs`,
         },
         422
