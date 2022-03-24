@@ -12,10 +12,18 @@ import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
-  const closeModal = () => setModal('');
 
   const currentOrg = useCurrentOrg();
-  const { isLoading, data: vaults } = useVaults(Number(currentOrg.data?.id));
+  const {
+    refetch,
+    isLoading,
+    data: vaults,
+  } = useVaults(Number(currentOrg.data?.id));
+
+  const closeModal = () => {
+    refetch();
+    setModal('');
+  };
 
   return (
     <OrgLayout>
