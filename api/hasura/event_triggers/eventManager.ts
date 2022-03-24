@@ -30,14 +30,14 @@ const PROD_HANDLERS: HandlerDict = {
   refundGiveTelegram,
   refundGiveDiscord,
   refundPendingGift,
+  vouchDiscord,
+  vouchTelegram,
 };
 
 const STAGING_HANDLERS: HandlerDict = {
   ...PROD_HANDLERS,
   checkNomineeDiscord,
   checkNomineeTelegram,
-  vouchDiscord,
-  vouchTelegram,
 };
 
 async function eventHandler(req: VercelRequest, res: VercelResponse) {
