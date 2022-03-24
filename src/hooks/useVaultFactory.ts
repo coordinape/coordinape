@@ -64,9 +64,7 @@ export function useVaultFactory(orgId?: number) {
             token_address: args[0],
             symbol: symbol,
           };
-          await addVault(vault);
-
-          return vault;
+          return addVault(vault);
         }
       }
 

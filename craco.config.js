@@ -28,6 +28,7 @@ module.exports = {
           compiler: 'ttypescript',
         },
       },
+      resetMocks: false,
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
     },
   },
