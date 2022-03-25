@@ -19,7 +19,7 @@ VERBOSE=$HARDHAT_GANACHE_VERBOSE
 EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
-  --deploy) DEPLOY=1;;
+  --no-deploy) NO_DEPLOY=1;;
   -p|--port) PORT="$2"; shift;;
   --rebuild) REBUILD=1;;
   -v|--verbose) VERBOSE=1;;
@@ -80,13 +80,13 @@ else
   # Kill the testnet when this script exits
   trap "kill $PID" EXIT
 
-  if [ "$DEPLOY" ]; then
+  if [ ! "$NO_DEPLOY" ]; then
     FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci
   fi
 
   if [ "$REBUILD" ]; then
-    yarn hardhat:codegen
-    yarn hardhat:build
+    yarn --cwd hardhat codegen
+    yarn --cwd hardhat build
 
     cd hardhat
     yarn unlink >/dev/null 2>&1 || echo -n

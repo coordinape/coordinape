@@ -9,8 +9,8 @@ esac; shift; done
 
 if [ "$FULL" ]; then
   git submodule update --init --recursive
-  yarn hardhat:install --frozen-lockfile
-  yarn hardhat:compile
+  yarn --cwd hardhat install --frozen-lockfile
+  yarn --cwd hardhat compile
 
   echo "Starting node for auto deployment..."
   yarn hardhat:dev >/dev/null &
@@ -18,11 +18,11 @@ if [ "$FULL" ]; then
   while [ ! $(eval $FIND_DEV_PID) ]; do
     sleep 1
   done
-  yarn hardhat:deploy
+  yarn --cwd hardhat deploy
 fi
 
-yarn hardhat:codegen
-yarn hardhat:build
+yarn --cwd hardhat codegen
+yarn --cwd hardhat build
 
 if [ "$FULL" ]; then
   echo "Stopping node. The 'Command failed' messages that follow are normal."

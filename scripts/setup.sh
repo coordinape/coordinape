@@ -2,5 +2,5 @@
 set -e
 
 git submodule update --init --recursive
-yarn hardhat:install --frozen-lockfile
+yarn --cwd hardhat install --frozen-lockfile
 ./scripts/link-hardhat.sh
