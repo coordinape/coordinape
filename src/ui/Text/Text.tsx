@@ -5,7 +5,7 @@ export const Text = styled('span', {
   margin: '0',
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
-  display: 'flex',
+  display: 'flex', // FIXME: this assumes Text is used only for single-line text
   alignItems: 'center',
 
   variants: {

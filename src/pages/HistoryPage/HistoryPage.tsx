@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
+import sortBy from 'lodash/sortBy';
 import times from 'lodash/times';
 import { NavLink } from 'react-router-dom';
 import { styled, CSS } from 'stitches.config';
@@ -73,12 +74,12 @@ export const HistoryPage = () => {
         <>
           <Header>Next</Header>
           <Panel css={{ mb: '$xl', color: '#717C7F' }}>
-            <Text>
-              <Text inline bold color={'gray'} font={'inter'}>
+            <Text inline>
+              <Text inline bold color="gray" font="inter">
                 Next Epoch
-              </Text>
-              &nbsp;starts in {nextEpoch?.labelUntilStart.toLowerCase()},{' '}
-              {nextEpoch.startDate.toFormat('LLL d, yyyy')}
+              </Text>{' '}
+              starts in {nextEpoch?.labelUntilStart.toLowerCase()}, on{' '}
+              {nextEpoch.startDate.toFormat('LLL d')}
             </Text>
           </Panel>
         </>
@@ -97,7 +98,7 @@ export const HistoryPage = () => {
             }}
           >
             <Box>
-              <Text bold font={'inter'}>
+              <Text bold font="inter">
                 {currentEpoch.startDate.toFormat('MMMM dd')} -{' '}
                 {currentEpoch.endDate.toFormat(currentEndDateFormat)}
               </Text>
@@ -174,6 +175,7 @@ const EpochPanel = ({
   const [shortPanelShow, setshortPanelShow] = useState(true);
   const { startDate, endDate } = epoch;
   const endDateFormat = endDate.month === startDate.month ? 'dd' : 'MMMM dd';
+
   return (
     <Panel
       css={{
@@ -192,7 +194,7 @@ const EpochPanel = ({
           justifyContent: 'space-between',
         }}
       >
-        <Text bold font={'inter'}>
+        <Text bold font="inter">
           {startDate.toFormat('MMMM dd')} - {endDate.toFormat(endDateFormat)}
         </Text>
         <button onClick={() => setshortPanelShow(!shortPanelShow)}>
@@ -212,11 +214,11 @@ const EpochPanel = ({
       </Box>
       <Panel nested>
         <Text variant="formLabel">You received</Text>
-        <Text bold font={'inter'} css={{ fontSize: '$6', mb: '$md' }}>
+        <Text bold font="inter" css={{ fontSize: '$6', mb: '$md' }}>
           {totalReceived} {tokenName}
         </Text>
         <Text variant="formLabel">Total Distributed</Text>
-        <Text bold font={'inter'} css={{ fontSize: '$6' }}>
+        <Text bold font="inter" css={{ fontSize: '$6' }}>
           {totalAllocated} {tokenName}
         </Text>
       </Panel>
@@ -234,7 +236,7 @@ const EpochPanel = ({
             <Text variant="formLabel">Notes Left</Text>
             <Text
               bold
-              font={'inter'}
+              font="inter"
               css={{
                 fontSize: '$6',
               }}
@@ -246,7 +248,7 @@ const EpochPanel = ({
             <Text variant="formLabel">Received</Text>
             <Text
               bold
-              font={'inter'}
+              font="inter"
               css={{
                 fontSize: '$6',
               }}
@@ -291,9 +293,9 @@ const EpochPanel = ({
             </Text>
           </Box>
           {tab === 0 ? (
-            <GiftsData data={received} dataRef={'Received'} />
+            <Notes tokenName={tokenName} data={received} received />
           ) : (
-            <GiftsData data={sent} dataRef={'Sent'} />
+            <Notes tokenName={tokenName} data={sent} />
           )}
         </Panel>
       )}
@@ -441,37 +443,47 @@ const Minicard = ({
   );
 };
 
-type GiftsDataProps = {
-  data: any;
-  dataRef: string;
+type NotesProps = {
+  tokenName: string;
+  data: ITokenGift[];
+  received?: boolean;
 };
 
-const GiftsData = ({ data, dataRef }: GiftsDataProps) => {
-  const receivedGifts =
-    data.length > 0 ? (
-      data.map((gift: any) => (
+const Notes = ({ data, received, tokenName }: NotesProps) => {
+  if (data.length === 0) {
+    return (
+      <Box css={{ mt: '$md' }}>
+        <Text variant="formLabel">
+          You did not {received ? 'receive' : 'send'} any notes
+        </Text>
+      </Box>
+    );
+  }
+
+  const sorted = sortBy(data, gift => -gift.tokens);
+
+  return (
+    <>
+      {sorted.map(gift => (
         <Box key={gift.id} css={{ display: 'flex', my: '$sm' }}>
           <Box css={{ mr: '$md' }}>
-            <ApeAvatar user={gift.sender} />
+            <ApeAvatar user={received ? gift.sender : gift.recipient} />
           </Box>
-          <Box css={{ alignItems: 'center', display: 'flex' }}>
+          <Box
+            css={!gift.note ? { alignItems: 'center', display: 'flex' } : {}}
+          >
             {gift.note && (
               <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{gift.note}</Text>
             )}
             <Box css={{ fontSize: '$3', color: '$green' }}>
-              {gift.tokens} {gift.tokenName}{' '}
-              {dataRef === 'Received'
+              {gift.tokens} {tokenName}{' '}
+              {received
                 ? `received from ${gift.sender.name}`
                 : `sent to ${gift.recipient.name}`}
             </Box>
           </Box>
         </Box>
-      ))
-    ) : (
-      <Box css={{ mt: '$md' }}>
-        <Text variant="formLabel">You did not {dataRef} any notes</Text>
-      </Box>
-    );
-
-  return receivedGifts;
+      ))}
+    </>
+  );
 };
