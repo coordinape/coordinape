@@ -194,6 +194,7 @@ export const WalletAuthModal = ({
         )}
         <Text
           css={{
+            display: 'inline',
             fontSize: '$2',
             marginTop: '$lg',
             textAlign: 'center',
