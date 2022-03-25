@@ -87,6 +87,12 @@ export const WalletAuthModal = ({
       web3Context.deactivate();
     });
 
+    // workaround to disable listening for a deprecated event that sends the
+    // wrong network ID
+    // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
+    const ethereum = (window as any).ethereum;
+    ethereum?.removeAllListeners(['networkChanged']);
+
     clearTimeout(timeoutHandle);
 
     setConnectMessage('');
