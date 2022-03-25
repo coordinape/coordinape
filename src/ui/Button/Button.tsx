@@ -12,7 +12,9 @@ export const Button = styled('button', {
   justifyContent: 'center',
   cursor: 'pointer',
   textAlign: 'center',
+  alignItems: 'center',
   lineHeight: '$shorter',
+  textDecoration: 'none',
 
   variants: {
     color: {

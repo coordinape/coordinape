@@ -1,19 +1,17 @@
 import { useState, useMemo } from 'react';
 
 import sortBy from 'lodash/sortBy';
-import { NavLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
 import { ApeAvatar } from 'components';
 import { Paginator } from 'components/Paginator';
-import { useAllocation, useAllocationController } from 'hooks';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, Link, AppLink } from 'ui';
-import Medal from 'ui/icons/Medal.svg';
-import PlusInCircle from 'ui/icons/PlusInCircle.svg';
+import { Box, Panel, Text, AppLink } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+
+import { CurrentEpochPanel } from './CurrentEpochPanel';
 
 import { IEpoch, ITokenGift } from 'types';
 
@@ -23,7 +21,6 @@ export const HistoryPage = () => {
     circle,
     myUser,
     circleEpochsStatus: { currentEpoch, nextEpoch, pastEpochs },
-    activeNominees,
   } = useSelectedCircle();
 
   const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
@@ -39,16 +36,6 @@ export const HistoryPage = () => {
     [page]
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
-  const numberOfNominees = activeNominees.length;
-
-  useAllocationController(circle.id);
-  const { tokenRemaining, tokenStarting } = useAllocation(circle.id);
-  const percentageTokenRemaining = (tokenRemaining * 100) / tokenStarting;
-
-  const currentEndDateFormat =
-    currentEpoch?.endDate.month === currentEpoch?.startDate.month
-      ? 'dd'
-      : 'MMMM dd';
 
   if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
     return (
@@ -87,51 +74,7 @@ export const HistoryPage = () => {
       {page === 0 && currentEpoch && (
         <>
           <Header>Current</Header>
-          <Panel
-            css={{
-              mb: '$xl',
-              fontSize: '$8',
-              fontFamily: 'Inter',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Box>
-              <Text bold font="inter">
-                {currentEpoch.startDate.toFormat('MMMM dd')} -{' '}
-                {currentEpoch.endDate.toFormat(currentEndDateFormat)}
-              </Text>
-            </Box>
-            <Box css={{ display: 'flex' }}>
-              <Minicard
-                icon={Medal}
-                title={`Nomination`}
-                left={numberOfNominees > 0}
-                content={
-                  numberOfNominees > 0
-                    ? `${numberOfNominees} nomination${
-                        numberOfNominees > 1 ? 's' : ''
-                      }`
-                    : 'No nominations'
-                }
-                linkpaths={paths.vouching}
-                linkLabel="Go Vouching"
-              />
-              <Minicard
-                icon={PlusInCircle}
-                title={`Allocation`}
-                left={percentageTokenRemaining > 0}
-                content={
-                  percentageTokenRemaining > 0
-                    ? `Allocate Your Remaining ${percentageTokenRemaining}%`
-                    : `No More GIVE Tokens to Allocate`
-                }
-                linkpaths={paths.allocation}
-                linkLabel="Allocate to Teammates"
-              />
-            </Box>
-          </Panel>
+          <CurrentEpochPanel epoch={currentEpoch} />
         </>
       )}
       {pastEpochs.length > 0 && (
@@ -234,37 +177,20 @@ const EpochPanel = ({
         >
           <Box css={{ mr: '$md' }}>
             <Text variant="formLabel">Notes Left</Text>
-            <Text
-              bold
-              font="inter"
-              css={{
-                fontSize: '$6',
-              }}
-            >
+            <Text bold font="inter" css={{ fontSize: '$6' }}>
               {sent.filter(sent => sent.note).length}
             </Text>
           </Box>
           <Box>
             <Text variant="formLabel">Received</Text>
-            <Text
-              bold
-              font="inter"
-              css={{
-                fontSize: '$6',
-              }}
-            >
+            <Text bold font="inter" css={{ fontSize: '$6' }}>
               {received.filter(received => received.note).length}
             </Text>
           </Box>
         </Panel>
       ) : (
         <Panel nested>
-          <Box
-            css={{
-              display: 'flex',
-              gap: '$sm',
-            }}
-          >
+          <Box css={{ display: 'flex', gap: '$sm' }}>
             <Text
               variant="formLabel"
               css={{
@@ -310,76 +236,6 @@ const Header = styled(Text, {
   color: '$placeholder',
   fontWeight: '$semibold',
 });
-
-type MinicardProps = {
-  icon?: any;
-  title?: string;
-  content: any;
-  left?: boolean;
-  linkpaths: string;
-  linkLabel: string;
-};
-
-const Minicard = ({
-  icon,
-  title,
-  content,
-  left,
-  linkpaths,
-  linkLabel,
-}: MinicardProps) => {
-  const colorText = left ? 'red' : '$gray400';
-  return (
-    <Panel nested css={{ ml: '$md', minWidth: '280px' }}>
-      <Box
-        css={{
-          color: '$gray400',
-          display: 'flex',
-          mb: '$sm',
-          alignItems: 'center',
-        }}
-      >
-        <img src={icon} alt="logo" />
-        <Text variant="formLabel" css={{ ml: '$xs', mb: 0 }}>
-          {title}
-        </Text>
-      </Box>
-      <Text
-        bold
-        css={{
-          fontSize: '$3',
-          mb: '$md',
-          color: colorText,
-          opacity: 0.5,
-          ml: '$lg',
-        }}
-      >
-        {content}
-      </Text>
-      <Link
-        as={NavLink}
-        key={linkpaths}
-        to={linkpaths}
-        css={{
-          size: '$max',
-          ml: '$lg',
-        }}
-      >
-        <Text
-          bold
-          css={{
-            p: '$xs',
-            fontSize: '$3',
-            border: 'solid 1px $border',
-            borderRadius: '$3',
-          }}
-        >
-          {linkLabel}
-        </Text>
-      </Link>
-    </Panel>
-  );
-};
 
 type NotesProps = {
   tokenName: string;
