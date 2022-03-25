@@ -1,16 +1,16 @@
 import { useState, useMemo } from 'react';
 
 import sortBy from 'lodash/sortBy';
-import times from 'lodash/times';
 import { NavLink } from 'react-router-dom';
-import { styled, CSS } from 'stitches.config';
+import { styled } from 'stitches.config';
 
 import { ApeAvatar } from 'components';
+import { Paginator } from 'components/Paginator';
 import { useAllocation, useAllocationController } from 'hooks';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, Button, Panel, Text, Link, AppLink } from 'ui';
+import { Box, Panel, Text, Link, AppLink } from 'ui';
 import Medal from 'ui/icons/Medal.svg';
 import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -310,68 +310,6 @@ const Header = styled(Text, {
   color: '$placeholder',
   fontWeight: '$semibold',
 });
-
-type PaginatorProps = {
-  css?: CSS;
-  pages: number;
-  current: number;
-  onSelect: (page: number) => void;
-};
-const Paginator = ({ css, pages, current, onSelect }: PaginatorProps) => {
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        height: '$xl',
-        gap: '$sm',
-        justifyContent: 'flex-end',
-        '> *': {
-          width: '$xl',
-          height: '$xl !important',
-          fontFamily: 'Inter',
-          fontSize: '$4',
-          fontWeight: '$normal',
-          padding: 0,
-          backgroundColor: 'white',
-          color: '$primary',
-        },
-        ...css,
-      }}
-    >
-      <Button
-        color="transparent"
-        disabled={current === 0}
-        onClick={() => onSelect(current - 1)}
-      >
-        &#60;
-      </Button>
-      {times(pages, (n: number) => (
-        <Button
-          color="transparent"
-          css={
-            n !== current
-              ? {}
-              : {
-                  borderRadius: '$1',
-                  backgroundColor: '$teal !important',
-                  color: 'white !important',
-                }
-          }
-          onClick={() => onSelect(n)}
-        >
-          {n + 1}
-        </Button>
-      ))}
-      <Button
-        color="transparent"
-        disabled={current === pages - 1}
-        onClick={() => onSelect(current + 1)}
-      >
-        &#62;
-      </Button>
-    </Box>
-  );
-};
 
 type MinicardProps = {
   icon?: any;
