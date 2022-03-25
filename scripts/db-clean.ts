@@ -5,7 +5,6 @@ type MutationName = keyof ValueTypes['mutation_root'];
 
 async function run() {
   const mutations: Record<string, MutationName> = {
-    feedbacks: 'delete_feedbacks',
     token_gifts: 'delete_token_gifts',
     pending_token_gifts: 'delete_pending_token_gifts',
     teammates: 'delete_teammates',

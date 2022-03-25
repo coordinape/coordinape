@@ -7,15 +7,15 @@ type Mutation {
 }
 
 type Mutation {
+  createEpoch(payload: CreateEpochInput!): EpochResponse
+}
+
+type Mutation {
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
 type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
-}
-
-type Mutation {
-  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
 type Mutation {
@@ -83,11 +83,6 @@ input AdminUpdateUserInput {
   role: Int
 }
 
-input DeleteEpochInput {
-  id: Int!
-  circle_id: Int!
-}
-
 input CreateNomineeInput {
   name: String!
   circle_id: Int!
@@ -105,6 +100,14 @@ input UpdateUserInput {
 
 input VouchInput {
   nominee_id: Int!
+}
+
+input CreateEpochInput {
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
 }
 
 type CreateCircleResponse {
@@ -127,14 +130,14 @@ type UserResponse {
   id: ID!
 }
 
-type DeleteEpochResponse {
-  success: Boolean!
-}
-
 type CreateNomineeResponse {
   id: Int
 }
 
 type VouchOutput {
   id: Int!
+}
+
+type EpochResponse {
+  id: ID!
 }

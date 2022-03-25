@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
-import { useVaults } from 'recoilState/vaults';
+import { useVaults } from 'hooks/gql/useVaults';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout } from 'ui/layouts';
 
@@ -10,10 +10,10 @@ export const VaultTransactions = () => {
   const { id } = useParams();
 
   const currentOrg = useCurrentOrg();
-  const vaults = useVaults(currentOrg.data?.id);
-  const vault = vaults.find(v => v.id === id);
+  const { isLoading, data } = useVaults(Number(currentOrg.data?.id));
+  const vault = data?.find(v => v.vault_address === id);
 
-  if (!vault) {
+  if (!vault && !isLoading) {
     // TODO
     return <>404</>;
   }
@@ -30,7 +30,7 @@ export const VaultTransactions = () => {
             textAlign: 'center',
           }}
         >
-          All Transactions for {vault.type.toUpperCase()} Vault
+          All Transactions for {vault?.symbol?.toUpperCase()} Vault
         </Text>
         <TransactionTable
           rows={[...dummyTableData, ...dummyTableData, ...dummyTableData]}

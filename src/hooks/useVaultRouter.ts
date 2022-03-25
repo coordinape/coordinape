@@ -1,24 +1,23 @@
 // - Contract Imports
 import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
+import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { Contracts } from 'services/contracts';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
-import { IVault } from 'types';
-
 export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
 
   const depositToken = async (
-    vault: IVault,
+    vault: GraphQLTypes['vaults'],
     amount: BigNumberish
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
-    const token = contracts.getERC20(vault.tokenAddress);
+    const token = contracts.getERC20(vault.token_address as string);
     const myAddress = await contracts.getMyAddress();
     const allowance = await token.allowance(
       myAddress,
@@ -40,7 +39,11 @@ export function useVaultRouter(contracts?: Contracts) {
 
     return sendAndTrackTx(
       () =>
-        contracts.router.delegateDeposit(vault.id, vault.tokenAddress, amount),
+        contracts.router.delegateDeposit(
+          vault.vault_address as string,
+          vault.token_address as string,
+          amount
+        ),
       {
         showError,
         showInfo,
@@ -50,7 +53,7 @@ export function useVaultRouter(contracts?: Contracts) {
   };
 
   const delegateWithdrawal = async (
-    vault: IVault,
+    vault: GraphQLTypes['vaults'],
     tokenAddress: string,
     shareAmount: BigNumberish,
     underlying: boolean
@@ -59,7 +62,7 @@ export function useVaultRouter(contracts?: Contracts) {
       throw new Error('Contracts or account not loaded');
     return contracts.router.delegateWithdrawal(
       account,
-      vault.id,
+      vault.vault_address as string,
       tokenAddress,
       shareAmount,
       underlying

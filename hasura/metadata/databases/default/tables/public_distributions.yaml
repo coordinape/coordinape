@@ -1,3 +1,67 @@
 table:
   name: distributions
   schema: public
+object_relationships:
+- name: epoch
+  using:
+    foreign_key_constraint_on: epoch_id
+- name: vault
+  using:
+    foreign_key_constraint_on: vault_id
+array_relationships:
+- name: claims
+  using:
+    foreign_key_constraint_on:
+      column: distribution_id
+      table:
+        name: claims
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      epoch:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+    columns:
+    - epoch_id
+    - merkle_root
+    - total_amount
+    - vault_id
+    set:
+      created_by: x-hasura-User-Id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - created_by
+    - epoch_id
+    - id
+    - vault_id
+    - merkle_root
+    - total_amount
+    - created_at
+    filter:
+      epoch:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - saved_on_chain
+    filter:
+      epoch:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user

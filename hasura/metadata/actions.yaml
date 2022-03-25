@@ -21,6 +21,16 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createEpoch'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: createNominee
   definition:
     kind: synchronous
@@ -36,16 +46,6 @@ actions:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/createUser'
     forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  - role: superadmin
-- name: deleteEpoch
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
@@ -124,10 +124,10 @@ custom_types:
   - name: UploadImageInput
   - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
-  - name: DeleteEpochInput
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
+  - name: CreateEpochInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -187,7 +187,6 @@ custom_types:
       type: object
       field_mapping:
         id: id
-  - name: DeleteEpochResponse
   - name: CreateNomineeResponse
     relationships:
     - remote_table:
@@ -204,6 +203,16 @@ custom_types:
         schema: public
         name: nominees
       name: nominee
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: EpochResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: epoches
+      name: epoch
       source: default
       type: object
       field_mapping:
