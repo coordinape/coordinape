@@ -4,15 +4,14 @@ import times from 'lodash/times';
 import { NavLink } from 'react-router-dom';
 import { styled, CSS } from 'stitches.config';
 
-import Account from '@material-ui/icons/AccountCircleOutlined';
-import ControlPoint from '@material-ui/icons/ControlPoint';
-
 import { ApeAvatar } from 'components';
 import { useAllocation, useAllocationController } from 'hooks';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import { Box, Button, Panel, Text, Link, AppLink } from 'ui';
+import Medal from 'ui/icons/Medal.svg';
+import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { IEpoch, ITokenGift } from 'types';
@@ -105,7 +104,7 @@ export const HistoryPage = () => {
             </Box>
             <Box css={{ display: 'flex' }}>
               <Minicard
-                icon={<Account />}
+                icon={Medal}
                 title={`Nomination`}
                 left={numberOfNominees > 0}
                 content={
@@ -119,7 +118,7 @@ export const HistoryPage = () => {
                 linkLabel="Go Vouching"
               />
               <Minicard
-                icon={<ControlPoint />}
+                icon={PlusInCircle}
                 title={`Allocation`}
                 left={percentageTokenRemaining > 0}
                 content={
@@ -397,10 +396,11 @@ const Minicard = ({
           color: '$gray400',
           display: 'flex',
           mb: '$sm',
+          alignItems: 'center',
         }}
       >
-        {icon}
-        <Text variant="formLabel" css={{ pt: '$xs', ml: '$xs', mb: '$md' }}>
+        <img src={icon} alt="logo" />
+        <Text variant="formLabel" css={{ ml: '$xs', mb: 0 }}>
           {title}
         </Text>
       </Box>
