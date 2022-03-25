@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import times from 'lodash/times';
 import { NavLink } from 'react-router-dom';
@@ -58,8 +58,13 @@ export const HistoryPage = () => {
         <>
           <Header>Next</Header>
           <Panel css={{ mb: '$xl', color: '#717C7F' }}>
-            Next Epoch {nextEpoch?.labelTimeStart.toLowerCase()} from{' '}
-            {nextEpoch?.labelDayRange} ({nextEpoch?.labelUntilStart})
+            <Text>
+              <Text inline bold color={'gray'} font={'inter'}>
+                Next Epoch
+              </Text>
+              &nbsp;starts in {nextEpoch?.labelUntilStart.toLowerCase()},{' '}
+              {nextEpoch.startDate.toFormat('LLL d, yyyy')}
+            </Text>
           </Panel>
         </>
       )}
@@ -77,7 +82,7 @@ export const HistoryPage = () => {
             }}
           >
             <Box>
-              <Text bold>
+              <Text bold font={'inter'}>
                 {currentEpoch.startDate.toFormat('MMMM dd')} -{' '}
                 {currentEpoch.endDate.toFormat(currentEndDateFormat)}
               </Text>
@@ -172,7 +177,7 @@ const EpochPanel = ({
           justifyContent: 'space-between',
         }}
       >
-        <Text bold>
+        <Text bold font={'inter'}>
           {startDate.toFormat('MMMM dd')} - {endDate.toFormat(endDateFormat)}
         </Text>
         <button onClick={() => setshortPanelShow(!shortPanelShow)}>
@@ -192,11 +197,11 @@ const EpochPanel = ({
       </Box>
       <Panel nested>
         <Text variant="formLabel">You received</Text>
-        <Text bold css={{ fontSize: '$6', mb: '$md' }}>
+        <Text bold font={'inter'} css={{ fontSize: '$6', mb: '$md' }}>
           {totalReceived} {tokenName}
         </Text>
         <Text variant="formLabel">Total Distributed</Text>
-        <Text bold css={{ fontSize: '$6' }}>
+        <Text bold font={'inter'} css={{ fontSize: '$6' }}>
           {totalAllocated} {tokenName}
         </Text>
       </Panel>
@@ -214,6 +219,7 @@ const EpochPanel = ({
             <Text variant="formLabel">Notes Left</Text>
             <Text
               bold
+              font={'inter'}
               css={{
                 fontSize: '$6',
               }}
@@ -225,6 +231,7 @@ const EpochPanel = ({
             <Text variant="formLabel">Received</Text>
             <Text
               bold
+              font={'inter'}
               css={{
                 fontSize: '$6',
               }}
@@ -269,45 +276,9 @@ const EpochPanel = ({
             </Text>
           </Box>
           {tab === 0 ? (
-            received.length > 0 ? (
-              received.map(gift => (
-                <Box key={gift.id} css={{ display: 'flex', my: '$sm' }}>
-                  <Box css={{ mr: '$md' }}>
-                    <ApeAvatar user={gift.sender} />
-                  </Box>
-                  <Box
-                    css={
-                      !gift.note
-                        ? { alignItems: 'center', display: 'flex' }
-                        : {}
-                    }
-                  >
-                    {gift.note && (
-                      <Text css={{ mb: '$xs', lineHeight: 'normal' }}>
-                        {gift.note}
-                      </Text>
-                    )}
-                    <Box css={{ fontSize: '$3', color: '$green' }}>
-                      {gift.tokens} {tokenName} received from {gift.sender.name}
-                    </Box>
-                  </Box>
-                </Box>
-              ))
-            ) : (
-              <Box css={{ mt: '$md' }}>
-                <Text variant="formLabel">You did not receive any notes</Text>
-              </Box>
-            )
-          ) : sent.length > 0 ? (
-            sent.map(gift => (
-              <Box key={gift.id}>
-                +{gift.tokens} to {gift.recipient.name}: {gift.note}
-              </Box>
-            ))
+            <GiftsData data={received} dataRef={'Received'} />
           ) : (
-            <Box css={{ mt: '$md' }}>
-              <Text variant="formLabel">You did not send any notes</Text>
-            </Box>
+            <GiftsData data={sent} dataRef={'Sent'} />
           )}
         </Panel>
       )}
@@ -404,7 +375,7 @@ const Minicard = ({
 }: MinicardProps) => {
   const colorText = left ? 'red' : '$gray400';
   return (
-    <Panel nested css={{ mr: '$md' }}>
+    <Panel nested css={{ ml: '$md', minWidth: '280px' }}>
       <Box
         css={{
           color: '$gray400',
@@ -413,18 +384,18 @@ const Minicard = ({
         }}
       >
         {icon}
-        <Text variant="formLabel" css={{ pt: '$xs' }}>
+        <Text variant="formLabel" css={{ pt: '$xs', ml: '$xs', mb: '$md' }}>
           {title}
         </Text>
       </Box>
-
       <Text
         bold
         css={{
-          fontSize: '$6',
-          m: '$xs',
+          fontSize: '$3',
+          mb: '$md',
           color: colorText,
           opacity: 0.5,
+          ml: '$lg',
         }}
       >
         {content}
@@ -435,17 +406,56 @@ const Minicard = ({
         to={linkpaths}
         css={{
           size: '$max',
-          p: '$xs',
-          fontSize: '$6',
-          m: '$xs',
-          border: 'solid 1px $border',
-          borderRadius: '$pill',
+          ml: '$lg',
         }}
       >
-        <Text bold css={{ fontSize: '$6', m: '$xs' }}>
+        <Text
+          bold
+          css={{
+            p: '$xs',
+            fontSize: '$3',
+            border: 'solid 1px $border',
+            borderRadius: '$3',
+          }}
+        >
           {linkLabel}
         </Text>
       </Link>
     </Panel>
   );
+};
+
+type GiftsDataProps = {
+  data: any;
+  dataRef: string;
+};
+
+const GiftsData = ({ data, dataRef }: GiftsDataProps) => {
+  const receivedGifts =
+    data.length > 0 ? (
+      data.map((gift: any) => (
+        <Box key={gift.id} css={{ display: 'flex', my: '$sm' }}>
+          <Box css={{ mr: '$md' }}>
+            <ApeAvatar user={gift.sender} />
+          </Box>
+          <Box css={{ alignItems: 'center', display: 'flex' }}>
+            {gift.note && (
+              <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{gift.note}</Text>
+            )}
+            <Box css={{ fontSize: '$3', color: '$green' }}>
+              {gift.tokens} {gift.tokenName}{' '}
+              {dataRef === 'Received'
+                ? `received from ${gift.sender.name}`
+                : `sent to ${gift.recipient.name}`}
+            </Box>
+          </Box>
+        </Box>
+      ))
+    ) : (
+      <Box css={{ mt: '$md' }}>
+        <Text variant="formLabel">You did not {dataRef} any notes</Text>
+      </Box>
+    );
+
+  return receivedGifts;
 };
