@@ -15,6 +15,13 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
+  '&[disabled]': {
+    opacity: 0.5,
+  },
+
+  '&:hover': {
+    opacity: 0.8,
+  },
 
   variants: {
     color: {
@@ -24,9 +31,6 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$redHover',
         },
-        '&[disabled]': {
-          opacity: 0.5,
-        },
       },
       gray: {
         backgroundColor: '$border',
@@ -34,6 +38,14 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$lightText',
         },
+      },
+      blue: {
+        backgroundColor: '$blue',
+        color: 'white',
+      },
+      teal: {
+        backgroundColor: '$teal',
+        color: 'white',
       },
       oldGray: {
         backgroundColor: '$surfaceGray',
@@ -103,6 +115,7 @@ export const Button = styled('button', {
         '&:hover': {
           color: '$selected',
           background: '$surfaceGray',
+          opacity: 1,
         },
         '&:disabled': {
           color: '$text',
@@ -143,6 +156,24 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$lightGray',
         },
+      },
+    },
+    {
+      color: 'blue',
+      outlined: true,
+      css: {
+        color: '$blue',
+        borderColor: '$blue',
+        backgroundColor: 'transparent',
+      },
+    },
+    {
+      color: 'teal',
+      outlined: true,
+      css: {
+        color: '$teal',
+        borderColor: '$teal',
+        backgroundColor: 'transparent',
       },
     },
   ],

@@ -95,6 +95,7 @@ export const {
       selected: '#31A5AC',
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
+      blue: '#2c91ee', // Blue/12
 
       teal: '#53b7cd', // Teal/12
       darkTeal: '#246e7e', // Teal/20
