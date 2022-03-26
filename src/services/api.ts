@@ -14,7 +14,6 @@ import {
   IApiManifest,
   PostProfileParam,
   PostTokenGiftsParam,
-  PostUsersParam,
   PutCirclesParam,
   PutUsersParam,
   UpdateCreateEpochParam,
@@ -145,16 +144,6 @@ export class APIService {
     const response = await this.axios.delete(
       `/v2/${circleId}/admin/epoches/${epochId}`
     );
-    return response.data;
-  };
-
-  createUser = async (
-    circleId: number,
-    params: PostUsersParam
-  ): Promise<IApiUser> => {
-    const response = await this.axios.post(`/v2/${circleId}/admin/users`, {
-      data: JSON.stringify(params),
-    });
     return response.data;
   };
 

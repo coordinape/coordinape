@@ -55,7 +55,6 @@ input CreateUserInput {
   address: String!
   name: String!
   fixed_non_receiver: Boolean
-  give_token_remaining: Int
   non_giver: Boolean
   non_receiver: Boolean
   role: Int

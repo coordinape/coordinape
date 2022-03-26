@@ -20,6 +20,7 @@ export interface PostUsersParam {
   address: string;
   non_giver?: boolean;
   fixed_non_receiver?: boolean;
+  non_receiver?: boolean;
   role?: number;
   starting_tokens?: number;
 }

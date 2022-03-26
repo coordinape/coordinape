@@ -90,7 +90,6 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | null;
-    give_token_remaining?: number | null;
     name: string;
     non_giver?: boolean | null;
     non_receiver?: boolean | null;
@@ -13464,7 +13463,6 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean;
-    give_token_remaining?: number;
     name: string;
     non_giver?: boolean;
     non_receiver?: boolean;
