@@ -38,6 +38,7 @@ export const paths = {
   team: '/team',
   epoch: '/epoch',
   give: '/give',
+  map: '/map',
   vouching: '/vouching',
   history: '/history',
   admin: '/admin',
@@ -80,18 +81,6 @@ const NAV_ITEM_PROFILE = {
   path: getProfilePath({ address: 'me' }),
   label: 'My Profile',
 };
-const NAV_ITEM_NEW_CIRCLE = {
-  path: getCreateCirclePath(),
-  label: ' Add Circle',
-};
-const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
-const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
-const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };
-const NAV_ITEM_ALLOCATE = {
-  path: getAllocationPath(),
-  label: 'Allocate',
-  subItems: [NAV_ITEM_EPOCH, NAV_ITEM_TEAM, NAV_ITEM_GIVE],
-};
 const NAV_ITEM_LANDING_PAGE = {
   path: EXTERNAL_URL_LANDING_PAGE,
   label: 'coordinape.com',
@@ -113,44 +102,8 @@ const NAV_ITEM_DOCS = {
   isExternal: true,
 };
 
-export const getMainNavigation = ({
-  asCircleAdmin,
-  asVouchingEnabled,
-}: {
-  asCircleAdmin?: boolean;
-  asVouchingEnabled?: boolean;
-} = {}): INavItem[] => {
-  const mainItems = [
-    { path: getHistoryPath(), label: 'History' },
-    NAV_ITEM_ALLOCATE,
-    { path: getMapPath(), label: 'Map' },
-  ];
-
-  if (asVouchingEnabled) {
-    mainItems.push({ path: getVouchingPath(), label: 'Vouching' });
-  }
-  if (asCircleAdmin) {
-    mainItems.push({ path: paths.adminCircles, label: 'Admin' });
-  }
-
-  return mainItems;
-};
-
-export const getVouchingNavigation = (): INavItem[] => [
-  { path: getVouchingPath(), label: 'Vouching' },
-];
-
-export const getGiveNavigation = (): INavItem[] => [
-  { path: getGivePath(), label: 'Allocate' },
-];
-
 export const getMenuNavigation = (): INavItem[] => [
   NAV_ITEM_PROFILE,
-  NAV_ITEM_DOCS,
-];
-
-export const getRelatedNavigation = (): INavItem[] => [
-  NAV_ITEM_NEW_CIRCLE,
   NAV_ITEM_DOCS,
 ];
 

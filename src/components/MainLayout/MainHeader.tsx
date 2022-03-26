@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useMemo } from 'react';
 
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
@@ -19,14 +19,13 @@ import {
   useWalletAuth,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { getMainNavigation, paths } from 'routes/paths';
-import type { INavItem } from 'routes/paths';
+import { paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Divider } from 'ui';
 
 const mainLinks = [
-  { path: paths.circles, label: 'Circles' },
-  isFeatureEnabled('vaults') && { path: paths.vaults, label: 'Vaults' },
-].filter(x => x) as INavItem[];
+  [paths.circles, 'Circles'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
+].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
   const hasCircles = useHasCircles();
@@ -185,10 +184,6 @@ const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
               </Suspense>
               <Box>
                 <WalletButton />
-                {/* TODO: ask Alexander where the GIVES needs to be 
-              <Suspense fallback={<span />}>
-                <ReceiveInfo />
-              </Suspense>*/}
               </Box>
             </Box>
             <Box
@@ -218,6 +213,9 @@ const linkStyle = {
   px: 0,
   py: '$xs',
   position: 'relative',
+  '&:last-child': {
+    mr: 'calc($md * 2)',
+  },
   '&::after': {
     content: `" "`,
     position: 'absolute',
@@ -268,7 +266,7 @@ const linkStyle = {
   },
 };
 
-export const TopLevelLinks = ({ links }: { links: INavItem[] }) => {
+export const TopLevelLinks = ({ links }: { links: [string, string][] }) => {
   return (
     <Box
       css={{
@@ -282,9 +280,9 @@ export const TopLevelLinks = ({ links }: { links: INavItem[] }) => {
         },
       }}
     >
-      {links.map(navItem => (
-        <Link css={linkStyle} as={NavLink} key={navItem.path} to={navItem.path}>
-          {navItem.label}
+      {links.map(([path, label]) => (
+        <Link css={linkStyle} as={NavLink} key={path} to={path}>
+          {label}
         </Link>
       ))}
     </Box>
@@ -294,10 +292,18 @@ export const TopLevelLinks = ({ links }: { links: INavItem[] }) => {
 // this has to be split out into its own component so it can suspend
 const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
-  const links = getMainNavigation({
-    asCircleAdmin: myUser.isCircleAdmin,
-    asVouchingEnabled: circle.hasVouching,
-  });
+
+  const links = useMemo(
+    () =>
+      [
+        [paths.history, 'History'],
+        [paths.allocation, 'Allocate'],
+        [paths.map, 'Map'],
+        circle.hasVouching && [paths.vouching, 'Vouching'],
+        myUser.isCircleAdmin && [paths.adminCircles, 'Admin'],
+      ].filter(x => x) as [string, string][],
+    [circle.id]
+  );
 
   return <TopLevelLinks links={links} />;
 };
