@@ -52,7 +52,6 @@ export const Text = styled('span', {
         fontSize: '$3',
         fontFamily: 'Inter',
         fontWeight: '$semibold',
-        mb: '$xs',
       },
     },
   },

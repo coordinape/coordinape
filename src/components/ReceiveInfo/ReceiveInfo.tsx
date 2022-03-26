@@ -15,8 +15,6 @@ import { Button } from 'ui';
 const useStyles = makeStyles(theme => ({
   root: {
     marginRight: 8,
-    alignItems: 'center',
-    flex: '1 0 auto',
   },
   popover: {
     width: 335,

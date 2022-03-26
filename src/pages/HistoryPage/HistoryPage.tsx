@@ -8,7 +8,7 @@ import { Paginator } from 'components/Paginator';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, AppLink } from 'ui';
+import { Box, Panel, Text, AppLink, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CurrentEpochPanel } from './CurrentEpochPanel';
@@ -190,33 +190,23 @@ const EpochPanel = ({
         </Panel>
       ) : (
         <Panel nested>
-          <Box css={{ display: 'flex', gap: '$sm' }}>
-            <Text
-              variant="formLabel"
-              css={{
-                color: tab === 0 ? '$primary' : '$gray400',
-                cursor: 'pointer',
-                border: '1px solid $primary',
-                padding: '$sm',
-                borderRadius: '$pill',
-              }}
-              onClick={() => setTab(0)}
-            >
-              Received
-            </Text>
-            <Text
-              variant="formLabel"
-              css={{
-                color: tab === 1 ? '$primary' : '$gray400',
-                cursor: 'pointer',
-                border: '1px solid $primary',
-                padding: '$sm',
-                borderRadius: '$pill',
-              }}
-              onClick={() => setTab(1)}
-            >
-              Sent
-            </Text>
+          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+            {['Received', 'Sent'].map((label, index) => (
+              <Button
+                key={label}
+                outlined
+                size="small"
+                css={{ borderRadius: '$pill' }}
+                onClick={() => setTab(index)}
+              >
+                <Text
+                  variant="formLabel"
+                  css={{ color: tab === index ? '$primary' : '$gray400' }}
+                >
+                  {label}
+                </Text>
+              </Button>
+            ))}
           </Box>
           {tab === 0 ? (
             <Notes tokenName={tokenName} data={received} received />

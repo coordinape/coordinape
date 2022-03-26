@@ -2,7 +2,7 @@ import { Suspense, useState, useEffect, useMemo } from 'react';
 
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
-import { MediaQueryKeys } from 'stitches.config';
+import { MediaQueryKeys, CSS } from 'stitches.config';
 
 import {
   ReceiveInfo,
@@ -52,29 +52,21 @@ export const MainHeader = () => {
     >
       <Image
         alt="logo"
-        css={{
-          justifySelf: 'start',
-          height: '$1xl',
-          mr: '$md',
-        }}
+        css={{ height: '$1xl', mr: '$md' }}
         src="/svgs/logo/logo.svg"
       />
       {hasCircles && <TopLevelLinks links={mainLinks} />}
-      <Box css={{ color: '$gray400', ml: '$md', flex: '1 1 0' }}>
+      <Box css={{ color: '$gray400', mx: '$md', flex: '1 1 0' }}>
         {breadcrumb}
       </Box>
-      <Box
-        css={{ display: 'flex', justifySelf: 'flex-end', alignItems: 'center' }}
-      >
-        <Suspense fallback={null}>
-          {inCircle && <CircleNav />}
-          <ReceiveInfo />
-        </Suspense>
-        <WalletButton />
-        <Suspense fallback={null}>
-          <MyAvatarMenu />
-        </Suspense>
-      </Box>
+      <Suspense fallback={null}>{inCircle && <CircleNav />}</Suspense>
+      <Suspense fallback={null}>
+        <ReceiveInfo />
+      </Suspense>
+      <WalletButton />
+      <Suspense fallback={null}>
+        <MyAvatarMenu />
+      </Suspense>
     </Box>
   );
 };
@@ -120,14 +112,7 @@ const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
           py: '$md',
         }}
       >
-        <Image
-          alt="logo"
-          css={{
-            justifySelf: 'start',
-            height: 40,
-          }}
-          src="/svgs/logo/logo.svg"
-        />
+        <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
         {menuWalletButton}
       </Box>
       {isMobileMenuOpen && (
@@ -155,11 +140,7 @@ const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
               pb: '$2xl',
             }}
           >
-            <Box
-              css={{
-                pb: '$md',
-              }}
-            >
+            <Box css={{ pb: '$md' }}>
               <Suspense fallback={<span />}>
                 <TopLevelLinks links={mainLinks} />
                 <Box css={{ margin: 0, marginLeft: '1rem', color: '$gray400' }}>
@@ -213,9 +194,6 @@ const linkStyle = {
   px: 0,
   py: '$xs',
   position: 'relative',
-  '&:last-child': {
-    mr: 'calc($md * 2)',
-  },
   '&::after': {
     content: `" "`,
     position: 'absolute',
@@ -266,7 +244,13 @@ const linkStyle = {
   },
 };
 
-export const TopLevelLinks = ({ links }: { links: [string, string][] }) => {
+export const TopLevelLinks = ({
+  links,
+  css = {},
+}: {
+  links: [string, string][];
+  css?: CSS;
+}) => {
   return (
     <Box
       css={{
@@ -278,6 +262,7 @@ export const TopLevelLinks = ({ links }: { links: [string, string][] }) => {
           alignItems: 'flex-start',
           flexDirection: 'column',
         },
+        ...css,
       }}
     >
       {links.map(([path, label]) => (
@@ -305,7 +290,7 @@ const CircleNav = () => {
     [circle.id]
   );
 
-  return <TopLevelLinks links={links} />;
+  return <TopLevelLinks links={links} css={{ mr: '$md' }} />;
 };
 
 export default MainHeader;

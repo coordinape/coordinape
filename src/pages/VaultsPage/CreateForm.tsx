@@ -147,7 +147,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         ))}
       </Box>
       <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
-      <Text variant="formLabel" css={{ width: '100%' }}>
+      <Text variant="formLabel" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
           <span>
