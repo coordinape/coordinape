@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import DevPortalPage from '../pages/DevPortalPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
@@ -88,6 +89,8 @@ const LoggedInRoutes = () => {
         path={paths.connectIntegration}
         element={<IntegrationCallbackPage />}
       />
+      <Route path={paths.devPortal} element={<DevPortalPage />} />
+
       <Route
         path={getDistributePath(':epochId')}
         element={<DistributePage />}

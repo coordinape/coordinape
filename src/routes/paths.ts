@@ -40,6 +40,7 @@ export const paths = {
   epoch: '/epoch',
   give: '/give',
   vouching: '/vouching',
+  devPortal: '/devPortal',
   history: '/history',
   admin: '/admin',
   vaults: '/admin/vaults',
