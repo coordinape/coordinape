@@ -540,7 +540,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 }
                 onClick={() => setNewEpoch(true)}
               >
-                Add Epoch
+                Create Epoch
               </Button>
               <Button
                 variant="contained"
@@ -571,7 +571,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 startIcon={<PlusCircleIcon />}
                 onClick={() => setNewEpoch(true)}
               >
-                Add Epoch
+                Create Epoch
               </Button>
             </>
           }
