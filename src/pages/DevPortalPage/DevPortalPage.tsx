@@ -4,10 +4,13 @@ import { REACT_APP_HASURA_URL } from '../../config/env';
 import { useCurrentUserAuthToken } from '../../hooks/useAuthToken';
 import { Box, Panel, Button } from '../../ui';
 
+const EXAMPLE_QUERY =
+  'query+MyCircles+%7B%0A++circles%28limit%3A+3%29+%7B%0A++++name%0A++++organization+%7B%0A++++++name%0A++++%7D%0A++++epochs%28limit%3A+3%2C+where%3A+%7Bended%3A+%7B_eq%3A+true%7D%7D%29+%7B%0A++++++id%0A++++++end_date%0A++++++start_date%0A++++%7D%0A++++users%28limit%3A+5%2C+order_by%3A+%7Bcreated_at%3A+asc%7D%29+%7B%0A++++++id%0A++++++name%0A++++++give_token_received%0A++++++give_token_remaining%0A++++++profile+%7B%0A++++++++twitter_username%0A++++++%7D%0A++++%7D%0A++%7D%0A%7D%0A';
+
 const getConsoleUrl = (authToken: string) => {
   return `https://cloud.hasura.io/public/graphiql?endpoint=${REACT_APP_HASURA_URL}&header=Authorization:${encodeURIComponent(
     `Bearer ${authToken}`
-  )}`;
+  )}&query=${EXAMPLE_QUERY}`;
 };
 
 /**
@@ -38,12 +41,15 @@ export const DevPortalPage: React.FC = () => {
         >
           Developer Portal
         </Box>
-        <Box css={{ pt: '$md', color: '$text', maxWidth: '70ch' }}>
+        <Box css={{ pt: '$md', color: '$text' }}>
           If you would like to access your circle data programmatically, you can
           use Coordinape&#39;s GraphQL API. Click the button below to visit our
           API Explorer where you will find the GraphQL API endpoint, the
           token/headers you can use to authenticate your request, and a live
           console to construct queries.
+        </Box>
+        <Box css={{ pt: '$md', color: '$text', fontStyle: 'italic' }}>
+          NOTE: This API is subject to change as we improve our data model.
         </Box>
         <Box
           css={{
