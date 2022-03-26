@@ -1,3 +1,5 @@
+import * as mutations from 'lib/gql/mutations';
+
 import { useApiBase } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import { getApiService } from 'services/api';
@@ -29,7 +31,7 @@ export const useApiWithSelectedCircle = () => {
 
   const nominateUser = useRecoilLoadCatch(
     () => async (params: NominateUserParam) => {
-      await getApiService().nominateUser(circleId, params);
+      await mutations.createNominee(circleId, params);
       await fetchCircle({ circleId: circleId });
     },
     [circleId]
