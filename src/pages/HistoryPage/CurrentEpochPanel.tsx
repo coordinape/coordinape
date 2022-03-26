@@ -37,20 +37,22 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: IEpoch }) => {
         </Text>
       </Box>
       <Box css={{ display: 'flex' }}>
-        <Minicard
-          icon={Medal}
-          title="Nominations"
-          alert={numberOfNominees > 0}
-          content={
-            numberOfNominees > 0
-              ? `${numberOfNominees} nomination${
-                  numberOfNominees > 1 ? 's' : ''
-                }`
-              : 'None yet. Nominate someone?'
-          }
-          path={paths.vouching}
-          linkLabel="Go to Vouching"
-        />
+        {circle.hasVouching && (
+          <Minicard
+            icon={Medal}
+            title="Nominations"
+            alert={numberOfNominees > 0}
+            content={
+              numberOfNominees > 0
+                ? `${numberOfNominees} nomination${
+                    numberOfNominees > 1 ? 's' : ''
+                  }`
+                : 'None yet. Nominate someone?'
+            }
+            path={paths.vouching}
+            linkLabel="Go to Vouching"
+          />
+        )}
         <Minicard
           icon={PlusInCircle}
           title="Allocations"
