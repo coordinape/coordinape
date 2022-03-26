@@ -54,6 +54,7 @@ export const Button = styled('button', {
     size: {
       large: {
         height: '$2xl',
+        minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
         fontSize: '$5',
@@ -63,6 +64,7 @@ export const Button = styled('button', {
       },
       medium: {
         height: 'calc($xl + 4px)',
+        minHeight: 'calc($xl + 4px)',
         fontSize: '$4',
         fontWeight: '$bold',
         lineHeight: '$shorter',
@@ -70,6 +72,7 @@ export const Button = styled('button', {
       },
       small: {
         height: '$xl',
+        minHeight: '$xl',
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
