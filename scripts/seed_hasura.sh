@@ -5,7 +5,11 @@
 ./scripts/disable-triggers.sh
 
 # Re-seed database
-yarn db-clean && yarn db-seed && yarn db-add-me
+if [ "$1" == "--clean" ]
+  then node ./scripts/tsrun.mjs ./scripts/db-clean.ts
+fi
+node ./scripts/tsrun.mjs ./scripts/db-seed.ts
+node ./scripts/tsrun.mjs ./scripts/db-add-me.ts
 
 # Re-enable event triggers post-seeding
 ./scripts/enable-triggers.sh
