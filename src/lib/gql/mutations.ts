@@ -259,3 +259,19 @@ export const createNominee = async (
   });
   return createNominee;
 };
+
+export const vouchUser = async (nomineeId: number) => {
+  const { vouch } = await client.mutate({
+    vouch: [
+      {
+        payload: {
+          nominee_id: nomineeId,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return vouch;
+};

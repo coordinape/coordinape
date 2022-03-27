@@ -39,7 +39,7 @@ export const useApiWithSelectedCircle = () => {
 
   const vouchUser = useRecoilLoadCatch(
     () => async (nominee_id: number) => {
-      await getApiService().vouchUser(circleId, nominee_id);
+      await mutations.vouchUser(nominee_id);
       await fetchCircle({ circleId: circleId });
     },
     [circleId],
