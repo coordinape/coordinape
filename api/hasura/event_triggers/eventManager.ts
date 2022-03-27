@@ -20,12 +20,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
-const PROD_HANDLERS: HandlerDict = {};
-
-const STAGING_HANDLERS: HandlerDict = {
-  ...PROD_HANDLERS,
-  checkNomineeDiscord,
-  checkNomineeTelegram,
+const PROD_HANDLERS: HandlerDict = {
   createNomineeDiscord,
   createNomineeTelegram,
   createProfile,
@@ -35,6 +30,12 @@ const STAGING_HANDLERS: HandlerDict = {
   refundGiveTelegram,
   refundGiveDiscord,
   refundPendingGift,
+};
+
+const STAGING_HANDLERS: HandlerDict = {
+  ...PROD_HANDLERS,
+  checkNomineeDiscord,
+  checkNomineeTelegram,
   vouchDiscord,
   vouchTelegram,
 };
