@@ -369,6 +369,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
               </div>
             );
           },
+          sortFunc:(a: string, b: string) =>  new Intl.Collator('en-u-kf-upper').compare(a, b),
           wide: true,
           leftAlign: true,
         },
