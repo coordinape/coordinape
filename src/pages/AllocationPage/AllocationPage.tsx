@@ -8,6 +8,8 @@ import {
   Step,
   StepButton,
   IconButton,
+  Tooltip,
+  Zoom,
 } from '@material-ui/core';
 
 import { Button } from '../../ui';
@@ -52,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'column',
     overflow: 'auto',
     width: '100%',
@@ -85,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '2%',
+    marginTop: '-160px',
   },
   backButton: {
     marginRight: theme.spacing(1.5),
@@ -137,8 +139,17 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'underline',
   },
   tooltip: {
-    fontWeight: 400,
+    fontSize: 14,
+    lineHeight: 1.4,
+    fontWeight: 300,
+    maxWidth: 296,
+    padding: theme.spacing(4),
+    margin: theme.spacing(0, 2),
+    borderRadius: 8,
+    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
     color: theme.colors.text,
+    background:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), linear-gradient(0deg, #FFFFFF, #FFFFFF)',
   },
   btn: {
     marginTop: 32,
@@ -344,30 +355,44 @@ export const AllocationPage = () => {
               )}
             </div>
             <div className={classes.tooltipContainer}>
-              <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
-                <b>Why is Coordinape in my circle?</b>
-                <div>
-                  To date Coordinape has offered our service for free. We
-                  decided that using the gift circle mechanism as our revenue
-                  model might make a lot of sense, so we’re trying that out.
-                </div>
+              <Tooltip
+                title={
+                  <div>
+                    {' '}
+                    <b>Why is Coordinape in my circle?</b>
+                    <div>
+                      To date Coordinape has offered our service for free. We
+                      decided that using the gift circle mechanism as our
+                      revenue model might make a lot of sense, so we’re trying
+                      that out.
+                    </div>
+                    <a
+                      href={EXTERNAL_URL_FEEDBACK}
+                      rel="noreferrer"
+                      target="_blank"
+                      className={classes.tooltipLink}
+                    >
+                      Let us know what you think
+                    </a>
+                  </div>
+                }
+                placement="top-start"
+                TransitionComponent={Zoom}
+                leaveDelay={50} // Allows clickable links as content, transition-out animation prevents clicking without a slight delay
+                classes={{
+                  ...classes,
+                }}
+                interactive
+              >
                 <a
+                  className={classes.tooltipLink}
                   href={EXTERNAL_URL_FEEDBACK}
                   rel="noreferrer"
                   target="_blank"
-                  className={classes.tooltipLink}
                 >
-                  Let us know what you think
+                  Why is Coordinape in my circle?
                 </a>
-              </ApeInfoTooltip>
-              <a
-                className={classes.tooltipLink}
-                href={EXTERNAL_URL_FEEDBACK}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Why is Coordinape in my circle?
-              </a>
+              </Tooltip>
             </div>
           </>
         )}
@@ -391,6 +416,7 @@ export const AllocationPage = () => {
                 <BalanceIcon />
               </IconButton>
             </div>
+
             <div className={classes.buttonContainer}>
               {localGiftsChanged && (
                 <Button
