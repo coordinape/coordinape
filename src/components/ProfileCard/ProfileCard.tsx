@@ -83,13 +83,7 @@ const useStyles = makeStyles(theme => ({
   tooltipButton: {
     marginTop: '16px',
   },
-  tooltip: {
-    fontWeight: 400,
-    color: theme.colors.text,
-    padding: '28px',
-    minWidth: '296px',
-    minHeight: '263px',
-  },
+  tooltip: {},
   skillContainer: {
     gridColumn: '1 / 4',
     display: 'flex',
@@ -212,8 +206,8 @@ const ProfileCardInner = ({
                 <div className={classes.tooltipButton}>
                   {user.role === USER_ROLE_COORDINAPE ? (
                     <div className={classes.tooltipButton}>
-                      <Button variant="contained" size="small">
-                        See Circle Setting
+                      <Button fullWidth variant="contained" size="small">
+                        See Circle Settings
                       </Button>
                     </div>
                   ) : (
