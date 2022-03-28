@@ -151,6 +151,16 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: number[];
+  };
+  ['UpdateTeammatesResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   ['UpdateUserInput']: {
     bio?: string | null;
     circle_id: number;
@@ -1559,6 +1569,10 @@ columns and relationships of "distributions" */
       ValueTypes['vaults']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateTeammates?: [
+      { payload: ValueTypes['UpdateTeammatesInput'] },
+      ValueTypes['UpdateTeammatesResponse']
+    ];
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -3810,6 +3824,12 @@ export type ModelTypes = {
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
+  ['UpdateTeammatesResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: string;
+  };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
@@ -4238,6 +4258,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: ModelTypes['vaults'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "circles" */
@@ -5092,6 +5113,16 @@ export type GraphQLTypes = {
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: Array<number>;
+  };
+  ['UpdateTeammatesResponse']: {
+    __typename: 'UpdateTeammatesResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: string;
   };
   ['UpdateUserInput']: {
     bio?: string;
@@ -6304,6 +6335,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "circles" */

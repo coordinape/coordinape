@@ -72,3 +72,34 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
 
   return users.pop();
 };
+
+export const getUsersFromUserIds = async (
+  userIds: number[],
+  circleId: number
+) => {
+  const { users } = await adminClient.query({
+    users: [
+      {
+        where: {
+          id: { _in: userIds },
+          circle_id: { _eq: circleId },
+          deleted_at: { _is_null: true },
+        },
+      },
+      {
+        id: true,
+        role: true,
+        address: true,
+        circle_id: true,
+        give_token_remaining: true,
+        give_token_received: true,
+        non_giver: true,
+        non_receiver: true,
+        fixed_non_receiver: true,
+        starting_tokens: true,
+      },
+    ],
+  });
+
+  return users;
+};

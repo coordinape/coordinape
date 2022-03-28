@@ -459,6 +459,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateTeammatesInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    teammates: {
+      type: 'Int',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   UpdateUserInput: {
     bio: {
       type: 'String',
@@ -5194,6 +5208,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_vaults_one: {
       object: {
         type: 'vaults_insert_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateTeammates: {
+      payload: {
+        type: 'UpdateTeammatesInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -11815,6 +11837,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  UpdateTeammatesResponse: {
+    user: 'users',
+    user_id: 'ID',
+  },
   UserResponse: {
     UserResponse: 'users',
     id: 'ID',
@@ -11972,6 +11998,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults: 'vaults_mutation_response',
     insert_vaults_one: 'vaults',
     logoutUser: 'LogoutResponse',
+    updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',

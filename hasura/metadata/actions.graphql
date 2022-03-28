@@ -27,6 +27,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
+}
+
+type Mutation {
   updateUser(payload: UpdateUserInput!): UserResponse
 }
 
@@ -118,6 +122,11 @@ input CreateEpochInput {
   grant: Float
 }
 
+input UpdateTeammatesInput {
+  teammates: [Int]!
+  circle_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -152,4 +161,8 @@ type VouchOutput {
 
 type EpochResponse {
   id: ID!
+}
+
+type UpdateTeammatesResponse {
+  user_id: ID!
 }
