@@ -373,7 +373,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                   {u.role === USER_ROLE_COORDINAPE ? (
                     <div className={classes.tooltipWrapper}>
                       <ApeInfoTooltip>
-                        <p>Why is Coordinape in your circle?</p>
+                        <b>Why is Coordinape in your circle?</b>
                         <p>
                           We’re experimenting with the gift circle mechanism as
                           our revenue model. By default, Coordinape appears in
@@ -381,7 +381,11 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                           To remove the Coordinape user click “disable” on the
                           right side of this row.
                         </p>
-                        <a href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a">
+                        <a
+                          href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
                           Let us know what you think
                         </a>
                       </ApeInfoTooltip>
