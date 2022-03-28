@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
-import { DateTime, Settings } from 'luxon';
+import { DateTime, Settings, Duration } from 'luxon';
 
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -114,6 +114,7 @@ async function getEpochsToNotify() {
             circle_id: true,
             repeat: true,
             number: true,
+            days: true,
             repeat_day_of_month: true,
             start_date: true,
             end_date: true,
@@ -390,13 +391,23 @@ async function createNextEpoch(epoch: {
   end_date: string;
   circle_id: number;
   repeat: number;
+  days?: number;
   repeat_day_of_month: number;
   circle?: { telegram_id?: string; discord_webhook?: string };
 }) {
-  const { start_date, end_date, repeat, repeat_day_of_month, circle } = epoch;
+  const {
+    start_date,
+    end_date,
+    repeat,
+    repeat_day_of_month,
+    circle,
+    days: epochLengthInDays,
+  } = epoch;
   const start = DateTime.fromISO(start_date);
   const end = DateTime.fromISO(end_date);
-  const days = end.diff(start, 'days');
+  const days = epochLengthInDays
+    ? Duration.fromObject({ days: epochLengthInDays })
+    : end.diff(start, 'days');
   const nextStartDate =
     repeat === 1
       ? start.plus({ days: 7 })
