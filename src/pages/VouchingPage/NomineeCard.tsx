@@ -34,6 +34,13 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 400,
     color: theme.colors.text,
     textAlign: 'center',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 4,
+    '-webkit-box-orient': 'vertical',
+    wordBreak: 'break-word',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    gridColumn: '1 / 4',
   },
   infoContainer: {
     margin: theme.spacing(0, 4),

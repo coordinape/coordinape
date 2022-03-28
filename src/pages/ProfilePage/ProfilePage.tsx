@@ -86,6 +86,13 @@ const useStyles = makeStyles(theme => ({
     fontSize: 30,
     fontWeight: 600,
     color: theme.colors.primary,
+    display: '-webkit-box',
+    '-webkit-line-clamp': 4,
+    '-webkit-box-orient': 'vertical',
+    wordBreak: 'break-word',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    gridColumn: '1 / 4',
   },
   skillGroup: {
     display: 'flex',
