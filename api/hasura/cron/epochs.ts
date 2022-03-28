@@ -131,6 +131,7 @@ async function getEpochsToNotify() {
                 {
                   id: true,
                   name: true,
+                  non_giver: true,
                   non_receiver: true,
                   circle_id: true,
                   bio: true,
@@ -288,7 +289,10 @@ export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
         user.give_token_remaining === user.starting_tokens;
       if (userUserHasAllGive) usersWithStartingGive.push(user.name);
       const optOutMutation =
-        !user.non_receiver && circle.auto_opt_out && userUserHasAllGive
+        !user.non_giver &&
+        !user.non_receiver &&
+        circle.auto_opt_out &&
+        userUserHasAllGive
           ? { non_receiver: true }
           : {};
 
