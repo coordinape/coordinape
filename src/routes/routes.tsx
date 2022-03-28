@@ -89,7 +89,7 @@ const LoggedInRoutes = () => {
         path={paths.connectIntegration}
         element={<IntegrationCallbackPage />}
       />
-      <Route path={paths.devPortal} element={<DevPortalPage />} />
+      <Route path={paths.developers} element={<DevPortalPage />} />
 
       <Route
         path={getDistributePath(':epochId')}
