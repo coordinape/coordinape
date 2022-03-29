@@ -53,7 +53,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
-      await getApiService().deleteEpoch(circleId, epochId);
+      await mutations.deleteEpoch(circleId, epochId);
       await fetchManifest();
     },
     [circleId]

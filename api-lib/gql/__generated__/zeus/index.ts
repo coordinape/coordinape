@@ -96,6 +96,14 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: AliasType<{
+    success?: boolean;
+    __typename?: boolean;
+  }>;
   ['EpochResponse']: AliasType<{
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
@@ -3444,6 +3452,10 @@ columns and relationships of "distributions" */
     createUser?: [
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
+    ];
+    deleteEpoch?: [
+      { payload: ValueTypes['DeleteEpochInput'] },
+      ValueTypes['DeleteEpochResponse']
     ];
     delete_burns?: [
       {
@@ -9365,6 +9377,10 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
+  ['DeleteEpochResponse']: {
+    success: boolean;
+  };
   ['EpochResponse']: {
     /** An object relationship */
     epoch: ModelTypes['epochs'];
@@ -11019,6 +11035,7 @@ columns and relationships of "distributions" */
     createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
+    deleteEpoch?: ModelTypes['DeleteEpochResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
@@ -13468,6 +13485,14 @@ export type GraphQLTypes = {
     non_receiver?: boolean;
     role?: number;
     starting_tokens?: number;
+  };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: {
+    __typename: 'DeleteEpochResponse';
+    success: boolean;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -16498,6 +16523,7 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */

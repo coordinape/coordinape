@@ -275,3 +275,20 @@ export const vouchUser = async (nomineeId: number) => {
   });
   return vouch;
 };
+
+export async function deleteEpoch(circleId: number, epochId: number) {
+  const { deleteEpoch } = await client.mutate({
+    deleteEpoch: [
+      {
+        payload: {
+          id: epochId,
+          circle_id: circleId,
+        },
+      },
+      {
+        success: true,
+      },
+    ],
+  });
+  return deleteEpoch;
+}
