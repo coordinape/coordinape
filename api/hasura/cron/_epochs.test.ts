@@ -647,7 +647,7 @@ describe('epoch Cron Logic', () => {
       const input = getEpochInput('notifyStart', {});
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
-      //expect(mockSendSocial).not.toBeCalled();
+      expect(mockSendSocial).not.toBeCalled();
       expect(mockMutation).toBeCalledWith({
         update_epochs_by_pk: [
           { _set: { number: 1 }, pk_columns: { id: 9 } },
