@@ -59,9 +59,11 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - First time laravel is slow.
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
 - `vercel dev`
-  - First time setup: `Want to override the settings`? `Y`
+  - If you're creating a new Vercel project, use these custom settings:
+    - Build Command: `./scripts/link-hardhat.sh && yarn build`
+    - Development Command: `craco start`
   - Runs React and the serverless functions in `api/`
-- Goto: http://localhost:3000 and starting giving!
+- Goto: http://localhost:3000 and start giving!
 
 ### Storybook
 
