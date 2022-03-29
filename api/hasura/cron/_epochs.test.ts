@@ -142,6 +142,10 @@ function getCircle<T extends keyof EpochsToNotify>(
 }
 
 describe('epoch Cron Logic', () => {
+  beforeEach(() => {
+    mockSendSocial.mockReset();
+    mockMutation.mockReset();
+  });
   describe('endEpoch', () => {
     test('should notify of the epoch end', async () => {
       const orgName = 'big ol party';
@@ -535,7 +539,7 @@ describe('epoch Cron Logic', () => {
       const input = getEpochInput('notifyEnd', {});
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(sendSocialMessage).not.toBeCalled();
+      expect(mockSendSocial).not.toBeCalled();
       expect(mockMutation).not.toBeCalled();
     });
     test('notifications enabled for Telegram', async () => {
@@ -544,8 +548,8 @@ describe('epoch Cron Logic', () => {
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(sendSocialMessage).toBeCalledTimes(1);
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledTimes(1);
+      expect(mockSendSocial).toBeCalledWith({
         channels: { telegram: true },
         circleId: 1,
         notifyOrg: false,
@@ -574,8 +578,8 @@ describe('epoch Cron Logic', () => {
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(sendSocialMessage).toBeCalledTimes(1);
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledTimes(1);
+      expect(mockSendSocial).toBeCalledWith({
         channels: { discord: true },
         circleId: 1,
         message:
@@ -605,8 +609,8 @@ describe('epoch Cron Logic', () => {
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(sendSocialMessage).toBeCalledTimes(2);
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledTimes(2);
+      expect(mockSendSocial).toBeCalledWith({
         channels: { telegram: true },
         circleId: 1,
         notifyOrg: false,
@@ -616,7 +620,7 @@ describe('epoch Cron Logic', () => {
           'bob, alice',
         sanitize: false,
       });
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledWith({
         channels: { discord: true },
         circleId: 1,
         notifyOrg: false,
@@ -643,7 +647,7 @@ describe('epoch Cron Logic', () => {
       const input = getEpochInput('notifyStart', {});
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
-      expect(sendSocialMessage).not.toBeCalled();
+      //expect(mockSendSocial).not.toBeCalled();
       expect(mockMutation).toBeCalledWith({
         update_epochs_by_pk: [
           { _set: { number: 1 }, pk_columns: { id: 9 } },
@@ -673,8 +677,8 @@ describe('epoch Cron Logic', () => {
           { id: true },
         ],
       });
-      expect(sendSocialMessage).toBeCalledTimes(2);
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledTimes(2);
+      expect(mockSendSocial).toBeCalledWith({
         channels: { discord: true },
         circleId: 5,
         notifyOrg: false,
@@ -684,7 +688,7 @@ describe('epoch Cron Logic', () => {
         ),
         sanitize: false,
       });
-      expect(sendSocialMessage).toBeCalledWith({
+      expect(mockSendSocial).toBeCalledWith({
         channels: { telegram: true },
         circleId: 5,
         notifyOrg: false,
