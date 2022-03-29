@@ -661,14 +661,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
-        onClose={() => setDeleteUserDialog(undefined)}
+        onClose={() => setDeleteEpochDialog(undefined)}
         primaryText="Remove"
         onPrimary={
           deleteEpochDialog
             ? () =>
                 deleteEpoch(deleteEpochDialog?.id)
-                  .then(() => setDeleteUserDialog(undefined))
-                  .catch(() => setDeleteUserDialog(undefined))
+                  .then(() => setDeleteEpochDialog(undefined))
+                  .catch(() => setDeleteEpochDialog(undefined))
             : undefined
         }
       />
