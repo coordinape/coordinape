@@ -10,6 +10,9 @@ export async function getCircle(id: number) {
         team_sel_text: true,
         discord_webhook: true,
         telegram_id: true,
+        organization: {
+          telegram_id: true,
+        },
         epochs: [
           { limit: 1 },
           {
