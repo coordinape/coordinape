@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import type { CSS } from 'stitches.config';
@@ -17,6 +18,7 @@ import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Panel, Text } from 'ui';
+import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import type { Awaited } from 'types/shim';
@@ -97,11 +99,11 @@ const getOrgData = (address?: string) =>
             ],
             epochs: [
               {
-                where: { ended: { _eq: false } },
-                limit: 1,
+                where: { ended: { _eq: false }, end_date: { _gt: 'now' } },
                 order_by: [{ start_date: order_by.asc }],
+                limit: 1,
               },
-              { start_date: true, end_date: true },
+              { start_date: true, end_date: true, number: true },
             ],
           },
         ],
@@ -133,6 +135,7 @@ type CircleRowProps = {
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
+  const epoch = circle.epochs[0];
 
   return (
     <Panel
@@ -149,7 +152,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
       <Box
         css={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr 3fr',
+          gridTemplateColumns: '1fr 1fr 1fr 2fr',
           width: '100%',
           gap: '$md',
           alignItems: 'center',
@@ -162,21 +165,44 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           >
             {circle.name}
           </Text>
-          <Text css={nonMember ? { color: '$placeholder' } : {}}>
-            {role === 1
-              ? 'Circle Admin'
-              : role === 0
-              ? 'Circle Member'
-              : 'Non-Member'}
+          <Text
+            css={{
+              alignItems: 'baseline',
+              ...(nonMember ? { color: '$placeholder' } : {}),
+            }}
+          >
+            <Torso
+              css={{
+                height: 12,
+                width: 12,
+                mr: '$xs',
+              }}
+              color={
+                role === 1 ? 'blue' : role === 0 ? 'primary' : 'placeholder'
+              }
+            />
+            {role === 1 ? (
+              <Text color="blue">Circle Admin</Text>
+            ) : role === 0 ? (
+              'Circle Member'
+            ) : (
+              'Non-Member'
+            )}
           </Text>
         </Box>
-        <Box>Epoch ???</Box>
+        <Box>
+          {epoch ? (
+            <EpochBlurb epoch={epoch} />
+          ) : (
+            'No active or upcoming epochs'
+          )}
+        </Box>
         <Box>Something</Box>
         <Box
           className="hover-buttons"
           css={{
             display: 'flex',
-            gap: '$md',
+            gap: '$sm',
             justifyContent: 'flex-start',
           }}
         >
@@ -185,6 +211,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               (!hide || !hide(circle)) && (
                 <Button
                   key={label}
+                  size="small"
                   outlined
                   color="teal"
                   onClick={() => onButtonClick(circle.id, path)}
@@ -196,5 +223,20 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         </Box>
       </Box>
     </Panel>
+  );
+};
+
+const EpochBlurb = ({ epoch }: { epoch: QueryCircle['epochs'][0] }) => {
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
+  return (
+    <Box>
+      <Text css={{ fontSize: '$7' }}>Epoch {epoch.number}</Text>
+
+      <Text css={{ fontSize: '$7' }} bold>
+        {startDate.toFormat('MMM d')} -{' '}
+        {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
+      </Text>
+    </Box>
   );
 };

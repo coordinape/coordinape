@@ -10,36 +10,21 @@ export const Text = styled('span', {
 
   variants: {
     font: {
-      source: {
-        fontFamily: 'Source Sans Pro',
-      },
-      space: {
-        fontFamily: 'Space Grotesk',
-      },
-      inter: {
-        fontFamily: 'Inter',
-      },
+      source: { fontFamily: 'Source Sans Pro' },
+      space: { fontFamily: 'Space Grotesk' },
+      inter: { fontFamily: 'Inter' },
     },
     color: {
-      default: {
-        color: '$text',
-      },
-      red: {
-        color: '$red',
-      },
-      gray: {
-        color: '$gray400',
-      },
+      default: { color: '$text' },
+      gray: { color: '$gray400' },
+      red: { color: '$red' },
+      blue: { color: '$blue' },
     },
     bold: {
-      true: {
-        fontWeight: '$bold',
-      },
+      true: { fontWeight: '$bold' },
     },
     inline: {
-      true: {
-        display: 'inline',
-      },
+      true: { display: 'inline' },
     },
     variant: {
       sectionHeader: {
