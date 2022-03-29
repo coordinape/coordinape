@@ -34,10 +34,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
   const teammatesUsers = await getUsersFromUserIds(teammates, circle_id);
-  const TeammatesToKeep = teammatesUsers
+  const teammatesToKeep = teammatesUsers
     .filter(t => t.id !== user.id)
     .map(t => t.id);
-  const insertInput = TeammatesToKeep.map(t => {
+  const insertInput = teammatesToKeep.map(t => {
     return { user_id: user.id, team_mate_id: t };
   });
   await adminClient.mutate({
@@ -48,7 +48,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             _eq: user.id,
           },
           team_mate_id: {
-            _nin: TeammatesToKeep,
+            _nin: teammatesToKeep,
           },
         },
       },
@@ -67,7 +67,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       {
         returning: {
           user_id: true,
-          team_mate_id: true,
         },
       },
     ],
