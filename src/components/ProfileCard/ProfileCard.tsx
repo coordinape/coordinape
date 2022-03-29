@@ -89,7 +89,6 @@ const useStyles = makeStyles(theme => ({
   },
   bio: {
     flexGrow: 1,
-    margin: theme.spacing(1.5, 0, 0),
     fontSize: 14,
     fontWeight: 600,
     color: 'rgba(81, 99, 105, 0.5)',
