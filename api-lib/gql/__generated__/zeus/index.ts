@@ -172,6 +172,16 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean;
   }>;
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: number[];
+  };
+  ['UpdateTeammatesResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   ['UpdateUserInput']: {
     bio?: string | null;
     circle_id: number;
@@ -4019,6 +4029,10 @@ columns and relationships of "distributions" */
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateTeammates?: [
+      { payload: ValueTypes['UpdateTeammatesInput'] },
+      ValueTypes['UpdateTeammatesResponse']
+    ];
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -9405,6 +9419,12 @@ export type ModelTypes = {
     /** An object relationship */
     profile: ModelTypes['profiles'];
   };
+  ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
+  ['UpdateTeammatesResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: string;
+  };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
@@ -11207,6 +11227,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "burns" */
@@ -13561,6 +13582,16 @@ export type GraphQLTypes = {
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: Array<number>;
+  };
+  ['UpdateTeammatesResponse']: {
+    __typename: 'UpdateTeammatesResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: string;
   };
   ['UpdateUserInput']: {
     bio?: string;
@@ -16695,6 +16726,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "burns" */
@@ -20784,6 +20816,7 @@ export const enum profiles_update_column {
 /** unique or primary key constraints on table "teammates" */
 export const enum teammates_constraint {
   teammates_pkey = 'teammates_pkey',
+  teammates_user_id_team_mate_id_key = 'teammates_user_id_team_mate_id_key',
 }
 /** select columns of table "teammates" */
 export const enum teammates_select_column {

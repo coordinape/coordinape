@@ -125,6 +125,13 @@ export const createEpochInput = z
     }
   });
 
+export const updateTeammatesInput = z
+  .object({
+    teammates: z.number().int().positive().array(),
+    circle_id: z.number().int().positive(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),

@@ -50,6 +50,15 @@ array_relationships:
       table:
         name: token_gifts
         schema: public
+- name: teammates
+  using:
+    manual_configuration:
+      column_mapping:
+        id: user_id
+      insertion_order: null
+      remote_table:
+        name: teammates
+        schema: public
 select_permissions:
 - permission:
     columns:

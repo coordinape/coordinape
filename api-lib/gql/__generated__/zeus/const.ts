@@ -505,6 +505,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateTeammatesInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    teammates: {
+      type: 'Int',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   UpdateUserInput: {
     bio: {
       type: 'String',
@@ -8789,6 +8803,14 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: false,
+      },
+    },
+    updateTeammates: {
+      payload: {
+        type: 'UpdateTeammatesInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
       },
     },
     updateUser: {
@@ -20572,6 +20594,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  UpdateTeammatesResponse: {
+    user: 'users',
+    user_id: 'ID',
+  },
   UserResponse: {
     UserResponse: 'users',
     id: 'ID',
@@ -21732,6 +21758,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
