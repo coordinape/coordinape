@@ -41,12 +41,12 @@ export const paths = {
   map: '/map',
   vouching: '/vouching',
   history: '/history',
-  admin: '/admin',
   vaults: '/admin/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
   adminCircles: '/admin/circles',
   connectIntegration: '/connect-integration',
   circles: '/circles',
+  createCircle: APP_PATH_CREATE_CIRCLE,
 };
 
 // these getters for static paths are deprecated -- use paths above instead

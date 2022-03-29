@@ -12,6 +12,7 @@ export const panelStyles = css({
 export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surfaceGray',
+  border: '1px solid $surfaceGray',
   padding: '$lg',
 
   variants: {
