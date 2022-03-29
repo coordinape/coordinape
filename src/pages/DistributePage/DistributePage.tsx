@@ -2,10 +2,8 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BigNumber, FixedNumber, utils } from 'ethers';
-import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { isUserAdmin } from 'lib/users';
-import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -13,17 +11,14 @@ import { z } from 'zod';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField } from 'components';
-import { useDistributor, useApeSnackbar } from 'hooks';
+import { useSubmitDistribution, SubmitDistribution } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
-import { useContracts } from 'hooks/useContracts';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useSaveEpochDistribution, useUpdateDistribution } from './mutations';
 import { useCurrentUserForEpoch, useGetAllocations } from './queries';
 import ShowMessage from './ShowMessage';
 
@@ -48,18 +43,10 @@ function DistributePage() {
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
 
-  const contracts = useContracts();
   const currentOrg = useCurrentOrg();
   const { isLoading: vaultLoading, data: vaults } = useVaults(
     currentOrg.data?.id as number
   );
-
-  const { uploadEpochRoot } = useDistributor();
-  const selectedVault = vaults?.find(v => v.id === Number(selectedVaultId));
-  const { apeError } = useApeSnackbar();
-  const { mutateAsync } = useSaveEpochDistribution();
-  const { mutateAsync: updateDistributionMutateAsync } =
-    useUpdateDistribution();
 
   const {
     isLoading: isAllocationsLoading,
@@ -81,6 +68,7 @@ function DistributePage() {
       total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
     0
   );
+  const submitDistribution = useSubmitDistribution();
 
   const { register, handleSubmit, control } = useForm<DistributionForm>({
     resolver: zodResolver(DistributionFormSchema),
@@ -88,80 +76,23 @@ function DistributePage() {
 
   let vaultOptions: Array<{ value: number; label: string; id: number }> = [];
 
-  //TODO: Migrate this method to a separate file and enable previous distributions
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
-    assert(selectedVault && circle);
-    if (!users) throw new Error('No users found');
 
-    const gifts = users.reduce((userList, user) => {
-      const amount = user.received_gifts.reduce(
-        (t, { tokens }) => t + tokens,
-        0
-      );
-      if (amount > 0) userList[user.address] = amount;
-      return userList;
-    }, {} as Record<string, number>);
+    const vault = vaults?.find(v => v.id === Number(value.selectedVaultId));
+    assert(vault, 'Vault not found');
+    assert(users, 'Users not found');
+    assert(circle, 'Circle not found');
 
-    const denominator = BigNumber.from(10).pow(selectedVault.decimals);
-    const totalDistributionAmount = BigNumber.from(value.amount).mul(
-      denominator
-    );
-
-    try {
-      assert(contracts);
-      assert(currentUser.data);
-      const yVaultAddress = await contracts
-        .getVault(selectedVault.vault_address)
-        .vault();
-      const distribution = createDistribution(gifts, totalDistributionAmount);
-      const claims: ValueTypes['claims_insert_input'][] = Object.entries(
-        distribution.claims
-      ).map(([address, claim]) => ({
-        address,
-        index: claim.index,
-        amount: Number(
-          FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
-            FixedNumber.from(denominator)
-          )
-        ),
-        proof: claim.proof.toString(),
-        user_id: users.find(({ address }) => address === address)?.id,
-      }));
-
-      const updateDistribution: ValueTypes['distributions_insert_input'] = {
-        total_amount: Number(
-          FixedNumber.from(totalDistributionAmount, 'fixed128x18')
-        ),
-        epoch_id: Number(epochId),
-        merkle_root: distribution.merkleRoot,
-        claims: {
-          data: claims,
-        },
-        vault_id: Number(selectedVault.id),
-      };
-
-      const { insert_distributions_one } = await mutateAsync(
-        updateDistribution
-      );
-      assert(insert_distributions_one, 'Distribution was not saved.');
-
-      await uploadEpochRoot(
-        selectedVault.vault_address,
-        encodeCircleId(circle.id),
-        yVaultAddress.toString(),
-        distribution.merkleRoot,
-        totalDistributionAmount,
-        utils.hexlify(1)
-      );
-
-      await updateDistributionMutateAsync(insert_distributions_one.id);
-      setLoadingTrx(false);
-    } catch (e) {
-      console.error(e);
-      apeError(e);
-      setLoadingTrx(false);
-    }
+    const submitDTO: SubmitDistribution = {
+      amount: value.amount,
+      vault: vault as GraphQLTypes['vaults'],
+      users: users as GraphQLTypes['users'][],
+      circleId: circle.id,
+      epochId: Number(epochId),
+    };
+    const submitted = await submitDistribution(submitDTO);
+    setLoadingTrx(submitted);
   };
 
   const pageMessage = () => {
