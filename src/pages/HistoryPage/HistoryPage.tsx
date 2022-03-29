@@ -117,7 +117,7 @@ const EpochPanel = ({
   const [tab, setTab] = useState(0);
   const [shortPanelShow, setshortPanelShow] = useState(true);
   const { startDate, endDate } = epoch;
-  const endDateFormat = endDate.month === startDate.month ? 'dd' : 'MMMM dd';
+  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
 
   return (
     <Panel
@@ -137,8 +137,11 @@ const EpochPanel = ({
           justifyContent: 'space-between',
         }}
       >
-        <Text bold font="inter">
-          {startDate.toFormat('MMMM dd')} - {endDate.toFormat(endDateFormat)}
+        <Text font="inter" inline>
+          <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
+            {startDate.toFormat('MMMM')}
+          </Text>{' '}
+          {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
         <button onClick={() => setshortPanelShow(!shortPanelShow)}>
           <Text

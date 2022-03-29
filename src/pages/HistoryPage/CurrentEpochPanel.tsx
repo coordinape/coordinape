@@ -17,7 +17,7 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: IEpoch }) => {
   const percentageTokenRemaining = (tokenRemaining * 100) / tokenStarting;
 
   const endDateFormat =
-    epoch?.endDate.month === epoch?.startDate.month ? 'dd' : 'MMMM dd';
+    epoch?.endDate.month === epoch?.startDate.month ? 'd' : 'MMMM d';
 
   return (
     <Panel
@@ -31,8 +31,11 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: IEpoch }) => {
       }}
     >
       <Box>
-        <Text bold font="inter">
-          {epoch.startDate.toFormat('MMMM dd')} -{' '}
+        <Text inline font="inter">
+          <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
+            {epoch.startDate.toFormat('MMMM')}
+          </Text>{' '}
+          {epoch.startDate.toFormat('d')} -{' '}
           {epoch.endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
