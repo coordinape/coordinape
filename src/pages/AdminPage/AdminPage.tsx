@@ -202,6 +202,8 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
@@ -369,7 +371,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
               </div>
             );
           },
-          sortFunc:(a: string, b: string) =>  new Intl.Collator('en-u-kf-upper').compare(a, b),
+          sortFunc: (a: string, b: string) => englishCollator.compare(a, b),
           wide: true,
           leftAlign: true,
         },
