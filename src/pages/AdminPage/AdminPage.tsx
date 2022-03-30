@@ -381,21 +381,26 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           render: (u: IUser) => shortenAddress(u.address),
         },
         {
-          label: 'Non Giver?',
-          render: (u: IUser) => (!u.non_giver ? '-' : 'Non Giver'),
+          label: 'GIVER',
+          tooltip: 'Circle Member allocating GIVE',
+          render: (u: IUser) => (!u.non_giver ? '✅' : '❌'),
         },
         {
-          label: 'Opted Out?',
+          label: 'GIVE Recipient',
+          tooltip: 'Circle Member receiving GIVE',
           render: (u: IUser) =>
             u.fixed_non_receiver
               ? 'Forced Opt Out'
               : u.non_receiver
-              ? 'Opted Out'
-              : '-',
+              ? '✅'
+              : '❌',
         },
         {
-          label: 'Are they admin?',
-          render: (u: IUser) => (u.role === USER_ROLE_ADMIN ? 'Admin' : '-'),
+          label: 'Admin',
+          tooltip:
+            'As a Circle Admin, you will be able to edit Circle Settings, Edit Epoch settings, edit your users, and create new circles.',
+          tooltipMoreUrl: 'https://docs.coordinape.com/welcome/admin_info',
+          render: (u: IUser) => (u.role === USER_ROLE_ADMIN ? '✅' : '❌'),
         },
         {
           label: 'GIVE sent',
