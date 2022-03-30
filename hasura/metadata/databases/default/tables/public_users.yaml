@@ -161,6 +161,7 @@ event_triggers:
       columns:
       - non_giver
       - non_receiver
+      - deleted_at
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET

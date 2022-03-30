@@ -33,6 +33,13 @@ export const adminUpdateUserSchemaInput = z
   })
   .strict();
 
+export const deleteUserInput = z
+  .object({
+    circle_id: z.number(),
+    address: zEthAddressOnly,
+  })
+  .strict();
+
 export const createNomineeInputSchema = z
   .object({
     name: z.string().min(3).max(255),

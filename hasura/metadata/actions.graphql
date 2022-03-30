@@ -23,6 +23,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -127,6 +131,11 @@ input UpdateTeammatesInput {
   circle_id: Int!
 }
 
+input DeleteUserInput {
+  circle_id: Int!
+  address: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -165,4 +174,8 @@ type EpochResponse {
 
 type UpdateTeammatesResponse {
   user_id: ID!
+}
+
+type ConfirmationResponse {
+  success: Boolean!
 }
