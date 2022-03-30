@@ -1,46 +1,6 @@
 import { order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
-export async function insertProfiles(
-  profiles: ValueTypes['profiles_insert_input'][]
-) {
-  return adminClient.mutate({
-    insert_profiles: [
-      {
-        objects: profiles,
-      },
-      {
-        returning: {
-          address: true,
-        },
-      },
-    ],
-  });
-}
-
-export async function insertMemberships(
-  users: ValueTypes['users_insert_input'][]
-) {
-  return adminClient.mutate({
-    insert_users: [
-      {
-        objects: users,
-      },
-      {
-        returning: {
-          id: true,
-          address: true,
-          circle_id: true,
-          starting_tokens: true,
-          non_giver: true,
-          non_receiver: true,
-          fixed_non_receiver: true,
-        },
-      },
-    ],
-  });
-}
-
 // TODO: this isn't used, more of an idea, and for example.
 export async function updateCircles(
   circleId: number,

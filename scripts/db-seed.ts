@@ -11,6 +11,8 @@ import { DateTime, Duration, Interval } from 'luxon';
 import '../api-lib/node-fetch-shim';
 import { ValueTypes } from '../api-lib/gql/__generated__/zeus';
 import * as mutations from '../api-lib/gql/mutations';
+import insertMemberships from '../api-lib/gql/mutations/insertMemberships';
+import insertProfiles from '../api-lib/gql/mutations/insertProfiles';
 
 const defaults = {
   seed: 9,
@@ -98,7 +100,7 @@ async function insertFakeData({
   /*
    * Insert Profiles
    **/
-  const profileResponse = await mutations.insertProfiles(
+  const profileResponse = await insertProfiles(
     makeArray(profileCount).map(() => fakeProfile())
   );
   const circleIds = orgsResult?.flatMap(o => o.circles.map(c => c.id)) || [];
@@ -114,7 +116,7 @@ async function insertFakeData({
   const memberships = getUniquePairs(getCircleId, getAddr, memberCount).map(
     ([circleId, addr]) => fakeMemebership(circleId, addr, getStartTokens)
   );
-  const membershipResponse = await mutations.insertMemberships(memberships);
+  const membershipResponse = await insertMemberships(memberships);
   const members = membershipResponse.insert_users?.returning ?? [];
 
   /*
@@ -327,7 +329,7 @@ type Unwrap<T> = T extends Promise<infer U>
   : T;
 
 type TMemberships = Exclude<
-  Unwrap<ReturnType<typeof mutations.insertMemberships>>['insert_users'],
+  Unwrap<ReturnType<typeof insertMemberships>>['insert_users'],
   undefined
 >['returning'];
 

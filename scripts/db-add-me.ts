@@ -3,13 +3,13 @@ import { ethers } from 'ethers';
 // Probably with monorepo and support other packages.
 import fakerTyped from 'faker/locale/en';
 import fakerEn from 'faker/locale/en.js';
-const faker = fakerEn as typeof fakerTyped;
 import itiriri from 'itiriri';
 
 const iti = (itiriri as unknown as { default: typeof itiriri }).default;
 import '../api-lib/node-fetch-shim';
 import { LOCAL_SEED_ADDRESS } from '../api-lib/config';
-import * as mutations from '../api-lib/gql/mutations';
+import insertMemberships from '../api-lib/gql/mutations/insertMemberships';
+import insertProfiles from '../api-lib/gql/mutations/insertProfiles';
 import * as queries from '../api-lib/gql/queries';
 
 export const USER_ROLE_ADMIN = 1;
@@ -26,7 +26,7 @@ async function run() {
   const profileResponse = await queries.getProfileAndMembership(address);
 
   if (profileResponse.profiles.length === 0) {
-    await mutations.insertProfiles([
+    await insertProfiles([
       {
         address,
       },
@@ -44,8 +44,7 @@ async function run() {
     }))
     .toArray();
 
-  return (await mutations.insertMemberships(newMemberships)).insert_users
-    ?.returning;
+  return (await insertMemberships(newMemberships)).insert_users?.returning;
 }
 
 (async function () {
