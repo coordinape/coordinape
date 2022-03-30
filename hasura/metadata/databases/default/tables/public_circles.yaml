@@ -53,11 +53,9 @@ array_relationships:
         schema: public
 - name: nominees
   using:
-    manual_configuration:
-      column_mapping:
-        id: circle_id
-      insertion_order: null
-      remote_table:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
         name: nominees
         schema: public
 - name: pending_token_gifts
