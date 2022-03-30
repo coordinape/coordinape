@@ -58,11 +58,12 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - Clear the data stored in the docker volumes: `yarn docker:clean`
   - First time laravel is slow.
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
-  > ⚠️ Don't seed the database with `vercel dev` running
 - `vercel dev`
-  - First time setup: `Want to override the settings`? `Y`
+  - If you're creating a new Vercel project, use these custom settings:
+    - Build Command: `./scripts/link-hardhat.sh && yarn build`
+    - Development Command: `craco start`
   - Runs React and the serverless functions in `api/`
-- Goto: http://localhost:3000 and starting giving!
+- Goto: http://localhost:3000 and start giving!
 
 ### Storybook
 
@@ -73,6 +74,18 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - `yarn hasura console` to modify and explore the database
 - `yarn generate` after schema changes to codegen zeus & react-query libs
 - Requires the `vercel dev` serverless functions to be running
+
+##### Pulled in new migrations / metadata that don't exist in your local instance?
+
+If you pull in any new changes to the schema, your local Hasura instance might start complaining about metadata inconsistency.
+In order to apply the new migrations / metadata to your local instance, run the following commands:
+
+```shell
+yarn hasura migrations apply
+yarn hasura metadata apply
+```
+
+Alternatively, you can just run `yarn docker:stop && yarn docker:start` and Hasura will apply the migrations/metadata automatically.
 
 # Hardhat
 

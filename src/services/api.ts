@@ -14,12 +14,9 @@ import {
   IApiManifest,
   PostProfileParam,
   PostTokenGiftsParam,
-  PostUsersParam,
   PutCirclesParam,
   PutUsersParam,
   UpdateCreateEpochParam,
-  NominateUserParam,
-  IApiNominee,
   IApiFullCircle,
 } from 'types';
 
@@ -141,23 +138,6 @@ export class APIService {
     return response.data as IApiEpoch;
   };
 
-  deleteEpoch = async (circleId: number, epochId: number): Promise<any> => {
-    const response = await this.axios.delete(
-      `/v2/${circleId}/admin/epoches/${epochId}`
-    );
-    return response.data;
-  };
-
-  createUser = async (
-    circleId: number,
-    params: PostUsersParam
-  ): Promise<IApiUser> => {
-    const response = await this.axios.post(`/v2/${circleId}/admin/users`, {
-      data: JSON.stringify(params),
-    });
-    return response.data;
-  };
-
   updateMyUser = async (
     circleId: number,
     params: PutUsersParam
@@ -197,26 +177,6 @@ export class APIService {
 
   getDiscordWebhook = async (circleId: number): Promise<any> => {
     const response = await this.axios.get(`/v2/${circleId}/admin/webhook`);
-    return response.data;
-  };
-
-  nominateUser = async (
-    circleId: number,
-    params: NominateUserParam
-  ): Promise<IApiNominee> => {
-    const response = await this.axios.post(`/v2/${circleId}/nominees`, {
-      data: JSON.stringify(params),
-    });
-    return response.data;
-  };
-
-  vouchUser = async (
-    circleId: number,
-    nominee_id: number
-  ): Promise<IApiNominee> => {
-    const response = await this.axios.post(`/v2/${circleId}/vouch`, {
-      data: JSON.stringify({ nominee_id }),
-    });
     return response.data;
   };
 

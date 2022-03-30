@@ -17,13 +17,22 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 0.5),
   },
   textField: {
-    marginTop: theme.spacing(1.5),
     '& label': {
       height: 14,
-      margin: theme.spacing(0, 0, 0.5),
       fontSize: 12,
       fontWeight: 'bold',
+      marginTop: theme.spacing(0.5),
       color: 'rgba(81, 99, 105, 0.7)',
+    },
+  },
+  noteTextField: {
+    '& > div': {
+      marginTop: theme.spacing(0.5),
+      marginBottom: 0,
+    },
+    '& textarea': {
+      paddingTop: 0,
+      paddingBottom: 0,
     },
   },
   tokenInputContainer: {
@@ -140,7 +149,7 @@ export const GiftInput = ({
       )}
       <ApeTextField
         label="Leave a Note"
-        className={classes.textField}
+        className={[classes.textField, classes.noteTextField].join(' ')}
         onChange={onChangeNote}
         placeholder="Thank you for..."
         value={note}

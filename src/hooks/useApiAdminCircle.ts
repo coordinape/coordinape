@@ -53,7 +53,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
-      await getApiService().deleteEpoch(circleId, epochId);
+      await mutations.deleteEpoch(circleId, epochId);
       await fetchManifest();
     },
     [circleId]
@@ -69,7 +69,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const createUser = useRecoilLoadCatch(
     () => async (params: PostUsersParam) => {
-      await getApiService().createUser(circleId, params);
+      await mutations.createUser(circleId, params);
       await fetchManifest();
     },
     [circleId]

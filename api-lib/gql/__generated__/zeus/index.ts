@@ -28,6 +28,10 @@ export type ValueTypes = {
     _neq?: boolean | null;
     _nin?: boolean[];
   };
+  ['ConfirmationResponse']: AliasType<{
+    success?: boolean;
+    __typename?: boolean;
+  }>;
   ['CreateCircleInput']: {
     circle_name: string;
     contact?: string | null;
@@ -90,12 +94,23 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | null;
-    give_token_remaining?: number | null;
     name: string;
     non_giver?: boolean | null;
     non_receiver?: boolean | null;
     role?: number | null;
     starting_tokens?: number | null;
+  };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: AliasType<{
+    success?: boolean;
+    __typename?: boolean;
+  }>;
+  ['DeleteUserInput']: {
+    address: string;
+    circle_id: number;
   };
   ['EpochResponse']: AliasType<{
     /** An object relationship */
@@ -163,6 +178,16 @@ export type ValueTypes = {
     id?: boolean;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
+    __typename?: boolean;
+  }>;
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: number[];
+  };
+  ['UpdateTeammatesResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
     __typename?: boolean;
   }>;
   ['UpdateUserInput']: {
@@ -3446,6 +3471,14 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
     ];
+    deleteEpoch?: [
+      { payload: ValueTypes['DeleteEpochInput'] },
+      ValueTypes['DeleteEpochResponse']
+    ];
+    deleteUser?: [
+      { payload: ValueTypes['DeleteUserInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     delete_burns?: [
       {
         /** filter the rows which have to be deleted */
@@ -4008,6 +4041,10 @@ columns and relationships of "distributions" */
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateTeammates?: [
+      { payload: ValueTypes['UpdateTeammatesInput'] },
+      ValueTypes['UpdateTeammatesResponse']
+    ];
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -7346,6 +7383,26 @@ columns and relationships of "distributions" */
     variance?: ValueTypes['teammates_variance_fields'];
     __typename?: boolean;
   }>;
+  /** order by aggregate values of table "teammates" */
+  ['teammates_aggregate_order_by']: {
+    avg?: ValueTypes['teammates_avg_order_by'] | null;
+    count?: ValueTypes['order_by'] | null;
+    max?: ValueTypes['teammates_max_order_by'] | null;
+    min?: ValueTypes['teammates_min_order_by'] | null;
+    stddev?: ValueTypes['teammates_stddev_order_by'] | null;
+    stddev_pop?: ValueTypes['teammates_stddev_pop_order_by'] | null;
+    stddev_samp?: ValueTypes['teammates_stddev_samp_order_by'] | null;
+    sum?: ValueTypes['teammates_sum_order_by'] | null;
+    var_pop?: ValueTypes['teammates_var_pop_order_by'] | null;
+    var_samp?: ValueTypes['teammates_var_samp_order_by'] | null;
+    variance?: ValueTypes['teammates_variance_order_by'] | null;
+  };
+  /** input type for inserting array relation for remote table "teammates" */
+  ['teammates_arr_rel_insert_input']: {
+    data: ValueTypes['teammates_insert_input'][];
+    /** on conflict condition */
+    on_conflict?: ValueTypes['teammates_on_conflict'] | null;
+  };
   /** aggregate avg on columns */
   ['teammates_avg_fields']: AliasType<{
     id?: boolean;
@@ -7353,6 +7410,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by avg() on columns of table "teammates" */
+  ['teammates_avg_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** Boolean expression to filter rows from the table "teammates". All fields are combined with a logical 'AND'. */
   ['teammates_bool_exp']: {
     _and?: ValueTypes['teammates_bool_exp'][];
@@ -7393,6 +7456,14 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by max() on columns of table "teammates" */
+  ['teammates_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate min on columns */
   ['teammates_min_fields']: AliasType<{
     created_at?: boolean;
@@ -7402,6 +7473,14 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by min() on columns of table "teammates" */
+  ['teammates_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** response of any mutation on the table "teammates" */
   ['teammates_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
@@ -7447,6 +7526,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by stddev() on columns of table "teammates" */
+  ['teammates_stddev_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate stddev_pop on columns */
   ['teammates_stddev_pop_fields']: AliasType<{
     id?: boolean;
@@ -7454,6 +7539,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by stddev_pop() on columns of table "teammates" */
+  ['teammates_stddev_pop_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate stddev_samp on columns */
   ['teammates_stddev_samp_fields']: AliasType<{
     id?: boolean;
@@ -7461,6 +7552,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by stddev_samp() on columns of table "teammates" */
+  ['teammates_stddev_samp_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate sum on columns */
   ['teammates_sum_fields']: AliasType<{
     id?: boolean;
@@ -7468,6 +7565,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by sum() on columns of table "teammates" */
+  ['teammates_sum_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** update columns of table "teammates" */
   ['teammates_update_column']: teammates_update_column;
   /** aggregate var_pop on columns */
@@ -7477,6 +7580,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by var_pop() on columns of table "teammates" */
+  ['teammates_var_pop_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate var_samp on columns */
   ['teammates_var_samp_fields']: AliasType<{
     id?: boolean;
@@ -7484,6 +7593,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by var_samp() on columns of table "teammates" */
+  ['teammates_var_samp_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   /** aggregate variance on columns */
   ['teammates_variance_fields']: AliasType<{
     id?: boolean;
@@ -7491,6 +7606,12 @@ columns and relationships of "distributions" */
     user_id?: boolean;
     __typename?: boolean;
   }>;
+  /** order by variance() on columns of table "teammates" */
+  ['teammates_variance_order_by']: {
+    id?: ValueTypes['order_by'] | null;
+    team_mate_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+  };
   ['timestamp']: unknown;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
   ['timestamp_comparison_exp']: {
@@ -8061,6 +8182,32 @@ columns and relationships of "distributions" */
       ValueTypes['token_gifts_aggregate']
     ];
     starting_tokens?: boolean;
+    teammates?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['teammates_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['teammates_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['teammates_bool_exp'] | null;
+      },
+      ValueTypes['teammates']
+    ];
+    teammates_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['teammates_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['teammates_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['teammates_bool_exp'] | null;
+      },
+      ValueTypes['teammates_aggregate']
+    ];
     updated_at?: boolean;
     __typename?: boolean;
   }>;
@@ -8157,6 +8304,7 @@ columns and relationships of "distributions" */
     role?: ValueTypes['Int_comparison_exp'] | null;
     sent_gifts?: ValueTypes['token_gifts_bool_exp'] | null;
     starting_tokens?: ValueTypes['Int_comparison_exp'] | null;
+    teammates?: ValueTypes['teammates_bool_exp'] | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
   };
   /** unique or primary key constraints on table "users" */
@@ -8198,6 +8346,7 @@ columns and relationships of "distributions" */
     role?: number | null;
     sent_gifts?: ValueTypes['token_gifts_arr_rel_insert_input'] | null;
     starting_tokens?: number | null;
+    teammates?: ValueTypes['teammates_arr_rel_insert_input'] | null;
     updated_at?: ValueTypes['timestamp'] | null;
   };
   /** aggregate max on columns */
@@ -8312,6 +8461,7 @@ columns and relationships of "distributions" */
     role?: ValueTypes['order_by'] | null;
     sent_gifts_aggregate?: ValueTypes['token_gifts_aggregate_order_by'] | null;
     starting_tokens?: ValueTypes['order_by'] | null;
+    teammates_aggregate?: ValueTypes['teammates_aggregate_order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
   };
   /** primary key columns input for table: users */
@@ -9348,6 +9498,9 @@ export type ModelTypes = {
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['ConfirmationResponse']: {
+    success: boolean;
+  };
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
     /** An object relationship */
@@ -9366,6 +9519,11 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
+  ['DeleteEpochResponse']: {
+    success: boolean;
+  };
+  ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
     /** An object relationship */
     epoch: ModelTypes['epochs'];
@@ -9389,6 +9547,12 @@ export type ModelTypes = {
     id: number;
     /** An object relationship */
     profile: ModelTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
+  ['UpdateTeammatesResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: string;
   };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
@@ -11020,6 +11184,8 @@ columns and relationships of "distributions" */
     createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
+    deleteEpoch?: ModelTypes['DeleteEpochResponse'];
+    deleteUser?: ModelTypes['ConfirmationResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
@@ -11191,6 +11357,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
     /** update data of the table: "burns" */
@@ -12227,9 +12394,9 @@ columns and relationships of "distributions" */
     profiles_aggregate: ModelTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: ModelTypes['profiles'];
-    /** fetch data from the table: "teammates" */
+    /** An array relationship */
     teammates: ModelTypes['teammates'][];
-    /** fetch aggregated fields from the table: "teammates" */
+    /** An aggregate relationship */
     teammates_aggregate: ModelTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: ModelTypes['teammates'];
@@ -12355,9 +12522,9 @@ columns and relationships of "distributions" */
     profiles_aggregate: ModelTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: ModelTypes['profiles'];
-    /** fetch data from the table: "teammates" */
+    /** An array relationship */
     teammates: ModelTypes['teammates'][];
-    /** fetch aggregated fields from the table: "teammates" */
+    /** An aggregate relationship */
     teammates_aggregate: ModelTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: ModelTypes['teammates'];
@@ -12423,12 +12590,18 @@ columns and relationships of "distributions" */
     var_samp?: ModelTypes['teammates_var_samp_fields'];
     variance?: ModelTypes['teammates_variance_fields'];
   };
+  /** order by aggregate values of table "teammates" */
+  ['teammates_aggregate_order_by']: GraphQLTypes['teammates_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "teammates" */
+  ['teammates_arr_rel_insert_input']: GraphQLTypes['teammates_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['teammates_avg_fields']: {
     id?: number;
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by avg() on columns of table "teammates" */
+  ['teammates_avg_order_by']: GraphQLTypes['teammates_avg_order_by'];
   /** Boolean expression to filter rows from the table "teammates". All fields are combined with a logical 'AND'. */
   ['teammates_bool_exp']: GraphQLTypes['teammates_bool_exp'];
   /** unique or primary key constraints on table "teammates" */
@@ -12445,6 +12618,8 @@ columns and relationships of "distributions" */
     updated_at?: ModelTypes['timestamp'];
     user_id?: number;
   };
+  /** order by max() on columns of table "teammates" */
+  ['teammates_max_order_by']: GraphQLTypes['teammates_max_order_by'];
   /** aggregate min on columns */
   ['teammates_min_fields']: {
     created_at?: ModelTypes['timestamp'];
@@ -12453,6 +12628,8 @@ columns and relationships of "distributions" */
     updated_at?: ModelTypes['timestamp'];
     user_id?: number;
   };
+  /** order by min() on columns of table "teammates" */
+  ['teammates_min_order_by']: GraphQLTypes['teammates_min_order_by'];
   /** response of any mutation on the table "teammates" */
   ['teammates_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -12476,24 +12653,32 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by stddev() on columns of table "teammates" */
+  ['teammates_stddev_order_by']: GraphQLTypes['teammates_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['teammates_stddev_pop_fields']: {
     id?: number;
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by stddev_pop() on columns of table "teammates" */
+  ['teammates_stddev_pop_order_by']: GraphQLTypes['teammates_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['teammates_stddev_samp_fields']: {
     id?: number;
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by stddev_samp() on columns of table "teammates" */
+  ['teammates_stddev_samp_order_by']: GraphQLTypes['teammates_stddev_samp_order_by'];
   /** aggregate sum on columns */
   ['teammates_sum_fields']: {
     id?: ModelTypes['bigint'];
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by sum() on columns of table "teammates" */
+  ['teammates_sum_order_by']: GraphQLTypes['teammates_sum_order_by'];
   /** update columns of table "teammates" */
   ['teammates_update_column']: GraphQLTypes['teammates_update_column'];
   /** aggregate var_pop on columns */
@@ -12502,18 +12687,24 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by var_pop() on columns of table "teammates" */
+  ['teammates_var_pop_order_by']: GraphQLTypes['teammates_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['teammates_var_samp_fields']: {
     id?: number;
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by var_samp() on columns of table "teammates" */
+  ['teammates_var_samp_order_by']: GraphQLTypes['teammates_var_samp_order_by'];
   /** aggregate variance on columns */
   ['teammates_variance_fields']: {
     id?: number;
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by variance() on columns of table "teammates" */
+  ['teammates_variance_order_by']: GraphQLTypes['teammates_variance_order_by'];
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
   ['timestamp_comparison_exp']: GraphQLTypes['timestamp_comparison_exp'];
@@ -12756,6 +12947,10 @@ columns and relationships of "distributions" */
     /** An aggregate relationship */
     sent_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     starting_tokens: number;
+    /** An array relationship */
+    teammates: ModelTypes['teammates'][];
+    /** An aggregate relationship */
+    teammates_aggregate: ModelTypes['teammates_aggregate'];
     updated_at?: ModelTypes['timestamp'];
   };
   /** aggregated selection of "users" */
@@ -13424,6 +13619,10 @@ export type GraphQLTypes = {
     _neq?: boolean;
     _nin?: Array<boolean>;
   };
+  ['ConfirmationResponse']: {
+    __typename: 'ConfirmationResponse';
+    success: boolean;
+  };
   ['CreateCircleInput']: {
     circle_name: string;
     contact?: string;
@@ -13464,12 +13663,23 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean;
-    give_token_remaining?: number;
     name: string;
     non_giver?: boolean;
     non_receiver?: boolean;
     role?: number;
     starting_tokens?: number;
+  };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: {
+    __typename: 'DeleteEpochResponse';
+    success: boolean;
+  };
+  ['DeleteUserInput']: {
+    address: string;
+    circle_id: number;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -13538,6 +13748,16 @@ export type GraphQLTypes = {
     id: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates?: Array<number>;
+  };
+  ['UpdateTeammatesResponse']: {
+    __typename: 'UpdateTeammatesResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: string;
   };
   ['UpdateUserInput']: {
     bio?: string;
@@ -16500,6 +16720,8 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
+    deleteUser?: GraphQLTypes['ConfirmationResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
@@ -16671,6 +16893,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];
     /** update data of the table: "burns" */
@@ -18296,9 +18519,9 @@ columns and relationships of "distributions" */
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'];
-    /** fetch data from the table: "teammates" */
+    /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
-    /** fetch aggregated fields from the table: "teammates" */
+    /** An aggregate relationship */
     teammates_aggregate: GraphQLTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'];
@@ -18425,9 +18648,9 @@ columns and relationships of "distributions" */
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'];
-    /** fetch data from the table: "teammates" */
+    /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
-    /** fetch aggregated fields from the table: "teammates" */
+    /** An aggregate relationship */
     teammates_aggregate: GraphQLTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'];
@@ -18496,12 +18719,38 @@ columns and relationships of "distributions" */
     var_samp?: GraphQLTypes['teammates_var_samp_fields'];
     variance?: GraphQLTypes['teammates_variance_fields'];
   };
+  /** order by aggregate values of table "teammates" */
+  ['teammates_aggregate_order_by']: {
+    avg?: GraphQLTypes['teammates_avg_order_by'];
+    count?: GraphQLTypes['order_by'];
+    max?: GraphQLTypes['teammates_max_order_by'];
+    min?: GraphQLTypes['teammates_min_order_by'];
+    stddev?: GraphQLTypes['teammates_stddev_order_by'];
+    stddev_pop?: GraphQLTypes['teammates_stddev_pop_order_by'];
+    stddev_samp?: GraphQLTypes['teammates_stddev_samp_order_by'];
+    sum?: GraphQLTypes['teammates_sum_order_by'];
+    var_pop?: GraphQLTypes['teammates_var_pop_order_by'];
+    var_samp?: GraphQLTypes['teammates_var_samp_order_by'];
+    variance?: GraphQLTypes['teammates_variance_order_by'];
+  };
+  /** input type for inserting array relation for remote table "teammates" */
+  ['teammates_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['teammates_insert_input']>;
+    /** on conflict condition */
+    on_conflict?: GraphQLTypes['teammates_on_conflict'];
+  };
   /** aggregate avg on columns */
   ['teammates_avg_fields']: {
     __typename: 'teammates_avg_fields';
     id?: number;
     team_mate_id?: number;
     user_id?: number;
+  };
+  /** order by avg() on columns of table "teammates" */
+  ['teammates_avg_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
   };
   /** Boolean expression to filter rows from the table "teammates". All fields are combined with a logical 'AND'. */
   ['teammates_bool_exp']: {
@@ -18543,6 +18792,14 @@ columns and relationships of "distributions" */
     updated_at?: GraphQLTypes['timestamp'];
     user_id?: number;
   };
+  /** order by max() on columns of table "teammates" */
+  ['teammates_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
   /** aggregate min on columns */
   ['teammates_min_fields']: {
     __typename: 'teammates_min_fields';
@@ -18551,6 +18808,14 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     updated_at?: GraphQLTypes['timestamp'];
     user_id?: number;
+  };
+  /** order by min() on columns of table "teammates" */
+  ['teammates_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
   };
   /** response of any mutation on the table "teammates" */
   ['teammates_mutation_response']: {
@@ -18597,12 +18862,24 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by stddev() on columns of table "teammates" */
+  ['teammates_stddev_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
   /** aggregate stddev_pop on columns */
   ['teammates_stddev_pop_fields']: {
     __typename: 'teammates_stddev_pop_fields';
     id?: number;
     team_mate_id?: number;
     user_id?: number;
+  };
+  /** order by stddev_pop() on columns of table "teammates" */
+  ['teammates_stddev_pop_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
   };
   /** aggregate stddev_samp on columns */
   ['teammates_stddev_samp_fields']: {
@@ -18611,12 +18888,24 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by stddev_samp() on columns of table "teammates" */
+  ['teammates_stddev_samp_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
   /** aggregate sum on columns */
   ['teammates_sum_fields']: {
     __typename: 'teammates_sum_fields';
     id?: GraphQLTypes['bigint'];
     team_mate_id?: number;
     user_id?: number;
+  };
+  /** order by sum() on columns of table "teammates" */
+  ['teammates_sum_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
   };
   /** update columns of table "teammates" */
   ['teammates_update_column']: teammates_update_column;
@@ -18627,6 +18916,12 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by var_pop() on columns of table "teammates" */
+  ['teammates_var_pop_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
   /** aggregate var_samp on columns */
   ['teammates_var_samp_fields']: {
     __typename: 'teammates_var_samp_fields';
@@ -18634,12 +18929,24 @@ columns and relationships of "distributions" */
     team_mate_id?: number;
     user_id?: number;
   };
+  /** order by var_samp() on columns of table "teammates" */
+  ['teammates_var_samp_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+  };
   /** aggregate variance on columns */
   ['teammates_variance_fields']: {
     __typename: 'teammates_variance_fields';
     id?: number;
     team_mate_id?: number;
     user_id?: number;
+  };
+  /** order by variance() on columns of table "teammates" */
+  ['teammates_variance_order_by']: {
+    id?: GraphQLTypes['order_by'];
+    team_mate_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -19096,6 +19403,10 @@ columns and relationships of "distributions" */
     /** An aggregate relationship */
     sent_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     starting_tokens: number;
+    /** An array relationship */
+    teammates: Array<GraphQLTypes['teammates']>;
+    /** An aggregate relationship */
+    teammates_aggregate: GraphQLTypes['teammates_aggregate'];
     updated_at?: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "users" */
@@ -19185,6 +19496,7 @@ columns and relationships of "distributions" */
     role?: GraphQLTypes['Int_comparison_exp'];
     sent_gifts?: GraphQLTypes['token_gifts_bool_exp'];
     starting_tokens?: GraphQLTypes['Int_comparison_exp'];
+    teammates?: GraphQLTypes['teammates_bool_exp'];
     updated_at?: GraphQLTypes['timestamp_comparison_exp'];
   };
   /** unique or primary key constraints on table "users" */
@@ -19222,6 +19534,7 @@ columns and relationships of "distributions" */
     role?: number;
     sent_gifts?: GraphQLTypes['token_gifts_arr_rel_insert_input'];
     starting_tokens?: number;
+    teammates?: GraphQLTypes['teammates_arr_rel_insert_input'];
     updated_at?: GraphQLTypes['timestamp'];
   };
   /** aggregate max on columns */
@@ -19330,6 +19643,7 @@ columns and relationships of "distributions" */
     role?: GraphQLTypes['order_by'];
     sent_gifts_aggregate?: GraphQLTypes['token_gifts_aggregate_order_by'];
     starting_tokens?: GraphQLTypes['order_by'];
+    teammates_aggregate?: GraphQLTypes['teammates_aggregate_order_by'];
     updated_at?: GraphQLTypes['order_by'];
   };
   /** primary key columns input for table: users */
@@ -20760,6 +21074,7 @@ export const enum profiles_update_column {
 /** unique or primary key constraints on table "teammates" */
 export const enum teammates_constraint {
   teammates_pkey = 'teammates_pkey',
+  teammates_user_id_team_mate_id_key = 'teammates_user_id_team_mate_id_key',
 }
 /** select columns of table "teammates" */
 export const enum teammates_select_column {

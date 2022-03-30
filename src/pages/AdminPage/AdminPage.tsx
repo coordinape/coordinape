@@ -201,6 +201,8 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
@@ -368,6 +370,7 @@ const AdminPage = () => {
               </div>
             );
           },
+          sortFunc: (a: string, b: string) => englishCollator.compare(a, b),
           wide: true,
           leftAlign: true,
         },
@@ -538,7 +541,7 @@ const AdminPage = () => {
                 }
                 onClick={() => setNewEpoch(true)}
               >
-                Add Epoch
+                Create Epoch
               </Button>
               <Button
                 variant="contained"
@@ -569,7 +572,7 @@ const AdminPage = () => {
                 startIcon={<PlusCircleIcon />}
                 onClick={() => setNewEpoch(true)}
               >
-                Add Epoch
+                Create Epoch
               </Button>
             </>
           }
@@ -656,14 +659,14 @@ const AdminPage = () => {
       <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
-        onClose={() => setDeleteUserDialog(undefined)}
+        onClose={() => setDeleteEpochDialog(undefined)}
         primaryText="Remove"
         onPrimary={
           deleteEpochDialog
             ? () =>
                 deleteEpoch(deleteEpochDialog?.id)
-                  .then(() => setDeleteUserDialog(undefined))
-                  .catch(() => setDeleteUserDialog(undefined))
+                  .then(() => setDeleteEpochDialog(undefined))
+                  .catch(() => setDeleteEpochDialog(undefined))
             : undefined
         }
       />

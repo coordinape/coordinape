@@ -33,6 +33,13 @@ export const adminUpdateUserSchemaInput = z
   })
   .strict();
 
+export const deleteUserInput = z
+  .object({
+    circle_id: z.number(),
+    address: zEthAddressOnly,
+  })
+  .strict();
+
 export const createNomineeInputSchema = z
   .object({
     name: z.string().min(3).max(255),
@@ -58,8 +65,7 @@ export const createUserSchemaInput = z
     name: z.string().min(3).max(255),
     address: zEthAddressOnly,
     non_giver: z.boolean().optional(),
-    starting_tokens: z.number().optional(),
-    give_token_remaining: z.number().optional(),
+    starting_tokens: z.number().optional().default(100),
     fixed_non_receiver: z.boolean().optional(),
     non_receiver: z.boolean().optional(),
     role: z.number().min(0).max(1).optional(),
@@ -125,6 +131,13 @@ export const createEpochInput = z
       });
     }
   });
+
+export const updateTeammatesInput = z
+  .object({
+    teammates: z.number().int().positive().array(),
+    circle_id: z.number().int().positive(),
+  })
+  .strict();
 
 export const HasuraAdminSessionVariables = z
   .object({

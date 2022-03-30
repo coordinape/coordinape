@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -15,6 +15,16 @@ import { useApiAdminCircle } from 'hooks';
 import { IEpoch } from 'types';
 
 const useStyles = makeStyles(theme => ({
+  modalDescription: {
+    textAlign: 'center',
+    fontWeight: 100,
+    color: theme.colors.text,
+    padding: '0px 100px',
+  },
+  modalExternalLink: {
+    textDecoration: 'underline',
+    color: 'inherit',
+  },
   modalBody: {
     display: 'flex',
     alignItems: 'center',
@@ -36,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 300,
   },
   subTitle: {
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: 16,
     lineHeight: 3,
     marginBottom: theme.spacing(1),
@@ -56,8 +66,10 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
   },
   summary: {
-    margin: 0,
-    minHeight: 65,
+    marginBottom: 5,
+    textAlign: 'center',
+    fontWeight: 500,
+    color: theme.colors.text,
   },
 }));
 
@@ -104,6 +116,21 @@ export const AdminEpochModal = ({
           submitDisabled={!changedOutput}
           errors={errors}
         >
+          <div className={classes.modalDescription}>
+            An Epoch is a period of time where circle members contribute value &
+            allocate GIVE tokens to one another.{' '}
+            <span>
+              <a
+                className={classes.modalExternalLink}
+                href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Learn More
+              </a>
+            </span>
+          </div>
+
           <div className={classes.datesAndRepeat}>
             <div className={classes.dates}>
               <h6 className={classes.subTitle}>Dates</h6>

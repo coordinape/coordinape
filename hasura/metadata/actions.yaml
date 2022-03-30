@@ -52,6 +52,26 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: deleteEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/deleteEpoch'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
+- name: deleteUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/deleteUser'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: logoutUser
   definition:
     kind: synchronous
@@ -62,6 +82,16 @@ actions:
   permissions:
   - role: superadmin
   - role: user
+- name: updateTeammates
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/updateTeammates'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: updateUser
   definition:
     kind: synchronous
@@ -124,10 +154,13 @@ custom_types:
   - name: UploadImageInput
   - name: UploadCircleImageInput
   - name: AdminUpdateUserInput
+  - name: DeleteEpochInput
   - name: CreateNomineeInput
   - name: UpdateUserInput
   - name: VouchInput
   - name: CreateEpochInput
+  - name: UpdateTeammatesInput
+  - name: DeleteUserInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -187,6 +220,7 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteEpochResponse
   - name: CreateNomineeResponse
     relationships:
     - remote_table:
@@ -217,4 +251,15 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: UpdateTeammatesResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_id: id
+  - name: ConfirmationResponse
   scalars: []

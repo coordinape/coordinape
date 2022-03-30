@@ -63,6 +63,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                       non_receiver: { _eq: false },
                       // for YEARN COMMUNITY circle only
                       circle_id: { _eq: CIRCLES.YEARN.COMMUNITY },
+                      deleted_at: { _is_null: true },
                     },
                   },
                   {

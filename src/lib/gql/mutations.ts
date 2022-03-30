@@ -1,4 +1,10 @@
-import { CreateCircleParam, IApiCircle, UpdateUsersParam } from '../../types';
+import {
+  CreateCircleParam,
+  IApiCircle,
+  PostUsersParam,
+  NominateUserParam,
+  UpdateUsersParam,
+} from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
@@ -211,3 +217,78 @@ export const adminUpdateUser = async (
   });
   return adminUpdateUser;
 };
+
+export const createUser = async (circleId: number, params: PostUsersParam) => {
+  await client.mutate({
+    createUser: [
+      {
+        payload: {
+          circle_id: circleId,
+          name: params.name,
+          address: params.address,
+          role: params.role,
+          non_giver: params.non_giver,
+          non_receiver: params.fixed_non_receiver || params.non_receiver,
+          fixed_non_receiver: params.fixed_non_receiver,
+          starting_tokens: params.starting_tokens,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+};
+
+export const createNominee = async (
+  circleId: number,
+  params: NominateUserParam
+) => {
+  const { createNominee } = await client.mutate({
+    createNominee: [
+      {
+        payload: {
+          circle_id: circleId,
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return createNominee;
+};
+
+export const vouchUser = async (nomineeId: number) => {
+  const { vouch } = await client.mutate({
+    vouch: [
+      {
+        payload: {
+          nominee_id: nomineeId,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return vouch;
+};
+
+export async function deleteEpoch(circleId: number, epochId: number) {
+  const { deleteEpoch } = await client.mutate({
+    deleteEpoch: [
+      {
+        payload: {
+          id: epochId,
+          circle_id: circleId,
+        },
+      },
+      {
+        success: true,
+      },
+    ],
+  });
+  return deleteEpoch;
+}

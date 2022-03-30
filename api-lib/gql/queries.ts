@@ -10,6 +10,9 @@ export async function getCircle(id: number) {
         team_sel_text: true,
         discord_webhook: true,
         telegram_id: true,
+        organization: {
+          telegram_id: true,
+        },
         epochs: [
           { limit: 1 },
           {
@@ -66,7 +69,8 @@ export async function getCurrentEpoch(
 
 export async function getUserAndCurrentEpoch(
   address: string,
-  circleId: number
+  circleId: number,
+  excludeDeletedUsers = false
 ): Promise<typeof user | undefined> {
   const {
     users: [user],
@@ -77,8 +81,7 @@ export async function getUserAndCurrentEpoch(
         where: {
           address: { _ilike: address },
           circle_id: { _eq: circleId },
-          // ignore soft_deleted users
-          deleted_at: { _is_null: true },
+          deleted_at: excludeDeletedUsers ? { _is_null: true } : undefined,
         },
       },
       {

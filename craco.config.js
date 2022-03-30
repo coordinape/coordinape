@@ -18,7 +18,17 @@ const shouldDryRun = !(
 module.exports = {
   jest: {
     configure: {
-      collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+      verbose: true,
+      roots: ['<rootDir>/src/', '<rootDir>/api/', '<rootDir>/api-lib'],
+      testMatch: [
+        '<rootDir>/api/**/*.{spec,test}.{js,jsx,ts,tsx}',
+        '<rootDir>/api-lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
+      ],
+      collectCoverageFrom: [
+        'src/**/*.{ts,tsx}',
+        '!src/**/*.d.ts',
+        'api/**/*.ts',
+      ],
       coverageReporters: ['json', 'lcov', 'text-summary'],
       transform: {
         '.(ts|tsx)': 'ts-jest',

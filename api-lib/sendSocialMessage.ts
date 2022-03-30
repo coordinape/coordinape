@@ -12,6 +12,7 @@ type SocialMessage = {
     discord?: boolean;
     telegram?: boolean;
   };
+  notifyOrg?: boolean;
 };
 
 function cleanStr(str: string) {
@@ -23,6 +24,7 @@ export async function sendSocialMessage({
   circleId,
   sanitize = true,
   channels,
+  notifyOrg = false,
 }: SocialMessage) {
   const msg = sanitize ? cleanStr(message) : message;
 
@@ -47,9 +49,12 @@ export async function sendSocialMessage({
     }
   }
 
-  if (TELEGRAM_BOT_BASE_URL && channels?.telegram && circle?.telegram_id) {
+  const channelId = notifyOrg
+    ? circle?.organization?.telegram_id
+    : circle?.telegram_id;
+  if (TELEGRAM_BOT_BASE_URL && channels?.telegram && channelId) {
     const telegramBotPost = {
-      chat_id: circle.telegram_id,
+      chat_id: channelId,
       text: msg,
     };
     const res = await fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {

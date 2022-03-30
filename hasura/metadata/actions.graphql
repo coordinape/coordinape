@@ -19,7 +19,19 @@ type Mutation {
 }
 
 type Mutation {
+  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
+}
+
+type Mutation {
+  deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
+}
+
+type Mutation {
+  updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
 type Mutation {
@@ -55,7 +67,6 @@ input CreateUserInput {
   address: String!
   name: String!
   fixed_non_receiver: Boolean
-  give_token_remaining: Int
   non_giver: Boolean
   non_receiver: Boolean
   role: Int
@@ -81,6 +92,11 @@ input AdminUpdateUserInput {
   fixed_non_receiver: Boolean
   non_receiver: Boolean
   role: Int
+}
+
+input DeleteEpochInput {
+  id: Int!
+  circle_id: Int!
 }
 
 input CreateNomineeInput {
@@ -110,6 +126,16 @@ input CreateEpochInput {
   grant: Float
 }
 
+input UpdateTeammatesInput {
+  teammates: [Int]!
+  circle_id: Int!
+}
+
+input DeleteUserInput {
+  circle_id: Int!
+  address: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -130,6 +156,10 @@ type UserResponse {
   id: ID!
 }
 
+type DeleteEpochResponse {
+  success: Boolean!
+}
+
 type CreateNomineeResponse {
   id: Int
 }
@@ -140,4 +170,12 @@ type VouchOutput {
 
 type EpochResponse {
   id: ID!
+}
+
+type UpdateTeammatesResponse {
+  user_id: ID!
+}
+
+type ConfirmationResponse {
+  success: Boolean!
 }

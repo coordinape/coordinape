@@ -44,7 +44,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const mutationResult = await adminClient.mutate({
     // Insert the user
     insert_users_one: [
-      { object: input },
+      { object: { ...input, give_token_remaining: input.starting_tokens } },
       {
         id: true,
         name: true,
