@@ -33,6 +33,9 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$lightText',
         },
+        '&[disabled]': {
+          opacity: 0.5,
+        },
       },
       transparent: {
         padding: '$xs',
