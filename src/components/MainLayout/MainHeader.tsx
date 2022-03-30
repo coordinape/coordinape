@@ -43,7 +43,7 @@ export const MainHeader = () => {
     <Box
       css={{
         px: '$1xl',
-        height: '82px',
+        height: '80px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

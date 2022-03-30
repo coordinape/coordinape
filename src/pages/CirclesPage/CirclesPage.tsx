@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import type { CSS } from 'stitches.config';
 
+import { scrollToTop } from 'components/MainLayout/MainLayout';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -36,7 +37,10 @@ export const CirclesPage = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectAndFetchCircle(id).then(() => navigate(path));
+    selectAndFetchCircle(id).then(() => {
+      scrollToTop();
+      navigate(path);
+    });
   };
 
   return (
