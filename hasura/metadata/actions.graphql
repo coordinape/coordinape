@@ -31,6 +31,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
+}
+
+type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
@@ -136,6 +140,23 @@ input DeleteUserInput {
   address: String!
 }
 
+input UpdateCircleInput {
+  circle_id: Int!
+  name: String
+  token_name: String
+  team_sel_text: String
+  alloc_text: String
+  vouching: Boolean
+  min_vouches: Int
+  nomination_days_limit: Int
+  vouching_text: String
+  team_selection: Boolean
+  default_opt_in: Boolean
+  discord_webhook: String
+  only_giver_vouch: Boolean
+  auto_opt_out: Boolean
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -178,4 +199,8 @@ type UpdateTeammatesResponse {
 
 type ConfirmationResponse {
   success: Boolean!
+}
+
+type UpdateCircleOutput {
+  id: Int!
 }

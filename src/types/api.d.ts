@@ -43,27 +43,6 @@ export interface PutUsersParam {
   non_giver?: boolean;
 }
 
-export interface PostCirclesParam {
-  name: string;
-}
-
-export interface PutCirclesParam {
-  name: string;
-  vouching: boolean;
-  token_name: string;
-  min_vouches: number;
-  team_sel_text?: string;
-  nomination_days_limit: number;
-  alloc_text?: string;
-  discord_webhook?: string;
-  update_webhook: number;
-  default_opt_in: boolean;
-  vouching_text?: string;
-  only_giver_vouch: boolean;
-  team_selection: boolean;
-  auto_opt_out: boolean;
-}
-
 export interface CreateCircleParam {
   user_name: string;
   circle_name: string;

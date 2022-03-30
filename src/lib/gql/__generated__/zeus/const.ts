@@ -487,6 +487,92 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateCircleInput: {
+    alloc_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    auto_opt_out: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    default_opt_in: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_webhook: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    only_giver_vouch: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_selection: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   UpdateTeammatesInput: {
     circle_id: {
       type: 'Int',
@@ -5328,6 +5414,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_vaults_one: {
       object: {
         type: 'vaults_insert_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateCircle: {
+      payload: {
+        type: 'UpdateCircleInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -12843,6 +12937,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  UpdateCircleOutput: {
+    circle: 'circles',
+    id: 'Int',
+  },
   UpdateCircleResponse: {
     circle: 'circles',
     id: 'Int',
@@ -13016,6 +13114,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults: 'vaults_mutation_response',
     insert_vaults_one: 'vaults',
     logoutUser: 'LogoutResponse',
+    updateCircle: 'UpdateCircleOutput',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',

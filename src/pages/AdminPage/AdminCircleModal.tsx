@@ -267,7 +267,6 @@ export const AdminCircleModal = ({
           nomination_days_limit: nominationDaysLimit,
           alloc_text: allocText,
           discord_webhook: webhook,
-          update_webhook: allowEdit ? 1 : 0,
           default_opt_in: defaultOptIn,
           vouching_text: vouchingText,
           only_giver_vouch: onlyGiverVouch,

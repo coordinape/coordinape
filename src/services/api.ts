@@ -5,7 +5,6 @@ import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import {
-  IApiCircle,
   IApiTokenGift,
   IApiProfile,
   IApiUser,
@@ -14,7 +13,6 @@ import {
   IApiManifest,
   PostProfileParam,
   PostTokenGiftsParam,
-  PutCirclesParam,
   PutUsersParam,
   UpdateCreateEpochParam,
   IApiFullCircle,
@@ -97,20 +95,6 @@ export class APIService {
       data,
     });
     return response.data;
-  };
-
-  putCircles = async (
-    circleId: number,
-    params: PutCirclesParam
-  ): Promise<IApiCircle> => {
-    const data = JSON.stringify(params);
-    const response = await this.axios.put(
-      `/v2/${circleId}/admin/circles/${circleId}`,
-      {
-        data,
-      }
-    );
-    return response.data as IApiCircle;
   };
 
   createEpoch = async (

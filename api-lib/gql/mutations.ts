@@ -337,3 +337,39 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
   });
   return update_nominees_by_pk;
 }
+
+export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
+  const { update_circles_by_pk } = await adminClient.mutate({
+    update_circles_by_pk: [
+      {
+        pk_columns: {
+          id: params.circle_id,
+        },
+        _set: { ...params },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return update_circles_by_pk;
+}
+
+export async function endNominees(circleId: number) {
+  const { update_nominees } = await adminClient.mutate({
+    update_nominees: [
+      {
+        where: {
+          circle_id: { _eq: circleId },
+        },
+        _set: {
+          ended: true,
+        },
+      },
+      {
+        affected_rows: true,
+      },
+    ],
+  });
+  return update_nominees;
+}
