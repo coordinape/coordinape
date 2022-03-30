@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-
-import { ethers } from 'ethers';
-
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, ApeTextField } from 'components';
+import { FormModal, FormTextField } from 'components';
+import NewNominateForm from 'forms/NewNominateForm';
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 
@@ -40,9 +37,6 @@ export const NewNominationModal = ({
   const { circle } = useSelectedCircle();
   const { nominateUser } = useApiWithSelectedCircle();
 
-  const [name, setName] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
   const nominateDescription = circle
     ? `The ${circle.name} Circle requires ${
         circle.min_vouches
@@ -59,69 +53,43 @@ export const NewNominationModal = ({
       }`
     : '';
 
-  const isAddress = ethers.utils.isAddress(address);
-  const nominateChanged =
-    name.length == 0 || description.length == 0 || isAddress;
-
-  const onChangeWith =
-    (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      set(e.target.value);
-
-  const onSubmit = async () => {
-    if (!nominateChanged) {
-      throw 'Submit called when form not ready.';
-    }
-    nominateUser({
-      name,
-      address,
-      description,
-    })
-      .then(() => {
-        onClose();
-      })
-      .catch(console.warn);
-  };
-
   return (
-    <FormModal
-      title="Nominate New Member"
-      submitDisabled={!nominateChanged}
-      onSubmit={onSubmit}
-      submitText="Nominate Member"
-      open={visible}
-      onClose={onClose}
-      size="small"
+    <NewNominateForm.FormController
+      source={undefined}
+      hideFieldErrors
+      submit={params => nominateUser(params).then(onClose).catch(console.warn)}
     >
-      <p className={classes.description}>{nominateDescription}</p>
-      <div className={classes.quadGrid}>
-        <ApeTextField
-          label="Name"
-          value={name}
-          onChange={onChangeWith(setName)}
-          fullWidth
-        />
-        <ApeTextField
-          label="ETH Address"
-          value={address}
-          onChange={onChangeWith(setAddress)}
-          error={address.length > 0 && !isAddress}
-          fullWidth
-        />
-        <ApeTextField
-          label="Why are you nominating this person?"
-          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-          value={description}
-          className={classes.gridAllColumns}
-          onChange={onChangeWith(setDescription)}
-          multiline
-          rows={4}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-      </div>
-    </FormModal>
+      {({ fields, errors, changedOutput, handleSubmit }) => (
+        <FormModal
+          title="Nominate New Member"
+          submitDisabled={!changedOutput}
+          onSubmit={handleSubmit}
+          submitText="Nominate Member"
+          open={visible}
+          onClose={onClose}
+          errors={errors}
+          size="small"
+        >
+          <p className={classes.description}>{nominateDescription}</p>
+          <div className={classes.quadGrid}>
+            <FormTextField label="Name" {...fields.name} fullWidth />
+            <FormTextField label="ETH Address" {...fields.address} fullWidth />
+            <FormTextField
+              label="Why are you nominating this person?"
+              placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
+              {...fields.description}
+              multiline
+              rows={4}
+              inputProps={{
+                maxLength: 280,
+              }}
+              className={classes.gridAllColumns}
+              fullWidth
+            />
+          </div>
+        </FormModal>
+      )}
+    </NewNominateForm.FormController>
   );
 };
 
