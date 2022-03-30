@@ -51,6 +51,13 @@ array_relationships:
       table:
         name: circle_integrations
         schema: public
+- name: nominees
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: nominees
+        schema: public
 - name: pending_token_gifts
   using:
     foreign_key_constraint_on:
