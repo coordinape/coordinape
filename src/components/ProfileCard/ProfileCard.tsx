@@ -64,6 +64,12 @@ const useStyles = makeStyles(theme => ({
     },
   },
   name: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 4,
+    '-webkit-box-orient': 'vertical',
+    wordBreak: 'break-word',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     gridColumn: '1 / 4',
     textAlign: 'center',
     margin: theme.spacing(0.5, 0),
