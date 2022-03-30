@@ -1,13 +1,5 @@
-// TODO
-// add current epoch
-// add vouching/distribution
-// scroll back to top when clicking into a circle
-// pre-populate org name when clicking Add Circle
+import { useEffect, useMemo } from 'react';
 
-import { useEffect } from 'react';
-
-import { order_by } from 'lib/gql/__generated__/zeus';
-import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -20,6 +12,8 @@ import { paths } from 'routes/paths';
 import { Box, Button, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
+
+import { getOrgData } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
 
@@ -47,16 +41,15 @@ export const CirclesPage = () => {
 
   return (
     <SingleColumnLayout>
-      {query.isLoading || (query.isIdle && 'Loading...')}
+      {(query.isLoading || query.isIdle) && 'Loading...'}
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
-          <Box css={{ display: 'flex' }}>
-            <Text variant="sectionHeader" css={{ mb: '$md', flexGrow: 1 }}>
+          <Box css={{ display: 'flex', mb: '$md' }}>
+            <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
               {org.name}
             </Text>
             <Button
               color="blue"
-              size="small"
               outlined
               onClick={() => navigate(paths.createCircle)}
             >
@@ -80,37 +73,6 @@ export const CirclesPage = () => {
 
 export default CirclesPage;
 
-const getOrgData = (address?: string) =>
-  client.query({
-    organizations: [
-      {},
-      {
-        id: true,
-        name: true,
-        circles: [
-          {},
-          {
-            id: true,
-            name: true,
-            vouching: true,
-            users: [
-              { where: { address: { _eq: address?.toLowerCase() } } },
-              { role: true },
-            ],
-            epochs: [
-              {
-                where: { ended: { _eq: false }, end_date: { _gt: 'now' } },
-                order_by: [{ start_date: order_by.asc }],
-                limit: 1,
-              },
-              { start_date: true, end_date: true, number: true },
-            ],
-          },
-        ],
-      },
-    ],
-  });
-
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
@@ -122,7 +84,7 @@ const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
   [paths.adminCircles, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];
 
-const nonMemberCss: CSS = {
+const nonMemberPanelCss: CSS = {
   backgroundColor: 'white',
   border: '1px solid $lightGray',
   '.hover-buttons': { display: 'none' },
@@ -135,7 +97,21 @@ type CircleRowProps = {
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
+  const nonMemberCss = nonMember ? { color: '$placeholder' } : {};
+
   const epoch = circle.epochs[0];
+  const nomineeCount =
+    circle.vouching && circle.nominees_aggregate.aggregate?.count;
+  const [startDate, endDate] = useMemo(
+    () =>
+      epoch
+        ? [DateTime.fromISO(epoch.start_date), DateTime.fromISO(epoch.end_date)]
+        : [undefined, undefined],
+    [epoch]
+  );
+
+  // this check is simple because the gql query filters out ended epochs
+  const isCurrent = startDate && startDate < DateTime.now();
 
   return (
     <Panel
@@ -146,37 +122,25 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         gap: '$md',
         '.hover-buttons': { visibility: 'hidden' },
         '&:hover .hover-buttons': { visibility: 'visible' },
-        ...(nonMember ? nonMemberCss : {}),
+        ...(nonMember ? nonMemberPanelCss : {}),
       }}
     >
       <Box
         css={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr 2fr',
+          gridTemplateColumns: '1fr 1fr 1fr 2.5fr',
           width: '100%',
           gap: '$md',
           alignItems: 'center',
         }}
       >
         <Box>
-          <Text
-            variant="sectionHeader"
-            css={{ mb: '$xs', ...(nonMember ? { color: '$placeholder' } : {}) }}
-          >
+          <Text variant="sectionHeader" css={{ mb: '$xs', ...nonMemberCss }}>
             {circle.name}
           </Text>
-          <Text
-            css={{
-              alignItems: 'baseline',
-              ...(nonMember ? { color: '$placeholder' } : {}),
-            }}
-          >
+          <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
             <Torso
-              css={{
-                height: 12,
-                width: 12,
-                mr: '$xs',
-              }}
+              css={{ height: 12, width: 12, mr: '$xs' }}
               color={
                 role === 1 ? 'blue' : role === 0 ? 'primary' : 'placeholder'
               }
@@ -191,27 +155,38 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           </Text>
         </Box>
         <Box>
-          {epoch ? (
-            <EpochBlurb epoch={epoch} />
+          {epoch && startDate && endDate ? (
+            <>
+              <Text css={{ fontSize: '$7', ...nonMemberCss }}>
+                Epoch {epoch.number}
+              </Text>
+              <Text css={{ fontSize: '$7', ...nonMemberCss }} bold>
+                {startDate.toFormat('MMM d')} -{' '}
+                {endDate.toFormat(
+                  endDate.month === startDate.month ? 'd' : 'MMM d'
+                )}
+              </Text>
+            </>
           ) : (
             'No active or upcoming epochs'
           )}
         </Box>
-        <Box>Something</Box>
+        <Box css={nonMember ? { color: '$placeholder' } : {}}>
+          <Box>
+            {!!nomineeCount &&
+              `${nomineeCount} Nominee${nomineeCount > 1 ? 's' : ''}`}
+          </Box>
+          <Box>{isCurrent && 'Allocation Period Open'}</Box>
+        </Box>
         <Box
           className="hover-buttons"
-          css={{
-            display: 'flex',
-            gap: '$sm',
-            justifyContent: 'flex-start',
-          }}
+          css={{ display: 'flex', gap: '$sm', justifyContent: 'flex-start' }}
         >
           {buttons.map(
             ([path, label, hide]) =>
               (!hide || !hide(circle)) && (
                 <Button
                   key={label}
-                  size="small"
                   outlined
                   color="teal"
                   onClick={() => onButtonClick(circle.id, path)}
@@ -223,20 +198,5 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         </Box>
       </Box>
     </Panel>
-  );
-};
-
-const EpochBlurb = ({ epoch }: { epoch: QueryCircle['epochs'][0] }) => {
-  const startDate = DateTime.fromISO(epoch.start_date);
-  const endDate = DateTime.fromISO(epoch.end_date);
-  return (
-    <Box>
-      <Text css={{ fontSize: '$7' }}>Epoch {epoch.number}</Text>
-
-      <Text css={{ fontSize: '$7' }} bold>
-        {startDate.toFormat('MMM d')} -{' '}
-        {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
-      </Text>
-    </Box>
   );
 };
