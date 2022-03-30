@@ -92,7 +92,6 @@ const useStyles = makeStyles(theme => ({
     wordBreak: 'break-word',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    gridColumn: '1 / 4',
   },
   skillGroup: {
     display: 'flex',

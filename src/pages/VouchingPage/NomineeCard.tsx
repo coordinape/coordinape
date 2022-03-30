@@ -40,7 +40,6 @@ const useStyles = makeStyles(theme => ({
     wordBreak: 'break-word',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    gridColumn: '1 / 4',
   },
   infoContainer: {
     margin: theme.spacing(0, 4),
