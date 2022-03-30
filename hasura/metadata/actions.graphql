@@ -27,6 +27,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateEpoch(payload: UpdateEpochInput!): EpochResponse
+}
+
+type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
@@ -125,6 +129,15 @@ input CreateEpochInput {
 input UpdateTeammatesInput {
   teammates: [Int]!
   circle_id: Int!
+}
+
+input UpdateEpochInput {
+  id: Int!
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
 }
 
 type CreateCircleResponse {

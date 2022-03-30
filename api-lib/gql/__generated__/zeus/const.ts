@@ -505,6 +505,44 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    days: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    grant: {
+      type: 'Float',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    repeat: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    start_date: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   UpdateTeammatesInput: {
     circle_id: {
       type: 'Int',
@@ -8805,6 +8843,14 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    updateEpoch: {
+      payload: {
+        type: 'UpdateEpochInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     updateTeammates: {
       payload: {
         type: 'UpdateTeammatesInput',
@@ -15898,6 +15944,108 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
   },
+  teammates_aggregate_order_by: {
+    avg: {
+      type: 'teammates_avg_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    count: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    max: {
+      type: 'teammates_max_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min: {
+      type: 'teammates_min_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev: {
+      type: 'teammates_stddev_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_pop: {
+      type: 'teammates_stddev_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    stddev_samp: {
+      type: 'teammates_stddev_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    sum: {
+      type: 'teammates_sum_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_pop: {
+      type: 'teammates_var_pop_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    var_samp: {
+      type: 'teammates_var_samp_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    variance: {
+      type: 'teammates_variance_order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_arr_rel_insert_input: {
+    data: {
+      type: 'teammates_insert_input',
+      array: true,
+      arrayRequired: true,
+      required: true,
+    },
+    on_conflict: {
+      type: 'teammates_on_conflict',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_avg_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   teammates_bool_exp: {
     _and: {
       type: 'teammates_bool_exp',
@@ -16025,6 +16173,70 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  teammates_max_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_min_order_by: {
+    created_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   teammates_on_conflict: {
     constraint: {
       type: 'teammates_constraint',
@@ -16130,7 +16342,147 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  teammates_stddev_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_stddev_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_stddev_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_sum_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   teammates_update_column: 'enum',
+  teammates_var_pop_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_var_samp_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
+  teammates_variance_order_by: {
+    id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_mate_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    user_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   timestamp: 'String',
   timestamp_comparison_exp: {
     _eq: {
@@ -17571,6 +17923,70 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    teammates: {
+      distinct_on: {
+        type: 'teammates_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'teammates_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'teammates_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    teammates_aggregate: {
+      distinct_on: {
+        type: 'teammates_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'teammates_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'teammates_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
   },
   users_aggregate_fields: {
     count: {
@@ -17859,6 +18275,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    teammates: {
+      type: 'teammates_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_at: {
       type: 'timestamp_comparison_exp',
       array: false,
@@ -18034,6 +18456,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     starting_tokens: {
       type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    teammates: {
+      type: 'teammates_arr_rel_insert_input',
       array: false,
       arrayRequired: false,
       required: false,
@@ -18356,6 +18784,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     starting_tokens: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    teammates_aggregate: {
+      type: 'teammates_aggregate_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -21758,6 +22192,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
@@ -22773,6 +23208,8 @@ export const ReturnTypes: Record<string, any> = {
     sent_gifts: 'token_gifts',
     sent_gifts_aggregate: 'token_gifts_aggregate',
     starting_tokens: 'Int',
+    teammates: 'teammates',
+    teammates_aggregate: 'teammates_aggregate',
     updated_at: 'timestamp',
   },
   users_aggregate: {

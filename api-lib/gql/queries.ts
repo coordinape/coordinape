@@ -1,3 +1,7 @@
+import { DateTime } from 'luxon';
+
+import { EPOCH_REPEAT } from '../../api-lib/constants';
+
 import { adminClient } from './adminClient';
 
 export async function getCircle(id: number) {
@@ -274,4 +278,56 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
       },
     ],
   });
+}
+
+export async function getOverlappingEpoch(
+  start_date: DateTime,
+  end_date: DateTime,
+  circle_id: number,
+  ignore_epoch_id?: number
+) {
+  const {
+    epochs: [epoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: {
+          start_date: { _lte: end_date },
+          circle_id: { _eq: circle_id },
+          end_date: { _gt: start_date },
+          id: { _neq: ignore_epoch_id },
+        },
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+      },
+    ],
+  });
+  return epoch;
+}
+
+export async function getRepeatingEpoch(circle_id: number) {
+  const {
+    epochs: [repeatingEpoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: {
+          ended: { _eq: false },
+          circle_id: { _eq: circle_id },
+          repeat: { _gte: EPOCH_REPEAT.WEEKLY },
+        },
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+      },
+    ],
+  });
+  return repeatingEpoch;
 }
