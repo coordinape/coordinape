@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import uniqBy from 'lodash/uniqBy';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Button, makeStyles } from '@material-ui/core';
 
@@ -101,6 +101,7 @@ const useStyles = makeStyles(theme => ({
 export const SummonCirclePage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   const { address: myAddress, myUsers } = useMyProfile();
   const { selectCircle } = useApiBase();
@@ -128,11 +129,14 @@ export const SummonCirclePage = () => {
     );
   }
 
+  const org = protocols.find(p => p.id === Number(params.get('org')));
+  const source = { protocol_id: org?.id, protocol_name: org?.name };
+
   return (
     <div className={classes.root}>
       <h2 className={classes.title}>Create a Circle</h2>
       <CreateCircleForm.FormController
-        source={undefined}
+        source={source}
         submit={async ({ ...params }) => {
           try {
             const newCircle = await createCircle({ ...params });

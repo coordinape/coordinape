@@ -51,7 +51,7 @@ export const CirclesPage = () => {
             <Button
               color="blue"
               outlined
-              onClick={() => navigate(paths.createCircle)}
+              onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
             >
               Add Circle
             </Button>
