@@ -591,6 +591,19 @@ export type ValueTypes = {
     min_vouches?: boolean;
     name?: boolean;
     nomination_days_limit?: boolean;
+    nominees?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['nominees_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['nominees_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | null;
+      },
+      ValueTypes['nominees']
+    ];
     only_giver_vouch?: boolean;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
@@ -695,6 +708,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['Int_comparison_exp'] | null;
     name?: ValueTypes['String_comparison_exp'] | null;
     nomination_days_limit?: ValueTypes['Int_comparison_exp'] | null;
+    nominees?: ValueTypes['nominees_bool_exp'] | null;
     only_giver_vouch?: ValueTypes['Boolean_comparison_exp'] | null;
     organization?: ValueTypes['organizations_bool_exp'] | null;
     pending_token_gifts?: ValueTypes['pending_token_gifts_bool_exp'] | null;
@@ -769,6 +783,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | null;
     name?: ValueTypes['order_by'] | null;
     nomination_days_limit?: ValueTypes['order_by'] | null;
+    nominees_aggregate?: ValueTypes['nominees_aggregate_order_by'] | null;
     only_giver_vouch?: ValueTypes['order_by'] | null;
     organization?: ValueTypes['organizations_order_by'] | null;
     pending_token_gifts_aggregate?:
@@ -1730,6 +1745,28 @@ columns and relationships of "distributions" */
     vouches_required?: boolean;
     __typename?: boolean;
   }>;
+  /** order by aggregate values of table "nominees" */
+  ['nominees_aggregate_order_by']: {
+    avg?: ValueTypes['nominees_avg_order_by'] | null;
+    count?: ValueTypes['order_by'] | null;
+    max?: ValueTypes['nominees_max_order_by'] | null;
+    min?: ValueTypes['nominees_min_order_by'] | null;
+    stddev?: ValueTypes['nominees_stddev_order_by'] | null;
+    stddev_pop?: ValueTypes['nominees_stddev_pop_order_by'] | null;
+    stddev_samp?: ValueTypes['nominees_stddev_samp_order_by'] | null;
+    sum?: ValueTypes['nominees_sum_order_by'] | null;
+    var_pop?: ValueTypes['nominees_var_pop_order_by'] | null;
+    var_samp?: ValueTypes['nominees_var_samp_order_by'] | null;
+    variance?: ValueTypes['nominees_variance_order_by'] | null;
+  };
+  /** order by avg() on columns of table "nominees" */
+  ['nominees_avg_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
   /** Boolean expression to filter rows from the table "nominees". All fields are combined with a logical 'AND'. */
   ['nominees_bool_exp']: {
     _and?: ValueTypes['nominees_bool_exp'][];
@@ -1753,6 +1790,36 @@ columns and relationships of "distributions" */
     user_id?: ValueTypes['Int_comparison_exp'] | null;
     vouches_required?: ValueTypes['Int_comparison_exp'] | null;
   };
+  /** order by max() on columns of table "nominees" */
+  ['nominees_max_order_by']: {
+    address?: ValueTypes['order_by'] | null;
+    circle_id?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    description?: ValueTypes['order_by'] | null;
+    expiry_date?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    name?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    nominated_date?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by min() on columns of table "nominees" */
+  ['nominees_min_order_by']: {
+    address?: ValueTypes['order_by'] | null;
+    circle_id?: ValueTypes['order_by'] | null;
+    created_at?: ValueTypes['order_by'] | null;
+    description?: ValueTypes['order_by'] | null;
+    expiry_date?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    name?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    nominated_date?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
   /** Ordering options when selecting data from "nominees". */
   ['nominees_order_by']: {
     address?: ValueTypes['order_by'] | null;
@@ -1775,6 +1842,62 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "nominees" */
   ['nominees_select_column']: nominees_select_column;
+  /** order by stddev() on columns of table "nominees" */
+  ['nominees_stddev_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by stddev_pop() on columns of table "nominees" */
+  ['nominees_stddev_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by stddev_samp() on columns of table "nominees" */
+  ['nominees_stddev_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by sum() on columns of table "nominees" */
+  ['nominees_sum_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by var_pop() on columns of table "nominees" */
+  ['nominees_var_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by var_samp() on columns of table "nominees" */
+  ['nominees_var_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
+  /** order by variance() on columns of table "nominees" */
+  ['nominees_variance_order_by']: {
+    circle_id?: ValueTypes['order_by'] | null;
+    id?: ValueTypes['order_by'] | null;
+    nominated_by_user_id?: ValueTypes['order_by'] | null;
+    user_id?: ValueTypes['order_by'] | null;
+    vouches_required?: ValueTypes['order_by'] | null;
+  };
   ['numeric']: unknown;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: {
@@ -4098,6 +4221,8 @@ export type ModelTypes = {
     min_vouches: number;
     name: string;
     nomination_days_limit: number;
+    /** An array relationship */
+    nominees: ModelTypes['nominees'][];
     only_giver_vouch: boolean;
     /** An object relationship */
     organization?: ModelTypes['organizations'];
@@ -4433,12 +4558,34 @@ columns and relationships of "distributions" */
     user_id?: number;
     vouches_required: number;
   };
+  /** order by aggregate values of table "nominees" */
+  ['nominees_aggregate_order_by']: GraphQLTypes['nominees_aggregate_order_by'];
+  /** order by avg() on columns of table "nominees" */
+  ['nominees_avg_order_by']: GraphQLTypes['nominees_avg_order_by'];
   /** Boolean expression to filter rows from the table "nominees". All fields are combined with a logical 'AND'. */
   ['nominees_bool_exp']: GraphQLTypes['nominees_bool_exp'];
+  /** order by max() on columns of table "nominees" */
+  ['nominees_max_order_by']: GraphQLTypes['nominees_max_order_by'];
+  /** order by min() on columns of table "nominees" */
+  ['nominees_min_order_by']: GraphQLTypes['nominees_min_order_by'];
   /** Ordering options when selecting data from "nominees". */
   ['nominees_order_by']: GraphQLTypes['nominees_order_by'];
   /** select columns of table "nominees" */
   ['nominees_select_column']: GraphQLTypes['nominees_select_column'];
+  /** order by stddev() on columns of table "nominees" */
+  ['nominees_stddev_order_by']: GraphQLTypes['nominees_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "nominees" */
+  ['nominees_stddev_pop_order_by']: GraphQLTypes['nominees_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "nominees" */
+  ['nominees_stddev_samp_order_by']: GraphQLTypes['nominees_stddev_samp_order_by'];
+  /** order by sum() on columns of table "nominees" */
+  ['nominees_sum_order_by']: GraphQLTypes['nominees_sum_order_by'];
+  /** order by var_pop() on columns of table "nominees" */
+  ['nominees_var_pop_order_by']: GraphQLTypes['nominees_var_pop_order_by'];
+  /** order by var_samp() on columns of table "nominees" */
+  ['nominees_var_samp_order_by']: GraphQLTypes['nominees_var_samp_order_by'];
+  /** order by variance() on columns of table "nominees" */
+  ['nominees_variance_order_by']: GraphQLTypes['nominees_variance_order_by'];
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
@@ -4594,7 +4741,7 @@ columns and relationships of "distributions" */
     epochs_by_pk?: ModelTypes['epochs'];
     /** fetch data from the table: "gift_private" */
     gift_private: ModelTypes['gift_private'][];
-    /** fetch data from the table: "nominees" */
+    /** An array relationship */
     nominees: ModelTypes['nominees'][];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: ModelTypes['nominees'];
@@ -4668,7 +4815,7 @@ columns and relationships of "distributions" */
     epochs_by_pk?: ModelTypes['epochs'];
     /** fetch data from the table: "gift_private" */
     gift_private: ModelTypes['gift_private'][];
-    /** fetch data from the table: "nominees" */
+    /** An array relationship */
     nominees: ModelTypes['nominees'][];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: ModelTypes['nominees'];
@@ -5668,6 +5815,8 @@ export type GraphQLTypes = {
     min_vouches: number;
     name: string;
     nomination_days_limit: number;
+    /** An array relationship */
+    nominees: Array<GraphQLTypes['nominees']>;
     only_giver_vouch: boolean;
     /** An object relationship */
     organization?: GraphQLTypes['organizations'];
@@ -5727,6 +5876,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['Int_comparison_exp'];
     name?: GraphQLTypes['String_comparison_exp'];
     nomination_days_limit?: GraphQLTypes['Int_comparison_exp'];
+    nominees?: GraphQLTypes['nominees_bool_exp'];
     only_giver_vouch?: GraphQLTypes['Boolean_comparison_exp'];
     organization?: GraphQLTypes['organizations_bool_exp'];
     pending_token_gifts?: GraphQLTypes['pending_token_gifts_bool_exp'];
@@ -5799,6 +5949,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'];
     name?: GraphQLTypes['order_by'];
     nomination_days_limit?: GraphQLTypes['order_by'];
+    nominees_aggregate?: GraphQLTypes['nominees_aggregate_order_by'];
     only_giver_vouch?: GraphQLTypes['order_by'];
     organization?: GraphQLTypes['organizations_order_by'];
     pending_token_gifts_aggregate?: GraphQLTypes['pending_token_gifts_aggregate_order_by'];
@@ -6553,6 +6704,28 @@ columns and relationships of "distributions" */
     user_id?: number;
     vouches_required: number;
   };
+  /** order by aggregate values of table "nominees" */
+  ['nominees_aggregate_order_by']: {
+    avg?: GraphQLTypes['nominees_avg_order_by'];
+    count?: GraphQLTypes['order_by'];
+    max?: GraphQLTypes['nominees_max_order_by'];
+    min?: GraphQLTypes['nominees_min_order_by'];
+    stddev?: GraphQLTypes['nominees_stddev_order_by'];
+    stddev_pop?: GraphQLTypes['nominees_stddev_pop_order_by'];
+    stddev_samp?: GraphQLTypes['nominees_stddev_samp_order_by'];
+    sum?: GraphQLTypes['nominees_sum_order_by'];
+    var_pop?: GraphQLTypes['nominees_var_pop_order_by'];
+    var_samp?: GraphQLTypes['nominees_var_samp_order_by'];
+    variance?: GraphQLTypes['nominees_variance_order_by'];
+  };
+  /** order by avg() on columns of table "nominees" */
+  ['nominees_avg_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
   /** Boolean expression to filter rows from the table "nominees". All fields are combined with a logical 'AND'. */
   ['nominees_bool_exp']: {
     _and?: Array<GraphQLTypes['nominees_bool_exp']>;
@@ -6576,6 +6749,36 @@ columns and relationships of "distributions" */
     user_id?: GraphQLTypes['Int_comparison_exp'];
     vouches_required?: GraphQLTypes['Int_comparison_exp'];
   };
+  /** order by max() on columns of table "nominees" */
+  ['nominees_max_order_by']: {
+    address?: GraphQLTypes['order_by'];
+    circle_id?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    description?: GraphQLTypes['order_by'];
+    expiry_date?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    name?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    nominated_date?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by min() on columns of table "nominees" */
+  ['nominees_min_order_by']: {
+    address?: GraphQLTypes['order_by'];
+    circle_id?: GraphQLTypes['order_by'];
+    created_at?: GraphQLTypes['order_by'];
+    description?: GraphQLTypes['order_by'];
+    expiry_date?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    name?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    nominated_date?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
   /** Ordering options when selecting data from "nominees". */
   ['nominees_order_by']: {
     address?: GraphQLTypes['order_by'];
@@ -6598,6 +6801,62 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "nominees" */
   ['nominees_select_column']: nominees_select_column;
+  /** order by stddev() on columns of table "nominees" */
+  ['nominees_stddev_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by stddev_pop() on columns of table "nominees" */
+  ['nominees_stddev_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by stddev_samp() on columns of table "nominees" */
+  ['nominees_stddev_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by sum() on columns of table "nominees" */
+  ['nominees_sum_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by var_pop() on columns of table "nominees" */
+  ['nominees_var_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by var_samp() on columns of table "nominees" */
+  ['nominees_var_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
+  /** order by variance() on columns of table "nominees" */
+  ['nominees_variance_order_by']: {
+    circle_id?: GraphQLTypes['order_by'];
+    id?: GraphQLTypes['order_by'];
+    nominated_by_user_id?: GraphQLTypes['order_by'];
+    user_id?: GraphQLTypes['order_by'];
+    vouches_required?: GraphQLTypes['order_by'];
+  };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: {
@@ -6980,7 +7239,7 @@ columns and relationships of "distributions" */
     epochs_by_pk?: GraphQLTypes['epochs'];
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "nominees" */
+    /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'];
@@ -7055,7 +7314,7 @@ columns and relationships of "distributions" */
     epochs_by_pk?: GraphQLTypes['epochs'];
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "nominees" */
+    /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'];
