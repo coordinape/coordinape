@@ -160,7 +160,6 @@ custom_types:
   - name: VouchInput
   - name: CreateEpochInput
   - name: UpdateTeammatesInput
-  - name: UploadEpochInput
   - name: UpdateEpochInput
   objects:
   - name: CreateCircleResponse
