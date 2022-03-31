@@ -339,13 +339,18 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
 }
 
 export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
+  if (params.discord_webhook === '') {
+    params.discord_webhook = null;
+  }
   const { update_circles_by_pk } = await adminClient.mutate({
     update_circles_by_pk: [
       {
         pk_columns: {
           id: params.circle_id,
         },
-        _set: { ...params },
+        _set: {
+          ...params,
+        },
       },
       {
         id: true,

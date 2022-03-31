@@ -147,7 +147,7 @@ export const updateCircleInput = z
     alloc_text: z.string().max(5000).optional(),
     auto_opt_out: z.boolean().optional(),
     default_opt_in: z.boolean().optional(),
-    discord_webhook: z.string().url().optional(),
+    discord_webhook: z.string().url().optional().or(z.literal('')),
     min_vouches: z.number().min(1).optional(),
     nomination_days_limit: z.number().min(1).optional(),
     only_giver_vouch: z.boolean().optional(),
