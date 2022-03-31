@@ -45,7 +45,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             __alias: {
               optOuts: {
                 users_aggregate: [
-                  { where: { non_receiver: { _eq: true } } },
+                  {
+                    where: {
+                      non_receiver: { _eq: true },
+                      deleted_at: { _is_null: true },
+                    },
+                  },
                   {
                     aggregate: { count: [{}, true] },
                   },
@@ -53,7 +58,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               },
               receiversTotal: {
                 users_aggregate: [
-                  { where: { non_receiver: { _eq: false }, role: { _lt: 2 } } },
+                  {
+                    where: {
+                      non_receiver: { _eq: false },
+                      role: { _lt: 2 },
+                      deleted_at: { _is_null: true },
+                    },
+                  },
                   { aggregate: { count: [{}, true] } },
                 ],
               },
