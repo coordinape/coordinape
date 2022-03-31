@@ -1,7 +1,7 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
-export const getOrgData = (address?: string) =>
+export const getOrgData = (address: string) =>
   client.query({
     organizations: [
       {},
@@ -15,7 +15,7 @@ export const getOrgData = (address?: string) =>
             name: true,
             vouching: true,
             users: [
-              { where: { address: { _eq: address?.toLowerCase() } } },
+              { where: { address: { _eq: address.toLowerCase() } } },
               { role: true },
             ],
             epochs: [

@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
 import { useAllocation } from 'hooks';
@@ -7,17 +8,24 @@ import { Box, Panel, Text, Button } from 'ui';
 import Medal from 'ui/icons/Medal.svg';
 import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 
-import { IEpoch } from 'types';
+import type { QueryResult } from './HistoryPage';
 
-export const CurrentEpochPanel = ({ epoch }: { epoch: IEpoch }) => {
+type QueryCurrentEpoch = Exclude<
+  QueryResult['circles_by_pk'],
+  undefined
+>['current']['epochs'][0];
+
+export const CurrentEpochPanel = ({ epoch }: { epoch: QueryCurrentEpoch }) => {
   const { circle, activeNominees } = useSelectedCircle();
   const numberOfNominees = activeNominees.length;
 
   const { tokenRemaining, tokenStarting } = useAllocation(circle.id);
   const percentageTokenRemaining = (tokenRemaining * 100) / tokenStarting;
 
-  const endDateFormat =
-    epoch?.endDate.month === epoch?.startDate.month ? 'd' : 'MMMM d';
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
+
+  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
 
   return (
     <Panel
@@ -33,10 +41,9 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: IEpoch }) => {
       <Box>
         <Text inline font="inter">
           <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
-            {epoch.startDate.toFormat('MMMM')}
+            {startDate.toFormat('MMMM')}
           </Text>{' '}
-          {epoch.startDate.toFormat('d')} -{' '}
-          {epoch.endDate.toFormat(endDateFormat)}
+          {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
       <Box css={{ display: 'flex' }}>

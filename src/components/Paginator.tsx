@@ -45,6 +45,7 @@ export const Paginator = ({
       </Button>
       {times(pages, (n: number) => (
         <Button
+          key={n}
           color="transparent"
           css={
             n !== current

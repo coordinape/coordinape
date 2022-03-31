@@ -24,9 +24,13 @@ export const CirclesPage = () => {
 
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
-  const query = useQuery(['myOrgs', address], () => getOrgData(address), {
-    enabled: !!address,
-  });
+  const query = useQuery(
+    ['myOrgs', address],
+    () => getOrgData(address as string),
+    {
+      enabled: !!address,
+    }
+  );
   const orgs = query.data?.organizations;
 
   useEffect(() => {

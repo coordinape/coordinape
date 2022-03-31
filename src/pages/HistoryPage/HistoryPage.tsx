@@ -1,39 +1,58 @@
 import { useState, useMemo } from 'react';
 
 import sortBy from 'lodash/sortBy';
+import { DateTime } from 'luxon';
+import { useQuery } from 'react-query';
 import { styled } from 'stitches.config';
 
-import { ApeAvatar } from 'components';
+import { NewApeAvatar } from 'components';
 import { Paginator } from 'components/Paginator';
-import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, AppLink, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CurrentEpochPanel } from './CurrentEpochPanel';
+import { getHistoryData } from './getHistoryData';
 
-import { IEpoch, ITokenGift } from 'types';
+import type { Awaited } from 'types/shim';
+
+const pageSize = 3;
 
 export const HistoryPage = () => {
-  const pageSize = 3;
   const {
-    circle,
-    myUser,
-    circleEpochsStatus: { currentEpoch, nextEpoch, pastEpochs },
+    circle: { id: circleId },
+    myUser: { id: userId },
   } = useSelectedCircle();
 
-  const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
-    useUserGifts(myUser.id);
+  const query = useQuery(
+    ['history', circleId],
+    () => getHistoryData(circleId, userId),
+    { enabled: !!userId && !!circleId }
+  );
+
+  const circle = query.data?.circles_by_pk;
+  const isAdmin = circle?.users[0]?.role === 1;
 
   const [page, setPage] = useState(0);
+
+  const nextEpoch = circle?.future.epochs[0];
+  const nextEpochStartLabel = useMemo(() => {
+    if (!nextEpoch) return '';
+    const date = DateTime.fromISO(nextEpoch.start_date);
+    const diff = date
+      .diffNow(['days', 'hours', 'minutes'])
+      .toHuman({ unitDisplay: 'short', notation: 'compact' });
+    return `starts in ${diff}, on ${date.toFormat('LLL d')}`;
+  }, [nextEpoch]);
+
+  const currentEpoch = circle?.current.epochs[0];
+  const pastEpochs = circle?.past.epochs || [];
+
+  // TODO fetch only data for page shown
   const shownPastEpochs = useMemo(
-    () =>
-      pastEpochs
-        .slice()
-        .reverse()
-        .slice(page * pageSize, (page + 1) * pageSize),
-    [page]
+    () => pastEpochs.slice(page * pageSize, (page + 1) * pageSize),
+    [pastEpochs, page]
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
@@ -42,7 +61,7 @@ export const HistoryPage = () => {
       <SingleColumnLayout>
         <p>
           This circle has no epochs yet.{' '}
-          {myUser.role === 1 ? (
+          {isAdmin ? (
             <>
               <AppLink to={paths.adminCircles}>Visit the admin page</AppLink> to
               create one.
@@ -65,8 +84,7 @@ export const HistoryPage = () => {
               <Text inline bold color="gray" font="inter">
                 Next Epoch
               </Text>{' '}
-              starts in {nextEpoch?.labelUntilStart.toLowerCase()}, on{' '}
-              {nextEpoch.startDate.toFormat('LLL d')}
+              {nextEpochStartLabel}
             </Text>
           </Panel>
         </>
@@ -80,15 +98,11 @@ export const HistoryPage = () => {
       {pastEpochs.length > 0 && (
         <>
           <Header>Past</Header>
-          {shownPastEpochs.map((epoch: IEpoch) => (
+          {shownPastEpochs.map((epoch: QueryEpoch) => (
             <EpochPanel
               key={epoch.id}
               epoch={epoch}
-              received={forUserByEpoch.get(epoch.id) || []}
-              sent={fromUserByEpoch.get(epoch.id) || []}
-              tokenName={circle.tokenName}
-              totalReceived={totalReceivedByEpoch.get(epoch.id) || 0}
-              totalAllocated={epoch.totalTokens}
+              tokenName={circle?.token_name || 'GIVE'}
             />
           ))}
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
@@ -98,26 +112,24 @@ export const HistoryPage = () => {
   );
 };
 
-type EpochPanelProps = {
-  epoch: IEpoch;
-  received: ITokenGift[];
-  sent: ITokenGift[];
-  tokenName: string;
-  totalReceived: number;
-  totalAllocated: number;
-};
-const EpochPanel = ({
-  epoch,
-  received,
-  sent,
-  tokenName,
-  totalReceived,
-  totalAllocated,
-}: EpochPanelProps) => {
+export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
+type QueryEpoch = Exclude<
+  QueryResult['circles_by_pk'],
+  undefined
+>['past']['epochs'][0];
+
+type EpochPanelProps = { epoch: QueryEpoch; tokenName: string };
+const EpochPanel = ({ epoch, tokenName }: EpochPanelProps) => {
   const [tab, setTab] = useState(0);
   const [shortPanelShow, setshortPanelShow] = useState(true);
-  const { startDate, endDate } = epoch;
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
+
+  const received = epoch.received_gifts.token_gifts;
+  const sent = epoch.sent_gifts.token_gifts;
+  const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
+  const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
 
   return (
     <Panel
@@ -181,13 +193,13 @@ const EpochPanel = ({
           <Box css={{ mr: '$md' }}>
             <Text variant="formLabel">Notes Left</Text>
             <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {sent.filter(sent => sent.note).length}
+              {sent.filter(g => g.gift_private?.note).length}
             </Text>
           </Box>
           <Box>
             <Text variant="formLabel">Received</Text>
             <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {received.filter(received => received.note).length}
+              {received.filter(g => g.gift_private?.note).length}
             </Text>
           </Box>
         </Panel>
@@ -230,13 +242,17 @@ const Header = styled(Text, {
   fontWeight: '$semibold',
 });
 
+type QueryReceivedGift = QueryEpoch['received_gifts']['token_gifts'][0];
+type QuerySentGift = QueryEpoch['sent_gifts']['token_gifts'][0];
+type QueryGift = QueryReceivedGift | QuerySentGift;
+
 type NotesProps = {
   tokenName: string;
-  data: ITokenGift[];
+  data: QueryGift[];
   received?: boolean;
 };
 
-const Notes = ({ data, received, tokenName }: NotesProps) => {
+const Notes = ({ data, received = false, tokenName }: NotesProps) => {
   if (data.length === 0) {
     return (
       <Box css={{ mt: '$md' }}>
@@ -252,25 +268,41 @@ const Notes = ({ data, received, tokenName }: NotesProps) => {
   return (
     <>
       {sorted.map(gift => (
-        <Box key={gift.id} css={{ display: 'flex', my: '$sm' }}>
-          <Box css={{ mr: '$md' }}>
-            <ApeAvatar user={received ? gift.sender : gift.recipient} />
-          </Box>
-          <Box
-            css={!gift.note ? { alignItems: 'center', display: 'flex' } : {}}
-          >
-            {gift.note && (
-              <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{gift.note}</Text>
-            )}
-            <Box css={{ fontSize: '$3', color: '$green' }}>
-              {gift.tokens} {tokenName}{' '}
-              {received
-                ? `received from ${gift.sender.name}`
-                : `sent to ${gift.recipient.name}`}
-            </Box>
-          </Box>
-        </Box>
+        <NotesItem
+          key={gift.id}
+          gift={gift}
+          received={received}
+          tokenName={tokenName}
+        />
       ))}
     </>
+  );
+};
+
+const NotesItem = ({
+  gift,
+  received,
+  tokenName,
+}: {
+  gift: QueryGift;
+  received: boolean;
+  tokenName: string;
+}) => {
+  const other =
+    (gift as QueryReceivedGift).sender || (gift as QuerySentGift).recipient;
+  const note = gift.gift_private?.note;
+  return (
+    <Box css={{ display: 'flex', my: '$sm' }}>
+      <Box css={{ mr: '$md' }}>
+        <NewApeAvatar path={other.profile?.avatar} name={other.name} />
+      </Box>
+      <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
+        {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
+        <Box css={{ fontSize: '$3', color: '$green' }}>
+          {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
+          {other.name}
+        </Box>
+      </Box>
+    </Box>
   );
 };
