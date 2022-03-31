@@ -11,6 +11,9 @@ import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
 
+const GIFT_CIRCLE_DOCS_URL =
+  'https://docs.coordinape.com/welcome/gift_circle#the-gift-circle';
+
 const useStyles = makeStyles(theme => ({
   modalBody: {
     display: 'flex',
@@ -124,7 +127,7 @@ export const AdminUserModal = ({
                   <>
                     The maximum amount of giving a user can allocate in an epoch
                     <a
-                      href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+                      href={GIFT_CIRCLE_DOCS_URL}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -140,17 +143,59 @@ export const AdminUserModal = ({
             <ApeCheckbox
               {...fields.role}
               label="Grant Administrative Permissions"
+              infoTooltip={
+                <>
+                  As a Circle Admin, you will be able to edit Circle Settings,
+                  Edit Epoch settings, edit your users, and create new circles.
+                  <a
+                    href="https://docs.coordinape.com/welcome/admin_info"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {' '}
+                    Learn More
+                  </a>
+                </>
+              }
             />
             <ApeCheckbox
               {...non_giver}
               value={!nonGiverValue}
               label="Allow contributor to give tokens"
               onChange={v => nonGiverOnChange(!v)}
+              infoTooltip={
+                <>
+                  Allows the Contributor to get paid based on the amount of
+                  giving allocated by circle members.
+                  <a
+                    href={GIFT_CIRCLE_DOCS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {' '}
+                    Learn More
+                  </a>
+                </>
+              }
             />
             <ApeCheckbox
               {...fields.non_receiver}
               label="Allow contributor to receive tokens"
               disabled={fields.fixed_non_receiver.value}
+              infoTooltip={
+                <>
+                  Gives the member the ability to reward circle members with
+                  giving.
+                  <a
+                    href={GIFT_CIRCLE_DOCS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {' '}
+                    Learn More
+                  </a>
+                </>
+              }
             />
           </div>
 
