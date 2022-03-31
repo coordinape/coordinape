@@ -154,6 +154,7 @@ export const updateCircleInput = z
     team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
     token_name: z.string().max(255).optional(),
+    update_webhook: z.boolean().optional(),
     vouching: z.boolean().optional(),
     vouching_text: z.string().max(5000).optional(),
   })

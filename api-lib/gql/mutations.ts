@@ -339,7 +339,11 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
 }
 
 export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
-  if (params.discord_webhook === '') {
+  if (!params.update_webhook) {
+    // don't try to set/unset the webhook
+    params.discord_webhook = undefined;
+  } else if (params.discord_webhook === '') {
+    // if the client gives us an empty string, and we are trying to set the webhook, this means we are setting it to null
     params.discord_webhook = null;
   }
   const { update_circles_by_pk } = await adminClient.mutate({

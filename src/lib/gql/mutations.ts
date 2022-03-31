@@ -293,14 +293,11 @@ export async function deleteEpoch(circleId: number, epochId: number) {
   return deleteEpoch;
 }
 
-export async function updateCircle(
-  circleId: number,
-  params: ValueTypes['circles_set_input']
-) {
+export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   const { updateCircle } = await client.mutate({
     updateCircle: [
       {
-        payload: { circle_id: circleId, ...params },
+        payload: { ...params },
       },
       {
         id: true,

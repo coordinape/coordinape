@@ -168,6 +168,7 @@ export type ValueTypes = {
     team_sel_text?: string | null;
     team_selection?: boolean | null;
     token_name?: string | null;
+    update_webhook?: boolean | null;
     vouching?: boolean | null;
     vouching_text?: string | null;
   };
@@ -5751,6 +5752,7 @@ export type GraphQLTypes = {
     team_sel_text?: string;
     team_selection?: boolean;
     token_name?: string;
+    update_webhook?: boolean;
     vouching?: boolean;
     vouching_text?: string;
   };

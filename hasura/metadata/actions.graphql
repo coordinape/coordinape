@@ -155,6 +155,7 @@ input UpdateCircleInput {
   discord_webhook: String
   only_giver_vouch: Boolean
   auto_opt_out: Boolean
+  update_webhook: Boolean
 }
 
 type CreateCircleResponse {

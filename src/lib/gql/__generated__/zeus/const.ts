@@ -560,6 +560,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    update_webhook: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vouching: {
       type: 'Boolean',
       array: false,

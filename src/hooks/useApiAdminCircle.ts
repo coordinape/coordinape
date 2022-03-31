@@ -17,8 +17,8 @@ export const useApiAdminCircle = (circleId: number) => {
   const { fetchManifest } = useApiBase();
 
   const updateCircle = useRecoilLoadCatch(
-    () => async (params: ValueTypes['circles_set_input']) => {
-      await mutations.updateCircle(circleId, params);
+    () => async (params: ValueTypes['UpdateCircleInput']) => {
+      await mutations.updateCircle(params);
       await fetchManifest();
     },
     [circleId]
