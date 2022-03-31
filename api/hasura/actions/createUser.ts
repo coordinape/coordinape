@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
+import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   createUserSchemaInput,
@@ -23,40 +24,72 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         where: {
           address: { _ilike: address },
           circle_id: { _eq: circle_id },
-          // ignore soft_deleted users
-          deleted_at: { _is_null: true },
         },
       },
       {
         id: true,
+        deleted_at: true,
       },
     ],
   });
 
-  if (existingUsers.length > 0) {
+  const existingUser = existingUsers.pop();
+
+  if (existingUser && !existingUser.deleted_at) {
     return res.status(422).json({
       message: 'User Exists',
       code: '422',
     });
   }
 
+  const createUserMutation: ValueTypes['mutation_root'] =
+    existingUser?.deleted_at
+      ? {
+          update_users_by_pk: [
+            {
+              pk_columns: { id: existingUser.id },
+              _set: {
+                ...input,
+                deleted_at: null,
+                give_token_remaining: input.starting_tokens,
+              },
+            },
+            {
+              id: true,
+              name: true,
+              address: true,
+              fixed_non_receiver: true,
+              give_token_remaining: true,
+              non_giver: true,
+              non_receiver: true,
+              role: true,
+              starting_tokens: true,
+            },
+          ],
+        }
+      : {
+          insert_users_one: [
+            {
+              object: { ...input, give_token_remaining: input.starting_tokens },
+            },
+            {
+              id: true,
+              name: true,
+              address: true,
+              fixed_non_receiver: true,
+              give_token_remaining: true,
+              non_giver: true,
+              non_receiver: true,
+              role: true,
+              starting_tokens: true,
+            },
+          ],
+        };
+
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
     // Insert the user
-    insert_users_one: [
-      { object: { ...input, give_token_remaining: input.starting_tokens } },
-      {
-        id: true,
-        name: true,
-        address: true,
-        fixed_non_receiver: true,
-        give_token_remaining: true,
-        non_giver: true,
-        non_receiver: true,
-        role: true,
-        starting_tokens: true,
-      },
-    ],
+    ...createUserMutation,
     // End any active nomination
     update_nominees: [
       {
@@ -76,7 +109,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     ],
   });
 
-  return res.status(200).json(mutationResult.insert_users_one);
+  return res
+    .status(200)
+    .json(mutationResult.insert_users_one ?? mutationResult.update_users_by_pk);
 }
 
 export default authCircleAdminMiddleware(handler);
