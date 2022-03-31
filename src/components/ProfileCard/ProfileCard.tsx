@@ -18,7 +18,7 @@ import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
 import { rLocalGift } from 'recoilState';
 import { useSetEditProfileOpen } from 'recoilState/ui';
-import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
+import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
@@ -206,7 +206,12 @@ const ProfileCardInner = ({
                 <div className={classes.tooltipButton}>
                   {user.role === USER_ROLE_COORDINAPE ? (
                     <div className={classes.tooltipButton}>
-                      <Button fullWidth variant="contained" size="small">
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        size="small"
+                        href={paths.adminCircles}
+                      >
                         See Circle Settings
                       </Button>
                     </div>
