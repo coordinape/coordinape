@@ -47,9 +47,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     assert(profile, 'Profile cannot be found');
+
+    const role =
+      profile.admin_view && req.headers['X-Preferred-Role'] === 'superadmin'
+        ? 'superadmin'
+        : 'user';
+
     res.status(200).json({
       'X-Hasura-User-Id': tokenableId.toString(),
-      'X-Hasura-Role': profile.admin_view ? 'superadmin' : 'user',
+      'X-Hasura-Role': role,
       'X-Hasura-Address': profile.address,
     });
   } catch (e) {
