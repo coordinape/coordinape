@@ -40,6 +40,7 @@ export const paths = {
   give: '/give',
   map: '/map',
   vouching: '/vouching',
+  developers: '/developers',
   history: '/history',
   vaults: '/admin/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,

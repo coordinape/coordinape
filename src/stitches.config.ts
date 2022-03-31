@@ -111,6 +111,7 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      smallScreen: '900px',
       mediumScreen: '1280px',
       ...spaces,
     },
