@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField, ApeToggle, ActionDialog } from 'components';
+import { FormModal, FormTextField, ActionDialog } from 'components';
+import { ApeCheckbox } from 'components/ApeCheckbox/ApeCheckbox';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: '1fr',
     columnGap: theme.spacing(3),
-    rowGap: theme.spacing(3),
+    // rowGap: theme.spacing(3),
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
@@ -106,33 +107,50 @@ export const AdminUserModal = ({
           errors={errors}
           size="small"
         >
-          <div className={classes.twoColumn}>
-            <FormTextField {...fields.name} label="Contributor Name" />
-            <FormTextField
-              {...fields.starting_tokens}
-              type="number"
-              label="Starting Tokens"
-            />
+          <div>
             <FormTextField
               {...fields.address}
               label="Contributor ETH address"
               fullWidth
               className={classes.ethInput}
             />
-            <ApeToggle {...fields.role} label="Are They Admin?" />
-            <ApeToggle
-              label="Can Give?"
+
+            <div className={classes.twoColumn}>
+              <FormTextField {...fields.name} label="Contributor Name" />
+              <FormTextField
+                {...fields.starting_tokens}
+                type="number"
+                infoTooltip={
+                  <>
+                    The maximum amount of giving a user can allocate in an epoch
+                    <a
+                      href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {' '}
+                      Learn More
+                    </a>
+                  </>
+                }
+                label="GIVE Allotment"
+              />
+            </div>
+
+            <ApeCheckbox {...fields.role} label="Are They Admin?" />
+            <ApeCheckbox
               {...non_giver}
-              onChange={v => nonGiverOnChange(!v)}
               value={!nonGiverValue}
+              label="Can Give?"
+              onChange={v => nonGiverOnChange(!v)}
             />
-            <ApeToggle {...fields.fixed_non_receiver} label="Force Opted Out" />
-            <ApeToggle
-              label="Opted Out"
+            <ApeCheckbox
               {...fields.non_receiver}
+              label="Opted Out"
               disabled={fields.fixed_non_receiver.value}
             />
           </div>
+
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
             title="This user has GIVE allocated."
