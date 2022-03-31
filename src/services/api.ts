@@ -11,7 +11,6 @@ import {
   IApiEpoch,
   IApiLogin,
   IApiManifest,
-  PostProfileParam,
   PostTokenGiftsParam,
   PutUsersParam,
   UpdateCreateEpochParam,
@@ -87,14 +86,6 @@ export class APIService {
 
   getProfile = async (address: string): Promise<IApiProfile> => {
     return (await this.axios.get(`/v2/profile/${address}`)).data;
-  };
-
-  updateProfile = async (params: PostProfileParam): Promise<IApiProfile> => {
-    const data = JSON.stringify(params);
-    const response = await this.axios.post(`/v2/profile`, {
-      data,
-    });
-    return response.data;
   };
 
   createEpoch = async (

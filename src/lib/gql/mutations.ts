@@ -9,17 +9,6 @@ import {
 import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-export const updateProfile = async (
-  id: number,
-  profile: ValueTypes['profiles_set_input']
-) =>
-  client.mutate({
-    update_profiles_by_pk: [
-      { set: profile, pk_columns: { id } },
-      { id: true, admin_view: true },
-    ],
-  });
-
 export const updateProfileAvatar = async (image_data_base64: string) =>
   client.mutate(
     {
@@ -336,4 +325,22 @@ export async function deleteUser(circleId: number, address: string) {
     ],
   });
   return deleteUser;
+}
+
+export async function updateProfile(params: ValueTypes['profiles_set_input']) {
+  const { update_profiles } = await client.mutate({
+    update_profiles: [
+      {
+        // This uses the hasura permissions / preloaded column to set the where
+        where: {},
+        _set: {
+          ...params,
+        },
+      },
+      {
+        affected_rows: true,
+      },
+    ],
+  });
+  return update_profiles;
 }

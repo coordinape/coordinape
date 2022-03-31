@@ -77,4 +77,6 @@ update_permissions:
     filter:
       id:
         _eq: X-Hasura-User-Id
+    set:
+      id: x-hasura-User-Id
   role: user

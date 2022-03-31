@@ -56,9 +56,13 @@ export const EditProfileModal = ({
   return (
     <EditProfileForm.FormController
       source={myProfile}
-      submit={params =>
-        updateMyProfile(params).then(onClose).catch(console.warn)
-      }
+      submit={params => {
+        const fixedParams: any = { ...params };
+        const skills = params.skills;
+        delete fixedParams.skills;
+        fixedParams.skills = JSON.stringify(skills);
+        updateMyProfile(fixedParams).then(onClose).catch(console.warn);
+      }}
     >
       {({ fields, errors, changedOutput, handleSubmit }) => (
         <FormModal

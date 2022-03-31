@@ -1,12 +1,12 @@
 import * as mutations from 'lib/gql/mutations';
 
 import { fileToBase64 } from '../lib/base64';
+import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
-import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { CreateCircleParam, IApiCircle, PostProfileParam } from 'types';
+import { CreateCircleParam, IApiCircle } from 'types';
 
 export const useApiWithProfile = () => {
   const { fetchManifest } = useApiBase();
@@ -41,8 +41,8 @@ export const useApiWithProfile = () => {
   );
 
   const updateMyProfile = useRecoilLoadCatch(
-    () => async (params: PostProfileParam) => {
-      await getApiService().updateProfile(params);
+    () => async (params: ValueTypes['profiles_set_input']) => {
+      await mutations.updateProfile(params);
       await fetchManifest();
     },
     []

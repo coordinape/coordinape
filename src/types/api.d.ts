@@ -1,14 +1,3 @@
-export interface PostProfileParam {
-  bio?: string;
-  skills?: string[];
-  twitter_username?: string;
-  github_username?: string;
-  telegram_username?: string;
-  discord_username?: string;
-  medium_username?: string;
-  website?: string;
-}
-
 export interface PostTokenGiftsParam {
   tokens: number;
   recipient_id: number;
