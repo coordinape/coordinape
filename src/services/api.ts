@@ -132,13 +132,6 @@ export class APIService {
     return response.data;
   };
 
-  deleteUser = async (circleId: number, address: string): Promise<IApiUser> => {
-    const response = await this.axios.delete(
-      `/v2/${circleId}/admin/users/${address}`
-    );
-    return response.data;
-  };
-
   postTokenGifts = async (
     circleId: number,
     params: PostTokenGiftsParam[]

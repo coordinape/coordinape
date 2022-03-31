@@ -77,7 +77,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
-      await getApiService().deleteUser(circleId, userAddress);
+      await mutations.deleteUser(circleId, userAddress);
       await fetchManifest();
     },
     [circleId]

@@ -320,3 +320,20 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
   });
   return updateTeammates;
 }
+
+export async function deleteUser(circleId: number, address: string) {
+  const { deleteUser } = await client.mutate({
+    deleteUser: [
+      {
+        payload: {
+          circle_id: circleId,
+          address: address,
+        },
+      },
+      {
+        success: true,
+      },
+    ],
+  });
+  return deleteUser;
+}
