@@ -292,3 +292,17 @@ export async function deleteEpoch(circleId: number, epochId: number) {
   });
   return deleteEpoch;
 }
+
+export async function updateTeammates(circleId: number, teammates: number[]) {
+  const { updateTeammates } = await client.mutate({
+    updateTeammates: [
+      {
+        payload: { circle_id: circleId, teammates: teammates },
+      },
+      {
+        user_id: true,
+      },
+    ],
+  });
+  return updateTeammates;
+}

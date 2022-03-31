@@ -155,16 +155,6 @@ export class APIService {
     return response.data;
   };
 
-  postTeammates = async (
-    circleId: number,
-    teammates: number[]
-  ): Promise<IApiUser & { pending_sent_gifts: IApiTokenGift[] }> => {
-    const response = await this.axios.post(`/v2/${circleId}/teammates`, {
-      data: JSON.stringify({ teammates: teammates }),
-    });
-    return response.data;
-  };
-
   postTokenGifts = async (
     circleId: number,
     params: PostTokenGiftsParam[]
