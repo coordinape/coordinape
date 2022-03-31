@@ -32,7 +32,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
           circle: {
             organization: {
+              id: true,
               name: true,
+              telegram_id: true,
             },
             id: true,
             name: true,
@@ -187,6 +189,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           if (e instanceof Error)
             errorLog(
               `Telegram Daily Update error for circle #${circle.id}: ` +
+                e.message
+            );
+        }
+      }
+
+      if (circle.organization?.telegram_id) {
+        try {
+          await sendSocialMessage({
+            message,
+            circleId: circle.id,
+            channels: { telegram: true },
+            sanitize: false,
+            notifyOrg: true,
+          });
+        } catch (e: unknown) {
+          if (e instanceof Error)
+            errorLog(
+              `Telegram Daily Update error for organisation #${circle.organization?.id}: ` +
                 e.message
             );
         }
