@@ -137,16 +137,19 @@ export const AdminUserModal = ({
               />
             </div>
 
-            <ApeCheckbox {...fields.role} label="Are They Admin?" />
+            <ApeCheckbox
+              {...fields.role}
+              label="Grant Administrative Permissions"
+            />
             <ApeCheckbox
               {...non_giver}
               value={!nonGiverValue}
-              label="Can Give?"
+              label="Allow contributor to give tokens"
               onChange={v => nonGiverOnChange(!v)}
             />
             <ApeCheckbox
               {...fields.non_receiver}
-              label="Opted Out"
+              label="Allow contributor to receive tokens"
               disabled={fields.fixed_non_receiver.value}
             />
           </div>
