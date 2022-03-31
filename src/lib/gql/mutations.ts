@@ -278,26 +278,24 @@ export const vouchUser = async (nomineeId: number) => {
   return vouch;
 };
 
+export const saveDistribution = async (
+  distribution?: ValueTypes['distributions_insert_input']
+) => {
+  const { insert_distributions_one } = await client.mutate({
+    insert_distributions_one: [
+      {
+        object: { ...distribution },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return insert_distributions_one;
+};
+
 export function useSaveEpochDistribution() {
-  return useMutation(
-    (distribution?: ValueTypes['distributions_insert_input']) => {
-      return client.mutate({
-        insert_distributions_one: [
-          {
-            object: { ...distribution },
-          },
-          {
-            id: true,
-            created_at: true,
-            epoch_id: true,
-            vault_id: true,
-            created_by: true,
-            merkle_root: true,
-          },
-        ],
-      });
-    }
-  );
+  return useMutation(saveDistribution);
 }
 
 export function useUpdateDistribution() {

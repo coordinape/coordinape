@@ -65,6 +65,7 @@ export function useSubmitDistribution() {
         ),
         proof: claim.proof.toString(),
         user_id: users.find(({ address }) => address === address)?.id,
+        new_amount: amount,
       }));
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {
@@ -77,12 +78,13 @@ export function useSubmitDistribution() {
           data: claims,
         },
         vault_id: Number(vault.id),
+        distribution_json: JSON.stringify(distribution),
       };
 
-      const { insert_distributions_one } = await mutateAsync(
-        updateDistribution
-      );
-      assert(insert_distributions_one, 'Distribution was not saved.');
+      const response = await mutateAsync(updateDistribution);
+      assert(response, 'Distribution was not saved.');
+
+      console.log(response); //eslint-disable-line
 
       await uploadEpochRoot(
         vault.vault_address,
@@ -93,7 +95,7 @@ export function useSubmitDistribution() {
         utils.hexlify(1)
       );
 
-      await updateDistributionMutateAsync(insert_distributions_one.id);
+      await updateDistributionMutateAsync(response.id);
       return true;
     } catch (e) {
       console.error(e);

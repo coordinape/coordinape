@@ -96,6 +96,14 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: AliasType<{
+    success?: boolean;
+    __typename?: boolean;
+  }>;
   ['EpochResponse']: AliasType<{
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
@@ -1850,6 +1858,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     proof?: boolean;
     /** An object relationship */
     updatedByUser?: ValueTypes['users'];
@@ -1914,6 +1923,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -1925,6 +1935,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -1943,6 +1954,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['bigint_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     index?: ValueTypes['bigint_comparison_exp'] | null;
+    new_amount?: ValueTypes['numeric_comparison_exp'] | null;
     proof?: ValueTypes['String_comparison_exp'] | null;
     updatedByUser?: ValueTypes['users_bool_exp'] | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | null;
@@ -1959,6 +1971,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
+    new_amount?: ValueTypes['numeric'] | null;
     updated_by?: ValueTypes['bigint'] | null;
     user_id?: ValueTypes['bigint'] | null;
   };
@@ -1974,6 +1987,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
+    new_amount?: ValueTypes['numeric'] | null;
     proof?: string | null;
     updatedByUser?: ValueTypes['users_obj_rel_insert_input'] | null;
     updated_at?: ValueTypes['timestamptz'] | null;
@@ -1990,6 +2004,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     proof?: boolean;
     updated_at?: boolean;
     updated_by?: boolean;
@@ -2005,6 +2020,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
@@ -2019,6 +2035,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     proof?: boolean;
     updated_at?: boolean;
     updated_by?: boolean;
@@ -2034,6 +2051,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
@@ -2065,6 +2083,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     proof?: ValueTypes['order_by'] | null;
     updatedByUser?: ValueTypes['users_order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
@@ -2088,6 +2107,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     index?: ValueTypes['bigint'] | null;
+    new_amount?: ValueTypes['numeric'] | null;
     proof?: string | null;
     updated_at?: ValueTypes['timestamptz'] | null;
     updated_by?: ValueTypes['bigint'] | null;
@@ -2100,6 +2120,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2111,6 +2132,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2121,6 +2143,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2132,6 +2155,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2142,6 +2166,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2153,6 +2178,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2163,6 +2189,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2174,6 +2201,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2186,6 +2214,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2197,6 +2226,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2207,6 +2237,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2218,6 +2249,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2228,6 +2260,7 @@ export type ValueTypes = {
     distribution_id?: boolean;
     id?: boolean;
     index?: boolean;
+    new_amount?: boolean;
     updated_by?: boolean;
     user_id?: boolean;
     __typename?: boolean;
@@ -2239,6 +2272,7 @@ export type ValueTypes = {
     distribution_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
     index?: ValueTypes['order_by'] | null;
+    new_amount?: ValueTypes['order_by'] | null;
     updated_by?: ValueTypes['order_by'] | null;
     user_id?: ValueTypes['order_by'] | null;
   };
@@ -2288,6 +2322,13 @@ columns and relationships of "distributions" */
     ];
     created_at?: boolean;
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
+    distribution_json?: [
+      {
+        /** JSON select path */ path?: string | null;
+      },
+      boolean
+    ];
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
     epoch_id?: boolean;
@@ -2327,9 +2368,14 @@ columns and relationships of "distributions" */
     variance?: ValueTypes['distributions_variance_fields'];
     __typename?: boolean;
   }>;
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_append_input']: {
+    distribution_json?: ValueTypes['jsonb'] | null;
+  };
   /** aggregate avg on columns */
   ['distributions_avg_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2344,6 +2390,8 @@ columns and relationships of "distributions" */
     claims?: ValueTypes['claims_bool_exp'] | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | null;
+    distribution_epoch_id?: ValueTypes['bigint_comparison_exp'] | null;
+    distribution_json?: ValueTypes['jsonb_comparison_exp'] | null;
     epoch?: ValueTypes['epochs_bool_exp'] | null;
     epoch_id?: ValueTypes['bigint_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
@@ -2355,9 +2403,22 @@ columns and relationships of "distributions" */
   };
   /** unique or primary key constraints on table "distributions" */
   ['distributions_constraint']: distributions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['distributions_delete_at_path_input']: {
+    distribution_json?: string[];
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['distributions_delete_elem_input']: {
+    distribution_json?: number | null;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['distributions_delete_key_input']: {
+    distribution_json?: string | null;
+  };
   /** input type for incrementing numeric columns in table "distributions" */
   ['distributions_inc_input']: {
     created_by?: ValueTypes['bigint'] | null;
+    distribution_epoch_id?: ValueTypes['bigint'] | null;
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     total_amount?: ValueTypes['numeric'] | null;
@@ -2368,6 +2429,8 @@ columns and relationships of "distributions" */
     claims?: ValueTypes['claims_arr_rel_insert_input'] | null;
     created_at?: ValueTypes['timestamp'] | null;
     created_by?: ValueTypes['bigint'] | null;
+    distribution_epoch_id?: ValueTypes['bigint'] | null;
+    distribution_json?: ValueTypes['jsonb'] | null;
     epoch?: ValueTypes['epochs_obj_rel_insert_input'] | null;
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
@@ -2381,6 +2444,7 @@ columns and relationships of "distributions" */
   ['distributions_max_fields']: AliasType<{
     created_at?: boolean;
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     merkle_root?: boolean;
@@ -2392,6 +2456,7 @@ columns and relationships of "distributions" */
   ['distributions_min_fields']: AliasType<{
     created_at?: boolean;
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     merkle_root?: boolean;
@@ -2424,6 +2489,8 @@ columns and relationships of "distributions" */
     claims_aggregate?: ValueTypes['claims_aggregate_order_by'] | null;
     created_at?: ValueTypes['order_by'] | null;
     created_by?: ValueTypes['order_by'] | null;
+    distribution_epoch_id?: ValueTypes['order_by'] | null;
+    distribution_json?: ValueTypes['order_by'] | null;
     epoch?: ValueTypes['epochs_order_by'] | null;
     epoch_id?: ValueTypes['order_by'] | null;
     id?: ValueTypes['order_by'] | null;
@@ -2437,12 +2504,18 @@ columns and relationships of "distributions" */
   ['distributions_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_prepend_input']: {
+    distribution_json?: ValueTypes['jsonb'] | null;
+  };
   /** select columns of table "distributions" */
   ['distributions_select_column']: distributions_select_column;
   /** input type for updating data in table "distributions" */
   ['distributions_set_input']: {
     created_at?: ValueTypes['timestamp'] | null;
     created_by?: ValueTypes['bigint'] | null;
+    distribution_epoch_id?: ValueTypes['bigint'] | null;
+    distribution_json?: ValueTypes['jsonb'] | null;
     epoch_id?: ValueTypes['bigint'] | null;
     id?: ValueTypes['bigint'] | null;
     merkle_root?: string | null;
@@ -2453,6 +2526,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev on columns */
   ['distributions_stddev_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2462,6 +2536,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_pop on columns */
   ['distributions_stddev_pop_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2471,6 +2546,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_samp on columns */
   ['distributions_stddev_samp_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2480,6 +2556,7 @@ columns and relationships of "distributions" */
   /** aggregate sum on columns */
   ['distributions_sum_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2491,6 +2568,7 @@ columns and relationships of "distributions" */
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2500,6 +2578,7 @@ columns and relationships of "distributions" */
   /** aggregate var_samp on columns */
   ['distributions_var_samp_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -2509,6 +2588,7 @@ columns and relationships of "distributions" */
   /** aggregate variance on columns */
   ['distributions_variance_fields']: AliasType<{
     created_by?: boolean;
+    distribution_epoch_id?: boolean;
     epoch_id?: boolean;
     id?: boolean;
     total_amount?: boolean;
@@ -3423,6 +3503,29 @@ columns and relationships of "distributions" */
     _neq?: ValueTypes['json'] | null;
     _nin?: ValueTypes['json'][];
   };
+  ['jsonb']: unknown;
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ['jsonb_comparison_exp']: {
+    /** is the column contained in the given json value */
+    _contained_in?: ValueTypes['jsonb'] | null;
+    /** does the column contain the given json value at the top level */
+    _contains?: ValueTypes['jsonb'] | null;
+    _eq?: ValueTypes['jsonb'] | null;
+    _gt?: ValueTypes['jsonb'] | null;
+    _gte?: ValueTypes['jsonb'] | null;
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string | null;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: string[];
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: string[];
+    _in?: ValueTypes['jsonb'][];
+    _is_null?: boolean | null;
+    _lt?: ValueTypes['jsonb'] | null;
+    _lte?: ValueTypes['jsonb'] | null;
+    _neq?: ValueTypes['jsonb'] | null;
+    _nin?: ValueTypes['jsonb'][];
+  };
   /** mutation root */
   ['mutation_root']: AliasType<{
     adminUpdateUser?: [
@@ -3444,6 +3547,10 @@ columns and relationships of "distributions" */
     createUser?: [
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
+    ];
+    deleteEpoch?: [
+      { payload: ValueTypes['DeleteEpochInput'] },
+      ValueTypes['DeleteEpochResponse']
     ];
     delete_burns?: [
       {
@@ -4146,9 +4253,24 @@ columns and relationships of "distributions" */
     ];
     update_distributions?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['distributions_append_input']
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['distributions_delete_at_path_input']
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['distributions_delete_elem_input']
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['distributions_delete_key_input']
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['distributions_inc_input']
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['distributions_prepend_input']
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
           | ValueTypes['distributions_set_input']
@@ -4159,9 +4281,24 @@ columns and relationships of "distributions" */
     ];
     update_distributions_by_pk?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['distributions_append_input']
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['distributions_delete_at_path_input']
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['distributions_delete_elem_input']
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['distributions_delete_key_input']
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['distributions_inc_input']
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['distributions_prepend_input']
           | null /** sets the columns of the filtered rows to the given values */;
         _set?: ValueTypes['distributions_set_input'] | null;
         pk_columns: ValueTypes['distributions_pk_columns_input'];
@@ -9365,6 +9502,10 @@ export type ModelTypes = {
     nominee: ModelTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
+  ['DeleteEpochResponse']: {
+    success: boolean;
+  };
   ['EpochResponse']: {
     /** An object relationship */
     epoch: ModelTypes['epochs'];
@@ -10189,6 +10330,7 @@ export type ModelTypes = {
     distribution_id: ModelTypes['bigint'];
     id: ModelTypes['bigint'];
     index: ModelTypes['bigint'];
+    new_amount: ModelTypes['numeric'];
     proof: string;
     /** An object relationship */
     updatedByUser: ModelTypes['users'];
@@ -10228,6 +10370,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10250,6 +10393,7 @@ export type ModelTypes = {
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
+    new_amount?: ModelTypes['numeric'];
     proof?: string;
     updated_at?: ModelTypes['timestamptz'];
     updated_by?: ModelTypes['bigint'];
@@ -10266,6 +10410,7 @@ export type ModelTypes = {
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
+    new_amount?: ModelTypes['numeric'];
     proof?: string;
     updated_at?: ModelTypes['timestamptz'];
     updated_by?: ModelTypes['bigint'];
@@ -10297,6 +10442,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10309,6 +10455,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10321,6 +10468,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10333,6 +10481,7 @@ export type ModelTypes = {
     distribution_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     index?: ModelTypes['bigint'];
+    new_amount?: ModelTypes['numeric'];
     updated_by?: ModelTypes['bigint'];
     user_id?: ModelTypes['bigint'];
   };
@@ -10347,6 +10496,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10359,6 +10509,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10371,6 +10522,7 @@ export type ModelTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -10390,6 +10542,8 @@ columns and relationships of "distributions" */
     claims_aggregate: ModelTypes['claims_aggregate'];
     created_at: ModelTypes['timestamp'];
     created_by: ModelTypes['bigint'];
+    distribution_epoch_id?: ModelTypes['bigint'];
+    distribution_json: ModelTypes['jsonb'];
     /** An object relationship */
     epoch: ModelTypes['epochs'];
     epoch_id: ModelTypes['bigint'];
@@ -10420,9 +10574,12 @@ columns and relationships of "distributions" */
     var_samp?: ModelTypes['distributions_var_samp_fields'];
     variance?: ModelTypes['distributions_variance_fields'];
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_append_input']: GraphQLTypes['distributions_append_input'];
   /** aggregate avg on columns */
   ['distributions_avg_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10432,6 +10589,12 @@ columns and relationships of "distributions" */
   ['distributions_bool_exp']: GraphQLTypes['distributions_bool_exp'];
   /** unique or primary key constraints on table "distributions" */
   ['distributions_constraint']: GraphQLTypes['distributions_constraint'];
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['distributions_delete_at_path_input']: GraphQLTypes['distributions_delete_at_path_input'];
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['distributions_delete_elem_input']: GraphQLTypes['distributions_delete_elem_input'];
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['distributions_delete_key_input']: GraphQLTypes['distributions_delete_key_input'];
   /** input type for incrementing numeric columns in table "distributions" */
   ['distributions_inc_input']: GraphQLTypes['distributions_inc_input'];
   /** input type for inserting data into table "distributions" */
@@ -10440,6 +10603,7 @@ columns and relationships of "distributions" */
   ['distributions_max_fields']: {
     created_at?: ModelTypes['timestamp'];
     created_by?: ModelTypes['bigint'];
+    distribution_epoch_id?: ModelTypes['bigint'];
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     merkle_root?: string;
@@ -10450,6 +10614,7 @@ columns and relationships of "distributions" */
   ['distributions_min_fields']: {
     created_at?: ModelTypes['timestamp'];
     created_by?: ModelTypes['bigint'];
+    distribution_epoch_id?: ModelTypes['bigint'];
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     merkle_root?: string;
@@ -10471,6 +10636,8 @@ columns and relationships of "distributions" */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
   /** primary key columns input for table: distributions */
   ['distributions_pk_columns_input']: GraphQLTypes['distributions_pk_columns_input'];
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_prepend_input']: GraphQLTypes['distributions_prepend_input'];
   /** select columns of table "distributions" */
   ['distributions_select_column']: GraphQLTypes['distributions_select_column'];
   /** input type for updating data in table "distributions" */
@@ -10478,6 +10645,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev on columns */
   ['distributions_stddev_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10486,6 +10654,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_pop on columns */
   ['distributions_stddev_pop_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10494,6 +10663,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_samp on columns */
   ['distributions_stddev_samp_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10502,6 +10672,7 @@ columns and relationships of "distributions" */
   /** aggregate sum on columns */
   ['distributions_sum_fields']: {
     created_by?: ModelTypes['bigint'];
+    distribution_epoch_id?: ModelTypes['bigint'];
     epoch_id?: ModelTypes['bigint'];
     id?: ModelTypes['bigint'];
     total_amount?: ModelTypes['numeric'];
@@ -10512,6 +10683,7 @@ columns and relationships of "distributions" */
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10520,6 +10692,7 @@ columns and relationships of "distributions" */
   /** aggregate var_samp on columns */
   ['distributions_var_samp_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -10528,6 +10701,7 @@ columns and relationships of "distributions" */
   /** aggregate variance on columns */
   ['distributions_variance_fields']: {
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -11012,6 +11186,9 @@ columns and relationships of "distributions" */
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
+  ['jsonb']: any;
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
     adminUpdateUser?: ModelTypes['UserResponse'];
@@ -11019,6 +11196,7 @@ columns and relationships of "distributions" */
     createEpoch?: ModelTypes['EpochResponse'];
     createNominee?: ModelTypes['CreateNomineeResponse'];
     createUser?: ModelTypes['UserResponse'];
+    deleteEpoch?: ModelTypes['DeleteEpochResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: ModelTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
@@ -13469,6 +13647,14 @@ export type GraphQLTypes = {
     role?: number;
     starting_tokens?: number;
   };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: {
+    __typename: 'DeleteEpochResponse';
+    success: boolean;
+  };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
     /** An object relationship */
@@ -15020,6 +15206,7 @@ export type GraphQLTypes = {
     distribution_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     index: GraphQLTypes['bigint'];
+    new_amount: GraphQLTypes['numeric'];
     proof: string;
     /** An object relationship */
     updatedByUser: GraphQLTypes['users'];
@@ -15078,6 +15265,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15088,6 +15276,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15106,6 +15295,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     index?: GraphQLTypes['bigint_comparison_exp'];
+    new_amount?: GraphQLTypes['numeric_comparison_exp'];
     proof?: GraphQLTypes['String_comparison_exp'];
     updatedByUser?: GraphQLTypes['users_bool_exp'];
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'];
@@ -15122,6 +15312,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
@@ -15137,6 +15328,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     proof?: string;
     updatedByUser?: GraphQLTypes['users_obj_rel_insert_input'];
     updated_at?: GraphQLTypes['timestamptz'];
@@ -15154,6 +15346,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     proof?: string;
     updated_at?: GraphQLTypes['timestamptz'];
     updated_by?: GraphQLTypes['bigint'];
@@ -15168,6 +15361,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
@@ -15183,6 +15377,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     proof?: string;
     updated_at?: GraphQLTypes['timestamptz'];
     updated_by?: GraphQLTypes['bigint'];
@@ -15197,6 +15392,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
     updated_at?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
@@ -15228,6 +15424,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     proof?: GraphQLTypes['order_by'];
     updatedByUser?: GraphQLTypes['users_order_by'];
     updated_at?: GraphQLTypes['order_by'];
@@ -15251,6 +15448,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     proof?: string;
     updated_at?: GraphQLTypes['timestamptz'];
     updated_by?: GraphQLTypes['bigint'];
@@ -15264,6 +15462,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15274,6 +15473,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15285,6 +15485,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15295,6 +15496,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15306,6 +15508,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15316,6 +15519,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15327,6 +15531,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     index?: GraphQLTypes['bigint'];
+    new_amount?: GraphQLTypes['numeric'];
     updated_by?: GraphQLTypes['bigint'];
     user_id?: GraphQLTypes['bigint'];
   };
@@ -15337,6 +15542,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15350,6 +15556,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15360,6 +15567,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15371,6 +15579,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15381,6 +15590,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15392,6 +15602,7 @@ export type GraphQLTypes = {
     distribution_id?: number;
     id?: number;
     index?: number;
+    new_amount?: number;
     updated_by?: number;
     user_id?: number;
   };
@@ -15402,6 +15613,7 @@ export type GraphQLTypes = {
     distribution_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
     index?: GraphQLTypes['order_by'];
+    new_amount?: GraphQLTypes['order_by'];
     updated_by?: GraphQLTypes['order_by'];
     user_id?: GraphQLTypes['order_by'];
   };
@@ -15430,6 +15642,8 @@ columns and relationships of "distributions" */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     created_by: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
+    distribution_json: GraphQLTypes['jsonb'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
@@ -15462,10 +15676,15 @@ columns and relationships of "distributions" */
     var_samp?: GraphQLTypes['distributions_var_samp_fields'];
     variance?: GraphQLTypes['distributions_variance_fields'];
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_append_input']: {
+    distribution_json?: GraphQLTypes['jsonb'];
+  };
   /** aggregate avg on columns */
   ['distributions_avg_fields']: {
     __typename: 'distributions_avg_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15479,6 +15698,8 @@ columns and relationships of "distributions" */
     claims?: GraphQLTypes['claims_bool_exp'];
     created_at?: GraphQLTypes['timestamp_comparison_exp'];
     created_by?: GraphQLTypes['bigint_comparison_exp'];
+    distribution_epoch_id?: GraphQLTypes['bigint_comparison_exp'];
+    distribution_json?: GraphQLTypes['jsonb_comparison_exp'];
     epoch?: GraphQLTypes['epochs_bool_exp'];
     epoch_id?: GraphQLTypes['bigint_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
@@ -15490,9 +15711,22 @@ columns and relationships of "distributions" */
   };
   /** unique or primary key constraints on table "distributions" */
   ['distributions_constraint']: distributions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['distributions_delete_at_path_input']: {
+    distribution_json?: Array<string>;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['distributions_delete_elem_input']: {
+    distribution_json?: number;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['distributions_delete_key_input']: {
+    distribution_json?: string;
+  };
   /** input type for incrementing numeric columns in table "distributions" */
   ['distributions_inc_input']: {
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     total_amount?: GraphQLTypes['numeric'];
@@ -15503,6 +15737,8 @@ columns and relationships of "distributions" */
     claims?: GraphQLTypes['claims_arr_rel_insert_input'];
     created_at?: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
+    distribution_json?: GraphQLTypes['jsonb'];
     epoch?: GraphQLTypes['epochs_obj_rel_insert_input'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
@@ -15517,6 +15753,7 @@ columns and relationships of "distributions" */
     __typename: 'distributions_max_fields';
     created_at?: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
@@ -15528,6 +15765,7 @@ columns and relationships of "distributions" */
     __typename: 'distributions_min_fields';
     created_at?: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
@@ -15559,6 +15797,8 @@ columns and relationships of "distributions" */
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'];
     created_at?: GraphQLTypes['order_by'];
     created_by?: GraphQLTypes['order_by'];
+    distribution_epoch_id?: GraphQLTypes['order_by'];
+    distribution_json?: GraphQLTypes['order_by'];
     epoch?: GraphQLTypes['epochs_order_by'];
     epoch_id?: GraphQLTypes['order_by'];
     id?: GraphQLTypes['order_by'];
@@ -15572,12 +15812,18 @@ columns and relationships of "distributions" */
   ['distributions_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
   };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['distributions_prepend_input']: {
+    distribution_json?: GraphQLTypes['jsonb'];
+  };
   /** select columns of table "distributions" */
   ['distributions_select_column']: distributions_select_column;
   /** input type for updating data in table "distributions" */
   ['distributions_set_input']: {
     created_at?: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
+    distribution_json?: GraphQLTypes['jsonb'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
@@ -15589,6 +15835,7 @@ columns and relationships of "distributions" */
   ['distributions_stddev_fields']: {
     __typename: 'distributions_stddev_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15598,6 +15845,7 @@ columns and relationships of "distributions" */
   ['distributions_stddev_pop_fields']: {
     __typename: 'distributions_stddev_pop_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15607,6 +15855,7 @@ columns and relationships of "distributions" */
   ['distributions_stddev_samp_fields']: {
     __typename: 'distributions_stddev_samp_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15616,6 +15865,7 @@ columns and relationships of "distributions" */
   ['distributions_sum_fields']: {
     __typename: 'distributions_sum_fields';
     created_by?: GraphQLTypes['bigint'];
+    distribution_epoch_id?: GraphQLTypes['bigint'];
     epoch_id?: GraphQLTypes['bigint'];
     id?: GraphQLTypes['bigint'];
     total_amount?: GraphQLTypes['numeric'];
@@ -15627,6 +15877,7 @@ columns and relationships of "distributions" */
   ['distributions_var_pop_fields']: {
     __typename: 'distributions_var_pop_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15636,6 +15887,7 @@ columns and relationships of "distributions" */
   ['distributions_var_samp_fields']: {
     __typename: 'distributions_var_samp_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -15645,6 +15897,7 @@ columns and relationships of "distributions" */
   ['distributions_variance_fields']: {
     __typename: 'distributions_variance_fields';
     created_by?: number;
+    distribution_epoch_id?: number;
     epoch_id?: number;
     id?: number;
     total_amount?: number;
@@ -16490,6 +16743,29 @@ columns and relationships of "distributions" */
     _neq?: GraphQLTypes['json'];
     _nin?: Array<GraphQLTypes['json']>;
   };
+  ['jsonb']: any;
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ['jsonb_comparison_exp']: {
+    /** is the column contained in the given json value */
+    _contained_in?: GraphQLTypes['jsonb'];
+    /** does the column contain the given json value at the top level */
+    _contains?: GraphQLTypes['jsonb'];
+    _eq?: GraphQLTypes['jsonb'];
+    _gt?: GraphQLTypes['jsonb'];
+    _gte?: GraphQLTypes['jsonb'];
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: Array<string>;
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: Array<string>;
+    _in?: Array<GraphQLTypes['jsonb']>;
+    _is_null?: boolean;
+    _lt?: GraphQLTypes['jsonb'];
+    _lte?: GraphQLTypes['jsonb'];
+    _neq?: GraphQLTypes['jsonb'];
+    _nin?: Array<GraphQLTypes['jsonb']>;
+  };
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
@@ -16498,6 +16774,7 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'];
     createNominee?: GraphQLTypes['CreateNomineeResponse'];
     createUser?: GraphQLTypes['UserResponse'];
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'];
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'];
     /** delete single row from the table: "burns" */
@@ -20454,6 +20731,7 @@ export const enum claims_select_column {
   distribution_id = 'distribution_id',
   id = 'id',
   index = 'index',
+  new_amount = 'new_amount',
   proof = 'proof',
   updated_at = 'updated_at',
   updated_by = 'updated_by',
@@ -20469,6 +20747,7 @@ export const enum claims_update_column {
   distribution_id = 'distribution_id',
   id = 'id',
   index = 'index',
+  new_amount = 'new_amount',
   proof = 'proof',
   updated_at = 'updated_at',
   updated_by = 'updated_by',
@@ -20482,6 +20761,8 @@ export const enum distributions_constraint {
 export const enum distributions_select_column {
   created_at = 'created_at',
   created_by = 'created_by',
+  distribution_epoch_id = 'distribution_epoch_id',
+  distribution_json = 'distribution_json',
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',
@@ -20493,6 +20774,8 @@ export const enum distributions_select_column {
 export const enum distributions_update_column {
   created_at = 'created_at',
   created_by = 'created_by',
+  distribution_epoch_id = 'distribution_epoch_id',
+  distribution_json = 'distribution_json',
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',

@@ -91,8 +91,8 @@ function DistributePage() {
       circleId: circle.id,
       epochId: Number(epochId),
     };
-    const submitted = await submitDistribution(submitDTO);
-    setLoadingTrx(submitted);
+    await submitDistribution(submitDTO);
+    setLoadingTrx(false);
   };
 
   const pageMessage = () => {

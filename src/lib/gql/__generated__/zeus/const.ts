@@ -287,6 +287,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  DeleteEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   Int_comparison_exp: {
     _eq: {
       type: 'Int',
@@ -2911,6 +2925,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_by: {
       type: 'order_by',
       array: false,
@@ -2999,6 +3019,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     index: {
       type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_amount: {
+      type: 'numeric_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3128,6 +3154,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     proof: {
       type: 'order_by',
       array: false,
@@ -3191,6 +3223,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3302,6 +3340,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     proof: {
       type: 'order_by',
       array: false,
@@ -3387,6 +3431,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_by: {
       type: 'order_by',
       array: false,
@@ -3426,6 +3476,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3475,6 +3531,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_by: {
       type: 'order_by',
       array: false,
@@ -3514,6 +3576,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3564,6 +3632,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_by: {
       type: 'order_by',
       array: false,
@@ -3608,6 +3682,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    new_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_by: {
       type: 'order_by',
       array: false,
@@ -3647,6 +3727,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     index: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    new_amount: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -3755,6 +3841,14 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    distribution_json: {
+      path: {
+        type: 'String',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
   },
   distributions_bool_exp: {
     _and: {
@@ -3789,6 +3883,18 @@ export const AllTypesProps: Record<string, any> = {
     },
     created_by: {
       type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_epoch_id: {
+      type: 'bigint_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_json: {
+      type: 'jsonb_comparison_exp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3837,9 +3943,29 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   distributions_constraint: 'enum',
+  distributions_inc_input: {
+    distribution_epoch_id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   distributions_insert_input: {
     claims: {
       type: 'claims_arr_rel_insert_input',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_epoch_id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_json: {
+      type: 'jsonb',
       array: false,
       arrayRequired: false,
       required: false,
@@ -3928,6 +4054,18 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    distribution_epoch_id: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    distribution_json: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     epoch: {
       type: 'epochs_order_by',
       array: false,
@@ -3981,6 +4119,12 @@ export const AllTypesProps: Record<string, any> = {
   },
   distributions_select_column: 'enum',
   distributions_set_input: {
+    distribution_epoch_id: {
+      type: 'bigint',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     saved_on_chain: {
       type: 'Boolean',
       array: false,
@@ -5038,6 +5182,93 @@ export const AllTypesProps: Record<string, any> = {
       required: true,
     },
   },
+  jsonb: 'String',
+  jsonb_comparison_exp: {
+    _contained_in: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _contains: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _eq: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gt: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _gte: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _has_key: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _has_keys_all: {
+      type: 'String',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _has_keys_any: {
+      type: 'String',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _in: {
+      type: 'jsonb',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    _is_null: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lt: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _lte: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _neq: {
+      type: 'jsonb',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    _nin: {
+      type: 'jsonb',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   mutation_root: {
     adminUpdateUser: {
       payload: {
@@ -5074,6 +5305,14 @@ export const AllTypesProps: Record<string, any> = {
     createUser: {
       payload: {
         type: 'CreateUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    deleteEpoch: {
+      payload: {
+        type: 'DeleteEpochInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -5276,6 +5515,12 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
     update_distributions: {
+      _inc: {
+        type: 'distributions_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
       _set: {
         type: 'distributions_set_input',
         array: false,
@@ -5290,6 +5535,12 @@ export const AllTypesProps: Record<string, any> = {
       },
     },
     update_distributions_by_pk: {
+      _inc: {
+        type: 'distributions_inc_input',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
       _set: {
         type: 'distributions_set_input',
         array: false,
@@ -11799,6 +12050,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     nominee: 'nominees',
   },
+  DeleteEpochResponse: {
+    success: 'Boolean',
+  },
   EpochResponse: {
     epoch: 'epochs',
     id: 'ID',
@@ -11898,6 +12152,7 @@ export const ReturnTypes: Record<string, any> = {
     distribution_id: 'bigint',
     id: 'bigint',
     index: 'bigint',
+    new_amount: 'numeric',
     proof: 'String',
     updatedByUser: 'users',
     updated_at: 'timestamptz',
@@ -11913,6 +12168,8 @@ export const ReturnTypes: Record<string, any> = {
     claims: 'claims',
     created_at: 'timestamp',
     created_by: 'bigint',
+    distribution_epoch_id: 'bigint',
+    distribution_json: 'jsonb',
     epoch: 'epochs',
     epoch_id: 'bigint',
     id: 'bigint',
@@ -11959,6 +12216,7 @@ export const ReturnTypes: Record<string, any> = {
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    deleteEpoch: 'DeleteEpochResponse',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
     insert_circle_integrations: 'circle_integrations_mutation_response',
