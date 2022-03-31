@@ -12,7 +12,6 @@ import {
   IApiLogin,
   IApiManifest,
   PostTokenGiftsParam,
-  PutUsersParam,
   UpdateCreateEpochParam,
   IApiFullCircle,
 } from 'types';
@@ -111,16 +110,6 @@ export class APIService {
       }
     );
     return response.data as IApiEpoch;
-  };
-
-  updateMyUser = async (
-    circleId: number,
-    params: PutUsersParam
-  ): Promise<IApiUser> => {
-    const response = await this.axios.put(`/v2/${circleId}/users`, {
-      data: JSON.stringify(params),
-    });
-    return response.data;
   };
 
   postTokenGifts = async (
