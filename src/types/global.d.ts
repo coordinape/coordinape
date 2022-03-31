@@ -4,6 +4,8 @@ export type Maybe<T> = T | null;
 
 export interface ITableColumn {
   label: string;
+  tooltip?: string;
+  tooltipMoreUrl?: string;
   accessor?: string;
   render?: (obj: GenericObject) => React.ReactNode;
   sortFunc?: (a: any, b: any) => number;

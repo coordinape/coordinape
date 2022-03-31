@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
 import { Spacer } from 'components';
+import { ApeInfoTooltip } from 'components/ApeInfoTooltip/ApeInfoTooltip';
 import { usePrevious } from 'hooks';
 
 import { ITableSortOrder, StaticTableProps } from 'types';
@@ -168,27 +169,55 @@ export const StaticTable = ({
               [classes.emptyHeader]: !data.length,
             })}
           >
-            {columns.map(({ label, wide, narrow, noSort, leftAlign }, idx) => (
-              <th
-                key={idx}
-                className={clsx(classes.headerTh, {
-                  [classes.sortable]: sortable && !noSort,
-                  [classes.wide]: wide,
-                  [classes.narrow]: narrow,
-                  [classes.leftAlign]: leftAlign,
-                })}
-                onClick={
-                  sortable && !noSort ? () => onClickSort(idx) : undefined
-                }
-              >
-                {label}
-                {order.field === idx && sortable
-                  ? order.ascending > 0
-                    ? ' ↑'
-                    : ' ↓'
-                  : ''}
-              </th>
-            ))}
+            {columns.map(
+              (
+                {
+                  label,
+                  tooltip,
+                  tooltipMoreUrl,
+                  wide,
+                  narrow,
+                  noSort,
+                  leftAlign,
+                },
+                idx
+              ) => (
+                <th
+                  key={idx}
+                  className={clsx(classes.headerTh, {
+                    [classes.sortable]: sortable && !noSort,
+                    [classes.wide]: wide,
+                    [classes.narrow]: narrow,
+                    [classes.leftAlign]: leftAlign,
+                  })}
+                  onClick={
+                    sortable && !noSort ? () => onClickSort(idx) : undefined
+                  }
+                >
+                  {label}
+                  {order.field === idx && sortable
+                    ? order.ascending > 0
+                      ? ' ↑'
+                      : ' ↓'
+                    : ''}
+                  {tooltip && (
+                    <ApeInfoTooltip>
+                      {tooltip}
+                      {tooltipMoreUrl && (
+                        <a
+                          href={tooltipMoreUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {' '}
+                          Learn More
+                        </a>
+                      )}
+                    </ApeInfoTooltip>
+                  )}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>
