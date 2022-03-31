@@ -13,6 +13,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
   },
+  label: {
+    width: '100%',
+    fontSize: 16,
+    lineHeight: 1.3,
+    fontWeight: 700,
+    color: theme.colors.text,
+  },
   body: {
     display: 'flex',
     alignItems: 'center',
@@ -73,7 +80,7 @@ export const ApeCheckbox = ({
                 classes={error ? { root: classes.redColor } : undefined}
               />
             }
-            label={<div className={classes.root}>{label}</div>}
+            label={<div className={classes.label}>{label}</div>}
           />
         </FormControl>
         {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
