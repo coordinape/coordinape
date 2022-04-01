@@ -1,27 +1,25 @@
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
-import { useAllocation } from 'hooks';
-import { useSelectedCircle } from 'recoilState';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button } from 'ui';
 import Medal from 'ui/icons/Medal.svg';
 import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 
-import type { QueryResult } from './HistoryPage';
-
-type QueryCurrentEpoch = Exclude<
-  QueryResult['circles_by_pk'],
-  undefined
->['current']['epochs'][0];
-
-export const CurrentEpochPanel = ({ epoch }: { epoch: QueryCurrentEpoch }) => {
-  const { circle, activeNominees } = useSelectedCircle();
-  const numberOfNominees = activeNominees.length;
-
-  const { tokenRemaining, tokenStarting } = useAllocation(circle.id);
-  const percentageTokenRemaining = (tokenRemaining * 100) / tokenStarting;
-
+type Props = {
+  epoch: { start_date?: any; end_date: any };
+  nominees: number;
+  unallocated: number;
+  vouching: boolean;
+  tokenName?: string;
+};
+export const CurrentEpochPanel = ({
+  epoch,
+  vouching,
+  nominees,
+  unallocated,
+  tokenName = 'GIVE',
+}: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -47,16 +45,14 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: QueryCurrentEpoch }) => {
         </Text>
       </Box>
       <Box css={{ display: 'flex' }}>
-        {circle.hasVouching && (
+        {vouching && (
           <Minicard
             icon={Medal}
             title="Nominations"
-            alert={numberOfNominees > 0}
+            alert={nominees > 0}
             content={
-              numberOfNominees > 0
-                ? `${numberOfNominees} nomination${
-                    numberOfNominees > 1 ? 's' : ''
-                  }`
+              nominees > 0
+                ? `${nominees} nomination${nominees > 1 ? 's' : ''}`
                 : 'None yet. Nominate someone?'
             }
             path={paths.vouching}
@@ -66,11 +62,11 @@ export const CurrentEpochPanel = ({ epoch }: { epoch: QueryCurrentEpoch }) => {
         <Minicard
           icon={PlusInCircle}
           title="Allocations"
-          alert={percentageTokenRemaining > 0}
+          alert={unallocated > 0}
           content={
-            percentageTokenRemaining > 0
-              ? `Allocate Your Remaining ${percentageTokenRemaining}%`
-              : `No More GIVE Tokens to Allocate`
+            unallocated > 0
+              ? `Allocate Your Remaining ${unallocated} ${tokenName}`
+              : `No More ${tokenName} to Allocate`
           }
           path={paths.allocation}
           linkLabel="Allocate to Teammates"

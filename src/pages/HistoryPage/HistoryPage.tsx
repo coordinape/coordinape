@@ -32,9 +32,7 @@ export const HistoryPage = () => {
   );
 
   const circle = query.data?.circles_by_pk;
-  const isAdmin = circle?.users[0]?.role === 1;
-
-  const [page, setPage] = useState(0);
+  const me = circle?.users[0];
 
   const nextEpoch = circle?.future.epochs[0];
   const nextEpochStartLabel = useMemo(() => {
@@ -50,11 +48,15 @@ export const HistoryPage = () => {
   const pastEpochs = circle?.past.epochs || [];
 
   // TODO fetch only data for page shown
+  const [page, setPage] = useState(0);
   const shownPastEpochs = useMemo(
     () => pastEpochs.slice(page * pageSize, (page + 1) * pageSize),
     [pastEpochs, page]
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
+
+  const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
+  const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
   if (query.isLoading || query.isIdle) return <LoadingModal visible />;
 
@@ -63,7 +65,7 @@ export const HistoryPage = () => {
       <SingleColumnLayout>
         <p>
           This circle has no epochs yet.{' '}
-          {isAdmin ? (
+          {me?.role === 1 ? (
             <>
               <AppLink to={paths.adminCircles}>Visit the admin page</AppLink> to
               create one.
@@ -77,7 +79,7 @@ export const HistoryPage = () => {
   }
 
   return (
-    <Box css={{ maxWidth: '$mediumScreen', ml: 'auto', mr: 'auto', p: '$xl' }}>
+    <SingleColumnLayout>
       {page === 0 && nextEpoch && (
         <>
           <Header>Next</Header>
@@ -94,7 +96,13 @@ export const HistoryPage = () => {
       {page === 0 && currentEpoch && (
         <>
           <Header>Current</Header>
-          <CurrentEpochPanel epoch={currentEpoch} />
+          <CurrentEpochPanel
+            epoch={currentEpoch}
+            vouching={circle?.vouching}
+            nominees={nominees}
+            unallocated={unallocated}
+            tokenName={circle?.token_name}
+          />
         </>
       )}
       {pastEpochs.length > 0 && (
@@ -110,7 +118,7 @@ export const HistoryPage = () => {
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
         </>
       )}
-    </Box>
+    </SingleColumnLayout>
   );
 };
 

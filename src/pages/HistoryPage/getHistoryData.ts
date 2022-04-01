@@ -7,7 +7,15 @@ export const getHistoryData = (circleId: number, userId: number) =>
       { id: circleId },
       {
         token_name: true,
-        users: [{ where: { id: { _eq: userId } } }, { role: true }],
+        vouching: true,
+        users: [
+          { where: { id: { _eq: userId } } },
+          { role: true, give_token_remaining: true, non_giver: true },
+        ],
+        nominees_aggregate: [
+          { where: { ended: { _eq: false } } },
+          { aggregate: { count: [{}, true] } },
+        ],
         __alias: {
           future: {
             epochs: [
@@ -16,10 +24,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                 order_by: [{ start_date: order_by.asc }],
                 limit: 1,
               },
-              {
-                start_date: true,
-                end_date: true,
-              },
+              { start_date: true, end_date: true },
             ],
           },
           current: {
@@ -28,10 +33,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                 where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
                 limit: 1,
               },
-              {
-                start_date: true,
-                end_date: true,
-              },
+              { start_date: true, end_date: true },
             ],
           },
           past: {
