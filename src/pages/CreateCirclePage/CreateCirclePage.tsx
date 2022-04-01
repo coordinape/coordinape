@@ -184,8 +184,18 @@ export const SummonCirclePage = () => {
                   label="Organization Name"
                   fullWidth
                   TextFieldProps={{
-                    infoTooltip:
-                      'For security purposes, organizations are hidden on the frontend until verified. Contact an admin on Discord for more details.',
+                    infoTooltip: (
+                      <>
+                        Circles nest within Organizations.
+                        <br />
+                        <br />
+                        Example:
+                        <br />
+                        Org Name - Coordinape
+                        <br />
+                        Circle Name - Design Team
+                      </>
+                    ),
                   }}
                 />
               ) : (
