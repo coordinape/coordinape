@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button } from 'ui';
@@ -12,6 +13,7 @@ type Props = {
   unallocated: number;
   vouching: boolean;
   tokenName?: string;
+  css?: CSS;
 };
 export const CurrentEpochPanel = ({
   epoch,
@@ -19,6 +21,7 @@ export const CurrentEpochPanel = ({
   nominees,
   unallocated,
   tokenName = 'GIVE',
+  css = {},
 }: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
@@ -34,6 +37,7 @@ export const CurrentEpochPanel = ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        ...css,
       }}
     >
       <Box>

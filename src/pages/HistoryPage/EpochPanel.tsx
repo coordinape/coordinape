@@ -2,14 +2,15 @@ import { useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
+import { CSS } from 'stitches.config';
 
 import { NewApeAvatar } from 'components';
 import { Box, Panel, Text, Button } from 'ui';
 
 import type { QueryEpoch } from './HistoryPage';
 
-type EpochPanelProps = { epoch: QueryEpoch; tokenName: string };
-export const EpochPanel = ({ epoch, tokenName }: EpochPanelProps) => {
+type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
+export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const [tab, setTab] = useState(0);
   const [shortPanelShow, setshortPanelShow] = useState(true);
   const startDate = DateTime.fromISO(epoch.start_date);
@@ -24,10 +25,10 @@ export const EpochPanel = ({ epoch, tokenName }: EpochPanelProps) => {
   return (
     <Panel
       css={{
-        mb: '$md',
         display: 'grid',
         gridTemplateColumns: '23fr 15fr 62fr',
         gap: '$md',
+        ...css,
       }}
     >
       <Box

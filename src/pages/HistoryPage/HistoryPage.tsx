@@ -83,7 +83,7 @@ export const HistoryPage = () => {
       {nextEpoch && (
         <>
           <Header>Next</Header>
-          <Panel css={{ mb: '$xl', color: '#717C7F' }}>
+          <Panel css={{ mb: '$md', color: '#717C7F' }}>
             <Text inline>
               <Text inline bold color="gray" font="inter">
                 Next Epoch
@@ -97,6 +97,7 @@ export const HistoryPage = () => {
         <>
           <Header>Current</Header>
           <CurrentEpochPanel
+            css={{ mb: '$md' }}
             epoch={currentEpoch}
             vouching={circle?.vouching}
             nominees={nominees}
@@ -123,7 +124,6 @@ export const HistoryPage = () => {
 };
 
 const Header = styled(Text, {
-  mb: '$md',
   fontSize: '$7',
   fontFamily: 'Inter !important',
   color: '$placeholder',
