@@ -114,7 +114,6 @@ const Minicard = ({
 
       <Box
         css={{
-          paddingTop: '$sm',
           color: '$lightText',
           flexGrow: 1,
           display: 'flex',
@@ -123,7 +122,14 @@ const Minicard = ({
           alignItems: 'flex-start',
         }}
       >
-        <Text variant="formLabel">{title}</Text>
+        <Text
+          variant="formLabel"
+          css={{
+            pt: '5px', // hard-coded to align with icon
+          }}
+        >
+          {title}
+        </Text>
         <Text bold css={{ fontSize: '$3', color: alert ? 'red' : '$gray400' }}>
           {content}
         </Text>
