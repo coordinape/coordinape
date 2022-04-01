@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import type { CSS } from 'stitches.config';
 
+import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
@@ -47,9 +48,10 @@ export const CirclesPage = () => {
     });
   };
 
+  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
+
   return (
     <SingleColumnLayout>
-      {(query.isLoading || query.isIdle) && 'Loading...'}
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Box css={{ display: 'flex', mb: '$md' }}>

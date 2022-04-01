@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { styled } from 'stitches.config';
 
-import { NewApeAvatar } from 'components';
+import { LoadingModal, NewApeAvatar } from 'components';
 import { Paginator } from 'components/Paginator';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
@@ -55,6 +55,8 @@ export const HistoryPage = () => {
     [pastEpochs, page]
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
+
+  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
 
   if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
     return (
