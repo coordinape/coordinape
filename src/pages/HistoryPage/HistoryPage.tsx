@@ -290,8 +290,9 @@ const NotesItem = ({
   received: boolean;
   tokenName: string;
 }) => {
-  const other =
-    (gift as QueryReceivedGift).sender || (gift as QuerySentGift).recipient;
+  const other = (gift as QueryReceivedGift).sender ||
+    (gift as QuerySentGift).recipient || { name: 'Deleted User' };
+
   const note = gift.gift_private?.note;
   return (
     <Box css={{ display: 'flex', my: '$sm' }}>
