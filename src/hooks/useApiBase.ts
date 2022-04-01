@@ -1,6 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import iti from 'itiriri';
+import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
 import { useRecoilLoadCatch } from 'hooks';
@@ -193,7 +194,7 @@ export const useApiBase = () => {
           throw `Your profile doesn't have access to ${circleId}`;
         }
 
-        const fullCircle = await getApiService().getFullCircle(circleId);
+        const fullCircle = await queries.getFullCircle(circleId);
 
         // eslint-disable-next-line no-console
         console.log('fetchCircle', fullCircle);

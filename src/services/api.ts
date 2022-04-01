@@ -13,7 +13,6 @@ import {
   IApiManifest,
   PostTokenGiftsParam,
   UpdateCreateEpochParam,
-  IApiFullCircle,
 } from 'types';
 
 axios.defaults.baseURL = API_URL;
@@ -67,15 +66,6 @@ export class APIService {
 
   getManifest = async (circleId?: number): Promise<IApiManifest> => {
     const response = await this.axios.get('/v2/manifest', {
-      params: {
-        circle_id: circleId,
-      },
-    });
-    return response.data;
-  };
-
-  getFullCircle = async (circleId: number): Promise<IApiFullCircle> => {
-    const response = await this.axios.get(`/v2/full-circle`, {
       params: {
         circle_id: circleId,
       },
