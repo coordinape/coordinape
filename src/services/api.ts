@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
-import { IApiLogin, IApiManifest, IApiFullCircle } from 'types';
+import { IApiLogin } from 'types';
 
 axios.defaults.baseURL = API_URL;
 
@@ -64,24 +64,6 @@ export class APIService {
       }),
     });
     return await rawResponse.json();
-  };
-
-  getManifest = async (circleId?: number): Promise<IApiManifest> => {
-    const response = await this.axios.get('/v2/manifest', {
-      params: {
-        circle_id: circleId,
-      },
-    });
-    return response.data;
-  };
-
-  getFullCircle = async (circleId: number): Promise<IApiFullCircle> => {
-    const response = await this.axios.get(`/v2/full-circle`, {
-      params: {
-        circle_id: circleId,
-      },
-    });
-    return response.data;
   };
 
   downloadCSV = async (circleId: number, epoch: number): Promise<any> => {

@@ -209,6 +209,7 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
       const firstUser = getCircleUsers().first();
 
       const impersonate = !myUser && hasAdminView;
+
       const meOrPretend = myUser
         ? { ...myUser, profile: myProfile }
         : impersonate
@@ -222,6 +223,7 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         : undefined;
 
       if (meOrPretend === undefined || circle === undefined) {
+        console.error('unable to load circle or current user');
         return neverEndingPromise();
       }
 
