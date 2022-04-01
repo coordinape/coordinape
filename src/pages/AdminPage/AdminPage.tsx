@@ -181,6 +181,15 @@ const useStyles = makeStyles(theme => ({
   tooltipWrapper: {
     marginTop: '6px',
   },
+  tooltipTitle: {
+    fontSize: '18px',
+  },
+  tooltipBodyText: {
+    fontSize: '14px',
+  },
+  tooltip: {
+    background: 'red',
+  },
 }));
 
 const TableLink = styled(Link, {
@@ -373,8 +382,10 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                   {u.role === USER_ROLE_COORDINAPE ? (
                     <div className={classes.tooltipWrapper}>
                       <ApeInfoTooltip>
-                        <b>Why is Coordinape in your circle?</b>
-                        <p>
+                        <b className={classes.tooltipTitle}>
+                          Why is Coordinape in your circle?
+                        </b>
+                        <p className={classes.tooltipBodyText}>
                           We’re experimenting with the gift circle mechanism as
                           our revenue model. By default, Coordinape appears in
                           your circle and any user can alllocate to Coordinape.
