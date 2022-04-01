@@ -84,8 +84,6 @@ export function useSubmitDistribution() {
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
 
-      console.log(response); //eslint-disable-line
-
       await uploadEpochRoot(
         vault.vault_address,
         encodeCircleId(circleId),
