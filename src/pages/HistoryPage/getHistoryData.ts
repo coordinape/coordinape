@@ -51,7 +51,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                   { aggregate: { sum: { tokens: true } } },
                 ],
                 __alias: {
-                  received_gifts: {
+                  received: {
                     token_gifts: [
                       { where: { recipient_id: { _eq: userId } } },
                       {
@@ -62,7 +62,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                       },
                     ],
                   },
-                  sent_gifts: {
+                  sent: {
                     token_gifts: [
                       { where: { sender_id: { _eq: userId } } },
                       {

@@ -136,8 +136,8 @@ const EpochPanel = ({ epoch, tokenName }: EpochPanelProps) => {
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
 
-  const received = epoch.received_gifts.token_gifts;
-  const sent = epoch.sent_gifts.token_gifts;
+  const received = epoch.received.token_gifts;
+  const sent = epoch.sent.token_gifts;
   const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
 
@@ -252,8 +252,8 @@ const Header = styled(Text, {
   fontWeight: '$semibold',
 });
 
-type QueryReceivedGift = QueryEpoch['received_gifts']['token_gifts'][0];
-type QuerySentGift = QueryEpoch['sent_gifts']['token_gifts'][0];
+type QueryReceivedGift = QueryEpoch['received']['token_gifts'][0];
+type QuerySentGift = QueryEpoch['sent']['token_gifts'][0];
 type QueryGift = QueryReceivedGift | QuerySentGift;
 
 type NotesProps = {
