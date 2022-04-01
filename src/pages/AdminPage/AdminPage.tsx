@@ -188,7 +188,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '14px',
   },
   tooltip: {
-    background: 'red',
+    padding: theme.spacing(4),
+    maxWidth: 296,
   },
 }));
 
@@ -381,7 +382,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 <span>
                   {u.role === USER_ROLE_COORDINAPE ? (
                     <div className={classes.tooltipWrapper}>
-                      <ApeInfoTooltip>
+                      <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
                         <b className={classes.tooltipTitle}>
                           Why is Coordinape in your circle?
                         </b>
