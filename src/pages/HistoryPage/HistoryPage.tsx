@@ -80,7 +80,7 @@ export const HistoryPage = () => {
 
   return (
     <SingleColumnLayout>
-      {page === 0 && nextEpoch && (
+      {nextEpoch && (
         <>
           <Header>Next</Header>
           <Panel css={{ mb: '$xl', color: '#717C7F' }}>
@@ -93,7 +93,7 @@ export const HistoryPage = () => {
           </Panel>
         </>
       )}
-      {page === 0 && currentEpoch && (
+      {currentEpoch && (
         <>
           <Header>Current</Header>
           <CurrentEpochPanel
