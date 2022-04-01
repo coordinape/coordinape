@@ -9,10 +9,8 @@ import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
-import AllocateModal from './AllocateModal';
 import DepositModal from './DepositModal';
 import { dummyTableData, TransactionTable } from './VaultTransactions';
-import WithdrawModal from './WithdrawModal';
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
@@ -40,11 +38,7 @@ export function VaultRow({
 
   return (
     <Panel css={css}>
-      {modal === 'allocate' ? (
-        <AllocateModal onClose={closeModal} />
-      ) : modal === 'withdraw' ? (
-        <WithdrawModal onClose={closeModal} />
-      ) : modal === 'deposit' ? (
+      {modal === 'deposit' ? (
         <DepositModal
           vault={vault}
           onClose={closeModal}
@@ -52,12 +46,7 @@ export function VaultRow({
         />
       ) : null}
       <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '$md',
-          mb: '$md',
-        }}
+        css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
         <Text
           css={{
@@ -72,7 +61,7 @@ export function VaultRow({
         <Button color="red" size="small" onClick={() => setModal('deposit')}>
           Deposit
         </Button>
-        <Button color="gray" size="small" onClick={() => setModal('withdraw')}>
+        <Button color="gray" size="small" onClick={() => alert('TODO')}>
           Withdraw
         </Button>
       </Box>
