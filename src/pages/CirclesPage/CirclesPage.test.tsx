@@ -43,7 +43,7 @@ test('basic rendering', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
 
   screen.getByText('Test Org');
