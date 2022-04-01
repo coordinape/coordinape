@@ -5,6 +5,26 @@ import {
   zStringISODateUTC,
 } from '../../../src/forms/formHelpers';
 
+const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+export const loginInput = z.object({
+  address: zEthAddressOnly,
+  data: z.string().refine(
+    msg => {
+      const templateOk = msg.startsWith('Login to Coordinape');
+      const timestamp = msg.split(' ').pop();
+      const timestampInPast =
+        timestamp && Number.parseInt(timestamp) * 1000 < Date.now();
+
+      const validLength = msg.length === 30;
+
+      return templateOk && validLength && timestampInPast;
+    },
+    { message: 'Invalid message payload' }
+  ),
+  hash: z.string().length(0),
+  signature: z.string().regex(PERSONAL_SIGN_REGEX),
+});
+
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
@@ -184,6 +204,16 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
       HasuraUserSessionVariables,
     ]),
     request_query: z.string().optional(),
+  });
+}
+
+export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
+) {
+  return z.object({
+    input: z.object({ payload: inputSchema }),
   });
 }
 
