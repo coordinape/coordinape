@@ -56,12 +56,16 @@ export const EditProfileModal = ({
   return (
     <EditProfileForm.FormController
       source={myProfile}
-      submit={params => {
-        const fixedParams: any = { ...params };
-        const skills = params.skills;
-        delete fixedParams.skills;
-        fixedParams.skills = JSON.stringify(skills);
-        updateMyProfile(fixedParams).then(onClose).catch(console.warn);
+      submit={async params => {
+        // skills is an array here but the backend expects a json encoded array
+        const fixedParams: Omit<typeof params, 'skills'> & { skills: string } =
+          { ...params, skills: JSON.stringify(params.skills) };
+        try {
+          await updateMyProfile(fixedParams);
+          onClose();
+        } catch (e: unknown) {
+          console.warn(e);
+        }
       }}
     >
       {({ fields, errors, changedOutput, handleSubmit }) => (
