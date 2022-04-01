@@ -111,7 +111,7 @@ export const ReceiveInfo = () => {
   const gifts = currentEpoch
     ? myReceived.get(currentEpoch.id) ?? []
     : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
-  const totalReceived = gifts && iti(gifts).sum(({ tokens }) => tokens);
+  const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
 
   return (
     <div className={classes.root}>
@@ -120,8 +120,7 @@ export const ReceiveInfo = () => {
         size="small"
         onClick={event => setAnchorEl(event.currentTarget)}
       >
-        {totalReceived ?? 'No'} {selectedCircle?.tokenName}{' '}
-        {!totalReceived && 'Received'}
+        {totalReceived} {selectedCircle?.tokenName}
       </Button>
       <Popover
         anchorEl={anchorEl}
