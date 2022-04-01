@@ -74,22 +74,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tooltipLink: {
-    display: 'block',
-    margin: theme.spacing(2, 0, 0),
-    textAlign: 'center',
-    color: theme.colors.linkBlue,
-  },
-  tooltipButton: {
-    marginTop: '16px',
-  },
-  tooltip: {},
-  skillContainer: {
-    gridColumn: '1 / 4',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
+
   bio: {
     flexGrow: 1,
     margin: theme.spacing(1.5, 0, 0),
@@ -111,6 +96,32 @@ const useStyles = makeStyles(theme => ({
       background: 'none',
       textDecoration: 'underline',
     },
+  },
+
+  tooltip: {
+    maxWidth: 296,
+    padding: theme.spacing(4),
+  },
+  tooltipTitle: {
+    fontSize: 18,
+  },
+  tooltipBodyText: {
+    fontSize: 14,
+  },
+  tooltipLink: {
+    display: 'block',
+    margin: theme.spacing(2, 0, 0),
+    textAlign: 'center',
+    color: theme.colors.linkBlue,
+  },
+  tooltipButton: {
+    marginTop: '16px',
+  },
+  skillContainer: {
+    gridColumn: '1 / 4',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
 }));
 
@@ -189,12 +200,14 @@ const ProfileCardInner = ({
             >
               <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
                 {user.role !== 2 ? <></> : <></>}
-                <b>Why is Coordinape in my circle?</b>
-                <div>
+                <b className={classes.tooltipTitle}>
+                  Why is Coordinape in my circle?
+                </b>
+                <p className={classes.tooltipBodyText}>
                   To date Coordinape has offered our service for free. We
                   decided that using the gift circle mechanism as our revenue
                   model might make a lot of sense, so we’re trying that out.
-                </div>
+                </p>
                 <a
                   href={EXTERNAL_URL_FEEDBACK}
                   rel="noreferrer"
