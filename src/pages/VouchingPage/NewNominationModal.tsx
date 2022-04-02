@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-
+import clsx from 'clsx';
 import { ethers } from 'ethers';
+import isEmpty from 'lodash/isEmpty';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import { makeStyles } from '@material-ui/core';
+import { Modal, makeStyles, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
-import { FormModal, ApeTextField } from 'components';
+import { FormTextField } from 'components';
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { Form, Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   description: {
@@ -27,6 +30,66 @@ const useStyles = makeStyles(theme => ({
   gridAllColumns: {
     gridColumn: '1/-1',
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeButton: {
+    color: theme.colors.mediumGray,
+    top: 0,
+    right: 0,
+    position: 'absolute',
+  },
+  body: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%',
+    borderRadius: 8,
+    padding: theme.spacing(0, 8, 3),
+    overflowY: 'auto',
+    maxHeight: '100vh',
+  },
+  large: {
+    maxWidth: 1140,
+    padding: theme.spacing(0, 12, 3),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 6, 3),
+    },
+  },
+  medium: {
+    maxWidth: 820,
+  },
+  small: {
+    maxWidth: 648,
+  },
+  title: {
+    margin: theme.spacing(3, 0, 2),
+    fontSize: 30,
+    fontWeight: 700,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
+  subtitle: {
+    margin: theme.spacing(0, 0, 2),
+    fontSize: 16,
+    fontWeight: 300,
+    lineHeight: 1.2,
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
+  errors: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    margin: 0,
+    minHeight: 45,
+    color: theme.colors.red,
+  },
 }));
 
 export const NewNominationModal = ({
@@ -40,9 +103,6 @@ export const NewNominationModal = ({
   const { circle } = useSelectedCircle();
   const { nominateUser } = useApiWithSelectedCircle();
 
-  const [name, setName] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
   const nominateDescription = circle
     ? `The ${circle.name} Circle requires ${
         circle.min_vouches
@@ -58,70 +118,124 @@ export const NewNominationModal = ({
           : ''
       }`
     : '';
+  type NominateFormValues = {
+    name: string;
+    address: string;
+    description: string;
+  };
+  const intialValues = {
+    name: '',
+    address: '',
+    description: '',
+  };
 
-  const isAddress = ethers.utils.isAddress(address);
-  const nominateChanged =
-    name.length == 0 || description.length == 0 || isAddress;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NominateFormValues>({ mode: 'all' });
 
-  const onChangeWith =
-    (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      set(e.target.value);
-
-  const onSubmit = async () => {
-    if (!nominateChanged) {
-      throw 'Submit called when form not ready.';
-    }
+  const onSubmit: SubmitHandler<NominateFormValues> = async data => {
     nominateUser({
-      name,
-      address,
-      description,
+      ...data,
     })
       .then(() => {
         onClose();
       })
       .catch(console.warn);
   };
-
+  console.log(errors);
   return (
-    <FormModal
+    <Modal
       title="Nominate New Member"
-      submitDisabled={!nominateChanged}
-      onSubmit={onSubmit}
-      submitText="Nominate Member"
       open={visible}
       onClose={onClose}
-      size="small"
+      className={classes.modal}
     >
-      <p className={classes.description}>{nominateDescription}</p>
-      <div className={classes.quadGrid}>
-        <ApeTextField
-          label="Name"
-          value={name}
-          onChange={onChangeWith(setName)}
-          fullWidth
-        />
-        <ApeTextField
-          label="ETH Address"
-          value={address}
-          onChange={onChangeWith(setAddress)}
-          error={address.length > 0 && !isAddress}
-          fullWidth
-        />
-        <ApeTextField
-          label="Why are you nominating this person?"
-          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-          value={description}
-          className={classes.gridAllColumns}
-          onChange={onChangeWith(setDescription)}
-          multiline
-          rows={4}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-      </div>
-    </FormModal>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        className={clsx([classes['small']], classes.body)}
+      >
+        <IconButton
+          className={classes.closeButton}
+          onClick={onClose}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
+        <h3 className={classes.title}>{'Nominate New Member'}</h3>
+        <p className={classes.description}>{nominateDescription}</p>
+        <div className={classes.quadGrid}>
+          <Controller
+            name={'name'}
+            defaultValue={intialValues.name}
+            rules={{
+              required: 'Name must be at least 3 characters long.',
+              minLength: {
+                value: 3,
+                message: 'Name must be at least 3 characters long.',
+              },
+            }}
+            control={control}
+            render={({ field }) => (
+              <FormTextField label="Name" {...field} fullWidth />
+            )}
+          />
+          <Controller
+            name={'address'}
+            defaultValue={intialValues.address}
+            control={control}
+            rules={{
+              validate: value =>
+                ethers.utils.isAddress(value) || 'Invalid address',
+            }}
+            render={({ field }) => (
+              <FormTextField label="ETH Address" {...field} fullWidth />
+            )}
+          />
+          <Controller
+            name={'description'}
+            defaultValue={intialValues.description}
+            control={control}
+            rules={{
+              required: 'Description must be at least 40 characters long.',
+              minLength: {
+                value: 40,
+                message: 'Description must be at least 40 characters long.',
+              },
+            }}
+            render={({ field }) => (
+              <FormTextField
+                label="Why are you nominating this person?"
+                placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
+                {...field}
+                multiline
+                rows={4}
+                inputProps={{
+                  maxLength: 280,
+                }}
+                fullWidth
+              />
+            )}
+          />
+        </div>
+        {!isEmpty(errors) && (
+          <div className={classes.errors}>
+            {Object.values(errors).map((error, i) => (
+              <div key={i}>{error.message}</div>
+            ))}
+          </div>
+        )}
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="red"
+          size="medium"
+          type="submit"
+        >
+          Nominate Member
+        </Button>
+      </Form>
+    </Modal>
   );
 };
 
