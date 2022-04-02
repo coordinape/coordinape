@@ -6,7 +6,9 @@ import {
   useSaveEpochDistribution,
   useUpdateDistribution,
 } from 'lib/gql/mutations';
+import { getPreviousDistribution } from 'lib/gql/queries';
 import { createDistribution } from 'lib/merkle-distributor';
+import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
 import { encodeCircleId } from 'lib/vaults';
 
 import { useDistributor, useApeSnackbar, useContracts } from 'hooks';
@@ -44,28 +46,57 @@ export function useSubmitDistribution() {
       return userList;
     }, {} as Record<string, number>);
 
-    const denominator = BigNumber.from(10).pow(vault.decimals);
-    const totalDistributionAmount = BigNumber.from(amount).mul(denominator);
+    const denominator = FixedNumber.from(
+      BigNumber.from(10).pow(vault.decimals)
+    );
+    const totalDistributionAmount = BigNumber.from(amount).mul(
+      BigNumber.from(10).pow(vault.decimals)
+    );
+
+    const calculateClaimAmount = (amount: string) =>
+      Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
+
+    const calculateNewAmount = (
+      currentAmount: string,
+      address: string,
+      previousDistribution: MerkleDistributorInfo
+    ) => {
+      const previous = FixedNumber.from(
+        BigNumber.from(previousDistribution.claims[address].amount || '0')
+      );
+      const current = FixedNumber.from(BigNumber.from(currentAmount));
+      return Number(current.subUnsafe(previous).divUnsafe(denominator));
+    };
 
     try {
+      const query = await getPreviousDistribution(epochId);
+      const previousDistribution = query?.distribution_json;
+
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
         .getVault(vault.vault_address)
         .vault();
-      const distribution = createDistribution(gifts, totalDistributionAmount);
+
+      const distribution = createDistribution(
+        gifts,
+        totalDistributionAmount,
+        previousDistribution && JSON.parse(previousDistribution)
+      );
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
       ).map(([address, claim]) => ({
         address,
         index: claim.index,
-        amount: Number(
-          FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
-            FixedNumber.from(denominator)
-          )
-        ),
+        amount: calculateClaimAmount(claim.amount),
+        new_amount: previousDistribution
+          ? calculateNewAmount(
+              claim.amount,
+              address,
+              JSON.parse(previousDistribution) as MerkleDistributorInfo
+            )
+          : calculateClaimAmount(claim.amount),
         proof: claim.proof.toString(),
         user_id: users.find(({ address }) => address === address)?.id,
-        new_amount: amount,
       }));
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {

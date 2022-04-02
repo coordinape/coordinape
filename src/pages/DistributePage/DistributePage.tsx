@@ -44,6 +44,8 @@ function DistributePage() {
   const [selectedVaultId, setSelectedVaultId] = useState('');
 
   const currentOrg = useCurrentOrg();
+  const submitDistribution = useSubmitDistribution();
+  const currentUser = useCurrentUserForEpoch(Number(epochId));
   const { isLoading: vaultLoading, data: vaults } = useVaults(
     currentOrg.data?.id as number
   );
@@ -53,8 +55,6 @@ function DistributePage() {
     isError,
     data,
   } = useGetAllocations(Number(epochId));
-
-  const currentUser = useCurrentUserForEpoch(Number(epochId));
 
   const isLoading =
     isAllocationsLoading || currentUser.isLoading || vaultLoading;
@@ -68,7 +68,6 @@ function DistributePage() {
       total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
     0
   );
-  const submitDistribution = useSubmitDistribution();
 
   const { register, handleSubmit, control } = useForm<DistributionForm>({
     resolver: zodResolver(DistributionFormSchema),
@@ -80,9 +79,7 @@ function DistributePage() {
     setLoadingTrx(true);
 
     const vault = vaults?.find(v => v.id === Number(value.selectedVaultId));
-    assert(vault, 'Vault not found');
-    assert(users, 'Users not found');
-    assert(circle, 'Circle not found');
+    assert(vault && users && circle);
 
     const submitDTO: SubmitDistribution = {
       amount: value.amount,

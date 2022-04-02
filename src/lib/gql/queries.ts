@@ -1,3 +1,4 @@
+import { order_by } from './__generated__/zeus';
 import { client } from './client';
 
 export const getCurrentEpoch = async (
@@ -18,4 +19,25 @@ export const getCurrentEpoch = async (
     ],
   });
   return currentEpoch;
+};
+
+export const getPreviousDistribution = async (
+  epoch_id: number
+): Promise<typeof previousDistribution | undefined> => {
+  const {
+    distributions: [previousDistribution],
+  } = await client.query({
+    distributions: [
+      {
+        limit: 1,
+        order_by: [{ id: order_by.desc }],
+        where: {
+          epoch_id: { _eq: epoch_id },
+          saved_on_chain: { _eq: true },
+        },
+      },
+      { distribution_json: [{}, true] },
+    ],
+  });
+  return previousDistribution;
 };
