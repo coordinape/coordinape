@@ -1,3 +1,9 @@
+/**
+ *
+ * DEPRECATED -- please use react-hook-form directly instead.
+ *
+ */
+
 import React, { useEffect, useRef } from 'react';
 
 import isEqual from 'lodash/isEqual';

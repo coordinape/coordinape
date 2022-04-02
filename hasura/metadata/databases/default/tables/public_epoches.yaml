@@ -32,6 +32,13 @@ array_relationships:
       remote_table:
         name: pending_token_gifts
         schema: public
+- name: token_gifts
+  using:
+    foreign_key_constraint_on:
+      column: epoch_id
+      table:
+        name: token_gifts
+        schema: public
 select_permissions:
 - permission:
     columns:

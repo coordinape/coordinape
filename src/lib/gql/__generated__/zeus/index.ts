@@ -1299,6 +1299,32 @@ columns and relationships of "distributions" */
     repeat?: boolean;
     repeat_day_of_month?: boolean;
     start_date?: boolean;
+    token_gifts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['token_gifts_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['token_gifts_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['token_gifts_bool_exp'] | null;
+      },
+      ValueTypes['token_gifts']
+    ];
+    token_gifts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?: ValueTypes['token_gifts_select_column'][] /** limit the number of rows returned */;
+        limit?:
+          | number
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?: number | null /** sort the rows by one or more columns */;
+        order_by?: ValueTypes['token_gifts_order_by'][] /** filter the rows returned */;
+        where?: ValueTypes['token_gifts_bool_exp'] | null;
+      },
+      ValueTypes['token_gifts_aggregate']
+    ];
     updated_at?: boolean;
     __typename?: boolean;
   }>;
@@ -1350,6 +1376,7 @@ columns and relationships of "distributions" */
     repeat?: ValueTypes['Int_comparison_exp'] | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | null;
     start_date?: ValueTypes['timestamptz_comparison_exp'] | null;
+    token_gifts?: ValueTypes['token_gifts_bool_exp'] | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
   };
   /** order by max() on columns of table "epoches" */
@@ -1407,6 +1434,7 @@ columns and relationships of "distributions" */
     repeat?: ValueTypes['order_by'] | null;
     repeat_day_of_month?: ValueTypes['order_by'] | null;
     start_date?: ValueTypes['order_by'] | null;
+    token_gifts_aggregate?: ValueTypes['token_gifts_aggregate_order_by'] | null;
     updated_at?: ValueTypes['order_by'] | null;
   };
   /** select columns of table "epoches" */
@@ -4631,6 +4659,10 @@ columns and relationships of "distributions" */
     repeat: number;
     repeat_day_of_month: number;
     start_date?: ModelTypes['timestamptz'];
+    /** An array relationship */
+    token_gifts: ModelTypes['token_gifts'][];
+    /** An aggregate relationship */
+    token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     updated_at?: ModelTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
@@ -6743,6 +6775,10 @@ columns and relationships of "distributions" */
     repeat: number;
     repeat_day_of_month: number;
     start_date?: GraphQLTypes['timestamptz'];
+    /** An array relationship */
+    token_gifts: Array<GraphQLTypes['token_gifts']>;
+    /** An aggregate relationship */
+    token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     updated_at?: GraphQLTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
@@ -6791,6 +6827,7 @@ columns and relationships of "distributions" */
     repeat?: GraphQLTypes['Int_comparison_exp'];
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'];
     start_date?: GraphQLTypes['timestamptz_comparison_exp'];
+    token_gifts?: GraphQLTypes['token_gifts_bool_exp'];
     updated_at?: GraphQLTypes['timestamp_comparison_exp'];
   };
   /** order by max() on columns of table "epoches" */
@@ -6846,6 +6883,7 @@ columns and relationships of "distributions" */
     repeat?: GraphQLTypes['order_by'];
     repeat_day_of_month?: GraphQLTypes['order_by'];
     start_date?: GraphQLTypes['order_by'];
+    token_gifts_aggregate?: GraphQLTypes['token_gifts_aggregate_order_by'];
     updated_at?: GraphQLTypes['order_by'];
   };
   /** select columns of table "epoches" */

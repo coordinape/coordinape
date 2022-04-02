@@ -700,7 +700,7 @@ describe('epoch Cron Logic', () => {
       });
     });
     test("social message throw doesn't bubble up", async () => {
-      const spy = jest.spyOn(console, 'error');
+      const spy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
       mockSendSocial.mockImplementationOnce(async () => {
         throw new Error('derp');
       });

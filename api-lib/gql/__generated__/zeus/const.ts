@@ -6213,6 +6213,70 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    token_gifts: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
+    token_gifts_aggregate: {
+      distinct_on: {
+        type: 'token_gifts_select_column',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      limit: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      offset: {
+        type: 'Int',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+      order_by: {
+        type: 'token_gifts_order_by',
+        array: true,
+        arrayRequired: false,
+        required: true,
+      },
+      where: {
+        type: 'token_gifts_bool_exp',
+        array: false,
+        arrayRequired: false,
+        required: false,
+      },
+    },
   },
   epochs_aggregate_fields: {
     count: {
@@ -6489,6 +6553,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    token_gifts: {
+      type: 'token_gifts_bool_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     updated_at: {
       type: 'timestamp_comparison_exp',
       array: false,
@@ -6652,6 +6722,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     start_date: {
       type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_gifts: {
+      type: 'token_gifts_arr_rel_insert_input',
       array: false,
       arrayRequired: false,
       required: false,
@@ -6986,6 +7062,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     start_date: {
       type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_gifts_aggregate: {
+      type: 'token_gifts_aggregate_order_by',
       array: false,
       arrayRequired: false,
       required: false,
@@ -22435,6 +22517,8 @@ export const ReturnTypes: Record<string, any> = {
     repeat: 'Int',
     repeat_day_of_month: 'Int',
     start_date: 'timestamptz',
+    token_gifts: 'token_gifts',
+    token_gifts_aggregate: 'token_gifts_aggregate',
     updated_at: 'timestamp',
   },
   epochs_aggregate: {
