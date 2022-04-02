@@ -58,8 +58,14 @@ export const EditProfileModal = ({
       source={myProfile}
       submit={async params => {
         // skills is an array here but the backend expects a json encoded array
-        const fixedParams: Omit<typeof params, 'skills'> & { skills: string } =
-          { ...params, skills: JSON.stringify(params.skills) };
+        const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
+          skills: string;
+          website: string | null;
+        } = { ...params, skills: JSON.stringify(params.skills) };
+
+        if (fixedParams.website == '') {
+          fixedParams.website = null;
+        }
         try {
           await updateMyProfile(fixedParams);
           onClose();
