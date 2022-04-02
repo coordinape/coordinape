@@ -42,7 +42,18 @@ export const useApiWithProfile = () => {
 
   const updateMyProfile = useRecoilLoadCatch(
     () => async (params: ValueTypes['profiles_set_input']) => {
-      await mutations.updateProfile(params);
+      try {
+        await mutations.updateProfile(params);
+      } catch (err: any) {
+        if (err.response?.errors && err.response.errors.length > 0) {
+          // clean up the error if its our check error
+          if (err.response.errors[0].message.includes('valid_website')) {
+            throw 'provide a valid website starting with https:// or http://';
+          }
+          // rethrow it if it doesn't match
+        }
+        throw err;
+      }
       await fetchManifest();
     },
     []

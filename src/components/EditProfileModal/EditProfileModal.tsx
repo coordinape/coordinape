@@ -133,7 +133,7 @@ export const EditProfileModal = ({
             />
             <FormTextField
               {...fields.website}
-              placeholder="Enter link"
+              placeholder="https://website.com"
               label="Website"
             />
           </div>
