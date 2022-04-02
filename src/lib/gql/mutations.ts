@@ -333,9 +333,7 @@ export async function updateProfile(params: ValueTypes['profiles_set_input']) {
       {
         // This uses the hasura permissions / preloaded column to set the where
         where: {},
-        _set: {
-          ...params,
-        },
+        _set: { ...params },
       },
       {
         affected_rows: true,
@@ -343,4 +341,20 @@ export async function updateProfile(params: ValueTypes['profiles_set_input']) {
     ],
   });
   return update_profiles;
+}
+
+export async function updateUser(params: ValueTypes['UpdateUserInput']) {
+  const { updateUser } = await client.mutate({
+    updateUser: [
+      {
+        payload: {
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return updateUser;
 }

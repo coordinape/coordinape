@@ -2,7 +2,6 @@ import * as mutations from 'lib/gql/mutations';
 
 import { useApiBase } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
@@ -16,12 +15,9 @@ export const useApiWithSelectedCircle = () => {
 
   const updateMyUser = useRecoilLoadCatch(
     () => async (params: PutUsersParam) => {
-      await getApiService().updateMyUser(circleId, {
-        name: myUser.name,
-        bio: myUser.bio,
-        non_receiver: myUser.non_receiver,
-        non_giver: myUser.non_giver,
-        epoch_first_visit: myUser.epoch_first_visit,
+      await mutations.updateUser({
+        // TODO: this was using the local fields from myUser AND the params, but I have no idea why
+        circle_id: circleId,
         ...params,
       });
       await fetchManifest();
