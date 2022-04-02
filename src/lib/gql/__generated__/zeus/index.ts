@@ -155,6 +155,29 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | null;
   };
+  ['UpdateCircleInput']: {
+    alloc_text?: string | null;
+    auto_opt_out?: boolean | null;
+    circle_id: number;
+    default_opt_in?: boolean | null;
+    discord_webhook?: string | null;
+    min_vouches?: number | null;
+    name?: string | null;
+    nomination_days_limit?: number | null;
+    only_giver_vouch?: boolean | null;
+    team_sel_text?: string | null;
+    team_selection?: boolean | null;
+    token_name?: string | null;
+    update_webhook?: boolean | null;
+    vouching?: boolean | null;
+    vouching_text?: string | null;
+  };
+  ['UpdateCircleOutput']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean;
+    __typename?: boolean;
+  }>;
   ['UpdateCircleResponse']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -1649,6 +1672,10 @@ columns and relationships of "distributions" */
       ValueTypes['vaults']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateCircle?: [
+      { payload: ValueTypes['UpdateCircleInput'] },
+      ValueTypes['UpdateCircleOutput']
+    ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
       ValueTypes['UpdateTeammatesResponse']
@@ -4260,6 +4287,12 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
+  ['UpdateCircleOutput']: {
+    /** An object relationship */
+    circle: ModelTypes['circles'];
+    id: number;
+  };
   ['UpdateCircleResponse']: {
     /** An object relationship */
     circle: ModelTypes['circles'];
@@ -4714,6 +4747,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: ModelTypes['vaults'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateCircle?: ModelTypes['UpdateCircleOutput'];
     updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
@@ -5736,6 +5770,29 @@ export type GraphQLTypes = {
     _regex?: string;
     /** does the column match the given SQL regular expression */
     _similar?: string;
+  };
+  ['UpdateCircleInput']: {
+    alloc_text?: string;
+    auto_opt_out?: boolean;
+    circle_id: number;
+    default_opt_in?: boolean;
+    discord_webhook?: string;
+    min_vouches?: number;
+    name?: string;
+    nomination_days_limit?: number;
+    only_giver_vouch?: boolean;
+    team_sel_text?: string;
+    team_selection?: boolean;
+    token_name?: string;
+    update_webhook?: boolean;
+    vouching?: boolean;
+    vouching_text?: string;
+  };
+  ['UpdateCircleOutput']: {
+    __typename: 'UpdateCircleOutput';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
   };
   ['UpdateCircleResponse']: {
     __typename: 'UpdateCircleResponse';
@@ -6984,6 +7041,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateCircle?: GraphQLTypes['UpdateCircleOutput'];
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];

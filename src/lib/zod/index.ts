@@ -139,6 +139,27 @@ export const updateTeammatesInput = z
   })
   .strict();
 
+export const updateCircleInput = z
+
+  .object({
+    circle_id: z.number().positive(),
+    name: z.string().min(3).max(255).optional(),
+    alloc_text: z.string().max(5000).optional(),
+    auto_opt_out: z.boolean().optional(),
+    default_opt_in: z.boolean().optional(),
+    discord_webhook: z.string().url().optional().or(z.literal('')),
+    min_vouches: z.number().min(1).optional(),
+    nomination_days_limit: z.number().min(1).optional(),
+    only_giver_vouch: z.boolean().optional(),
+    team_sel_text: z.string().optional(),
+    team_selection: z.boolean().optional(),
+    token_name: z.string().max(255).optional(),
+    update_webhook: z.boolean().optional(),
+    vouching: z.boolean().optional(),
+    vouching_text: z.string().max(5000).optional(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),

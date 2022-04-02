@@ -519,6 +519,98 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateCircleInput: {
+    alloc_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    auto_opt_out: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    default_opt_in: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    discord_webhook: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    min_vouches: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    nomination_days_limit: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    only_giver_vouch: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_sel_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    team_selection: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    token_name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    update_webhook: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    vouching_text: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+  },
   UpdateTeammatesInput: {
     circle_id: {
       type: 'Int',
@@ -8989,6 +9081,14 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: false,
+      },
+    },
+    updateCircle: {
+      payload: {
+        type: 'UpdateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
       },
     },
     updateTeammates: {
@@ -21649,6 +21749,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  UpdateCircleOutput: {
+    circle: 'circles',
+    id: 'Int',
+  },
   UpdateCircleResponse: {
     circle: 'circles',
     id: 'Int',
@@ -22826,6 +22930,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateCircle: 'UpdateCircleOutput',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
