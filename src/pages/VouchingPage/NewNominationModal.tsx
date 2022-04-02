@@ -3,13 +3,12 @@ import { ethers } from 'ethers';
 import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import { Modal, makeStyles, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core';
 
 import { FormTextField } from 'components';
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { Form, Button } from 'ui';
+import { Form, Button, Modal } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   description: {
@@ -146,24 +145,11 @@ export const NewNominationModal = ({
   };
   console.log(errors);
   return (
-    <Modal
-      title="Nominate New Member"
-      open={visible}
-      onClose={onClose}
-      className={classes.modal}
-    >
+    <Modal title="Nominate New Member" open={visible} onClose={onClose}>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         className={clsx([classes['small']], classes.body)}
       >
-        <IconButton
-          className={classes.closeButton}
-          onClick={onClose}
-          aria-label="close"
-        >
-          <CloseIcon />
-        </IconButton>
-        <h3 className={classes.title}>{'Nominate New Member'}</h3>
         <p className={classes.description}>{nominateDescription}</p>
         <div className={classes.quadGrid}>
           <Controller
