@@ -11,31 +11,74 @@ import {
 } from '../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
 import {
-  createEpochInput,
+  updateEpochInput,
   composeHasuraActionRequestBody,
 } from '../../../src/lib/zod';
 
 Settings.defaultZone = 'utc';
 
 async function handler(request: VercelRequest, response: VercelResponse) {
+  const now = DateTime.now();
   const {
     input: { payload: input },
-  } = composeHasuraActionRequestBody(createEpochInput).parse(request.body);
-  const { circle_id, repeat, start_date, days } = input;
-  let repeat_day_of_month = 0;
+  } = composeHasuraActionRequestBody(updateEpochInput).parse(request.body);
+  const { circle_id, repeat, start_date, days, id, grant } = input;
   const end_date = start_date.plus({ days: days });
   if (DateTime.now() > end_date) {
     errorResponseWithStatusCode(
       response,
       {
-        message: `You cannot create an epoch that ends before now`,
+        message: `You cannot set an epoch that ends before now`,
+      },
+      422
+    );
+    return;
+  }
+  const {
+    epochs: [edittingEpoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: {
+          circle_id: { _eq: circle_id },
+          id: { _eq: id },
+          ended: { _eq: false },
+        },
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+        repeat: true,
+        repeat_day_of_month: true,
+      },
+    ],
+  });
+
+  if (!edittingEpoch) {
+    errorResponseWithStatusCode(
+      response,
+      {
+        message: `Epoch not found`,
       },
       422
     );
     return;
   }
 
-  if (repeat > 0) {
+  if (now >= DateTime.fromISO(edittingEpoch.start_date) && start_date >= now) {
+    errorResponseWithStatusCode(
+      response,
+      {
+        message: `You cannot change the start date to later than now when epoch has already started`,
+      },
+      422
+    );
+    return;
+  }
+  let repeat_day_of_month = edittingEpoch.repeat_day_of_month;
+  if (repeat > 0 && edittingEpoch.repeat === 0) {
     const repeatingEpoch = await getRepeatingEpoch(circle_id);
     if (repeatingEpoch) {
       errorResponseWithStatusCode(
@@ -60,7 +103,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   const overlappingEpoch = await getOverlappingEpoch(
     start_date,
     end_date,
-    circle_id
+    circle_id,
+    id
   );
   if (overlappingEpoch) {
     errorResponseWithStatusCode(
@@ -77,14 +121,18 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const { insert_epochs_one } = await adminClient.mutate({
-    insert_epochs_one: [
+  const { update_epochs_by_pk } = await adminClient.mutate({
+    update_epochs_by_pk: [
       {
-        object: {
-          ...input,
+        _set: {
+          start_date,
           end_date,
           repeat_day_of_month,
+          days,
+          repeat,
+          grant,
         },
+        pk_columns: { id },
       },
       {
         id: true,
@@ -92,7 +140,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     ],
   });
 
-  response.status(200).json(insert_epochs_one);
+  response.status(200).json(update_epochs_by_pk);
 }
 
 export default authCircleAdminMiddleware(handler);

@@ -197,6 +197,14 @@ export type ValueTypes = {
     id?: boolean;
     __typename?: boolean;
   }>;
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    id: number;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean;
     /** An object relationship */
@@ -4125,6 +4133,10 @@ columns and relationships of "distributions" */
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
+    ];
+    updateEpoch?: [
+      { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
@@ -9748,6 +9760,7 @@ export type ModelTypes = {
     circle: ModelTypes['circles'];
     id: number;
   };
+  ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateProfileResponse']: {
     id: number;
     /** An object relationship */
@@ -11571,6 +11584,7 @@ columns and relationships of "distributions" */
     insert_vouches_one?: ModelTypes['vouches'];
     logoutUser?: ModelTypes['LogoutResponse'];
     updateCircle?: ModelTypes['UpdateCircleOutput'];
+    updateEpoch?: ModelTypes['EpochResponse'];
     updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
@@ -14003,6 +14017,14 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     id: number;
+  };
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    id: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
@@ -17169,6 +17191,7 @@ columns and relationships of "distributions" */
     insert_vouches_one?: GraphQLTypes['vouches'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
     updateCircle?: GraphQLTypes['UpdateCircleOutput'];
+    updateEpoch?: GraphQLTypes['EpochResponse'];
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];
