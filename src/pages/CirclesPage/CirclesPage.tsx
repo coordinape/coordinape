@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
+import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -18,6 +19,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { getOrgData } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
+type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const CirclesPage = () => {
   const navigate = useNavigate();
@@ -48,6 +50,9 @@ export const CirclesPage = () => {
     });
   };
 
+  const isAdmin = (org: QueryResult['organizations'][0]) =>
+    org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
+
   if (query.isLoading || query.isIdle) return <LoadingModal visible />;
 
   return (
@@ -58,13 +63,15 @@ export const CirclesPage = () => {
             <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
               {org.name}
             </Text>
-            <Button
-              color="blue"
-              outlined
-              onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
-            >
-              Add Circle
-            </Button>
+            {isAdmin(org) && (
+              <Button
+                color="blue"
+                outlined
+                onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
+              >
+                Add Circle
+              </Button>
+            )}
           </Box>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
             {org.circles.map(circle => (
@@ -83,7 +90,6 @@ export const CirclesPage = () => {
 
 export default CirclesPage;
 
-type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
 const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
