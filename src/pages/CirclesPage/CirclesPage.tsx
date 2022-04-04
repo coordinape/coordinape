@@ -136,7 +136,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
-        '.hover-buttons': { visibility: 'hidden' },
+        '.hover-buttons': {
+          visibility: 'hidden',
+          '@sm': { visibility: 'visible' },
+        },
         '&:hover .hover-buttons': { visibility: 'visible' },
         ...(nonMember ? nonMemberPanelCss : {}),
       }}
@@ -148,6 +151,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           width: '100%',
           gap: '$md',
           alignItems: 'center',
+          '@sm': { gridTemplateColumns: '1fr 1fr' },
         }}
       >
         <Box>
@@ -170,7 +174,15 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             )}
           </Text>
         </Box>
-        <Box>
+        <Box
+          css={{
+            '@sm': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            },
+          }}
+        >
           {epoch && startDate && endDate ? (
             <>
               <Text css={{ fontSize: '$7', ...nonMemberCss }}>
@@ -187,12 +199,22 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             'No active or upcoming epochs'
           )}
         </Box>
-        <Box css={nonMember ? { color: '$placeholder' } : {}}>
-          <Box>
-            {!!nomineeCount &&
-              `${nomineeCount} Nominee${nomineeCount > 1 ? 's' : ''}`}
-          </Box>
-          <Box>{isCurrent && 'Allocation Period Open'}</Box>
+        <Box
+          css={{
+            '@sm': {
+              gridColumnEnd: 'span 2',
+              display: 'flex',
+              justifyContent: 'space-around',
+            },
+            ...(nonMember ? { color: '$placeholder' } : {}),
+          }}
+        >
+          {!!nomineeCount && (
+            <Box>
+              {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+            </Box>
+          )}
+          {isCurrent && <Box>Allocation Period Open</Box>}
         </Box>
         <Box
           className="hover-buttons"
@@ -201,6 +223,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             gap: '$sm',
             justifyContent: 'flex-end',
             flexWrap: 'wrap',
+            '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
           }}
         >
           {buttons.map(
