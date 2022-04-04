@@ -21,7 +21,7 @@ export const loginInput = z.object({
     },
     { message: 'Invalid message payload' }
   ),
-  hash: z.string().length(0),
+  hash: z.string(),
   signature: z.string().regex(PERSONAL_SIGN_REGEX),
 });
 

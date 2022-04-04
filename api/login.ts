@@ -2,20 +2,15 @@ import assert from 'assert';
 import { randomBytes, createHash } from 'crypto';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import {
-  bufferToHex,
-  fromRpcSig,
-  fromAscii,
-  ecrecover,
-  hashPersonalMessage,
-  toBuffer,
-  pubToAddress,
-} from 'ethereumjs-util';
 import { DateTime, Settings } from 'luxon';
 
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
-import { composeCrossClientAuthRequestBody, loginInput } from '../src/lib/zod';
+import {
+  parseInput,
+  verifyContractSignature,
+  verifySignature,
+} from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
@@ -24,7 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const input = parseInput(req);
 
     try {
-      const verificationResult = verifySignature(input);
+      const verificationResult = input.hash.length
+        ? await verifyContractSignature(input)
+        : verifySignature(input);
       if (!verificationResult) {
         return errorResponse(res, {
           message: 'invalid signature',
@@ -104,26 +101,3 @@ function generateTokenString(len = 40): string {
     return generateTokenString(len);
   return candidateString;
 }
-
-export function verifySignature(input: SignatureInput) {
-  // generate the message hash and split out the r, s, v params
-  const msgHash = hashPersonalMessage(toBuffer(fromAscii(input.data)));
-
-  const sig = fromRpcSig(input.signature);
-  // pass all data into ecrecover and verify the returned address matches
-  // the provided address.
-  const signerAddress = bufferToHex(
-    pubToAddress(ecrecover(msgHash, sig.v, sig.r, sig.s))
-  );
-  return signerAddress === input.address;
-}
-
-function parseInput(req: VercelRequest) {
-  const {
-    input: { payload: input },
-  } = composeCrossClientAuthRequestBody(loginInput).parse(req.body);
-
-  return input;
-}
-
-type SignatureInput = ReturnType<typeof parseInput>;
