@@ -12,7 +12,7 @@ import type { QueryEpoch } from './HistoryPage';
 type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
 export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const [tab, setTab] = useState(0);
-  const [shortPanelShow, setshortPanelShow] = useState(true);
+  const [showLess, setShowLess] = useState(true);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
@@ -30,6 +30,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         gap: '$md',
         ...css,
       }}
+      onClick={() => showLess && setShowLess(false)}
     >
       <Box
         css={{
@@ -46,7 +47,9 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           </Text>{' '}
           {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
-        <button onClick={() => setshortPanelShow(!shortPanelShow)}>
+        <button
+          onClick={event => (setShowLess(!showLess), event.stopPropagation())}
+        >
           <Text
             variant="formLabel"
             css={{
@@ -57,7 +60,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
               cursor: 'pointer',
             }}
           >
-            {shortPanelShow ? 'Show More' : 'Show Less'}
+            {showLess ? 'Show More' : 'Show Less'}
           </Text>
         </button>
       </Box>
@@ -71,7 +74,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           {totalAllocated} {tokenName}
         </Text>
       </Panel>
-      {shortPanelShow ? (
+      {showLess ? (
         <Panel
           nested
           css={{
