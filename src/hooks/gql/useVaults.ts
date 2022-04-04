@@ -1,6 +1,8 @@
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import { Awaited } from '../../../api-lib/ts4.5shim';
+
 export function useVaults(orgId: number) {
   return useQuery(
     ['vaults-for-org-', orgId],
@@ -29,3 +31,5 @@ export function useVaults(orgId: number) {
     { enabled: !!orgId }
   );
 }
+
+export type Vault = Awaited<ReturnType<typeof useVaults>>['data'];

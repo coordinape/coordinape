@@ -13,9 +13,12 @@ import { encodeCircleId } from 'lib/vaults';
 
 import { useDistributor, useApeSnackbar, useContracts } from 'hooks';
 
+import { Vault } from './gql/useVaults';
+
 export type SubmitDistribution = {
   amount: number;
-  vault: GraphQLTypes['vaults'];
+  vault: Vault;
+  // TODO: Convert this to use the correct type
   users: GraphQLTypes['users'][];
   circleId: number;
   epochId: number;
@@ -47,10 +50,10 @@ export function useSubmitDistribution() {
     }, {} as Record<string, number>);
 
     const denominator = FixedNumber.from(
-      BigNumber.from(10).pow(vault.decimals)
+      BigNumber.from(10).pow(vault[0].decimals)
     );
     const totalDistributionAmount = BigNumber.from(amount).mul(
-      BigNumber.from(10).pow(vault.decimals)
+      BigNumber.from(10).pow(vault[0].decimals)
     );
 
     const calculateClaimAmount = (amount: string) =>
@@ -74,7 +77,7 @@ export function useSubmitDistribution() {
 
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
-        .getVault(vault.vault_address)
+        .getVault(vault[0].vault_address)
         .vault();
 
       const distribution = createDistribution(
@@ -108,7 +111,7 @@ export function useSubmitDistribution() {
         claims: {
           data: claims,
         },
-        vault_id: Number(vault.id),
+        vault_id: Number(vault[0].id),
         distribution_json: JSON.stringify(distribution),
       };
 
@@ -116,7 +119,7 @@ export function useSubmitDistribution() {
       assert(response, 'Distribution was not saved.');
 
       await uploadEpochRoot(
-        vault.vault_address,
+        vault[0].vault_address,
         encodeCircleId(circleId),
         yVaultAddress.toString(),
         distribution.merkleRoot,
