@@ -13,12 +13,9 @@ import {
 } from 'ethereumjs-util';
 import { DateTime, Settings } from 'luxon';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
-import {
-  composeCrossClientAuthRequestBody,
-  loginInput,
-} from '../../../src/lib/zod';
+import { adminClient } from '../api-lib/gql/adminClient';
+import { errorResponse } from '../api-lib/HttpError';
+import { composeCrossClientAuthRequestBody, loginInput } from '../src/lib/zod';
 
 Settings.defaultZone = 'utc';
 
@@ -86,9 +83,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true },
         ],
       });
-    return res.status(200).json({ token: `${token?.id}|${tokenString}` });
 
-    console.error({ tokenString });
+    return res.status(200).json({ token: `${token?.id}|${tokenString}` });
   } catch (error: any) {
     errorResponse(res, error);
   }
