@@ -4,9 +4,10 @@ export type { VariantProps } from '@stitches/react';
 
 // import { colors } from 'ui/colors';
 
+// FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
-  sm: '(max-width: 900px)',
+  sm: '(max-width: 960px)',
   md: '(max-width: 1200px)',
   lg: '(max-width: 1800px)',
 } as const;

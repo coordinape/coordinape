@@ -34,63 +34,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  divider: {
-    alignSelf: 'stretch',
-    background: theme.colors.text,
-    opacity: 0.25,
-    margin: theme.spacing(2, 1),
-  },
-  subHeader: {
-    margin: theme.spacing(0.5, 0, 0.5, 5),
-    fontSize: 13,
-    lineHeight: 1.5,
-    fontWeight: 600,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '24px',
-      fontStyle: 'normal',
-      fontWeight: 700,
-      lineHeight: '30px',
-      color: theme.colors.text,
-      margin: 0,
-    },
-  },
-  link: {
-    position: 'relative',
-    margin: theme.spacing(0, 0, 0, 5),
-    padding: 0,
-    textAlign: 'left',
-    fontSize: 18,
-    lineHeight: 1.6,
-    color: theme.colors.text,
-    fontWeight: 300,
-    textDecoration: 'none',
-    backgroundColor: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    fontFamily: theme.typography.fontFamily,
-    '&:hover': {
-      color: theme.colors.black,
-    },
-    [theme.breakpoints.down('xs')]: {
-      margin: 0,
-      padding: '6px 0',
-      fontSize: 20,
-      color: theme.colors.text,
-      fontWeight: 'normal',
-    },
-  },
-  selectedLink: {
-    '&::before': {
-      content: '" "',
-      position: 'absolute',
-      top: '11px',
-      left: '-16px',
-      width: '8px',
-      height: '8px',
-      backgroundColor: theme.colors.red,
-      borderRadius: '50%',
-    },
-  },
 }));
 
 export const MyAvatarMenu = () => {
@@ -100,19 +43,11 @@ export const MyAvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <>
       <ApeAvatar
         profile={myProfile}
-        onClick={handleClick}
+        onClick={event => setAnchorEl(event.currentTarget)}
         className={
           !anchorEl
             ? classes.avatarButton
@@ -122,20 +57,12 @@ export const MyAvatarMenu = () => {
       <Hidden smDown>
         <Popover
           anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          classes={{
-            paper: classes.popover,
-          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          classes={{ paper: classes.popover }}
           id="my-avatar-popover"
-          onClose={handleClose}
+          onClose={() => setAnchorEl(null)}
           open={open}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <MenuNavigationLinks />
           <Link
@@ -144,9 +71,7 @@ export const MyAvatarMenu = () => {
               color: 'white',
               padding: '12px 40px',
               mt: '12px',
-              '&:hover': {
-                opacity: 0.8,
-              },
+              '&:hover': { opacity: 0.8 },
             }}
             href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
             target="_blank"
