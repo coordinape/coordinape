@@ -196,7 +196,12 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         </Box>
         <Box
           className="hover-buttons"
-          css={{ display: 'flex', gap: '$sm', justifyContent: 'flex-end' }}
+          css={{
+            display: 'flex',
+            gap: '$sm',
+            justifyContent: 'flex-end',
+            flexWrap: 'wrap',
+          }}
         >
           {buttons.map(
             ([path, label, hide]) =>
