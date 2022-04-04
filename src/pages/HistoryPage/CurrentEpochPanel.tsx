@@ -37,6 +37,8 @@ export const CurrentEpochPanel = ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        gap: '$md',
+        '@sm': { flexDirection: 'column' },
         ...css,
       }}
     >
@@ -48,7 +50,13 @@ export const CurrentEpochPanel = ({
           {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
-      <Box css={{ display: 'flex' }}>
+      <Box
+        css={{
+          display: 'flex',
+          gap: '$md',
+          '@sm': { flexDirection: 'column' },
+        }}
+      >
         {vouching && (
           <Minicard
             icon={Medal}
@@ -101,7 +109,6 @@ const Minicard = ({
     <Panel
       nested
       css={{
-        ml: '$md',
         minWidth: '280px',
         display: 'grid',
         gridTemplateColumns: '$lg 1fr',

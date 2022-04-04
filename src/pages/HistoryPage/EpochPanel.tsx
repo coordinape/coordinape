@@ -28,6 +28,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         display: 'grid',
         gridTemplateColumns: '23fr 15fr 62fr',
         gap: '$md',
+        '@sm': { display: 'flex' },
         ...css,
       }}
       onClick={() => showLess && setShowLess(false)}
