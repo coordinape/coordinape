@@ -10,6 +10,8 @@ export * from './Panel/Panel';
 export * from './SvgIcon/SvgIcon';
 export * from './Text/Text';
 export * from './TextField/TextField';
+export * from './FormLabel/FormLabel';
+export * from './TextArea/TextArea';
 
 // icons
 export * from './icons';

@@ -34,6 +34,14 @@ export const TextArea = styled('textarea', {
         boxSizing: 'border-box',
       },
     },
+    nominate: {
+      true: {
+        fontWeight: '$light',
+        fontSize: '$4',
+        lineHeight: '$base',
+        color: '$text',
+      },
+    },
   },
 });
 
