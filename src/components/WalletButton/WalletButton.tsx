@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     borderRadius: 8,
     boxShadow: 'none',
+    display: 'flex',
+    gap: theme.spacing(1),
+    backgroundColor: 'transparent',
   },
 }));
 
@@ -103,15 +106,10 @@ const ConnectedButton = ({
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        classes={{
-          paper: classes.popover,
-        }}
+        classes={{ paper: classes.popover }}
         onClose={() => setAnchorEl(undefined)}
         open={!!anchorEl}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         {onLogin && (
           <Button color="oldGray" size="small" onClick={onLogin}>
