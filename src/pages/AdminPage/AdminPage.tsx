@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
+import { makeStyles, Button, Typography } from '@material-ui/core';
 
 import {
   StaticTable,
@@ -16,11 +16,11 @@ import {
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation, useApiAdminCircle } from 'hooks';
-import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
+import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
-import { Box } from 'ui';
+import { Box, Button as UiButton, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { AdminCircleModal } from './AdminCircleModal';
@@ -246,21 +246,23 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
     <div className={classes.tableActions}>
       {onEdit ? (
-        <IconButton onClick={onEdit} size="small">
-          <EditIcon />
-        </IconButton>
+        <UiButton size="small" onClick={onEdit} color="blue">
+          Edit
+        </UiButton>
       ) : (
         <div className={classes.actionSpacer} />
       )}
-
-      {onDelete ? (
-        <IconButton
-          onClick={onDelete}
-          className={classes.errorColor}
-          size="small"
+      <Text
+        css={{
+          color: '$lightBlue',
+        }}
         >
-          <DeleteIcon />
-        </IconButton>
+        |
+      </Text>
+      {onDelete ? (
+        <UiButton size="small" onClick={onDelete} color="blue">
+          Delete
+        </UiButton>
       ) : (
         <div className={classes.actionSpacer} />
       )}
