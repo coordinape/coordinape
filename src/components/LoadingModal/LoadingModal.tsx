@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 export const LoadingModal = (props: {
   visible: boolean;
   onClose?: () => void;
-  text: string;
+  text?: string;
 }) => {
   const classes = useStyles();
   const { onClose, text, visible } = props;
