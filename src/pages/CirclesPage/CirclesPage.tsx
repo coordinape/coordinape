@@ -141,8 +141,13 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           '@sm': { visibility: 'visible' },
         },
         '&:hover .hover-buttons': { visibility: 'visible' },
-        ...(nonMember ? nonMemberPanelCss : {}),
+        ...(nonMember
+          ? nonMemberPanelCss
+          : {
+              cursor: 'pointer',
+            }),
       }}
+      onClick={() => !nonMember && onButtonClick(circle.id, paths.history)}
     >
       <Box
         css={{
@@ -229,7 +234,9 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                   key={label}
                   outlined
                   color="teal"
-                  onClick={() => onButtonClick(circle.id, path)}
+                  onClick={event => (
+                    onButtonClick(circle.id, path), event.stopPropagation()
+                  )}
                 >
                   {label}
                 </Button>
