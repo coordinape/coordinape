@@ -24,6 +24,9 @@ export const Text = styled('span', {
       default: {
         color: '$text',
       },
+      secondary: { 
+        color: '$secondary'
+      },
       red: {
         color: '$red',
       },
