@@ -7,6 +7,9 @@ export const Button = styled('button', {
   '& img': {
     paddingRight: '$sm',
   },
+  '& svg': {
+    margin: '$sm',
+  },
   px: '$lg',
   py: '$sm',
   display: 'flex',
