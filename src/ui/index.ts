@@ -11,6 +11,7 @@ export * from './Panel/Panel';
 export * from './SvgIcon/SvgIcon';
 export * from './Text/Text';
 export * from './TextField/TextField';
+export * from './Tooltip/Tooltip';
 
 // icons
 export * from './icons';
