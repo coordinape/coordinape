@@ -15,6 +15,7 @@ import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField, LoadingModal } from 'components';
 import { useSubmitDistribution, SubmitDistribution } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
+import { usePreviousDistributions } from 'hooks/gql/usePreviousDistributions';
 import { useVaults } from 'hooks/gql/useVaults';
 import * as paths from 'routes/paths';
 
@@ -46,6 +47,10 @@ function DistributePage() {
   const currentOrg = useCurrentOrg();
   const submitDistribution = useSubmitDistribution();
   const currentUser = useCurrentUserForEpoch(Number(epochId));
+  const {
+    data: previousDistribution,
+    isLoading: loadingPreviousDistributions,
+  } = usePreviousDistributions(Number(epochId));
   const { isLoading: vaultLoading, data: vaults } = useVaults(
     currentOrg.data?.id as number
   );
@@ -57,7 +62,10 @@ function DistributePage() {
   } = useGetAllocations(Number(epochId));
 
   const isLoading =
-    isAllocationsLoading || currentUser.isLoading || vaultLoading;
+    isAllocationsLoading ||
+    currentUser.isLoading ||
+    vaultLoading ||
+    loadingPreviousDistributions;
 
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
@@ -84,6 +92,7 @@ function DistributePage() {
     const submitDTO: SubmitDistribution = {
       amount: value.amount,
       vault: [vault],
+      previousDistribution,
       users: users as GraphQLTypes['users'][],
       circleId: circle.id,
       epochId: Number(epochId),

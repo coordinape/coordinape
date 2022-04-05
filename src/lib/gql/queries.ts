@@ -1,6 +1,8 @@
 import { order_by } from './__generated__/zeus';
 import { client } from './client';
 
+import { Awaited } from 'types/shim';
+
 export const getCurrentEpoch = async (
   circle_id: number
 ): Promise<typeof currentEpoch | undefined> => {
@@ -41,3 +43,7 @@ export const getPreviousDistribution = async (
   });
   return previousDistribution;
 };
+
+export type PreviousDistribution = Awaited<
+  ReturnType<typeof getPreviousDistribution>
+>;

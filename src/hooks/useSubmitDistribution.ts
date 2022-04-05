@@ -6,7 +6,7 @@ import {
   useSaveEpochDistribution,
   useUpdateDistribution,
 } from 'lib/gql/mutations';
-import { getPreviousDistribution } from 'lib/gql/queries';
+import { PreviousDistribution } from 'lib/gql/queries';
 import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
 import { encodeCircleId } from 'lib/vaults';
@@ -18,6 +18,7 @@ import { Vault } from './gql/useVaults';
 export type SubmitDistribution = {
   amount: number;
   vault: Vault;
+  previousDistribution: PreviousDistribution;
   // TODO: Convert this to use the correct type
   users: GraphQLTypes['users'][];
   circleId: number;
@@ -38,6 +39,7 @@ export function useSubmitDistribution() {
     circleId,
     users,
     epochId,
+    previousDistribution,
   }: SubmitDistribution) => {
     assert(vault, 'No vault is found');
     const gifts = users.reduce((userList, user) => {
@@ -72,9 +74,6 @@ export function useSubmitDistribution() {
     };
 
     try {
-      const query = await getPreviousDistribution(epochId);
-      const previousDistribution = query?.distribution_json;
-
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
         .getVault(vault[0].vault_address)
@@ -83,7 +82,8 @@ export function useSubmitDistribution() {
       const distribution = createDistribution(
         gifts,
         totalDistributionAmount,
-        previousDistribution && JSON.parse(previousDistribution)
+        previousDistribution &&
+          JSON.parse(previousDistribution.distribution_json)
       );
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
@@ -95,7 +95,9 @@ export function useSubmitDistribution() {
           ? calculateNewAmount(
               claim.amount,
               address,
-              JSON.parse(previousDistribution) as MerkleDistributorInfo
+              JSON.parse(
+                previousDistribution.distribution_json
+              ) as MerkleDistributorInfo
             )
           : calculateClaimAmount(claim.amount),
         proof: claim.proof.toString(),
