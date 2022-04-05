@@ -1,6 +1,4 @@
 import { ethers } from 'ethers';
-// TODO: Imports are crazy for esrun, eventually set up a build system.
-// Probably with monorepo and support other packages.
 import iti from 'itiriri';
 
 import '../api-lib/node-fetch-shim';
