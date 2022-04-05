@@ -3,19 +3,18 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { makeStyles, Button, Typography } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
 import {
   StaticTable,
-  NoticeBox,
   ApeAvatar,
   ActionDialog,
   OrganizationHeader,
-  ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation, useApiAdminCircle } from 'hooks';
+import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
@@ -26,8 +25,19 @@ import { shortenAddress } from 'utils';
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
+import {
+  AddContributorButton,
+  CreateEpochButton,
+  EpochsTableHeader,
+  renderEpochCard,
+  RenderEpochStatus,
+  renderUserCard,
+  SettingsIconButton,
+  UsersTableHeader,
+} from './CircleComponent';
 
 import { IUser, ITableColumn, IEpoch } from 'types';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -114,6 +124,9 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     '&::placeholder': {
       color: theme.colors.text,
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
     },
   },
   twoLineCell: {
@@ -206,6 +219,9 @@ const englishCollator = new Intl.Collator('en-u-kf-upper');
 
 const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
+
+  const {isMobile} = useMobileDetect();
+
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
@@ -256,7 +272,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
         css={{
           color: '$lightBlue',
         }}
-        >
+      >
         |
       </Text>
       {onDelete ? (
@@ -285,14 +301,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       <span className={classes.twoLineCellSubtitle}>{epochDetail(e)}</span>
     </div>
   );
-  const RenderEpochStatus = (e: IEpoch) =>
-    e.ended ? (
-      <NoticeBox variant="error">Complete</NoticeBox>
-    ) : e.started ? (
-      <NoticeBox variant="success">Current</NoticeBox>
-    ) : (
-      <NoticeBox variant="warning">Upcoming</NoticeBox>
-    );
+
   const RenderEpochDates = (e: IEpoch) => (
     <div className={classes.twoLineCell}>
       <span className={classes.twoLineCellTitle}>
@@ -463,38 +472,25 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
     []
   );
 
-  interface IconProp {
-    toolTipMessage: string;
-    link: string;
-  }
-
-  const InfoIconText = ({ toolTipMessage, link }: IconProp): JSX.Element => (
-    <Typography color="inherit">
-      {toolTipMessage}
-      <a href={link} target="_blank" rel="noreferrer">
-        {' '}
-        Learn More
-      </a>
-    </Typography>
-  );
-
   return (
     <div className={classes.root}>
+      {' '}
       {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>
           <div className={classes.actionBar}>
-            <div className={classes.actionBarInner}>
-              <Button
-                variant="contained"
-                size="small"
-                startIcon={<EditIcon />}
-                onClick={() => setEditCircle(true)}
-              >
-                Settings
-              </Button>
-              {/* <Button
+            {!isMobile && (
+              <div className={classes.actionBarInner}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  startIcon={<EditIcon />}
+                  onClick={() => setEditCircle(true)}
+                >
+                  Settings
+                </Button>
+                {/* <Button
               variant="contained"
               color="secondary"
               size="small"
@@ -510,63 +506,29 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             >
               Export Member CSV
             </Button> */}
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                endIcon={
-                  <ApeInfoTooltip
-                    iconTheme={classes.infoIcon}
-                    enterNextDelay={1}
-                    placement="bottom"
-                    leaveDelay={500}
-                  >
-                    <InfoIconText
-                      link="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
-                      toolTipMessage="A member of a circle that can receive GIVE or kudos for contributions performed."
-                    />
-                  </ApeInfoTooltip>
-                }
-                onClick={() => setNewUser(true)}
-              >
-                Add Contributor
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                endIcon={
-                  <ApeInfoTooltip
-                    iconTheme={classes.infoIcon}
-                    enterNextDelay={1}
-                    placement="bottom"
-                    leaveDelay={500}
-                  >
-                    <InfoIconText
-                      link=" https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
-                      toolTipMessage="An Epoch is a period of time where circle members contribute value & allocate GIVE tokens to one another."
-                    />
-                  </ApeInfoTooltip>
-                }
-                onClick={() => setNewEpoch(true)}
-              >
-                Create Epoch
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                startIcon={<PlusCircleIcon />}
-                onClick={() => navigate(paths.getCreateCirclePath())}
-              >
-                Add Circle
-              </Button>
-            </div>
+
+                <AddContributorButton onClick={() => setNewUser(true)} />
+                <CreateEpochButton onClick={() => setNewEpoch(true)} />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  startIcon={<PlusCircleIcon />}
+                  onClick={() => navigate(paths.getCreateCirclePath())}
+                >
+                  Add Circle
+                </Button>
+              </div>
+            )}
+            {isMobile && <SettingsIconButton onClick={() => {}} />}
           </div>
         </div>
+        {isMobile && <EpochsTableHeader onClick={() => setNewEpoch(true)} />}
         <StaticTable
           className={classes.epochsTable}
           columns={epochColumns}
+          renderSingleColumn={renderEpochCard}
+          singleColumn={isMobile}
           data={epochs}
           perPage={6}
           placeholder={
@@ -586,6 +548,8 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             </>
           }
         />
+
+        {isMobile && <UsersTableHeader onClick={() => setNewUser(true)} />}
         <div className={classes.userActionBar}>
           <input
             className={classes.searchInput}
@@ -594,8 +558,11 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             value={keyword}
           />
         </div>
+
         <StaticTable
           columns={userColumns}
+          singleColumn={isMobile}
+          renderSingleColumn={renderUserCard}
           data={visibleUsers}
           perPage={15}
           filter={filterUser}
@@ -649,7 +616,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
         You’ll need to add your teammates to your circle and schedule an epoch
         before you can start allocating GIVE.
       </ActionDialog>
-
       <ActionDialog
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
@@ -664,7 +630,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             : undefined
         }
       />
-
       <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
