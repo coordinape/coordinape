@@ -16,6 +16,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.58",
     "@material-ui/pickers": "3.3.10",
+    "@radix-ui/react-avatar": "^0.1.4",
     "@radix-ui/react-dialog": "^0.1.7",
     "@radix-ui/react-hover-card": "^0.1.5",
     "@radix-ui/react-icons": "^1.1.0",
