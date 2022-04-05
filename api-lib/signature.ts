@@ -46,6 +46,7 @@ const eip1271WorkingAbi = [
     ],
     name: 'isValidSignature',
     outputs: [
+      // returns 0x20c13b0b on success
       {
         name: 'magicValue',
         type: 'bytes4',
@@ -58,6 +59,7 @@ const eip1271WorkingAbi = [
 ];
 const eip1271FinalAbi = [
   // finalized interface
+  // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1271.md
   {
     constant: true,
     inputs: [
@@ -72,6 +74,7 @@ const eip1271FinalAbi = [
     ],
     name: 'isValidSignature',
     outputs: [
+      // returns 0x1626ba7e on success
       {
         name: 'magicValue',
         type: 'bytes4',
@@ -89,6 +92,9 @@ export async function verifyContractSignature(input: SignatureInput) {
     const magicValue = '0x20c13b0b';
     const instance = new ethers.Contract(address, eip1271WorkingAbi, provider);
     const result = await instance.isValidSignature(hash, signature);
+    // Logging this for informational purposes in case this branch is never
+    // actually used anymore.
+    errorLog('Legacy validation resolved');
     return result === magicValue;
   } catch (e) {
     errorLog(
@@ -104,14 +110,15 @@ export async function verifyContractSignature(input: SignatureInput) {
 }
 
 export function verifySignature(input: SignatureInput) {
+  const { data, signature, address } = input;
   // generate the message hash and split out the r, s, v params
-  const msgHash = hashPersonalMessage(toBuffer(fromAscii(input.data)));
+  const msgHash = hashPersonalMessage(toBuffer(fromAscii(data)));
 
-  const sig = fromRpcSig(input.signature);
+  const sig = fromRpcSig(signature);
   // pass all data into ecrecover and verify the returned address matches
   // the provided address.
   const signerAddress = bufferToHex(
     pubToAddress(ecrecover(msgHash, sig.v, sig.r, sig.s))
   );
-  return signerAddress === input.address;
+  return signerAddress === address;
 }
