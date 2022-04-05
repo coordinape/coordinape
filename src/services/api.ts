@@ -5,17 +5,13 @@ import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import {
-  IApiCircle,
   IApiTokenGift,
   IApiProfile,
   IApiUser,
   IApiEpoch,
   IApiLogin,
   IApiManifest,
-  PostProfileParam,
   PostTokenGiftsParam,
-  PutCirclesParam,
-  PutUsersParam,
   UpdateCreateEpochParam,
   IApiFullCircle,
 } from 'types';
@@ -91,28 +87,6 @@ export class APIService {
     return (await this.axios.get(`/v2/profile/${address}`)).data;
   };
 
-  updateProfile = async (params: PostProfileParam): Promise<IApiProfile> => {
-    const data = JSON.stringify(params);
-    const response = await this.axios.post(`/v2/profile`, {
-      data,
-    });
-    return response.data;
-  };
-
-  putCircles = async (
-    circleId: number,
-    params: PutCirclesParam
-  ): Promise<IApiCircle> => {
-    const data = JSON.stringify(params);
-    const response = await this.axios.put(
-      `/v2/${circleId}/admin/circles/${circleId}`,
-      {
-        data,
-      }
-    );
-    return response.data as IApiCircle;
-  };
-
   createEpoch = async (
     circleId: number,
     params: UpdateCreateEpochParam
@@ -136,33 +110,6 @@ export class APIService {
       }
     );
     return response.data as IApiEpoch;
-  };
-
-  updateMyUser = async (
-    circleId: number,
-    params: PutUsersParam
-  ): Promise<IApiUser> => {
-    const response = await this.axios.put(`/v2/${circleId}/users`, {
-      data: JSON.stringify(params),
-    });
-    return response.data;
-  };
-
-  deleteUser = async (circleId: number, address: string): Promise<IApiUser> => {
-    const response = await this.axios.delete(
-      `/v2/${circleId}/admin/users/${address}`
-    );
-    return response.data;
-  };
-
-  postTeammates = async (
-    circleId: number,
-    teammates: number[]
-  ): Promise<IApiUser & { pending_sent_gifts: IApiTokenGift[] }> => {
-    const response = await this.axios.post(`/v2/${circleId}/teammates`, {
-      data: JSON.stringify({ teammates: teammates }),
-    });
-    return response.data;
   };
 
   postTokenGifts = async (

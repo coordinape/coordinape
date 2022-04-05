@@ -1,4 +1,5 @@
 import iti from 'itiriri';
+import * as mutations from 'lib/gql/mutations';
 import isEqual from 'lodash/isEqual';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -138,7 +139,7 @@ export const useAllocation = (circleId: number) => {
 
   const saveTeammates = useRecoilLoadCatch(
     () => async () => {
-      await getApiService().postTeammates(
+      await mutations.updateTeammates(
         myUser.circle_id,
         localTeammates.map(u => u.id)
       );

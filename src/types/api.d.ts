@@ -1,14 +1,3 @@
-export interface PostProfileParam {
-  bio?: string;
-  skills?: string[];
-  twitter_username?: string;
-  github_username?: string;
-  telegram_username?: string;
-  discord_username?: string;
-  medium_username?: string;
-  website?: string;
-}
-
 export interface PostTokenGiftsParam {
   tokens: number;
   recipient_id: number;
@@ -41,27 +30,6 @@ export interface PutUsersParam {
   epoch_first_visit?: boolean;
   non_receiver?: boolean;
   non_giver?: boolean;
-}
-
-export interface PostCirclesParam {
-  name: string;
-}
-
-export interface PutCirclesParam {
-  name: string;
-  vouching: boolean;
-  token_name: string;
-  min_vouches: number;
-  team_sel_text?: string;
-  nomination_days_limit: number;
-  alloc_text?: string;
-  discord_webhook?: string;
-  update_webhook: number;
-  default_opt_in: boolean;
-  vouching_text?: string;
-  only_giver_vouch: boolean;
-  team_selection: boolean;
-  auto_opt_out: boolean;
 }
 
 export interface CreateCircleParam {

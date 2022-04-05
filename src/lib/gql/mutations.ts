@@ -9,17 +9,6 @@ import {
 import { $, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-export const updateProfile = async (
-  id: number,
-  profile: ValueTypes['profiles_set_input']
-) =>
-  client.mutate({
-    update_profiles_by_pk: [
-      { set: profile, pk_columns: { id } },
-      { id: true, admin_view: true },
-    ],
-  });
-
 export const updateProfileAvatar = async (image_data_base64: string) =>
   client.mutate(
     {
@@ -291,4 +280,81 @@ export async function deleteEpoch(circleId: number, epochId: number) {
     ],
   });
   return deleteEpoch;
+}
+
+export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
+  const { updateCircle } = await client.mutate({
+    updateCircle: [
+      {
+        payload: { ...params },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return updateCircle;
+}
+
+export async function updateTeammates(circleId: number, teammates: number[]) {
+  const { updateTeammates } = await client.mutate({
+    updateTeammates: [
+      {
+        payload: { circle_id: circleId, teammates: teammates },
+      },
+      {
+        user_id: true,
+      },
+    ],
+  });
+  return updateTeammates;
+}
+
+export async function deleteUser(circleId: number, address: string) {
+  const { deleteUser } = await client.mutate({
+    deleteUser: [
+      {
+        payload: {
+          circle_id: circleId,
+          address: address,
+        },
+      },
+      {
+        success: true,
+      },
+    ],
+  });
+  return deleteUser;
+}
+
+export async function updateProfile(params: ValueTypes['profiles_set_input']) {
+  const { update_profiles } = await client.mutate({
+    update_profiles: [
+      {
+        // This uses the hasura permissions / preloaded column to set the where
+        where: {},
+        _set: { ...params },
+      },
+      {
+        affected_rows: true,
+      },
+    ],
+  });
+  return update_profiles;
+}
+
+export async function updateUser(params: ValueTypes['UpdateUserInput']) {
+  const { updateUser } = await client.mutate({
+    updateUser: [
+      {
+        payload: {
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return updateUser;
 }
