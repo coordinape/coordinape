@@ -1,11 +1,8 @@
 import { ethers } from 'ethers';
 // TODO: Imports are crazy for esrun, eventually set up a build system.
 // Probably with monorepo and support other packages.
-import fakerTyped from 'faker/locale/en';
-import fakerEn from 'faker/locale/en.js';
-const faker = fakerEn as typeof fakerTyped;
-import itiriri from 'itiriri';
-const iti = (itiriri as unknown as { default: typeof itiriri }).default;
+import faker from 'faker';
+import iti from 'itiriri';
 import { DateTime, Duration, Interval } from 'luxon';
 
 import '../api-lib/node-fetch-shim';
