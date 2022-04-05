@@ -42,6 +42,16 @@ export const Button = styled('button', {
           backgroundColor: 'transparent',
         },
       },
+      blue: {
+        padding: '$xs',
+        backgroundColor: 'transparent',
+        color: '$lightBlue',
+        '&:hover': {
+          backgroundColor: 'transparent',
+          color: '$darkBlue',
+          textDecoration: 'underline',
+        },
+      },
     },
     size: {
       large: {
