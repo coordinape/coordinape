@@ -42,6 +42,7 @@ export const MainHeader = () => {
     <Box
       css={{
         px: '$1xl',
+        pt: '9px', // manual offset to align breadcrumb
         height: '80px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -56,10 +57,27 @@ export const MainHeader = () => {
       />
       {hasCircles && <TopLevelLinks links={mainLinks} />}
 
-      <Box css={{ color: '$gray400', mx: '$md', flex: '1 1 0' }}>
-        {breadcrumb}
+      <Box
+        css={{
+          display: 'flex',
+          flexGrow: 1,
+          justifyContent: 'flex-end',
+          position: 'relative',
+          top: '-7px', // half of breadcrumb line-height
+        }}
+      >
+        {inCircle && (
+          <Box>
+            <Box css={{ color: '$gray400', ml: '$md', lineHeight: '14px' }}>
+              {breadcrumb}
+            </Box>
+
+            <Suspense fallback={null}>
+              <CircleNav />
+            </Suspense>
+          </Box>
+        )}
       </Box>
-      <Suspense fallback={null}>{inCircle && <CircleNav />}</Suspense>
       <Suspense fallback={null}>
         <ReceiveInfo />
       </Suspense>
@@ -254,10 +272,7 @@ export const TopLevelLinks = ({
   return (
     <Box
       css={{
-        justifySelf: 'stretch',
         display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
         '@sm': {
           alignItems: 'flex-start',
           flexDirection: 'column',
