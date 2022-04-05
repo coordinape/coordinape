@@ -19,7 +19,7 @@ import {
   useWalletAuth,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { paths } from 'routes/paths';
+import { circleSpecificPaths, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Divider } from 'ui';
 
 const mainLinks = [
@@ -31,8 +31,7 @@ export const MainHeader = () => {
   const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle =
-    circle && ![paths.vaults, paths.circles].includes(location.pathname);
+  const inCircle = circle && circleSpecificPaths.includes(location.pathname);
 
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
@@ -56,6 +55,7 @@ export const MainHeader = () => {
         src="/svgs/logo/logo.svg"
       />
       {hasCircles && <TopLevelLinks links={mainLinks} />}
+
       <Box css={{ color: '$gray400', mx: '$md', flex: '1 1 0' }}>
         {breadcrumb}
       </Box>

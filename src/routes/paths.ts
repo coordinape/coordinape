@@ -1,3 +1,5 @@
+import at from 'lodash/at';
+
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
@@ -33,22 +35,35 @@ const withSearchParams = (
     : path;
 
 export const paths = {
-  home: '/',
+  adminCircles: '/admin/circles',
   allocation: '/allocation',
-  team: '/team',
+  circles: '/circles',
+  connectIntegration: '/connect-integration',
+  createCircle: APP_PATH_CREATE_CIRCLE,
+  developers: '/developers',
   epoch: '/epoch',
   give: '/give',
-  map: '/map',
-  vouching: '/vouching',
-  developers: '/developers',
   history: '/history',
+  home: '/',
+  map: '/map',
+  team: '/team',
   vaults: '/admin/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
-  adminCircles: '/admin/circles',
-  connectIntegration: '/connect-integration',
-  circles: '/circles',
-  createCircle: APP_PATH_CREATE_CIRCLE,
+  vouching: '/vouching',
 };
+
+const circleSpecificPathKeys: (keyof typeof paths)[] = [
+  'adminCircles',
+  'allocation',
+  'epoch',
+  'give',
+  'history',
+  'map',
+  'team',
+  'vouching',
+];
+
+export const circleSpecificPaths = at(paths, circleSpecificPathKeys);
 
 // these getters for static paths are deprecated -- use paths above instead
 export const getHomePath = () => paths.home;
