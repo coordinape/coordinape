@@ -4,23 +4,26 @@ import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
 
-import {
-  ReceiveInfo,
-  MyAvatarMenu,
-  MenuNavigationLinks,
-  WalletButton,
-} from 'components';
+import { ReceiveInfo, MyAvatarMenu, NewApeAvatar } from 'components';
+import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
+import { useSetWalletModalOpen } from 'recoilState';
 import {
   rSelectedCircle,
+  useMyProfile,
   useSelectedCircle,
-  useWalletAuth,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { circleSpecificPaths, paths } from 'routes/paths';
-import { Box, IconButton, Link, Image, Divider } from 'ui';
+import {
+  circleSpecificPaths,
+  EXTERNAL_URL_DOCS,
+  getProfilePath,
+  paths,
+} from 'routes/paths';
+import { Box, IconButton, Link, Image, Button } from 'ui';
+import { shortenAddress } from 'utils';
 
 const mainLinks = [
   [paths.circles, 'Circles'],
@@ -28,6 +31,7 @@ const mainLinks = [
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
+  const { address } = useWalletStatus();
   const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
@@ -36,7 +40,11 @@ export const MainHeader = () => {
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
-    return <MobileHeader breadcrumb={breadcrumb} />;
+    return (
+      <Suspense fallback={null}>
+        <MobileHeader inCircle={!!inCircle} breadcrumb={breadcrumb} />
+      </Suspense>
+    );
 
   return (
     <Box
@@ -81,7 +89,7 @@ export const MainHeader = () => {
       <Suspense fallback={null}>
         <ReceiveInfo />
       </Suspense>
-      <WalletButton />
+      {!address && <ConnectButton />}
       <Suspense fallback={null}>
         <MyAvatarMenu />
       </Suspense>
@@ -89,10 +97,31 @@ export const MainHeader = () => {
   );
 };
 
-const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
+const ConnectButton = () => {
+  const setWalletModalOpen = useSetWalletModalOpen();
+
+  return (
+    <Button
+      color="oldGray"
+      size="small"
+      onClick={() => setWalletModalOpen(true)}
+    >
+      Connect your wallet
+    </Button>
+  );
+};
+
+const MobileHeader = ({
+  breadcrumb,
+  inCircle,
+}: {
+  breadcrumb: string;
+  inCircle: boolean;
+}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { address } = useWalletAuth();
+  const { icon, address, logout } = useWalletStatus();
+  const myProfile = useMyProfile();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -103,7 +132,7 @@ const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
   }, [address]);
 
   const menuWalletButton = !address ? (
-    <WalletButton />
+    <ConnectButton />
   ) : (
     <IconButton
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -159,41 +188,80 @@ const MobileHeader = ({ breadcrumb }: { breadcrumb: string }) => {
             }}
           >
             <Box css={{ pb: '$md' }}>
-              <Suspense fallback={<span />}>
-                <TopLevelLinks links={mainLinks} />
-                <Box css={{ margin: 0, marginLeft: '1rem', color: '$gray400' }}>
-                  {breadcrumb}
+              <TopLevelLinks links={mainLinks} />
+              {inCircle && (
+                <>
+                  <Box
+                    css={{ margin: 0, marginLeft: '1rem', color: '$gray400' }}
+                  >
+                    {breadcrumb}
+                  </Box>
+                  <Suspense fallback={<span />}>
+                    <CircleNav />
+                  </Suspense>
+                </>
+              )}
+              <Box
+                css={{
+                  '> *': {
+                    mx: '$md',
+                    py: '$xs',
+                    fontSize: '$6',
+                    color: '$text',
+                  },
+                }}
+              >
+                <Link
+                  href={EXTERNAL_URL_DOCS}
+                  target="_blank"
+                  css={{ display: 'block' }}
+                >
+                  Docs
+                </Link>
+                <Link
+                  as={NavLink}
+                  to={getProfilePath({ address: 'me' })}
+                  css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
+                >
+                  <Box
+                    css={{
+                      width: '$lg',
+                      height: '$lg',
+                      '> *': {
+                        width: '100% !important',
+                        height: '100% !important',
+                      },
+                    }}
+                  >
+                    <NewApeAvatar path={myProfile.avatar} />
+                  </Box>
+                  My Profile
+                </Link>
+                <Box
+                  css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
+                >
+                  <Box
+                    css={{
+                      display: 'flex',
+                      width: '$lg',
+                      height: '$lg',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {icon}
+                  </Box>
+                  {address && shortenAddress(address)}
                 </Box>
-                <CircleNav />
-              </Suspense>
-            </Box>
-            <Divider />
-            <Box css={{ pt: '$lg' }} />
-            <Box
-              css={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '$sm',
-              }}
-            >
-              <Suspense fallback={null}>
-                <Box>
-                  <MyAvatarMenu />
-                </Box>
-              </Suspense>
-              <Box>
-                <WalletButton />
+                {address && (
+                  <Link
+                    css={{ cursor: 'pointer', display: 'block' }}
+                    onClick={logout}
+                  >
+                    Log Out
+                  </Link>
+                )}
               </Box>
-            </Box>
-            <Box
-              css={{
-                display: 'flex',
-                flexDirection: 'column',
-                px: '$md',
-                py: '$lg',
-              }}
-            >
-              <MenuNavigationLinks />
             </Box>
           </Box>
         </Box>

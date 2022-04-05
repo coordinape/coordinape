@@ -93,10 +93,6 @@ export interface INavItem {
   subItems?: INavItem[];
 }
 
-const NAV_ITEM_PROFILE = {
-  path: getProfilePath({ address: 'me' }),
-  label: 'My Profile',
-};
 const NAV_ITEM_LANDING_PAGE = {
   path: EXTERNAL_URL_LANDING_PAGE,
   label: 'coordinape.com',
@@ -117,11 +113,6 @@ const NAV_ITEM_DOCS = {
   label: 'Docs',
   isExternal: true,
 };
-
-export const getMenuNavigation = (): INavItem[] => [
-  NAV_ITEM_PROFILE,
-  NAV_ITEM_DOCS,
-];
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,
