@@ -161,17 +161,13 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
             <Torso
               css={{ height: 12, width: 12, mr: '$xs' }}
-              color={
-                role === 1 ? 'blue' : role === 0 ? 'primary' : 'placeholder'
-              }
+              color={role ? 'primary' : 'placeholder'}
             />
-            {role === 1 ? (
-              <Text color="blue">Circle Admin</Text>
-            ) : role === 0 ? (
-              'Circle Member'
-            ) : (
-              'Non-Member'
-            )}
+            {role === 1
+              ? 'Circle Admin'
+              : role === 0
+              ? 'Circle Member'
+              : 'Non-Member'}
           </Text>
         </Box>
         <Box
