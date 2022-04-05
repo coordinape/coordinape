@@ -32,7 +32,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
           circle: {
             organization: {
+              id: true,
               name: true,
+              telegram_id: true,
             },
             id: true,
             name: true,
@@ -43,7 +45,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             __alias: {
               optOuts: {
                 users_aggregate: [
-                  { where: { non_receiver: { _eq: true } } },
+                  {
+                    where: {
+                      non_receiver: { _eq: true },
+                      deleted_at: { _is_null: true },
+                    },
+                  },
                   {
                     aggregate: { count: [{}, true] },
                   },
@@ -51,7 +58,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               },
               receiversTotal: {
                 users_aggregate: [
-                  { where: { non_receiver: { _eq: false }, role: { _lt: 2 } } },
+                  {
+                    where: {
+                      non_receiver: { _eq: false },
+                      role: { _lt: 2 },
+                      deleted_at: { _is_null: true },
+                    },
+                  },
                   { aggregate: { count: [{}, true] } },
                 ],
               },
@@ -63,6 +76,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                       non_receiver: { _eq: false },
                       // for YEARN COMMUNITY circle only
                       circle_id: { _eq: CIRCLES.YEARN.COMMUNITY },
+                      deleted_at: { _is_null: true },
                     },
                   },
                   {
@@ -186,6 +200,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           if (e instanceof Error)
             errorLog(
               `Telegram Daily Update error for circle #${circle.id}: ` +
+                e.message
+            );
+        }
+      }
+
+      if (circle.organization?.telegram_id) {
+        try {
+          await sendSocialMessage({
+            message,
+            circleId: circle.id,
+            channels: { telegram: true },
+            sanitize: false,
+            notifyOrg: true,
+          });
+        } catch (e: unknown) {
+          if (e instanceof Error)
+            errorLog(
+              `Telegram Daily Update error for organisation #${circle.organization?.id}: ` +
                 e.message
             );
         }

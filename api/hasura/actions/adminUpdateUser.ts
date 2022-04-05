@@ -59,7 +59,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     input.starting_tokens &&
     input.starting_tokens !== user.starting_tokens
   ) {
-    throw new UnprocessableError(`User with address ${address} does not exist`);
+    throw new UnprocessableError(
+      `Cannot update starting tokens during an active epoch`
+    );
   }
 
   // Update the state after all external validations have passed

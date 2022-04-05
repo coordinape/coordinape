@@ -1,13 +1,13 @@
 import * as mutations from 'lib/gql/mutations';
 
 import { fileToBase64 } from '../lib/base64';
+import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
 import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 import {
-  PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
   UpdateCreateEpochParam,
@@ -17,8 +17,8 @@ export const useApiAdminCircle = (circleId: number) => {
   const { fetchManifest } = useApiBase();
 
   const updateCircle = useRecoilLoadCatch(
-    () => async (params: PutCirclesParam) => {
-      await getApiService().putCircles(circleId, params);
+    () => async (params: ValueTypes['UpdateCircleInput']) => {
+      await mutations.updateCircle(params);
       await fetchManifest();
     },
     [circleId]
@@ -53,7 +53,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
-      await getApiService().deleteEpoch(circleId, epochId);
+      await mutations.deleteEpoch(circleId, epochId);
       await fetchManifest();
     },
     [circleId]
@@ -77,7 +77,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
-      await getApiService().deleteUser(circleId, userAddress);
+      await mutations.deleteUser(circleId, userAddress);
       await fetchManifest();
     },
     [circleId]

@@ -1,12 +1,12 @@
 import * as mutations from 'lib/gql/mutations';
 
 import { fileToBase64 } from '../lib/base64';
+import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
-import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { CreateCircleParam, IApiCircle, PostProfileParam } from 'types';
+import { CreateCircleParam, IApiCircle } from 'types';
 
 export const useApiWithProfile = () => {
   const { fetchManifest } = useApiBase();
@@ -41,8 +41,19 @@ export const useApiWithProfile = () => {
   );
 
   const updateMyProfile = useRecoilLoadCatch(
-    () => async (params: PostProfileParam) => {
-      await getApiService().updateProfile(params);
+    () => async (params: ValueTypes['profiles_set_input']) => {
+      try {
+        await mutations.updateProfile(params);
+      } catch (err: any) {
+        if (err.response?.errors && err.response.errors.length > 0) {
+          // clean up the error if its our check error
+          if (err.response.errors[0].message.includes('valid_website')) {
+            throw 'provide a valid website starting with https:// or http://';
+          }
+          // rethrow it if it doesn't match
+        }
+        throw err;
+      }
       await fetchManifest();
     },
     []

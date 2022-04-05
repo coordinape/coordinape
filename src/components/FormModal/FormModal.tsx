@@ -1,3 +1,10 @@
+/**
+ *
+ * DEPRECATED -- please use src/ui/Modal and react-hook-form instead.
+ * see VaultsPage for an example of separating modal and form.
+ *
+ */
+
 import React from 'react';
 
 import clsx from 'clsx';

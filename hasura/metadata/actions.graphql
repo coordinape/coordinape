@@ -23,7 +23,19 @@ type Mutation {
 }
 
 type Mutation {
+  deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
+}
+
+type Mutation {
+  updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
+}
+
+type Mutation {
+  updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
 type Mutation {
@@ -118,6 +130,34 @@ input CreateEpochInput {
   grant: Float
 }
 
+input UpdateTeammatesInput {
+  teammates: [Int]!
+  circle_id: Int!
+}
+
+input DeleteUserInput {
+  circle_id: Int!
+  address: String!
+}
+
+input UpdateCircleInput {
+  circle_id: Int!
+  name: String
+  token_name: String
+  team_sel_text: String
+  alloc_text: String
+  vouching: Boolean
+  min_vouches: Int
+  nomination_days_limit: Int
+  vouching_text: String
+  team_selection: Boolean
+  default_opt_in: Boolean
+  discord_webhook: String
+  only_giver_vouch: Boolean
+  auto_opt_out: Boolean
+  update_webhook: Boolean
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -152,4 +192,16 @@ type VouchOutput {
 
 type EpochResponse {
   id: ID!
+}
+
+type UpdateTeammatesResponse {
+  user_id: ID!
+}
+
+type ConfirmationResponse {
+  success: Boolean!
+}
+
+type UpdateCircleOutput {
+  id: Int!
 }

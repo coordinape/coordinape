@@ -202,6 +202,8 @@ const epochDetail = (e: IEpoch) => {
       }`;
 };
 
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
@@ -369,6 +371,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
               </div>
             );
           },
+          sortFunc: (a: string, b: string) => englishCollator.compare(a, b),
           wide: true,
           leftAlign: true,
         },
@@ -658,14 +661,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       <ActionDialog
         open={!!deleteEpochDialog}
         title={`Remove Epoch ${deleteEpochDialog?.number}`}
-        onClose={() => setDeleteUserDialog(undefined)}
+        onClose={() => setDeleteEpochDialog(undefined)}
         primaryText="Remove"
         onPrimary={
           deleteEpochDialog
             ? () =>
                 deleteEpoch(deleteEpochDialog?.id)
-                  .then(() => setDeleteUserDialog(undefined))
-                  .catch(() => setDeleteUserDialog(undefined))
+                  .then(() => setDeleteEpochDialog(undefined))
+                  .catch(() => setDeleteEpochDialog(undefined))
             : undefined
         }
       />

@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     boxShadow: '0px 1px 10px rgba(0, 0, 0, 0.05)',
     padding: theme.spacing(0.25, 1),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(0.5),
     borderRadius: 4,
     backgroundColor: theme.colors.white,
     color: theme.colors.text,
@@ -69,7 +69,7 @@ export const ContributionSummary: FC<Props> = ({ contributions }) => {
           className={classes.row}
         >
           <DeworkLogo size="md" />
-          <Typography variant="body1" className={classes.rowTitle}>
+          <Typography variant="body2" className={classes.rowTitle}>
             {contribution.title}
           </Typography>
           <RightArrowIcon size="md" className={classes.moreIcon} />
