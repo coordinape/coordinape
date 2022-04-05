@@ -87,17 +87,6 @@ export class APIService {
     return (await this.axios.get(`/v2/profile/${address}`)).data;
   };
 
-  createEpoch = async (
-    circleId: number,
-    params: UpdateCreateEpochParam
-  ): Promise<IApiEpoch> => {
-    const data = JSON.stringify(params);
-    const response = await this.axios.post(`/v2/${circleId}/admin/epoches`, {
-      data,
-    });
-    return response.data as IApiEpoch;
-  };
-
   updateEpoch = async (
     circleId: number,
     epochId: number,
