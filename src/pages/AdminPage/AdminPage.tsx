@@ -520,7 +520,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 </Button>
               </div>
             )}
-            {isMobile && <SettingsIconButton onClick={() => {}} />}
+            {isMobile && <SettingsIconButton onClick={() => setEditCircle(true)} />}
           </div>
         </div>
         {isMobile && <EpochsTableHeader onClick={() => setNewEpoch(true)} />}
