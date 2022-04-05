@@ -48,22 +48,6 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           </Text>{' '}
           {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
-        <button
-          onClick={event => (setShowLess(!showLess), event.stopPropagation())}
-        >
-          <Text
-            variant="formLabel"
-            css={{
-              size: '$max',
-              fontSize: '$2',
-              color: '$green',
-              mt: '$xl',
-              cursor: 'pointer',
-            }}
-          >
-            {showLess ? 'Show More' : 'Show Less'}
-          </Text>
-        </button>
       </Box>
       <Panel nested>
         <Text variant="formLabel">You received</Text>
@@ -81,42 +65,72 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           css={{
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
             color: '$primary',
           }}
         >
-          <Box css={{ mr: '$md' }}>
-            <Text variant="formLabel">Notes Left</Text>
-            <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {sent.filter(g => g.gift_private?.note).length}
-            </Text>
+          <Box css={{ display: 'flex', gap: '$md' }}>
+            <Box>
+              <Text variant="formLabel">Notes Left</Text>
+              <Text bold font="inter" css={{ fontSize: '$6' }}>
+                {sent.filter(g => g.gift_private?.note).length}
+              </Text>
+            </Box>
+            <Box>
+              <Text variant="formLabel">Received</Text>
+              <Text bold font="inter" css={{ fontSize: '$6' }}>
+                {received.filter(g => g.gift_private?.note).length}
+              </Text>
+            </Box>
           </Box>
-          <Box>
-            <Text variant="formLabel">Received</Text>
-            <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {received.filter(g => g.gift_private?.note).length}
+          <button onClick={() => setShowLess(false)}>
+            <Text
+              variant="formLabel"
+              css={{ color: '$green', cursor: 'pointer' }}
+            >
+              Show More
             </Text>
-          </Box>
+          </button>
         </Panel>
       ) : (
         <Panel nested>
-          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
-            {['Received', 'Sent'].map((label, index) => (
-              <Button
-                key={label}
-                outlined
-                size="small"
-                css={{ borderRadius: '$pill' }}
-                onClick={() => setTab(index)}
-              >
-                <Text
-                  variant="formLabel"
-                  css={{ color: tab === index ? '$primary' : '$gray400' }}
+          <Box
+            css={{
+              display: 'flex',
+              gap: '$md',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          >
+            <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+              {['Received', 'Sent'].map((label, index) => (
+                <Button
+                  key={label}
+                  outlined
+                  size="small"
+                  css={{ borderRadius: '$pill' }}
+                  onClick={() => setTab(index)}
                 >
-                  {label}
-                </Text>
-              </Button>
-            ))}
+                  <Text
+                    variant="formLabel"
+                    css={{ color: tab === index ? '$primary' : '$gray400' }}
+                  >
+                    {label}
+                  </Text>
+                </Button>
+              ))}
+            </Box>
+            <button
+              onClick={event => (setShowLess(true), event.stopPropagation())}
+            >
+              <Text
+                variant="formLabel"
+                css={{ color: '$green', cursor: 'pointer' }}
+              >
+                Show Less
+              </Text>
+            </button>
           </Box>
           {tab === 0 ? (
             <Notes tokenName={tokenName} data={received} received />

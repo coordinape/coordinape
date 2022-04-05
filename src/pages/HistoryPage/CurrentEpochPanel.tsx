@@ -113,6 +113,9 @@ const Minicard = ({
         display: 'grid',
         gridTemplateColumns: '$lg 1fr',
         gap: '$sm',
+        '@sm': {
+          minWidth: 0,
+        },
       }}
     >
       <Box css={{ justifySelf: 'center', '> img': { verticalAlign: 'top' } }}>
