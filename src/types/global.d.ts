@@ -31,6 +31,8 @@ export interface ITableSortOrder {
 export interface StaticTableProps {
   className?: string;
   columns: ITableColumn[];
+  singleColumn?: boolean;
+  renderSingleColumn?: (obj: GenericObject) => React.ReactNode;
   data: any[];
   perPage: number;
   filter?: (o: any) => boolean;
