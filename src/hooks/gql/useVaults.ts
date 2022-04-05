@@ -1,7 +1,7 @@
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { Awaited } from '../../../api-lib/ts4.5shim';
+import { Awaited } from 'types/shim';
 
 export function useVaults(orgId: number) {
   return useQuery(
