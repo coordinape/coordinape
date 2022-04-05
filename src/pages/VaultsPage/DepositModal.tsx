@@ -51,8 +51,8 @@ export default function DepositModal({
 
     (async () => {
       const tokenAddress = Object.values(Asset).includes(vault?.symbol as Asset)
-        ? vault.simple_token_address
-        : vault.token_address;
+        ? vault.token_address
+        : vault.simple_token_address;
       const token = selectedContracts.getERC20(tokenAddress as string);
       const address = await selectedContracts.getMyAddress();
       if (address) {
