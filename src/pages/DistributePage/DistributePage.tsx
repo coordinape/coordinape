@@ -12,7 +12,7 @@ import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, Box, Panel, Button, Text } from '../../ui';
-import { ApeTextField } from 'components';
+import { ApeTextField, LoadingModal } from 'components';
 import { useSubmitDistribution, SubmitDistribution } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
@@ -92,8 +92,9 @@ function DistributePage() {
     setLoadingTrx(false);
   };
 
+  if (isLoading) return <LoadingModal visible />;
+
   const pageMessage = () => {
-    if (isLoading) return 'Loading...';
     if (!epoch) return `Sorry, epoch ${epochId} was not found.`;
     if (!data?.epochs_by_pk) return `Sorry, Epoch ${epochId} was not found.`;
 
