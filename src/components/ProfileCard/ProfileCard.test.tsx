@@ -10,11 +10,7 @@ import { ProfileCard } from './ProfileCard';
 
 import { IUser } from 'types';
 
-import 'hooks/useContributions';
-
-jest.mock('hooks/useContributions', () => ({
-  useContributions: jest.fn(() => undefined),
-}));
+jest.mock('hooks/useContributions');
 
 const otherUser = {
   id: 2,

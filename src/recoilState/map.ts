@@ -135,15 +135,17 @@ export const rMapGraphData = selector<GraphData>({
       return { links: [], nodes: [] };
     }
 
+    const validEpochIds = epochs.map(e => e.id);
+
     const links = gifts
-      .filter(g => g.tokens > 0 && g.circle_id === selectedCircleId)
+      .filter(
+        g =>
+          g.tokens > 0 &&
+          g.circle_id === selectedCircleId &&
+          validEpochIds.includes(g.epoch_id)
+      )
       .map((g): IMapEdge => {
-        const epoch = assertDef(
-          epochsMap.get(g.epoch_id),
-          `Missing epoch.id = ${g.epoch_id} in rMapGraphData. have ${epochs.map(
-            e => e.id
-          )}`
-        );
+        const epoch = epochsMap.get(g.epoch_id) as IEpoch;
         return {
           id: g.id,
           source: g.sender_address,
