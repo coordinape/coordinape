@@ -77,6 +77,13 @@ export const Button = styled('button', {
         lineHeight: '$shorter',
         borderRadius: '$3',
       },
+      inline: {
+        fontSize: '$2',
+        fontWeight: '$medium',
+        lineHeight: '$shorter',
+        borderRadius: '$3',
+        py: '0px',
+      },
     },
     variant: {
       wallet: {
