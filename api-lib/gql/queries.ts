@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { EPOCH_REPEAT } from '../../api-lib/constants';
+import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
 
 import { adminClient } from './adminClient';
 
@@ -286,11 +287,20 @@ export async function getOverlappingEpoch(
   circle_id: number,
   ignore_epoch_id?: number
 ): Promise<typeof epoch | undefined> {
-  const whereCondition: any = {
-    start_date: { _lte: end_date },
+  const whereCondition: ValueTypes['epochs_bool_exp'] = {
     circle_id: { _eq: circle_id },
-    end_date: { _gt: start_date },
+    _or: [
+      {
+        start_date: { _lt: end_date },
+        end_date: { _gt: end_date },
+      },
+      {
+        start_date: { _lt: start_date },
+        end_date: { _gt: start_date },
+      },
+    ],
   };
+
   if (ignore_epoch_id) {
     whereCondition.id = { _neq: ignore_epoch_id };
   }

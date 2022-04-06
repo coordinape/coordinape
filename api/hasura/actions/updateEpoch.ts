@@ -22,9 +22,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   const {
     input: { payload: input },
   } = composeHasuraActionRequestBody(updateEpochInput).parse(request.body);
-  const { circle_id, repeat, start_date, days, id, grant } = input;
+  const { circle_id, repeat, start_date, days, id } = input;
   const end_date = start_date.plus({ days: days });
-  if (DateTime.now() > end_date) {
+  if (now > end_date) {
     errorResponseWithStatusCode(
       response,
       {
@@ -125,12 +125,10 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     update_epochs_by_pk: [
       {
         _set: {
-          start_date,
-          end_date,
+          ...edittingEpoch,
+          ...input,
           repeat_day_of_month,
-          days,
-          repeat,
-          grant,
+          end_date,
         },
         pk_columns: { id },
       },
