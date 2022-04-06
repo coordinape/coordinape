@@ -15,6 +15,17 @@ import {
   TextArea,
 } from 'ui';
 
+type NominateFormValues = {
+  name: string;
+  address: string;
+  description: string;
+};
+const intialValues = {
+  name: '',
+  address: '',
+  description: '',
+};
+
 export const NewNominationModal = ({
   onClose,
   visible,
@@ -40,16 +51,6 @@ export const NewNominationModal = ({
           : ''
       }`
     : '';
-  type NominateFormValues = {
-    name: string;
-    address: string;
-    description: string;
-  };
-  const intialValues = {
-    name: '',
-    address: '',
-    description: '',
-  };
 
   const {
     control,
@@ -68,11 +69,53 @@ export const NewNominationModal = ({
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>
-      <Form nominate onSubmit={handleSubmit(onSubmit)}>
-        <Text>{nominateDescription}</Text>
-        <Box grid="twoColumns">
-          <Box input>
-            <FormLabel htmlFor="name">Name</FormLabel>
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          width: '100%',
+          padding: '0 0 $lg',
+          overflowY: 'auto',
+          maxHeight: '100vh',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Text css={{ lineHeight: 'normal' }}>{nominateDescription}</Text>
+        <Box
+          css={{
+            display: 'grid',
+            width: '100%',
+            'grid-template-columns': '1fr 1fr',
+            'grid-template-rows': 'auto auto',
+            'column-gap': '$lg',
+            'row-gap': '$xl',
+          }}
+        >
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <FormLabel
+              htmlFor="name"
+              css={{
+                lineHeight: '1.3',
+                color: '$text',
+                fontSize: '$4',
+                fontFamily: 'Inter',
+                fontWeight: '$bold',
+                textAlign: 'center',
+                m: '$sm 0 $sm',
+              }}
+            >
+              Name
+            </FormLabel>
             <Controller
               name={'name'}
               defaultValue={intialValues.name}
@@ -85,12 +128,36 @@ export const NewNominationModal = ({
               }}
               control={control}
               render={({ field }) => (
-                <TextField shrinking id="name" {...field} />
+                <TextField
+                  css={{ height: '48px', width: '100%' }}
+                  id="name"
+                  {...field}
+                />
               )}
             />
           </Box>
-          <Box input>
-            <FormLabel htmlFor="address">ETH Address</FormLabel>
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <FormLabel
+              htmlFor="address"
+              css={{
+                lineHeight: '1.3',
+                color: '$text',
+                fontSize: '$4',
+                fontFamily: 'Inter',
+                fontWeight: '$bold',
+                textAlign: 'center',
+                m: '0 0 $sm',
+              }}
+            >
+              ETH Address
+            </FormLabel>
             <Controller
               name={'address'}
               defaultValue={intialValues.address}
@@ -100,12 +167,35 @@ export const NewNominationModal = ({
                   ethers.utils.isAddress(value) || 'Invalid address',
               }}
               render={({ field }) => (
-                <TextField shrinking id="address" {...field} />
+                <TextField
+                  css={{ height: '48px', width: '100%' }}
+                  id="address"
+                  {...field}
+                />
               )}
             />
           </Box>
-          <Box css={{ 'grid-column': '1 / -1' }} input>
-            <FormLabel htmlFor="description">
+          <Box
+            css={{
+              'grid-column': '1 / -1',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <FormLabel
+              htmlFor="description"
+              css={{
+                lineHeight: '1.3',
+                color: '$text',
+                fontSize: '$4',
+                fontFamily: 'Inter',
+                fontWeight: '$bold',
+                textAlign: 'center',
+                m: '0 0 $sm',
+              }}
+            >
               Why are you nominating this person?
             </FormLabel>
             <Controller
@@ -121,20 +211,35 @@ export const NewNominationModal = ({
               }}
               render={({ field }) => (
                 <TextArea
-                  nominate
                   rows={4}
                   id="description"
                   {...field}
                   maxLength={280}
                   placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-                  css={{ width: '100%', ta: 'left', p: '0 $sm' }}
+                  css={{
+                    width: '100%',
+                    ta: 'left',
+                    p: '0 $sm',
+                    fontWeight: '$light',
+                    fontSize: '$4',
+                    lineHeight: '$base',
+                    color: '$text',
+                  }}
                 />
               )}
             />
           </Box>
         </Box>
         {!isEmpty(errors) && (
-          <Box errors>
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              margin: 0,
+              color: '$red',
+            }}
+          >
             {Object.values(errors).map((error, i) => (
               <div key={i}>{error.message}</div>
             ))}

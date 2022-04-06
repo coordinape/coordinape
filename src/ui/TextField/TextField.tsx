@@ -45,12 +45,6 @@ export const TextField = styled('input', {
         boxSizing: 'border-box',
       },
     },
-    shrinking: {
-      true: {
-        height: '48px',
-        width: '100%',
-      },
-    },
   },
   defaultVariants: {
     size: 'md',
