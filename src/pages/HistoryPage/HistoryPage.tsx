@@ -80,6 +80,9 @@ export const HistoryPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Text variant="sectionHeader" css={{ mb: '$md' }}>
+        {circle?.name}
+      </Text>
       {nextEpoch && (
         <>
           <Header>Next</Header>
@@ -126,7 +129,7 @@ export const HistoryPage = () => {
 const Header = styled(Text, {
   fontSize: '$7',
   fontFamily: 'Inter !important',
-  color: '$placeholder',
+  color: '$placeholder !important',
   fontWeight: '$semibold',
 });
 

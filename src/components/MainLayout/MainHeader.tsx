@@ -86,9 +86,11 @@ export const MainHeader = () => {
           </Box>
         )}
       </Box>
-      <Suspense fallback={null}>
-        <ReceiveInfo />
-      </Suspense>
+      {inCircle && (
+        <Suspense fallback={null}>
+          <ReceiveInfo />
+        </Suspense>
+      )}
       {!address && <ConnectButton />}
       <Suspense fallback={null}>
         <MyAvatarMenu />

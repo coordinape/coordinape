@@ -6,6 +6,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
     circles_by_pk: [
       { id: circleId },
       {
+        name: true,
         token_name: true,
         vouching: true,
         users: [

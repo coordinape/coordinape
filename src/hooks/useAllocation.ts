@@ -178,7 +178,6 @@ export const useAllocation = (circleId: number) => {
     localGifts,
     localGiftsChanged,
     localTeammatesChanged,
-    tokenStarting,
     tokenRemaining,
     givePerUser,
     completedSteps,

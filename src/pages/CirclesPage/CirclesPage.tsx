@@ -59,7 +59,7 @@ export const CirclesPage = () => {
     <SingleColumnLayout>
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
-          <Box css={{ display: 'flex', mb: '$md' }}>
+          <Box css={{ display: 'flex', mb: '$md', alignItems: 'flex-start' }}>
             <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
               {org.name}
             </Text>

@@ -86,11 +86,11 @@ export const {
       neutralGrayDark: '#52575C',
 
       // text colors
-      primary: '#5E6F74',
-      text: '#516369',
+      primary: '#5E6F74', // TODO: replace with Grey/20
+      text: '#516369', // TODO: de-dupe with primary & secondary?
       secondary: '#56606f',
       lightText: '#859296',
-      placeholder: '#99A2A5',
+      placeholder: '#99A2A5', // TODO: replace with Grey/12
 
       background: '#DFE7E8',
       selected: '#31A5AC',
