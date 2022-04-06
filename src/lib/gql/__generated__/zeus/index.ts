@@ -4657,7 +4657,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     days?: number;
     end_date: ModelTypes['timestamptz'];
     ended: boolean;
@@ -4671,12 +4671,12 @@ columns and relationships of "distributions" */
     number?: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: ModelTypes['timestamptz'];
+    start_date: ModelTypes['timestamptz'];
     /** An array relationship */
     token_gifts: ModelTypes['token_gifts'][];
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
   ['epochs_aggregate_order_by']: GraphQLTypes['epochs_aggregate_order_by'];
@@ -6782,7 +6782,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     days?: number;
     end_date: GraphQLTypes['timestamptz'];
     ended: boolean;
@@ -6796,12 +6796,12 @@ columns and relationships of "distributions" */
     number?: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: GraphQLTypes['timestamptz'];
+    start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
   ['epochs_aggregate_order_by']: {
