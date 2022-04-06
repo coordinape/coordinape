@@ -1,7 +1,6 @@
 import { ethers } from 'ethers';
 import iti from 'itiriri';
 
-import '../api-lib/node-fetch-shim';
 import { LOCAL_SEED_ADDRESS } from '../api-lib/config';
 import * as mutations from '../api-lib/gql/mutations';
 import * as queries from '../api-lib/gql/queries';

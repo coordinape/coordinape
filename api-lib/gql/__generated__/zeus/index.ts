@@ -1,4 +1,6 @@
 /* eslint-disable */
+import WebSocket from 'ws';
+import fetch from 'node-fetch';
 
 import { AllTypesProps, ReturnTypes } from './const';
 type ZEUS_INTERFACES = never;
@@ -22109,11 +22111,24 @@ const handleFetchResponse = (
 export const apiFetch =
   (options: fetchOptions) =>
   (query: string, variables: Record<string, any> = {}) => {
-    let fetchFunction = fetch;
+    let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
+    try {
+      fetchFunction = require('node-fetch');
+    } catch (error) {
+      throw new Error(
+        "Please install 'node-fetch' to use zeus in nodejs environment"
+      );
+    }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      queryString = encodeURIComponent(query);
+      try {
+        queryString = require('querystring').stringify(query);
+      } catch (error) {
+        throw new Error(
+          "Something gone wrong 'querystring' is a part of nodejs environment"
+        );
+      }
       return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
@@ -22142,6 +22157,7 @@ export const apiFetch =
 
 export const apiSubscription = (options: chainOptions) => (query: string) => {
   try {
+    const WebSocket = require('ws');
     const queryString = options[0] + '?query=' + encodeURIComponent(query);
     const wsString = queryString.replace('http', 'ws');
     const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
@@ -22172,7 +22188,7 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
       },
     };
   } catch {
-    throw new Error('No websockets implemented');
+    throw new Error('No websockets implemented. Please install ws');
   }
 };
 

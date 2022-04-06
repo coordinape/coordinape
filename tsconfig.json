@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,9 +17,7 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-      "@emotion/core": [
-        "./types/emotion-core-stub.d.ts"
-      ]
+      "@emotion/core": ["./types/emotion-core-stub.d.ts"]
     },
     "plugins": [
       {
@@ -32,9 +26,5 @@
       }
     ]
   },
-  "include": [
-    "src",
-    "api-lib",
-    "api"
-  ]
+  "include": ["src"]
 }

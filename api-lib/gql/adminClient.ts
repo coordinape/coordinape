@@ -1,5 +1,3 @@
-import '../node-fetch-shim';
-
 import { HASURA_GRAPHQL_ADMIN_SECRET, NODE_HASURA_URL } from '../config';
 
 import { apiFetch, Thunder } from './__generated__/zeus';
