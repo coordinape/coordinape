@@ -13,13 +13,7 @@ object_relationships:
         schema: public
 - name: organization
   using:
-    manual_configuration:
-      column_mapping:
-        protocol_id: id
-      insertion_order: null
-      remote_table:
-        name: protocols
-        schema: public
+    foreign_key_constraint_on: protocol_id
 array_relationships:
 - name: burns
   using:

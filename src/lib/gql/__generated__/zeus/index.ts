@@ -4458,7 +4458,7 @@ export type ModelTypes = {
     nominees_aggregate: ModelTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: ModelTypes['organizations'];
+    organization: ModelTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
     protocol_id: number;
@@ -6199,7 +6199,7 @@ export type GraphQLTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: GraphQLTypes['organizations'];
+    organization: GraphQLTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     protocol_id: number;
