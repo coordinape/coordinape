@@ -387,11 +387,11 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                           Why is Coordinape in your circle?
                         </b>
                         <p className={classes.tooltipBodyText}>
-                          We’re experimenting with the gift circle mechanism as
-                          our revenue model. By default, Coordinape appears in
-                          your circle and any user can alllocate to Coordinape.
-                          To remove the Coordinape user click “disable” on the
-                          right side of this row.
+                          We&apos;re experimenting with the gift circle
+                          mechanism as our revenue model. By default, Coordinape
+                          appears in your circle and any user can allocate to
+                          Coordinape. To remove the Coordinape user, click the
+                          trash can icon on the right side of this row.
                         </p>
                         <a
                           href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
