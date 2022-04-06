@@ -92,6 +92,16 @@ actions:
   permissions:
   - role: superadmin
   - role: user
+- name: updateEpoch
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/updateEpoch'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: updateTeammates
   definition:
     kind: synchronous
@@ -172,6 +182,7 @@ custom_types:
   - name: UpdateTeammatesInput
   - name: DeleteUserInput
   - name: UpdateCircleInput
+  - name: UpdateEpochInput
   objects:
   - name: CreateCircleResponse
     relationships:

@@ -35,6 +35,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateEpoch(payload: UpdateEpochInput!): EpochResponse
+}
+
+type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
@@ -156,6 +160,15 @@ input UpdateCircleInput {
   only_giver_vouch: Boolean
   auto_opt_out: Boolean
   update_webhook: Boolean
+}
+
+input UpdateEpochInput {
+  id: Int!
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
 }
 
 type CreateCircleResponse {

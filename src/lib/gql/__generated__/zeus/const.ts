@@ -579,6 +579,44 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  UpdateEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    days: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    grant: {
+      type: 'Float',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    repeat: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    start_date: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   UpdateTeammatesInput: {
     circle_id: {
       type: 'Int',
@@ -5504,6 +5542,14 @@ export const AllTypesProps: Record<string, any> = {
     updateCircle: {
       payload: {
         type: 'UpdateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateEpoch: {
+      payload: {
+        type: 'UpdateEpochInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -13199,6 +13245,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults_one: 'vaults',
     logoutUser: 'LogoutResponse',
     updateCircle: 'UpdateCircleOutput',
+    updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_circles: 'circles_mutation_response',
