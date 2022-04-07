@@ -34,7 +34,7 @@ import {
   renderUserCard,
   SettingsIconButton,
   UsersTableHeader,
-} from './CircleComponent';
+} from './components';
 
 import { IUser, ITableColumn, IEpoch } from 'types';
 
