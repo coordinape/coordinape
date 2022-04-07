@@ -30,7 +30,8 @@ export const useApiWithSelectedCircle = () => {
       await mutations.createNominee(circleId, params);
       await fetchCircle({ circleId: circleId });
     },
-    [circleId]
+    [circleId],
+    { hideLoading: true }
   );
 
   const vouchUser = useRecoilLoadCatch(

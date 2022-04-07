@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
@@ -48,6 +50,7 @@ export const NewNominationModal = ({
 }) => {
   const { circle } = useSelectedCircle();
   const { nominateUser } = useApiWithSelectedCircle();
+  const [submitting, setSubmitting] = useState(false);
 
   const nominateDescription = circle
     ? `The ${circle.name} Circle requires ${
@@ -93,13 +96,8 @@ export const NewNominationModal = ({
   });
 
   const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
-    nominateUser({
-      ...data,
-    })
-      .then(() => {
-        onClose();
-      })
-      .catch(console.warn);
+    setSubmitting(true);
+    nominateUser(data).then(onClose).catch(console.warn);
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>
@@ -198,8 +196,9 @@ export const NewNominationModal = ({
           color="red"
           size="medium"
           type="submit"
+          disabled={submitting}
         >
-          Nominate Member
+          {submitting ? 'Saving...' : 'Nominate Member'}
         </Button>
       </Form>
     </Modal>
