@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { PreviousDistribution } from 'lib/gql/queries';
 import { isUserAdmin } from 'lib/users';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -47,10 +48,7 @@ function DistributePage() {
   const currentOrg = useCurrentOrg();
   const submitDistribution = useSubmitDistribution();
   const currentUser = useCurrentUserForEpoch(Number(epochId));
-  const {
-    data: previousDistribution,
-    isLoading: loadingPreviousDistributions,
-  } = usePreviousDistributions(Number(epochId));
+
   const { isLoading: vaultLoading, data: vaults } = useVaults(
     currentOrg.data?.id as number
   );
@@ -61,6 +59,11 @@ function DistributePage() {
     data,
   } = useGetAllocations(Number(epochId));
 
+  const {
+    data: previousDistribution,
+    isLoading: loadingPreviousDistributions,
+  } = usePreviousDistributions(Number(data?.epochs_by_pk?.circle?.id));
+
   const isLoading =
     isAllocationsLoading ||
     currentUser.isLoading ||
@@ -70,6 +73,8 @@ function DistributePage() {
   const circle = data?.epochs_by_pk?.circle;
   const epoch = data?.epochs_by_pk;
   const users = data?.epochs_by_pk?.circle?.users;
+
+  console.log(users); //eslint-disable-line
 
   const totalGive = users?.reduce(
     (total, { received_gifts: g }) =>
@@ -85,14 +90,17 @@ function DistributePage() {
 
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
-
     const vault = vaults?.find(v => v.id === Number(value.selectedVaultId));
     assert(vault && users && circle);
 
     const submitDTO: SubmitDistribution = {
       amount: value.amount,
       vault: [vault],
-      previousDistribution,
+      previousDistribution:
+        previousDistribution &&
+        (previousDistribution.find(
+          d => d.vault_id === vault.id
+        ) as PreviousDistribution),
       users: users as GraphQLTypes['users'][],
       circleId: circle.id,
       epochId: Number(epochId),

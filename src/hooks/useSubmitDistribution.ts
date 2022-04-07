@@ -18,8 +18,7 @@ import { Vault } from './gql/useVaults';
 export type SubmitDistribution = {
   amount: number;
   vault: Vault;
-  previousDistribution: PreviousDistribution;
-  // TODO: Convert this to use the correct type
+  previousDistribution?: PreviousDistribution;
   users: GraphQLTypes['users'][];
   circleId: number;
   epochId: number;
@@ -41,6 +40,7 @@ export function useSubmitDistribution() {
     epochId,
     previousDistribution,
   }: SubmitDistribution) => {
+    console.log(vault); //eslint-disable-line
     assert(vault, 'No vault is found');
     const gifts = users.reduce((userList, user) => {
       const amount = user.received_gifts.reduce(
@@ -74,6 +74,7 @@ export function useSubmitDistribution() {
     };
 
     try {
+      console.log(vault); //eslint-disable-line
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
         .getVault(vault[0].vault_address)
@@ -83,7 +84,7 @@ export function useSubmitDistribution() {
         gifts,
         totalDistributionAmount,
         previousDistribution &&
-          JSON.parse(previousDistribution.distribution_json)
+          JSON.parse(previousDistribution[0].distribution_json)
       );
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
@@ -96,7 +97,7 @@ export function useSubmitDistribution() {
               claim.amount,
               address,
               JSON.parse(
-                previousDistribution.distribution_json
+                previousDistribution[0].distribution_json
               ) as MerkleDistributorInfo
             )
           : calculateClaimAmount(claim.amount),

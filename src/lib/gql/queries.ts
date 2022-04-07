@@ -24,24 +24,25 @@ export const getCurrentEpoch = async (
 };
 
 export const getPreviousDistribution = async (
-  epoch_id: number
-): Promise<typeof previousDistribution | undefined> => {
-  const {
-    distributions: [previousDistribution],
-  } = await client.query({
+  circle_id: number
+): Promise<typeof distributions | undefined> => {
+  const { distributions } = await client.query({
     distributions: [
       {
-        limit: 1,
         order_by: [{ id: order_by.desc }],
         where: {
-          epoch_id: { _eq: epoch_id },
+          epoch: { circle_id: { _eq: circle_id } },
           saved_on_chain: { _eq: true },
         },
       },
-      { distribution_json: [{}, true] },
+      {
+        id: true,
+        vault_id: true,
+        distribution_json: [{}, true],
+      },
     ],
   });
-  return previousDistribution;
+  return distributions;
 };
 
 export type PreviousDistribution = Awaited<
