@@ -3,34 +3,34 @@ import { styled } from 'stitches.config';
 
 import { NoticeBox } from 'components';
 import { USER_ROLE_ADMIN } from 'config/constants';
-import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip } from 'ui';
+import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { IEpoch, IUser } from 'types';
 
 // TODO: these variants of text could be moved to ui/Text,
 //       waiting for universal definitions for these variants.
-const HeaderText = styled('span', {
+const HeaderText = styled(Text, {
   fontSize: '$7',
   fontWeight: '$normal',
   color: '$primary',
   flexGrow: 1,
 });
 
-const Title = styled('span', {
+const Title = styled(Text, {
   fontSize: '$4',
   fontWeight: '$medium',
   color: '$primary',
   flexGrow: 1,
 });
 
-const Subtitle = styled('span', {
+const Subtitle = styled(Text, {
   fontSize: '$3',
   fontWeight: '$light',
   color: '$primary',
 });
 
-const LightText = styled('span', {
+const LightText = styled(Text, {
   fontSize: '$3',
   fontWeight: '$normal',
   color: '$lightText',
