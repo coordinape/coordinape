@@ -83,7 +83,9 @@ export const NewNominationModal = ({
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Text css={{ lineHeight: 'normal' }}>{nominateDescription}</Text>
+        <Text css={{ lineHeight: 'normal', mb: '$lg' }}>
+          {nominateDescription}
+        </Text>
         <Box
           css={{
             display: 'grid',
