@@ -1,7 +1,9 @@
-import { ethers } from 'ethers';
+import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import * as z from 'zod';
 
+import { zEthAddress } from 'forms/formHelpers';
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
@@ -15,15 +17,26 @@ import {
   TextArea,
 } from 'ui';
 
-type NominateFormValues = {
-  name: string;
-  address: string;
-  description: string;
-};
-const intialValues = {
-  name: '',
-  address: '',
-  description: '',
+const schema = z
+  .object({
+    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    address: zEthAddress,
+    description: z
+      .string()
+      .min(40, 'Description must be at least 40 characters long.'),
+  })
+  .strict();
+
+type NominateFormSchema = z.infer<typeof schema>;
+
+const labelStyles = {
+  lineHeight: '$short',
+  color: '$text',
+  fontSize: '$4',
+  fontFamily: 'Inter',
+  fontWeight: '$bold',
+  textAlign: 'center',
+  mb: '$sm',
 };
 
 export const NewNominationModal = ({
@@ -56,9 +69,30 @@ export const NewNominationModal = ({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<NominateFormValues>({ mode: 'all' });
+  } = useForm<NominateFormSchema>({
+    resolver: zodResolver(schema),
+    mode: 'all',
+  });
 
-  const onSubmit: SubmitHandler<NominateFormValues> = async data => {
+  const { field: name } = useController({
+    name: 'name',
+    control,
+    defaultValue: '',
+  });
+
+  const { field: address } = useController({
+    name: 'address',
+    control,
+    defaultValue: '',
+  });
+
+  const { field: description } = useController({
+    name: 'description',
+    control,
+    defaultValue: '',
+  });
+
+  const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
     nominateUser({
       ...data,
     })
@@ -96,70 +130,23 @@ export const NewNominationModal = ({
             'column-gap': '$lg',
           }}
         >
-          <FormLabel
-            htmlFor="name"
-            css={{
-              lineHeight: '$short',
-              color: '$text',
-              fontSize: '$4',
-              fontFamily: 'Inter',
-              fontWeight: '$bold',
-              textAlign: 'center',
-              mb: '$sm',
-            }}
-          >
+          <FormLabel htmlFor="name" css={labelStyles}>
             Name
           </FormLabel>
-          <FormLabel
-            htmlFor="address"
-            css={{
-              lineHeight: '$short',
-              color: '$text',
-              fontSize: '$4',
-              fontFamily: 'Inter',
-              fontWeight: '$bold',
-              textAlign: 'center',
-              mb: '$sm',
-            }}
-          >
+          <FormLabel htmlFor="address" css={labelStyles}>
             ETH Address
           </FormLabel>
-          <Controller
-            name={'name'}
-            defaultValue={intialValues.name}
-            rules={{
-              required: 'Name must be at least 3 characters long.',
-              minLength: {
-                value: 3,
-                message: 'Name must be at least 3 characters long.',
-              },
-            }}
-            control={control}
-            render={({ field }) => (
-              <TextField
-                css={{ height: '48px', width: '100%' }}
-                id="name"
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name={'address'}
-            defaultValue={intialValues.address}
-            control={control}
-            rules={{
-              validate: value =>
-                ethers.utils.isAddress(value) || 'Invalid address',
-            }}
-            render={({ field }) => (
-              <TextField
-                css={{ height: '48px', width: '100%' }}
-                id="address"
-                {...field}
-              />
-            )}
+          <TextField
+            css={{ height: '$2xl', width: '100%' }}
+            id="name"
+            {...name}
           />
 
+          <TextField
+            css={{ height: '$2xl', width: '100%' }}
+            id="address"
+            {...address}
+          />
           <Box
             css={{
               'grid-column': '1 / -1',
@@ -170,49 +157,24 @@ export const NewNominationModal = ({
               mt: '$1xl',
             }}
           >
-            <FormLabel
-              htmlFor="description"
-              css={{
-                lineHeight: '$short',
-                color: '$text',
-                fontSize: '$4',
-                fontFamily: 'Inter',
-                fontWeight: '$bold',
-                textAlign: 'center',
-                mb: '$sm',
-              }}
-            >
+            <FormLabel htmlFor="description" css={labelStyles}>
               Why are you nominating this person?
             </FormLabel>
-            <Controller
-              name={'description'}
-              defaultValue={intialValues.description}
-              control={control}
-              rules={{
-                required: 'Description must be at least 40 characters long.',
-                minLength: {
-                  value: 40,
-                  message: 'Description must be at least 40 characters long.',
-                },
+            <TextArea
+              rows={4}
+              id="description"
+              {...description}
+              maxLength={280}
+              placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
+              css={{
+                width: '100%',
+                ta: 'left',
+                p: '0 $sm',
+                fontWeight: '$light',
+                fontSize: '$4',
+                lineHeight: '$base',
+                color: '$text',
               }}
-              render={({ field }) => (
-                <TextArea
-                  rows={4}
-                  id="description"
-                  {...field}
-                  maxLength={280}
-                  placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-                  css={{
-                    width: '100%',
-                    ta: 'left',
-                    p: '0 $sm',
-                    fontWeight: '$light',
-                    fontSize: '$4',
-                    lineHeight: '$base',
-                    color: '$text',
-                  }}
-                />
-              )}
             />
           </Box>
         </Box>
