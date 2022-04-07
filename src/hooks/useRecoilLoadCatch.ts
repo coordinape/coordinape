@@ -1,7 +1,7 @@
-import * as Sentry from '@sentry/react';
 import { useRecoilCallback, CallbackInterface } from 'recoil';
 
 import { rGlobalLoading } from 'recoilState/ui';
+import { reportException } from 'utils/reporting';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
@@ -65,7 +65,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
               apeInfo('Denied message signature.');
             } else {
               apeError(e);
-              Sentry.captureException(e, {
+              reportException(e, {
                 tags: { call_point: 'useRecoilLoadCatch' },
                 extra: { ...(e.code ? { code: e.code } : {}) },
               });

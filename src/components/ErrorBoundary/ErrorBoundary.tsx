@@ -1,6 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-import * as Sentry from '@sentry/react';
 import {
   useSnackbar,
   SnackbarMessage,
@@ -9,6 +8,7 @@ import {
 } from 'notistack';
 
 import { EXTERNAL_URL_DISCORD_SUPPORT } from 'routes/paths';
+import { reportException } from 'utils/reporting';
 
 interface IInnerProps {
   children: ReactNode;
@@ -50,7 +50,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
       { variant: 'error' }
     );
 
-    Sentry.captureException(error, {
+    reportException(error, {
       tags: { call_point: 'componentDidCatch' },
       extra: { ...(error.code ? { code: error.code } : {}), ...errorInfo },
     });
