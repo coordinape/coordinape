@@ -83,100 +83,83 @@ export const NewNominationModal = ({
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Text css={{ lineHeight: 'normal', mb: '$lg' }}>
+        <Text css={{ lineHeight: '$normal', mb: '$lg' }}>
           {nominateDescription}
         </Text>
         <Box
           css={{
             display: 'grid',
             width: '100%',
+            mb: '$md',
             'grid-template-columns': '1fr 1fr',
             'grid-template-rows': 'auto auto',
             'column-gap': '$lg',
-            'row-gap': '$xl',
           }}
         >
-          <Box
+          <FormLabel
+            htmlFor="name"
             css={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
+              lineHeight: '$short',
+              color: '$text',
+              fontSize: '$4',
+              fontFamily: 'Inter',
+              fontWeight: '$bold',
+              textAlign: 'center',
+              mb: '$sm',
             }}
           >
-            <FormLabel
-              htmlFor="name"
-              css={{
-                lineHeight: '1.3',
-                color: '$text',
-                fontSize: '$4',
-                fontFamily: 'Inter',
-                fontWeight: '$bold',
-                textAlign: 'center',
-                m: '0 0 $sm',
-              }}
-            >
-              Name
-            </FormLabel>
-            <Controller
-              name={'name'}
-              defaultValue={intialValues.name}
-              rules={{
-                required: 'Name must be at least 3 characters long.',
-                minLength: {
-                  value: 3,
-                  message: 'Name must be at least 3 characters long.',
-                },
-              }}
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  css={{ height: '48px', width: '100%' }}
-                  id="name"
-                  {...field}
-                />
-              )}
-            />
-          </Box>
-          <Box
+            Name
+          </FormLabel>
+          <FormLabel
+            htmlFor="address"
             css={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
+              lineHeight: '$short',
+              color: '$text',
+              fontSize: '$4',
+              fontFamily: 'Inter',
+              fontWeight: '$bold',
+              textAlign: 'center',
+              mb: '$sm',
             }}
           >
-            <FormLabel
-              htmlFor="address"
-              css={{
-                lineHeight: '1.3',
-                color: '$text',
-                fontSize: '$4',
-                fontFamily: 'Inter',
-                fontWeight: '$bold',
-                textAlign: 'center',
-                m: '0 0 $sm',
-              }}
-            >
-              ETH Address
-            </FormLabel>
-            <Controller
-              name={'address'}
-              defaultValue={intialValues.address}
-              control={control}
-              rules={{
-                validate: value =>
-                  ethers.utils.isAddress(value) || 'Invalid address',
-              }}
-              render={({ field }) => (
-                <TextField
-                  css={{ height: '48px', width: '100%' }}
-                  id="address"
-                  {...field}
-                />
-              )}
-            />
-          </Box>
+            ETH Address
+          </FormLabel>
+          <Controller
+            name={'name'}
+            defaultValue={intialValues.name}
+            rules={{
+              required: 'Name must be at least 3 characters long.',
+              minLength: {
+                value: 3,
+                message: 'Name must be at least 3 characters long.',
+              },
+            }}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                css={{ height: '48px', width: '100%' }}
+                id="name"
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name={'address'}
+            defaultValue={intialValues.address}
+            control={control}
+            rules={{
+              validate: value =>
+                ethers.utils.isAddress(value) || 'Invalid address',
+            }}
+            render={({ field }) => (
+              <TextField
+                css={{ height: '48px', width: '100%' }}
+                id="address"
+                {...field}
+              />
+            )}
+          />
+
           <Box
             css={{
               'grid-column': '1 / -1',
@@ -184,18 +167,19 @@ export const NewNominationModal = ({
               flexDirection: 'column',
               alignItems: 'center',
               width: '100%',
+              mt: '$1xl',
             }}
           >
             <FormLabel
               htmlFor="description"
               css={{
-                lineHeight: '1.3',
+                lineHeight: '$short',
                 color: '$text',
                 fontSize: '$4',
                 fontFamily: 'Inter',
                 fontWeight: '$bold',
                 textAlign: 'center',
-                m: '0 0 $sm',
+                mb: '$sm',
               }}
             >
               Why are you nominating this person?
