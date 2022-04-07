@@ -7,13 +7,21 @@ export const Button = styled('button', {
   '& img': {
     paddingRight: '$sm',
   },
-  px: '$lg',
-  py: '$sm',
+  px: '$md',
   display: 'flex',
   justifyContent: 'center',
   cursor: 'pointer',
   textAlign: 'center',
+  alignItems: 'center',
   lineHeight: '$shorter',
+  textDecoration: 'none',
+  '&[disabled]': {
+    opacity: 0.5,
+  },
+
+  '&:hover': {
+    opacity: 0.8,
+  },
 
   variants: {
     color: {
@@ -22,9 +30,6 @@ export const Button = styled('button', {
         color: 'white',
         '&:hover': {
           backgroundColor: '$redHover',
-        },
-        '&[disabled]': {
-          opacity: 0.5,
         },
       },
       gray: {
@@ -35,6 +40,21 @@ export const Button = styled('button', {
         },
         '&[disabled]': {
           opacity: 0.5,
+        },
+      },
+      blue: {
+        backgroundColor: '$blue',
+        color: 'white',
+      },
+      teal: {
+        backgroundColor: '$teal',
+        color: 'white',
+      },
+      oldGray: {
+        backgroundColor: '$surfaceGray',
+        color: '$primary',
+        '&:hover': {
+          backgroundColor: '$subtleGray',
         },
       },
       transparent: {
@@ -48,6 +68,8 @@ export const Button = styled('button', {
     },
     size: {
       large: {
+        height: '$2xl',
+        minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
         fontSize: '$5',
@@ -56,12 +78,16 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
+        height: 'calc($xl + 4px)',
+        minHeight: 'calc($xl + 4px)',
         fontSize: '$4',
         fontWeight: '$bold',
         lineHeight: '$shorter',
         borderRadius: '$4',
       },
       small: {
+        height: '$xl',
+        minHeight: '$xl',
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
@@ -78,7 +104,8 @@ export const Button = styled('button', {
         color: '$text',
         border: 'solid',
         margin: '1.6px 0px',
-        padding: '12px 17.6px',
+        height: '$2xl',
+        px: '$md',
         boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
         borderRadius: '13px',
@@ -91,6 +118,7 @@ export const Button = styled('button', {
         '&:hover': {
           color: '$selected',
           background: '$surfaceGray',
+          opacity: 1,
         },
         '&:disabled': {
           color: '$text',
@@ -131,6 +159,24 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$lightGray',
         },
+      },
+    },
+    {
+      color: 'blue',
+      outlined: true,
+      css: {
+        color: '$blue',
+        borderColor: '$blue',
+        backgroundColor: 'transparent',
+      },
+    },
+    {
+      color: 'teal',
+      outlined: true,
+      css: {
+        color: '$teal',
+        borderColor: '$teal',
+        backgroundColor: 'transparent',
       },
     },
   ],

@@ -28,7 +28,7 @@ const VaultsPage = () => {
   return (
     <OrgLayout>
       <Box css={{ display: 'flex' }}>
-        <Text css={{ fontSize: '$8', fontWeight: '$bold', flexGrow: 1 }}>
+        <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
           Vaults
         </Text>
         <Button color="red" size="small" onClick={() => setModal('create')}>

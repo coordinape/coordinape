@@ -10,7 +10,6 @@ import {
   NoticeBox,
   ApeAvatar,
   ActionDialog,
-  OrganizationHeader,
   ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
@@ -50,8 +49,8 @@ const useStyles = makeStyles(theme => ({
     background: theme.colors.ultraLightGray,
     alignItems: 'center',
     columnGap: theme.spacing(3),
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
+    padding: theme.spacing(0, 4, 4),
+    margin: theme.spacing(4, 4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
       gridTemplateColumns: '1fr',
@@ -217,7 +216,7 @@ const epochDetail = (e: IEpoch) => {
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
-const AdminPage = ({ legacy }: { legacy?: boolean }) => {
+const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -513,7 +512,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>

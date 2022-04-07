@@ -7,6 +7,7 @@ export const Link = styled('a', {
   textDecoration: 'none',
 });
 
+// an alternative to this is <Link as={NavLink}>
 export const AppLink = styled(NavLink, {
   color: '$lightBlue',
   textDecoration: 'none',
