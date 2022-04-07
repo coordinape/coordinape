@@ -14,18 +14,7 @@ let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
-    addVault: jest.fn().mockReturnValue({
-      created_at: new Date(),
-      created_by: 21,
-      decimals: 18,
-      id: 2,
-      org_id: 2,
-      simple_token_address: '0x0AaCfbeC6a24756c20D41914F2caba817C0d8521',
-      symbol: 'DAI',
-      token_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-      updated_at: new Date(),
-      vault_address: '0x0AaCfbeC6a24756c20D41914F2caba817C0d8521',
-    }),
+    addVault: jest.fn(x => x),
     useSaveEpochDistribution: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({
         id: 2,
@@ -82,7 +71,6 @@ test('submit distribution', async () => {
             updated_at: vaults.updated_at,
           },
         ];
-        console.log(vault); // eslint-disable-line no-console
 
         submitDistribution({
           amount: 900,
@@ -114,7 +102,7 @@ test('submit distribution', async () => {
   );
 }, 60000);
 
-const users: Record<string, number> = {
+const users = {
   '0x0000000000000000000000000000000000000001': 15,
   '0x0000000000000000000000000000000000000002': 13,
   '0x0000000000000000000000000000000000000003': 14,
