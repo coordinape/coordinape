@@ -38,7 +38,6 @@ import {
 
 import { IUser, ITableColumn, IEpoch } from 'types';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -220,7 +219,7 @@ const englishCollator = new Intl.Collator('en-u-kf-upper');
 const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
 
-  const {isMobile} = useMobileDetect();
+  const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -268,19 +267,20 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       ) : (
         <div className={classes.actionSpacer} />
       )}
-      <Text
-        css={{
-          color: '$lightBlue',
-        }}
-      >
-        |
-      </Text>
-      {onDelete ? (
-        <UiButton size="small" onClick={onDelete} color="blue">
-          Delete
-        </UiButton>
-      ) : (
-        <div className={classes.actionSpacer} />
+
+      {onDelete && (
+        <>
+          <Text
+            css={{
+              color: '$lightBlue',
+            }}
+          >
+            |
+          </Text>
+          <UiButton size="small" onClick={onDelete} color="blue">
+            Delete
+          </UiButton>
+        </>
       )}
     </div>
   );
@@ -520,7 +520,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 </Button>
               </div>
             )}
-            {isMobile && <SettingsIconButton onClick={() => setEditCircle(true)} />}
+            {isMobile && (
+              <SettingsIconButton onClick={() => setEditCircle(true)} />
+            )}
           </div>
         </div>
         {isMobile && <EpochsTableHeader onClick={() => setNewEpoch(true)} />}
