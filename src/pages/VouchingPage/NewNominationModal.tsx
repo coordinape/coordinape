@@ -111,7 +111,7 @@ export const NewNominationModal = ({
                 fontFamily: 'Inter',
                 fontWeight: '$bold',
                 textAlign: 'center',
-                m: '$sm 0 $sm',
+                m: '0 0 $sm',
               }}
             >
               Name
