@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
 import { isUserAdmin } from 'lib/users';
+import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -37,7 +38,7 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   useEffect(() => {
-    if (orgs && !currentOrgId) {
+    if (orgs?.length && !currentOrgId) {
       setCurrentOrgId(orgs[0].id);
     }
   }, [orgs]);
@@ -74,7 +75,7 @@ export const CirclesPage = () => {
             )}
           </Box>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
-            {org.circles.map(circle => (
+            {sortBy(org.circles, c => -c.users.length).map(circle => (
               <CircleRow
                 circle={circle}
                 key={circle.id}
