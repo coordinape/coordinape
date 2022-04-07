@@ -2,7 +2,6 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { PreviousDistribution } from 'lib/gql/queries';
 import { isUserAdmin } from 'lib/users';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -74,8 +73,6 @@ function DistributePage() {
   const epoch = data?.epochs_by_pk;
   const users = data?.epochs_by_pk?.circle?.users;
 
-  console.log(users); //eslint-disable-line
-
   const totalGive = users?.reduce(
     (total, { received_gifts: g }) =>
       total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
@@ -93,15 +90,30 @@ function DistributePage() {
     const vault = vaults?.find(v => v.id === Number(value.selectedVaultId));
     assert(vault && users && circle);
 
+    const gifts = users.reduce((userList, user) => {
+      const amount = user.received_gifts.reduce(
+        (t, { tokens }) => t + tokens,
+        0
+      );
+      if (amount > 0) userList[user.address] = amount;
+      return userList;
+    }, {} as Record<string, number>);
+
+    const usersRecord = users.reduce((userList, user) => {
+      userList[user.address] = user.id;
+      return userList;
+    }, {} as Record<string, number>);
+
     const submitDTO: SubmitDistribution = {
       amount: value.amount,
       vault: [vault],
+      gifts,
+      users: usersRecord,
       previousDistribution:
         previousDistribution &&
         (previousDistribution.find(
           d => d.vault_id === vault.id
         ) as PreviousDistribution),
-      users: users as GraphQLTypes['users'][],
       circleId: circle.id,
       epochId: Number(epochId),
     };

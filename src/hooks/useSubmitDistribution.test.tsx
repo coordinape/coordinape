@@ -59,34 +59,41 @@ test('submit distribution', async () => {
     const { depositToken } = useVaultRouter(contracts);
     if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
-      if (v) vaults = v.insert_vaults_one as GraphQLTypes['vaults'];
-      depositToken(vaults, 1000);
-    });
+    createVault({ simpleTokenAddress: '0x0', type: Asset.DAI })
+      .then(v => {
+        if (v) {
+          vaults = v as GraphQLTypes['vaults'];
+          return depositToken(vaults, 1000);
+        }
+      })
+      .then(() => {
+        if (!vaults) return;
+        const vault: Vault = [
+          {
+            created_at: new Date(),
+            created_by: vaults.created_by,
+            symbol: vaults.symbol,
+            token_address: vaults.token_address,
+            simple_token_address: vaults.simple_token_address,
+            decimals: vaults.decimals,
+            id: vaults.id,
+            org_id: vaults.org_id,
+            vault_address: vaults.vault_address,
+            updated_at: vaults.updated_at,
+          },
+        ];
+        console.log(vault); // eslint-disable-line no-console
 
-    //TODO: Resolve the Typing Issues with Vault and GraphQLTypes['vaults']
-    const vault: Vault = [
-      {
-        created_at: new Date(),
-        created_by: vaults.created_by,
-        symbol: vaults.symbol,
-        token_address: vaults.token_address,
-        simple_token_address: vaults.simple_token_address,
-        decimals: vaults.decimals,
-        id: vaults.id,
-        org_id: vaults.org_id,
-        vault_address: vaults.vault_address,
-        updated_at: vaults.updated_at,
-      },
-    ];
+        submitDistribution({
+          amount: 900,
+          vault,
+          circleId: 2,
+          epochId: 2,
+          users,
+          gifts,
+        }).then(r => (response = r));
+      });
 
-    submitDistribution({
-      amount: 100,
-      vault,
-      circleId: 2,
-      epochId: 2,
-      users,
-    }).then(r => (response = r));
     return null;
   };
 
@@ -103,80 +110,18 @@ test('submit distribution', async () => {
       expect(response).toBeTruthy();
       expect(vaults).toBeTruthy();
     },
-    { timeout: 10000 }
+    { timeout: 60000 }
   );
-}, 10000);
+}, 60000);
 
-const users: GraphQLTypes['users'][] = [
-  {
-    __typename: 'users',
-    name: 'Test User',
-    address: '0xa88a4fb57AB3f374ce50a4353a1b7Eac4d98E741',
-    id: 21,
-    received_gifts: [],
-    circle_id: 2,
-    epoch_first_visit: false,
-    fixed_non_receiver: false,
-    give_token_received: 200,
-    give_token_remaining: 100,
-    non_giver: false,
-    non_receiver: false,
-    role: 0,
-    starting_tokens: 100,
-    burns: [],
-    circle: {
-      __typename: 'circles',
-      alloc_text: undefined,
-      auto_opt_out: false,
-      burns: [],
-      circle_private: undefined,
-      created_at: undefined,
-      default_opt_in: false,
-      epochs: [],
-      id: 0,
-      integrations: [],
-      is_verified: false,
-      logo: undefined,
-      min_vouches: 0,
-      name: '',
-      nomination_days_limit: 0,
-      nominees: [],
-      nominees_aggregate: {
-        __typename: 'nominees_aggregate',
-        aggregate: undefined,
-        nodes: [],
-      },
-      only_giver_vouch: false,
-      organization: undefined,
-      pending_token_gifts: [],
-      protocol_id: 0,
-      team_sel_text: undefined,
-      team_selection: false,
-      token_gifts: [],
-      token_gifts_aggregate: {
-        __typename: 'token_gifts_aggregate',
-        aggregate: undefined,
-        nodes: [],
-      },
-      token_name: '',
-      updated_at: undefined,
-      users: [],
-      vouching: false,
-      vouching_text: undefined,
-    },
-    pending_received_gifts: [],
-    pending_sent_gifts: [],
-    received_gifts_aggregate: {
-      __typename: 'token_gifts_aggregate',
-      aggregate: undefined,
-      nodes: [],
-    },
-    sent_gifts: [],
-    sent_gifts_aggregate: {
-      __typename: 'token_gifts_aggregate',
-      aggregate: undefined,
-      nodes: [],
-    },
-    teammates: [],
-  },
-];
+const users: Record<string, number> = {
+  '0x0000000000000000000000000000000000000001': 15,
+  '0x0000000000000000000000000000000000000002': 13,
+  '0x0000000000000000000000000000000000000003': 14,
+};
+
+const gifts = {
+  '0x0000000000000000000000000000000000000001': 200,
+  '0x0000000000000000000000000000000000000002': 300,
+  '0x0000000000000000000000000000000000000003': 400,
+};

@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { BigNumber, FixedNumber, utils } from 'ethers';
-import { GraphQLTypes, ValueTypes } from 'lib/gql/__generated__/zeus';
+import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import {
   useSaveEpochDistribution,
   useUpdateDistribution,
@@ -19,7 +19,8 @@ export type SubmitDistribution = {
   amount: number;
   vault: Vault;
   previousDistribution?: PreviousDistribution;
-  users: GraphQLTypes['users'][];
+  users: Record<string, number>;
+  gifts: Record<string, number>;
   circleId: number;
   epochId: number;
 };
@@ -38,18 +39,10 @@ export function useSubmitDistribution() {
     circleId,
     users,
     epochId,
+    gifts,
     previousDistribution,
   }: SubmitDistribution) => {
-    console.log(vault); //eslint-disable-line
     assert(vault, 'No vault is found');
-    const gifts = users.reduce((userList, user) => {
-      const amount = user.received_gifts.reduce(
-        (t, { tokens }) => t + tokens,
-        0
-      );
-      if (amount > 0) userList[user.address] = amount;
-      return userList;
-    }, {} as Record<string, number>);
 
     const denominator = FixedNumber.from(
       BigNumber.from(10).pow(vault[0].decimals)
@@ -74,7 +67,6 @@ export function useSubmitDistribution() {
     };
 
     try {
-      console.log(vault); //eslint-disable-line
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
         .getVault(vault[0].vault_address)
@@ -102,7 +94,7 @@ export function useSubmitDistribution() {
             )
           : calculateClaimAmount(claim.amount),
         proof: claim.proof.toString(),
-        user_id: users.find(({ address }) => address === address)?.id,
+        user_id: users[address],
       }));
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {
