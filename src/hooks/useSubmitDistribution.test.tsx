@@ -60,14 +60,14 @@ test('submit distribution', async () => {
     if (!contracts) return null;
 
     createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
-      if (v) vaults = v as GraphQLTypes['vaults'];
-      depositToken(vaults as unknown as GraphQLTypes['vaults'], 1000);
+      if (v) vaults = v.insert_vaults_one as GraphQLTypes['vaults'];
+      depositToken(vaults, 1000);
     });
 
     //TODO: Resolve the Typing Issues with Vault and GraphQLTypes['vaults']
     const vault: Vault = [
       {
-        created_at: vaults.created_at,
+        created_at: new Date(),
         created_by: vaults.created_by,
         symbol: vaults.symbol,
         token_address: vaults.token_address,
