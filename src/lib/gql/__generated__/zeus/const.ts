@@ -57,6 +57,40 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  Allocation: {
+    note: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    recipient_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  Allocations: {
+    allocations: {
+      type: 'Allocation',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   Boolean_comparison_exp: {
     _eq: {
       type: 'Boolean',
@@ -5534,6 +5568,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_vaults_one: {
       object: {
         type: 'vaults_insert_input',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateAllocations: {
+      payload: {
+        type: 'Allocations',
         array: false,
         arrayRequired: false,
         required: true,
@@ -13042,6 +13084,10 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AllocationsResponse: {
+    user: 'users',
+    user_id: 'Int',
+  },
   ConfirmationResponse: {
     success: 'Boolean',
   },
@@ -13244,6 +13290,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults: 'vaults_mutation_response',
     insert_vaults_one: 'vaults',
     logoutUser: 'LogoutResponse',
+    updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',

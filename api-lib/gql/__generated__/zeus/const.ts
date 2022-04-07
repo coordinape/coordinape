@@ -57,6 +57,40 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  Allocation: {
+    note: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    recipient_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  Allocations: {
+    allocations: {
+      type: 'Allocation',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   Boolean_comparison_exp: {
     _eq: {
       type: 'Boolean',
@@ -9119,6 +9153,14 @@ export const AllTypesProps: Record<string, any> = {
         array: false,
         arrayRequired: false,
         required: false,
+      },
+    },
+    updateAllocations: {
+      payload: {
+        type: 'Allocations',
+        array: false,
+        arrayRequired: false,
+        required: true,
       },
     },
     updateCircle: {
@@ -21771,6 +21813,10 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AllocationsResponse: {
+    user: 'users',
+    user_id: 'Int',
+  },
   ConfirmationResponse: {
     success: 'Boolean',
   },
@@ -22976,6 +23022,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',

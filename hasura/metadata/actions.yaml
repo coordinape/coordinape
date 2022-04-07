@@ -82,6 +82,16 @@ actions:
   permissions:
   - role: superadmin
   - role: user
+- name: updateAllocations
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/updateAllocations'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: updateCircle
   definition:
     kind: synchronous
@@ -183,6 +193,8 @@ custom_types:
   - name: DeleteUserInput
   - name: UpdateCircleInput
   - name: UpdateEpochInput
+  - name: Allocation
+  - name: Allocations
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -294,4 +306,14 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: AllocationsResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_id: id
   scalars: []
