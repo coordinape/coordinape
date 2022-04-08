@@ -3,7 +3,6 @@ import faker from 'faker';
 import iti from 'itiriri';
 import { DateTime, Duration, Interval } from 'luxon';
 
-import '../api-lib/node-fetch-shim';
 import { ValueTypes } from '../api-lib/gql/__generated__/zeus';
 import * as mutations from '../api-lib/gql/mutations';
 
