@@ -16,6 +16,21 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: ValueTypes['Allocation'][];
+    circle_id: number;
+  };
+  ['AllocationsResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -1680,6 +1695,10 @@ columns and relationships of "distributions" */
       ValueTypes['vaults']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateAllocations?: [
+      { payload: ValueTypes['Allocations'] },
+      ValueTypes['AllocationsResponse']
+    ];
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
@@ -4259,6 +4278,13 @@ columns and relationships of "distributions" */
 
 export type ModelTypes = {
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
+  ['Allocation']: GraphQLTypes['Allocation'];
+  ['Allocations']: GraphQLTypes['Allocations'];
+  ['AllocationsResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   ['ConfirmationResponse']: {
@@ -4760,6 +4786,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: ModelTypes['vaults'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateAllocations?: ModelTypes['AllocationsResponse'];
     updateCircle?: ModelTypes['UpdateCircleOutput'];
     updateEpoch?: ModelTypes['EpochResponse'];
     updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
@@ -5656,6 +5683,21 @@ export type GraphQLTypes = {
     non_receiver?: boolean;
     role?: number;
     starting_tokens?: number;
+  };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: Array<GraphQLTypes['Allocation']>;
+    circle_id: number;
+  };
+  ['AllocationsResponse']: {
+    __typename: 'AllocationsResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
@@ -7063,6 +7105,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateAllocations?: GraphQLTypes['AllocationsResponse'];
     updateCircle?: GraphQLTypes['UpdateCircleOutput'];
     updateEpoch?: GraphQLTypes['EpochResponse'];
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];

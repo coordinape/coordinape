@@ -211,6 +211,17 @@ export const updateCircleInput = z
   })
   .strict();
 
+export const updateAllocationsInput = z.object({
+  allocations: z
+    .object({
+      recipient_id: z.number().int().positive(),
+      tokens: z.number().int().min(0),
+      note: z.string().max(5000).optional(),
+    })
+    .array(),
+  circle_id: z.number().int().positive(),
+});
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),

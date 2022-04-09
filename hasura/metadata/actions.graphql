@@ -31,6 +31,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateAllocations(payload: Allocations!): AllocationsResponse
+}
+
+type Mutation {
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 }
 
@@ -171,6 +175,17 @@ input UpdateEpochInput {
   grant: Float
 }
 
+input Allocation {
+  recipient_id: Int!
+  tokens: Int!
+  note: String!
+}
+
+input Allocations {
+  allocations: [Allocation!]
+  circle_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -217,4 +232,8 @@ type ConfirmationResponse {
 
 type UpdateCircleOutput {
   id: Int!
+}
+
+type AllocationsResponse {
+  user_id: Int!
 }
