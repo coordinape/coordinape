@@ -46,10 +46,34 @@ jest.mock('./queries', () => ({
     },
   }),
   useSubmitDistribution: jest.fn(),
-  useGetAllocations: () => ({
-    data: mockEpoch,
-  }),
+  useGetAllocations: jest
+    .fn()
+    .mockReturnValue({
+      data: mockEpoch,
+    })
+    .mockReturnValueOnce({
+      data: mockEpoch,
+    })
+    .mockReturnValueOnce({
+      data: null,
+    }),
 }));
+
+test('no epoch found', async () => {
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <DistributePage />
+      </TestWrapper>
+    );
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+  });
+
+  screen.getByText('Sorry, epoch was not found.');
+});
 
 test('basic rendering', async () => {
   await act(async () => {

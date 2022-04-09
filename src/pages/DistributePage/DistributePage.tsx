@@ -124,8 +124,8 @@ function DistributePage() {
   if (isLoading) return <LoadingModal visible />;
 
   const pageMessage = () => {
-    if (!epoch) return `Sorry, epoch ${epochId} was not found.`;
-    if (!data?.epochs_by_pk) return `Sorry, Epoch ${epochId} was not found.`;
+    if (!epoch) return `Sorry, epoch was not found.`;
+    if (!data?.epochs_by_pk) return `Sorry, epoch was not found.`;
 
     if (currentUser.data && !isUserAdmin(currentUser.data))
       return "Sorry, you are not a circle admin so you can't access this feature.";
