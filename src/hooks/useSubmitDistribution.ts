@@ -31,7 +31,7 @@ export function useSubmitDistribution() {
   const { mutateAsync } = useSaveEpochDistribution();
   const { mutateAsync: updateDistributionMutateAsync } =
     useUpdateDistribution();
-  const { apeError } = useApeSnackbar();
+  const { apeError, showInfo } = useApeSnackbar();
 
   const submitDistribution = async ({
     amount,
@@ -76,7 +76,7 @@ export function useSubmitDistribution() {
         gifts,
         totalDistributionAmount,
         previousDistribution &&
-          JSON.parse(previousDistribution[0].distribution_json)
+          JSON.parse(previousDistribution.distribution_json)
       );
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
@@ -89,7 +89,7 @@ export function useSubmitDistribution() {
               claim.amount,
               address,
               JSON.parse(
-                previousDistribution[0].distribution_json
+                previousDistribution.distribution_json
               ) as MerkleDistributorInfo
             )
           : calculateClaimAmount(claim.amount),
@@ -121,8 +121,9 @@ export function useSubmitDistribution() {
         totalDistributionAmount,
         utils.hexlify(1)
       );
-
+      showInfo('Saving Distribution...');
       await updateDistributionMutateAsync(response.id);
+      showInfo('Distribution saved successfully');
       return true;
     } catch (e) {
       console.error(e);

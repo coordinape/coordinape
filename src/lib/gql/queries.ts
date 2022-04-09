@@ -45,6 +45,7 @@ export const getPreviousDistribution = async (
   return distributions;
 };
 
-export type PreviousDistribution = Awaited<
-  ReturnType<typeof getPreviousDistribution>
->;
+export type PreviousDistribution = Exclude<
+  Awaited<ReturnType<typeof getPreviousDistribution>>,
+  undefined
+>[0];

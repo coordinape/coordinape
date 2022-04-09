@@ -63,6 +63,8 @@ function DistributePage() {
     isLoading: loadingPreviousDistributions,
   } = usePreviousDistributions(Number(data?.epochs_by_pk?.circle?.id));
 
+  console.log(previousDistribution); //eslint-disable-line
+
   const isLoading =
     isAllocationsLoading ||
     currentUser.isLoading ||
@@ -79,7 +81,7 @@ function DistributePage() {
     0
   );
 
-  const { register, handleSubmit, control } = useForm<DistributionForm>({
+  const { handleSubmit, control } = useForm<DistributionForm>({
     resolver: zodResolver(DistributionFormSchema),
   });
 
@@ -267,7 +269,6 @@ function DistributePage() {
                   fieldState: { error },
                 }) => (
                   <ApeTextField
-                    {...register('amount')}
                     type="number"
                     error={!!error}
                     helperText={error ? error.message : null}
