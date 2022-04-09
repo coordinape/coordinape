@@ -35,7 +35,6 @@ const profile: IApiProfile = {
   id: 1,
   address: '0x100020003000400050006000700080009000a000',
   admin_view: false,
-  ann_power: false,
   created_at: '1970-01-01T00:00:00',
   updated_at: '1970-01-01T00:00:00',
 };

@@ -5,7 +5,6 @@ export interface IApiProfile {
   id: number;
   address: string;
   admin_view: boolean;
-  ann_power: boolean;
   avatar?: string;
   background?: string;
   bio?: string;
@@ -16,7 +15,6 @@ export interface IApiProfile {
   twitter_username?: string;
   website?: string;
   skills?: string[];
-  users: IApiUser[];
   created_at?: string;
   updated_at?: string;
   // Specific
