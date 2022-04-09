@@ -72,7 +72,6 @@ export const createNomineeInputSchema = z
 export const updateUserSchemaInput = z
   .object({
     circle_id: z.number(),
-    name: z.string().min(3).max(255).optional(),
     non_receiver: z.boolean().optional(),
     epoch_first_visit: z.boolean().optional(),
     bio: z.string().optional(),

@@ -120,7 +120,6 @@ input CreateNomineeInput {
 
 input UpdateUserInput {
   circle_id: Int!
-  name: String
   non_receiver: Boolean
   epoch_first_visit: Boolean
   bio: String

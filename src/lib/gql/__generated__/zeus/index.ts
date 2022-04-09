@@ -227,7 +227,6 @@ export type ValueTypes = {
     bio?: string | null;
     circle_id: number;
     epoch_first_visit?: boolean | null;
-    name?: string | null;
     non_receiver?: boolean | null;
   };
   ['UploadCircleImageInput']: {
@@ -5884,7 +5883,6 @@ export type GraphQLTypes = {
     bio?: string;
     circle_id: number;
     epoch_first_visit?: boolean;
-    name?: string;
     non_receiver?: boolean;
   };
   ['UploadCircleImageInput']: {
