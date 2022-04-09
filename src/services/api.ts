@@ -6,7 +6,6 @@ import { getSignature } from 'utils/provider';
 
 import {
   IApiTokenGift,
-  IApiProfile,
   IApiUser,
   IApiEpoch,
   IApiLogin,
@@ -81,10 +80,6 @@ export class APIService {
       },
     });
     return response.data;
-  };
-
-  getProfile = async (address: string): Promise<IApiProfile> => {
-    return (await this.axios.get(`/v2/profile/${address}`)).data;
   };
 
   updateEpoch = async (
