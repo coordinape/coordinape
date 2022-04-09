@@ -63,8 +63,6 @@ function DistributePage() {
     isLoading: loadingPreviousDistributions,
   } = usePreviousDistributions(Number(data?.epochs_by_pk?.circle?.id));
 
-  console.log(previousDistribution); //eslint-disable-line
-
   const isLoading =
     isAllocationsLoading ||
     currentUser.isLoading ||
