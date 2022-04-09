@@ -5,6 +5,7 @@ import {
   NominateUserParam,
   UpdateUsersParam,
   UpdateCreateEpochParam,
+  PostTokenGiftsParam,
 } from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
@@ -309,6 +310,32 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
     ],
   });
   return updateTeammates;
+}
+
+export async function updateAllocations(
+  circleId: number,
+  params: PostTokenGiftsParam[]
+) {
+  await client.mutate({
+    updateAllocations: [
+      {
+        payload: {
+          circle_id: circleId,
+          allocations: params.map(a => {
+            const withPatchedNote: Omit<typeof a, 'note'> & { note: string } = {
+              ...a,
+              note: a.note ? a.note : '',
+            };
+            return withPatchedNote;
+          }),
+        },
+      },
+      {
+        user_id: true,
+      },
+    ],
+  });
+  return;
 }
 
 export async function deleteUser(circleId: number, address: string) {
