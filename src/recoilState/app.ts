@@ -1,6 +1,7 @@
 // at 5k elements for filter-map-slice itiriri is more performant
 import iti from 'itiriri';
 import * as mutations from 'lib/gql/mutations';
+import * as queries from 'lib/gql/queries';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -144,7 +145,7 @@ export const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
     const [profile, selfIdProfile] = await Promise.all([
-      getApiService().getProfile(address),
+      queries.getProfile(address),
       getSelfIdProfile(address),
     ]);
 

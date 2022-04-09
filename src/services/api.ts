@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
-import { IApiProfile, IApiLogin, IApiManifest, IApiFullCircle } from 'types';
+import { IApiLogin, IApiManifest, IApiFullCircle } from 'types';
 
 axios.defaults.baseURL = API_URL;
 
@@ -71,10 +71,6 @@ export class APIService {
       },
     });
     return response.data;
-  };
-
-  getProfile = async (address: string): Promise<IApiProfile> => {
-    return (await this.axios.get(`/v2/profile/${address}`)).data;
   };
 
   downloadCSV = async (circleId: number, epoch: number): Promise<any> => {

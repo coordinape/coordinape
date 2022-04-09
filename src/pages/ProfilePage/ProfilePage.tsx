@@ -249,10 +249,14 @@ const ProfilePageContent = ({
     getAvatarPath(profile?.background, '/imgs/background/profile-bg.jpg')
   );
 
+  console.error('PROFFYUSER', profile?.users);
   const recentEpochs = profile?.users?.map(user => ({
     bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
     circle: user.circle,
   }));
+
+  console.error('ressyeppys');
+  console.error(recentEpochs);
 
   return (
     <div className={classes.root}>
