@@ -4,6 +4,7 @@ import {
   PostUsersParam,
   NominateUserParam,
   UpdateUsersParam,
+  UpdateCreateEpochParam,
 } from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
@@ -373,4 +374,26 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
     ],
   });
   return createEpoch;
+}
+
+export async function updateEpoch(
+  circleId: number,
+  epochId: number,
+  params: UpdateCreateEpochParam
+) {
+  const { updateEpoch } = await client.mutate({
+    updateEpoch: [
+      {
+        payload: {
+          circle_id: circleId,
+          id: epochId,
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return updateEpoch;
 }
