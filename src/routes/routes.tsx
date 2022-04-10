@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import DevPortalPage from '../pages/DevPortalPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
+import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributePage from 'pages/DistributePage';
@@ -53,10 +54,6 @@ export const AppRoutes = () => {
 };
 
 const LoggedInRoutes = () => {
-  const selectedUser = useSelectedCircleLoadable().valueMaybe()?.myUser;
-  const hasAdminView =
-    useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
-
   return (
     <Routes>
       <Route path={paths.home} element={<DefaultPage />} />
@@ -72,19 +69,17 @@ const LoggedInRoutes = () => {
       <Route path={paths.team} element={<AllocationPage />} />
       <Route path={paths.epoch} element={<AllocationPage />} />
       <Route path={paths.give} element={<AllocationPage />} />
-      <Route
-        path={paths.admin}
-        element={
-          selectedUser && !hasAdminView ? (
-            <Navigate to={paths.home} replace />
-          ) : (
-            <AdminPage legacy={true} />
-          )
-        }
-      />
+      <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.vaults} element={<VaultsPage />} />
       <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
-      <Route path={paths.adminCircles} element={<AdminPage />} />
+      <Route
+        path={paths.adminCircles}
+        element={
+          <RequireAdmin>
+            <AdminPage />
+          </RequireAdmin>
+        }
+      />
       <Route
         path={paths.connectIntegration}
         element={<IntegrationCallbackPage />}
@@ -99,4 +94,15 @@ const LoggedInRoutes = () => {
       <Route path="*" element={<Navigate to={paths.home} replace />} />
     </Routes>
   );
+};
+
+const RequireAdmin = ({ children }: { children: React.ReactElement }) => {
+  const selectedUser = useSelectedCircleLoadable().valueMaybe()?.myUser;
+  const hasAdminView =
+    useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
+
+  if (selectedUser && !hasAdminView)
+    return <Navigate to={paths.home} replace />;
+
+  return children;
 };

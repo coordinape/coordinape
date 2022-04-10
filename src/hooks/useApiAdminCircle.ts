@@ -34,8 +34,8 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const createEpoch = useRecoilLoadCatch(
-    () => async (params: UpdateCreateEpochParam) => {
-      await getApiService().createEpoch(circleId, params);
+    () => async (params: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>) => {
+      await mutations.createEpoch({ circle_id: circleId, ...params });
       await fetchManifest();
     },
     [circleId],

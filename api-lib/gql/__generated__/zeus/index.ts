@@ -1,4 +1,6 @@
 /* eslint-disable */
+import WebSocket from 'ws';
+import fetch from 'node-fetch';
 
 import { AllTypesProps, ReturnTypes } from './const';
 type ZEUS_INTERFACES = never;
@@ -16,6 +18,21 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: ValueTypes['Allocation'][];
+    circle_id: number;
+  };
+  ['AllocationsResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -197,6 +214,14 @@ export type ValueTypes = {
     id?: boolean;
     __typename?: boolean;
   }>;
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    id: number;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean;
     /** An object relationship */
@@ -4217,9 +4242,17 @@ columns and relationships of "distributions" */
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateAllocations?: [
+      { payload: ValueTypes['Allocations'] },
+      ValueTypes['AllocationsResponse']
+    ];
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
+    ];
+    updateEpoch?: [
+      { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
@@ -9820,6 +9853,13 @@ columns and relationships of "distributions" */
 
 export type ModelTypes = {
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
+  ['Allocation']: GraphQLTypes['Allocation'];
+  ['Allocations']: GraphQLTypes['Allocations'];
+  ['AllocationsResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   ['ConfirmationResponse']: {
@@ -9873,6 +9913,7 @@ export type ModelTypes = {
     circle: ModelTypes['circles'];
     id: number;
   };
+  ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateProfileResponse']: {
     id: number;
     /** An object relationship */
@@ -10488,7 +10529,7 @@ export type ModelTypes = {
     nominees_aggregate: ModelTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: ModelTypes['organizations'];
+    organization: ModelTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
     /** An aggregate relationship */
@@ -11074,7 +11115,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     days?: number;
     end_date: ModelTypes['timestamptz'];
     ended: boolean;
@@ -11091,12 +11132,12 @@ columns and relationships of "distributions" */
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: ModelTypes['timestamptz'];
+    start_date: ModelTypes['timestamptz'];
     /** An array relationship */
     token_gifts: ModelTypes['token_gifts'][];
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "epoches" */
   ['epochs_aggregate']: {
@@ -11731,7 +11772,9 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: ModelTypes['vouches'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateAllocations?: ModelTypes['AllocationsResponse'];
     updateCircle?: ModelTypes['UpdateCircleOutput'];
+    updateEpoch?: ModelTypes['EpochResponse'];
     updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
@@ -14006,6 +14049,21 @@ export type GraphQLTypes = {
     role?: number;
     starting_tokens?: number;
   };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: Array<GraphQLTypes['Allocation']>;
+    circle_id: number;
+  };
+  ['AllocationsResponse']: {
+    __typename: 'AllocationsResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean;
@@ -14164,6 +14222,14 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     id: number;
+  };
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    id: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
@@ -15233,7 +15299,7 @@ export type GraphQLTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: GraphQLTypes['organizations'];
+    organization: GraphQLTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
@@ -16378,7 +16444,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     days?: number;
     end_date: GraphQLTypes['timestamptz'];
     ended: boolean;
@@ -16395,12 +16461,12 @@ columns and relationships of "distributions" */
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: GraphQLTypes['timestamptz'];
+    start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "epoches" */
   ['epochs_aggregate']: {
@@ -17419,7 +17485,9 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateAllocations?: GraphQLTypes['AllocationsResponse'];
     updateCircle?: GraphQLTypes['UpdateCircleOutput'];
+    updateEpoch?: GraphQLTypes['EpochResponse'];
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];
@@ -21613,6 +21681,7 @@ export const enum pending_gift_private_select_column {
 /** unique or primary key constraints on table "pending_token_gifts" */
 export const enum pending_token_gifts_constraint {
   pending_token_gifts_pkey = 'pending_token_gifts_pkey',
+  pending_token_gifts_sender_id_recipient_id_epoch_id_key = 'pending_token_gifts_sender_id_recipient_id_epoch_id_key',
 }
 /** select columns of table "pending_token_gifts" */
 export const enum pending_token_gifts_select_column {
@@ -22343,11 +22412,24 @@ const handleFetchResponse = (
 export const apiFetch =
   (options: fetchOptions) =>
   (query: string, variables: Record<string, any> = {}) => {
-    let fetchFunction = fetch;
+    let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
+    try {
+      fetchFunction = require('node-fetch');
+    } catch (error) {
+      throw new Error(
+        "Please install 'node-fetch' to use zeus in nodejs environment"
+      );
+    }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      queryString = encodeURIComponent(query);
+      try {
+        queryString = require('querystring').stringify(query);
+      } catch (error) {
+        throw new Error(
+          "Something gone wrong 'querystring' is a part of nodejs environment"
+        );
+      }
       return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
@@ -22376,6 +22458,7 @@ export const apiFetch =
 
 export const apiSubscription = (options: chainOptions) => (query: string) => {
   try {
+    const WebSocket = require('ws');
     const queryString = options[0] + '?query=' + encodeURIComponent(query);
     const wsString = queryString.replace('http', 'ws');
     const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
@@ -22406,7 +22489,7 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
       },
     };
   } catch {
-    throw new Error('No websockets implemented');
+    throw new Error('No websockets implemented. Please install ws');
   }
 };
 

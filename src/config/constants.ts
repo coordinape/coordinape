@@ -4,7 +4,7 @@ import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-co
 
 // TODO: why does this error?
 // import { EConnectorNames } from 'types';
-enum EConnectorNames {
+export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',

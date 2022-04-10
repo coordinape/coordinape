@@ -1,260 +1,140 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
-import { Divider, Typography, makeStyles } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import { DateTime } from 'luxon';
+import { useQuery } from 'react-query';
+import { styled } from 'stitches.config';
 
-import { ApeTabs, ApeAvatar } from 'components';
-import { useUserGifts } from 'recoilState/allocation';
+import { LoadingModal } from 'components';
+import { Paginator } from 'components/Paginator';
 import { useSelectedCircle } from 'recoilState/app';
+import { paths } from 'routes/paths';
+import { Panel, Text, AppLink } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 700,
-    color: theme.colors.primary,
-    margin: theme.spacing(6, 2),
-  },
-  body: {
-    margin: theme.spacing(1, 0, 4),
-    padding: theme.spacing(0, 2, 1),
-    width: '100%',
-  },
-  bodyInner: {
-    width: '100%',
-    maxWidth: theme.breakpoints.values.lg,
-    borderRadius: 8,
-    background: '#DFE7E8',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    margin: 'auto',
-    padding: theme.spacing(5, 6),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(4, 3),
-    },
-  },
-  epochSummary: {
-    marginRight: theme.spacing(5),
-    marginBottom: theme.spacing(5),
-    minWidth: 427,
-    [theme.breakpoints.down('xs')]: {
-      minWidth: 0,
-      width: '100%',
-    },
-  },
-  epochGifts: {
-    flex: 1,
-    minWidth: 576,
-    [theme.breakpoints.down('xs')]: {
-      minWidth: 0,
-      width: '100%',
-    },
-  },
-  epochHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    flexWrap: 'wrap',
-    padding: theme.spacing(1, 0, 1.5),
-  },
-  epochTitle: {
-    color: theme.colors.red,
-    fontSize: 30,
-    lineHeight: 1.3,
-    fontWeight: 600,
-    margin: theme.spacing(0, 0, -0.5),
-  },
-  pagination: {
-    marginTop: theme.spacing(1),
-  },
-  epochItem: {
-    color: theme.colors.text,
-    fontSize: 30,
-    lineHeight: 1.3,
-    fontWeight: 600,
-    margin: theme.spacing(1, 0),
-  },
-  epochSubItem: {
-    fontWeight: 300,
-    fontSize: 20,
-    marginLeft: theme.spacing(1),
-  },
-  epochSubtitle: {
-    color: theme.colors.text,
-    opacity: 0.5,
-    fontSize: 20,
-    lineHeight: 1.25,
-    fontWeight: 600,
-    margin: theme.spacing(5, 0, 0),
-  },
+import { CurrentEpochPanel } from './CurrentEpochPanel';
+import { EpochPanel } from './EpochPanel';
+import { getHistoryData } from './getHistoryData';
 
-  tabPanel: {
-    padding: theme.spacing(5, 1),
-  },
-  giftRow: {
-    display: 'grid',
-    gridTemplateColumns: '75px 1fr',
-    gap: 21,
-  },
-  avatar: {
-    alignSelf: 'center',
-    width: 75,
-    height: 75,
-    margin: theme.spacing(2, 0),
-  },
-  giftTitle: {
-    color: theme.colors.red,
-    fontSize: 20,
-    lineHeight: 1.25,
-    fontWeight: 600,
-    margin: theme.spacing(3, 0, 2),
-  },
-  giftNote: {
-    overflowWrap: 'anywhere',
-    margin: theme.spacing(0, 0, 3),
-    color: 'rgba(0, 0, 0, 0.7)',
-    fontWeight: 300,
-  },
-  giftRowText: {},
-}));
+import type { Awaited } from 'types/shim';
+
+const pageSize = 3;
 
 export const HistoryPage = () => {
-  const classes = useStyles();
-  const [tabIdx, setTabIdx] = useState<number>(0);
-  const isReceiving = tabIdx === 0;
-
-  const [page, setPage] = useState<number>(0);
-  const pastEpochIdx = page - 1;
-
   const {
-    circle,
-    myUser,
-    circleEpochsStatus: { pastEpochs, longTimingMessage },
+    circle: { id: circleId },
+    myUser: { id: userId },
   } = useSelectedCircle();
-  const { fromUserByEpoch, forUserByEpoch, totalReceivedByEpoch } =
-    useUserGifts(myUser.id);
 
-  const selectedEpoch = pastEpochs[pastEpochIdx];
-  const selectedEpochId = selectedEpoch?.id ?? -1;
+  const query = useQuery(
+    ['history', circleId],
+    () => getHistoryData(circleId, userId),
+    { enabled: !!userId && !!circleId }
+  );
 
-  const totalReceived = totalReceivedByEpoch.get(selectedEpochId) ?? 0;
+  const circle = query.data?.circles_by_pk;
+  const me = circle?.users[0];
 
-  const percentReceived =
-    selectedEpoch?.totalTokens > 0
-      ? Math.round((10000 * totalReceived) / selectedEpoch.totalTokens) / 100
-      : 0;
+  const nextEpoch = circle?.future.epochs[0];
+  const nextEpochStartLabel = useMemo(() => {
+    if (!nextEpoch) return '';
+    const date = DateTime.fromISO(nextEpoch.start_date);
+    const diff = date
+      .diffNow(['days', 'hours', 'minutes'])
+      .toHuman({ unitDisplay: 'short', notation: 'compact' });
+    return `starts in ${diff}, on ${date.toFormat('LLL d')}`;
+  }, [nextEpoch]);
 
-  useEffect(() => {
-    if (page === 0) {
-      setPage(pastEpochs.length);
-    }
-  }, [pastEpochs]);
+  const currentEpoch = circle?.current.epochs[0];
+  const pastEpochs = circle?.past.epochs || [];
 
-  const gifts =
-    (isReceiving
-      ? forUserByEpoch.get(selectedEpochId)
-      : fromUserByEpoch.get(selectedEpochId)) ?? [];
-  const list = gifts
-    .flatMap((gift, idx) => {
-      const user = isReceiving ? gift.sender : gift.recipient;
-      const receivedMessage =
-        gift.tokens > 0 ? `+${gift.tokens} Received from ` : 'From ';
-      const giveMessage = gift.tokens > 0 ? `+${gift.tokens} Given to ` : 'To ';
-      const message = isReceiving ? receivedMessage : giveMessage;
-      return [
-        <div key={idx} className={classes.giftRow}>
-          <ApeAvatar user={user} className={classes.avatar} />
-          <div className={classes.giftRowText}>
-            <h5 className={classes.giftTitle}>
-              {message}
-              {(isReceiving ? gift.sender : gift.recipient)?.name || 'Unknown'}
-            </h5>
-            {gift.note && (
-              <Typography className={classes.giftNote} variant="body1">
-                &ldquo;{gift.note}&rdquo;
-              </Typography>
-            )}
-          </div>
-        </div>,
-        idx < gifts.length - 1 ? <Divider key={-1 - idx} /> : undefined,
-      ];
-    })
-    .filter(elem => elem !== undefined);
+  // TODO fetch only data for page shown
+  const [page, setPage] = useState(0);
+  const shownPastEpochs = useMemo(
+    () => pastEpochs.slice(page * pageSize, (page + 1) * pageSize),
+    [pastEpochs, page]
+  );
+  const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
-  return !selectedEpoch || !selectedEpoch || !circle ? (
-    <div className={classes.root}>
-      <h2 className={classes.title}>{longTimingMessage}</h2>
-    </div>
-  ) : (
-    <div className={classes.root}>
-      <h2 className={classes.title}>{longTimingMessage}</h2>
-      <div className={classes.body}>
-        <div className={classes.bodyInner}>
-          <div className={classes.epochSummary}>
-            <div className={classes.epochHeader}>
-              <h3 className={classes.epochTitle}>
-                Epoch {selectedEpoch.number}
-              </h3>
-              {pastEpochs.length > 1 && (
-                <Pagination
-                  shape="rounded"
-                  variant="outlined"
-                  count={pastEpochs.length}
-                  onChange={(event: any, value: number) => setPage(value)}
-                  page={page}
-                  className={classes.pagination}
-                />
-              )}
-            </div>
-            <Divider />
-            <h3 className={classes.epochItem}>{selectedEpoch.labelDayRange}</h3>
+  const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
+  const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-            {selectedEpoch.grant !== '0.00' ? (
-              <>
-                <h4 className={classes.epochSubtitle}>Total Distributed</h4>
-                <Divider />
-                <h3 className={classes.epochItem}>{selectedEpoch.grant}</h3>
-              </>
-            ) : undefined}
+  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
 
-            <h4 className={classes.epochSubtitle}>Total Allocations</h4>
-            <Divider />
-            <h3 className={classes.epochItem}>{selectedEpoch.totalTokens}</h3>
+  if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
+    return (
+      <SingleColumnLayout>
+        <p>
+          This circle has no epochs yet.{' '}
+          {me?.role === 1 ? (
+            <>
+              <AppLink to={paths.adminCircles}>Visit the admin page</AppLink> to
+              create one.
+            </>
+          ) : (
+            <>Please return once your admin has created one.</>
+          )}
+        </p>
+      </SingleColumnLayout>
+    );
+  }
 
-            <h4 className={classes.epochSubtitle}>You Received</h4>
-            <Divider />
-            <h3 className={classes.epochItem}>
-              {totalReceived} {circle.token_name}
-              <span className={classes.epochSubItem}>({percentReceived}%)</span>
-            </h3>
-          </div>
-          <div className={classes.epochGifts}>
-            <ApeTabs
-              tabIdx={tabIdx}
-              setTabIdx={setTabIdx}
-              tabs={[
-                {
-                  label: 'Received',
-                  panel: <div className={classes.tabPanel}>{list}</div>,
-                },
-                {
-                  label: 'Sent',
-                  panel: <div className={classes.tabPanel}>{list}</div>,
-                },
-              ]}
+  return (
+    <SingleColumnLayout>
+      <Text variant="sectionHeader" css={{ mb: '$md' }}>
+        {circle?.name}
+      </Text>
+      {nextEpoch && (
+        <>
+          <Header>Next</Header>
+          <Panel css={{ mb: '$md', color: '#717C7F' }}>
+            <Text inline>
+              <Text inline bold color="gray" font="inter">
+                Next Epoch
+              </Text>{' '}
+              {nextEpochStartLabel}
+            </Text>
+          </Panel>
+        </>
+      )}
+      {currentEpoch && (
+        <>
+          <Header>Current</Header>
+          <CurrentEpochPanel
+            css={{ mb: '$md' }}
+            epoch={currentEpoch}
+            vouching={circle?.vouching}
+            nominees={nominees}
+            unallocated={unallocated}
+            tokenName={circle?.token_name}
+          />
+        </>
+      )}
+      {pastEpochs.length > 0 && (
+        <>
+          <Header>Past</Header>
+          {shownPastEpochs.map((epoch: QueryEpoch) => (
+            <EpochPanel
+              key={epoch.id}
+              epoch={epoch}
+              tokenName={circle?.token_name || 'GIVE'}
             />
-          </div>
-        </div>
-      </div>
-    </div>
+          ))}
+          <Paginator pages={totalPages} current={page} onSelect={setPage} />
+        </>
+      )}
+    </SingleColumnLayout>
   );
 };
 
-export default HistoryPage;
+const Header = styled(Text, {
+  fontSize: '$7',
+  fontFamily: 'Inter !important',
+  color: '$placeholder !important',
+  fontWeight: '$semibold',
+});
+
+export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
+export type QueryEpoch = Exclude<
+  QueryResult['circles_by_pk'],
+  undefined
+>['past']['epochs'][0];

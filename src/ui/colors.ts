@@ -1,4 +1,4 @@
-// Updated at Tue, 08 Mar 2022 03:02:53 GMT
+// Updated at Thu, 17 Mar 2022 20:48:15 GMT
 // by scripts/update-figma-colors.ts
 
 export const colors = {
@@ -9,6 +9,8 @@ export const colors = {
   'Blue/24': '#062b4c',
   'Blue/4': '#c2dffa',
   'Blue/8': '#72b6f4',
+  // DiscordBlurple
+  DiscordBlurple: '#5865f2',
   // Green
   'Green/1': '#e5f7dd',
   'Green/12': '#57b62b',
@@ -28,7 +30,7 @@ export const colors = {
   'Grey/4': '#e1e1e1',
   'Grey/8': '#c3c8c9',
   // Orange
-  'Orange/1': '#fefbf8',
+  'Orange/1': '#fff2e5',
   'Orange/12': '#f29552',
   'Orange/16': '#e46910',
   'Orange/20': '#a44c0c',

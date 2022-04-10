@@ -5,6 +5,26 @@ import {
   zStringISODateUTC,
 } from '../../../src/forms/formHelpers';
 
+const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+export const loginInput = z.object({
+  address: zEthAddressOnly,
+  data: z.string().refine(
+    msg => {
+      const templateOk = msg.startsWith('Login to Coordinape');
+      const timestamp = msg.split(' ').pop();
+      const timestampInPast =
+        timestamp && Number.parseInt(timestamp) * 1000 < Date.now();
+
+      const validLength = msg.length === 30;
+
+      return templateOk && validLength && timestampInPast;
+    },
+    { message: 'Invalid message payload' }
+  ),
+  hash: z.string(),
+  signature: z.string().regex(PERSONAL_SIGN_REGEX),
+});
+
 export const createCircleSchemaInput = z
   .object({
     user_name: z.string().min(3).max(255),
@@ -132,6 +152,37 @@ export const createEpochInput = z
     }
   });
 
+export const updateEpochInput = z
+  .object({
+    id: z.number().int().positive(),
+    circle_id: z.number().int().positive(),
+    start_date: zStringISODateUTC,
+    repeat: z.number().int().min(0).max(2),
+    days: z
+      .number()
+      .min(1, 'Must be at least one day.')
+      .max(100, 'cant be more than 100 days'),
+    grant: z.number().positive().min(1).max(1000000000).optional(),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    let message;
+    if (val.days > 7 && val.repeat === 1) {
+      message =
+        'You cannot have more than 7 days length for a weekly repeating epoch.';
+    } else if (val.days > 28 && val.repeat === 2) {
+      message =
+        'You cannot have more than 28 days length for a monthly repeating epoch.';
+    }
+
+    if (message) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message,
+      });
+    }
+  });
+
 export const updateTeammatesInput = z
   .object({
     teammates: z.number().int().positive().array(),
@@ -159,6 +210,17 @@ export const updateCircleInput = z
     vouching_text: z.string().max(5000).optional(),
   })
   .strict();
+
+export const updateAllocationsInput = z.object({
+  allocations: z
+    .object({
+      recipient_id: z.number().int().positive(),
+      tokens: z.number().int().min(0),
+      note: z.string().max(5000).optional(),
+    })
+    .array(),
+  circle_id: z.number().int().positive(),
+});
 
 export const HasuraAdminSessionVariables = z
   .object({
@@ -205,6 +267,16 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
       HasuraUserSessionVariables,
     ]),
     request_query: z.string().optional(),
+  });
+}
+
+export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
+  inputSchema:
+    | z.ZodObject<T, 'strict' | 'strip'>
+    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
+) {
+  return z.object({
+    input: z.object({ payload: inputSchema }),
   });
 }
 

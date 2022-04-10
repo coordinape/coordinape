@@ -38,10 +38,17 @@ type ModalProps = {
   title?: string;
   onClose: () => void;
   css?: CSS;
+  open?: boolean;
 };
-export const Modal = ({ children, title, onClose, css = {} }: ModalProps) => {
+export const Modal = ({
+  children,
+  title,
+  onClose,
+  css = {},
+  open = true,
+}: ModalProps) => {
   return (
-    <Dialog.Root defaultOpen modal open>
+    <Dialog.Root defaultOpen modal open={open}>
       <Dialog.Portal>
         <Overlay>
           <Content css={css}>

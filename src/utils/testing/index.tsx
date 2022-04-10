@@ -40,13 +40,8 @@ const connector = new NetworkConnector({
   urls: { [chainId]: rpcUrl },
 });
 
-const Web3Activator = ({
-  children,
-  enabled,
-}: {
-  children: ReactElement;
-  enabled: boolean;
-}) => {
+type Web3ActivatorProps = { children: ReactElement; enabled: boolean };
+const Web3Activator = ({ children, enabled }: Web3ActivatorProps) => {
   const web3 = useWeb3React();
   useEffect(() => {
     if (enabled) web3.activate(connector);
@@ -100,4 +95,4 @@ export const restoreSnapshot = async (snapshotId?: string) => {
   return provider.send('evm_revert', [snapshotId]);
 };
 
-export * from './testing/recoil';
+export * from './recoil';

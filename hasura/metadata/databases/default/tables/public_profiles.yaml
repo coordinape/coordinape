@@ -79,23 +79,23 @@ update_permissions:
         _eq: X-Hasura-User-Id
     set:
       id: X-Hasura-User-Id
-  role: user
+  role: superadmin
 - permission:
     check: null
     columns:
-      - avatar
-      - background
-      - bio
-      - discord_username
-      - github_username
-      - medium_username
-      - skills
-      - telegram_username
-      - twitter_username
-      - website
+    - avatar
+    - background
+    - bio
+    - discord_username
+    - github_username
+    - medium_username
+    - skills
+    - telegram_username
+    - twitter_username
+    - website
     filter:
       id:
         _eq: X-Hasura-User-Id
     set:
       id: X-Hasura-User-Id
-  role: superadmin
+  role: user

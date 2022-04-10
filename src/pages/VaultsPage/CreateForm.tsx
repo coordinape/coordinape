@@ -59,7 +59,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.data?.id);
+  const { createVault } = useVaultFactory(currentOrg.data?.id);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
 
@@ -147,7 +147,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         ))}
       </Box>
       <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
-      <Text variant="formLabel" css={{ width: '100%' }}>
+      <Text variant="formLabel" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
           <span>

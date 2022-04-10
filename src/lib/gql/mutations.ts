@@ -395,3 +395,19 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
   });
   return updateUser;
 }
+
+export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
+  const { createEpoch } = await client.mutate({
+    createEpoch: [
+      {
+        payload: {
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return createEpoch;
+}

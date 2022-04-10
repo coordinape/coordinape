@@ -16,6 +16,21 @@ export type ValueTypes = {
     role?: number | null;
     starting_tokens?: number | null;
   };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: ValueTypes['Allocation'][];
+    circle_id: number;
+  };
+  ['AllocationsResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean;
+    __typename?: boolean;
+  }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | null;
@@ -184,6 +199,14 @@ export type ValueTypes = {
     id?: boolean;
     __typename?: boolean;
   }>;
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | null;
+    id: number;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean;
     /** An object relationship */
@@ -1730,9 +1753,17 @@ columns and relationships of "distributions" */
       ValueTypes['vaults']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    updateAllocations?: [
+      { payload: ValueTypes['Allocations'] },
+      ValueTypes['AllocationsResponse']
+    ];
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
+    ];
+    updateEpoch?: [
+      { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
@@ -4311,6 +4342,13 @@ columns and relationships of "distributions" */
 
 export type ModelTypes = {
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
+  ['Allocation']: GraphQLTypes['Allocation'];
+  ['Allocations']: GraphQLTypes['Allocations'];
+  ['AllocationsResponse']: {
+    /** An object relationship */
+    user: ModelTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   ['ConfirmationResponse']: {
@@ -4362,6 +4400,7 @@ export type ModelTypes = {
     circle: ModelTypes['circles'];
     id: number;
   };
+  ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateProfileResponse']: {
     id: number;
     /** An object relationship */
@@ -4522,7 +4561,7 @@ export type ModelTypes = {
     nominees_aggregate: ModelTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: ModelTypes['organizations'];
+    organization: ModelTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: ModelTypes['pending_token_gifts'][];
     protocol_id: number;
@@ -4714,7 +4753,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     days?: number;
     end_date: ModelTypes['timestamptz'];
     ended: boolean;
@@ -4728,12 +4767,12 @@ columns and relationships of "distributions" */
     number?: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: ModelTypes['timestamptz'];
+    start_date: ModelTypes['timestamptz'];
     /** An array relationship */
     token_gifts: ModelTypes['token_gifts'][];
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
   ['epochs_aggregate_order_by']: GraphQLTypes['epochs_aggregate_order_by'];
@@ -4820,7 +4859,9 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: ModelTypes['vaults'];
     logoutUser?: ModelTypes['LogoutResponse'];
+    updateAllocations?: ModelTypes['AllocationsResponse'];
     updateCircle?: ModelTypes['UpdateCircleOutput'];
+    updateEpoch?: ModelTypes['EpochResponse'];
     updateTeammates?: ModelTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: ModelTypes['UserResponse'];
@@ -5716,6 +5757,21 @@ export type GraphQLTypes = {
     role?: number;
     starting_tokens?: number;
   };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['Allocations']: {
+    allocations?: Array<GraphQLTypes['Allocation']>;
+    circle_id: number;
+  };
+  ['AllocationsResponse']: {
+    __typename: 'AllocationsResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean;
@@ -5872,6 +5928,14 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     id: number;
+  };
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number;
+    id: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
@@ -6272,7 +6336,7 @@ export type GraphQLTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     only_giver_vouch: boolean;
     /** An object relationship */
-    organization?: GraphQLTypes['organizations'];
+    organization: GraphQLTypes['organizations'];
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     protocol_id: number;
@@ -6863,7 +6927,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     days?: number;
     end_date: GraphQLTypes['timestamptz'];
     ended: boolean;
@@ -6877,12 +6941,12 @@ columns and relationships of "distributions" */
     number?: number;
     repeat: number;
     repeat_day_of_month: number;
-    start_date?: GraphQLTypes['timestamptz'];
+    start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** order by aggregate values of table "epoches" */
   ['epochs_aggregate_order_by']: {
@@ -7167,7 +7231,9 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'];
     logoutUser?: GraphQLTypes['LogoutResponse'];
+    updateAllocations?: GraphQLTypes['AllocationsResponse'];
     updateCircle?: GraphQLTypes['UpdateCircleOutput'];
+    updateEpoch?: GraphQLTypes['EpochResponse'];
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'];
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'];

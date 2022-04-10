@@ -6,11 +6,10 @@
 
 # Re-seed database
 if [ "$1" == "--clean" ]
-  then node ./scripts/tsrun.mjs ./scripts/db-clean.ts
+  then ts-node ./scripts/db-clean.ts
 fi
-node ./scripts/tsrun.mjs ./scripts/db-seed.ts
-node ./scripts/tsrun.mjs ./scripts/db-add-me.ts
+ts-node ./scripts/db-seed.ts
+ts-node ./scripts/db-add-me.ts
 
 # Re-enable event triggers post-seeding
 ./scripts/enable-triggers.sh
-

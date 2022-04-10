@@ -9,5 +9,4 @@ alter table "public"."protocols" alter column "created_at" set not null;
 
 alter table "public"."protocols" alter column "updated_at" set not null;
 
-alter table "public"."circles" add column "contact" text
- null;
+alter table "public"."circles" add column if not exists "contact" text null;

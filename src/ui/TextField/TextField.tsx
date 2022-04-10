@@ -4,9 +4,10 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
+  background: '$lightBackground',
+  border: '1px solid $lightBackground',
   '&:focus': {
     border: '1px solid $lightBlue',
-    boxSizing: 'border-box',
   },
   '&::placeholder': {
     color: '$placeholder',
@@ -15,7 +16,6 @@ export const TextField = styled('input', {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
-  background: '$lightBackground',
   borderRadius: '8px',
 
   fontWeight: '$light',

@@ -10,7 +10,6 @@ import {
   NoticeBox,
   ApeAvatar,
   ActionDialog,
-  OrganizationHeader,
   ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
@@ -50,8 +49,8 @@ const useStyles = makeStyles(theme => ({
     background: theme.colors.ultraLightGray,
     alignItems: 'center',
     columnGap: theme.spacing(3),
-    padding: theme.spacing(0, 4),
-    margin: theme.spacing(4, 0),
+    padding: theme.spacing(0, 4, 4),
+    margin: theme.spacing(4, 4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
       gridTemplateColumns: '1fr',
@@ -178,6 +177,19 @@ const useStyles = makeStyles(theme => ({
       color: theme.colors.text,
     },
   },
+  tooltipWrapper: {
+    marginTop: '6px',
+  },
+  tooltipTitle: {
+    fontSize: '18px',
+  },
+  tooltipBodyText: {
+    fontSize: '14px',
+  },
+  tooltip: {
+    padding: theme.spacing(4),
+    maxWidth: 296,
+  },
 }));
 
 const TableLink = styled(Link, {
@@ -204,7 +216,7 @@ const epochDetail = (e: IEpoch) => {
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
-const AdminPage = ({ legacy }: { legacy?: boolean }) => {
+const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
   const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
@@ -368,6 +380,33 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                   onClick={getToProfile({ address: u.address })}
                 />
                 <span>{u.name}</span>
+                <span>
+                  {u.role === USER_ROLE_COORDINAPE ? (
+                    <div className={classes.tooltipWrapper}>
+                      <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
+                        <b className={classes.tooltipTitle}>
+                          Why is Coordinape in your circle?
+                        </b>
+                        <p className={classes.tooltipBodyText}>
+                          We&apos;re experimenting with the gift circle
+                          mechanism as our revenue model. By default, Coordinape
+                          appears in your circle and any user can allocate to
+                          Coordinape. To remove the Coordinape user, click the
+                          trash can icon on the right side of this row.
+                        </p>
+                        <a
+                          href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Let us know what you think
+                        </a>
+                      </ApeInfoTooltip>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </span>
               </div>
             );
           },
@@ -473,7 +512,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <h2 className={classes.title}>{selectedCircle?.name}</h2>

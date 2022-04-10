@@ -12,18 +12,25 @@ export const panelStyles = css({
 export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surfaceGray',
+  border: '1px solid $surfaceGray',
+  padding: '$lg',
 
   variants: {
-    variant: {
-      stack: {
-        padding: '$lg',
+    stack: {
+      true: {
         display: 'flex',
         flexDirection: 'column',
+      },
+    },
+    nested: {
+      true: {
+        padding: '$md',
+        backgroundColor: 'white',
       },
     },
   },
 
   defaultVariants: {
-    variant: 'stack',
+    stack: true,
   },
 });

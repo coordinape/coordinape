@@ -1,7 +1,9 @@
+import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 
+import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
 import { supportedChainIds } from 'services/contracts';
 
@@ -21,8 +23,8 @@ const walletlink = new WalletLinkConnector({
   appName: 'Coordinape',
 });
 
-export const connectors = {
-  injected,
-  walletconnect: makeWalletConnectConnector(),
-  walletlink,
+export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
+  [EConnectorNames.Injected]: injected,
+  [EConnectorNames.WalletConnect]: makeWalletConnectConnector(),
+  [EConnectorNames.WalletLink]: walletlink,
 };

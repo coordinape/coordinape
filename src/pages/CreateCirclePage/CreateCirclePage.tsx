@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import uniqBy from 'lodash/uniqBy';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Button, makeStyles } from '@material-ui/core';
 
@@ -101,6 +101,7 @@ const useStyles = makeStyles(theme => ({
 export const SummonCirclePage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   const { address: myAddress, myUsers } = useMyProfile();
   const { selectCircle } = useApiBase();
@@ -128,17 +129,20 @@ export const SummonCirclePage = () => {
     );
   }
 
+  const org = protocols.find(p => p.id === Number(params.get('org')));
+  const source = { protocol_id: org?.id, protocol_name: org?.name };
+
   return (
     <div className={classes.root}>
       <h2 className={classes.title}>Create a Circle</h2>
       <CreateCircleForm.FormController
-        source={undefined}
+        source={source}
         submit={async ({ ...params }) => {
           try {
             const newCircle = await createCircle({ ...params });
             selectCircle(newCircle.id);
             navigate({
-              pathname: paths.getAdminPath(),
+              pathname: paths.paths.adminCircles,
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
             });
           } catch (e) {
@@ -180,8 +184,18 @@ export const SummonCirclePage = () => {
                   label="Organization Name"
                   fullWidth
                   TextFieldProps={{
-                    infoTooltip:
-                      'For security purposes, organizations are hidden on the frontend until verified. Contact an admin on Discord for more details.',
+                    infoTooltip: (
+                      <>
+                        Circles nest within Organizations.
+                        <br />
+                        <br />
+                        Example:
+                        <br />
+                        Org Name - Coordinape
+                        <br />
+                        Circle Name - Design Team
+                      </>
+                    ),
                   }}
                 />
               ) : (

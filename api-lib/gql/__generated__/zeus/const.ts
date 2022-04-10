@@ -57,6 +57,40 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  Allocation: {
+    note: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    recipient_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
+  Allocations: {
+    allocations: {
+      type: 'Allocation',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   Boolean_comparison_exp: {
     _eq: {
       type: 'Boolean',
@@ -609,6 +643,44 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: false,
+    },
+  },
+  UpdateEpochInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    days: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    grant: {
+      type: 'Float',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    repeat: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    start_date: {
+      type: 'timestamptz',
+      array: false,
+      arrayRequired: false,
+      required: true,
     },
   },
   UpdateTeammatesInput: {
@@ -9362,9 +9434,25 @@ export const AllTypesProps: Record<string, any> = {
         required: false,
       },
     },
+    updateAllocations: {
+      payload: {
+        type: 'Allocations',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
     updateCircle: {
       payload: {
         type: 'UpdateCircleInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    updateEpoch: {
+      payload: {
+        type: 'UpdateEpochInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -22064,6 +22152,10 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AllocationsResponse: {
+    user: 'users',
+    user_id: 'Int',
+  },
   ConfirmationResponse: {
     success: 'Boolean',
   },
@@ -23292,7 +23384,9 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
+    updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',

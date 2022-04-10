@@ -44,8 +44,19 @@ function generate() {
   fi
 }
 
-generate $ADMIN_PATH -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET
+generate $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET
 generate $USER_PATH -h x-hasura-role:user -h "authorization:generate"
+
+# prepend imports to fix typing issues in NodeJS
+# https://github.com/graphql-editor/graphql-zeus/issues/193
+if [[ "$PLATFORM" == "OSX" || "$PLATFORM" == "BSD" ]]; then
+  sed -i "" '2s/^/import WebSocket from "ws";\nimport fetch from "node-fetch";\n/' $ADMIN_PATH/zeus/index.ts
+elif [ "$PLATFORM" == "LINUX" ]; then
+  sed -i '2s/^/import WebSocket from "ws";\nimport fetch from "node-fetch";\n/' $ADMIN_PATH/zeus/index.ts
+else
+  echo "unknown platform; exiting"
+  exit 1
+fi
 
 # fix formatting of generated files
 node_modules/.bin/prettier --write $ADMIN_PATH

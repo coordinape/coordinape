@@ -1,3 +1,8 @@
+import { DateTime } from 'luxon';
+
+import { EPOCH_REPEAT } from '../../api-lib/constants';
+import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
+
 import { adminClient } from './adminClient';
 
 export async function getCircle(id: number) {
@@ -274,4 +279,70 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
       },
     ],
   });
+}
+
+export async function getOverlappingEpoch(
+  start_date: DateTime,
+  end_date: DateTime,
+  circle_id: number,
+  ignore_epoch_id?: number
+): Promise<typeof epoch | undefined> {
+  const whereCondition: ValueTypes['epochs_bool_exp'] = {
+    circle_id: { _eq: circle_id },
+    _or: [
+      {
+        start_date: { _lt: end_date },
+        end_date: { _gt: end_date },
+      },
+      {
+        start_date: { _lt: start_date },
+        end_date: { _gt: start_date },
+      },
+    ],
+  };
+
+  if (ignore_epoch_id) {
+    whereCondition.id = { _neq: ignore_epoch_id };
+  }
+  const {
+    epochs: [epoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: whereCondition,
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+      },
+    ],
+  });
+  return epoch;
+}
+
+export async function getRepeatingEpoch(
+  circle_id: number
+): Promise<typeof repeatingEpoch | undefined> {
+  const {
+    epochs: [repeatingEpoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: {
+          ended: { _eq: false },
+          circle_id: { _eq: circle_id },
+          repeat: { _gte: EPOCH_REPEAT.WEEKLY },
+        },
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+      },
+    ],
+  });
+  return repeatingEpoch;
 }

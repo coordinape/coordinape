@@ -4,18 +4,17 @@ import iti from 'itiriri';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
-import { Button, Popover, makeStyles } from '@material-ui/core';
+import { Popover, makeStyles } from '@material-ui/core';
 
 import { ApeAvatar } from 'components';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { getHistoryPath } from 'routes/paths';
+import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
     marginRight: 8,
-    alignItems: 'center',
-    flex: '1 0 auto',
   },
   popover: {
     width: 335,
@@ -112,18 +111,16 @@ export const ReceiveInfo = () => {
   const gifts = currentEpoch
     ? myReceived.get(currentEpoch.id) ?? []
     : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
-  const totalReceived = gifts && iti(gifts).sum(({ tokens }) => tokens);
+  const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
 
   return (
     <div className={classes.root}>
       <Button
-        variant="outlined"
-        color="default"
+        color="oldGray"
         size="small"
         onClick={event => setAnchorEl(event.currentTarget)}
       >
-        {totalReceived ?? 'No'} {selectedCircle?.tokenName}{' '}
-        {!totalReceived && 'Received'}
+        {totalReceived} {selectedCircle?.tokenName}
       </Button>
       <Popover
         anchorEl={anchorEl}

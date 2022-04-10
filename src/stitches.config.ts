@@ -4,9 +4,10 @@ export type { VariantProps } from '@stitches/react';
 
 // import { colors } from 'ui/colors';
 
+// FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
-  sm: '(max-width: 900px)',
+  sm: '(max-width: 960px)',
   md: '(max-width: 1200px)',
   lg: '(max-width: 1800px)',
 } as const;
@@ -73,29 +74,34 @@ export const {
       gray400: '#B5BBBD',
 
       lightBackground: '#E1E1E1',
-      surfaceGray: '#eef3f4',
+      surfaceGray: '#eef1f4', // Grey/2|Surface
       subtleGray: '#F5F5F5',
       almostWhite: '#fbfbfb',
 
       lightBorder: '#DEDEDE',
       lightGray: '#C3CDCF',
       mediumGray: '#A7B0B4',
-      lightText: '#859296',
       border: '#939EA1',
-      placeholder: '#99A2A5',
       placeholderDark: '#7C898D',
       neutralGrayDark: '#52575C',
 
-      primary: '#5E6F74',
-      text: '#516369',
+      // text colors
+      primary: '#5E6F74', // TODO: replace with Grey/20
+      text: '#516369', // TODO: de-dupe with primary & secondary?
       secondary: '#56606f',
+      lightText: '#859296',
+      placeholder: '#99A2A5', // TODO: replace with Grey/12
 
       background: '#DFE7E8',
-      pacificBlue: '#00ABBF',
       selected: '#31A5AC',
       lightBlue: '#84C7CA',
       darkBlue: '#5D9C9F',
-      green: '#29D07E',
+      blue: '#2c91ee', // Blue/12
+
+      teal: '#53b7cd', // Teal/12
+      darkTeal: '#246e7e', // Teal/20
+
+      green: '#57b62b', // Green/12
 
       // ...colors
     },
@@ -141,7 +147,6 @@ export const {
       black: 900,
     },
     lineHeights: {
-      normal: 'normal',
       none: 1,
       shorter: 1.25,
       short: 1.375,

@@ -1,4 +1,5 @@
-import { IN_PRODUCTION } from 'config/env';
+import at from 'lodash/at';
+
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
@@ -34,20 +35,35 @@ const withSearchParams = (
     : path;
 
 export const paths = {
-  home: '/',
+  adminCircles: '/admin/circles',
   allocation: '/allocation',
-  team: '/team',
+  circles: '/circles',
+  connectIntegration: '/connect-integration',
+  createCircle: APP_PATH_CREATE_CIRCLE,
+  developers: '/developers',
   epoch: '/epoch',
   give: '/give',
-  vouching: '/vouching',
-  developers: '/developers',
   history: '/history',
-  admin: '/admin',
+  home: '/',
+  map: '/map',
+  team: '/team',
   vaults: '/admin/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
-  adminCircles: '/admin/circles',
-  connectIntegration: '/connect-integration',
+  vouching: '/vouching',
 };
+
+const circleSpecificPathKeys: (keyof typeof paths)[] = [
+  'adminCircles',
+  'allocation',
+  'epoch',
+  'give',
+  'history',
+  'map',
+  'team',
+  'vouching',
+];
+
+export const circleSpecificPaths = at(paths, circleSpecificPathKeys);
 
 // these getters for static paths are deprecated -- use paths above instead
 export const getHomePath = () => paths.home;
@@ -57,7 +73,6 @@ export const getMyEpochPath = () => paths.epoch;
 export const getGivePath = () => paths.give;
 export const getVouchingPath = () => paths.vouching;
 export const getHistoryPath = () => paths.history;
-export const getAdminPath = () => paths.admin;
 export const getVaultsPath = () => paths.vaults;
 
 // this one is different because it's used on the landing page
@@ -70,7 +85,7 @@ export const getDistributePath = (epochId: number | string) =>
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
 
-interface INavItem {
+export interface INavItem {
   label: string;
   path: string;
   icon?: (props: any) => JSX.Element;
@@ -78,22 +93,6 @@ interface INavItem {
   subItems?: INavItem[];
 }
 
-const NAV_ITEM_PROFILE = {
-  path: getProfilePath({ address: 'me' }),
-  label: 'My Profile',
-};
-const NAV_ITEM_NEW_CIRCLE = {
-  path: getCreateCirclePath(),
-  label: ' Add Circle',
-};
-const NAV_ITEM_EPOCH = { path: getMyEpochPath(), label: 'My Epoch' };
-const NAV_ITEM_TEAM = { path: getMyTeamPath(), label: 'My Team' };
-const NAV_ITEM_GIVE = { path: getGivePath(), label: 'My Allocation' };
-const NAV_ITEM_ALLOCATE = {
-  path: getAllocationPath(),
-  label: 'Allocate',
-  subItems: [NAV_ITEM_EPOCH, NAV_ITEM_TEAM, NAV_ITEM_GIVE],
-};
 const NAV_ITEM_LANDING_PAGE = {
   path: EXTERNAL_URL_LANDING_PAGE,
   label: 'coordinape.com',
@@ -114,50 +113,6 @@ const NAV_ITEM_DOCS = {
   label: 'Docs',
   isExternal: true,
 };
-
-export const getMainNavigation = ({
-  asCircleAdmin,
-  asVouchingEnabled,
-}: {
-  asCircleAdmin?: boolean;
-  asVouchingEnabled?: boolean;
-} = {}): INavItem[] => {
-  let mainItems = [NAV_ITEM_ALLOCATE, { path: getMapPath(), label: 'Map' }];
-  const vouchingItems = [{ path: getVouchingPath(), label: 'Vouching' }];
-  if (IN_PRODUCTION) {
-    const adminItems1 = [{ path: getAdminPath(), label: 'Admin' }];
-    if (asVouchingEnabled) {
-      mainItems = [...mainItems, ...vouchingItems];
-    }
-    if (asCircleAdmin) {
-      mainItems = [...mainItems, ...adminItems1];
-    }
-  } else {
-    const adminItems1 = [{ path: getVaultsPath(), label: 'Admin' }];
-    if (asVouchingEnabled) {
-      mainItems = [...mainItems, ...vouchingItems];
-    }
-    if (asCircleAdmin) {
-      mainItems = [...mainItems, ...adminItems1];
-    }
-  }
-
-  return mainItems;
-};
-
-export const getMenuNavigation = (): INavItem[] => [
-  NAV_ITEM_PROFILE,
-  NAV_ITEM_EPOCH,
-  NAV_ITEM_TEAM,
-  { path: getHistoryPath(), label: 'My History' },
-  NAV_ITEM_NEW_CIRCLE,
-  NAV_ITEM_DOCS,
-];
-
-export const getRelatedNavigation = (): INavItem[] => [
-  NAV_ITEM_NEW_CIRCLE,
-  NAV_ITEM_DOCS,
-];
 
 export const getNavigationFooter = (): INavItem[] => [
   NAV_ITEM_LANDING_PAGE,

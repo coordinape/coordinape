@@ -10,13 +10,11 @@ import { TestWrapper } from 'utils/testing';
 
 import { CreateForm } from './CreateForm';
 
-jest.mock('hooks/gql/useCurrentOrg', () => {
-  return {
-    useCurrentOrg: jest
-      .fn()
-      .mockReturnValue({ data: { id: 101, name: 'Mock Org' } }),
-  };
-});
+jest.mock('hooks/gql/useCurrentOrg', () => ({
+  useCurrentOrg: jest.fn(() => ({
+    data: { id: 1, name: 'Test Org' },
+  })),
+}));
 
 test('select an asset', async () => {
   await act(async () => {
