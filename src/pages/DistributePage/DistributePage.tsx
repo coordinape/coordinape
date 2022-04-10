@@ -226,7 +226,7 @@ function DistributePage() {
                     return (
                       <>
                         <Select
-                          value={value}
+                          value={value || ''}
                           label="Vault"
                           error={!!error}
                           disabled={loadingTrx}
