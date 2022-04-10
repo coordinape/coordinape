@@ -19,16 +19,6 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-jest.mock('hooks/gql/usePreviousDistributions', () => ({
-  usePreviousDistributions: jest.fn().mockImplementation(() => ({
-    data: {
-      id: 2,
-      vault_id: 2,
-      distribution_json: {},
-    },
-  })),
-}));
-
 jest.mock('hooks/gql/useVaults', () => ({
   useVaults: () => ({
     data: [mockVault],
@@ -36,6 +26,13 @@ jest.mock('hooks/gql/useVaults', () => ({
 }));
 
 jest.mock('./queries', () => ({
+  usePreviousDistributions: jest.fn().mockImplementation(() => ({
+    data: {
+      id: 2,
+      vault_id: 2,
+      distribution_json: {},
+    },
+  })),
   useCurrentUserForEpoch: async () => ({
     users: {
       id: 21,

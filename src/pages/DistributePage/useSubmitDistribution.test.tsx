@@ -1,14 +1,14 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
+import { Vault } from 'hooks/gql/useVaults';
+import { useContracts } from 'hooks/useContracts';
+import { useVaultFactory } from 'hooks/useVaultFactory';
+import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Asset } from 'services/contracts';
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
-import { Vault } from './gql/useVaults';
-import { useContracts } from './useContracts';
 import { useSubmitDistribution } from './useSubmitDistribution';
-import { useVaultFactory } from './useVaultFactory';
-import { useVaultRouter } from './useVaultRouter';
 
 let snapshotId: string;
 
@@ -25,7 +25,7 @@ jest.mock('pages/DistributePage/mutations', () => {
         id: 2,
       }),
     }),
-    useUpdateDistribution: jest.fn().mockReturnValue({
+    useMarkDistributionSaved: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({
         id: 2,
       }),

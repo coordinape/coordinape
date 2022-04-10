@@ -2,7 +2,6 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PreviousDistribution } from 'lib/gql/queries';
 import { isUserAdmin } from 'lib/users';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -13,15 +12,20 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField, LoadingModal } from 'components';
-import { useSubmitDistribution, SubmitDistribution } from 'hooks';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
-import { usePreviousDistributions } from 'hooks/gql/usePreviousDistributions';
 import { useVaults } from 'hooks/gql/useVaults';
 import * as paths from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useCurrentUserForEpoch, useGetAllocations } from './queries';
+import {
+  PreviousDistribution,
+  useCurrentUserForEpoch,
+  useGetAllocations,
+  usePreviousDistributions,
+} from './queries';
 import ShowMessage from './ShowMessage';
+import { useSubmitDistribution } from './useSubmitDistribution';
+import type { SubmitDistribution } from './useSubmitDistribution';
 
 import { IAllocateUser } from 'types';
 

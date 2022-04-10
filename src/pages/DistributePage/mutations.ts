@@ -22,7 +22,7 @@ export function useSaveEpochDistribution() {
   return useMutation(saveDistribution);
 }
 
-export function useUpdateDistribution() {
+export function useMarkDistributionSaved() {
   return useMutation((id: number) => {
     return client.mutate({
       update_distributions_by_pk: [

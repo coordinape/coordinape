@@ -1,8 +1,13 @@
-import { token_gifts_select_column } from 'lib/gql/__generated__/zeus';
+import {
+  token_gifts_select_column,
+  order_by,
+} from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
+
+import { Awaited } from 'types/shim';
 
 export function useCurrentUserForEpoch(epochId: number) {
   const address = useConnectedAddress();
@@ -84,4 +89,39 @@ export function useGetAllocations(epochId: number) {
       ],
     });
   });
+}
+
+export const getPreviousDistribution = async (
+  circle_id: number
+): Promise<typeof distributions | undefined> => {
+  const { distributions } = await client.query({
+    distributions: [
+      {
+        order_by: [{ id: order_by.desc }],
+        where: {
+          epoch: { circle_id: { _eq: circle_id } },
+          saved_on_chain: { _eq: true },
+        },
+      },
+      {
+        id: true,
+        vault_id: true,
+        distribution_json: [{}, true],
+      },
+    ],
+  });
+  return distributions;
+};
+
+export type PreviousDistribution = Exclude<
+  Awaited<ReturnType<typeof getPreviousDistribution>>,
+  undefined
+>[0];
+
+export function usePreviousDistributions(circleId: number) {
+  return useQuery(
+    ['previous-distributions-', circleId],
+    async () => getPreviousDistribution(circleId),
+    { enabled: !!circleId }
+  );
 }
