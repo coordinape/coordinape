@@ -2,16 +2,16 @@ import assert from 'assert';
 
 import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
-import {
-  useSaveEpochDistribution,
-  useUpdateDistribution,
-} from 'lib/gql/mutations';
 import { PreviousDistribution } from 'lib/gql/queries';
 import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
 import { encodeCircleId } from 'lib/vaults';
 
 import { useDistributor, useApeSnackbar, useContracts } from 'hooks';
+import {
+  useSaveEpochDistribution,
+  useUpdateDistribution,
+} from 'pages/DistributePage/mutations';
 
 import { Vault } from './gql/useVaults';
 

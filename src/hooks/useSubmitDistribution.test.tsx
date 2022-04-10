@@ -15,6 +15,11 @@ let snapshotId: string;
 jest.mock('lib/gql/mutations', () => {
   return {
     addVault: jest.fn(x => x),
+  };
+});
+
+jest.mock('pages/DistributePage/mutations', () => {
+  return {
     useSaveEpochDistribution: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({
         id: 2,
