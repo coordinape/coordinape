@@ -32,11 +32,7 @@ export function useVaults(orgId: number) {
   );
 }
 
-export type Vault0 = Exclude<
-  Awaited<ReturnType<typeof useVaults>>['data'],
-  undefined
->[0];
 export type Vault = Exclude<
   Awaited<ReturnType<typeof useVaults>>['data'],
   undefined
->;
+>[0];

@@ -110,7 +110,7 @@ function DistributePage() {
 
     const submitDTO: SubmitDistribution = {
       amount: value.amount,
-      vault: [vault],
+      vault,
       gifts,
       users: usersRecord,
       previousDistribution:

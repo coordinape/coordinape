@@ -44,10 +44,10 @@ export function useSubmitDistribution() {
     assert(vault, 'No vault is found');
 
     const denominator = FixedNumber.from(
-      BigNumber.from(10).pow(vault[0].decimals)
+      BigNumber.from(10).pow(vault.decimals)
     );
     const totalDistributionAmount = BigNumber.from(amount).mul(
-      BigNumber.from(10).pow(vault[0].decimals)
+      BigNumber.from(10).pow(vault.decimals)
     );
 
     const calculateClaimAmount = (amount: string) =>
@@ -68,7 +68,7 @@ export function useSubmitDistribution() {
     try {
       assert(contracts, 'This network is not supported');
       const yVaultAddress = await contracts
-        .getVault(vault[0].vault_address)
+        .getVault(vault.vault_address)
         .vault();
 
       const distribution = createDistribution(
@@ -105,7 +105,7 @@ export function useSubmitDistribution() {
         claims: {
           data: claims,
         },
-        vault_id: Number(vault[0].id),
+        vault_id: Number(vault.id),
         distribution_json: JSON.stringify(distribution),
       };
 
@@ -113,7 +113,7 @@ export function useSubmitDistribution() {
       assert(response, 'Distribution was not saved.');
 
       await uploadEpochRoot(
-        vault[0].vault_address,
+        vault.vault_address,
         encodeCircleId(circleId),
         yVaultAddress.toString(),
         distribution.merkleRoot,

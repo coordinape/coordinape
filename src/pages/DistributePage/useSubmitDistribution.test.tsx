@@ -62,20 +62,18 @@ test('submit distribution', async () => {
       })
       .then(() => {
         if (!vaults) return;
-        const vault: Vault = [
-          {
-            created_at: new Date(),
-            created_by: vaults.created_by,
-            symbol: vaults.symbol,
-            token_address: vaults.token_address,
-            simple_token_address: vaults.simple_token_address,
-            decimals: vaults.decimals,
-            id: vaults.id,
-            org_id: vaults.org_id,
-            vault_address: vaults.vault_address,
-            updated_at: vaults.updated_at,
-          },
-        ];
+        const vault: Vault = {
+          created_at: new Date(),
+          created_by: vaults.created_by,
+          symbol: vaults.symbol,
+          token_address: vaults.token_address,
+          simple_token_address: vaults.simple_token_address,
+          decimals: vaults.decimals,
+          id: vaults.id,
+          org_id: vaults.org_id,
+          vault_address: vaults.vault_address,
+          updated_at: vaults.updated_at,
+        };
 
         submitDistribution({
           amount: 900,
