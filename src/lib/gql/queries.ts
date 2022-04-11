@@ -306,7 +306,14 @@ export const getOtherUserProfile = async (
 export const getActiveEpochs = async (): Promise<IApiEpoch[]> => {
   const { epochs } = await client.query({
     epochs: [
-      {},
+      {
+        where: {
+          ended: { _eq: false },
+          end_date: {
+            _gt: 'now()',
+          },
+        },
+      },
       {
         id: true,
         number: true,
