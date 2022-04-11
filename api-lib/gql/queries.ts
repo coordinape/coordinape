@@ -75,7 +75,7 @@ export async function getCurrentEpoch(
 export async function getUserAndCurrentEpoch(
   address: string,
   circleId: number,
-  excludeDeletedUsers = false
+  excludeDeletedUsers = true
 ): Promise<typeof user | undefined> {
   const {
     users: [user],
