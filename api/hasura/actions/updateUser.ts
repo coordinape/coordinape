@@ -50,14 +50,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           non_receiver: user.fixed_non_receiver || payload.non_receiver,
         },
         where: {
-          _and: [
-            { circle_id: { _eq: circle_id } },
-            {
-              address: {
-                _ilike: address,
-              },
-            },
-          ],
+          address: { _ilike: address },
+          circle_id: { _eq: circle_id },
+          // ignore soft_deleted users
+          deleted_at: { _is_null: true },
         },
       },
       {
