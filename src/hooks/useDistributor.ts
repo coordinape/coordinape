@@ -115,5 +115,11 @@ export function useDistributor() {
     index: BigNumberish
   ) => call(d => d.isClaimed(circle, token, epoch, index)) as Promise<boolean>;
 
-  return { uploadEpochRoot, claim, claimMany, isClaimed };
+  const getEpochRoot = (
+    _circleId: BytesLike,
+    _token: string,
+    _epoch: BigNumberish
+  ) => call(d => d.epochRoots(_circleId, _token, _epoch)) as Promise<string>;
+
+  return { uploadEpochRoot, claim, claimMany, isClaimed, getEpochRoot };
 }

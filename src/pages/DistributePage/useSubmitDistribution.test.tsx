@@ -1,6 +1,7 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
+import { useDistributor } from 'hooks';
 import { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -8,7 +9,10 @@ import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Asset } from 'services/contracts';
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
-import { useSubmitDistribution } from './useSubmitDistribution';
+import {
+  SubmitDistributionResult,
+  useSubmitDistribution,
+} from './useSubmitDistribution';
 
 let snapshotId: string;
 
@@ -43,11 +47,12 @@ afterAll(async () => {
 
 test('submit distribution', async () => {
   let vaults: GraphQLTypes['vaults'];
-  let response: boolean;
+  let response: SubmitDistributionResult;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const submitDistribution = useSubmitDistribution();
+    const { getEpochRoot } = useDistributor();
 
     const contracts = useContracts();
     const { depositToken } = useVaultRouter(contracts);
@@ -82,7 +87,14 @@ test('submit distribution', async () => {
           epochId: 2,
           users,
           gifts,
-        }).then(r => (response = r));
+        }).then(r => {
+          if (r) response = r;
+          return getEpochRoot(
+            r.encodedCircleId,
+            vaults.token_address as string,
+            String(2)
+          );
+        });
       });
 
     return null;

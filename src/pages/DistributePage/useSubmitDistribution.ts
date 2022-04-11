@@ -25,6 +25,13 @@ export type SubmitDistribution = {
   epochId: number;
 };
 
+export type SubmitDistributionResult = {
+  merkleRoot: string;
+  totalAmount: BigNumber;
+  encodedCircleId: string;
+  tokenAddress: string;
+};
+
 export function useSubmitDistribution() {
   const contracts = useContracts();
   const { uploadEpochRoot } = useDistributor();
@@ -40,15 +47,20 @@ export function useSubmitDistribution() {
     epochId,
     gifts,
     previousDistribution,
-  }: SubmitDistribution) => {
+  }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
     const denominator = FixedNumber.from(
       BigNumber.from(10).pow(vault.decimals)
     );
-    const totalDistributionAmount = BigNumber.from(amount).mul(
+    let totalAmount = BigNumber.from(amount).mul(
       BigNumber.from(10).pow(vault.decimals)
     );
+
+    previousDistribution &&
+      (totalAmount = totalAmount.add(
+        BigNumber.from(previousDistribution.distribution_json.totalAmount)
+      ));
 
     const calculateClaimAmount = (amount: string) =>
       Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
@@ -73,10 +85,13 @@ export function useSubmitDistribution() {
 
       const distribution = createDistribution(
         gifts,
-        totalDistributionAmount,
+        totalAmount,
         previousDistribution &&
           JSON.parse(previousDistribution.distribution_json)
       );
+
+      const { merkleRoot } = distribution;
+      const encodedCircleId = encodeCircleId(circleId);
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
       ).map(([address, claim]) => ({
@@ -97,9 +112,7 @@ export function useSubmitDistribution() {
       }));
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {
-        total_amount: Number(
-          FixedNumber.from(totalDistributionAmount, 'fixed128x18')
-        ),
+        total_amount: Number(FixedNumber.from(totalAmount, 'fixed128x18')),
         epoch_id: Number(epochId),
         merkle_root: distribution.merkleRoot,
         claims: {
@@ -114,20 +127,25 @@ export function useSubmitDistribution() {
 
       await uploadEpochRoot(
         vault.vault_address,
-        encodeCircleId(circleId),
+        encodedCircleId,
         yVaultAddress.toString(),
-        distribution.merkleRoot,
-        totalDistributionAmount,
+        merkleRoot,
+        totalAmount,
         utils.hexlify(1)
       );
       showInfo('Saving Distribution...');
       await markSaved(response.id);
       showInfo('Distribution saved successfully');
-      return true;
+      return {
+        merkleRoot,
+        totalAmount,
+        encodedCircleId,
+        tokenAddress: yVaultAddress.toString(),
+      };
     } catch (e) {
       console.error(e);
       apeError(e);
-      return false;
+      throw new Error(e as string);
     }
   };
 
