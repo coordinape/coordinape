@@ -111,11 +111,6 @@ export class APIService {
     return response.data;
   };
 
-  getDiscordWebhook = async (circleId: number): Promise<any> => {
-    const response = await this.axios.get(`/v2/${circleId}/admin/webhook`);
-    return response.data;
-  };
-
   downloadCSV = async (circleId: number, epoch: number): Promise<any> => {
     return this.axios.get(`/v2/${circleId}/csv?epoch=${epoch}`);
   };

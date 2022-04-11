@@ -1,4 +1,5 @@
 import * as mutations from 'lib/gql/mutations';
+import * as queries from 'lib/gql/queries';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
@@ -85,7 +86,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const getDiscordWebhook = useRecoilLoadCatch(
     () => async () => {
-      return await getApiService().getDiscordWebhook(circleId);
+      return (await queries.getDiscordWebhook(circleId)) || '';
     },
     [circleId]
   );
