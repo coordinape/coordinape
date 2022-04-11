@@ -9,7 +9,6 @@ import {
   IApiUser,
   IApiEpoch,
   IApiLogin,
-  IApiManifest,
   PostTokenGiftsParam,
   UpdateCreateEpochParam,
 } from 'types';
@@ -59,15 +58,6 @@ export class APIService {
       hash,
       address,
       data,
-    });
-    return response.data;
-  };
-
-  getManifest = async (circleId?: number): Promise<IApiManifest> => {
-    const response = await this.axios.get('/v2/manifest', {
-      params: {
-        circle_id: circleId,
-      },
     });
     return response.data;
   };

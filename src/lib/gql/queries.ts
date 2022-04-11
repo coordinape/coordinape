@@ -1,5 +1,8 @@
 import {
+  IApiCircle,
+  IApiEpoch,
   IApiFullCircle,
+  IApiManifest,
   IApiProfile,
   IApiTokenGift,
   IProtocol,
@@ -298,4 +301,96 @@ export const getOtherUserProfile = async (
   };
 
   return adaptedProfile;
+};
+
+export const getActiveEpochs = async (): Promise<IApiEpoch[]> => {
+  const { epochs } = await client.query({
+    epochs: [
+      {},
+      {
+        id: true,
+        number: true,
+        start_date: true,
+        end_date: true,
+        circle_id: true,
+        created_at: true,
+        updated_at: true,
+        ended: true,
+        grant: true,
+        notified_before_end: true,
+        notified_start: true,
+        notified_end: true,
+        days: true,
+        repeat: true,
+        repeat_day_of_month: true,
+      },
+    ],
+  });
+  return epochs;
+};
+
+export const getCircles = async (): Promise<IApiCircle[]> => {
+  const { circles } = await client.query({
+    circles: [
+      {},
+      {
+        id: true,
+        name: true,
+        logo: true,
+        default_opt_in: true,
+        is_verified: true,
+        alloc_text: true,
+        team_sel_text: true,
+        token_name: true,
+        vouching: true,
+        min_vouches: true,
+        nomination_days_limit: true,
+        vouching_text: true,
+        only_giver_vouch: true,
+        team_selection: true,
+        created_at: true,
+        updated_at: true,
+        protocol_id: true,
+        organization: {
+          id: true,
+          name: true,
+          created_at: true,
+          updated_at: true,
+        },
+        auto_opt_out: true,
+      },
+    ],
+  });
+
+  const adaptedCircles = circles.map(circle => {
+    const adaptedCircle: Omit<typeof circle, 'organization'> & {
+      protocol: IProtocol;
+    } = {
+      ...circle,
+      protocol: circle.organization,
+    };
+    return adaptedCircle;
+  });
+
+  return adaptedCircles;
+};
+
+export const fetchManifest = async (
+  address: string,
+  circleId?: number
+): Promise<IApiManifest> => {
+  const profile = await getOtherUserProfile(address);
+  const active_epochs = await getActiveEpochs();
+  const circles = await getCircles();
+  let circle: IApiFullCircle | undefined;
+  if (circleId) {
+    circle = await getFullCircle(circleId);
+  }
+  return {
+    profile,
+    active_epochs,
+    circles,
+    circle,
+    myUsers: profile.users || [],
+  };
 };

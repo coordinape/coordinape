@@ -158,8 +158,12 @@ export const useApiBase = () => {
         ) {
           throw 'Wallet must be connected to fetch manifest';
         }
+
         const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-        const manifest = await getApiService().getManifest(circleId);
+        const manifest = await queries.fetchManifest(
+          walletAuth.address,
+          circleId
+        );
 
         set(rApiManifest, manifest);
         const fullCircle = manifest.circle;
