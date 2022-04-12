@@ -230,7 +230,7 @@ const epochDetail = (e: IEpoch) => {
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
-const AdminPage = () => {
+const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
 
   const { isMobile } = useMobileDetect();
@@ -284,13 +284,7 @@ const AdminPage = () => {
 
       {onDelete && (
         <>
-          <Text
-            css={{
-              color: '$lightBlue',
-            }}
-          >
-            |
-          </Text>
+          <Text color="lightBlue">|</Text>
           <UiButton size="small" onClick={onDelete} color="blue">
             Delete
           </UiButton>

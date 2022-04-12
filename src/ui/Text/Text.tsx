@@ -19,6 +19,7 @@ export const Text = styled('span', {
       gray: { color: '$gray400' },
       red: { color: '$red' },
       blue: { color: '$blue' },
+      lightBlue: { color: '$lightBlue'}
     },
     bold: {
       true: { fontWeight: '$bold' },
