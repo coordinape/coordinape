@@ -26,11 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const results = [];
   try {
-    const user = await queries.getUserAndCurrentEpoch(
-      address,
-      circle_id,
-      false
-    );
+    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
     assert(user, 'panic: user must exist');
 
     const { pending_sent_gifts, pending_received_gifts, id: userId } = user;

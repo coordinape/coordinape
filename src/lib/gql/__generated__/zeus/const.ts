@@ -684,12 +684,6 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
-    name: {
-      type: 'String',
-      array: false,
-      arrayRequired: false,
-      required: false,
-    },
     non_receiver: {
       type: 'Boolean',
       array: false,
