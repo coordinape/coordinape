@@ -18,6 +18,8 @@ hardhat/data/
 # testing
 /coverage
 
+/cypress/videos
+
 # production
 /build
 

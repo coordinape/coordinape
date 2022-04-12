@@ -1,11 +1,11 @@
-import { providers } from 'ethers';
+import { Web3Provider } from '@ethersproject/providers';
 
 import { TestProvider } from '../util';
 
 context('Coordinape', () => {
   before(() => {
     cy.on('window:before:load', win => {
-      const provider = new providers.Web3Provider(
+      const provider = new Web3Provider(
         new TestProvider('http://localhost:8545')
       );
       Object.defineProperty(win, 'ethereum', { value: provider });

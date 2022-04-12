@@ -27,10 +27,17 @@ import { globalStyles } from './stitches.config';
 import './App.css';
 
 function getLibrary(provider: any): Web3Provider {
+  // This checks specifically whether the provider is
+  // an instance of a Web3Provider by checking the existence of this
+  // uniquely named method. Normally, we would want to use `instanceof`
+  // to check if a provider conforms to a specific class, but because
+  // some providers are injected into the window from other contexts,
+  // this check will fail, since those providers aren't derived from
+  // the same prototype tree.
   const library =
-    provider.isMetaMask || provider.isFrame
-      ? new Web3Provider(provider)
-      : provider;
+    typeof provider.jsonRpcFetchFunc !== 'undefined'
+      ? provider
+      : new Web3Provider(provider);
   library.pollingInterval = 12000;
   return library;
 }

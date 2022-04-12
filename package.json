@@ -78,6 +78,7 @@
     "docker:start": "docker compose --profile dev up -d",
     "docker:stop": "docker compose down",
     "docker:clean": "docker compose down -v",
+    "cypress:dev": "cypress open > /dev/null",
     "start": "craco start",
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",
