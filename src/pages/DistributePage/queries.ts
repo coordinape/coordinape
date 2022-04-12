@@ -118,7 +118,7 @@ export type PreviousDistribution = Exclude<
   undefined
 >[0];
 
-export function usePreviousDistributions(circleId: number) {
+export function usePreviousDistributions(circleId: number | null | undefined) {
   return useQuery(
     ['previous-distributions-', circleId],
     async () => getPreviousDistribution(circleId),
