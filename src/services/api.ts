@@ -8,11 +8,9 @@ import {
   IApiTokenGift,
   IApiProfile,
   IApiUser,
-  IApiEpoch,
   IApiLogin,
   IApiManifest,
   PostTokenGiftsParam,
-  UpdateCreateEpochParam,
   IApiFullCircle,
 } from 'types';
 
@@ -85,20 +83,6 @@ export class APIService {
 
   getProfile = async (address: string): Promise<IApiProfile> => {
     return (await this.axios.get(`/v2/profile/${address}`)).data;
-  };
-
-  updateEpoch = async (
-    circleId: number,
-    epochId: number,
-    params: UpdateCreateEpochParam
-  ): Promise<IApiEpoch> => {
-    const response = await this.axios.put(
-      `/v2/${circleId}/admin/epoches/${epochId}`,
-      {
-        data: JSON.stringify(params),
-      }
-    );
-    return response.data as IApiEpoch;
   };
 
   postTokenGifts = async (
