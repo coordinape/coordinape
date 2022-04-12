@@ -121,10 +121,13 @@ export const useAllocation = (circleId: number) => {
     if (tokenAllocated === 0) {
       setLocalGifts(
         localGifts.slice().map(g => {
-          return {
-            ...g,
-            tokens: Math.floor(tokenStarting / teammateReceiverCount),
-          };
+          if (!g.user.non_receiver) {
+            return {
+              ...g,
+              tokens: Math.floor(tokenStarting / teammateReceiverCount),
+            };
+          }
+          return g;
         })
       );
     } else {
