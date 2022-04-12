@@ -161,9 +161,7 @@ const AllocationEpoch = ({
         className={classes.bioTextarea}
         maxLength={MAX_BIO_LENGTH}
         onChange={onChangeBio}
-        placeholder={`Tell us about your contributions in the ${capitalize(
-          selectedCircle?.name
-        )} Circle this epoch...`}
+        placeholder={`Tell us about your contributions in the ${selectedCircle?.name} Circle this epoch...`}
         value={epochBio}
       />
       {!fixedNonReceiver ? (
