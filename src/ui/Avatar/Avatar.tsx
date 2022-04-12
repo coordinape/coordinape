@@ -6,16 +6,23 @@ import { getAvatarPathWithFallback } from 'utils/domain';
 import { IUser, IProfile } from 'types';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
+  width: 32,
+  height: 32,
+  margin: '$sm',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   verticalAlign: 'middle',
   overflow: 'hidden',
   userSelect: 'none',
-  width: 45,
-  height: 45,
   borderRadius: '100%',
   backgroundColor: 'Black',
+  cursor: 'pointer',
+  transition: 'border-color .3s ease',
+  border: `1px solid $border`,
+  '&:hover': {
+    border: '1px solid $red',
+  },
 });
 
 const AvatarImage = styled(AvatarPrimitive.Image, {
@@ -32,20 +39,21 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'white',
-  color: 'Violet',
-  fontSize: 15,
   lineHeight: 1,
-  fontWeight: 500,
+  fontWeight: 400,
+  cursor: 'pointer',
 });
 
 export const Avatar = ({
   user,
   path,
   profile,
+  onClick,
 }: {
   user?: IUser;
   path?: string;
   profile?: IProfile;
+  onClick?: () => void;
 }) => {
   const avatarPath = getAvatarPathWithFallback(
     profile?.avatar || user?.profile?.avatar,
@@ -54,7 +62,7 @@ export const Avatar = ({
   const src = path ?? avatarPath;
 
   return (
-    <AvatarRoot>
+    <AvatarRoot onClick={() => onClick?.()}>
       <AvatarImage src={src} alt={user?.name} />
       <AvatarFallback>avatarPath</AvatarFallback>
     </AvatarRoot>
