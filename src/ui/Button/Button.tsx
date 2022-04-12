@@ -4,9 +4,6 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const Button = styled('button', {
-  '& img': {
-    paddingRight: '$sm',
-  },
   px: '$md',
   display: 'flex',
   justifyContent: 'center',
