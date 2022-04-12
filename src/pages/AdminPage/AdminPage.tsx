@@ -7,7 +7,6 @@ import { makeStyles, Button } from '@material-ui/core';
 
 import {
   StaticTable,
-  ApeAvatar,
   ActionDialog,
   OrganizationHeader,
   ApeInfoTooltip,
@@ -20,7 +19,7 @@ import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
 import * as paths from 'routes/paths';
-import { Box, Button as UiButton, Text } from 'ui';
+import { Avatar, Box, Button as UiButton, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { AdminCircleModal } from './AdminCircleModal';
@@ -145,17 +144,6 @@ const useStyles = makeStyles(theme => ({
   },
   twoLineCellSubtitle: {
     fontWeight: 400,
-  },
-  avatar: {
-    width: 32,
-    height: 32,
-    marginRight: theme.spacing(1),
-    border: `1px solid ${theme.colors.border}`,
-    cursor: 'pointer',
-    transition: 'border-color .3s ease',
-    '&:hover': {
-      border: '1px solid rgba(239, 115, 118, 1)',
-    },
   },
   avatarCell: {
     height: 48,
@@ -381,9 +369,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           render: function UserName(u: IUser) {
             return (
               <div className={classes.avatarCell}>
-                <ApeAvatar
+                <Avatar
                   user={u}
-                  className={classes.avatar}
+                  // className={classes.avatar}
                   onClick={getToProfile({ address: u.address })}
                 />
                 <span>{u.name}</span>
