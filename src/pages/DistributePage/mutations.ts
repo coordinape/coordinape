@@ -23,11 +23,14 @@ export function useSaveEpochDistribution() {
 }
 
 export function useMarkDistributionSaved() {
-  return useMutation((id: number) => {
+  return useMutation(({ epochId, id }: { id: number; epochId: number }) => {
     return client.mutate({
       update_distributions_by_pk: [
         {
-          _set: { saved_on_chain: true },
+          _set: {
+            saved_on_chain: true,
+            distribution_epoch_id: epochId,
+          },
           pk_columns: { id },
         },
         { id: true },

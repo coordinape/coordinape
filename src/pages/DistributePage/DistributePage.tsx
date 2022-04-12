@@ -104,7 +104,7 @@ function DistributePage() {
     }, {} as Record<string, number>);
 
     const usersRecord = users.reduce((userList, user) => {
-      userList[user.address] = user.id;
+      userList[user.address.toLowerCase()] = user.id;
       return userList;
     }, {} as Record<string, number>);
 
@@ -121,6 +121,7 @@ function DistributePage() {
       circleId: circle.id,
       epochId: Number(epochId),
     };
+
     await submitDistribution(submitDTO);
     setLoadingTrx(false);
   };

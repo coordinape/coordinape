@@ -82,7 +82,7 @@ test('submit distribution', async () => {
           updated_at: vaults.updated_at,
         };
 
-        submitDistribution({
+        return submitDistribution({
           amount: 900,
           vault,
           circleId: 2,
@@ -96,7 +96,7 @@ test('submit distribution', async () => {
             return getEpochRoot(
               r.encodedCircleId,
               vaults.token_address as string,
-              String(2)
+              r.epochId
             );
           })
           .then(merkleRoot => {
@@ -118,12 +118,12 @@ test('submit distribution', async () => {
   await waitFor(
     () => {
       expect(response).toBeTruthy();
-      expect(merkleRootFromSubmission).toEqual(merkleRootFromDistributor);
       expect(vaults).toBeTruthy();
+      expect(merkleRootFromSubmission).toEqual(merkleRootFromDistributor);
     },
-    { timeout: 60000 }
+    { timeout: 20000 }
   );
-}, 60000);
+}, 20000);
 
 const users = {
   '0x0000000000000000000000000000000000000001': 15,

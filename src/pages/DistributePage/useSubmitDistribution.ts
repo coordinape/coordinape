@@ -30,6 +30,7 @@ export type SubmitDistributionResult = {
   totalAmount: BigNumber;
   encodedCircleId: string;
   tokenAddress: string;
+  epochId: BigNumber;
 };
 
 export function useSubmitDistribution() {
@@ -56,6 +57,8 @@ export function useSubmitDistribution() {
     let totalAmount = BigNumber.from(amount).mul(
       BigNumber.from(10).pow(vault.decimals)
     );
+
+    //console.log( users, epochId, gifts, JSON.parse(previousDistribution?.distribution_json).claims) //eslint-disable-line
 
     const calculateClaimAmount = (amount: string) =>
       Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
@@ -97,7 +100,7 @@ export function useSubmitDistribution() {
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
       ).map(([address, claim]) => ({
-        address,
+        address: address.toLowerCase(),
         index: claim.index,
         amount: calculateClaimAmount(claim.amount),
         new_amount: previousDistribution
@@ -110,7 +113,7 @@ export function useSubmitDistribution() {
             )
           : calculateClaimAmount(claim.amount),
         proof: claim.proof.toString(),
-        user_id: users[address],
+        user_id: users[address.toLowerCase()],
       }));
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {
@@ -127,7 +130,7 @@ export function useSubmitDistribution() {
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
 
-      const distributorEpochId = await uploadEpochRoot(
+      const uploadRoot = await uploadEpochRoot(
         vault.vault_address,
         encodedCircleId,
         yVaultAddress.toString(),
@@ -136,15 +139,23 @@ export function useSubmitDistribution() {
         utils.hexlify(1)
       );
 
-      console.log('Epoch id: ', distributorEpochId); //eslint-disable-line
+      assert(
+        uploadRoot && uploadRoot.tx?.value instanceof BigNumber,
+        'No Epoch ID returned from function'
+      );
+
       showInfo('Saving Distribution...');
-      await markSaved(response.id);
+      await markSaved({
+        id: response.id,
+        epochId: Number(FixedNumber.from(uploadRoot.tx.value)),
+      });
       showInfo('Distribution saved successfully');
       return {
         merkleRoot,
         totalAmount,
         encodedCircleId,
         tokenAddress: yVaultAddress.toString(),
+        epochId: uploadRoot.tx?.value as BigNumber,
       };
     } catch (e) {
       console.error(e);
