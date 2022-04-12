@@ -54,7 +54,12 @@ async function getEpochsToNotify() {
               discord_webhook: true,
               organization: { name: true },
               users_aggregate: [
-                { where: { non_giver: { _eq: false } } },
+                {
+                  where: {
+                    non_giver: { _eq: false },
+                    deleted_at: { _is_null: true },
+                  },
+                },
                 {
                   aggregate: { count: [{}, true] },
                 },
@@ -90,6 +95,7 @@ async function getEpochsToNotify() {
                 {
                   where: {
                     non_giver: { _eq: false },
+                    deleted_at: { _is_null: true },
                     give_token_remaining: { _gt: 0 },
                   },
                 },
@@ -127,7 +133,11 @@ async function getEpochsToNotify() {
               discord_webhook: true,
               organization: { name: true, telegram_id: true },
               users: [
-                {},
+                {
+                  where: {
+                    deleted_at: { _is_null: true },
+                  },
+                },
                 {
                   id: true,
                   name: true,

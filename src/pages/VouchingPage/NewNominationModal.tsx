@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { ethers } from 'ethers';
+import { zodResolver } from '@hookform/resolvers/zod';
+import isEmpty from 'lodash/isEmpty';
+import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import * as z from 'zod';
 
-import { makeStyles } from '@material-ui/core';
-
-import { FormModal, ApeTextField } from 'components';
+import { zEthAddress } from 'forms/formHelpers';
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import {
+  Form,
+  Button,
+  Modal,
+  Text,
+  TextField,
+  FormLabel,
+  Box,
+  TextArea,
+} from 'ui';
 
-const useStyles = makeStyles(theme => ({
-  description: {
-    marginTop: theme.spacing(1),
-    fontSize: 16,
-    fontWeight: 400,
-    color: theme.colors.primary,
-    textAlign: 'center',
-  },
-  quadGrid: {
-    width: '100%',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: 'auto auto',
-    columnGap: theme.spacing(3),
-    rowGap: theme.spacing(4),
-  },
-  gridAllColumns: {
-    gridColumn: '1/-1',
-  },
-}));
+const schema = z
+  .object({
+    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    address: zEthAddress,
+    description: z
+      .string()
+      .min(40, 'Description must be at least 40 characters long.'),
+  })
+  .strict();
+
+type NominateFormSchema = z.infer<typeof schema>;
+
+const labelStyles = {
+  lineHeight: '$short',
+  color: '$text',
+  fontSize: '$4',
+  fontFamily: 'Inter',
+  fontWeight: '$bold',
+  textAlign: 'center',
+  mb: '$sm',
+};
 
 export const NewNominationModal = ({
   onClose,
@@ -36,13 +48,10 @@ export const NewNominationModal = ({
   visible: boolean;
   onClose: () => void;
 }) => {
-  const classes = useStyles();
   const { circle } = useSelectedCircle();
   const { nominateUser } = useApiWithSelectedCircle();
+  const [submitting, setSubmitting] = useState(false);
 
-  const [name, setName] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
   const nominateDescription = circle
     ? `The ${circle.name} Circle requires ${
         circle.min_vouches
@@ -59,69 +68,140 @@ export const NewNominationModal = ({
       }`
     : '';
 
-  const isAddress = ethers.utils.isAddress(address);
-  const nominateChanged =
-    name.length == 0 || description.length == 0 || isAddress;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NominateFormSchema>({
+    resolver: zodResolver(schema),
+    mode: 'all',
+  });
 
-  const onChangeWith =
-    (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      set(e.target.value);
+  const { field: name } = useController({
+    name: 'name',
+    control,
+    defaultValue: '',
+  });
 
-  const onSubmit = async () => {
-    if (!nominateChanged) {
-      throw 'Submit called when form not ready.';
-    }
-    nominateUser({
-      name,
-      address,
-      description,
-    })
-      .then(() => {
-        onClose();
-      })
-      .catch(console.warn);
+  const { field: address } = useController({
+    name: 'address',
+    control,
+    defaultValue: '',
+  });
+
+  const { field: description } = useController({
+    name: 'description',
+    control,
+    defaultValue: '',
+  });
+
+  const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
+    setSubmitting(true);
+    nominateUser(data).then(onClose).catch(console.warn);
   };
-
   return (
-    <FormModal
-      title="Nominate New Member"
-      submitDisabled={!nominateChanged}
-      onSubmit={onSubmit}
-      submitText="Nominate Member"
-      open={visible}
-      onClose={onClose}
-      size="small"
-    >
-      <p className={classes.description}>{nominateDescription}</p>
-      <div className={classes.quadGrid}>
-        <ApeTextField
-          label="Name"
-          value={name}
-          onChange={onChangeWith(setName)}
-          fullWidth
-        />
-        <ApeTextField
-          label="ETH Address"
-          value={address}
-          onChange={onChangeWith(setAddress)}
-          error={address.length > 0 && !isAddress}
-          fullWidth
-        />
-        <ApeTextField
-          label="Why are you nominating this person?"
-          placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-          value={description}
-          className={classes.gridAllColumns}
-          onChange={onChangeWith(setDescription)}
-          multiline
-          rows={4}
-          inputProps={{
-            maxLength: 280,
+    <Modal title="Nominate New Member" open={visible} onClose={onClose}>
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          width: '100%',
+          padding: '0 0 $lg',
+          overflowY: 'auto',
+          maxHeight: '100vh',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Text css={{ lineHeight: '$normal', mb: '$lg' }}>
+          {nominateDescription}
+        </Text>
+        <Box
+          css={{
+            display: 'grid',
+            width: '100%',
+            mb: '$md',
+            'grid-template-columns': '1fr 1fr',
+            'grid-template-rows': 'auto auto',
+            'column-gap': '$lg',
           }}
-          fullWidth
-        />
-      </div>
-    </FormModal>
+        >
+          <FormLabel htmlFor="name" css={labelStyles}>
+            Name
+          </FormLabel>
+          <FormLabel htmlFor="address" css={labelStyles}>
+            ETH Address
+          </FormLabel>
+          <TextField
+            css={{ height: '$2xl', width: '100%' }}
+            id="name"
+            {...name}
+          />
+
+          <TextField
+            css={{ height: '$2xl', width: '100%' }}
+            id="address"
+            {...address}
+          />
+          <Box
+            css={{
+              'grid-column': '1 / -1',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              mt: '$1xl',
+            }}
+          >
+            <FormLabel htmlFor="description" css={labelStyles}>
+              Why are you nominating this person?
+            </FormLabel>
+            <TextArea
+              rows={4}
+              id="description"
+              {...description}
+              maxLength={280}
+              placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
+              css={{
+                width: '100%',
+                ta: 'left',
+                p: '0 $sm',
+                fontWeight: '$light',
+                fontSize: '$4',
+                lineHeight: '$base',
+                color: '$text',
+              }}
+            />
+          </Box>
+        </Box>
+        {!isEmpty(errors) && (
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              margin: 0,
+              color: '$red',
+            }}
+          >
+            {Object.values(errors).map((error, i) => (
+              <div key={i}>{error.message}</div>
+            ))}
+          </Box>
+        )}
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="red"
+          size="medium"
+          type="submit"
+          disabled={submitting}
+        >
+          {submitting ? 'Saving...' : 'Nominate Member'}
+        </Button>
+      </Form>
+    </Modal>
   );
 };
 

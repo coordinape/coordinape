@@ -9,8 +9,10 @@ import {
   useSelectedCircle,
   useSelectedCircleId,
 } from 'recoilState/app';
+import { DOMAIN_IS_LOCALHOST } from 'utils/domain';
 
 export const SentryScopeController = () => {
+  if (!DOMAIN_IS_LOCALHOST) return null;
   return (
     <>
       <Suspense fallback={null}>

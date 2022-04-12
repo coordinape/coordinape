@@ -11,7 +11,6 @@ import { z } from 'zod';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
-import { DAIIcon, USDCIcon, USDTIcon, YFIIcon } from 'icons';
 import { Asset, Contracts } from 'services/contracts';
 import { Box, Button, Form, Text, TextField } from 'ui';
 
@@ -59,7 +58,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const navigate = useNavigate();
   const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg?.data?.id);
+  const { createVault } = useVaultFactory(currentOrg.data?.id);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
 
@@ -141,13 +140,18 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
             data-selected={symbol === asset}
             onClick={event => pickAsset(symbol, event)}
           >
-            {icons[symbol]()}
+            <img
+              src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
+              alt={symbol}
+              height={25}
+              width={25}
+            />
             <Text css={{ ml: '$xs' }}>{symbol}</Text>
           </AssetButton>
         ))}
       </Box>
       <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
-      <Text variant="formLabel" css={{ width: '100%' }}>
+      <Text variant="formLabel" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
           <span>
@@ -180,13 +184,6 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
       )}
     </Form>
   );
-};
-
-const icons: Record<Asset, () => JSX.Element> = {
-  DAI: () => <DAIIcon height={25} width={22} />,
-  USDC: () => <USDCIcon width={25} height={22} />,
-  USDT: () => <USDTIcon height={25} width={25} />,
-  YFI: () => <YFIIcon width={25} height={22} />,
 };
 
 const AssetButton = styled(Button, {

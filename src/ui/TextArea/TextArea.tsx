@@ -4,6 +4,8 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextArea = styled('textarea', {
+  background: '$lightBackground',
+  border: '1px solid $lightBackground',
   '&:focus': {
     border: '1px solid $lightBlue',
     boxSizing: 'border-box',
@@ -15,7 +17,6 @@ export const TextArea = styled('textarea', {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
-  background: '$lightBackground',
   borderRadius: '8px',
 
   fontWeight: '$normal',

@@ -19,3 +19,21 @@ export const getCurrentEpoch = async (
   });
   return currentEpoch;
 };
+
+export const getDiscordWebhook = async (circleId: number) => {
+  const { circle_private } = await client.query({
+    circle_private: [
+      {
+        where: {
+          circle_id: {
+            _eq: circleId,
+          },
+        },
+      },
+      {
+        discord_webhook: true,
+      },
+    ],
+  });
+  return circle_private.pop()?.discord_webhook;
+};

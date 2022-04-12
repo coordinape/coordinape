@@ -13,13 +13,7 @@ object_relationships:
         schema: public
 - name: organization
   using:
-    manual_configuration:
-      column_mapping:
-        protocol_id: id
-      insertion_order: null
-      remote_table:
-        name: protocols
-        schema: public
+    foreign_key_constraint_on: protocol_id
 array_relationships:
 - name: burns
   using:
@@ -50,6 +44,13 @@ array_relationships:
       column: circle_id
       table:
         name: circle_integrations
+        schema: public
+- name: nominees
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: nominees
         schema: public
 - name: pending_token_gifts
   using:
@@ -118,10 +119,15 @@ select_permissions:
     - vouching
     - vouching_text
     filter:
-      users:
-        profile:
-          id:
-            _eq: X-Hasura-User-Id
+      organization:
+        circles:
+          users:
+            _and:
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
+            - deleted_at:
+                _is_null: true
   role: user
 update_permissions:
 - permission:

@@ -22,12 +22,13 @@ const CreateCircleForm = createForm({
   name: 'CreateCircleForm',
   getInstanceKey: () => 'new',
   getZodParser: () => schema,
-  load: () => ({
+  load: (source: any = {}) => ({
     user_name: '',
     circle_name: '',
     protocol_name: '',
     protocol_id: undefined,
     contact: '',
+    ...source,
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {},

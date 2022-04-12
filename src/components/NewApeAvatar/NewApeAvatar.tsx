@@ -1,4 +1,6 @@
-import React from 'react';
+/**
+ * Intended to replace ApeAvatar. Work in progress.
+ */
 
 import { Avatar, AvatarProps } from '@material-ui/core';
 
@@ -18,18 +20,13 @@ export const NewApeAvatar = ({
   profileImagePath?: string;
 }) => {
   // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
-  const avatarPath = getAvatarPathWithFallback(
-    profileImagePath || userImagePath,
+  const src = getAvatarPathWithFallback(
+    path || profileImagePath || userImagePath,
     name
   );
-  const src = path ?? avatarPath;
   return (
     <Avatar src={src} alt={name} {...props}>
-      {children ? (
-        children
-      ) : (
-        <img alt={name} src={src} width="100%" height="100%" />
-      )}
+      {children || <img alt={name} src={src} width="100%" height="100%" />}
     </Avatar>
   );
 };

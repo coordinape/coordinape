@@ -337,3 +337,48 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
   });
   return update_nominees_by_pk;
 }
+
+export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
+  if (!params.update_webhook) {
+    // don't try to set/unset the webhook
+    params.discord_webhook = undefined;
+  } else if (params.discord_webhook === '') {
+    // if the client gives us an empty string, and we are trying to set the webhook, this means we are setting it to null
+    params.discord_webhook = null;
+  }
+  const { update_circles_by_pk } = await adminClient.mutate({
+    update_circles_by_pk: [
+      {
+        pk_columns: {
+          id: params.circle_id,
+        },
+        _set: {
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return update_circles_by_pk;
+}
+
+export async function endNominees(circleId: number) {
+  const { update_nominees } = await adminClient.mutate({
+    update_nominees: [
+      {
+        where: {
+          circle_id: { _eq: circleId },
+        },
+        _set: {
+          ended: true,
+        },
+      },
+      {
+        affected_rows: true,
+      },
+    ],
+  });
+  return update_nominees;
+}

@@ -32,6 +32,13 @@ array_relationships:
       remote_table:
         name: pending_token_gifts
         schema: public
+- name: token_gifts
+  using:
+    foreign_key_constraint_on:
+      column: epoch_id
+      table:
+        name: token_gifts
+        schema: public
 select_permissions:
 - permission:
     columns:
@@ -72,8 +79,13 @@ select_permissions:
     - updated_at
     filter:
       circle:
-        users:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
+        organization:
+          circles:
+            users:
+              _and:
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+              - deleted_at:
+                  _is_null: true
   role: user

@@ -43,3 +43,8 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov 
           chmod +x codecov 
           ./codecov
+
+      # remove symlink to prevent redundant caching
+      - name: Cleanup
+        run: |
+          rm node_modules/@coordinape/hardhat

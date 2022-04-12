@@ -56,9 +56,23 @@ export const EditProfileModal = ({
   return (
     <EditProfileForm.FormController
       source={myProfile}
-      submit={params =>
-        updateMyProfile(params).then(onClose).catch(console.warn)
-      }
+      submit={async params => {
+        // skills is an array here but the backend expects a json encoded array
+        const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
+          skills: string;
+          website: string | null;
+        } = { ...params, skills: JSON.stringify(params.skills) };
+
+        if (fixedParams.website == '') {
+          fixedParams.website = null;
+        }
+        try {
+          await updateMyProfile(fixedParams);
+          onClose();
+        } catch (e: unknown) {
+          console.warn(e);
+        }
+      }}
     >
       {({ fields, errors, changedOutput, handleSubmit }) => (
         <FormModal
@@ -119,7 +133,7 @@ export const EditProfileModal = ({
             />
             <FormTextField
               {...fields.website}
-              placeholder="Enter link"
+              placeholder="https://website.com"
               label="Website"
             />
           </div>

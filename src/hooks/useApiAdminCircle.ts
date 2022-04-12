@@ -1,13 +1,14 @@
 import * as mutations from 'lib/gql/mutations';
+import * as queries from 'lib/gql/queries';
 
 import { fileToBase64 } from '../lib/base64';
+import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
 import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 import {
-  PutCirclesParam,
   UpdateUsersParam,
   PostUsersParam,
   UpdateCreateEpochParam,
@@ -17,8 +18,8 @@ export const useApiAdminCircle = (circleId: number) => {
   const { fetchManifest } = useApiBase();
 
   const updateCircle = useRecoilLoadCatch(
-    () => async (params: PutCirclesParam) => {
-      await getApiService().putCircles(circleId, params);
+    () => async (params: ValueTypes['UpdateCircleInput']) => {
+      await mutations.updateCircle(params);
       await fetchManifest();
     },
     [circleId]
@@ -34,8 +35,8 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const createEpoch = useRecoilLoadCatch(
-    () => async (params: UpdateCreateEpochParam) => {
-      await getApiService().createEpoch(circleId, params);
+    () => async (params: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>) => {
+      await mutations.createEpoch({ circle_id: circleId, ...params });
       await fetchManifest();
     },
     [circleId],
@@ -44,7 +45,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const updateEpoch = useRecoilLoadCatch(
     () => async (epochId: number, params: UpdateCreateEpochParam) => {
-      await getApiService().updateEpoch(circleId, epochId, params);
+      await mutations.updateEpoch(circleId, epochId, params);
       await fetchManifest();
     },
     [circleId],
@@ -77,7 +78,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
-      await getApiService().deleteUser(circleId, userAddress);
+      await mutations.deleteUser(circleId, userAddress);
       await fetchManifest();
     },
     [circleId]
@@ -85,7 +86,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const getDiscordWebhook = useRecoilLoadCatch(
     () => async () => {
-      return await getApiService().getDiscordWebhook(circleId);
+      return (await queries.getDiscordWebhook(circleId)) || '';
     },
     [circleId]
   );

@@ -5,50 +5,38 @@ export const Text = styled('span', {
   margin: '0',
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
-  display: 'flex',
+  display: 'flex', // FIXME: this assumes Text is used only for single-line text
   alignItems: 'center',
 
   variants: {
     font: {
-      source: {
-        fontFamily: 'Source Sans Pro',
-      },
-      space: {
-        fontFamily: 'Space Grotesk',
-      },
-      inter: {
-        fontFamily: 'Inter',
-      },
+      source: { fontFamily: 'Source Sans Pro' },
+      space: { fontFamily: 'Space Grotesk' },
+      inter: { fontFamily: 'Inter' },
     },
     color: {
-      default: {
-        color: '$text',
-      },
-      secondary: { 
-        color: '$secondary'
-      },
-      red: {
-        color: '$red',
-      },
+      default: { color: '$text' },
+      gray: { color: '$gray400' },
+      red: { color: '$red' },
+      blue: { color: '$blue' },
     },
     bold: {
-      true: {
-        fontWeight: '$bold',
-      },
+      true: { fontWeight: '$bold' },
     },
     inline: {
-      true: {
-        display: 'inline',
-      },
+      true: { display: 'inline' },
     },
     variant: {
+      sectionHeader: {
+        fontSize: '$8',
+        fontWeight: '$bold',
+      },
       formLabel: {
         color: '$gray400',
         textTransform: 'uppercase',
         fontSize: '$3',
         fontFamily: 'Inter',
         fontWeight: '$semibold',
-        mb: '$xs',
       },
     },
   },

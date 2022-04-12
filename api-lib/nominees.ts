@@ -57,11 +57,40 @@ export const getUserFromProfileIdWithCircle = async (
             },
           },
           {
+            pending_sent_gifts: [
+              {},
+              {
+                id: true,
+                recipient_id: true,
+                recipient_address: true,
+                note: true,
+                tokens: true,
+              },
+            ],
             circle: {
               nomination_days_limit: true,
               min_vouches: true,
+              epochs: [
+                {
+                  where: {
+                    _and: [
+                      { end_date: { _gt: 'now()' } },
+                      { start_date: { _lt: 'now()' } },
+                    ],
+                  },
+                },
+                {
+                  start_date: true,
+                  end_date: true,
+                  id: true,
+                },
+              ],
             },
             id: true,
+            address: true,
+            give_token_remaining: true,
+            starting_tokens: true,
+            non_giver: true,
           },
         ],
       },

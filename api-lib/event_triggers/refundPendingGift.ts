@@ -17,8 +17,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { address, circle_id } = data.new;
 
-  const newNonGiver = !data.old.non_giver && data.new.non_giver;
-  const newNonReceiver = !data.old.non_receiver && data.new.non_receiver;
+  const userDeleted = !data.old.deleted_at && data.new.deleted_at;
+
+  const newNonGiver =
+    (!data.old.non_giver && data.new.non_giver) || userDeleted;
+  const newNonReceiver =
+    (!data.old.non_receiver && data.new.non_receiver) || userDeleted;
 
   const results = [];
   try {
@@ -31,8 +35,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (
       !currentEpoch ||
       !(newNonGiver || newNonReceiver) ||
-      (newNonGiver && pending_sent_gifts.length === 0) ||
-      (newNonReceiver && pending_received_gifts.length === 0)
+      (!userDeleted && newNonGiver && pending_sent_gifts.length === 0) ||
+      (!userDeleted && newNonReceiver && pending_received_gifts.length === 0) ||
+      (userDeleted &&
+        pending_received_gifts.length === 0 &&
+        pending_sent_gifts.length === 0)
     ) {
       res.status(200).json({
         message: `Not a refund event.`,
@@ -40,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    if (newNonGiver) {
+    if (newNonGiver && pending_sent_gifts.length > 0) {
       const totalRefund = pending_sent_gifts
         .map(gift => gift.tokens)
         .reduce((total, tokens) => tokens + total);
@@ -101,7 +108,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       results.push(newNonGiverResult);
     }
 
-    if (newNonReceiver) {
+    if (newNonReceiver && pending_received_gifts.length > 0) {
       const totalRefund = pending_received_gifts
         .map(gift => gift.tokens)
         .reduce((total, tokens) => tokens + total);
@@ -163,6 +170,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   } catch (e) {
     errorResponse(res, e);
+    return;
   }
 
   res.status(200).json({

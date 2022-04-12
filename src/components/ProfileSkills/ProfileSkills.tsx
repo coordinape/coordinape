@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   skillItem: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(0.2),
     padding: theme.spacing(0.2, 1.7),
     background: theme.colors.lightBlue,
     textAlign: 'center',

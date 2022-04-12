@@ -259,6 +259,7 @@ export const AdminCircleModal = ({
         autoOptOut !== circle.auto_opt_out
       ) {
         await updateCircle({
+          circle_id: circle.id,
           name: circleName,
           vouching: vouching,
           token_name: tokenName,
@@ -267,12 +268,12 @@ export const AdminCircleModal = ({
           nomination_days_limit: nominationDaysLimit,
           alloc_text: allocText,
           discord_webhook: webhook,
-          update_webhook: allowEdit ? 1 : 0,
           default_opt_in: defaultOptIn,
           vouching_text: vouchingText,
           only_giver_vouch: onlyGiverVouch,
           team_selection: teamSelection,
           auto_opt_out: autoOptOut,
+          update_webhook: allowEdit,
         }).then(() => {
           onClose();
         });

@@ -58,6 +58,7 @@ select_permissions:
     filter: {}
   role: superadmin
 - permission:
+    allow_aggregations: true
     columns:
     - address
     - circle_id
@@ -74,10 +75,15 @@ select_permissions:
     - vouches_required
     filter:
       circle:
-        users:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
+        organization:
+          circles:
+            users:
+              _and:
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+              - deleted_at:
+                  _is_null: true
   role: user
 event_triggers:
 - definition:

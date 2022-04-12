@@ -19,12 +19,12 @@ const useStyles = makeStyles(theme => ({
   },
   open: {
     width: theme.custom.appDrawerWidth,
+    maxWidth: '95vw',
   },
   closed: {
     width: 47,
   },
   content: {
-    width: theme.custom.appDrawerWidth,
     flexGrow: 1,
     overflowX: 'hidden',
     display: 'flex',

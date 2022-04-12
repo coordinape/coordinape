@@ -92,6 +92,7 @@ function zodParserErrorResponse(res: VercelResponse, issues: ZodIssue[]): void {
   }
   for (let i = 0; i < issues.length; i++) {
     msg = msg + ' ' + issues[i].message;
+    msg = msg + ' (' + issues[i].path[issues[i].path.length - 1] + ')';
     if (i < issues.length - 1) {
       msg = msg + ',';
     }

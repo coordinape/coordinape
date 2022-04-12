@@ -46,5 +46,10 @@ export const COORDINAPE_USER_ADDRESS = <string>(
   getEnvValue('COORDINAPE_USER_ADDRESS')
 );
 
+export const INFURA_PROJECT_ID = getEnvValue(
+  'REACT_APP_INFURA_PROJECT_ID',
+  'missing-infura-id'
+);
+
 // This is only set to 'production' when deployed from main branch
 export const VERCEL_ENV = getEnvValue<string>('VERCEL_ENV', 'development');

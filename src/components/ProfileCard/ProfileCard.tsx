@@ -64,6 +64,12 @@ const useStyles = makeStyles(theme => ({
     },
   },
   name: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 4,
+    '-webkit-box-orient': 'vertical',
+    wordBreak: 'break-word',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     gridColumn: '1 / 4',
     textAlign: 'center',
     margin: theme.spacing(0.5, 0),
@@ -89,7 +95,6 @@ const useStyles = makeStyles(theme => ({
   },
   bio: {
     flexGrow: 1,
-    margin: theme.spacing(1.5, 0, 0),
     fontSize: 14,
     fontWeight: 600,
     color: 'rgba(81, 99, 105, 0.5)',
