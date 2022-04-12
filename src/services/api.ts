@@ -1,17 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
-import axios from 'axios';
 
-import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
 import { IApiLogin } from 'types';
 
-axios.defaults.baseURL = API_URL;
-
 export class APIService {
   provider = undefined as Web3Provider | undefined;
   token = undefined as string | undefined;
-  axios = axios.create({ baseURL: API_URL });
 
   constructor(provider?: Web3Provider, token?: string) {
     this.provider = provider;
@@ -30,8 +25,6 @@ export class APIService {
       const authHeader = 'Bearer ' + token;
       auth.headers = { Authorization: authHeader };
     }
-
-    this.axios = axios.create({ baseURL: API_URL, ...auth });
   }
 
   login = async (address: string): Promise<IApiLogin> => {
@@ -64,10 +57,6 @@ export class APIService {
       }),
     });
     return await rawResponse.json();
-  };
-
-  downloadCSV = async (circleId: number, epoch: number): Promise<any> => {
-    return this.axios.get(`/v2/${circleId}/csv?epoch=${epoch}`);
   };
 }
 

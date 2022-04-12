@@ -343,20 +343,18 @@ const AdminPage = () => {
   const downloadCSVButton = (epoch: number) => (
     <TableLink
       to=""
-      onClick={() => {
+      onClick={async () => {
         // use the authed api to download the CSV
-        downloadCSV(epoch).then(res => {
-          const binaryData = [];
-          binaryData.push(res.data);
-          const href = window.URL.createObjectURL(
-            new Blob(binaryData, { type: 'text/csv' })
-          );
+        const csv = await downloadCSV(epoch);
+
+        if (csv?.file) {
           const a = document.createElement('a');
           a.download = `${selectedCircle?.protocol.name}-${selectedCircle?.name}-epoch-${epoch}.csv`;
-          a.href = href;
+          a.href = csv.file;
           a.click();
           a.href = '';
-        });
+        }
+
         return false;
       }}
     >

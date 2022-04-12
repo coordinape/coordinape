@@ -422,3 +422,32 @@ export async function updateEpoch(
   });
   return updateEpoch;
 }
+
+export async function allocationCsv(
+  circleId: number,
+  epoch?: number,
+  epochId?: number,
+  grant?: number
+) {
+  const { allocationCsv } = await client.mutate(
+    {
+      allocationCsv: [
+        {
+          payload: {
+            circle_id: circleId,
+            epoch_id: epochId,
+            grant: grant,
+            epoch: epoch,
+          },
+        },
+        {
+          file: true,
+        },
+      ],
+    },
+    {
+      operationName: 'allocationCsv',
+    }
+  );
+  return allocationCsv;
+}
