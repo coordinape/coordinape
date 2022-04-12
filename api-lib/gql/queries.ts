@@ -346,3 +346,49 @@ export async function getRepeatingEpoch(
   });
   return repeatingEpoch;
 }
+
+export async function getEpoch(
+  circle_id: number,
+  epoch_id?: number,
+  number?: number
+): Promise<typeof epoch | undefined> {
+  const whereCondition: ValueTypes['epochs_bool_exp'] = {
+    circle_id: { _eq: circle_id },
+  };
+  if (epoch_id) {
+    whereCondition.id = { _eq: epoch_id };
+  } else if (number) {
+    whereCondition.number = { _eq: number };
+  }
+
+  const {
+    epochs: [epoch],
+  } = await adminClient.query({
+    epochs: [
+      {
+        limit: 1,
+        where: whereCondition,
+      },
+      {
+        id: true,
+        start_date: true,
+        end_date: true,
+        grant: true,
+        number: true,
+        circle: {
+          name: true,
+          organization: {
+            name: true,
+          },
+        },
+        token_gifts: [
+          {},
+          {
+            tokens: true,
+          },
+        ],
+      },
+    ],
+  });
+  return epoch;
+}

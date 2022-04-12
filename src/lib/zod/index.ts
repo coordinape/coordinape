@@ -221,6 +221,19 @@ export const updateAllocationsInput = z.object({
   circle_id: z.number().int().positive(),
 });
 
+export const allocationCsvInput = z
+  .object({
+    circle_id: z.number().int().positive(),
+    grant: z.number().positive().min(1).max(1000000000).optional(),
+    epoch: z.number().int().optional(),
+    epoch_id: z.number().int().optional(),
+  })
+  .strict()
+  .refine(
+    data => data.epoch || data.epoch_id,
+    'Either epoch or a epoch_id must be provided.'
+  );
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
