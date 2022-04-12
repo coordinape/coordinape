@@ -57,11 +57,6 @@ export function useSubmitDistribution() {
       BigNumber.from(10).pow(vault.decimals)
     );
 
-    previousDistribution &&
-      (totalAmount = totalAmount.add(
-        BigNumber.from(previousDistribution.distribution_json.totalAmount)
-      ));
-
     const calculateClaimAmount = (amount: string) =>
       Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
 
@@ -89,6 +84,13 @@ export function useSubmitDistribution() {
         previousDistribution &&
           JSON.parse(previousDistribution.distribution_json)
       );
+
+      previousDistribution &&
+        (totalAmount = totalAmount.add(
+          BigNumber.from(
+            JSON.parse(previousDistribution.distribution_json).tokenTotal
+          )
+        ));
 
       const { merkleRoot } = distribution;
       const encodedCircleId = encodeCircleId(circleId);
@@ -125,7 +127,7 @@ export function useSubmitDistribution() {
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
 
-      await uploadEpochRoot(
+      const distributorEpochId = await uploadEpochRoot(
         vault.vault_address,
         encodedCircleId,
         yVaultAddress.toString(),
@@ -133,6 +135,8 @@ export function useSubmitDistribution() {
         totalAmount,
         utils.hexlify(1)
       );
+
+      console.log('Epoch id: ', distributorEpochId); //eslint-disable-line
       showInfo('Saving Distribution...');
       await markSaved(response.id);
       showInfo('Distribution saved successfully');

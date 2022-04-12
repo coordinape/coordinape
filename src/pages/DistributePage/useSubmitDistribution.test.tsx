@@ -48,6 +48,8 @@ afterAll(async () => {
 test('submit distribution', async () => {
   let vaults: GraphQLTypes['vaults'];
   let response: SubmitDistributionResult;
+  let merkleRootFromSubmission: string;
+  let merkleRootFromDistributor: string;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
@@ -87,14 +89,19 @@ test('submit distribution', async () => {
           epochId: 2,
           users,
           gifts,
-        }).then(r => {
-          if (r) response = r;
-          return getEpochRoot(
-            r.encodedCircleId,
-            vaults.token_address as string,
-            String(2)
-          );
-        });
+        })
+          .then(r => {
+            if (r) response = r;
+            merkleRootFromSubmission = r.merkleRoot;
+            return getEpochRoot(
+              r.encodedCircleId,
+              vaults.token_address as string,
+              String(2)
+            );
+          })
+          .then(merkleRoot => {
+            merkleRootFromDistributor = merkleRoot;
+          });
       });
 
     return null;
@@ -111,6 +118,7 @@ test('submit distribution', async () => {
   await waitFor(
     () => {
       expect(response).toBeTruthy();
+      expect(merkleRootFromSubmission).toEqual(merkleRootFromDistributor);
       expect(vaults).toBeTruthy();
     },
     { timeout: 60000 }
