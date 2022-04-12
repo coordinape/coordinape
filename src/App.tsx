@@ -27,7 +27,10 @@ import { globalStyles } from './stitches.config';
 import './App.css';
 
 function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider);
+  const library =
+    provider.isMetaMask || provider.isFrame
+      ? new Web3Provider(provider)
+      : provider;
   library.pollingInterval = 12000;
   return library;
 }
