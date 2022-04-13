@@ -62,6 +62,8 @@ function DistributePage() {
     data,
   } = useGetAllocations(epochId as number | undefined);
 
+  console.log(data); //eslint-disable-line
+
   const {
     data: previousDistribution,
     isLoading: loadingPreviousDistributions,

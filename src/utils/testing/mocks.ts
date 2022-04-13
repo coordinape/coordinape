@@ -12,44 +12,42 @@ export const mockVault = {
 };
 
 export const mockEpoch = {
-  epochs_by_pk: {
-    id: 5,
-    ended: true,
-    number: 4,
-    circle_id: 2,
-    circle: {
-      id: 2,
-      name: 'Mock Circle',
-      users: [
-        {
-          address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2f',
-          id: 21,
-          name: 'Mock User 1',
-          circle_id: 2,
-          received_gifts: [{ tokens: 100 }, { tokens: 100 }],
-          received_gifts_aggregate: [
-            {
-              aggregate: {
-                count: 2,
-              },
+  id: 5,
+  ended: true,
+  number: 4,
+  circle_id: 2,
+  circle: {
+    id: 2,
+    name: 'Mock Circle',
+    users: [
+      {
+        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2f',
+        id: 21,
+        name: 'Mock User 1',
+        circle_id: 2,
+        received_gifts: [{ tokens: 100 }, { tokens: 100 }],
+        received_gifts_aggregate: [
+          {
+            aggregate: {
+              count: 2,
             },
-          ],
-        },
-        {
-          address: '0x63c389CB2C573dd8A9239A16a3eb65935Ddb5e2f',
-          id: 21,
-          name: 'Mock User 2',
-          circle_id: 2,
-          received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
-          received_gifts_aggregate: [
-            {
-              aggregate: {
-                count: 3,
-              },
+          },
+        ],
+      },
+      {
+        address: '0x63c389CB2C573dd8A9239A16a3eb65935Ddb5e2f',
+        id: 21,
+        name: 'Mock User 2',
+        circle_id: 2,
+        received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
+        received_gifts_aggregate: [
+          {
+            aggregate: {
+              count: 3,
             },
-          ],
-        },
-      ],
-    },
+          },
+        ],
+      },
+    ],
   },
 };
