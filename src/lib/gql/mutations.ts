@@ -1,11 +1,11 @@
 import {
   CreateCircleParam,
   IApiCircle,
-  PostUsersParam,
   NominateUserParam,
-  UpdateUsersParam,
-  UpdateCreateEpochParam,
   PostTokenGiftsParam,
+  PostUsersParam,
+  UpdateCreateEpochParam,
+  UpdateUsersParam,
 } from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
@@ -322,11 +322,10 @@ export async function updateAllocations(
         payload: {
           circle_id: circleId,
           allocations: params.map(a => {
-            const withPatchedNote: Omit<typeof a, 'note'> & { note: string } = {
+            return {
               ...a,
               note: a.note ? a.note : '',
             };
-            return withPatchedNote;
           }),
         },
       },
