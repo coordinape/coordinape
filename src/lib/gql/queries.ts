@@ -1,14 +1,17 @@
 import {
-  IApiCircle,
-  IApiEpoch,
   IApiFullCircle,
   IApiManifest,
   IApiProfile,
   IApiTokenGift,
+  IApiUser,
   IProtocol,
 } from '../../types';
 
 import { client } from './client';
+
+const isDefinedUser = (user: IApiUser | undefined): user is IApiUser => {
+  return !!user;
+};
 
 export const getCurrentEpoch = async (
   circle_id: number
@@ -149,6 +152,28 @@ export const getFullCircle = async (
             updated_at: true,
             deleted_at: true,
             role: true,
+            teammates: [
+              {},
+              {
+                teammate: {
+                  id: true,
+                  circle_id: true,
+                  name: true,
+                  address: true,
+                  non_giver: true,
+                  fixed_non_receiver: true,
+                  bio: true,
+                  starting_tokens: true,
+                  non_receiver: true,
+                  give_token_received: true,
+                  created_at: true,
+                  updated_at: true,
+                  give_token_remaining: true,
+                  role: true,
+                  epoch_first_visit: true,
+                },
+              },
+            ],
           },
         ],
         token_gifts: [
@@ -205,10 +230,24 @@ export const getFullCircle = async (
     throw 'problem loading circle';
   }
 
+  const adaptedUsers = circles_by_pk.users.map(user => {
+    const adaptedUser: Omit<typeof user, 'teammates'> & {
+      teammates?: IApiUser[];
+    } = {
+      ...user,
+      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+    };
+    return adaptedUser;
+  });
+
   // TODO: this crazy type stuff can all go away after fetchManifest is ported
   //  and we can refactor/eliminate the old types
-  const fullCircle: Omit<typeof circles_by_pk, 'pending_token_gifts'> & {
+  const fullCircle: Omit<
+    typeof circles_by_pk,
+    'pending_token_gifts' | 'users'
+  > & {
     pending_gifts: IApiTokenGift[];
+    users: IApiUser[];
     circle: Omit<typeof circle.circles_by_pk, 'organization'> & {
       protocol: IProtocol;
     };
@@ -227,6 +266,7 @@ export const getFullCircle = async (
       };
       return notedGift;
     }),
+    users: adaptedUsers,
   };
   fullCircle.token_gifts = fullCircle.token_gifts.map(tg => {
     const notedGift: Omit<typeof tg, 'gift_private'> & {
@@ -240,9 +280,7 @@ export const getFullCircle = async (
   return fullCircle;
 };
 
-export const getOtherUserProfile = async (
-  address: string
-): Promise<IApiProfile> => {
+export const getProfile = async (address: string): Promise<IApiProfile> => {
   const { profiles } = await client.query({
     profiles: [
       {
@@ -284,6 +322,28 @@ export const getOtherUserProfile = async (
             give_token_remaining: true,
             role: true,
             epoch_first_visit: true,
+            teammates: [
+              {},
+              {
+                teammate: {
+                  id: true,
+                  circle_id: true,
+                  name: true,
+                  address: true,
+                  non_giver: true,
+                  fixed_non_receiver: true,
+                  bio: true,
+                  starting_tokens: true,
+                  non_receiver: true,
+                  give_token_received: true,
+                  created_at: true,
+                  updated_at: true,
+                  give_token_remaining: true,
+                  role: true,
+                  epoch_first_visit: true,
+                },
+              },
+            ],
           },
         ],
       },
@@ -295,49 +355,36 @@ export const getOtherUserProfile = async (
     throw 'unable to load address: ' + address;
   }
 
-  const adaptedProfile: Omit<typeof p, 'skills'> & { skills?: string[] } = {
+  const adaptedUsers = p.users.map(user => {
+    const adaptedUser: Omit<typeof user, 'teammates'> & {
+      teammates?: IApiUser[];
+    } = {
+      ...user,
+      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+    };
+    return adaptedUser;
+  });
+
+  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+    skills?: string[];
+    users: IApiUser[];
+  } = {
     ...p,
     skills: p.skills && JSON.parse(p.skills),
+    users: adaptedUsers,
   };
 
   return adaptedProfile;
 };
 
-export const getActiveEpochs = async (): Promise<IApiEpoch[]> => {
-  const { epochs } = await client.query({
-    epochs: [
-      {
-        where: {
-          ended: { _eq: false },
-          end_date: {
-            _gt: 'now()',
-          },
-        },
-      },
-      {
-        id: true,
-        number: true,
-        start_date: true,
-        end_date: true,
-        circle_id: true,
-        created_at: true,
-        updated_at: true,
-        ended: true,
-        grant: true,
-        notified_before_end: true,
-        notified_start: true,
-        notified_end: true,
-        days: true,
-        repeat: true,
-        repeat_day_of_month: true,
-      },
-    ],
-  });
-  return epochs;
-};
-
-export const getCircles = async (): Promise<IApiCircle[]> => {
-  const { circles } = await client.query({
+export const fetchManifest = async (
+  address: string,
+  circleId?: number
+): Promise<IApiManifest> => {
+  // Fetch as much as we can in this massive query. This mimics the old php fetch-manifest logic.
+  // This will be destructured and spread out into smaller queries soon - this is for backwards compat w/ FE with
+  // as little disruption as possible.
+  const manifestQuery = client.query({
     circles: [
       {},
       {
@@ -367,7 +414,133 @@ export const getCircles = async (): Promise<IApiCircle[]> => {
         auto_opt_out: true,
       },
     ],
+    epochs: [
+      {
+        where: {
+          ended: { _eq: false },
+          end_date: {
+            _gt: 'now()',
+          },
+        },
+      },
+      {
+        id: true,
+        number: true,
+        start_date: true,
+        end_date: true,
+        circle_id: true,
+        created_at: true,
+        updated_at: true,
+        ended: true,
+        grant: true,
+        notified_before_end: true,
+        notified_start: true,
+        notified_end: true,
+        days: true,
+        repeat: true,
+        repeat_day_of_month: true,
+      },
+    ],
+    profiles: [
+      {
+        where: {
+          address: { _ilike: address },
+        },
+      },
+      {
+        id: true,
+        address: true,
+        admin_view: true,
+        avatar: true,
+        background: true,
+        bio: true,
+        discord_username: true,
+        github_username: true,
+        medium_username: true,
+        telegram_username: true,
+        twitter_username: true,
+        website: true,
+        skills: true,
+        created_at: true,
+        updated_at: true,
+        users: [
+          {},
+          {
+            id: true,
+            circle_id: true,
+            name: true,
+            address: true,
+            non_giver: true,
+            fixed_non_receiver: true,
+            bio: true,
+            starting_tokens: true,
+            non_receiver: true,
+            give_token_received: true,
+            created_at: true,
+            updated_at: true,
+            give_token_remaining: true,
+            role: true,
+            epoch_first_visit: true,
+            teammates: [
+              {},
+              {
+                teammate: {
+                  id: true,
+                  circle_id: true,
+                  name: true,
+                  address: true,
+                  non_giver: true,
+                  fixed_non_receiver: true,
+                  bio: true,
+                  starting_tokens: true,
+                  non_receiver: true,
+                  give_token_received: true,
+                  created_at: true,
+                  updated_at: true,
+                  give_token_remaining: true,
+                  role: true,
+                  epoch_first_visit: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
   });
+
+  // circle is fetched separately, but in parallel - the logic is too complex to duplicate in here
+  const fetchCircle: Promise<IApiFullCircle> | undefined = circleId
+    ? getFullCircle(circleId)
+    : undefined;
+
+  const a = await Promise.all([manifestQuery, fetchCircle]);
+
+  const [{ circles, epochs, profiles }, circle] = a;
+
+  const p = profiles.pop();
+  if (!p) {
+    throw 'unable to load profile for address: ' + address;
+  }
+
+  const adaptedUsers = p.users.map(user => {
+    const adaptedUser: Omit<typeof user, 'teammates'> & {
+      teammates?: IApiUser[];
+    } = {
+      ...user,
+      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+    };
+    return adaptedUser;
+  });
+
+  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+    skills?: string[];
+    users: IApiUser[];
+  } = {
+    ...p,
+    skills: p.skills && JSON.parse(p.skills),
+    users: adaptedUsers,
+  };
 
   const adaptedCircles = circles.map(circle => {
     const adaptedCircle: Omit<typeof circle, 'organization'> & {
@@ -379,25 +552,11 @@ export const getCircles = async (): Promise<IApiCircle[]> => {
     return adaptedCircle;
   });
 
-  return adaptedCircles;
-};
-
-export const fetchManifest = async (
-  address: string,
-  circleId?: number
-): Promise<IApiManifest> => {
-  const profile = await getOtherUserProfile(address);
-  const active_epochs = await getActiveEpochs();
-  const circles = await getCircles();
-  let circle: IApiFullCircle | undefined;
-  if (circleId) {
-    circle = await getFullCircle(circleId);
-  }
   return {
-    profile,
-    active_epochs,
-    circles,
-    circle,
-    myUsers: profile.users || [],
+    profile: adaptedProfile,
+    active_epochs: epochs,
+    circles: adaptedCircles,
+    circle: circle,
+    myUsers: adaptedProfile.users || [],
   };
 };

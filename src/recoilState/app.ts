@@ -145,7 +145,7 @@ export const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
     const [profile, selfIdProfile] = await Promise.all([
-      queries.getOtherUserProfile(address),
+      queries.getProfile(address),
       getSelfIdProfile(address),
     ]);
 
