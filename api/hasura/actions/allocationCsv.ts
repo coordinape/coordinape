@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { v4 as uuidv4 } from 'uuid';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { formatShortDateTime } from '../../../api-lib/dateTimeHelpers';
@@ -22,7 +23,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (!epochObj) {
     return errorResponseWithStatusCode(
       res,
-      { message: 'Epoch does not exist' },
+      { message: 'Epoch does not exist in this circle' },
       422
     );
   }
@@ -46,13 +47,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         name: true,
         address: true,
         received_gifts: [
-          { where: { epoch_id: { _eq: epoch_id } } },
+          { where: { epoch_id: { _eq: epochObj.id } } },
           {
             tokens: true,
           },
         ],
         sent_gifts: [
-          { where: { epoch_id: { _eq: epoch_id } } },
+          { where: { epoch_id: { _eq: epochObj.id } } },
           {
             tokens: true,
           },
@@ -106,11 +107,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
           : 0
       );
-
     return (csvText += `${rowValues.join(',')}\r\n`);
   });
   const fileName = `${epochObj.circle?.organization?.name}-${epochObj.circle?.name}-${epochObj?.number}.csv`;
-  const result = await uploadCsv(`csv/${fileName}`, csvText);
+  const result = await uploadCsv(
+    `${circle_id}/${epochObj.id}/${uuidv4()}/${fileName}`,
+    csvText
+  );
 
   res.status(200).json({
     file: result.Location,

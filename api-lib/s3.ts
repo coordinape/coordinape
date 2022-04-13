@@ -28,7 +28,7 @@ const deleteImage = (Key: string) => {
 
 const uploadCsv = (Key: string, CsvData: string) => {
   const params = {
-    Key,
+    Key: `csv/${Key}`,
     Body: CsvData,
     Bucket: process.env.IMAGES_AWS_BUCKET || 'coordinape',
     ContentType: 'text/csv',
