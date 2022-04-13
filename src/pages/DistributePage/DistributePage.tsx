@@ -50,22 +50,22 @@ function DistributePage() {
 
   const currentOrg = useCurrentOrg();
   const submitDistribution = useSubmitDistribution();
-  const currentUser = useCurrentUserForEpoch(Number(epochId));
+  const currentUser = useCurrentUserForEpoch(epochId as number | undefined);
 
   const { isLoading: vaultLoading, data: vaults } = useVaults(
-    currentOrg.data?.id as number
+    currentOrg.data?.id
   );
 
   const {
     isLoading: isAllocationsLoading,
     isError,
     data,
-  } = useGetAllocations(Number(epochId));
+  } = useGetAllocations(epochId as number | undefined);
 
   const {
     data: previousDistribution,
     isLoading: loadingPreviousDistributions,
-  } = usePreviousDistributions(Number(data?.epochs_by_pk?.circle?.id));
+  } = usePreviousDistributions(data?.circle?.id);
 
   const isLoading =
     isAllocationsLoading ||
@@ -73,13 +73,14 @@ function DistributePage() {
     vaultLoading ||
     loadingPreviousDistributions;
 
-  const circle = data?.epochs_by_pk?.circle;
-  const epoch = data?.epochs_by_pk;
-  const users = data?.epochs_by_pk?.circle?.users;
+  const circle = data?.circle;
+  const epoch = data;
+  const users = data?.circle?.users;
 
   const totalGive = users?.reduce(
     (total, { received_gifts: g }) =>
-      total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
+      total +
+      g.reduce((userTotal: any, { tokens }: any) => userTotal + tokens, 0),
     0
   );
 
@@ -130,7 +131,7 @@ function DistributePage() {
 
   const pageMessage = () => {
     if (!epoch) return `Sorry, epoch was not found.`;
-    if (!data?.epochs_by_pk) return `Sorry, epoch was not found.`;
+    if (!data) return `Sorry, epoch was not found.`;
 
     if (currentUser.data && !isUserAdmin(currentUser.data))
       return "Sorry, you are not a circle admin so you can't access this feature.";

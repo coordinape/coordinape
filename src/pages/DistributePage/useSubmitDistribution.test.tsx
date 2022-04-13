@@ -2,7 +2,6 @@ import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { useDistributor } from 'hooks';
-import { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -46,7 +45,7 @@ afterAll(async () => {
 });
 
 test('submit distribution', async () => {
-  let vaults: GraphQLTypes['vaults'];
+  let vault: GraphQLTypes['vaults'];
   let response: SubmitDistributionResult;
   let merkleRootFromSubmission: string;
   let merkleRootFromDistributor: string;
@@ -63,25 +62,12 @@ test('submit distribution', async () => {
     createVault({ simpleTokenAddress: '0x0', type: Asset.DAI })
       .then(v => {
         if (v) {
-          vaults = v as GraphQLTypes['vaults'];
-          return depositToken(vaults, 1000);
+          vault = v as GraphQLTypes['vaults'];
+          return depositToken(vault, 1000);
         }
       })
       .then(() => {
-        if (!vaults) return;
-        const vault: Vault = {
-          created_at: new Date(),
-          created_by: vaults.created_by,
-          symbol: vaults.symbol,
-          token_address: vaults.token_address,
-          simple_token_address: vaults.simple_token_address,
-          decimals: vaults.decimals,
-          id: vaults.id,
-          org_id: vaults.org_id,
-          vault_address: vaults.vault_address,
-          updated_at: vaults.updated_at,
-        };
-
+        if (!vault) return;
         return submitDistribution({
           amount: 900,
           vault,
@@ -95,7 +81,7 @@ test('submit distribution', async () => {
             merkleRootFromSubmission = r.merkleRoot;
             return getEpochRoot(
               r.encodedCircleId,
-              vaults.token_address as string,
+              vault.token_address as string,
               r.epochId
             );
           })
@@ -118,7 +104,7 @@ test('submit distribution', async () => {
   await waitFor(
     () => {
       expect(response).toBeTruthy();
-      expect(vaults).toBeTruthy();
+      expect(vault).toBeTruthy();
       expect(merkleRootFromSubmission).toEqual(merkleRootFromDistributor);
     },
     { timeout: 20000 }
