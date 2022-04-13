@@ -14,7 +14,6 @@ import {
   rBaseTeammates,
 } from 'recoilState/allocation';
 import { rUsersMap, useCircle } from 'recoilState/app';
-import { getApiService } from 'services/api';
 
 import { useDeepChangeEffect } from './useDeepChangeEffect';
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
@@ -169,7 +168,7 @@ export const useAllocation = (circleId: number) => {
         }))
         .toArray();
 
-      await getApiService().postTokenGifts(myUser.circle_id, params);
+      await mutations.updateAllocations(myUser.circle_id, params);
       await fetchCircle({ circleId: myUser.circle_id });
     },
     [myUser, pendingGifts, localGifts],
