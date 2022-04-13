@@ -3,8 +3,6 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { styled } from '../../stitches.config';
 import { getAvatarPathWithFallback } from 'utils/domain';
 
-import { IUser, IProfile } from 'types';
-
 const AvatarRoot = styled(AvatarPrimitive.Root, {
   width: 32,
   height: 32,
@@ -45,26 +43,21 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
 });
 
 export const Avatar = ({
-  user,
   path,
-  profile,
+  name,
   onClick,
 }: {
-  user?: IUser;
   path?: string;
-  profile?: IProfile;
+  /** User's name is used as a fallback in case of failing to load avatar. */
+  name?: string;
   onClick?: () => void;
 }) => {
-  const avatarPath = getAvatarPathWithFallback(
-    profile?.avatar || user?.profile?.avatar,
-    user?.name
-  );
-  const src = path ?? avatarPath;
+  const avatarPath = getAvatarPathWithFallback(path, name);
 
   return (
     <AvatarRoot onClick={() => onClick?.()}>
-      <AvatarImage src={src} alt={user?.name} />
-      <AvatarFallback>avatarPath</AvatarFallback>
+      <AvatarImage src={avatarPath} alt={name} />
+      <AvatarFallback>{avatarPath}</AvatarFallback>
     </AvatarRoot>
   );
 };

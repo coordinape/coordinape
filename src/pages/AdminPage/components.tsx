@@ -198,6 +198,8 @@ export const renderEpochCard = (e: IEpoch) => {
   );
 };
 
+// export const userAvatar = (user: IUser) 
+
 export const renderUserCard = (user: IUser) => {
   return (
     <Flex
@@ -206,7 +208,7 @@ export const renderUserCard = (user: IUser) => {
         margin: '$md',
       }}
     >
-      <Avatar user={user} />
+      <Avatar path={user.profile?.avatar} name={user.name} />
       <Flex
         css={{
           flexDirection: 'column',

@@ -370,8 +370,8 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             return (
               <div className={classes.avatarCell}>
                 <Avatar
-                  user={u}
-                  // className={classes.avatar}
+                  path={u?.profile?.avatar}
+                  name={u?.name}
                   onClick={getToProfile({ address: u.address })}
                 />
                 <span>{u.name}</span>
