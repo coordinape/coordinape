@@ -56,7 +56,7 @@ reviewer to be able to say, “yep, this commit is obviously correct” as
 many times in a row as are necessary for a full feature to be developed.
 
 <details>
-<summary>Why create small commits?</summary>
+<summary><b>Why create small commits?</b></summary>
 
 Writing small commits can help improve the design of your code. It is
 common to realize an elegant way to split apart some functionality out
@@ -123,7 +123,7 @@ message. If it’s still difficult, you may be trying to change too much
 at once!
 
 <details>
-<summary>Why include a summary?</summary>
+<summary><b>Why include a summary?</b></summary>
 
 The 50-character summary is critical because this is what Git
 expects. Git often assumes that the first line of a commit contains a
@@ -145,7 +145,7 @@ Otherwise, feel free to leave it out—some changes really are
 self-documenting, and there’s no need to add a vacuous description.
 
 <details>
-<summary>Why include a description?</summary>
+<summary><b>Why include a description?</b></summary>
 
 A commit describes a _change_ from one state of the codebase to the
 next. If your patch is good, the final state of the code will be clear
@@ -172,7 +172,7 @@ the test plan: this signals to observers that the trivial steps are
 indeed sufficient.
 
 <details>
-<summary>Why include a test plan?</summary>
+<summary><b>Why include a test plan?</b></summary>
 
 The value of a test plan is many-fold. Simply writing the test plan can
 force you to consider cases that you hadn’t before, in turn helping you
@@ -190,7 +190,7 @@ Wrap all parts of the commit message so that no line has more than **72
 characters**.
 
 <details>
-<summary>Why wrap at 72 characters?</summary>
+<summary><b>Why wrap at 72 characters?</b></summary>
 
 This leaves room for four spaces of padding on either side while still
 fitting in an 80-character terminal. Programs like `git-log` expect that
@@ -201,7 +201,40 @@ terminals has bounded width, you can display more of them on a screen!)
 
 </details>
 
-## Code Reviews
+# Code Reviews
+
+## Pull Requests
+We use Pull Requests in Github to collect a series of commits into one changeset that can be reviewed, tested, and merged into our `main` git branch.
+Community open source contributors must make Pull Requests from their fork of the `coordinape` git repo into the main git repo, for security reasons. A code reviewer will then review the PR, and approve running our CI and Vercel pre-deployment checks against this changeset.
+
+
+<details>
+<summary><b>Community open source PR example:</b></summary>
+
+In this example, 31 commits are included in a PR from a forked git repo into the primary `coordinape` git repo's `main` branch.
+
+<img width="838" alt="community contributor git branch example image" src="https://user-images.githubusercontent.com/83605543/163241956-8c36386f-34a5-4b65-b1e3-f5091ad0684e.png">
+
+</details>
+
+<details>
+<summary><b>Core contributor PR example:</b></summary>
+
+In this example, 34 commits are included in a PR from a git branch into the `main` branch, all within the primary `coordinape` git repo.
+
+<img width="842" alt="core contributor git branch example image" src="https://user-images.githubusercontent.com/83605543/163243280-ea69c8dc-d87c-4fc0-a66e-4220de66ea65.png">
+
+</details>
+
+### PR Guidelines
+
+- A set of one or more commits should be grouped into a PR around one specific change.
+- Ideally, we have more, smaller PRs, which enables easier code reivew, and safer deployments. However, helper function refactors can be included in the same PR as the change that uses the helper function, for example.
+- The PRs description should clearly indicate what changes are happening, or link to the issue the PR addresses.
+- A PRs should include how to manually (and automatedly) test the feature changes of the PR.
+- PRs description should include images/videos of the change, if applicable.
+
+
 
 Coordinape has code owners assigned to various parts of the codebase who
 will be auto-assigned as reviewers to your PR. If you are keen to get your
