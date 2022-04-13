@@ -58,8 +58,6 @@ export function useSubmitDistribution() {
       BigNumber.from(10).pow(vault.decimals)
     );
 
-    //console.log( users, epochId, gifts, JSON.parse(previousDistribution?.distribution_json).claims) //eslint-disable-line
-
     const calculateClaimAmount = (amount: string) =>
       Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
 
@@ -129,16 +127,6 @@ export function useSubmitDistribution() {
 
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
-
-      console.log(
-        //eslint-disable-line
-        vault.vault_address,
-        encodedCircleId,
-        yVaultAddress.toString(),
-        merkleRoot,
-        totalAmount,
-        utils.hexlify(1)
-      );
 
       const uploadRoot = await uploadEpochRoot(
         vault.vault_address,
