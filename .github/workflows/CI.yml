@@ -38,7 +38,7 @@ jobs:
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
-      - run: yarn test:ci
+      - run: yarn test:ci --verbose-hasura
       - name: Codecov
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov 
