@@ -24,20 +24,20 @@ interface ApeVaultWrapperImplementationInterface
   functions: {
     "addFunds(uint256)": FunctionFragment;
     "allVaults()": FunctionFragment;
-    "allowanceModule()": FunctionFragment;
     "apeMigrate()": FunctionFragment;
     "apeRegistry()": FunctionFragment;
     "apeWithdraw(uint256,bool)": FunctionFragment;
     "apeWithdrawSimpleToken(uint256)": FunctionFragment;
     "bestVault()": FunctionFragment;
     "exitVaultToken(bool)": FunctionFragment;
-    "hasAccess(address)": FunctionFragment;
     "init(address,address,address,address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "profit()": FunctionFragment;
     "registry()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setRegistry(address)": FunctionFragment;
+    "shareValue(uint256)": FunctionFragment;
+    "sharesForValue(uint256)": FunctionFragment;
     "simpleToken()": FunctionFragment;
     "syncUnderlying()": FunctionFragment;
     "tap(uint256,uint8)": FunctionFragment;
@@ -56,10 +56,6 @@ interface ApeVaultWrapperImplementationInterface
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "allVaults", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "allowanceModule",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "apeMigrate",
     values?: undefined
@@ -81,7 +77,6 @@ interface ApeVaultWrapperImplementationInterface
     functionFragment: "exitVaultToken",
     values: [boolean]
   ): string;
-  encodeFunctionData(functionFragment: "hasAccess", values: [string]): string;
   encodeFunctionData(
     functionFragment: "init",
     values: [string, string, string, string, string]
@@ -94,6 +89,14 @@ interface ApeVaultWrapperImplementationInterface
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "setRegistry", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "shareValue",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "sharesForValue",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "simpleToken",
     values?: undefined
@@ -142,10 +145,6 @@ interface ApeVaultWrapperImplementationInterface
 
   decodeFunctionResult(functionFragment: "addFunds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allVaults", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "allowanceModule",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "apeMigrate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "apeRegistry",
@@ -164,7 +163,6 @@ interface ApeVaultWrapperImplementationInterface
     functionFragment: "exitVaultToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "hasAccess", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "profit", data: BytesLike): Result;
@@ -175,6 +173,11 @@ interface ApeVaultWrapperImplementationInterface
   ): Result;
   decodeFunctionResult(
     functionFragment: "setRegistry",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "shareValue", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "sharesForValue",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -273,8 +276,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
 
     allVaults(overrides?: CallOverrides): Promise<[string[]]>;
 
-    allowanceModule(overrides?: CallOverrides): Promise<[string]>;
-
     apeMigrate(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -299,8 +300,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    hasAccess(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
-
     init(
       _apeRegistry: string,
       _token: string,
@@ -324,6 +323,16 @@ export class ApeVaultWrapperImplementation extends BaseContract {
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    shareValue(
+      numShares: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    sharesForValue(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     simpleToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -381,8 +390,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
 
   allVaults(overrides?: CallOverrides): Promise<string[]>;
 
-  allowanceModule(overrides?: CallOverrides): Promise<string>;
-
   apeMigrate(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -407,8 +414,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  hasAccess(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
   init(
     _apeRegistry: string,
     _token: string,
@@ -432,6 +437,16 @@ export class ApeVaultWrapperImplementation extends BaseContract {
     _registry: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  shareValue(
+    numShares: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  sharesForValue(
+    amount: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   simpleToken(overrides?: CallOverrides): Promise<string>;
 
@@ -484,8 +499,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
 
     allVaults(overrides?: CallOverrides): Promise<string[]>;
 
-    allowanceModule(overrides?: CallOverrides): Promise<string>;
-
     apeMigrate(overrides?: CallOverrides): Promise<BigNumber>;
 
     apeRegistry(overrides?: CallOverrides): Promise<string>;
@@ -508,8 +521,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    hasAccess(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
     init(
       _apeRegistry: string,
       _token: string,
@@ -528,6 +539,16 @@ export class ApeVaultWrapperImplementation extends BaseContract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     setRegistry(_registry: string, overrides?: CallOverrides): Promise<void>;
+
+    shareValue(
+      numShares: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    sharesForValue(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     simpleToken(overrides?: CallOverrides): Promise<string>;
 
@@ -607,8 +628,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
 
     allVaults(overrides?: CallOverrides): Promise<BigNumber>;
 
-    allowanceModule(overrides?: CallOverrides): Promise<BigNumber>;
-
     apeMigrate(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -633,8 +652,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    hasAccess(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     init(
       _apeRegistry: string,
       _token: string,
@@ -657,6 +674,16 @@ export class ApeVaultWrapperImplementation extends BaseContract {
     setRegistry(
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    shareValue(
+      numShares: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    sharesForValue(
+      amount: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     simpleToken(overrides?: CallOverrides): Promise<BigNumber>;
@@ -714,8 +741,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
 
     allVaults(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    allowanceModule(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     apeMigrate(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -740,11 +765,6 @@ export class ApeVaultWrapperImplementation extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    hasAccess(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     init(
       _apeRegistry: string,
       _token: string,
@@ -767,6 +787,16 @@ export class ApeVaultWrapperImplementation extends BaseContract {
     setRegistry(
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    shareValue(
+      numShares: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    sharesForValue(
+      amount: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     simpleToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;

@@ -22,15 +22,16 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface ApeDistributorInterface extends ethers.utils.Interface {
   functions: {
     "allowances(address,bytes32,address)": FunctionFragment;
-    "checkpoints(bytes32,address,address)": FunctionFragment;
-    "circleAlloc(bytes32,address)": FunctionFragment;
-    "claim(bytes32,address,uint256,uint256,address,uint256,bool,bytes32[])": FunctionFragment;
-    "claimMany(bytes32[],address[],uint256[],bool[],bytes32[][])": FunctionFragment;
+    "checkpoints(address,bytes32,address,address)": FunctionFragment;
+    "circleAlloc(address,bytes32,address)": FunctionFragment;
+    "claim(address,bytes32,address,uint256,uint256,address,uint256,bool,bytes32[])": FunctionFragment;
+    "claimMany(tuple[])": FunctionFragment;
     "currentAllowances(address,bytes32,address)": FunctionFragment;
-    "epochClaimBitMap(bytes32,address,uint256,uint256)": FunctionFragment;
-    "epochRoots(bytes32,address,uint256)": FunctionFragment;
+    "epochClaimBitMap(address,bytes32,address,uint256,uint256)": FunctionFragment;
+    "epochRoots(address,bytes32,address,uint256)": FunctionFragment;
     "epochTracking(bytes32,address)": FunctionFragment;
-    "isClaimed(bytes32,address,uint256,uint256)": FunctionFragment;
+    "isClaimed(address,bytes32,address,uint256,uint256)": FunctionFragment;
+    "registry()": FunctionFragment;
     "setAllowance(bytes32,address,uint256,uint256,uint256,uint256)": FunctionFragment;
     "updateCircleAdmin(bytes32,address)": FunctionFragment;
     "uploadEpochRoot(address,bytes32,address,bytes32,uint256,uint8)": FunctionFragment;
@@ -43,15 +44,16 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "checkpoints",
-    values: [BytesLike, string, string]
+    values: [string, BytesLike, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "circleAlloc",
-    values: [BytesLike, string]
+    values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "claim",
     values: [
+      string,
       BytesLike,
       string,
       BigNumberish,
@@ -64,7 +66,19 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "claimMany",
-    values: [BytesLike[], string[], BigNumberish[], boolean[], BytesLike[][]]
+    values: [
+      {
+        vault: string;
+        circle: BytesLike;
+        token: string;
+        epoch: BigNumberish;
+        index: BigNumberish;
+        account: string;
+        checkpoint: BigNumberish;
+        redeemShare: boolean;
+        proof: BytesLike[];
+      }[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "currentAllowances",
@@ -72,11 +86,11 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "epochClaimBitMap",
-    values: [BytesLike, string, BigNumberish, BigNumberish]
+    values: [string, BytesLike, string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "epochRoots",
-    values: [BytesLike, string, BigNumberish]
+    values: [string, BytesLike, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "epochTracking",
@@ -84,8 +98,9 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isClaimed",
-    values: [BytesLike, string, BigNumberish, BigNumberish]
+    values: [string, BytesLike, string, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "setAllowance",
     values: [
@@ -135,6 +150,7 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "isClaimed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setAllowance",
     data: BytesLike
@@ -155,14 +171,16 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   events: {
     "AdminApproved(address,bytes32,address)": EventFragment;
     "AllowanceUpdated(address,bytes32,address,uint256,uint256)": EventFragment;
-    "Claimed(bytes32,address,uint256,uint256,address,uint256)": EventFragment;
-    "apeVaultFundsTapped(address,address,uint256)": EventFragment;
+    "Claimed(address,bytes32,address,uint256,uint256,address,uint256)": EventFragment;
+    "EpochFunded(address,bytes32,address,uint256,uint8,uint256)": EventFragment;
+    "yearnApeVaultFundsTapped(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AdminApproved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AllowanceUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Claimed"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "apeVaultFundsTapped"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EpochFunded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "yearnApeVaultFundsTapped"): EventFragment;
 }
 
 export class ApeDistributor extends BaseContract {
@@ -222,19 +240,22 @@ export class ApeDistributor extends BaseContract {
     >;
 
     checkpoints(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
       arg2: string,
+      arg3: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     circleAlloc(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     claim(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
@@ -247,11 +268,17 @@ export class ApeDistributor extends BaseContract {
     ): Promise<ContractTransaction>;
 
     claimMany(
-      _circles: BytesLike[],
-      _tokensAndAccounts: string[],
-      _epochsIndexesCheckpoints: BigNumberish[],
-      _redeemShares: boolean[],
-      _proofs: BytesLike[][],
+      _claims: {
+        vault: string;
+        circle: BytesLike;
+        token: string;
+        epoch: BigNumberish;
+        index: BigNumberish;
+        account: string;
+        checkpoint: BigNumberish;
+        redeemShare: boolean;
+        proof: BytesLike[];
+      }[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -269,17 +296,19 @@ export class ApeDistributor extends BaseContract {
     >;
 
     epochClaimBitMap(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       arg3: BigNumberish,
+      arg4: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     epochRoots(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
+      arg3: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -290,12 +319,15 @@ export class ApeDistributor extends BaseContract {
     ): Promise<[BigNumber]>;
 
     isClaimed(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
       _index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    registry(overrides?: CallOverrides): Promise<[string]>;
 
     setAllowance(
       _circle: BytesLike,
@@ -343,19 +375,22 @@ export class ApeDistributor extends BaseContract {
   >;
 
   checkpoints(
-    arg0: BytesLike,
-    arg1: string,
+    arg0: string,
+    arg1: BytesLike,
     arg2: string,
+    arg3: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   circleAlloc(
-    arg0: BytesLike,
-    arg1: string,
+    arg0: string,
+    arg1: BytesLike,
+    arg2: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   claim(
+    _vault: string,
     _circle: BytesLike,
     _token: string,
     _epoch: BigNumberish,
@@ -368,11 +403,17 @@ export class ApeDistributor extends BaseContract {
   ): Promise<ContractTransaction>;
 
   claimMany(
-    _circles: BytesLike[],
-    _tokensAndAccounts: string[],
-    _epochsIndexesCheckpoints: BigNumberish[],
-    _redeemShares: boolean[],
-    _proofs: BytesLike[][],
+    _claims: {
+      vault: string;
+      circle: BytesLike;
+      token: string;
+      epoch: BigNumberish;
+      index: BigNumberish;
+      account: string;
+      checkpoint: BigNumberish;
+      redeemShare: boolean;
+      proof: BytesLike[];
+    }[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -390,17 +431,19 @@ export class ApeDistributor extends BaseContract {
   >;
 
   epochClaimBitMap(
-    arg0: BytesLike,
-    arg1: string,
-    arg2: BigNumberish,
+    arg0: string,
+    arg1: BytesLike,
+    arg2: string,
     arg3: BigNumberish,
+    arg4: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   epochRoots(
-    arg0: BytesLike,
-    arg1: string,
-    arg2: BigNumberish,
+    arg0: string,
+    arg1: BytesLike,
+    arg2: string,
+    arg3: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -411,12 +454,15 @@ export class ApeDistributor extends BaseContract {
   ): Promise<BigNumber>;
 
   isClaimed(
+    _vault: string,
     _circle: BytesLike,
     _token: string,
     _epoch: BigNumberish,
     _index: BigNumberish,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  registry(overrides?: CallOverrides): Promise<string>;
 
   setAllowance(
     _circle: BytesLike,
@@ -464,19 +510,22 @@ export class ApeDistributor extends BaseContract {
     >;
 
     checkpoints(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
       arg2: string,
+      arg3: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     circleAlloc(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     claim(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
@@ -489,11 +538,17 @@ export class ApeDistributor extends BaseContract {
     ): Promise<void>;
 
     claimMany(
-      _circles: BytesLike[],
-      _tokensAndAccounts: string[],
-      _epochsIndexesCheckpoints: BigNumberish[],
-      _redeemShares: boolean[],
-      _proofs: BytesLike[][],
+      _claims: {
+        vault: string;
+        circle: BytesLike;
+        token: string;
+        epoch: BigNumberish;
+        index: BigNumberish;
+        account: string;
+        checkpoint: BigNumberish;
+        redeemShare: boolean;
+        proof: BytesLike[];
+      }[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -511,17 +566,19 @@ export class ApeDistributor extends BaseContract {
     >;
 
     epochClaimBitMap(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       arg3: BigNumberish,
+      arg4: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     epochRoots(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
+      arg3: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -532,12 +589,15 @@ export class ApeDistributor extends BaseContract {
     ): Promise<BigNumber>;
 
     isClaimed(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
       _index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    registry(overrides?: CallOverrides): Promise<string>;
 
     setAllowance(
       _circle: BytesLike,
@@ -563,7 +623,7 @@ export class ApeDistributor extends BaseContract {
       _amount: BigNumberish,
       _tapType: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     vaultApprovals(
       arg0: string,
@@ -600,6 +660,7 @@ export class ApeDistributor extends BaseContract {
     >;
 
     Claimed(
+      vault?: null,
       circle?: null,
       token?: null,
       epoch?: null,
@@ -607,8 +668,9 @@ export class ApeDistributor extends BaseContract {
       account?: null,
       amount?: null
     ): TypedEventFilter<
-      [string, string, BigNumber, BigNumber, string, BigNumber],
+      [string, string, string, BigNumber, BigNumber, string, BigNumber],
       {
+        vault: string;
         circle: string;
         token: string;
         epoch: BigNumber;
@@ -618,7 +680,26 @@ export class ApeDistributor extends BaseContract {
       }
     >;
 
-    apeVaultFundsTapped(
+    EpochFunded(
+      vault?: string | null,
+      circle?: BytesLike | null,
+      token?: string | null,
+      epochId?: null,
+      _tapType?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [string, string, string, BigNumber, number, BigNumber],
+      {
+        vault: string;
+        circle: string;
+        token: string;
+        epochId: BigNumber;
+        _tapType: number;
+        amount: BigNumber;
+      }
+    >;
+
+    yearnApeVaultFundsTapped(
       apeVault?: string | null,
       yearnVault?: null,
       amount?: null
@@ -637,19 +718,22 @@ export class ApeDistributor extends BaseContract {
     ): Promise<BigNumber>;
 
     checkpoints(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
       arg2: string,
+      arg3: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     circleAlloc(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     claim(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
@@ -662,11 +746,17 @@ export class ApeDistributor extends BaseContract {
     ): Promise<BigNumber>;
 
     claimMany(
-      _circles: BytesLike[],
-      _tokensAndAccounts: string[],
-      _epochsIndexesCheckpoints: BigNumberish[],
-      _redeemShares: boolean[],
-      _proofs: BytesLike[][],
+      _claims: {
+        vault: string;
+        circle: BytesLike;
+        token: string;
+        epoch: BigNumberish;
+        index: BigNumberish;
+        account: string;
+        checkpoint: BigNumberish;
+        redeemShare: boolean;
+        proof: BytesLike[];
+      }[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -678,17 +768,19 @@ export class ApeDistributor extends BaseContract {
     ): Promise<BigNumber>;
 
     epochClaimBitMap(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       arg3: BigNumberish,
+      arg4: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     epochRoots(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
+      arg3: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -699,12 +791,15 @@ export class ApeDistributor extends BaseContract {
     ): Promise<BigNumber>;
 
     isClaimed(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
       _index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    registry(overrides?: CallOverrides): Promise<BigNumber>;
 
     setAllowance(
       _circle: BytesLike,
@@ -748,19 +843,22 @@ export class ApeDistributor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     checkpoints(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
       arg2: string,
+      arg3: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     circleAlloc(
-      arg0: BytesLike,
-      arg1: string,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     claim(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
@@ -773,11 +871,17 @@ export class ApeDistributor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     claimMany(
-      _circles: BytesLike[],
-      _tokensAndAccounts: string[],
-      _epochsIndexesCheckpoints: BigNumberish[],
-      _redeemShares: boolean[],
-      _proofs: BytesLike[][],
+      _claims: {
+        vault: string;
+        circle: BytesLike;
+        token: string;
+        epoch: BigNumberish;
+        index: BigNumberish;
+        account: string;
+        checkpoint: BigNumberish;
+        redeemShare: boolean;
+        proof: BytesLike[];
+      }[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -789,17 +893,19 @@ export class ApeDistributor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     epochClaimBitMap(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
       arg3: BigNumberish,
+      arg4: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     epochRoots(
-      arg0: BytesLike,
-      arg1: string,
-      arg2: BigNumberish,
+      arg0: string,
+      arg1: BytesLike,
+      arg2: string,
+      arg3: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -810,12 +916,15 @@ export class ApeDistributor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     isClaimed(
+      _vault: string,
       _circle: BytesLike,
       _token: string,
       _epoch: BigNumberish,
       _index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    registry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setAllowance(
       _circle: BytesLike,

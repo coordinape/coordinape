@@ -43,6 +43,18 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
   return { sendTx, call };
 };
 
+type ClaimProps = {
+  vault: string;
+  circle: BytesLike;
+  token: string;
+  epoch: BigNumberish;
+  index: BigNumberish;
+  account: string;
+  checkpoint: BigNumberish;
+  redeemShare: boolean;
+  proof: BytesLike[];
+};
+
 export function useDistributor() {
   const contracts = useContracts();
   const { showInfo, showError } = useApeSnackbar();
@@ -58,68 +70,40 @@ export function useDistributor() {
   ) =>
     sendTx(d => d.uploadEpochRoot(vault, circle, token, root, amount, tapType));
 
-  const claim = (
-    circle: BytesLike,
-    token: string,
-    epoch: BigNumberish,
-    index: BigNumberish,
-    account: string,
-    checkpoint: BigNumberish,
-    redeemShares: boolean,
-    proof: BytesLike[]
-  ) =>
+  const claim = (props: ClaimProps) =>
     sendTx(d =>
       d.claim(
-        circle,
-        token,
-        epoch,
-        index,
-        account,
-        checkpoint,
-        redeemShares,
-        proof
+        props.vault,
+        props.circle,
+        props.token,
+        props.epoch,
+        props.index,
+        props.account,
+        props.checkpoint,
+        props.redeemShare,
+        props.proof
       )
     );
 
-  const claimMany = (
-    circles: BytesLike[],
-    tokens: string[],
-    accounts: string[],
-    epochs: BigNumberish[],
-    indexes: BigNumberish[],
-    checkpoints: BigNumberish[],
-    redeemShares: boolean[],
-    proofs: BytesLike[][]
-  ) =>
-    sendTx(d => {
-      if (
-        [tokens, accounts, epochs, indexes, checkpoints, proofs].some(
-          v => v.length !== circles.length
-        )
-      ) {
-        throw new Error('All arrays must have same length');
-      }
-      return d.claimMany(
-        circles,
-        [...tokens, ...accounts],
-        [...epochs, ...indexes, ...checkpoints],
-        redeemShares,
-        proofs
-      );
-    });
+  const claimMany = (claims: ClaimProps[]) => sendTx(d => d.claimMany(claims));
 
   const isClaimed = (
+    vault: string,
     circle: BytesLike,
     token: string,
     epoch: BigNumberish,
     index: BigNumberish
-  ) => call(d => d.isClaimed(circle, token, epoch, index)) as Promise<boolean>;
+  ) =>
+    call(d =>
+      d.isClaimed(vault, circle, token, epoch, index)
+    ) as Promise<boolean>;
 
   const getEpochRoot = (
-    _circleId: BytesLike,
-    _token: string,
-    _epoch: BigNumberish
-  ) => call(d => d.epochRoots(_circleId, _token, _epoch)) as Promise<string>;
+    vault: string,
+    circle: BytesLike,
+    token: string,
+    epoch: BigNumberish
+  ) => call(d => d.epochRoots(vault, circle, token, epoch)) as Promise<string>;
 
   return { uploadEpochRoot, claim, claimMany, isClaimed, getEpochRoot };
 }
