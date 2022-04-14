@@ -16,7 +16,7 @@ fi
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 LOGFILE=${TMPDIR:-.}/hasura-ci-$(date +%s).log
 echo "Writing output to" $LOGFILE
-docker-compose --profile ci \
+docker compose --profile ci \
   run --rm --service-ports graphql-engine-ci > $LOGFILE 2>&1 & PID=$!
 
 sleep 5
