@@ -292,10 +292,10 @@ export async function getOverlappingEpoch(
     _or: [
       {
         start_date: { _lt: end_date },
-        end_date: { _gt: end_date },
+        end_date: { _gte: end_date },
       },
       {
-        start_date: { _lt: start_date },
+        start_date: { _lte: start_date },
         end_date: { _gt: start_date },
       },
     ],

@@ -6,6 +6,7 @@ import { DateTime, Settings, Duration } from 'luxon';
 
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
 import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
@@ -443,28 +444,11 @@ async function createNextEpoch(epoch: {
 
   const nextEndDate = nextStartDate.plus(days);
 
-  const { epochs: overlappingEpochs } = await adminClient.query({
-    epochs: [
-      {
-        limit: 1,
-        where: {
-          circle_id: { _eq: epoch.circle_id },
-          _or: [
-            {
-              start_date: { _lt: nextEndDate },
-              end_date: { _gt: nextEndDate },
-            },
-            {
-              start_date: { _lt: nextStartDate },
-              end_date: { _gt: nextStartDate },
-            },
-          ],
-        },
-      },
-      { id: true, start_date: true, end_date: true },
-    ],
-  });
-  const existingEpoch = overlappingEpochs.pop();
+  const existingEpoch = await getOverlappingEpoch(
+    nextStartDate,
+    nextEndDate,
+    epoch.circle_id
+  );
 
   if (existingEpoch) {
     errorLog(
