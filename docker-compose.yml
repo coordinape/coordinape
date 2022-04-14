@@ -2,6 +2,7 @@ version: '3.6'
 
 services:
   postgres:
+    profiles: ['dev', 'ci']
     image: postgres:13
     restart: always
     volumes:
@@ -12,7 +13,8 @@ services:
       POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
 
   # Hasura
-  graphql-engine:
+  graphql-engine: &graphql_engine
+    profiles: ['dev']
     image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
     volumes:
       - ./hasura/migrations:/hasura-migrations
@@ -22,8 +24,7 @@ services:
     depends_on:
       - postgres
     restart: always
-    environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+    environment: &graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_GRAPHQL_DEV_MODE: 'true'
@@ -36,8 +37,33 @@ services:
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
+  setup-ci-db:
+    image: postgres:13
+    profiles: ['ci']
+    depends_on:
+      - postgres
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+      DB_NAME: ${CI_POSTGRES_DATABASE}
+    command: ['/scripts/setup-ci-db.sh']
+
+  graphql-engine-ci:
+    <<: *graphql_engine
+    profiles: ['ci']
+    ports:
+      - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
+    depends_on:
+      - setup-ci-db
+    environment:
+      <<: *graphql_engine_environment
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${CI_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_SERVER_PORT: ${CI_HASURA_PORT}
+
   # for local s3 storage for images
   localstack:
+    profiles: ['dev']
     image: localstack/localstack:latest
     hostname: s3
     networks:
