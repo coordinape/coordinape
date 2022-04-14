@@ -1,5 +1,5 @@
 import { act, render, waitFor } from '@testing-library/react';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, ethers, utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { useDistributor } from 'hooks';
@@ -106,7 +106,7 @@ beforeAll(async () => {
   snapshotId = await takeSnapshot();
   const mainAccount = (await provider.listAccounts())[0];
   await mint({
-    token: 'DAI',
+    token: 'USDC',
     address: mainAccount,
     amount: '1000',
   });
@@ -131,11 +131,14 @@ test('submit distribution', async () => {
     const { depositToken } = useVaultRouter(contracts);
     if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: '0x0', type: Asset.DAI })
+    createVault({ simpleTokenAddress: '0x0', type: Asset.USDC })
       .then(v => {
         if (v) {
           vault = v as GraphQLTypes['vaults'];
-          return depositToken(vault, 1000);
+          const amount = BigNumber.from(
+            utils.parseUnits('100', vault.decimals)
+          );
+          return depositToken(vault, amount);
         }
       })
       .then(depositResponse => {
@@ -145,8 +148,8 @@ test('submit distribution', async () => {
           amount: 90,
           vault,
           circleId: 2,
-          epochId: 2,
           users,
+          epochId: 2,
           gifts,
         });
       })

@@ -128,16 +128,6 @@ export function useSubmitDistribution() {
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
 
-      console.log(
-        // eslint-disable-line no-console
-        vault.vault_address,
-        encodedCircleId,
-        yVaultAddress.toString(),
-        merkleRoot,
-        totalAmount,
-        utils.hexlify(1)
-      );
-
       const uploadRoot = await uploadEpochRoot(
         vault.vault_address,
         encodedCircleId,
@@ -147,7 +137,6 @@ export function useSubmitDistribution() {
         utils.hexlify(1)
       );
 
-      console.log(uploadRoot); // eslint-disable-line no-console
       assert(
         uploadRoot && uploadRoot.tx?.value instanceof BigNumber,
         'No Epoch ID returned from function'
