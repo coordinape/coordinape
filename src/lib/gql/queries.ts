@@ -151,6 +151,12 @@ export const getFullCircle = async (
             created_at: true,
             updated_at: true,
             deleted_at: true,
+            profile: {
+              avatar: true,
+              id: true,
+              address: true,
+              admin_view: true,
+            },
             role: true,
             teammates: [
               {},
@@ -412,6 +418,7 @@ export const fetchManifest = async (
           updated_at: true,
         },
         auto_opt_out: true,
+        users: [{}, { address: true }],
       },
     ],
     epochs: [
@@ -509,18 +516,32 @@ export const fetchManifest = async (
     ],
   });
 
-  // circle is fetched separately, but in parallel - the logic is too complex to duplicate in here
-  const fetchCircle: Promise<IApiFullCircle> | undefined = circleId
-    ? getFullCircle(circleId)
-    : undefined;
-
-  const a = await Promise.all([manifestQuery, fetchCircle]);
-
-  const [{ circles, epochs, profiles }, circle] = a;
+  // we have to fetch manifest first because it clues us in to which circle we need to fetch
+  const { circles, epochs, profiles } = await manifestQuery;
 
   const p = profiles.pop();
   if (!p) {
     throw 'unable to load profile for address: ' + address;
+  }
+
+  let circle: IApiFullCircle | undefined = undefined;
+  // Sort my membership to find the first circle that you are a member of
+  if (!circleId && circles.length > 0) {
+    circles.sort((a, b) => {
+      const memberOfa = a.users.filter(u => u.address == p.address).length > 0;
+      const memberOfb = b.users.filter(u => u.address == p.address).length > 0;
+      if (memberOfa && !memberOfb) {
+        return -1;
+      } else if (memberOfb && !memberOfa) {
+        return 1;
+      } else {
+        return a.id - b.id;
+      }
+    });
+    circleId = circles[0].id;
+  }
+  if (circleId) {
+    circle = await getFullCircle(circleId);
   }
 
   const adaptedUsers = p.users.map(user => {
@@ -552,11 +573,12 @@ export const fetchManifest = async (
     return adaptedCircle;
   });
 
-  return {
+  const manifest = {
     profile: adaptedProfile,
     active_epochs: epochs,
     circles: adaptedCircles,
     circle: circle,
     myUsers: adaptedProfile.users || [],
   };
+  return manifest;
 };

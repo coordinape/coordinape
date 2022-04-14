@@ -44,6 +44,7 @@ export const useApiBase = () => {
           const {
             circleEpochsStatus: { epochIsActive },
           } = await snapshot.getPromise(rCircle(selectedCircleId));
+
           if (location.pathname === '/') {
             if (epochIsActive) {
               navigate(getAllocationPath());
@@ -53,6 +54,8 @@ export const useApiBase = () => {
           }
         } catch (e) {
           // Timed out
+          console.error('timed out waiting for rSelectedCircleId');
+          throw e;
         }
       },
     [history]
@@ -152,34 +155,39 @@ export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async () => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
+        try {
+          const walletAuth = await snapshot.getPromise(rWalletAuth);
+          if (
+            !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
+          ) {
+            throw 'Wallet must be connected to fetch manifest';
+          }
+
+          const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
+          const manifest = await queries.fetchManifest(
+            walletAuth.address,
+            circleId
+          );
+
+          set(rApiManifest, manifest);
+          const fullCircle = manifest.circle;
+          if (fullCircle) {
+            set(rSelectedCircleIdSource, fullCircle.circle.id);
+            set(rApiFullCircle, m => {
+              const result = new Map(m);
+              result.set(fullCircle.circle.id, fullCircle);
+              return result;
+            });
+
+            fetchSelfIds(fullCircle.users.map(u => u.address));
+          } else {
+            set(rSelectedCircleIdSource, undefined);
+          }
+          return manifest;
+        } catch (e) {
+          console.error('error fetching manifest', e);
+          throw e;
         }
-
-        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-        const manifest = await queries.fetchManifest(
-          walletAuth.address,
-          circleId
-        );
-
-        set(rApiManifest, manifest);
-        const fullCircle = manifest.circle;
-        if (fullCircle) {
-          set(rSelectedCircleIdSource, fullCircle.circle.id);
-          set(rApiFullCircle, m => {
-            const result = new Map(m);
-            result.set(fullCircle.circle.id, fullCircle);
-            return result;
-          });
-
-          fetchSelfIds(fullCircle.users.map(u => u.address));
-        } else {
-          set(rSelectedCircleIdSource, undefined);
-        }
-        return manifest;
       },
     []
   );
