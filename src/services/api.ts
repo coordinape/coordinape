@@ -46,13 +46,24 @@ export class APIService {
 
     const data = `Login to Coordinape ${Math.floor(now / 1000)}`;
     const { signature, hash } = await getSignature(data, this.provider);
-    const response = await this.axios.post('/v2/login', {
-      signature,
-      hash,
-      address,
-      data,
+    const rawResponse = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        input: {
+          payload: {
+            signature,
+            hash,
+            address,
+            data,
+          },
+        },
+      }),
     });
-    return response.data;
+    return await rawResponse.json();
   };
 
   getManifest = async (circleId?: number): Promise<IApiManifest> => {
