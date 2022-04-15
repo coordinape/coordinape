@@ -6,7 +6,6 @@ export * from './useApiWithSelectedCircle';
 export * from './useApiWithProfile';
 export * from './useContracts';
 export * from './useDeepChangeEffect';
-export * from './useDistributor';
 export * from './useImageUploader';
 export * from './useNavigation';
 export * from './useMediaQuery';

@@ -1,9 +1,10 @@
+import assert from 'assert';
+
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, utils } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
-import { useDistributor } from 'hooks';
-import { useContracts } from 'hooks/useContracts';
+import { useContracts } from 'hooks';
+import { useDistributor } from 'hooks/useDistributor';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Asset } from 'services/contracts';
@@ -15,16 +16,13 @@ import {
 } from 'utils/testing';
 import { mint } from 'utils/testing/mint';
 
-import {
-  SubmitDistributionResult,
-  useSubmitDistribution,
-} from './useSubmitDistribution';
+import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
-    addVault: jest.fn(x => x),
+    addVault: jest.fn(x => Promise.resolve({ insert_vaults_one: x })),
   };
 });
 
@@ -58,55 +56,49 @@ afterAll(async () => {
 });
 
 test('submit distribution', async () => {
-  let vault: GraphQLTypes['vaults'];
-  let response: SubmitDistributionResult;
-  let merkleRootFromSubmission: string;
-  let merkleRootFromDistributor: string;
+  let work: Promise<boolean> | null = null;
+  let merkleRootFromSubmission = 'expected';
+  let merkleRootFromDistributor = 'actual';
 
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const submitDistribution = useSubmitDistribution();
-    const { getEpochRoot } = useDistributor();
 
     const contracts = useContracts();
     const { depositToken } = useVaultRouter(contracts);
+    const { getEpochRoot } = useDistributor();
     if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: '0x0', type: Asset.USDC })
-      .then(v => {
-        if (v) {
-          vault = v as GraphQLTypes['vaults'];
-          const amount = BigNumber.from(
-            utils.parseUnits('100', vault.decimals)
-          );
-          return depositToken(vault, amount);
-        }
-      })
-      .then(depositResponse => {
-        if (!vault) throw new Error('vault not created');
-        if (!depositResponse) throw new Error('deposit not successful');
-        return submitDistribution({
-          amount: 90,
-          vault,
-          circleId: 2,
-          users,
-          epochId: 2,
-          gifts,
-        });
-      })
-      .then(r => {
-        if (r) response = r;
-        merkleRootFromSubmission = response.merkleRoot;
-        return getEpochRoot(
-          response.encodedCircleId,
-          vault.token_address as string,
-          response.epochId
-        );
-      })
-      .then(merkleRoot => {
-        merkleRootFromDistributor = merkleRoot;
-      })
-      .catch(e => console.error('error', e));
+    work = (async () => {
+      const vault = await createVault({
+        simpleTokenAddress: '0x0',
+        type: Asset.USDC,
+      });
+      assert(vault, 'vault not created');
+
+      await depositToken(
+        vault,
+        BigNumber.from(utils.parseUnits('100', vault.decimals))
+      );
+
+      const distro = await submitDistribution({
+        amount: 90,
+        vault,
+        circleId: 2,
+        users,
+        epochId: 2,
+        gifts,
+      });
+      merkleRootFromSubmission = distro.merkleRoot;
+
+      merkleRootFromDistributor = await getEpochRoot(
+        vault.vault_address,
+        distro.encodedCircleId,
+        await contracts.getVault(vault.vault_address).vault(),
+        distro.epochId
+      );
+      return true;
+    })();
 
     return null;
   };
@@ -117,16 +109,11 @@ test('submit distribution', async () => {
         <Harness />
       </TestWrapper>
     );
+    await waitFor(() => expect(work).toBeTruthy());
+    await expect(work).resolves.toBeTruthy();
   });
 
-  await waitFor(
-    () => {
-      expect(response).toBeTruthy();
-      expect(vault).toBeTruthy();
-      expect(merkleRootFromSubmission).toEqual(merkleRootFromDistributor);
-    },
-    { timeout: 20000 }
-  );
+  expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
 }, 20000);
 
 const users = {

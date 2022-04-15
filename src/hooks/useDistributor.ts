@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { ApeDistributor } from '@coordinape/hardhat/dist/typechain';
 import { ContractTransaction, BigNumberish, BytesLike } from 'ethers';
 
@@ -28,16 +30,11 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
     });
   };
 
-  const call = async (
-    callback: (apeDistributor: ApeDistributor) => Promise<any>
+  const call = async <T>(
+    callback: (apeDistributor: ApeDistributor) => Promise<T>
   ) => {
-    if (!contracts) return showError('Contracts not loaded');
-
-    try {
-      return callback(contracts.distributor);
-    } catch (e) {
-      showError(e);
-    }
+    assert(contracts, 'Contracts not loaded');
+    return callback(contracts.distributor);
   };
 
   return { sendTx, call };
@@ -93,17 +90,14 @@ export function useDistributor() {
     token: string,
     epoch: BigNumberish,
     index: BigNumberish
-  ) =>
-    call(d =>
-      d.isClaimed(vault, circle, token, epoch, index)
-    ) as Promise<boolean>;
+  ) => call<boolean>(d => d.isClaimed(vault, circle, token, epoch, index));
 
   const getEpochRoot = (
     vault: string,
     circle: BytesLike,
     token: string,
     epoch: BigNumberish
-  ) => call(d => d.epochRoots(vault, circle, token, epoch)) as Promise<string>;
+  ) => call<string>(d => d.epochRoots(vault, circle, token, epoch));
 
   return { uploadEpochRoot, claim, claimMany, isClaimed, getEpochRoot };
 }

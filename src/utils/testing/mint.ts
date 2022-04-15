@@ -29,7 +29,6 @@ export async function mint({
       to: receiver,
       value: utils.parseEther(amount),
     });
-    console.log(`Sent ${amount} ETH to ${receiver}`); //eslint-disable-line
   };
 
   const mintToken = async (
@@ -51,7 +50,6 @@ export async function mint({
     const decimals = await contract.decimals();
     const wei = BigNumber.from(10).pow(decimals).mul(amount);
     await contract.transfer(receiver, wei);
-    console.log(`Sent ${amount} ${symbol} to ${receiver}`); // eslint-disable-line no-console
   };
 
   switch (token) {

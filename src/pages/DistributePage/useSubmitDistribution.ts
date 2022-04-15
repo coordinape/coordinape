@@ -6,8 +6,9 @@ import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
 import { encodeCircleId } from 'lib/vaults';
 
-import { useDistributor, useApeSnackbar, useContracts } from 'hooks';
-import { Vault } from 'hooks/gql/useVaults';
+import { useApeSnackbar, useContracts } from 'hooks';
+import type { Vault } from 'hooks/gql/useVaults';
+import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import {
   useSaveEpochDistribution,
@@ -35,10 +36,9 @@ export type SubmitDistributionResult = {
 
 export function useSubmitDistribution() {
   const contracts = useContracts();
-  const { uploadEpochRoot } = useDistributor();
   const { mutateAsync } = useSaveEpochDistribution();
   const { mutateAsync: markSaved } = useMarkDistributionSaved();
-  const { apeError, showInfo } = useApeSnackbar();
+  const { showError, showInfo } = useApeSnackbar();
 
   const submitDistribution = async ({
     amount,
@@ -128,24 +128,27 @@ export function useSubmitDistribution() {
       const response = await mutateAsync(updateDistribution);
       assert(response, 'Distribution was not saved.');
 
-      const uploadRoot = await uploadEpochRoot(
-        vault.vault_address,
-        encodedCircleId,
-        yVaultAddress.toString(),
-        merkleRoot,
-        totalAmount,
-        utils.hexlify(1)
+      const { receipt } = await sendAndTrackTx(
+        () =>
+          contracts.distributor.uploadEpochRoot(
+            vault.vault_address,
+            encodedCircleId,
+            yVaultAddress.toString(),
+            merkleRoot,
+            totalAmount,
+            utils.hexlify(1)
+          ),
+        { showInfo, showError }
       );
 
-      assert(
-        uploadRoot && uploadRoot.tx?.value instanceof BigNumber,
-        'No Epoch ID returned from function'
-      );
+      const event = receipt?.events?.find(e => e.event === 'EpochFunded');
+      const distributorEpochId = event?.args?.epochId;
+      assert(distributorEpochId, "Couldn't find epoch ID");
 
       showInfo('Saving Distribution...');
       await markSaved({
         id: response.id,
-        epochId: Number(FixedNumber.from(uploadRoot.tx.value)),
+        epochId: distributorEpochId.toNumber(),
       });
       showInfo('Distribution saved successfully');
       return {
@@ -153,11 +156,11 @@ export function useSubmitDistribution() {
         totalAmount,
         encodedCircleId,
         tokenAddress: yVaultAddress.toString(),
-        epochId: uploadRoot.tx?.value as BigNumber,
+        epochId: distributorEpochId,
       };
     } catch (e) {
       console.error(e);
-      apeError(e);
+      showError(e);
       throw new Error(e as string);
     }
   };
