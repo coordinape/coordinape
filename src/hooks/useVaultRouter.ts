@@ -1,6 +1,7 @@
 // - Contract Imports
-import { BigNumberish } from '@ethersproject/bignumber';
+import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
+import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress } from 'lib/vaults';
 
@@ -14,11 +15,15 @@ export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
 
-  const depositToken = async (
+  const deposit = async (
     vault: Vault,
-    amount: BigNumberish
+    humanAmount: string
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
+    const amount = BigNumber.from(
+      utils.parseUnits(humanAmount, vault.decimals)
+    );
+
     const tokenAddress = getTokenAddress(vault);
     const token = contracts.getERC20(tokenAddress);
     const myAddress = await contracts.getMyAddress();
@@ -58,7 +63,7 @@ export function useVaultRouter(contracts?: Contracts) {
   const delegateWithdrawal = async (
     vault: GraphQLTypes['vaults'],
     tokenAddress: string,
-    shareAmount: BigNumberish,
+    shareAmount: BigNumber,
     underlying: boolean
   ) => {
     if (!contracts || !account)
@@ -72,5 +77,5 @@ export function useVaultRouter(contracts?: Contracts) {
     );
   };
 
-  return { depositToken, delegateWithdrawal };
+  return { deposit, delegateWithdrawal };
 }

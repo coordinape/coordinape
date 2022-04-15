@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import { act, render, waitFor } from '@testing-library/react';
-import { BigNumber, utils } from 'ethers';
 
 import { useContracts } from 'hooks';
 import { useDistributor } from 'hooks/useDistributor';
@@ -65,7 +64,7 @@ test('submit distribution', async () => {
     const submitDistribution = useSubmitDistribution();
 
     const contracts = useContracts();
-    const { depositToken } = useVaultRouter(contracts);
+    const { deposit } = useVaultRouter(contracts);
     const { getEpochRoot } = useDistributor();
     if (!contracts) return null;
 
@@ -76,13 +75,10 @@ test('submit distribution', async () => {
       });
       assert(vault, 'vault not created');
 
-      await depositToken(
-        vault,
-        BigNumber.from(utils.parseUnits('100', vault.decimals))
-      );
+      await deposit(vault, '100');
 
       const distro = await submitDistribution({
-        amount: 90,
+        amount: '92',
         vault,
         circleId: 2,
         users,

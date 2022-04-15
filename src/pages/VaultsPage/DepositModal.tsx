@@ -3,7 +3,7 @@ import { MouseEvent, useEffect, useMemo, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
-import { BigNumber, ethers, utils } from 'ethers';
+import { ethers } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress } from 'lib/vaults';
 import { useNavigate } from 'react-router-dom';
@@ -62,14 +62,10 @@ export default function DepositModal({
 
   const source = useMemo(() => ({ starting: 0, balance: max }), [vault, max]);
 
-  const { depositToken } = useVaultRouter(selectedContracts);
+  const { deposit } = useVaultRouter(selectedContracts);
 
   const handleSubmit = (amount: number) => {
-    const _amount = BigNumber.from(
-      utils.parseUnits(amount.toString(), vault.decimals)
-    );
-
-    depositToken(vault, _amount).then(({ error }) => {
+    deposit(vault, amount.toString()).then(({ error }) => {
       if (error) return;
       onDeposit();
       onClose();

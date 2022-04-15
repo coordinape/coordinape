@@ -17,7 +17,7 @@ import {
 import type { PreviousDistribution } from './queries';
 
 export type SubmitDistribution = {
-  amount: number;
+  amount: string;
   vault: Vault;
   previousDistribution?: PreviousDistribution;
   users: Record<string, number>;
