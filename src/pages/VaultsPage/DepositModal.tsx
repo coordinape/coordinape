@@ -5,7 +5,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { getTokenAddress } from 'lib/vaults';
+import { getTokenAddress, Contracts } from 'lib/vaults';
 import { useNavigate } from 'react-router-dom';
 
 import { FormModal, FormTokenField } from 'components';
@@ -13,7 +13,6 @@ import SingleTokenForm from 'forms/SingleTokenForm';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
-import { Contracts } from 'services/contracts';
 import { Box, Button } from 'ui';
 import { makeWalletConnectConnector } from 'utils/connectors';
 

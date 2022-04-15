@@ -4,7 +4,7 @@ import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
-import { encodeCircleId } from 'lib/vaults';
+import { encodeCircleId, convertToVaultAmount } from 'lib/vaults';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
@@ -15,7 +15,6 @@ import {
   useMarkDistributionSaved,
 } from './mutations';
 import type { PreviousDistribution } from './queries';
-import { useYTokenCalculator } from './useYTokenCalculator';
 
 export type SubmitDistribution = {
   amount: string;
@@ -40,7 +39,6 @@ export function useSubmitDistribution() {
   const { mutateAsync } = useSaveEpochDistribution();
   const { mutateAsync: markSaved } = useMarkDistributionSaved();
   const { showError, showInfo } = useApeSnackbar();
-  const calculateYTokens = useYTokenCalculator();
 
   const submitDistribution = async ({
     amount,
@@ -60,7 +58,11 @@ export function useSubmitDistribution() {
       const vaultContract = contracts.getVault(vault.vault_address);
       const yVaultAddress = await vaultContract.vault();
 
-      const newTotalAmount = await calculateYTokens(amount, vault);
+      const newTotalAmount = await convertToVaultAmount(
+        amount,
+        vault,
+        contracts
+      );
 
       const denominator = FixedNumber.from(shifter);
 

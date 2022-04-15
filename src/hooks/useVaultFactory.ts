@@ -2,10 +2,10 @@ import assert from 'assert';
 
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { addVault } from 'lib/gql/mutations';
+import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
-import { Asset } from 'services/contracts';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useContracts } from './useContracts';

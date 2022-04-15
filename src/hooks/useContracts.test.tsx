@@ -1,6 +1,6 @@
-import { ERC20 } from '@coordinape/hardhat/dist/typechain';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
+import type { ERC20 } from 'lib/vaults';
 
 import { TestWrapper } from 'utils/testing';
 

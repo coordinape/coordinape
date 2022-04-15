@@ -1,9 +1,8 @@
 import assert from 'assert';
 
-import { ApeDistributor } from '@coordinape/hardhat/dist/typechain';
 import { ContractTransaction, BigNumberish, BytesLike } from 'ethers';
+import type { ApeDistributor, Contracts } from 'lib/vaults';
 
-import { Contracts } from 'services/contracts';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';

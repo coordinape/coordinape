@@ -1,23 +1,33 @@
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
-  ApeDistributor,
   ApeDistributor__factory,
-  ApeRouter,
   ApeRouter__factory,
-  ApeVaultFactoryBeacon,
   ApeVaultFactoryBeacon__factory,
-  ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
-  ERC20,
   ERC20__factory,
+} from '@coordinape/hardhat/dist/typechain';
+import type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
-import { Asset } from 'lib/vaults';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
-export { Asset };
+
+import { Asset } from './';
+
+export type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ERC20,
+} from '@coordinape/hardhat/dist/typechain';
 
 const log = debug('coordinape:contracts');
 

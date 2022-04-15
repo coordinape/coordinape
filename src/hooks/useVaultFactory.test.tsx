@@ -1,7 +1,7 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { Asset } from 'lib/vaults';
 
-import { Asset } from 'services/contracts';
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
 import { useContracts } from './useContracts';

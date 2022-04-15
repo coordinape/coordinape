@@ -3,12 +3,12 @@ import assert from 'assert';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
+import { convertToVaultAmount, Asset } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
 import { useDistributor } from 'hooks/useDistributor';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Asset } from 'services/contracts';
 import {
   provider,
   restoreSnapshot,
@@ -18,7 +18,6 @@ import {
 import { mint } from 'utils/testing/mint';
 
 import { useSubmitDistribution } from './useSubmitDistribution';
-import { useYTokenCalculator } from './useYTokenCalculator';
 
 let snapshotId: string;
 
@@ -133,8 +132,6 @@ test('previous distribution', async () => {
     const contracts = useContracts();
     const { deposit } = useVaultRouter(contracts);
 
-    const yTokenCalculator = useYTokenCalculator();
-
     if (!contracts) return null;
 
     work = (async () => {
@@ -145,7 +142,7 @@ test('previous distribution', async () => {
       assert(vault, 'vault not created');
       await deposit(vault, '120');
 
-      previousTotal = await yTokenCalculator('100', vault);
+      previousTotal = await convertToVaultAmount('100', vault, contracts);
       expectedTotal = previousTotal.mul(2);
 
       const previousDistribution = createDistribution(

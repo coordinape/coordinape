@@ -2,6 +2,8 @@ import { MouseEvent, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
+import { Asset } from 'lib/vaults';
+import type { Contracts } from 'lib/vaults';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +13,6 @@ import { z } from 'zod';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
-import { Asset, Contracts } from 'services/contracts';
 import { Box, Button, Form, Text, TextField } from 'ui';
 
 const useFormSetup = (

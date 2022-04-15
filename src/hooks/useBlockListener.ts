@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Contracts } from 'services/contracts';
+import type { Contracts } from 'lib/vaults';
 
 import { useContracts } from './useContracts';
 

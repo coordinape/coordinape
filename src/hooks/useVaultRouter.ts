@@ -4,8 +4,8 @@ import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress } from 'lib/vaults';
+import type { Contracts } from 'lib/vaults';
 
-import { Contracts } from 'services/contracts';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';
