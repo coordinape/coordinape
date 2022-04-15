@@ -51,68 +51,79 @@ export function useSubmitDistribution() {
   }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
-    const denominator = FixedNumber.from(
-      BigNumber.from(10).pow(vault.decimals)
-    );
-    let totalAmount = BigNumber.from(amount).mul(
-      BigNumber.from(10).pow(vault.decimals)
-    );
-
-    const calculateClaimAmount = (amount: string) =>
-      Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
-
-    const calculateNewAmount = (
-      currentAmount: string,
-      address: string,
-      previousDistribution: MerkleDistributorInfo
-    ) => {
-      const previous = FixedNumber.from(
-        BigNumber.from(previousDistribution.claims[address].amount || '0')
-      );
-      const current = FixedNumber.from(BigNumber.from(currentAmount));
-      return Number(current.subUnsafe(previous).divUnsafe(denominator));
-    };
-
     try {
       assert(contracts, 'This network is not supported');
-      const yVaultAddress = await contracts
-        .getVault(vault.vault_address)
-        .vault();
 
-      const distribution = createDistribution(
-        gifts,
-        totalAmount,
+      // convert to amount of yTokens if this is a Yearn vault token.
+      // TODO skip this for simple token vaults -- but there are bigger issues
+      // with simple token vaults yet to be resolved before uploading will work
+      // anyway
+
+      const vaultContract = contracts.getVault(vault.vault_address);
+
+      const yVaultAddress = await vaultContract.vault();
+      const yToken = contracts.getERC20(yVaultAddress);
+      const vaultBalance = await yToken.balanceOf(vault.vault_address);
+
+      const shifter = BigNumber.from(10).pow(vault.decimals);
+      const weiAmount = BigNumber.from(amount).mul(shifter);
+      let newTotalAmount = await vaultContract.sharesForValue(weiAmount);
+
+      if (newTotalAmount.gt(vaultBalance)) {
+        // acceptable rounding error?
+        if (newTotalAmount.lt(vaultBalance.add(100))) {
+          newTotalAmount = vaultBalance;
+        } else {
+          throw new Error(
+            `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`
+          );
+        }
+      }
+
+      const denominator = FixedNumber.from(shifter);
+
+      const calculateClaimAmount = (amount: string) =>
+        Number(FixedNumber.from(BigNumber.from(amount)).divUnsafe(denominator));
+
+      const calculateNewAmount = (
+        currentAmount: string,
+        address: string,
+        previousDistribution: MerkleDistributorInfo
+      ) => {
+        const previous = FixedNumber.from(
+          BigNumber.from(previousDistribution.claims[address].amount || '0')
+        );
+        const current = FixedNumber.from(BigNumber.from(currentAmount));
+        return Number(current.subUnsafe(previous).divUnsafe(denominator));
+      };
+
+      const prev =
         previousDistribution &&
-          JSON.parse(previousDistribution.distribution_json)
-      );
+        JSON.parse(previousDistribution.distribution_json);
 
-      previousDistribution &&
-        (totalAmount = totalAmount.add(
-          BigNumber.from(
-            JSON.parse(previousDistribution.distribution_json).tokenTotal
-          )
-        ));
+      const distribution = createDistribution(gifts, newTotalAmount, prev);
+
+      const totalAmount = prev
+        ? newTotalAmount.add(BigNumber.from(prev.tokenTotal))
+        : newTotalAmount;
 
       const { merkleRoot } = distribution;
       const encodedCircleId = encodeCircleId(circleId);
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
-      ).map(([address, claim]) => ({
-        address: address.toLowerCase(),
-        index: claim.index,
-        amount: calculateClaimAmount(claim.amount),
-        new_amount: previousDistribution
-          ? calculateNewAmount(
-              claim.amount,
-              address,
-              JSON.parse(
-                previousDistribution.distribution_json
-              ) as MerkleDistributorInfo
-            )
-          : calculateClaimAmount(claim.amount),
-        proof: claim.proof.toString(),
-        user_id: users[address.toLowerCase()],
-      }));
+      ).map(([address, claim]) => {
+        const amount = calculateClaimAmount(claim.amount);
+        return {
+          address: address.toLowerCase(),
+          index: claim.index,
+          amount,
+          new_amount: previousDistribution
+            ? calculateNewAmount(claim.amount, address, prev)
+            : amount,
+          proof: claim.proof.toString(),
+          user_id: users[address.toLowerCase()],
+        };
+      });
 
       const updateDistribution: ValueTypes['distributions_insert_input'] = {
         total_amount: Number(FixedNumber.from(totalAmount, 'fixed128x18')),
@@ -133,9 +144,9 @@ export function useSubmitDistribution() {
           contracts.distributor.uploadEpochRoot(
             vault.vault_address,
             encodedCircleId,
-            yVaultAddress.toString(),
+            yVaultAddress,
             merkleRoot,
-            totalAmount,
+            newTotalAmount,
             utils.hexlify(1)
           ),
         { showInfo, showError }

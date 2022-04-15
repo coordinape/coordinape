@@ -44,7 +44,7 @@ beforeAll(async () => {
   snapshotId = await takeSnapshot();
   const mainAccount = (await provider.listAccounts())[0];
   await mint({
-    token: 'USDC',
+    token: Asset.DAI,
     address: mainAccount,
     amount: '1000',
   });
@@ -71,14 +71,14 @@ test('submit distribution', async () => {
     work = (async () => {
       const vault = await createVault({
         simpleTokenAddress: '0x0',
-        type: Asset.USDC,
+        type: Asset.DAI,
       });
       assert(vault, 'vault not created');
 
       await deposit(vault, '100');
 
       const distro = await submitDistribution({
-        amount: '92',
+        amount: '100',
         vault,
         circleId: 2,
         users,

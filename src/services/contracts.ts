@@ -67,10 +67,7 @@ export class Contracts {
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
-    return ApeVaultWrapperImplementation__factory.connect(
-      address,
-      this.provider
-    );
+    return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
   }
 
   getAvailableTokens() {
