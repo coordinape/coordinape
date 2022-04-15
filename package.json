@@ -72,7 +72,7 @@
     "db-seed-fresh": "scripts/seed_hasura.sh --clean",
     "db-seed": "scripts/seed_hasura.sh",
     "generate": "./scripts/generate-zeus.sh",
-    "hasura": "hasura --envfile ../.env --project ./hasura",
+    "hasura": "hasura --skip-update-check --envfile ../.env --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
