@@ -1,8 +1,10 @@
 import {
   CreateCircleParam,
   IApiCircle,
-  PostUsersParam,
   NominateUserParam,
+  PostTokenGiftsParam,
+  PostUsersParam,
+  UpdateCreateEpochParam,
   UpdateUsersParam,
 } from '../../types';
 
@@ -309,6 +311,31 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
   return updateTeammates;
 }
 
+export async function updateAllocations(
+  circleId: number,
+  params: PostTokenGiftsParam[]
+) {
+  await client.mutate({
+    updateAllocations: [
+      {
+        payload: {
+          circle_id: circleId,
+          allocations: params.map(a => {
+            return {
+              ...a,
+              note: a.note ? a.note : '',
+            };
+          }),
+        },
+      },
+      {
+        user_id: true,
+      },
+    ],
+  });
+  return;
+}
+
 export async function deleteUser(circleId: number, address: string) {
   const { deleteUser } = await client.mutate({
     deleteUser: [
@@ -372,4 +399,26 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
     ],
   });
   return createEpoch;
+}
+
+export async function updateEpoch(
+  circleId: number,
+  epochId: number,
+  params: UpdateCreateEpochParam
+) {
+  const { updateEpoch } = await client.mutate({
+    updateEpoch: [
+      {
+        payload: {
+          circle_id: circleId,
+          id: epochId,
+          ...params,
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return updateEpoch;
 }

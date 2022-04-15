@@ -30,7 +30,6 @@ export interface IApiEpoch {
   updated_at: string;
   ended: boolean;
   grant: string; // 0.00 - stored as decimal in database
-  regift_days: number;
   notified_before_end?: string;
   notified_start?: string;
   notified_end?: string;
