@@ -15,6 +15,7 @@ import {
   useMarkDistributionSaved,
 } from './mutations';
 import type { PreviousDistribution } from './queries';
+import { useYTokenCalculator } from './useYTokenCalculator';
 
 export type SubmitDistribution = {
   amount: string;
@@ -39,6 +40,7 @@ export function useSubmitDistribution() {
   const { mutateAsync } = useSaveEpochDistribution();
   const { mutateAsync: markSaved } = useMarkDistributionSaved();
   const { showError, showInfo } = useApeSnackbar();
+  const calculateYTokens = useYTokenCalculator();
 
   const submitDistribution = async ({
     amount,
@@ -54,31 +56,11 @@ export function useSubmitDistribution() {
     try {
       assert(contracts, 'This network is not supported');
 
-      // convert to amount of yTokens if this is a Yearn vault token.
-      // TODO skip this for simple token vaults -- but there are bigger issues
-      // with simple token vaults yet to be resolved before uploading will work
-      // anyway
-
-      const vaultContract = contracts.getVault(vault.vault_address);
-
-      const yVaultAddress = await vaultContract.vault();
-      const yToken = contracts.getERC20(yVaultAddress);
-      const vaultBalance = await yToken.balanceOf(vault.vault_address);
-
       const shifter = BigNumber.from(10).pow(vault.decimals);
-      const weiAmount = BigNumber.from(amount).mul(shifter);
-      let newTotalAmount = await vaultContract.sharesForValue(weiAmount);
+      const vaultContract = contracts.getVault(vault.vault_address);
+      const yVaultAddress = await vaultContract.vault();
 
-      if (newTotalAmount.gt(vaultBalance)) {
-        // acceptable rounding error?
-        if (newTotalAmount.lt(vaultBalance.add(100))) {
-          newTotalAmount = vaultBalance;
-        } else {
-          throw new Error(
-            `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`
-          );
-        }
-      }
+      const newTotalAmount = await calculateYTokens(amount, vault);
 
       const denominator = FixedNumber.from(shifter);
 
@@ -125,7 +107,7 @@ export function useSubmitDistribution() {
         };
       });
 
-      const updateDistribution: ValueTypes['distributions_insert_input'] = {
+      const saveDistribution: ValueTypes['distributions_insert_input'] = {
         total_amount: Number(FixedNumber.from(totalAmount, 'fixed128x18')),
         epoch_id: Number(epochId),
         merkle_root: distribution.merkleRoot,
@@ -136,7 +118,7 @@ export function useSubmitDistribution() {
         distribution_json: JSON.stringify(distribution),
       };
 
-      const response = await mutateAsync(updateDistribution);
+      const response = await mutateAsync(saveDistribution);
       assert(response, 'Distribution was not saved.');
 
       const { receipt } = await sendAndTrackTx(

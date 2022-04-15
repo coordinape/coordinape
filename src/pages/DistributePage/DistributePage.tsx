@@ -123,8 +123,13 @@ function DistributePage() {
       epochId: Number(epochId),
     };
 
-    await submitDistribution(submitDTO);
-    setLoadingTrx(false);
+    try {
+      await submitDistribution(submitDTO);
+      setLoadingTrx(false);
+    } catch (e) {
+      console.error(e);
+      setLoadingTrx(false);
+    }
   };
 
   if (isLoading) return <LoadingModal visible />;

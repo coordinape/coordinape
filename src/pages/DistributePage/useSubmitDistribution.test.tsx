@@ -1,6 +1,8 @@
 import assert from 'assert';
 
 import { act, render, waitFor } from '@testing-library/react';
+import { BigNumber } from 'ethers';
+import { createDistribution } from 'lib/merkle-distributor';
 
 import { useContracts } from 'hooks';
 import { useDistributor } from 'hooks/useDistributor';
@@ -16,6 +18,7 @@ import {
 import { mint } from 'utils/testing/mint';
 
 import { useSubmitDistribution } from './useSubmitDistribution';
+import { useYTokenCalculator } from './useYTokenCalculator';
 
 let snapshotId: string;
 
@@ -45,6 +48,11 @@ beforeAll(async () => {
   const mainAccount = (await provider.listAccounts())[0];
   await mint({
     token: Asset.DAI,
+    address: mainAccount,
+    amount: '1000',
+  });
+  await mint({
+    token: Asset.USDC,
     address: mainAccount,
     amount: '1000',
   });
@@ -100,7 +108,7 @@ test('submit distribution', async () => {
   };
 
   await act(async () => {
-    await render(
+    render(
       <TestWrapper withWeb3>
         <Harness />
       </TestWrapper>
@@ -110,6 +118,73 @@ test('submit distribution', async () => {
   });
 
   expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
+}, 20000);
+
+test('previous distribution', async () => {
+  let work: Promise<boolean> | null = null;
+  let previousTotal = BigNumber.from(0);
+  let newTotal = BigNumber.from(0);
+  let expectedTotal = BigNumber.from(0);
+
+  const Harness = () => {
+    const { createVault } = useVaultFactory(101); // fake org id
+    const submitDistribution = useSubmitDistribution();
+
+    const contracts = useContracts();
+    const { deposit } = useVaultRouter(contracts);
+
+    const yTokenCalculator = useYTokenCalculator();
+
+    if (!contracts) return null;
+
+    work = (async () => {
+      const vault = await createVault({
+        simpleTokenAddress: '0x0',
+        type: Asset.USDC,
+      });
+      assert(vault, 'vault not created');
+      await deposit(vault, '120');
+
+      previousTotal = await yTokenCalculator('100', vault);
+      expectedTotal = previousTotal.mul(2);
+
+      const previousDistribution = createDistribution(
+        previousGifts,
+        previousTotal
+      );
+
+      const distro = await submitDistribution({
+        amount: '100',
+        vault,
+        circleId: 2,
+        users,
+        epochId: 2,
+        gifts,
+        previousDistribution: {
+          id: 1,
+          vault_id: 1,
+          distribution_json: JSON.stringify(previousDistribution),
+        },
+      });
+
+      newTotal = distro.totalAmount;
+      return true;
+    })();
+
+    return null;
+  };
+
+  await act(async () => {
+    render(
+      <TestWrapper withWeb3>
+        <Harness />
+      </TestWrapper>
+    );
+    await waitFor(() => expect(work).toBeTruthy());
+    await expect(work).resolves.toBeTruthy();
+  });
+
+  expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
 const users = {
@@ -122,4 +197,10 @@ const gifts = {
   '0x0000000000000000000000000000000000000001': 20,
   '0x0000000000000000000000000000000000000002': 30,
   '0x0000000000000000000000000000000000000003': 40,
+};
+
+const previousGifts = {
+  '0x0000000000000000000000000000000000000001': 10,
+  '0x0000000000000000000000000000000000000002': 20,
+  '0x0000000000000000000000000000000000000003': 30,
 };
