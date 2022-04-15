@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { getActiveNominees } from 'lib/gql/queries';
+import { useQuery } from 'react-query';
+
 import { Button, makeStyles } from '@material-ui/core';
 
 import { useSelectedCircle } from 'recoilState/app';
@@ -55,11 +58,36 @@ const useStyles = makeStyles(theme => ({
 export const VouchingPage = () => {
   const classes = useStyles();
 
-  const { myUser, circle, activeNominees } = useSelectedCircle();
+  const { myUser, circle } = useSelectedCircle();
 
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
   const cannotVouch = circle.only_giver_vouch && myUser.non_giver;
 
+  const circleId = circle?.id;
+
+  const {
+    isLoading,
+    isError,
+    error,
+    data: activeNominees,
+  } = useQuery(
+    ['activeNominees', circleId],
+    () => getActiveNominees(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+    }
+  );
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    if (error instanceof Error) return <span>Error: {error.message}</span>;
+  }
+
+  console.log(activeNominees);
   return !circle ? (
     <div className={classes.root}></div>
   ) : (
@@ -85,7 +113,7 @@ export const VouchingPage = () => {
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
       <div className={classes.nomineeContainer}>
-        {activeNominees.map(nominee => (
+        {activeNominees?.map(nominee => (
           <NomineeCard key={nominee.id} nominee={nominee} />
         ))}
       </div>
