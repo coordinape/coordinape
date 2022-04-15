@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DateTime } from 'luxon';
 import { transparentize } from 'polished';
 import { NavLink } from 'react-router-dom';
 
@@ -14,8 +15,6 @@ import {
 
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-
-import { INominee } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -127,15 +126,39 @@ const TextOnlyTooltip = withStyles({
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
   },
 })(Tooltip);
-
-export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
+interface IActiveNominee {
+  id: number;
+  name: string;
+  address: string;
+  nominated_by_user_id: number;
+  description: string;
+  nominated_date: string;
+  expiry_date: string;
+  vouches_required: number;
+  ended: boolean;
+  nominations: Array<{
+    id: number;
+    created_at?: any;
+    voucher_id: number;
+    voucher?: {
+      name: string;
+      id: number;
+      address: string;
+    };
+  }>;
+  nominator?: {
+    address: string;
+    name: string;
+  };
+}
+export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
   const classes = useStyles();
   const { vouchUser } = useApiWithSelectedCircle();
   const { circle, myUser } = useSelectedCircle();
   const vouchDisabled =
     myUser && circle
       ? nominee.nominated_by_user_id === myUser.id ||
-        nominee.nominations.some(user => user.id === myUser.id) ||
+        nominee.nominations.some(voucher => voucher.voucher_id === myUser.id) ||
         (circle.only_giver_vouch && myUser.non_giver)
       : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -161,9 +184,9 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
           was nominated by{' '}
           <NavLink
             className={classes.info}
-            to={`profile/${nominee.nominator.address}`}
+            to={`profile/${nominee.nominator?.address || ''}`}
           >
-            {nominee.nominator.name}
+            {nominee.nominator?.name || ''}
           </NavLink>
           {nominee.nominations.length > 0 && (
             <>
@@ -199,14 +222,16 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
           horizontal: 'right',
         }}
       >
-        {nominee.nominations.map((user, index) => (
+        {nominee.nominations.map((nomination, index) => (
           <>
             <NavLink
-              key={user.id}
+              key={nomination.voucher?.id}
               className={classes.info}
-              to={`profile/${user.address}`}
+              to={`profile/${nomination.voucher?.address}`}
             >
-              {user.id === myUser?.id ? 'You' : user.name}
+              {nomination.voucher?.id === myUser?.id
+                ? 'You'
+                : nomination.voucher?.name}
             </NavLink>
             {index < nominee.nominations.length - 1 && <>,&nbsp;</>}
           </>
@@ -220,8 +245,17 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         <span className={classes.description}>{nominee.description}</span>
       </TextOnlyTooltip>
       <span className={classes.confirm}>
-        {nominee.vouchesNeeded}{' '}
-        {nominee.vouchesNeeded > 1 ? 'vouches' : 'vouch'} needed to confirm
+        {Math.max(
+          0,
+          nominee.vouches_required - (nominee.nominations ?? []).length - 1
+        )}{' '}
+        {Math.max(
+          0,
+          nominee.vouches_required - (nominee.nominations ?? []).length - 1
+        ) > 1
+          ? 'vouches'
+          : 'vouch'}{' '}
+        needed to confirm
       </span>
       <Button
         variant="contained"
@@ -233,7 +267,8 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         Vouch for {nominee.name}
       </Button>
       <span className={classes.expire}>
-        Expires {nominee.expiryDate.toLocal().toLocaleString()}
+        Expires{' '}
+        {DateTime.fromISO(nominee.expiry_date).toLocal().toLocaleString()}
       </span>
     </div>
   );
