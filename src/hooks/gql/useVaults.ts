@@ -1,4 +1,5 @@
 import { client } from 'lib/gql/client';
+import { allVaultFields } from 'lib/gql/mutations';
 import { useQuery } from 'react-query';
 
 import { Awaited } from 'types/shim';
@@ -12,18 +13,7 @@ export function useVaults(orgId: number | null | undefined) {
           {
             where: { org_id: { _eq: orgId } },
           },
-          {
-            id: true,
-            vault_address: true,
-            token_address: true,
-            simple_token_address: true,
-            symbol: true,
-            created_by: true,
-            org_id: true,
-            decimals: true,
-            created_at: true,
-            updated_at: true,
-          },
+          allVaultFields,
         ],
       });
       return vaults;

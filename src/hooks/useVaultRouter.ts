@@ -2,10 +2,12 @@
 import { BigNumberish } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { getTokenAddress } from 'lib/vaults';
 
 import { Contracts } from 'services/contracts';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
+import type { Vault } from './gql/useVaults';
 import { useApeSnackbar } from './useApeSnackbar';
 
 export function useVaultRouter(contracts?: Contracts) {
@@ -13,11 +15,12 @@ export function useVaultRouter(contracts?: Contracts) {
   const { showError, showInfo } = useApeSnackbar();
 
   const depositToken = async (
-    vault: GraphQLTypes['vaults'],
+    vault: Vault,
     amount: BigNumberish
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
-    const token = contracts.getERC20(vault.token_address as string);
+    const tokenAddress = getTokenAddress(vault);
+    const token = contracts.getERC20(tokenAddress);
     const myAddress = await contracts.getMyAddress();
     const allowance = await token.allowance(
       myAddress,
@@ -41,7 +44,7 @@ export function useVaultRouter(contracts?: Contracts) {
       () =>
         contracts.router.delegateDeposit(
           vault.vault_address as string,
-          vault.token_address as string,
+          tokenAddress,
           amount
         ),
       {

@@ -5,6 +5,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers, utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { getTokenAddress } from 'lib/vaults';
 import { useNavigate } from 'react-router-dom';
 
 import { FormModal, FormTokenField } from 'components';
@@ -12,7 +13,7 @@ import SingleTokenForm from 'forms/SingleTokenForm';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { PlusCircleIcon } from 'icons';
-import { Contracts, Asset } from 'services/contracts';
+import { Contracts } from 'services/contracts';
 import { Box, Button } from 'ui';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
@@ -50,10 +51,7 @@ export default function DepositModal({
     if (!selectedContracts) return;
 
     (async () => {
-      const tokenAddress = Object.values(Asset).includes(vault?.symbol as Asset)
-        ? vault.token_address
-        : vault.simple_token_address;
-      const token = selectedContracts.getERC20(tokenAddress as string);
+      const token = selectedContracts.getERC20(getTokenAddress(vault));
       const address = await selectedContracts.getMyAddress();
       if (address) {
         const balance = await token.balanceOf(address);
