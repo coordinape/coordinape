@@ -81,7 +81,7 @@ export const TestWrapper = ({
   );
 };
 
-const provider = new JsonRpcProvider(rpcUrl);
+export const provider = new JsonRpcProvider(rpcUrl);
 
 export const takeSnapshot = async (): Promise<string> => {
   return (await provider.send('evm_snapshot', [])) as string;

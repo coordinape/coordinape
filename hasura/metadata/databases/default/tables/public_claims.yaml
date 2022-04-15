@@ -30,6 +30,7 @@ insert_permissions:
     - amount
     - id
     - index
+    - new_amount
     - proof
     - user_id
     set:
@@ -47,6 +48,7 @@ select_permissions:
     - distribution_id
     - id
     - index
+    - new_amount
     - proof
     - updated_at
     - updated_by

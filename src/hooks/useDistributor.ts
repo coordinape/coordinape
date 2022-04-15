@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { ApeDistributor } from '@coordinape/hardhat/dist/typechain';
 import { ContractTransaction, BigNumberish, BytesLike } from 'ethers';
 
@@ -28,19 +30,26 @@ const makeWrappers = ({ contracts, showError, showInfo }: Helpers) => {
     });
   };
 
-  const call = async (
-    callback: (apeDistributor: ApeDistributor) => Promise<any>
+  const call = async <T>(
+    callback: (apeDistributor: ApeDistributor) => Promise<T>
   ) => {
-    if (!contracts) return showError('Contracts not loaded');
-
-    try {
-      return callback(contracts.distributor);
-    } catch (e) {
-      showError(e);
-    }
+    assert(contracts, 'Contracts not loaded');
+    return callback(contracts.distributor);
   };
 
   return { sendTx, call };
+};
+
+type ClaimProps = {
+  vault: string;
+  circle: BytesLike;
+  token: string;
+  epoch: BigNumberish;
+  index: BigNumberish;
+  account: string;
+  checkpoint: BigNumberish;
+  redeemShare: boolean;
+  proof: BytesLike[];
 };
 
 export function useDistributor() {
@@ -58,62 +67,37 @@ export function useDistributor() {
   ) =>
     sendTx(d => d.uploadEpochRoot(vault, circle, token, root, amount, tapType));
 
-  const claim = (
-    circle: BytesLike,
-    token: string,
-    epoch: BigNumberish,
-    index: BigNumberish,
-    account: string,
-    checkpoint: BigNumberish,
-    redeemShares: boolean,
-    proof: BytesLike[]
-  ) =>
+  const claim = (props: ClaimProps) =>
     sendTx(d =>
       d.claim(
-        circle,
-        token,
-        epoch,
-        index,
-        account,
-        checkpoint,
-        redeemShares,
-        proof
+        props.vault,
+        props.circle,
+        props.token,
+        props.epoch,
+        props.index,
+        props.account,
+        props.checkpoint,
+        props.redeemShare,
+        props.proof
       )
     );
 
-  const claimMany = (
-    circles: BytesLike[],
-    tokens: string[],
-    accounts: string[],
-    epochs: BigNumberish[],
-    indexes: BigNumberish[],
-    checkpoints: BigNumberish[],
-    redeemShares: boolean[],
-    proofs: BytesLike[][]
-  ) =>
-    sendTx(d => {
-      if (
-        [tokens, accounts, epochs, indexes, checkpoints, proofs].some(
-          v => v.length !== circles.length
-        )
-      ) {
-        throw new Error('All arrays must have same length');
-      }
-      return d.claimMany(
-        circles,
-        [...tokens, ...accounts],
-        [...epochs, ...indexes, ...checkpoints],
-        redeemShares,
-        proofs
-      );
-    });
+  const claimMany = (claims: ClaimProps[]) => sendTx(d => d.claimMany(claims));
 
   const isClaimed = (
+    vault: string,
     circle: BytesLike,
     token: string,
     epoch: BigNumberish,
     index: BigNumberish
-  ) => call(d => d.isClaimed(circle, token, epoch, index)) as Promise<boolean>;
+  ) => call<boolean>(d => d.isClaimed(vault, circle, token, epoch, index));
 
-  return { uploadEpochRoot, claim, claimMany, isClaimed };
+  const getEpochRoot = (
+    vault: string,
+    circle: BytesLike,
+    token: string,
+    epoch: BigNumberish
+  ) => call<string>(d => d.epochRoots(vault, circle, token, epoch));
+
+  return { uploadEpochRoot, claim, claimMany, isClaimed, getEpochRoot };
 }

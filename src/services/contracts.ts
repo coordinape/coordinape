@@ -14,8 +14,10 @@ import {
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
+import { Asset } from 'lib/vaults';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+export { Asset };
 
 const log = debug('coordinape:contracts');
 
@@ -28,13 +30,6 @@ const requiredContracts = [
 export const supportedChainIds: number[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
   .map(x => Number(x[0]));
-
-export enum Asset {
-  DAI = 'DAI',
-  USDC = 'USDC',
-  USDT = 'USDT',
-  YFI = 'YFI',
-}
 
 export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
@@ -72,10 +67,7 @@ export class Contracts {
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
-    return ApeVaultWrapperImplementation__factory.connect(
-      address,
-      this.provider
-    );
+    return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
   }
 
   getAvailableTokens() {

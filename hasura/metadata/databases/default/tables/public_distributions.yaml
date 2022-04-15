@@ -27,6 +27,8 @@ insert_permissions:
               id:
                 _eq: X-Hasura-User-Id
     columns:
+    - distribution_epoch_id
+    - distribution_json
     - epoch_id
     - merkle_root
     - total_amount
@@ -37,13 +39,16 @@ insert_permissions:
 select_permissions:
 - permission:
     columns:
+    - created_at
     - created_by
+    - distribution_epoch_id
+    - distribution_json
     - epoch_id
     - id
-    - vault_id
     - merkle_root
+    - saved_on_chain
     - total_amount
-    - created_at
+    - vault_id
     filter:
       epoch:
         circle:
@@ -56,6 +61,7 @@ update_permissions:
 - permission:
     check: null
     columns:
+    - distribution_epoch_id
     - saved_on_chain
     filter:
       epoch:

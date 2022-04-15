@@ -52,6 +52,7 @@ interface ApeTokenInterface extends ethers.utils.Interface {
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateSymbol(string)": FunctionFragment;
     "whitelistDisabled()": FunctionFragment;
     "whitelistedAddresses(address)": FunctionFragment;
   };
@@ -162,6 +163,10 @@ interface ApeTokenInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "updateSymbol",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "whitelistDisabled",
     values?: undefined
   ): string;
@@ -247,6 +252,10 @@ interface ApeTokenInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateSymbol",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -449,6 +458,11 @@ export class ApeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    updateSymbol(
+      _sym: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     whitelistDisabled(overrides?: CallOverrides): Promise<[boolean]>;
 
     whitelistedAddresses(
@@ -583,6 +597,11 @@ export class ApeToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateSymbol(
+    _sym: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   whitelistDisabled(overrides?: CallOverrides): Promise<boolean>;
 
   whitelistedAddresses(
@@ -702,6 +721,8 @@ export class ApeToken extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    updateSymbol(_sym: string, overrides?: CallOverrides): Promise<void>;
 
     whitelistDisabled(overrides?: CallOverrides): Promise<boolean>;
 
@@ -882,6 +903,11 @@ export class ApeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    updateSymbol(
+      _sym: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     whitelistDisabled(overrides?: CallOverrides): Promise<BigNumber>;
 
     whitelistedAddresses(
@@ -1023,6 +1049,11 @@ export class ApeToken extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateSymbol(
+      _sym: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
