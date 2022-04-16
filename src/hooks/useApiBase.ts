@@ -16,7 +16,7 @@ import {
   rApiFullCircle,
   rSelfIdProfileMap,
 } from 'recoilState/db';
-import { getHistoryPath, getAllocationPath } from 'routes/paths';
+import { paths } from 'routes/paths';
 import { getApiService } from 'services/api';
 import { connectors } from 'utils/connectors';
 import { getSelfIdProfiles } from 'utils/selfIdHelpers';
@@ -45,9 +45,9 @@ export const useApiBase = () => {
           } = await snapshot.getPromise(rCircle(selectedCircleId));
           if (location.pathname === '/') {
             if (epochIsActive) {
-              navigate(getAllocationPath());
+              navigate(paths.allocation);
             } else {
-              navigate(getHistoryPath());
+              navigate(paths.history);
             }
           }
         } catch (e) {

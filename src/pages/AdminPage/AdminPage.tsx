@@ -17,8 +17,7 @@ import { isFeatureEnabled } from 'config/features';
 import { useNavigation, useApiAdminCircle } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
-import * as paths from 'routes/paths';
+import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { Box } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -322,7 +321,7 @@ const AdminPage = () => {
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
             {downloadCSVButton(e.number)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.getDistributePath(e.id)}>
+              <TableLink to={paths.vaultDistribute(e.id)}>
                 Submit Distribution
               </TableLink>
             )}
@@ -377,7 +376,7 @@ const AdminPage = () => {
                 <ApeAvatar
                   user={u}
                   className={classes.avatar}
-                  onClick={getToProfile({ address: u.address })}
+                  onClick={getToProfile(u.address)}
                 />
                 <span>{u.name}</span>
                 <span>
@@ -588,7 +587,7 @@ const AdminPage = () => {
                 color="primary"
                 size="small"
                 startIcon={<PlusCircleIcon />}
-                onClick={() => navigate(paths.getCreateCirclePath())}
+                onClick={() => navigate(paths.createCircle)}
               >
                 Add Circle
               </Button>

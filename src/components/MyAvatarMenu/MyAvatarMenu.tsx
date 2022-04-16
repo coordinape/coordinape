@@ -12,7 +12,7 @@ import { ApeAvatar } from 'components';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
-import { EXTERNAL_URL_DOCS, getProfilePath } from 'routes/paths';
+import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { AppLink, Box, Link } from 'ui';
 import { shortenAddress } from 'utils';
 import { connectors } from 'utils/connectors';
@@ -91,8 +91,7 @@ export const MyAvatarMenu = () => {
               {address && shortenAddress(address)}
             </Box>
 
-            <AppLink to={getProfilePath({ address: 'me' })}>My Profile</AppLink>
-            <AppLink to="/">My Profile</AppLink>
+            <AppLink to={paths.profile('me')}>My Profile</AppLink>
             <Link href={EXTERNAL_URL_DOCS}>Docs</Link>
             <Link css={{ cursor: 'pointer' }} onClick={logout}>
               Log Out

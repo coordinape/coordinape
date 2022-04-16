@@ -1,4 +1,4 @@
-import { getMyTeamPath, getMyEpochPath, getGivePath } from './paths';
+import { paths } from './paths';
 
 import { IAllocationStep } from 'types';
 // TODO: Move these to constants along with paths
@@ -6,13 +6,13 @@ import { IAllocationStep } from 'types';
 export const STEP_MY_EPOCH = {
   key: 0,
   buildLabel: () => 'My Epoch',
-  path: getMyEpochPath(),
+  path: paths.epoch,
 } as IAllocationStep;
 
 export const STEP_MY_TEAM = {
   key: 1,
   buildLabel: () => 'Select Team',
-  path: getMyTeamPath(),
+  path: paths.team,
 } as IAllocationStep;
 
 export const STEP_ALLOCATION = {
@@ -20,7 +20,7 @@ export const STEP_ALLOCATION = {
   buildLabel: circle => {
     return `Allocate ${circle.tokenName}`;
   },
-  path: getGivePath(),
+  path: paths.give,
 } as IAllocationStep;
 
 export const STEPS: IAllocationStep[] = [

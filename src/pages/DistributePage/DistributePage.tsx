@@ -14,7 +14,7 @@ import { Link, Box, Panel, Button, Text } from '../../ui';
 import { ApeTextField, LoadingModal } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
-import * as paths from 'routes/paths';
+import { paths } from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
 import {
@@ -152,8 +152,7 @@ function DistributePage() {
   };
 
   const message = pageMessage();
-  if (message)
-    return <ShowMessage path={paths.getVaultsPath()} message={message} />;
+  if (message) return <ShowMessage path={paths.vaults} message={message} />;
 
   if (vaults)
     vaultOptions = vaults.map(vault => ({
@@ -179,7 +178,7 @@ function DistributePage() {
         >
           <Box css={{ minWidth: '15%' }}>
             <Link
-              href={paths.getVaultsPath()}
+              href={paths.vaults}
               css={{
                 fontSize: '$4',
                 lineHeight: '$shorter',

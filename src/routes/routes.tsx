@@ -22,13 +22,7 @@ import {
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 
-import {
-  paths,
-  getCreateCirclePath,
-  getProfilePath,
-  getMapPath,
-  getDistributePath,
-} from './paths';
+import { paths } from './paths';
 
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
@@ -43,9 +37,9 @@ export const AppRoutes = () => {
     <LoggedInRoutes />
   ) : (
     <Routes>
-      <Route path={getCreateCirclePath()} element={<CreateCirclePage />} />
+      <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route
-        path={getProfilePath({ address: ':profileAddress' })}
+        path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
       />
       <Route path={paths.home} element={<DefaultPage />} />
@@ -57,12 +51,12 @@ const LoggedInRoutes = () => {
   return (
     <Routes>
       <Route path={paths.home} element={<DefaultPage />} />
-      <Route path={getCreateCirclePath()} element={<CreateCirclePage />} />
+      <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route
-        path={getProfilePath({ address: ':profileAddress' })}
+        path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
       />
-      <Route path={getMapPath()} element={<LazyAssetMapPage />} />
+      <Route path={paths.map()} element={<LazyAssetMapPage />} />
       <Route path={paths.vouching} element={<VouchingPage />} />
       <Route path={paths.history} element={<HistoryPage />} />
       <Route path={paths.allocation} element={<AllocationPage />} />
@@ -87,7 +81,7 @@ const LoggedInRoutes = () => {
       <Route path={paths.developers} element={<DevPortalPage />} />
 
       <Route
-        path={getDistributePath(':epochId')}
+        path={paths.vaultDistribute(':epochId')}
         element={<DistributePage />}
       />
 

@@ -45,9 +45,11 @@ export const paths = {
   give: '/give',
   history: '/history',
   home: '/',
-  map: '/map',
+  map: (params?: { highlight?: string }) => withSearchParams('/map', params),
+  profile: (address: string) => `/profile/${address}`,
   team: '/team',
   vaults: '/admin/vaults',
+  vaultDistribute: (epochId: number | string) => `/admin/distribute/${epochId}`,
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
   vouching: '/vouching',
 };
@@ -63,24 +65,7 @@ const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'vouching',
 ];
 
-export const circleSpecificPaths = at(paths, circleSpecificPathKeys);
-
-// these getters for static paths are deprecated -- use paths above instead
-export const getHomePath = () => paths.home;
-export const getAllocationPath = () => paths.allocation;
-export const getMyTeamPath = () => paths.team;
-export const getMyEpochPath = () => paths.epoch;
-export const getGivePath = () => paths.give;
-export const getVouchingPath = () => paths.vouching;
-export const getHistoryPath = () => paths.history;
-export const getVaultsPath = () => paths.vaults;
-
-// this one is different because it's used on the landing page
-export const getCreateCirclePath = () => APP_PATH_CREATE_CIRCLE;
-
-export const getMapPath = (params?: { highlight?: string }) =>
-  withSearchParams('/map', params);
-export const getDistributePath = (epochId: number | string) =>
-  `/admin/distribute/${epochId}`;
-export const getProfilePath = ({ address }: { address: string }) =>
-  `/profile/${address}`;
+// `as any` works around a typing bug in `at`
+export const circleSpecificPaths = at(paths, circleSpecificPathKeys).map(x =>
+  typeof x === 'function' ? (x as any)() : x
+);

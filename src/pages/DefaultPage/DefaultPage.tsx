@@ -8,7 +8,13 @@ import { useRecoilValueLoadable } from 'recoil';
 import { makeStyles, Button } from '@material-ui/core';
 
 import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
-import * as paths from 'routes/paths';
+import {
+  paths,
+  EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_LANDING_PAGE,
+  EXTERNAL_URL_TWITTER,
+} from 'routes/paths';
 import { Box } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -130,7 +136,7 @@ export const DefaultPage = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(paths.getCreateCirclePath())}
+            onClick={() => navigate(paths.createCircle)}
             className={classes.startCircle}
           >
             Start a Circle
@@ -165,16 +171,16 @@ const Footer = () => (
       },
     }}
   >
-    <a target="_blank" rel="noreferrer" href={paths.EXTERNAL_URL_LANDING_PAGE}>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_LANDING_PAGE}>
       coordinape.com
     </a>
-    <a target="_blank" rel="noreferrer" href={paths.EXTERNAL_URL_DISCORD}>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_DISCORD}>
       Discord
     </a>
-    <a target="_blank" rel="noreferrer" href={paths.EXTERNAL_URL_TWITTER}>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_TWITTER}>
       Twitter
     </a>
-    <a target="_blank" rel="noreferrer" href={paths.EXTERNAL_URL_DOCS}>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_DOCS}>
       Docs
     </a>
   </Box>

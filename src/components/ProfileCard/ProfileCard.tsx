@@ -163,7 +163,7 @@ const ProfileCardInner = ({
         <ApeAvatar
           user={user}
           className={classes.avatar}
-          onClick={getToProfile({ address: user.address })}
+          onClick={getToProfile(user.address)}
         />
         <div className={classes.moreContainer}>
           <ThreeDotMenu
@@ -174,9 +174,7 @@ const ProfileCardInner = ({
               },
               {
                 label: 'View Profile',
-                onClick: getToProfile({
-                  address: isMe ? 'me' : user.address,
-                }),
+                onClick: getToProfile(isMe ? 'me' : user.address),
               },
             ]}
           />

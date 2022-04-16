@@ -9,7 +9,7 @@ import { Popover, makeStyles } from '@material-ui/core';
 import { ApeAvatar } from 'components';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
-import { getHistoryPath } from 'routes/paths';
+import { paths } from 'routes/paths';
 import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -179,7 +179,7 @@ export const ReceiveInfo = () => {
           ))}
         <div className={classes.historyContainer}>
           <p className={classes.regiftTitle}>
-            <NavLink className={classes.navLink} to={getHistoryPath()}>
+            <NavLink className={classes.navLink} to={paths.history}>
               See Complete History
             </NavLink>
           </p>
