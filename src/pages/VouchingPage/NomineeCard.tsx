@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { DateTime } from 'luxon';
 import { transparentize } from 'polished';
@@ -15,6 +15,8 @@ import {
 
 import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+
+import { IActiveNominee } from './getActiveNominees';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -126,35 +128,18 @@ const TextOnlyTooltip = withStyles({
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
   },
 })(Tooltip);
-interface IActiveNominee {
-  id: number;
-  name: string;
-  address: string;
-  nominated_by_user_id: number;
-  description: string;
-  nominated_date: string;
-  expiry_date: string;
-  vouches_required: number;
-  ended: boolean;
-  nominations: Array<{
-    id: number;
-    created_at?: any;
-    voucher_id: number;
-    voucher?: {
-      name: string;
-      id: number;
-      address: string;
-    };
-  }>;
-  nominator?: {
-    address: string;
-    name: string;
-  };
-}
-export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
+
+export const NomineeCard = ({
+  nominee,
+  refetchNominees,
+}: {
+  nominee: IActiveNominee;
+  refetchNominees: () => void;
+}) => {
   const classes = useStyles();
   const { vouchUser } = useApiWithSelectedCircle();
   const { circle, myUser } = useSelectedCircle();
+  const [vouching, setVouching] = useState(false);
   const vouchDisabled =
     myUser && circle
       ? nominee.nominated_by_user_id === myUser.id ||
@@ -176,6 +161,12 @@ export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
   const open = Boolean(anchorEl);
   const id = open ? 'vouched-by-popover' : undefined;
 
+  const handleVouch = async () => {
+    setVouching(true);
+    await vouchUser(nominee.id).then(refetchNominees).catch(console.warn);
+    setVouching(false);
+  };
+
   return (
     <div className={classes.root}>
       <h5 className={classes.name}>{nominee.name}</h5>
@@ -184,9 +175,9 @@ export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
           was nominated by{' '}
           <NavLink
             className={classes.info}
-            to={`profile/${nominee.nominator?.address || ''}`}
+            to={`/profile/${nominee.nominator?.address}`}
           >
-            {nominee.nominator?.name || ''}
+            {nominee.nominator?.name}
           </NavLink>
           {nominee.nominations.length > 0 && (
             <>
@@ -227,7 +218,7 @@ export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
             <NavLink
               key={nomination.voucher?.id}
               className={classes.info}
-              to={`profile/${nomination.voucher?.address}`}
+              to={`/profile/${nomination.voucher?.address}`}
             >
               {nomination.voucher?.id === myUser?.id
                 ? 'You'
@@ -261,10 +252,10 @@ export const NomineeCard = ({ nominee }: { nominee: IActiveNominee }) => {
         variant="contained"
         color="secondary"
         size="small"
-        disabled={vouchDisabled}
-        onClick={() => vouchUser(nominee.id).catch(console.warn)}
+        disabled={vouchDisabled || vouching}
+        onClick={handleVouch}
       >
-        Vouch for {nominee.name}
+        {vouching ? 'Vouching...' : `Vouch for ${nominee.name}`}
       </Button>
       <span className={classes.expire}>
         Expires{' '}
