@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { getActiveNominees } from 'lib/gql/queries';
 import { useQuery } from 'react-query';
 
 import { Button, makeStyles } from '@material-ui/core';
 
+import { LoadingModal } from 'components';
 import { useSelectedCircle } from 'recoilState/app';
 
+import { getActiveNominees } from './getActiveNominees';
 import { NewNominationModal } from './NewNominationModal';
 import { NomineeCard } from './NomineeCard';
 
@@ -68,7 +69,9 @@ export const VouchingPage = () => {
   const {
     isLoading,
     isError,
+    isIdle,
     error,
+    refetch,
     data: activeNominees,
   } = useQuery(
     ['activeNominees', circleId],
@@ -76,18 +79,21 @@ export const VouchingPage = () => {
     {
       // the query will not be executed untill circleId exists
       enabled: !!circleId,
+
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      notifyOnChangeProps: ['data'],
     }
   );
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
+  if (isLoading || isIdle) return <LoadingModal visible />;
   if (isError) {
-    if (error instanceof Error) return <span>Error: {error.message}</span>;
+    if (error instanceof Error) {
+      console.warn(error.message);
+    }
   }
 
-  console.log(activeNominees);
   return !circle ? (
     <div className={classes.root}></div>
   ) : (
@@ -114,13 +120,18 @@ export const VouchingPage = () => {
       <span className={classes.subTitle}>Vouch For Nominees</span>
       <div className={classes.nomineeContainer}>
         {activeNominees?.map(nominee => (
-          <NomineeCard key={nominee.id} nominee={nominee} />
+          <NomineeCard
+            key={nominee.id}
+            nominee={nominee}
+            refetchNominees={refetch}
+          />
         ))}
       </div>
       {isNewNomination && (
         <NewNominationModal
           onClose={() => setNewNomination(false)}
           visible={isNewNomination}
+          refetchNominees={refetch}
         />
       )}
     </div>

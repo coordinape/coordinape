@@ -44,9 +44,11 @@ const labelStyles = {
 export const NewNominationModal = ({
   onClose,
   visible,
+  refetchNominees,
 }: {
   visible: boolean;
   onClose: () => void;
+  refetchNominees: () => void;
 }) => {
   const { circle } = useSelectedCircle();
   const { nominateUser } = useApiWithSelectedCircle();
@@ -97,7 +99,7 @@ export const NewNominationModal = ({
 
   const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
     setSubmitting(true);
-    nominateUser(data).then(onClose).catch(console.warn);
+    nominateUser(data).then(refetchNominees).then(onClose).catch(console.warn);
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>
