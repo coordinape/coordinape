@@ -84,39 +84,3 @@ export const getDistributePath = (epochId: number | string) =>
   `/admin/distribute/${epochId}`;
 export const getProfilePath = ({ address }: { address: string }) =>
   `/profile/${address}`;
-
-export interface INavItem {
-  label: string;
-  path: string;
-  icon?: (props: any) => JSX.Element;
-  isExternal?: boolean;
-  subItems?: INavItem[];
-}
-
-const NAV_ITEM_LANDING_PAGE = {
-  path: EXTERNAL_URL_LANDING_PAGE,
-  label: 'coordinape.com',
-  isExternal: true,
-};
-const NAV_ITEM_DISCORD = {
-  path: EXTERNAL_URL_DISCORD,
-  label: 'Discord',
-  isExternal: true,
-};
-const NAV_ITEM_TWITTER = {
-  path: EXTERNAL_URL_TWITTER,
-  label: 'Twitter',
-  isExternal: true,
-};
-const NAV_ITEM_DOCS = {
-  path: EXTERNAL_URL_DOCS,
-  label: 'Docs',
-  isExternal: true,
-};
-
-export const getNavigationFooter = (): INavItem[] => [
-  NAV_ITEM_LANDING_PAGE,
-  NAV_ITEM_DISCORD,
-  NAV_ITEM_TWITTER,
-  NAV_ITEM_DOCS,
-];
