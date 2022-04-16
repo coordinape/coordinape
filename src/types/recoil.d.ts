@@ -23,7 +23,7 @@ export interface IRecoilSetParams {
 }
 
 export interface ISimpleGift {
-  user: IUser;
+  user: IApiUser;
   tokens: number;
   note: string;
 }

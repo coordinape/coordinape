@@ -86,13 +86,13 @@ export const rFullCircle = selector<IFullCircle>({
     const users = iti(fullCircle.values())
       .flat(fc =>
         fc.users.map(
-          ({ profile, ...u }) =>
+          u =>
             ({
+              ...extraUser(u),
               profile: {
                 ...selfIdProfileMap.get(u.address),
-                ...profile,
+                ...u.profile,
               },
-              ...extraUser(u),
             } as IUser)
         )
       )

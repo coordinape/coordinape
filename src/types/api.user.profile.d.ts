@@ -5,7 +5,6 @@ export interface IApiProfile {
   id: number;
   address: string;
   admin_view: boolean;
-  ann_power: boolean;
   avatar?: string;
   background?: string;
   bio?: string;
@@ -45,7 +44,7 @@ export interface IApiUser {
   // Permissions
   role: number; // 1 is an admin,
   //
-  profile?: Omit<IApiProfile, 'users'>;
+  profile: Omit<IApiProfile, 'users'>;
   teammates?: IApiUser[];
 }
 

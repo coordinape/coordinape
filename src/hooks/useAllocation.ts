@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import iti from 'itiriri';
 import * as mutations from 'lib/gql/mutations';
 import isEqual from 'lodash/isEqual';
@@ -7,7 +9,6 @@ import { useApiBase } from 'hooks';
 import {
   rLocalTeammates,
   rLocalGifts,
-  rAvailableTeammates,
   rLocalTeammatesChanged,
   useUserGifts,
   rAllocationStepStatus,
@@ -15,10 +16,17 @@ import {
 } from 'recoilState/allocation';
 import { rUsersMap, useCircle } from 'recoilState/app';
 
+import { CircleMember, useCircleMembers } from './gql/useCircleMembers';
 import { useDeepChangeEffect } from './useDeepChangeEffect';
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { ISimpleGift, IUser, ITokenGift, PostTokenGiftsParam } from 'types';
+import {
+  ISimpleGift,
+  IUser,
+  ITokenGift,
+  PostTokenGiftsParam,
+  IApiUser,
+} from 'types';
 
 /**
  * Controller: triggers updates if the underlying data from the api changes.
@@ -55,14 +63,19 @@ export const useAllocation = (circleId: number) => {
   const { pendingGiftsFrom: pendingGifts } = useUserGifts(myUser.id);
 
   const [completedSteps] = useRecoilValue(rAllocationStepStatus(circleId));
-  const availableTeammates = useRecoilValue(rAvailableTeammates);
+
+  const { data: members } = useCircleMembers(circleId);
+
   const localTeammatesChanged = useRecoilValue(
     rLocalTeammatesChanged(circleId)
   );
 
-  const [localTeammates, setLocalTeammates] = useRecoilState(
-    rLocalTeammates(circleId)
+  // TODO: how do we deal with the fact that this is isLoading? do we need to useEffect or something??
+  const [localTeammates, setLocalTeammates] = useState<CircleMember[]>(
+    // TODO: this should contain all Team mates if team_selection is false, or only the selected teammates if team selection is true
+    members ? members : []
   );
+
   const [localGifts, setLocalGifts] = useRecoilState(rLocalGifts(circleId));
 
   const tokenStarting = myUser.non_giver ? 0 : myUser.starting_tokens;
@@ -85,12 +98,18 @@ export const useAllocation = (circleId: number) => {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }
-    const newTeammates = localTeammates.find(u => u.id === userId)
-      ? [...localTeammates.filter(u => u.id !== userId)]
-      : [
-          ...localTeammates,
-          availableTeammates.find(u => u.id === userId) as IUser,
-        ];
+    let newTeammates: CircleMember[];
+    if (localTeammates.find(u => u.id === userId)) {
+      newTeammates = [...localTeammates.filter(u => u.id !== userId)];
+    } else {
+      newTeammates = [...localTeammates];
+      if (members) {
+        const member = members.find(u => u.id === userId);
+        if (member) {
+          newTeammates.push(member);
+        }
+      }
+    }
     setLocalTeammates(newTeammates);
     setLocalGifts(getLocalGiftUpdater(newTeammates));
   };
@@ -100,8 +119,10 @@ export const useAllocation = (circleId: number) => {
       console.error('toggleLocalTeammate with circle without team selection');
       return;
     }
-    setLocalTeammates(availableTeammates);
-    setLocalGifts(getLocalGiftUpdater(availableTeammates));
+    if (members) {
+      setLocalTeammates(members);
+      setLocalGifts(getLocalGiftUpdater(members));
+    }
   };
 
   const clearLocalTeammates = () => {
@@ -192,6 +213,9 @@ export const useAllocation = (circleId: number) => {
   };
 };
 
+type UserWithProfile = Omit<IApiUser, 'profile'> & {
+  profile: NonNullable<IApiUser['profile']>;
+};
 /**
  * Updater for gifts, for non-empty gifts and teammates.
  *
@@ -199,7 +223,7 @@ export const useAllocation = (circleId: number) => {
  * @param newGifts - Overwrite the existing gifts.
  */
 const getLocalGiftUpdater =
-  (newTeammates: IUser[], newGifts?: ISimpleGift[]) =>
+  (newTeammates: IApiUser[] | UserWithProfile[], newGifts?: ISimpleGift[]) =>
   (baseGifts: ISimpleGift[]) => {
     const startingGifts = newGifts ?? baseGifts;
     const startingSet = new Set(startingGifts.map(g => g.user.id));
