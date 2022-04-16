@@ -6,11 +6,16 @@ import { styled } from 'stitches.config';
 import { makeStyles, Button, IconButton, Typography } from '@material-ui/core';
 
 import {
+  CircleMember,
+  useCircleMembers,
+} from '../../hooks/gql/useCircleMembers';
+import {
   StaticTable,
   NoticeBox,
   ApeAvatar,
   ActionDialog,
   ApeInfoTooltip,
+  LoadingModal,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
@@ -25,7 +30,7 @@ import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 
-import { IUser, ITableColumn, IEpoch } from 'types';
+import { ITableColumn, IEpoch } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -218,10 +223,10 @@ const englishCollator = new Intl.Collator('en-u-kf-upper');
 const AdminPage = () => {
   const classes = useStyles();
   const [keyword, setKeyword] = useState<string>('');
-  const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
-  const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
-    undefined
-  );
+  const [editUser, setEditUser] = useState<CircleMember | undefined>(undefined);
+  const [deleteUserDialog, setDeleteUserDialog] = useState<
+    CircleMember | undefined
+  >(undefined);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [deleteEpochDialog, setDeleteEpochDialog] = useState<
@@ -239,12 +244,16 @@ const AdminPage = () => {
   const {
     circleId,
     myUser: me,
-    users: visibleUsers,
     circle: selectedCircle,
     circleEpochsStatus: { epochs: epochsReverse },
   } = useSelectedCircle();
 
   const { downloadCSV } = useApiAdminCircle(circleId);
+
+  const { isLoading: membersLoading, data: members } =
+    useCircleMembers(circleId);
+
+  const isLoading = membersLoading;
 
   const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
 
@@ -280,9 +289,9 @@ const AdminPage = () => {
 
   // User Columns
   const filterUser = useMemo(
-    () => (u: IUser) => {
+    () => (u: CircleMember) => {
       const r = new RegExp(keyword, 'i');
-      return r.test(u.name) || r.test(u.address);
+      return r.test(u.name) || r.test(u.profile.address);
     },
     [keyword]
   );
@@ -370,13 +379,13 @@ const AdminPage = () => {
         {
           label: 'Name',
           accessor: 'name',
-          render: function UserName(u: IUser) {
+          render: function UserName(u: CircleMember) {
             return (
               <div className={classes.avatarCell}>
                 <ApeAvatar
                   user={u}
                   className={classes.avatar}
-                  onClick={getToProfile(u.address)}
+                  onClick={getToProfile(u.profile.address)}
                 />
                 <span>{u.name}</span>
                 <span>
@@ -416,15 +425,15 @@ const AdminPage = () => {
         {
           label: 'ETH Wallet',
           accessor: 'address',
-          render: (u: IUser) => shortenAddress(u.address),
+          render: (u: CircleMember) => shortenAddress(u.profile.address),
         },
         {
           label: 'Non Giver?',
-          render: (u: IUser) => (!u.non_giver ? '-' : 'Non Giver'),
+          render: (u: CircleMember) => (!u.non_giver ? '-' : 'Non Giver'),
         },
         {
           label: 'Opted Out?',
-          render: (u: IUser) =>
+          render: (u: CircleMember) =>
             u.fixed_non_receiver
               ? 'Forced Opt Out'
               : u.non_receiver
@@ -433,12 +442,13 @@ const AdminPage = () => {
         },
         {
           label: 'Are they admin?',
-          render: (u: IUser) => (u.role === USER_ROLE_ADMIN ? 'Admin' : '-'),
+          render: (u: CircleMember) =>
+            u.role === USER_ROLE_ADMIN ? 'Admin' : '-',
         },
         {
           label: 'GIVE sent',
           accessor: 'give_token_remaining',
-          render: (u: IUser) =>
+          render: (u: CircleMember) =>
             !u.non_giver || u.starting_tokens - u.give_token_remaining != 0
               ? `${u.starting_tokens - u.give_token_remaining}/${
                   u.starting_tokens
@@ -448,7 +458,7 @@ const AdminPage = () => {
         {
           label: 'GIVE received',
           accessor: 'give_token_received',
-          render: (u: IUser) =>
+          render: (u: CircleMember) =>
             u.give_token_received === 0 &&
             (!!u.fixed_non_receiver || !!u.non_receiver)
               ? '-'
@@ -456,7 +466,7 @@ const AdminPage = () => {
         },
         {
           label: 'Actions',
-          render: (u: IUser) =>
+          render: (u: CircleMember) =>
             renderActions(
               u.role !== USER_ROLE_COORDINAPE
                 ? () => setEditUser(u)
@@ -508,6 +518,8 @@ const AdminPage = () => {
       </a>
     </Typography>
   );
+
+  if (isLoading) return <LoadingModal visible />;
 
   return (
     <div className={classes.root}>
@@ -626,7 +638,7 @@ const AdminPage = () => {
         </div>
         <StaticTable
           columns={userColumns}
-          data={visibleUsers}
+          data={members ? members : []}
           perPage={15}
           filter={filterUser}
           sortable
@@ -688,7 +700,7 @@ const AdminPage = () => {
         onPrimary={
           deleteUserDialog
             ? () =>
-                deleteUser(deleteUserDialog.address)
+                deleteUser(deleteUserDialog.profile.address)
                   .then(() => setDeleteUserDialog(undefined))
                   .catch(() => setDeleteUserDialog(undefined))
             : undefined

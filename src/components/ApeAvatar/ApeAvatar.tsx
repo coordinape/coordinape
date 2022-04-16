@@ -4,7 +4,7 @@ import { Avatar, AvatarProps } from '@material-ui/core';
 
 import { getAvatarPathWithFallback } from 'utils/domain';
 
-import { IUser, IProfile } from 'types';
+type HasAvatar = { avatar?: string };
 
 export const ApeAvatar = ({
   user,
@@ -13,9 +13,9 @@ export const ApeAvatar = ({
   profile,
   ...props
 }: AvatarProps & {
-  user?: IUser;
+  user?: HasAvatar & { name: string; profile?: HasAvatar };
   path?: string;
-  profile?: IProfile;
+  profile?: HasAvatar;
 }) => {
   // TODO: simplify so all: <ApeAvatar path={getAvatarPath(p?.avatar)} />
   const avatarPath = getAvatarPathWithFallback(

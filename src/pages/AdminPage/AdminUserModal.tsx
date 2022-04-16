@@ -1,14 +1,18 @@
 import { useMemo, useState } from 'react';
 
+import { useQueryClient } from 'react-query';
+
 import { makeStyles } from '@material-ui/core';
 
+import {
+  CircleMember,
+  invalidateCircleMembers,
+} from '../../hooks/gql/useCircleMembers';
 import { FormModal, FormTextField, ApeToggle, ActionDialog } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import { assertDef } from 'utils/tools';
-
-import { IUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -39,7 +43,7 @@ export const AdminUserModal = ({
   onClose,
   open,
 }: {
-  user?: IUser;
+  user?: CircleMember;
   open?: boolean;
   onClose: () => void;
 }) => {
@@ -47,6 +51,8 @@ export const AdminUserModal = ({
 
   const { circle: selectedCircle, circleId } = useSelectedCircle();
   const { updateUser, createUser } = useApiAdminCircle(circleId);
+
+  const queryClient = useQueryClient();
 
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
@@ -57,7 +63,7 @@ export const AdminUserModal = ({
 
   const source = useMemo(
     () => ({
-      user: user,
+      member: user,
       circle: assertDef(selectedCircle, 'Missing circle'),
     }),
     [user, selectedCircle]
@@ -78,8 +84,11 @@ export const AdminUserModal = ({
           setShowOptOutChangeWarning(true);
         } else {
           setShowOptOutChangeWarning(false);
-          (user ? updateUser(user.address, params) : createUser(params))
-            .then(() => onClose())
+          (user ? updateUser(user.profile.address, params) : createUser(params))
+            .then(() => {
+              invalidateCircleMembers(queryClient, circleId);
+              onClose();
+            })
             .catch(console.warn);
         }
       }}

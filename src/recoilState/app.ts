@@ -187,7 +187,6 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
     ({ get }) => {
       if (!circleId) return neverEndingPromise();
       const circle = get(rCirclesMap).get(circleId);
-      const hasAdminView = get(rHasAdminView);
       const users = iti(get(rUsersMap).values()).toArray();
       const getCircleUsers = () =>
         iti(users)
@@ -205,19 +204,8 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         .sort(({ expiryDate: a }, { expiryDate: b }) => a.diff(b).milliseconds)
         .toArray();
 
-      const firstUser = getCircleUsers().first();
-
-      const impersonate = !myUser && hasAdminView;
       const meOrPretend = myUser
         ? { ...myUser, profile: myProfile }
-        : impersonate
-        ? ({
-            ...firstUser,
-            circle: circle,
-            teammates: getCircleUsers()
-              .filter(u => u.id !== firstUser?.id)
-              .toArray(),
-          } as IMyUser)
         : undefined;
 
       if (meOrPretend === undefined || circle === undefined) {
@@ -228,13 +216,8 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         circleId,
         circle,
         myUser: meOrPretend,
-        impersonate,
-        users: getCircleUsers().toArray(),
         usersNotMe: getCircleUsers()
           .filter(u => u.id !== meOrPretend?.id)
-          .toArray(),
-        usersWithDeleted: iti(users)
-          .filter(u => u.circle_id === circleId)
           .toArray(),
         circleEpochsStatus,
         activeNominees,
@@ -245,11 +228,6 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
 export const rSelectedCircle = selector({
   key: 'rSelectedCircle',
   get: ({ get }) => get(rCircle(get(rSelectedCircleId))),
-});
-
-export const rHasAdminView = selector({
-  key: 'rHasAdminView',
-  get: ({ get }) => !!get(rMyProfile)?.admin_view,
 });
 
 export const rCircleEpochs = selectorFamily<IEpoch[], number>({
@@ -351,10 +329,7 @@ export interface ICircleState {
   circleId: number;
   circle: ICircle;
   myUser: IMyUser;
-  impersonate: boolean;
-  users: IUser[];
   usersNotMe: IUser[];
-  usersWithDeleted: IUser[];
   circleEpochsStatus: ExtractRecoilType<typeof rCircleEpochsStatus>;
   activeNominees: INominee[];
 }

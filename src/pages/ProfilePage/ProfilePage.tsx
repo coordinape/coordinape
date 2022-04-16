@@ -259,10 +259,7 @@ const ProfilePageContent = ({
       <div className={classes.header}>
         <img src={backgroundUrl} alt={name} />
         <div className={classes.headerInside}>
-          <ApeAvatar
-            profile={{ ...profile, users: [] }}
-            className={classes.avatar}
-          />
+          <ApeAvatar profile={profile} className={classes.avatar} />
           {isMe && (
             <>
               <FormFileUpload
