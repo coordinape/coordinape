@@ -92,6 +92,7 @@ export const MyAvatarMenu = () => {
             </Box>
 
             <AppLink to={getProfilePath({ address: 'me' })}>My Profile</AppLink>
+            <AppLink to="/">My Profile</AppLink>
             <Link href={EXTERNAL_URL_DOCS}>Docs</Link>
             <Link css={{ cursor: 'pointer' }} onClick={logout}>
               Log Out

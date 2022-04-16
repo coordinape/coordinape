@@ -7,7 +7,6 @@ import { useRecoilValueLoadable } from 'recoil';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { LoadingScreen } from 'components';
 import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 import { getNavigationFooter } from 'routes/paths';
@@ -131,10 +130,6 @@ export const DefaultPage = () => {
     );
   }
 
-  if (!myProfile) {
-    return <LoadingScreen />;
-  }
-
   // TODO: This is an edge case, if the server doesn't return a circle
   // https://github.com/coordinape/coordinape-backend/issues/69
   if (hasCircles && !selectedCircle) {
@@ -149,6 +144,8 @@ export const DefaultPage = () => {
       </Wrapper>
     );
   }
+  // still loading
+  if (!myProfile) return null;
 
   if (!selectedCircle) {
     return (

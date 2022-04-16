@@ -70,7 +70,7 @@ export const TestWrapper = ({
             <Web3Activator enabled={withWeb3}>
               <MemoryRouter>
                 <ThemeProvider theme={theme}>
-                  <Suspense fallback="Loading...">{children}</Suspense>
+                  <Suspense fallback="Suspended...">{children}</Suspense>
                 </ThemeProvider>
               </MemoryRouter>
             </Web3Activator>

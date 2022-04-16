@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
+import { LoadingModal } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Box, Button, Modal, Panel, Text } from 'ui';
@@ -25,6 +26,8 @@ const VaultsPage = () => {
     setModal('');
   };
 
+  if (isLoading || currentOrg.isLoading) return <LoadingModal visible />;
+
   return (
     <OrgLayout>
       <Box css={{ display: 'flex' }}>
@@ -44,11 +47,7 @@ const VaultsPage = () => {
           />
         ))
       ) : (
-        <Panel>
-          {isLoading || currentOrg.isLoading
-            ? `Loading...`
-            : `There are no vaults in your organization yet.`}
-        </Panel>
+        <Panel>There are no vaults in your organization yet.</Panel>
       )}
       {modal === 'create' && (
         <Modal onClose={closeModal} title="Create a New Vault">

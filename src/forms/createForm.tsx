@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 
 import isEqual from 'lodash/isEqual';
 import mapValues from 'lodash/mapValues';
@@ -19,7 +19,6 @@ import {
 } from 'recoil';
 import { z } from 'zod';
 
-import { OverlaySuspense } from 'components/OverlaySuspense/OverlaySuspense';
 import { neverEndingPromise } from 'utils/tools';
 
 import { IRecoilGetParams } from 'types';
@@ -318,11 +317,11 @@ export const createForm = <
     const instanceKey = useFormController(source);
 
     return (
-      <OverlaySuspense>
+      <Suspense fallback={null}>
         <InnerFormController {...props} instanceKey={instanceKey}>
           {children}
         </InnerFormController>
-      </OverlaySuspense>
+      </Suspense>
     );
   };
 
