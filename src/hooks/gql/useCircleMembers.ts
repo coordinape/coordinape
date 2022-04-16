@@ -11,6 +11,8 @@ export function invalidateCircleMembers(client: QueryClient, circleId: number) {
   client.invalidateQueries(queryKey(circleId));
 }
 
+const defaultCreatedAt = new Date(2020, 1, 1, 1, 0, 0).toDateString();
+
 export function useCircleMembers(circleId: number) {
   return {
     ...useQuery(
@@ -74,6 +76,7 @@ export function useCircleMembers(circleId: number) {
         type memberWithProfile = Omit<elementType, 'profile'> & {
           profile: NonNullable<elementType['profile']>;
         };
+        // We have to fill in the created_at/updated_at for user and profiles
         return users
           .filter((u): u is memberWithProfile => !!u)
           .map(u => {
@@ -89,12 +92,12 @@ export function useCircleMembers(circleId: number) {
               };
             } = {
               ...u,
-              created_at: 'something', // TODO
-              updated_at: 'something',
+              created_at: defaultCreatedAt,
+              updated_at: defaultCreatedAt,
               profile: {
                 ...u.profile,
-                created_at: 'something',
-                updated_at: 'something',
+                created_at: defaultCreatedAt,
+                updated_at: defaultCreatedAt,
               },
             };
             return adaptedUser;
@@ -105,10 +108,6 @@ export function useCircleMembers(circleId: number) {
     invalidate: (client: QueryClient) =>
       invalidateCircleMembers(client, circleId),
   };
-}
-
-export function circleMemberTypeGuard(u: any): u is CircleMember {
-  return !!u;
 }
 
 export type CircleMember = NonNullable<
