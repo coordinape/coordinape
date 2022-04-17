@@ -1,10 +1,5 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { DateTime } from 'luxon';
-
-const getIsExpired = (expiryDate: string): boolean => {
-  return DateTime.fromISO(expiryDate).diffNow().milliseconds < 0;
-};
 
 const getVouchesNeeded = (
   vouchesRequired: number,
@@ -48,6 +43,7 @@ export const getActiveNominees = async (circleId: number) => {
             {
               circle_id: { _eq: circleId },
               ended: { _eq: false },
+              expiry_date: { _gt: 'now()' },
             },
           ],
         },
@@ -86,7 +82,6 @@ export const getActiveNominees = async (circleId: number) => {
 
   const activeNominees = nominees.filter(
     nominee =>
-      !getIsExpired(nominee.expiry_date) &&
       getVouchesNeeded(nominee.vouches_required, nominee.nominations.length) > 0
   );
   return activeNominees;
