@@ -43,7 +43,7 @@ export const getActiveNominees = async (circleId: number) => {
             {
               circle_id: { _eq: circleId },
               ended: { _eq: false },
-              expiry_date: { _gt: 'now()' },
+              expiry_date: { _gt: 'now' },
             },
           ],
         },
