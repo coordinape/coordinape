@@ -259,7 +259,9 @@ export const NomineeCard = ({
       </Button>
       <span className={classes.expire}>
         Expires{' '}
-        {DateTime.fromISO(nominee.expiry_date).toLocal().toLocaleString()}
+        {DateTime.fromISO(nominee.expiry_date).toLocaleString(
+          DateTime.DATETIME_SHORT
+        )}
       </span>
     </div>
   );
