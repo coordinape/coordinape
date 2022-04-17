@@ -1976,7 +1976,7 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['timestamp_comparison_exp'] | null;
     description?: ValueTypes['String_comparison_exp'] | null;
     ended?: ValueTypes['Boolean_comparison_exp'] | null;
-    expiry_date?: ValueTypes['date_comparison_exp'] | null;
+    expiry_date?: ValueTypes['timestamp_comparison_exp'] | null;
     id?: ValueTypes['bigint_comparison_exp'] | null;
     name?: ValueTypes['String_comparison_exp'] | null;
     nominated_by_user_id?: ValueTypes['Int_comparison_exp'] | null;
@@ -4894,7 +4894,7 @@ columns and relationships of "distributions" */
     created_at?: ModelTypes['timestamp'];
     description: string;
     ended: boolean;
-    expiry_date: ModelTypes['date'];
+    expiry_date: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     name: string;
     nominated_by_user_id: number;
@@ -4948,7 +4948,7 @@ columns and relationships of "distributions" */
     circle_id?: number;
     created_at?: ModelTypes['timestamp'];
     description?: string;
-    expiry_date?: ModelTypes['date'];
+    expiry_date?: ModelTypes['timestamp'];
     id?: ModelTypes['bigint'];
     name?: string;
     nominated_by_user_id?: number;
@@ -4965,7 +4965,7 @@ columns and relationships of "distributions" */
     circle_id?: number;
     created_at?: ModelTypes['timestamp'];
     description?: string;
-    expiry_date?: ModelTypes['date'];
+    expiry_date?: ModelTypes['timestamp'];
     id?: ModelTypes['bigint'];
     name?: string;
     nominated_by_user_id?: number;
@@ -5096,7 +5096,7 @@ columns and relationships of "distributions" */
     dts_created: ModelTypes['timestamp'];
     /** An object relationship */
     epoch?: ModelTypes['epochs'];
-    epoch_id?: number;
+    epoch_id: number;
     /** An object relationship */
     gift_private?: ModelTypes['pending_gift_private'];
     id: ModelTypes['bigint'];
@@ -7266,7 +7266,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'];
     description: string;
     ended: boolean;
-    expiry_date: GraphQLTypes['date'];
+    expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     name: string;
     nominated_by_user_id: number;
@@ -7344,7 +7344,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp_comparison_exp'];
     description?: GraphQLTypes['String_comparison_exp'];
     ended?: GraphQLTypes['Boolean_comparison_exp'];
-    expiry_date?: GraphQLTypes['date_comparison_exp'];
+    expiry_date?: GraphQLTypes['timestamp_comparison_exp'];
     id?: GraphQLTypes['bigint_comparison_exp'];
     name?: GraphQLTypes['String_comparison_exp'];
     nominated_by_user_id?: GraphQLTypes['Int_comparison_exp'];
@@ -7363,7 +7363,7 @@ columns and relationships of "distributions" */
     circle_id?: number;
     created_at?: GraphQLTypes['timestamp'];
     description?: string;
-    expiry_date?: GraphQLTypes['date'];
+    expiry_date?: GraphQLTypes['timestamp'];
     id?: GraphQLTypes['bigint'];
     name?: string;
     nominated_by_user_id?: number;
@@ -7394,7 +7394,7 @@ columns and relationships of "distributions" */
     circle_id?: number;
     created_at?: GraphQLTypes['timestamp'];
     description?: string;
-    expiry_date?: GraphQLTypes['date'];
+    expiry_date?: GraphQLTypes['timestamp'];
     id?: GraphQLTypes['bigint'];
     name?: string;
     nominated_by_user_id?: number;
@@ -7650,7 +7650,7 @@ columns and relationships of "distributions" */
     dts_created: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'];
-    epoch_id?: number;
+    epoch_id: number;
     /** An object relationship */
     gift_private?: GraphQLTypes['pending_gift_private'];
     id: GraphQLTypes['bigint'];
