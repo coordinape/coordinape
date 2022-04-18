@@ -13,3 +13,6 @@ ts-node ./scripts/db-add-me.ts
 
 # Re-enable event triggers post-seeding
 ./scripts/enable-triggers.sh
+
+# disable cron tasks to minimize unexpected CPU spikes
+./scripts/disable_cron.sh
