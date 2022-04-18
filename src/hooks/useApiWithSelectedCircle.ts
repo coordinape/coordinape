@@ -5,12 +5,12 @@ import { useSelectedCircle } from 'recoilState/app';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { PutUsersParam, NominateUserParam } from 'types';
+import { PutUsersParam } from 'types';
 
 // API mutations that need a circle id.
 // This could be parameterized like the admin hooks.
 export const useApiWithSelectedCircle = () => {
-  const { fetchManifest, fetchCircle } = useApiBase();
+  const { fetchManifest } = useApiBase();
   const { circleId, myUser } = useSelectedCircle();
 
   const updateMyUser = useRecoilLoadCatch(
@@ -25,27 +25,5 @@ export const useApiWithSelectedCircle = () => {
     [circleId, myUser]
   );
 
-  const nominateUser = useRecoilLoadCatch(
-    () => async (params: NominateUserParam) => {
-      await mutations.createNominee(circleId, params);
-      await fetchCircle({ circleId: circleId });
-    },
-    [circleId],
-    { hideLoading: true }
-  );
-
-  const vouchUser = useRecoilLoadCatch(
-    () => async (nominee_id: number) => {
-      await mutations.vouchUser(nominee_id);
-      await fetchCircle({ circleId: circleId });
-    },
-    [circleId],
-    { hideLoading: true }
-  );
-
-  return {
-    updateMyUser,
-    nominateUser,
-    vouchUser,
-  };
+  return { updateMyUser };
 };

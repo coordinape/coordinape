@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { createNominee } from 'lib/gql/mutations';
 import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { zEthAddress } from 'forms/formHelpers';
-import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   Form,
@@ -51,7 +51,6 @@ export const NewNominationModal = ({
   refetchNominees: () => void;
 }) => {
   const { circle } = useSelectedCircle();
-  const { nominateUser } = useApiWithSelectedCircle();
   const [submitting, setSubmitting] = useState(false);
 
   const nominateDescription = circle
@@ -99,7 +98,10 @@ export const NewNominationModal = ({
 
   const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
     setSubmitting(true);
-    nominateUser(data).then(refetchNominees).then(onClose).catch(console.warn);
+    createNominee(circle.id, data)
+      .then(refetchNominees)
+      .then(onClose)
+      .catch(console.warn);
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>

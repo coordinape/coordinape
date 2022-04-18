@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { vouchUser } from 'lib/gql/mutations';
 import { DateTime } from 'luxon';
 import { transparentize } from 'polished';
 import { NavLink } from 'react-router-dom';
@@ -13,7 +14,6 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 
 import { IActiveNominee } from './getActiveNominees';
@@ -137,7 +137,6 @@ export const NomineeCard = ({
   refetchNominees: () => void;
 }) => {
   const classes = useStyles();
-  const { vouchUser } = useApiWithSelectedCircle();
   const { circle, myUser } = useSelectedCircle();
   const [vouching, setVouching] = useState(false);
   const vouchDisabled =
