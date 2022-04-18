@@ -166,6 +166,11 @@ export const NomineeCard = ({
     setVouching(false);
   };
 
+  const vouchesNeeded = Math.max(
+    0,
+    nominee.vouches_required - (nominee.nominations ?? []).length - 1
+  );
+
   return (
     <div className={classes.root}>
       <h5 className={classes.name}>{nominee.name}</h5>
@@ -235,17 +240,8 @@ export const NomineeCard = ({
         <span className={classes.description}>{nominee.description}</span>
       </TextOnlyTooltip>
       <span className={classes.confirm}>
-        {Math.max(
-          0,
-          nominee.vouches_required - (nominee.nominations ?? []).length - 1
-        )}{' '}
-        {Math.max(
-          0,
-          nominee.vouches_required - (nominee.nominations ?? []).length - 1
-        ) > 1
-          ? 'vouches'
-          : 'vouch'}{' '}
-        needed to confirm
+        {vouchesNeeded} {vouchesNeeded > 1 ? 'vouches' : 'vouch'} needed to
+        confirm
       </span>
       <Button
         variant="contained"
