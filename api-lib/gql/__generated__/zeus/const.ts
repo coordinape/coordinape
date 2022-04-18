@@ -379,6 +379,20 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
   },
+  CreateUsersInput: {
+    circle_id: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    users: {
+      type: 'UserObj',
+      array: true,
+      arrayRequired: false,
+      required: true,
+    },
+  },
   DeleteEpochInput: {
     circle_id: {
       type: 'Int',
@@ -769,6 +783,50 @@ export const AllTypesProps: Record<string, any> = {
       array: false,
       arrayRequired: false,
       required: true,
+    },
+  },
+  UserObj: {
+    address: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    fixed_non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true,
+    },
+    non_giver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    non_receiver: {
+      type: 'Boolean',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    role: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    starting_tokens: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false,
     },
   },
   VouchInput: {
@@ -8533,6 +8591,14 @@ export const AllTypesProps: Record<string, any> = {
     createUser: {
       payload: {
         type: 'CreateUserInput',
+        array: false,
+        arrayRequired: false,
+        required: true,
+      },
+    },
+    createUsers: {
+      payload: {
+        type: 'CreateUsersInput',
         array: false,
         arrayRequired: false,
         required: true,
@@ -22229,7 +22295,15 @@ export const ReturnTypes: Record<string, any> = {
   },
   UserResponse: {
     UserResponse: 'users',
+    address: 'String',
+    circle_id: 'Int',
+    fixed_non_receiver: 'Boolean',
     id: 'ID',
+    name: 'String',
+    non_giver: 'Boolean',
+    non_receiver: 'Boolean',
+    role: 'Int',
+    starting_tokens: 'Int',
   },
   VouchOutput: {
     id: 'Int',
@@ -23328,6 +23402,7 @@ export const ReturnTypes: Record<string, any> = {
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    createUsers: 'UserResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_burns: 'burns_mutation_response',
