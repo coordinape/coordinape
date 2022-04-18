@@ -51,7 +51,6 @@ export const MyAvatarMenu = () => {
   const { icon, address, logout } = useWalletStatus();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const open = Boolean(anchorEl);
 
   return (
     <>
@@ -70,8 +69,9 @@ export const MyAvatarMenu = () => {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           classes={{ paper: classes.popover }}
           id="my-avatar-popover"
+          onClick={() => setTimeout(() => setAnchorEl(null))}
           onClose={() => setAnchorEl(null)}
-          open={open}
+          open={!!anchorEl}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <Box
@@ -92,6 +92,7 @@ export const MyAvatarMenu = () => {
             </Box>
 
             <AppLink to={paths.profile('me')}>My Profile</AppLink>
+            <AppLink to={paths.circles}>My Circles</AppLink>
             <Link href={EXTERNAL_URL_DOCS}>Docs</Link>
             <Link css={{ cursor: 'pointer' }} onClick={logout}>
               Log Out
