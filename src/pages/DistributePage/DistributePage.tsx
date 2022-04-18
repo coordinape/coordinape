@@ -2,10 +2,7 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BigNumber, FixedNumber, utils } from 'ethers';
-import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { isUserAdmin } from 'lib/users';
-import { encodeCircleId } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -13,19 +10,22 @@ import { z } from 'zod';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { createDistribution } from '../../lib/merkle-distributor';
 import { Link, Box, Panel, Button, Text } from '../../ui';
-import { ApeTextField } from 'components';
-import { useDistributor, useApeSnackbar } from 'hooks';
+import { ApeTextField, LoadingModal } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
-import { useContracts } from 'hooks/useContracts';
-import * as paths from 'routes/paths';
+import { paths } from 'routes/paths';
 
 import AllocationTable from './AllocationsTable';
-import { useSaveEpochDistribution, useUpdateDistribution } from './mutations';
-import { useCurrentUserForEpoch, useGetAllocations } from './queries';
+import {
+  PreviousDistribution,
+  useCurrentUserForEpoch,
+  useGetAllocations,
+  usePreviousDistributions,
+} from './queries';
 import ShowMessage from './ShowMessage';
+import { useSubmitDistribution } from './useSubmitDistribution';
+import type { SubmitDistribution } from './useSubmitDistribution';
 
 import { IAllocateUser } from 'types';
 
@@ -48,51 +48,52 @@ function DistributePage() {
   const [updateAmount, setUpdateAmount] = useState(0);
   const [selectedVaultId, setSelectedVaultId] = useState('');
 
-  const contracts = useContracts();
   const currentOrg = useCurrentOrg();
-  const { isLoading: vaultLoading, data: vaults } = useVaults(
-    currentOrg.data?.id as number
-  );
+  const submitDistribution = useSubmitDistribution();
+  const currentUser = useCurrentUserForEpoch(epochId as number | undefined);
 
-  const { uploadEpochRoot } = useDistributor();
-  const selectedVault = vaults?.find(v => v.id === Number(selectedVaultId));
-  const { apeError } = useApeSnackbar();
-  const { mutateAsync } = useSaveEpochDistribution();
-  const { mutateAsync: updateDistributionMutateAsync } =
-    useUpdateDistribution();
+  const { isLoading: vaultLoading, data: vaults } = useVaults(
+    currentOrg.data?.id
+  );
 
   const {
     isLoading: isAllocationsLoading,
     isError,
     data,
-  } = useGetAllocations(Number(epochId));
+  } = useGetAllocations(epochId as number | undefined);
 
-  const currentUser = useCurrentUserForEpoch(Number(epochId));
+  const {
+    data: previousDistribution,
+    isLoading: loadingPreviousDistributions,
+  } = usePreviousDistributions(data?.circle?.id);
 
   const isLoading =
-    isAllocationsLoading || currentUser.isLoading || vaultLoading;
+    isAllocationsLoading ||
+    currentUser.isLoading ||
+    vaultLoading ||
+    loadingPreviousDistributions;
 
-  const circle = data?.epochs_by_pk?.circle;
-  const epoch = data?.epochs_by_pk;
-  const users = data?.epochs_by_pk?.circle?.users;
+  const circle = data?.circle;
+  const epoch = data;
+  const users = data?.circle?.users;
 
   const totalGive = users?.reduce(
     (total, { received_gifts: g }) =>
-      total + g.reduce((userTotal, { tokens }) => userTotal + tokens, 0),
+      total +
+      g.reduce((userTotal: any, { tokens }: any) => userTotal + tokens, 0),
     0
   );
 
-  const { register, handleSubmit, control } = useForm<DistributionForm>({
+  const { handleSubmit, control } = useForm<DistributionForm>({
     resolver: zodResolver(DistributionFormSchema),
   });
 
   let vaultOptions: Array<{ value: number; label: string; id: number }> = [];
 
-  //TODO: Migrate this method to a separate file and enable previous distributions
   const onSubmit: SubmitHandler<DistributionForm> = async (value: any) => {
     setLoadingTrx(true);
-    assert(selectedVault && circle);
-    if (!users) throw new Error('No users found');
+    const vault = vaults?.find(v => v.id === Number(value.selectedVaultId));
+    assert(vault && users && circle);
 
     const gifts = users.reduce((userList, user) => {
       const amount = user.received_gifts.reduce(
@@ -103,71 +104,39 @@ function DistributePage() {
       return userList;
     }, {} as Record<string, number>);
 
-    const denominator = BigNumber.from(10).pow(selectedVault.decimals);
-    const totalDistributionAmount = BigNumber.from(value.amount).mul(
-      denominator
-    );
+    const usersRecord = users.reduce((userList, user) => {
+      userList[user.address.toLowerCase()] = user.id;
+      return userList;
+    }, {} as Record<string, number>);
+
+    const submitDTO: SubmitDistribution = {
+      amount: value.amount,
+      vault,
+      gifts,
+      users: usersRecord,
+      previousDistribution:
+        previousDistribution &&
+        (previousDistribution.find(
+          d => d.vault_id === vault.id
+        ) as PreviousDistribution),
+      circleId: circle.id,
+      epochId: Number(epochId),
+    };
 
     try {
-      assert(contracts);
-      assert(currentUser.data);
-      const yVaultAddress = await contracts
-        .getVault(selectedVault.vault_address)
-        .vault();
-      const distribution = createDistribution(gifts, totalDistributionAmount);
-      const claims: ValueTypes['claims_insert_input'][] = Object.entries(
-        distribution.claims
-      ).map(([address, claim]) => ({
-        address,
-        index: claim.index,
-        amount: Number(
-          FixedNumber.from(BigNumber.from(claim.amount)).divUnsafe(
-            FixedNumber.from(denominator)
-          )
-        ),
-        proof: claim.proof.toString(),
-        user_id: users.find(({ address }) => address === address)?.id,
-      }));
-
-      const updateDistribution: ValueTypes['distributions_insert_input'] = {
-        total_amount: Number(
-          FixedNumber.from(totalDistributionAmount, 'fixed128x18')
-        ),
-        epoch_id: Number(epochId),
-        merkle_root: distribution.merkleRoot,
-        claims: {
-          data: claims,
-        },
-        vault_id: Number(selectedVault.id),
-      };
-
-      const { insert_distributions_one } = await mutateAsync(
-        updateDistribution
-      );
-      assert(insert_distributions_one, 'Distribution was not saved.');
-
-      await uploadEpochRoot(
-        selectedVault.vault_address,
-        encodeCircleId(circle.id),
-        yVaultAddress.toString(),
-        distribution.merkleRoot,
-        totalDistributionAmount,
-        utils.hexlify(1)
-      );
-
-      await updateDistributionMutateAsync(insert_distributions_one.id);
+      await submitDistribution(submitDTO);
       setLoadingTrx(false);
     } catch (e) {
       console.error(e);
-      apeError(e);
       setLoadingTrx(false);
     }
   };
 
+  if (isLoading) return <LoadingModal visible />;
+
   const pageMessage = () => {
-    if (isLoading) return 'Loading...';
-    if (!epoch) return `Sorry, epoch ${epochId} was not found.`;
-    if (!data?.epochs_by_pk) return `Sorry, Epoch ${epochId} was not found.`;
+    if (!epoch) return `Sorry, epoch was not found.`;
+    if (!data) return `Sorry, epoch was not found.`;
 
     if (currentUser.data && !isUserAdmin(currentUser.data))
       return "Sorry, you are not a circle admin so you can't access this feature.";
@@ -183,8 +152,7 @@ function DistributePage() {
   };
 
   const message = pageMessage();
-  if (message)
-    return <ShowMessage path={paths.getVaultsPath()} message={message} />;
+  if (message) return <ShowMessage path={paths.vaults} message={message} />;
 
   if (vaults)
     vaultOptions = vaults.map(vault => ({
@@ -210,7 +178,7 @@ function DistributePage() {
         >
           <Box css={{ minWidth: '15%' }}>
             <Link
-              href={paths.getVaultsPath()}
+              href={paths.vaults}
               css={{
                 fontSize: '$4',
                 lineHeight: '$shorter',
@@ -264,7 +232,7 @@ function DistributePage() {
                     return (
                       <>
                         <Select
-                          value={value}
+                          value={value || ''}
                           label="Vault"
                           error={!!error}
                           disabled={loadingTrx}
@@ -309,7 +277,6 @@ function DistributePage() {
                   fieldState: { error },
                 }) => (
                   <ApeTextField
-                    {...register('amount')}
                     type="number"
                     error={!!error}
                     helperText={error ? error.message : null}

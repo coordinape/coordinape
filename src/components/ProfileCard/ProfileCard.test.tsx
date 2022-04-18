@@ -68,9 +68,9 @@ test('allow reducing allocation to 0', async () => {
 
   fireEvent.click(screen.getByTestId('decrement'));
 
-  const gift =
-    snapshot &&
-    (await snapshot.getPromise(rLocalGift(otherUser.id, fixtures.circle.id)));
+  const gift = await snapshot?.getPromise(
+    rLocalGift(otherUser.id, fixtures.circle.id)
+  );
   expect(gift?.tokens).toBe(0);
   expect(gift?.note).toBe(startingGift.note);
 });

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
+import { useQuery } from 'react-query';
+
 import { Button, makeStyles } from '@material-ui/core';
 
+import { LoadingModal } from 'components';
 import { useSelectedCircle } from 'recoilState/app';
 
+import { getActiveNominees } from './getActiveNominees';
 import { NewNominationModal } from './NewNominationModal';
 import { NomineeCard } from './NomineeCard';
 
@@ -55,10 +59,40 @@ const useStyles = makeStyles(theme => ({
 export const VouchingPage = () => {
   const classes = useStyles();
 
-  const { myUser, circle, activeNominees } = useSelectedCircle();
+  const { myUser, circle } = useSelectedCircle();
 
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
   const cannotVouch = circle.only_giver_vouch && myUser.non_giver;
+
+  const circleId = circle?.id;
+
+  const {
+    isLoading,
+    isError,
+    isIdle,
+    error,
+    refetch,
+    data: activeNominees,
+  } = useQuery(
+    ['activeNominees', circleId],
+    () => getActiveNominees(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
+  if (isLoading || isIdle) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error.message);
+    }
+  }
 
   return !circle ? (
     <div className={classes.root}></div>
@@ -85,14 +119,19 @@ export const VouchingPage = () => {
       </Button>
       <span className={classes.subTitle}>Vouch For Nominees</span>
       <div className={classes.nomineeContainer}>
-        {activeNominees.map(nominee => (
-          <NomineeCard key={nominee.id} nominee={nominee} />
+        {activeNominees?.map(nominee => (
+          <NomineeCard
+            key={nominee.id}
+            nominee={nominee}
+            refetchNominees={refetch}
+          />
         ))}
       </div>
       {isNewNomination && (
         <NewNominationModal
           onClose={() => setNewNomination(false)}
           visible={isNewNomination}
+          refetchNominees={refetch}
         />
       )}
     </div>

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { vouchUser } from 'lib/gql/mutations';
+import { DateTime } from 'luxon';
 import { transparentize } from 'polished';
 import { NavLink } from 'react-router-dom';
 
@@ -12,10 +14,9 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { useApiWithSelectedCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 
-import { INominee } from 'types';
+import { IActiveNominee } from './getActiveNominees';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -128,14 +129,20 @@ const TextOnlyTooltip = withStyles({
   },
 })(Tooltip);
 
-export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
+export const NomineeCard = ({
+  nominee,
+  refetchNominees,
+}: {
+  nominee: IActiveNominee;
+  refetchNominees: () => void;
+}) => {
   const classes = useStyles();
-  const { vouchUser } = useApiWithSelectedCircle();
   const { circle, myUser } = useSelectedCircle();
+  const [vouching, setVouching] = useState(false);
   const vouchDisabled =
     myUser && circle
       ? nominee.nominated_by_user_id === myUser.id ||
-        nominee.nominations.some(user => user.id === myUser.id) ||
+        nominee.nominations.some(n => n.voucher_id === myUser.id) ||
         (circle.only_giver_vouch && myUser.non_giver)
       : true;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -153,6 +160,17 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
   const open = Boolean(anchorEl);
   const id = open ? 'vouched-by-popover' : undefined;
 
+  const handleVouch = async () => {
+    setVouching(true);
+    await vouchUser(nominee.id).then(refetchNominees).catch(console.warn);
+    setVouching(false);
+  };
+
+  const vouchesNeeded = Math.max(
+    0,
+    nominee.vouches_required - (nominee.nominations ?? []).length - 1
+  );
+
   return (
     <div className={classes.root}>
       <h5 className={classes.name}>{nominee.name}</h5>
@@ -161,9 +179,9 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
           was nominated by{' '}
           <NavLink
             className={classes.info}
-            to={`profile/${nominee.nominator.address}`}
+            to={`/profile/${nominee.nominator?.address}`}
           >
-            {nominee.nominator.name}
+            {nominee.nominator?.name}
           </NavLink>
           {nominee.nominations.length > 0 && (
             <>
@@ -199,14 +217,16 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
           horizontal: 'right',
         }}
       >
-        {nominee.nominations.map((user, index) => (
+        {nominee.nominations.map((nomination, index) => (
           <>
             <NavLink
-              key={user.id}
+              key={nomination.voucher?.id}
               className={classes.info}
-              to={`profile/${user.address}`}
+              to={`/profile/${nomination.voucher?.address}`}
             >
-              {user.id === myUser?.id ? 'You' : user.name}
+              {nomination.voucher?.id === myUser?.id
+                ? 'You'
+                : nomination.voucher?.name}
             </NavLink>
             {index < nominee.nominations.length - 1 && <>,&nbsp;</>}
           </>
@@ -220,20 +240,23 @@ export const NomineeCard = ({ nominee }: { nominee: INominee }) => {
         <span className={classes.description}>{nominee.description}</span>
       </TextOnlyTooltip>
       <span className={classes.confirm}>
-        {nominee.vouchesNeeded}{' '}
-        {nominee.vouchesNeeded > 1 ? 'vouches' : 'vouch'} needed to confirm
+        {vouchesNeeded} {vouchesNeeded > 1 ? 'vouches' : 'vouch'} needed to
+        confirm
       </span>
       <Button
         variant="contained"
         color="secondary"
         size="small"
-        disabled={vouchDisabled}
-        onClick={() => vouchUser(nominee.id).catch(console.warn)}
+        disabled={vouchDisabled || vouching}
+        onClick={handleVouch}
       >
-        Vouch for {nominee.name}
+        {vouching ? 'Vouching...' : `Vouch for ${nominee.name}`}
       </Button>
       <span className={classes.expire}>
-        Expires {nominee.expiryDate.toLocal().toLocaleString()}
+        Expires{' '}
+        {DateTime.fromISO(nominee.expiry_date).toLocaleString(
+          DateTime.DATETIME_SHORT
+        )}
       </span>
     </div>
   );

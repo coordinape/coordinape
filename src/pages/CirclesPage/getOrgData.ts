@@ -27,7 +27,7 @@ export const getOrgData = (address: string) =>
               { start_date: true, end_date: true, number: true },
             ],
             nominees_aggregate: [
-              { where: { ended: { _eq: false } } },
+              { where: { ended: { _eq: false }, expiry_date: { _gt: 'now' } } },
               { aggregate: { count: [{}, true] } },
             ],
           },

@@ -96,7 +96,7 @@ type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
   [paths.history, 'History'],
   [paths.allocation, 'Allocation'],
-  [paths.map, 'Map'],
+  [paths.map(), 'Map'],
   [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],
   [paths.adminCircles, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];

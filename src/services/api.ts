@@ -4,15 +4,7 @@ import axios from 'axios';
 import { API_URL } from 'config/env';
 import { getSignature } from 'utils/provider';
 
-import {
-  IApiTokenGift,
-  IApiProfile,
-  IApiUser,
-  IApiLogin,
-  IApiManifest,
-  PostTokenGiftsParam,
-  IApiFullCircle,
-} from 'types';
+import { IApiProfile, IApiLogin, IApiManifest, IApiFullCircle } from 'types';
 
 axios.defaults.baseURL = API_URL;
 
@@ -83,16 +75,6 @@ export class APIService {
 
   getProfile = async (address: string): Promise<IApiProfile> => {
     return (await this.axios.get(`/v2/profile/${address}`)).data;
-  };
-
-  postTokenGifts = async (
-    circleId: number,
-    params: PostTokenGiftsParam[]
-  ): Promise<IApiUser & { pending_sent_gifts: IApiTokenGift[] }> => {
-    const response = await this.axios.post(`/v2/${circleId}/token-gifts`, {
-      data: JSON.stringify(params),
-    });
-    return response.data;
   };
 
   downloadCSV = async (circleId: number, epoch: number): Promise<any> => {

@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
+import { supportedChainIds, Contracts } from 'lib/vaults';
 
-import { supportedChainIds, Contracts } from 'services/contracts';
 import { logOnce } from 'utils/logger';
 
 export function useContracts(): Contracts | undefined {

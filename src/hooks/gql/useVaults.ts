@@ -1,7 +1,10 @@
 import { client } from 'lib/gql/client';
+import { allVaultFields } from 'lib/gql/mutations';
 import { useQuery } from 'react-query';
 
-export function useVaults(orgId: number) {
+import { Awaited } from 'types/shim';
+
+export function useVaults(orgId: number | null | undefined) {
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
@@ -10,18 +13,7 @@ export function useVaults(orgId: number) {
           {
             where: { org_id: { _eq: orgId } },
           },
-          {
-            id: true,
-            vault_address: true,
-            token_address: true,
-            simple_token_address: true,
-            symbol: true,
-            created_by: true,
-            org_id: true,
-            decimals: true,
-            created_at: true,
-            updated_at: true,
-          },
+          allVaultFields,
         ],
       });
       return vaults;
@@ -29,3 +21,8 @@ export function useVaults(orgId: number) {
     { enabled: !!orgId }
   );
 }
+
+export type Vault = Exclude<
+  Awaited<ReturnType<typeof useVaults>>['data'],
+  undefined
+>[0];

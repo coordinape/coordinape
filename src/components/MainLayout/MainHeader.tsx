@@ -16,12 +16,7 @@ import {
   useSelectedCircle,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import {
-  circleSpecificPaths,
-  EXTERNAL_URL_DOCS,
-  getProfilePath,
-  paths,
-} from 'routes/paths';
+import { circleSpecificPaths, EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -222,7 +217,7 @@ const MobileHeader = ({
                 </Link>
                 <Link
                   as={NavLink}
-                  to={getProfilePath({ address: 'me' })}
+                  to={paths.profile('me')}
                   css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
                 >
                   <Box
@@ -363,17 +358,17 @@ export const TopLevelLinks = ({
 const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
 
-  const links = useMemo(
-    () =>
-      [
-        [paths.history, 'History'],
-        [paths.allocation, 'Allocate'],
-        [paths.map, 'Map'],
-        circle.hasVouching && [paths.vouching, 'Vouching'],
-        myUser.isCircleAdmin && [paths.adminCircles, 'Admin'],
-      ].filter(x => x) as [string, string][],
-    [circle.id]
-  );
+  const links: [string, string][] = useMemo(() => {
+    const l: [string, string][] = [
+      [paths.history, 'History'],
+      [paths.allocation, 'Allocate'],
+      [paths.map(), 'Map'],
+    ];
+
+    if (circle.hasVouching) l.push([paths.vouching, 'Vouching']);
+    if (myUser.isCircleAdmin) l.push([paths.adminCircles, 'Admin']);
+    return l;
+  }, [circle.id]);
 
   return <TopLevelLinks links={links} css={{ mr: '$md' }} />;
 };

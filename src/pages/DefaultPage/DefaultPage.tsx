@@ -7,11 +7,14 @@ import { useRecoilValueLoadable } from 'recoil';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { LoadingScreen } from 'components';
 import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
-import { useHasCircles } from 'recoilState/db';
-import { getNavigationFooter } from 'routes/paths';
-import * as paths from 'routes/paths';
+import {
+  paths,
+  EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_LANDING_PAGE,
+  EXTERNAL_URL_TWITTER,
+} from 'routes/paths';
 import { Box } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -49,20 +52,6 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginTop: theme.spacing(3),
   },
-  footer: {
-    width: '100%',
-    display: 'grid',
-    gridTemplateColumns: '150px 150px 150px 150px',
-    padding: theme.spacing(8),
-    justifyContent: 'center',
-    '& > *': {
-      textAlign: 'center',
-    },
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '1fr 1fr',
-      gridTemplateRows: '40px 40px',
-    },
-  },
   link: {
     position: 'relative',
     color: theme.colors.text,
@@ -97,23 +86,20 @@ export const DefaultPage = () => {
   const authToken = useAuthToken();
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
   const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-  const hasCircles = useHasCircles();
 
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <div className={classes.root}>
-      <Box
-        css={{
-          maxWidth: '700px',
-          mx: 'auto',
-          pt: '$2xl',
-          px: '$lg',
-          textAlign: 'center',
-        }}
-      >
-        {children}
-        <Footer />
-      </Box>
-    </div>
+    <Box
+      css={{
+        maxWidth: '700px',
+        mx: 'auto',
+        pt: '$2xl',
+        px: '$lg',
+        textAlign: 'center',
+      }}
+    >
+      {children}
+      <Footer />
+    </Box>
   );
 
   // TODO: Split these off into separate components..
@@ -130,25 +116,8 @@ export const DefaultPage = () => {
       </Wrapper>
     );
   }
-
-  if (!myProfile) {
-    return <LoadingScreen />;
-  }
-
-  // TODO: This is an edge case, if the server doesn't return a circle
-  // https://github.com/coordinape/coordinape-backend/issues/69
-  if (hasCircles && !selectedCircle) {
-    return (
-      <Wrapper>
-        <p className={classes.title}>Welcome!</p>
-        <div className={classes.welcomeSection}>
-          <p className={classes.welcomeText}>
-            Select a circle to begin from the avatar menu in the top right.
-          </p>
-        </div>
-      </Wrapper>
-    );
-  }
+  // still loading
+  if (!myProfile) return null;
 
   if (!selectedCircle) {
     return (
@@ -167,7 +136,7 @@ export const DefaultPage = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(paths.getCreateCirclePath())}
+            onClick={() => navigate(paths.createCircle)}
             className={classes.startCircle}
           >
             Start a Circle
@@ -178,30 +147,43 @@ export const DefaultPage = () => {
   }
 
   return (
+    // FIXME this is basically unreachable because
     <Wrapper>
       <p className={classes.title}>Welcome to {selectedCircle.circle.name}!</p>
     </Wrapper>
   );
 };
 
-const Footer = () => {
-  const classes = useStyles();
+const Footer = () => (
+  <Box
+    css={{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      pt: '$2xl',
+      pb: '$xl',
+      '> a': {
+        padding: '$md 0',
+        color: '$primary',
+        textDecoration: 'none',
+        fontWeight: '$bold',
+        fontSize: '$6',
+      },
+    }}
+  >
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_LANDING_PAGE}>
+      coordinape.com
+    </a>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_DISCORD}>
+      Discord
+    </a>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_TWITTER}>
+      Twitter
+    </a>
+    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_DOCS}>
+      Docs
+    </a>
+  </Box>
+);
 
-  return (
-    <div className={classes.footer}>
-      {getNavigationFooter().map(({ path, label }) => (
-        <div key={path}>
-          <a
-            className={classes.link}
-            href={path}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {label}
-          </a>
-        </div>
-      ))}
-    </div>
-  );
-};
 export default DefaultPage;

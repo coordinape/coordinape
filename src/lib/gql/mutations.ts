@@ -1,10 +1,11 @@
 import {
   CreateCircleParam,
   IApiCircle,
-  PostUsersParam,
   NominateUserParam,
-  UpdateUsersParam,
+  PostTokenGiftsParam,
+  PostUsersParam,
   UpdateCreateEpochParam,
+  UpdateUsersParam,
 } from '../../types';
 
 import { $, ValueTypes } from './__generated__/zeus';
@@ -92,24 +93,22 @@ export const deleteCircleIntegration = async (id: number) =>
     delete_circle_integrations_by_pk: [{ id }, { id: true }],
   });
 
+export const allVaultFields = {
+  id: true,
+  created_at: true,
+  created_by: true,
+  decimals: true,
+  org_id: true,
+  simple_token_address: true,
+  symbol: true,
+  token_address: true,
+  updated_at: true,
+  vault_address: true,
+};
+
 export const addVault = (vault: ValueTypes['vaults_insert_input']) =>
   client.mutate({
-    insert_vaults_one: [
-      {
-        object: vault,
-      },
-      {
-        id: true,
-        org_id: true,
-        token_address: true,
-        simple_token_address: true,
-        symbol: true,
-        decimals: true,
-        vault_address: true,
-        created_at: true,
-        created_by: true,
-      },
-    ],
+    insert_vaults_one: [{ object: vault }, allVaultFields],
   });
 
 export const logout = async (): Promise<boolean> => {
@@ -294,6 +293,7 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
       },
     ],
   });
+
   return updateCircle;
 }
 
@@ -309,6 +309,31 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
     ],
   });
   return updateTeammates;
+}
+
+export async function updateAllocations(
+  circleId: number,
+  params: PostTokenGiftsParam[]
+) {
+  await client.mutate({
+    updateAllocations: [
+      {
+        payload: {
+          circle_id: circleId,
+          allocations: params.map(a => {
+            return {
+              ...a,
+              note: a.note ? a.note : '',
+            };
+          }),
+        },
+      },
+      {
+        user_id: true,
+      },
+    ],
+  });
+  return;
 }
 
 export async function deleteUser(circleId: number, address: string) {

@@ -2,59 +2,35 @@ import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useMutation } from 'react-query';
 
-export interface IClaim {
-  id?: number;
-  address: string;
-  amount: number;
-  distribution_id?: number;
-  flag: boolean;
-  index: number;
-  proof: string;
-  user_id: number;
-}
-
-export interface IDistribution {
-  created_by: number;
-  epoch_id: number;
-  id?: number;
-  merkle_root: string;
-  total_amount: number;
-  vault_address: string;
-  claims: {
-    data: IClaim[];
-  };
-  created_at?: string;
-  updated_at?: string;
-}
+const saveDistribution = async (
+  distribution?: ValueTypes['distributions_insert_input']
+) => {
+  const { insert_distributions_one } = await client.mutate({
+    insert_distributions_one: [
+      {
+        object: { ...distribution },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return insert_distributions_one;
+};
 
 export function useSaveEpochDistribution() {
-  return useMutation(
-    (distribution?: ValueTypes['distributions_insert_input']) => {
-      return client.mutate({
-        insert_distributions_one: [
-          {
-            object: { ...distribution },
-          },
-          {
-            id: true,
-            created_at: true,
-            epoch_id: true,
-            vault_id: true,
-            created_by: true,
-            merkle_root: true,
-          },
-        ],
-      });
-    }
-  );
+  return useMutation(saveDistribution);
 }
 
-export function useUpdateDistribution() {
-  return useMutation((id: number) => {
+export function useMarkDistributionSaved() {
+  return useMutation(({ epochId, id }: { id: number; epochId: number }) => {
     return client.mutate({
       update_distributions_by_pk: [
         {
-          _set: { saved_on_chain: true },
+          _set: {
+            saved_on_chain: true,
+            distribution_epoch_id: epochId,
+          },
           pk_columns: { id },
         },
         { id: true },

@@ -1,23 +1,13 @@
-import { utils } from 'ethers';
+export * from './circleId';
+export * from './contracts';
+export * from './tokens';
 
-const PREFIX = 'circle';
-const VERSION = '1';
-const DELIMITER = '-';
-
-export const encodeCircleId = (circleId: number) => {
-  const label = `${PREFIX}${DELIMITER}${VERSION}${DELIMITER}${circleId}`;
-  return utils.formatBytes32String(label);
-};
-
-export const decodeCircleId = (value: string) => {
-  const label = utils.parseBytes32String(value);
-
-  // version is not used yet
-  const [prefix, , id] = label.split(DELIMITER);
-
-  if (prefix !== PREFIX) {
-    throw new Error('Could not decode circle ID');
-  }
-
-  return Number(id);
-};
+// the list of tokens that we support depositing into Yearn through our vaults.
+// other tokens can be used ("simple tokens") but they won't be deposited into
+// Yearn.
+export enum Asset {
+  DAI = 'DAI',
+  USDC = 'USDC',
+  USDT = 'USDT',
+  YFI = 'YFI',
+}

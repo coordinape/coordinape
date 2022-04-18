@@ -1,21 +1,33 @@
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
-  ApeDistributor,
   ApeDistributor__factory,
-  ApeRouter,
   ApeRouter__factory,
-  ApeVaultFactoryBeacon,
   ApeVaultFactoryBeacon__factory,
-  ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
-  ERC20,
   ERC20__factory,
+} from '@coordinape/hardhat/dist/typechain';
+import type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+
+import { Asset } from './';
+
+export type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ERC20,
+} from '@coordinape/hardhat/dist/typechain';
 
 const log = debug('coordinape:contracts');
 
@@ -28,13 +40,6 @@ const requiredContracts = [
 export const supportedChainIds: number[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
   .map(x => Number(x[0]));
-
-export enum Asset {
-  DAI = 'DAI',
-  USDC = 'USDC',
-  USDT = 'USDT',
-  YFI = 'YFI',
-}
 
 export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
@@ -72,10 +77,7 @@ export class Contracts {
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
-    return ApeVaultWrapperImplementation__factory.connect(
-      address,
-      this.provider
-    );
+    return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
   }
 
   getAvailableTokens() {

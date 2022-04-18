@@ -1,4 +1,4 @@
-import { Asset } from 'services/contracts';
+import type { Asset } from 'lib/vaults';
 
 export interface IVaultTransaction {
   name: string;

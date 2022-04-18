@@ -2,10 +2,10 @@ import assert from 'assert';
 
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { addVault } from 'lib/gql/mutations';
+import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
-import { Asset } from 'services/contracts';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useContracts } from './useContracts';
@@ -64,7 +64,7 @@ export function useVaultFactory(orgId?: number) {
             token_address: args[0],
             symbol: symbol,
           };
-          return addVault(vault);
+          return addVault(vault).then(r => r.insert_vaults_one);
         }
       }
 

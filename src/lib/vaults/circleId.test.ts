@@ -1,6 +1,6 @@
 import { utils } from 'ethers';
 
-import { encodeCircleId, decodeCircleId } from './index';
+import { encodeCircleId, decodeCircleId } from './circleId';
 
 test('encode & decode circle id', () => {
   const encoded = encodeCircleId(777);

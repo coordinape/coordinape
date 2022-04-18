@@ -2,10 +2,10 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
+import { supportedChainIds } from 'lib/vaults';
 
 import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
-import { supportedChainIds } from 'services/contracts';
 
 export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 

@@ -42,7 +42,7 @@ export const createDistribution = (
 
   // add values from previous epoch
   if (previousDistribution) {
-    assert(previousDistribution.claims);
+    assert(previousDistribution.claims, 'No claims found');
     const claims = Object.entries(previousDistribution.claims);
     const addedClaims = [];
     for (const [addr, { amount }] of claims) {

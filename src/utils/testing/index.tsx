@@ -70,7 +70,7 @@ export const TestWrapper = ({
             <Web3Activator enabled={withWeb3}>
               <MemoryRouter>
                 <ThemeProvider theme={theme}>
-                  <Suspense fallback="Loading...">{children}</Suspense>
+                  <Suspense fallback="Suspended...">{children}</Suspense>
                 </ThemeProvider>
               </MemoryRouter>
             </Web3Activator>
@@ -81,7 +81,7 @@ export const TestWrapper = ({
   );
 };
 
-const provider = new JsonRpcProvider(rpcUrl);
+export const provider = new JsonRpcProvider(rpcUrl);
 
 export const takeSnapshot = async (): Promise<string> => {
   return (await provider.send('evm_snapshot', [])) as string;

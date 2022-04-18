@@ -317,7 +317,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
             {downloadCSVButton(e.number)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.getDistributePath(e.id)}>
+              <TableLink to={paths.vaultDistribute(e.id)}>
                 Submit Distribution
               </TableLink>
             )}
@@ -529,7 +529,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
             >
               Export Member CSV
             </Button> */}
-
+                
                 <AddContributorButton onClick={() => setNewUser(true)} />
                 <CreateEpochButton onClick={() => setNewEpoch(true)} />
                 <Button
