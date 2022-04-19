@@ -33,7 +33,7 @@ export const HistoryPage = () => {
   const circle = query.data;
   const me = circle?.users[0];
 
-  const nextEpoch = circle?.future.epochs[0];
+  const nextEpoch = circle?.future[0];
   const nextEpochStartLabel = useMemo(() => {
     if (!nextEpoch) return '';
     const date = DateTime.fromISO(nextEpoch.start_date);
@@ -43,8 +43,8 @@ export const HistoryPage = () => {
     return `starts in ${diff}, on ${date.toFormat('LLL d')}`;
   }, [nextEpoch]);
 
-  const currentEpoch = circle?.current.epochs[0];
-  const pastEpochs = circle?.past.epochs || [];
+  const currentEpoch = circle?.current[0];
+  const pastEpochs = circle?.past || [];
 
   // TODO fetch only data for page shown
   const [page, setPage] = useState(0);
