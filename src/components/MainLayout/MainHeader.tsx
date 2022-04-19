@@ -118,7 +118,6 @@ const MobileHeader = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = useWalletStatus();
-  const myProfile = useMyProfile();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -230,7 +229,7 @@ const MobileHeader = ({
                       },
                     }}
                   >
-                    <NewApeAvatar path={myProfile.avatar} />
+                    <MobileAvatar />
                   </Box>
                   My Profile
                 </Link>
@@ -264,6 +263,16 @@ const MobileHeader = ({
         </Box>
       )}
     </Box>
+  );
+};
+
+const MobileAvatar = () => {
+  const myProfile = useMyProfile();
+
+  return (
+    <Suspense fallback={null}>
+      <NewApeAvatar path={myProfile.avatar} />
+    </Suspense>
   );
 };
 
