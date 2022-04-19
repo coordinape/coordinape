@@ -34,8 +34,7 @@ export const convertToVaultAmount = async (
   if (hasSimpleToken(vault)) return weiAmount;
 
   const vaultContract = contracts.getVault(vault.vault_address);
-  const yVaultAddress = await vaultContract.vault();
-  const yToken = contracts.getERC20(yVaultAddress);
+  const yToken = await contracts.getYVault(vault.vault_address);
   const vaultBalance = await yToken.balanceOf(vault.vault_address);
 
   const newTotalAmount = await vaultContract.sharesForValue(weiAmount);

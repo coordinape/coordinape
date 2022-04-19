@@ -5,6 +5,7 @@ import {
   ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
+  VaultAPI__factory,
 } from '@coordinape/hardhat/dist/typechain';
 import type {
   ApeDistributor,
@@ -78,6 +79,11 @@ export class Contracts {
 
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
+  }
+
+  async getYVault(vaultAddress: string) {
+    const yVaultAddress = await this.getVault(vaultAddress).vault();
+    return VaultAPI__factory.connect(yVaultAddress, this.provider);
   }
 
   getAvailableTokens() {

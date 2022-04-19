@@ -77,8 +77,19 @@ export const getHistoryData = (circleId: number, userId: number) =>
                     },
                   },
                 },
-              ],
-            },
+                distributions: [
+                  {},
+                  {
+                    total_amount: true,
+                    vault: {
+                      decimals: true,
+                      symbol: true,
+                      vault_address: true,
+                    },
+                  },
+                ],
+              },
+            ],
           },
         },
       ],
