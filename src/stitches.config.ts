@@ -80,7 +80,9 @@ export const {
 
       lightBorder: '#DEDEDE',
       lightGray: '#C3CDCF',
+      lighterGray: '#E5E5E5',
       mediumGray: '#A7B0B4',
+      darkGray: '#555555',
       border: '#939EA1',
       placeholderDark: '#7C898D',
       neutralGrayDark: '#52575C',

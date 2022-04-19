@@ -12,6 +12,7 @@ type EpochInfo = {
 export interface ClaimCardProps {
   epochInfo: EpochInfo[];
   claimAmount: string | number;
+  symbol: string;
   onClaim?(): void;
   onViewHistory?(): void;
   css?: CSS;
@@ -25,11 +26,12 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
     css={{
       display: 'flex',
       flexDirection: 'column',
-      width: '327px',
+      width: '100%',
       '@xs': {
         width: '100%',
       },
       padding: '$md',
+      marginTop: '$lg',
       gap: '$md',
       borderRadius: '$1',
       backgroundColor: 'white',
@@ -84,8 +86,14 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
         onClick={props.onClaim}
         size="small"
         color="red"
+        css={{
+          '&:hover': {
+            backgroundColor: '$redHover',
+            color: 'white',
+          },
+        }}
       >
-        Claim {props.claimAmount} USDC
+        Claim {props.claimAmount} {props.symbol}
       </Button>
       <Button
         data-testid="action-button-2"
@@ -93,6 +101,12 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
         onClick={props.onViewHistory}
         size="small"
         color="gray"
+        css={{
+          '&:hover': {
+            backgroundColor: '$darkGray',
+            color: 'white',
+          },
+        }}
       >
         View History
       </Button>

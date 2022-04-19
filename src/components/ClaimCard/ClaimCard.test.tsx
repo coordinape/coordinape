@@ -13,6 +13,7 @@ const props: ClaimCardProps = {
   claimAmount: '1680',
   onClaim: () => null,
   onViewHistory: () => null,
+  symbol: 'USDC',
 };
 describe('ClaimCard', () => {
   it('should render properly', () => {

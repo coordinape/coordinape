@@ -92,6 +92,18 @@ export const Button = styled('button', {
       },
     },
     variant: {
+      claimFunds: {
+        backgroundColor: '$lighterGray',
+        color: '$darkGray',
+        fontWeitght: '$bold',
+        borderRadius: '$3',
+        height: 'xl',
+        '&:hover': {
+          color: '$selected',
+          background: '$surfaceGray',
+          opacity: 1,
+        },
+      },
       wallet: {
         fontSize: '15px',
         fontWeight: 600,

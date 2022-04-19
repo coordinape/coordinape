@@ -5,6 +5,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
 
 import { ReceiveInfo, MyAvatarMenu, NewApeAvatar } from 'components';
+import { Claims } from 'components/Claims';
 import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
@@ -20,9 +21,11 @@ import { circleSpecificPaths, EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
+const isVaultsEnabled = isFeatureEnabled('vaults');
+
 const mainLinks = [
   [paths.circles, 'Circles'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
+  isVaultsEnabled && [paths.vaults, 'Vaults'],
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
@@ -31,6 +34,7 @@ export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && circleSpecificPaths.includes(location.pathname);
+  const hasClaims = useState(true);
 
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
@@ -84,6 +88,11 @@ export const MainHeader = () => {
       {inCircle && (
         <Suspense fallback={null}>
           <ReceiveInfo />
+        </Suspense>
+      )}
+      {isVaultsEnabled && hasClaims && (
+        <Suspense fallback={null}>
+          <Claims />
         </Suspense>
       )}
       {!address && <ConnectButton />}
@@ -193,9 +202,7 @@ const MobileHeader = ({
                   >
                     {breadcrumb}
                   </Box>
-                  <Suspense fallback={<span />}>
-                    <CircleNav />
-                  </Suspense>
+                  <Suspense fallback={<span />}>{/* <CircleNav /> */}</Suspense>
                 </>
               )}
               <Box
