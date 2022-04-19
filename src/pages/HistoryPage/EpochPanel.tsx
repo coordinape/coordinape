@@ -7,6 +7,7 @@ import { CSS } from 'stitches.config';
 import { NewApeAvatar } from 'components';
 import { Box, Panel, Text, Button } from 'ui';
 
+import { useDistroAmount } from './distributions';
 import type { QueryEpoch } from './HistoryPage';
 
 type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
@@ -21,6 +22,9 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const sent = epoch.sent.token_gifts;
   const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
+
+  const distro = epoch.distributions[0];
+  const distroAmount = useDistroAmount(distro);
 
   return (
     <Panel
@@ -58,6 +62,11 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         <Text bold font="inter" css={{ fontSize: '$6' }}>
           {totalAllocated} {tokenName}
         </Text>
+        {distroAmount && (
+          <Text bold font="inter" css={{ fontSize: '$6' }}>
+            {distroAmount.amount.toString()} {distroAmount.symbol}
+          </Text>
+        )}
       </Panel>
       {showLess ? (
         <Panel
