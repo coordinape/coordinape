@@ -15,6 +15,7 @@ import { ApeTextField, LoadingModal } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { paths } from 'routes/paths';
+import { SingleColumnLayout } from 'ui/layouts';
 
 import AllocationTable from './AllocationsTable';
 import {
@@ -162,12 +163,7 @@ function DistributePage() {
     }));
 
   return (
-    <Box
-      css={{
-        margin: '$lg auto',
-        maxWidth: '$mediumScreen',
-      }}
-    >
+    <SingleColumnLayout>
       <Panel>
         <Box
           css={{
@@ -341,7 +337,7 @@ function DistributePage() {
           )}
         </Box>
       </Panel>
-    </Box>
+    </SingleColumnLayout>
   );
 }
 
