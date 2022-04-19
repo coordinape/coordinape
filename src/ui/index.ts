@@ -1,6 +1,7 @@
 export * from './Avatar/Avatar';
 export * from './Box/Box';
 export * from './Button/Button';
+export * from './Checkbox/CheckBox';
 export * from './Divider/Divider';
 export * from './Form';
 export * from './Flex/Flex';

@@ -17,8 +17,7 @@ import { useNavigation, useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { NEW_CIRCLE_CREATED_PARAMS } from 'routes/paths';
-import * as paths from 'routes/paths';
+import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { Avatar, Box, Button as UiButton, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -372,7 +371,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 <Avatar
                   path={u?.profile?.avatar}
                   name={u?.name}
-                  onClick={getToProfile({ address: u.address })}
+                  onClick={getToProfile(u.address)}
                 />
                 <span>{u.name}</span>
                 <span>
@@ -537,7 +536,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                   color="primary"
                   size="small"
                   startIcon={<PlusCircleIcon />}
-                  onClick={() => navigate(paths.getCreateCirclePath())}
+                  onClick={() => navigate(paths.createCircle)}
                 >
                   Add Circle
                 </Button>

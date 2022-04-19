@@ -4,7 +4,6 @@ import { keyframes, styled } from '../../stitches.config';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Modal } from 'ui/Modal';
 
-
 const scaleUpAnimation = keyframes({
   '0%': { opacity: 0, transform: 'scale(0)' },
   '100%': { opacity: 1, transform: 'scale(1)' },
@@ -60,7 +59,7 @@ export const Tooltip = ({
         </Modal>
       ) : (
         <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
-          <TooltipTrigger asChild>{children}</TooltipTrigger>
+          <TooltipTrigger>{children}</TooltipTrigger>
           <HoverCardContent>{content}</HoverCardContent>
         </HoverCardPrimitive.Root>
       )}

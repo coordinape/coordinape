@@ -3,10 +3,11 @@ import { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ActionDialog } from 'components';
-import { ApeCheckbox } from 'components/ApeCheckbox/ApeCheckbox';
+// import { ApeCheckbox } from 'components/ApeCheckbox/ApeCheckbox';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { CheckBox, ExternalLink, Link } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
@@ -126,74 +127,52 @@ export const AdminUserModal = ({
                 infoTooltip={
                   <>
                     The maximum amount of giving a user can allocate in an epoch
-                    <a
-                      href={GIFT_CIRCLE_DOCS_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {' '}
-                      Learn More
-                    </a>
+                    <Link href={GIFT_CIRCLE_DOCS_URL}>Learn More</Link>
                   </>
                 }
                 label="GIVE Allotment"
               />
             </div>
 
-            <ApeCheckbox
+            <CheckBox
               {...fields.role}
               label="Grant Administrative Permissions"
               infoTooltip={
                 <>
                   As a Circle Admin, you will be able to edit Circle Settings,
-                  Edit Epoch settings, edit your users, and create new circles.
-                  <a
-                    href="https://docs.coordinape.com/welcome/admin_info"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {' '}
+                  Edit Epoch settings, edit your users, and create new circles.{' '}
+                  <Link href="https://docs.coordinape.com/welcome/admin_info">
                     Learn More
-                  </a>
+                  </Link>
                 </>
               }
             />
-            <ApeCheckbox
+            <CheckBox
               {...non_giver}
               value={!nonGiverValue}
-              label="Allow contributor to give tokens"
+              label={`Allow contributor to send ${selectedCircle.tokenName}`}
               onChange={v => nonGiverOnChange(!v)}
               infoTooltip={
                 <>
                   Allows the Contributor to get paid based on the amount of
-                  giving allocated by circle members.
-                  <a
-                    href={GIFT_CIRCLE_DOCS_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {' '}
+                  giving allocated by circle members.{' '}
+                  <ExternalLink href={GIFT_CIRCLE_DOCS_URL}>
                     Learn More
-                  </a>
+                  </ExternalLink>
                 </>
               }
             />
-            <ApeCheckbox
+            <CheckBox
               {...fields.non_receiver}
-              label="Allow contributor to receive tokens"
+              label={`Allow contributor to receive ${selectedCircle.tokenName}`}
               disabled={fields.fixed_non_receiver.value}
               infoTooltip={
                 <>
                   Gives the member the ability to reward circle members with
-                  giving.
-                  <a
-                    href={GIFT_CIRCLE_DOCS_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {' '}
+                  giving.{' '}
+                  <ExternalLink href={GIFT_CIRCLE_DOCS_URL}>
                     Learn More
-                  </a>
+                  </ExternalLink>
                 </>
               }
             />
