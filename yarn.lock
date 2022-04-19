@@ -3632,10 +3632,10 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@meta-cred/graphql-zeus@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@meta-cred/graphql-zeus/-/graphql-zeus-5.0.3.tgz#63dbe93acba238e29e3c0ebbc5e8d1b1b76f663f"
-  integrity sha512-LzR9dAEKcLthQ7ylLw9xHTmGWoaqEw0M6Ez/RaxNHS3Rrv4KtFDZ2Ln0gavFG5tXpJZZcO1LWxfWbUXmBknddQ==
+"@meta-cred/graphql-zeus@5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@meta-cred/graphql-zeus/-/graphql-zeus-5.0.4.tgz#1c0a5e47501db9dfcd149f50ea1ecbfe64ae05a5"
+  integrity sha512-QDfE9j/oB52LVUrhoPKrN4IP6Gy0RrHQwVVFFmsxd+n+dOyjI09QdessmWW6pWfIU6pawIegO8fBTUbnj9FJXQ==
   dependencies:
     cross-fetch "^3.0.4"
     graphql "^15.4.0"
