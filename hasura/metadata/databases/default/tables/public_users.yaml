@@ -7,13 +7,7 @@ object_relationships:
     foreign_key_constraint_on: circle_id
 - name: profile
   using:
-    manual_configuration:
-      column_mapping:
-        address: address
-      insertion_order: null
-      remote_table:
-        name: profiles
-        schema: public
+    foreign_key_constraint_on: address
 array_relationships:
 - name: burns
   using:

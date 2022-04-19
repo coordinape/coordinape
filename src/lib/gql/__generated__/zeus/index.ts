@@ -5567,7 +5567,7 @@ columns and relationships of "distributions" */
     /** An array relationship */
     pending_sent_gifts: ModelTypes['pending_token_gifts'][];
     /** An object relationship */
-    profile?: ModelTypes['profiles'];
+    profile: ModelTypes['profiles'];
     /** An array relationship */
     received_gifts: ModelTypes['token_gifts'][];
     /** An aggregate relationship */
@@ -8541,7 +8541,7 @@ columns and relationships of "distributions" */
     /** An array relationship */
     pending_sent_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An object relationship */
-    profile?: GraphQLTypes['profiles'];
+    profile: GraphQLTypes['profiles'];
     /** An array relationship */
     received_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
