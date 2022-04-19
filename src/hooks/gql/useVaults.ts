@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import { Awaited } from 'types/shim';
 
-export function useVaults(orgId: number | null | undefined) {
+export function useVaults(orgId: number | undefined) {
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
