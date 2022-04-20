@@ -8,7 +8,7 @@ import { NewApeAvatar } from 'components';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, AppLink } from 'ui';
 
-import { useDistroAmount } from './distributions';
+import { useDistAmount } from './distributions';
 import type { QueryEpoch } from './HistoryPage';
 
 type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
@@ -24,8 +24,8 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
 
-  const distro = epoch.distributions[0];
-  const distroAmount = useDistroAmount(distro);
+  const dist = epoch.distributions[0];
+  const distAmount = useDistAmount(dist);
 
   return (
     <Panel
@@ -63,10 +63,10 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         <Text bold font="inter" css={{ fontSize: '$6', color: '$placeholder' }}>
           {totalAllocated} {tokenName}
         </Text>
-        {distro && distroAmount && (
-          <AppLink to={paths.distribution(distro.id)}>
+        {dist && distAmount && (
+          <AppLink to={paths.distribution(dist.id)}>
             <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {distroAmount.amount.toString()} {distroAmount.symbol}
+              {distAmount.amount.toString()} {distAmount.symbol}
             </Text>
           </AppLink>
         )}

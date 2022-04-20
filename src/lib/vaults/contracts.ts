@@ -93,10 +93,10 @@ export class Contracts {
     symbol: string,
     decimals: number
   ) {
-    if (hasSimpleToken({ symbol })) return 1;
+    if (hasSimpleToken({ symbol })) return FixedNumber.from(1);
     const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
     const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
-    return FixedNumber.from(pps).divUnsafe(shifter).toUnsafeFloat();
+    return FixedNumber.from(pps).divUnsafe(shifter);
   }
 
   getAvailableTokens() {

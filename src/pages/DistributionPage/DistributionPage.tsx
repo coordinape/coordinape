@@ -123,7 +123,7 @@ export const DistributionPage = () => {
     return <SingleColumnLayout>{(error as any).message}</SingleColumnLayout>;
 
   const convertAmount = (x: number) =>
-    (x * assertDef(dist).pricePerShare).toFixed(2);
+    (x * assertDef(dist).pricePerShare.toUnsafeFloat()).toFixed(2);
 
   const symbol = dist?.vault.symbol;
   const date = dist?.created_at
