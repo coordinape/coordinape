@@ -93,7 +93,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const downloadCSV = useRecoilLoadCatch(
     () => async (epoch: number) => {
-      return await getApiService().downloadCSV(circleId, epoch);
+      return await mutations.allocationCsv(circleId, epoch);
     },
     [circleId]
   );
