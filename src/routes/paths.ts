@@ -42,6 +42,8 @@ export const paths = {
   connectIntegration: '/connect-integration',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
+  distribute: (epochId: number | string) => `/admin/distribute/${epochId}`,
+  distribution: (id: number | string) => `/admin/distribution/${id}`,
   epoch: '/epoch',
   give: '/give',
   history: '/history',
@@ -50,7 +52,6 @@ export const paths = {
   profile: (address: string) => `/profile/${address}`,
   team: '/team',
   vaults: '/admin/vaults',
-  vaultDistribute: (epochId: number | string) => `/admin/distribute/${epochId}`,
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
   vouching: '/vouching',
 };
@@ -58,6 +59,7 @@ export const paths = {
 const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'adminCircles',
   'allocation',
+  'distribute',
   'epoch',
   'give',
   'history',
