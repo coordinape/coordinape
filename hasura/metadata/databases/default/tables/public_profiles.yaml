@@ -1,101 +1,104 @@
 table:
-  name: profiles
   schema: public
+  name: profiles
 array_relationships:
-- name: users
-  using:
-    manual_configuration:
-      column_mapping:
-        address: address
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: users
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        insertion_order: null
+        column_mapping:
+          address: address
 select_permissions:
-- permission:
-    columns:
-    - id
-    - avatar
-    - background
-    - skills
-    - bio
-    - telegram_username
-    - discord_username
-    - twitter_username
-    - github_username
-    - medium_username
-    - website
-    - address
-    - created_at
-    - updated_at
-    - admin_view
-    - ann_power
-    - chat_id
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - address
-    - admin_view
-    - avatar
-    - background
-    - bio
-    - created_at
-    - discord_username
-    - github_username
-    - id
-    - medium_username
-    - skills
-    - telegram_username
-    - twitter_username
-    - updated_at
-    - website
-    filter:
-      users:
-        circle:
-          organization:
-            circles:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-  role: user
+  - role: superadmin
+    permission:
+      columns:
+        - id
+        - avatar
+        - background
+        - skills
+        - bio
+        - telegram_username
+        - discord_username
+        - twitter_username
+        - github_username
+        - medium_username
+        - website
+        - address
+        - created_at
+        - updated_at
+        - admin_view
+        - ann_power
+        - chat_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - address
+        - admin_view
+        - avatar
+        - background
+        - bio
+        - created_at
+        - discord_username
+        - github_username
+        - id
+        - medium_username
+        - skills
+        - telegram_username
+        - twitter_username
+        - updated_at
+        - website
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - users:
+              circle:
+                organization:
+                  circles:
+                    users:
+                      profile:
+                        id:
+                          _eq: X-Hasura-User-Id
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - avatar
-    - background
-    - bio
-    - discord_username
-    - github_username
-    - medium_username
-    - skills
-    - telegram_username
-    - twitter_username
-    - website
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-    set:
-      id: X-Hasura-User-Id
-  role: superadmin
-- permission:
-    check: null
-    columns:
-    - avatar
-    - background
-    - bio
-    - discord_username
-    - github_username
-    - medium_username
-    - skills
-    - telegram_username
-    - twitter_username
-    - website
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-    set:
-      id: X-Hasura-User-Id
-  role: user
+  - role: superadmin
+    permission:
+      columns:
+        - avatar
+        - background
+        - bio
+        - discord_username
+        - github_username
+        - medium_username
+        - skills
+        - telegram_username
+        - twitter_username
+        - website
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+      set:
+        id: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+        - avatar
+        - background
+        - bio
+        - discord_username
+        - github_username
+        - medium_username
+        - skills
+        - telegram_username
+        - twitter_username
+        - website
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+      set:
+        id: X-Hasura-User-Id
