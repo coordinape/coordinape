@@ -71,7 +71,7 @@
     "db-seed-fresh": "scripts/seed_hasura.sh --clean",
     "db-seed": "scripts/seed_hasura.sh",
     "db-disable-cron": "scripts/disable_cron.sh",
-    "generate": "./scripts/generate-zeus.sh",
+    "generate": "./scripts/generate_zeus.sh",
     "hasura": "hasura --skip-update-check --envfile ../.env --project ./hasura",
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose down",
@@ -93,11 +93,11 @@
     "prettier": "prettier \"{api,src}/**/*.{js,ts,tsx}\"",
     "prettier:check": "yarn prettier --check",
     "prettier:fix": "yarn prettier --write",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig-backend.json --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "figma-colors": "node ./scripts/tsrun.mjs ./scripts/update-figma-colors.ts"
+    "figma-colors": "ts-node ./scripts/update_figma_colors.ts"
   },
   "lint-staged": {
     "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [
