@@ -1,7 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
+import {
+  profiles_constraint,
+  ValueTypes,
+} from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   createUserSchemaInput,
@@ -42,22 +45,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
-  // make sure a profile exists first, for FK purposes
-
-  const { profiles } = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: input.address } } }, { id: true }],
+  // make sure a profile exists first, for FK purposes, safe to ignore if it fails due to dupe constraint
+  await adminClient.mutate({
+    // Create a profile if none exists yet
+    insert_profiles_one: [
+      {
+        object: { address: input.address },
+        // This clause allows gql to catch the conflict and do nothing
+        // hasura calls this an "upsert"
+        on_conflict: {
+          constraint: profiles_constraint.profiles_address_key,
+          // Don't update the entry at all if a profile exists
+          // Don't want to touch the timestamp if we aren't actually
+          // modifying anything
+          update_columns: [],
+        },
+      },
+      {
+        address: true,
+      },
+    ],
   });
-
-  const profile = profiles.pop();
-
-  if (!profile) {
-    await adminClient.mutate({
-      insert_profiles_one: [
-        { object: { address: input.address } },
-        { id: true },
-      ],
-    });
-  }
 
   // create the user
 
