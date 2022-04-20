@@ -64,7 +64,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           {totalAllocated} {tokenName}
         </Text>
         {dist && distAmount && (
-          <AppLink to={paths.distribution(dist.id)}>
+          <AppLink to={paths.distributions(epoch.id)}>
             <Text bold font="inter" css={{ fontSize: '$6' }}>
               {distAmount.amount.toString()} {distAmount.symbol}
             </Text>

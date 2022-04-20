@@ -27,7 +27,7 @@ jest.mock('lib/gql/mutations', () => {
   };
 });
 
-jest.mock('pages/DistributePage/mutations', () => {
+jest.mock('pages/DistributionsPage/mutations', () => {
   return {
     useSaveEpochDistribution: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({

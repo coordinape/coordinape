@@ -42,8 +42,8 @@ export const paths = {
   connectIntegration: '/connect-integration',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
-  distribute: (epochId: number | string) => `/admin/distribute/${epochId}`,
-  distribution: (id: number | string) => `/admin/distribution/${id}`,
+  distributions: (epochId: number | string) =>
+    `/admin/distributions/${epochId}`,
   epoch: '/epoch',
   give: '/give',
   history: '/history',
@@ -59,7 +59,6 @@ export const paths = {
 const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'adminCircles',
   'allocation',
-  'distribute',
   'epoch',
   'give',
   'history',
