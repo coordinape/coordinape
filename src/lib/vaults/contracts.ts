@@ -17,10 +17,12 @@ import type {
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
+import { BigNumber, FixedNumber } from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
 import { Asset } from './';
+import { hasSimpleToken } from './tokens';
 
 export type {
   ApeDistributor,
@@ -84,6 +86,17 @@ export class Contracts {
   async getYVault(vaultAddress: string) {
     const yVaultAddress = await this.getVault(vaultAddress).vault();
     return VaultAPI__factory.connect(yVaultAddress, this.provider);
+  }
+
+  async getPricePerShare(
+    vaultAddress: string,
+    symbol: string,
+    decimals: number
+  ) {
+    if (hasSimpleToken({ symbol })) return 1;
+    const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
+    const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
+    return FixedNumber.from(pps).divUnsafe(shifter).toUnsafeFloat();
   }
 
   getAvailableTokens() {
