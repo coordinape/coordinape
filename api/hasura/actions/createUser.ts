@@ -42,6 +42,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  // make sure a profile exists first, for FK purposes
+
+  const { profiles } = await adminClient.query({
+    profiles: [{ where: { address: { _ilike: input.address } } }, { id: true }],
+  });
+
+  const profile = profiles.pop();
+
+  if (!profile) {
+    await adminClient.mutate({
+      insert_profiles_one: [
+        { object: { address: input.address } },
+        { id: true },
+      ],
+    });
+  }
+
+  // create the user
+
   const createUserMutation: ValueTypes['mutation_root'] =
     existingUser?.deleted_at
       ? {
