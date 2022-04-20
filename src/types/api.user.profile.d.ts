@@ -5,7 +5,6 @@ export interface IApiProfile {
   id: number;
   address: string;
   admin_view: boolean;
-  ann_power: boolean;
   avatar?: string;
   background?: string;
   bio?: string;
@@ -16,9 +15,8 @@ export interface IApiProfile {
   twitter_username?: string;
   website?: string;
   skills?: string[];
-  users: IApiUser[];
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
   // Specific
   users?: IApiUser[];
 }
@@ -39,8 +37,8 @@ export interface IApiUser {
   give_token_remaining: number;
   epoch_first_visit: boolean;
   // DB fields
-  created_at: string; // 2021-07-07T23:29:18.000000Z
-  updated_at: string; // 2021-07-07T23:29:18.000000Z
+  created_at?: string; // 2021-07-07T23:29:18.000000Z
+  updated_at?: string; // 2021-07-07T23:29:18.000000Z
   deleted_at?: string; // 2021-07-07T23:29:18.000000Z
   // Permissions
   role: number; // 1 is an admin,
