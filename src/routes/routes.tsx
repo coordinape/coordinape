@@ -9,6 +9,7 @@ import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributePage from 'pages/DistributePage';
+import DistributionPage from 'pages/DistributionPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import ProfilePage from 'pages/ProfilePage';
@@ -80,10 +81,8 @@ const LoggedInRoutes = () => {
       />
       <Route path={paths.developers} element={<DevPortalPage />} />
 
-      <Route
-        path={paths.vaultDistribute(':epochId')}
-        element={<DistributePage />}
-      />
+      <Route path={paths.distribute(':epochId')} element={<DistributePage />} />
+      <Route path={paths.distribution(':id')} element={<DistributionPage />} />
 
       <Route path="*" element={<Navigate to={paths.home} replace />} />
     </Routes>

@@ -5,7 +5,8 @@ import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import { NewApeAvatar } from 'components';
-import { Box, Panel, Text, Button } from 'ui';
+import { paths } from 'routes/paths';
+import { Box, Panel, Text, Button, AppLink } from 'ui';
 
 import { useDistroAmount } from './distributions';
 import type { QueryEpoch } from './HistoryPage';
@@ -59,13 +60,15 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           {totalReceived} {tokenName}
         </Text>
         <Text variant="formLabel">Total Distributed</Text>
-        <Text bold font="inter" css={{ fontSize: '$6' }}>
+        <Text bold font="inter" css={{ fontSize: '$6', color: '$placeholder' }}>
           {totalAllocated} {tokenName}
         </Text>
-        {distroAmount && (
-          <Text bold font="inter" css={{ fontSize: '$6' }}>
-            {distroAmount.amount.toString()} {distroAmount.symbol}
-          </Text>
+        {distro && distroAmount && (
+          <AppLink to={paths.distribution(distro.id)}>
+            <Text bold font="inter" css={{ fontSize: '$6' }}>
+              {distroAmount.amount.toString()} {distroAmount.symbol}
+            </Text>
+          </AppLink>
         )}
       </Panel>
       {showLess ? (

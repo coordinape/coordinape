@@ -73,7 +73,7 @@ const AllocationTable = ({
               : '-',
         },
         {
-          label: '# of Contributor Gitfing',
+          label: '# of Contributor Gifting',
           render: (u: IAllocateUser) =>
             u.received_gifts_aggregate?.aggregate?.count && '-',
         },
