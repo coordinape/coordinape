@@ -321,8 +321,8 @@ const AdminPage = () => {
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
             {downloadCSVButton(e.number)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.distribute(e.id)}>
-                Submit Distribution
+              <TableLink to={paths.distributions(e.id)}>
+                Distributions
               </TableLink>
             )}
           </Box>

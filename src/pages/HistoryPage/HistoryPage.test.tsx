@@ -69,6 +69,7 @@ jest.mock('./getHistoryData', () => {
                   },
                 ],
               },
+              distributions: [],
             },
           ],
         },

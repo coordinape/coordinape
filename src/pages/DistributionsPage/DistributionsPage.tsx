@@ -42,7 +42,7 @@ type DistributionForm = z.infer<typeof DistributionFormSchema>;
  * @param epochId string
  * @returns JSX.Element
  */
-function DistributePage() {
+export function DistributionsPage() {
   // Route Parameters
   const { epochId } = useParams();
   const [loadingTrx, setLoadingTrx] = useState(false);
@@ -340,5 +340,3 @@ function DistributePage() {
     </SingleColumnLayout>
   );
 }
-
-export default DistributePage;

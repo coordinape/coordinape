@@ -3,7 +3,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { TestWrapper } from 'utils/testing';
 import { mockVault, mockEpoch } from 'utils/testing/mocks';
 
-import DistributePage from './DistributePage';
+import { DistributionsPage } from './DistributionsPage';
 
 jest.mock('hooks/gql/useCurrentOrg', () => ({
   useCurrentOrg: jest.fn(() => [1, jest.fn()]),
@@ -60,7 +60,7 @@ test('no epoch found', async () => {
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <DistributePage />
+        <DistributionsPage />
       </TestWrapper>
     );
   });
@@ -76,7 +76,7 @@ test('basic rendering', async () => {
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <DistributePage />
+        <DistributionsPage />
       </TestWrapper>
     );
   });
