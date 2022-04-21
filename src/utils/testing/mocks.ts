@@ -21,7 +21,7 @@ export const mockEpoch = {
     name: 'Mock Circle',
     users: [
       {
-        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2f',
+        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
         id: 21,
         name: 'Mock User 1',
         circle_id: 2,
@@ -36,7 +36,7 @@ export const mockEpoch = {
       },
       {
         address: '0x63c389CB2C573dd8A9239A16a3eb65935Ddb5e2f',
-        id: 21,
+        id: 22,
         name: 'Mock User 2',
         circle_id: 2,
         received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
