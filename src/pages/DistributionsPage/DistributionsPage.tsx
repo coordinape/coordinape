@@ -1,23 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+/*
+first get distributions
+if there's already one, show it
+otherwise, show form
+*/
+
 import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { client } from 'lib/gql/client';
 import { isUserAdmin } from 'lib/users';
+import { Contracts } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { FormControl, MenuItem, Select } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Link, Box, Panel, Button, Text } from '../../ui';
-import { ApeTextField, LoadingModal } from 'components';
+import { ApeTextField, LoadingModal, NewApeAvatar } from 'components';
 import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { paths } from 'routes/paths';
+import { Box, Panel, Button, Text, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { shortenAddress } from 'utils';
 
-import AllocationTable from './AllocationsTable';
+import { AllocationsTable } from './AllocationsTable';
 import {
   PreviousDistribution,
   useCurrentUserForEpoch,
@@ -25,6 +35,7 @@ import {
   usePreviousDistributions,
 } from './queries';
 import ShowMessage from './ShowMessage';
+import { Table, TableBorder } from './Table';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import type { SubmitDistribution } from './useSubmitDistribution';
 
@@ -128,7 +139,7 @@ export function DistributionsPage() {
       await submitDistribution(submitDTO);
       setLoadingTrx(false);
     } catch (e) {
-      console.error(e);
+      console.error('DistributionsPage.onSubmit:', e);
       setLoadingTrx(false);
     }
   };
@@ -165,43 +176,12 @@ export function DistributionsPage() {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Box
-          css={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box css={{ minWidth: '15%' }}>
-            <Link
-              href={paths.vaults}
-              css={{
-                fontSize: '$4',
-                lineHeight: '$shorter',
-                alignSelf: 'center',
-                color: '$text',
-                display: 'flex',
-                alignItems: 'center',
-                ml: '$lg',
-              }}
-            >
-              <ArrowBackIcon />
-              Back to Vaults
-            </Link>
-          </Box>
-          <Box
-            css={{
-              textTransform: 'capitalize',
-              fontSize: '$9',
-              lineHeight: '$shorter',
-              fontWeight: '$bold',
-              color: '$text',
-            }}
-          >
-            {`${circle?.name}: Epoch ${epoch?.number} has completed`}
-          </Box>
-          <Box css={{ minWidth: '15%' }}></Box>
-        </Box>
+        <Text variant="sectionHeader" css={{ mb: '$sm' }}>
+          Distributions
+        </Text>
+        <Text variant="sectionHeader" normal>
+          {circle?.name}: Epoch {epoch?.number}
+        </Text>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box css={{ display: 'flex', justifyContent: 'center', pt: '$lg' }}>
             <Box css={{ mb: '$lg', mt: '$xs', mr: '$md', minWidth: '15vw' }}>
@@ -298,21 +278,9 @@ export function DistributionsPage() {
             </Button>
           </Box>
         </form>
-        <Box
-          css={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <Box css={{ pt: '$md', color: '$text' }}>
-            Please review the distribution details below and if all looks good,
-            approve the Merkle root so that contributoros can claim their funds.
-          </Box>
-        </Box>
         <Box css={{ mt: '$lg' }}>
           {totalGive ? (
-            <AllocationTable
+            <AllocationsTable
               users={users as IAllocateUser[]}
               totalAmountInVault={updateAmount}
               tokenName={

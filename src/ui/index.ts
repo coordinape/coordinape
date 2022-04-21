@@ -1,6 +1,7 @@
 export * from './Box/Box';
 export * from './Button/Button';
 export * from './Divider/Divider';
+export * from './Flex';
 export * from './Form';
 export * from './FormLabel/FormLabel';
 export * from './Image/Image';
