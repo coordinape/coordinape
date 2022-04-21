@@ -23,7 +23,7 @@ const circle: IApiCircle = {
   name: 'Test Circle',
   nomination_days_limit: 7,
   only_giver_vouch: true,
-  protocol,
+  protocol: protocol,
   protocol_id: 1,
   team_selection: false,
   vouching: false,
