@@ -85,9 +85,7 @@ test('basic rendering', async () => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
 
-  expect(
-    screen.getByText('Mock Circle: Epoch 4 has completed')
-  ).toBeInTheDocument();
+  expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
   expect(
     screen.queryByText('Submit Distribution to Vault')
   ).toBeInTheDocument();
