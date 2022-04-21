@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -88,6 +88,8 @@ export const AdminEpochModal = ({
 }) => {
   const classes = useStyles();
 
+  const [saving, setSaving] = useState(false);
+
   const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const source = useMemo(
@@ -101,11 +103,15 @@ export const AdminEpochModal = ({
   return (
     <EpochForm.FormController
       source={source}
-      submit={params =>
+      submit={params => {
+        setSaving(true);
         (epoch ? updateEpoch(epoch.id, params) : createEpoch(params))
           .then(() => onClose())
-          .catch(console.warn)
-      }
+          .then(() => {
+            setSaving(false);
+          })
+          .catch(console.warn);
+      }}
     >
       {({ fields, errors, changedOutput, value, handleSubmit }) => (
         <FormModal
@@ -113,7 +119,7 @@ export const AdminEpochModal = ({
           open={open}
           title={epoch ? `Edit Epoch ${epoch.number}` : 'Create Epoch'}
           onSubmit={handleSubmit}
-          submitDisabled={!changedOutput}
+          submitDisabled={!changedOutput || saving}
           errors={errors}
         >
           <div className={classes.modalDescription}>
