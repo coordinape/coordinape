@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
-import { useNavigate, Link } from 'react-router-dom';
-import { styled } from 'stitches.config';
+import { useNavigate } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
@@ -12,13 +11,13 @@ import {
   ApeInfoTooltip,
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
-import { isFeatureEnabled } from 'config/features';
+// import { isFeatureEnabled } from 'config/features';
 import { useNavigation, useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Avatar, Box, Button as UiButton, Text } from 'ui';
+import { Avatar, Button as UiButton, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { AdminCircleModal } from './AdminCircleModal';
@@ -27,9 +26,8 @@ import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
   CreateEpochButton,
+  EpochsTable,
   EpochsTableHeader,
-  renderEpochCard,
-  RenderEpochStatus,
   renderUserCard,
   SettingsIconButton,
   UsersTableHeader,
@@ -99,10 +97,6 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(1.5),
     },
   },
-  epochsTable: {
-    flexGrow: 4,
-    marginBottom: theme.spacing(8),
-  },
   userActionBar: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -126,23 +120,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
-  },
-  twoLineCell: {
-    height: 48,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    fontSize: 11,
-    lineHeight: 1.5,
-    [theme.breakpoints.down('xs')]: {
-      height: 'auto',
-    },
-  },
-  twoLineCellTitle: {
-    fontWeight: 600,
-  },
-  twoLineCellSubtitle: {
-    fontWeight: 400,
   },
   avatarCell: {
     height: 48,
@@ -192,28 +169,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 296,
   },
 }));
-
-const TableLink = styled(Link, {
-  color: '$lightBlue',
-  '&:hover': {
-    color: '$darkBlue',
-  },
-  textDecoration: 'none',
-});
-
-const epochDetail = (e: IEpoch) => {
-  const r =
-    e.repeatEnum === 'none'
-      ? ''
-      : e.repeatEnum === 'weekly'
-      ? `${e.startDay} - ${e.endDay}`
-      : 'monthly';
-  return e.ended
-    ? e.labelActivity
-    : `${e.calculatedDays} ${e.calculatedDays > 1 ? 'days' : 'day'}${
-        e.repeat ? ` repeats ${r}` : ''
-      }`;
-};
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
@@ -287,76 +242,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       return r.test(u.name) || r.test(u.address);
     },
     [keyword]
-  );
-
-  // Epoch Columns
-  const RenderEpochDetails = (e: IEpoch) => (
-    <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>Epoch {e.number}</span>
-      <span className={classes.twoLineCellSubtitle}>{epochDetail(e)}</span>
-    </div>
-  );
-
-  const RenderEpochDates = (e: IEpoch) => (
-    <div className={classes.twoLineCell}>
-      <span className={classes.twoLineCellTitle}>
-        {e.labelYearEnd} - {e.labelDayRange}
-      </span>
-      <span className={classes.twoLineCellSubtitle}>
-        {e.ended ? e.labelTimeEnd : e.labelTimeStart}
-      </span>
-    </div>
-  );
-  const RenderEpochActions = (e: IEpoch) => {
-    if (e.ended) {
-      // this epoch is over, so there are no edit/delete actions, only download CSV
-      // assert that e.number is non-null
-      if (e.number) {
-        return (
-          <Box css={{ display: 'flex', flexDirection: 'column' }}>
-            {downloadCSVButton(e.number)}
-            {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.vaultDistribute(e.id)}>
-                Submit Distribution
-              </TableLink>
-            )}
-          </Box>
-        );
-      } else {
-        // epoch/number is null, so we can't provide a download link
-        return <></>;
-      }
-    } else {
-      // epoch still in progress
-      return renderActions(
-        () => setEditEpoch(e),
-        !e.started ? () => setDeleteEpochDialog(e) : undefined
-      );
-    }
-  };
-
-  const downloadCSVButton = (epoch: number) => (
-    <TableLink
-      to=""
-      onClick={() => {
-        // use the authed api to download the CSV
-        downloadCSV(epoch).then(res => {
-          const binaryData = [];
-          binaryData.push(res.data);
-          const href = window.URL.createObjectURL(
-            new Blob(binaryData, { type: 'text/csv' })
-          );
-          const a = document.createElement('a');
-          a.download = `${selectedCircle?.protocol.name}-${selectedCircle?.name}-epoch-${epoch}.csv`;
-          a.href = href;
-          a.click();
-          a.href = '';
-        });
-        return false;
-      }}
-    >
-      Export CSV
-    </TableLink>
   );
 
   const userColumns = useMemo(
@@ -468,31 +353,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       ] as ITableColumn[],
     []
   );
-  const epochColumns = useMemo(
-    () =>
-      [
-        {
-          label: 'Epoch Details',
-          render: RenderEpochDetails,
-          leftAlign: true,
-        },
-        {
-          label: 'Status',
-          render: RenderEpochStatus,
-        },
-        {
-          label: 'Dates',
-          render: RenderEpochDates,
-          leftAlign: true,
-        },
-        {
-          label: 'Actions',
-          render: RenderEpochActions,
-          narrow: true,
-        },
-      ] as ITableColumn[],
-    []
-  );
 
   return (
     <div className={classes.root}>
@@ -512,23 +372,7 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
                 >
                   Settings
                 </Button>
-                {/* <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<UploadIcon />}
-            >
-              Import Member CSV
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<UploadIcon />}
-            >
-              Export Member CSV
-            </Button> */}
-                
+
                 <AddContributorButton onClick={() => setNewUser(true)} />
                 <CreateEpochButton onClick={() => setNewEpoch(true)} />
                 <Button
@@ -548,29 +392,14 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
           </div>
         </div>
         {isMobile && <EpochsTableHeader onClick={() => setNewEpoch(true)} />}
-        <StaticTable
-          className={classes.epochsTable}
-          columns={epochColumns}
-          renderSingleColumn={renderEpochCard}
-          singleColumn={isMobile}
-          data={epochs}
-          perPage={6}
-          placeholder={
-            <>
-              <h2 className={classes.tablePlaceholderTitle}>
-                You don’t have any epochs scheduled
-              </h2>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                startIcon={<PlusCircleIcon />}
-                onClick={() => setNewEpoch(true)}
-              >
-                Create Epoch
-              </Button>
-            </>
-          }
+
+        <EpochsTable
+          circle={selectedCircle}
+          epochs={epochs}
+          downloadCSV={downloadCSV}
+          setEditEpoch={setEditEpoch}
+          setDeleteEpochDialog={setDeleteEpochDialog}
+          setNewEpoch={setNewEpoch}
         />
 
         {isMobile && <UsersTableHeader onClick={() => setNewUser(true)} />}
