@@ -18,9 +18,9 @@ import type { PreviousDistribution } from './queries';
 
 export type SubmitDistribution = {
   amount: string;
-  vault: Vault;
+  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
   previousDistribution?: PreviousDistribution;
-  users: Record<string, number>;
+  userIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
   circleId: number;
   epochId: number;
@@ -44,10 +44,10 @@ export function useSubmitDistribution() {
     amount,
     vault,
     circleId,
-    users,
     epochId,
     gifts,
     previousDistribution,
+    userIdsByAddress,
   }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
@@ -105,7 +105,7 @@ export function useSubmitDistribution() {
             ? calculateNewAmount(claim.amount, address, prev)
             : amount,
           proof: claim.proof.toString(),
-          user_id: users[address.toLowerCase()],
+          user_id: userIdsByAddress[address.toLowerCase()],
         };
       });
 

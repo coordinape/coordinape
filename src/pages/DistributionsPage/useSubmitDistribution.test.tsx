@@ -88,7 +88,7 @@ test('submit distribution', async () => {
         amount: '100',
         vault,
         circleId: 2,
-        users,
+        userIdsByAddress,
         epochId: 2,
         gifts,
       });
@@ -154,7 +154,7 @@ test('previous distribution', async () => {
         amount: '100',
         vault,
         circleId: 2,
-        users,
+        userIdsByAddress,
         epochId: 2,
         gifts,
         previousDistribution: {
@@ -184,7 +184,7 @@ test('previous distribution', async () => {
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
-const users = {
+const userIdsByAddress = {
   '0x0000000000000000000000000000000000000001': 15,
   '0x0000000000000000000000000000000000000002': 13,
   '0x0000000000000000000000000000000000000003': 14,
