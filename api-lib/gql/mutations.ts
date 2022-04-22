@@ -1,4 +1,8 @@
-import { order_by, ValueTypes } from './__generated__/zeus';
+import {
+  profiles_constraint,
+  order_by,
+  ValueTypes,
+} from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(
@@ -302,6 +306,23 @@ export async function insertUser(
   circleId: number
 ) {
   const { insert_users_one } = await adminClient.mutate({
+    insert_profiles_one: [
+      {
+        object: { address },
+        // This clause allows gql to catch the conflict and do nothing
+        // hasura calls this an "upsert"
+        on_conflict: {
+          constraint: profiles_constraint.profiles_address_key,
+          // Don't update the entry at all if a profile exists
+          // Don't want to touch the timestamp if we aren't actually
+          // modifying anything
+          update_columns: [],
+        },
+      },
+      {
+        address: true,
+      },
+    ],
     insert_users_one: [
       {
         object: {
