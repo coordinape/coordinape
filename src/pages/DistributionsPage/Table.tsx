@@ -80,7 +80,7 @@ export function makeTable<T>(displayName: string) {
           <thead>
             <tr>
               {headers.map((header: string, index: number) => (
-                <th key={index}>
+                <th key={index} className={`col${index}`}>
                   <Box
                     onClick={() => resort(index)}
                     css={{ cursor: 'pointer' }}
