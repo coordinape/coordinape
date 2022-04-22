@@ -5,7 +5,6 @@ import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDis
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
-import createProfile from '../../../api-lib/event_triggers/createProfile';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
@@ -24,7 +23,6 @@ type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const PROD_HANDLERS: HandlerDict = {
   createNomineeDiscord,
   createNomineeTelegram,
-  createProfile,
   createVouchedUser,
   optOutDiscord,
   optOutTelegram,
