@@ -525,6 +525,8 @@ type TableSorting = {
   sort?: <T>(a: T, b: T) => number;
 };
 
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 export const ContributorsTable = ({
   users,
   myUser: me,
@@ -649,13 +651,21 @@ export const ContributorsTable = ({
               <Table.HeaderCell
                 align="left"
                 clickable
-                onClick={() => updateOrder('name')}
+                onClick={() =>
+                  updateOrder('name', (a: string, b: string) => {
+                    return englishCollator.compare(a, b);
+                  })
+                }
               >
                 {renderLabel('Name', order, 'name')}
               </Table.HeaderCell>
               <Table.HeaderCell
                 clickable
-                onClick={() => updateOrder('address')}
+                onClick={() =>
+                  updateOrder('address', (a: string, b: string) => {
+                    return englishCollator.compare(a, b);
+                  })
+                }
               >
                 {renderLabel('ETH Wallet', order, 'address')}
               </Table.HeaderCell>
