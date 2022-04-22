@@ -14,19 +14,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const { hasuraProfileId } = HasuraUserSessionVariables.parse(
       req.body.session_variables
     );
-    await adminClient.mutate({
-      delete_personal_access_tokens: [
-        {
-          where: {
-            tokenable_id: { _eq: hasuraProfileId },
-            tokenable_type: { _eq: 'App\\Models\\Profile' },
+    await adminClient.mutate(
+      {
+        delete_personal_access_tokens: [
+          {
+            where: {
+              tokenable_id: { _eq: hasuraProfileId },
+              tokenable_type: { _eq: 'App\\Models\\Profile' },
+            },
           },
-        },
-        {
-          affected_rows: true,
-        },
-      ],
-    });
+          {
+            affected_rows: true,
+          },
+        ],
+      },
+      {
+        operationName: 'logoutUser-deleteToken',
+      }
+    );
     return res.status(200).json({ id: hasuraProfileId });
   } catch (err) {
     if (err instanceof z.ZodError) {

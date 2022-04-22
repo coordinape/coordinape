@@ -28,20 +28,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (new_address && new_address !== address) {
     const {
       users: [existingUserWithNewAddress],
-    } = await adminClient.query({
-      users: [
-        {
-          limit: 1,
-          where: {
-            address: { _ilike: new_address },
-            circle_id: { _eq: circle_id },
-            // ignore soft_deleted users
-            deleted_at: { _is_null: true },
+    } = await adminClient.query(
+      {
+        users: [
+          {
+            limit: 1,
+            where: {
+              address: { _ilike: new_address },
+              circle_id: { _eq: circle_id },
+              // ignore soft_deleted users
+              deleted_at: { _is_null: true },
+            },
           },
-        },
-        { id: true },
-      ],
-    });
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'adminUpdateUser-getExistingUser',
+      }
+    );
 
     if (existingUserWithNewAddress) {
       errorResponseWithStatusCode(res, { message: 'address exists' }, 422);
@@ -66,47 +71,52 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Update the state after all external validations have passed
 
-  const mutationResult = await adminClient.mutate({
-    update_users: [
-      {
-        _set: {
-          ...input,
-          // falls back to undefined and is therefore not updated in the DB
-          // if new_address is not included
-          address: input.new_address,
-          // set remaining tokens to starting tokens if starting tokens
-          // has been changed.
-          give_token_remaining: input.starting_tokens,
-          // fixed_non_receiver === true is also set for non_receiver
-          non_receiver: input.fixed_non_receiver || input.non_receiver,
+  const mutationResult = await adminClient.mutate(
+    {
+      update_users: [
+        {
+          _set: {
+            ...input,
+            // falls back to undefined and is therefore not updated in the DB
+            // if new_address is not included
+            address: input.new_address,
+            // set remaining tokens to starting tokens if starting tokens
+            // has been changed.
+            give_token_remaining: input.starting_tokens,
+            // fixed_non_receiver === true is also set for non_receiver
+            non_receiver: input.fixed_non_receiver || input.non_receiver,
+          },
+          where: {
+            circle_id: { _eq: circle_id },
+            address: { _ilike: address },
+          },
         },
-        where: {
-          circle_id: { _eq: circle_id },
-          address: { _ilike: address },
+        {
+          returning: {
+            id: true,
+          },
         },
-      },
-      {
-        returning: {
-          id: true,
+      ],
+      update_nominees: [
+        {
+          _set: { ended: true },
+          where: {
+            circle_id: { _eq: circle_id },
+            address: { _ilike: input.new_address },
+            ended: { _eq: false },
+          },
         },
-      },
-    ],
-    update_nominees: [
-      {
-        _set: { ended: true },
-        where: {
-          circle_id: { _eq: circle_id },
-          address: { _ilike: input.new_address },
-          ended: { _eq: false },
+        {
+          returning: {
+            id: true,
+          },
         },
-      },
-      {
-        returning: {
-          id: true,
-        },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'adminUpdateUser-update',
+    }
+  );
 
   const returnResult = mutationResult.update_users?.returning.pop();
   assert(returnResult, 'No return from mutation');

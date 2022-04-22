@@ -40,37 +40,42 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const insertInput = teammatesToKeep.map(t => {
     return { user_id: user.id, team_mate_id: t };
   });
-  await adminClient.mutate({
-    delete_teammates: [
-      {
-        where: {
-          user_id: {
-            _eq: user.id,
+  await adminClient.mutate(
+    {
+      delete_teammates: [
+        {
+          where: {
+            user_id: {
+              _eq: user.id,
+            },
+            team_mate_id: {
+              _nin: teammatesToKeep,
+            },
           },
-          team_mate_id: {
-            _nin: teammatesToKeep,
+        },
+        {
+          affected_rows: true,
+        },
+      ],
+      insert_teammates: [
+        {
+          objects: insertInput,
+          on_conflict: {
+            constraint: teammates_constraint.teammates_user_id_team_mate_id_key,
+            update_columns: [],
           },
         },
-      },
-      {
-        affected_rows: true,
-      },
-    ],
-    insert_teammates: [
-      {
-        objects: insertInput,
-        on_conflict: {
-          constraint: teammates_constraint.teammates_user_id_team_mate_id_key,
-          update_columns: [],
+        {
+          returning: {
+            user_id: true,
+          },
         },
-      },
-      {
-        returning: {
-          user_id: true,
-        },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateTeammates-deleteAndInsert',
+    }
+  );
 
   return res.status(200).json({ user_id: user.id });
 }

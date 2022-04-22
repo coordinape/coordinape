@@ -35,28 +35,33 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
   const {
-    epochs: [edittingEpoch],
-  } = await adminClient.query({
-    epochs: [
-      {
-        limit: 1,
-        where: {
-          circle_id: { _eq: circle_id },
-          id: { _eq: id },
-          ended: { _eq: false },
+    epochs: [editingEpoch],
+  } = await adminClient.query(
+    {
+      epochs: [
+        {
+          limit: 1,
+          where: {
+            circle_id: { _eq: circle_id },
+            id: { _eq: id },
+            ended: { _eq: false },
+          },
         },
-      },
-      {
-        id: true,
-        start_date: true,
-        end_date: true,
-        repeat: true,
-        repeat_day_of_month: true,
-      },
-    ],
-  });
+        {
+          id: true,
+          start_date: true,
+          end_date: true,
+          repeat: true,
+          repeat_day_of_month: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateEpoch-getEpoch',
+    }
+  );
 
-  if (!edittingEpoch) {
+  if (!editingEpoch) {
     errorResponseWithStatusCode(
       response,
       {
@@ -67,7 +72,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  if (now >= DateTime.fromISO(edittingEpoch.start_date) && start_date >= now) {
+  if (now >= DateTime.fromISO(editingEpoch.start_date) && start_date >= now) {
     errorResponseWithStatusCode(
       response,
       {
@@ -77,8 +82,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     );
     return;
   }
-  let repeat_day_of_month = edittingEpoch.repeat_day_of_month;
-  if (repeat > 0 && edittingEpoch.repeat === 0) {
+  let repeat_day_of_month = editingEpoch.repeat_day_of_month;
+  if (repeat > 0 && editingEpoch.repeat === 0) {
     const repeatingEpoch = await getRepeatingEpoch(circle_id);
     if (repeatingEpoch) {
       errorResponseWithStatusCode(
@@ -121,22 +126,27 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const { update_epochs_by_pk } = await adminClient.mutate({
-    update_epochs_by_pk: [
-      {
-        _set: {
-          ...edittingEpoch,
-          ...input,
-          repeat_day_of_month,
-          end_date,
+  const { update_epochs_by_pk } = await adminClient.mutate(
+    {
+      update_epochs_by_pk: [
+        {
+          _set: {
+            ...editingEpoch,
+            ...input,
+            repeat_day_of_month,
+            end_date,
+          },
+          pk_columns: { id },
         },
-        pk_columns: { id },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateEpoch-update',
+    }
+  );
 
   response.status(200).json(update_epochs_by_pk);
 }

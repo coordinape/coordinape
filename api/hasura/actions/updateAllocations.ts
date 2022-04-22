@@ -172,20 +172,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  await adminClient.mutate({
-    update_users_by_pk: [
-      {
-        pk_columns: { id: user.id },
-        _set: {
-          give_token_remaining: starting_tokens - overallTokensUsed,
+  await adminClient.mutate(
+    {
+      update_users_by_pk: [
+        {
+          pk_columns: { id: user.id },
+          _set: {
+            give_token_remaining: starting_tokens - overallTokensUsed,
+          },
         },
+        { __typename: true },
+      ],
+      __alias: {
+        ...allocationMutations,
       },
-      { __typename: true },
-    ],
-    __alias: {
-      ...allocationMutations,
     },
-  });
+    {
+      operationName: 'updateAllocations-updateUsers',
+    }
+  );
 
   return res.status(200).json({ user_id: user.id });
 }

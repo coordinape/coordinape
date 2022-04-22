@@ -18,42 +18,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const results = [];
   try {
-    const { users_by_pk } = await adminClient.query({
-      users_by_pk: [
-        {
-          id: user_id,
-        },
-        {
-          pending_sent_gifts: [
-            {
-              where: {
-                recipient_id: {
-                  _eq: team_mate_id,
-                },
-              },
-            },
-            {
-              id: true,
-              recipient_id: true,
-              tokens: true,
-            },
-          ],
-          circle: {
-            epochs: [
+    const { users_by_pk } = await adminClient.query(
+      {
+        users_by_pk: [
+          {
+            id: user_id,
+          },
+          {
+            pending_sent_gifts: [
               {
                 where: {
-                  end_date: { _gt: 'now()' },
-                  start_date: { _lt: 'now()' },
+                  recipient_id: {
+                    _eq: team_mate_id,
+                  },
                 },
               },
               {
                 id: true,
+                recipient_id: true,
+                tokens: true,
               },
             ],
+            circle: {
+              epochs: [
+                {
+                  where: {
+                    end_date: { _gt: 'now()' },
+                    start_date: { _lt: 'now()' },
+                  },
+                },
+                {
+                  id: true,
+                },
+              ],
+            },
           },
-        },
-      ],
-    });
+        ],
+      },
+      {
+        operationName: 'removeTeammates-findUser',
+      }
+    );
     assert(users_by_pk, 'panic: user must exist');
 
     const { pending_sent_gifts, circle } = users_by_pk;
@@ -87,31 +92,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
     );
 
-    const newNonGiverResult = await adminClient.mutate({
-      delete_pending_token_gifts: [
-        {
-          where: {
-            epoch_id: { _eq: currentEpoch.id },
-            sender_id: { _eq: user_id },
-            recipient_id: { _eq: team_mate_id },
-          },
-        },
-        // something needs to be returned in the mutation
-        { __typename: true, affected_rows: true },
-      ],
-      __alias: {
-        refundToUser: {
-          update_users_by_pk: [
-            {
-              pk_columns: { id: user_id },
-              _inc: { give_token_remaining: totalRefund },
+    const newNonGiverResult = await adminClient.mutate(
+      {
+        delete_pending_token_gifts: [
+          {
+            where: {
+              epoch_id: { _eq: currentEpoch.id },
+              sender_id: { _eq: user_id },
+              recipient_id: { _eq: team_mate_id },
             },
-            { give_token_remaining: true, id: true },
-          ],
+          },
+          // something needs to be returned in the mutation
+          { __typename: true, affected_rows: true },
+        ],
+        __alias: {
+          refundToUser: {
+            update_users_by_pk: [
+              {
+                pk_columns: { id: user_id },
+                _inc: { give_token_remaining: totalRefund },
+              },
+              { give_token_remaining: true, id: true },
+            ],
+          },
+          ...refundFromCounterpartyMutations,
         },
-        ...refundFromCounterpartyMutations,
       },
-    });
+      {
+        operationName: 'removeTeammates-deleteAndRefund',
+      }
+    );
     results.push(newNonGiverResult);
   } catch (e) {
     errorResponse(res, e);

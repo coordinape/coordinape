@@ -35,34 +35,39 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Update the state after all external validations have passed
 
-  const mutationResult = await adminClient.mutate({
-    update_users: [
-      {
-        _set: {
-          ...payload,
-          // reset give_token_received if a user is opted out of an
-          // active epoch
-          give_token_received:
-            user.fixed_non_receiver || payload.non_receiver
-              ? 0
-              : user.give_token_received,
-          // fixed_non_receiver === true is also set for non_receiver
-          non_receiver: user.fixed_non_receiver || payload.non_receiver,
+  const mutationResult = await adminClient.mutate(
+    {
+      update_users: [
+        {
+          _set: {
+            ...payload,
+            // reset give_token_received if a user is opted out of an
+            // active epoch
+            give_token_received:
+              user.fixed_non_receiver || payload.non_receiver
+                ? 0
+                : user.give_token_received,
+            // fixed_non_receiver === true is also set for non_receiver
+            non_receiver: user.fixed_non_receiver || payload.non_receiver,
+          },
+          where: {
+            address: { _ilike: address },
+            circle_id: { _eq: circle_id },
+            // ignore soft_deleted users
+            deleted_at: { _is_null: true },
+          },
         },
-        where: {
-          address: { _ilike: address },
-          circle_id: { _eq: circle_id },
-          // ignore soft_deleted users
-          deleted_at: { _is_null: true },
+        {
+          returning: {
+            id: true,
+          },
         },
-      },
-      {
-        returning: {
-          id: true,
-        },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateUser-update',
+    }
+  );
 
   const returnResult = mutationResult.update_users?.returning.pop();
   assert(returnResult, 'No return from mutation');

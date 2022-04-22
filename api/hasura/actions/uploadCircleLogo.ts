@@ -34,31 +34,41 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
 };
 
 async function getPreviousLogo(id: number): Promise<string | undefined> {
-  const { circles_by_pk } = await adminClient.query({
-    circles_by_pk: [
-      {
-        id: id,
-      },
-      { logo: true },
-    ],
-  });
+  const { circles_by_pk } = await adminClient.query(
+    {
+      circles_by_pk: [
+        {
+          id: id,
+        },
+        { logo: true },
+      ],
+    },
+    {
+      operationName: 'updateCircleLogo-getPreviousLogo',
+    }
+  );
 
   return circles_by_pk?.logo;
 }
 
 function logoUpdater(id: number) {
   return async (fileName: string) => {
-    const mutationResult = await adminClient.mutate({
-      update_circles_by_pk: [
-        {
-          _set: { logo: fileName },
-          pk_columns: { id: id },
-        },
-        {
-          id: true,
-        },
-      ],
-    });
+    const mutationResult = await adminClient.mutate(
+      {
+        update_circles_by_pk: [
+          {
+            _set: { logo: fileName },
+            pk_columns: { id: id },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      {
+        operationName: 'updateCircleLogo-update',
+      }
+    );
 
     if (!mutationResult.update_circles_by_pk) {
       throw 'circle mutation was not successful';

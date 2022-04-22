@@ -35,50 +35,55 @@ export interface IActiveNominee {
 }
 
 export const getActiveNominees = async (circleId: number) => {
-  const { nominees } = await client.query({
-    nominees: [
-      {
-        where: {
-          _and: [
+  const { nominees } = await client.query(
+    {
+      nominees: [
+        {
+          where: {
+            _and: [
+              {
+                circle_id: { _eq: circleId },
+                ended: { _eq: false },
+                expiry_date: { _gt: 'now' },
+              },
+            ],
+          },
+          order_by: [{ expiry_date: order_by.asc }],
+        },
+        {
+          id: true,
+          name: true,
+          address: true,
+          nominated_by_user_id: true,
+          nominations: [
+            {},
             {
-              circle_id: { _eq: circleId },
-              ended: { _eq: false },
-              expiry_date: { _gt: 'now' },
+              created_at: true,
+              voucher_id: true,
+              id: true,
+              voucher: {
+                name: true,
+                id: true,
+                address: true,
+              },
             },
           ],
-        },
-        order_by: [{ expiry_date: order_by.asc }],
-      },
-      {
-        id: true,
-        name: true,
-        address: true,
-        nominated_by_user_id: true,
-        nominations: [
-          {},
-          {
-            created_at: true,
-            voucher_id: true,
-            id: true,
-            voucher: {
-              name: true,
-              id: true,
-              address: true,
-            },
+          nominator: {
+            address: true,
+            name: true,
           },
-        ],
-        nominator: {
-          address: true,
-          name: true,
+          description: true,
+          nominated_date: true,
+          expiry_date: true,
+          vouches_required: true,
+          ended: true,
         },
-        description: true,
-        nominated_date: true,
-        expiry_date: true,
-        vouches_required: true,
-        ended: true,
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'getActiveNominees',
+    }
+  );
 
   const activeNominees = nominees.filter(
     nominee =>

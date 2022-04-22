@@ -21,18 +21,28 @@ export default async function handleRefundGiveMsg(
 
   const currentEpoch = await queries.getCurrentEpoch(data.old.circle_id);
   if (currentEpoch) {
-    const { users_by_pk: sender } = await adminClient.query({
-      users_by_pk: [
-        { id: data.old.sender_id },
-        { name: true, non_giver: true },
-      ],
-    });
-    const { users_by_pk: recipient } = await adminClient.query({
-      users_by_pk: [
-        { id: data.old.recipient_id },
-        { name: true, non_receiver: true },
-      ],
-    });
+    const { users_by_pk: sender } = await adminClient.query(
+      {
+        users_by_pk: [
+          { id: data.old.sender_id },
+          { name: true, non_giver: true },
+        ],
+      },
+      {
+        operationName: 'refund-getSenders',
+      }
+    );
+    const { users_by_pk: recipient } = await adminClient.query(
+      {
+        users_by_pk: [
+          { id: data.old.recipient_id },
+          { name: true, non_receiver: true },
+        ],
+      },
+      {
+        operationName: 'refund-getRecipients',
+      }
+    );
     assert(sender);
     assert(recipient);
     if (sender.non_giver || recipient.non_receiver) {

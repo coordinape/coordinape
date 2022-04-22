@@ -77,20 +77,25 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const { insert_epochs_one } = await adminClient.mutate({
-    insert_epochs_one: [
-      {
-        object: {
-          ...input,
-          end_date,
-          repeat_day_of_month,
+  const { insert_epochs_one } = await adminClient.mutate(
+    {
+      insert_epochs_one: [
+        {
+          object: {
+            ...input,
+            end_date,
+            repeat_day_of_month,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'createEpoch-insert',
+    }
+  );
 
   response.status(200).json(insert_epochs_one);
 }

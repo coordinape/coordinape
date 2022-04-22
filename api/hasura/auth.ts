@@ -21,30 +21,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .replace('Bearer ', '')
       .split('|');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    const tokenRow = await adminClient.query({
-      personal_access_tokens: [
-        {
-          where: {
-            tokenable_type: { _eq: 'App\\Models\\Profile' },
-            id: { _eq: parseInt(expectedId) },
-            token: { _eq: hashedToken },
+    const tokenRow = await adminClient.query(
+      {
+        personal_access_tokens: [
+          {
+            where: {
+              tokenable_type: { _eq: 'App\\Models\\Profile' },
+              id: { _eq: parseInt(expectedId) },
+              token: { _eq: hashedToken },
+            },
           },
-        },
-        {
-          tokenable_id: true,
-        },
-      ],
-    });
+          {
+            tokenable_id: true,
+          },
+        ],
+      },
+      {
+        operationName: 'auth-getToken',
+      }
+    );
     const tokenableId = tokenRow.personal_access_tokens[0]?.tokenable_id;
 
     assert(tokenableId, 'The token provided was not recognized');
 
-    const { profiles_by_pk: profile } = await adminClient.query({
-      profiles_by_pk: [
-        { id: tokenableId },
-        { admin_view: true, address: true },
-      ],
-    });
+    const { profiles_by_pk: profile } = await adminClient.query(
+      {
+        profiles_by_pk: [
+          { id: tokenableId },
+          { admin_view: true, address: true },
+        ],
+      },
+      {
+        operationName: 'auth-getProfile',
+      }
+    );
 
     assert(profile, 'Profile cannot be found');
 

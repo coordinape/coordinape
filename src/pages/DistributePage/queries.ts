@@ -15,29 +15,34 @@ export function useCurrentUserForEpoch(epochId: number | null | undefined) {
   return useQuery(
     ['user-for-epoch', epochId],
     async () => {
-      const { users } = await client.query({
-        users: [
-          {
-            where: {
-              circle: {
-                epochs: {
-                  id: { _eq: epochId },
+      const { users } = await client.query(
+        {
+          users: [
+            {
+              where: {
+                circle: {
+                  epochs: {
+                    id: { _eq: epochId },
+                  },
+                },
+                address: {
+                  _ilike: address,
                 },
               },
-              address: {
-                _ilike: address,
-              },
             },
-          },
-          {
-            id: true,
-            name: true,
-            address: true,
-            role: true,
-            circle_id: true,
-          },
-        ],
-      });
+            {
+              id: true,
+              name: true,
+              address: true,
+              role: true,
+              circle_id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'useCurrentUserForEpoch',
+        }
+      );
 
       return users[0];
     },
@@ -53,47 +58,52 @@ export function useGetAllocations(epochId: number | null | undefined) {
   return useQuery(
     ['circle-for-epoch', epochId],
     async () => {
-      const { epochs_by_pk } = await client.query({
-        epochs_by_pk: [
-          { id: Number(epochId) },
-          {
-            id: true,
-            ended: true,
-            circle_id: true,
-            number: true,
-            circle: {
+      const { epochs_by_pk } = await client.query(
+        {
+          epochs_by_pk: [
+            { id: Number(epochId) },
+            {
               id: true,
-              name: true,
-              users: [
-                { where: { received_gifts: { epoch_id: { _eq: epochId } } } },
-                {
-                  address: true,
-                  name: true,
-                  id: true,
-                  circle_id: true,
-                  received_gifts: [
-                    { where: { epoch_id: { _eq: epochId } } },
-                    { tokens: true },
-                  ],
-                  received_gifts_aggregate: [
-                    { where: { epoch_id: { _eq: epochId } } },
-                    {
-                      aggregate: {
-                        count: [
-                          {
-                            columns: [token_gifts_select_column.recipient_id],
-                          },
-                          true,
-                        ],
+              ended: true,
+              circle_id: true,
+              number: true,
+              circle: {
+                id: true,
+                name: true,
+                users: [
+                  { where: { received_gifts: { epoch_id: { _eq: epochId } } } },
+                  {
+                    address: true,
+                    name: true,
+                    id: true,
+                    circle_id: true,
+                    received_gifts: [
+                      { where: { epoch_id: { _eq: epochId } } },
+                      { tokens: true },
+                    ],
+                    received_gifts_aggregate: [
+                      { where: { epoch_id: { _eq: epochId } } },
+                      {
+                        aggregate: {
+                          count: [
+                            {
+                              columns: [token_gifts_select_column.recipient_id],
+                            },
+                            true,
+                          ],
+                        },
                       },
-                    },
-                  ],
-                },
-              ],
+                    ],
+                  },
+                ],
+              },
             },
-          },
-        ],
-      });
+          ],
+        },
+        {
+          operationName: 'useGetAllocations',
+        }
+      );
       return epochs_by_pk;
     },
     { enabled: !!epochId }
@@ -103,22 +113,27 @@ export function useGetAllocations(epochId: number | null | undefined) {
 export const getPreviousDistribution = async (
   circle_id: number | null | undefined
 ): Promise<typeof distributions | undefined> => {
-  const { distributions } = await client.query({
-    distributions: [
-      {
-        order_by: [{ id: order_by.desc }],
-        where: {
-          epoch: { circle_id: { _eq: circle_id } },
-          saved_on_chain: { _eq: true },
+  const { distributions } = await client.query(
+    {
+      distributions: [
+        {
+          order_by: [{ id: order_by.desc }],
+          where: {
+            epoch: { circle_id: { _eq: circle_id } },
+            saved_on_chain: { _eq: true },
+          },
         },
-      },
-      {
-        id: true,
-        vault_id: true,
-        distribution_json: [{}, true],
-      },
-    ],
-  });
+        {
+          id: true,
+          vault_id: true,
+          distribution_json: [{}, true],
+        },
+      ],
+    },
+    {
+      operationName: 'getPreviousDistribution',
+    }
+  );
   return distributions;
 };
 

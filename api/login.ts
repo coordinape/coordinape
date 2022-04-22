@@ -35,23 +35,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const { profiles } = await adminClient.query({
-      profiles: [
-        { where: { address: { _ilike: input.address } } },
-        { id: true },
-      ],
-    });
+    const { profiles } = await adminClient.query(
+      {
+        profiles: [
+          { where: { address: { _ilike: input.address } } },
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'login-getProfile',
+      }
+    );
 
     let profile = profiles.pop();
     const tokenString = generateTokenString();
 
     if (!profile) {
-      const { insert_profiles_one } = await adminClient.mutate({
-        insert_profiles_one: [
-          { object: { address: input.address } },
-          { id: true },
-        ],
-      });
+      const { insert_profiles_one } = await adminClient.mutate(
+        {
+          insert_profiles_one: [
+            { object: { address: input.address } },
+            { id: true },
+          ],
+        },
+        {
+          operationName: 'login-insertProfile',
+        }
+      );
       profile = insert_profiles_one;
     }
     assert(profile, 'panic: profile must exist');
@@ -59,27 +69,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const now = DateTime.now().toISO();
 
     const { insert_personal_access_tokens_one: token } =
-      await adminClient.mutate({
-        delete_personal_access_tokens: [
-          { where: { profile: { address: { _ilike: input.address } } } },
-          { affected_rows: true },
-        ],
-        insert_personal_access_tokens_one: [
-          {
-            object: {
-              name: 'circle-access-token',
-              abilities: '["read"]',
-              tokenable_type: 'App\\Models\\Profile',
-              tokenable_id: profile.id,
-              token: createHash('sha256').update(tokenString).digest('hex'),
-              updated_at: now,
-              created_at: now,
-              last_used_at: now,
+      await adminClient.mutate(
+        {
+          delete_personal_access_tokens: [
+            { where: { profile: { address: { _ilike: input.address } } } },
+            { affected_rows: true },
+          ],
+          insert_personal_access_tokens_one: [
+            {
+              object: {
+                name: 'circle-access-token',
+                abilities: '["read"]',
+                tokenable_type: 'App\\Models\\Profile',
+                tokenable_id: profile.id,
+                token: createHash('sha256').update(tokenString).digest('hex'),
+                updated_at: now,
+                created_at: now,
+                last_used_at: now,
+              },
             },
-          },
-          { id: true },
-        ],
-      });
+            { id: true },
+          ],
+        },
+        {
+          operationName: 'login-insertAccessToken',
+        }
+      );
 
     return res.status(200).json({ token: `${token?.id}|${tokenString}` });
   } catch (error: any) {

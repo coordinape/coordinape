@@ -20,9 +20,14 @@ async function run() {
   const events: string[] = [];
 
   for (const [name, mutation] of Object.entries(mutations)) {
-    const res = await adminClient.mutate({
-      [mutation]: [{ where: {} }, { affected_rows: true }],
-    });
+    const res = await adminClient.mutate(
+      {
+        [mutation]: [{ where: {} }, { affected_rows: true }],
+      },
+      {
+        operationName: 'db-clean',
+      }
+    );
 
     // @ts-ignore
     const count = res[mutation]?.affected_rows;

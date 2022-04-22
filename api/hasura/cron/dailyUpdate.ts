@@ -16,120 +16,125 @@ Settings.defaultZone = 'utc';
 async function handler(req: VercelRequest, res: VercelResponse) {
   const yesterday = DateTime.now().minus({ days: 1 }).toISO();
   try {
-    const updateResult = await adminClient.query({
-      epochs: [
-        {
-          where: {
-            end_date: { _gt: 'now()' },
-            start_date: { _lt: 'now()' },
-            ended: { _eq: false },
+    const updateResult = await adminClient.query(
+      {
+        epochs: [
+          {
+            where: {
+              end_date: { _gt: 'now()' },
+              start_date: { _lt: 'now()' },
+              ended: { _eq: false },
+            },
           },
-        },
-        {
-          number: true,
-          start_date: true,
-          end_date: true,
+          {
+            number: true,
+            start_date: true,
+            end_date: true,
 
-          circle: {
-            organization: {
+            circle: {
+              organization: {
+                id: true,
+                name: true,
+                telegram_id: true,
+              },
               id: true,
               name: true,
+              token_name: true,
+              discord_webhook: true,
               telegram_id: true,
+
+              __alias: {
+                optOuts: {
+                  users_aggregate: [
+                    {
+                      where: {
+                        non_receiver: { _eq: true },
+                        deleted_at: { _is_null: true },
+                      },
+                    },
+                    {
+                      aggregate: { count: [{}, true] },
+                    },
+                  ],
+                },
+                receiversTotal: {
+                  users_aggregate: [
+                    {
+                      where: {
+                        non_receiver: { _eq: false },
+                        role: { _lt: 2 },
+                        deleted_at: { _is_null: true },
+                      },
+                    },
+                    { aggregate: { count: [{}, true] } },
+                  ],
+                },
+                emptyBio: {
+                  users: [
+                    {
+                      where: {
+                        bio: { _is_null: true },
+                        non_receiver: { _eq: false },
+                        // for YEARN COMMUNITY circle only
+                        circle_id: { _eq: CIRCLES.YEARN.COMMUNITY },
+                        deleted_at: { _is_null: true },
+                      },
+                    },
+                    {
+                      name: true,
+                    },
+                  ],
+                },
+              },
             },
-            id: true,
-            name: true,
-            token_name: true,
-            discord_webhook: true,
-            telegram_id: true,
 
             __alias: {
-              optOuts: {
-                users_aggregate: [
+              allocationTotals: {
+                epoch_pending_token_gifts_aggregate: [
+                  {},
                   {
-                    where: {
-                      non_receiver: { _eq: true },
-                      deleted_at: { _is_null: true },
+                    aggregate: {
+                      sum: { __alias: { sumGive: { tokens: true } } },
+                      __alias: { totalAllocations: { count: [{}, true] } },
                     },
-                  },
-                  {
-                    aggregate: { count: [{}, true] },
                   },
                 ],
               },
-              receiversTotal: {
-                users_aggregate: [
+              sendersCount: {
+                epoch_pending_token_gifts_aggregate: [
                   {
-                    where: {
-                      non_receiver: { _eq: false },
-                      role: { _lt: 2 },
-                      deleted_at: { _is_null: true },
-                    },
+                    distinct_on: [
+                      pending_token_gifts_select_column.sender_address,
+                    ],
                   },
                   { aggregate: { count: [{}, true] } },
                 ],
               },
-              emptyBio: {
-                users: [
+              sendersToday: {
+                epoch_pending_token_gifts_aggregate: [
                   {
-                    where: {
-                      bio: { _is_null: true },
-                      non_receiver: { _eq: false },
-                      // for YEARN COMMUNITY circle only
-                      circle_id: { _eq: CIRCLES.YEARN.COMMUNITY },
-                      deleted_at: { _is_null: true },
-                    },
+                    where: { updated_at: { _gte: yesterday } },
+                    distinct_on: [
+                      pending_token_gifts_select_column.sender_address,
+                    ],
                   },
                   {
-                    name: true,
+                    nodes: {
+                      sender: {
+                        name: true,
+                      },
+                    },
                   },
                 ],
               },
             },
           },
-
-          __alias: {
-            allocationTotals: {
-              epoch_pending_token_gifts_aggregate: [
-                {},
-                {
-                  aggregate: {
-                    sum: { __alias: { sumGive: { tokens: true } } },
-                    __alias: { totalAllocations: { count: [{}, true] } },
-                  },
-                },
-              ],
-            },
-            sendersCount: {
-              epoch_pending_token_gifts_aggregate: [
-                {
-                  distinct_on: [
-                    pending_token_gifts_select_column.sender_address,
-                  ],
-                },
-                { aggregate: { count: [{}, true] } },
-              ],
-            },
-            sendersToday: {
-              epoch_pending_token_gifts_aggregate: [
-                {
-                  where: { updated_at: { _gte: yesterday } },
-                  distinct_on: [
-                    pending_token_gifts_select_column.sender_address,
-                  ],
-                },
-                {
-                  nodes: {
-                    sender: {
-                      name: true,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        },
-      ],
-    });
+        ],
+      },
+      {
+        operationName: 'cron-dailyUpdate',
+      }
+    );
 
     for (const epoch of updateResult.epochs) {
       const {

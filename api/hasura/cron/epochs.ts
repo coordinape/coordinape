@@ -31,144 +31,149 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 async function getEpochsToNotify() {
   const inTwentyFourHours = DateTime.now().plus({ hours: 24 }).toISO();
 
-  const result = await adminClient.query({
-    __alias: {
-      notifyStart: {
-        epochs: [
-          {
-            where: {
-              end_date: { _gt: 'now()' },
-              start_date: { _lt: 'now()' },
-              notified_start: { _is_null: true },
-            },
-          },
-          {
-            id: true,
-            circle_id: true,
-            number: true,
-            start_date: true,
-            end_date: true,
-            circle: {
-              id: true,
-              name: true,
-              telegram_id: true,
-              discord_webhook: true,
-              organization: { name: true },
-              users_aggregate: [
-                {
-                  where: {
-                    non_giver: { _eq: false },
-                    deleted_at: { _is_null: true },
-                  },
-                },
-                {
-                  aggregate: { count: [{}, true] },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      notifyEnd: {
-        epochs: [
-          {
-            where: {
-              _and: [
-                { end_date: { _gt: 'now()' } },
-                { end_date: { _lte: inTwentyFourHours } },
-              ],
-              start_date: { _lt: 'now()' },
-              notified_before_end: { _is_null: true },
-            },
-          },
-          {
-            id: true,
-            circle_id: true,
-            number: true,
-            end_date: true,
-            circle: {
-              id: true,
-              name: true,
-              telegram_id: true,
-              discord_webhook: true,
-              organization: { name: true },
-              users: [
-                {
-                  where: {
-                    non_giver: { _eq: false },
-                    deleted_at: { _is_null: true },
-                    give_token_remaining: { _gt: 0 },
-                  },
-                },
-                {
-                  name: true,
-                },
-              ],
-            },
-          },
-        ],
-      },
-      endEpoch: {
-        epochs: [
-          {
-            where: {
-              end_date: { _lt: 'now()' },
-              ended: { _eq: false },
-            },
-          },
-          {
-            id: true,
-            circle_id: true,
-            repeat: true,
-            number: true,
-            days: true,
-            repeat_day_of_month: true,
-            start_date: true,
-            end_date: true,
-            circle: {
-              id: true,
-              name: true,
-              token_name: true,
-              auto_opt_out: true,
-              telegram_id: true,
-              discord_webhook: true,
-              organization: { name: true, telegram_id: true },
-              users: [
-                {
-                  where: {
-                    deleted_at: { _is_null: true },
-                  },
-                },
-                {
-                  id: true,
-                  name: true,
-                  non_giver: true,
-                  non_receiver: true,
-                  circle_id: true,
-                  bio: true,
-                  starting_tokens: true,
-                  give_token_remaining: true,
-                },
-              ],
-            },
-            epoch_pending_token_gifts: [
-              {},
-              {
-                circle_id: true,
-                epoch_id: true,
-                note: true,
-                sender_id: true,
-                tokens: true,
-                sender_address: true,
-                recipient_id: true,
-                recipient_address: true,
+  const result = await adminClient.query(
+    {
+      __alias: {
+        notifyStart: {
+          epochs: [
+            {
+              where: {
+                end_date: { _gt: 'now()' },
+                start_date: { _lt: 'now()' },
+                notified_start: { _is_null: true },
               },
-            ],
-          },
-        ],
+            },
+            {
+              id: true,
+              circle_id: true,
+              number: true,
+              start_date: true,
+              end_date: true,
+              circle: {
+                id: true,
+                name: true,
+                telegram_id: true,
+                discord_webhook: true,
+                organization: { name: true },
+                users_aggregate: [
+                  {
+                    where: {
+                      non_giver: { _eq: false },
+                      deleted_at: { _is_null: true },
+                    },
+                  },
+                  {
+                    aggregate: { count: [{}, true] },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        notifyEnd: {
+          epochs: [
+            {
+              where: {
+                _and: [
+                  { end_date: { _gt: 'now()' } },
+                  { end_date: { _lte: inTwentyFourHours } },
+                ],
+                start_date: { _lt: 'now()' },
+                notified_before_end: { _is_null: true },
+              },
+            },
+            {
+              id: true,
+              circle_id: true,
+              number: true,
+              end_date: true,
+              circle: {
+                id: true,
+                name: true,
+                telegram_id: true,
+                discord_webhook: true,
+                organization: { name: true },
+                users: [
+                  {
+                    where: {
+                      non_giver: { _eq: false },
+                      deleted_at: { _is_null: true },
+                      give_token_remaining: { _gt: 0 },
+                    },
+                  },
+                  {
+                    name: true,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        endEpoch: {
+          epochs: [
+            {
+              where: {
+                end_date: { _lt: 'now()' },
+                ended: { _eq: false },
+              },
+            },
+            {
+              id: true,
+              circle_id: true,
+              repeat: true,
+              number: true,
+              days: true,
+              repeat_day_of_month: true,
+              start_date: true,
+              end_date: true,
+              circle: {
+                id: true,
+                name: true,
+                token_name: true,
+                auto_opt_out: true,
+                telegram_id: true,
+                discord_webhook: true,
+                organization: { name: true, telegram_id: true },
+                users: [
+                  {
+                    where: {
+                      deleted_at: { _is_null: true },
+                    },
+                  },
+                  {
+                    id: true,
+                    name: true,
+                    non_giver: true,
+                    non_receiver: true,
+                    circle_id: true,
+                    bio: true,
+                    starting_tokens: true,
+                    give_token_remaining: true,
+                  },
+                ],
+              },
+              epoch_pending_token_gifts: [
+                {},
+                {
+                  circle_id: true,
+                  epoch_id: true,
+                  note: true,
+                  sender_id: true,
+                  tokens: true,
+                  sender_address: true,
+                  recipient_id: true,
+                  recipient_address: true,
+                },
+              ],
+            },
+          ],
+        },
       },
     },
-  });
+    {
+      operationName: 'cron-epochsToNotify',
+    }
+  );
   return result;
 }
 
@@ -279,16 +284,21 @@ export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
     // copy pending_gift_tokens to token_gifts
     // delete pending_gift_tokens
     if (pending_gifts.length) {
-      await adminClient.mutate({
-        insert_token_gifts: [
-          { objects: pending_gifts },
-          { __typename: true, affected_rows: true },
-        ],
-        delete_pending_token_gifts: [
-          { where: { epoch_id: { _eq: epoch.id } } },
-          { affected_rows: true },
-        ],
-      });
+      await adminClient.mutate(
+        {
+          insert_token_gifts: [
+            { objects: pending_gifts },
+            { __typename: true, affected_rows: true },
+          ],
+          delete_pending_token_gifts: [
+            { where: { epoch_id: { _eq: epoch.id } } },
+            { affected_rows: true },
+          ],
+        },
+        {
+          operationName: 'endEpoch-insertAndDeleteGifts',
+        }
+      );
     }
 
     const usersWithStartingGive = [] as Array<string>;
@@ -338,20 +348,25 @@ export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
       return ops;
     }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
-    await adminClient.mutate({
-      update_epochs_by_pk: [
-        {
-          pk_columns: { id: epoch.id },
-          _set: {
-            ended: true,
+    await adminClient.mutate(
+      {
+        update_epochs_by_pk: [
+          {
+            pk_columns: { id: epoch.id },
+            _set: {
+              ended: true,
+            },
           },
+          { __typename: true },
+        ],
+        __alias: {
+          ...userUpdateMutations,
         },
-        { __typename: true },
-      ],
-      __alias: {
-        ...userUpdateMutations,
       },
-    });
+      {
+        operationName: 'endEpoch-update',
+      }
+    );
 
     // set epoch number if not existent yet
     if (epoch.number == null) await setNextEpochNumber(epoch);
@@ -457,21 +472,26 @@ async function createNextEpoch(epoch: {
     return;
   }
 
-  await adminClient.mutate({
-    insert_epochs_one: [
-      {
-        object: {
-          circle_id: epoch.circle_id,
-          repeat: repeat,
-          repeat_day_of_month: repeat_day_of_month,
-          days: Math.floor(days.days),
-          start_date: nextStartDate.toISO(),
-          end_date: nextEndDate.toISO(),
+  await adminClient.mutate(
+    {
+      insert_epochs_one: [
+        {
+          object: {
+            circle_id: epoch.circle_id,
+            repeat: repeat,
+            repeat_day_of_month: repeat_day_of_month,
+            days: Math.floor(days.days),
+            start_date: nextStartDate.toISO(),
+            end_date: nextEndDate.toISO(),
+          },
         },
-      },
-      { __typename: true },
-    ],
-  });
+        { __typename: true },
+      ],
+    },
+    {
+      operationName: 'creatNextEpoch',
+    }
+  );
 
   const message = dedent`
       A new repeating epoch has been created: ${nextStartDate.toLocaleString(
@@ -510,17 +530,22 @@ async function notifyAndUpdateEpoch(
 
 async function updateEpochStartNotification(epochId: number) {
   try {
-    await adminClient.mutate({
-      update_epochs_by_pk: [
-        {
-          pk_columns: { id: epochId },
-          _set: {
-            notified_start: DateTime.now().toISO(),
+    await adminClient.mutate(
+      {
+        update_epochs_by_pk: [
+          {
+            pk_columns: { id: epochId },
+            _set: {
+              notified_start: DateTime.now().toISO(),
+            },
           },
-        },
-        { id: true },
-      ],
-    });
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'updateEpochStartNotification',
+      }
+    );
   } catch (e: unknown) {
     if (e instanceof Error)
       throw new Error(
@@ -531,17 +556,22 @@ async function updateEpochStartNotification(epochId: number) {
 
 async function updateEpochEndSoonNotification(epochId: number) {
   try {
-    await adminClient.mutate({
-      update_epochs_by_pk: [
-        {
-          pk_columns: { id: epochId },
-          _set: {
-            notified_before_end: DateTime.now().toISO(),
+    await adminClient.mutate(
+      {
+        update_epochs_by_pk: [
+          {
+            pk_columns: { id: epochId },
+            _set: {
+              notified_before_end: DateTime.now().toISO(),
+            },
           },
-        },
-        { id: true },
-      ],
-    });
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'updateEpochEndSoonNotification',
+      }
+    );
   } catch (e: unknown) {
     if (e instanceof Error)
       throw new Error(
@@ -552,17 +582,22 @@ async function updateEpochEndSoonNotification(epochId: number) {
 
 async function updateEndEpochNotification(epochId: number) {
   try {
-    await adminClient.mutate({
-      update_epochs_by_pk: [
-        {
-          pk_columns: { id: epochId },
-          _set: {
-            notified_end: DateTime.now().toISO(),
+    await adminClient.mutate(
+      {
+        update_epochs_by_pk: [
+          {
+            pk_columns: { id: epochId },
+            _set: {
+              notified_end: DateTime.now().toISO(),
+            },
           },
-        },
-        { id: true },
-      ],
-    });
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'updateEndEpochNotification',
+      }
+    );
   } catch (e: unknown) {
     if (e instanceof Error)
       throw new Error(
@@ -605,17 +640,22 @@ async function setNextEpochNumber({
 }) {
   let lastEpochResult;
   try {
-    lastEpochResult = await adminClient.query({
-      epochs_aggregate: [
-        {
-          where: {
-            circle_id: { _eq: circle_id },
-            ended: { _eq: true },
+    lastEpochResult = await adminClient.query(
+      {
+        epochs_aggregate: [
+          {
+            where: {
+              circle_id: { _eq: circle_id },
+              ended: { _eq: true },
+            },
           },
-        },
-        { aggregate: { max: { number: true } } },
-      ],
-    });
+          { aggregate: { max: { number: true } } },
+        ],
+      },
+      {
+        operationName: 'cron-setNextEpochNumber-getLastEpoch',
+      }
+    );
   } catch (e: unknown) {
     if (e instanceof Error)
       throw `Error getting next number for epoch id ${epochId}: ${e.message}`;
@@ -623,15 +663,20 @@ async function setNextEpochNumber({
   const currentEpochNumber =
     (lastEpochResult?.epochs_aggregate.aggregate?.max?.number ?? 0) + 1;
   try {
-    await adminClient.mutate({
-      update_epochs_by_pk: [
-        {
-          pk_columns: { id: epochId },
-          _set: { number: currentEpochNumber },
-        },
-        { number: true },
-      ],
-    });
+    await adminClient.mutate(
+      {
+        update_epochs_by_pk: [
+          {
+            pk_columns: { id: epochId },
+            _set: { number: currentEpochNumber },
+          },
+          { number: true },
+        ],
+      },
+      {
+        operationName: 'cron-setNextEpochNumber-update',
+      }
+    );
   } catch (e: unknown) {
     if (e instanceof Error)
       throw `Error setting next number for epoch id ${epochId}: ${e.message}`;

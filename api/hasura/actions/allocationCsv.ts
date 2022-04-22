@@ -27,40 +27,45 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       422
     );
   }
-  const { users } = await adminClient.query({
-    users: [
-      {
-        where: {
-          circle_id: { _eq: circle_id },
-          _or: [
+  const { users } = await adminClient.query(
+    {
+      users: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            _or: [
+              {
+                deleted_at: { _is_null: true },
+              },
+              {
+                deleted_at: { _gt: epochObj.end_date },
+              },
+            ],
+          },
+        },
+        {
+          id: true,
+          name: true,
+          address: true,
+          received_gifts: [
+            { where: { epoch_id: { _eq: epochObj.id } } },
             {
-              deleted_at: { _is_null: true },
+              tokens: true,
             },
+          ],
+          sent_gifts: [
+            { where: { epoch_id: { _eq: epochObj.id } } },
             {
-              deleted_at: { _gt: epochObj.end_date },
+              tokens: true,
             },
           ],
         },
-      },
-      {
-        id: true,
-        name: true,
-        address: true,
-        received_gifts: [
-          { where: { epoch_id: { _eq: epochObj.id } } },
-          {
-            tokens: true,
-          },
-        ],
-        sent_gifts: [
-          { where: { epoch_id: { _eq: epochObj.id } } },
-          {
-            tokens: true,
-          },
-        ],
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'allocationCsv-getGifts',
+    }
+  );
   const grant = payload.grant ?? epochObj.grant;
   const totalTokensSent = epochObj.token_gifts.length
     ? epochObj.token_gifts

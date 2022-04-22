@@ -69,42 +69,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
       );
 
-      const newNonGiverResult = await adminClient.mutate({
-        delete_pending_token_gifts: [
-          {
-            where: {
-              epoch_id: { _eq: currentEpoch.id },
-              sender_id: { _eq: user.id },
-              note: { _eq: '' },
-            },
-          },
-          // something needs to be returned in the mutation
-          { __typename: true, affected_rows: true },
-        ],
-        update_pending_token_gifts: [
-          {
-            _set: { tokens: 0 },
-            where: {
-              epoch_id: { _eq: currentEpoch.id },
-              sender_id: { _eq: user.id },
-              _not: { note: { _eq: '' } },
-            },
-          },
-          { __typename: true, affected_rows: true },
-        ],
-        __alias: {
-          refundToUser: {
-            update_users_by_pk: [
-              {
-                pk_columns: { id: userId },
-                _inc: { give_token_remaining: totalRefund },
+      const newNonGiverResult = await adminClient.mutate(
+        {
+          delete_pending_token_gifts: [
+            {
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                sender_id: { _eq: user.id },
+                note: { _eq: '' },
               },
-              { give_token_remaining: true, id: true },
-            ],
+            },
+            // something needs to be returned in the mutation
+            { __typename: true, affected_rows: true },
+          ],
+          update_pending_token_gifts: [
+            {
+              _set: { tokens: 0 },
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                sender_id: { _eq: user.id },
+                _not: { note: { _eq: '' } },
+              },
+            },
+            { __typename: true, affected_rows: true },
+          ],
+          __alias: {
+            refundToUser: {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: userId },
+                  _inc: { give_token_remaining: totalRefund },
+                },
+                { give_token_remaining: true, id: true },
+              ],
+            },
+            ...refundFromCounterpartyMutations,
           },
-          ...refundFromCounterpartyMutations,
         },
-      });
+        {
+          operationName: 'refundPendingGifts-newNonGiver',
+        }
+      );
       results.push(newNonGiverResult);
     }
 
@@ -130,42 +135,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
       );
 
-      const newNonReceiverResult = await adminClient.mutate({
-        delete_pending_token_gifts: [
-          {
-            where: {
-              epoch_id: { _eq: currentEpoch.id },
-              recipient_id: { _eq: user.id },
-              note: { _eq: '' },
-            },
-          },
-          // something needs to be returned in the mutation
-          { __typename: true, affected_rows: true },
-        ],
-        update_pending_token_gifts: [
-          {
-            _set: { tokens: 0 },
-            where: {
-              epoch_id: { _eq: currentEpoch.id },
-              recipient_id: { _eq: user.id },
-              _not: { note: { _eq: '' } },
-            },
-          },
-          { __typename: true, affected_rows: true },
-        ],
-        __alias: {
-          refundFromUser: {
-            update_users_by_pk: [
-              {
-                pk_columns: { id: userId },
-                _inc: { give_token_received: -totalRefund },
+      const newNonReceiverResult = await adminClient.mutate(
+        {
+          delete_pending_token_gifts: [
+            {
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                recipient_id: { _eq: user.id },
+                note: { _eq: '' },
               },
-              { give_token_received: true, id: true },
-            ],
+            },
+            // something needs to be returned in the mutation
+            { __typename: true, affected_rows: true },
+          ],
+          update_pending_token_gifts: [
+            {
+              _set: { tokens: 0 },
+              where: {
+                epoch_id: { _eq: currentEpoch.id },
+                recipient_id: { _eq: user.id },
+                _not: { note: { _eq: '' } },
+              },
+            },
+            { __typename: true, affected_rows: true },
+          ],
+          __alias: {
+            refundFromUser: {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: userId },
+                  _inc: { give_token_received: -totalRefund },
+                },
+                { give_token_received: true, id: true },
+              ],
+            },
+            ...refundToCounterpartyMutations,
           },
-          ...refundToCounterpartyMutations,
         },
-      });
+        {
+          operationName: 'refundPendingGifts-newNonReceiver',
+        }
+      );
       results.push(newNonReceiverResult);
     }
   } catch (e) {
