@@ -5,8 +5,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
 import { NoticeBox } from 'components';
-import { USER_ROLE_ADMIN } from 'config/constants';
+import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
+import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon } from 'icons';
 import { paths } from 'routes/paths';
@@ -20,6 +21,7 @@ import {
   Tooltip,
   Text,
   Paginator,
+  ExternalLink,
 } from 'ui';
 import * as Table from 'ui/Table/Table';
 import { shortenAddress } from 'utils';
@@ -216,8 +218,6 @@ export const renderEpochCard = (e: IEpoch) => {
   );
 };
 
-// export const userAvatar = (user: IUser) 
-
 export const renderUserCard = (user: IUser) => {
   return (
     <Flex
@@ -261,6 +261,62 @@ export const TableLink = styled(RouterLink, {
   },
   textDecoration: 'none',
 });
+
+const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
+  <Flex css={{ justifyContent: 'center' }}>
+    {onEdit ? (
+      <Button size="small" onClick={onEdit} color="blue">
+        Edit
+      </Button>
+    ) : (
+      <Box css={{ width: 30 }} />
+    )}
+
+    {onDelete && (
+      <>
+        <Text color="lightBlue">|</Text>
+        <Button size="small" onClick={onDelete} color="blue">
+          Delete
+        </Button>
+      </>
+    )}
+  </Flex>
+);
+
+const EmptyTable = ({
+  content,
+  onClick,
+}: {
+  content: string;
+  onClick: () => void;
+}) => {
+  return (
+    <Flex
+      css={{
+        height: 238,
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text
+        css={{
+          fontSize: '$7',
+          my: '$lg',
+          fontWeight: '$bold',
+          opacity: 0.7,
+        }}
+      >
+        {content}
+      </Text>
+      <Button color="red" onClick={() => onClick()}>
+        <PlusCircleIcon />
+        Add Contributor
+      </Button>
+    </Flex>
+  );
+};
 
 export const EpochsTable = ({
   circle,
@@ -360,27 +416,6 @@ export const EpochsTable = ({
     </TwoLineCell>
   );
 
-  const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
-    <Flex css={{ justifyContent: 'center' }}>
-      {onEdit ? (
-        <Button size="small" onClick={onEdit} color="blue">
-          Edit
-        </Button>
-      ) : (
-        <Box css={{ width: 30 }} />
-      )}
-
-      {onDelete && (
-        <>
-          <Text color="lightBlue">|</Text>
-          <Button size="small" onClick={onDelete} color="blue">
-            Delete
-          </Button>
-        </>
-      )}
-    </Flex>
-  );
-
   const RenderEpochDates = (e: IEpoch) => (
     <TwoLineCell>
       <CellTitle>
@@ -418,34 +453,6 @@ export const EpochsTable = ({
     }
   };
 
-  const renderEmptyEpochsTable = () => {
-    return (
-      <Flex
-        css={{
-          height: 238,
-          width: '100%',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Text
-          css={{
-            fontSize: '$7',
-            my: '$lg',
-            fontWeight: '$bold',
-            opacity: 0.7,
-          }}
-        >
-          You don’t have any epochs scheduled
-        </Text>
-        <Button color="red" onClick={() => setNewEpoch(true)}>
-          <PlusCircleIcon />
-          Create Epoch
-        </Button>
-      </Flex>
-    );
-  };
   return (
     <Table.Table>
       <Table.Root>
@@ -491,7 +498,10 @@ export const EpochsTable = ({
           ) : (
             <Table.Row>
               <Table.Cell key={`empty-epochs-table-view`} colSpan={4}>
-                {renderEmptyEpochsTable()}
+                <EmptyTable
+                  content="You don’t have any epochs scheduled"
+                  onClick={() => setNewEpoch(true)}
+                />
               </Table.Cell>
             </Table.Row>
           )}
@@ -501,6 +511,279 @@ export const EpochsTable = ({
         totalItems={epochs.length}
         currentPage={page}
         onPageChange={setPage}
+        itemsPerPage={perPage}
+      />
+    </Table.Table>
+  );
+};
+
+const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
+
+type TableSorting = {
+  field: keyof IUser;
+  ascending: 1 | -1;
+  sort?: <T>(a: T, b: T) => number;
+};
+
+export const ContributorsTable = ({
+  users,
+  myUser: me,
+  setNewUser,
+  setEditUser,
+  setDeleteUserDialog,
+  filter,
+  perPage = 6,
+}: {
+  users: IUser[];
+  myUser: IUser;
+  setNewUser: (newUser: boolean) => void;
+  setEditUser: (u: IUser) => void;
+  setDeleteUserDialog: (u: IUser) => void;
+  filter: (u: IUser) => boolean;
+  perPage?: number;
+}) => {
+  const { isMobile } = useMobileDetect();
+  const [page, setPage] = useState<number>(1);
+  const [view, setView] = useState<IUser[]>([]);
+  const [order, setOrder] = useState<TableSorting>({
+    field: 'name',
+    ascending: 1,
+  });
+
+  const updateOrder = (
+    field: keyof IUser,
+    sort?: (a: any, b: any) => number
+  ) => {
+    setOrder({
+      field: field,
+      sort: sort,
+      ascending: order.field === field ? (order.ascending === 1 ? -1 : 1) : 1,
+    });
+  };
+
+  const { getToProfile } = useNavigation();
+
+  useEffect(() => {
+    const sortItem = order.sort ?? defaultSort;
+    const sorter = (a: IUser, b: IUser) => {
+      return order.ascending * sortItem(a[order.field], b[order.field]);
+    };
+
+    const filtered = filter ? users.filter(filter) : users;
+    setView(filtered.sort(sorter));
+  }, [users, perPage, filter, order]);
+
+  const pagedView = useMemo(
+    () =>
+      view.slice((page - 1) * perPage, Math.min(page * perPage, view.length)),
+    [view, perPage, page]
+  );
+
+  const UserName = ({ user }: { user: IUser }) => {
+    return (
+      <Box
+        css={{
+          height: 48,
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: 14,
+          lineHeight: 1.5,
+          fontWeight: 600,
+        }}
+      >
+        <Avatar
+          path={user?.profile?.avatar}
+          name={user?.name}
+          onClick={getToProfile(user.address)}
+        />
+        <span>{user.name}</span>
+        <span>
+          {user.role === USER_ROLE_COORDINAPE ? (
+            <Box css={{ marginTop: '6px' }}>
+              <Tooltip
+                title="Why is Coordinape in your circle?"
+                content={
+                  <p>
+                    We&apos;re experimenting with the gift circle mechanism as
+                    our revenue model. By default, Coordinape appears in your
+                    circle and any user can allocate to Coordinape. To remove
+                    the Coordinape user, click the trash can icon on the right
+                    side of this row.
+                  </p>
+                }
+              >
+                <b>Why is Coordinape in your circle?</b>
+              </Tooltip>
+            </Box>
+          ) : (
+            ''
+          )}
+        </span>
+      </Box>
+    );
+  };
+
+  const renderTooltip = (content: React.ReactNode) => {
+    return (
+      <Tooltip title="" content={content}>
+        <InfoCircledIcon />
+      </Tooltip>
+    );
+  };
+
+  const renderLabel = (
+    label: string,
+    order: TableSorting,
+    fieldName: keyof IUser
+  ): string =>
+    `${label} ${
+      order.field === fieldName ? (order.ascending > 0 ? ' ↑' : ' ↓') : ''
+    } `;
+
+  return (
+    <Table.Table>
+      <Table.Root>
+        {!isMobile && (
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell
+                align="left"
+                clickable
+                onClick={() => updateOrder('name')}
+              >
+                {renderLabel('Name', order, 'name')}
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('address')}
+              >
+                {renderLabel('ETH Wallet', order, 'address')}
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('non_giver')}
+              >
+                {renderLabel('GIVER', order, 'non_giver')}
+                {renderTooltip(<>Circle Member allocating GIVE</>)}
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('fixed_non_receiver')}
+              >
+                {renderLabel('GIVE Recipient', order, 'fixed_non_receiver')}
+                {renderTooltip(<>Circle Member receiving GIVE</>)}
+              </Table.HeaderCell>
+              <Table.HeaderCell clickable onClick={() => updateOrder('role')}>
+                {renderLabel('Admin', order, 'role')}
+                {renderTooltip(
+                  <>
+                    As a Circle Admin, you will be able to edit Circle Settings,
+                    Edit Epoch settings, edit your users, and create new
+                    circles.{' '}
+                    <ExternalLink href="https://docs.coordinape.com/welcome/admin_info">
+                      Learn More
+                    </ExternalLink>
+                  </>
+                )}
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('give_token_remaining')}
+              >
+                {renderLabel('GIVE sent', order, 'fixed_non_receiver')}
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('give_token_received')}
+              >
+                {renderLabel('GIVE received', order, 'give_token_received')}
+              </Table.HeaderCell>
+              <Table.HeaderCell>Actions</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+        )}
+        <Table.Body>
+          {users.length ? (
+            isMobile ? (
+              pagedView.map(u => {
+                return <Table.Row key={u.id}>{renderUserCard(u)}</Table.Row>;
+              })
+            ) : (
+              pagedView.map(u => {
+                return (
+                  <Table.Row key={u.id}>
+                    <Table.Cell
+                      key={`user-name-${u.id}`}
+                      area="wide"
+                      align="left"
+                    >
+                      <UserName user={u} />
+                    </Table.Cell>
+
+                    <Table.Cell key={`address-${u.id}`}>
+                      {shortenAddress(u.address)}
+                    </Table.Cell>
+
+                    <Table.Cell key={`giver-${u.id}`}>
+                      {!u.non_giver ? '✅' : '❌'}
+                    </Table.Cell>
+
+                    <Table.Cell key={`recipient-${u.id}`}>
+                      {u.fixed_non_receiver
+                        ? 'Forced Opt Out'
+                        : u.non_receiver
+                        ? '✅'
+                        : '❌'}
+                    </Table.Cell>
+
+                    <Table.Cell key={`admin-${u.id}`}>
+                      {u.role === USER_ROLE_ADMIN ? '✅' : '❌'}
+                    </Table.Cell>
+                    <Table.Cell key={`give-sent-${u.id}`}>
+                      {!u.non_giver ||
+                      u.starting_tokens - u.give_token_remaining != 0
+                        ? `${u.starting_tokens - u.give_token_remaining}/${
+                            u.starting_tokens
+                          }`
+                        : '-'}
+                    </Table.Cell>
+                    <Table.Cell key={`give-received-${u.id}`}>
+                      {u.give_token_received === 0 &&
+                      (!!u.fixed_non_receiver || !!u.non_receiver)
+                        ? '-'
+                        : u.give_token_received}
+                    </Table.Cell>
+                    <Table.Cell key={`actions-${u.id}`}>
+                      {renderActions(
+                        u.role !== USER_ROLE_COORDINAPE
+                          ? () => setEditUser(u)
+                          : undefined,
+                        u.id !== me?.id
+                          ? () => setDeleteUserDialog(u)
+                          : undefined
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
+            )
+          ) : (
+            <Table.Row>
+              <Table.Cell key={`empty-users-table-view`} colSpan={4}>
+                <EmptyTable
+                  content="You haven’t added any contributors"
+                  onClick={() => setNewUser(true)}
+                />
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table.Root>
+      <Paginator
+        totalItems={users.length}
+        currentPage={page}
+        onPageChange={setPage}
+        itemsPerPage={perPage}
       />
     </Table.Table>
   );
