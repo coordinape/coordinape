@@ -22,6 +22,8 @@ export const HeaderCell = styled('th', {
   fontWeight: 300,
   color: '$text',
   height: 48,
+  cursor: 'pointer',
+  userSelect: 'none',
   background: '$subtleGray',
   '&:first-child': {
     paddingLeft: '$md',
@@ -41,6 +43,13 @@ export const HeaderCell = styled('th', {
       },
       wide: {
         width: '20%',
+      },
+    },
+    clickable: {
+      true: {
+        '&:hover': {
+          background: '$surfaceGray',
+        },
       },
     },
   },
