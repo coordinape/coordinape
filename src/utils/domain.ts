@@ -1,4 +1,4 @@
-import { STORAGE_URL, API_URL } from 'config/env';
+import { STORAGE_URL } from 'config/env';
 
 import { getIpfsUrl } from './selfIdHelpers';
 
@@ -25,9 +25,6 @@ export const APP_URL =
         `app.${window.location.host}`
       );
 
-export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
-export const getCSVPath = (circleId: number, epochId: number) =>
-  `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const APP_PATH_CREATE_CIRCLE = `/new-circle`;

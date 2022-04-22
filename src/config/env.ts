@@ -19,10 +19,7 @@ export const STORAGE_URL = getEnvValue(
   'REACT_APP_S3_BASE_URL',
   'https://missing-s3-url'
 ).replace(/\/$/, '');
-export const API_URL = getEnvValue(
-  'REACT_APP_API_BASE_URL',
-  'https://missing-laravel-url.edu'
-);
+
 // The test key always returns: 10000000-aaaa-bbbb-cccc-000000000001
 export const CAPTCHA_SITE_KEY = IN_PRODUCTION
   ? getEnvValue('REACT_APP_H_CAPTCHA', 'missing-captcha-site-key')

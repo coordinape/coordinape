@@ -29,7 +29,6 @@
     "@web3-react/walletconnect-connector": "6.2.13",
     "@web3-react/walletlink-connector": "6.2.5",
     "aws-sdk": "^2.1072.0",
-    "axios": "0.26.1",
     "clsx": "1.1.1",
     "d3-force-3d": "2.3.2",
     "dedent": "^0.7.0",

@@ -4,7 +4,6 @@ import * as queries from 'lib/gql/queries';
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
-import { getApiService } from 'services/api';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
@@ -93,7 +92,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const downloadCSV = useRecoilLoadCatch(
     () => async (epoch: number) => {
-      return await getApiService().downloadCSV(circleId, epoch);
+      return await mutations.allocationCsv(circleId, epoch);
     },
     [circleId]
   );
