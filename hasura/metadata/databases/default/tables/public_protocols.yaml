@@ -15,6 +15,13 @@ array_relationships:
       remote_table:
         name: circles
         schema: public
+- name: vaults
+  using:
+    foreign_key_constraint_on:
+      column: org_id
+      table:
+        name: vaults
+        schema: public
 select_permissions:
 - permission:
     columns:
