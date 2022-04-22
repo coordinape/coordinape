@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
-import { mockVault, mockEpoch } from 'utils/testing/mocks';
+import { mockEpoch } from 'utils/testing/mocks';
 
 import { DistributionsPage } from './DistributionsPage';
 
@@ -19,13 +19,26 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-jest.mock('hooks/gql/useVaults', () => ({
-  useVaults: () => ({
-    data: [mockVault],
-  }),
-}));
-
 jest.mock('./queries', () => ({
+  getEpochData: jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      number: mockEpoch.number,
+      ended: true,
+      circle: {
+        name: mockEpoch.circle.name,
+        organization: {
+          vaults: [
+            {
+              id: 2,
+              symbol: 'DAI',
+              decimals: 18,
+              vault_address: '0x0',
+            },
+          ],
+        },
+      },
+    })
+  ),
   usePreviousDistributions: jest.fn().mockImplementation(() => ({
     data: {
       id: 2,
@@ -33,44 +46,8 @@ jest.mock('./queries', () => ({
       distribution_json: {},
     },
   })),
-  useCurrentUserForEpoch: async () => ({
-    users: {
-      id: 21,
-      name: 'Mock User',
-      address: '0x0',
-      role: 1,
-      circle_id: 2,
-    },
-  }),
   useSubmitDistribution: jest.fn(),
-  useGetAllocations: jest
-    .fn()
-    .mockReturnValue({
-      data: mockEpoch,
-    })
-    .mockReturnValueOnce({
-      data: mockEpoch,
-    })
-    .mockReturnValueOnce({
-      data: null,
-    }),
 }));
-
-test('no epoch found', async () => {
-  await act(async () => {
-    await render(
-      <TestWrapper withWeb3>
-        <DistributionsPage />
-      </TestWrapper>
-    );
-  });
-
-  await waitFor(() => {
-    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
-  });
-
-  screen.getByText('Sorry, epoch was not found.');
-});
 
 test('basic rendering', async () => {
   await act(async () => {
@@ -86,7 +63,5 @@ test('basic rendering', async () => {
   });
 
   expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
-  expect(
-    screen.queryByText('Submit Distribution to Vault')
-  ).toBeInTheDocument();
+  expect(screen.getByText('Submit Distribution to Vault')).toBeInTheDocument();
 });

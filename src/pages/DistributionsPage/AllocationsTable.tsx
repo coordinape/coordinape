@@ -4,11 +4,8 @@ import { NewApeAvatar } from 'components';
 import { Flex, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
+import type { Gift } from './DistributionsPage';
 import { makeTable } from './Table';
-
-import { IAllocateUser } from 'types';
-
-const UserTable = makeTable<IAllocateUser>('UserTable');
 
 export const AllocationsTable = ({
   users,
@@ -16,25 +13,26 @@ export const AllocationsTable = ({
   totalGive,
   tokenName,
 }: {
-  users: IAllocateUser[];
+  users: (Gift['recipient'] & { received: number })[];
   totalAmountInVault: number;
   totalGive: number;
   tokenName: string | undefined;
 }) => {
-  const givenAmount = (u: IAllocateUser) =>
-    u.received_gifts.reduce((t, { tokens }) => t + tokens, 0);
+  type User = Exclude<typeof users[0], undefined>;
 
   const givenPercent = useCallback(
-    (u: IAllocateUser) => givenAmount(u) / totalGive,
+    (u: User) => u.received / totalGive,
     [totalGive]
   );
+
+  const UserTable = makeTable<User>('UserTable');
 
   return (
     <UserTable
       headers={[
         'Name',
         'ETH Wallet',
-        `${tokenName || 'GIVE'} Received`,
+        'GIVE Received',
         '% of Epoch',
         'Vault Funds Allocated',
       ]}
@@ -42,9 +40,9 @@ export const AllocationsTable = ({
       startingSortIndex={2}
       startingSortDesc
       sortByIndex={(index: number) => {
-        if (index === 0) return (u: IAllocateUser) => u.name;
-        if (index === 1) return (u: IAllocateUser) => u.address;
-        return (u: IAllocateUser) => givenAmount(u);
+        if (index === 0) return (u: User) => u.name;
+        if (index === 1) return (u: User) => u.address;
+        return (u: User) => u.received;
       }}
     >
       {user => (
@@ -59,20 +57,14 @@ export const AllocationsTable = ({
             </Flex>
           </td>
           <td>{shortenAddress(user.address)}</td>
-          <td>{user.received_gifts.length > 0 ? givenAmount(user) : '-'}</td>
-          <td>
-            {user.received_gifts.length > 0
-              ? `${(givenPercent(user) * 100).toFixed(2)}%`
-              : '-'}
-          </td>
+          <td>{user.received}</td>
+          <td> {(givenPercent(user) * 100).toFixed(2)}%</td>
           <td>
             {!tokenName
               ? '-'
-              : user.received_gifts.length > 0
-              ? `${(givenPercent(user) * totalAmountInVault).toFixed(
+              : `${(givenPercent(user) * totalAmountInVault).toFixed(
                   2
-                )} ${tokenName}`
-              : '-'}
+                )} ${tokenName}`}
           </td>
         </tr>
       )}

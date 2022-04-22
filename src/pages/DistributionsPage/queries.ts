@@ -1,104 +1,111 @@
-import {
-  token_gifts_select_column,
-  order_by,
-} from 'lib/gql/__generated__/zeus';
+import assert from 'assert';
+
+import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import type { Contracts } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
-import useConnectedAddress from '../../hooks/useConnectedAddress';
+import type { Awaited } from 'types/shim';
 
-import { Awaited } from 'types/shim';
+export const getEpochData = async (
+  epochId: number,
+  myAddress?: string,
+  contracts?: Contracts
+) => {
+  assert(contracts && myAddress);
 
-export function useCurrentUserForEpoch(epochId: number | null | undefined) {
-  const address = useConnectedAddress();
+  const gq = await client.query({
+    epochs_by_pk: [
+      { id: epochId },
+      {
+        id: true,
+        number: true,
+        ended: true,
+        circle: {
+          id: true,
+          name: true,
+          // get this user's role so we can check that they're an admin
+          users: [{ where: { address: { _eq: myAddress } } }, { role: true }],
 
-  return useQuery(
-    ['user-for-epoch', epochId],
-    async () => {
-      const { users } = await client.query({
-        users: [
-          {
-            where: {
-              circle: {
-                epochs: {
-                  id: { _eq: epochId },
-                },
+          organization: {
+            vaults: [
+              {},
+              {
+                id: true,
+                symbol: true,
+                decimals: true,
+                vault_address: true,
               },
-              address: {
-                _ilike: address,
-              },
-            },
+            ],
           },
+        },
+        token_gifts: [
+          {},
           {
-            id: true,
-            name: true,
-            address: true,
-            role: true,
-            circle_id: true,
-          },
-        ],
-      });
-
-      return users[0];
-    },
-    { enabled: !!epochId }
-  );
-}
-
-export function useGetAllocations(epochId: number | null | undefined) {
-  // FIXME (minor): if this query's structure were changed
-  // from: epoch -> circle -> users -> gifts
-  // to: epoch -> gifts -> users
-  // that would remove the need to repeatedly pass epochId as an argument
-  return useQuery(
-    ['circle-for-epoch', epochId],
-    async () => {
-      const { epochs_by_pk } = await client.query({
-        epochs_by_pk: [
-          { id: Number(epochId) },
-          {
-            id: true,
-            ended: true,
-            circle_id: true,
-            number: true,
-            circle: {
+            recipient: {
               id: true,
               name: true,
-              users: [
-                { where: { received_gifts: { epoch_id: { _eq: epochId } } } },
-                {
-                  address: true,
-                  name: true,
-                  id: true,
-                  circle_id: true,
-                  received_gifts: [
-                    { where: { epoch_id: { _eq: epochId } } },
-                    { tokens: true },
-                  ],
-                  received_gifts_aggregate: [
-                    { where: { epoch_id: { _eq: epochId } } },
-                    {
-                      aggregate: {
-                        count: [
-                          {
-                            columns: [token_gifts_select_column.recipient_id],
-                          },
-                          true,
-                        ],
-                      },
-                    },
-                  ],
-                },
-              ],
+              address: true,
+              profile: {
+                avatar: true,
+              },
             },
+            tokens: true,
           },
         ],
-      });
-      return epochs_by_pk;
-    },
-    { enabled: !!epochId }
+        distributions: [
+          {},
+          {
+            created_at: true,
+            total_amount: true,
+            vault: {
+              id: true,
+              decimals: true,
+              symbol: true,
+              vault_address: true,
+            },
+            epoch: {
+              number: true,
+              circle: {
+                id: true,
+                name: true,
+              },
+            },
+            claims: [
+              {},
+              {
+                id: true,
+                new_amount: true,
+                user: {
+                  address: true,
+                  name: true,
+                  profile: {
+                    avatar: true,
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+
+  const epoch = gq.epochs_by_pk;
+
+  const distributions = await Promise.all(
+    epoch?.distributions.map(async dist => ({
+      ...dist,
+      pricePerShare: await contracts.getPricePerShare(
+        dist.vault.vault_address,
+        dist.vault.symbol,
+        dist.vault.decimals
+      ),
+    })) || []
   );
-}
+
+  return { ...epoch, distributions };
+};
 
 export const getPreviousDistribution = async (
   circle_id: number | null | undefined
