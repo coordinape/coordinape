@@ -1,6 +1,3 @@
 [submodule "hardhat/contracts/coordinape-protocol"]
 	path = hardhat/contracts/coordinape-protocol
 	url = https://github.com/coordinape/coordinape-protocol.git
-[submodule "laravel"]
-	path = laravel
-	url = https://github.com/coordinape/coordinape-backend.git

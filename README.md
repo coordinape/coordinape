@@ -44,7 +44,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 ## Coordinape is being rebuilt
 
-- Laravel → Hasura & Vercel serverless functions
+- **(done)** Laravel → Hasura & Vercel serverless functions
 - Material UI → Stitches + React-Query & Zeus
 
 # Quick Start
@@ -54,9 +54,8 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - init git submodules & link hardhat
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
-- `yarn docker:start` - Start **laravel** legacy backend, **Hasura** and **postgres**
+- `yarn docker:start` - Start **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
-  - First time laravel is slow.
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
 - `vercel dev`
   - If you're creating a new Vercel project, use these custom settings:
@@ -203,9 +202,6 @@ Setup docker, git, hasura completions.
 
 - `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
   Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077
-
-- `Laravel in Docker always restarting (Windows)`
-  When log says `start.sh : not found` Change the line ending of `Laravel/services/start.sh` from CRLF to LF.
 
 ### Credits
 
