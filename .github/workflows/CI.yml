@@ -12,7 +12,6 @@ jobs:
       HARDHAT_GANACHE_CHAIN_ID: 1338
       HARDHAT_GANACHE_PORT: 8546
       REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
-      REACT_APP_API_BASE_URL: https://staging-api.coordinape.com/api
       REACT_APP_HASURA_URL: https://coordinape-staging.hasura.app/v1/graphql
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
 
