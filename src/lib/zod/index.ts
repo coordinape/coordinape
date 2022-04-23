@@ -91,6 +91,13 @@ export const createUserSchemaInput = z
   })
   .strict();
 
+export const createUsersBulkSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    users: createUserSchemaInput.omit({ circle_id: true }).array().min(1),
+  })
+  .strict();
+
 export const circleIdInput = z
   .object({
     circle_id: z.number(),

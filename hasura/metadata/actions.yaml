@@ -62,6 +62,17 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createUsers
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createUsers'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: deleteEpoch
   definition:
     kind: synchronous
@@ -206,6 +217,8 @@ custom_types:
   - name: Allocation
   - name: Allocations
   - name: AllocationCsvInput
+  - name: CreateUsersInput
+  - name: UserObj
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -328,4 +341,6 @@ custom_types:
       field_mapping:
         user_id: id
   - name: AllocationCsvResponse
+  - name: CreateUsersResponse
+  - name: UserOutput
   scalars: []
