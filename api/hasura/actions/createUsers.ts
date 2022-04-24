@@ -96,14 +96,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
         {
           id: true,
-          circle_id: true,
-          name: true,
-          address: true,
-          non_giver: true,
-          fixed_non_receiver: true,
-          non_receiver: true,
-          starting_tokens: true,
-          role: true,
         },
       ],
     };
@@ -139,14 +131,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       {
         returning: {
           id: true,
-          circle_id: true,
-          name: true,
-          address: true,
-          non_giver: true,
-          fixed_non_receiver: true,
-          non_receiver: true,
-          starting_tokens: true,
-          role: true,
         },
       },
     ],

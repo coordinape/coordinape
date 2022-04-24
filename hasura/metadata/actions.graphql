@@ -233,14 +233,6 @@ type LogoutResponse {
 
 type UserResponse {
   id: ID!
-  circle_id: Int!
-  name: String!
-  address: String!
-  non_giver: Boolean
-  fixed_non_receiver: Boolean
-  non_receiver: Boolean
-  starting_tokens: Int
-  role: Int
 }
 
 type DeleteEpochResponse {
@@ -273,15 +265,6 @@ type UpdateCircleOutput {
 
 type AllocationsResponse {
   user_id: Int!
-}
-
-type CreateUsersResponse {
-  responses: [ID]!
-}
-
-type UserOutput {
-  id: ID!
-  address: String!
 }
 
 type AllocationCsvResponse {

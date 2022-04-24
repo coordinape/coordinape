@@ -262,15 +262,7 @@ export type ValueTypes = {
   ['UserResponse']: AliasType<{
     /** An object relationship */
     UserResponse?: ValueTypes['users'];
-    address?: boolean;
-    circle_id?: boolean;
-    fixed_non_receiver?: boolean;
     id?: boolean;
-    name?: boolean;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: boolean;
-    starting_tokens?: boolean;
     __typename?: boolean;
   }>;
   ['VouchInput']: {
@@ -4462,15 +4454,7 @@ export type ModelTypes = {
   ['UserResponse']: {
     /** An object relationship */
     UserResponse: ModelTypes['users'];
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean;
     id: string;
-    name: string;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: number;
-    starting_tokens?: number;
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
@@ -6047,15 +6031,7 @@ export type GraphQLTypes = {
     __typename: 'UserResponse';
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean;
     id: string;
-    name: string;
-    non_giver?: boolean;
-    non_receiver?: boolean;
-    role?: number;
-    starting_tokens?: number;
   };
   ['VouchInput']: {
     nominee_id: number;

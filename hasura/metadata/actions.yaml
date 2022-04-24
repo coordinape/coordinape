@@ -341,6 +341,4 @@ custom_types:
       field_mapping:
         user_id: id
   - name: AllocationCsvResponse
-  - name: CreateUsersResponse
-  - name: UserOutput
   scalars: []
