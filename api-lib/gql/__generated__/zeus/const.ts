@@ -22295,15 +22295,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   UserResponse: {
     UserResponse: 'users',
-    address: 'String',
-    circle_id: 'Int',
-    fixed_non_receiver: 'Boolean',
     id: 'ID',
-    name: 'String',
-    non_giver: 'Boolean',
-    non_receiver: 'Boolean',
-    role: 'Int',
-    starting_tokens: 'Int',
   },
   VouchOutput: {
     id: 'Int',
