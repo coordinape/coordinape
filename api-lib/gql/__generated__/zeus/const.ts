@@ -3,6 +3,7 @@
 export const AllTypesProps: Record<string, any> = {
   AdminUpdateUserInput: {},
   Allocation: {},
+  AllocationCsvInput: {},
   Allocations: {
     allocations: 'Allocation',
   },
@@ -25,6 +26,9 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateNomineeInput: {},
   CreateUserInput: {},
+  CreateUsersInput: {
+    users: 'UserObj',
+  },
   DeleteEpochInput: {},
   DeleteUserInput: {},
   Int_comparison_exp: {},
@@ -37,6 +41,7 @@ export const AllTypesProps: Record<string, any> = {
   UpdateUserInput: {},
   UploadCircleImageInput: {},
   UploadImageInput: {},
+  UserObj: {},
   VouchInput: {},
   bigint: 'String',
   bigint_comparison_exp: {
@@ -1519,6 +1524,9 @@ export const AllTypesProps: Record<string, any> = {
     adminUpdateUser: {
       payload: 'AdminUpdateUserInput',
     },
+    allocationCsv: {
+      payload: 'AllocationCsvInput',
+    },
     createCircle: {
       payload: 'CreateCircleInput',
     },
@@ -1530,6 +1538,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createUser: {
       payload: 'CreateUserInput',
+    },
+    createUsers: {
+      payload: 'CreateUsersInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -4284,6 +4295,9 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AllocationCsvResponse: {
+    file: 'String',
+  },
   AllocationsResponse: {
     user: 'users',
     user_id: 'Int',
@@ -5424,10 +5438,12 @@ export const ReturnTypes: Record<string, any> = {
   },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
+    allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    createUsers: 'UserResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_burns: 'burns_mutation_response',
