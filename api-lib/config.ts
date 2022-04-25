@@ -53,3 +53,4 @@ export const INFURA_PROJECT_ID = getEnvValue(
 
 // This is only set to 'production' when deployed from main branch
 export const VERCEL_ENV = getEnvValue<string>('VERCEL_ENV', 'development');
+export const AVATAR_DIR = <string>getEnvValue('AVATAR_DIR');

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { AVATAR_DIR } from './config';
 import { InternalServerError } from './HttpError';
 import { parseBase64Image } from './images';
 import { deleteImage, uploadImage } from './s3';
@@ -26,7 +27,7 @@ export class ImageUpdater<T> {
     const resizedImage = await this.resizer(imageBytes);
 
     // generate a filename for the new image
-    const fileName = uuidv4() + '.jpg';
+    const fileName = AVATAR_DIR + uuidv4() + '.jpg';
 
     // Uploading files to the bucket
     try {
