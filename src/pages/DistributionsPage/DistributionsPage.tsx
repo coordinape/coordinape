@@ -21,6 +21,7 @@ export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
   const contracts = useContracts();
+
   const {
     isIdle,
     isLoading,
@@ -34,9 +35,7 @@ export function DistributionsPage() {
   );
 
   const [form1Amount, setForm1Amount] = useState<number>(0);
-  const [vault1Id, setVault1Id] = useState<string>(
-    String(epoch?.circle?.organization?.vaults?.[0]?.id)
-  );
+  const [vault1Id, setVault1Id] = useState<string>('');
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
