@@ -14,8 +14,8 @@ test('NewApeAvatar renders correctly', () => {
 
   const avatarComponent = getByTestId('avatar');
   expect(avatarComponent).toBeInTheDocument();
-  const avater = getByRole('img');
-  expect(avater).toHaveAttribute('src', profileAvatar);
-  expect(avater).toHaveAttribute('alt', profileName);
+  const avatar = getByRole('img');
+  expect(avatar).toHaveAttribute('src', profileAvatar);
+  expect(avatar).toHaveAttribute('alt', profileName);
   expect(container).toBeDefined();
 });
