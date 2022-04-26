@@ -1,10 +1,9 @@
 import { assertDef } from 'utils/tools';
 
-import { IAuth, IVault } from 'types';
+import { IAuth } from 'types';
 
 const STORAGE_KEY_CIRCLE_ID = 'capeCircleId';
 const STORAGE_AUTH = 'capeAuth';
-const STORAGE_VAULTS = 'capeVaults';
 
 export default {
   setCircleId: (id: number) =>
@@ -31,16 +30,4 @@ export default {
     }
   },
   clearAuth: () => localStorage.removeItem(STORAGE_AUTH),
-
-  // TODO: This is temporary until we have the api set up
-  setVaults: (vaults: Record<number, IVault[]>) =>
-    localStorage.setItem(STORAGE_VAULTS, JSON.stringify(vaults)),
-  getVaults: (): Record<number, IVault[]> => {
-    try {
-      return JSON.parse(assertDef(localStorage.getItem(STORAGE_VAULTS)));
-    } catch {
-      return {};
-    }
-  },
-  clearVaults: () => localStorage.removeItem(STORAGE_VAULTS),
 };
