@@ -39,7 +39,7 @@ export const useApiAdminCircle = (circleId: number) => {
       await fetchManifest();
     },
     [circleId],
-    { hideLoading: true }
+    { hideLoading: false }
   );
 
   const updateEpoch = useRecoilLoadCatch(
@@ -48,7 +48,7 @@ export const useApiAdminCircle = (circleId: number) => {
       await fetchManifest();
     },
     [circleId],
-    { hideLoading: true }
+    { hideLoading: false }
   );
 
   const deleteEpoch = useRecoilLoadCatch(
