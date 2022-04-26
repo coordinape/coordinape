@@ -88,6 +88,7 @@ export class Contracts {
     return VaultAPI__factory.connect(yVaultAddress, this.provider);
   }
 
+  // returns value ready to be converted to float, i.e. 1.5, not 1500000
   async getPricePerShare(
     vaultAddress: string,
     symbol: string,
