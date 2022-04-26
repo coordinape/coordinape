@@ -3,6 +3,7 @@ import React, { lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import DevPortalPage from '../pages/DevPortalPage';
+import { useCheckLogin } from 'hooks';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CirclesPage from 'pages/CirclesPage';
@@ -15,12 +16,7 @@ import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 import VouchingPage from 'pages/VouchingPage';
-import {
-  useMyProfile,
-  useSelectedCircleLoadable,
-  useHasSelectedCircle,
-} from 'recoilState/app';
-import { useHasCircles } from 'recoilState/db';
+import { useMyProfile, useSelectedCircleLoadable } from 'recoilState/app';
 
 import { paths } from './paths';
 
@@ -30,10 +26,15 @@ import { paths } from './paths';
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const AppRoutes = () => {
-  const hasCircles = useHasCircles();
-  const hasSelectedCircle = useHasSelectedCircle();
+  return <SuspendingAppRoutes />;
+};
 
-  return hasCircles && hasSelectedCircle ? (
+export const SuspendingAppRoutes = () => {
+  const query = useCheckLogin();
+
+  console.log(query); // eslint-disable-line
+
+  return query.data?.loggedIn ? (
     <LoggedInRoutes />
   ) : (
     <Routes>

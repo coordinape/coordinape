@@ -2,6 +2,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useLocation } from 'react-router';
 
 import { useRecoilLoadCatch } from 'hooks';
@@ -28,6 +29,7 @@ import { EConnectorNames } from 'types';
 export const useApiBase = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
   const navigateDefault = useRecoilLoadCatch(
     ({ snapshot }) =>
@@ -129,6 +131,7 @@ export const useApiBase = () => {
         set(rWalletAuth, {
           authTokens,
         });
+        queryClient.invalidateQueries('CheckLogin');
       },
     []
   );

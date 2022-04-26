@@ -19,12 +19,6 @@ export class APIService {
 
   setAuth(token?: string) {
     this.token = token;
-
-    const auth: Record<string, unknown> = {};
-    if (token) {
-      const authHeader = 'Bearer ' + token;
-      auth.headers = { Authorization: authHeader };
-    }
   }
 
   login = async (address: string): Promise<IApiLogin> => {
