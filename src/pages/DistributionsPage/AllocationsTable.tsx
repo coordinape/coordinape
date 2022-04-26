@@ -4,7 +4,7 @@ import { NewApeAvatar } from 'components';
 import { Flex, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
-import type { Gift } from './DistributionsPage';
+import type { Gift } from './queries';
 import { makeTable } from './Table';
 
 export const AllocationsTable = ({

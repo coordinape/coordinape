@@ -40,7 +40,7 @@ export const getEpochData = async (
           },
         },
         token_gifts: [
-          {},
+          { where: { tokens: { _gt: 0 } } },
           {
             recipient: {
               id: true,
@@ -106,6 +106,9 @@ export const getEpochData = async (
 
   return { ...epoch, distributions };
 };
+
+export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;
+export type Gift = Exclude<EpochDataResult['token_gifts'], undefined>[0];
 
 export const getPreviousDistribution = async (
   circle_id: number | null | undefined
