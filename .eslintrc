@@ -4,17 +4,9 @@
       "pragma": "React",
       "version": "detect"
     },
-    "import/extensions": [
-      ".js",
-      ".jsx",
-      ".ts",
-      ".tsx"
-    ],
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     }
   },
   "parser": "@typescript-eslint/parser",
@@ -56,20 +48,12 @@
     "no-console": [
       "warn",
       {
-        "allow": [
-          "warn",
-          "error"
-        ]
+        "allow": ["warn", "error"]
       }
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     "no-warning-comments": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error"
-    ],
+    "@typescript-eslint/no-unused-vars": ["error"],
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": [
@@ -87,10 +71,7 @@
           "external",
           "internal",
           "parent",
-          [
-            "sibling",
-            "index"
-          ]
+          ["sibling", "index"]
         ],
         // define material-ui group that will appear separately after other main externals
         "pathGroups": [
@@ -124,12 +105,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ],
     "react-hooks/rules-of-hooks": "error",
@@ -171,6 +147,7 @@
           {
             "types": "PascalCase",
             "InputValueDefinition": "snake_case",
+            "ScalarTypeDefinition": "snake_case",
             "Argument": "snake_case",
             "FieldDefinition[parent.name.value!=Mutation]": "snake_case",
             "FieldDefinition[parent.name.value=Mutation]": "camelCase"
