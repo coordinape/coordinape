@@ -3632,16 +3632,6 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@meta-cred/graphql-zeus@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@meta-cred/graphql-zeus/-/graphql-zeus-5.0.4.tgz#1c0a5e47501db9dfcd149f50ea1ecbfe64ae05a5"
-  integrity sha512-QDfE9j/oB52LVUrhoPKrN4IP6Gy0RrHQwVVFFmsxd+n+dOyjI09QdessmWW6pWfIU6pawIegO8fBTUbnj9FJXQ==
-  dependencies:
-    cross-fetch "^3.0.4"
-    graphql "^15.4.0"
-    graphql-js-tree "^0.1.1"
-    yargs "^16.1.1"
-
 "@metamask/safe-event-emitter@2.0.0", "@metamask/safe-event-emitter@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
@@ -12102,6 +12092,16 @@ graphql-ws@^5.4.1:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.6.2.tgz#c7e5e382bd80d7fef637ea0b86ef4b1cb3d0b09b"
   integrity sha512-TsjovINNEGfv52uKWYSVCOLX9LFe6wAhf9n7hIsV3zjflky1dv/mAP+kjXAXsnzV1jH5Sx0S73CtBFNvxus+SQ==
+
+graphql-zeus@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-zeus/-/graphql-zeus-5.0.0.tgz#e30152e65be46a039660e87f52c169b3f3cc917d"
+  integrity sha512-aI329CPSmfycIOAkLb9ECW9elhKRaT7huuYcaOnDGV+lWbbJoaO8lUTXvYlUp9PRRMCWEjZTi7dkvbTYicYpUQ==
+  dependencies:
+    cross-fetch "^3.0.4"
+    graphql "^15.4.0"
+    graphql-js-tree "^0.1.1"
+    yargs "^16.1.1"
 
 graphql@16.2.0:
   version "16.2.0"

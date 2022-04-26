@@ -419,14 +419,14 @@ export const getFullCircle = async (
   > & {
     pending_gifts: IApiTokenGift[];
     users: IApiUser[];
-    circle: Omit<typeof circle.circles_by_pk, 'organization'> & {
+    circle: Omit<typeof circle, 'organization'> & {
       protocol: IProtocol;
     };
   } = {
     ...circles_by_pk,
     circle: {
-      ...circle.circles_by_pk,
-      protocol: circle.circles_by_pk.organization,
+      ...circle,
+      protocol: circle.organization,
     },
     pending_gifts: circles_by_pk.pending_token_gifts.map(pg => {
       const notedGift: Omit<typeof pg, 'gift_private'> & {
