@@ -1,18 +1,21 @@
 import React from 'react';
 
 import { transparentize } from 'polished';
+import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { makeStyles, Avatar, Button } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
 import {
   ProfileSocialIcons,
   ProfileSkills,
   ApeAvatar,
   FormFileUpload,
+  NewApeAvatar,
+  scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile } from 'hooks';
+import { useImageUploader, useApiWithProfile, useApiBase } from 'hooks';
 import { EditIcon } from 'icons';
 import {
   useMyProfile,
@@ -20,7 +23,7 @@ import {
   useProfile,
 } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
-import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
+import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
 import { getAvatarPath, getCircleAvatar } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -69,6 +72,17 @@ const useStyles = makeStyles(theme => ({
     top: 155,
     width: 143,
     height: 143,
+  },
+  myCircleAvatar: {
+    width: 'inherit',
+    height: 'inherit',
+    marginRight: theme.spacing(1),
+    border: `1px solid ${theme.colors.border}`,
+    cursor: 'pointer',
+    transition: 'border-color .3s ease',
+    '&:hover': {
+      border: '1px solid rgba(239, 115, 118, 1)',
+    },
   },
   uploadButton: {
     position: 'absolute',
@@ -164,6 +178,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     lineHeight: 1.5,
     fontWeight: 300,
+    cursor: 'pointer',
     color: transparentize(0.3, theme.colors.text),
     margin: theme.spacing(1),
     '& > .MuiAvatar-root': {
@@ -241,6 +256,15 @@ const ProfilePageContent = ({
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
+  const navigate = useNavigate();
+  const { selectAndFetchCircle } = useApiBase();
+
+  const goToCircleHistory = (id: number, path: string) => {
+    selectAndFetchCircle(id).then(() => {
+      scrollToTop();
+      navigate(path);
+    });
+  };
 
   const {
     imageUrl: backgroundUrl,
@@ -328,15 +352,19 @@ const ProfilePageContent = ({
               u =>
                 u.circle && (
                   <div key={u.id} className={classes.circle}>
-                    <Avatar
-                      alt={u.circle.name}
-                      src={getCircleAvatar({
+                    <NewApeAvatar
+                      name={u.circle.name}
+                      profileImagePath={getCircleAvatar({
                         avatar: u.circle.logo,
                         circleName: u.circle.name,
                       })}
+                      className={classes.myCircleAvatar}
+                      onClick={() =>
+                        goToCircleHistory(u.circle_id, paths.history)
+                      }
                     >
                       {u.circle.name}
-                    </Avatar>
+                    </NewApeAvatar>
 
                     <span>
                       {u.circle.protocol.name} {u.circle.name}
