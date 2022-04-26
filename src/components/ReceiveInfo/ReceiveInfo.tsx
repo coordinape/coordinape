@@ -160,7 +160,7 @@ export const ReceiveInfo = () => {
                   {tokenGift.sender?.name}
                 </div>
                 <div className={classes.noteDate}>
-                  {DateTime.fromSQL(tokenGift.dts_created).toLocaleString(
+                  {DateTime.fromISO(tokenGift.dts_created).toLocaleString(
                     DateTime.DATETIME_MED
                   )}
                 </div>
