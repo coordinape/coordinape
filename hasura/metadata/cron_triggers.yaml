@@ -1,5 +1,5 @@
 - name: check-nominee
-  webhook: '{{HASURA_API_BASE_URL}}/cron/check-nominee'
+  webhook: '{{HASURA_API_BASE_URL}}/cron/checkNominee'
   schedule: 1 0 * * *
   include_in_metadata: true
   payload: {}

@@ -91,6 +91,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
       },
     ],
+    update_nominees: [
+      {
+        _set: { ended: true },
+        where: {
+          circle_id: { _eq: circle_id },
+          address: { _ilike: input.new_address },
+          ended: { _eq: false },
+        },
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
   });
 
   const returnResult = mutationResult.update_users?.returning.pop();
