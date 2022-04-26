@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -46,7 +46,7 @@ export function DistributionForm({
 
   const submitDistribution = useSubmitDistribution();
 
-  // FIXME we don't need to load this data until the form is submitted
+  // FIXME don't load this data until the form is ready to be submitted
   const {
     data: prev,
     isLoading,
@@ -58,9 +58,14 @@ export function DistributionForm({
   const { handleSubmit, control } = useForm<TDistributionForm>({
     defaultValues: {
       selectedVaultId: vaults[0].id,
+      amount: 0,
     },
     resolver: zodResolver(DistributionFormSchema),
   });
+
+  useEffect(() => {
+    setVaultId(String(vaults[0].id));
+  }, [vaults]);
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (value: any) => {
     assert(epoch?.id && circle);
@@ -192,6 +197,9 @@ export function DistributionForm({
                   setAmount(Number(value));
                 }}
                 label="Total Distribution Amount"
+                onFocus={event =>
+                  (event.currentTarget as HTMLInputElement).select()
+                }
               />
             )}
           />
