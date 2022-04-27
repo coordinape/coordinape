@@ -11,6 +11,7 @@ export async function insertProfiles(
       },
       {
         returning: {
+          id: true,
           address: true,
         },
       },

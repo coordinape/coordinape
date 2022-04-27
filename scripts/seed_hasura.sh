@@ -8,8 +8,8 @@
 if [ "$1" == "--clean" ]
   then ts-node ./scripts/db-clean.ts
 fi
-ts-node ./scripts/db-seed.ts
-ts-node ./scripts/db-add-me.ts
+
+ts-node ./scripts/db_seed_test.ts
 
 # Re-enable event triggers post-seeding
 ./scripts/enable-triggers.sh
