@@ -4,10 +4,6 @@ export const rWalletModalOpen = atom({
   key: 'rWalletModalOpen',
   default: false,
 });
-export const rCircleSelectorOpen = atom({
-  key: 'rCircleSelectorOpen',
-  default: false,
-});
 
 // Use this like a semaphore, add and subtract.
 export const rGlobalLoading = atom({
@@ -34,5 +30,3 @@ export const rDevMode = atom({
 export const useDevMode = () => useRecoilValue(rDevMode);
 export const useSetEditProfileOpen = () => useSetRecoilState(rEditProfileOpen);
 export const useSetWalletModalOpen = () => useSetRecoilState(rWalletModalOpen);
-export const useSetCircleSelectorOpen = () =>
-  useSetRecoilState(rCircleSelectorOpen);

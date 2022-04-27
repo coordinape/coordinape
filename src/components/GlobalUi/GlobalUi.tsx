@@ -2,16 +2,10 @@ import { Suspense } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import {
-  CircleSelectModal,
-  LoadingModal,
-  EditProfileModal,
-  WalletAuthModal,
-} from 'components';
+import { LoadingModal, EditProfileModal, WalletAuthModal } from 'components';
 import {
   rGlobalLoading,
   rGlobalLoadingText,
-  rCircleSelectorOpen,
   rEditProfileOpen,
   rWalletModalOpen,
 } from 'recoilState/ui';
@@ -21,7 +15,6 @@ export const GlobalUi = () => {
     <>
       <GlobalLoadingModal />
       <GlobalEditProfileModal />
-      <GlobalCircleSelectModal />
       <GlobalWalletAuthModal />
     </>
   );
@@ -42,19 +35,6 @@ const GlobalEditProfileModal = () => {
       <EditProfileModal
         open={editProfileOpen}
         onClose={() => setEditProfileOpen(false)}
-      />
-    </Suspense>
-  );
-};
-
-const GlobalCircleSelectModal = () => {
-  const [circleSelectorOpen, setCircleSelectorOpen] =
-    useRecoilState(rCircleSelectorOpen);
-  return (
-    <Suspense fallback={<></>}>
-      <CircleSelectModal
-        onClose={() => setCircleSelectorOpen(false)}
-        visible={circleSelectorOpen}
       />
     </Suspense>
   );
