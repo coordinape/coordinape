@@ -1,7 +1,9 @@
 import assert from 'assert';
 import { useState } from 'react';
 
+import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, FixedNumber } from 'ethers';
+import { isUserAdmin } from 'lib/users';
 import uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -15,7 +17,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import { getEpochData } from './queries';
-import type { Gift } from './queries';
+import type { EpochDataResult, Gift } from './queries';
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -39,14 +41,23 @@ export function DistributionsPage() {
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
-  // TODO show error if user isn't circle admin
-  if (isError) return <Text>{(error as any).message}</Text>;
+  let epochError;
+  if (isError) epochError = (error as any).message;
 
-  // TODO show error if epoch not found
-  // TODO show error if epoch hasn't ended yet
+  if (!epoch?.id)
+    return <SingleColumnLayout>Epoch not found</SingleColumnLayout>;
+
   assert(epoch);
 
   const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
+
+  if (!isUserAdmin(epoch.circle?.users[0])) {
+    epochError = 'You are not an admin of this circle.';
+  } else if (!epoch.ended) {
+    epochError = 'This epoch has not ended yet.';
+  } else if (totalGive === 0) {
+    epochError = 'No tokens were allocated during this epoch.';
+  }
 
   // reformat gift data into a structure that's easier for subcomponents to use
   const usersWithReceivedAmounts = uniqBy(
@@ -66,7 +77,6 @@ export function DistributionsPage() {
   let totalAmount = form1Amount;
   let tokenName = vault1TokenName;
 
-  // if distribution already happened, show summary instead of form
   const dist = epoch?.distributions[0];
   if (dist) {
     totalAmount = FixedNumber.from(dist.total_amount.toPrecision(30))
@@ -85,45 +95,58 @@ export function DistributionsPage() {
         <Text variant="sectionHeader" normal>
           {epoch?.circle?.name}: Epoch {epoch?.number}
         </Text>
-        <Panel nested css={{ mt: '$lg' }}>
-          {dist ? (
-            <>
-              <Text>There was a distribution already</Text>
-              <Text>{dist.created_at}</Text>
-            </>
-          ) : (
-            <DistributionForm
-              epoch={epoch}
-              users={usersWithReceivedAmounts}
-              setAmount={setForm1Amount}
-              setVaultId={setVault1Id}
-              vaults={vaults}
-            />
-          )}
-        </Panel>
 
-        <Box css={{ mt: '$lg' }}>
-          {totalGive && epoch.token_gifts ? (
-            <AllocationsTable
-              users={usersWithReceivedAmounts}
-              totalAmountInVault={totalAmount}
-              tokenName={tokenName}
-              totalGive={totalGive}
-            />
-          ) : (
-            <Text
-              css={{
-                fontSize: '$7',
-                fontWeight: '$bold',
-                textAlign: 'center',
-                display: 'block',
-              }}
-            >
-              No GIVE was allocated for this epoch
-            </Text>
-          )}
-        </Box>
+        {epochError ? (
+          <Text
+            css={{
+              fontSize: '$7',
+              fontWeight: '$semibold',
+              textAlign: 'center',
+              display: 'block',
+              mt: '$md',
+              color: '$red',
+            }}
+          >
+            {epochError}
+          </Text>
+        ) : (
+          <>
+            <Panel nested css={{ mt: '$lg' }}>
+              {dist ? (
+                <Summary distribution={dist} />
+              ) : (
+                <DistributionForm
+                  epoch={epoch}
+                  users={usersWithReceivedAmounts}
+                  setAmount={setForm1Amount}
+                  setVaultId={setVault1Id}
+                  vaults={vaults}
+                />
+              )}
+            </Panel>
+
+            <Box css={{ mt: '$lg' }}>
+              <AllocationsTable
+                users={usersWithReceivedAmounts}
+                totalAmountInVault={totalAmount}
+                tokenName={tokenName}
+                totalGive={totalGive}
+              />
+            </Box>
+          </>
+        )}
       </Panel>
     </SingleColumnLayout>
   );
 }
+
+const Summary = ({
+  distribution,
+}: {
+  distribution: EpochDataResult['distributions'][0];
+}) => {
+  const distTime = parseISO(distribution.created_at + 'Z');
+  return (
+    <Text>Distribution submitted {formatRelative(distTime, Date.now())}</Text>
+  );
+};

@@ -25,7 +25,10 @@ export const getEpochData = async (
           id: true,
           name: true,
           // get this user's role so we can check that they're an admin
-          users: [{ where: { address: { _eq: myAddress } } }, { role: true }],
+          users: [
+            { where: { address: { _eq: myAddress.toLowerCase() } } },
+            { role: true },
+          ],
 
           organization: {
             vaults: [
