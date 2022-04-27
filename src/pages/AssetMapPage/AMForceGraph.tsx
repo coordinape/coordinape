@@ -46,7 +46,7 @@ const COLOR_LINK_DIM = '#00000008';
 
 const MIN_ZOOM = 3;
 
-const edgeWidthScaler = (f: number) => f * MIN_ZOOM + 1;
+const edgeWidthScaler = (f: number) => f * MIN_ZOOM + MIN_ZOOM;
 // const nodeSizeScaler = (f: number) => NODE_R + f * 8;
 const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 // const edgeForceScaler = (f: number) => 0.1 * f;
