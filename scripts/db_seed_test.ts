@@ -15,7 +15,7 @@ faker.seed(4);
 async function main() {
   await createFreshOpenEpoch();
   await createEndedEpochWithGifts();
-  await createCircleWithPendingGifts();
+  await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
   await createFreshOpenEpochNoDev();
   await createFreshOpenEpochDevAdmin();
@@ -118,10 +118,10 @@ async function createEndedEpochWithGifts() {
     DateTime.now().minus({ days: 1 }),
     1
   );
-  await createGifts(result, epochId, false);
+  await createGifts(result, epochId, 9, false);
 }
 
-async function createCircleWithPendingGifts() {
+async function createCircleWithPendingGiftsEndingSoon() {
   const result = await insertMemberships(
     getMembershipInput({ protocolInput: { name: 'Open Epoch With Gifts' } }, {})
   );

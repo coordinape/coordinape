@@ -243,15 +243,16 @@ type MemberInput = Awaited<ReturnType<typeof insertMemberships>>;
 export async function createGifts(
   input: MemberInput,
   epochId: number,
+  amountIncrement = 7,
   pending = true,
   userIdx = 0,
   memberSlice = [1, 6]
 ) {
-  const amount = 5;
   const user = input[userIdx];
   const members = input.slice(...memberSlice);
   for (let i = 0; i < members.length; i++) {
     const member = members[i];
+    const amount = amountIncrement * (i + 1);
     if (member.circle_id !== user.circle_id) break;
     if (member.address === user.address) continue;
     await adminClient.mutate({
@@ -292,32 +293,34 @@ export async function createGifts(
         },
         { __typename: true },
       ],
-      __alias: {
-        member: {
-          update_users_by_pk: [
-            {
-              pk_columns: { id: member.id },
-              _inc: {
-                give_token_received: amount,
-                give_token_remaining: -amount,
-              },
+      __alias: pending
+        ? {
+            member: {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: member.id },
+                  _inc: {
+                    give_token_received: amount,
+                    give_token_remaining: -amount,
+                  },
+                },
+                { __typename: true },
+              ],
             },
-            { __typename: true },
-          ],
-        },
-        user: {
-          update_users_by_pk: [
-            {
-              pk_columns: { id: user.id },
-              _inc: {
-                give_token_received: amount,
-                give_token_remaining: -amount,
-              },
+            user: {
+              update_users_by_pk: [
+                {
+                  pk_columns: { id: user.id },
+                  _inc: {
+                    give_token_received: amount,
+                    give_token_remaining: -amount,
+                  },
+                },
+                { __typename: true },
+              ],
             },
-            { __typename: true },
-          ],
-        },
-      },
+          }
+        : undefined,
     });
   }
 }
