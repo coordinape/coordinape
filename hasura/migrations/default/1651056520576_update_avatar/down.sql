@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- update "public"."profiles" set avatar = CONCAT('assets/static/images/',avatar)
+-- where avatar not ilike 'assets/static/images/%' and avatar is not null;
