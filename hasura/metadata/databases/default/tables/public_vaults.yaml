@@ -23,9 +23,12 @@ insert_permissions:
       protocol:
         circles:
           users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+            _and:
+            - deleted_at:
+                _is_null: true
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
     columns:
     - decimals
     - id
@@ -54,7 +57,10 @@ select_permissions:
       protocol:
         circles:
           users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+            _and:
+            - deleted_at:
+                _is_null: true
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
   role: user
