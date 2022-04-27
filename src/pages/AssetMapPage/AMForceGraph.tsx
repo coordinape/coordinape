@@ -44,9 +44,9 @@ const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000015';
 const COLOR_LINK_DIM = '#00000008';
 
-const NODE_R = 5;
+const MIN_ZOOM = 3;
 
-const edgeWidthScaler = (f: number) => f * 25 + 1;
+const edgeWidthScaler = (f: number) => f * MIN_ZOOM + 1;
 // const nodeSizeScaler = (f: number) => NODE_R + f * 8;
 const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 // const edgeForceScaler = (f: number) => 0.1 * f;
@@ -231,7 +231,6 @@ export const AMForceGraph = () => {
             graphData={mapGraphData}
             height={height}
             width={width}
-            nodeRelSize={NODE_R}
             nodeCanvasObject={nodeCanvasObject as (n: NodeObject) => number}
             onNodeClick={onNodeClick as (n: NodeObject) => void}
             onBackgroundClick={onBackgroundClick}
@@ -245,6 +244,7 @@ export const AMForceGraph = () => {
             linkWidth={getWidth as (l: LinkObject) => number}
             linkCurvature={getCurvature as (l: LinkObject) => number}
             linkDirectionalParticles={4}
+            minZoom={MIN_ZOOM}
           />
         )}
       </AutoSizer>

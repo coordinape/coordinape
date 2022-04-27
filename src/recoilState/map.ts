@@ -557,7 +557,12 @@ export const rMapContext = selector<IMapContext>({
     };
 
     const getEdgeMeasure = (edge: IMapEdgeFG, scaler?: TScaler): number => {
-      return scaler ? scaler(edge.tokens / 100) : edge.tokens;
+      //if tokens > 100 the width will be 90% node diameter
+      if (edge.tokens > 100) {
+        return scaler ? scaler(8) : edge.tokens;
+      }
+      //if tokens <= 100 the width will be a factor of 80% node diameter
+      return scaler ? scaler((edge.tokens * 7) / 100) : edge.tokens;
     };
 
     const getNodeMeasure = (node: IMapNodeFG, scaler?: TScaler): number => {
