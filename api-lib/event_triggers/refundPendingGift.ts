@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { ValueTypes } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
-import * as queries from '../gql/queries';
+import { getUserByIdAndCurrentEpoch } from '../gql/queries';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
@@ -15,7 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     event: { data },
   }: EventTriggerPayload<'users', 'UPDATE'> = req.body;
 
-  const { address, circle_id } = data.new;
+  const { circle_id, id } = data.new;
 
   const userDeleted = !data.old.deleted_at && data.new.deleted_at;
 
@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const results = [];
   try {
-    const user = await queries.getUserAndCurrentEpoch(address, circle_id);
+    const user = await getUserByIdAndCurrentEpoch(id, circle_id);
     assert(user, 'panic: user must exist');
 
     const { pending_sent_gifts, pending_received_gifts, id: userId } = user;
