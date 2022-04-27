@@ -57,14 +57,14 @@ export function DistributionForm({
 
   const { handleSubmit, control } = useForm<TDistributionForm>({
     defaultValues: {
-      selectedVaultId: vaults[0].id,
+      selectedVaultId: vaults[0]?.id,
       amount: 0,
     },
     resolver: zodResolver(DistributionFormSchema),
   });
 
   useEffect(() => {
-    setVaultId(String(vaults[0].id));
+    if (vaults[0]) setVaultId(String(vaults[0].id));
   }, [vaults]);
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (value: any) => {
