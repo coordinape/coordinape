@@ -216,9 +216,9 @@ custom_types:
   - name: UpdateEpochInput
   - name: Allocation
   - name: Allocations
-  - name: AllocationCsvInput
   - name: CreateUsersInput
   - name: UserObj
+  - name: AllocationCsvInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -341,4 +341,5 @@ custom_types:
       field_mapping:
         user_id: id
   - name: AllocationCsvResponse
-  scalars: []
+  scalars:
+  - name: timestamptz

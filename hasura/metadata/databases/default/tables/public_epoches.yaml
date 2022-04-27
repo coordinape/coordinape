@@ -23,6 +23,13 @@ array_relationships:
       table:
         name: burns
         schema: public
+- name: distributions
+  using:
+    foreign_key_constraint_on:
+      column: epoch_id
+      table:
+        name: distributions
+        schema: public
 - name: epoch_pending_token_gifts
   using:
     manual_configuration:
