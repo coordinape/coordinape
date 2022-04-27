@@ -26,7 +26,7 @@ export const NewApeAvatar = ({
   );
   return (
     <Avatar src={src} alt={name} {...props} data-testid="avatar">
-      {children}
+      {children || <img alt={name} src={src} width="100%" height="100%" />}
     </Avatar>
   );
 };
