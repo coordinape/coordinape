@@ -1,5 +1,6 @@
 import { Suspense, useState, useEffect, useMemo } from 'react';
 
+import debug from 'debug';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
@@ -16,9 +17,11 @@ import {
   useSelectedCircle,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { circleSpecificPaths, EXTERNAL_URL_DOCS, paths } from 'routes/paths';
+import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
+
+const log = debug('recoil:MainHeader');
 
 const mainLinks = [
   [paths.circles, 'Circles'],
@@ -30,8 +33,8 @@ export const MainHeader = () => {
   const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = circle && circleSpecificPaths.includes(location.pathname);
-
+  const inCircle = circle && isCircleSpecificPath(location);
+  if (circle?.id) log(`circle: ${circle?.id}`);
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))

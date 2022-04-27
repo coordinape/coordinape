@@ -1,4 +1,4 @@
-import at from 'lodash/at';
+import type { Location } from 'react-router-dom';
 
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
@@ -67,7 +67,12 @@ const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'vouching',
 ];
 
-// `as any` works around a typing bug in `at`
-export const circleSpecificPaths = at(paths, circleSpecificPathKeys).map(x =>
-  typeof x === 'function' ? (x as any)() : x
-);
+export const isCircleSpecificPath = (location: Location) => {
+  for (const key of circleSpecificPathKeys) {
+    if (paths[key] === location.pathname) return true;
+  }
+
+  if (location.pathname.startsWith('/admin/distributions')) return true;
+
+  return false;
+};
