@@ -6,12 +6,12 @@ import { useParams } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
+import { Avatar } from '../../ui/Avatar/Avatar';
 import {
   ProfileSocialIcons,
   ProfileSkills,
   ApeAvatar,
   FormFileUpload,
-  NewApeAvatar,
   scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
@@ -352,19 +352,16 @@ const ProfilePageContent = ({
               u =>
                 u.circle && (
                   <div key={u.id} className={classes.circle}>
-                    <NewApeAvatar
+                    <Avatar
                       name={u.circle.name}
-                      profileImagePath={getCircleAvatar({
+                      path={getCircleAvatar({
                         avatar: u.circle.logo,
                         circleName: u.circle.name,
                       })}
-                      className={classes.myCircleAvatar}
                       onClick={() =>
                         goToCircleHistory(u.circle_id, paths.history)
                       }
-                    >
-                      {u.circle.name}
-                    </NewApeAvatar>
+                    />
 
                     <span>
                       {u.circle.protocol.name} {u.circle.name}
