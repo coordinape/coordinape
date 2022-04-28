@@ -57,5 +57,5 @@ until curl -s -o/dev/null http://localhost:"$CI_VERCEL_PORT"; do
   fi
 done
 
-craco test --coverage
+craco test --runInBand --coverage
 yarn --cwd hardhat test
