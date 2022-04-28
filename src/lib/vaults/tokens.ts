@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { BigNumber } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { Asset } from './';
@@ -22,9 +22,12 @@ export const getTokenAddress = (
   return address;
 };
 
-// given a vault that deposits in Yearn, convert an amount of the normal token
+// given a vault that deposits in Yearn, convert an amount of the unwrapped token
 // to an amount of the Yearn vault token (e.g. USDC -> yvUSDC), for uploadEpochRoot
-export const convertToVaultAmount = async (
+//
+// FIXME ideally this and getUnwrappedAmount would be symmetrical, but their
+// arguments are very different
+export const getWrappedAmount = async (
   amount: string,
   vault: Pick<GraphQLTypes['vaults'], 'decimals' | 'vault_address' | 'symbol'>,
   contracts: Contracts
@@ -47,4 +50,15 @@ export const convertToVaultAmount = async (
   throw new Error(
     `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`
   );
+};
+
+export const getUnwrappedAmount = (
+  amount: number,
+  pricePerShare: FixedNumber,
+  decimals: number
+) => {
+  return FixedNumber.from(amount.toPrecision(30))
+    .mulUnsafe(pricePerShare)
+    .divUnsafe(FixedNumber.from(BigNumber.from(10).pow(decimals)))
+    .toUnsafeFloat();
 };

@@ -2,8 +2,8 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { formatRelative, parseISO } from 'date-fns';
-import { BigNumber, FixedNumber } from 'ethers';
 import { isUserAdmin } from 'lib/users';
+import { getUnwrappedAmount } from 'lib/vaults';
 import uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -86,11 +86,13 @@ export function DistributionsPage() {
 
   const dist = epoch?.distributions[0];
   if (dist) {
-    totalAmount = FixedNumber.from(dist.total_amount.toPrecision(30))
-      .mulUnsafe(dist.pricePerShare)
-      .divUnsafe(FixedNumber.from(BigNumber.from(10).pow(dist.vault.decimals)))
-      .toUnsafeFloat();
-    tokenName = dist?.vault.symbol;
+    const {
+      total_amount,
+      pricePerShare,
+      vault: { symbol, decimals },
+    } = dist;
+    totalAmount = getUnwrappedAmount(total_amount, pricePerShare, decimals);
+    tokenName = symbol;
   }
 
   return (

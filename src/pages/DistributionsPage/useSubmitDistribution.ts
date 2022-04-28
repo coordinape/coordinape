@@ -4,7 +4,7 @@ import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
-import { encodeCircleId, convertToVaultAmount } from 'lib/vaults';
+import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
@@ -58,11 +58,7 @@ export function useSubmitDistribution() {
       const vaultContract = contracts.getVault(vault.vault_address);
       const yVaultAddress = await vaultContract.vault();
 
-      const newTotalAmount = await convertToVaultAmount(
-        amount,
-        vault,
-        contracts
-      );
+      const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
 
       const denominator = FixedNumber.from(shifter);
 

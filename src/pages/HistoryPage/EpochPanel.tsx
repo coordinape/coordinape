@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { getUnwrappedAmount } from 'lib/vaults';
 import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
@@ -8,8 +9,7 @@ import { NewApeAvatar } from 'components';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, AppLink } from 'ui';
 
-import { useDistAmount } from './distributions';
-import type { QueryEpoch } from './HistoryPage';
+import type { QueryEpoch, QueryDistribution } from './getHistoryData';
 
 type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
 export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
@@ -24,8 +24,14 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
 
-  const dist = epoch.distributions[0];
-  const distAmount = useDistAmount(dist);
+  const dist = epoch.distributions[0] as QueryDistribution | undefined;
+  const distAmount =
+    dist &&
+    getUnwrappedAmount(
+      dist.total_amount,
+      dist.pricePerShare,
+      dist.vault.decimals
+    );
 
   return (
     <Panel
@@ -66,7 +72,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         {dist && distAmount && (
           <AppLink to={paths.distributions(epoch.id)}>
             <Text bold font="inter" css={{ fontSize: '$6' }}>
-              {distAmount.amount.toString()} {distAmount.symbol}
+              {distAmount.toString()} {dist.vault.symbol}
             </Text>
           </AppLink>
         )}
