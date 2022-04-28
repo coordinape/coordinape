@@ -56,6 +56,9 @@ export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
   return avatar ? getAvatarPath(avatar) : placeholder;
 };
 
+export const getInitialFromName = (name: string) =>
+  name?.slice(0, 2).toUpperCase();
+
 export const getCircleAvatar = ({
   avatar,
   circleName,

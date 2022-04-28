@@ -1,10 +1,9 @@
-import React from "react";
+import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { styled } from '../../stitches.config';
-import { getAvatarPathWithFallback } from 'utils/domain';
-
+import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
   width: 60,
@@ -39,9 +38,11 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'white',
+  color: '$black',
+  backgroundColor: '$lightBorder',
   lineHeight: 1,
-  fontWeight: 400,
+  fontSize: '$6',
+  fontWeight: '$medium',
   cursor: 'pointer',
 });
 
@@ -57,12 +58,12 @@ export const Avatar = ({
   onClick?: () => void;
   children?: React.ReactNode;
 }) => {
-  const avatarPath = getAvatarPathWithFallback(path, name);
+  const avatarPath = getAvatarPath(path);
 
   return (
     <AvatarRoot onClick={() => onClick?.()} {...props}>
       <AvatarImage src={avatarPath} alt={name} />
-      <AvatarFallback>{name && encodeURIComponent(name)}</AvatarFallback>
+      <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>
   );
 };
