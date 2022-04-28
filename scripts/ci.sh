@@ -21,7 +21,7 @@ fi
 # TODO: skip this if it's already running
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 
-CMD=(docker compose --profile ci run --rm --service-ports graphql-engine-ci)  
+CMD=(docker compose --profile ci up)
 
 if [ "$VERBOSE" ]; then
   "${CMD[@]}" 2>&1 & PID=$!
@@ -31,6 +31,8 @@ else
   "${CMD[@]}" > $LOGFILE 2>&1 & PID=$!
 fi
 
+# Kill Hasura when this script exits
+trap "docker compose --profile ci down" EXIT
 
 sleep 5
 until curl -s -o/dev/null http://localhost:$CI_HASURA_PORT; do
@@ -40,9 +42,6 @@ until curl -s -o/dev/null http://localhost:$CI_HASURA_PORT; do
     exit 1
   fi
 done
-
-# Kill Hasura when this script exits
-trap "kill $PID" EXIT
 
 craco test --coverage
 yarn --cwd hardhat test

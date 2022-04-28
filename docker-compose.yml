@@ -1,8 +1,8 @@
 version: '3.6'
 
 services:
-  postgres:
-    profiles: ['dev', 'ci']
+  postgres: &postgres
+    profiles: ['dev']
     image: postgres:13
     restart: always
     volumes:
@@ -20,7 +20,7 @@ services:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
     ports:
-      - ${LOCAL_HASURA_PORT}:${LOCAL_HASURA_PORT}
+      - ${LOCAL_HASURA_PORT:-8080}:${LOCAL_HASURA_PORT:-8080}
     depends_on:
       - postgres
     restart: always
@@ -37,17 +37,13 @@ services:
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
-  setup-ci-db:
-    image: postgres:13
+  postgres-ci:
+    <<: *postgres
     profiles: ['ci']
-    depends_on:
-      - postgres
     volumes:
-      - ./scripts:/scripts
-    environment:
-      DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
-      DB_NAME: ${CI_POSTGRES_DATABASE}
-    command: ['/scripts/setup-ci-db.sh']
+      - db_data:/var/lib/postgresql/data-ci
+    ports:
+      - ${CI_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
 
   graphql-engine-ci:
     <<: *graphql_engine
@@ -55,16 +51,17 @@ services:
     ports:
       - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
     depends_on:
-      - setup-ci-db
+      - postgres-ci
     environment:
       <<: *graphql_engine_environment
-      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${CI_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
       HASURA_GRAPHQL_SERVER_PORT: ${CI_HASURA_PORT}
 
   # for local s3 storage for images
   localstack:
     profiles: ['dev']
     image: localstack/localstack:latest
+    restart: always
     hostname: s3
     networks:
       default:

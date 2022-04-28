@@ -15,7 +15,15 @@ jobs:
       REACT_APP_HASURA_URL: https://coordinape-staging.hasura.app/v1/graphql
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       CI_HASURA_PORT: 8081
-      CI_POSTGRES_DATABASE: ci
+      CI_POSTGRES_PORT: 4321
+      HASURA_EVENT_SECRET: event-secret
+      HASURA_GRAPHQL_ADMIN_SECRET: admin-secret
+      LOCAL_POSTGRES_PORT: 5432
+        # LOCAL_HASURA_PORT: 8080
+      LOCAL_VERCEL_PORT: 3000
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
 
     steps:
       - uses: actions/checkout@v2
@@ -38,11 +46,11 @@ jobs:
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
-      - run: yarn test:ci --verbose-hasura
+      - run: yarn test:ci
       - name: Codecov
         run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov 
-          chmod +x codecov 
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
           ./codecov
 
       # remove symlink to prevent redundant caching
