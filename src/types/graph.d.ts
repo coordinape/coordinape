@@ -49,7 +49,7 @@ interface IMapContext {
   isEgoEdge: (edge: IMapEdgeFG, direction: TDirection = 'both') => boolean;
   isBagEdge: (edge: IMapEdgeFG, direction: TDirection = 'both') => boolean;
   isBetweenBagEdge: (edge: IMapEdgeFG) => boolean;
-  getEdgeMeasure: (edge: IMapEdgeFG, scaler?: TScaler) => number;
+  getEdgeMeasure: (edge: IMapEdgeFG) => number;
   getNodeMeasure: (node: IMapNodeFG, scaler?: TScaler) => number;
   getCurvature: (edge: IMapEdgeFG) => number;
 }

@@ -44,9 +44,9 @@ const COLOR_RECEIVE_LINK = '#d3860d80';
 const COLOR_LINK = '#00000015';
 const COLOR_LINK_DIM = '#00000008';
 
-const NODE_R = 5;
+const MIN_ZOOM = 3;
 
-const edgeWidthScaler = (f: number) => f * 25 + 1;
+const NODE_R = 5;
 // const nodeSizeScaler = (f: number) => NODE_R + f * 8;
 const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 // const edgeForceScaler = (f: number) => 0.1 * f;
@@ -126,14 +126,14 @@ export const AMForceGraph = () => {
   const linkDirectionalParticleWidth = useCallback((edge: IMapEdgeFG) => {
     const { getEdgeMeasure, isEgoEdge } = mapCtxRef.current;
     if (isEgoEdge(edge, 'gives') || isEgoEdge(edge, 'receives')) {
-      return getEdgeMeasure(edge, edgeWidthScaler);
+      return getEdgeMeasure(edge) * MIN_ZOOM * NODE_R * 2;
     }
     return 0;
   }, []);
 
   const getWidth = useCallback((edge: IMapEdgeFG) => {
     const { getEdgeMeasure } = mapCtxRef.current;
-    return getEdgeMeasure(edge, edgeWidthScaler);
+    return getEdgeMeasure(edge) * MIN_ZOOM * NODE_R * 2;
   }, []);
 
   const getCurvature = useCallback((edge: IMapEdgeFG) => {
@@ -156,7 +156,7 @@ export const AMForceGraph = () => {
         mapCtxRef.current;
       const nid = node.id;
 
-      const radius = 5;
+      const radius = NODE_R;
       const width = getNodeMeasure(node, nodeBorderScaler);
       const isInBag = bag.has(nid);
 
@@ -245,6 +245,7 @@ export const AMForceGraph = () => {
             linkWidth={getWidth as (l: LinkObject) => number}
             linkCurvature={getCurvature as (l: LinkObject) => number}
             linkDirectionalParticles={4}
+            minZoom={MIN_ZOOM}
           />
         )}
       </AutoSizer>
