@@ -11,8 +11,10 @@ jobs:
       HARDHAT_FORK_BLOCK: 13500000
       HARDHAT_GANACHE_CHAIN_ID: 1338
       HARDHAT_GANACHE_PORT: 8546
-      REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
-      REACT_APP_HASURA_URL: https://coordinape-staging.hasura.app/v1/graphql
+      IMAGES_AWS_ENDPOINT: http://s3.localhost.localstack.cloud:4566
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_S3_BASE_URL: http://coordinape.s3-website.localhost.localstack.cloud:4566
+      REACT_APP_HASURA_URL: http://localhost:8081/v1/graphql
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       CI_HASURA_PORT: 8081
       CI_POSTGRES_PORT: 4321

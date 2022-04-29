@@ -18,9 +18,10 @@ if [ ! "$HARDHAT_FORK_BLOCK" ]; then
   echo
 fi
 
-# TODO: skip this if it's already running
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 
+# comment out DOCKER_GATEWAY_HOST if running locally on macOS
+export DOCKER_GATEWAY_HOST=172.17.0.1
 CMD=(docker compose --profile ci up)
 
 if [ "$VERBOSE" ]; then
@@ -31,6 +32,8 @@ else
   "${CMD[@]}" > "$LOGFILE" 2>&1 & PID=$!
 fi
 
+
+export NODE_HASURA_URL=http://localhost:"$CI_HASURA_PORT"/v1/graphql
 VERCEL_CMD=(vercel dev -t "$CI_VERCEL_TOKEN" --confirm)
 
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
