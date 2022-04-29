@@ -84,7 +84,7 @@
     "hardhat:ganache": "./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "yarn hardhat:ganache --exec craco test",
-    "test:ci": "yarn hardhat:ganache --exec ./scripts/ci.sh -v",
+    "test:ci": "yarn hardhat:ganache --exec ./scripts/ci.sh",
     "eject": "craco eject",
     "format:staged": "lint-staged",
     "lint": "eslint",

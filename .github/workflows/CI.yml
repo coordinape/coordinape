@@ -19,8 +19,8 @@ jobs:
       HASURA_EVENT_SECRET: event-secret
       HASURA_GRAPHQL_ADMIN_SECRET: admin-secret
       LOCAL_POSTGRES_PORT: 5432
-        # LOCAL_HASURA_PORT: 8080
       LOCAL_VERCEL_PORT: 3000
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
