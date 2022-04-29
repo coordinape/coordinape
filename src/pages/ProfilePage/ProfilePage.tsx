@@ -246,10 +246,10 @@ const ProfilePageContent = ({
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
   const navigate = useNavigate();
-  const { selectAndFetchCircle } = useApiBase();
+  const { selectCircle } = useApiBase();
 
   const goToCircleHistory = (id: number, path: string) => {
-    selectAndFetchCircle(id).then(() => {
+    selectCircle(id).then(() => {
       scrollToTop();
       navigate(path);
     });
