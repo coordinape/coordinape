@@ -41,7 +41,7 @@ services:
     <<: *postgres
     profiles: ['ci']
     volumes:
-      - db_data:/var/lib/postgresql/data-ci
+      - db_data_ci:/var/lib/postgresql/data
     ports:
       - ${CI_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
 
@@ -89,3 +89,4 @@ networks:
 
 volumes:
   db_data: null
+  db_data_ci: null
