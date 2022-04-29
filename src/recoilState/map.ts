@@ -556,13 +556,17 @@ export const rMapContext = selector<IMapContext>({
       }
     };
 
-    const getEdgeMeasure = (edge: IMapEdgeFG, scaler?: TScaler): number => {
-      //if tokens > 100 the width will be 90% node diameter
-      if (edge.tokens > 100) {
-        return scaler ? scaler(8) : edge.tokens;
-      }
-      //if tokens <= 100 the width will be a factor of 80% node diameter
-      return scaler ? scaler((edge.tokens * 7) / 100) : edge.tokens;
+    // return the ratio between the value of this edge, and the total amount
+    // that a single person received. set a lower bound so edges don't become
+    // too thin when there's a skewed distribution.
+    //
+    // so an edge will be max-width when the person who received the most in the
+    // group got it all from a single other person.
+    //
+    // this works correctly only when metric == 'give'... but the option to
+    // change metric to anything else is hidden, so... "this is fine"
+    const getEdgeMeasure = (edge: IMapEdgeFG): number => {
+      return Math.max(0.1, edge.tokens / max);
     };
 
     const getNodeMeasure = (node: IMapNodeFG, scaler?: TScaler): number => {
