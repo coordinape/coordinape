@@ -31,7 +31,7 @@ else
   "${CMD[@]}" > "$LOGFILE" 2>&1 & PID=$!
 fi
 
-VERCEL_CMD=(vercel dev -t "$VERCEL_TOKEN" --confirm)
+VERCEL_CMD=(vercel dev -t "$CI_VERCEL_TOKEN" --confirm)
 
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
 
