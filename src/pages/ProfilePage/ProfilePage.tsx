@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { Avatar } from '../../ui/Avatar/Avatar';
 import {
   ProfileSocialIcons,
   ProfileSkills,
@@ -24,6 +23,7 @@ import {
 } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
+import { Avatar } from 'ui';
 import { getAvatarPath, getCircleAvatar } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -72,17 +72,6 @@ const useStyles = makeStyles(theme => ({
     top: 155,
     width: 143,
     height: 143,
-  },
-  myCircleAvatar: {
-    width: 'inherit',
-    height: 'inherit',
-    marginRight: theme.spacing(1),
-    border: `1px solid ${theme.colors.border}`,
-    cursor: 'pointer',
-    transition: 'border-color .3s ease',
-    '&:hover': {
-      border: '1px solid rgba(239, 115, 118, 1)',
-    },
   },
   uploadButton: {
     position: 'absolute',

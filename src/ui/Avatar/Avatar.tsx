@@ -16,7 +16,7 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   overflow: 'hidden',
   userSelect: 'none',
   borderRadius: '100%',
-  backgroundColor: 'Black',
+  backgroundColor: '$black',
   cursor: 'pointer',
   transition: 'border-color .3s ease',
   border: `1px solid $border`,
