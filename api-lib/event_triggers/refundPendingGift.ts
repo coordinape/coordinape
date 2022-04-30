@@ -107,7 +107,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
         },
         {
-          operationName: 'refundPendingGifts-newNonGiver',
+          operationName: 'refundPendingGifts_newNonGiver',
         }
       );
       results.push(newNonGiverResult);
@@ -173,7 +173,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
         },
         {
-          operationName: 'refundPendingGifts-newNonReceiver',
+          operationName: 'refundPendingGifts_newNonReceiver',
         }
       );
       results.push(newNonReceiverResult);

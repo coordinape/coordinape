@@ -25,7 +25,7 @@ async function run() {
         [mutation]: [{ where: {} }, { affected_rows: true }],
       },
       {
-        operationName: 'db-clean',
+        operationName: 'db_clean',
       }
     );
 

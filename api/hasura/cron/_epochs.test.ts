@@ -282,7 +282,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'endEpoch-insertAndDeleteGifts',
+          operationName: 'endEpoch_insertAndDeleteGifts',
         }
       );
       expect(mockMutation).toBeCalledWith(
@@ -493,7 +493,7 @@ describe('epoch Cron Logic', () => {
           },
         },
         {
-          operationName: 'endEpoch-update',
+          operationName: 'endEpoch_update',
         }
       );
       expect(mockMutation).toBeCalledWith(
@@ -504,7 +504,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'cron-setNextEpochNumber-update',
+          operationName: 'cron-setNextEpochNumber_update',
         }
       );
       expect(mockMutation).toBeCalledWith(
@@ -524,7 +524,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'createEpoch-insert',
+          operationName: 'createEpoch_insert',
         }
       );
       expect(mockMutation).toBeCalledWith(
@@ -696,7 +696,7 @@ describe('epoch Cron Logic', () => {
             { number: true },
           ],
         },
-        { operationName: 'cron-setNextEpochNumber-update' }
+        { operationName: 'cron-setNextEpochNumber_update' }
       );
     });
     test('prior epoch and both notifications enabled', async () => {

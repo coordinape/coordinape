@@ -63,7 +63,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'allocationCsv-getGifts',
+      operationName: 'allocationCsv_getGifts',
     }
   );
   const grant = payload.grant ?? epochObj.grant;

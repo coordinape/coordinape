@@ -29,7 +29,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'logoutUser-deleteToken',
+        operationName: 'logoutUser_deleteToken',
       }
     );
     return res.status(200).json({ id: hasuraProfileId });

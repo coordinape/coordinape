@@ -188,7 +188,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       },
     },
     {
-      operationName: 'updateAllocations-updateUsers',
+      operationName: 'updateAllocations_updateUsers',
     }
   );
 

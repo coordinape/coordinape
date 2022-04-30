@@ -44,7 +44,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'adminUpdateUser-getExistingUser',
+        operationName: 'adminUpdateUser_getExistingUser',
       }
     );
 
@@ -114,7 +114,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'adminUpdateUser-update',
+      operationName: 'adminUpdateUser_update',
     }
   );
 

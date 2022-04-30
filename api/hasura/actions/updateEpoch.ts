@@ -57,7 +57,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     },
     {
-      operationName: 'updateEpoch-getEpoch',
+      operationName: 'updateEpoch_getEpoch',
     }
   );
 
@@ -144,7 +144,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     },
     {
-      operationName: 'updateEpoch-update',
+      operationName: 'updateEpoch_update',
     }
   );
 

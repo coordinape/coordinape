@@ -44,7 +44,7 @@ async function getPreviousLogo(id: number): Promise<string | undefined> {
       ],
     },
     {
-      operationName: 'updateCircleLogo-getPreviousLogo',
+      operationName: 'updateCircleLogo_getPreviousLogo',
     }
   );
 
@@ -66,7 +66,7 @@ function logoUpdater(id: number) {
         ],
       },
       {
-        operationName: 'updateCircleLogo-update',
+        operationName: 'updateCircleLogo_update',
       }
     );
 

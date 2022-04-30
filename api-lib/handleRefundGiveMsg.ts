@@ -29,7 +29,7 @@ export default async function handleRefundGiveMsg(
         ],
       },
       {
-        operationName: 'refund-getSenders',
+        operationName: 'refund_getSenders',
       }
     );
     const { users_by_pk: recipient } = await adminClient.query(
@@ -40,7 +40,7 @@ export default async function handleRefundGiveMsg(
         ],
       },
       {
-        operationName: 'refund-getRecipients',
+        operationName: 'refund_getRecipients',
       }
     );
     assert(sender);

@@ -34,7 +34,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'deleteUser-getExistingUser',
+      operationName: 'deleteUser_getExistingUser',
     }
   );
 
@@ -65,7 +65,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'deleteUser-delete',
+      operationName: 'deleteUser_delete',
     }
   );
 

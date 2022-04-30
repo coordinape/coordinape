@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'removeTeammates-findUser',
+        operationName: 'removeTeammates_findUser',
       }
     );
     assert(users_by_pk, 'panic: user must exist');
@@ -119,7 +119,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
       },
       {
-        operationName: 'removeTeammates-deleteAndRefund',
+        operationName: 'removeTeammates_deleteAndRefund',
       }
     );
     results.push(newNonGiverResult);

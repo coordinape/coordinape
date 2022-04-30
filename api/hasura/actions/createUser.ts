@@ -34,7 +34,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'createUser-getExistingUser',
+      operationName: 'createUser_getExistingUser',
     }
   );
 
@@ -116,7 +116,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'createUser-insert',
+      operationName: 'createUser_insert',
     }
   );
 

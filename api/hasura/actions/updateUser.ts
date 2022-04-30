@@ -65,7 +65,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'updateUser-update',
+      operationName: 'updateUser_update',
     }
   );
 

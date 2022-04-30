@@ -73,7 +73,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'updateTeammates-deleteAndInsert',
+      operationName: 'updateTeammates_deleteAndInsert',
     }
   );
 

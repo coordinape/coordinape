@@ -37,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'auth-getToken',
+        operationName: 'auth_getToken',
       }
     );
     const tokenableId = tokenRow.personal_access_tokens[0]?.tokenable_id;
@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'auth-getProfile',
+        operationName: 'auth_getProfile',
       }
     );
 

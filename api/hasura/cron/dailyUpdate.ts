@@ -132,7 +132,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'cron-dailyUpdate',
+        operationName: 'cron_dailyUpdate',
       }
     );
 

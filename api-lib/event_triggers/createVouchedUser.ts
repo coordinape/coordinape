@@ -36,7 +36,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'createVouchedUser-findExistingUser',
+          operationName: 'createVouchedUser_findExistingUser',
         }
       );
 
@@ -57,7 +57,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'createVouchedUser-insertUser',
+          operationName: 'createVouchedUser_insertUser',
         }
       );
 
@@ -80,7 +80,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             ],
           },
           {
-            operationName: 'createVouchedUser-updateNominees',
+            operationName: 'createVouchedUser_updateNominees',
           }
         );
       }

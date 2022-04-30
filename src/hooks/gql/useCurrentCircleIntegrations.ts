@@ -21,7 +21,7 @@ export function useCurrentCircleIntegrations() {
         ],
       },
       {
-        operationName: 'circle-integrations',
+        operationName: 'circle_integrations',
       }
     );
 

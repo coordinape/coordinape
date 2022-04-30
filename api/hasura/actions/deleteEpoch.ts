@@ -33,7 +33,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'deleteEpoch-delete',
+      operationName: 'deleteEpoch_delete',
     }
   );
   assert(delete_epochs);

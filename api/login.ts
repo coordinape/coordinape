@@ -43,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'login-getProfile',
+        operationName: 'login_getProfile',
       }
     );
 
@@ -59,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'login-insertProfile',
+          operationName: 'login_insertProfile',
         }
       );
       profile = insert_profiles_one;
@@ -92,7 +92,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'login-insertAccessToken',
+          operationName: 'login_insertAccessToken',
         }
       );
 

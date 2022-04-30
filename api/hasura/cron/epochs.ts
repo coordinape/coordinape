@@ -171,7 +171,7 @@ async function getEpochsToNotify() {
       },
     },
     {
-      operationName: 'cron-epochsToNotify',
+      operationName: 'cron_epochsToNotify',
     }
   );
   return result;
@@ -296,7 +296,7 @@ export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
           ],
         },
         {
-          operationName: 'endEpoch-insertAndDeleteGifts',
+          operationName: 'endEpoch_insertAndDeleteGifts',
         }
       );
     }
@@ -364,7 +364,7 @@ export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
         },
       },
       {
-        operationName: 'endEpoch-update',
+        operationName: 'endEpoch_update',
       }
     );
 
@@ -653,7 +653,7 @@ async function setNextEpochNumber({
         ],
       },
       {
-        operationName: 'cron-setNextEpochNumber-getLastEpoch',
+        operationName: 'cron-setNextEpochNumber_getLastEpoch',
       }
     );
   } catch (e: unknown) {
@@ -674,7 +674,7 @@ async function setNextEpochNumber({
         ],
       },
       {
-        operationName: 'cron-setNextEpochNumber-update',
+        operationName: 'cron-setNextEpochNumber_update',
       }
     );
   } catch (e: unknown) {

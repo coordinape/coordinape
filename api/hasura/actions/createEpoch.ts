@@ -93,7 +93,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       ],
     },
     {
-      operationName: 'createEpoch-insert',
+      operationName: 'createEpoch_insert',
     }
   );
 
