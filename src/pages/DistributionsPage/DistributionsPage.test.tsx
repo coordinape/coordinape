@@ -85,7 +85,7 @@ test('render without a distribution', async () => {
   });
 
   expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
-  expect(screen.getByText('Submit Distribution to Vault')).toBeInTheDocument();
+  expect(screen.getByText('Submit Distribution')).toBeInTheDocument();
 });
 
 test('render with a distribution', async () => {

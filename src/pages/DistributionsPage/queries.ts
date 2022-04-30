@@ -3,7 +3,6 @@ import assert from 'assert';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
-import { useQuery } from 'react-query';
 
 import type { Awaited } from 'types/shim';
 
@@ -114,14 +113,17 @@ export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;
 export type Gift = Exclude<EpochDataResult['token_gifts'], undefined>[0];
 
 export const getPreviousDistribution = async (
-  circle_id: number | null | undefined
-): Promise<typeof distributions | undefined> => {
+  circleId: number,
+  vaultId: number
+): Promise<typeof distributions[0] | undefined> => {
   const { distributions } = await client.query({
     distributions: [
       {
         order_by: [{ id: order_by.desc }],
+        limit: 1,
         where: {
-          epoch: { circle_id: { _eq: circle_id } },
+          epoch: { circle_id: { _eq: circleId } },
+          vault_id: { _eq: vaultId },
           saved_on_chain: { _eq: true },
         },
       },
@@ -132,18 +134,10 @@ export const getPreviousDistribution = async (
       },
     ],
   });
-  return distributions;
+  return distributions?.[0];
 };
 
 export type PreviousDistribution = Exclude<
   Awaited<ReturnType<typeof getPreviousDistribution>>,
   undefined
->[0];
-
-export function usePreviousDistributions(circleId: number | null | undefined) {
-  return useQuery(
-    ['previous-distributions-', circleId],
-    async () => getPreviousDistribution(circleId),
-    { enabled: !!circleId }
-  );
-}
+>;

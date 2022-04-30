@@ -7,16 +7,16 @@ import { z } from 'zod';
 
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 
-import { ApeTextField } from 'components';
+import { LoadingModal, ApeTextField } from 'components';
+import { useApeSnackbar } from 'hooks';
 import { Box, Button, Text } from 'ui';
 
-import { usePreviousDistributions } from './queries';
+import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import { useSubmitDistribution } from './useSubmitDistribution';
-import type { SubmitDistribution } from './useSubmitDistribution';
 
 const DistributionFormSchema = z.object({
-  amount: z.number(),
+  amount: z.number().gt(0),
   selectedVaultId: z.number(),
 });
 
@@ -42,16 +42,9 @@ export function DistributionForm({
   setVaultId,
   vaults,
 }: SubmitFormProps) {
-  const [loadingTrx, setLoadingTrx] = useState(false);
-
+  const [submitting, setSubmitting] = useState(false);
+  const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
-
-  // FIXME don't load this data until the form is ready to be submitted
-  const {
-    data: prev,
-    isLoading,
-    isError,
-  } = usePreviousDistributions(epoch?.circle?.id);
 
   const circle = epoch?.circle;
 
@@ -69,7 +62,7 @@ export function DistributionForm({
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (value: any) => {
     assert(epoch?.id && circle);
-    setLoadingTrx(true);
+    setSubmitting(true);
     const vault = circle.organization?.vaults?.find(
       v => v.id === Number(value.selectedVaultId)
     );
@@ -85,36 +78,26 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const submitDTO: SubmitDistribution = {
-      amount: value.amount,
-      vault,
-      gifts,
-      userIdsByAddress,
-      previousDistribution: prev?.find(d => d.vault_id === vault.id),
-      circleId: circle.id,
-      epochId: epoch.id,
-    };
-
     try {
-      await submitDistribution(submitDTO);
-      setLoadingTrx(false);
+      await submitDistribution({
+        amount: value.amount,
+        vault,
+        gifts,
+        userIdsByAddress,
+        previousDistribution: await getPreviousDistribution(
+          circle.id,
+          vault.id
+        ),
+        circleId: circle.id,
+        epochId: epoch.id,
+      });
+      setSubmitting(false);
     } catch (e) {
+      showError(e);
       console.error('DistributionsPage.onSubmit:', e);
-      setLoadingTrx(false);
+      setSubmitting(false);
     }
   };
-
-  if (isLoading) return <Box>Loading...</Box>;
-
-  const pageMessage = () => {
-    if (!epoch) return `Sorry, epoch was not found.`;
-
-    if (isError)
-      return 'Sorry, there was an error retrieving previous distribution data.';
-  };
-
-  const message = pageMessage();
-  if (message) return <Box>{message}</Box>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -146,7 +129,7 @@ export function DistributionForm({
                       value={value || ''}
                       label="Vault"
                       error={!!error}
-                      disabled={loadingTrx}
+                      disabled={submitting}
                       onChange={({ target: { value } }) => {
                         onChange(value);
                         setVaultId(String(value));
@@ -189,7 +172,7 @@ export function DistributionForm({
                 error={!!error}
                 helperText={error ? error.message : null}
                 value={value}
-                disabled={loadingTrx}
+                disabled={submitting}
                 onChange={({ target: { value } }) => {
                   onChange(Number(value));
                 }}
@@ -206,12 +189,11 @@ export function DistributionForm({
         </Box>
       </Box>
       <Box css={{ display: 'flex', justifyContent: 'center' }}>
-        <Button color="red" size="medium" disabled={loadingTrx}>
-          {loadingTrx
-            ? `Transaction Pending...`
-            : `Submit Distribution to Vault`}
+        <Button color="red" size="medium" disabled={submitting}>
+          {submitting ? 'Submitting...' : 'Submit Distribution'}
         </Button>
       </Box>
+      {submitting && <LoadingModal visible />}
     </form>
   );
 }

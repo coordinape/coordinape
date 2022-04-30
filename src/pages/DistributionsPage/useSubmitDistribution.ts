@@ -71,7 +71,7 @@ export function useSubmitDistribution() {
         previousDistribution: MerkleDistributorInfo
       ) => {
         const previous = FixedNumber.from(
-          BigNumber.from(previousDistribution.claims[address].amount || '0')
+          BigNumber.from(previousDistribution.claims[address]?.amount || '0')
         );
         const current = FixedNumber.from(BigNumber.from(currentAmount));
         return Number(current.subUnsafe(previous).divUnsafe(denominator));
