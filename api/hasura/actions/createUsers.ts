@@ -108,7 +108,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: {
             circle_id: { _eq: circle_id },
             address: { _ilike: user.address },
-            name: { _eq: user.name },
             ended: { _eq: false },
           },
         },

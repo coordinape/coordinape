@@ -15,7 +15,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // External Constraint Validation
   // It might be preferable to add this uniqueness constraint into the database
-  const { circle_id, address, name } = input;
+  const { circle_id, address } = input;
 
   const { users: existingUsers } = await adminClient.query({
     users: [
@@ -99,7 +99,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         where: {
           circle_id: { _eq: circle_id },
           address: { _ilike: address },
-          name: { _eq: name },
           ended: { _eq: false },
         },
       },
