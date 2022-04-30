@@ -56,8 +56,16 @@ export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
   return avatar ? getAvatarPath(avatar) : placeholder;
 };
 
-export const getInitialFromName = (name: string) =>
-  name?.substring(0, 2).toUpperCase();
+export const getInitialFromName = (name: string) => {
+  const hasSpace = name.indexOf(' ') !== -1;
+  const initials =
+    name.substring(0, hasSpace ? 1 : 2) +
+    (hasSpace ? name.charAt(name.lastIndexOf(' ') + 1) : '').toUpperCase();
+  return initials.toUpperCase();
+  // Returns PE if name is "Peter Edwards"
+  // Returns PR if name is "Peter Edwards Roman"
+  // Returns PR if name is "Preben"
+};
 
 export const getCircleAvatar = ({
   avatar,
