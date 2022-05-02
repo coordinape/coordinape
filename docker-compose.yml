@@ -23,6 +23,7 @@ services:
       - ${LOCAL_HASURA_PORT:-8080}:${LOCAL_HASURA_PORT:-8080}
     depends_on:
       - postgres
+      - localstack
     restart: always
     environment: &graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
@@ -52,14 +53,16 @@ services:
       - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
     depends_on:
       - postgres-ci
+      - localstack
     environment:
       <<: *graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
       HASURA_GRAPHQL_SERVER_PORT: ${CI_HASURA_PORT}
+      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_VERCEL_PORT}/api/hasura
+      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_VERCEL_PORT}/api/hasura/auth
 
   # for local s3 storage for images
   localstack:
-    profiles: ['dev', 'ci']
     image: localstack/localstack:latest
     restart: always
     hostname: s3
