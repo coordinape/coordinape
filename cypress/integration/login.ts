@@ -6,15 +6,20 @@ context('Coordinape', () => {
   before(() => {
     cy.on('window:before:load', win => {
       const provider = new Web3Provider(
-        new TestProvider('http://localhost:8545')
+        new TestProvider('http://localhost:8546')
       );
       Object.defineProperty(win, 'ethereum', { value: provider });
     });
   });
   it('can login', () => {
-    cy.visit('http://localhost:3000');
+    cy.log(`is CI: ${JSON.stringify(process.env)}`);
+    cy.visit('http://localhost:3001');
     cy.get('button').click();
     cy.contains('Metamask').click();
-    cy.contains('Start a Circle').click();
+    // This is highly depedendent upon how our seed is constructed..
+    cy.url({ timeout: 30000 }).should('include', '/allocation', {
+      timeout: 30000,
+    });
+    cy.contains('What have you been working on').click();
   });
 });

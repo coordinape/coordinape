@@ -10,8 +10,8 @@ import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
-const SEED_PHRASE =
-  'test test test test test test test test test test test junk';
+
+import { SEED_PHRASE, getAccountPath } from './eth';
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
 
@@ -134,9 +134,6 @@ async function getBase64Avatar() {
   return buffer.toString('base64');
 }
 
-function getAccountPath(index: number): string {
-  return `m/44'/60'/0'/0/${index}`;
-}
 export function getMembershipInput(
   input: Partial<MembershipInput> = {},
   devUser?: ValueTypes['users_insert_input']
