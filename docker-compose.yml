@@ -1,7 +1,8 @@
 version: '3.6'
 
 services:
-  postgres:
+  postgres: &postgres
+    profiles: ['dev']
     image: postgres:13
     restart: always
     volumes:
@@ -12,18 +13,19 @@ services:
       POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
 
   # Hasura
-  graphql-engine:
+  graphql-engine: &graphql_engine
+    profiles: ['dev']
     image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
     ports:
-      - ${LOCAL_HASURA_PORT}:${LOCAL_HASURA_PORT}
+      - ${LOCAL_HASURA_PORT:-8080}:${LOCAL_HASURA_PORT:-8080}
     depends_on:
       - postgres
+      - localstack
     restart: always
-    environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+    environment: &graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_GRAPHQL_DEV_MODE: 'true'
@@ -36,9 +38,33 @@ services:
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_VERCEL_PORT}/api/hasura/auth
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
+  postgres-ci:
+    <<: *postgres
+    profiles: ['ci']
+    volumes:
+      - db_data_ci:/var/lib/postgresql/data
+    ports:
+      - ${CI_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
+
+  graphql-engine-ci:
+    <<: *graphql_engine
+    profiles: ['ci']
+    ports:
+      - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
+    depends_on:
+      - postgres-ci
+      - localstack
+    environment:
+      <<: *graphql_engine_environment
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_SERVER_PORT: ${CI_HASURA_PORT}
+      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_VERCEL_PORT}/api/hasura
+      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_VERCEL_PORT}/api/hasura/auth
+
   # for local s3 storage for images
   localstack:
     image: localstack/localstack:latest
+    restart: always
     hostname: s3
     networks:
       default:
@@ -66,3 +92,4 @@ networks:
 
 volumes:
   db_data: null
+  db_data_ci: null

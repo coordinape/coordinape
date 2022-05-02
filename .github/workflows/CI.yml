@@ -7,13 +7,29 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI: true
+      DOCKER_GATEWAY_HOST: 172.17.0.1
       ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
       HARDHAT_GANACHE_CHAIN_ID: 1338
       HARDHAT_GANACHE_PORT: 8546
-      REACT_APP_S3_BASE_URL: https://coordinape.s3.amazonaws.com
-      REACT_APP_HASURA_URL: https://coordinape-staging.hasura.app/v1/graphql
+      IMAGES_AWS_ENDPOINT: http://s3.localhost.localstack.cloud:4566
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_S3_BASE_URL: http://coordinape.s3-website.localhost.localstack.cloud:4566
+      REACT_APP_HASURA_URL: http://localhost:8081/v1/graphql
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      CI_HASURA_PORT: 8081
+      CI_POSTGRES_PORT: 4321
+      CI_VERCEL_TOKEN: ${{ secrets.CI_VERCEL_TOKEN }}
+      CI_VERCEL_PORT: 3001
+      HASURA_EVENT_SECRET: event-secret
+      HASURA_GRAPHQL_ADMIN_SECRET: admin-secret
+      HASURA_GRAPHQL_ENDPOINT: http://localhost:8081
+      LOCAL_POSTGRES_PORT: 5432
+      LOCAL_VERCEL_PORT: 3000
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
+      NODE_HASURA_URL: http://localhost:8081/v1/graphql
 
     steps:
       - uses: actions/checkout@v2
@@ -39,8 +55,8 @@ jobs:
       - run: yarn test:ci
       - name: Codecov
         run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov 
-          chmod +x codecov 
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
           ./codecov
 
       # remove symlink to prevent redundant caching
