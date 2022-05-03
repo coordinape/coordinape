@@ -78,20 +78,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backButton: {
-    marginRight: theme.spacing(1.5),
-    padding: '10px 24px',
-    fontSize: 19.5,
-    lineHeight: 1.75,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    background: '#B5C1C7',
-    borderRadius: 13,
-    '&:hover': {
-      background: theme.colors.darkRed,
-    },
-  },
   balanceContainer: {
     position: 'fixed',
     right: 50,
