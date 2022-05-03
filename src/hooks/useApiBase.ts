@@ -4,6 +4,7 @@ import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
+import { GraphQLError } from '../lib/gql/__generated__/zeus';
 import { useRecoilLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -183,6 +184,11 @@ export const useApiBase = () => {
           }
           return manifest;
         } catch (e) {
+          if (e instanceof GraphQLError && e.response.errors) {
+            for (const err of e.response.errors) {
+              console.error('graphql error: ', err);
+            }
+          }
           console.error('error fetching manifest:', e);
           throw e;
         }
