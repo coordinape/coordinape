@@ -237,22 +237,15 @@ const themeOptions = {
 };
 
 export const createTheme = () => {
-  let theme = createMuiTheme(
-    _.merge(
-      {},
-      baseOptions,
-      themeOptions,
-      {
-        custom: {
-          appHeaderHeight: 82,
-          appDrawerWidth: 375,
-        },
+  const theme = createMuiTheme(
+    _.merge({}, baseOptions, themeOptions, {
+      custom: {
+        appHeaderHeight: 82,
+        appDrawerWidth: 375,
       },
-      { colors: customColor }
-    ) as any
+      colors: customColor,
+    }) as any
   );
 
-  theme = responsiveFontSizes(theme);
-
-  return theme;
+  return responsiveFontSizes(theme);
 };

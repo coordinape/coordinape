@@ -35,6 +35,8 @@ import {
 } from 'routes/paths';
 import { APP_URL_OPEN_WALLET, APP_URL_CREATE_CIRCLE } from 'utils/domain';
 
+import { colors } from './createLandingPageTheme';
+
 const VALUE_PROP_REWARD =
   'Gift Circles allow DAO members to collectively reward each other making community payments more equitable and transparent.';
 const VALUE_PROP_INCENTIVIZE =
@@ -150,7 +152,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 400,
   },
   valuePropContainer: {
-    backgroundColor: theme.colors.almostWhite,
+    backgroundColor: colors.almostWhite,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -235,7 +237,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   partnerContainer: {
-    backgroundColor: theme.colors.almostWhite,
+    backgroundColor: colors.almostWhite,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -279,7 +281,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   footer: {
-    backgroundColor: theme.colors.almostWhite,
+    backgroundColor: colors.almostWhite,
     padding: '80px 0',
     display: 'flex',
     alignItems: 'center',

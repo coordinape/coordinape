@@ -6,7 +6,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 const fontFamilyDefault = ['Space Grotesk', 'sans-serif'];
 const fontFamilyMono = ['Space Mono', 'sans-serif'];
 
-const colors = {
+export const colors = {
   white: '#fff',
   black: '#000',
   red: '#EF7376',
@@ -217,4 +217,5 @@ const createTheme = () => {
 
   return createMuiTheme(merge({}, base, derivedTheme(base)));
 };
+
 export default createTheme;
