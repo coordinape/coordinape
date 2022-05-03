@@ -3,14 +3,14 @@ import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 
-import LandingPage from 'pages/LandingPage';
-import createLandingPageTheme from 'theme/createLandingPageTheme';
+import createLandingPageTheme from './createLandingPageTheme';
+import LandingPage from './LandingPage';
 
-import './App.css';
+import '../../App.css';
 
 const theme = createLandingPageTheme();
 
-function AppLandingPage() {
+export default function LandingPageApp() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -18,5 +18,3 @@ function AppLandingPage() {
     </ThemeProvider>
   );
 }
-
-export default AppLandingPage;

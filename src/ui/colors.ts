@@ -1,4 +1,4 @@
-// Updated at Thu, 17 Mar 2022 20:48:15 GMT
+// Updated at Tue, 03 May 2022 00:36:14 GMT
 // by scripts/update-figma-colors.ts
 
 export const colors = {

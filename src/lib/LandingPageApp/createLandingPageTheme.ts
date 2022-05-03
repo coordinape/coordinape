@@ -3,11 +3,19 @@ import merge from 'lodash/merge';
 import { createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
-import colors from './colors';
-import custom from './custom';
-
 const fontFamilyDefault = ['Space Grotesk', 'sans-serif'];
 const fontFamilyMono = ['Space Mono', 'sans-serif'];
+
+const colors = {
+  white: '#fff',
+  black: '#000',
+  red: '#EF7376',
+  text: '#516369',
+  primary: '#5E6F74',
+  almostWhite: '#F6F7F8',
+  lightBlue: '#84C7CA',
+  darkBlue: '#5D9C9F',
+};
 
 const palette = {
   type: 'light',
@@ -105,6 +113,7 @@ const derivedTheme = (theme: Theme) => ({
     },
     MuiButton: {
       root: {
+        textDecoration: 'none',
         textTransform: 'none',
         fontSize: 19,
         lineHeight: 1.26,
@@ -116,9 +125,9 @@ const derivedTheme = (theme: Theme) => ({
         },
       },
       text: {
-        color: '#84C7CA',
+        color: colors.lightBlue,
         '&:hover': {
-          color: '#4e7577',
+          color: colors.darkBlue,
           backgroundColor: 'transparent',
         },
       },
@@ -206,6 +215,6 @@ const createTheme = () => {
     colors,
   } as any);
 
-  return createMuiTheme(merge({}, base, derivedTheme(base), { custom }));
+  return createMuiTheme(merge({}, base, derivedTheme(base)));
 };
 export default createTheme;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import clsx from 'clsx';
 
 import {
@@ -297,7 +295,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: 24,
     lineHeight: 1.3,
     fontWeight: 600,
-    textDecoration: 'underline',
     fontFamily: theme.typography.fontFamily,
   },
 }));
