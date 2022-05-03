@@ -3,6 +3,7 @@ import path from 'path';
 
 import dotenv from 'dotenv';
 import * as Figma from 'figma-api';
+import sortBy from 'lodash/sortBy';
 
 dotenv.config();
 
@@ -18,10 +19,15 @@ async function main() {
     ids: [COLORS_DOCUMENT],
   });
 
-  const styles: Styles[] = Object.entries(file.styles)
-    .filter(([, { styleType }]) => styleType === FILL)
-    .map(([id, { name }]) => ({ name: name.replace(/\s/g, ''), id }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const styles: Styles[] = sortBy(
+    Object.entries(file.styles)
+      .filter(([, { styleType }]) => styleType === FILL)
+      .map(([id, { name }]) => ({ name: name.replace(/\s/g, ''), id })),
+    [
+      ({ name }) => name.split('/')[0],
+      ({ name }) => Number((name.split('/')[1] || '').split('|')[0]),
+    ]
+  );
 
   const result = mapStyleToNode(file, styles);
   // eslint-disable-next-line no-console
@@ -113,10 +119,12 @@ const generateFile = (
       colorGroupName = curr.name.split('/')[0];
     }
 
+    const name = curr.name.split('|')[0].replace('/', '').toLowerCase();
+
     return (
       prev +
       (colorGroupName ? `  // ${colorGroupName}\n` : '') +
-      `  '${curr.name}': '${curr.color}',\n`
+      `  '${name}': '${curr.color}',\n`
     );
   }, '');
 
