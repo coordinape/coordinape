@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
     '&::after': {
-      borderBottomColor: `${theme.colors.transparent} !important`,
+      borderBottomColor: `transparent !important`,
     },
   },
   select: {

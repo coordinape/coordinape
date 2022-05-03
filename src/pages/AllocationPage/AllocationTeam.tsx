@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.placeholderDark,
+      color: theme.colors.lightText,
     },
   },
   sortButtonContainer: {
@@ -181,7 +181,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 400,
     textTransform: 'none',
-    color: theme.colors.placeholderDark,
+    color: theme.colors.text,
     background: theme.colors.lightBackground,
     borderRadius: theme.spacing(3),
     '&:hover': {

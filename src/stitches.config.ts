@@ -50,6 +50,53 @@ const spaces = {
   '2xl': '48px',
 };
 
+// TODO deduplicate too-similar colors
+// TODO use figma colors for the rest
+export const colors = {
+  white: '#fff',
+  black: '#000',
+
+  // red
+  lightRed: '#F5E4E4',
+  mediumRed: '#E6BCBC',
+  red: '#EF7376',
+  darkRed: '#6f3638',
+
+  // gray
+  almostWhite: '#fbfbfb',
+  subtleGray: '#F5F5F5',
+  surfaceGray: '#eef1f4', // Grey/2|Surface
+  ultraLightGray: '#EFF3F4',
+  lightBackground: '#E1E1E1',
+  background: '#DFE7E8',
+  lightBorder: '#DEDEDE',
+  lightGray: '#C3CDCF',
+  gray400: '#B5BBBD',
+  mediumGray: '#A7B0B4',
+  border: '#939EA1',
+  neutralGrayDark: '#52575C',
+
+  // blue
+  lightBlue: '#84C7CA',
+  linkBlue: '#00ABBF',
+  darkBlue: '#5D9C9F',
+  blue: '#2c91ee', // Blue/12
+
+  teal: '#53b7cd', // Teal/12
+  darkTeal: '#246e7e', // Teal/20
+
+  green: '#57b62b', // Green/12
+
+  // semantic
+  placeholder: '#99A2A5', // TODO: replace with Grey/12
+  lightText: '#859296',
+  primary: '#5E6F74', // TODO: replace with Grey/20
+  text: '#516369', // TODO: de-dupe with primary & secondary?
+  secondary: '#56606f',
+  third: '#EAEAEB',
+  selected: '#31A5AC',
+};
+
 export const {
   styled,
   css,
@@ -61,50 +108,7 @@ export const {
   config,
 } = createStitches({
   theme: {
-    colors: {
-      white: '#fff',
-      black: '#000',
-      // red
-      lightRed: '#F5E4E4',
-      mediumRed: '#E6BCBC',
-      darkRed: '#6f3638',
-      red: '#EF7376',
-      redHover: '#CF7073',
-      // gray
-      gray400: '#B5BBBD',
-
-      lightBackground: '#E1E1E1',
-      surfaceGray: '#eef1f4', // Grey/2|Surface
-      subtleGray: '#F5F5F5',
-      almostWhite: '#fbfbfb',
-
-      lightBorder: '#DEDEDE',
-      lightGray: '#C3CDCF',
-      mediumGray: '#A7B0B4',
-      border: '#939EA1',
-      placeholderDark: '#7C898D',
-      neutralGrayDark: '#52575C',
-
-      // text colors
-      primary: '#5E6F74', // TODO: replace with Grey/20
-      text: '#516369', // TODO: de-dupe with primary & secondary?
-      secondary: '#56606f',
-      lightText: '#859296',
-      placeholder: '#99A2A5', // TODO: replace with Grey/12
-
-      background: '#DFE7E8',
-      selected: '#31A5AC',
-      lightBlue: '#84C7CA',
-      darkBlue: '#5D9C9F',
-      blue: '#2c91ee', // Blue/12
-
-      teal: '#53b7cd', // Teal/12
-      darkTeal: '#246e7e', // Teal/20
-
-      green: '#57b62b', // Green/12
-
-      // ...colors
-    },
+    colors,
     space: {
       ...spaces,
     },

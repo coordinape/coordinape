@@ -1,9 +1,8 @@
 import _ from 'lodash';
+import { colors as customColor } from 'stitches.config';
 
 import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 
-// TODO replace all uses of customColor with new figma colors
-import customColor from './colors';
 import { strongShadows } from './shadows';
 import typography from './typography';
 
@@ -30,6 +29,12 @@ const baseOptions = {
   },
 };
 
+const shadows = [
+  '0px 6.5px 9.75px #E6EAEC',
+  '0px 6.5px 9.75px #DCE2E4',
+  '0px 6.5px 9.75px #cbd0d2',
+];
+
 const themeOptions = {
   overrides: {
     MuiInputBase: {
@@ -42,9 +47,9 @@ const themeOptions = {
     },
     MuiIconButton: {
       root: {
-        color: '#aab2b5',
+        color: customColor.mediumGray,
         '&:hover': {
-          color: '#4e7577',
+          color: customColor.mediumGray + '80',
         },
       },
     },
@@ -57,9 +62,9 @@ const themeOptions = {
         borderRadius: '13px',
       },
       text: {
-        color: '#84C7CA',
+        color: customColor.lightBlue,
         '&:hover': {
-          color: '#4e7577',
+          color: customColor.lightBlue + '80',
           backgroundColor: 'transparent',
         },
       },
@@ -77,7 +82,7 @@ const themeOptions = {
         },
       },
       outlined: {
-        color: '#516369',
+        color: customColor.text,
         background:
           'linear-gradient(180deg, rgba(237, 253, 254, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(237, 253, 254, 0) 100%) rgba(255, 255, 255, 0.9)',
         border: '0.3px solid rgba(132, 145, 149, 0.2)',
@@ -90,49 +95,46 @@ const themeOptions = {
       },
       contained: {
         color: 'white',
-        backgroundColor: '#A8B1B4',
-        boxShadow: '0px 6.5px 9.75px #E6EAEC',
+        backgroundColor: customColor.mediumGray,
+        boxShadow: shadows[0],
         '&:hover': {
-          backgroundColor: '#A8B1B4',
-          background:
-            'linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), #A8B1B4',
-          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+          backgroundColor: customColor.mediumGray,
+          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), ${customColor.mediumGray}`,
+          boxShadow: shadows[1],
         },
         '&:active': {
-          boxShadow: '0px 6.5px 9.75px #cbd0d2',
+          boxShadow: shadows[2],
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: '#A8B1B480',
-          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+          backgroundColor: customColor.mediumGray + '80',
+          boxShadow: shadows[0],
         },
       },
       containedPrimary: {
-        backgroundColor: '#EF7376',
+        backgroundColor: customColor.red,
         '&:hover': {
-          backgroundColor: '#EF7376',
-          background:
-            'linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), #EF7376',
-          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+          backgroundColor: customColor.red,
+          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), ${customColor.red}`,
+          boxShadow: shadows[1],
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: '#EF737680',
-          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+          backgroundColor: customColor.red + '80',
+          boxShadow: shadows[0],
         },
       },
       containedSecondary: {
-        backgroundColor: '#41595e',
+        backgroundColor: customColor.neutralGrayDark,
         '&:hover': {
-          backgroundColor: '#41595e',
-          background:
-            'linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), #41595e',
-          boxShadow: '0px 6.5px 9.75px #DCE2E4',
+          backgroundColor: customColor.neutralGrayDark,
+          background: `linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), ${customColor.neutralGrayDark}`,
+          boxShadow: shadows[1],
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: '#41595e80',
-          boxShadow: 'box-shadow: 0px 6.5px 9.75px #E6EAEC',
+          backgroundColor: customColor.neutralGrayDark + '80',
+          boxShadow: shadows[0],
         },
       },
     },
@@ -145,14 +147,14 @@ const themeOptions = {
           },
         },
         '&.MuiStepIcon-completed': {
-          color: '#51AF5B',
+          color: customColor.green,
           '& .MuiStepIcon-text': {
             fill: 'white',
           },
         },
       },
       text: {
-        fill: '#93A1A1',
+        fill: customColor.border,
       },
     },
     MuiStepLabel: {
@@ -175,7 +177,7 @@ const themeOptions = {
     MuiPaginationItem: {
       outlined: {
         backgroundColor: 'white',
-        border: '1px solid #EDFDFE',
+        border: `1px solid ${customColor.lightBackground}`,
         '&.Mui-selected': {
           backgroundColor: customColor.red,
           color: 'white',
@@ -215,20 +217,20 @@ const themeOptions = {
     },
     primary: {
       main: customColor.red,
-      dark: '#cf7073',
-      contrastText: '#fff',
+      dark: customColor.darkRed,
+      contrastText: 'white',
     },
     secondary: {
-      main: '#9da7ab',
-      dark: '#818f94',
-      contrastText: '#fff',
+      main: customColor.mediumGray,
+      dark: customColor.border,
+      contrastText: 'white',
     },
     text: {
-      primary: '#555555',
-      secondary: '#adb0bb',
+      primary: customColor.primary,
+      secondary: customColor.secondary,
     },
     error: {
-      main: '#EF7376',
+      main: customColor.red,
     },
   },
   shadows: strongShadows,
