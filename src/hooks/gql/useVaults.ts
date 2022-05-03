@@ -8,14 +8,19 @@ export function useVaults(orgId: number | null | undefined) {
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
-      const { vaults } = await client.query({
-        vaults: [
-          {
-            where: { org_id: { _eq: orgId } },
-          },
-          allVaultFields,
-        ],
-      });
+      const { vaults } = await client.query(
+        {
+          vaults: [
+            {
+              where: { org_id: { _eq: orgId } },
+            },
+            allVaultFields,
+          ],
+        },
+        {
+          operationName: 'getVaultsForOrg',
+        }
+      );
       return vaults;
     },
     { enabled: !!orgId }

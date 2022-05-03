@@ -16,15 +16,25 @@ export function useCurrentOrg() {
 
   return useQuery(['org', id], async () => {
     if (!id) {
-      const res = await client.query({
-        organizations: [{ limit: 1 }, { id: true, name: true }],
-      });
+      const res = await client.query(
+        {
+          organizations: [{ limit: 1 }, { id: true, name: true }],
+        },
+        {
+          operationName: 'getOrgsWithoutId',
+        }
+      );
       return res.organizations[0];
     }
 
-    const res = await client.query({
-      organizations_by_pk: [{ id }, { id: true, name: true }],
-    });
+    const res = await client.query(
+      {
+        organizations_by_pk: [{ id }, { id: true, name: true }],
+      },
+      {
+        operationName: 'getOrgWithId',
+      }
+    );
 
     return res.organizations_by_pk;
   });
