@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 
+// TODO replace all uses of customColor with new figma colors
 import customColor from './colors';
-import custom from './custom';
 import { strongShadows } from './shadows';
 import typography from './typography';
 
@@ -240,7 +240,12 @@ export const createTheme = () => {
       {},
       baseOptions,
       themeOptions,
-      { custom },
+      {
+        custom: {
+          appHeaderHeight: 82,
+          appDrawerWidth: 375,
+        },
+      },
       { colors: customColor }
     ) as any
   );
