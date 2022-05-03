@@ -354,8 +354,14 @@ export const TopLevelLinks = ({
         ...css,
       }}
     >
-      {links.map(([path, label]) => (
-        <Link css={linkStyle} as={NavLink} key={path} to={path}>
+      {links.map(([path, label, matchPaths]) => (
+        <Link
+          css={linkStyle}
+          as={NavLink}
+          key={path}
+          to={path}
+          className={matchPaths?.includes(location.pathname) ? 'active' : ''}
+        >
           {label}
         </Link>
       ))}
@@ -367,10 +373,10 @@ export const TopLevelLinks = ({
 const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
 
-  const links: [string, string][] = useMemo(() => {
-    const l: [string, string][] = [
+  const links: [string, string, string[]?][] = useMemo(() => {
+    const l: [string, string, string[]?][] = [
       [paths.history, 'History'],
-      [paths.allocation, 'Allocate'],
+      [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
       [paths.map(), 'Map'],
     ];
 
