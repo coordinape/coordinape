@@ -489,7 +489,7 @@ async function createNextEpoch(epoch: {
       ],
     },
     {
-      operationName: 'creatNextEpoch',
+      operationName: 'createNextEpoch',
     }
   );
 

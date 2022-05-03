@@ -524,7 +524,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'createEpoch_insert',
+          operationName: 'createNextEpoch',
         }
       );
       expect(mockMutation).toBeCalledWith(
