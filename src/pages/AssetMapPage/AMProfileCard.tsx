@@ -93,7 +93,7 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       padding: theme.spacing(0.2, 1),
       margin: theme.spacing(0.5, 0),
-      background: theme.colors.lightBlue,
+      background: theme.colors.secondary,
       textAlign: 'center',
       fontSize: 12,
       fontWeight: 300,

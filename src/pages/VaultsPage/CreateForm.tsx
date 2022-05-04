@@ -170,14 +170,14 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         {...customAddressField}
       />
       <Button
-        color="red"
+        color="alert"
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid}
       >
         Create Vault
       </Button>
       {!isEmpty(errors) && (
-        <Text color="red" css={{ mt: '$sm' }}>
+        <Text color="alert" css={{ mt: '$sm' }}>
           {Object.values(errors)
             .map(e => e.message)
             .join('. ')}
@@ -194,9 +194,9 @@ const AssetButton = styled(Button, {
   // have to use !important because otherwise styles from the default button
   // variants take precedence
   borderRadius: '20px !important',
-  backgroundColor: '$surfaceGray !important',
+  backgroundColor: '$surface !important',
   '&:hover, &[data-selected=true]': {
-    backgroundColor: '$mediumGray !important',
+    backgroundColor: '$secondaryText !important',
     '> span': { color: 'white !important' },
   },
 });

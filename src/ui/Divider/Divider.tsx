@@ -8,7 +8,7 @@ export const Divider = styled('hr', {
   mx: 0,
   alignSelf: 'stretch',
   flexShrink: 0,
-  backgroundColor: '$lightBorder',
+  backgroundColor: '$border',
 });
 
 export default Divider;

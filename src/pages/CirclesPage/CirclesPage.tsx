@@ -13,7 +13,7 @@ import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
-import { Box, Button, Panel, Text } from 'ui';
+import { Box, Button, Link, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -66,7 +66,7 @@ export const CirclesPage = () => {
             </Text>
             {isAdmin(org) && (
               <Button
-                color="blue"
+                color="primary"
                 outlined
                 onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
               >
@@ -103,7 +103,7 @@ const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: 'white',
-  border: '1px solid $lightGray',
+  border: '1px solid $border',
   '.hover-buttons': { display: 'none' },
 };
 
@@ -114,7 +114,7 @@ type CircleRowProps = {
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
-  const nonMemberCss = nonMember ? { color: '$placeholder' } : {};
+  const nonMemberCss = nonMember ? { color: '$secondaryText' } : {};
 
   const epoch = circle.epochs[0];
   const nomineeCount =
@@ -167,7 +167,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
             <Torso
               css={{ height: 12, width: 12, mr: '$xs' }}
-              color={role ? 'primary' : 'placeholder'}
+              color={role ? 'text' : 'secondaryText'}
             />
             {role === 1
               ? 'Circle Admin'
@@ -208,7 +208,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               display: 'flex',
               justifyContent: 'space-around',
             },
-            ...(nonMember ? { color: '$placeholder' } : {}),
+            ...(nonMember ? { color: '$secondaryText' } : {}),
           }}
         >
           {!!nomineeCount && (
@@ -231,16 +231,22 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           {buttons.map(
             ([path, label, hide]) =>
               (!hide || !hide(circle)) && (
-                <Button
+                <Link
                   key={label}
-                  outlined
-                  color="teal"
+                  css={{
+                    padding: '$sm',
+                    color: '$text',
+                    fontWeight: '$semibold',
+                    '&:hover': {
+                      filter: 'brightness(0.2)',
+                    },
+                  }}
                   onClick={event => (
                     onButtonClick(circle.id, path), event.stopPropagation()
                   )}
                 >
                   {label}
-                </Button>
+                </Link>
               )
           )}
         </Box>

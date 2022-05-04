@@ -253,7 +253,7 @@ function DistributePage() {
                               fontSize: '$3',
                               lineHeight: '$shorter',
                               fontWeight: '$semibold',
-                              color: '$red',
+                              color: '$alert',
                               textAlign: 'center',
                               paddingTop: '$sm',
                             }}
@@ -295,7 +295,7 @@ function DistributePage() {
             </Box>
           </Box>
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
-            <Button color="red" size="medium" disabled={loadingTrx}>
+            <Button color="alert" size="medium" disabled={loadingTrx}>
               {loadingTrx
                 ? `Transaction Pending...`
                 : `Submit Distribution to Vault`}

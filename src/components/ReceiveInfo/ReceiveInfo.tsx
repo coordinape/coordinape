@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   noteTitle: {
     fontSize: 11,
     fontWeight: 600,
-    color: theme.colors.red,
+    color: theme.colors.alert,
   },
   noteDate: {
     fontSize: 11,
@@ -116,7 +116,7 @@ export const ReceiveInfo = () => {
   return (
     <div className={classes.root}>
       <Button
-        color="oldGray"
+        color="surface"
         size="small"
         onClick={event => setAnchorEl(event.currentTarget)}
       >

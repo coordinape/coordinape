@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'space-between',
     justifyItems: 'stretch',
     borderRadius: 8,
-    background: theme.colors.ultraLightGray,
+    background: theme.colors.surface,
     alignItems: 'center',
     columnGap: theme.spacing(3),
     padding: theme.spacing(0, 4, 4),
@@ -192,9 +192,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TableLink = styled(Link, {
-  color: '$lightBlue',
+  color: '$link',
   '&:hover': {
-    color: '$darkBlue',
+    filter: 'brightness(0.2)',
   },
   textDecoration: 'none',
 });

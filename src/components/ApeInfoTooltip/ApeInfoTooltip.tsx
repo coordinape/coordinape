@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 'inherit',
     verticalAlign: 'baseline',
     margin: theme.spacing(0, 0.5),
-    color: theme.colors.mediumGray,
+    color: theme.colors.secondaryText,
     '&:hover': {
       color: theme.colors.text,
     },

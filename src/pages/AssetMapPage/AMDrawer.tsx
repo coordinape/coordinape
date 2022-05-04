@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     width: '100%',
     overflowY: 'scroll',
-    scrollbarColor: `${theme.colors.secondary} #EAEFF0`,
+    scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
       backgroundColor: '#EAEFF0',
@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#EAEFF0',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.colors.secondary,
+      backgroundColor: theme.colors.secondaryText,
     },
   },
 }));

@@ -50,7 +50,7 @@ export const MainHeader = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: '$primary',
+        background: '$text',
       }}
     >
       <Image
@@ -71,7 +71,9 @@ export const MainHeader = () => {
       >
         {inCircle && (
           <Box>
-            <Box css={{ color: '$gray400', ml: '$md', lineHeight: '14px' }}>
+            <Box
+              css={{ color: '$secondaryText', ml: '$md', lineHeight: '14px' }}
+            >
               {breadcrumb}
             </Box>
 
@@ -99,7 +101,7 @@ const ConnectButton = () => {
 
   return (
     <Button
-      color="oldGray"
+      color="surface"
       size="small"
       onClick={() => setWalletModalOpen(true)}
     >
@@ -133,7 +135,6 @@ const MobileHeader = ({
     <IconButton
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       aria-label="menu"
-      variant="ghost"
     >
       {!isMobileMenuOpen ? (
         <HamburgerIcon color="white" />
@@ -149,7 +150,7 @@ const MobileHeader = ({
         css={{
           display: 'flex',
           alignItems: 'center',
-          background: '$primary',
+          background: '$text',
           justifyContent: 'space-between',
           px: '$lg',
           py: '$md',
@@ -163,7 +164,7 @@ const MobileHeader = ({
           css={{
             height: '100vh',
             position: 'relative',
-            backgroundColor: '$surfaceGray',
+            backgroundColor: '$surface',
           }}
         >
           <Box
@@ -171,7 +172,7 @@ const MobileHeader = ({
               display: 'flex',
               flexDirection: 'column',
               position: 'absolute',
-              backgroundColor: '$surfaceGray',
+              backgroundColor: '$surface',
               height: '85%',
               width: '100%',
               overflow: 'scroll',
@@ -188,7 +189,11 @@ const MobileHeader = ({
               {inCircle && (
                 <>
                   <Box
-                    css={{ margin: 0, marginLeft: '1rem', color: '$gray400' }}
+                    css={{
+                      margin: 0,
+                      marginLeft: '1rem',
+                      color: '$secondaryText',
+                    }}
                   >
                     {breadcrumb}
                   </Box>
@@ -291,7 +296,7 @@ const linkStyle = {
     position: 'absolute',
     left: '50%',
     right: '50%',
-    backgroundColor: '$mediumRed',
+    backgroundColor: '$red4',
     transition: 'all 0.3s',
     bottom: 0,
     height: 2,
@@ -300,20 +305,20 @@ const linkStyle = {
     '&::after': {
       left: 0,
       right: 0,
-      backgroundColor: '$mediumRed',
+      backgroundColor: '$red4',
     },
   },
   '&.active': {
     '&::after': {
       left: 0,
       right: 0,
-      backgroundColor: '$red',
+      backgroundColor: '$alert',
     },
     '&:hover': {
       '&::after': {
         left: 0,
         right: 0,
-        backgroundColor: '$red',
+        backgroundColor: '$alert',
       },
     },
   },
@@ -328,7 +333,7 @@ const linkStyle = {
       },
     },
     '&.active': {
-      color: '$red',
+      color: '$alert',
       '&::after': {
         content: 'none',
       },
@@ -340,9 +345,11 @@ export const TopLevelLinks = ({
   links,
   css = {},
 }: {
-  links: [string, string][];
+  links: [string, string, string[]?][];
   css?: CSS;
 }) => {
+  const location = useLocation();
+
   return (
     <Box
       css={{

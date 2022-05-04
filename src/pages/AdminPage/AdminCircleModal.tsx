@@ -118,7 +118,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 500,
     color: theme.colors.text,
-    background: theme.colors.background,
+    background: theme.colors.surface,
     borderRadius: theme.spacing(1),
     border: 0,
     outline: 'none',
@@ -135,7 +135,7 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     margin: theme.spacing(2, 0, 0),
     textAlign: 'center',
-    color: theme.colors.linkBlue,
+    color: theme.colors.link,
   },
 }));
 

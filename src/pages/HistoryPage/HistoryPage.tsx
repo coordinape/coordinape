@@ -88,7 +88,7 @@ export const HistoryPage = () => {
           <Header>Next</Header>
           <Panel css={{ mb: '$md', color: '#717C7F' }}>
             <Text inline>
-              <Text inline bold color="gray" font="inter">
+              <Text inline bold color="neutral" font="inter">
                 Next Epoch
               </Text>{' '}
               {nextEpochStartLabel}
@@ -129,7 +129,7 @@ export const HistoryPage = () => {
 const Header = styled(Text, {
   fontSize: '$7',
   fontFamily: 'Inter !important',
-  color: '$placeholder !important',
+  color: '$secondaryText !important',
   fontWeight: '$semibold',
 });
 

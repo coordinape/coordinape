@@ -2,7 +2,7 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
-// import { colors } from 'ui/colors';
+import { colors as figmaColors } from 'ui/colors';
 
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
@@ -50,51 +50,31 @@ const spaces = {
   '2xl': '48px',
 };
 
-// TODO deduplicate too-similar colors
-// TODO use figma colors for the rest
 export const colors = {
   white: '#fff',
   black: '#000',
 
-  // red
-  lightRed: '#F5E4E4',
-  mediumRed: '#E6BCBC',
-  red: '#EF7376',
-  darkRed: '#6f3638',
+  primary: figmaColors.blue12,
+  textOnPrimary: '#fff',
 
-  // gray
-  almostWhite: '#fbfbfb',
-  subtleGray: '#F5F5F5',
-  surfaceGray: '#eef1f4', // Grey/2|Surface
-  ultraLightGray: '#EFF3F4',
-  lightBackground: '#E1E1E1',
-  background: '#DFE7E8',
-  lightBorder: '#DEDEDE',
-  lightGray: '#C3CDCF',
-  gray400: '#B5BBBD',
-  mediumGray: '#A7B0B4',
-  border: '#939EA1',
-  neutralGrayDark: '#52575C',
+  alert: figmaColors.red12,
+  alertDark: figmaColors.red20,
+  textOnAlert: '#fff',
 
-  // blue
-  lightBlue: '#84C7CA',
-  linkBlue: '#00ABBF',
-  darkBlue: '#5D9C9F',
-  blue: '#2c91ee', // Blue/12
+  secondary: figmaColors.teal12,
+  secondaryDark: figmaColors.teal20,
+  neutral: figmaColors.grey12,
+  complete: figmaColors.green12,
 
-  teal: '#53b7cd', // Teal/12
-  darkTeal: '#246e7e', // Teal/20
+  background: figmaColors.grey1,
+  surface: figmaColors.grey2,
+  border: figmaColors.grey4,
+  focusedBorder: figmaColors.grey8,
 
-  green: '#57b62b', // Green/12
-
-  // semantic
-  placeholder: '#99A2A5', // TODO: replace with Grey/12
-  lightText: '#859296',
-  primary: '#5E6F74', // TODO: replace with Grey/20
-  text: '#516369', // TODO: de-dupe with primary & secondary?
-  secondary: '#56606f',
-  third: '#EAEAEB',
-  selected: '#31A5AC',
+  link: figmaColors.blue12,
+  text: figmaColors.grey20,
+  headingText: figmaColors.grey16,
+  secondaryText: figmaColors.grey12,
 };
 
 export const {

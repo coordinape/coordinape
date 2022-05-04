@@ -67,7 +67,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            color: '$primary',
+            color: '$text',
           }}
         >
           <Box css={{ display: 'flex', gap: '$md' }}>
@@ -87,7 +87,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           <button onClick={() => setShowLess(false)}>
             <Text
               variant="formLabel"
-              css={{ color: '$green', cursor: 'pointer' }}
+              css={{ color: '$secondaryText', cursor: 'pointer' }}
             >
               Show More
             </Text>
@@ -114,7 +114,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
                 >
                   <Text
                     variant="formLabel"
-                    css={{ color: tab === index ? '$primary' : '$gray400' }}
+                    css={{ color: tab === index ? '$text' : '$secondaryText' }}
                   >
                     {label}
                   </Text>
@@ -126,7 +126,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
             >
               <Text
                 variant="formLabel"
-                css={{ color: '$green', cursor: 'pointer' }}
+                css={{ color: '$secondaryText', cursor: 'pointer' }}
               >
                 Show Less
               </Text>
@@ -200,7 +200,7 @@ const NotesItem = ({
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
-        <Box css={{ fontSize: '$3', color: '$green' }}>
+        <Box css={{ fontSize: '$3', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
           {other.name}
         </Box>

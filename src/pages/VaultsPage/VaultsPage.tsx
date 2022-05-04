@@ -34,7 +34,7 @@ const VaultsPage = () => {
         <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
           Vaults
         </Text>
-        <Button color="red" size="small" onClick={() => setModal('create')}>
+        <Button color="alert" size="small" onClick={() => setModal('create')}>
           Add Vault
         </Button>
       </Box>

@@ -81,7 +81,7 @@ export const MyAvatarMenu = () => {
               pt: '$md',
               '> *': { padding: '$xs $lg' },
               '> a': {
-                color: '$primary',
+                color: '$text',
                 '&:hover': { color: '$black' },
               },
             }}
@@ -99,7 +99,7 @@ export const MyAvatarMenu = () => {
             </Link>
             <Link
               css={{
-                backgroundColor: '$darkTeal',
+                backgroundColor: '$secondaryDark',
                 mt: '$md',
                 py: '$md !important',
                 color: 'white !important',
