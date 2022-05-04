@@ -22491,6 +22491,7 @@ export const enum token_gifts_update_column {
 }
 /** unique or primary key constraints on table "users" */
 export const enum users_constraint {
+  users_address_circle_id_deleted_at_key = 'users_address_circle_id_deleted_at_key',
   users_pkey = 'users_pkey',
 }
 /** select columns of table "users" */
