@@ -340,7 +340,7 @@ export const TopLevelLinks = ({
   links,
   css = {},
 }: {
-  links: [string, string][];
+  links: [string, string, string[]?][];
   css?: CSS;
 }) => {
   return (
