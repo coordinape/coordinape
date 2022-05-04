@@ -106,12 +106,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     color: theme.colors.text,
-    background: '#fff',
+    background: theme.colors.white,
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.text,
+      color: theme.colors.secondaryText,
     },
   },
   twoLineCell: {

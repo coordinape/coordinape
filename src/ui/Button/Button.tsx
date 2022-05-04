@@ -90,7 +90,7 @@ export const Button = styled('button', {
         boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
         borderRadius: '13px',
-        backgroundColor: '#0000',
+        backgroundColor: 'transparent',
         minWidth: '64px',
         '& svg': {
           height: '$lg',

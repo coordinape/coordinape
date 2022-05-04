@@ -86,7 +86,7 @@ export const HistoryPage = () => {
       {nextEpoch && (
         <>
           <Header>Next</Header>
-          <Panel css={{ mb: '$md', color: '#717C7F' }}>
+          <Panel css={{ mb: '$md' }}>
             <Text inline>
               <Text inline bold color="neutral" font="inter">
                 Next Epoch

@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   discordButton: {
-    backgroundColor: '#5865F2',
+    backgroundColor: theme.colors.blurple,
     margin: theme.spacing(1),
     borderRadius: 8,
     fontSize: 15,

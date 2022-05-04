@@ -65,6 +65,7 @@ export const colors = {
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
   complete: figmaColors.green12,
+  blurple: figmaColors.discordblurple,
 
   background: figmaColors.grey1,
   surface: figmaColors.grey2,

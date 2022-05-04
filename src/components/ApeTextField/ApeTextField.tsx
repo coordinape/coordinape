@@ -238,7 +238,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     }),
     inputRootError: {
       border: `1px solid ${theme.colors.alert}dd`,
-      color: '#ad0003',
+      color: theme.colors.alert,
       '&:focus-within': {
         border: `1px solid ${theme.colors.alert}`,
       },

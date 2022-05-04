@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#FFFFFF',
+    color: theme.colors.white,
     fontSize: 12,
     fontWeight: 600,
     paddingLeft: 8,
