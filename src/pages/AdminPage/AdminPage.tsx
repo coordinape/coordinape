@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'space-between',
     justifyItems: 'stretch',
     borderRadius: 8,
-    background: theme.colors.ultraLightGray,
+    background: theme.colors.surface,
     alignItems: 'center',
     columnGap: theme.spacing(3),
     padding: theme.spacing(0, 4, 4),
@@ -106,12 +106,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     color: theme.colors.text,
-    background: '#fff',
+    background: theme.colors.white,
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.text,
+      color: theme.colors.secondaryText,
     },
   },
   twoLineCell: {
@@ -192,9 +192,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TableLink = styled(Link, {
-  color: '$lightBlue',
+  color: '$link',
   '&:hover': {
-    color: '$darkBlue',
+    opacity: 0.8,
   },
   textDecoration: 'none',
 });

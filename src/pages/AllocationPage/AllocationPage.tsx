@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
     '& .MuiStepConnector-root': {
       maxWidth: theme.spacing(10),
     },
+    borderBottom: `1px solid ${theme.colors.border}`,
   },
   body: {
     flex: 1,
@@ -63,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 30,
     fontWeight: 700,
     lineHeight: 1.3,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
     backgroundColor: 'red',
   },
@@ -94,14 +95,14 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     fontSize: 20,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     '&:first-of-type': {
       fontWeight: 500,
-      color: theme.colors.red,
+      color: theme.colors.alert,
     },
   },
   rebalanceButton: {
-    color: theme.colors.primary,
+    color: theme.colors.text,
     marginLeft: theme.spacing(1),
     padding: '1px',
   },
@@ -259,13 +260,13 @@ export const AllocationPage = () => {
             />
             <div className={classes.buttonContainer}>
               {epochDirty ? (
-                <Button size="large" color="red" onClick={handleSaveEpoch}>
+                <Button size="large" color="alert" onClick={handleSaveEpoch}>
                   Save Epoch Settings
                 </Button>
               ) : (
                 <Button
                   size="large"
-                  color="red"
+                  color="alert"
                   disabled={!selectedCircle.team_selection && !epochIsActive}
                   onClick={getHandleStep(
                     !selectedCircle.team_selection
@@ -285,13 +286,13 @@ export const AllocationPage = () => {
             <AllocationTeam />
             <div className={classes.buttonContainer}>
               {localTeammatesChanged ? (
-                <Button size="large" color="red" onClick={handleSaveTeamList}>
+                <Button size="large" color="alert" onClick={handleSaveTeamList}>
                   Save Teammate List
                 </Button>
               ) : (
                 <Button
                   size="large"
-                  color="red"
+                  color="alert"
                   disabled={!epochIsActive}
                   onClick={getHandleStep(STEP_ALLOCATION)}
                 >
@@ -325,7 +326,7 @@ export const AllocationPage = () => {
               {localGiftsChanged && (
                 <Button
                   size="large"
-                  color="red"
+                  color="alert"
                   onClick={handleSaveAllocations}
                   disabled={tokenRemaining < 0}
                 >

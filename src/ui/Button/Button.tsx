@@ -22,37 +22,21 @@ export const Button = styled('button', {
 
   variants: {
     color: {
-      red: {
-        backgroundColor: '$red',
-        color: 'white',
-        '&:hover': {
-          opacity: 0.8,
-        },
+      primary: {
+        backgroundColor: '$primary',
+        color: '$textOnPrimary',
       },
-      gray: {
-        backgroundColor: '$border',
-        color: 'white',
-        '&:hover': {
-          backgroundColor: '$lightText',
-        },
-        '&[disabled]': {
-          opacity: 0.5,
-        },
+      alert: {
+        backgroundColor: '$alert',
+        color: '$textOnAlert',
       },
-      blue: {
-        backgroundColor: '$blue',
+      neutral: {
+        backgroundColor: '$neutral',
         color: 'white',
       },
-      teal: {
-        backgroundColor: '$teal',
-        color: 'white',
-      },
-      oldGray: {
-        backgroundColor: '$surfaceGray',
-        color: '$primary',
-        '&:hover': {
-          backgroundColor: '$subtleGray',
-        },
+      surface: {
+        backgroundColor: '$surface',
+        color: '$text',
       },
       transparent: {
         padding: '$xs',
@@ -106,15 +90,15 @@ export const Button = styled('button', {
         boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
         borderRadius: '13px',
-        backgroundColor: '#0000',
+        backgroundColor: 'transparent',
         minWidth: '64px',
         '& svg': {
           height: '$lg',
           width: '$lg',
         },
         '&:hover': {
-          color: '$selected',
-          background: '$surfaceGray',
+          color: '$secondary',
+          background: '$surface',
           opacity: 1,
         },
         '&:disabled': {
@@ -130,56 +114,40 @@ export const Button = styled('button', {
     },
     outlined: {
       true: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent !important',
         border: '1px solid',
       },
     },
   },
   compoundVariants: [
     {
-      color: 'red',
+      color: 'primary',
       outlined: true,
       css: {
-        color: '$red',
-        borderColor: '$red',
-        '&:hover': {
-          backgroundColor: '$lightRed',
-        },
+        color: '$primary',
+        borderColor: '$primary',
       },
     },
     {
-      color: 'gray',
+      color: 'alert',
       outlined: true,
       css: {
-        color: '$lightText',
-        borderColor: '$lightText',
-        '&:hover': {
-          backgroundColor: '$lightGray',
-        },
+        color: '$alert',
+        borderColor: '$alert',
       },
     },
     {
-      color: 'blue',
+      color: 'neutral',
       outlined: true,
       css: {
-        color: '$blue',
-        borderColor: '$blue',
-        backgroundColor: 'transparent',
-      },
-    },
-    {
-      color: 'teal',
-      outlined: true,
-      css: {
-        color: '$teal',
-        borderColor: '$teal',
-        backgroundColor: 'transparent',
+        color: '$neutral',
+        borderColor: '$neutral',
       },
     },
   ],
   defaultVariants: {
     size: 'medium',
-    color: 'gray',
+    color: 'neutral',
   },
 });
 

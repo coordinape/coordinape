@@ -16,12 +16,12 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   overflow: 'hidden',
   userSelect: 'none',
   borderRadius: '100%',
-  backgroundColor: '$black',
+  backgroundColor: '$surface',
   cursor: 'pointer',
   transition: 'border-color .3s ease',
   border: `1px solid $border`,
   '&:hover': {
-    border: '1px solid $red',
+    border: '1px solid $alert',
   },
 });
 
@@ -39,7 +39,7 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   alignItems: 'center',
   justifyContent: 'center',
   color: '$black',
-  backgroundColor: '$lightBorder',
+  backgroundColor: '$surface',
   lineHeight: 1,
   fontSize: '$6',
   fontWeight: '$medium',

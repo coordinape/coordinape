@@ -7,6 +7,7 @@ export const Text = styled('span', {
   fontVariantNumeric: 'tabular-nums',
   display: 'flex', // FIXME: this assumes Text is used only for single-line text
   alignItems: 'center',
+  color: '$text',
 
   variants: {
     font: {
@@ -15,30 +16,21 @@ export const Text = styled('span', {
       inter: { fontFamily: 'Inter' },
     },
     color: {
-      default: { color: '$text' },
-      gray: { color: '$gray400' },
-      red: { color: '$red' },
-      blue: { color: '$blue' },
+      neutral: { color: '$neutral' },
+      alert: { color: '$alert' },
+      primary: { color: '$primary' },
     },
-    bold: {
-      true: { fontWeight: '$bold' },
-    },
-    normal: {
-      true: { fontWeight: '$normal' },
-    },
-    semibold: {
-      true: { fontWeight: '$semibold' },
-    },
-    inline: {
-      true: { display: 'inline' },
-    },
+    bold: { true: { fontWeight: '$bold' } },
+    normal: { true: { fontWeight: '$normal' } },
+    semibold: { true: { fontWeight: '$semibold' } },
+    inline: { true: { display: 'inline' } },
     variant: {
       sectionHeader: {
         fontSize: '$8',
         fontWeight: '$bold',
       },
       formLabel: {
-        color: '$gray400',
+        color: '$secondaryText',
         textTransform: 'uppercase',
         fontSize: '$3',
         fontFamily: 'Inter',
@@ -47,10 +39,7 @@ export const Text = styled('span', {
     },
   },
 
-  defaultVariants: {
-    font: 'space',
-    color: 'default',
-  },
+  defaultVariants: { font: 'space' },
 });
 
 export default Text;

@@ -22,13 +22,13 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     fontSize: 40,
     fontWeight: 700,
-    color: theme.colors.primary,
+    color: theme.colors.text,
   },
   description: {
     margin: theme.spacing(1),
     fontSize: 20,
     fontWeight: 400,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
   },
   nominateButton: {
@@ -38,12 +38,12 @@ const useStyles = makeStyles(theme => ({
     maxWidth: theme.breakpoints.values.md,
     fontSize: 20,
     fontWeight: 400,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
     border: 'solid',
     borderWidth: 0,
     borderBottomWidth: 1,
-    borderColor: theme.colors.lightBorder,
+    borderColor: theme.colors.border,
   },
   nomineeContainer: {
     margin: theme.spacing(1, 5),
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   cannotVouch: {
-    color: theme.colors.red,
+    color: theme.colors.alert,
   },
 }));
 

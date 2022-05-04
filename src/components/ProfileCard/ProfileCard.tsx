@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     height: 452,
     margin: theme.spacing(1),
     padding: theme.spacing(1.3, 1.3, 2),
-    background: theme.colors.background,
+    background: theme.colors.surface,
     borderRadius: 10.75,
   },
   topRow: {
@@ -81,7 +81,7 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     margin: theme.spacing(2, 0, 0),
     textAlign: 'center',
-    color: theme.colors.linkBlue,
+    color: theme.colors.link,
   },
   tooltip: {
     fontWeight: 400,

@@ -12,7 +12,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   redColor: {
-    color: theme.colors.red,
+    color: theme.colors.alert,
   },
 }));
 

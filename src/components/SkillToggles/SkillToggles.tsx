@@ -18,11 +18,11 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     boxShadow: 'none',
     '&:hover': {
-      background: theme.colors.mediumGray,
+      background: theme.colors.secondaryText,
       boxShadow: 'none',
     },
     '&.selected': {
-      background: theme.colors.lightBlue,
+      background: theme.colors.secondary,
     },
   },
 }));

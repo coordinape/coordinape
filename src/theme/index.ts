@@ -47,9 +47,9 @@ const themeOptions = {
     },
     MuiIconButton: {
       root: {
-        color: customColor.mediumGray,
+        color: customColor.secondaryText,
         '&:hover': {
-          color: customColor.mediumGray + '80',
+          color: customColor.secondaryText + '80',
         },
       },
     },
@@ -62,9 +62,9 @@ const themeOptions = {
         borderRadius: '13px',
       },
       text: {
-        color: customColor.lightBlue,
+        color: customColor.link,
         '&:hover': {
-          color: customColor.lightBlue + '80',
+          color: customColor.link + '80',
           backgroundColor: 'transparent',
         },
       },
@@ -95,11 +95,11 @@ const themeOptions = {
       },
       contained: {
         color: 'white',
-        backgroundColor: customColor.mediumGray,
+        backgroundColor: customColor.secondaryText,
         boxShadow: shadows[0],
         '&:hover': {
-          backgroundColor: customColor.mediumGray,
-          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), ${customColor.mediumGray}`,
+          backgroundColor: customColor.secondaryText,
+          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.3), rgba(81, 99, 105, 0.3)), ${customColor.secondaryText}`,
           boxShadow: shadows[1],
         },
         '&:active': {
@@ -107,33 +107,33 @@ const themeOptions = {
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: customColor.mediumGray + '80',
+          backgroundColor: customColor.secondaryText + '80',
           boxShadow: shadows[0],
         },
       },
       containedPrimary: {
-        backgroundColor: customColor.red,
+        backgroundColor: customColor.alert,
         '&:hover': {
-          backgroundColor: customColor.red,
-          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), ${customColor.red}`,
+          backgroundColor: customColor.alert,
+          background: `linear-gradient(0deg, rgba(81, 99, 105, 0.1), rgba(81, 99, 105, 0.1)), ${customColor.alert}`,
           boxShadow: shadows[1],
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: customColor.red + '80',
+          backgroundColor: customColor.alert + '80',
           boxShadow: shadows[0],
         },
       },
       containedSecondary: {
-        backgroundColor: customColor.neutralGrayDark,
+        backgroundColor: customColor.text,
         '&:hover': {
-          backgroundColor: customColor.neutralGrayDark,
-          background: `linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), ${customColor.neutralGrayDark}`,
+          backgroundColor: customColor.text,
+          background: `linear-gradient(0deg, rgba(17, 24, 25, 0.4), rgba(17, 24, 25, 0.4)), ${customColor.text}`,
           boxShadow: shadows[1],
         },
         '&.Mui-disabled': {
           color: 'white',
-          backgroundColor: customColor.neutralGrayDark + '80',
+          backgroundColor: customColor.text + '80',
           boxShadow: shadows[0],
         },
       },
@@ -141,13 +141,13 @@ const themeOptions = {
     MuiStepIcon: {
       root: {
         '&.MuiStepIcon-active': {
-          color: customColor.red,
+          color: customColor.alert,
           '& .MuiStepIcon-text': {
             fill: 'white',
           },
         },
         '&.MuiStepIcon-completed': {
-          color: customColor.green,
+          color: customColor.complete,
           '& .MuiStepIcon-text': {
             fill: 'white',
           },
@@ -177,17 +177,18 @@ const themeOptions = {
     MuiPaginationItem: {
       outlined: {
         backgroundColor: 'white',
-        border: `1px solid ${customColor.lightBackground}`,
+        border: '1px solid white',
         '&.Mui-selected': {
-          backgroundColor: customColor.red,
+          backgroundColor: customColor.alert,
           color: 'white',
+          border: `1px solid ${customColor.surface}`,
         },
         '&:hover': {
-          backgroundColor: customColor.red,
+          backgroundColor: customColor.alert,
           color: 'white',
         },
         '&.Mui-selected:hover': {
-          backgroundColor: customColor.red,
+          backgroundColor: customColor.alert,
           color: 'white',
         },
       },
@@ -212,25 +213,25 @@ const themeOptions = {
     },
     background: {
       default: customColor.background,
-      dark: customColor.third,
-      paper: customColor.lightBackground,
+      dark: customColor.surface,
+      paper: customColor.surface,
     },
     primary: {
-      main: customColor.red,
-      dark: customColor.darkRed,
-      contrastText: 'white',
+      main: customColor.alert,
+      dark: customColor.alertDark,
+      contrastText: customColor.white,
     },
     secondary: {
-      main: customColor.mediumGray,
+      main: customColor.secondaryText,
       dark: customColor.border,
-      contrastText: 'white',
+      contrastText: customColor.white,
     },
     text: {
-      primary: customColor.primary,
-      secondary: customColor.secondary,
+      primary: customColor.text,
+      secondary: customColor.secondaryText,
     },
     error: {
-      main: customColor.red,
+      main: customColor.alert,
     },
   },
   shadows: strongShadows,

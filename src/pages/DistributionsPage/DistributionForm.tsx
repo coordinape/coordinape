@@ -189,7 +189,7 @@ export function DistributionForm({
         </Box>
       </Box>
       <Box css={{ display: 'flex', justifyContent: 'center' }}>
-        <Button color="red" size="medium" disabled={submitting}>
+        <Button color="alert" size="medium" disabled={submitting}>
           {submitting ? 'Submitting...' : 'Submit Distribution'}
         </Button>
       </Box>

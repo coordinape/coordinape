@@ -12,10 +12,10 @@ export const Table = styled('table', {
   borderCollapse: 'collapse',
   fontSize: '$3',
   tr: {
-    borderBottom: '0.5px solid $lightBackground',
+    borderBottom: '0.5px solid $border',
   },
   'thead tr': {
-    backgroundColor: '$subtleGray',
+    backgroundColor: '$background',
     height: '$2xl',
   },
   'th, td': {

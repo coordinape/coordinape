@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 30,
     lineHeight: '22px',
-    color: theme.colors.third,
+    color: theme.colors.surface,
     textAlign: 'center',
     marginTop: 16,
   },

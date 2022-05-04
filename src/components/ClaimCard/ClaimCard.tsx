@@ -48,13 +48,13 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
         <Text
           css={{
             fontSize: '$5',
-            color: '$neutralGrayDark',
+            color: '$text',
             fontWeight: '$bold',
           }}
         >
           {epoch.title}
         </Text>
-        <Text css={{ fontSize: '$3', color: '$gray400' }}>
+        <Text css={{ fontSize: '$3', color: '$secondaryText' }}>
           {epoch.subTitle}
         </Text>
         <Box
@@ -65,7 +65,7 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
           }}
         >
           <ArrowDownLeftIcon data-testid="arrow-diagonal-icon" />
-          <Text css={{ fontSize: '$3', color: '$lightText' }}>
+          <Text css={{ fontSize: '$3', color: '$secondaryText' }}>
             {epoch.giveInfo}
           </Text>
         </Box>
@@ -83,7 +83,7 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
         outlined
         onClick={props.onClaim}
         size="small"
-        color="red"
+        color="primary"
       >
         Claim {props.claimAmount} USDC
       </Button>
@@ -92,7 +92,7 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
         outlined
         onClick={props.onViewHistory}
         size="small"
-        color="gray"
+        color="neutral"
       >
         View History
       </Button>

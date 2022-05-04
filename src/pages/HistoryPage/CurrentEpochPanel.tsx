@@ -124,7 +124,7 @@ const Minicard = ({
 
       <Box
         css={{
-          color: '$lightText',
+          color: '$secondaryText',
           flexGrow: 1,
           display: 'flex',
           gap: '$md',
@@ -140,7 +140,10 @@ const Minicard = ({
         >
           {title}
         </Text>
-        <Text bold css={{ fontSize: '$3', color: alert ? 'red' : '$gray400' }}>
+        <Text
+          bold
+          css={{ fontSize: '$3', color: alert ? 'red' : '$secondaryText' }}
+        >
           {content}
         </Text>
         <Button outlined size="small" as={NavLink} key={path} to={path}>
