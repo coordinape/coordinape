@@ -44,7 +44,7 @@ export function makeTable<T>(displayName: string) {
     headers: string[];
     data: T[];
     children: (dataItem: T) => ReactNode;
-    sortByIndex: (index: number) => (dataItem: T) => any;
+    sortByColumn: (index: number) => (dataItem: T) => any;
     startingSortIndex?: number;
     startingSortDesc?: boolean;
   };
@@ -53,7 +53,7 @@ export function makeTable<T>(displayName: string) {
     headers,
     data,
     children,
-    sortByIndex,
+    sortByColumn,
     startingSortIndex = 0,
     startingSortDesc = false,
   }: TableProps<T>) {
@@ -69,10 +69,10 @@ export function makeTable<T>(displayName: string) {
     };
 
     const sortedData = useMemo(() => {
-      const newSortedData = sortBy(data, sortByIndex(sortIndex));
+      const newSortedData = sortBy(data, sortByColumn(sortIndex));
       if (sortDesc) newSortedData.reverse();
       return newSortedData;
-    }, [sortIndex, sortDesc, sortByIndex]);
+    }, [sortIndex, sortDesc, sortByColumn]);
 
     return (
       <TableBorder>

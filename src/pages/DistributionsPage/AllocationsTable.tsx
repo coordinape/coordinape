@@ -39,7 +39,7 @@ export const AllocationsTable = ({
       data={users}
       startingSortIndex={2}
       startingSortDesc
-      sortByIndex={(index: number) => {
+      sortByColumn={(index: number) => {
         if (index === 0) return (u: User) => u.name;
         if (index === 1) return (u: User) => u.address;
         return (u: User) => u.received;
