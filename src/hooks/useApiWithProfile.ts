@@ -26,6 +26,7 @@ export const useApiWithProfile = () => {
       // TODO: ideally we would use useTypedMutation instead of this but I couldn't get the variables to work w/ mutation -CryptoGraffe
       const image_data_base64 = await fileToBase64(newAvatar);
       await mutations.updateProfileAvatar(image_data_base64);
+      // FIXME fetchManifest instead of updating the changed field is wasteful
       await fetchManifest();
     },
     []
@@ -35,6 +36,7 @@ export const useApiWithProfile = () => {
     () => async (newAvatar: File) => {
       const image_data_base64 = await fileToBase64(newAvatar);
       await mutations.updateProfileBackground(image_data_base64);
+      // FIXME fetchManifest instead of updating the changed field is wasteful
       await fetchManifest();
     },
     []
@@ -54,6 +56,7 @@ export const useApiWithProfile = () => {
         }
         throw err;
       }
+      // FIXME fetchManifest instead of updating the changed field is wasteful
       await fetchManifest();
     },
     []

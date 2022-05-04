@@ -86,12 +86,6 @@ export function VaultRow({
           <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
           &nbsp;Unique Contributors Paid
         </Text>
-        <Text font="source" css={{ fontSize: '$7' }}>
-          Funds After Commitment
-        </Text>
-        <Text font="source" css={{ fontSize: '$7' }}>
-          -1 {vault.symbol?.toUpperCase()}
-        </Text>
       </Box>
       <Text
         css={{

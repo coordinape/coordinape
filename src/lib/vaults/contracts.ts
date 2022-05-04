@@ -5,6 +5,7 @@ import {
   ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
+  VaultAPI__factory,
 } from '@coordinape/hardhat/dist/typechain';
 import type {
   ApeDistributor,
@@ -16,10 +17,12 @@ import type {
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
+import { BigNumber, FixedNumber } from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
 import { Asset } from './';
+import { hasSimpleToken } from './tokens';
 
 export type {
   ApeDistributor,
@@ -78,6 +81,23 @@ export class Contracts {
 
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
+  }
+
+  async getYVault(vaultAddress: string) {
+    const yVaultAddress = await this.getVault(vaultAddress).vault();
+    return VaultAPI__factory.connect(yVaultAddress, this.provider);
+  }
+
+  // returns value ready to be converted to float, i.e. 1.5, not 1500000
+  async getPricePerShare(
+    vaultAddress: string,
+    symbol: string,
+    decimals: number
+  ) {
+    if (hasSimpleToken({ symbol })) return FixedNumber.from(1);
+    const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
+    const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
+    return FixedNumber.from(pps).divUnsafe(shifter);
   }
 
   getAvailableTokens() {

@@ -73,13 +73,3 @@ export interface AggregateCount {
     count?: number;
   };
 }
-
-export interface IAllocateUser {
-  id: number;
-  address: string;
-  circle_id: number;
-  name: string;
-  starting_tokens: number;
-  received_gifts: Array<{ tokens: number }>;
-  received_gifts_aggregate: AggregateCount;
-}

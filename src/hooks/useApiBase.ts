@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+import debug from 'debug';
 import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
@@ -25,6 +26,8 @@ import { getSelfIdProfiles } from 'utils/selfIdHelpers';
 import { assertDef } from 'utils/tools';
 
 import { EConnectorNames } from 'types';
+
+const log = debug('recoil:useApiBase');
 
 export const useApiBase = () => {
   const navigate = useNavigate();
@@ -253,7 +256,8 @@ export const useApiBase = () => {
 
         if (!(await snapshot.getPromise(rApiFullCircle)).has(circleId)) {
           // Need to fetch this circle
-          fetchCircle({ circleId, select: true });
+          log(`selectCircle -> fetchCircle ${circleId}`);
+          await fetchCircle({ circleId, select: true });
         } else {
           set(rSelectedCircleIdSource, circleId);
         }
@@ -268,8 +272,6 @@ export const useApiBase = () => {
     fetchCircle,
     selectCircle,
     navigateDefault,
-    selectAndFetchCircle: (circleId: number) =>
-      fetchCircle({ circleId, select: true }),
   };
 };
 

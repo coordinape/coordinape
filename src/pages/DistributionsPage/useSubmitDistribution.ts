@@ -4,7 +4,7 @@ import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { createDistribution } from 'lib/merkle-distributor';
 import { MerkleDistributorInfo } from 'lib/merkle-distributor/parse-balance-map';
-import { encodeCircleId, convertToVaultAmount } from 'lib/vaults';
+import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
@@ -18,9 +18,9 @@ import type { PreviousDistribution } from './queries';
 
 export type SubmitDistribution = {
   amount: string;
-  vault: Vault;
+  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
   previousDistribution?: PreviousDistribution;
-  users: Record<string, number>;
+  userIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
   circleId: number;
   epochId: number;
@@ -44,10 +44,10 @@ export function useSubmitDistribution() {
     amount,
     vault,
     circleId,
-    users,
     epochId,
     gifts,
     previousDistribution,
+    userIdsByAddress,
   }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
@@ -58,11 +58,7 @@ export function useSubmitDistribution() {
       const vaultContract = contracts.getVault(vault.vault_address);
       const yVaultAddress = await vaultContract.vault();
 
-      const newTotalAmount = await convertToVaultAmount(
-        amount,
-        vault,
-        contracts
-      );
+      const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
 
       const denominator = FixedNumber.from(shifter);
 
@@ -75,7 +71,7 @@ export function useSubmitDistribution() {
         previousDistribution: MerkleDistributorInfo
       ) => {
         const previous = FixedNumber.from(
-          BigNumber.from(previousDistribution.claims[address].amount || '0')
+          BigNumber.from(previousDistribution.claims[address]?.amount || '0')
         );
         const current = FixedNumber.from(BigNumber.from(currentAmount));
         return Number(current.subUnsafe(previous).divUnsafe(denominator));
@@ -105,7 +101,7 @@ export function useSubmitDistribution() {
             ? calculateNewAmount(claim.amount, address, prev)
             : amount,
           proof: claim.proof.toString(),
-          user_id: users[address.toLowerCase()],
+          user_id: userIdsByAddress[address.toLowerCase()],
         };
       });
 

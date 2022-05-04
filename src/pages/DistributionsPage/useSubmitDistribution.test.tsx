@@ -3,7 +3,7 @@ import assert from 'assert';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
-import { convertToVaultAmount, Asset } from 'lib/vaults';
+import { getWrappedAmount, Asset } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
 import { useDistributor } from 'hooks/useDistributor';
@@ -27,7 +27,7 @@ jest.mock('lib/gql/mutations', () => {
   };
 });
 
-jest.mock('pages/DistributePage/mutations', () => {
+jest.mock('pages/DistributionsPage/mutations', () => {
   return {
     useSaveEpochDistribution: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({
@@ -88,7 +88,7 @@ test('submit distribution', async () => {
         amount: '100',
         vault,
         circleId: 2,
-        users,
+        userIdsByAddress,
         epochId: 2,
         gifts,
       });
@@ -142,7 +142,7 @@ test('previous distribution', async () => {
       assert(vault, 'vault not created');
       await deposit(vault, '120');
 
-      previousTotal = await convertToVaultAmount('100', vault, contracts);
+      previousTotal = await getWrappedAmount('100', vault, contracts);
       expectedTotal = previousTotal.mul(2);
 
       const previousDistribution = createDistribution(
@@ -154,7 +154,7 @@ test('previous distribution', async () => {
         amount: '100',
         vault,
         circleId: 2,
-        users,
+        userIdsByAddress,
         epochId: 2,
         gifts,
         previousDistribution: {
@@ -184,20 +184,20 @@ test('previous distribution', async () => {
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
-const users = {
-  '0x0000000000000000000000000000000000000001': 15,
-  '0x0000000000000000000000000000000000000002': 13,
-  '0x0000000000000000000000000000000000000003': 14,
+const userIdsByAddress = {
+  '0xabc0000000000000000000000000000000000001': 15,
+  '0xabc0000000000000000000000000000000000002': 13,
+  '0xabc0000000000000000000000000000000000003': 14,
 };
 
 const gifts = {
-  '0x0000000000000000000000000000000000000001': 20,
-  '0x0000000000000000000000000000000000000002': 30,
-  '0x0000000000000000000000000000000000000003': 40,
+  '0xabc0000000000000000000000000000000000001': 20,
+  '0xabc0000000000000000000000000000000000002': 30,
+  '0xabc0000000000000000000000000000000000003': 40,
 };
 
 const previousGifts = {
-  '0x0000000000000000000000000000000000000001': 10,
-  '0x0000000000000000000000000000000000000002': 20,
-  '0x0000000000000000000000000000000000000003': 30,
+  '0xabc0000000000000000000000000000000000001': 10,
+  '0xabc0000000000000000000000000000000000002': 20,
+  '0xabc0000000000000000000000000000000000003': 30,
 };

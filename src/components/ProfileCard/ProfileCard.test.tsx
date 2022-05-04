@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
-
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { Snapshot, useRecoilCallback, useRecoilSnapshot } from 'recoil';
 
 import { rCircle, rLocalGift, rLocalGifts } from 'recoilState';
-import { fixtures, setupRecoilState, TestWrapper } from 'utils/testing';
+import { fixtures, TestWrapper, useMockRecoilState } from 'utils/testing';
 
 import { ProfileCard } from './ProfileCard';
 
@@ -20,29 +17,15 @@ const otherUser = {
 
 const startingGift = { user: otherUser, tokens: 1, note: 'hi' };
 
+const snapshotState: any = {};
+
+afterEach(() => snapshotState.release?.());
+
 test('allow reducing allocation to 0', async () => {
-  let snapshot: Snapshot | undefined;
-  let release: () => void;
-
-  const setSnapshot = (s: Snapshot) => {
-    if (s && s !== snapshot) {
-      if (release) release();
-      snapshot = s;
-      release = snapshot.retain();
-    }
-  };
-
   const Harness = () => {
-    const setup = useRecoilCallback(({ set }) => () => {
-      setupRecoilState(set);
+    useMockRecoilState(snapshotState, set => {
       set(rLocalGifts(1), () => [startingGift]);
     });
-
-    useEffect(() => {
-      setup();
-    }, []);
-
-    setSnapshot(useRecoilSnapshot());
 
     return (
       <ProfileCard
@@ -64,11 +47,11 @@ test('allow reducing allocation to 0', async () => {
 
   // there seems to be a race condition between rendering & Recoil updating.
   // this works around it
-  await snapshot?.getPromise(rCircle(1));
+  await snapshotState.snapshot?.getPromise(rCircle(fixtures.circle.id));
 
   fireEvent.click(screen.getByTestId('decrement'));
 
-  const gift = await snapshot?.getPromise(
+  const gift = await snapshotState.snapshot?.getPromise(
     rLocalGift(otherUser.id, fixtures.circle.id)
   );
   expect(gift?.tokens).toBe(0);
