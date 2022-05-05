@@ -1,4 +1,6 @@
 {
+  "supportFile": "cypress/support/index.ts",
+  "baseUrl": "http://localhost:3000",
   "defaultCommandTimeout": 15000,
   "viewportHeight": 1080,
   "viewportWidth": 1920

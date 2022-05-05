@@ -57,5 +57,7 @@ until curl -s -o/dev/null http://localhost:"$CI_VERCEL_PORT"; do
   fi
 done
 
+yarn db-seed-fresh
+yarn cy:run --config baseUrl=http://localhost:"$CI_VERCEL_PORT"
 craco test --runInBand --coverage
 yarn --cwd hardhat test

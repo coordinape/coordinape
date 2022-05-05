@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { HDNode } from '@ethersproject/hdnode';
+import { Web3Provider } from '@ethersproject/providers';
 import Wallet from 'ethereumjs-wallet';
 import ProviderEngine from 'web3-provider-engine';
 import FiltersSubprovider from 'web3-provider-engine/subproviders/filters';
@@ -22,8 +23,6 @@ export class TestProvider {
     const privateKey = HDNode.fromMnemonic(seed)
       .derivePath(getAccountPath(accountIndex))
       .privateKey.substring(2);
-
-    console.info({ privateKey });
 
     this.engine = new ProviderEngine();
     this.engine.addProvider(new FiltersSubprovider());
@@ -55,3 +54,12 @@ export class TestProvider {
     this.engine.sendAsync(...args);
   }
 }
+
+export const injectWeb3 = (win: any) => {
+  const provider = new Web3Provider(new TestProvider('http://localhost:8546'));
+  if (!win.ethereum) {
+    Object.defineProperty(win, 'ethereum', { value: provider });
+  } else {
+    console.warn('ethereum already enabled: ', win.ethereum);
+  }
+};

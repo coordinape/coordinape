@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: "/home/runner/.cache"
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - uses: actions/cache@v2
@@ -48,10 +48,13 @@ jobs:
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
+      - run: yarn cypress install
+      - run: yarn cypress verify
       - run: ./scripts/setup.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
+      - run: cp ci.env .env # hasura needs a .env file
       - run: yarn test:ci
       - name: Codecov
         run: |

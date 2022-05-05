@@ -155,7 +155,7 @@ const ProfileCardInner = ({
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="profileCard">
       <div className={classes.topRow}>
         <div className={classes.socialContainer}>
           {user.profile && <ProfileSocialIcons profile={user.profile} />}
