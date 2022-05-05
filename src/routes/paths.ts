@@ -72,7 +72,9 @@ export const isCircleSpecificPath = (location: Location) => {
     if (paths[key] === location.pathname) return true;
   }
 
-  if (location.pathname.startsWith('/admin/distributions')) return true;
+  for (const path of ['/admin/distributions', '/map']) {
+    if (location.pathname.startsWith(path)) return true;
+  }
 
   return false;
 };
