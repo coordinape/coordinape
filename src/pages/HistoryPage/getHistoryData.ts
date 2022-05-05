@@ -1,6 +1,4 @@
-import assert from 'assert';
-
-import type { FixedNumber } from 'ethers';
+import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
@@ -12,7 +10,6 @@ export const getHistoryData = async (
   userId: number,
   contracts?: Contracts
 ) => {
-  assert(contracts);
   const gq = await client.query(
     {
       circles_by_pk: [
@@ -112,6 +109,8 @@ export const getHistoryData = async (
   );
 
   const circle = gq.circles_by_pk;
+
+  if (!contracts) return circle;
 
   type DistributionWithPrice = Exclude<
     typeof circle,

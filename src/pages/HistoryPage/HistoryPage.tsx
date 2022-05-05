@@ -28,7 +28,7 @@ export const HistoryPage = () => {
   const query = useQuery(
     ['history', circleId],
     () => getHistoryData(circleId, userId, contracts),
-    { enabled: !!userId && !!circleId && !!contracts }
+    { enabled: !!userId && !!circleId }
   );
 
   const circle = query.data;
