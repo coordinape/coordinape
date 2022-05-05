@@ -2,12 +2,13 @@ import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
 
-import { makeStyles, Button, IconButton } from '@material-ui/core';
+import { makeStyles, IconButton } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { DeleteIcon, DeworkIcon, DeworkLogo } from 'icons';
 import { paths } from 'routes/paths';
+import { Flex, Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   errorColor: {
@@ -71,11 +72,14 @@ export const AdminIntegrations = () => {
         ))}
       </div>
       <Button
-        variant="contained"
+        as="a"
+        color="neutral"
         size="small"
-        startIcon={<DeworkIcon size="md" />}
         href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
       >
+        <Flex css={{ mr: '$sm' }}>
+          <DeworkIcon size="md" />
+        </Flex>
         Connect Dework
       </Button>
 
