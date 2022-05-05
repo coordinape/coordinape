@@ -186,7 +186,7 @@ export const useApiBase = () => {
         } catch (e) {
           if (e instanceof GraphQLError && e.response.errors) {
             for (const err of e.response.errors) {
-              console.error('graphql error: ', err);
+              console.error('graphql error: ', err.message);
             }
           }
           console.error('error fetching manifest:', e);
