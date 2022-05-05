@@ -210,7 +210,7 @@ const MobileHeader = ({
                   '> *': {
                     mx: '$md',
                     py: '$xs',
-                    fontSize: '$6',
+                    fontSize: '$large',
                     color: '$text',
                   },
                 }}
@@ -287,7 +287,7 @@ const MobileAvatar = () => {
 const linkStyle = {
   my: 0,
   mx: '$md',
-  fontSize: '$6',
+  fontSize: '$large',
   fontWeight: '$bold',
   color: '$white',
   textDecoration: 'none',

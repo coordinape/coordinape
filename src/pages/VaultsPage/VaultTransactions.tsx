@@ -21,15 +21,7 @@ export const VaultTransactions = () => {
   return (
     <OrgLayout>
       <Panel>
-        <Text
-          css={{
-            fontSize: '$8',
-            fontWeight: '$bold',
-            mb: '$lg',
-            display: 'block',
-            textAlign: 'center',
-          }}
-        >
+        <Text h2 css={{ mb: '$md' }}>
           All Transactions for {vault?.symbol?.toUpperCase()} Vault
         </Text>
         <TransactionTable
@@ -62,7 +54,7 @@ export const TransactionTable = ({ rows }: { rows: any[] }) => (
         textAlign: 'left',
         color: '$secondaryText',
         textTransform: 'uppercase',
-        fontSize: '$3',
+        fontSize: '$small',
         pb: '$sm',
         pl: '$sm',
       },

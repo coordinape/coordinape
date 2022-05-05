@@ -41,7 +41,7 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   color: '$black',
   backgroundColor: '$surface',
   lineHeight: 1,
-  fontSize: '$6',
+  fontSize: '$large',
   fontWeight: '$medium',
   cursor: 'pointer',
 });

@@ -20,7 +20,7 @@ export const TextArea = styled('textarea', {
   borderRadius: '8px',
 
   fontWeight: '$normal',
-  fontSize: '$6',
+  fontSize: '$large',
   lineHeight: '29px',
 
   py: '$md',

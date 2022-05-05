@@ -107,7 +107,7 @@ export function DistributionForm({
             <Box
               css={{
                 color: '$text',
-                fontSize: '$4',
+                fontSize: '$medium',
                 fontWeight: '$bold',
                 lineHeight: '$shorter',
                 marginBottom: '$md',
@@ -144,7 +144,7 @@ export function DistributionForm({
                     {error && (
                       <Text
                         css={{
-                          fontSize: '$3',
+                          fontSize: '$small',
                           lineHeight: '$shorter',
                           fontWeight: '$semibold',
                           color: '$red',

@@ -7,6 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { ProfileCard } from 'components';
 import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(10, 4, 20),
+    padding: theme.spacing(8, 4, 20),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 1, 20),
     },
@@ -47,13 +48,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: 'auto',
     maxWidth: '80%',
     textAlign: 'center',
-  },
-  title: {
-    margin: 0,
-    fontSize: 40,
-    lineHeight: 1.25,
-    fontWeight: 700,
-    color: theme.colors.text,
   },
   subTitle: {
     margin: 0,
@@ -188,9 +182,7 @@ const AllocationGive = () => {
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
-        <h2
-          className={classes.title}
-        >{`${myUser.circle.name} ${longTimingMessage}`}</h2>
+        <Text h2>{`${myUser.circle.name} ${longTimingMessage}`}</Text>
         <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
       </div>
       <div className={classes.accessaryContainer}>

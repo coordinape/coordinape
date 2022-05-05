@@ -47,14 +47,14 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
       >
         <Text
           css={{
-            fontSize: '$5',
+            fontSize: '$medium',
             color: '$text',
             fontWeight: '$bold',
           }}
         >
           {epoch.title}
         </Text>
-        <Text css={{ fontSize: '$3', color: '$secondaryText' }}>
+        <Text css={{ fontSize: '$small', color: '$secondaryText' }}>
           {epoch.subTitle}
         </Text>
         <Box
@@ -65,7 +65,7 @@ export const ClaimCard: React.FC<ClaimCardProps> = (props): JSX.Element => (
           }}
         >
           <ArrowDownLeftIcon data-testid="arrow-diagonal-icon" />
-          <Text css={{ fontSize: '$3', color: '$secondaryText' }}>
+          <Text css={{ fontSize: '$small', color: '$secondaryText' }}>
             {epoch.giveInfo}
           </Text>
         </Box>

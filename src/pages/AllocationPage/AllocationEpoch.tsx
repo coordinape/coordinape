@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { OptInput, ActionDialog, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
+import { Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(7, 4, 20),
+    padding: theme.spacing(8, 4, 20),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 1, 20),
     },
@@ -34,15 +35,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: 27,
     fontWeight: 300,
     lineHeight: 1.3,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  epochTiming: {
-    margin: 0,
-    maxWidth: theme.breakpoints.values.md,
-    fontSize: 20,
-    fontWeight: 300,
-    lineHeight: 2,
     color: theme.colors.text,
     textAlign: 'center',
   },
@@ -135,9 +127,7 @@ const AllocationEpoch = ({
 
   return (
     <div className={classes.root}>
-      {!epochIsActive && (
-        <h2 className={classes.epochTiming}>{timingMessage}</h2>
-      )}
+      {!epochIsActive && <Text h3>{timingMessage}</Text>}
       <div className={classes.divTitle}>
         <span className={classes.title}>
           {epochIsActive

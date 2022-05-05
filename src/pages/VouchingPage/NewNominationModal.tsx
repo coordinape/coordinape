@@ -173,7 +173,7 @@ export const NewNominationModal = ({
                 ta: 'left',
                 p: '0 $sm',
                 fontWeight: '$light',
-                fontSize: '$4',
+                fontSize: '$medium',
                 lineHeight: '$base',
                 color: '$text',
               }}
