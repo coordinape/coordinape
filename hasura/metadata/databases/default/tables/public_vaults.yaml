@@ -38,6 +38,8 @@ insert_permissions:
     - symbol
     - token_address
     - vault_address
+    set:
+      created_by: x-hasura-User-Id
   role: user
 select_permissions:
 - permission:
