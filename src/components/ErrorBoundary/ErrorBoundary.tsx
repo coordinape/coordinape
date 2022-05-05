@@ -80,8 +80,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
         }}
       >
         <div>
-          <h1>Oh Geez!</h1>
-          <h5>An uncaught error hit the react error boundary.</h5>
+          <h5>An uncaught error hit the error boundary.</h5>
           <p>
             Get technical support on{' '}
             <a href={EXTERNAL_URL_DISCORD_SUPPORT}>Discord</a> or refresh to
@@ -110,16 +109,6 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
             ))}
           </div>
         </div>
-        <hr />
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/PGj4OX34ECY"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
       </div>
     );
   }
