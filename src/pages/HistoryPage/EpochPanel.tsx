@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import { NewApeAvatar } from 'components';
+import isFeatureEnabled from 'config/features';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, AppLink } from 'ui';
 
@@ -27,6 +28,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const dist = epoch.distributions[0] as QueryDistribution | undefined;
   const distAmount =
     dist &&
+    isFeatureEnabled('vaults') &&
     getUnwrappedAmount(
       dist.total_amount,
       dist.pricePerShare,
