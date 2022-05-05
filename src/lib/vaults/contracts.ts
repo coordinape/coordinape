@@ -40,20 +40,20 @@ const requiredContracts = [
   'ApeDistributor',
 ];
 
-export const supportedChainIds: number[] = Object.entries(deploymentInfo)
+export const supportedChainIds: string[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
-  .map(x => Number(x[0]));
+  .map(x => x[0].toString());
 
 export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
   router: ApeRouter;
   distributor: ApeDistributor;
-  chainId: number;
+  chainId: string;
   provider: JsonRpcProvider;
   signer: Signer;
 
-  constructor(chainId: number, provider: JsonRpcProvider) {
-    this.chainId = chainId;
+  constructor(chainId: number | string, provider: JsonRpcProvider) {
+    this.chainId = chainId.toString();
     this.provider = provider;
     this.signer = provider.getSigner();
 
@@ -111,7 +111,10 @@ export class Contracts {
     // workaround for mainnet-forked testchains
     if (
       !address &&
-      [HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID].includes(this.chainId)
+      [
+        HARDHAT_CHAIN_ID.toString(),
+        HARDHAT_GANACHE_CHAIN_ID.toString(),
+      ].includes(this.chainId)
     ) {
       address = (deploymentInfo as any)[1][symbol]?.address;
       if (!address) return undefined;

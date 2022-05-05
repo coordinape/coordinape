@@ -10,7 +10,13 @@ import { INFURA_PROJECT_ID } from 'config/env';
 export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 
 const injected = new InjectedConnector({
-  supportedChainIds: [...supportedChainIds, 1],
+  supportedChainIds: [...supportedChainIds, 1].map(n =>
+    // This is the most type-safe way
+    // way to handle this conversion to Numbers that the InjectedConnector
+    // is expecting, since String.prototype.toString() is idempotent
+    // (yay, something in javascript works the way you'd expect!)
+    Number.parseInt(n.toString())
+  ),
 });
 
 export const makeWalletConnectConnector = () =>
