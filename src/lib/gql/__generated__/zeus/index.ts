@@ -4876,7 +4876,7 @@ export type ModelTypes = {
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     /** An object relationship */
     epoch: ModelTypes['epochs'];
     epoch_id: ModelTypes['bigint'];
@@ -4884,7 +4884,7 @@ export type ModelTypes = {
     original_amount: number;
     regift_percent: number;
     tokens_burnt: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
     user_id: ModelTypes['bigint'];
@@ -4985,7 +4985,7 @@ export type ModelTypes = {
     burns: ModelTypes['burns'][];
     /** An object relationship */
     circle_private?: ModelTypes['circle_private'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     default_opt_in: boolean;
     /** An array relationship */
     epochs: ModelTypes['epochs'][];
@@ -5014,7 +5014,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     vouching: boolean;
@@ -5475,7 +5475,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     description: string;
     ended: boolean;
     expiry_date: ModelTypes['timestamp'];
@@ -5487,7 +5487,7 @@ columns and relationships of "distributions" */
     nominations: ModelTypes['vouches'][];
     /** An object relationship */
     nominator?: ModelTypes['users'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     user_id?: number;
@@ -5643,10 +5643,10 @@ columns and relationships of "distributions" */
   ['organizations']: {
     /** An array relationship */
     circles: ModelTypes['circles'][];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     name: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     vaults: ModelTypes['vaults'][];
   };
@@ -5678,7 +5678,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     dts_created: ModelTypes['timestamp'];
     /** An object relationship */
     epoch?: ModelTypes['epochs'];
@@ -5695,7 +5695,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: ModelTypes['bigint'];
     tokens: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** order by aggregate values of table "pending_token_gifts" */
   ['pending_token_gifts_aggregate_order_by']: GraphQLTypes['pending_token_gifts_aggregate_order_by'];
@@ -5732,7 +5732,7 @@ columns and relationships of "distributions" */
     avatar?: string;
     background?: string;
     bio?: string;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     discord_username?: string;
     github_username?: string;
     id: ModelTypes['bigint'];
@@ -5740,7 +5740,7 @@ columns and relationships of "distributions" */
     skills?: string;
     telegram_username?: string;
     twitter_username?: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     website?: string;
@@ -5920,12 +5920,12 @@ columns and relationships of "distributions" */
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     team_mate_id: number;
     /** An object relationship */
     teammate?: ModelTypes['users'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     user_id: number;
@@ -5969,7 +5969,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     dts_created: ModelTypes['timestamp'];
     epoch_id: number;
     /** An object relationship */
@@ -5984,7 +5984,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: ModelTypes['bigint'];
     tokens: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "token_gifts" */
   ['token_gifts_aggregate']: {
@@ -6142,7 +6142,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     deleted_at?: ModelTypes['timestamp'];
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
@@ -6170,7 +6170,7 @@ columns and relationships of "distributions" */
     starting_tokens: number;
     /** An array relationship */
     teammates: ModelTypes['teammates'][];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** order by aggregate values of table "users" */
   ['users_aggregate_order_by']: GraphQLTypes['users_aggregate_order_by'];
@@ -6316,12 +6316,12 @@ columns and relationships of "distributions" */
   ['vaults_variance_order_by']: GraphQLTypes['vaults_variance_order_by'];
   /** columns and relationships of "vouches" */
   ['vouches']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     /** An object relationship */
     nominee?: ModelTypes['nominees'];
     nominee_id: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     voucher?: ModelTypes['users'];
     voucher_id: number;
@@ -6634,7 +6634,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
@@ -6642,7 +6642,7 @@ export type GraphQLTypes = {
     original_amount: number;
     regift_percent: number;
     tokens_burnt: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
@@ -6951,7 +6951,7 @@ export type GraphQLTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
@@ -6980,7 +6980,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     vouching: boolean;
@@ -8139,7 +8139,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     description: string;
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
@@ -8151,7 +8151,7 @@ columns and relationships of "distributions" */
     nominations: Array<GraphQLTypes['vouches']>;
     /** An object relationship */
     nominator?: GraphQLTypes['users'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     user_id?: number;
@@ -8455,10 +8455,10 @@ columns and relationships of "distributions" */
     __typename: 'organizations';
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     name: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
   };
@@ -8526,7 +8526,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'];
@@ -8543,7 +8543,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
     tokens: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** order by aggregate values of table "pending_token_gifts" */
   ['pending_token_gifts_aggregate_order_by']: {
@@ -8710,7 +8710,7 @@ columns and relationships of "distributions" */
     avatar?: string;
     background?: string;
     bio?: string;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     discord_username?: string;
     github_username?: string;
     id: GraphQLTypes['bigint'];
@@ -8718,7 +8718,7 @@ columns and relationships of "distributions" */
     skills?: string;
     telegram_username?: string;
     twitter_username?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     website?: string;
@@ -8952,12 +8952,12 @@ columns and relationships of "distributions" */
   /** columns and relationships of "teammates" */
   ['teammates']: {
     __typename: 'teammates';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     team_mate_id: number;
     /** An object relationship */
     teammate?: GraphQLTypes['users'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     user_id: number;
@@ -9097,7 +9097,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
     epoch_id: number;
     /** An object relationship */
@@ -9112,7 +9112,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
     tokens: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "token_gifts" */
   ['token_gifts_aggregate']: {
@@ -9410,7 +9410,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'];
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
@@ -9438,7 +9438,7 @@ columns and relationships of "distributions" */
     starting_tokens: number;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** order by aggregate values of table "users" */
   ['users_aggregate_order_by']: {
@@ -9969,12 +9969,12 @@ columns and relationships of "distributions" */
   /** columns and relationships of "vouches" */
   ['vouches']: {
     __typename: 'vouches';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     nominee?: GraphQLTypes['nominees'];
     nominee_id: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     voucher?: GraphQLTypes['users'];
     voucher_id: number;

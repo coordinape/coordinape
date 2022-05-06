@@ -6196,6 +6196,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    updated_at: {
+      type: 'timestamp_comparison_exp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault: {
       type: 'vaults_bool_exp',
       array: false,
@@ -6339,6 +6345,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    updated_at: {
+      type: 'timestamp',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault: {
       type: 'vaults_obj_rel_insert_input',
       array: false,
@@ -6395,6 +6407,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault_id: {
       type: 'order_by',
       array: false,
@@ -6440,6 +6458,12 @@ export const AllTypesProps: Record<string, any> = {
       required: false,
     },
     total_amount: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
       type: 'order_by',
       array: false,
       arrayRequired: false,
@@ -6553,6 +6577,12 @@ export const AllTypesProps: Record<string, any> = {
       arrayRequired: false,
       required: false,
     },
+    updated_at: {
+      type: 'order_by',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
     vault: {
       type: 'vaults_order_by',
       array: false,
@@ -6634,6 +6664,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     total_amount: {
       type: 'numeric',
+      array: false,
+      arrayRequired: false,
+      required: false,
+    },
+    updated_at: {
+      type: 'timestamp',
       array: false,
       arrayRequired: false,
       required: false,
@@ -24003,6 +24039,7 @@ export const ReturnTypes: Record<string, any> = {
     merkle_root: 'String',
     saved_on_chain: 'Boolean',
     total_amount: 'numeric',
+    updated_at: 'timestamp',
     vault: 'vaults',
     vault_id: 'bigint',
   },
@@ -24039,6 +24076,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     merkle_root: 'String',
     total_amount: 'numeric',
+    updated_at: 'timestamp',
     vault_id: 'bigint',
   },
   distributions_min_fields: {
@@ -24049,6 +24087,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     merkle_root: 'String',
     total_amount: 'numeric',
+    updated_at: 'timestamp',
     vault_id: 'bigint',
   },
   distributions_mutation_response: {

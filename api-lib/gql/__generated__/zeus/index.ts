@@ -2453,6 +2453,7 @@ columns and relationships of "distributions" */
     merkle_root?: boolean;
     saved_on_chain?: boolean;
     total_amount?: boolean;
+    updated_at?: boolean;
     /** An object relationship */
     vault?: ValueTypes['vaults'];
     vault_id?: boolean;
@@ -2544,6 +2545,7 @@ columns and relationships of "distributions" */
     merkle_root?: ValueTypes['String_comparison_exp'] | null;
     saved_on_chain?: ValueTypes['Boolean_comparison_exp'] | null;
     total_amount?: ValueTypes['numeric_comparison_exp'] | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | null;
     vault?: ValueTypes['vaults_bool_exp'] | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | null;
   };
@@ -2583,6 +2585,7 @@ columns and relationships of "distributions" */
     merkle_root?: string | null;
     saved_on_chain?: boolean | null;
     total_amount?: ValueTypes['numeric'] | null;
+    updated_at?: ValueTypes['timestamp'] | null;
     vault?: ValueTypes['vaults_obj_rel_insert_input'] | null;
     vault_id?: ValueTypes['bigint'] | null;
   };
@@ -2595,6 +2598,7 @@ columns and relationships of "distributions" */
     id?: boolean;
     merkle_root?: boolean;
     total_amount?: boolean;
+    updated_at?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2607,6 +2611,7 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** aggregate min on columns */
@@ -2618,6 +2623,7 @@ columns and relationships of "distributions" */
     id?: boolean;
     merkle_root?: boolean;
     total_amount?: boolean;
+    updated_at?: boolean;
     vault_id?: boolean;
     __typename?: boolean;
   }>;
@@ -2630,6 +2636,7 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | null;
     merkle_root?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
   /** response of any mutation on the table "distributions" */
@@ -2665,6 +2672,7 @@ columns and relationships of "distributions" */
     merkle_root?: ValueTypes['order_by'] | null;
     saved_on_chain?: ValueTypes['order_by'] | null;
     total_amount?: ValueTypes['order_by'] | null;
+    updated_at?: ValueTypes['order_by'] | null;
     vault?: ValueTypes['vaults_order_by'] | null;
     vault_id?: ValueTypes['order_by'] | null;
   };
@@ -2689,6 +2697,7 @@ columns and relationships of "distributions" */
     merkle_root?: string | null;
     saved_on_chain?: boolean | null;
     total_amount?: ValueTypes['numeric'] | null;
+    updated_at?: ValueTypes['timestamp'] | null;
     vault_id?: ValueTypes['bigint'] | null;
   };
   /** aggregate stddev on columns */
@@ -10259,7 +10268,7 @@ export type ModelTypes = {
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     /** An object relationship */
     epoch: ModelTypes['epochs'];
     epoch_id: ModelTypes['bigint'];
@@ -10267,7 +10276,7 @@ export type ModelTypes = {
     original_amount: number;
     regift_percent: number;
     tokens_burnt: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user: ModelTypes['users'];
     user_id: ModelTypes['bigint'];
@@ -10585,10 +10594,10 @@ export type ModelTypes = {
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     json?: ModelTypes['json'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "circle_metadata" */
   ['circle_metadata_aggregate']: {
@@ -10818,7 +10827,7 @@ export type ModelTypes = {
     /** An object relationship */
     circle_private?: ModelTypes['circle_private'];
     contact?: string;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
     /** An array relationship */
@@ -10855,7 +10864,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: ModelTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
@@ -11262,6 +11271,7 @@ columns and relationships of "distributions" */
     merkle_root?: string;
     saved_on_chain: boolean;
     total_amount: ModelTypes['numeric'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     vault: ModelTypes['vaults'];
     vault_id: ModelTypes['bigint'];
@@ -11325,6 +11335,7 @@ columns and relationships of "distributions" */
     id?: ModelTypes['bigint'];
     merkle_root?: string;
     total_amount?: ModelTypes['numeric'];
+    updated_at?: ModelTypes['timestamp'];
     vault_id?: ModelTypes['bigint'];
   };
   /** order by max() on columns of table "distributions" */
@@ -11338,6 +11349,7 @@ columns and relationships of "distributions" */
     id?: ModelTypes['bigint'];
     merkle_root?: string;
     total_amount?: ModelTypes['numeric'];
+    updated_at?: ModelTypes['timestamp'];
     vault_id?: ModelTypes['bigint'];
   };
   /** order by min() on columns of table "distributions" */
@@ -11794,12 +11806,12 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     /** An object relationship */
     epoch?: ModelTypes['epochs'];
     epoch_id: number;
     id: ModelTypes['bigint'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     user_id: number;
@@ -12213,7 +12225,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: ModelTypes['circles'];
     circle_id: number;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     description: string;
     ended: boolean;
     expiry_date: ModelTypes['timestamp'];
@@ -12227,7 +12239,7 @@ columns and relationships of "distributions" */
     nominations_aggregate: ModelTypes['vouches_aggregate'];
     /** An object relationship */
     nominator?: ModelTypes['users'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     user_id?: number;
@@ -12410,12 +12422,12 @@ columns and relationships of "distributions" */
     circles: ModelTypes['circles'][];
     /** An aggregate relationship */
     circles_aggregate: ModelTypes['circles_aggregate'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     is_verified: boolean;
     name: string;
     telegram_id?: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     vaults: ModelTypes['vaults'][];
     /** An aggregate relationship */
@@ -12635,7 +12647,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     dts_created: ModelTypes['timestamp'];
     /** An object relationship */
     epoch?: ModelTypes['epochs'];
@@ -12653,7 +12665,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: ModelTypes['bigint'];
     tokens: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "pending_token_gifts" */
   ['pending_token_gifts_aggregate']: {
@@ -12830,7 +12842,7 @@ columns and relationships of "distributions" */
   /** columns and relationships of "personal_access_tokens" */
   ['personal_access_tokens']: {
     abilities?: string;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     last_used_at?: ModelTypes['timestamp'];
     name: string;
@@ -12839,7 +12851,7 @@ columns and relationships of "distributions" */
     token: string;
     tokenable_id: ModelTypes['bigint'];
     tokenable_type: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "personal_access_tokens" */
   ['personal_access_tokens_aggregate']: {
@@ -12960,7 +12972,7 @@ columns and relationships of "distributions" */
     background?: string;
     bio?: string;
     chat_id?: string;
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     discord_username?: string;
     github_username?: string;
     id: ModelTypes['bigint'];
@@ -12968,7 +12980,7 @@ columns and relationships of "distributions" */
     skills?: string;
     telegram_username?: string;
     twitter_username?: string;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An array relationship */
     users: ModelTypes['users'][];
     /** An aggregate relationship */
@@ -13349,12 +13361,12 @@ columns and relationships of "distributions" */
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     team_mate_id: number;
     /** An object relationship */
     teammate?: ModelTypes['users'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     user?: ModelTypes['users'];
     user_id: number;
@@ -13504,7 +13516,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     dts_created: ModelTypes['timestamp'];
     epoch_id: number;
     /** An object relationship */
@@ -13520,7 +13532,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: ModelTypes['bigint'];
     tokens: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "token_gifts" */
   ['token_gifts_aggregate']: {
@@ -13705,7 +13717,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: ModelTypes['circles'];
     circle_id: ModelTypes['bigint'];
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     deleted_at?: ModelTypes['timestamp'];
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
@@ -13739,7 +13751,7 @@ columns and relationships of "distributions" */
     teammates: ModelTypes['teammates'][];
     /** An aggregate relationship */
     teammates_aggregate: ModelTypes['teammates_aggregate'];
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
   };
   /** aggregated selection of "users" */
   ['users_aggregate']: {
@@ -14261,12 +14273,12 @@ columns and relationships of "distributions" */
   ['vaults_variance_order_by']: GraphQLTypes['vaults_variance_order_by'];
   /** columns and relationships of "vouches" */
   ['vouches']: {
-    created_at?: ModelTypes['timestamp'];
+    created_at: ModelTypes['timestamp'];
     id: ModelTypes['bigint'];
     /** An object relationship */
     nominee?: ModelTypes['nominees'];
     nominee_id: number;
-    updated_at?: ModelTypes['timestamp'];
+    updated_at: ModelTypes['timestamp'];
     /** An object relationship */
     voucher?: ModelTypes['users'];
     voucher_id: number;
@@ -14687,7 +14699,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
@@ -14695,7 +14707,7 @@ export type GraphQLTypes = {
     original_amount: number;
     regift_percent: number;
     tokens_burnt: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
@@ -15296,10 +15308,10 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     json?: GraphQLTypes['json'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "circle_metadata" */
   ['circle_metadata_aggregate']: {
@@ -15668,7 +15680,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'];
     contact?: string;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     discord_webhook?: string;
     /** An array relationship */
@@ -15705,7 +15717,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     token_name: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
@@ -16574,6 +16586,7 @@ columns and relationships of "distributions" */
     merkle_root?: string;
     saved_on_chain: boolean;
     total_amount: GraphQLTypes['numeric'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
@@ -16658,6 +16671,7 @@ columns and relationships of "distributions" */
     merkle_root?: GraphQLTypes['String_comparison_exp'];
     saved_on_chain?: GraphQLTypes['Boolean_comparison_exp'];
     total_amount?: GraphQLTypes['numeric_comparison_exp'];
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'];
     vault?: GraphQLTypes['vaults_bool_exp'];
     vault_id?: GraphQLTypes['bigint_comparison_exp'];
   };
@@ -16697,6 +16711,7 @@ columns and relationships of "distributions" */
     merkle_root?: string;
     saved_on_chain?: boolean;
     total_amount?: GraphQLTypes['numeric'];
+    updated_at?: GraphQLTypes['timestamp'];
     vault?: GraphQLTypes['vaults_obj_rel_insert_input'];
     vault_id?: GraphQLTypes['bigint'];
   };
@@ -16710,6 +16725,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
     total_amount?: GraphQLTypes['numeric'];
+    updated_at?: GraphQLTypes['timestamp'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** order by max() on columns of table "distributions" */
@@ -16721,6 +16737,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** aggregate min on columns */
@@ -16733,6 +16750,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'];
     merkle_root?: string;
     total_amount?: GraphQLTypes['numeric'];
+    updated_at?: GraphQLTypes['timestamp'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** order by min() on columns of table "distributions" */
@@ -16744,6 +16762,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'];
     merkle_root?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
   /** response of any mutation on the table "distributions" */
@@ -16779,6 +16798,7 @@ columns and relationships of "distributions" */
     merkle_root?: GraphQLTypes['order_by'];
     saved_on_chain?: GraphQLTypes['order_by'];
     total_amount?: GraphQLTypes['order_by'];
+    updated_at?: GraphQLTypes['order_by'];
     vault?: GraphQLTypes['vaults_order_by'];
     vault_id?: GraphQLTypes['order_by'];
   };
@@ -16803,6 +16823,7 @@ columns and relationships of "distributions" */
     merkle_root?: string;
     saved_on_chain?: boolean;
     total_amount?: GraphQLTypes['numeric'];
+    updated_at?: GraphQLTypes['timestamp'];
     vault_id?: GraphQLTypes['bigint'];
   };
   /** aggregate stddev on columns */
@@ -17581,12 +17602,12 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'];
     epoch_id: number;
     id: GraphQLTypes['bigint'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     user_id: number;
@@ -18100,7 +18121,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle?: GraphQLTypes['circles'];
     circle_id: number;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     description: string;
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
@@ -18114,7 +18135,7 @@ columns and relationships of "distributions" */
     nominations_aggregate: GraphQLTypes['vouches_aggregate'];
     /** An object relationship */
     nominator?: GraphQLTypes['users'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     user_id?: number;
@@ -18498,12 +18519,12 @@ columns and relationships of "distributions" */
     circles: Array<GraphQLTypes['circles']>;
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     name: string;
     telegram_id?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** An aggregate relationship */
@@ -18835,7 +18856,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'];
@@ -18853,7 +18874,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
     tokens: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "pending_token_gifts" */
   ['pending_token_gifts_aggregate']: {
@@ -19225,7 +19246,7 @@ columns and relationships of "distributions" */
   ['personal_access_tokens']: {
     __typename: 'personal_access_tokens';
     abilities?: string;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     last_used_at?: GraphQLTypes['timestamp'];
     name: string;
@@ -19234,7 +19255,7 @@ columns and relationships of "distributions" */
     token: string;
     tokenable_id: GraphQLTypes['bigint'];
     tokenable_type: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "personal_access_tokens" */
   ['personal_access_tokens_aggregate']: {
@@ -19424,7 +19445,7 @@ columns and relationships of "distributions" */
     background?: string;
     bio?: string;
     chat_id?: string;
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     discord_username?: string;
     github_username?: string;
     id: GraphQLTypes['bigint'];
@@ -19432,7 +19453,7 @@ columns and relationships of "distributions" */
     skills?: string;
     telegram_username?: string;
     twitter_username?: string;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
@@ -19919,12 +19940,12 @@ columns and relationships of "distributions" */
   /** columns and relationships of "teammates" */
   ['teammates']: {
     __typename: 'teammates';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     team_mate_id: number;
     /** An object relationship */
     teammate?: GraphQLTypes['users'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'];
     user_id: number;
@@ -20211,7 +20232,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
     epoch_id: number;
     /** An object relationship */
@@ -20227,7 +20248,7 @@ columns and relationships of "distributions" */
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
     tokens: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "token_gifts" */
   ['token_gifts_aggregate']: {
@@ -20604,7 +20625,7 @@ columns and relationships of "distributions" */
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'];
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
@@ -20638,7 +20659,7 @@ columns and relationships of "distributions" */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
     teammates_aggregate: GraphQLTypes['teammates_aggregate'];
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
   };
   /** aggregated selection of "users" */
   ['users_aggregate']: {
@@ -21703,12 +21724,12 @@ columns and relationships of "distributions" */
   /** columns and relationships of "vouches" */
   ['vouches']: {
     __typename: 'vouches';
-    created_at?: GraphQLTypes['timestamp'];
+    created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     nominee?: GraphQLTypes['nominees'];
     nominee_id: number;
-    updated_at?: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     voucher?: GraphQLTypes['users'];
     voucher_id: number;
@@ -22140,6 +22161,7 @@ export const enum distributions_select_column {
   merkle_root = 'merkle_root',
   saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
+  updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
 /** update columns of table "distributions" */
@@ -22153,6 +22175,7 @@ export const enum distributions_update_column {
   merkle_root = 'merkle_root',
   saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
+  updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
 /** unique or primary key constraints on table "epoches" */
@@ -22468,6 +22491,7 @@ export const enum token_gifts_update_column {
 }
 /** unique or primary key constraints on table "users" */
 export const enum users_constraint {
+  users_address_circle_id_deleted_at_key = 'users_address_circle_id_deleted_at_key',
   users_pkey = 'users_pkey',
 }
 /** select columns of table "users" */
