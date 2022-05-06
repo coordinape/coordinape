@@ -1,4 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers';
+import { generateNonce, SiweMessage } from 'siwe';
 
 import { getSignature } from 'utils/provider';
 
@@ -28,16 +29,25 @@ export class APIService {
   }
 
   login = async (address: string): Promise<IApiLogin> => {
-    let now;
+    let nonce;
     try {
-      const nowReq = await fetch('/api/time');
-      now = parseInt(await nowReq.text());
-      if (isNaN(now)) now = Date.now();
+      const nonceReq = await fetch('/api/time');
+      nonce = await nonceReq.text();
     } catch (e) {
-      now = Date.now();
+      nonce = generateNonce();
     }
 
-    const data = `Login to Coordinape ${Math.floor(now / 1000)}`;
+    const message = new SiweMessage({
+      domain: 'domain.tld',
+      address,
+      statement: 'Coordinape wants to Sign-In With Ethereum',
+      uri: 'https://domain.tld/',
+      version: '1',
+      chainId: 1,
+      nonce,
+    });
+    const data = message.prepareMessage();
+
     const { signature, hash } = await getSignature(data, this.provider);
     const rawResponse = await fetch('/api/login', {
       method: 'POST',

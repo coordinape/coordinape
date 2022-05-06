@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
+import { SiweMessage } from 'siwe';
 
 import {
   formatAuthHeader,
@@ -10,11 +11,7 @@ import {
 } from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
-import {
-  parseInput,
-  verifyContractSignature,
-  verifySignature,
-} from '../api-lib/signature';
+import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
@@ -22,16 +19,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
 
+    const { data, signature } = input;
+
+    let address;
+
     try {
-      const verificationResult = input.hash.length
-        ? await verifyContractSignature(input)
-        : verifySignature(input);
-      if (!verificationResult) {
+      const message = new SiweMessage(data);
+      const verificationResult = await message.verify({
+        signature,
+        domain: 'domain.tld',
+      });
+
+      if (!verificationResult.success) {
         return errorResponse(res, {
           message: 'invalid signature',
           httpStatus: 401,
         });
       }
+
+      address = message.address;
     } catch (e: unknown) {
       return errorResponse(res, {
         message: 'invalid signature: ' + e,
@@ -41,10 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { profiles } = await adminClient.query(
       {
-        profiles: [
-          { where: { address: { _ilike: input.address } } },
-          { id: true },
-        ],
+        profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
       },
       {
         operationName: 'login_getProfile',
@@ -57,10 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
-          insert_profiles_one: [
-            { object: { address: input.address } },
-            { id: true },
-          ],
+          insert_profiles_one: [{ object: { address: address } }, { id: true }],
         },
         {
           operationName: 'login_insertProfile',
@@ -76,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await adminClient.mutate(
         {
           delete_personal_access_tokens: [
-            { where: { profile: { address: { _ilike: input.address } } } },
+            { where: { profile: { address: { _ilike: address } } } },
             { affected_rows: true },
           ],
           insert_personal_access_tokens_one: [
