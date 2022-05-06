@@ -52,7 +52,7 @@ export const normalizeError = (error: unknown): undefined | Error => {
       // elevate the error to the top level so sentry (and logging) can handle it better
       if (error.response.errors.length > 0) {
         // return
-        error.message = error.response.errors[0].message;
+        error.message = error.response.errors.map(e => e.message).join('; ');
         return error;
       }
     }
