@@ -37,20 +37,23 @@ context('Coordinape', () => {
     cy.get('[data-testid=profileCard]')
       .eq(1)
       .within(() => {
-        cy.get('[data-testid=increment]')
-          // TODO: create a multi-click custom command
+        cy.get('[data-testid=increment]').multiClick(5).wait(5000);
+        // there's some recoil funny business happening where old
+        // textbox state is restored if typing starts too quickly after
+        // incrementing tokens. This delay prevents an application error
+        // Not sure if it's worth fixing... since
+        // we're not doing too much with recoil anymore
+        cy.contains('Leave a Note')
           .click()
-          .click()
-          .click()
-          .click()
-          .click();
-        cy.contains('Leave a Note').click().type("you're great!");
+          .type("{selectAll}you're great!", { delay: 10 });
       });
     cy.get('[data-testid=profileCard]')
       .eq(2)
       .within(() => {
-        cy.contains('GIVE Allocated').click().type('50');
-        cy.contains('Leave a Note').click().type("you're awesome!");
+        cy.contains('GIVE Allocated').click().type('{selectAll}50');
+        cy.contains('Leave a Note')
+          .click()
+          .type("{selectAll}you're awesome!", { delay: 10 });
       });
     cy.contains('Save Allocations').click();
     cy.contains('Saved Gifts', { timeout: 120000 });
