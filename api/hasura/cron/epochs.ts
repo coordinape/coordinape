@@ -653,7 +653,7 @@ async function setNextEpochNumber({
         ],
       },
       {
-        operationName: 'cron-setNextEpochNumber_getLastEpoch',
+        operationName: 'cron_setNextEpochNumber_getLastEpoch',
       }
     );
   } catch (e: unknown) {
@@ -674,7 +674,7 @@ async function setNextEpochNumber({
         ],
       },
       {
-        operationName: 'cron-setNextEpochNumber_update',
+        operationName: 'cron_setNextEpochNumber_update',
       }
     );
   } catch (e: unknown) {

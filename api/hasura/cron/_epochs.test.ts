@@ -504,7 +504,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'cron-setNextEpochNumber_update',
+          operationName: 'cron_setNextEpochNumber_update',
         }
       );
       expect(mockMutation).toBeCalledWith(
@@ -696,7 +696,7 @@ describe('epoch Cron Logic', () => {
             { number: true },
           ],
         },
-        { operationName: 'cron-setNextEpochNumber_update' }
+        { operationName: 'cron_setNextEpochNumber_update' }
       );
     });
     test('prior epoch and both notifications enabled', async () => {
