@@ -1,11 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
+import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import debug from 'debug';
 import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
-import { GraphQLError } from '../lib/gql/__generated__/zeus';
+import { normalizeError } from '../utils/reporting';
 import { useRecoilLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -88,6 +89,13 @@ export const useApiBase = () => {
           const token =
             authTokens[address] ?? (await getApiService().login(address)).token;
           if (token) {
+            // Send a truncated address to sentry to help us debug customer issues
+            Sentry.setTag(
+              'address_truncated',
+              address.substr(0, 8) +
+                '...' +
+                address.substr(address.length - 8, 8)
+            );
             if (resetManifest) {
               set(rApiFullCircle, new Map());
               set(rApiManifest, undefined);
@@ -187,12 +195,16 @@ export const useApiBase = () => {
           }
           return manifest;
         } catch (e) {
-          if (e instanceof GraphQLError && e.response.errors) {
-            for (const err of e.response.errors) {
-              console.error('graphql error: ', err.message);
-            }
+          const fixedUpError = normalizeError(e);
+          console.error(
+            'error fetching manifest:',
+            fixedUpError ? fixedUpError.message : JSON.stringify(e)
+          );
+          console.error('raw manifest error:');
+          console.error(e);
+          if (fixedUpError) {
+            throw fixedUpError;
           }
-          console.error('error fetching manifest:', e);
           throw e;
         }
       },
