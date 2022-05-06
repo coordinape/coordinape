@@ -2,7 +2,8 @@ import { injectWeb3 } from '../util';
 
 context('Coordinape', () => {
   before(() => {
-    Cypress.on('window:before:load', injectWeb3);
+    const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
+    Cypress.on('window:before:load', injectWeb3(providerPort));
   });
   it('can login', () => {
     cy.visit('/');

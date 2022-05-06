@@ -55,8 +55,10 @@ export class TestProvider {
   }
 }
 
-export const injectWeb3 = (win: any) => {
-  const provider = new Web3Provider(new TestProvider('http://localhost:8546'));
+export const injectWeb3 = (providerPort: string) => (win: any) => {
+  const provider = new Web3Provider(
+    new TestProvider('http://localhost:' + providerPort)
+  );
   if (!win.ethereum) {
     Object.defineProperty(win, 'ethereum', { value: provider });
   } else {
