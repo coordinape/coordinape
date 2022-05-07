@@ -34,7 +34,7 @@ async function getEpochsToNotify() {
   const result = await adminClient.query(
     {
       __alias: {
-        notifyStart: {
+        notifyStartEpochs: {
           epochs: [
             {
               where: {
@@ -70,7 +70,7 @@ async function getEpochsToNotify() {
             },
           ],
         },
-        notifyEnd: {
+        notifyEndEpochs: {
           epochs: [
             {
               where: {
@@ -178,7 +178,7 @@ async function getEpochsToNotify() {
 }
 
 export async function notifyEpochStart({
-  notifyStart: { epochs },
+  notifyStartEpochs: epochs,
 }: EpochsToNotify) {
   const sendNotifications = epochs.map(async epoch => {
     const { start_date, end_date, circle, number: epochNumber } = epoch;
@@ -227,7 +227,7 @@ export async function notifyEpochStart({
 }
 
 export async function notifyEpochEnd({
-  notifyEnd: { epochs },
+  notifyEndEpochs: epochs,
 }: EpochsToNotify) {
   const notifyEpochsEnding = epochs
     .filter(e => e.circle?.telegram_id || e.circle?.discord_webhook)
@@ -272,7 +272,7 @@ export async function notifyEpochEnd({
   return errors;
 }
 
-export async function endEpoch({ endEpoch: { epochs } }: EpochsToNotify) {
+export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
   const endingPromises = epochs.map(async epoch => {
     const {
       epoch_pending_token_gifts: pending_gifts,

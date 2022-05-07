@@ -69,7 +69,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                     { aggregate: { count: [{}, true] } },
                   ],
                 },
-                emptyBio: {
+                emptyBioUsers: {
                   users: [
                     {
                       where: {
@@ -153,27 +153,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .shiftTo('weeks', 'days', 'hours')
         .toObject();
 
-      const sendersToday =
-        dailySenders.epoch_pending_token_gifts_aggregate.nodes.map(
-          node => node.sender.name
-        );
-      const totalAllocations =
-        allocationTotals.epoch_pending_token_gifts_aggregate.aggregate
-          ?.totalAllocations.count;
-      const tokensSent =
-        allocationTotals.epoch_pending_token_gifts_aggregate.aggregate?.sum
-          ?.sumGive.tokens;
-      const optOuts = circle?.optOuts.users_aggregate.aggregate?.count;
-      const usersAllocated =
-        sendersCount.epoch_pending_token_gifts_aggregate.aggregate?.count;
-      const optedInUsers =
-        circle.receiversTotal.users_aggregate.aggregate?.count;
+      const sendersToday = dailySenders.nodes.map(node => node.sender.name);
+      const totalAllocations = allocationTotals.aggregate?.totalAllocations;
+      const tokensSent = allocationTotals.aggregate?.sum?.sumGive;
+      const optOuts = circle?.optOuts.aggregate?.count;
+      const usersAllocated = sendersCount.aggregate?.count;
+      const optedInUsers = circle.receiversTotal.aggregate?.count;
 
       const emptyBioNotif =
         circle.id === CIRCLES.YEARN.COMMUNITY
           ? dedent`
               Opted in contributors who have NOT entered a statement for Epoch:
-              ${circle.emptyBio.users.map(u => u.name).join(', ')}
+              ${circle.emptyBioUsers.map(u => u.name).join(', ')}
           `
           : ``;
 
