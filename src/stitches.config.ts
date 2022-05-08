@@ -95,6 +95,7 @@ export const {
       background: '#DFE7E8',
       selected: '#31A5AC',
       lightBlue: '#84C7CA',
+      lighterBlue: '#84C7CA' + '80',
       darkBlue: '#5D9C9F',
       blue: '#2c91ee', // Blue/12
 

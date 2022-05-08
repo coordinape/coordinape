@@ -5,6 +5,7 @@ export * from './ApeInfoTooltip/ApeInfoTooltip';
 export * from './ApeTabs/ApeTabs';
 export * from './ApeTextField/ApeTextField';
 export * from './ApeToggle/ApeToggle';
+export * from './ApeToggleNew/ApeToggleNew';
 export * from './AvatarUpload/AvatarUpload';
 export * from './CoordinapeLogo/CoordinapeLogo';
 export * from './Drawer/Drawer';

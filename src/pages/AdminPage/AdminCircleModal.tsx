@@ -3,12 +3,22 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
+import { ApeAvatar, ApeToggleNew } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
+import {
+  Box,
+  Button,
+  Form,
+  FormLabel,
+  Modal,
+  Text,
+  TextField,
+  TextArea,
+} from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
@@ -17,6 +27,23 @@ import { ICircle } from 'types';
 
 const DOCS_HREF = 'https://docs.coordinape.com/welcome/admin_info';
 const DOCS_TEXT = 'See the docs...';
+
+const labelStyles = {
+  lineHeight: '$short',
+  color: '$text',
+  fontSize: '$4',
+  fontFamily: 'Inter',
+  fontWeight: '$bold',
+  textAlign: 'center',
+  mb: '$sm',
+};
+
+const textAreaStyles = {
+  width: '$full',
+  fontWeight: '$light',
+  fontSize: '$4',
+  lineHeight: 'none',
+};
 
 const useStyles = makeStyles(theme => ({
   logoContainer: {
@@ -300,187 +327,342 @@ export const AdminCircleModal = ({
     teamSelection !== circle.team_selection ||
     autoOptOut !== circle.auto_opt_out;
   return (
-    <FormModal
+    <Modal
       title="Edit Circle Settings"
-      submitDisabled={!circleDirty}
-      onSubmit={onSubmit}
       open={visible}
       onClose={onClose}
-      size="medium"
+      css={{ maxWidth: 820 }}
     >
-      <div className={classes.logoContainer}>
-        <label htmlFor="upload-logo-button">
-          <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
-          <div
-            className={clsx(
-              classes.uploadImageIconWrapper,
-              'upload-image-icon'
-            )}
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          width: '100%',
+          padding: '0 0 $lg',
+          overflowY: 'auto',
+          maxHeight: '100vh',
+        }}
+        onSubmit={onSubmit}
+      >
+        <div className={classes.logoContainer}>
+          <label htmlFor="upload-logo-button">
+            <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
+            <div
+              className={clsx(
+                classes.uploadImageIconWrapper,
+                'upload-image-icon'
+              )}
+            >
+              <UploadIcon />
+              <span>Upload Circle Logo</span>
+            </div>
+          </label>
+          <input
+            id="upload-logo-button"
+            onChange={onChangeLogo}
+            style={{ display: 'none' }}
+            type="file"
+          />
+        </div>
+        <div className={classes.quadGrid}>
+          <Box
+            css={{
+              display: 'flex',
+              'flex-direction': 'column',
+              alignItems: 'center',
+            }}
           >
-            <UploadIcon />
-            <span>Upload Circle Logo</span>
-          </div>
-        </label>
-        <input
-          id="upload-logo-button"
-          onChange={onChangeLogo}
-          style={{ display: 'none' }}
-          type="file"
-        />
-      </div>
-      <div className={classes.quadGrid}>
-        <ApeTextField
-          label="Circle name"
-          value={circleName}
-          onChange={onChangeWith(setCircleName)}
-          fullWidth
-        />
-        <ApeToggle
-          value={vouching}
-          onChange={val => setVouching(val)}
-          label="Enable Vouching?"
-          infoTooltip={
-            <YesNoTooltip
-              yes="Circle members can invite new people to the
+            <FormLabel
+              htmlFor="circle_name"
+              css={{ ...labelStyles, width: '$full' }}
+            >
+              Circle name
+            </FormLabel>
+            <TextField
+              id="circle_name"
+              value={circleName}
+              onChange={onChangeWith(setCircleName)}
+              css={{ width: '$full' }}
+            />
+          </Box>
+          <ApeToggleNew
+            value={vouching}
+            label="Enable Vouching?"
+            onChange={val => {
+              if (val == 'true') {
+                setVouching(true);
+              } else {
+                setVouching(false);
+              }
+            }}
+            infoTooltip={
+              <YesNoTooltip
+                yes="Circle members can invite new people to the
           circle; they become new members if enough other members vouch for
           them"
-              no="Only circle admins may add new members"
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
-        <ApeTextField
-          label="Token name"
-          value={tokenName}
-          onChange={onChangeWith(setTokenName)}
-          fullWidth
-        />
-        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
-          <ApeTextField
-            label="Mininum vouches to add member"
-            value={minVouches}
-            onChange={onChangeNumberWith(setMinVouches)}
-            fullWidth
-            disabled={!vouching}
+                no="Only circle admins may add new members"
+                href={DOCS_HREF}
+                anchorText={DOCS_TEXT}
+              />
+            }
           />
-        </div>
-        <ApeTextField
-          label="Teammate selection page text"
-          value={teamSelText}
-          onChange={onChangeWith(setTeamSelText)}
-          multiline
-          rows={4}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
-          <ApeTextField
-            label="Length of nomination period"
-            value={nominationDaysLimit}
-            helperText="(# of days)"
-            onChange={onChangeNumberWith(setNominationDaysLimit)}
-            fullWidth
-            disabled={!vouching}
-          />
-        </div>
-        <ApeTextField
-          label="Allocation page text"
-          value={allocText}
-          onChange={onChangeWith(setAllocText)}
-          multiline
-          rows={5}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-        <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
-          <ApeTextField
-            label="Vouching text"
-            placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
-            value={vouchingText}
-            onChange={onChangeWith(setVouchingText)}
-            multiline
-            rows={5}
-            inputProps={{
-              maxLength: 280,
+          <Box
+            css={{
+              display: 'flex',
+              'flex-direction': 'column',
+              alignItems: 'center',
             }}
-            fullWidth
+          >
+            <FormLabel
+              htmlFor="token_name"
+              css={{ ...labelStyles, width: '$full' }}
+            >
+              Token name
+            </FormLabel>
+            <TextField
+              id="token_name"
+              value={tokenName}
+              onChange={onChangeWith(setTokenName)}
+              css={{ width: '$full' }}
+            />
+          </Box>
+          <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
+            <Box
+              css={{
+                display: 'flex',
+                'flex-direction': 'column',
+                alignItems: 'center',
+              }}
+            >
+              <FormLabel
+                htmlFor="min_vouches"
+                css={{ ...labelStyles, width: '$full' }}
+              >
+                Mininum vouches to add member
+              </FormLabel>
+              <TextField
+                id="min_vouches"
+                value={minVouches}
+                onChange={onChangeNumberWith(setMinVouches)}
+                css={{ width: '$full' }}
+                disabled={!vouching}
+              />
+            </Box>
+          </div>
+          <Box
+            css={{
+              display: 'flex',
+              'flex-direction': 'column',
+              alignItems: 'center',
+            }}
+          >
+            <FormLabel
+              htmlFor="team_selection_text"
+              css={{ ...labelStyles, width: '$full' }}
+            >
+              Teammate selection page text
+            </FormLabel>
+            <TextArea
+              id="team_selection_text"
+              value={teamSelText}
+              onChange={onChangeWith(setTeamSelText)}
+              css={textAreaStyles}
+              rows={4}
+              maxLength={280}
+            />
+          </Box>
+          <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
+            <Box
+              css={{
+                display: 'flex',
+                'flex-direction': 'column',
+                alignItems: 'center',
+              }}
+            >
+              <FormLabel
+                htmlFor="nomination_period"
+                css={{ ...labelStyles, width: '$full' }}
+              >
+                Length of nomination period
+              </FormLabel>
+              <TextField
+                id="nomination_period"
+                value={nominationDaysLimit}
+                onChange={onChangeNumberWith(setNominationDaysLimit)}
+                css={{ width: '$full' }}
+                disabled={!vouching}
+              />
+              <Text
+                css={{
+                  fontSize: '$2',
+                  lineHeight: '$shorter',
+                  color: '$secondary',
+                }}
+              >
+                (# of days)
+              </Text>
+            </Box>
+          </div>
+          <Box
+            css={{
+              display: 'flex',
+              'flex-direction': 'column',
+              alignItems: 'center',
+            }}
+          >
+            <FormLabel
+              htmlFor="allocaion_text"
+              css={{ ...labelStyles, width: '$full' }}
+            >
+              Allocation page text
+            </FormLabel>
+            <TextArea
+              id="allocaion_text"
+              value={allocText}
+              onChange={onChangeWith(setAllocText)}
+              css={textAreaStyles}
+              rows={4}
+              maxLength={280}
+            />
+          </Box>
+          <div className={clsx(classes.vouchingItem, !vouching && 'disabled')}>
+            <Box
+              css={{
+                display: 'flex',
+                'flex-direction': 'column',
+                alignItems: 'center',
+              }}
+            >
+              <FormLabel
+                htmlFor="vouching_text"
+                css={{ ...labelStyles, width: '$full' }}
+              >
+                Vouching text
+              </FormLabel>
+              <TextArea
+                id="vouching_text"
+                placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
+                value={vouchingText}
+                onChange={onChangeWith(setVouchingText)}
+                css={textAreaStyles}
+                rows={4}
+                maxLength={280}
+                disabled={!vouching}
+              />
+            </Box>
+          </div>
+          <ApeToggleNew
+            value={defaultOptIn}
+            onChange={val => {
+              if (val == 'true') {
+                setDefaultOptIn(true);
+              } else {
+                setDefaultOptIn(false);
+              }
+            }}
+            label="Default Opt In?"
+            infoTooltip={
+              <YesNoTooltip
+                yes="All new members are eligible to receive GIVE"
+                no="New members need to log into Coordinape and opt in to receiving GIVE"
+                href={DOCS_HREF}
+                anchorText={DOCS_TEXT}
+              />
+            }
+          />
+          <ApeToggleNew
+            value={onlyGiverVouch}
+            onChange={val => {
+              if (val == 'true') {
+                setOnlyGiverVouch(true);
+              } else {
+                setOnlyGiverVouch(false);
+              }
+            }}
+            label="Only Givers can vouch"
+            infoTooltip={
+              <YesNoTooltip
+                yes="Only members who are eligible to send GIVE can vouch for new members"
+                no="Anyone in the circle can vouch for new members"
+                href={DOCS_HREF}
+                anchorText={DOCS_TEXT}
+              />
+            }
             disabled={!vouching}
           />
-        </div>
-        <ApeToggle
-          value={defaultOptIn}
-          onChange={val => setDefaultOptIn(val)}
-          label="Default Opt In?"
-          infoTooltip={
-            <YesNoTooltip
-              yes="All new members are eligible to receive GIVE"
-              no="New members need to log into Coordinape and opt in to receiving GIVE"
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
-        <ApeToggle
-          value={onlyGiverVouch}
-          onChange={val => setOnlyGiverVouch(val)}
-          className={clsx(classes.vouchingItem, !vouching && 'disabled')}
-          label="Only Givers can vouch"
-          infoTooltip={
-            <YesNoTooltip
-              yes="Only members who are eligible to send GIVE can vouch for new members"
-              no="Anyone in the circle can vouch for new members"
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
-        <ApeToggle
-          value={teamSelection}
-          onChange={val => setTeamSelection(val)}
-          label="Team Selection Enabled"
-          infoTooltip={
-            <YesNoTooltip
-              yes="Members select a team during allocation and make allocations only to that team"
-              no="Members make allocations to anyone in the circle"
-            />
-          }
-        />
-        <ApeToggle
-          value={autoOptOut}
-          onChange={val => setAutoOptOut(val)}
-          label="Auto Opt Out?"
-        />
-      </div>
-      <AdminIntegrations />
-      <div className={classes.bottomContainer}>
-        <p className={classes.subTitle}>Discord Webhook</p>
-        {allowEdit && (
-          <input
-            readOnly={!allowEdit}
-            className={classes.input}
-            onChange={onChangeWith(setWebhook)}
-            value={webhook}
+          <ApeToggleNew
+            value={teamSelection}
+            onChange={val => {
+              if (val == 'true') {
+                setTeamSelection(true);
+              } else {
+                setTeamSelection(false);
+              }
+            }}
+            label="Team Selection Enabled"
+            infoTooltip={
+              <YesNoTooltip
+                yes="Members select a team during allocation and make allocations only to that team"
+                no="Members make allocations to anyone in the circle"
+              />
+            }
           />
-        )}
-        <div className={classes.webhookButtonContainer}>
-          {!allowEdit && (
-            <Button
-              onClick={editDiscordWebhook}
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-            >
-              Edit WebHook
-            </Button>
-          )}
+          <ApeToggleNew
+            value={autoOptOut}
+            onChange={val => {
+              if (val == 'true') {
+                setAutoOptOut(true);
+              } else {
+                setAutoOptOut(false);
+              }
+            }}
+            label="Auto Opt Out?"
+          />
         </div>
-      </div>
-    </FormModal>
+        <AdminIntegrations />
+        <div className={classes.bottomContainer}>
+          <p className={classes.subTitle}>Discord Webhook</p>
+          {allowEdit && (
+            <input
+              readOnly={!allowEdit}
+              className={classes.input}
+              onChange={onChangeWith(setWebhook)}
+              value={webhook}
+            />
+          )}
+          <div className={classes.webhookButtonContainer}>
+            {!allowEdit && (
+              <Button onClick={editDiscordWebhook} size="small">
+                <Box
+                  css={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                  }}
+                >
+                  <i>
+                    <EditIcon />
+                  </i>
+                  <Text css={{ color: '$white' }}>Edit WebHook</Text>
+                </Box>
+              </Button>
+            )}
+          </div>
+        </div>
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="red"
+          size="medium"
+          type="submit"
+          disabled={!circleDirty}
+        >
+          Save
+        </Button>
+      </Form>
+    </Modal>
   );
 };
 
