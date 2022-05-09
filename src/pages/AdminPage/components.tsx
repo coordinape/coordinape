@@ -370,23 +370,21 @@ export const EpochsTable = ({
     fontWeight: '$normal',
   });
 
-  const downloadCSVButton = (epoch: number) => (
+  const downloadCSVButton = (epoch: number, downloadLink: string) => (
     <TableLink
       to=""
-      onClick={() => {
+      onClick={async () => {
         // use the authed api to download the CSV
-        downloadCSV(epoch).then(res => {
-          const binaryData = [];
-          binaryData.push(res.data);
-          const href = window.URL.createObjectURL(
-            new Blob(binaryData, { type: 'text/csv' })
-          );
+        const csv = await downloadCSV(epoch);
+
+        if (csv?.file) {
           const a = document.createElement('a');
-          a.download = `${circle?.protocol.name}-${circle?.name}-epoch-${epoch}.csv`;
-          a.href = href;
+          a.download = downloadLink;
+          a.href = csv.file;
           a.click();
           a.href = '';
-        });
+        }
+
         return false;
       }}
     >
@@ -425,17 +423,17 @@ export const EpochsTable = ({
     </TwoLineCell>
   );
 
-  const RenderEpochActions = (e: IEpoch) => {
+  const RenderEpochActions = (e: IEpoch, downloadLink: string) => {
     if (e.ended) {
       // this epoch is over, so there are no edit/delete actions, only download CSV
       // assert that e.number is non-null
       if (e.number) {
         return (
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
-            {downloadCSVButton(e.number)}
+            {downloadCSVButton(e.number, downloadLink)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.vaultDistribute(e.id)}>
-                Submit Distribution
+              <TableLink to={paths.distributions(e.id)}>
+                Distributions
               </TableLink>
             )}
           </Box>
@@ -489,7 +487,10 @@ export const EpochsTable = ({
                     </Table.Cell>
 
                     <Table.Cell key={`actions-${e.id}`}>
-                      {RenderEpochActions(e)}
+                      {RenderEpochActions(
+                        e,
+                        `${circle?.protocol.name}-${circle?.name}-epoch-${e}.csv`
+                      )}
                     </Table.Cell>
                   </Table.Row>
                 );

@@ -5,7 +5,6 @@ export * from './Checkbox/CheckBox';
 export * from './Divider/Divider';
 export * from './Flex';
 export * from './Form';
-export * from './Flex/Flex';
 export * from './FormLabel/FormLabel';
 export * from './Image/Image';
 export * from './Link/Link';
