@@ -1,17 +1,25 @@
-import assert from 'assert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import groupBy from 'lodash/groupBy';
 import { useQuery } from 'react-query';
 
-import { LoadingModal, makeTable } from 'components';
-import { useContracts } from 'hooks';
-import useConnectedAddress from 'hooks/useConnectedAddress';
-import { useMyProfile } from 'recoilState/app';
-import { Box, Panel, Flex, Text, Button } from 'ui';
-import { SingleColumnLayout } from 'ui/layouts';
+import { makeTable } from './Table';
 
-import { getClaims, ClaimsResult } from './queries';
-import { useClaimAllocation } from './useClaimAllocation';
+type OrgClaims = {
+  org_name: string;
+  org_id: number;
+  claim: {
+    id: number;
+    circle_name: string;
+    epoch: number;
+    rewards: {
+      value: number;
+      symbol?: string;
+      claim_id: number;
+    }[];
+    logo?: string;
+  };
+};
 
 export default function ClaimsPage() {
   // this causes errors if it's run at the top-level
@@ -97,7 +105,6 @@ export default function ClaimsPage() {
     <Box
       css={{
         margin: '$lg auto',
-        padding: '$md',
         maxWidth: '$mediumScreen',
       }}
     >
