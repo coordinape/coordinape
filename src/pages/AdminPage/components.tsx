@@ -226,7 +226,7 @@ export const renderUserCard = (user: IUser) => {
         margin: '$md',
       }}
     >
-      <Avatar path={user.profile?.avatar} name={user.name} />
+      <Avatar path={user.profile?.avatar} name={user.name} small />
       <Flex
         css={{
           flexDirection: 'column',
@@ -597,6 +597,7 @@ export const ContributorsTable = ({
         <Avatar
           path={user?.profile?.avatar}
           name={user?.name}
+          small
           onClick={getToProfile(user.address)}
         />
         <span>{user.name}</span>
