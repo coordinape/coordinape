@@ -9,6 +9,7 @@ import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg
 import { ApeAvatar } from 'components';
 import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,46 +19,30 @@ const useStyles = makeStyles(theme => ({
   header: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 60,
+    paddingTop: theme.spacing(8),
     maxWidth: '80%',
     textAlign: 'center',
-  },
-  title: {
-    fontSize: 40,
-    lineHeight: 1.25,
-    fontWeight: 700,
-    color: theme.colors.primary,
-    margin: 0,
   },
   subTitle: {
     padding: '7px 32px',
     fontSize: 20,
     lineHeight: 1.8,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: 0,
-  },
-  epochTiming: {
-    margin: 0,
-    maxWidth: theme.breakpoints.values.md,
-    fontSize: 20,
-    fontWeight: 300,
-    lineHeight: 2,
-    color: theme.colors.primary,
-    textAlign: 'center',
   },
   description: {
     padding: '0 100px',
     fontSize: 16,
     fontWeight: 400,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: 0,
   },
   warning: {
     marginBottom: 32,
     fontSize: 24,
     fontWeight: 500,
-    color: theme.colors.secondary,
+    color: theme.colors.secondaryText,
     margin: 0,
   },
   content: {
@@ -116,52 +101,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     color: theme.colors.text,
-    background: 'rgba(225, 225, 225, 0.3)',
+    background: theme.colors.surface,
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.placeholderDark,
-    },
-  },
-  sortButtonContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-  },
-  sortLabel: {
-    margin: 0,
-    paddingRight: theme.spacing(1),
-    fontSize: 14,
-    fontWeight: 500,
-    color: 'rgba(81, 99, 105, 0.35)',
-  },
-  sortButton: {
-    height: 17,
-    padding: theme.spacing(0, 1),
-    fontSize: 14,
-    fontWeight: 500,
-    textTransform: 'none',
-    color: 'rgba(81, 99, 105, 0.35)',
-    border: 'solid',
-    borderColor: 'rgba(81, 99, 105, 0.35)',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderRadius: 0,
-    '&:hover': {
-      background: 'none',
-      color: 'rgba(81, 99, 105, 0.75)',
-    },
-    '&:first-of-type': {
-      borderLeftWidth: 0,
-    },
-    '&:last-of-type': {
-      borderRightWidth: 0,
-    },
-    '&.selected': {
-      color: theme.colors.selected,
+      color: theme.colors.secondaryText,
     },
   },
   teammatesContainer: {
@@ -181,16 +126,16 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 400,
     textTransform: 'none',
-    color: theme.colors.placeholderDark,
-    background: theme.colors.lightBackground,
+    color: theme.colors.text,
+    background: theme.colors.surface,
     borderRadius: theme.spacing(3),
     '&:hover': {
-      background: theme.colors.lightBackground,
+      background: theme.colors.surface,
     },
     '&.selected': {
       paddingRight: theme.spacing(1.5),
       color: theme.colors.text,
-      background: theme.colors.background,
+      background: theme.colors.secondary + '80',
     },
     '&.unmatched': {
       opacity: 0.3,
@@ -223,36 +168,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
     lineHeight: 1.8,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
   },
   hr: {
     height: 1,
     width: '100%',
-    color: theme.colors.primary,
+    color: theme.colors.text,
     opacity: 0.5,
-  },
-  saveButton: {
-    padding: '10px 24px',
-    fontSize: 19.5,
-    fontWeight: 600,
-    textTransform: 'none',
-    color: theme.colors.white,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.colors.red,
-    borderRadius: 13,
-    filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.33))',
-    '&:hover': {
-      background: theme.colors.red,
-      filter: 'drop-shadow(2px 3px 6px rgba(81, 99, 105, 0.5))',
-    },
-    '&:disabled': {
-      color: theme.colors.lightRed,
-      background: theme.colors.mediumRed,
-    },
   },
   arrowRightIconWrapper: {
     width: theme.spacing(4),
@@ -277,7 +200,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: theme.colors.white,
     textAlign: 'center',
-    background: theme.colors.red,
+    background: theme.colors.alert,
   },
   navLink: {
     color: theme.colors.white,
@@ -318,11 +241,13 @@ const AllocationTeam = () => {
     <div className={classes.root}>
       <div className={classes.header}>
         {!epochIsActive && (
-          <h2 className={classes.epochTiming}>{timingMessage}</h2>
+          <Text h3 css={{ mb: '$sm', justifyContent: 'center' }}>
+            {timingMessage}
+          </Text>
         )}
-        <p className={classes.title}>
+        <Text h2>
           Who are your Teammates in the {selectedCircle?.name} Circle?
-        </p>
+        </Text>
         <p className={classes.subTitle}>{selectedCircle?.team_sel_text}</p>
       </div>
       <div className={classes.content}>
@@ -349,41 +274,6 @@ const AllocationTeam = () => {
             placeholder="🔍 Search"
             value={keyword}
           />
-          {/* <div className={classes.sortButtonContainer}>
-          <p className={classes.sortLabel}>sort by</p>
-          <div>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Alphabetical ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Alphabetical)}
-            >
-              Alphabetical
-            </Button>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Give_Allocated ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Give_Allocated)}
-            >
-              Give Allocated
-            </Button>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Opt_In_First ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Opt_In_First)}
-            >
-              Opt-In First
-            </Button>
-          </div>
-        </div> */}
         </div>
         <div className={classes.teammatesContainer}>
           {availableTeammates

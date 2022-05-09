@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import clsx from 'clsx';
-import { transparentize } from 'polished';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
+import { Flex, Button } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
@@ -21,35 +21,12 @@ const DOCS_TEXT = 'See the docs...';
 const useStyles = makeStyles(theme => ({
   logoContainer: {
     position: 'relative',
-    width: 96,
-    height: 96,
     margin: 'auto',
     borderRadius: 30,
     fontSize: 12,
     fontWeight: 400,
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(10),
-    '&:after': {
-      content: `" "`,
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      top: 0,
-      left: 0,
-      borderRadius: '50%',
-      background: 'rgba(0,0,0,0.6)',
-      opacity: 0.7,
-      transition: 'all 0.5s',
-      '-webkit-transition': 'all 0.5s',
-    },
-    '&:hover': {
-      '&:after': {
-        opacity: 1,
-      },
-      '& .upload-image-icon': {
-        background: 'rgba(81, 99, 105, 0.9)',
-      },
-    },
   },
   errorColor: {
     color: theme.palette.error.main,
@@ -59,29 +36,6 @@ const useStyles = makeStyles(theme => ({
     height: 96,
     border: '4px solid #FFFFFF',
     borderRadius: '50%',
-  },
-  uploadImageIconWrapper: {
-    position: 'absolute',
-    marginTop: theme.spacing(2),
-    left: 'calc(1% - 40px)',
-    width: 178,
-    height: 32,
-    borderRadius: 8,
-    background: transparentize(0.5, theme.colors.text),
-    boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
-    cursor: 'pointer',
-    zIndex: 2,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: 600,
-    paddingLeft: 8,
-    '& > svg': {
-      // fontSize: 14,
-      marginRight: theme.spacing(1),
-    },
   },
   uploadImageTitle: {},
   quadGrid: {
@@ -118,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 500,
     color: theme.colors.text,
-    background: theme.colors.background,
+    background: theme.colors.surface,
     borderRadius: theme.spacing(1),
     border: 0,
     outline: 'none',
@@ -135,7 +89,7 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     margin: theme.spacing(2, 0, 0),
     textAlign: 'center',
-    color: theme.colors.linkBlue,
+    color: theme.colors.link,
   },
 }));
 
@@ -209,7 +163,8 @@ export const AdminCircleModal = ({
     }
   };
 
-  const editDiscordWebhook = async () => {
+  const editDiscordWebhook = async (event: MouseEvent) => {
+    event.preventDefault();
     try {
       const _webhook = await getDiscordWebhook();
       setWebhook(_webhook);
@@ -308,26 +263,30 @@ export const AdminCircleModal = ({
       onClose={onClose}
       size="medium"
     >
-      <div className={classes.logoContainer}>
+      <Flex
+        css={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '$xs',
+          mb: '$lg',
+        }}
+      >
+        <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
         <label htmlFor="upload-logo-button">
-          <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
-          <div
-            className={clsx(
-              classes.uploadImageIconWrapper,
-              'upload-image-icon'
-            )}
-          >
-            <UploadIcon />
-            <span>Upload Circle Logo</span>
-          </div>
+          <Button as="div" size="small" color="neutral">
+            <Flex css={{ mr: '$sm' }}>
+              <UploadIcon />
+            </Flex>
+            Upload Circle Logo
+          </Button>
         </label>
-        <input
-          id="upload-logo-button"
-          onChange={onChangeLogo}
-          style={{ display: 'none' }}
-          type="file"
-        />
-      </div>
+      </Flex>
+      <input
+        id="upload-logo-button"
+        onChange={onChangeLogo}
+        style={{ display: 'none' }}
+        type="file"
+      />
       <div className={classes.quadGrid}>
         <ApeTextField
           label="Circle name"
@@ -469,12 +428,10 @@ export const AdminCircleModal = ({
         )}
         <div className={classes.webhookButtonContainer}>
           {!allowEdit && (
-            <Button
-              onClick={editDiscordWebhook}
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-            >
+            <Button onClick={editDiscordWebhook} color="neutral" size="small">
+              <Flex css={{ mr: '$sm' }}>
+                <EditIcon />
+              </Flex>
               Edit WebHook
             </Button>
           )}

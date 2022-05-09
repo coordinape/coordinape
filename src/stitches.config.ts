@@ -2,7 +2,7 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
-// import { colors } from 'ui/colors';
+import { colors as figmaColors } from 'ui/colors';
 
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
@@ -50,6 +50,34 @@ const spaces = {
   '2xl': '48px',
 };
 
+export const colors = {
+  white: '#fff',
+  black: '#000',
+
+  primary: figmaColors.blue12,
+  textOnPrimary: '#fff',
+
+  alert: figmaColors.red12,
+  alertDark: figmaColors.red20,
+  textOnAlert: '#fff',
+
+  secondary: figmaColors.teal12,
+  secondaryDark: figmaColors.teal20,
+  neutral: figmaColors.grey12,
+  complete: figmaColors.green12,
+  blurple: figmaColors.discordblurple,
+
+  background: figmaColors.grey1,
+  surface: figmaColors.grey2,
+  border: figmaColors.grey4,
+  focusedBorder: figmaColors.grey8,
+
+  link: figmaColors.blue12,
+  text: figmaColors.grey20,
+  headingText: figmaColors.grey16,
+  secondaryText: figmaColors.grey12,
+};
+
 export const {
   styled,
   css,
@@ -61,50 +89,7 @@ export const {
   config,
 } = createStitches({
   theme: {
-    colors: {
-      white: '#fff',
-      black: '#000',
-      // red
-      lightRed: '#F5E4E4',
-      mediumRed: '#E6BCBC',
-      darkRed: '#6f3638',
-      red: '#EF7376',
-      redHover: '#CF7073',
-      // gray
-      gray400: '#B5BBBD',
-
-      lightBackground: '#E1E1E1',
-      surfaceGray: '#eef1f4', // Grey/2|Surface
-      subtleGray: '#F5F5F5',
-      almostWhite: '#fbfbfb',
-
-      lightBorder: '#DEDEDE',
-      lightGray: '#C3CDCF',
-      mediumGray: '#A7B0B4',
-      border: '#939EA1',
-      placeholderDark: '#7C898D',
-      neutralGrayDark: '#52575C',
-
-      // text colors
-      primary: '#5E6F74', // TODO: replace with Grey/20
-      text: '#516369', // TODO: de-dupe with primary & secondary?
-      secondary: '#56606f',
-      lightText: '#859296',
-      placeholder: '#99A2A5', // TODO: replace with Grey/12
-
-      background: '#DFE7E8',
-      selected: '#31A5AC',
-      lightBlue: '#84C7CA',
-      darkBlue: '#5D9C9F',
-      blue: '#2c91ee', // Blue/12
-
-      teal: '#53b7cd', // Teal/12
-      darkTeal: '#246e7e', // Teal/20
-
-      green: '#57b62b', // Green/12
-
-      // ...colors
-    },
+    colors,
     space: {
       ...spaces,
     },
@@ -125,15 +110,12 @@ export const {
       pill: '9999px',
     },
     fontSizes: {
-      1: '11px',
-      2: '12px',
-      3: '14px',
-      4: '16px',
-      5: '19px',
-      6: '20px',
-      7: '21px',
-      8: '30px',
-      9: '35px',
+      small: '13px',
+      medium: '16px',
+      large: '20px',
+      h3: '24px',
+      h2: '32px',
+      h1: '48px',
     },
     fontWeights: {
       hairline: 100,
@@ -212,76 +194,14 @@ export const {
       marginBottom: value,
     }),
 
-    ta: (value: Stitches.PropertyValue<'textAlign'>) => ({ textAlign: value }),
-
-    fd: (value: Stitches.PropertyValue<'flexDirection'>) => ({
-      flexDirection: value,
-    }),
-    fw: (value: Stitches.PropertyValue<'flexWrap'>) => ({ flexWrap: value }),
-
-    ai: (value: Stitches.PropertyValue<'alignItems'>) => ({
-      alignItems: value,
-    }),
-    ac: (value: Stitches.PropertyValue<'alignContent'>) => ({
-      alignContent: value,
-    }),
-    jc: (value: Stitches.PropertyValue<'justifyContent'>) => ({
-      justifyContent: value,
-    }),
-    as: (value: Stitches.PropertyValue<'alignSelf'>) => ({ alignSelf: value }),
-    fg: (value: Stitches.PropertyValue<'flexGrow'>) => ({ flexGrow: value }),
-    fs: (value: Stitches.PropertyValue<'flexShrink'>) => ({
-      flexShrink: value,
-    }),
-    fb: (value: Stitches.PropertyValue<'flexBasis'>) => ({ flexBasis: value }),
-
-    bc: (value: Stitches.PropertyValue<'backgroundColor'>) => ({
-      backgroundColor: value,
-    }),
-
-    br: (value: Stitches.PropertyValue<'borderRadius'>) => ({
-      borderRadius: value,
-    }),
-    btrr: (value: Stitches.PropertyValue<'borderTopRightRadius'>) => ({
-      borderTopRightRadius: value,
-    }),
-    bbrr: (value: Stitches.PropertyValue<'borderBottomRightRadius'>) => ({
-      borderBottomRightRadius: value,
-    }),
-    bblr: (value: Stitches.PropertyValue<'borderBottomLeftRadius'>) => ({
-      borderBottomLeftRadius: value,
-    }),
-    btlr: (value: Stitches.PropertyValue<'borderTopLeftRadius'>) => ({
-      borderTopLeftRadius: value,
-    }),
-
-    bs: (value: Stitches.PropertyValue<'boxShadow'>) => ({ boxShadow: value }),
-
-    lh: (value: Stitches.PropertyValue<'lineHeight'>) => ({
-      lineHeight: value,
-    }),
-
-    ox: (value: Stitches.PropertyValue<'overflowX'>) => ({ overflowX: value }),
-    oy: (value: Stitches.PropertyValue<'overflowY'>) => ({ overflowY: value }),
-
-    pe: (value: Stitches.PropertyValue<'pointerEvents'>) => ({
-      pointerEvents: value,
-    }),
-    us: (value: Stitches.PropertyValue<'userSelect'>) => ({
-      WebkitUserSelect: value,
-      userSelect: value,
-    }),
-
     userSelect: (value: Stitches.PropertyValue<'userSelect'>) => ({
       WebkitUserSelect: value,
       userSelect: value,
     }),
-
     size: (value: Stitches.PropertyValue<'width'>) => ({
       width: value,
       height: value,
     }),
-
     appearance: (value: Stitches.PropertyValue<'appearance'>) => ({
       WebkitAppearance: value,
       appearance: value,

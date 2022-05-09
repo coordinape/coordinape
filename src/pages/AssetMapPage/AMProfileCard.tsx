@@ -20,27 +20,26 @@ import { IProfile, ICircle } from 'types';
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    margin: theme.spacing(3, 1.75),
+    margin: theme.spacing(3, 2),
     padding: theme.spacing(1.5, 1.75),
     borderRadius: '10px',
-    backgroundColor: '#DFE7E8',
+    backgroundColor: theme.colors.background,
     ['-webkit-mask-image']:
       'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)',
     '& $scale': {
-      // backgroundColor: 'hsla(359, 79%, 69%, 0.05)',
       backgroundColor: 'transparent',
+    },
+    '&:first-child': {
+      marginTop: 0,
     },
   },
   rootSummary: {
     '& $scale': {
-      backgroundColor: 'hsla(359, 79%, 69%, 0.3)',
+      backgroundColor: theme.colors.alert + '40',
     },
   },
   rootSelected: {
-    backgroundColor: 'hsla(183, 40%, 65%, 0.3)',
-    // '& $scale': {
-    //   backgroundColor: 'hsla(183, 40%, 65%, 0.2)',
-    // },
+    backgroundColor: theme.colors.secondary + '80',
   },
   scale: {
     position: 'absolute',
@@ -93,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       padding: theme.spacing(0.2, 1),
       margin: theme.spacing(0.5, 0),
-      background: theme.colors.lightBlue,
+      background: theme.colors.secondary,
       textAlign: 'center',
       fontSize: 12,
       fontWeight: 300,

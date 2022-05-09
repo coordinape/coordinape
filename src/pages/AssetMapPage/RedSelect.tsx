@@ -6,21 +6,21 @@ const useStyles = makeStyles(theme => ({
   selectRoot: {
     fontSize: 16,
     fontWeight: 700,
-    color: theme.colors.red,
+    color: theme.colors.alert,
     '&:hover': {
       '&::before': {
-        borderBottomColor: `${theme.colors.red} !important`,
+        borderBottomColor: `${theme.colors.alert} !important`,
       },
     },
     '&::after': {
-      borderBottomColor: `${theme.colors.transparent} !important`,
+      borderBottomColor: `transparent !important`,
     },
   },
   select: {
-    color: theme.colors.red,
+    color: theme.colors.alert,
   },
   selectIcon: {
-    fill: theme.colors.red,
+    fill: theme.colors.alert,
   },
   selectMenuPaper: {
     background:
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
   },
   menuItemSelected: {
-    background: `${theme.colors.third} !important`,
+    background: `${theme.colors.surface} !important`,
   },
 }));
 

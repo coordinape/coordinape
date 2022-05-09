@@ -1,3 +1,7 @@
+// n.b. this implementation is not fully functional;
+// it's currently only in use in the mobile hamburger menu.
+// feel free to modify & augment as needed.
+
 import type * as Stitches from '@stitches/react';
 
 import { styled } from '../../stitches.config';
@@ -19,7 +23,7 @@ export const IconButton = styled('button', {
   textDecoration: 'none',
   userSelect: 'none',
   WebkitTapHighlightColor: 'transparent',
-  color: '$gray400',
+  color: '$secondaryText',
   cursor: 'pointer',
   '&::before': {
     boxSizing: 'border-box',
@@ -27,20 +31,17 @@ export const IconButton = styled('button', {
   '&::after': {
     boxSizing: 'border-box',
   },
-  backgroundColor: '$loContrast',
-  border: '1px solid $gray400',
+  backgroundColor: '$surface',
+  border: '1px solid $border',
   '@hover': {
     '&:hover': {
-      borderColor: '$lightGray',
+      borderColor: '$border',
     },
-  },
-  '&:active': {
-    backgroundColor: '$gray400',
   },
   '&:disabled': {
     pointerEvents: 'none',
     backgroundColor: 'transparent',
-    color: '$surfaceGray',
+    color: '$surface',
   },
 
   variants: {
@@ -67,18 +68,6 @@ export const IconButton = styled('button', {
       },
     },
     variant: {
-      shadow: {
-        backgroundColor: '$lightBackground',
-        borderWidth: '0',
-        '@hover': {
-          '&:hover': {
-            backgroundColor: '$lightGray',
-          },
-        },
-        '&:active': {
-          backgroundColor: '$lightGray',
-        },
-      },
       ghost: {
         backgroundColor: 'transparent',
         borderWidth: '0',
@@ -95,7 +84,7 @@ export const IconButton = styled('button', {
   },
   defaultVariants: {
     size: 'xs',
-    variant: 'shadow',
+    variant: 'ghost',
   },
 });
 

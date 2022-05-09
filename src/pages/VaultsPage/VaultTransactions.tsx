@@ -10,30 +10,32 @@ export const VaultTransactions = () => {
   const { id } = useParams();
 
   const currentOrg = useCurrentOrg();
-  const { isLoading, data } = useVaults(Number(currentOrg.data?.id));
+  const { isLoading, isIdle, data } = useVaults(Number(currentOrg.data?.id));
   const vault = data?.find(v => v.vault_address === id);
 
-  if (!vault && !isLoading) {
+  if (!vault && !isLoading && !isIdle) {
     // TODO
-    return <>404</>;
+    return <OrgLayout>404</OrgLayout>;
   }
 
   return (
     <OrgLayout>
       <Panel>
-        <Text
-          css={{
-            fontSize: '$8',
-            fontWeight: '$bold',
-            mb: '$lg',
-            display: 'block',
-            textAlign: 'center',
-          }}
-        >
+        <Text h2 css={{ mb: '$md' }}>
           All Transactions for {vault?.symbol?.toUpperCase()} Vault
         </Text>
         <TransactionTable
-          rows={[...dummyTableData, ...dummyTableData, ...dummyTableData]}
+          rows={[
+            ...dummyTableData,
+            ...dummyTableData.map(r => ({
+              ...r,
+              hash: r.hash.replace('a', 'b'),
+            })),
+            ...dummyTableData.map(r => ({
+              ...r,
+              hash: r.hash.replace('a', 'c'),
+            })),
+          ]}
         />
       </Panel>
     </OrgLayout>
@@ -50,15 +52,15 @@ export const TransactionTable = ({ rows }: { rows: any[] }) => (
       fontFamily: 'Inter',
       th: {
         textAlign: 'left',
-        color: '$gray400',
+        color: '$secondaryText',
         textTransform: 'uppercase',
-        fontSize: '$3',
+        fontSize: '$small',
         pb: '$sm',
         pl: '$sm',
       },
-      tbody: { backgroundColor: '$almostWhite' },
+      tbody: { backgroundColor: '$white' },
       tr: {
-        borderTop: '1px solid $gray400',
+        borderTop: '1px solid $border',
       },
       td: {
         padding: '$sm',

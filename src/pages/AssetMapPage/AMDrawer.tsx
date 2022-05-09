@@ -30,19 +30,19 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    padding: theme.spacing(0, 3),
+    padding: theme.spacing(0, 2),
   },
   title: {
     fontWeight: 300,
     fontSize: 20,
     lineHeight: 1.3,
-    margin: theme.spacing(2.5, 0, 2),
+    margin: theme.spacing(2.5, 0, 0),
   },
   controls: {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    margin: theme.spacing(2, 0, 4),
+    margin: theme.spacing(1, 0, 1),
   },
   rank: {
     minWidth: 47,
@@ -63,17 +63,17 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     width: '100%',
     overflowY: 'scroll',
-    scrollbarColor: `${theme.colors.secondary} #EAEFF0`,
+    scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
-      backgroundColor: '#EAEFF0',
+      backgroundColor: theme.colors.surface,
       width: 8,
     },
     '&::-webkit-scrollbar-track': {
-      backgroundColor: '#EAEFF0',
+      backgroundColor: theme.colors.surface,
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.colors.secondary,
+      backgroundColor: theme.colors.focusedBorder,
     },
   },
 }));

@@ -3,7 +3,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
   editCircleButton: {
-    backgroundColor: theme.colors.red,
+    backgroundColor: theme.colors.alert,
     borderRadius: '8px',
     width: '32px',
     height: '32px',
