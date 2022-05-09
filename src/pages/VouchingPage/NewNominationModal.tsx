@@ -41,6 +41,21 @@ const labelStyles = {
   mb: '$sm',
 };
 
+interface MyObject {
+  message: string;
+}
+function addServerErrors<T>(
+  errors: MyObject[],
+  setError: (
+    fieldName: keyof T,
+    error: { type: string; message: string | undefined }
+  ) => void
+) {
+  return errors.forEach((err, key) => {
+    setError(key as keyof T, { type: 'server', message: err.message });
+  });
+}
+
 export const NewNominationModal = ({
   onClose,
   visible,
@@ -72,6 +87,7 @@ export const NewNominationModal = ({
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<NominateFormSchema>({
     resolver: zodResolver(schema),
@@ -101,7 +117,13 @@ export const NewNominationModal = ({
     createNominee(circle.id, data)
       .then(refetchNominees)
       .then(onClose)
-      .catch(console.warn);
+      .catch(err => {
+        if (err.response?.errors?.length > 0) {
+          err = err.response.errors;
+          setSubmitting(false);
+          addServerErrors(err, setError);
+        }
+      });
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>
