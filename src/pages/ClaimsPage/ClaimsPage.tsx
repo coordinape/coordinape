@@ -1,291 +1,214 @@
-import assert from 'assert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { BigNumber } from 'ethers';
-import { encodeCircleId } from 'lib/vaults';
-import { useQuery } from 'react-query';
+import { NewApeAvatar } from 'components';
+import { Box, Link, Panel, Table, TableBorder, Flex, Text } from 'ui';
+import { getCircleAvatar } from 'utils/domain';
 
-import { LoadingModal, makeTable } from 'components';
-import { useContracts } from 'hooks';
-import useConnectedAddress from 'hooks/useConnectedAddress';
-import { useMyProfile } from 'recoilState/app';
-import { Box, Panel, Flex, Text, Button } from 'ui';
-import { SingleColumnLayout } from 'ui/layouts';
+import { makeTable } from './Table';
 
-import { getClaims, ClaimsResult } from './queries';
-import { useClaimAllocation } from './useClaimAllocation';
+type OrgClaims = {
+  org_name: string;
+  org_id: number;
+  claim: {
+    id: number;
+    circle_name: string;
+    epoch: number;
+    rewards: {
+      value: number;
+      symbol?: string;
+      claim_id: number;
+    }[];
+    logo?: string;
+  };
+};
 
-const ClaimsTable = makeTable<ClaimsResult>('ClaimsTable');
+const ClaimsTable = makeTable<OrgClaims>('ClaimsTable');
 
 export default function ClaimsPage() {
-  const address = useConnectedAddress();
-  const contracts = useContracts();
-  const allocateClaim = useClaimAllocation();
-  const profile = useMyProfile();
-
-  assert(address || contracts);
-
-  const {
-    isIdle,
-    isLoading,
-    isError,
-    error,
-    data: claims,
-  } = useQuery(['claims', profile.id], () => getClaims(profile.id), {
-    enabled: !!(contracts && address),
-    retry: false,
-  });
-
-  if (isIdle || isLoading) return <LoadingModal visible />;
-  if (isError)
-    return (
-      <SingleColumnLayout>
-        Error retreiving your claims. {error}
-      </SingleColumnLayout>
-    );
-  if (!claims) return <SingleColumnLayout>No claims found</SingleColumnLayout>;
-
-  const processClaim = async (claimId: number) => {
-    const claim = claims.find(c => c.id === claimId);
-    assert(claim);
-    assert(address);
-    const circleId = encodeCircleId(claim.distribution.epoch.circle?.id);
-    const vault = claim.distribution.vault;
-    const merkleIndex = BigNumber.from(claim.index);
-    const distributionEpochId = BigNumber.from(claim.distribution.epoch.id);
-
-    const { claims: jsonClaims } = JSON.parse(
-      claim.distribution.distribution_json
-    );
-    const amount = jsonClaims[address.toLowerCase() as string].amount;
-
-    try {
-      allocateClaim({
-        claimId: claim.id,
-        circleId,
-        vault,
-        merkleIndex,
-        address: address as string,
-        amount,
-        proof: claim.proof.split(','),
-        distributionEpochId,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const claims: OrgClaims[] = [
+    {
+      org_name: 'Yearn',
+      org_id: 1,
+      claim: {
+        id: 2,
+        circle_name: 'Circle 1',
+        epoch: 2,
+        rewards: [
+          {
+            value: 1200,
+            symbol: 'USDC',
+            claim_id: 110,
+          },
+          {
+            value: 1290,
+            symbol: 'YToken',
+            claim_id: 100,
+          },
+        ],
+      },
+    },
+    {
+      org_name: 'Gitcoin',
+      org_id: 1,
+      claim: {
+        id: 2,
+        circle_name: 'Grants Team',
+        epoch: 2,
+        rewards: [
+          {
+            value: 200,
+            symbol: 'USDC',
+            claim_id: 1,
+          },
+          {
+            value: 750,
+            symbol: 'GTC',
+            claim_id: 2,
+          },
+        ],
+      },
+    },
+  ];
 
   return (
     <Box
       css={{
         margin: '$lg auto',
-        padding: '$md',
         maxWidth: '$mediumScreen',
       }}
     >
-      <Box
-        css={{
-          fontSize: '$h1',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-        }}
-      >
-        Claim Your Allocations
-      </Box>
-      <Box css={{ color: '$neutral', maxWidth: '60%', my: '$lg' }}>
-        You can claim all your rewards from this page. Note that you can claim
-        them for all your epochs in one circle but each token requires its own
-        claim transaction.
-      </Box>
-
-      <Panel css={{ my: '$lg', backgroundColor: '$border', mb: '$2xl' }}>
-        <ClaimsTable
-          headers={[
-            {
-              title: 'Organization',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Circle',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Epochs',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Rewards',
-              style: { textAlign: 'right', width: '98%' },
-            },
-          ]}
-          data={claims.filter(c => !c.txHash)}
-          startingSortIndex={2}
-          startingSortDesc
-          sortByColumn={() => {
-            return c => c;
+      <Panel css={{ minHeight: '60vh' }}>
+        <Box
+          css={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
           }}
         >
-          {claim => (
-            <tr key={claim.id}>
-              <td>
-                <Text>{claim.distribution.epoch.circle?.name}</Text>
-              </td>
-              <td>
-                <Flex row css={{ gap: '$sm' }}>
-                  <Text>{claim.distribution.epoch.circle?.name}</Text>
-                </Flex>
-              </td>
-              <td>
-                <Text>{3}</Text>
-              </td>
-              <td>
-                <Flex
-                  css={{
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      minWidth: '10vw',
-                      justifyContent: 'flex-end',
-                      gap: '$md',
-                      mr: '$md',
-                      '@sm': {
-                        minWidth: '20vw',
-                      },
-                    }}
-                  >
-                    <Text>
-                      {claim.amount} {claim.distribution.vault.symbol}
-                    </Text>
-                    <Button
-                      color="primary"
-                      outlined
-                      css={{
-                        fontWeight: '$normal',
-                        minHeight: '$xs',
-                        px: '$sm',
-                        minWidth: '5vw',
-                        borderRadius: '$2',
-                      }}
-                      onClick={() => processClaim(claim.id)}
-                    >
-                      Claim {claim.distribution.vault.symbol}
-                    </Button>
-                  </Flex>
-                </Flex>
-              </td>
-            </tr>
-          )}
-        </ClaimsTable>
-      </Panel>
-
-      <Box
-        css={{
-          fontSize: '$h2',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-          mt: '$2xl',
-        }}
-      >
-        Claim History
-      </Box>
-
-      <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
-        <ClaimsTable
-          headers={[
-            {
-              title: 'Organization',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Circle',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Epoch',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Rewards',
-              style: { textAlign: 'right', width: '98%' },
-            },
-          ]}
-          data={claims.filter(c => c.txHash)}
-          startingSortIndex={2}
-          startingSortDesc
-          sortByColumn={() => {
-            return c => c;
+          <Link
+            href={'/'}
+            css={{
+              fontSize: '$4',
+              lineHeight: '$shorter',
+              alignSelf: 'center',
+              color: '$text',
+              display: 'flex',
+              alignItems: 'center',
+              ml: '$lg',
+              cursor: 'pointer',
+            }}
+          >
+            <ArrowBackIcon />
+            Back
+          </Link>
+        </Box>
+        <Box
+          css={{
+            fontSize: '$6',
+            color: '$text',
+            display: 'flex',
+            alignItems: 'left',
+            ml: '$lg',
+            mt: '$lg',
           }}
         >
-          {claim => (
-            <tr key={claim.id}>
-              <td>
-                <Text>{claim.distribution.epoch.circle?.name}</Text>
-              </td>
-              <td>
-                <Flex row css={{ gap: '$sm' }}>
-                  <Text>{claim.distribution.epoch.circle?.name}</Text>
-                </Flex>
-              </td>
-              <td>
-                <Text>
-                  Epoch {claim.distribution.epoch.number}
-                  {': '}
-                  {formatEpochDates(
-                    claim.distribution.epoch.start_date,
-                    claim.distribution.epoch.end_date
-                  )}
-                </Text>
-              </td>
-              <td>
-                <Flex
-                  css={{
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      minWidth: '10vw',
-                      justifyContent: 'flex-end',
-                      gap: '$md',
-                      mr: '$md',
-                      '@sm': {
-                        minWidth: '20vw',
-                      },
-                    }}
-                  >
-                    <Text>
-                      {claim.amount} {claim.distribution.vault.symbol}
-                    </Text>
-                    <Button
-                      color="primary"
-                      outlined
-                      css={{
-                        fontWeight: '$normal',
-                        minHeight: '$xs',
-                        px: '$sm',
-                        minWidth: '5vw',
-                        borderRadius: '$2',
-                      }}
-                    >
-                      View on Etherscan
-                    </Button>
-                  </Flex>
-                </Flex>
-              </td>
-            </tr>
-          )}
-        </ClaimsTable>
+          Claim Your Funds
+        </Box>
+        <Box
+          css={{
+            fontSize: '$4',
+            color: '$text',
+            display: 'flex',
+            alignItems: 'left',
+            ml: '$lg',
+            mt: '$lg',
+          }}
+        >
+          <Box>
+            You can claim all your rewards from this page. Note that you can
+            claim them for all your epochs in one circle but each token requires
+            its own claim transaction.
+          </Box>
+          <Box css={{ minWidth: '40%' }}></Box>
+        </Box>
+        <Box
+          css={{
+            ml: '$lg',
+          }}
+        >
+          {claims.map(claim => (
+            <>
+              <Text css={{ my: '$lg', fontSize: '$6' }}>{claim.org_name}</Text>
+              <ClaimsTable
+                key={claim.org_id}
+                Table={Table}
+                TableBorder={TableBorder}
+                headers={['Circle', 'Epochs', `Rewards`, ``, ``]}
+                data={claims}
+                startingSortIndex={2}
+                startingSortDesc
+                sortByIndex={(index: number) => {
+                  if (index === 0) return (c: OrgClaims) => c.claim.circle_name;
+                  if (index === 1) return (c: OrgClaims) => c.claim.epoch;
+                  return (c: OrgClaims) => c.claim.rewards.length;
+                }}
+              >
+                {claim => (
+                  <tr key={claim.claim.id}>
+                    <td>
+                      <Flex row css={{ alignItems: 'left', gap: '$sm' }}>
+                        <NewApeAvatar
+                          path={getCircleAvatar({
+                            avatar: claim.claim.logo,
+                            circleName: claim.claim.circle_name,
+                          })}
+                          style={{ height: '32px', width: '32px' }}
+                        />
+                        <Text semibold>{claim.claim.circle_name}</Text>
+                      </Flex>
+                    </td>
+                    <td>{claim.claim.epoch}</td>
+                    {claim.claim.rewards.map(reward => (
+                      <td key={reward.claim_id}>
+                        {reward.value} {reward.symbol}
+                      </td>
+                    ))}
+                    <td>
+                      <Flex
+                        row
+                        css={{
+                          alignItems: 'right',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        {claim.claim.rewards.map((reward, index) => (
+                          <Link
+                            key={index}
+                            href={'/'}
+                            css={{
+                              fontSize: '$4',
+                              lineHeight: '$shorter',
+                              color: '$red',
+                              display: 'flex',
+                              alignItems: 'center',
+                              ml: '$md',
+                              mr: '$md',
+                              cursor: 'pointer',
+                              minWidth: '8vw',
+                            }}
+                          >
+                            Claim {reward.symbol}
+                          </Link>
+                        ))}
+                      </Flex>
+                    </td>
+                  </tr>
+                )}
+              </ClaimsTable>
+            </>
+          ))}
+        </Box>
       </Panel>
     </Box>
   );
-}
-
-function formatEpochDates(_startDate: any, _endDate: any) {
-  const startDate = new Date(_startDate);
-  const endDate = new Date(_endDate);
-  const month = startDate.toLocaleString('default', { month: 'long' });
-  return `${month} ${startDate.getDate()} - ${endDate.getDate()} ${endDate.getFullYear()}`;
 }

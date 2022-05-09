@@ -21,9 +21,9 @@ export const Table = styled('table', {
     paddingLeft: '$md',
   },
   'tbody tr': {
-    backgroundColor: '$background',
-    height: '$2xl',
     borderBottom: '0.5px solid $border',
+    backgroundColor: '$white',
+    height: '$2xl',
   },
   'tbody tr:first-child': {
     borderTop: '0.5px solid $border',
