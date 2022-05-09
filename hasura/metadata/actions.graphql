@@ -3,6 +3,10 @@ type Mutation {
 }
 
 type Mutation {
+  allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
+}
+
+type Mutation {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
@@ -16,6 +20,10 @@ type Mutation {
 
 type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
+}
+
+type Mutation {
+  createUsers(payload: CreateUsersInput!): [UserResponse]
 }
 
 type Mutation {
@@ -185,6 +193,28 @@ input Allocations {
   circle_id: Int!
 }
 
+input CreateUsersInput {
+  circle_id: Int!
+  users: [UserObj]!
+}
+
+input UserObj {
+  name: String!
+  address: String!
+  non_giver: Boolean
+  fixed_non_receiver: Boolean
+  non_receiver: Boolean
+  starting_tokens: Int
+  role: Int
+}
+
+input AllocationCsvInput {
+  circle_id: Int!
+  grant: Float
+  epoch: Int
+  epoch_id: Int
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -236,3 +266,9 @@ type UpdateCircleOutput {
 type AllocationsResponse {
   user_id: Int!
 }
+
+type AllocationCsvResponse {
+  file: String!
+}
+
+scalar timestamptz

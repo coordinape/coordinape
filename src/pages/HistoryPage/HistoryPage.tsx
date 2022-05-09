@@ -6,6 +6,7 @@ import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
+import { useContracts } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import { Panel, Text, AppLink } from 'ui';
@@ -13,13 +14,12 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import { EpochPanel } from './EpochPanel';
-import { getHistoryData } from './getHistoryData';
-
-import type { Awaited } from 'types/shim';
+import { getHistoryData, QueryEpoch } from './getHistoryData';
 
 const pageSize = 3;
 
 export const HistoryPage = () => {
+  const contracts = useContracts();
   const {
     circle: { id: circleId },
     myUser: { id: userId },
@@ -27,11 +27,11 @@ export const HistoryPage = () => {
 
   const query = useQuery(
     ['history', circleId],
-    () => getHistoryData(circleId, userId),
+    () => getHistoryData(circleId, userId, contracts),
     { enabled: !!userId && !!circleId }
   );
 
-  const circle = query.data?.circles_by_pk;
+  const circle = query.data;
   const me = circle?.users[0];
 
   const nextEpoch = circle?.future.epochs[0];
@@ -132,9 +132,3 @@ const Header = styled(Text, {
   color: '$placeholder !important',
   fontWeight: '$semibold',
 });
-
-export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
-export type QueryEpoch = Exclude<
-  QueryResult['circles_by_pk'],
-  undefined
->['past']['epochs'][0];

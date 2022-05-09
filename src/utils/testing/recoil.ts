@@ -1,4 +1,11 @@
-import { RecoilState, SetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+
+import {
+  RecoilState,
+  SetRecoilState,
+  useRecoilCallback,
+  useRecoilSnapshot,
+} from 'recoil';
 
 import { rApiFullCircle, rApiManifest } from 'recoilState';
 
@@ -23,7 +30,7 @@ const circle: IApiCircle = {
   name: 'Test Circle',
   nomination_days_limit: 7,
   only_giver_vouch: true,
-  protocol,
+  protocol: protocol,
   protocol_id: 1,
   team_selection: false,
   vouching: false,
@@ -35,7 +42,6 @@ const profile: IApiProfile = {
   id: 1,
   address: '0x100020003000400050006000700080009000a000',
   admin_view: false,
-  ann_power: false,
   created_at: '1970-01-01T00:00:00',
   updated_at: '1970-01-01T00:00:00',
 };
@@ -73,6 +79,8 @@ const manifest = {
   profile,
 };
 
+export const fixtures = { circle, manifest, profile, protocol, user };
+
 // the first type is for snapshot_UNSTABLE;
 // the second one is for useRecoilCallback
 type SetFn =
@@ -82,7 +90,7 @@ type SetFn =
       valOrUpdater: ((currVal: T) => T) | T
     ) => void);
 
-export const setupRecoilState = (set: SetFn) => {
+const setupRecoilState = (set: SetFn) => {
   set(rApiManifest, () => manifest);
 
   set(rApiFullCircle, () => {
@@ -92,4 +100,30 @@ export const setupRecoilState = (set: SetFn) => {
   });
 };
 
-export const fixtures = { circle, manifest, profile, protocol, user };
+export const useMockRecoilState = (
+  // just provide an empty object as this argument, and the hook will set the
+  // `snapshot` and `release` properties on it. you can use `snapshot` to read
+  // recoil state from your test (i.e. with `snapshot.getPromise`) and you can
+  // clean up afterward with `release`.
+  externalState: any,
+
+  // pass a callback to do any additional setting of recoil state beyond the
+  // default installation of the fixtures above.
+  customSetter?: (set: SetFn) => void
+) => {
+  const setup = useRecoilCallback(({ set }) => () => {
+    setupRecoilState(set);
+    if (customSetter) customSetter(set);
+  });
+
+  useEffect(() => {
+    setup();
+  }, []);
+
+  const snapshot = useRecoilSnapshot();
+  if (snapshot && externalState.snapshot !== snapshot) {
+    if (externalState.release) externalState.release();
+    externalState.snapshot = snapshot;
+    externalState.release = snapshot.retain();
+  }
+};

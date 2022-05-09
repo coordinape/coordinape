@@ -1,11 +1,13 @@
+import React from 'react';
+
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { styled } from '../../stitches.config';
-import { getAvatarPathWithFallback } from 'utils/domain';
+import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
-  width: 32,
-  height: 32,
+  width: 60,
+  height: 60,
   margin: '$sm',
   display: 'inline-flex',
   alignItems: 'center',
@@ -14,7 +16,7 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   overflow: 'hidden',
   userSelect: 'none',
   borderRadius: '100%',
-  backgroundColor: 'Black',
+  backgroundColor: '$black',
   cursor: 'pointer',
   transition: 'border-color .3s ease',
   border: `1px solid $border`,
@@ -36,9 +38,11 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'white',
+  color: '$black',
+  backgroundColor: '$lightBorder',
   lineHeight: 1,
-  fontWeight: 400,
+  fontSize: '$6',
+  fontWeight: '$medium',
   cursor: 'pointer',
 });
 
@@ -46,18 +50,20 @@ export const Avatar = ({
   path,
   name,
   onClick,
+  ...props
 }: {
   path?: string;
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }) => {
-  const avatarPath = getAvatarPathWithFallback(path, name);
+  const avatarPath = getAvatarPath(path);
 
   return (
-    <AvatarRoot onClick={() => onClick?.()}>
+    <AvatarRoot onClick={() => onClick?.()} {...props}>
       <AvatarImage src={avatarPath} alt={name} />
-      <AvatarFallback>{avatarPath}</AvatarFallback>
+      <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>
   );
 };

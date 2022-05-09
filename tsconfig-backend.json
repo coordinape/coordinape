@@ -1,6 +1,8 @@
 {
   "extends": "@tsconfig/node14/tsconfig.json",
+  "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
-    "lib": ["es2021", "esnext"]
+    "lib": ["es2021", "esnext"],
+    "noErrorTruncation": true
   }
 }

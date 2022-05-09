@@ -1,4 +1,4 @@
-import { STORAGE_URL, API_URL } from 'config/env';
+import { STORAGE_URL } from 'config/env';
 
 import { getIpfsUrl } from './selfIdHelpers';
 
@@ -25,9 +25,6 @@ export const APP_URL =
         `app.${window.location.host}`
       );
 
-export const getCirclePath = (circleId: number) => `${API_URL}/${circleId}`;
-export const getCSVPath = (circleId: number, epochId: number) =>
-  `${getCirclePath(circleId)}/csv?epoch_id=${epochId}`;
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
@@ -57,6 +54,17 @@ export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
   const placeholder = name ? getInitialsUrl(name) : AVATAR_PLACEHOLDER;
 
   return avatar ? getAvatarPath(avatar) : placeholder;
+};
+
+export const getInitialFromName = (name: string) => {
+  const hasSpace = name.indexOf(' ') !== -1;
+  const initials =
+    name.substring(0, hasSpace ? 1 : 2) +
+    (hasSpace ? name.charAt(name.lastIndexOf(' ') + 1) : '').toUpperCase();
+  return initials.toUpperCase();
+  // Returns PE if name is "Peter Edwards"
+  // Returns PR if name is "Peter Edwards Roman"
+  // Returns PR if name is "Preben"
 };
 
 export const getCircleAvatar = ({

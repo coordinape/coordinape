@@ -15,11 +15,7 @@ const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
 
   const currentOrg = useCurrentOrg();
-  const {
-    refetch,
-    isLoading,
-    data: vaults,
-  } = useVaults(Number(currentOrg.data?.id));
+  const { refetch, isLoading, data: vaults } = useVaults(currentOrg.data?.id);
 
   const closeModal = () => {
     refetch();

@@ -9,6 +9,7 @@ const thunder = Thunder(async (...params) => {
       method: 'POST',
       headers: {
         'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
+        'Hasura-Client-Name': 'serverless-function',
       },
     },
   ])(...params);

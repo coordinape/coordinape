@@ -11,6 +11,7 @@ import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-co
 import { ApeAvatar } from 'components';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { AppLink, Box, Link } from 'ui';
@@ -141,31 +142,16 @@ const connectorIcon = (connector: Connector | undefined) => {
 };
 
 export const useWalletStatus = () => {
-  const { connector, account, deactivate } = useWeb3React();
+  const { connector, deactivate } = useWeb3React();
+  const address = useConnectedAddress();
   const { logout } = useApiBase();
 
   return {
     icon: connectorIcon(connector),
-    address: account,
+    address,
     logout: () => {
       deactivate();
       logout();
     },
   };
-
-  // return (
-  //   <>
-  //     <Box css={{ display: 'flex', alignItems: 'center' }}>
-  //       <Box css={{ mr: '$sm', display: 'flex' }}>
-  //         {connectorIcon(connector)}
-  //       </Box>
-  //       {account && shortenAddress(account)}
-  //     </Box>
-  //     {account && (
-  //       <Link css={{ cursor: 'pointer' }} onClick={disconnect}>
-  //         Log Out
-  //       </Link>
-  //     )}
-  //   </>
-  // );
 };

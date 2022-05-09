@@ -140,7 +140,7 @@ export const SummonCirclePage = () => {
         submit={async ({ ...params }) => {
           try {
             const newCircle = await createCircle({ ...params });
-            selectCircle(newCircle.id);
+            await selectCircle(newCircle.id);
             navigate({
               pathname: paths.paths.adminCircles,
               search: paths.NEW_CIRCLE_CREATED_PARAMS,

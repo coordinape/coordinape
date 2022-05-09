@@ -51,14 +51,17 @@ select_permissions:
     - updated_at
     - website
     filter:
-      users:
-        circle:
-          organization:
-            circles:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+      _or:
+      - users:
+          circle:
+            organization:
+              circles:
+                users:
+                  profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+      - id:
+          _eq: X-Hasura-User-Id
   role: user
 update_permissions:
 - permission:

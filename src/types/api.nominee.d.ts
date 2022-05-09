@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { IApiUser, IUser } from './api.user.profile';
+import { IApiUser, INominator, IUser } from './api.user.profile';
 
 export interface IApiNominee {
   id: number;
@@ -10,13 +10,17 @@ export interface IApiNominee {
   circle_id: number;
   description: string;
   vouches_required: number;
-  user_id?: string;
+  user_id?: number;
   ended?: boolean; // Came back optional from the nominate endpoint
   nominated_date: string;
   expiry_date: string;
-  created_at: string;
-  updated_at: string;
-  nominations?: IApiUser[];
+  created_at?: string;
+  updated_at?: string;
+  nominations?: INominator[];
+}
+
+export interface INominator {
+  id: number;
 }
 
 export interface INominee extends IApiNominee {

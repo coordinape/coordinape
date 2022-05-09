@@ -7,13 +7,7 @@ object_relationships:
     foreign_key_constraint_on: circle_id
 - name: profile
   using:
-    manual_configuration:
-      column_mapping:
-        address: address
-      insertion_order: null
-      remote_table:
-        name: profiles
-        schema: public
+    foreign_key_constraint_on: address
 array_relationships:
 - name: burns
   using:
@@ -109,22 +103,6 @@ select_permissions:
                 _eq: X-Hasura-User-Id
   role: user
 event_triggers:
-- definition:
-    enable_manual: false
-    insert:
-      columns: "*"
-    update:
-      columns:
-      - address
-  headers:
-  - name: verification_key
-    value_from_env: HASURA_EVENT_SECRET
-  name: createProfile
-  retry_conf:
-    interval_sec: 10
-    num_retries: 10
-    timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
 - definition:
     enable_manual: false
     update:

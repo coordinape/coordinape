@@ -1,5 +1,6 @@
 import { Suspense, useState, useEffect, useMemo } from 'react';
 
+import debug from 'debug';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
@@ -16,9 +17,11 @@ import {
   useSelectedCircle,
 } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { circleSpecificPaths, EXTERNAL_URL_DOCS, paths } from 'routes/paths';
+import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
+
+const log = debug('recoil:MainHeader');
 
 const mainLinks = [
   [paths.circles, 'Circles'],
@@ -30,8 +33,8 @@ export const MainHeader = () => {
   const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = circle && circleSpecificPaths.includes(location.pathname);
-
+  const inCircle = circle && isCircleSpecificPath(location);
+  if (circle?.id) log(`circle: ${circle?.id}`);
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
@@ -118,7 +121,6 @@ const MobileHeader = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = useWalletStatus();
-  const myProfile = useMyProfile();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -230,7 +232,7 @@ const MobileHeader = ({
                       },
                     }}
                   >
-                    <NewApeAvatar path={myProfile.avatar} />
+                    <MobileAvatar />
                   </Box>
                   My Profile
                 </Link>
@@ -264,6 +266,16 @@ const MobileHeader = ({
         </Box>
       )}
     </Box>
+  );
+};
+
+const MobileAvatar = () => {
+  const myProfile = useMyProfile();
+
+  return (
+    <Suspense fallback={null}>
+      <NewApeAvatar path={myProfile.avatar} />
+    </Suspense>
   );
 };
 
@@ -331,7 +343,7 @@ export const TopLevelLinks = ({
   links,
   css = {},
 }: {
-  links: [string, string][];
+  links: [string, string, string[]?][];
   css?: CSS;
 }) => {
   return (
@@ -345,8 +357,14 @@ export const TopLevelLinks = ({
         ...css,
       }}
     >
-      {links.map(([path, label]) => (
-        <Link css={linkStyle} as={NavLink} key={path} to={path}>
+      {links.map(([path, label, matchPaths]) => (
+        <Link
+          css={linkStyle}
+          as={NavLink}
+          key={path}
+          to={path}
+          className={matchPaths?.includes(location.pathname) ? 'active' : ''}
+        >
           {label}
         </Link>
       ))}
@@ -358,10 +376,10 @@ export const TopLevelLinks = ({
 const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
 
-  const links: [string, string][] = useMemo(() => {
-    const l: [string, string][] = [
+  const links: [string, string, string[]?][] = useMemo(() => {
+    const l: [string, string, string[]?][] = [
       [paths.history, 'History'],
-      [paths.allocation, 'Allocate'],
+      [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
       [paths.map(), 'Map'],
     ];
 

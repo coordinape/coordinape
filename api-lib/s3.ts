@@ -26,4 +26,14 @@ const deleteImage = (Key: string) => {
     .promise();
 };
 
-export { deleteImage, uploadImage };
+const uploadCsv = (Key: string, CsvData: string) => {
+  const params = {
+    Key: `csv/${Key}`,
+    Body: CsvData,
+    Bucket: process.env.IMAGES_AWS_BUCKET || 'coordinape',
+    ContentType: 'text/csv',
+  };
+  return s3.upload(params).promise();
+};
+
+export { deleteImage, uploadImage, uploadCsv };

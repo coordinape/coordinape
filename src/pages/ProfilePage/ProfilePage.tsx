@@ -1,18 +1,20 @@
 import React from 'react';
 
 import { transparentize } from 'polished';
+import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { makeStyles, Avatar, Button } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 
 import {
   ProfileSocialIcons,
   ProfileSkills,
   ApeAvatar,
   FormFileUpload,
+  scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile } from 'hooks';
+import { useImageUploader, useApiWithProfile, useApiBase } from 'hooks';
 import { EditIcon } from 'icons';
 import {
   useMyProfile,
@@ -20,7 +22,8 @@ import {
   useProfile,
 } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
-import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
+import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
+import { Avatar } from 'ui';
 import { getAvatarPath, getCircleAvatar } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -164,6 +167,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     lineHeight: 1.5,
     fontWeight: 300,
+    cursor: 'pointer',
     color: transparentize(0.3, theme.colors.text),
     margin: theme.spacing(1),
     '& > .MuiAvatar-root': {
@@ -241,6 +245,15 @@ const ProfilePageContent = ({
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
+  const navigate = useNavigate();
+  const { selectCircle } = useApiBase();
+
+  const goToCircleHistory = (id: number, path: string) => {
+    selectCircle(id).then(() => {
+      scrollToTop();
+      navigate(path);
+    });
+  };
 
   const {
     imageUrl: backgroundUrl,
@@ -329,14 +342,15 @@ const ProfilePageContent = ({
                 u.circle && (
                   <div key={u.id} className={classes.circle}>
                     <Avatar
-                      alt={u.circle.name}
-                      src={getCircleAvatar({
+                      name={u.circle.name}
+                      path={getCircleAvatar({
                         avatar: u.circle.logo,
                         circleName: u.circle.name,
                       })}
-                    >
-                      {u.circle.name}
-                    </Avatar>
+                      onClick={() =>
+                        goToCircleHistory(u.circle_id, paths.history)
+                      }
+                    />
 
                     <span>
                       {u.circle.protocol.name} {u.circle.name}

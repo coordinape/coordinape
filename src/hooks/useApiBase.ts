@@ -1,8 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
+import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+import debug from 'debug';
 import iti from 'itiriri';
+import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
+import { normalizeError } from '../utils/reporting';
 import { useRecoilLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -24,6 +28,8 @@ import { assertDef } from 'utils/tools';
 
 import { EConnectorNames } from 'types';
 
+const log = debug('recoil:useApiBase');
+
 export const useApiBase = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,6 +49,7 @@ export const useApiBase = () => {
           const {
             circleEpochsStatus: { epochIsActive },
           } = await snapshot.getPromise(rCircle(selectedCircleId));
+
           if (location.pathname === '/') {
             if (epochIsActive) {
               navigate(paths.allocation);
@@ -51,7 +58,7 @@ export const useApiBase = () => {
             }
           }
         } catch (e) {
-          // Timed out
+          // Timed out - this just means there is no circle. Strange but it's how it works I guess -CG
         }
       },
     [history]
@@ -82,6 +89,13 @@ export const useApiBase = () => {
           const token =
             authTokens[address] ?? (await getApiService().login(address)).token;
           if (token) {
+            // Send a truncated address to sentry to help us debug customer issues
+            Sentry.setTag(
+              'address_truncated',
+              address.substr(0, 8) +
+                '...' +
+                address.substr(address.length - 8, 8)
+            );
             if (resetManifest) {
               set(rApiFullCircle, new Map());
               set(rApiManifest, undefined);
@@ -151,30 +165,48 @@ export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async () => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-        const manifest = await getApiService().getManifest(circleId);
+        try {
+          const walletAuth = await snapshot.getPromise(rWalletAuth);
+          if (
+            !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
+          ) {
+            throw 'Wallet must be connected to fetch manifest';
+          }
 
-        set(rApiManifest, manifest);
-        const fullCircle = manifest.circle;
-        if (fullCircle) {
-          set(rSelectedCircleIdSource, fullCircle.circle.id);
-          set(rApiFullCircle, m => {
-            const result = new Map(m);
-            result.set(fullCircle.circle.id, fullCircle);
-            return result;
-          });
+          const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
+          const manifest = await queries.fetchManifest(
+            walletAuth.address,
+            circleId
+          );
 
-          fetchSelfIds(fullCircle.users.map(u => u.address));
-        } else {
-          set(rSelectedCircleIdSource, undefined);
+          set(rApiManifest, manifest);
+          const fullCircle = manifest.circle;
+          if (fullCircle) {
+            set(rSelectedCircleIdSource, fullCircle.circle.id);
+            set(rApiFullCircle, m => {
+              const result = new Map(m);
+              result.set(fullCircle.circle.id, fullCircle);
+              return result;
+            });
+
+            fetchSelfIds(fullCircle.users.map(u => u.address));
+          } else {
+            set(rSelectedCircleIdSource, undefined);
+          }
+          return manifest;
+        } catch (e) {
+          const fixedUpError = normalizeError(e);
+          console.error(
+            'error fetching manifest:',
+            fixedUpError ? fixedUpError.message : JSON.stringify(e)
+          );
+          console.error('raw manifest error:');
+          console.error(e);
+          if (fixedUpError) {
+            throw fixedUpError;
+          }
+          throw e;
         }
-        return manifest;
       },
     []
   );
@@ -193,7 +225,7 @@ export const useApiBase = () => {
           throw `Your profile doesn't have access to ${circleId}`;
         }
 
-        const fullCircle = await getApiService().getFullCircle(circleId);
+        const fullCircle = await queries.getFullCircle(circleId);
 
         // eslint-disable-next-line no-console
         console.log('fetchCircle', fullCircle);
@@ -236,7 +268,8 @@ export const useApiBase = () => {
 
         if (!(await snapshot.getPromise(rApiFullCircle)).has(circleId)) {
           // Need to fetch this circle
-          fetchCircle({ circleId, select: true });
+          log(`selectCircle -> fetchCircle ${circleId}`);
+          await fetchCircle({ circleId, select: true });
         } else {
           set(rSelectedCircleIdSource, circleId);
         }
@@ -251,8 +284,6 @@ export const useApiBase = () => {
     fetchCircle,
     selectCircle,
     navigateDefault,
-    selectAndFetchCircle: (circleId: number) =>
-      fetchCircle({ circleId, select: true }),
   };
 };
 

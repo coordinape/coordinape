@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     border: 0,
     outline: 'none',
     textOverflow: 'ellipsis',
-    overflow: 'hidden',
+    overflowY: 'scroll',
     background: '#E1E1E1',
     borderRadius: 8,
     wordBreak: 'break-word',

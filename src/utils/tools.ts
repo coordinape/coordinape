@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 export const wait = <T>(something: T): Promise<T> =>
   new Promise(resolve => {
     const wait = setTimeout(() => {
@@ -22,9 +24,7 @@ export const assertDef = <T>(
   val: T | undefined | null,
   message?: string
 ): T => {
-  if (val === undefined || val === null) {
-    throw `I <3 NPE: ${message}`;
-  }
+  assert(val, message);
   return val;
 };
 

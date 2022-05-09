@@ -11,7 +11,8 @@ export function useContracts(): Contracts | undefined {
 
   return useMemo((): Contracts | undefined => {
     if (!library || !chainId) return undefined;
-    if (!supportedChainIds.includes(chainId)) {
+    const isSupportedChainId = supportedChainIds.includes(chainId.toString());
+    if (!isSupportedChainId) {
       logOnce(`Contracts do not support chain ${chainId}`);
       return undefined;
     }

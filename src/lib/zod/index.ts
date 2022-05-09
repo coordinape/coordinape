@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { z } from 'zod';
 
 import {
@@ -88,6 +89,13 @@ export const createUserSchemaInput = z
     fixed_non_receiver: z.boolean().optional(),
     non_receiver: z.boolean().optional(),
     role: z.number().min(0).max(1).optional(),
+  })
+  .strict();
+
+export const createUsersBulkSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    users: createUserSchemaInput.omit({ circle_id: true }).array().min(1),
   })
   .strict();
 
@@ -221,6 +229,19 @@ export const updateAllocationsInput = z.object({
   circle_id: z.number().int().positive(),
 });
 
+export const allocationCsvInput = z
+  .object({
+    circle_id: z.number().int().positive(),
+    grant: z.number().positive().min(1).max(1000000000).optional(),
+    epoch: z.number().int().optional(),
+    epoch_id: z.number().int().optional(),
+  })
+  .strict()
+  .refine(
+    data => data.epoch || data.epoch_id,
+    'Either epoch or a epoch_id must be provided.'
+  );
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
@@ -241,11 +262,14 @@ export const HasuraUserSessionVariables = z
     'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
     'x-hasura-address': zEthAddressOnly,
   })
-  .transform(vars => ({
-    hasuraProfileId: vars['x-hasura-user-id'],
-    hasuraRole: vars['x-hasura-role'],
-    hasuraAddress: vars['x-hasura-address'],
-  }));
+  .transform(vars => {
+    Sentry.setTag('action_user_id', vars['x-hasura-user-id']);
+    return {
+      hasuraProfileId: vars['x-hasura-user-id'],
+      hasuraRole: vars['x-hasura-role'],
+      hasuraAddress: vars['x-hasura-address'],
+    };
+  });
 
 type SessionVariableSchema =
   | typeof HasuraAdminSessionVariables

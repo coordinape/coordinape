@@ -2,12 +2,12 @@ table:
   name: vaults
   schema: public
 object_relationships:
+- name: profile
+  using:
+    foreign_key_constraint_on: created_by
 - name: protocol
   using:
     foreign_key_constraint_on: org_id
-- name: user
-  using:
-    foreign_key_constraint_on: created_by
 array_relationships:
 - name: vault_transactions
   using:
@@ -23,10 +23,14 @@ insert_permissions:
       protocol:
         circles:
           users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+            _and:
+            - deleted_at:
+                _is_null: true
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
     columns:
+    - created_by
     - decimals
     - id
     - org_id
@@ -54,7 +58,10 @@ select_permissions:
       protocol:
         circles:
           users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+            _and:
+            - deleted_at:
+                _is_null: true
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
   role: user

@@ -15,23 +15,28 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // External Constraint Validation
   // It might be preferable to add this uniqueness constraint into the database
-  const { circle_id, address, name } = input;
+  const { circle_id, address } = input;
 
-  const { users: existingUsers } = await adminClient.query({
-    users: [
-      {
-        limit: 1,
-        where: {
-          address: { _ilike: address },
-          circle_id: { _eq: circle_id },
+  const { users: existingUsers } = await adminClient.query(
+    {
+      users: [
+        {
+          limit: 1,
+          where: {
+            address: { _ilike: address },
+            circle_id: { _eq: circle_id },
+          },
         },
-      },
-      {
-        id: true,
-        deleted_at: true,
-      },
-    ],
-  });
+        {
+          id: true,
+          deleted_at: true,
+        },
+      ],
+    },
+    {
+      operationName: 'createUser_getExistingUser',
+    }
+  );
 
   const existingUser = existingUsers.pop();
 
@@ -41,6 +46,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       code: '422',
     });
   }
+
+  // create the user
 
   const createUserMutation: ValueTypes['mutation_root'] =
     existingUser?.deleted_at
@@ -87,27 +94,31 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         };
 
   // Update the state after all validations have passed
-  const mutationResult = await adminClient.mutate({
-    // Insert the user
-    ...createUserMutation,
-    // End any active nomination
-    update_nominees: [
-      {
-        _set: { ended: true },
-        where: {
-          circle_id: { _eq: circle_id },
-          address: { _ilike: address },
-          name: { _eq: name },
-          ended: { _eq: false },
+  const mutationResult = await adminClient.mutate(
+    {
+      // Insert the user
+      ...createUserMutation,
+      // End any active nomination
+      update_nominees: [
+        {
+          _set: { ended: true },
+          where: {
+            circle_id: { _eq: circle_id },
+            address: { _ilike: address },
+            ended: { _eq: false },
+          },
         },
-      },
-      {
-        returning: {
-          id: true,
+        {
+          returning: {
+            id: true,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'createUser_insert',
+    }
+  );
 
   return res
     .status(200)

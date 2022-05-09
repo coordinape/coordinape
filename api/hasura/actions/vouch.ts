@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getUserFromProfileId } from '../../../api-lib/findUser';
+import {
+  getUserFromAddress,
+  getUserFromProfileId,
+} from '../../../api-lib/findUser';
 import * as mutations from '../../../api-lib/gql/mutations';
 import * as queries from '../../../api-lib/gql/queries';
 import {
@@ -80,6 +83,11 @@ async function validate(nomineeId: number, voucherProfileId: number) {
     throw new ForbiddenError(
       "voucher nominated this nominee so can't additionally vouch"
     );
+  }
+
+  const user = await getUserFromAddress(nominee.address, nominee.circle_id);
+  if (user) {
+    throw new ForbiddenError('User with this address already exists');
   }
 
   const { vouches } = await queries.getExistingVouch(nomineeId, voucher.id);

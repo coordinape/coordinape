@@ -24,7 +24,7 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const CirclesPage = () => {
   const navigate = useNavigate();
-  const { selectAndFetchCircle } = useApiBase();
+  const { selectCircle } = useApiBase();
 
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
@@ -45,7 +45,7 @@ export const CirclesPage = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectAndFetchCircle(id).then(() => {
+    selectCircle(id).then(() => {
       scrollToTop();
       navigate(path);
     });

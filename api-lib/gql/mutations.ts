@@ -4,41 +4,52 @@ import { adminClient } from './adminClient';
 export async function insertProfiles(
   profiles: ValueTypes['profiles_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_profiles: [
-      {
-        objects: profiles,
-      },
-      {
-        returning: {
-          address: true,
+  return adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: profiles,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+            address: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertProfiles',
+    }
+  );
 }
 
 export async function insertMemberships(
   users: ValueTypes['users_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_users: [
-      {
-        objects: users,
-      },
-      {
-        returning: {
-          id: true,
-          address: true,
-          circle_id: true,
-          starting_tokens: true,
-          non_giver: true,
-          non_receiver: true,
-          fixed_non_receiver: true,
+  return adminClient.mutate(
+    {
+      insert_users: [
+        {
+          objects: users,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+            address: true,
+            circle_id: true,
+            starting_tokens: true,
+            non_giver: true,
+            non_receiver: true,
+            fixed_non_receiver: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertMemberships',
+    }
+  );
 }
 
 // TODO: this isn't used, more of an idea, and for example.
@@ -46,137 +57,172 @@ export async function updateCircles(
   circleId: number,
   circle: ValueTypes['circles_set_input']
 ) {
-  return adminClient.mutate({
-    update_circles: [
-      {
-        where: {
-          id: {
-            _eq: circleId,
+  return adminClient.mutate(
+    {
+      update_circles: [
+        {
+          where: {
+            id: {
+              _eq: circleId,
+            },
+          },
+          _set: circle,
+        },
+        {
+          returning: {
+            id: true,
           },
         },
-        _set: circle,
-      },
-      {
-        returning: {
-          id: true,
-        },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateCircles',
+    }
+  );
 }
 
 export async function insertOrganizations(
   orgs: ValueTypes['organizations_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_organizations: [
-      {
-        objects: orgs,
-      },
-      {
-        returning: {
-          id: true,
-          name: true,
-          circles: [{}, { id: true }],
-          circles_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+  return adminClient.mutate(
+    {
+      insert_organizations: [
+        {
+          objects: orgs,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+            name: true,
+            circles: [{}, { id: true }],
+            circles_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertOrganizations ',
+    }
+  );
 }
 
 export async function insertEpochs(
   epochs: ValueTypes['epochs_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_epochs: [
-      {
-        objects: epochs,
-      },
-      {
-        returning: {
-          id: true,
-          circle_id: true,
-          ended: true,
-          start_date: true,
-          end_date: true,
+  return adminClient.mutate(
+    {
+      insert_epochs: [
+        {
+          objects: epochs,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+            circle_id: true,
+            ended: true,
+            start_date: true,
+            end_date: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertEpochs',
+    }
+  );
 }
 
 export async function insertGifts(
   gifts: ValueTypes['token_gifts_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_token_gifts: [
-      {
-        objects: gifts,
-      },
-      {
-        returning: {
-          id: true,
+  return adminClient.mutate(
+    {
+      insert_token_gifts: [
+        {
+          objects: gifts,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertGifts',
+    }
+  );
 }
 
 export async function insertPendingGifts(
   gifts: ValueTypes['pending_token_gifts_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_pending_token_gifts: [
-      {
-        objects: gifts,
-      },
-      {
-        returning: {
-          id: true,
+  return adminClient.mutate(
+    {
+      insert_pending_token_gifts: [
+        {
+          objects: gifts,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'insertPendingGifts',
+    }
+  );
 }
 
 export async function insertNominees(
   nominees: ValueTypes['nominees_insert_input'][]
 ) {
-  return adminClient.mutate({
-    insert_nominees: [
-      { objects: nominees },
-      {
-        returning: {
-          id: true,
+  return adminClient.mutate(
+    {
+      insert_nominees: [
+        { objects: nominees },
+        {
+          returning: {
+            id: true,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'insertNominees',
+    }
+  );
 }
 
 export async function updateExpiredNominees(idList: number[]) {
-  return adminClient.mutate({
-    update_nominees: [
-      {
-        _set: {
-          ended: true,
-        },
-        where: {
-          id: {
-            _in: idList,
+  return adminClient.mutate(
+    {
+      update_nominees: [
+        {
+          _set: {
+            ended: true,
+          },
+          where: {
+            id: {
+              _in: idList,
+            },
           },
         },
-      },
-      {
-        affected_rows: true,
-        returning: {
-          name: true,
-          expiry_date: true,
+        {
+          affected_rows: true,
+          returning: {
+            name: true,
+            expiry_date: true,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateExiredNominees',
+    }
+  );
 }
 
 export async function insertCircleWithAdmin(
@@ -222,45 +268,55 @@ export async function insertCircleWithAdmin(
   };
   let retVal;
   if (circleInput.protocol_id) {
-    const { insert_circles_one } = await adminClient.mutate({
-      insert_circles_one: [
-        {
-          object: {
-            name: circleInput.circle_name,
-            protocol_id: circleInput.protocol_id,
-            users: insertUsers,
-            contact: circleInput.contact,
-          },
-        },
-        circleReturn,
-      ],
-    });
-    retVal = insert_circles_one;
-  } else {
-    const { insert_organizations_one } = await adminClient.mutate({
-      insert_organizations_one: [
-        {
-          object: {
-            name: circleInput.protocol_name,
-            circles: {
-              data: [
-                {
-                  name: circleInput.circle_name,
-                  contact: circleInput.contact,
-                  users: insertUsers,
-                },
-              ],
+    const { insert_circles_one } = await adminClient.mutate(
+      {
+        insert_circles_one: [
+          {
+            object: {
+              name: circleInput.circle_name,
+              protocol_id: circleInput.protocol_id,
+              users: insertUsers,
+              contact: circleInput.contact,
             },
           },
-        },
-        {
-          circles: [
-            { limit: 1, order_by: [{ id: order_by.desc }] },
-            circleReturn,
-          ],
-        },
-      ],
-    });
+          circleReturn,
+        ],
+      },
+      {
+        operationName: 'insertCircle',
+      }
+    );
+    retVal = insert_circles_one;
+  } else {
+    const { insert_organizations_one } = await adminClient.mutate(
+      {
+        insert_organizations_one: [
+          {
+            object: {
+              name: circleInput.protocol_name,
+              circles: {
+                data: [
+                  {
+                    name: circleInput.circle_name,
+                    contact: circleInput.contact,
+                    users: insertUsers,
+                  },
+                ],
+              },
+            },
+          },
+          {
+            circles: [
+              { limit: 1, order_by: [{ id: order_by.desc }] },
+              circleReturn,
+            ],
+          },
+        ],
+      },
+      {
+        operationName: 'insertOrg',
+      }
+    );
 
     retVal = insert_organizations_one?.circles.pop();
   }
@@ -269,30 +325,35 @@ export async function insertCircleWithAdmin(
 }
 
 export async function insertVouch(nomineeId: number, voucherId: number) {
-  const { insert_vouches_one } = await adminClient.mutate({
-    insert_vouches_one: [
-      {
-        object: {
-          nominee_id: nomineeId,
-          voucher_id: voucherId,
+  const { insert_vouches_one } = await adminClient.mutate(
+    {
+      insert_vouches_one: [
+        {
+          object: {
+            nominee_id: nomineeId,
+            voucher_id: voucherId,
+          },
         },
-      },
-      {
-        id: true,
-        nominee: {
+        {
           id: true,
-          address: true,
-          name: true,
-          circle_id: true,
-          user_id: true,
-          ended: true,
-          vouches_required: true,
-          nominated_by_user_id: true,
-          nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          nominee: {
+            id: true,
+            address: true,
+            name: true,
+            circle_id: true,
+            user_id: true,
+            ended: true,
+            vouches_required: true,
+            nominated_by_user_id: true,
+            nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'insertVouch',
+    }
+  );
   return insert_vouches_one;
 }
 
@@ -301,40 +362,50 @@ export async function insertUser(
   name: string,
   circleId: number
 ) {
-  const { insert_users_one } = await adminClient.mutate({
-    insert_users_one: [
-      {
-        object: {
-          address: address,
-          circle_id: circleId,
-          name: name,
+  const { insert_users_one } = await adminClient.mutate(
+    {
+      insert_users_one: [
+        {
+          object: {
+            address: address,
+            circle_id: circleId,
+            name: name,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insertUsers',
+    }
+  );
   return insert_users_one;
 }
 
 export async function updateNomineeUser(nomineeId: number, userId: number) {
-  const { update_nominees_by_pk } = await adminClient.mutate({
-    update_nominees_by_pk: [
-      {
-        pk_columns: {
-          id: nomineeId,
+  const { update_nominees_by_pk } = await adminClient.mutate(
+    {
+      update_nominees_by_pk: [
+        {
+          pk_columns: {
+            id: nomineeId,
+          },
+          _set: {
+            user_id: userId,
+            ended: true,
+          },
         },
-        _set: {
-          user_id: userId,
-          ended: true,
+        {
+          id: true,
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateNomineeUser',
+    }
+  );
   return update_nominees_by_pk;
 }
 
@@ -346,39 +417,49 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
     // if the client gives us an empty string, and we are trying to set the webhook, this means we are setting it to null
     params.discord_webhook = null;
   }
-  const { update_circles_by_pk } = await adminClient.mutate({
-    update_circles_by_pk: [
-      {
-        pk_columns: {
-          id: params.circle_id,
+  const { update_circles_by_pk } = await adminClient.mutate(
+    {
+      update_circles_by_pk: [
+        {
+          pk_columns: {
+            id: params.circle_id,
+          },
+          _set: {
+            ...params,
+          },
         },
-        _set: {
-          ...params,
+        {
+          id: true,
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'updateCircle',
+    }
+  );
   return update_circles_by_pk;
 }
 
 export async function endNominees(circleId: number) {
-  const { update_nominees } = await adminClient.mutate({
-    update_nominees: [
-      {
-        where: {
-          circle_id: { _eq: circleId },
+  const { update_nominees } = await adminClient.mutate(
+    {
+      update_nominees: [
+        {
+          where: {
+            circle_id: { _eq: circleId },
+          },
+          _set: {
+            ended: true,
+          },
         },
-        _set: {
-          ended: true,
+        {
+          affected_rows: true,
         },
-      },
-      {
-        affected_rows: true,
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'endNominees',
+    }
+  );
   return update_nominees;
 }

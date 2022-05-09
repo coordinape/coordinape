@@ -11,6 +11,7 @@ const makeThunder = (headers = {}) =>
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + getAuthToken(),
+          'Hasura-Client-Name': 'web',
           ...headers,
         },
       },
