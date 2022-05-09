@@ -41,11 +41,11 @@ const labelStyles = {
   mb: '$sm',
 };
 
-interface MyObject {
+interface errorObj {
   message: string;
 }
 function addServerErrors<T>(
-  errors: MyObject[],
+  errors: errorObj[],
   setError: (
     fieldName: keyof T,
     error: { type: string; message: string | undefined }
