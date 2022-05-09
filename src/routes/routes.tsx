@@ -16,6 +16,7 @@ import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CirclesPage from 'pages/CirclesPage';
+import ClaimsPage from 'pages/ClaimsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DistributionsPage from 'pages/DistributionsPage';
@@ -56,6 +57,7 @@ export const AppRoutes = () => {
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
       </Route>
 
+      <Route path={paths.claims} element={<ClaimsPage />} />
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
