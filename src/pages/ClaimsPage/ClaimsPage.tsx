@@ -1,10 +1,6 @@
-/* eslint-disable no-console */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
 
 import groupBy from 'lodash/groupBy';
-import uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 
 import { LoadingModal, makeTable } from 'components';

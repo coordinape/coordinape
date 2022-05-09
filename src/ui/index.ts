@@ -3,6 +3,7 @@ export * from './Box/Box';
 export * from './Button/Button';
 export * from './Checkbox/CheckBox';
 export * from './Table/Table';
+export * from './TableBorder/TableBorder';
 export * from './Divider/Divider';
 export * from './Flex';
 export * from './Form';
