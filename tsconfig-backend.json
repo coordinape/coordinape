@@ -3,6 +3,7 @@
   "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
     "lib": ["es2021", "esnext"],
+    "resolveJsonModule": true,
     "noErrorTruncation": true
   }
 }

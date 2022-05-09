@@ -73,6 +73,16 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: createVault
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createVault'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: superadmin
+  - role: user
 - name: deleteEpoch
   definition:
     kind: synchronous
@@ -216,9 +226,10 @@ custom_types:
   - name: UpdateEpochInput
   - name: Allocation
   - name: Allocations
-  - name: AllocationCsvInput
   - name: CreateUsersInput
   - name: UserObj
+  - name: AllocationCsvInput
+  - name: CreateVaultInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -341,5 +352,15 @@ custom_types:
       field_mapping:
         user_id: id
   - name: AllocationCsvResponse
+  - name: VaultResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: vaults
+      name: createVault_vault
+      source: default
+      type: object
+      field_mapping:
+        id: id
   scalars:
   - name: timestamptz

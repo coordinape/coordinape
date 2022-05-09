@@ -27,6 +27,10 @@ type Mutation {
 }
 
 type Mutation {
+  createVault(payload: CreateVaultInput!): VaultResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -215,6 +219,12 @@ input AllocationCsvInput {
   epoch_id: Int
 }
 
+input CreateVaultInput {
+  org_id: ID!
+  vault_address: String!
+  chain_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -269,6 +279,10 @@ type AllocationsResponse {
 
 type AllocationCsvResponse {
   file: String!
+}
+
+type VaultResponse {
+  id: ID!
 }
 
 scalar timestamptz
