@@ -48,32 +48,30 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
     >
       <Box
         css={{
-          fontSize: '$8',
+          fontSize: '$h2',
           fontFamily: 'Inter',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
         }}
       >
-        <Text font="inter" inline>
-          <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
-            {startDate.toFormat('MMMM')}
-          </Text>{' '}
-          {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
+        <Text semibold font="inter" inline css={{ fontSize: '$h2' }}>
+          {startDate.toFormat('MMMM')} {startDate.toFormat('d')} -{' '}
+          {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
       <Panel nested>
-        <Text variant="formLabel">You received</Text>
-        <Text bold font="inter" css={{ fontSize: '$6', mb: '$md' }}>
+        <Text variant="label">You received</Text>
+        <Text bold font="inter" large css={{ mb: '$md' }}>
           {totalReceived} {tokenName}
         </Text>
-        <Text variant="formLabel">Total Distributed</Text>
-        <Text bold font="inter" css={{ fontSize: '$6', color: '$placeholder' }}>
+        <Text variant="label">Total Distributed</Text>
+        <Text bold font="inter" large>
           {totalAllocated} {tokenName}
         </Text>
         {dist && distAmount && (
           <AppLink to={paths.distributions(epoch.id)}>
-            <Text bold font="inter" css={{ fontSize: '$6' }}>
+            <Text bold large font="inter" css={{ color: '$secondaryText' }}>
               {distAmount.toString()} {dist.vault.symbol}
             </Text>
           </AppLink>
@@ -87,27 +85,27 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            color: '$primary',
+            color: '$text',
           }}
         >
           <Box css={{ display: 'flex', gap: '$md' }}>
             <Box>
-              <Text variant="formLabel">Notes Left</Text>
-              <Text bold font="inter" css={{ fontSize: '$6' }}>
+              <Text variant="label">Notes Left</Text>
+              <Text bold font="inter" large>
                 {sent.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>
             <Box>
-              <Text variant="formLabel">Received</Text>
-              <Text bold font="inter" css={{ fontSize: '$6' }}>
+              <Text variant="label">Received</Text>
+              <Text bold font="inter" large>
                 {received.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>
           </Box>
           <button onClick={() => setShowLess(false)}>
             <Text
-              variant="formLabel"
-              css={{ color: '$green', cursor: 'pointer' }}
+              variant="label"
+              css={{ color: '$secondaryText', cursor: 'pointer' }}
             >
               Show More
             </Text>
@@ -133,8 +131,8 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
                   onClick={() => setTab(index)}
                 >
                   <Text
-                    variant="formLabel"
-                    css={{ color: tab === index ? '$primary' : '$gray400' }}
+                    variant="label"
+                    css={{ color: tab === index ? '$text' : '$secondaryText' }}
                   >
                     {label}
                   </Text>
@@ -145,8 +143,8 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
               onClick={event => (setShowLess(true), event.stopPropagation())}
             >
               <Text
-                variant="formLabel"
-                css={{ color: '$green', cursor: 'pointer' }}
+                variant="label"
+                css={{ color: '$secondaryText', cursor: 'pointer' }}
               >
                 Show Less
               </Text>
@@ -177,7 +175,7 @@ const Notes = ({ data, received = false, tokenName }: NotesProps) => {
   if (data.length === 0) {
     return (
       <Box css={{ mt: '$md' }}>
-        <Text variant="formLabel">
+        <Text variant="label">
           You did not {received ? 'receive' : 'send'} any notes
         </Text>
       </Box>
@@ -220,7 +218,7 @@ const NotesItem = ({
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
-        <Box css={{ fontSize: '$3', color: '$green' }}>
+        <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
           {other.name}
         </Box>

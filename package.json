@@ -22,7 +22,6 @@
     "@radix-ui/react-hover-card": "^0.1.5",
     "@radix-ui/react-icons": "^1.1.0",
     "@self.id/core": "0.1.0",
-    "@radix-ui/react-avatar": "^0.1.4",
     "@sentry/integrations": "6.19.2",
     "@sentry/node": "6.19.2",
     "@sentry/react": "6.19.2",

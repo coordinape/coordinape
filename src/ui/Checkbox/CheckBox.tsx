@@ -93,7 +93,7 @@ export const CheckBox = ({
       </Tooltip>
     </Flex>
     {error && errorText && (
-      <Text color="red" css={{ px: '$xl', fontSize: '$3' }}>
+      <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
         This is an error.
       </Text>
     )}

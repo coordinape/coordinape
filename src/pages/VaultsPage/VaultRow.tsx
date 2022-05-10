@@ -48,20 +48,23 @@ export function VaultRow({
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
-        <Text
-          css={{
-            fontSize: '$7',
-            fontWeight: '$semibold',
-            color: '$primary',
-            flexGrow: 1,
-          }}
-        >
+        <Text h3 css={{ flexGrow: 1 }}>
           {vault.symbol || '...'} Vault
         </Text>
-        <Button color="red" size="small" onClick={() => setModal('deposit')}>
+        <Button
+          color="primary"
+          outlined
+          size="small"
+          onClick={() => setModal('deposit')}
+        >
           Deposit
         </Button>
-        <Button color="gray" size="small" onClick={() => alert('TODO')}>
+        <Button
+          color="primary"
+          outlined
+          size="small"
+          onClick={() => alert('TODO')}
+        >
           Withdraw
         </Button>
       </Box>
@@ -76,10 +79,10 @@ export function VaultRow({
           verticalAlign: 'middle',
         }}
       >
-        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
+        <Text font="source" h3>
           Current Balance
         </Text>
-        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
+        <Text font="source" h3>
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
         <Text font="source">
@@ -89,8 +92,8 @@ export function VaultRow({
       </Box>
       <Text
         css={{
-          color: '$gray400',
-          fontSize: '$6',
+          color: '$secondaryText',
+          fontSize: '$large',
           marginTop: '$lg',
           marginBottom: '$md',
         }}
@@ -102,7 +105,7 @@ export function VaultRow({
 
         <Box css={{ textAlign: 'center', mt: '$md' }}>
           <AppLink
-            css={{ color: '$lightText' }}
+            css={{ color: '$secondaryText' }}
             to={paths.vaultTxs(vault.vault_address)}
           >
             View All Transactions

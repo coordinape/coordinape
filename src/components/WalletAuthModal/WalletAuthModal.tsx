@@ -135,7 +135,7 @@ export const WalletAuthModal = ({
           as="h3"
           css={{
             my: '$lg',
-            color: '$primary',
+            color: '$text',
             fontSize: '25px',
             fontWeight: '$bold',
           }}
@@ -201,7 +201,7 @@ export const WalletAuthModal = ({
         <Text
           css={{
             display: 'inline',
-            fontSize: '$2',
+            fontSize: '$small',
             marginTop: '$lg',
             textAlign: 'center',
             fontWeight: '$semibold',

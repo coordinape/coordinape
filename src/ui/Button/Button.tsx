@@ -29,33 +29,21 @@ export const Button = styled('button', {
 
   variants: {
     color: {
-      red: {
-        backgroundColor: '$red',
-        color: 'white',
-        '&:hover': {
-          backgroundColor: '$redHover',
-        },
+      primary: {
+        backgroundColor: '$primary',
+        color: '$textOnPrimary',
       },
-      gray: {
-        backgroundColor: '$border',
-        color: 'white',
-        '&:hover': {
-          backgroundColor: '$lightText',
-        },
-        '&[disabled]': {
-          opacity: 0.5,
-        },
+      alert: {
+        backgroundColor: '$alert',
+        color: '$textOnAlert',
       },
-      teal: {
-        backgroundColor: '$teal',
+      neutral: {
+        backgroundColor: '$neutral',
         color: 'white',
       },
-      oldGray: {
-        backgroundColor: '$surfaceGray',
-        color: '$primary',
-        '&:hover': {
-          backgroundColor: '$subtleGray',
-        },
+      surface: {
+        backgroundColor: '$surface',
+        color: '$text',
       },
       transparent: {
         padding: '$xs',
@@ -65,13 +53,11 @@ export const Button = styled('button', {
           backgroundColor: 'transparent',
         },
       },
-      blue: {
+      textOnly: {
         padding: '$xs',
         backgroundColor: 'transparent',
-        color: '$lightBlue',
+        color: '$primary',
         '&:hover': {
-          backgroundColor: 'transparent',
-          color: '$darkBlue',
           textDecoration: 'underline',
         },
       },
@@ -82,7 +68,7 @@ export const Button = styled('button', {
         minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
-        fontSize: '$5',
+        fontSize: '$large',
         fontWeight: '$bold',
         textTransform: 'none',
         borderRadius: '$4',
@@ -90,7 +76,7 @@ export const Button = styled('button', {
       medium: {
         height: 'calc($xl + 4px)',
         minHeight: 'calc($xl + 4px)',
-        fontSize: '$4',
+        fontSize: '$medium',
         fontWeight: '$bold',
         lineHeight: '$shorter',
         borderRadius: '$4',
@@ -98,7 +84,7 @@ export const Button = styled('button', {
       small: {
         height: '$xl',
         minHeight: '$xl',
-        fontSize: '$2',
+        fontSize: '$small',
         fontWeight: '$medium',
         lineHeight: '$shorter',
         borderRadius: '$3',
@@ -126,15 +112,15 @@ export const Button = styled('button', {
         boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
         borderRadius: '13px',
-        backgroundColor: '#0000',
+        backgroundColor: 'transparent',
         minWidth: '64px',
         '& svg': {
           height: '$lg',
           width: '$lg',
         },
         '&:hover': {
-          color: '$selected',
-          background: '$surfaceGray',
+          color: '$secondary',
+          background: '$surface',
           opacity: 1,
         },
         '&:disabled': {
@@ -150,56 +136,40 @@ export const Button = styled('button', {
     },
     outlined: {
       true: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent !important',
         border: '1px solid',
       },
     },
   },
   compoundVariants: [
     {
-      color: 'red',
+      color: 'primary',
       outlined: true,
       css: {
-        color: '$red',
-        borderColor: '$red',
-        '&:hover': {
-          backgroundColor: '$lightRed',
-        },
+        color: '$primary',
+        borderColor: '$primary',
       },
     },
     {
-      color: 'gray',
+      color: 'alert',
       outlined: true,
       css: {
-        color: '$lightText',
-        borderColor: '$lightText',
-        '&:hover': {
-          backgroundColor: '$lightGray',
-        },
+        color: '$alert',
+        borderColor: '$alert',
       },
     },
     {
-      color: 'blue',
+      color: 'neutral',
       outlined: true,
       css: {
-        color: '$blue',
-        borderColor: '$blue',
-        backgroundColor: 'transparent',
-      },
-    },
-    {
-      color: 'teal',
-      outlined: true,
-      css: {
-        color: '$teal',
-        borderColor: '$teal',
-        backgroundColor: 'transparent',
+        color: '$neutral',
+        borderColor: '$neutral',
       },
     },
   ],
   defaultVariants: {
     size: 'medium',
-    color: 'gray',
+    color: 'neutral',
   },
 });
 

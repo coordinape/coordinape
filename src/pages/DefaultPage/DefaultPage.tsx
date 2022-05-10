@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 34,
     fontWeight: 700,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: 0,
   },
   subTitle: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 5),
     fontSize: 30,
     fontWeight: 400,
-    color: theme.colors.primary,
+    color: theme.colors.text,
   },
   welcomeSection: {
     width: '100%',
@@ -51,30 +51,6 @@ const useStyles = makeStyles(theme => ({
   startCircle: {
     margin: 'auto',
     marginTop: theme.spacing(3),
-  },
-  link: {
-    position: 'relative',
-    color: theme.colors.text,
-    fontSize: 18,
-    fontWeight: 600,
-    textDecoration: 'none',
-    '&::after': {
-      content: `" "`,
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      backgroundColor: theme.colors.primary,
-      transition: 'all 0.3s',
-      bottom: 0,
-      height: 2,
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: theme.colors.primary,
-      },
-    },
   },
 }));
 
@@ -164,10 +140,10 @@ const Footer = () => (
       pb: '$xl',
       '> a': {
         padding: '$md 0',
-        color: '$primary',
+        color: '$text',
         textDecoration: 'none',
         fontWeight: '$bold',
-        fontSize: '$6',
+        fontSize: '$large',
       },
     }}
   >

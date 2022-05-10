@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   root: {},
   paper: {
     position: 'absolute',
-    backgroundColor: '#EAEFF0',
+    backgroundColor: theme.colors.surface,
     boxShadow: '2px 3px 6px rgba(81, 99, 105, 0.5)',
     display: 'flex',
     alignItems: 'stretch',

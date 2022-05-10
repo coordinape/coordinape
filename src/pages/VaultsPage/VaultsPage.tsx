@@ -27,10 +27,10 @@ const VaultsPage = () => {
   return (
     <OrgLayout>
       <Box css={{ display: 'flex' }}>
-        <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
+        <Text h2 css={{ flexGrow: 1 }}>
           Vaults
         </Text>
-        <Button color="red" size="small" onClick={() => setModal('create')}>
+        <Button color="alert" size="small" onClick={() => setModal('create')}>
           Add Vault
         </Button>
       </Box>

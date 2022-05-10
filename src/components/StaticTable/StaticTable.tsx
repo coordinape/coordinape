@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   headerTr: {
     height: 48,
     borderBottom: '0.5px solid #E3E3E3',
-    background: theme.colors.subtleGray,
+    background: theme.colors.background,
   },
   emptyHeader: {
     opacity: 0.5,

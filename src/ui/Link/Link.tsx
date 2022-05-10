@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { styled } from '../../stitches.config';
 
 export const Link = styled('a', {
-  color: '$lightBlue',
+  color: '$link',
   textDecoration: 'none',
 });
 
@@ -15,6 +15,6 @@ export const ExternalLink = styled(Link, {
 
 // an alternative to this is <Link as={NavLink}>
 export const AppLink = styled(NavLink, {
-  color: '$lightBlue',
+  color: '$link',
   textDecoration: 'none',
 });

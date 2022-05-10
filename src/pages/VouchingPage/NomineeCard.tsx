@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     width: 330,
     padding: theme.spacing(2.5, 3),
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface,
     borderRadius: 11,
   },
   name: {
@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     fontSize: 14,
     fontWeight: 600,
-    color: theme.colors.red,
+    color: theme.colors.alert,
     textAlign: 'center',
   },
   expire: {

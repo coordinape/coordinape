@@ -86,7 +86,6 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         bold
         css={{
           display: 'block',
-          fontSize: '$5',
           mb: '$sm',
           textAlign: 'center',
         }}
@@ -128,10 +127,10 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         flexDirection: 'column',
       }}
     >
-      <Text font="source" bold css={{ fontSize: '$5', mb: '$sm' }}>
+      <Text font="source" large semibold css={{ mb: '$sm' }}>
         Select a Vault Asset
       </Text>
-      <Text font="source" css={{ fontSize: '$4' }}>
+      <Text font="source" medium>
         Vaults allow you to fund your circles with the asset of your choice.
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
@@ -152,7 +151,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         ))}
       </Box>
       <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
-      <Text variant="formLabel" css={{ width: '100%', mb: '$xs' }}>
+      <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
           <span>
@@ -170,14 +169,14 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         {...customAddressField}
       />
       <Button
-        color="red"
+        color="alert"
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid}
       >
         Create Vault
       </Button>
       {!isEmpty(errors) && (
-        <Text color="red" css={{ mt: '$sm' }}>
+        <Text color="alert" css={{ mt: '$sm' }}>
           {Object.values(errors)
             .map(e => e.message)
             .join('. ')}
@@ -194,9 +193,9 @@ const AssetButton = styled(Button, {
   // have to use !important because otherwise styles from the default button
   // variants take precedence
   borderRadius: '20px !important',
-  backgroundColor: '$surfaceGray !important',
+  backgroundColor: '$surface !important',
   '&:hover, &[data-selected=true]': {
-    backgroundColor: '$mediumGray !important',
+    backgroundColor: '$secondaryText !important',
     '> span': { color: 'white !important' },
   },
 });

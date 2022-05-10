@@ -4,14 +4,14 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextArea = styled('textarea', {
-  background: '$lightBackground',
-  border: '1px solid $lightBackground',
+  background: '$surface',
+  border: '1px solid $border',
   '&:focus': {
-    border: '1px solid $lightBlue',
+    border: '1px solid $focusedBorder',
     boxSizing: 'border-box',
   },
   '&::placeholder': {
-    color: '$placeholder',
+    color: '$secondaryText',
   },
   display: 'flex',
   flexDirection: 'row',
@@ -20,7 +20,7 @@ export const TextArea = styled('textarea', {
   borderRadius: '8px',
 
   fontWeight: '$normal',
-  fontSize: '$6',
+  fontSize: '$large',
   lineHeight: '29px',
 
   py: '$md',
@@ -31,7 +31,7 @@ export const TextArea = styled('textarea', {
   variants: {
     error: {
       true: {
-        border: '1px solid $red',
+        border: '1px solid $alert',
         boxSizing: 'border-box',
       },
     },

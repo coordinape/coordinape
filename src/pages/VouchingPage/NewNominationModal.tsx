@@ -195,7 +195,7 @@ export const NewNominationModal = ({
                 ta: 'left',
                 p: '0 $sm',
                 fontWeight: '$light',
-                fontSize: '$4',
+                fontSize: '$medium',
                 lineHeight: '$base',
                 color: '$text',
               }}
@@ -209,7 +209,7 @@ export const NewNominationModal = ({
               flexDirection: 'column',
               justifyContent: 'center',
               margin: 0,
-              color: '$red',
+              color: '$alert',
             }}
           >
             {Object.values(errors).map((error, i) => (
@@ -219,7 +219,7 @@ export const NewNominationModal = ({
         )}
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="red"
+          color="alert"
           size="medium"
           type="submit"
           disabled={submitting}

@@ -10,6 +10,7 @@ import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
+import { Text } from 'ui';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'space-between',
     justifyItems: 'stretch',
     borderRadius: 8,
-    background: theme.colors.ultraLightGray,
+    background: theme.colors.surface,
     alignItems: 'center',
     columnGap: theme.spacing(3),
     padding: theme.spacing(0, 4, 4),
@@ -62,14 +63,6 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
-  },
-  title: {
-    textTransform: 'capitalize',
-    fontSize: 30,
-    lineHeight: 1.2,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: theme.spacing(6, 0),
   },
   actionsAndEpochs: {
     display: 'flex',
@@ -101,12 +94,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     color: theme.colors.text,
-    background: '#fff',
+    background: theme.colors.white,
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.text,
+      color: theme.colors.secondaryText,
     },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -116,7 +109,6 @@ const useStyles = makeStyles(theme => ({
 
 const AdminPage = ({ legacy }: { legacy?: boolean }) => {
   const classes = useStyles();
-
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
@@ -170,7 +162,9 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
       {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
-          <h2 className={classes.title}>{selectedCircle?.name}</h2>
+          <Text h2 css={{ my: '$xl' }}>
+            {selectedCircle?.name}
+          </Text>
           <div className={classes.actionBar}>
             {!isMobile && (
               <div className={classes.actionBarInner}>

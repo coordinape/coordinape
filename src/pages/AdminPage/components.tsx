@@ -72,7 +72,7 @@ export const CreateEpochButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="red" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
       Create Epoch
       <Tooltip
         title="Create Epoch"
@@ -105,7 +105,7 @@ export const AddContributorButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="red" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
       Add Contributor
       <Tooltip
         title="Add Contributor"
@@ -255,9 +255,9 @@ export const renderUserCard = (user: IUser) => {
 };
 
 export const TableLink = styled(RouterLink, {
-  color: '$lightBlue',
+  color: '$link',
   '&:hover': {
-    color: '$darkBlue',
+    opacity: 0.8,
   },
   textDecoration: 'none',
 });
@@ -265,7 +265,7 @@ export const TableLink = styled(RouterLink, {
 const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
   <Flex css={{ justifyContent: 'center' }}>
     {onEdit ? (
-      <Button size="small" onClick={onEdit} color="blue">
+      <Button size="small" onClick={onEdit} color="textOnly">
         Edit
       </Button>
     ) : (
@@ -274,8 +274,8 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 
     {onDelete && (
       <>
-        <Text color="lightBlue">|</Text>
-        <Button size="small" onClick={onDelete} color="blue">
+        <Text color="primary">|</Text>
+        <Button size="small" onClick={onDelete} color="textOnly">
           Delete
         </Button>
       </>
@@ -310,7 +310,7 @@ const EmptyTable = ({
       >
         {content}
       </Text>
-      <Button color="red" onClick={() => onClick()}>
+      <Button color="alert" onClick={() => onClick()}>
         <PlusCircleIcon />
         Add Contributor
       </Button>
