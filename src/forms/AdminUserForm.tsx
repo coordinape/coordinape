@@ -33,7 +33,7 @@ const AdminUserForm = createForm({
     address: v.user?.address ?? '',
     non_giver: v.user?.non_giver ?? false,
     fixed_non_receiver: !!v.user?.fixed_non_receiver ?? false,
-    non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver || !v.circle.default_opt_in,
+    non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
     role: v.user?.role === USER_ROLE_ADMIN ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
   }),
