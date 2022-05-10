@@ -18,7 +18,7 @@ const HoverCardContent = styled(HoverCardPrimitive.Content, {
   maxWidth: 240,
   boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
   backgroundColor: 'gainsboro',
-  color: '$primary',
+  color: '$text',
   background:
     'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), linear-gradient(0deg, #FFFFFF, #FFFFFF)',
   '@media (prefers-reduced-motion: no-preference)': {

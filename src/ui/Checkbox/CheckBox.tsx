@@ -13,14 +13,13 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   height: 20,
   borderRadius: '2px',
   display: 'flex',
-
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': { borderColor: '$text' },
+  '&:hover': { borderColor: '$secondaryText' },
   variants: {
     border: {
       default: {
-        border: '2px solid $lightText',
+        border: '2px solid $secondaryText',
       },
       error: {
         border: '2px solid $red',
@@ -36,7 +35,7 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
   width: '100%',
   height: '100%',
   color: '$white',
-  backgroundColor: '$lightText',
+  backgroundColor: '$secondaryText',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
