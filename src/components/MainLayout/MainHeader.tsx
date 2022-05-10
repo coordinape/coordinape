@@ -4,7 +4,12 @@ import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
 
-import { ReceiveInfo, MyAvatarMenu, NewApeAvatar } from 'components';
+import {
+  ReceiveInfo,
+  MyAvatarMenu,
+  NewApeAvatar,
+  OverviewMenu,
+} from 'components';
 import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
@@ -21,7 +26,7 @@ import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 const mainLinks = [
-  [paths.circles, 'Circles'],
+  [paths.circles, 'Overview'],
   isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
 ].filter(x => x) as [string, string][];
 
@@ -50,21 +55,16 @@ export const MainHeader = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: '$text',
+        background: '$headerBackground',
       }}
     >
-      <Image
-        alt="logo"
-        css={{ height: '$1xl', mr: '$md' }}
-        src="/svgs/logo/logo.svg"
-      />
       {hasCircles && <TopLevelLinks links={mainLinks} />}
-
+      <OverviewMenu />
       <Box
         css={{
           display: 'flex',
           flexGrow: 1,
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-start',
           position: 'relative',
           top: '-7px', // half of breadcrumb line-height
         }}
