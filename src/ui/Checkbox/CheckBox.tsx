@@ -94,7 +94,7 @@ export const CheckBox = ({
     </Flex>
     {error && errorText && (
       <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
-        This is an error.
+        {errorText}
       </Text>
     )}
   </form>
