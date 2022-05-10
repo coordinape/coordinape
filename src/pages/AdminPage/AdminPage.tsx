@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AdminPage = ({ legacy }: { legacy?: boolean }) => {
+const AdminPage = () => {
   const classes = useStyles();
   const { isMobile } = useMobileDetect();
 
@@ -158,8 +158,6 @@ const AdminPage = ({ legacy }: { legacy?: boolean }) => {
 
   return (
     <div className={classes.root}>
-      {' '}
-      {!legacy && <OrganizationHeader css={{ mt: '$xl' }} />}
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
           <Text h2 css={{ my: '$xl' }}>
