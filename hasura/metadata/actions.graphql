@@ -220,7 +220,7 @@ input AllocationCsvInput {
 }
 
 input CreateVaultInput {
-  org_id: ID!
+  org_id: Int!
   vault_address: String!
   chain_id: Int!
 }

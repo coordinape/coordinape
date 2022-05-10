@@ -24,6 +24,7 @@ export const AllTypesProps: Record<string, any> = {
   CreateUsersInput: {
     users: 'UserObj',
   },
+  CreateVaultInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   Int_comparison_exp: {},
@@ -1094,6 +1095,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createUsers: {
       payload: 'CreateUsersInput',
+    },
+    createVault: {
+      payload: 'CreateVaultInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -2804,6 +2808,10 @@ export const ReturnTypes: Record<string, any> = {
     UserResponse: 'users',
     id: 'ID',
   },
+  VaultResponse: {
+    id: 'ID',
+    vault: 'vaults',
+  },
   VouchOutput: {
     id: 'Int',
     nominee: 'nominees',
@@ -3053,6 +3061,7 @@ export const ReturnTypes: Record<string, any> = {
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
     createUsers: 'UserResponse',
+    createVault: 'VaultResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_circle_integrations: 'circle_integrations_mutation_response',

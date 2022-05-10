@@ -708,6 +708,11 @@ export type ValueTypes = {
     circle_id: number;
     users: Array<ValueTypes['UserObj'] | undefined | null>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -855,6 +860,12 @@ export type ValueTypes = {
     /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['VaultResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
   ['VouchInput']: {
@@ -2738,6 +2749,10 @@ columns and relationships of "distributions" */
     createUsers?: [
       { payload: ValueTypes['CreateUsersInput'] },
       ValueTypes['UserResponse']
+    ];
+    createVault?: [
+      { payload: ValueTypes['CreateVaultInput'] },
+      ValueTypes['VaultResponse']
     ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
@@ -6277,6 +6292,7 @@ export type ModelTypes = {
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
+  ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -6327,6 +6343,11 @@ export type ModelTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
@@ -6875,6 +6896,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_integrations" */
@@ -7933,6 +7955,11 @@ export type GraphQLTypes = {
     circle_id: number;
     users: Array<GraphQLTypes['UserObj'] | undefined>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -8081,6 +8108,12 @@ export type GraphQLTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    __typename: 'VaultResponse';
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -9550,6 +9583,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_integrations" */

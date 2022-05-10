@@ -357,7 +357,7 @@ custom_types:
     - remote_table:
         schema: public
         name: vaults
-      name: createVault_vault
+      name: vault
       source: default
       type: object
       field_mapping:

@@ -13,12 +13,12 @@ import {
 faker.seed(4);
 
 async function main() {
+  await createFreshOpenEpochDevAdmin();
   await createFreshOpenEpoch();
+  await createFreshOpenEpochNoDev();
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
-  await createFreshOpenEpochNoDev();
-  await createFreshOpenEpochDevAdmin();
   await getAvatars();
 }
 

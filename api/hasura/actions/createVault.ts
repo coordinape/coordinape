@@ -46,7 +46,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const vaultExists = await contracts.vaultFactory.vaultRegistry(vault_address);
 
   if (!vaultExists)
-    new UnprocessableError(
+    throw new UnprocessableError(
       `Vault with address ${vault_address} not registered`
     );
 
@@ -58,9 +58,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     e => e != AddressZero
   );
 
-  if (!tokenAddress) throw new UnprocessableError('No token exists in vault');
-  const token = contracts.getERC20(tokenAddress);
+  if (!tokenAddress)
+    throw new UnprocessableError('No token specified for vault');
 
+  const token = contracts.getERC20(tokenAddress);
   const [symbol, decimals] = await Promise.all([
     token.symbol(),
     token.decimals(),
@@ -74,11 +75,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           decimals,
           chain_id,
           org_id,
+          vault_address,
           created_by: hasuraProfileId,
-          token_address:
-            tokenAddress === yTokenAddress ? tokenAddress : undefined,
-          simple_token_address:
-            tokenAddress === simpleTokenAddress ? tokenAddress : undefined,
+          token_address: yTokenAddress,
+          simple_token_address: simpleTokenAddress,
         },
       },
       { id: true },
