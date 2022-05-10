@@ -12,7 +12,6 @@ export * from './IconButton/IconButton';
 export * from './Modal';
 export * from './Panel/Panel';
 export * from './SvgIcon/SvgIcon';
-export * from './Table/Table';
 export * from './Text/Text';
 export * from './TextArea/TextArea';
 export * from './TextField/TextField';

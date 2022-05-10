@@ -22,10 +22,10 @@ import {
   Text,
   ExternalLink,
 } from 'ui';
-import * as Table from 'ui/Table/Table';
 import { shortenAddress } from 'utils';
 
 import { Paginator } from './Paginator';
+import * as Table from './Table';
 
 import { ICircle, IEpoch, IUser } from 'types';
 
