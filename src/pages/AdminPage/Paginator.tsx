@@ -28,7 +28,7 @@ export const PaginatorButton = styled('button', {
   fontWeight: '$normal',
   padding: 0,
   backgroundColor: 'white',
-  color: '$primary',
+  color: '$text',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -36,8 +36,7 @@ export const PaginatorButton = styled('button', {
   transition: 'all 400ms',
   // STATES
   '&:hover': {
-    background: '#green',
-    backgroundColor: '$teal',
+    backgroundColor: '$secondary',
     color: '$white',
   },
   '&:disabled': {
@@ -50,7 +49,7 @@ export const PaginatorButton = styled('button', {
       true: {
         // TODO: toggle 'aria-current' instead.
         borderRadius: '$1',
-        backgroundColor: '$teal !important',
+        backgroundColor: '$secondary !important',
         color: 'white !important',
       },
     },
