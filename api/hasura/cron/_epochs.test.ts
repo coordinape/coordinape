@@ -297,7 +297,7 @@ describe('epoch Cron Logic', () => {
             { __typename: true },
           ],
           __alias: {
-            '0_history': {
+            u0_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -310,7 +310,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '0_userReset': {
+            u0_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -325,7 +325,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '1_history': {
+            u1_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -338,7 +338,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '1_userReset': {
+            u1_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -353,7 +353,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '2_history': {
+            u2_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -366,7 +366,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '2_userReset': {
+            u2_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -380,7 +380,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '3_history': {
+            u3_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -393,7 +393,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '3_userReset': {
+            u3_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -407,7 +407,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '4_history': {
+            u4_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -422,7 +422,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '4_userReset': {
+            u4_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -436,7 +436,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '5_history': {
+            u5_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -449,7 +449,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '5_userReset': {
+            u5_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
@@ -463,7 +463,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '6_history': {
+            u6_history: {
               insert_histories_one: [
                 {
                   object: {
@@ -476,7 +476,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            '6_userReset': {
+            u6_userReset: {
               update_users_by_pk: [
                 {
                   _set: {
