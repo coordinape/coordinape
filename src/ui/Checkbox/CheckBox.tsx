@@ -19,7 +19,7 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   variants: {
     border: {
       default: {
-        border: '2px solid $secondaryText',
+        border: '2px solid $border',
       },
       error: {
         border: '2px solid $alert',
