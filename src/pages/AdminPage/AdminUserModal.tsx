@@ -7,7 +7,7 @@ import { FormModal, FormTextField, ActionDialog } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { CheckBox, ExternalLink, Link } from 'ui';
+import { CheckBox, Link } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
@@ -126,8 +126,10 @@ export const AdminUserModal = ({
                 type="number"
                 infoTooltip={
                   <>
-                    The maximum amount of giving a user can allocate in an epoch
-                    <Link href={GIFT_CIRCLE_DOCS_URL}>Learn More</Link>
+                    The maximum amount of giving a user can allocate in an epoch{' '}
+                    <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                      Learn More
+                    </Link>
                   </>
                 }
                 label="GIVE Allotment"
@@ -141,7 +143,10 @@ export const AdminUserModal = ({
                 <>
                   As a Circle Admin, you will be able to edit Circle Settings,
                   Edit Epoch settings, edit your users, and create new circles.{' '}
-                  <Link href="https://docs.coordinape.com/welcome/admin_info">
+                  <Link
+                    href="https://docs.coordinape.com/welcome/admin_info"
+                    target="_blank"
+                  >
                     Learn More
                   </Link>
                 </>
@@ -156,9 +161,9 @@ export const AdminUserModal = ({
                 <>
                   Allows the Contributor to get paid based on the amount of
                   giving allocated by circle members.{' '}
-                  <ExternalLink href={GIFT_CIRCLE_DOCS_URL}>
+                  <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
                     Learn More
-                  </ExternalLink>
+                  </Link>
                 </>
               }
             />
@@ -170,9 +175,9 @@ export const AdminUserModal = ({
                 <>
                   Gives the member the ability to reward circle members with
                   giving.{' '}
-                  <ExternalLink href={GIFT_CIRCLE_DOCS_URL}>
+                  <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
                     Learn More
-                  </ExternalLink>
+                  </Link>
                 </>
               }
             />

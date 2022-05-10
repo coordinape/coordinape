@@ -11,17 +11,7 @@ import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon } from 'icons';
 import { paths } from 'routes/paths';
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Link,
-  Tooltip,
-  Text,
-  ExternalLink,
-} from 'ui';
+import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { Paginator } from './Paginator';
@@ -80,12 +70,12 @@ export const CreateEpochButton = ({
         content={
           <>
             An Epoch is a period of time where circle members contribute value &
-            allocate GIVE tokens to one another.
+            allocate GIVE tokens to one another.{' '}
             <Link
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href=""
+              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
             >
               Learn More
             </Link>
@@ -693,9 +683,12 @@ export const ContributorsTable = ({
                     As a Circle Admin, you will be able to edit Circle Settings,
                     Edit Epoch settings, edit your users, and create new
                     circles.{' '}
-                    <ExternalLink href="https://docs.coordinape.com/welcome/admin_info">
+                    <Link
+                      href="https://docs.coordinape.com/welcome/admin_info"
+                      target="_blank"
+                    >
                       Learn More
-                    </ExternalLink>
+                    </Link>
                   </>
                 )}
               </Table.HeaderCell>

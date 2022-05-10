@@ -7,12 +7,6 @@ export const Link = styled('a', {
   textDecoration: 'none',
 });
 
-export const ExternalLink = styled(Link, {
-  // color: '$blue',
-  rel: 'noreferrer',
-  target: '_blank',
-});
-
 // an alternative to this is <Link as={NavLink}>
 export const AppLink = styled(NavLink, {
   color: '$link',
