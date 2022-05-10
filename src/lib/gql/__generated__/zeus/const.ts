@@ -721,7 +721,6 @@ export const AllTypesProps: Record<string, any> = {
     distribution_json: 'jsonb',
     epoch_id: 'bigint',
     total_amount: 'numeric',
-    vault: 'vaults_obj_rel_insert_input',
     vault_id: 'bigint',
   },
   distributions_max_order_by: {
@@ -1138,12 +1137,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_vault_transactions_one: {
       object: 'vault_transactions_insert_input',
-    },
-    insert_vaults: {
-      objects: 'vaults_insert_input',
-    },
-    insert_vaults_one: {
-      object: 'vaults_insert_input',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -2411,9 +2404,6 @@ export const AllTypesProps: Record<string, any> = {
     var_samp: 'vault_transactions_var_samp_order_by',
     variance: 'vault_transactions_variance_order_by',
   },
-  vault_transactions_arr_rel_insert_input: {
-    data: 'vault_transactions_insert_input',
-  },
   vault_transactions_avg_order_by: {
     created_by: 'order_by',
     id: 'order_by',
@@ -2444,7 +2434,6 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     updated_at: 'timestamp',
     value: 'bigint',
-    vault: 'vaults_obj_rel_insert_input',
     vault_id: 'bigint',
   },
   vault_transactions_max_order_by: {
@@ -2572,11 +2561,6 @@ export const AllTypesProps: Record<string, any> = {
     vault_address: 'String_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
   },
-  vaults_insert_input: {
-    id: 'bigint',
-    org_id: 'bigint',
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-  },
   vaults_max_order_by: {
     created_at: 'order_by',
     created_by: 'order_by',
@@ -2600,9 +2584,6 @@ export const AllTypesProps: Record<string, any> = {
     token_address: 'order_by',
     updated_at: 'order_by',
     vault_address: 'order_by',
-  },
-  vaults_obj_rel_insert_input: {
-    data: 'vaults_insert_input',
   },
   vaults_order_by: {
     created_at: 'order_by',
@@ -3074,8 +3055,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_distributions_one: 'distributions',
     insert_vault_transactions: 'vault_transactions_mutation_response',
     insert_vault_transactions_one: 'vault_transactions',
-    insert_vaults: 'vaults_mutation_response',
-    insert_vaults_one: 'vaults',
     logoutUser: 'LogoutResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
@@ -3544,10 +3523,6 @@ export const ReturnTypes: Record<string, any> = {
     updated_at: 'timestamptz',
     vault_address: 'String',
     vault_transactions: 'vault_transactions',
-  },
-  vaults_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'vaults',
   },
   vouches: {
     created_at: 'timestamp',
