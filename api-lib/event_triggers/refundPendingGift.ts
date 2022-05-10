@@ -17,12 +17,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { circle_id, id } = data.new;
 
-  const userDeleted = !data.old.deleted_at && data.new.deleted_at;
-
-  const newNonGiver =
-    (!data.old.non_giver && data.new.non_giver) || userDeleted;
-  const newNonReceiver =
-    (!data.old.non_receiver && data.new.non_receiver) || userDeleted;
+  const newNonGiver = !data.old.non_giver && data.new.non_giver;
+  const newNonReceiver = !data.old.non_receiver && data.new.non_receiver;
 
   const results = [];
   try {
@@ -35,11 +31,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (
       !currentEpoch ||
       !(newNonGiver || newNonReceiver) ||
-      (!userDeleted && newNonGiver && pending_sent_gifts.length === 0) ||
-      (!userDeleted && newNonReceiver && pending_received_gifts.length === 0) ||
-      (userDeleted &&
-        pending_received_gifts.length === 0 &&
-        pending_sent_gifts.length === 0)
+      (newNonGiver && pending_sent_gifts.length === 0) ||
+      (newNonReceiver && pending_received_gifts.length === 0) ||
+      (pending_received_gifts.length === 0 && pending_sent_gifts.length === 0)
     ) {
       res.status(200).json({
         message: `Not a refund event.`,
