@@ -55,7 +55,7 @@ export const Button = styled('button', {
       textOnly: {
         padding: '$xs',
         backgroundColor: 'transparent',
-        color: '$primary',
+        color: '$text',
         '&:hover': {
           textDecoration: 'underline',
         },
