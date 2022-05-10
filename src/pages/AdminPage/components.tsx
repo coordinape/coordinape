@@ -256,7 +256,7 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 
     {onDelete && (
       <>
-        <Text color="primary">|</Text>
+        <Text css={{ color: '$text' }}>|</Text>
         <Button size="small" onClick={onDelete} color="textOnly">
           Delete
         </Button>
