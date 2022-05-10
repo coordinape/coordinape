@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { makeStyles, Button } from '@material-ui/core';
 
-import { ActionDialog, OrganizationHeader } from 'components';
+import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
