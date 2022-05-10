@@ -8,7 +8,6 @@ export * from './Form';
 export * from './FormLabel/FormLabel';
 export * from './Image/Image';
 export * from './Link/Link';
-export * from './Paginator/Paginator';
 export * from './IconButton/IconButton';
 export * from './Modal';
 export * from './Panel/Panel';
