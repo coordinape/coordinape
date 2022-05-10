@@ -145,10 +145,11 @@ export const InternalsBuildQuery = (
       root && options?.variables?.$params
         ? `(${options.variables?.$params})`
         : '';
-    const keyForDirectives = o.__directives ? `${k} ${o.__directives}` : k;
-    return `${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(
+    const keyForDirectives = o.__directives ?? '';
+    return `${k} ${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(
       o
     )
+      .filter(([k]) => k !== '__directives')
       .map(e => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false))
       .join('\n')}}`;
   };
@@ -305,10 +306,13 @@ export type ResolverType<F> = NotUndefined<
   F extends [infer ARGS, any] ? ARGS : undefined
 >;
 
-export type OperationOptions = {
-  variables?: VariableInput;
+export type OperationOptions<
+  Z extends Record<string, unknown> = Record<string, unknown>
+> = {
+  variables?: VariableInput<Z>;
   operationName?: string;
 };
+
 export interface GraphQLResponse {
   data?: Record<string, any>;
   errors?: Array<{
@@ -576,9 +580,9 @@ export const useZeusVariables =
     };
   };
 
-export type VariableInput = {
+export type VariableInput<Z extends Record<string, unknown>> = {
   $params: ReturnType<ReturnType<typeof useZeusVariables>>['$params'];
-  values: Record<string, unknown>;
+  values: Z;
 };
 
 type ZEUS_INTERFACES = never;
