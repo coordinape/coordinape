@@ -19,15 +19,6 @@ import * as Table from './Table';
 
 import { ICircle, IEpoch, IUser } from 'types';
 
-// TODO: these variants of text could be moved to ui/Text,
-//       waiting for universal definitions for these variants.
-const HeaderText = styled(Text, {
-  fontSize: '$7',
-  fontWeight: '$normal',
-  color: '$primary',
-  flexGrow: 1,
-});
-
 const Title = styled(Text, {
   fontSize: '$4',
   fontWeight: '$medium',
@@ -44,13 +35,13 @@ const Subtitle = styled(Text, {
 const LightText = styled(Text, {
   fontSize: '$3',
   fontWeight: '$normal',
-  color: '$lightText',
+  color: '$secondaryText',
 });
 
 export const SettingsIconButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <IconButton size="md" onClick={onClick}>
-      <GearIcon />
+    <IconButton size="lg" onClick={onClick}>
+      <GearIcon width="30" height="30" />
     </IconButton>
   );
 };
@@ -129,10 +120,10 @@ export const UsersTableHeader = ({ onClick }: { onClick: () => void }) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         width: 'auto',
-        my: '$md',
+        marginTop: '$xl',
       }}
     >
-      <HeaderText>Users</HeaderText>
+      <Text h3>Users</Text>
       <AddContributorButton inline onClick={onClick} />
     </Box>
   );
@@ -149,7 +140,7 @@ export const EpochsTableHeader = ({ onClick }: { onClick: () => void }) => {
         my: '$md',
       }}
     >
-      <HeaderText>Epochs</HeaderText>
+      <Text h3>Epochs</Text>
       <CreateEpochButton inline onClick={onClick} />
     </Box>
   );
