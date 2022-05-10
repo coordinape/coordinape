@@ -1,4 +1,5 @@
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import groupBy from 'lodash/groupBy';
 import { useQuery } from 'react-query';
