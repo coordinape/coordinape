@@ -1,7 +1,7 @@
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { NewApeAvatar } from 'components';
-import { Box, Link, Panel, Table, TableBorder, Flex, Text } from 'ui';
+import { Box, Link, Panel, Table, Flex, Text } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { makeTable } from './Table';
@@ -142,7 +142,6 @@ export default function ClaimsPage() {
               <ClaimsTable
                 key={claim.org_id}
                 Table={Table}
-                TableBorder={TableBorder}
                 headers={['Circle', 'Epochs', `Rewards`, ``, ``]}
                 data={claims}
                 startingSortIndex={2}
