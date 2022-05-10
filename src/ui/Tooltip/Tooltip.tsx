@@ -48,7 +48,8 @@ export const Tooltip = ({
 }: {
   content: React.ReactNode;
   children?: React.ReactNode;
-  title: string;
+  /** title is used for dialog on mobile. */
+  title?: string;
 }) => {
   const { isMobile } = useMobileDetect();
   return (

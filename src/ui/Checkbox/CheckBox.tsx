@@ -88,7 +88,7 @@ export const CheckBox = ({
         </CheckboxIndicator>
       </CheckboxRoot>
       <Label htmlFor={label}>{label}</Label>
-      <Tooltip title="Create Epoch" content={infoTooltip}>
+      <Tooltip content={infoTooltip}>
         <InfoCircledIcon />
       </Tooltip>
     </Flex>
