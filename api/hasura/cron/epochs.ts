@@ -623,7 +623,7 @@ async function notifyEpochStatus(
   } catch (e: unknown) {
     // throwing here creates a promise rejection
     if (e instanceof Error)
-      errorLog(
+      console.error(
         `Error sending telegram notification for epoch id ${epochId}: ${e.message}`
       );
     return false;

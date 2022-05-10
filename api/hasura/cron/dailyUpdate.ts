@@ -7,7 +7,6 @@ import { DateTime, DurationObjectUnits, Settings } from 'luxon';
 import { CIRCLES } from '../../../api-lib/constants';
 import { pending_token_gifts_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
@@ -135,7 +134,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         operationName: 'cron_dailyUpdate',
       }
     );
-
+    const failed = [];
     for (const epoch of updateResult.epochs) {
       const {
         start_date,
@@ -202,11 +201,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             sanitize: false,
           });
         } catch (e: unknown) {
-          if (e instanceof Error)
-            errorLog(
+          if (e instanceof Error) {
+            const errorMsg =
               `Telegram Daily Update error for circle #${circle.id}: ` +
-                e.message
-            );
+              e.message;
+            console.error(errorMsg);
+            failed.push(errorMsg);
+          }
         }
       }
 
@@ -220,11 +221,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             notifyOrg: true,
           });
         } catch (e: unknown) {
-          if (e instanceof Error)
-            errorLog(
+          if (e instanceof Error) {
+            const errorMsg =
               `Telegram Daily Update error for organisation #${circle.organization?.id}: ` +
-                e.message
-            );
+              e.message;
+            console.error(errorMsg);
+            failed.push(errorMsg);
+          }
         }
       }
 
@@ -237,15 +240,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             sanitize: false,
           });
         } catch (e: unknown) {
-          if (e instanceof Error)
-            errorLog(
+          if (e instanceof Error) {
+            const errorMsg =
               `Discord Daily Update error for circle #${circle.id}: ` +
-                e.message
-            );
+              e.message;
+            console.error(errorMsg);
+            failed.push(errorMsg);
+          }
         }
       }
     }
-
+    if (failed.length) {
+      res.status(401).json({
+        error: '401',
+        message: failed.join(', '),
+      });
+      return;
+    }
     res.status(200).json({ message: 'updates sent' });
   } catch (e) {
     res.status(401).json({
