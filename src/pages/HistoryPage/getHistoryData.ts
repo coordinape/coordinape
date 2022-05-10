@@ -3,7 +3,7 @@ import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
 
-import type { Awaited } from 'types/shim';
+import { Awaited } from '../../types/shim';
 
 export const getHistoryData = async (
   circleId: number,
@@ -27,7 +27,7 @@ export const getHistoryData = async (
             { aggregate: { count: [{}, true] } },
           ],
           __alias: {
-            future: {
+            futureEpoch: {
               epochs: [
                 {
                   where: { start_date: { _gt: 'now' } },
@@ -37,7 +37,7 @@ export const getHistoryData = async (
                 { start_date: true, end_date: true },
               ],
             },
-            current: {
+            currentEpoch: {
               epochs: [
                 {
                   where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
@@ -46,7 +46,7 @@ export const getHistoryData = async (
                 { start_date: true, end_date: true },
               ],
             },
-            past: {
+            pastEpochs: {
               epochs: [
                 {
                   where: { ended: { _eq: true } },
@@ -61,7 +61,7 @@ export const getHistoryData = async (
                     { aggregate: { sum: { tokens: true } } },
                   ],
                   __alias: {
-                    received: {
+                    receivedGifts: {
                       token_gifts: [
                         { where: { recipient_id: { _eq: userId } } },
                         {
@@ -72,7 +72,7 @@ export const getHistoryData = async (
                         },
                       ],
                     },
-                    sent: {
+                    sentGifts: {
                       token_gifts: [
                         { where: { sender_id: { _eq: userId } } },
                         {
@@ -115,12 +115,12 @@ export const getHistoryData = async (
   type DistributionWithPrice = Exclude<
     typeof circle,
     undefined
-  >['past']['epochs'][0]['distributions'][0] & {
+  >['pastEpochs'][0]['distributions'][0] & {
     pricePerShare: FixedNumber;
   };
 
   // FIXME cache these values by symbol to avoid redundant calls
-  for (const epoch of circle?.past?.epochs || []) {
+  for (const epoch of circle?.pastEpochs || []) {
     for (const dist of epoch.distributions) {
       (dist as DistributionWithPrice).pricePerShare =
         await contracts.getPricePerShare(
@@ -135,7 +135,7 @@ export const getHistoryData = async (
 };
 
 export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
-export type QueryEpoch = Exclude<QueryResult, undefined>['past']['epochs'][0];
+export type QueryEpoch = Exclude<QueryResult, undefined>['pastEpochs'][0];
 
 // FIXME find a way to not have to hardcode this.
 // in DistributionsPage/queries it works because the return value
