@@ -397,7 +397,7 @@ export const getFullCircle = async (
       operationName: 'getFullCircle',
     }
   );
-  if (!circles_by_pk || !circle.circles_by_pk) {
+  if (!circles_by_pk || !circle) {
     throw `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`;
   }
 

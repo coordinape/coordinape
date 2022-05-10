@@ -17,54 +17,53 @@ jest.mock('./getHistoryData', () => {
   const now = DateTime.now();
   return {
     getHistoryData: async (): ReturnType<typeof getHistoryData> => ({
-      circles_by_pk: {
-        token_name: 'WOOFY',
-        vouching: true,
-        users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
-        nominees_aggregate: {
-          aggregate: {
-            count: 5,
-          },
+      token_name: 'WOOFY',
+      vouching: true,
+      users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
+      nominees_aggregate: {
+        aggregate: {
+          count: 5,
         },
-        futureEpoch: [
-          {
-            start_date: now.plus({ days: 7, minutes: 1 }),
-            end_date: now.plus({ days: 14 }),
-          },
-        ],
-        currentEpoch: [
-          {
-            start_date: now.minus({ days: 6 }),
-            end_date: now.plus({ hours: 1 }),
-          },
-        ],
-        pastEpochs: [
-          {
-            id: 3,
-            start_date: now.minus({ days: 14 }),
-            end_date: now.minus({ days: 7 }),
-            token_gifts_aggregate: { aggregate: { sum: { tokens: 1234 } } },
-            receivedGifts: [
-              {
-                id: 4,
-                tokens: 10,
-                // @ts-expect-error
-                sender: null, // deleted user
-                gift_private: { note: 'goodbye world' },
-              },
-            ],
-
-            sentGifts: [
-              {
-                id: 4,
-                tokens: 11,
-                recipient: { name: 'Bob', profile: { avatar: 'bob.jpg' } },
-                gift_private: { note: 'hello world' },
-              },
-            ],
-          },
-        ],
       },
+      futureEpoch: [
+        {
+          start_date: now.plus({ days: 7, minutes: 1 }),
+          end_date: now.plus({ days: 14 }),
+        },
+      ],
+      currentEpoch: [
+        {
+          start_date: now.minus({ days: 6 }),
+          end_date: now.plus({ hours: 1 }),
+        },
+      ],
+      pastEpochs: [
+        {
+          id: 3,
+          start_date: now.minus({ days: 14 }),
+          end_date: now.minus({ days: 7 }),
+          token_gifts_aggregate: { aggregate: { sum: { tokens: 1234 } } },
+          receivedGifts: [
+            {
+              id: 4,
+              tokens: 10,
+              // @ts-expect-error
+              sender: null, // deleted user
+              gift_private: { note: 'goodbye world' },
+            },
+          ],
+
+          sentGifts: [
+            {
+              id: 4,
+              tokens: 11,
+              recipient: { name: 'Bob', profile: { avatar: 'bob.jpg' } },
+              gift_private: { note: 'hello world' },
+            },
+          ],
+          distributions: [],
+        },
+      ],
     }),
   };
 });
