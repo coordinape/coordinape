@@ -118,7 +118,7 @@
   "overrides": [
     // Turn off rules of hooks in non React code so useZeusVariables doesn't show errors
     {
-      "files": ["src/lib/gql/*.ts"],
+      "files": ["src/lib/gql/*.ts", "api/hasura/**/*.ts"],
       "rules": {
         "react-hooks/rules-of-hooks": "off"
       }

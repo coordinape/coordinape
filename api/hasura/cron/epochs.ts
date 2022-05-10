@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
-import { DateTime, Settings, Duration } from 'luxon';
+import { DateTime, Duration, Settings } from 'luxon';
 
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -31,7 +31,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 async function getEpochsToNotify() {
   const inTwentyFourHours = DateTime.now().plus({ hours: 24 }).toISO();
 
-  const result = await adminClient.query(
+  return await adminClient.query(
     {
       __alias: {
         notifyStartEpochs: {
@@ -174,7 +174,6 @@ async function getEpochsToNotify() {
       operationName: 'cron_epochsToNotify',
     }
   );
-  return result;
 }
 
 export async function notifyEpochStart({
@@ -317,7 +316,7 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
           ? { non_receiver: true }
           : {};
 
-      ops[user.id + '_history'] = {
+      ops[`u${user.id}_history`] = {
         insert_histories_one: [
           {
             object: {
@@ -330,7 +329,7 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
           { __typename: true },
         ],
       };
-      ops[user.id + '_userReset'] = {
+      ops[`u${user.id}_userReset`] = {
         update_users_by_pk: [
           {
             pk_columns: { id: user.id },

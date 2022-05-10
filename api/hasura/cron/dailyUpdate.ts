@@ -5,7 +5,10 @@ import dedent from 'dedent';
 import { DateTime, DurationObjectUnits, Settings } from 'luxon';
 
 import { CIRCLES } from '../../../api-lib/constants';
-import { pending_token_gifts_select_column } from '../../../api-lib/gql/__generated__/zeus';
+import {
+  pending_token_gifts_select_column,
+  useZeusVariables,
+} from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
@@ -16,6 +19,14 @@ Settings.defaultZone = 'utc';
 async function handler(req: VercelRequest, res: VercelResponse) {
   const yesterday = DateTime.now().minus({ days: 1 }).toISO();
   try {
+    const variables = useZeusVariables({
+      pendingTokenGiftsDistinctOn: '[pending_token_gifts_select_column!]',
+    })({
+      pendingTokenGiftsDistinctOn: [
+        pending_token_gifts_select_column.sender_address,
+      ],
+    });
+
     const updateResult = await adminClient.query(
       {
         epochs: [
@@ -103,9 +114,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               sendersCount: {
                 epoch_pending_token_gifts_aggregate: [
                   {
-                    distinct_on: [
-                      pending_token_gifts_select_column.sender_address,
-                    ],
+                    distinct_on: variables.$('pendingTokenGiftsDistinctOn'),
                   },
                   { aggregate: { count: [{}, true] } },
                 ],
@@ -114,9 +123,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 epoch_pending_token_gifts_aggregate: [
                   {
                     where: { updated_at: { _gte: yesterday } },
-                    distinct_on: [
-                      pending_token_gifts_select_column.sender_address,
-                    ],
+                    distinct_on: variables.$('pendingTokenGiftsDistinctOn'),
                   },
                   {
                     nodes: {
@@ -133,6 +140,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       },
       {
         operationName: 'cron_dailyUpdate',
+        variables,
       }
     );
 
