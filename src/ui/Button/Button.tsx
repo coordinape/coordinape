@@ -11,7 +11,6 @@ export const Button = styled('button', {
     margin: '$sm',
   },
   px: '$md',
-  py: '$sm',
   display: 'flex',
   justifyContent: 'center',
   cursor: 'pointer',
