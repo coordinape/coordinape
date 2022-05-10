@@ -5,10 +5,7 @@ import dedent from 'dedent';
 import { DateTime, DurationObjectUnits, Settings } from 'luxon';
 
 import { CIRCLES } from '../../../api-lib/constants';
-import {
-  pending_token_gifts_select_column,
-  useZeusVariables,
-} from '../../../api-lib/gql/__generated__/zeus';
+import { pending_token_gifts_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
@@ -19,14 +16,6 @@ Settings.defaultZone = 'utc';
 async function handler(req: VercelRequest, res: VercelResponse) {
   const yesterday = DateTime.now().minus({ days: 1 }).toISO();
   try {
-    const variables = useZeusVariables({
-      pendingTokenGiftsDistinctOn: '[pending_token_gifts_select_column!]',
-    })({
-      pendingTokenGiftsDistinctOn: [
-        pending_token_gifts_select_column.sender_address,
-      ],
-    });
-
     const updateResult = await adminClient.query(
       {
         epochs: [
@@ -80,7 +69,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                     { aggregate: { count: [{}, true] } },
                   ],
                 },
-                emptyBioUsers: {
+                emptyBio: {
                   users: [
                     {
                       where: {
@@ -114,7 +103,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               sendersCount: {
                 epoch_pending_token_gifts_aggregate: [
                   {
-                    distinct_on: variables.$('pendingTokenGiftsDistinctOn'),
+                    distinct_on: [
+                      pending_token_gifts_select_column.sender_address,
+                    ],
                   },
                   { aggregate: { count: [{}, true] } },
                 ],
@@ -123,7 +114,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 epoch_pending_token_gifts_aggregate: [
                   {
                     where: { updated_at: { _gte: yesterday } },
-                    distinct_on: variables.$('pendingTokenGiftsDistinctOn'),
+                    distinct_on: [
+                      pending_token_gifts_select_column.sender_address,
+                    ],
                   },
                   {
                     nodes: {
@@ -140,7 +133,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       },
       {
         operationName: 'cron_dailyUpdate',
-        variables,
       }
     );
 
@@ -161,18 +153,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .shiftTo('weeks', 'days', 'hours')
         .toObject();
 
-      const sendersToday = dailySenders.nodes.map(node => node.sender.name);
-      const totalAllocations = allocationTotals.aggregate?.totalAllocations;
-      const tokensSent = allocationTotals.aggregate?.sum?.sumGive;
-      const optOuts = circle?.optOuts.aggregate?.count;
-      const usersAllocated = sendersCount.aggregate?.count;
-      const optedInUsers = circle.receiversTotal.aggregate?.count;
+      const sendersToday =
+        dailySenders.epoch_pending_token_gifts_aggregate.nodes.map(
+          node => node.sender.name
+        );
+      const totalAllocations =
+        allocationTotals.epoch_pending_token_gifts_aggregate.aggregate
+          ?.totalAllocations.count;
+      const tokensSent =
+        allocationTotals.epoch_pending_token_gifts_aggregate.aggregate?.sum
+          ?.sumGive.tokens;
+      const optOuts = circle?.optOuts.users_aggregate.aggregate?.count;
+      const usersAllocated =
+        sendersCount.epoch_pending_token_gifts_aggregate.aggregate?.count;
+      const optedInUsers =
+        circle.receiversTotal.users_aggregate.aggregate?.count;
 
       const emptyBioNotif =
         circle.id === CIRCLES.YEARN.COMMUNITY
           ? dedent`
               Opted in contributors who have NOT entered a statement for Epoch:
-              ${circle.emptyBioUsers.map(u => u.name).join(', ')}
+              ${circle.emptyBio.users.map(u => u.name).join(', ')}
           `
           : ``;
 

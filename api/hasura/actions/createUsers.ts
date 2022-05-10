@@ -138,7 +138,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Get the returning values from each update-user aliases.
   const results = usersToUpdate
-    .map(u => mutationResult[u.address])
+    .map(u => mutationResult[u.address].update_users_by_pk)
     .concat(mutationResult.insert_users?.returning as []);
 
   return res.status(200).json(results);

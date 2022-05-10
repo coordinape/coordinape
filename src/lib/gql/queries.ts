@@ -397,7 +397,7 @@ export const getFullCircle = async (
       operationName: 'getFullCircle',
     }
   );
-  if (!circles_by_pk || !circle) {
+  if (!circles_by_pk || !circle.circles_by_pk) {
     throw `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`;
   }
 
@@ -419,14 +419,14 @@ export const getFullCircle = async (
   > & {
     pending_gifts: IApiTokenGift[];
     users: IApiUser[];
-    circle: Omit<typeof circle, 'organization'> & {
+    circle: Omit<typeof circle.circles_by_pk, 'organization'> & {
       protocol: IProtocol;
     };
   } = {
     ...circles_by_pk,
     circle: {
-      ...circle,
-      protocol: circle.organization,
+      ...circle.circles_by_pk,
+      protocol: circle.circles_by_pk.organization,
     },
     pending_gifts: circles_by_pk.pending_token_gifts.map(pg => {
       const notedGift: Omit<typeof pg, 'gift_private'> & {

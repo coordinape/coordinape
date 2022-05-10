@@ -33,7 +33,7 @@ const isoTime =
 
 faker.seed(1);
 const mockCircle = {
-  notifyStartEpochs: {
+  notifyStart: {
     users_aggregate: {
       aggregate: {
         count: 5,
@@ -45,7 +45,7 @@ const mockCircle = {
       name: 'mock Org',
     },
   },
-  notifyEndEpochs: {
+  notifyEnd: {
     id: 1,
     circle_id: 5,
     name: 'circle with ending epoch',
@@ -73,19 +73,19 @@ const mockCircle = {
 };
 
 const mockEpoch = {
-  notifyStartEpochs: {
+  notifyStart: {
     id: 9,
     circle_id: 1,
     start_date: DateTime.now().minus({ days: 1 }),
     end_date: DateTime.now().plus({ days: 1 }),
-    circle: mockCircle.notifyStartEpochs,
+    circle: mockCircle.notifyStart,
   },
-  notifyEndEpochs: {
+  notifyEnd: {
     id: 9,
     circle_id: 1,
     number: 3,
     end_date: DateTime.now().plus({ days: 1 }),
-    circle: mockCircle.notifyEndEpochs,
+    circle: mockCircle.notifyEnd,
   },
   endEpoch: {
     id: 9,
@@ -111,32 +111,32 @@ const mockEpoch = {
 };
 
 function getTestInput(mockInput: {
-  notifyStartEpochs?: EpochsToNotify['notifyStartEpochs'];
-  notifyEndEpochs?: EpochsToNotify['notifyEndEpochs'];
+  notifyStart?: EpochsToNotify['notifyStart'];
+  notifyEnd?: EpochsToNotify['notifyEnd'];
   endEpoch?: EpochsToNotify['endEpoch'];
 }): EpochsToNotify {
   return {
-    notifyStartEpochs: mockInput.notifyStartEpochs ?? [],
-    notifyEndEpochs: mockInput.notifyEndEpochs ?? [],
-    endEpoch: mockInput.endEpoch ?? [],
+    notifyStart: mockInput.notifyStart ?? { epochs: [] },
+    notifyEnd: mockInput.notifyEnd ?? { epochs: [] },
+    endEpoch: mockInput.endEpoch ?? { epochs: [] },
   };
 }
 
 function getEpochInput<T extends keyof EpochsToNotify>(
   epochPhase: T,
-  input: Partial<EpochsToNotify[T][0]>,
+  input: Partial<EpochsToNotify[T]['epochs'][0]>,
   epochQty = 1
 ): EpochsToNotify {
   const circle = { ...mockCircle[epochPhase], ...input.circle };
   const epoch = { ...mockEpoch[epochPhase], ...input, circle };
   return getTestInput({
-    [epochPhase]: Array(epochQty).fill(epoch),
+    [epochPhase]: { epochs: Array(epochQty).fill(epoch) },
   });
 }
 
 function getCircle<T extends keyof EpochsToNotify>(
   epochPhase: T,
-  circleInputs: Partial<EpochsToNotify[T][0]['circle']>
+  circleInputs: Partial<EpochsToNotify[T]['epochs'][0]['circle']>
 ) {
   return { ...mockCircle[epochPhase], ...circleInputs };
 }
@@ -297,7 +297,7 @@ describe('epoch Cron Logic', () => {
             { __typename: true },
           ],
           __alias: {
-            u0_history: {
+            '0_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -310,7 +310,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u0_userReset: {
+            '0_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -325,7 +325,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u1_history: {
+            '1_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -338,7 +338,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u1_userReset: {
+            '1_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -353,7 +353,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u2_history: {
+            '2_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -366,7 +366,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u2_userReset: {
+            '2_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -380,7 +380,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u3_history: {
+            '3_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -393,7 +393,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u3_userReset: {
+            '3_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -407,7 +407,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u4_history: {
+            '4_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -422,7 +422,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u4_userReset: {
+            '4_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -436,7 +436,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u5_history: {
+            '5_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -449,7 +449,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u5_userReset: {
+            '5_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -463,7 +463,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u6_history: {
+            '6_history': {
               insert_histories_one: [
                 {
                   object: {
@@ -476,7 +476,7 @@ describe('epoch Cron Logic', () => {
                 { __typename: true },
               ],
             },
-            u6_userReset: {
+            '6_userReset': {
               update_users_by_pk: [
                 {
                   _set: {
@@ -568,15 +568,15 @@ describe('epoch Cron Logic', () => {
   });
   describe('notifyEpochEnd', () => {
     test('no notifications enabled', async () => {
-      const input = getEpochInput('notifyEndEpochs', {});
+      const input = getEpochInput('notifyEnd', {});
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
       expect(mockSendSocial).not.toBeCalled();
       expect(mockMutation).not.toBeCalled();
     });
     test('notifications enabled for Telegram', async () => {
-      const input = getEpochInput('notifyEndEpochs', {
-        circle: getCircle('notifyEndEpochs', { telegram_id: '-29' }),
+      const input = getEpochInput('notifyEnd', {
+        circle: getCircle('notifyEnd', { telegram_id: '-29' }),
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
@@ -606,8 +606,8 @@ describe('epoch Cron Logic', () => {
       );
     });
     test('notifications enabled for Discord', async () => {
-      const input = getEpochInput('notifyEndEpochs', {
-        circle: getCircle('notifyEndEpochs', {
+      const input = getEpochInput('notifyEnd', {
+        circle: getCircle('notifyEnd', {
           discord_webhook: 'https://discord.webhook',
         }),
       });
@@ -639,8 +639,8 @@ describe('epoch Cron Logic', () => {
       );
     });
     test('notifications enabled for both channels', async () => {
-      const input = getEpochInput('notifyEndEpochs', {
-        circle: getCircle('notifyEndEpochs', {
+      const input = getEpochInput('notifyEnd', {
+        circle: getCircle('notifyEnd', {
           discord_webhook: 'https://discord.webhook',
           telegram_id: '-7',
         }),
@@ -685,7 +685,7 @@ describe('epoch Cron Logic', () => {
   });
   describe('notifyEpochStart', () => {
     test('no prior epoch and no notifications enabled', async () => {
-      const input = getEpochInput('notifyStartEpochs', {});
+      const input = getEpochInput('notifyStart', {});
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
       expect(mockSendSocial).not.toBeCalled();
@@ -700,10 +700,10 @@ describe('epoch Cron Logic', () => {
       );
     });
     test('prior epoch and both notifications enabled', async () => {
-      const input = getEpochInput('notifyStartEpochs', {
+      const input = getEpochInput('notifyStart', {
         circle_id: 5,
         number: 1,
-        circle: getCircle('notifyStartEpochs', {
+        circle: getCircle('notifyStart', {
           id: 5,
           discord_webhook: 'test_hook',
           telegram_id: '5',
@@ -751,8 +751,8 @@ describe('epoch Cron Logic', () => {
       mockSendSocial.mockImplementationOnce(async () => {
         throw new Error('derp');
       });
-      const input = getEpochInput('notifyStartEpochs', {
-        circle: getCircle('notifyStartEpochs', { telegram_id: '7' }),
+      const input = getEpochInput('notifyStart', {
+        circle: getCircle('notifyStart', { telegram_id: '7' }),
       });
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
@@ -764,7 +764,7 @@ describe('epoch Cron Logic', () => {
       mockMutation.mockImplementationOnce(async () => {
         throw new Error('mutation failure');
       });
-      const input = getEpochInput('notifyStartEpochs', {});
+      const input = getEpochInput('notifyStart', {});
       const result = await notifyEpochStart(input);
       expect(result).toEqual([
         'Error setting next number for epoch id 9: mutation failure',

@@ -31,9 +31,21 @@ function generate() {
   if [[ "$PLATFORM" == "OSX" || "$PLATFORM" == "BSD" ]]; then
     sed -i "" 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i "" 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
+
+    # prepend imports to fix typing issues in NodeJS
+    # https://github.com/graphql-editor/graphql-zeus/issues/193
+    if [[ "$TYPE" == "admin" ]]; then
+      sed -i "" '2s/^/import WebSocket from "ws";\nimport fetch from "node-fetch";\n/' $TMP_GEN_PATH/zeus/index.ts
+    fi
+
   elif [ "$PLATFORM" == "LINUX" ]; then
     sed -i 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
+
+    if [[ "$TYPE" == "admin" ]]; then
+      sed -i '2s/^/import WebSocket from "ws";\nimport fetch from "node-fetch";\n/' $TMP_GEN_PATH/zeus/index.ts
+    fi
+
   else
     echo "unknown platform; exiting"
     exit 1

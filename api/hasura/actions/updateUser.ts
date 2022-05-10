@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import * as queries from '../../../api-lib/gql/queries';
 import { errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
@@ -24,27 +25,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { circle_id } = payload;
   const { hasuraAddress: address } = session_variables;
 
-  const {
-    users: [user],
-  } = await adminClient.query({
-    users: [
-      {
-        limit: 1,
-        where: {
-          address: { _ilike: address },
-          circle_id: { _eq: circle_id },
-          // ignore soft_deleted users
-          deleted_at: { _is_null: true },
-        },
-      },
-      {
-        id: true,
-        fixed_non_receiver: true,
-        give_token_received: true,
-      },
-    ],
-  });
-
+  const user = await queries.getUserAndCurrentEpoch(address, circle_id);
   if (!user) {
     return errorResponse(res, {
       message: `User with address ${address} does not exist`,

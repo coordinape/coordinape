@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
@@ -138,8 +136,8 @@ async function convertNomineeToUser(nominee: Nominee) {
       throw new InternalServerError('unable to add user');
     }
     userId = addedUser.id;
-    assert(userId);
   }
+
   // The profile is automatically created by the createProfile event trigger, if needed
 
   // attach the user id to the nominee, and mark the nomination ended

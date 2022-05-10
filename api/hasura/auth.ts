@@ -33,21 +33,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
           {
             tokenable_id: true,
-            profile: {
-              admin_view: true,
-              address: true,
-            },
           },
         ],
-        // cache query with ttl of 30s
       },
-      { operationName: 'auth_getToken @cached(ttl: 30)' }
+      {
+        operationName: 'auth_getToken',
+      }
     );
-
     const tokenableId = tokenRow.personal_access_tokens[0]?.tokenable_id;
+
     assert(tokenableId, 'The token provided was not recognized');
 
-    const profile = tokenRow.personal_access_tokens[0]?.profile;
+    const { profiles_by_pk: profile } = await adminClient.query(
+      {
+        profiles_by_pk: [
+          { id: tokenableId },
+          { admin_view: true, address: true },
+        ],
+      },
+      {
+        operationName: 'auth_getProfile',
+      }
+    );
+
     assert(profile, 'Profile cannot be found');
 
     const role =
