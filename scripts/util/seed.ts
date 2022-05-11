@@ -189,7 +189,6 @@ export function getMembershipInput(
         starting_tokens: 0,
         non_giver: true,
         non_receiver: true,
-        derp: false,
       }))
     ),
   };

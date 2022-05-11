@@ -8,73 +8,83 @@ import {
   UpdateUsersParam,
 } from '../../types';
 
-import { $, ValueTypes } from './__generated__/zeus';
+import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-export const updateProfileAvatar = async (image_data_base64: string) =>
-  client.mutate(
+const profileVars = useZeusVariables({ image_data_base64: 'String!' });
+
+export const updateProfileAvatar = async (image_data_base64: string) => {
+  const variables = profileVars({ image_data_base64 });
+
+  return client.mutate(
     {
       uploadProfileAvatar: [
-        { payload: { image_data_base64: $`image_data_base64` } },
+        { payload: { image_data_base64: variables.$('image_data_base64') } },
         { id: true },
       ],
     },
     {
+      variables,
       operationName: 'updateProfileAvatar',
-      variables: {
-        image_data_base64,
-      },
     }
   );
+};
 
-export const updateProfileBackground = async (image_data_base64: string) =>
-  client.mutate(
+export const updateProfileBackground = async (image_data_base64: string) => {
+  const variables = profileVars({ image_data_base64 });
+
+  return client.mutate(
     {
       uploadProfileBackground: [
-        { payload: { image_data_base64: $`image_data_base64` } },
+        { payload: { image_data_base64: variables.$('image_data_base64') } },
         { id: true },
       ],
     },
     {
+      variables,
       operationName: 'updateProfileBackground',
-      variables: {
-        image_data_base64,
-      },
     }
   );
+};
 
 export const updateCircleLogo = async (
   circleId: number,
   image_data_base64: string
-) =>
-  client.mutate(
+) => {
+  const variables = useZeusVariables({
+    image_data_base64: 'String!',
+    circleId: 'Int!',
+  })({
+    circleId,
+    image_data_base64,
+  });
+
+  return client.mutate(
     {
       uploadCircleLogo: [
         {
           payload: {
-            image_data_base64: $`image_data_base64`,
-            circle_id: $`circleId`,
+            image_data_base64: variables.$('image_data_base64'),
+            circle_id: variables.$('circleId'),
           },
         },
         { id: true },
       ],
     },
     {
+      variables,
       operationName: 'updateCircleLogo',
-      variables: {
-        circleId: circleId,
-        image_data_base64,
-      },
     }
   );
+};
 
 export const createCircleIntegration = async (
   circleId: number,
   type: string,
   name: string,
   data: any
-) =>
-  client.mutate(
+) => {
+  return client.mutate(
     {
       insert_circle_integrations_one: [
         {
@@ -82,14 +92,15 @@ export const createCircleIntegration = async (
             circle_id: circleId,
             type,
             name,
-            data: $`data`,
+            data,
           },
         },
         { id: true },
       ],
     },
-    { variables: { data }, operationName: 'createCircleIntegration' }
+    { operationName: 'createCircleIntegration' }
   );
+};
 
 export const deleteCircleIntegration = async (id: number) =>
   client.mutate(
