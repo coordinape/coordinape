@@ -3,7 +3,37 @@ name: Typecheck, Lint and Test
 on: [push]
 
 jobs:
-  ci:
+  lint_and_typecheck:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: actions/cache@v2
+        with:
+          path: "/home/runner/.cache"
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        with:
+          path: '**/hardhat/node_modules'
+          key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
+
+      - run: yarn --frozen-lockfile
+      - run: ./scripts/setup.sh
+      - run: yarn typecheck
+      - run: yarn lint:check
+      - run: yarn prettier:check
+
+      # remove symlink to prevent redundant caching
+      - name: Cleanup
+        run: |
+          rm node_modules/@coordinape/hardhat
+  test:
     runs-on: ubuntu-latest
     env:
       CI: true
@@ -51,9 +81,6 @@ jobs:
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: yarn typecheck
-      - run: yarn lint:check
-      - run: yarn prettier:check
       - run: cp ci.env .env # hasura needs a .env file
       - run: yarn test:ci
       - name: Codecov
