@@ -101,7 +101,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     // End any active nomination
-    opts[user.address + '_update_nominee'] = {
+    opts['update_nominee_' + user.address] = {
       update_nominees: [
         {
           _set: { ended: true },
