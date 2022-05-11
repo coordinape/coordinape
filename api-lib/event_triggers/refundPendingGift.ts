@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const refundFromCounterpartyMutations = pending_sent_gifts.reduce(
         (ops, gift) => {
           if (gift.tokens > 0)
-            ops['refund' + gift.id] = {
+            ops['refund_' + gift.id] = {
               update_users_by_pk: [
                 {
                   pk_columns: { id: gift.recipient_id },
@@ -115,7 +115,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const refundToCounterpartyMutations = pending_received_gifts.reduce(
         (muts, gift) => {
           if (gift.tokens > 0)
-            muts['refund' + gift.id] = {
+            muts['refund_' + gift.id] = {
               update_users_by_pk: [
                 {
                   pk_columns: { id: gift.sender_id },
