@@ -81,7 +81,7 @@ jobs:
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: cp ci.env .env # hasura needs a .env file
+      - run: cp .ci.env .env # hasura needs a .env file
       - run: yarn test:ci
       - name: Codecov
         run: |
