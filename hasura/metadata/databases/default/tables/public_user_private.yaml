@@ -2,6 +2,15 @@ table:
   name: user_private
   schema: public
 object_relationships:
+- name: circle
+  using:
+    manual_configuration:
+      column_mapping:
+        circle_id: id
+      insertion_order: null
+      remote_table:
+        name: circles
+        schema: public
 - name: user
   using:
     manual_configuration:
@@ -27,8 +36,17 @@ select_permissions:
     - fixed_payment_token_type
     - fixed_payment_amount
     filter:
-      user:
-        profile:
-          id:
-            _eq: X-Hasura-User-Id
+      _or:
+      - circle:
+          users:
+            _and:
+            - role:
+                _eq: 1
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
+      - user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
   role: user
