@@ -10,6 +10,7 @@ import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
 import { ReactComponent as ChevronDownSVG } from 'assets/svgs/chevron-down.svg';
 import { ReactComponent as ChevronUpSVG } from 'assets/svgs/chevron-up.svg';
+import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
     display: 'flex',
     flexDirection: 'column',
-    top: '16px !important',
+    top: '19px !important',
     left: '44px !important',
     transition: 'none !important',
   },
@@ -59,7 +60,7 @@ export const OverviewMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const navigate = useNavigate();
-  const { selectAndFetchCircle } = useApiBase();
+  const { selectCircle } = useApiBase();
   const hasCircles = useHasCircles();
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
 
@@ -71,7 +72,8 @@ export const OverviewMenu = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectAndFetchCircle(id).then(() => {
+    selectCircle(id).then(() => {
+      scrollToTop();
       navigate(path);
     });
   };
@@ -112,8 +114,9 @@ export const OverviewMenu = () => {
           >
             <Link
               css={{
-                fontSize: '$5',
+                fontSize: '$large',
                 mb: '$md',
+                fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
                 svg: {
@@ -132,10 +135,7 @@ export const OverviewMenu = () => {
                 <Box
                   css={{ display: 'flex', mb: '$sm', alignItems: 'flex-start' }}
                 >
-                  <Text
-                    variant="formLabel"
-                    css={{ flexGrow: 1, fontSize: '$2' }}
-                  >
+                  <Text variant="label" css={{ flexGrow: 1, fontSize: '$2' }}>
                     {org.name}
                   </Text>
                 </Box>
@@ -169,7 +169,8 @@ type CircleItemProps = {
 const headerLinkStyle = {
   my: 0,
   mx: '$xs',
-  fontSize: '$5',
+  fontSize: '$large',
+  fontWeight: 'bold',
   color: '$white',
   borderRadius: '$pill',
   textDecoration: 'none',
@@ -195,7 +196,7 @@ const headerLinkStyle = {
 
 const linkStyle = {
   my: 0,
-  fontSize: '$5',
+  fontSize: '$large',
   color: '$text',
   '&:hover': {
     color: '$link',
@@ -241,7 +242,7 @@ const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
   return (
     <Link
       css={{
-        fontSize: '$5',
+        fontSize: '$large',
         color: '$text',
         '&:hover': {
           color: '$link',

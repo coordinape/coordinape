@@ -66,13 +66,18 @@ export const MainHeader = () => {
           flexGrow: 1,
           justifyContent: 'flex-start',
           position: 'relative',
-          top: '-7px', // half of breadcrumb line-height
         }}
       >
         {inCircle && (
           <Box>
             <Box
-              css={{ color: '$secondaryText', ml: '$md', lineHeight: '14px' }}
+              css={{
+                color: '$secondaryText',
+                ml: '$md',
+                lineHeight: '14px',
+                position: 'absolute',
+                top: '-1.4rem', // half of breadcrumb line-height
+              }}
             >
               {breadcrumb}
             </Box>
@@ -283,7 +288,7 @@ const MobileAvatar = () => {
 
 const linkStyle = {
   my: 0,
-  mx: '$md',
+  mx: '$xs',
   fontSize: '$large',
   fontWeight: '$bold',
   color: '$white',
@@ -370,7 +375,7 @@ const CircleNav = () => {
     return l;
   }, [circle.id]);
 
-  return <TopLevelLinks links={links} css={{ mr: '$md' }} />;
+  return <TopLevelLinks links={links} css={{ mr: '$xs' }} />;
 };
 
 export default MainHeader;
