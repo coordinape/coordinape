@@ -1,0 +1,34 @@
+table:
+  name: user_private
+  schema: public
+object_relationships:
+- name: user
+  using:
+    manual_configuration:
+      column_mapping:
+        user_id: id
+      insertion_order: null
+      remote_table:
+        name: users
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - user_id
+    - fixed_payment_enabled
+    - fixed_payment_token_type
+    - fixed_payment_amount
+    filter: {}
+  role: superadmin
+- permission:
+    columns:
+    - user_id
+    - fixed_payment_enabled
+    - fixed_payment_token_type
+    - fixed_payment_amount
+    filter:
+      user:
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
+  role: user
