@@ -48,14 +48,7 @@ export function VaultRow({
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
-        <Text
-          css={{
-            fontSize: '$7',
-            fontWeight: '$semibold',
-            color: '$text',
-            flexGrow: 1,
-          }}
-        >
+        <Text h3 css={{ flexGrow: 1 }}>
           {vault.symbol || '...'} Vault
         </Text>
         <Button
@@ -86,27 +79,21 @@ export function VaultRow({
           verticalAlign: 'middle',
         }}
       >
-        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
+        <Text font="source" h3>
           Current Balance
         </Text>
-        <Text font="source" css={{ fontSize: '$7', fontWeight: '$semibold' }}>
+        <Text font="source" h3>
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
         <Text font="source">
           <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
           &nbsp;Unique Contributors Paid
         </Text>
-        <Text font="source" css={{ fontSize: '$7' }}>
-          Funds After Commitment
-        </Text>
-        <Text font="source" css={{ fontSize: '$7' }}>
-          -1 {vault.symbol?.toUpperCase()}
-        </Text>
       </Box>
       <Text
         css={{
           color: '$secondaryText',
-          fontSize: '$6',
+          fontSize: '$large',
           marginTop: '$lg',
           marginBottom: '$md',
         }}

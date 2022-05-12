@@ -5,6 +5,7 @@ import {
   ApeVaultFactoryBeacon__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
+  VaultAPI__factory,
 } from '@coordinape/hardhat/dist/typechain';
 import type {
   ApeDistributor,
@@ -16,10 +17,12 @@ import type {
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
+import { BigNumber, FixedNumber } from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
 import { Asset } from './';
+import { hasSimpleToken } from './tokens';
 
 export type {
   ApeDistributor,
@@ -37,20 +40,20 @@ const requiredContracts = [
   'ApeDistributor',
 ];
 
-export const supportedChainIds: number[] = Object.entries(deploymentInfo)
+export const supportedChainIds: string[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
-  .map(x => Number(x[0]));
+  .map(x => x[0].toString());
 
 export class Contracts {
   vaultFactory: ApeVaultFactoryBeacon;
   router: ApeRouter;
   distributor: ApeDistributor;
-  chainId: number;
+  chainId: string;
   provider: JsonRpcProvider;
   signer: Signer;
 
-  constructor(chainId: number, provider: JsonRpcProvider) {
-    this.chainId = chainId;
+  constructor(chainId: number | string, provider: JsonRpcProvider) {
+    this.chainId = chainId.toString();
     this.provider = provider;
     this.signer = provider.getSigner();
 
@@ -80,6 +83,23 @@ export class Contracts {
     return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
   }
 
+  async getYVault(vaultAddress: string) {
+    const yVaultAddress = await this.getVault(vaultAddress).vault();
+    return VaultAPI__factory.connect(yVaultAddress, this.provider);
+  }
+
+  // returns value ready to be converted to float, i.e. 1.5, not 1500000
+  async getPricePerShare(
+    vaultAddress: string,
+    symbol: string,
+    decimals: number
+  ) {
+    if (hasSimpleToken({ symbol })) return FixedNumber.from(1);
+    const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
+    const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
+    return FixedNumber.from(pps).divUnsafe(shifter);
+  }
+
   getAvailableTokens() {
     return Object.values(Asset).filter(s => !!this.getTokenAddress(s));
   }
@@ -91,7 +111,10 @@ export class Contracts {
     // workaround for mainnet-forked testchains
     if (
       !address &&
-      [HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID].includes(this.chainId)
+      [
+        HARDHAT_CHAIN_ID.toString(),
+        HARDHAT_GANACHE_CHAIN_ID.toString(),
+      ].includes(this.chainId)
     ) {
       address = (deploymentInfo as any)[1][symbol]?.address;
       if (!address) return undefined;

@@ -3,11 +3,17 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
+import {
+  errorResponseWithStatusCode,
+  InternalServerError,
+} from '../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBody,
   createUsersBulkSchemaInput,
 } from '../../../src/lib/zod';
+
+const USER_ALIAS_PREFIX = 'update_user_';
+const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -85,7 +91,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     .map(u => ({ ...u, circle_id }));
 
   const updateUsersMutation = usersToUpdate.reduce((opts, user) => {
-    opts[user.address] = {
+    opts[USER_ALIAS_PREFIX + user.address] = {
       update_users_by_pk: [
         {
           pk_columns: { id: user.id },
@@ -101,7 +107,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     // End any active nomination
-    opts[user.address + '_update_nominee'] = {
+    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
       update_nominees: [
         {
           _set: { ended: true },
@@ -136,10 +142,17 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     __alias: { ...updateUsersMutation },
   });
 
+  const insertedUsers = mutationResult.insert_users?.returning;
+
+  if (!insertedUsers)
+    throw new InternalServerError(
+      `panic: insertedUsers is null; ${JSON.stringify(mutationResult, null, 2)}`
+    );
+
   // Get the returning values from each update-user aliases.
-  const results = usersToUpdate
-    .map(u => mutationResult[u.address].update_users_by_pk)
-    .concat(mutationResult.insert_users?.returning as []);
+  const results: Array<{ id: number }> = usersToUpdate
+    .map(u => mutationResult[USER_ALIAS_PREFIX + u.address] as { id: number })
+    .concat(insertedUsers);
 
   return res.status(200).json(results);
 }

@@ -28,7 +28,7 @@ type TestWrapperProps = {
 
 const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
 
-const chainId = process.env.TEST_ON_HARDHAT_NODE
+export const chainId = process.env.TEST_ON_HARDHAT_NODE
   ? HARDHAT_CHAIN_ID
   : HARDHAT_GANACHE_CHAIN_ID;
 const port = process.env.TEST_ON_HARDHAT_NODE

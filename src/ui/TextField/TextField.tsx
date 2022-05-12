@@ -19,7 +19,7 @@ export const TextField = styled('input', {
   borderRadius: '8px',
 
   fontWeight: '$light',
-  fontSize: '$4',
+  fontSize: '$medium',
   lineHeight: '$base',
 
   textAlign: 'center',

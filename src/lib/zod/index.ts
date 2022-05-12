@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { z } from 'zod';
 
 import {
@@ -261,11 +262,14 @@ export const HasuraUserSessionVariables = z
     'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
     'x-hasura-address': zEthAddressOnly,
   })
-  .transform(vars => ({
-    hasuraProfileId: vars['x-hasura-user-id'],
-    hasuraRole: vars['x-hasura-role'],
-    hasuraAddress: vars['x-hasura-address'],
-  }));
+  .transform(vars => {
+    Sentry.setTag('action_user_id', vars['x-hasura-user-id']);
+    return {
+      hasuraProfileId: vars['x-hasura-user-id'],
+      hasuraRole: vars['x-hasura-role'],
+      hasuraAddress: vars['x-hasura-address'],
+    };
+  });
 
 type SessionVariableSchema =
   | typeof HasuraAdminSessionVariables

@@ -37,8 +37,8 @@ export interface IApiUser {
   give_token_remaining: number;
   epoch_first_visit: boolean;
   // DB fields
-  created_at?: string; // 2021-07-07T23:29:18.000000Z
-  updated_at?: string; // 2021-07-07T23:29:18.000000Z
+  created_at: string; // 2021-07-07T23:29:18.000000Z
+  updated_at: string; // 2021-07-07T23:29:18.000000Z
   deleted_at?: string; // 2021-07-07T23:29:18.000000Z
   // Permissions
   role: number; // 1 is an admin,
@@ -72,14 +72,4 @@ export interface AggregateCount {
   aggregate?: {
     count?: number;
   };
-}
-
-export interface IAllocateUser {
-  id: number;
-  address: string;
-  circle_id: number;
-  name: string;
-  starting_tokens: number;
-  received_gifts: Array<{ tokens: number }>;
-  received_gifts_aggregate: AggregateCount;
 }

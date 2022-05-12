@@ -4,7 +4,7 @@ import { BigNumber, utils } from 'ethers';
 
 import BalanceTree from './balance-tree';
 
-const { isAddress, getAddress } = utils;
+const { isAddress } = utils;
 
 // This is the blob that gets distributed and pinned to IPFS.
 // It is completely sufficient for recreating the entire merkle tree.
@@ -50,7 +50,7 @@ export function parseBalanceMap(
     if (!isAddress(account)) {
       throw new Error(`Found invalid address: ${account}`);
     }
-    const parsed = getAddress(account);
+    const parsed = account.toLowerCase();
     if (memo[parsed]) throw new Error(`Duplicate address: ${parsed}`);
     const parsedNum = BigNumber.from(earnings);
     if (parsedNum.lte(0))

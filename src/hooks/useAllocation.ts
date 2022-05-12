@@ -145,6 +145,8 @@ export const useAllocation = (circleId: number) => {
         myUser.circle_id,
         localTeammates.map(u => u.id)
       );
+
+      // FIXME calling fetchCircle here is wasteful
       await fetchCircle({ circleId: myUser.circle_id });
     },
     [myUser, localTeammates],
@@ -169,6 +171,8 @@ export const useAllocation = (circleId: number) => {
         .toArray();
 
       await mutations.updateAllocations(myUser.circle_id, params);
+
+      // FIXME calling fetchCircle here is wasteful
       await fetchCircle({ circleId: myUser.circle_id });
     },
     [myUser, pendingGifts, localGifts],

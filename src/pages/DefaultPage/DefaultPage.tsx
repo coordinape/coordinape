@@ -143,7 +143,7 @@ const Footer = () => (
         color: '$text',
         textDecoration: 'none',
         fontWeight: '$bold',
-        fontSize: '$6',
+        fontSize: '$large',
       },
     }}
   >

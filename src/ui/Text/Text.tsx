@@ -16,6 +16,7 @@ export const Text = styled('span', {
       inter: { fontFamily: 'Inter' },
     },
     color: {
+      default: { color: '$text' },
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
@@ -24,22 +25,31 @@ export const Text = styled('span', {
     normal: { true: { fontWeight: '$normal' } },
     semibold: { true: { fontWeight: '$semibold' } },
     inline: { true: { display: 'inline' } },
+
+    h1: {
+      true: { fontSize: '$h1', color: '$headingText', fontWeight: '$semibold' },
+    },
+    h2: {
+      true: { fontSize: '$h2', color: '$headingText', fontWeight: '$semibold' },
+    },
+    h3: { true: { fontSize: '$h3', color: '$headingText' } },
+
+    small: { true: { fontSize: '$small', color: '$text' } },
+    medium: { true: { fontSize: '$medium', color: '$text' } },
+    large: { true: { fontSize: '$large', color: '$text' } },
+
     variant: {
-      sectionHeader: {
-        fontSize: '$8',
-        fontWeight: '$bold',
-      },
-      formLabel: {
+      label: {
         color: '$secondaryText',
         textTransform: 'uppercase',
-        fontSize: '$3',
+        fontSize: '$small',
         fontFamily: 'Inter',
         fontWeight: '$semibold',
       },
     },
   },
 
-  defaultVariants: { font: 'space' },
+  defaultVariants: { font: 'space', color: 'default' },
 });
 
 export default Text;

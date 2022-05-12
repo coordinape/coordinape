@@ -1,13 +1,16 @@
 import { useState } from 'react';
 
+import { getUnwrappedAmount } from 'lib/vaults';
 import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import { NewApeAvatar } from 'components';
-import { Box, Panel, Text, Button } from 'ui';
+import isFeatureEnabled from 'config/features';
+import { paths } from 'routes/paths';
+import { Box, Panel, Text, Button, AppLink } from 'ui';
 
-import type { QueryEpoch } from './HistoryPage';
+import type { QueryEpoch, QueryDistribution } from './getHistoryData';
 
 type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
 export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
@@ -17,10 +20,20 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
 
-  const received = epoch.received.token_gifts;
-  const sent = epoch.sent.token_gifts;
+  const received = epoch.receivedGifts;
+  const sent = epoch.sentGifts;
   const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
+
+  const dist = epoch.distributions[0] as QueryDistribution | undefined;
+  const distAmount =
+    dist &&
+    isFeatureEnabled('vaults') &&
+    getUnwrappedAmount(
+      dist.total_amount,
+      dist.pricePerShare,
+      dist.vault.decimals
+    );
 
   return (
     <Panel
@@ -35,29 +48,34 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
     >
       <Box
         css={{
-          fontSize: '$8',
+          fontSize: '$h2',
           fontFamily: 'Inter',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
         }}
       >
-        <Text font="inter" inline>
-          <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
-            {startDate.toFormat('MMMM')}
-          </Text>{' '}
-          {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
+        <Text semibold font="inter" inline css={{ fontSize: '$h2' }}>
+          {startDate.toFormat('MMMM')} {startDate.toFormat('d')} -{' '}
+          {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
       <Panel nested>
-        <Text variant="formLabel">You received</Text>
-        <Text bold font="inter" css={{ fontSize: '$6', mb: '$md' }}>
+        <Text variant="label">You received</Text>
+        <Text bold font="inter" large css={{ mb: '$md' }}>
           {totalReceived} {tokenName}
         </Text>
-        <Text variant="formLabel">Total Distributed</Text>
-        <Text bold font="inter" css={{ fontSize: '$6' }}>
+        <Text variant="label">Total Distributed</Text>
+        <Text bold font="inter" large>
           {totalAllocated} {tokenName}
         </Text>
+        {dist && distAmount && (
+          <AppLink to={paths.distributions(epoch.id)}>
+            <Text bold large font="inter" css={{ color: '$secondaryText' }}>
+              {distAmount.toString()} {dist.vault.symbol}
+            </Text>
+          </AppLink>
+        )}
       </Panel>
       {showLess ? (
         <Panel
@@ -72,21 +90,21 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
         >
           <Box css={{ display: 'flex', gap: '$md' }}>
             <Box>
-              <Text variant="formLabel">Notes Left</Text>
-              <Text bold font="inter" css={{ fontSize: '$6' }}>
+              <Text variant="label">Notes Left</Text>
+              <Text bold font="inter" large>
                 {sent.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>
             <Box>
-              <Text variant="formLabel">Received</Text>
-              <Text bold font="inter" css={{ fontSize: '$6' }}>
+              <Text variant="label">Received</Text>
+              <Text bold font="inter" large>
                 {received.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>
           </Box>
           <button onClick={() => setShowLess(false)}>
             <Text
-              variant="formLabel"
+              variant="label"
               css={{ color: '$secondaryText', cursor: 'pointer' }}
             >
               Show More
@@ -113,7 +131,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
                   onClick={() => setTab(index)}
                 >
                   <Text
-                    variant="formLabel"
+                    variant="label"
                     css={{ color: tab === index ? '$text' : '$secondaryText' }}
                   >
                     {label}
@@ -125,7 +143,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
               onClick={event => (setShowLess(true), event.stopPropagation())}
             >
               <Text
-                variant="formLabel"
+                variant="label"
                 css={{ color: '$secondaryText', cursor: 'pointer' }}
               >
                 Show Less
@@ -143,8 +161,8 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
   );
 };
 
-type QueryReceivedGift = QueryEpoch['received']['token_gifts'][0];
-type QuerySentGift = QueryEpoch['sent']['token_gifts'][0];
+type QueryReceivedGift = QueryEpoch['receivedGifts'][0];
+type QuerySentGift = QueryEpoch['sentGifts'][0];
 type QueryGift = QueryReceivedGift | QuerySentGift;
 
 type NotesProps = {
@@ -157,7 +175,7 @@ const Notes = ({ data, received = false, tokenName }: NotesProps) => {
   if (data.length === 0) {
     return (
       <Box css={{ mt: '$md' }}>
-        <Text variant="formLabel">
+        <Text variant="label">
           You did not {received ? 'receive' : 'send'} any notes
         </Text>
       </Box>
@@ -200,7 +218,7 @@ const NotesItem = ({
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
-        <Box css={{ fontSize: '$3', color: '$secondaryText' }}>
+        <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
           {other.name}
         </Box>

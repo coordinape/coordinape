@@ -3,7 +3,7 @@ import padStart from 'lodash/padStart';
 
 import { createDistribution } from '.';
 
-const addr = (num: number) => '0x' + padStart(num.toString(), 40, '0');
+const addr = (num: number) => '0xabc' + padStart(num.toString(), 37, '0');
 const hex2dec = (hexstr: string) => parseInt(hexstr, 16);
 
 test('amounts', () => {

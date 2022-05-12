@@ -1,8 +1,16 @@
+import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import type { Contracts } from 'lib/vaults';
 
-export const getHistoryData = (circleId: number, userId: number) =>
-  client.query(
+import { Awaited } from '../../types/shim';
+
+export const getHistoryData = async (
+  circleId: number,
+  userId: number,
+  contracts?: Contracts
+) => {
+  const gq = await client.query(
     {
       circles_by_pk: [
         { id: circleId },
@@ -19,7 +27,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
             { aggregate: { count: [{}, true] } },
           ],
           __alias: {
-            future: {
+            futureEpoch: {
               epochs: [
                 {
                   where: { start_date: { _gt: 'now' } },
@@ -29,7 +37,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                 { start_date: true, end_date: true },
               ],
             },
-            current: {
+            currentEpoch: {
               epochs: [
                 {
                   where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
@@ -38,7 +46,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                 { start_date: true, end_date: true },
               ],
             },
-            past: {
+            pastEpochs: {
               epochs: [
                 {
                   where: { ended: { _eq: true } },
@@ -53,7 +61,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                     { aggregate: { sum: { tokens: true } } },
                   ],
                   __alias: {
-                    received: {
+                    receivedGifts: {
                       token_gifts: [
                         { where: { recipient_id: { _eq: userId } } },
                         {
@@ -64,7 +72,7 @@ export const getHistoryData = (circleId: number, userId: number) =>
                         },
                       ],
                     },
-                    sent: {
+                    sentGifts: {
                       token_gifts: [
                         { where: { sender_id: { _eq: userId } } },
                         {
@@ -76,6 +84,18 @@ export const getHistoryData = (circleId: number, userId: number) =>
                       ],
                     },
                   },
+                  distributions: [
+                    {},
+                    {
+                      id: true,
+                      total_amount: true,
+                      vault: {
+                        decimals: true,
+                        symbol: true,
+                        vault_address: true,
+                      },
+                    },
+                  ],
                 },
               ],
             },
@@ -87,3 +107,40 @@ export const getHistoryData = (circleId: number, userId: number) =>
       operationName: 'getHistoryData',
     }
   );
+
+  const circle = gq.circles_by_pk;
+
+  if (!contracts) return circle;
+
+  type DistributionWithPrice = Exclude<
+    typeof circle,
+    undefined
+  >['pastEpochs'][0]['distributions'][0] & {
+    pricePerShare: FixedNumber;
+  };
+
+  // FIXME cache these values by symbol to avoid redundant calls
+  for (const epoch of circle?.pastEpochs || []) {
+    for (const dist of epoch.distributions) {
+      (dist as DistributionWithPrice).pricePerShare =
+        await contracts.getPricePerShare(
+          dist.vault.vault_address,
+          dist.vault.symbol,
+          dist.vault.decimals
+        );
+    }
+  }
+
+  return circle;
+};
+
+export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
+export type QueryEpoch = Exclude<QueryResult, undefined>['pastEpochs'][0];
+
+// FIXME find a way to not have to hardcode this.
+// in DistributionsPage/queries it works because the return value
+// of the query is reassigned, but doing that here, with more
+// levels of nesting, creates a mess of `await Promise.all...`
+export type QueryDistribution = QueryEpoch['distributions'][0] & {
+  pricePerShare: FixedNumber;
+};

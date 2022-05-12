@@ -24,7 +24,7 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const CirclesPage = () => {
   const navigate = useNavigate();
-  const { selectAndFetchCircle } = useApiBase();
+  const { selectCircle } = useApiBase();
 
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
@@ -45,7 +45,7 @@ export const CirclesPage = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectAndFetchCircle(id).then(() => {
+    selectCircle(id).then(() => {
       scrollToTop();
       navigate(path);
     });
@@ -61,7 +61,7 @@ export const CirclesPage = () => {
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Box css={{ display: 'flex', mb: '$md', alignItems: 'flex-start' }}>
-            <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
+            <Text h2 css={{ flexGrow: 1 }}>
               {org.name}
             </Text>
             {isAdmin(org) && (
@@ -161,7 +161,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         }}
       >
         <Box>
-          <Text variant="sectionHeader" css={{ mb: '$xs', ...nonMemberCss }}>
+          <Text h2 css={{ mb: '$xs', ...nonMemberCss }}>
             {circle.name}
           </Text>
           <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
@@ -187,10 +187,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         >
           {epoch && startDate && endDate ? (
             <>
-              <Text css={{ fontSize: '$7', ...nonMemberCss }}>
+              <Text css={{ fontSize: '$h3', ...nonMemberCss }}>
                 Epoch {epoch.number}
               </Text>
-              <Text css={{ fontSize: '$7', ...nonMemberCss }} bold>
+              <Text css={{ fontSize: '$h3', ...nonMemberCss }} bold>
                 {startDate.toFormat('MMM d')} -{' '}
                 {endDate.toFormat(
                   endDate.month === startDate.month ? 'd' : 'MMM d'

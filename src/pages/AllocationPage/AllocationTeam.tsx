@@ -9,6 +9,7 @@ import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg
 import { ApeAvatar } from 'components';
 import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,16 +19,9 @@ const useStyles = makeStyles(theme => ({
   header: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingTop: 60,
+    paddingTop: theme.spacing(8),
     maxWidth: '80%',
     textAlign: 'center',
-  },
-  title: {
-    fontSize: 40,
-    lineHeight: 1.25,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: 0,
   },
   subTitle: {
     padding: '7px 32px',
@@ -36,15 +30,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     color: theme.colors.text,
     margin: 0,
-  },
-  epochTiming: {
-    margin: 0,
-    maxWidth: theme.breakpoints.values.md,
-    fontSize: 20,
-    fontWeight: 300,
-    lineHeight: 2,
-    color: theme.colors.text,
-    textAlign: 'center',
   },
   description: {
     padding: '0 100px',
@@ -256,11 +241,13 @@ const AllocationTeam = () => {
     <div className={classes.root}>
       <div className={classes.header}>
         {!epochIsActive && (
-          <h2 className={classes.epochTiming}>{timingMessage}</h2>
+          <Text h3 css={{ mb: '$sm', justifyContent: 'center' }}>
+            {timingMessage}
+          </Text>
         )}
-        <p className={classes.title}>
+        <Text h2>
           Who are your Teammates in the {selectedCircle?.name} Circle?
-        </p>
+        </Text>
         <p className={classes.subTitle}>{selectedCircle?.team_sel_text}</p>
       </div>
       <div className={classes.content}>
