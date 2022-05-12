@@ -1,5 +1,5 @@
 export const mockVault = {
-  created_at: new Date(),
+  created_at: new Date().toISOString(),
   created_by: 21,
   decimals: 18,
   id: 2,
@@ -7,7 +7,7 @@ export const mockVault = {
   simple_token_address: '0x0AaCfbeC6a24756c20D41914F2caba817C0d8521',
   symbol: 'DAI',
   token_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-  updated_at: new Date(),
+  updated_at: new Date().toISOString(),
   vault_address: '0x0AaCfbeC6a24756c20D41914F2caba817C0d8521',
 };
 

@@ -327,7 +327,7 @@ export async function getExpiredNominees() {
             ended: {
               _eq: false,
             },
-            expiry_date: { _lte: new Date() },
+            expiry_date: { _lte: DateTime.now().toISO() },
           },
         },
         {
