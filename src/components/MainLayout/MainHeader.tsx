@@ -20,7 +20,6 @@ import {
   useMyProfile,
   useSelectedCircle,
 } from 'recoilState/app';
-import { useHasCircles } from 'recoilState/db';
 import { circleSpecificPaths, EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
@@ -32,7 +31,6 @@ const mainLinks = [
 
 export const MainHeader = () => {
   const { address } = useWalletStatus();
-  const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && circleSpecificPaths.includes(location.pathname);
@@ -58,7 +56,6 @@ export const MainHeader = () => {
         background: '$headerBackground',
       }}
     >
-      {hasCircles && <TopLevelLinks links={mainLinks} />}
       <OverviewMenu />
       <Box
         css={{
@@ -283,44 +280,21 @@ const MobileAvatar = () => {
 
 const linkStyle = {
   my: 0,
-  mx: '$md',
-  fontSize: '$6',
-  fontWeight: '$bold',
+  mx: '$xs',
+  fontSize: '$5',
   color: '$white',
+  borderRadius: '$pill',
   textDecoration: 'none',
-  px: 0,
+  px: '$md',
   py: '$xs',
   position: 'relative',
-  '&::after': {
-    content: `" "`,
-    position: 'absolute',
-    left: '50%',
-    right: '50%',
-    backgroundColor: '$red4',
-    transition: 'all 0.3s',
-    bottom: 0,
-    height: 2,
-  },
   '&:hover': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$red4',
-    },
+    backgroundColor: '$secondaryText',
   },
   '&.active': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$alert',
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: '$alert',
-      },
-    },
+    backgroundColor: '$focusedBorder',
+    cursor: 'default',
+    color: '$text',
   },
   '@sm': {
     position: 'unset',
