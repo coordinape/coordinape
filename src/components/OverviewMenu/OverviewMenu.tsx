@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
     display: 'flex',
     flexDirection: 'column',
-    top: '9px !important',
+    top: '16px !important',
     left: '44px !important',
     transition: 'none !important',
   },
@@ -81,6 +81,7 @@ export const OverviewMenu = () => {
       <Link
         css={headerLinkStyle}
         onClick={event => setAnchorEl(event.currentTarget)}
+        className={paths.circles?.includes(location.pathname) ? 'active' : ''}
         href="#"
       >
         Overview
@@ -101,7 +102,7 @@ export const OverviewMenu = () => {
             css={{
               display: 'flex',
               flexDirection: 'column',
-              pt: '$md',
+              pt: '$sm',
               '> *': { padding: '$xs $md' },
               '> a': {
                 color: '$text',
@@ -112,9 +113,12 @@ export const OverviewMenu = () => {
             <Link
               css={{
                 fontSize: '$5',
-                mb: '$lg',
+                mb: '$md',
                 display: 'flex',
                 alignItems: 'center',
+                svg: {
+                  fill: '$text',
+                },
               }}
             >
               Overview
@@ -174,13 +178,18 @@ const headerLinkStyle = {
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
+  svg: {
+    fill: '$white',
+  },
   '&:hover': {
     backgroundColor: '$secondaryText',
   },
   '&.active': {
     backgroundColor: '$focusedBorder',
-    cursor: 'default',
     color: '$text',
+    svg: {
+      fill: '$text',
+    },
   },
 };
 
