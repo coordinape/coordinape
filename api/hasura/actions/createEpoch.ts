@@ -83,7 +83,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
         {
           object: {
             ...input,
-            end_date,
+            start_date: start_date.toISO(),
+            end_date: end_date.toISO(),
             repeat_day_of_month,
           },
         },
