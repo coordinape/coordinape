@@ -12,13 +12,17 @@ export const reportException = (
   captureContext?: CaptureContext
 ) => {
   if (DOMAIN_IS_LOCALHOST) return;
-  if (!(exception instanceof Error) && 'message' in exception) {
+  if (
+    !(exception instanceof Error) &&
+    typeof exception == 'object' &&
+    'message' in exception
+  ) {
     return Sentry.captureException(
       new Error(exception.message),
       captureContext
     );
   } else {
-    return Sentry.captureException(exception, captureContext);
+    return Sentry.captureException(new Error(exception), captureContext);
   }
 };
 
@@ -32,6 +36,7 @@ export const initSentry = () => {
       'MetaMask: Received invalid isUnlocked parameter.',
       'The user rejected the request.',
       'pktAnnotationHighlighter', // https://github.com/LessWrong2/Lesswrong2/issues/1150
+      'Failed to login Waiting for signature, timed out.',
     ],
     integrations: [
       new Integrations.BrowserTracing(),
