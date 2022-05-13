@@ -25,7 +25,7 @@ context('Coordinape', () => {
     cy.contains('Upcoming').should('not.exist');
     cy.contains('Create Epoch').click();
     cy.contains('Save').click();
-    cy.contains('Upcoming');
+    cy.contains('Upcoming', { timeout: 45000 });
     // Would be nice to test for this error not happening, but it times out immediately
     // cy.contains('GQL Query Error', { timeout: 15000 }).should('not.exist');
   });
