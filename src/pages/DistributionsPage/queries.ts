@@ -130,7 +130,7 @@ export const getPreviousDistribution = async (
           where: {
             epoch: { circle_id: { _eq: circleId } },
             vault_id: { _eq: vaultId },
-            saved_on_chain: { _eq: true },
+            tx_hash: { _is_null: false },
           },
         },
         {
