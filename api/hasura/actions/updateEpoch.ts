@@ -133,8 +133,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
           _set: {
             ...editingEpoch,
             ...input,
+            start_date: input.start_date.toISO(),
             repeat_day_of_month,
-            end_date,
+            end_date: end_date.toISO(),
           },
           pk_columns: { id },
         },
