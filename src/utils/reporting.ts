@@ -38,6 +38,7 @@ export const initSentry = () => {
       new CaptureConsole({ levels: ['error'] }),
     ],
     tracesSampleRate: 0.1,
+    normalizeDepth: 50,
   });
   Sentry.setTag('landing_page', !RENDER_APP);
 };
