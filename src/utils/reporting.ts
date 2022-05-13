@@ -12,7 +12,11 @@ export const reportException = (
   captureContext?: CaptureContext
 ) => {
   if (DOMAIN_IS_LOCALHOST) return;
-  if (!(exception instanceof Error) && 'message' in exception) {
+  if (
+    !(exception instanceof Error) &&
+    typeof exception !== 'string' &&
+    'message' in exception
+  ) {
     return Sentry.captureException(
       new Error(exception.message),
       captureContext
