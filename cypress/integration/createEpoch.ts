@@ -11,19 +11,19 @@ context('Coordinape', () => {
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
     // Kids is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Kids', { timeout: 45000 })
+    cy.contains('Kids', { timeout: 120000 })
       .parent()
       .parent()
       .within(() => {
         cy.get('.hover-buttons').invoke('show');
-        cy.get('a').contains('Admin').click();
+        cy.get('a').contains('Admin', { timeout: 45000 }).click();
       });
 
     // now we go to the admin page
     cy.url({ timeout: 120000 }).should('include', '/admin/circles');
     cy.contains('Kids');
     cy.contains('Upcoming').should('not.exist');
-    cy.contains('Create Epoch').click();
+    cy.contains('Create Epoch', { timeout: 45000 }).click();
     cy.contains('Save').click();
     cy.contains('Upcoming', { timeout: 45000 });
     // Would be nice to test for this error not happening, but it times out immediately
