@@ -38,7 +38,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 deleted_at: { _is_null: true },
               },
               {
-                deleted_at: { _gt: epochObj.end_date },
+                deleted_at: { _gt: epochObj.end_date.toISO() },
               },
             ],
           },
