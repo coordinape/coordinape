@@ -8,7 +8,7 @@ context('Coordinape', () => {
   it('can login', () => {
     cy.visit('/');
     cy.login();
-    // This is highly depedendent upon how our seed is constructed..
+    // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/allocation', {
       timeout: 120000,
     });
