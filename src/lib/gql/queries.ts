@@ -398,7 +398,9 @@ export const getFullCircle = async (
     }
   );
   if (!circles_by_pk || !circle) {
-    throw `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`;
+    throw new Error(
+      `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`
+    );
   }
 
   const adaptedUsers = circles_by_pk.users.map(user => {
