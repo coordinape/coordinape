@@ -97,6 +97,8 @@ const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
   [paths.history, 'History'],
   [paths.allocation, 'Allocation'],
   [paths.map(), 'Map'],
+  // STOPSHIP
+  [paths.vaults, 'Vaults'],
   [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],
   [paths.adminCircles, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];

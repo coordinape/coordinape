@@ -12,7 +12,8 @@ import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
 import { useFixCircleState } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { Box, Panel, Text } from 'ui';
+import { LinkIcon } from 'icons';
+import { Box, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AllocationsTable } from './AllocationsTable';
@@ -156,6 +157,12 @@ const Summary = ({
 }) => {
   const distTime = parseISO(distribution.created_at + 'Z');
   return (
-    <Text>Distribution submitted {formatRelative(distTime, Date.now())}</Text>
+    <>
+      <Text>Distribution submitted {formatRelative(distTime, Date.now())}</Text>
+      <LinkIcon />
+      <Link href={`https://etherscan.io/tx/${distribution.tx_hash}`}>
+        View on Etherscan
+      </Link>
+    </>
   );
 };

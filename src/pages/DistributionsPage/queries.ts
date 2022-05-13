@@ -61,6 +61,7 @@ export const getEpochData = async (
             {
               created_at: true,
               total_amount: true,
+              tx_hash: true,
               vault: {
                 id: true,
                 decimals: true,
@@ -137,6 +138,7 @@ export const getPreviousDistribution = async (
           id: true,
           vault_id: true,
           distribution_json: [{}, true],
+          tx_hash: true,
         },
       ],
     },
