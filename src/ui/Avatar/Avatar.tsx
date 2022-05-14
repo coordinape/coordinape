@@ -23,6 +23,18 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   '&:hover': {
     border: '1px solid $alert',
   },
+  variants: {
+    size: {
+      large: {
+        width: '$3xl',
+        height: '$3xl',
+      },
+      small: {
+        width: '$2xl',
+        height: '$2xl',
+      },
+    },
+  },
 });
 
 const AvatarImage = styled(AvatarPrimitive.Image, {
@@ -50,18 +62,29 @@ export const Avatar = ({
   path,
   name,
   onClick,
+  orgLogo,
   ...props
 }: {
   path?: string;
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
   onClick?: () => void;
+  orgLogo?: boolean;
   children?: React.ReactNode;
 }) => {
-  const avatarPath = getAvatarPath(path);
+  let avatarPath = undefined;
+  if (orgLogo) {
+    avatarPath = path;
+  } else {
+    avatarPath = getAvatarPath(path);
+  }
 
   return (
-    <AvatarRoot onClick={() => onClick?.()} {...props}>
+    <AvatarRoot
+      onClick={() => onClick?.()}
+      {...props}
+      size={orgLogo ? 'small' : 'large'}
+    >
       <AvatarImage src={avatarPath} alt={name} />
       <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>

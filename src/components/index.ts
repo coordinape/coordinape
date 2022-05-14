@@ -6,6 +6,7 @@ export * from './ApeTabs/ApeTabs';
 export * from './ApeTextField/ApeTextField';
 export * from './ApeToggle/ApeToggle';
 export * from './AvatarUpload/AvatarUpload';
+export * from './OrgLogoUpload/OrgLogoUpload';
 export * from './CoordinapeLogo/CoordinapeLogo';
 export * from './Drawer/Drawer';
 export * from './EditProfileModal/EditProfileModal';
