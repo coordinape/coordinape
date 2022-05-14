@@ -15,6 +15,11 @@ jobs:
 
       - uses: actions/cache@v2
         with:
+          path: '**/node_modules'
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        with:
           path: "/home/runner/.cache"
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
@@ -74,6 +79,11 @@ jobs:
 
       - uses: actions/cache@v2
         with:
+          path: '**/node_modules'
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        with:
           path: '**/hardhat/node_modules'
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
@@ -83,6 +93,15 @@ jobs:
       - run: ./scripts/setup.sh
       - run: cp .ci.env .env # hasura needs a .env file
       - run: yarn test:ci
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cy-artifacts
+          path: |
+            ./cypress/videos
+            ./cypress/screenshots
+
       - name: Codecov
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
