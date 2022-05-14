@@ -10,8 +10,8 @@ context('Coordinape', () => {
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Kids is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Kids', { timeout: 120000 })
+    // Jewlery is a circle w/ an ended epoch, the Admin button is a child of a peer element
+    cy.contains('Jewelery', { timeout: 120000 })
       .parent()
       .parent()
       .within(() => {
@@ -21,11 +21,11 @@ context('Coordinape', () => {
 
     // now we go to the admin page
     cy.url({ timeout: 120000 }).should('include', '/admin/circles');
-    cy.contains('Kids');
-    cy.contains('Upcoming').should('not.exist');
+    cy.contains('Jewelery');
+    cy.contains('Epoch 2').should('not.exist');
     cy.contains('Create Epoch', { timeout: 45000 }).click();
     cy.contains('Save').click();
-    cy.contains('Upcoming', { timeout: 45000 });
+    cy.contains('Epoch 2', { timeout: 120000 });
     // Would be nice to test for this error not happening, but it times out immediately
     // cy.contains('GQL Query Error', { timeout: 15000 }).should('not.exist');
   });
