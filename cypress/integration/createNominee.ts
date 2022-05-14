@@ -5,13 +5,13 @@ context('Coordinape', () => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
   });
-  it('can create new epoch with default parameters', () => {
+  it('can create a nominee', () => {
     cy.visit('/circles');
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
     // Kids is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Industrial', { timeout: 45000 })
+    cy.contains('Industrial', { timeout: 120000 })
       .parent()
       .parent()
       .within(() => {
@@ -29,7 +29,7 @@ context('Coordinape', () => {
       .click()
       .type("It's annoying that I need to fill forty whole characters here.");
     cy.contains('Nominate Member').click();
-    cy.contains('Vouch for Satoshi', { timeout: 45000 });
+    cy.contains('Vouch for Satoshi', { timeout: 120000 });
     //cy.contains('GQL Query Error', { timeout: 45000 }).should('not.exist');
   });
 });
