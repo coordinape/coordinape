@@ -49,16 +49,21 @@ export const initSentry = () => {
 };
 
 export const normalizeError = (error: unknown): undefined | Error => {
-  if (error instanceof GraphQLError) {
+  if (error && error instanceof GraphQLError) {
     // graphql error?
-    if (error.message) {
-      // this is fine
+    if (error.message != '') {
       return error;
     } else if (error.response.errors) {
       // elevate the error to the top level so sentry (and logging) can handle it better
       if (error.response.errors.length > 0) {
         // return
-        error.message = error.response.errors.map(e => e.message).join('; ');
+        const newMsg = error.response.errors
+          .map(e => {
+            // FIXME: Here rather than stringify, i really want to grab the extensions array, extract path, details etc
+            return JSON.stringify(e);
+          })
+          .join('; ');
+        error.message = 'GraphQL Error: ' + newMsg;
         return error;
       }
     }
