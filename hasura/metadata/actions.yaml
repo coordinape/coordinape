@@ -175,6 +175,17 @@ actions:
   permissions:
   - role: user
   - role: superadmin
+- name: uploadOrgLogo
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadOrgLogo'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  - role: superadmin
 - name: uploadProfileAvatar
   definition:
     kind: synchronous
@@ -230,6 +241,7 @@ custom_types:
   - name: UserObj
   - name: AllocationCsvInput
   - name: CreateVaultInput
+  - name: UploadOrgImageInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -358,6 +370,16 @@ custom_types:
         schema: public
         name: vaults
       name: vault
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: UpdateOrgResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: protocols
+      name: org
       source: default
       type: object
       field_mapping:

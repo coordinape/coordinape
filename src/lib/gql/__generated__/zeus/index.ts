@@ -818,6 +818,12 @@ export type ValueTypes = {
     repeat: number;
     start_date: ValueTypes['timestamptz'];
   };
+  ['UpdateOrgResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    org?: ValueTypes['organizations'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
     /** An object relationship */
@@ -846,6 +852,10 @@ export type ValueTypes = {
   };
   ['UploadImageInput']: {
     image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
   };
   ['UserObj']: {
     address: string;
@@ -2968,6 +2978,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['UploadCircleImageInput'] },
       ValueTypes['UpdateCircleResponse']
     ];
+    uploadOrgLogo?: [
+      { payload: ValueTypes['UploadOrgImageInput'] },
+      ValueTypes['UpdateOrgResponse']
+    ];
     uploadProfileAvatar?: [
       { payload: ValueTypes['UploadImageInput'] },
       ValueTypes['UpdateProfileResponse']
@@ -3360,6 +3374,7 @@ columns and relationships of "distributions" */
     ];
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
@@ -3395,6 +3410,7 @@ columns and relationships of "distributions" */
     circles?: ValueTypes['circles_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -3407,6 +3423,7 @@ columns and relationships of "distributions" */
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
@@ -6376,6 +6393,11 @@ export type ModelTypes = {
     id: number;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
+  ['UpdateOrgResponse']: {
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
   ['UpdateProfileResponse']: {
     id: number;
     /** An object relationship */
@@ -6390,6 +6412,7 @@ export type ModelTypes = {
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
+  ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
     /** An object relationship */
@@ -7012,6 +7035,7 @@ columns and relationships of "distributions" */
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
@@ -7192,6 +7216,7 @@ columns and relationships of "distributions" */
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
+    logo?: string | undefined;
     name: string;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -8123,6 +8148,12 @@ export type GraphQLTypes = {
     repeat: number;
     start_date: GraphQLTypes['timestamptz'];
   };
+  ['UpdateOrgResponse']: {
+    __typename: 'UpdateOrgResponse';
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
@@ -8151,6 +8182,10 @@ export type GraphQLTypes = {
   };
   ['UploadImageInput']: {
     image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
   };
   ['UserObj']: {
     address: string;
@@ -9711,6 +9746,7 @@ columns and relationships of "distributions" */
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
@@ -10042,6 +10078,7 @@ columns and relationships of "distributions" */
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
+    logo?: string | undefined;
     name: string;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -10055,6 +10092,7 @@ columns and relationships of "distributions" */
     circles?: GraphQLTypes['circles_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -10064,6 +10102,7 @@ columns and relationships of "distributions" */
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
@@ -11857,6 +11896,7 @@ export const enum order_by {
 export const enum organizations_select_column {
   created_at = 'created_at',
   id = 'id',
+  logo = 'logo',
   name = 'name',
   updated_at = 'updated_at',
 }

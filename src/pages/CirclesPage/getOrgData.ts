@@ -9,6 +9,7 @@ export const getOrgData = (address: string) =>
         {
           id: true,
           name: true,
+          logo: true,
           circles: [
             {},
             {

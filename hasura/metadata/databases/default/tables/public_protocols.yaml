@@ -25,18 +25,20 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - name
     - created_at
-    - updated_at
-    - telegram_id
+    - id
     - is_verified
+    - logo
+    - name
+    - telegram_id
+    - updated_at
     filter: {}
   role: superadmin
 - permission:
     columns:
     - created_at
     - id
+    - logo
     - name
     - updated_at
     filter:

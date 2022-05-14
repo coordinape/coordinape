@@ -77,7 +77,35 @@ export const updateCircleLogo = async (
     }
   );
 };
-
+export const updateOrgLogo = async (
+  orgId: number,
+  image_data_base64: string
+) => {
+  const variables = useZeusVariables({
+    image_data_base64: 'String!',
+    orgId: 'Int!',
+  })({
+    image_data_base64,
+    orgId,
+  });
+  return client.mutate(
+    {
+      uploadOrgLogo: [
+        {
+          payload: {
+            image_data_base64: variables.$('image_data_base64'),
+            org_id: variables.$('orgId'),
+          },
+        },
+        { id: true },
+      ],
+    },
+    {
+      variables,
+      operationName: 'updateOrgLogo',
+    }
+  );
+};
 export const createCircleIntegration = async (
   circleId: number,
   type: string,

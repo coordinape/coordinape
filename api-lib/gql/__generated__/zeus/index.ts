@@ -843,6 +843,12 @@ export type ValueTypes = {
     repeat: number;
     start_date: ValueTypes['timestamptz'];
   };
+  ['UpdateOrgResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    org?: ValueTypes['organizations'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
     /** An object relationship */
@@ -871,6 +877,10 @@ export type ValueTypes = {
   };
   ['UploadImageInput']: {
     image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
   };
   ['UserObj']: {
     address: string;
@@ -6072,6 +6082,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['UploadCircleImageInput'] },
       ValueTypes['UpdateCircleResponse']
     ];
+    uploadOrgLogo?: [
+      { payload: ValueTypes['UploadOrgImageInput'] },
+      ValueTypes['UpdateOrgResponse']
+    ];
     uploadProfileAvatar?: [
       { payload: ValueTypes['UploadImageInput'] },
       ValueTypes['UpdateProfileResponse']
@@ -6589,6 +6603,7 @@ columns and relationships of "distributions" */
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     is_verified?: boolean | `@${string}`;
+    logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -6684,6 +6699,7 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     is_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -6701,6 +6717,7 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
+    logo?: string | undefined | null;
     name?: string | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -6710,6 +6727,7 @@ columns and relationships of "distributions" */
   ['organizations_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -6719,6 +6737,7 @@ columns and relationships of "distributions" */
   ['organizations_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -6753,6 +6772,7 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     is_verified?: ValueTypes['order_by'] | undefined | null;
+    logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -6772,6 +6792,7 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
+    logo?: string | undefined | null;
     name?: string | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -12901,6 +12922,11 @@ export type ModelTypes = {
     id: number;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
+  ['UpdateOrgResponse']: {
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
   ['UpdateProfileResponse']: {
     id: number;
     /** An object relationship */
@@ -12915,6 +12941,7 @@ export type ModelTypes = {
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
+  ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
     /** An object relationship */
@@ -14965,6 +14992,7 @@ columns and relationships of "distributions" */
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
@@ -15175,6 +15203,7 @@ columns and relationships of "distributions" */
     created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
+    logo?: string | undefined;
     name: string;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
@@ -15218,6 +15247,7 @@ columns and relationships of "distributions" */
   ['organizations_max_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -15226,6 +15256,7 @@ columns and relationships of "distributions" */
   ['organizations_min_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -17546,6 +17577,12 @@ export type GraphQLTypes = {
     repeat: number;
     start_date: GraphQLTypes['timestamptz'];
   };
+  ['UpdateOrgResponse']: {
+    __typename: 'UpdateOrgResponse';
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
@@ -17574,6 +17611,10 @@ export type GraphQLTypes = {
   };
   ['UploadImageInput']: {
     image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
   };
   ['UserObj']: {
     address: string;
@@ -21135,6 +21176,7 @@ columns and relationships of "distributions" */
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
@@ -21549,6 +21591,7 @@ columns and relationships of "distributions" */
     created_at: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
+    logo?: string | undefined;
     name: string;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
@@ -21592,6 +21635,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -21609,6 +21653,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -21619,6 +21664,7 @@ columns and relationships of "distributions" */
     __typename: 'organizations_max_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -21628,6 +21674,7 @@ columns and relationships of "distributions" */
     __typename: 'organizations_min_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -21658,6 +21705,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     is_verified?: GraphQLTypes['order_by'] | undefined;
+    logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -21674,6 +21722,7 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
+    logo?: string | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -25612,6 +25661,7 @@ export const enum organizations_select_column {
   created_at = 'created_at',
   id = 'id',
   is_verified = 'is_verified',
+  logo = 'logo',
   name = 'name',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
@@ -25621,6 +25671,7 @@ export const enum organizations_update_column {
   created_at = 'created_at',
   id = 'id',
   is_verified = 'is_verified',
+  logo = 'logo',
   name = 'name',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
