@@ -1,9 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, Button } from '@material-ui/core';
-import DnsIcon from '@material-ui/icons/Dns';
+import { makeStyles, Button as MUButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import SortIcon from '@material-ui/icons/Sort';
 
@@ -15,22 +14,29 @@ import {
   useMapResults,
   useMapMeasures,
   useSetAmSearch,
+  useStateAmMetric,
+  useStateAmEpochId,
+  useMapEpochs,
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
+import { Text, Select } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
+import { RedSelect } from './RedSelect';
+
+import { MetricEnum } from 'types';
+
+interface MetricOption {
+  label: string;
+  value: MetricEnum;
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-    padding: theme.spacing(0, 2),
+    border: 1,
+    backgroundColor: 'red',
   },
   title: {
     fontWeight: 300,
@@ -40,9 +46,12 @@ const useStyles = makeStyles(theme => ({
   },
   controls: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    backgroundColor: '#EEF1F4',
     width: '100%',
-    margin: theme.spacing(1, 0, 1),
+    borderRadius: 8,
+    padding: theme.spacing(1, 2),
+    marginTop: 8,
   },
   rank: {
     minWidth: 47,
@@ -61,10 +70,12 @@ const useStyles = makeStyles(theme => ({
   // Users
   users: {
     flexGrow: 1,
-    width: '100%',
     overflowY: 'scroll',
+    padding: theme.spacing(2, 0),
+    marginTop: 8,
     scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
     scrollbarWidth: 'thin',
+    backgroundColor: '#EEF1F4',
     '&::-webkit-scrollbar': {
       backgroundColor: theme.colors.surface,
       width: 8,
@@ -75,6 +86,14 @@ const useStyles = makeStyles(theme => ({
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: theme.colors.focusedBorder,
     },
+    borderRadius: 8,
+  },
+  toggleButton: {
+    width: 50,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: theme.spacing(2, 1.5),
   },
 }));
 
@@ -89,6 +108,36 @@ export const AMDrawer = () => {
   const rawProfiles = useMapResults();
   const { measures } = useMapMeasures(metric);
   const showHiddenFeatures = useDevMode();
+  // const showHiddenFeatures = useRecoilValue(rDevMode);
+  const [metric2, setMetric2] = useStateAmMetric();
+  const amEpochs = useMapEpochs();
+  const [amEpochId, setAmEpochId] = useStateAmEpochId();
+
+  // This is the AssetMapPage Controller
+  useEffect(() => {
+    if (amEpochs.length === 0) {
+      return;
+    }
+    setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
+    // TODO: Load gifts for selected epoch when needed:
+    // https://linear.app/yearn/issue/APE-192/api-dont-always-load-everything-and-improve-fetching
+  }, [amEpochs]);
+
+  const epochOptions = useMemo(() => {
+    return amEpochs.length > 0
+      ? [
+          {
+            label: 'ALL',
+            value: -1,
+          },
+        ].concat(
+          amEpochs.map(e => ({
+            label: e.labelGraph,
+            value: e.id,
+          }))
+        )
+      : [];
+  }, [amEpochs]);
 
   const profiles = useMemo(
     () =>
@@ -102,6 +151,25 @@ export const AMDrawer = () => {
     [rawProfiles, measures, showRank]
   );
 
+  const metricOptions = [
+    {
+      label: `Number of ${circle.tokenName} received`,
+      value: 'give',
+    },
+    {
+      label: 'In Degree (# incoming links)',
+      value: 'in_degree',
+    },
+    {
+      label: 'Out Degree (# outgoing links)',
+      value: 'out_degree',
+    },
+    {
+      label: `Degree Standardization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
+      value: 'standardized',
+    },
+  ] as MetricOption[];
+
   const handleSetOpen = (value: boolean) => {
     if (!value) {
       setSearch('');
@@ -113,13 +181,27 @@ export const AMDrawer = () => {
     setShowRank(!showRank);
   };
 
+  if (!epochOptions || amEpochId === undefined) {
+    return <div className={classes.root}></div>;
+  }
+
   return (
-    <Drawer open={open} setOpen={handleSetOpen} Icon={<DnsIcon />} anchorRight>
-      <div className={classes.header}>
-        <h5 className={classes.title}>Active Users</h5>
+    <>
+      <Drawer open={open} setOpen={handleSetOpen}>
         <div className={classes.controls}>
+          <Text
+            css={{
+              fontWeight: '$bold',
+              fontSize: '$large',
+              lineHeight: '$short',
+              color: '$headingText',
+              marginBottom: 16,
+            }}
+          >
+            Filters
+          </Text>
           {showHiddenFeatures && (
-            <Button
+            <MUButton
               onClick={onRankToggle}
               variant="contained"
               color="primary"
@@ -127,7 +209,27 @@ export const AMDrawer = () => {
               className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
             >
               <SortIcon />
-            </Button>
+            </MUButton>
+          )}
+          <Select
+            defaultValue={epochOptions.find(
+              option => option.value === amEpochId
+            )}
+            options={epochOptions.map(({ value, label }) => ({
+              value: String(value),
+              label,
+            }))}
+            onChange={option => {
+              const { value } = option as { value: string };
+              setAmEpochId(Number(value));
+            }}
+          />
+          {showHiddenFeatures && (
+            <RedSelect
+              value={metric2}
+              options={metricOptions}
+              onChange={v => setMetric2(v as MetricEnum)}
+            />
           )}
           <ApeAutocomplete
             onChange={setSearch}
@@ -140,18 +242,18 @@ export const AMDrawer = () => {
             }}
           />
         </div>
-      </div>
-      <div className={classes.users}>
-        {profiles.map(profile => (
-          <AMProfileCard
-            key={profile.id}
-            profile={profile}
-            summarize={showRank}
-            circle={circle}
-          />
-        ))}
-      </div>
-    </Drawer>
+        <div className={classes.users}>
+          {profiles.map(profile => (
+            <AMProfileCard
+              key={profile.id}
+              profile={profile}
+              summarize={showRank}
+              circle={circle}
+            />
+          ))}
+        </div>
+      </Drawer>
+    </>
   );
 };
 
