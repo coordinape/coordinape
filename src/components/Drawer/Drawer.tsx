@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import MuiDrawer from '@material-ui/core/Drawer';
 
 import { Text, Button } from 'ui';
+import { ArrowIcon } from 'ui/icons/ArrowIcon';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -90,7 +91,12 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             justifyContent: 'flex-start',
           }}
         >
-          Filters {'>'}
+          Filters
+          <ArrowIcon
+            size="md"
+            color={'secondaryText'}
+            css={{ marginLeft: 8 }}
+          />
         </Button>
       </div>
       {open ? <div className={classes.content}>{children}</div> : undefined}
