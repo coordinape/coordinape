@@ -2787,7 +2787,6 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'profiles_bool_exp',
     _or: 'profiles_bool_exp',
     address: 'String_comparison_exp',
-    admin_view: 'Boolean_comparison_exp',
     ann_power: 'Boolean_comparison_exp',
     avatar: 'String_comparison_exp',
     background: 'String_comparison_exp',
@@ -2826,7 +2825,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_order_by: {
     address: 'order_by',
-    admin_view: 'order_by',
     ann_power: 'order_by',
     avatar: 'order_by',
     background: 'order_by',
@@ -6349,7 +6347,6 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles: {
     address: 'String',
-    admin_view: 'Boolean',
     ann_power: 'Boolean',
     avatar: 'String',
     background: 'String',

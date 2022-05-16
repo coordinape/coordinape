@@ -49,26 +49,6 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - number
-    - start_date
-    - end_date
-    - circle_id
-    - created_at
-    - updated_at
-    - ended
-    - notified_start
-    - notified_before_end
-    - notified_end
-    - grant
-    - regift_days
-    - days
-    - repeat
-    - repeat_day_of_month
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
     - circle_id
     - created_at
     - days

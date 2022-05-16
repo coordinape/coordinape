@@ -65,26 +65,6 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - name
-    - address
-    - give_token_received
-    - give_token_remaining
-    - role
-    - non_receiver
-    - circle_id
-    - created_at
-    - updated_at
-    - bio
-    - epoch_first_visit
-    - non_giver
-    - deleted_at
-    - starting_tokens
-    - fixed_non_receiver
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
     - address
     - bio
     - circle_id

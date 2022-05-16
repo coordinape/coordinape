@@ -29,15 +29,3 @@ object_relationships:
       remote_table:
         name: users
         schema: public
-select_permissions:
-- permission:
-    columns:
-    - id
-    - user_id
-    - bio
-    - epoch_id
-    - circle_id
-    - created_at
-    - updated_at
-    filter: {}
-  role: superadmin

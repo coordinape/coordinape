@@ -49,7 +49,7 @@ const AllocationScope = () => {
 };
 
 const SelectedCircleScope = () => {
-  const { hasAdminView, myUsers } = useMyProfile();
+  const { myUsers } = useMyProfile();
   const { myUser: selectedMyUser, circle: selectedCircle } =
     useSelectedCircle();
   const connectorName = useWalletAuth().connectorName;
@@ -62,7 +62,6 @@ const SelectedCircleScope = () => {
         `${selectedCircle?.protocol?.name}-${selectedCircle?.name}`
       );
       scope.setTag('connector_name', connectorName);
-      scope.setTag('has_admin_view', hasAdminView);
       scope.setTag('selected_circle_admin', selectedMyUser?.role);
       scope.setTag('selected_circle_admin', selectedMyUser?.role);
       scope.setTag('selected_circle_non_giver', selectedMyUser?.non_giver);
@@ -72,7 +71,7 @@ const SelectedCircleScope = () => {
       );
       scope.setTag('number_circles_member_of', myUsers.length);
     });
-  }, [selectedCircle, connectorName, hasAdminView, selectedMyUser, myUsers]);
+  }, [selectedCircle, connectorName, selectedMyUser, myUsers]);
 
   return <></>;
 };
