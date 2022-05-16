@@ -84,7 +84,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
         </Text>
         <Button
           outlined
-          size="large"
+          size="medium"
           onClick={() => setOpen(!open)}
           css={{
             width: 'fit-content',

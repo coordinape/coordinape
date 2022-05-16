@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 import clsx from 'clsx';
 
 import { makeStyles, Button as MUButton } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import SortIcon from '@material-ui/icons/Sort';
 
 import { Drawer, ApeAutocomplete } from 'components';
@@ -20,6 +19,7 @@ import {
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
 import { Text, Select } from 'ui';
+import { SearchIcon } from 'ui/icons/SearchIcon';
 
 import AMProfileCard from './AMProfileCard';
 import { RedSelect } from './RedSelect';
@@ -196,6 +196,7 @@ export const AMDrawer = () => {
               lineHeight: '$short',
               color: '$headingText',
               marginBottom: 16,
+              paddingTop: 15 - 8,
             }}
           >
             Filters
@@ -236,9 +237,12 @@ export const AMDrawer = () => {
             freeSolo
             options={SKILLS}
             color="secondary"
-            placeholder="Search by Keyword"
+            placeholder="Search"
             InputProps={{
-              startAdornment: <SearchIcon />,
+              endAdornment: <SearchIcon size="md" color={'secondaryText'} />,
+              style: {
+                backgroundColor: 'white',
+              },
             }}
           />
         </div>
