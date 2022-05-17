@@ -10,18 +10,17 @@ import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
-const SEED_PHRASE =
-  'test test test test test test test test test test test junk';
+
+import { SEED_PHRASE, getAccountPath } from './eth';
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
 
-const addresses = new Array(50)
-  .fill(null)
-  .map((_, idx) =>
-    HDNode.fromMnemonic(SEED_PHRASE)
-      .derivePath(getAccountPath(idx))
-      .address.toLowerCase()
-  );
+const users = new Array(50).fill(null).map((_, idx) => ({
+  name: faker.unique(faker.name.firstName),
+  address: HDNode.fromMnemonic(SEED_PHRASE)
+    .derivePath(getAccountPath(idx))
+    .address.toLowerCase(),
+}));
 
 export function getProtocolName() {
   return faker.unique(faker.company.companyName);
@@ -134,9 +133,6 @@ async function getBase64Avatar() {
   return buffer.toString('base64');
 }
 
-function getAccountPath(index: number): string {
-  return `m/44'/60'/0'/0/${index}`;
-}
 export function getMembershipInput(
   input: Partial<MembershipInput> = {},
   devUser?: ValueTypes['users_insert_input']
@@ -157,33 +153,29 @@ export function getMembershipInput(
     ],
     membersInput: [
       {
-        name: faker.name.firstName(),
-        address: addresses[0],
+        ...users[0],
         bio: faker.lorem.sentences(3),
         role: 1,
         non_receiver: false,
       },
     ].concat(
-      addresses.slice(1, 5).map(addy => ({
-        name: faker.name.firstName(),
-        address: addy,
+      users.slice(1, 5).map(user => ({
+        ...user,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 50,
         non_receiver: false,
       })),
-      addresses.slice(5, 10).map(addy => ({
-        name: faker.name.firstName(),
-        address: addy,
+      users.slice(5, 10).map(user => ({
+        ...user,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 0,
         non_giver: true,
         non_receiver: false,
       })),
-      addresses.slice(10, 15).map(addy => ({
-        name: faker.name.firstName(),
-        address: addy,
+      users.slice(10, 15).map(user => ({
+        ...user,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 0,
@@ -243,6 +235,7 @@ export async function createGifts(
   input: MemberInput,
   epochId: number,
   amountIncrement = 7,
+  startingTokens = 100,
   pending = true,
   userIdx = 0,
   memberSlice = [1, 6]
@@ -251,8 +244,13 @@ export async function createGifts(
   const members = input.slice(...memberSlice);
   for (let i = 0; i < members.length; i++) {
     const member = members[i];
-    const amount = amountIncrement * (i + 1);
+    let amount = amountIncrement * (i + 1);
     if (member.circle_id !== user.circle_id) break;
+    // can't exceed starting token amount
+    if (summation(amount, amountIncrement) > startingTokens) {
+      amount = amount - (summation(amount, amountIncrement) - startingTokens);
+      if (amount <= 0) break;
+    }
     if (member.address === user.address) continue;
     await adminClient.mutate({
       [pending ? 'insert_pending_token_gifts' : 'insert_token_gifts']: [
@@ -322,4 +320,9 @@ export async function createGifts(
         : undefined,
     });
   }
+}
+
+function summation(x: number, increment: number): number {
+  if (x <= 0) return 0;
+  return x + summation(x - increment, increment);
 }
