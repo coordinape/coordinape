@@ -24,7 +24,6 @@ select_permissions:
 - permission:
     columns:
     - user_id
-    - fixed_payment_enabled
     - fixed_payment_token_type
     - fixed_payment_amount
     filter: {}
@@ -32,7 +31,6 @@ select_permissions:
 - permission:
     columns:
     - user_id
-    - fixed_payment_enabled
     - fixed_payment_token_type
     - fixed_payment_amount
     filter:

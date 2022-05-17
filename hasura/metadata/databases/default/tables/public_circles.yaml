@@ -81,7 +81,6 @@ select_permissions:
     - created_at
     - default_opt_in
     - discord_webhook
-    - fixed_payment_enabled
     - fixed_payment_token_type
     - id
     - is_verified
@@ -106,7 +105,6 @@ select_permissions:
     - auto_opt_out
     - created_at
     - default_opt_in
-    - fixed_payment_enabled
     - fixed_payment_token_type
     - id
     - is_verified
@@ -141,7 +139,6 @@ update_permissions:
     - auto_opt_out
     - default_opt_in
     - discord_webhook
-    - fixed_payment_enabled
     - fixed_payment_token_type
     - is_verified
     - logo
