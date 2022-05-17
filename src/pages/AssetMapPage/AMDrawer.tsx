@@ -213,17 +213,12 @@ export const AMDrawer = () => {
             </MUButton>
           )}
           <Select
-            defaultValue={epochOptions.find(
-              option => option.value === amEpochId
-            )}
+            defaultValue={String(amEpochId)}
             options={epochOptions.map(({ value, label }) => ({
               value: String(value),
               label,
             }))}
-            onChange={option => {
-              const { value } = option as { value: string };
-              setAmEpochId(Number(value));
-            }}
+            onValueChange={value => setAmEpochId(Number(value))}
           />
           {showHiddenFeatures && (
             <RedSelect
@@ -240,9 +235,6 @@ export const AMDrawer = () => {
             placeholder="Search"
             InputProps={{
               endAdornment: <SearchIcon size="md" color={'secondaryText'} />,
-              style: {
-                backgroundColor: 'white',
-              },
             }}
           />
         </div>

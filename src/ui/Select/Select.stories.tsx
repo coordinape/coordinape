@@ -9,7 +9,7 @@ export default {
   decorators: [
     withDesign,
     Story => (
-      <div style={{ width: 320 }}>
+      <div style={{ padding: 20, backgroundColor: '#EEF1F4' }}>
         <Story />
       </div>
     ),
@@ -22,12 +22,15 @@ const Template: ComponentStory<typeof Select> = args => (
 
 export const SingleSelect = Template.bind({});
 
+const options = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'orange', label: 'Orange' },
+];
+
 SingleSelect.args = {
-  options: [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ],
+  defaultValue: 'apple',
+  options,
 };
 
 SingleSelect.parameters = {

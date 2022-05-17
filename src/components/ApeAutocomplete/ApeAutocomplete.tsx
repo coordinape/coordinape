@@ -100,6 +100,7 @@ export const ApeAutocomplete = ({
           placeholder={placeholder}
           helperText={helperText}
           error={error}
+          apeVariant="select"
         />
       )}
       {...props}
