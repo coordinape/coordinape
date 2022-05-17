@@ -4,8 +4,14 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
-import { useApiAdminCircle } from 'hooks';
+import {
+  ApeAvatar,
+  FormModal,
+  ApeTextField,
+  ApeToggle,
+  FormAutocomplete,
+} from 'components';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { Flex, Button } from 'ui';
@@ -126,6 +132,11 @@ export const AdminCircleModal = ({
 }) => {
   const classes = useStyles();
   const { circleId } = useSelectedCircle();
+  const contracts = useContracts();
+  const tokens = ['Disabled'].concat(
+    contracts ? contracts.getAvailableTokens() : []
+  );
+
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
   const [logoData, setLogoData] = useState<{
@@ -149,6 +160,7 @@ export const AdminCircleModal = ({
   const [webhook, setWebhook] = useState('');
   const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
   const [vouchingText, setVouchingText] = useState(circle.vouchingText);
+  const [fixedPaymentToken, setFixedPaymentToken] = useState('Disabled');
   const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
   const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
@@ -413,6 +425,23 @@ export const AdminCircleModal = ({
           value={autoOptOut}
           onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
+        />
+
+        <FormAutocomplete
+          value={fixedPaymentToken}
+          onChange={(v: string) => {
+            const found = tokens.find(p => p === v);
+            if (found || v === 'Disabled') setFixedPaymentToken(v);
+          }}
+          options={tokens}
+          label="Fixed Payment Token"
+          fullWidth
+          TextFieldProps={{
+            onBlur: ({ target: { value } }) => {
+              if (!tokens.find(p => p === value))
+                setFixedPaymentToken('Disabled');
+            },
+          }}
         />
       </div>
       <AdminIntegrations />
