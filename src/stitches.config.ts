@@ -75,9 +75,7 @@ export const colors = {
   link: figmaColors.blue12,
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
-  secondaryText: figmaColors.grey12,
-
-  headerBackground: figmaColors.grey16,
+  secondaryText: figmaColors.grey10,
 };
 
 export const {
@@ -112,15 +110,12 @@ export const {
       pill: '9999px',
     },
     fontSizes: {
-      1: '11px',
-      2: '12px',
-      3: '14px',
-      4: '16px',
-      5: '19px',
-      6: '20px',
-      7: '21px',
-      8: '30px',
-      9: '35px',
+      small: '13px',
+      medium: '16px',
+      large: '20px',
+      h3: '24px',
+      h2: '32px',
+      h1: '48px',
     },
     fontWeights: {
       hairline: 100,

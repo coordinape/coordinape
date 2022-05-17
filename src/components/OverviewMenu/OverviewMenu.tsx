@@ -4,38 +4,40 @@ import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
-import { CSS } from 'stitches.config';
+import { useRecoilValueLoadable } from 'recoil';
 
 import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
-import { ReactComponent as ChevronDownSVG } from 'assets/svgs/chevron-down.svg';
-import { ReactComponent as ChevronUpSVG } from 'assets/svgs/chevron-up.svg';
+import { linkStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { ChevronUp, ChevronDown } from 'icons';
+import { rSelectedCircle } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
-import { paths } from 'routes/paths';
+import { paths, isCircleSpecificPath } from 'routes/paths';
 import { Box, Link, Text } from 'ui';
 
 import { getOrgData } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
+
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 const useStyles = makeStyles(theme => ({
   popover: {
-    maxWidth: 200,
     marginTop: theme.spacing(0.5),
     padding: 0,
     borderRadius: 8,
     background: '#FFFFFF',
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
+    boxShadow:
+      '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
     display: 'flex',
     flexDirection: 'column',
-    top: '19px !important',
-    left: '44px !important',
+    top: '13.5px !important',
+    left: '45px !important',
     transition: 'none !important',
   },
 }));
@@ -78,17 +80,32 @@ export const OverviewMenu = () => {
     });
   };
 
+  const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
+  const location = useLocation();
+  const inCircle = circle && isCircleSpecificPath(location);
+  const currentCircle = inCircle ? `${circle.name}` : '';
+  const overviewMenuTriggerText = inCircle
+    ? currentCircle
+    : location.pathname.includes(paths.vaults)
+    ? 'Vaults'
+    : 'Overview';
+
   return (
     <>
       <Link
-        css={headerLinkStyle}
+        css={linkStyle}
         onClick={event => setAnchorEl(event.currentTarget)}
-        className={paths.circles?.includes(location.pathname) ? 'active' : ''}
+        className={
+          paths.circles?.includes(location.pathname) ||
+          location.pathname.includes(paths.history)
+            ? 'active'
+            : ''
+        }
         href="#"
       >
-        Overview
+        {overviewMenuTriggerText}
         <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-          <ChevronDownSVG />
+          <ChevronDown size="md" />
         </Box>
       </Link>
       <Hidden smDown>
@@ -104,44 +121,40 @@ export const OverviewMenu = () => {
             css={{
               display: 'flex',
               flexDirection: 'column',
-              pt: '$sm',
-              '> *': { padding: '$xs $md' },
-              '> a': {
-                color: '$text',
-                '&:hover': { color: '$black' },
-              },
+              p: '$md',
             }}
           >
             <Link
+              type="menu"
               css={{
-                fontSize: '$large',
-                mb: '$md',
-                fontWeight: 'bold',
+                py: '$sm',
+                fontWeight: '$bold',
                 display: 'flex',
+                flexDirection: 'row',
                 alignItems: 'center',
-                svg: {
-                  fill: '$text',
-                },
               }}
             >
-              Overview
+              {overviewMenuTriggerText}
               <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                <ChevronUpSVG />
+                <ChevronUp size="md" />
               </Box>
             </Link>
-            {hasCircles && <TopLevelLinks links={mainLinks} />}
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginTop: '$sm',
+                marginBottom: '$md',
+              }}
+            >
+              {hasCircles && <TopLevelLinks links={mainLinks} />}
+            </Box>
             {orgs?.map(org => (
-              <Box key={org.id} css={{ mb: '$lg' }}>
-                <Box
-                  css={{ display: 'flex', mb: '$sm', alignItems: 'flex-start' }}
-                >
-                  <Text variant="label" css={{ flexGrow: 1, fontSize: '$2' }}>
-                    {org.name}
-                  </Text>
-                </Box>
-                <Box
-                  css={{ display: 'flex', flexDirection: 'column', gap: '$sm' }}
-                >
+              <Box key={org.id} css={{ mb: '$md' }}>
+                <Text variant="label" as="label">
+                  {org.name}
+                </Text>
+                <Box css={{ display: 'flex', flexDirection: 'column' }}>
                   {sortBy(org.circles, c => -c.users.length).map(circle => (
                     <CircleItem
                       circle={circle}
@@ -166,64 +179,19 @@ type CircleItemProps = {
   onButtonClick: (id: number, path: string) => void;
 };
 
-const headerLinkStyle = {
-  my: 0,
-  mx: '$xs',
-  fontSize: '$large',
-  fontWeight: 'bold',
-  color: '$white',
-  borderRadius: '$pill',
-  textDecoration: 'none',
-  px: '$md',
-  py: '$xs',
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  svg: {
-    fill: '$white',
-  },
-  '&:hover': {
-    backgroundColor: '$secondaryText',
-  },
-  '&.active': {
-    backgroundColor: '$focusedBorder',
-    color: '$text',
-    svg: {
-      fill: '$text',
-    },
-  },
-};
-
-const linkStyle = {
-  my: 0,
-  fontSize: '$large',
-  color: '$text',
-  '&:hover': {
-    color: '$link',
-  },
-};
-
 export const TopLevelLinks = ({
   links,
-  css = {},
 }: {
   links: [string, string, string[]?][];
-  css?: CSS;
 }) => {
   const location = useLocation();
 
   return (
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        marginBottom: '$lg',
-        ...css,
-      }}
-    >
+    <>
       {links.map(([path, label, matchPaths]) => (
         <Link
-          css={linkStyle}
+          type="menu"
+          css={{ pt: '$sm' }}
           as={NavLink}
           key={path}
           to={path}
@@ -232,7 +200,7 @@ export const TopLevelLinks = ({
           {label}
         </Link>
       ))}
-    </Box>
+    </>
   );
 };
 
@@ -241,13 +209,8 @@ const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
   const nonMember = role === undefined;
   return (
     <Link
-      css={{
-        fontSize: '$large',
-        color: '$text',
-        '&:hover': {
-          color: '$link',
-        },
-      }}
+      type="menu"
+      css={{ pt: '$sm' }}
       onClick={() => !nonMember && onButtonClick(circle.id, paths.history)}
     >
       {circle.name}

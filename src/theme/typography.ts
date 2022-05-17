@@ -32,7 +32,7 @@ const typography = {
   overline: {
     fontWeight: 500,
   },
-  fontFamily: ['Space Grotesk', 'sans-serif'],
+  fontFamily: ['Inter', 'sans-serif'],
 };
 
 export default typography;

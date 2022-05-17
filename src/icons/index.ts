@@ -12,6 +12,8 @@
 
 export * from './AwardIcon';
 export * from './BalanceIcon';
+export * from './ChevronDown';
+export * from './ChevronUp';
 export * from './CloseIcon';
 export * from './DeleteIcon';
 export * from './DeworkIcon';

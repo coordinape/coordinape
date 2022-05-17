@@ -51,52 +51,60 @@ export const MainHeader = () => {
     <Box
       css={{
         px: '$1xl',
-        pt: '9px', // manual offset to align breadcrumb
-        height: '80px',
+        height: '91px',
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: '$headerBackground',
+        flexDirection: 'column',
+        background: '$headingText',
       }}
     >
-      <OverviewMenu />
+      <Box
+        css={{
+          mt: 'calc($sm - 1px)',
+          mb: '-2px',
+          pb: '$xs',
+          px: '$xs',
+          color: '$neutral',
+          fontWeight: '$black',
+        }}
+      >
+        COORDINAPE
+      </Box>
       <Box
         css={{
           display: 'flex',
-          flexGrow: 1,
-          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           position: 'relative',
         }}
       >
-        {inCircle && (
-          <Box>
-            <Box
-              css={{
-                color: '$secondaryText',
-                ml: '$md',
-                lineHeight: '14px',
-                position: 'absolute',
-                top: '-1.4rem', // half of breadcrumb line-height
-              }}
-            >
-              {breadcrumb}
+        <OverviewMenu />
+        <Box
+          css={{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'flex-start',
+            position: 'relative',
+          }}
+        >
+          {inCircle && (
+            <Box>
+              <Suspense fallback={null}>
+                <CircleNav />
+              </Suspense>
             </Box>
-
-            <Suspense fallback={null}>
-              <CircleNav />
-            </Suspense>
-          </Box>
+          )}
+        </Box>
+        {inCircle && (
+          <Suspense fallback={null}>
+            <ReceiveInfo />
+          </Suspense>
         )}
-      </Box>
-      {inCircle && (
+        {!address && <ConnectButton />}
         <Suspense fallback={null}>
-          <ReceiveInfo />
+          <MyAvatarMenu />
         </Suspense>
-      )}
-      {!address && <ConnectButton />}
-      <Suspense fallback={null}>
-        <MyAvatarMenu />
-      </Suspense>
+      </Box>
     </Box>
   );
 };
@@ -286,22 +294,25 @@ const MobileAvatar = () => {
   );
 };
 
-const linkStyle = {
+export const linkStyle = {
   my: 0,
   mx: '$xs',
   fontSize: '$large',
-  fontWeight: '$bold',
   color: '$white',
   borderRadius: '$pill',
   textDecoration: 'none',
   px: '$md',
-  py: '$xs',
+  py: '$sm',
   position: 'relative',
+  border: '1px solid transparent',
+  display: 'flex',
+  alignItems: 'center',
   '&:hover': {
-    backgroundColor: '$secondaryText',
+    borderColor: '$secondaryText',
   },
   '&.active': {
     backgroundColor: '$focusedBorder',
+    fontWeight: '$bold',
     cursor: 'default',
     color: '$text',
   },
@@ -365,7 +376,7 @@ const CircleNav = () => {
 
   const links: [string, string, string[]?][] = useMemo(() => {
     const l: [string, string, string[]?][] = [
-      [paths.history, 'History'],
+      // [paths.contributions, 'Contributions'],
       [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
       [paths.map(), 'Map'],
     ];

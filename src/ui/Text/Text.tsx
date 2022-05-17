@@ -1,7 +1,7 @@
 import { styled } from '../../stitches.config';
 
 export const Text = styled('span', {
-  lineHeight: '1',
+  lineHeight: '$none',
   margin: '0',
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
@@ -34,22 +34,23 @@ export const Text = styled('span', {
     },
     h3: { true: { fontSize: '$h3', color: '$headingText' } },
 
-    small: { true: { fontSize: '$small', color: '$text' } },
-    medium: { true: { fontSize: '$medium', color: '$text' } },
-    large: { true: { fontSize: '$large', color: '$text' } },
-
+    size: {
+      small: { fontSize: '$small', lineHeight: '$shorter' },
+      medium: { fontSize: '$medium', lineHeight: '$shorter' },
+      large: { fontSize: '$large', lineHeight: '$shorter' },
+    },
     variant: {
       label: {
         color: '$secondaryText',
         textTransform: 'uppercase',
         fontSize: '$small',
-        fontFamily: 'Inter',
         fontWeight: '$semibold',
+        lineHeight: '$shorter',
       },
     },
   },
 
-  defaultVariants: { font: 'space', color: 'default' },
+  defaultVariants: { font: 'inter', color: 'default' },
 });
 
 export default Text;

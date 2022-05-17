@@ -40,6 +40,7 @@ export const paths = {
   allocation: '/allocation',
   circles: '/circles',
   connectIntegration: '/connect-integration',
+  contributions: '/contributions',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
   distributions: (epochId: number | string) =>
@@ -59,6 +60,7 @@ export const paths = {
 const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'adminCircles',
   'allocation',
+  'contributions',
   'epoch',
   'give',
   'history',
