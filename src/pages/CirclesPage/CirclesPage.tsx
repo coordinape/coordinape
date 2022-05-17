@@ -138,10 +138,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         flexDirection: 'row',
         gap: '$md',
         '.hover-buttons': {
-          visibility: 'hidden',
-          '@sm': { visibility: 'visible' },
+          display: 'none',
+          '@sm': { display: 'flex' },
         },
-        '&:hover .hover-buttons': { visibility: 'visible' },
+        '&:hover .hover-buttons': { display: 'flex' },
         ...(nonMember
           ? nonMemberPanelCss
           : {

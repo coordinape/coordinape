@@ -91,7 +91,12 @@ export const WalletAuthModal = ({
     // wrong network ID
     // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
     const ethereum = (window as any).ethereum;
-    ethereum?.removeAllListeners(['networkChanged']);
+    try {
+      if (ethereum.isMetaMask)
+        await ethereum?.removeAllListeners(['networkChanged']);
+    } catch (e: unknown) {
+      console.error(e);
+    }
 
     clearTimeout(timeoutHandle);
 

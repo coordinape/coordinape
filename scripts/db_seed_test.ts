@@ -118,7 +118,7 @@ async function createEndedEpochWithGifts() {
     DateTime.now().minus({ days: 1 }),
     1
   );
-  await createGifts(result, epochId, 9, false);
+  await createGifts(result, epochId, 9, 100, false);
 }
 
 async function createCircleWithPendingGiftsEndingSoon() {

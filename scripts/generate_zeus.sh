@@ -12,7 +12,7 @@ function generate() {
   # use the first argument as the path to move files to
   local TYPE=$1; shift
   local GEN_PATH=$1; shift
-  local TMP_GEN_PATH=$TMPDIR/${TYPE}_`date +%s`
+  local TMP_GEN_PATH=${TMPDIR:-/tmp}/${TYPE}_`date +%s`
 
   # pass the rest of the arguments to zeus
   (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts "$@")
