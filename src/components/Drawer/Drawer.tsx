@@ -82,9 +82,13 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
         >
           See how gift circle rewards are flowing
         </Text>
+      </div>
+      {open ? (
+        <div className={classes.content}>{children}</div>
+      ) : (
         <Button
           outlined
-          size="medium"
+          size="large"
           onClick={() => setOpen(!open)}
           css={{
             width: 'fit-content',
@@ -98,8 +102,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             css={{ marginLeft: 8 }}
           />
         </Button>
-      </div>
-      {open ? <div className={classes.content}>{children}</div> : undefined}
+      )}
     </MuiDrawer>
   );
 };

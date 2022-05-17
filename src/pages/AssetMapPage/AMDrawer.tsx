@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 
+import { MagnifyingGlassIcon, PinLeftIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 
 import { makeStyles, Button as MUButton } from '@material-ui/core';
@@ -19,7 +20,6 @@ import {
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
 import { Text, Select } from 'ui';
-import { SearchIcon } from 'ui/icons/SearchIcon';
 
 import AMProfileCard from './AMProfileCard';
 import { RedSelect } from './RedSelect';
@@ -47,11 +47,20 @@ const useStyles = makeStyles(theme => ({
   controls: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#EEF1F4',
+    backgroundColor: theme.colors.surface,
     width: '100%',
     borderRadius: 8,
     padding: theme.spacing(1, 2),
     marginTop: 8,
+  },
+  filterHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    paddingTop: 15 - 8,
+    color: theme.colors.placeholder,
   },
   rank: {
     minWidth: 47,
@@ -75,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 8,
     scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
     scrollbarWidth: 'thin',
-    backgroundColor: '#EEF1F4',
+    backgroundColor: theme.colors.surface,
     '&::-webkit-scrollbar': {
       backgroundColor: theme.colors.surface,
       width: 8,
@@ -189,18 +198,22 @@ export const AMDrawer = () => {
     <>
       <Drawer open={open} setOpen={handleSetOpen}>
         <div className={classes.controls}>
-          <Text
-            css={{
-              fontWeight: '$bold',
-              fontSize: '$large',
-              lineHeight: '$short',
-              color: '$headingText',
-              marginBottom: 16,
-              paddingTop: 15 - 8,
-            }}
-          >
-            Filters
-          </Text>
+          <div className={classes.filterHeader}>
+            <Text
+              css={{
+                fontWeight: '$bold',
+                fontSize: '$large',
+                lineHeight: '$short',
+                color: '$headingText',
+              }}
+            >
+              Filters
+            </Text>
+            <PinLeftIcon
+              onClick={() => setOpen(!open)}
+              style={{ color: 'currentColor', cursor: 'pointer' }}
+            />
+          </div>
           {showHiddenFeatures && (
             <MUButton
               onClick={onRankToggle}
@@ -234,7 +247,11 @@ export const AMDrawer = () => {
             color="secondary"
             placeholder="Search"
             InputProps={{
-              endAdornment: <SearchIcon size="md" color={'secondaryText'} />,
+              endAdornment: (
+                <MagnifyingGlassIcon
+                  style={{ width: 16, height: 16, color: '#B8BDBF' }}
+                />
+              ),
             }}
           />
         </div>
