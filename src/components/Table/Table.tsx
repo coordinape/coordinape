@@ -1,52 +1,20 @@
-// FIXME move Table and TableBorder to src/ui
-
 import { ReactNode, useMemo, useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
-import { styled } from 'stitches.config';
 
-import { Box } from 'ui';
-
-export const Table = styled('table', {
-  width: '100%',
-  borderCollapse: 'collapse',
-  fontSize: '$small',
-  tr: {
-    borderBottom: '0.5px solid $border',
-  },
-  'thead tr': {
-    backgroundColor: '$background',
-    height: '$2xl',
-  },
-  'th, td': {
-    textAlign: 'center',
-    fontWeight: 'normal',
-    color: '$text',
-  },
-  'th:first-child, td:first-child': {
-    textAlign: 'left',
-    paddingLeft: '$md',
-  },
-  'tbody tr': {
-    backgroundColor: '$white',
-    height: '$2xl',
-  },
-});
-
-export const TableBorder = styled(Box, {
-  boxShadow: '0px 12px 26px rgba(16, 30, 115, 0.06)',
-  borderRadius: '$3',
-  overflow: 'hidden',
-});
+import { Box, Panel, Table } from 'ui';
 
 export function makeTable<T>(displayName: string) {
   type TableProps<T> = {
-    headers: string[];
     data: T[];
     children: (dataItem: T) => ReactNode;
-    sortByColumn: (index: number) => (dataItem: T) => any;
     startingSortIndex?: number;
     startingSortDesc?: boolean;
+    sortByColumn: (index: number) => (dataItem: T) => any;
+    headers: {
+      title: string;
+      style?: any;
+    }[];
   };
 
   const Component = function ({
@@ -75,17 +43,19 @@ export function makeTable<T>(displayName: string) {
     }, [sortIndex, sortDesc, sortByColumn]);
 
     return (
-      <TableBorder>
+      <Panel
+        css={{ backgroundColor: '$white', padding: '$md', overflowX: 'auto' }}
+      >
         <Table>
           <thead>
             <tr>
-              {headers.map((header: string, index: number) => (
-                <th key={index} className={`col${index}`}>
+              {headers.map((header, index: number) => (
+                <th key={index}>
                   <Box
                     onClick={() => resort(index)}
-                    css={{ cursor: 'pointer' }}
+                    css={{ cursor: 'pointer', ...header.style }}
                   >
-                    {header}
+                    {header.title}
                     {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
                   </Box>
                 </th>
@@ -94,7 +64,7 @@ export function makeTable<T>(displayName: string) {
           </thead>
           <tbody>{sortedData.map(children)}</tbody>
         </Table>
-      </TableBorder>
+      </Panel>
     );
   };
 

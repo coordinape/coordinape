@@ -112,13 +112,11 @@ test('submit distribution', async () => {
         });
         assert(vault, 'vault not created');
 
-        await deposit(vault, '100');
-
         const distro = await submitDistribution({
           amount: '100',
           vault,
           circleId: 2,
-          userIdsByAddress,
+          profileIdsByAddress,
           epochId: 2,
           gifts,
         });
@@ -186,14 +184,13 @@ test('previous distribution', async () => {
           amount: '100',
           vault,
           circleId: 2,
-          userIdsByAddress,
+          profileIdsByAddress,
           epochId: 2,
           gifts,
           previousDistribution: {
             id: 1,
             vault_id: 1,
             distribution_json: JSON.stringify(previousDistribution),
-            tx_hash: '0x0',
           },
         });
 
@@ -218,7 +215,7 @@ test('previous distribution', async () => {
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
-const userIdsByAddress = {
+const profileIdsByAddress = {
   '0xabc0000000000000000000000000000000000001': 15,
   '0xabc0000000000000000000000000000000000002': 13,
   '0xabc0000000000000000000000000000000000003': 14,

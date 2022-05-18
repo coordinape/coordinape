@@ -8,7 +8,7 @@ export const Table = styled('table', {
     borderBottom: '0.5px solid $lightBackground',
   },
   'thead tr': {
-    backgroundColor: '$subtleGray',
+    backgroundColor: '$white',
     height: '$2xl',
   },
   'th, td': {
@@ -21,11 +21,13 @@ export const Table = styled('table', {
     paddingLeft: '$md',
   },
   'tbody tr': {
-    backgroundColor: '$white',
+    backgroundColor: '$background',
     height: '$2xl',
+    borderBottom: '0.5px solid $border',
   },
-  boxShadow: '0px 12px 26px rgba(16, 30, 115, 0.06)',
-  borderRadius: '$3',
+  'tbody tr:first-child': {
+    borderTop: '0.5px solid $border',
+  },
   overflow: 'hidden',
 });
 
