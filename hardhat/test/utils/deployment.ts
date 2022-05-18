@@ -12,8 +12,8 @@ import {
   ApeDistributor__factory,
   ApeRouter,
   ApeRouter__factory,
-  ApeToken,
-  ApeToken__factory,
+  COToken,
+  COToken__factory,
   ApeVaultFactoryBeacon,
   ApeVaultFactoryBeacon__factory,
   ERC20,
@@ -33,7 +33,7 @@ export type DeployedContracts = {
   usdc: ERC20;
   usdcYVault: VaultAPI;
   yRegistry: RegistryAPI;
-  apeToken: ApeToken;
+  coToken: COToken;
   apeVaultFactory: ApeVaultFactoryBeacon;
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
@@ -68,8 +68,8 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       YEARN_REGISTRY_ADDRESS,
       deployer.signer
     ),
-    apeToken: ApeToken__factory.connect(
-      fixture['ApeToken'].address,
+    coToken: COToken__factory.connect(
+      fixture['COToken'].address,
       deployer.signer
     ),
     apeVaultFactory: ApeVaultFactoryBeacon__factory.connect(

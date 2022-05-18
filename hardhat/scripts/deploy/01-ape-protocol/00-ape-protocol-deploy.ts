@@ -55,8 +55,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
     log: true,
   });
-  await deploy('ApeToken', {
-    contract: 'ApeToken',
+  await deploy('COToken', {
+    contract: 'COToken',
     from: deployer,
     args: [],
     log: true,
