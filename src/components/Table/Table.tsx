@@ -1,7 +1,6 @@
 import { ReactNode, useMemo, useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
-import type { CSS } from 'stitches.config';
 
 import { Box, Panel, Table } from 'ui';
 
@@ -14,7 +13,7 @@ export function makeTable<T>(displayName: string) {
     sortByColumn: (index: number) => (dataItem: T) => any;
     headers: {
       title: string;
-      css?: CSS;
+      style?: any;
     }[];
   };
 
@@ -54,7 +53,7 @@ export function makeTable<T>(displayName: string) {
                 <th key={index}>
                   <Box
                     onClick={() => resort(index)}
-                    css={{ cursor: 'pointer', ...header.css }}
+                    css={{ cursor: 'pointer', ...header.style }}
                   >
                     {header.title}
                     {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}

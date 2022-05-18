@@ -54,7 +54,6 @@ const tokens = {
     .addParam('address', 'The recipient', constants_1.HARDHAT_OWNER_ADDRESS)
     .addParam('amount', 'The amount to mint')
     .setAction(async (args, hre) => {
-    console.log('derpazoid');
     const mintEth = async (receiver, amount) => {
         const signers = await hre.ethers.getSigners();
         await signers[0].sendTransaction({
