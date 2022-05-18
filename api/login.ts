@@ -1,15 +1,13 @@
 import assert from 'assert';
 import { randomBytes, createHash } from 'crypto';
-import { SiweMessage } from 'siwe';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
+import { SiweMessage } from 'siwe';
 
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
-import {
-  parseInput,
-} from '../api-lib/signature';
+import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
@@ -25,6 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const message = new SiweMessage(data);
       const verificationResult = await message.verify({
         signature,
+        // TODO: replace by configured domain
         domain: 'domain.tld',
       });
 
@@ -45,10 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { profiles } = await adminClient.query(
       {
-        profiles: [
-          { where: { address: { _ilike: address } } },
-          { id: true },
-        ],
+        profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
       },
       {
         operationName: 'login_getProfile',
@@ -61,10 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
-          insert_profiles_one: [
-            { object: { address: address } },
-            { id: true },
-          ],
+          insert_profiles_one: [{ object: { address: address } }, { id: true }],
         },
         {
           operationName: 'login_insertProfile',
