@@ -5,14 +5,15 @@ import { formatRelative, parseISO } from 'date-fns';
 import { isUserAdmin } from 'lib/users';
 import { getUnwrappedAmount } from 'lib/vaults';
 import uniqBy from 'lodash/uniqBy';
+import { FiExternalLink } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
+import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
 import { useFixCircleState } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { LinkIcon } from 'icons';
 import { Box, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -149,6 +150,11 @@ export function DistributionsPage() {
     </SingleColumnLayout>
   );
 }
+//TODO: Discuss with the team what do about Icons in general. This should go in a separate file.
+const Icon = styled(FiExternalLink, {
+  size: '$md',
+  color: '$focusedBorder',
+});
 
 const Summary = ({
   distribution,
@@ -157,12 +163,24 @@ const Summary = ({
 }) => {
   const distTime = parseISO(distribution.created_at + 'Z');
   return (
-    <>
-      <Text>Distribution submitted {formatRelative(distTime, Date.now())}</Text>
-      <LinkIcon />
-      <Link href={`https://etherscan.io/tx/${distribution.tx_hash}`}>
-        View on Etherscan
-      </Link>
-    </>
+    <Box
+      css={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Text css={{ color: '$complete' }}>
+        Distribution submitted {formatRelative(distTime, Date.now())}
+      </Text>
+      <Box css={{ display: 'flex', alignItems: 'center' }}>
+        <Icon css={{}} />
+        <Link
+          css={{ ml: '$xs' }}
+          href={`https://etherscan.io/tx/${distribution.tx_hash}`}
+        >
+          View on Etherscan
+        </Link>
+      </Box>
+    </Box>
   );
 };
