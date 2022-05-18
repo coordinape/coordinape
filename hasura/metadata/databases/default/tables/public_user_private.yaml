@@ -26,13 +26,6 @@ select_permissions:
     - user_id
     - fixed_payment_token_type
     - fixed_payment_amount
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - user_id
-    - fixed_payment_token_type
-    - fixed_payment_amount
     filter:
       _or:
       - circle:
