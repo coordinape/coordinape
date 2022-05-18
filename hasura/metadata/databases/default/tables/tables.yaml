@@ -16,6 +16,7 @@
 - "!include public_protocols.yaml"
 - "!include public_teammates.yaml"
 - "!include public_token_gifts.yaml"
+- "!include public_user_private.yaml"
 - "!include public_users.yaml"
 - "!include public_vault_transactions.yaml"
 - "!include public_vaults.yaml"
