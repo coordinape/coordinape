@@ -27,6 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const message = new SiweMessage(data);
       const verificationResult = await message.verify({
         signature,
+        // TODO: replace by configured domain
         domain: 'domain.tld',
       });
 
