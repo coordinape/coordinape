@@ -708,6 +708,11 @@ export type ValueTypes = {
     circle_id: number;
     users: Array<ValueTypes['UserObj'] | undefined | null>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -855,6 +860,12 @@ export type ValueTypes = {
     /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['VaultResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
   ['VouchInput']: {
@@ -2051,7 +2062,6 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     merkle_root?: string | undefined | null;
     total_amount?: ValueTypes['numeric'] | undefined | null;
-    vault?: ValueTypes['vaults_obj_rel_insert_input'] | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -2739,6 +2749,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['CreateUsersInput'] },
       ValueTypes['UserResponse']
     ];
+    createVault?: [
+      { payload: ValueTypes['CreateVaultInput'] },
+      ValueTypes['VaultResponse']
+    ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
       ValueTypes['DeleteEpochResponse']
@@ -2827,19 +2841,6 @@ columns and relationships of "distributions" */
         object: ValueTypes['vault_transactions_insert_input'];
       },
       ValueTypes['vault_transactions']
-    ];
-    insert_vaults?: [
-      {
-        /** the rows to be inserted */
-        objects: Array<ValueTypes['vaults_insert_input']>;
-      },
-      ValueTypes['vaults_mutation_response']
-    ];
-    insert_vaults_one?: [
-      {
-        /** the row to be inserted */ object: ValueTypes['vaults_insert_input'];
-      },
-      ValueTypes['vaults']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     updateAllocations?: [
@@ -5772,10 +5773,6 @@ columns and relationships of "distributions" */
       | undefined
       | null;
   };
-  /** input type for inserting array relation for remote table "vault_transactions" */
-  ['vault_transactions_arr_rel_insert_input']: {
-    data: Array<ValueTypes['vault_transactions_insert_input']>;
-  };
   /** order by avg() on columns of table "vault_transactions" */
   ['vault_transactions_avg_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
@@ -5812,7 +5809,6 @@ columns and relationships of "distributions" */
     tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     value?: ValueTypes['bigint'] | undefined | null;
-    vault?: ValueTypes['vaults_obj_rel_insert_input'] | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** order by max() on columns of table "vault_transactions" */
@@ -6002,20 +5998,6 @@ columns and relationships of "distributions" */
       | undefined
       | null;
   };
-  /** input type for inserting data into table "vaults" */
-  ['vaults_insert_input']: {
-    decimals?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    org_id?: ValueTypes['bigint'] | undefined | null;
-    simple_token_address?: string | undefined | null;
-    symbol?: string | undefined | null;
-    token_address?: string | undefined | null;
-    vault_address?: string | undefined | null;
-    vault_transactions?:
-      | ValueTypes['vault_transactions_arr_rel_insert_input']
-      | undefined
-      | null;
-  };
   /** order by max() on columns of table "vaults" */
   ['vaults_max_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -6041,18 +6023,6 @@ columns and relationships of "distributions" */
     token_address?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vault_address?: ValueTypes['order_by'] | undefined | null;
-  };
-  /** response of any mutation on the table "vaults" */
-  ['vaults_mutation_response']: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ValueTypes['vaults'];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** input type for inserting object relation for remote table "vaults" */
-  ['vaults_obj_rel_insert_input']: {
-    data: ValueTypes['vaults_insert_input'];
   };
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: {
@@ -6277,6 +6247,7 @@ export type ModelTypes = {
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
+  ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -6327,6 +6298,11 @@ export type ModelTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
@@ -6875,6 +6851,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_integrations" */
@@ -6911,10 +6888,6 @@ columns and relationships of "distributions" */
     insert_vault_transactions_one?:
       | GraphQLTypes['vault_transactions']
       | undefined;
-    /** insert data into the table: "vaults" */
-    insert_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
-    /** insert a single row into the table: "vaults" */
-    insert_vaults_one?: GraphQLTypes['vaults'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -7695,8 +7668,6 @@ columns and relationships of "distributions" */
   };
   /** order by aggregate values of table "vault_transactions" */
   ['vault_transactions_aggregate_order_by']: GraphQLTypes['vault_transactions_aggregate_order_by'];
-  /** input type for inserting array relation for remote table "vault_transactions" */
-  ['vault_transactions_arr_rel_insert_input']: GraphQLTypes['vault_transactions_arr_rel_insert_input'];
   /** order by avg() on columns of table "vault_transactions" */
   ['vault_transactions_avg_order_by']: GraphQLTypes['vault_transactions_avg_order_by'];
   /** Boolean expression to filter rows from the table "vault_transactions". All fields are combined with a logical 'AND'. */
@@ -7757,21 +7728,10 @@ columns and relationships of "distributions" */
   ['vaults_avg_order_by']: GraphQLTypes['vaults_avg_order_by'];
   /** Boolean expression to filter rows from the table "vaults". All fields are combined with a logical 'AND'. */
   ['vaults_bool_exp']: GraphQLTypes['vaults_bool_exp'];
-  /** input type for inserting data into table "vaults" */
-  ['vaults_insert_input']: GraphQLTypes['vaults_insert_input'];
   /** order by max() on columns of table "vaults" */
   ['vaults_max_order_by']: GraphQLTypes['vaults_max_order_by'];
   /** order by min() on columns of table "vaults" */
   ['vaults_min_order_by']: GraphQLTypes['vaults_min_order_by'];
-  /** response of any mutation on the table "vaults" */
-  ['vaults_mutation_response']: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['vaults']>;
-  };
-  /** input type for inserting object relation for remote table "vaults" */
-  ['vaults_obj_rel_insert_input']: GraphQLTypes['vaults_obj_rel_insert_input'];
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: GraphQLTypes['vaults_order_by'];
   /** select columns of table "vaults" */
@@ -7933,6 +7893,11 @@ export type GraphQLTypes = {
     circle_id: number;
     users: Array<GraphQLTypes['UserObj'] | undefined>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -8081,6 +8046,12 @@ export type GraphQLTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    __typename: 'VaultResponse';
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -9018,7 +8989,6 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
-    vault?: GraphQLTypes['vaults_obj_rel_insert_input'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
@@ -9550,6 +9520,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_integrations" */
@@ -9586,10 +9557,6 @@ columns and relationships of "distributions" */
     insert_vault_transactions_one?:
       | GraphQLTypes['vault_transactions']
       | undefined;
-    /** insert data into the table: "vaults" */
-    insert_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
-    /** insert a single row into the table: "vaults" */
-    insert_vaults_one?: GraphQLTypes['vaults'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -11163,10 +11130,6 @@ columns and relationships of "distributions" */
     var_samp?: GraphQLTypes['vault_transactions_var_samp_order_by'] | undefined;
     variance?: GraphQLTypes['vault_transactions_variance_order_by'] | undefined;
   };
-  /** input type for inserting array relation for remote table "vault_transactions" */
-  ['vault_transactions_arr_rel_insert_input']: {
-    data: Array<GraphQLTypes['vault_transactions_insert_input']>;
-  };
   /** order by avg() on columns of table "vault_transactions" */
   ['vault_transactions_avg_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
@@ -11203,7 +11166,6 @@ columns and relationships of "distributions" */
     tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     value?: GraphQLTypes['bigint'] | undefined;
-    vault?: GraphQLTypes['vaults_obj_rel_insert_input'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by max() on columns of table "vault_transactions" */
@@ -11368,19 +11330,6 @@ columns and relationships of "distributions" */
       | GraphQLTypes['vault_transactions_bool_exp']
       | undefined;
   };
-  /** input type for inserting data into table "vaults" */
-  ['vaults_insert_input']: {
-    decimals?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    org_id?: GraphQLTypes['bigint'] | undefined;
-    simple_token_address?: string | undefined;
-    symbol?: string | undefined;
-    token_address?: string | undefined;
-    vault_address?: string | undefined;
-    vault_transactions?:
-      | GraphQLTypes['vault_transactions_arr_rel_insert_input']
-      | undefined;
-  };
   /** order by max() on columns of table "vaults" */
   ['vaults_max_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -11406,18 +11355,6 @@ columns and relationships of "distributions" */
     token_address?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vault_address?: GraphQLTypes['order_by'] | undefined;
-  };
-  /** response of any mutation on the table "vaults" */
-  ['vaults_mutation_response']: {
-    __typename: 'vaults_mutation_response';
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['vaults']>;
-  };
-  /** input type for inserting object relation for remote table "vaults" */
-  ['vaults_obj_rel_insert_input']: {
-    data: GraphQLTypes['vaults_insert_input'];
   };
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: {

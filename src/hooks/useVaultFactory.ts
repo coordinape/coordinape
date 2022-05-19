@@ -30,21 +30,13 @@ export function useVaultFactory(orgId?: number) {
     );
 
     try {
-      let args: [string, string], decimals: number, symbol: string;
+      let args: [string, string];
 
       if (!type) {
         args = [ZERO_ADDRESS, simpleTokenAddress as string];
-        decimals = await contracts
-          .getERC20(simpleTokenAddress as string)
-          .decimals();
-        symbol = await contracts
-          .getERC20(simpleTokenAddress as string)
-          .symbol();
       } else {
         const tokenAddress = contracts.getToken(type).address;
         args = [tokenAddress, ZERO_ADDRESS];
-        decimals = await contracts.getERC20(tokenAddress).decimals();
-        symbol = await contracts.getERC20(tokenAddress).symbol();
       }
 
       const { receipt } = await sendAndTrackTx(
@@ -56,15 +48,12 @@ export function useVaultFactory(orgId?: number) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
 
-          const vault: ValueTypes['vaults_insert_input'] = {
-            decimals,
+          const vault: ValueTypes['CreateVaultInput'] = {
             vault_address: vaultAddress,
             org_id: orgId,
-            simple_token_address: args[1],
-            token_address: args[0],
-            symbol: symbol,
+            chain_id: Number.parseInt(contracts.chainId),
           };
-          return addVault(vault).then(r => r.insert_vaults_one);
+          return addVault(vault).then(r => r.createVault?.vault);
         }
       }
 

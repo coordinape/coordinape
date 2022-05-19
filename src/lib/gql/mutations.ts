@@ -125,13 +125,13 @@ export const allVaultFields = {
   vault_address: true,
 };
 
-export const addVault = (vault: ValueTypes['vaults_insert_input']) =>
+export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
   client.mutate(
     {
-      insert_vaults_one: [{ object: vault }, allVaultFields],
+      createVault: [{ payload: vault }, { vault: allVaultFields }],
     },
     {
-      operationName: 'addValut',
+      operationName: 'addVault',
     }
   );
 
