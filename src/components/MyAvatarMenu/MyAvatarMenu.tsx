@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useWeb3React } from '@web3-react/core';
-import clsx from 'clsx';
+import { NavLink } from 'react-router-dom';
 
 import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
@@ -9,12 +9,13 @@ import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ApeAvatar } from 'components';
+import { menuGroup } from 'components/MainLayout/MainHeader';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
-import { AppLink, Box, Link } from 'ui';
+import { Box, Link } from 'ui';
 import { shortenAddress } from 'utils';
 import { connectors } from 'utils/connectors';
 
@@ -24,25 +25,20 @@ const useStyles = makeStyles(theme => ({
     height: '50px',
     width: '50px',
     cursor: 'pointer',
-    border: '3px solid #828F93',
-    transition: 'border-color .3s ease',
-    '&.selected': {
-      border: '3px solid rgba(239, 115, 118, 1)',
-    },
-    '&:hover': {
-      border: '3px solid rgba(239, 115, 118, 1)',
-    },
   },
   popover: {
-    width: 237,
     marginTop: theme.spacing(0.5),
     padding: 0,
     borderRadius: 8,
-    background:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
+    background: '$surface',
+    boxShadow:
+      '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
     display: 'flex',
     flexDirection: 'column',
+    top: '9px !important',
+    right: '24px !important',
+    left: 'auto !important',
+    transition: 'none !important',
   },
 }));
 
@@ -55,15 +51,9 @@ export const MyAvatarMenu = () => {
 
   return (
     <>
-      <ApeAvatar
-        profile={myProfile}
-        onClick={event => setAnchorEl(event.currentTarget)}
-        className={
-          !anchorEl
-            ? classes.avatarButton
-            : clsx(classes.avatarButton, 'selected')
-        }
-      />
+      <Link onClick={event => setAnchorEl(event.currentTarget)} href="#">
+        <ApeAvatar profile={myProfile} className={classes.avatarButton} />
+      </Link>
       <Hidden smDown>
         <Popover
           anchorEl={anchorEl}
@@ -79,38 +69,53 @@ export const MyAvatarMenu = () => {
             css={{
               display: 'flex',
               flexDirection: 'column',
-              pt: '$md',
-              '> *': { padding: '$xs $lg' },
-              '> a': {
-                color: '$text',
-                '&:hover': { color: '$black' },
-              },
+              textAlign: 'right',
+              alignItems: 'end',
+              p: '$md',
             }}
           >
-            <Box css={{ display: 'flex', alignItems: 'center' }}>
+            <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
+              <ApeAvatar className={classes.avatarButton} profile={myProfile} />
+            </Box>
+            <Box
+              css={{
+                display: 'flex',
+                alignItems: 'center',
+                mb: '$xs',
+                fontWeight: '$bold',
+                fontSize: '$large',
+              }}
+            >
               <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
               {address && shortenAddress(address)}
             </Box>
-
-            <AppLink to={paths.profile('me')}>My Profile</AppLink>
-            <AppLink to={paths.circles}>My Circles</AppLink>
-            <Link href={EXTERNAL_URL_DOCS}>Docs</Link>
-            <Link css={{ cursor: 'pointer' }} onClick={logout}>
-              Log Out
-            </Link>
             <Link
-              css={{
-                backgroundColor: '$secondaryDark',
-                mt: '$md',
-                py: '$md !important',
-                color: 'white !important',
-                '&:hover': { opacity: 0.8 },
-              }}
-              href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
-              target="_blank"
+              type="menu"
+              css={{ fontSize: '$xs', color: '$headingText' }}
+              onClick={logout}
             >
-              Give Feedback
+              Disconnect
             </Link>
+            <Box css={menuGroup}>
+              <Link type="menu" as={NavLink} to={paths.profile('me')}>
+                Profile
+              </Link>
+              <Link type="menu" as={NavLink} to={paths.circles}>
+                Circles
+              </Link>
+            </Box>
+            <Box css={menuGroup}>
+              <Link type="menu" href={EXTERNAL_URL_DOCS}>
+                Docs
+              </Link>
+              <Link
+                type="menu"
+                href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
+                target="_blank"
+              >
+                Give Feedback
+              </Link>
+            </Box>
           </Box>
         </Popover>
       </Hidden>

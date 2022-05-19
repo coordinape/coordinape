@@ -62,7 +62,7 @@ export const MainHeader = () => {
           mt: 'calc($sm - 1px)',
           mb: '-2px',
           pb: '$xs',
-          px: '$xs',
+          px: '20px',
           color: '$neutral',
           fontWeight: '$black',
         }}
@@ -292,6 +292,17 @@ const MobileAvatar = () => {
       <NewApeAvatar path={myProfile.avatar} />
     </Suspense>
   );
+};
+
+export const menuGroup = {
+  display: 'flex',
+  flexDirection: 'column',
+  borderTop: '1px solid $border',
+  width: '100%',
+  mt: '$md',
+  'a, label': {
+    mt: '$sm',
+  },
 };
 
 export const linkStyle = {

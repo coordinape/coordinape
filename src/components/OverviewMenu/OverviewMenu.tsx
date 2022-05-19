@@ -8,7 +8,7 @@ import { useRecoilValueLoadable } from 'recoil';
 
 import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
-import { linkStyle } from 'components/MainLayout/MainHeader';
+import { linkStyle, menuGroup } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0.5),
     padding: 0,
     borderRadius: 8,
-    background: '#FFFFFF',
+    background: '#FFF',
     boxShadow:
       '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
     display: 'flex',
@@ -144,13 +144,12 @@ export const OverviewMenu = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 marginTop: '$sm',
-                marginBottom: '$md',
               }}
             >
               {hasCircles && <TopLevelLinks links={mainLinks} />}
             </Box>
             {orgs?.map(org => (
-              <Box key={org.id} css={{ mb: '$md' }}>
+              <Box key={org.id} css={menuGroup}>
                 <Text variant="label" as="label">
                   {org.name}
                 </Text>
@@ -210,7 +209,6 @@ const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
   return (
     <Link
       type="menu"
-      css={{ pt: '$sm' }}
       onClick={() => !nonMember && onButtonClick(circle.id, paths.history)}
     >
       {circle.name}
