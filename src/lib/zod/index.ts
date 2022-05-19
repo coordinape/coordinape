@@ -242,6 +242,14 @@ export const allocationCsvInput = z
     'Either epoch or a epoch_id must be provided.'
   );
 
+export const createVaultInput = z
+  .object({
+    org_id: z.number().positive(),
+    vault_address: zEthAddressOnly,
+    chain_id: z.number(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),

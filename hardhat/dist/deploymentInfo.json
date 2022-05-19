@@ -39,6 +39,44 @@
             "address": "0xc778417e063141139fce010982780140aa0cd5ab"
         }
     },
+    "5": {
+        "ApeDistributor": {
+            "address": "0x1C07320B1588885d3cddacb3e592622dbf9e28e6"
+        },
+        "ApeRegistry": {
+            "address": "0x679FE7F8D263B738953151affF97F3af51E0A126"
+        },
+        "ApeRegistryBeacon": {
+            "address": "0xC1AB48d19B63d0330f71d423bEEacdB2104D3DaF"
+        },
+        "ApeRouter": {
+            "address": "0x04Ad1e2Af8A4331a6a10D4b7Ae92e983bD5b33C2"
+        },
+        "ApeToken": {
+            "address": "0x65AE42B1c82BF9E2A270B2cf26D1fb28639e8793"
+        },
+        "ApeVaultFactoryBeacon": {
+            "address": "0x38034CCECa1A6ce2Bc1cA736D4134AF994154660"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0xB4F0834b552c473A39EE6Ae7058E6735d95F856D"
+        },
+        "DAI": {
+            "address": "0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6"
+        },
+        "FeeRegistry": {
+            "address": "0x5Bd2C39d5CB3344601b2ACF0C36eEf28Bac18068"
+        },
+        "MockRegistry": {
+            "address": "0xe8a0721aF820630398994127C5592d41bB939689"
+        },
+        "MockVaultFactory": {
+            "address": "0xf968AF55F713BA8284f24c37de8636529b3F9425"
+        },
+        "USDC": {
+            "address": "0xd0374e274619dc3cf7d13de76104f1f0c73c9d64"
+        }
+    },
     "1337": {
         "ApeDistributor": {
             "address": "0x23c97a93AE2959dc85642fa9DE8f292d01527CeB"

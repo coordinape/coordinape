@@ -733,6 +733,11 @@ export type ValueTypes = {
     circle_id: number;
     users: Array<ValueTypes['UserObj'] | undefined | null>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -880,6 +885,12 @@ export type ValueTypes = {
     /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['VaultResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
   ['VouchInput']: {
@@ -4769,6 +4780,10 @@ columns and relationships of "distributions" */
     createUsers?: [
       { payload: ValueTypes['CreateUsersInput'] },
       ValueTypes['UserResponse']
+    ];
+    createVault?: [
+      { payload: ValueTypes['CreateVaultInput'] },
+      ValueTypes['VaultResponse']
     ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
@@ -11824,6 +11839,7 @@ columns and relationships of "distributions" */
   };
   /** columns and relationships of "vaults" */
   ['vaults']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
@@ -11935,6 +11951,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate avg on columns */
   ['vaults_avg_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -11943,6 +11960,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by avg() on columns of table "vaults" */
   ['vaults_avg_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -11953,6 +11971,7 @@ columns and relationships of "distributions" */
     _and?: Array<ValueTypes['vaults_bool_exp']> | undefined | null;
     _not?: ValueTypes['vaults_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['vaults_bool_exp']> | undefined | null;
+    chain_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     decimals?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -11977,6 +11996,7 @@ columns and relationships of "distributions" */
   ['vaults_constraint']: vaults_constraint;
   /** input type for incrementing numeric columns in table "vaults" */
   ['vaults_inc_input']: {
+    chain_id?: number | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     decimals?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -11984,6 +12004,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting data into table "vaults" */
   ['vaults_insert_input']: {
+    chain_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     decimals?: number | undefined | null;
@@ -12006,6 +12027,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate max on columns */
   ['vaults_max_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
@@ -12020,6 +12042,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by max() on columns of table "vaults" */
   ['vaults_max_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
@@ -12033,6 +12056,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate min on columns */
   ['vaults_min_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
@@ -12047,6 +12071,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by min() on columns of table "vaults" */
   ['vaults_min_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
@@ -12080,6 +12105,7 @@ columns and relationships of "distributions" */
   };
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
@@ -12105,6 +12131,7 @@ columns and relationships of "distributions" */
   ['vaults_select_column']: vaults_select_column;
   /** input type for updating data in table "vaults" */
   ['vaults_set_input']: {
+    chain_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     decimals?: number | undefined | null;
@@ -12118,6 +12145,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12126,6 +12154,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by stddev() on columns of table "vaults" */
   ['vaults_stddev_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12133,6 +12162,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate stddev_pop on columns */
   ['vaults_stddev_pop_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12141,6 +12171,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by stddev_pop() on columns of table "vaults" */
   ['vaults_stddev_pop_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12148,6 +12179,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate stddev_samp on columns */
   ['vaults_stddev_samp_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12156,6 +12188,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by stddev_samp() on columns of table "vaults" */
   ['vaults_stddev_samp_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12163,6 +12196,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate sum on columns */
   ['vaults_sum_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12171,6 +12205,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by sum() on columns of table "vaults" */
   ['vaults_sum_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12180,6 +12215,7 @@ columns and relationships of "distributions" */
   ['vaults_update_column']: vaults_update_column;
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12188,6 +12224,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by var_pop() on columns of table "vaults" */
   ['vaults_var_pop_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12195,6 +12232,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate var_samp on columns */
   ['vaults_var_samp_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12203,6 +12241,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by var_samp() on columns of table "vaults" */
   ['vaults_var_samp_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12210,6 +12249,7 @@ columns and relationships of "distributions" */
   };
   /** aggregate variance on columns */
   ['vaults_variance_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -12218,6 +12258,7 @@ columns and relationships of "distributions" */
   }>;
   /** order by variance() on columns of table "vaults" */
   ['vaults_variance_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -12531,6 +12572,7 @@ export type ModelTypes = {
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
+  ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -12581,6 +12623,11 @@ export type ModelTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
@@ -14263,6 +14310,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
@@ -16530,6 +16578,7 @@ columns and relationships of "distributions" */
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
+    chain_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
@@ -16574,6 +16623,7 @@ columns and relationships of "distributions" */
   ['vaults_arr_rel_insert_input']: GraphQLTypes['vaults_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['vaults_avg_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16591,6 +16641,7 @@ columns and relationships of "distributions" */
   ['vaults_insert_input']: GraphQLTypes['vaults_insert_input'];
   /** aggregate max on columns */
   ['vaults_max_fields']: {
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -16606,6 +16657,7 @@ columns and relationships of "distributions" */
   ['vaults_max_order_by']: GraphQLTypes['vaults_max_order_by'];
   /** aggregate min on columns */
   ['vaults_min_fields']: {
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -16640,6 +16692,7 @@ columns and relationships of "distributions" */
   ['vaults_set_input']: GraphQLTypes['vaults_set_input'];
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16649,6 +16702,7 @@ columns and relationships of "distributions" */
   ['vaults_stddev_order_by']: GraphQLTypes['vaults_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['vaults_stddev_pop_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16658,6 +16712,7 @@ columns and relationships of "distributions" */
   ['vaults_stddev_pop_order_by']: GraphQLTypes['vaults_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['vaults_stddev_samp_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16667,6 +16722,7 @@ columns and relationships of "distributions" */
   ['vaults_stddev_samp_order_by']: GraphQLTypes['vaults_stddev_samp_order_by'];
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
+    chain_id?: number | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -16678,6 +16734,7 @@ columns and relationships of "distributions" */
   ['vaults_update_column']: GraphQLTypes['vaults_update_column'];
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16687,6 +16744,7 @@ columns and relationships of "distributions" */
   ['vaults_var_pop_order_by']: GraphQLTypes['vaults_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['vaults_var_samp_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16696,6 +16754,7 @@ columns and relationships of "distributions" */
   ['vaults_var_samp_order_by']: GraphQLTypes['vaults_var_samp_order_by'];
   /** aggregate variance on columns */
   ['vaults_variance_fields']: {
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -16954,6 +17013,11 @@ export type GraphQLTypes = {
     circle_id: number;
     users: Array<GraphQLTypes['UserObj'] | undefined>;
   };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    org_id: number;
+    vault_address: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -17102,6 +17166,12 @@ export type GraphQLTypes = {
     /** An object relationship */
     UserResponse: GraphQLTypes['users'];
     id: string;
+  };
+  ['VaultResponse']: {
+    __typename: 'VaultResponse';
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -20276,6 +20346,7 @@ columns and relationships of "distributions" */
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
@@ -23974,6 +24045,7 @@ columns and relationships of "distributions" */
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
+    chain_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
@@ -24037,6 +24109,7 @@ columns and relationships of "distributions" */
   /** aggregate avg on columns */
   ['vaults_avg_fields']: {
     __typename: 'vaults_avg_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24044,6 +24117,7 @@ columns and relationships of "distributions" */
   };
   /** order by avg() on columns of table "vaults" */
   ['vaults_avg_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24054,6 +24128,7 @@ columns and relationships of "distributions" */
     _and?: Array<GraphQLTypes['vaults_bool_exp']> | undefined;
     _not?: GraphQLTypes['vaults_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['vaults_bool_exp']> | undefined;
+    chain_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     decimals?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -24074,6 +24149,7 @@ columns and relationships of "distributions" */
   ['vaults_constraint']: vaults_constraint;
   /** input type for incrementing numeric columns in table "vaults" */
   ['vaults_inc_input']: {
+    chain_id?: number | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -24081,6 +24157,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting data into table "vaults" */
   ['vaults_insert_input']: {
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -24100,6 +24177,7 @@ columns and relationships of "distributions" */
   /** aggregate max on columns */
   ['vaults_max_fields']: {
     __typename: 'vaults_max_fields';
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -24113,6 +24191,7 @@ columns and relationships of "distributions" */
   };
   /** order by max() on columns of table "vaults" */
   ['vaults_max_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
@@ -24127,6 +24206,7 @@ columns and relationships of "distributions" */
   /** aggregate min on columns */
   ['vaults_min_fields']: {
     __typename: 'vaults_min_fields';
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -24140,6 +24220,7 @@ columns and relationships of "distributions" */
   };
   /** order by min() on columns of table "vaults" */
   ['vaults_min_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
@@ -24173,6 +24254,7 @@ columns and relationships of "distributions" */
   };
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
@@ -24197,6 +24279,7 @@ columns and relationships of "distributions" */
   ['vaults_select_column']: vaults_select_column;
   /** input type for updating data in table "vaults" */
   ['vaults_set_input']: {
+    chain_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
@@ -24211,6 +24294,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev on columns */
   ['vaults_stddev_fields']: {
     __typename: 'vaults_stddev_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24218,6 +24302,7 @@ columns and relationships of "distributions" */
   };
   /** order by stddev() on columns of table "vaults" */
   ['vaults_stddev_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24226,6 +24311,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_pop on columns */
   ['vaults_stddev_pop_fields']: {
     __typename: 'vaults_stddev_pop_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24233,6 +24319,7 @@ columns and relationships of "distributions" */
   };
   /** order by stddev_pop() on columns of table "vaults" */
   ['vaults_stddev_pop_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24241,6 +24328,7 @@ columns and relationships of "distributions" */
   /** aggregate stddev_samp on columns */
   ['vaults_stddev_samp_fields']: {
     __typename: 'vaults_stddev_samp_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24248,6 +24336,7 @@ columns and relationships of "distributions" */
   };
   /** order by stddev_samp() on columns of table "vaults" */
   ['vaults_stddev_samp_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24256,6 +24345,7 @@ columns and relationships of "distributions" */
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
     __typename: 'vaults_sum_fields';
+    chain_id?: number | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     decimals?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -24263,6 +24353,7 @@ columns and relationships of "distributions" */
   };
   /** order by sum() on columns of table "vaults" */
   ['vaults_sum_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24273,6 +24364,7 @@ columns and relationships of "distributions" */
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: {
     __typename: 'vaults_var_pop_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24280,6 +24372,7 @@ columns and relationships of "distributions" */
   };
   /** order by var_pop() on columns of table "vaults" */
   ['vaults_var_pop_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24288,6 +24381,7 @@ columns and relationships of "distributions" */
   /** aggregate var_samp on columns */
   ['vaults_var_samp_fields']: {
     __typename: 'vaults_var_samp_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24295,6 +24389,7 @@ columns and relationships of "distributions" */
   };
   /** order by var_samp() on columns of table "vaults" */
   ['vaults_var_samp_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -24303,6 +24398,7 @@ columns and relationships of "distributions" */
   /** aggregate variance on columns */
   ['vaults_variance_fields']: {
     __typename: 'vaults_variance_fields';
+    chain_id?: number | undefined;
     created_by?: number | undefined;
     decimals?: number | undefined;
     id?: number | undefined;
@@ -24310,6 +24406,7 @@ columns and relationships of "distributions" */
   };
   /** order by variance() on columns of table "vaults" */
   ['vaults_variance_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -25158,6 +25255,7 @@ export const enum vaults_constraint {
 }
 /** select columns of table "vaults" */
 export const enum vaults_select_column {
+  chain_id = 'chain_id',
   created_at = 'created_at',
   created_by = 'created_by',
   decimals = 'decimals',
@@ -25171,6 +25269,7 @@ export const enum vaults_select_column {
 }
 /** update columns of table "vaults" */
 export const enum vaults_update_column {
+  chain_id = 'chain_id',
   created_at = 'created_at',
   created_by = 'created_by',
   decimals = 'decimals',
