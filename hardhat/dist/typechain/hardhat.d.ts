@@ -93,6 +93,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ApeToken__factory>;
     getContractFactory(
+      name: "COToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.COToken__factory>;
+    getContractFactory(
       name: "TokenAccessControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenAccessControl__factory>;

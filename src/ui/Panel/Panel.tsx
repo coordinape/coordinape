@@ -4,15 +4,15 @@ export const panelStyles = css({
   gridTemplateColumns: '1fr',
   mt: '$lg',
   alignItems: 'center',
-  backgroundColor: '$surfaceGray',
+  backgroundColor: '$surface',
   minHeight: '85vh',
   borderRadius: '$3',
 });
 
 export const Panel = styled('div', {
   borderRadius: '$3',
-  backgroundColor: '$surfaceGray',
-  border: '1px solid $surfaceGray',
+  backgroundColor: '$surface',
+  border: '1px solid $surface',
   padding: '$lg',
 
   variants: {

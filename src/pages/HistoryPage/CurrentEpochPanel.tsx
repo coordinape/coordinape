@@ -32,7 +32,7 @@ export const CurrentEpochPanel = ({
     <Panel
       css={{
         mb: '$xl',
-        fontSize: '$8',
+        fontSize: '$h2',
         fontFamily: 'Inter',
         display: 'flex',
         flexDirection: 'row',
@@ -124,7 +124,7 @@ const Minicard = ({
 
       <Box
         css={{
-          color: '$lightText',
+          color: '$secondaryText',
           flexGrow: 1,
           display: 'flex',
           gap: '$md',
@@ -133,14 +133,17 @@ const Minicard = ({
         }}
       >
         <Text
-          variant="formLabel"
+          variant="label"
           css={{
             pt: '5px', // hard-coded to align with icon
           }}
         >
           {title}
         </Text>
-        <Text bold css={{ fontSize: '$3', color: alert ? 'red' : '$gray400' }}>
+        <Text
+          semibold
+          css={{ fontSize: '$medium', color: alert ? 'red' : '$secondaryText' }}
+        >
           {content}
         </Text>
         <Button outlined size="small" as={NavLink} key={path} to={path}>

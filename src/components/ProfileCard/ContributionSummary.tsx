@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     textTransform: 'uppercase',
-    color: theme.colors.lightText,
+    color: theme.colors.secondaryText,
     fontWeight: 600,
     marginBottom: theme.spacing(0.5),
   },
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
     textOverflow: 'ellipsis',
   },
   moreIcon: {
-    color: theme.colors.mediumGray,
+    color: theme.colors.secondaryText,
   },
 }));
 

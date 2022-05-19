@@ -4,13 +4,13 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
-  background: '$lightBackground',
-  border: '1px solid $lightBackground',
+  background: '$surface',
+  border: '1px solid $border',
   '&:focus': {
-    border: '1px solid $lightBlue',
+    border: '1px solid $focusedBorder',
   },
   '&::placeholder': {
-    color: '$placeholder',
+    color: '$secondaryText',
   },
   display: 'flex',
   flexDirection: 'row',
@@ -19,7 +19,7 @@ export const TextField = styled('input', {
   borderRadius: '8px',
 
   fontWeight: '$light',
-  fontSize: '$4',
+  fontSize: '$medium',
   lineHeight: '$base',
 
   textAlign: 'center',
@@ -41,7 +41,7 @@ export const TextField = styled('input', {
     },
     error: {
       true: {
-        border: '1px solid $red',
+        border: '1px solid $alert',
         boxSizing: 'border-box',
       },
     },

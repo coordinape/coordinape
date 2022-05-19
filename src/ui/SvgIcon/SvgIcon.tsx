@@ -47,7 +47,7 @@ export const SvgIcon = styled('svg', {
     },
   },
   defaultVariants: {
-    color: 'green',
+    color: 'link',
     size: 'xs',
   },
 });

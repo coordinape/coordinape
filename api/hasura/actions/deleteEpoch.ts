@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { DateTime, Settings } from 'luxon';
 
 import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -8,6 +9,8 @@ import {
   deleteEpochInput,
   composeHasuraActionRequestBody,
 } from '../../../src/lib/zod';
+
+Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -23,7 +26,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             // Check circle_id to ensure epoch is part of this circle
             circle_id: { _eq: circle_id },
             id: { _eq: id },
-            start_date: { _gt: new Date() },
+            start_date: { _gt: DateTime.now().toISO() },
             ended: { _eq: false },
           },
         },

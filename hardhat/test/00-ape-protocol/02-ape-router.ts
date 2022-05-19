@@ -64,7 +64,7 @@ describe('ApeRouter', () => {
     apeRouter = deploymentInfo.contracts.apeRouter;
 
     vault = await createApeVault(
-      deploymentInfo.contracts.apeToken,
+      deploymentInfo.contracts.coToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );

@@ -18,7 +18,7 @@ import { useNavigation, useApiAdminCircle } from 'hooks';
 import { DeleteIcon, EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Box } from 'ui';
+import { Box, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { AdminCircleModal } from './AdminCircleModal';
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'space-between',
     justifyItems: 'stretch',
     borderRadius: 8,
-    background: theme.colors.ultraLightGray,
+    background: theme.colors.surface,
     alignItems: 'center',
     columnGap: theme.spacing(3),
     padding: theme.spacing(0, 4, 4),
@@ -63,14 +63,6 @@ const useStyles = makeStyles(theme => ({
     '& .MuiSkeleton-rect': {
       borderRadius: 5,
     },
-  },
-  title: {
-    textTransform: 'capitalize',
-    fontSize: 30,
-    lineHeight: 1.2,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: theme.spacing(6, 0),
   },
   actionsAndEpochs: {
     display: 'flex',
@@ -106,12 +98,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     color: theme.colors.text,
-    background: '#fff',
+    background: theme.colors.white,
     border: 'none',
     borderRadius: 8,
     outline: 'none',
     '&::placeholder': {
-      color: theme.colors.text,
+      color: theme.colors.secondaryText,
     },
   },
   twoLineCell: {
@@ -192,9 +184,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TableLink = styled(Link, {
-  color: '$lightBlue',
+  color: '$link',
   '&:hover': {
-    color: '$darkBlue',
+    opacity: 0.8,
   },
   textDecoration: 'none',
 });
@@ -511,7 +503,9 @@ const AdminPage = () => {
     <div className={classes.root}>
       <div className={classes.withVaults}>
         <div className={classes.actionsAndEpochs}>
-          <h2 className={classes.title}>{selectedCircle?.name}</h2>
+          <Text h2 css={{ my: '$xl' }}>
+            {selectedCircle?.name}
+          </Text>
           <div className={classes.actionBar}>
             <div className={classes.actionBarInner}>
               <Button

@@ -23,6 +23,7 @@ BEGIN
   RETURN _new;
 END;
 $$ LANGUAGE plpgsql;
+
 CREATE TRIGGER "set_public_claims_updated_at"
 BEFORE UPDATE ON "public"."claims"
 FOR EACH ROW

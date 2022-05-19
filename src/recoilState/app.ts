@@ -199,6 +199,10 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
 
       const myUser = myProfile.myUsers.find(u => u.circle_id === circleId);
 
+      if (!myUser) {
+        // eslint-disable-next-line no-console
+        console.info('myUser is null for circleId:' + circleId);
+      }
       const circleEpochsStatus = get(rCircleEpochsStatus(circleId));
       const activeNominees = iti(get(rNomineesMap).values())
         .filter(n => n.circle_id === circleId)
@@ -223,7 +227,14 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         : undefined;
 
       if (meOrPretend === undefined || circle === undefined) {
-        console.error('unable to load circle or current user');
+        console.error(
+          'unable to load circle or current user - circle?',
+          circle,
+          'user?',
+          meOrPretend,
+          'impersonate?',
+          impersonate
+        );
         return neverEndingPromise();
       }
 

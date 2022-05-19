@@ -1,6 +1,5 @@
 import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
 
-import { VERCEL_ENV } from '../../../api-lib/config';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
@@ -20,7 +19,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
-const PROD_HANDLERS: HandlerDict = {
+const HANDLERS: HandlerDict = {
   createNomineeDiscord,
   createNomineeTelegram,
   createVouchedUser,
@@ -31,10 +30,6 @@ const PROD_HANDLERS: HandlerDict = {
   refundPendingGift,
   vouchDiscord,
   vouchTelegram,
-};
-
-const STAGING_HANDLERS: HandlerDict = {
-  ...PROD_HANDLERS,
   checkNomineeDiscord,
   checkNomineeTelegram,
   removeTeammate,
@@ -44,8 +39,7 @@ async function eventHandler(req: VercelRequest, res: VercelResponse) {
   const {
     trigger: { name: triggerName },
   }: EventTriggerPayload<keyof GraphQLTypes> = req.body;
-  const handlerMap =
-    VERCEL_ENV === 'production' ? PROD_HANDLERS : STAGING_HANDLERS;
+  const handlerMap = HANDLERS;
   if (!handlerMap[triggerName]) {
     // Log warning about no handler for this event
     const warning = `No handler configured for ${triggerName} event`;

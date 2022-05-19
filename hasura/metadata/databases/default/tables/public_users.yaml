@@ -8,6 +8,15 @@ object_relationships:
 - name: profile
   using:
     foreign_key_constraint_on: address
+- name: user_private
+  using:
+    manual_configuration:
+      column_mapping:
+        id: user_id
+      insertion_order: null
+      remote_table:
+        name: user_private
+        schema: public
 array_relationships:
 - name: burns
   using:
@@ -139,7 +148,6 @@ event_triggers:
       columns:
       - non_giver
       - non_receiver
-      - deleted_at
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET

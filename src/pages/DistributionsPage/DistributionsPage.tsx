@@ -98,17 +98,17 @@ export function DistributionsPage() {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Text variant="sectionHeader" css={{ mb: '$sm' }}>
+        <Text h2 css={{ mb: '$sm' }}>
           Distributions
         </Text>
-        <Text variant="sectionHeader" normal>
+        <Text h2 normal>
           {epoch?.circle?.name}: Epoch {epoch?.number}
         </Text>
 
         {epochError ? (
           <Text
             css={{
-              fontSize: '$7',
+              fontSize: '$h3',
               fontWeight: '$semibold',
               textAlign: 'center',
               display: 'block',

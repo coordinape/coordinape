@@ -196,12 +196,15 @@ export const useApiBase = () => {
           return manifest;
         } catch (e) {
           const fixedUpError = normalizeError(e);
-          console.error(
+          // eslint-disable-next-line no-console
+          console.info(
             'error fetching manifest:',
             fixedUpError ? fixedUpError.message : JSON.stringify(e)
           );
-          console.error('raw manifest error:');
-          console.error(e);
+          // eslint-disable-next-line no-console
+          console.info('raw manifest error:');
+          // eslint-disable-next-line no-console
+          console.info(e);
           if (fixedUpError) {
             throw fixedUpError;
           }

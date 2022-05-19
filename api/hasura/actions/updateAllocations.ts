@@ -106,7 +106,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const existingGift = pending_sent_gifts.find(
       g => g.recipient_id === gift.recipient_id
     );
-    ops[gift.recipient_id + '_updateUser'] = {
+    ops['updateUser' + gift.recipient_id] = {
       update_users_by_pk: [
         {
           pk_columns: { id: gift.recipient_id },
@@ -119,7 +119,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { __typename: true },
       ],
     };
-    ops[gift.recipient_id + '_giftMutation'] =
+    ops['giftMutation' + gift.recipient_id] =
       giftTokens > 0 || gift.note
         ? {
             insert_pending_token_gifts_one: [

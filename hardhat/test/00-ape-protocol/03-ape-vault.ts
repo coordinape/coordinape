@@ -11,7 +11,7 @@ import {
 import {
   ApeDistributor,
   ApeRouter,
-  ApeToken,
+  COToken,
   ApeVaultFactoryBeacon,
   ApeVaultWrapperImplementation,
   ERC20,
@@ -66,7 +66,7 @@ describe('Test withdrawal functions of ApeVault', () => {
     await usdc.approve(apeRouter.address, USER_USDC_BALANCE);
 
     vault = await createApeVault(
-      deploymentInfo.contracts.apeToken,
+      deploymentInfo.contracts.coToken,
       deploymentInfo.contracts.apeVaultFactory,
       yGovernance
     );
@@ -132,7 +132,7 @@ describe('Test circle related functions of ApeVault', () => {
     apeDistributor = deploymentInfo.contracts.apeDistributor;
 
     vault = await createApeVault(
-      deploymentInfo.contracts.apeToken,
+      deploymentInfo.contracts.coToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );
@@ -203,7 +203,7 @@ describe('Test tap function of ApeVault', () => {
 
   let usdc: ERC20;
   let usdcYVault: VaultAPI;
-  let apeToken: ApeToken;
+  let coToken: COToken;
   let apeRouter: ApeRouter;
   let apeDistributor: ApeDistributor;
   let apeVaultFactory: ApeVaultFactoryBeacon;
@@ -213,14 +213,14 @@ describe('Test tap function of ApeVault', () => {
   // let deployer: Account;
 
   // const addApeToVault = async (receiver: Account) => {
-  //   await apeToken.addMinters([receiver.address]);
+  //   await coToken.addMinters([receiver.address]);
 
-  //   const connectedApeToken = apeToken.connect(receiver.signer);
-  //   await connectedApeToken.mint(receiver.address, APE_BALANCE);
-  //   expect(await connectedApeToken.balanceOf(receiver.address)).to.equal(
+  //   const connectedcoToken = coToken.connect(receiver.signer);
+  //   await connectedcoToken.mint(receiver.address, APE_BALANCE);
+  //   expect(await connectedcoToken.balanceOf(receiver.address)).to.equal(
   //     APE_BALANCE
   //   );
-  //   await connectedApeToken.transfer(deploymentInfo.accounts[1].address, '1');
+  //   await connectedcoToken.transfer(deploymentInfo.accounts[1].address, '1');
   //   // await vault.connect(receiver.signer).apeDepositSimpleToken(APE_BALANCE);
   // };
 
@@ -255,7 +255,7 @@ describe('Test tap function of ApeVault', () => {
     user0 = deploymentInfo.accounts[0];
     usdc = deploymentInfo.contracts.usdc;
     usdcYVault = deploymentInfo.contracts.usdcYVault;
-    apeToken = deploymentInfo.contracts.apeToken;
+    coToken = deploymentInfo.contracts.coToken;
     apeDistributor = deploymentInfo.contracts.apeDistributor;
     apeRouter = deploymentInfo.contracts.apeRouter;
     apeVaultFactory = deploymentInfo.contracts.apeVaultFactory;
@@ -266,7 +266,7 @@ describe('Test tap function of ApeVault', () => {
       signer: await unlockSigner(apeDistributor.address, { ethers, network }),
     };
 
-    vault = await createApeVault(apeToken, apeVaultFactory, user0);
+    vault = await createApeVault(coToken, apeVaultFactory, user0);
 
     apeRouter = apeRouter.connect(user0.signer);
   });
@@ -321,10 +321,10 @@ describe('Test tap function of ApeVault', () => {
   //   await addApeToVault(user0);
   //   vault = vault.connect(distributor.signer);
 
-  //   expect(await apeToken.balanceOf(distributor.address)).to.equal(0);
+  //   expect(await coToken.balanceOf(distributor.address)).to.equal(0);
 
   //   await vault.tap(APE_BALANCE, 2);
 
-  //   expect(await apeToken.balanceOf(distributor.address)).to.equal(APE_BALANCE);
+  //   expect(await coToken.balanceOf(distributor.address)).to.equal(APE_BALANCE);
   // });
 });

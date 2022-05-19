@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
-import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
@@ -34,7 +33,7 @@ export const HistoryPage = () => {
   const circle = query.data;
   const me = circle?.users[0];
 
-  const nextEpoch = circle?.future.epochs[0];
+  const nextEpoch = circle?.futureEpoch[0];
   const nextEpochStartLabel = useMemo(() => {
     if (!nextEpoch) return '';
     const date = DateTime.fromISO(nextEpoch.start_date);
@@ -44,8 +43,8 @@ export const HistoryPage = () => {
     return `starts in ${diff}, on ${date.toFormat('LLL d')}`;
   }, [nextEpoch]);
 
-  const currentEpoch = circle?.current.epochs[0];
-  const pastEpochs = circle?.past.epochs || [];
+  const currentEpoch = circle?.currentEpoch[0];
+  const pastEpochs = circle?.pastEpochs || [];
 
   // TODO fetch only data for page shown
   const [page, setPage] = useState(0);
@@ -80,15 +79,15 @@ export const HistoryPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Text variant="sectionHeader" css={{ mb: '$md' }}>
-        {circle?.name}
+      <Text h1 css={{ mb: '$md' }}>
+        Epoch Overview
       </Text>
       {nextEpoch && (
         <>
-          <Header>Next</Header>
-          <Panel css={{ mb: '$md', color: '#717C7F' }}>
+          <Text h3>Next</Text>
+          <Panel css={{ mb: '$md' }}>
             <Text inline>
-              <Text inline bold color="gray" font="inter">
+              <Text inline bold color="neutral" font="inter">
                 Next Epoch
               </Text>{' '}
               {nextEpochStartLabel}
@@ -98,7 +97,7 @@ export const HistoryPage = () => {
       )}
       {currentEpoch && (
         <>
-          <Header>Current</Header>
+          <Text h3>Current</Text>
           <CurrentEpochPanel
             css={{ mb: '$md' }}
             epoch={currentEpoch}
@@ -111,7 +110,7 @@ export const HistoryPage = () => {
       )}
       {pastEpochs.length > 0 && (
         <>
-          <Header>Past</Header>
+          <Text h3>Past</Text>
           {shownPastEpochs.map((epoch: QueryEpoch) => (
             <EpochPanel
               key={epoch.id}
@@ -125,10 +124,3 @@ export const HistoryPage = () => {
     </SingleColumnLayout>
   );
 };
-
-const Header = styled(Text, {
-  fontSize: '$7',
-  fontFamily: 'Inter !important',
-  color: '$placeholder !important',
-  fontWeight: '$semibold',
-});

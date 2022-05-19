@@ -7,6 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { ProfileCard } from 'components';
 import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(10, 4, 20),
+    padding: theme.spacing(8, 4, 20),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 1, 20),
     },
@@ -36,10 +37,10 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     fontSize: 20,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     '&:first-of-type': {
       fontWeight: 500,
-      color: theme.colors.red,
+      color: theme.colors.alert,
     },
   },
   headerContainer: {
@@ -48,27 +49,20 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '80%',
     textAlign: 'center',
   },
-  title: {
-    margin: 0,
-    fontSize: 40,
-    lineHeight: 1.25,
-    fontWeight: 700,
-    color: theme.colors.primary,
-  },
   subTitle: {
     margin: 0,
     padding: theme.spacing(1, 4),
     fontSize: 20,
     lineHeight: 1.5,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
   },
   description: {
     padding: '0 100px',
     fontSize: 16,
     fontWeight: 400,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: 0,
   },
   accessaryContainer: {
@@ -85,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(1),
     fontSize: 14,
     fontWeight: 400,
-    color: theme.colors.lightText,
+    color: theme.colors.secondaryText,
   },
   filterButtonContainer: {
     display: 'flex',
@@ -97,7 +91,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontWeight: 400,
     textTransform: 'none',
-    color: theme.colors.lightText,
+    color: theme.colors.secondaryText,
     '&:hover': {
       background: 'none',
       color: theme.colors.text,
@@ -109,10 +103,10 @@ const useStyles = makeStyles(theme => ({
       borderLeftWidth: 0,
       borderRightWidth: 1,
       borderRadius: 0,
-      borderColor: theme.colors.lightText,
+      borderColor: theme.colors.secondaryText,
     },
     '&.selected': {
-      color: theme.colors.lightBlue,
+      color: theme.colors.secondary,
     },
   },
   sortButtonContainer: {
@@ -125,7 +119,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1),
     fontSize: 14,
     fontWeight: 400,
-    color: theme.colors.lightText,
+    color: theme.colors.secondaryText,
   },
   sortButton: {
     height: 17,
@@ -133,9 +127,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontWeight: 400,
     textTransform: 'none',
-    color: theme.colors.lightText,
+    color: theme.colors.secondaryText,
     border: 'solid',
-    borderColor: theme.colors.lightText,
+    borderColor: theme.colors.secondaryText,
     borderWidth: 0,
     borderRadius: 0,
     '&:hover': {
@@ -149,7 +143,7 @@ const useStyles = makeStyles(theme => ({
       borderLeftWidth: 1,
     },
     '&.selected': {
-      color: theme.colors.lightBlue,
+      color: theme.colors.secondary,
     },
   },
   teammateContainer: {
@@ -188,9 +182,7 @@ const AllocationGive = () => {
   return (
     <div className={classes.root}>
       <div className={classes.headerContainer}>
-        <h2
-          className={classes.title}
-        >{`${myUser.circle.name} ${longTimingMessage}`}</h2>
+        <Text h2>{`${myUser.circle.name} ${longTimingMessage}`}</Text>
         <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
       </div>
       <div className={classes.accessaryContainer}>
