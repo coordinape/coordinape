@@ -67,6 +67,7 @@ export const getEpochData = async (
                 decimals: true,
                 symbol: true,
                 vault_address: true,
+                chain_id: true,
               },
               epoch: {
                 number: true,

@@ -17007,7 +17007,7 @@ columns and relationships of "distributions" */
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
-    chain_id?: number | undefined;
+    chain_id: number;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
@@ -24673,7 +24673,7 @@ columns and relationships of "distributions" */
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
-    chain_id?: number | undefined;
+    chain_id: number;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;

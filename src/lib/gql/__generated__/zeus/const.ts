@@ -2574,6 +2574,7 @@ export const AllTypesProps: Record<string, any> = {
     variance: 'vaults_variance_order_by',
   },
   vaults_avg_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
@@ -2583,6 +2584,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'vaults_bool_exp',
     _not: 'vaults_bool_exp',
     _or: 'vaults_bool_exp',
+    chain_id: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_by: 'bigint_comparison_exp',
     decimals: 'Int_comparison_exp',
@@ -2598,6 +2600,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_transactions: 'vault_transactions_bool_exp',
   },
   vaults_max_order_by: {
+    chain_id: 'order_by',
     created_at: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
@@ -2610,6 +2613,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_address: 'order_by',
   },
   vaults_min_order_by: {
+    chain_id: 'order_by',
     created_at: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
@@ -2622,6 +2626,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_address: 'order_by',
   },
   vaults_order_by: {
+    chain_id: 'order_by',
     created_at: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
@@ -2638,42 +2643,49 @@ export const AllTypesProps: Record<string, any> = {
   },
   vaults_select_column: true,
   vaults_stddev_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_stddev_pop_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_stddev_samp_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_sum_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_var_pop_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_var_samp_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
   },
   vaults_variance_order_by: {
+    chain_id: 'order_by',
     created_by: 'order_by',
     decimals: 'order_by',
     id: 'order_by',
@@ -3559,6 +3571,7 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'vault_transactions',
   },
   vaults: {
+    chain_id: 'Int',
     created_at: 'timestamptz',
     created_by: 'bigint',
     decimals: 'Int',

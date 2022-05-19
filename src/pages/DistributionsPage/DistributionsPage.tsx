@@ -172,15 +172,47 @@ const Summary = ({
       <Text css={{ color: '$complete' }}>
         Distribution submitted {formatRelative(distTime, Date.now())}
       </Text>
-      <Box css={{ display: 'flex', alignItems: 'center' }}>
-        <Icon css={{}} />
-        <Link
-          css={{ ml: '$xs' }}
-          href={`https://etherscan.io/tx/${distribution.tx_hash}`}
-        >
-          View on Etherscan
-        </Link>
-      </Box>
+      <ExplorerLink distribution={distribution} />
     </Box>
   );
 };
+
+const ExplorerLink = ({
+  distribution,
+}: {
+  distribution: EpochDataResult['distributions'][0];
+}) => {
+  const { tx_hash } = distribution;
+  const { chain_id } = distribution.vault;
+
+  const explorerHref = makeExplorerUrl(chain_id, tx_hash);
+
+  if (!explorerHref) return <></>;
+
+  return (
+    <Box css={{ display: 'flex', alignItems: 'center' }}>
+      <Icon css={{}} />
+      <Link css={{ ml: '$xs' }} href={explorerHref}>
+        View on Etherscan
+      </Link>
+    </Box>
+  );
+};
+
+function makeExplorerUrl(chainId: number, txHash: string | undefined) {
+  if (!txHash) return;
+  switch (chainId) {
+    case 1:
+      return 'https://etherscan.io/tx/' + txHash;
+    case 4:
+      return 'https://rinkeby.etherscan.io/tx/' + txHash;
+    case 5:
+      return 'https://goerli.etherscan.io/tx/' + txHash;
+    case 1337:
+    case 1338:
+      // provide a dead link for rendering purposes in dev
+      return '#' + txHash;
+    default:
+      console.warn(`No explorer for chain ID ${chainId}; tx Hash: ` + txHash);
+  }
+}
