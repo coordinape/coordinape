@@ -67,23 +67,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     token.decimals(),
   ]);
 
-  const { insert_vaults_one: result } = await adminClient.mutate({
-    insert_vaults_one: [
-      {
-        object: {
-          symbol,
-          decimals,
-          chain_id,
-          org_id,
-          vault_address,
-          created_by: hasuraProfileId,
-          token_address: yTokenAddress,
-          simple_token_address: simpleTokenAddress,
+  const { insert_vaults_one: result } = await adminClient.mutate(
+    {
+      insert_vaults_one: [
+        {
+          object: {
+            symbol,
+            decimals,
+            chain_id,
+            org_id,
+            vault_address,
+            created_by: hasuraProfileId,
+            token_address: yTokenAddress,
+            simple_token_address: simpleTokenAddress,
+          },
         },
-      },
-      { id: true },
-    ],
-  });
+        { id: true },
+      ],
+    },
+
+    { operationName: 'createVault' }
+  );
 
   if (!result?.id)
     throw new InternalServerError(`No Vault Id returned for ${vault_address}`);
