@@ -9,6 +9,7 @@ import type { CSS } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
+import { getOrgData } from 'components/OverviewMenu/getOrgData';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -16,8 +17,6 @@ import { paths } from 'routes/paths';
 import { Box, Button, Link, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
-
-import { getOrgData } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;

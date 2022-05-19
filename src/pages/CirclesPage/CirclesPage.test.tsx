@@ -8,7 +8,7 @@ jest.mock('hooks/gql/useCurrentOrg', () => ({
   useCurrentOrgId: jest.fn(() => [1, jest.fn()]),
 }));
 
-jest.mock('./getOrgData', () => ({
+jest.mock('components/OverviewMenu/getOrgData', () => ({
   getOrgData: async () => ({
     organizations: [
       {
