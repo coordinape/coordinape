@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   epochTiming: {
     margin: 0,
-    maxWidth: theme.breakpoints.values.md,
+    maxWidth: '100%',
     fontSize: 20,
     fontWeight: 300,
     lineHeight: 2,
