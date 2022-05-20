@@ -9,7 +9,7 @@ import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ApeAvatar } from 'components';
-import { menuGroup } from 'components/MainLayout/MainHeader';
+import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -96,7 +96,7 @@ export const MyAvatarMenu = () => {
             >
               Disconnect
             </Link>
-            <Box css={menuGroup}>
+            <Box css={menuGroupStyle}>
               <Link type="menu" as={NavLink} to={paths.profile('me')}>
                 Profile
               </Link>
@@ -104,7 +104,7 @@ export const MyAvatarMenu = () => {
                 Circles
               </Link>
             </Box>
-            <Box css={menuGroup}>
+            <Box css={menuGroupStyle}>
               <Link type="menu" href={EXTERNAL_URL_DOCS}>
                 Docs
               </Link>

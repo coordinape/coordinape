@@ -8,7 +8,7 @@ import { useRecoilValueLoadable } from 'recoil';
 
 import { Popover, makeStyles, Hidden } from '@material-ui/core';
 
-import { linkStyle, menuGroup } from 'components/MainLayout/MainHeader';
+import { linkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
@@ -149,7 +149,7 @@ export const OverviewMenu = () => {
               {hasCircles && <TopLevelLinks links={mainLinks} />}
             </Box>
             {orgs?.map(org => (
-              <Box key={org.id} css={menuGroup}>
+              <Box key={org.id} css={menuGroupStyle}>
                 <Text variant="label" as="label">
                   {org.name}
                 </Text>

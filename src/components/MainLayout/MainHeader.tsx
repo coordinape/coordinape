@@ -294,7 +294,7 @@ const MobileAvatar = () => {
   );
 };
 
-export const menuGroup = {
+export const menuGroupStyle = {
   display: 'flex',
   flexDirection: 'column',
   borderTop: '1px solid $border',
