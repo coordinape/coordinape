@@ -18,7 +18,7 @@ import { ChevronUp, ChevronDown } from 'icons';
 import { rSelectedCircle } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 import { paths, isCircleSpecificPath } from 'routes/paths';
-import { Box, Link, Text } from 'ui';
+import { Box, Link, Text, PopoverRadix } from 'ui';
 
 import { getOrgData } from './getOrgData';
 
@@ -108,6 +108,10 @@ export const OverviewMenu = () => {
           <ChevronDown size="md" />
         </Box>
       </Link>
+      <PopoverRadix>
+        <h3>PopoverRadix content</h3>
+        <p>Are you sure you wanna do this?</p>
+      </PopoverRadix>
       <Hidden smDown>
         <Popover
           anchorEl={anchorEl}
