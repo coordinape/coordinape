@@ -10,8 +10,8 @@ context('Coordinape', () => {
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Computers is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Computers', { timeout: 120000 })
+    // Sports is a circle w/ an ended epoch, the Admin button is a child of a peer element
+    cy.contains('Sports', { timeout: 120000 })
       .parent()
       .parent()
       .within(() => {
@@ -21,7 +21,7 @@ context('Coordinape', () => {
 
     // now we go to the admin page
     cy.url({ timeout: 120000 }).should('include', '/admin/circles');
-    cy.contains('Computers');
+    cy.contains('Sports');
     cy.contains('Epoch 2').should('not.exist');
     cy.contains('Create Epoch', { timeout: 45000 }).click();
     cy.contains('Save').click();
