@@ -1,5 +1,7 @@
 import { useSnackbar } from 'notistack';
 
+import { FlattenedGQLError } from '../common-lib/errorHandling';
+
 const defaultErrorMessage = 'Something went wrong.';
 
 const displayError = (error: any) => {
@@ -7,6 +9,11 @@ const displayError = (error: any) => {
   if (typeof error === 'string') return error;
   const data = error.response?.data;
 
+  if (error instanceof FlattenedGQLError) {
+    return error.userDisplayableString();
+  }
+
+  // TODO: i assume this is deletable -cg
   // when a form submission has validation errors, Laravel responds with:
   // {
   //   "message": "The given data was invalid.",

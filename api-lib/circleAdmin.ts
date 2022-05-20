@@ -35,7 +35,7 @@ const middleware =
         // let the default errorHandlers handle this
         throw err;
       }
-      throw new UnauthorizedError('User not circle admin');
+      throw new UnauthorizedError('User not circle admin', err);
     }
     // the admin role is validated early by zod
 
