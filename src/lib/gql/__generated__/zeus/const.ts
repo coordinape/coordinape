@@ -364,6 +364,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp_comparison_exp',
     default_opt_in: 'Boolean_comparison_exp',
     epochs: 'epochs_bool_exp',
+    fixed_payment_token_type: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     integrations: 'circle_integrations_bool_exp',
     is_verified: 'Boolean_comparison_exp',
@@ -389,6 +390,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_max_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
     min_vouches: 'order_by',
@@ -403,6 +405,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_min_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
     min_vouches: 'order_by',
@@ -422,6 +425,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     default_opt_in: 'order_by',
     epochs_aggregate: 'epochs_aggregate_order_by',
+    fixed_payment_token_type: 'order_by',
     id: 'order_by',
     integrations_aggregate: 'circle_integrations_aggregate_order_by',
     is_verified: 'order_by',
@@ -1738,6 +1742,11 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_by_pk: {
       id: 'bigint',
     },
+    user_private: {
+      distinct_on: 'user_private_select_column',
+      order_by: 'user_private_order_by',
+      where: 'user_private_bool_exp',
+    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -1897,6 +1906,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     token_gifts_by_pk: {
       id: 'bigint',
+    },
+    user_private: {
+      distinct_on: 'user_private_select_column',
+      order_by: 'user_private_order_by',
+      where: 'user_private_bool_exp',
     },
     users: {
       distinct_on: 'users_select_column',
@@ -2188,6 +2202,24 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
+  user_private_bool_exp: {
+    _and: 'user_private_bool_exp',
+    _not: 'user_private_bool_exp',
+    _or: 'user_private_bool_exp',
+    circle: 'circles_bool_exp',
+    fixed_payment_amount: 'numeric_comparison_exp',
+    fixed_payment_token_type: 'String_comparison_exp',
+    user: 'users_bool_exp',
+    user_id: 'bigint_comparison_exp',
+  },
+  user_private_order_by: {
+    circle: 'circles_order_by',
+    fixed_payment_amount: 'order_by',
+    fixed_payment_token_type: 'order_by',
+    user: 'users_order_by',
+    user_id: 'order_by',
+  },
+  user_private_select_column: true,
   users: {
     burns: {
       distinct_on: 'burns_select_column',
@@ -2279,6 +2311,7 @@ export const AllTypesProps: Record<string, any> = {
     starting_tokens: 'Int_comparison_exp',
     teammates: 'teammates_bool_exp',
     updated_at: 'timestamp_comparison_exp',
+    user_private: 'user_private_bool_exp',
   },
   users_max_order_by: {
     address: 'order_by',
@@ -2333,6 +2366,7 @@ export const AllTypesProps: Record<string, any> = {
     starting_tokens: 'order_by',
     teammates_aggregate: 'teammates_aggregate_order_by',
     updated_at: 'order_by',
+    user_private: 'user_private_order_by',
   },
   users_select_column: true,
   users_stddev_order_by: {
@@ -2836,6 +2870,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamp',
     default_opt_in: 'Boolean',
     epochs: 'epochs',
+    fixed_payment_token_type: 'String',
     id: 'bigint',
     integrations: 'circle_integrations',
     is_verified: 'Boolean',
@@ -3281,6 +3316,7 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
+    user_private: 'user_private',
     users: 'users',
     users_by_pk: 'users',
     vault_transactions: 'vault_transactions',
@@ -3321,6 +3357,7 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
+    user_private: 'user_private',
     users: 'users',
     users_by_pk: 'users',
     vault_transactions: 'vault_transactions',
@@ -3463,6 +3500,13 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
+  user_private: {
+    circle: 'circles',
+    fixed_payment_amount: 'numeric',
+    fixed_payment_token_type: 'String',
+    user: 'users',
+    user_id: 'bigint',
+  },
   users: {
     address: 'String',
     bio: 'String',
@@ -3490,6 +3534,7 @@ export const ReturnTypes: Record<string, any> = {
     starting_tokens: 'Int',
     teammates: 'teammates',
     updated_at: 'timestamp',
+    user_private: 'user_private',
   },
   vault_transactions: {
     created_at: 'timestamp',
