@@ -269,7 +269,6 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       textAlign: 'center',
       '&::placeholder': {
         color: theme.colors.secondaryText,
-        textAlign: 'left',
       },
       ...apeVariants(theme, variant)?.input,
     }),
