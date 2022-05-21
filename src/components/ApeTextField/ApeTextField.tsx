@@ -263,6 +263,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       },
     },
     input: ({ variant }) => ({
+      padding: theme.spacing(1.75, 1, 1.75),
       fontSize: 15,
       lineHeight: 1.33,
       fontWeight: 300,
