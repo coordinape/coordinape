@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   autocompleteText: {
     backgroundColor: theme.colors.white,
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 1.5),
   },
 }));
 
@@ -83,26 +83,27 @@ export const ApeAutocomplete = ({
         onChange ? (_event: any, v: string) => onChange(v) : undefined
       }
       options={options}
-      renderInput={(params: AutocompleteRenderInputParams) => (
-        <ApeTextField
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            ...InputProps,
-            classes: {
-              ...(InputProps?.classes ?? {}),
-              ...textfieldClasses,
-            },
-          }}
-          {...TextFieldProps}
-          size={size ?? 'medium'}
-          label={label}
-          placeholder={placeholder}
-          helperText={helperText}
-          error={error}
-          apeVariant="select"
-        />
-      )}
+      renderInput={(params: AutocompleteRenderInputParams) => {
+        return (
+          <ApeTextField
+            {...params}
+            InputProps={{
+              ...InputProps,
+              classes: {
+                ...(InputProps?.classes ?? {}),
+                ...textfieldClasses,
+              },
+            }}
+            {...TextFieldProps}
+            size={size ?? 'medium'}
+            label={label}
+            placeholder={placeholder}
+            helperText={helperText}
+            error={error}
+            apeVariant="select"
+          />
+        );
+      }}
       {...props}
     />
   );

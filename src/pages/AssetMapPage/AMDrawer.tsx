@@ -79,10 +79,11 @@ const useStyles = makeStyles(theme => ({
   // Users
   users: {
     flexGrow: 1,
+    width: '100%',
     overflowY: 'scroll',
     padding: theme.spacing(2, 0),
     marginTop: 8,
-    scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
+    scrollbarColor: theme.colors.secondaryText,
     scrollbarWidth: 'thin',
     backgroundColor: theme.colors.surface,
     '&::-webkit-scrollbar': {
