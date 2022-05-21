@@ -15,6 +15,13 @@ object_relationships:
   using:
     foreign_key_constraint_on: protocol_id
 array_relationships:
+- name: api_keys
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: circle_api_keys
+        schema: public
 - name: burns
   using:
     foreign_key_constraint_on:
@@ -77,6 +84,30 @@ select_permissions:
 - permission:
     columns:
     - alloc_text
+    - default_opt_in
+    - id
+    - is_verified
+    - logo
+    - min_vouches
+    - name
+    - nomination_days_limit
+    - team_sel_text
+    - team_selection
+    - token_name
+    - vouching
+    - vouching_text
+    filter:
+      api_keys:
+        _and:
+        - hash:
+            _eq: X-Hasura-Api-Key-Hash
+        - read_circle:
+            _eq: true
+    limit: 5
+  role: api-user
+- permission:
+    columns:
+    - alloc_text
     - auto_opt_out
     - created_at
     - default_opt_in
@@ -107,6 +138,28 @@ select_permissions:
                 _is_null: true
   role: user
 update_permissions:
+- permission:
+    check: null
+    columns:
+    - alloc_text
+    - discord_webhook
+    - logo
+    - min_vouches
+    - name
+    - nomination_days_limit
+    - team_sel_text
+    - team_selection
+    - token_name
+    - vouching
+    - vouching_text
+    filter:
+      api_keys:
+        _and:
+        - hash:
+            _eq: X-Hasura-Api-Key-Hash
+        - update_circle:
+            _eq: true
+  role: api-user
 - permission:
     check: null
     columns:

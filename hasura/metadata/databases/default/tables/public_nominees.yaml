@@ -41,6 +41,28 @@ array_relationships:
         schema: public
 select_permissions:
 - permission:
+    columns:
+    - circle_id
+    - description
+    - ended
+    - expiry_date
+    - id
+    - name
+    - nominated_by_user_id
+    - nominated_date
+    - user_id
+    - vouches_required
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_nominees:
+              _eq: true
+    limit: 20
+  role: api-user
+- permission:
     allow_aggregations: true
     columns:
     - address
