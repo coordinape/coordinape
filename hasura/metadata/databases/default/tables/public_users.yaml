@@ -65,6 +65,35 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
+    - bio
+    - circle_id
+    - created_at
+    - fixed_non_receiver
+    - give_token_received
+    - give_token_remaining
+    - id
+    - name
+    - non_giver
+    - non_receiver
+    - starting_tokens
+    filter:
+      _and:
+      - deleted_at:
+          _is_null: true
+      - circle:
+          api_keys:
+            _and:
+            - hash:
+                _eq: X-Hasura-Api-Key-Hash
+            - _or:
+              - read_pending_token_gifts:
+                  _eq: true
+              - read_member_profiles:
+                  _eq: true
+    limit: 50
+  role: api-user
+- permission:
+    columns:
     - address
     - bio
     - circle_id

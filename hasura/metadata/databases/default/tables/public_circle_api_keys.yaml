@@ -1,3 +1,7 @@
 table:
   name: circle_api_keys
   schema: public
+object_relationships:
+- name: createdByUser
+  using:
+    foreign_key_constraint_on: created_by

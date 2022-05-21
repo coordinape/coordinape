@@ -56,6 +56,31 @@ select_permissions:
     - ended
     - grant
     - id
+    - number
+    - regift_days
+    - repeat
+    - repeat_day_of_month
+    - start_date
+    - updated_at
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_epochs:
+              _eq: true
+    limit: 10
+  role: api-user
+- permission:
+    columns:
+    - circle_id
+    - created_at
+    - days
+    - end_date
+    - ended
+    - grant
+    - id
     - notified_before_end
     - notified_end
     - notified_start
