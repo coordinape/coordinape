@@ -1,0 +1,3 @@
+table:
+  name: circle_api_keys
+  schema: public
