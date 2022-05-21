@@ -25,8 +25,8 @@ context('Coordinape', () => {
       cy.get('button').last().click();
     });
     cy.contains('Save Teammate List').click();
-    cy.contains('Thank your teammates by allocating them GIVE', {
-      timeout: 45000,
+    cy.contains('Thank your teammates by allocating', {
+      timeout: 90000,
     });
   });
   it('can allocate to teammates', () => {
