@@ -200,19 +200,18 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
     case 'select':
       return {
         inputRoot: {
-          padding: theme.spacing(0, 1.5),
           backgroundColor: theme.colors.white,
-          borderRadius: 8,
-          border: 0,
-          justifyContent: 'space-between',
+          borderColor: theme.colors.white,
         },
         input: {
           padding: theme.spacing(1.25, 0),
           fontSize: 16,
           lineHeight: 1.33,
           fontWeight: 400,
+          textAlign: 'left',
           '&::placeholder': {
             color: theme.colors.placeholder,
+            textAlign: 'left',
           },
         },
       };
@@ -264,13 +263,12 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       },
     },
     input: ({ variant }) => ({
-      padding: theme.spacing(1.75, 1, 1.75),
-      fontSize: 16,
+      fontSize: 15,
       lineHeight: 1.33,
-      fontWeight: 400,
-      textAlign: 'left',
+      fontWeight: 300,
+      textAlign: 'center',
       '&::placeholder': {
-        color: theme.colors.placeholder,
+        color: theme.colors.secondaryText,
         textAlign: 'left',
       },
       ...apeVariants(theme, variant)?.input,
