@@ -41,23 +41,6 @@ array_relationships:
         schema: public
 select_permissions:
 - permission:
-    columns:
-    - id
-    - name
-    - address
-    - nominated_by_user_id
-    - circle_id
-    - description
-    - nominated_date
-    - expiry_date
-    - vouches_required
-    - user_id
-    - ended
-    - created_at
-    - updated_at
-    filter: {}
-  role: superadmin
-- permission:
     allow_aggregations: true
     columns:
     - address

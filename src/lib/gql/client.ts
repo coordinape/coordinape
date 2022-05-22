@@ -24,5 +24,4 @@ export const client = {
   query: thunder('query'),
   mutate: thunder('mutation'),
   subscribe: thunder('subscription'),
-  superQuery: makeThunder({ 'X-Preferred-Role': 'superadmin' })('query'),
 };

@@ -16,12 +16,6 @@ select_permissions:
     columns:
     - circle_id
     - discord_webhook
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - circle_id
-    - discord_webhook
     filter:
       circle:
         users:

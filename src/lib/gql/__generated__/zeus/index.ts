@@ -3663,7 +3663,6 @@ columns and relationships of "distributions" */
   /** columns and relationships of "profiles" */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
-    admin_view?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
     background?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -3708,7 +3707,6 @@ columns and relationships of "distributions" */
     _not?: ValueTypes['profiles_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['profiles_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
-    admin_view?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     background?: ValueTypes['String_comparison_exp'] | undefined | null;
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -3735,7 +3733,6 @@ columns and relationships of "distributions" */
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
-    admin_view?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
     background?: ValueTypes['order_by'] | undefined | null;
     bio?: ValueTypes['order_by'] | undefined | null;
@@ -7275,7 +7272,6 @@ columns and relationships of "distributions" */
   /** columns and relationships of "profiles" */
   ['profiles']: {
     address: string;
-    admin_view: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -10299,7 +10295,6 @@ columns and relationships of "distributions" */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
-    admin_view: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -10322,7 +10317,6 @@ columns and relationships of "distributions" */
     _not?: GraphQLTypes['profiles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['profiles_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
-    admin_view?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     background?: GraphQLTypes['String_comparison_exp'] | undefined;
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -10349,7 +10343,6 @@ columns and relationships of "distributions" */
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
-    admin_view?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
     background?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
@@ -11884,7 +11877,6 @@ export const enum pending_token_gifts_select_column {
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
   address = 'address',
-  admin_view = 'admin_view',
   avatar = 'avatar',
   background = 'background',
   bio = 'bio',

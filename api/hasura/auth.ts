@@ -34,7 +34,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             tokenable_id: true,
             profile: {
-              admin_view: true,
               address: true,
             },
           },
@@ -50,14 +49,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const profile = tokenRow.personal_access_tokens[0]?.profile;
     assert(profile, 'Profile cannot be found');
 
-    const role =
-      profile.admin_view && req.headers['X-Preferred-Role'] === 'superadmin'
-        ? 'superadmin'
-        : 'user';
-
     res.status(200).json({
       'X-Hasura-User-Id': tokenableId.toString(),
-      'X-Hasura-Role': role,
+      'X-Hasura-Role': 'user',
       'X-Hasura-Address': profile.address,
     });
   } catch (e) {

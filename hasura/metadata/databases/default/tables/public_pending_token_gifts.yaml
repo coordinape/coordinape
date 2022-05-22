@@ -32,22 +32,6 @@ object_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - sender_id
-    - sender_address
-    - recipient_id
-    - recipient_address
-    - tokens
-    - note
-    - dts_created
-    - created_at
-    - updated_at
-    - circle_id
-    - epoch_id
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
     - circle_id
     - created_at
     - dts_created

@@ -7629,7 +7629,6 @@ columns and relationships of "distributions" */
   /** columns and relationships of "profiles" */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
-    admin_view?: boolean | `@${string}`;
     ann_power?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
     background?: boolean | `@${string}`;
@@ -7734,7 +7733,6 @@ columns and relationships of "distributions" */
     _not?: ValueTypes['profiles_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['profiles_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
-    admin_view?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     ann_power?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     background?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -7761,7 +7759,6 @@ columns and relationships of "distributions" */
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
     address?: string | undefined | null;
-    admin_view?: boolean | undefined | null;
     ann_power?: boolean | undefined | null;
     avatar?: string | undefined | null;
     background?: string | undefined | null;
@@ -7840,7 +7837,6 @@ columns and relationships of "distributions" */
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
-    admin_view?: ValueTypes['order_by'] | undefined | null;
     ann_power?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
     background?: ValueTypes['order_by'] | undefined | null;
@@ -7867,7 +7863,6 @@ columns and relationships of "distributions" */
   /** input type for updating data in table "profiles" */
   ['profiles_set_input']: {
     address?: string | undefined | null;
-    admin_view?: boolean | undefined | null;
     ann_power?: boolean | undefined | null;
     avatar?: string | undefined | null;
     background?: string | undefined | null;
@@ -15738,7 +15733,6 @@ columns and relationships of "distributions" */
   /** columns and relationships of "profiles" */
   ['profiles']: {
     address: string;
-    admin_view: boolean;
     ann_power: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
@@ -22498,7 +22492,6 @@ columns and relationships of "distributions" */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
-    admin_view: boolean;
     ann_power: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
@@ -22551,7 +22544,6 @@ columns and relationships of "distributions" */
     _not?: GraphQLTypes['profiles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['profiles_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
-    admin_view?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     ann_power?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     background?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -22578,7 +22570,6 @@ columns and relationships of "distributions" */
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
     address?: string | undefined;
-    admin_view?: boolean | undefined;
     ann_power?: boolean | undefined;
     avatar?: string | undefined;
     background?: string | undefined;
@@ -22657,7 +22648,6 @@ columns and relationships of "distributions" */
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
-    admin_view?: GraphQLTypes['order_by'] | undefined;
     ann_power?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
     background?: GraphQLTypes['order_by'] | undefined;
@@ -22684,7 +22674,6 @@ columns and relationships of "distributions" */
   /** input type for updating data in table "profiles" */
   ['profiles_set_input']: {
     address?: string | undefined;
-    admin_view?: boolean | undefined;
     ann_power?: boolean | undefined;
     avatar?: string | undefined;
     background?: string | undefined;
@@ -25704,7 +25693,6 @@ export const enum profiles_constraint {
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
   address = 'address',
-  admin_view = 'admin_view',
   ann_power = 'ann_power',
   avatar = 'avatar',
   background = 'background',
@@ -25724,7 +25712,6 @@ export const enum profiles_select_column {
 /** update columns of table "profiles" */
 export const enum profiles_update_column {
   address = 'address',
-  admin_view = 'admin_view',
   ann_power = 'ann_power',
   avatar = 'avatar',
   background = 'background',
