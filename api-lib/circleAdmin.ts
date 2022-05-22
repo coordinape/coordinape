@@ -16,19 +16,28 @@ import { verifyHasuraRequestMiddleware } from './validate';
 
 const middleware =
   (handler: VercelApiHandler) =>
-  async (req: VercelRequest, res: VercelResponse) => {
+  async (req: VercelRequest, res: VercelResponse): Promise<void> => {
     try {
       const {
         input: { payload: input },
         session_variables: sessionVariables,
       } = composeHasuraActionRequestBody(circleIdInput).parse(req.body);
 
-      if (sessionVariables.hasuraRole !== 'admin') {
+      // the admin role is validated early by zod
+      if (sessionVariables.hasuraRole === 'admin') {
+        await handler(req, res);
+        return;
+      }
+
+      if (sessionVariables.hasuraRole === 'user') {
         const { circle_id } = input;
         const profileId = sessionVariables.hasuraProfileId;
 
         const { role } = await getUserFromProfileId(profileId, circle_id);
         assert(isCircleAdmin(role));
+
+        await handler(req, res);
+        return;
       }
     } catch (err) {
       if (err instanceof z.ZodError || err instanceof GraphQLError) {
@@ -37,9 +46,9 @@ const middleware =
       }
       throw new UnauthorizedError('User not circle admin', err);
     }
-    // the admin role is validated early by zod
 
-    await handler(req, res);
+    // Reject request by if not validated above
+    throw new UnauthorizedError('User not circle admin');
   };
 
 const isCircleAdmin = (role: number): boolean => role === 1;
