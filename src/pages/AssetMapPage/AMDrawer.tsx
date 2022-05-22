@@ -22,7 +22,6 @@ import { useDevMode } from 'recoilState/ui';
 import { Text, Select } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
-import { RedSelect } from './RedSelect';
 
 import { MetricEnum } from 'types';
 
@@ -36,7 +35,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     border: 1,
-    backgroundColor: 'red',
   },
   title: {
     fontWeight: 300,
@@ -58,7 +56,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 12,
     paddingTop: 15 - 8,
     color: theme.colors.placeholder,
   },
@@ -105,6 +102,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(2, 1.5),
   },
+  selectWrapper: {
+    display: 'flex',
+    marginTop: 8,
+  },
 }));
 
 export const AMDrawer = () => {
@@ -118,7 +119,6 @@ export const AMDrawer = () => {
   const rawProfiles = useMapResults();
   const { measures } = useMapMeasures(metric);
   const showHiddenFeatures = useDevMode();
-  // const showHiddenFeatures = useRecoilValue(rDevMode);
   const [metric2, setMetric2] = useStateAmMetric();
   const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
@@ -226,20 +226,21 @@ export const AMDrawer = () => {
               <SortIcon />
             </MUButton>
           )}
-          <Select
-            defaultValue={String(amEpochId)}
-            options={epochOptions.map(({ value, label }) => ({
-              value: String(value),
-              label,
-            }))}
-            onValueChange={value => setAmEpochId(Number(value))}
-          />
-          {showHiddenFeatures && (
-            <RedSelect
-              value={metric2}
-              options={metricOptions}
-              onChange={v => setMetric2(v as MetricEnum)}
+          <div className={classes.selectWrapper}>
+            <Select
+              defaultValue={String(amEpochId)}
+              options={epochOptions}
+              onValueChange={value => setAmEpochId(Number(value))}
             />
+          </div>
+          {showHiddenFeatures && (
+            <div className={classes.selectWrapper}>
+              <Select
+                defaultValue={metric2}
+                options={metricOptions}
+                onValueChange={value => setMetric2(value as MetricEnum)}
+              />
+            </div>
           )}
           <ApeAutocomplete
             onChange={setSearch}

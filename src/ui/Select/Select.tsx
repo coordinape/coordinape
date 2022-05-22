@@ -14,6 +14,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   all: 'unset',
   display: 'inline-flex',
   alignItems: 'center',
+  flex: 1,
   justifyContent: 'space-between',
   borderRadius: 8,
   padding: '0 12px',
@@ -104,8 +105,8 @@ export const SelectScrollUpButton = StyledScrollUpButton;
 export const SelectScrollDownButton = StyledScrollDownButton;
 
 export type SelectOption = {
-  value: string;
-  label: string;
+  value: React.ReactText;
+  label: React.ReactText;
 };
 
 export const Select = (
@@ -130,7 +131,7 @@ export const Select = (
         <SelectViewport>
           <SelectGroup>
             {options.map(({ value, label }) => (
-              <SelectItem value={value} key={value}>
+              <SelectItem value={String(value)} key={value}>
                 <SelectItemText>{label}</SelectItemText>
                 <SelectItemIndicator>
                   <CheckIcon />
