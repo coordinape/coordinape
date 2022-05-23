@@ -16,6 +16,7 @@ import { useFixCircleState } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Box, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { makeExplorerUrl } from 'utils/provider';
 
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
@@ -198,21 +199,3 @@ const ExplorerLink = ({
     </Box>
   );
 };
-
-function makeExplorerUrl(chainId: number, txHash: string | undefined) {
-  if (!txHash) return;
-  switch (chainId) {
-    case 1:
-      return 'https://etherscan.io/tx/' + txHash;
-    case 4:
-      return 'https://rinkeby.etherscan.io/tx/' + txHash;
-    case 5:
-      return 'https://goerli.etherscan.io/tx/' + txHash;
-    case 1337:
-    case 1338:
-      // provide a dead link for rendering purposes in dev
-      return '#' + txHash;
-    default:
-      console.warn(`No explorer for chain ID ${chainId}; tx Hash: ` + txHash);
-  }
-}
