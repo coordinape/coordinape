@@ -2,7 +2,7 @@
 
 <!--
   Why is this change required? What problem does it solve?
-  This can be omitted if a linked issue is provided 
+  This can be omitted if a linked issue is provided
 -->
 
 ## Description
@@ -15,10 +15,14 @@
 
 ## Screenshots (if appropriate):
 
-<!-- 
-  This allows reviewers to begin reviewing your work 
+<!--
+  This allows reviewers to begin reviewing your work
   without checking out your branch locally
 -->
+
+## Reviewers
+
+<!-- Tag any reviewers who have context on this PR, or are familiar with this part of the codebase. -->
 
 ## Related Issue
 
