@@ -47,7 +47,7 @@ select_permissions:
     - epoch_id
     - id
     - merkle_root
-    - saved_on_chain
+    - tx_hash
     - total_amount
     - vault_id
     filter:
@@ -63,7 +63,7 @@ update_permissions:
     check: null
     columns:
     - distribution_epoch_id
-    - saved_on_chain
+    - tx_hash
     filter:
       epoch:
         circle:

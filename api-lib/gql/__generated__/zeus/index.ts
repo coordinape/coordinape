@@ -3271,8 +3271,8 @@ columns and relationships of "distributions" */
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
-    saved_on_chain?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     vault?: ValueTypes['vaults'];
@@ -3375,8 +3375,8 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | undefined | null;
-    saved_on_chain?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     total_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -3415,8 +3415,8 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     merkle_root?: string | undefined | null;
-    saved_on_chain?: boolean | undefined | null;
     total_amount?: ValueTypes['numeric'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     vault?: ValueTypes['vaults_obj_rel_insert_input'] | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
@@ -3430,6 +3430,7 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -3443,6 +3444,7 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -3455,6 +3457,7 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -3468,6 +3471,7 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -3505,8 +3509,8 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
-    saved_on_chain?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -3530,8 +3534,8 @@ columns and relationships of "distributions" */
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     merkle_root?: string | undefined | null;
-    saved_on_chain?: boolean | undefined | null;
     total_amount?: ValueTypes['numeric'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
   };
@@ -13921,8 +13925,8 @@ columns and relationships of "distributions" */
     epoch_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
-    saved_on_chain: boolean;
     total_amount: GraphQLTypes['numeric'];
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
@@ -13987,6 +13991,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -14001,6 +14006,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -16995,7 +17001,7 @@ columns and relationships of "distributions" */
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
-    chain_id?: number | undefined;
+    chain_id: number;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
@@ -19496,8 +19502,8 @@ columns and relationships of "distributions" */
     epoch_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
-    saved_on_chain: boolean;
     total_amount: GraphQLTypes['numeric'];
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
@@ -19583,8 +19589,8 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     merkle_root?: GraphQLTypes['String_comparison_exp'] | undefined;
-    saved_on_chain?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     total_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vault_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -19623,8 +19629,8 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    saved_on_chain?: boolean | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault?: GraphQLTypes['vaults_obj_rel_insert_input'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
@@ -19639,6 +19645,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -19651,6 +19658,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -19664,6 +19672,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -19676,6 +19685,7 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -19710,8 +19720,8 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
-    saved_on_chain?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -19735,8 +19745,8 @@ columns and relationships of "distributions" */
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    saved_on_chain?: boolean | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -24652,7 +24662,7 @@ columns and relationships of "distributions" */
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
-    chain_id?: number | undefined;
+    chain_id: number;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
@@ -25455,8 +25465,8 @@ export const enum distributions_select_column {
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',
-  saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
@@ -25469,8 +25479,8 @@ export const enum distributions_update_column {
   epoch_id = 'epoch_id',
   id = 'id',
   merkle_root = 'merkle_root',
-  saved_on_chain = 'saved_on_chain',
   total_amount = 'total_amount',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   vault_id = 'vault_id',
 }
