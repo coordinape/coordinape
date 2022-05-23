@@ -136,6 +136,7 @@ export const AdminCircleModal = ({
   const tokens = ['Disabled'].concat(
     contracts ? contracts.getAvailableTokens() : []
   );
+  const chain_id = contracts ? Number.parseInt(contracts.chainId) : null;
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
@@ -160,7 +161,9 @@ export const AdminCircleModal = ({
   const [webhook, setWebhook] = useState('');
   const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
   const [vouchingText, setVouchingText] = useState(circle.vouchingText);
-  const [fixedPaymentToken, setFixedPaymentToken] = useState('Disabled');
+  const [fixedPaymentToken, setFixedPaymentToken] = useState(
+    circle.fixed_payment_token_type ?? 'Disabled'
+  );
   const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
   const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
@@ -223,7 +226,8 @@ export const AdminCircleModal = ({
         vouchingText !== circle.vouchingText ||
         onlyGiverVouch !== circle.only_giver_vouch ||
         teamSelection !== circle.team_selection ||
-        autoOptOut !== circle.auto_opt_out
+        autoOptOut !== circle.auto_opt_out ||
+        fixedPaymentToken !== circle.fixed_payment_token_type
       ) {
         await updateCircle({
           circle_id: circle.id,
@@ -241,6 +245,8 @@ export const AdminCircleModal = ({
           team_selection: teamSelection,
           auto_opt_out: autoOptOut,
           update_webhook: allowEdit,
+          fixed_payment_token_type: fixedPaymentToken,
+          chain_id: chain_id,
         }).then(() => {
           onClose();
         });
@@ -265,7 +271,8 @@ export const AdminCircleModal = ({
     vouchingText !== circle.vouchingText ||
     onlyGiverVouch !== circle.only_giver_vouch ||
     teamSelection !== circle.team_selection ||
-    autoOptOut !== circle.auto_opt_out;
+    autoOptOut !== circle.auto_opt_out ||
+    fixedPaymentToken !== circle.fixed_payment_token_type;
   return (
     <FormModal
       title="Edit Circle Settings"

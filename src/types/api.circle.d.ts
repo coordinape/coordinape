@@ -28,6 +28,7 @@ export interface IApiCircle {
   protocol_id: number;
   protocol: IProtocol;
   auto_opt_out: boolean;
+  fixed_payment_token_type?: string;
 }
 
 export interface ICircle extends IApiCircle {

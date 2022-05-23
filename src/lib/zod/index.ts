@@ -215,8 +215,18 @@ export const updateCircleInput = z
     update_webhook: z.boolean().optional(),
     vouching: z.boolean().optional(),
     vouching_text: z.string().max(5000).optional(),
+    fixed_payment_token_type: z
+      .string()
+      .max(200)
+      .transform(s => (s === 'Disabled' ? null : s))
+      .optional(),
+    chain_id: z.number().optional(),
   })
-  .strict();
+  .strict()
+  .refine(
+    data => !(data.fixed_payment_token_type && !data.chain_id),
+    'Chain_id must be provided if setting fixed_payment_token_type.'
+  );
 
 export const updateAllocationsInput = z.object({
   allocations: z
