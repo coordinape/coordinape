@@ -1,8 +1,6 @@
 ## Motivation and Context
 
-<!--
-  Why is this change required? What problem does it solve?
-  This can be omitted if a linked issue is provided
+<!-- Why is this change required? What problem does it solve? This can be omitted if a linked issue is provided
 -->
 
 ## Description
@@ -11,14 +9,11 @@
 
 ## Test and Deployment Plan
 
-<!-- Please describe in detail how you tested your changes. -->
+<!-- How have you tested your changes? Are there additional steps required to deploy this change? -->
 
 ## Screenshots (if appropriate):
 
-<!--
-  This allows reviewers to begin reviewing your work
-  without checking out your branch locally
--->
+<!-- This allows reviewers to begin reviewing your work without checking out your branch locally -->
 
 ## Reviewers
 
