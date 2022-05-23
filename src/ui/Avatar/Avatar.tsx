@@ -8,6 +8,7 @@ import { getAvatarPath, getInitialFromName } from 'utils/domain';
 const AvatarRoot = styled(AvatarPrimitive.Root, {
   margin: '$sm',
   display: 'inline-flex',
+  flexShrink: '0',
   alignItems: 'center',
   justifyContent: 'center',
   verticalAlign: 'middle',
@@ -24,7 +25,7 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   variants: {
     size: {
       small: {
-        width: '$xl',
+        width: '$xl !important',
         height: '$xl',
       },
       large: {

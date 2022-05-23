@@ -209,15 +209,25 @@ export const renderUserCard = (user: IUser) => {
       }}
     >
       <Avatar path={user.profile?.avatar} name={user.name} small />
-      <Flex
+      <Box
         css={{
-          flexDirection: 'column',
-          flexGrow: 1,
-          width: 'auto',
+          display: 'grid',
           ml: '$md',
+          overflow: 'hidden',
+          width: '100%',
         }}
       >
-        <Title>{user.name}</Title>
+        <Title
+          css={{
+            display: 'block',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            minWidth: 0,
+        }}
+      >
+          {user.name}
+        </Title>
         <Flex
           css={{
             flexDirection: 'row',
@@ -231,7 +241,7 @@ export const renderUserCard = (user: IUser) => {
               : `${!user.non_giver ? '✅' : '❌'} GIVE`}
           </LightText>
         </Flex>
-      </Flex>
+      </Box>
     </Flex>
   );
 };
@@ -569,11 +579,12 @@ export const ContributorsTable = ({
       <Box
         css={{
           height: 48,
-          display: 'flex',
           alignItems: 'center',
-          fontSize: 14,
-          lineHeight: 1.5,
-          fontWeight: 600,
+
+          overflow: 'hidden',
+          display: 'grid',
+          gridTemplateColumns: 'auto 1fr auto',
+          width: '100%',
         }}
       >
         <Avatar
@@ -582,9 +593,19 @@ export const ContributorsTable = ({
           small
           onClick={getToProfile(user.address)}
         />
-        <span>{user.name}</span>
+        <Text
+          css={{
+            display: 'block',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            minWidth: 0,
+          }}
+        >
+          {user.name}
+        </Text>
         <span>
-          {user.role === USER_ROLE_COORDINAPE ? (
+          {user.role !== USER_ROLE_COORDINAPE ? (
             <Box css={{ marginTop: '6px' }}>
               <Tooltip
                 title="Why is Coordinape in your circle?"
@@ -598,7 +619,9 @@ export const ContributorsTable = ({
                   </p>
                 }
               >
-                <b>Why is Coordinape in your circle?</b>
+                {/* text takes too long in the table. for Testing purpose. */}
+                {/* <b>Why is Coordinape in your circle?</b> */}
+                <InfoCircledIcon />
               </Tooltip>
             </Box>
           ) : (

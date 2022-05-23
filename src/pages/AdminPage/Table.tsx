@@ -71,7 +71,7 @@ export const Cell = styled('td', {
   color: '$text',
   textAlign: 'center',
   '&:first-child': {
-    paddingLeft: '$md',
+    px: '$md',
   },
   variants: {
     align: {
