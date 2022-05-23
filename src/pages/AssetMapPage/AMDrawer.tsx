@@ -129,8 +129,6 @@ export const AMDrawer = () => {
       return;
     }
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
-    // TODO: Load gifts for selected epoch when needed:
-    // https://linear.app/yearn/issue/APE-192/api-dont-always-load-everything-and-improve-fetching
   }, [amEpochs]);
 
   const epochOptions = useMemo(() => {
