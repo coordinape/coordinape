@@ -10,7 +10,7 @@
 
 <!--- Why is this change required? What problem does it solve? -->
 
-## How Has This Been Tested?
+## Test Plan
 
 <!--- Please describe in detail how you tested your changes. -->
 
