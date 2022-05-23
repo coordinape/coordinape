@@ -93,6 +93,16 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
+- name: generateApiKey
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/generateApiKey'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  comment: Generates an API key for a circle
 - name: logoutUser
   definition:
     kind: synchronous
@@ -210,6 +220,7 @@ custom_types:
   - name: UserObj
   - name: AllocationCsvInput
   - name: CreateVaultInput
+  - name: GenerateApiKeyInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -342,5 +353,15 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: GenerateApiKeyResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: circle_api_keys
+      name: circleApiKey
+      source: default
+      type: object
+      field_mapping:
+        hash: hash
   scalars:
   - name: timestamptz

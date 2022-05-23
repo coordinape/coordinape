@@ -1,8 +1,8 @@
 import assert from 'assert';
-import crypto from 'crypto';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { parseAuthHeader } from '../../api-lib/authHelpers';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
 
@@ -17,18 +17,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     assert(req.headers?.authorization, 'No token was provided');
-    const [expectedId, token] = req.headers.authorization
-      .replace('Bearer ', '')
-      .split('|');
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const { prefix, tokenHash } = parseAuthHeader(req.headers.authorization);
+
     const tokenRow = await adminClient.query(
       {
         personal_access_tokens: [
           {
             where: {
               tokenable_type: { _eq: 'App\\Models\\Profile' },
-              id: { _eq: parseInt(expectedId) },
-              token: { _eq: hashedToken },
+              id: { _eq: Number.parseInt(prefix, 10) },
+              token: { _eq: tokenHash },
             },
           },
           {

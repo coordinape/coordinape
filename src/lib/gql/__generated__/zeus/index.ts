@@ -1063,6 +1063,170 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
+  ['circle_api_keys']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
+    create_vouches?: boolean | `@${string}`;
+    /** An object relationship */
+    createdByUser?: ValueTypes['users'];
+    created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    read_circle?: boolean | `@${string}`;
+    read_epochs?: boolean | `@${string}`;
+    read_member_profiles?: boolean | `@${string}`;
+    read_nominees?: boolean | `@${string}`;
+    read_pending_token_gifts?: boolean | `@${string}`;
+    update_circle?: boolean | `@${string}`;
+    update_pending_token_gifts?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "circle_api_keys" */
+  ['circle_api_keys_aggregate_order_by']: {
+    avg?: ValueTypes['circle_api_keys_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['circle_api_keys_max_order_by'] | undefined | null;
+    min?: ValueTypes['circle_api_keys_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['circle_api_keys_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['circle_api_keys_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['circle_api_keys_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['circle_api_keys_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['circle_api_keys_var_pop_order_by'] | undefined | null;
+    var_samp?:
+      | ValueTypes['circle_api_keys_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['circle_api_keys_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** order by avg() on columns of table "circle_api_keys" */
+  ['circle_api_keys_avg_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "circle_api_keys". All fields are combined with a logical 'AND'. */
+  ['circle_api_keys_bool_exp']: {
+    _and?: Array<ValueTypes['circle_api_keys_bool_exp']> | undefined | null;
+    _not?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['circle_api_keys_bool_exp']> | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    create_vouches?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    createdByUser?: ValueTypes['users_bool_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_epochs?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_member_profiles?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
+    read_nominees?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_pending_token_gifts?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
+    update_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    update_pending_token_gifts?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
+  };
+  /** order by max() on columns of table "circle_api_keys" */
+  ['circle_api_keys_max_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "circle_api_keys" */
+  ['circle_api_keys_min_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** response of any mutation on the table "circle_api_keys" */
+  ['circle_api_keys_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['circle_api_keys'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "circle_api_keys". */
+  ['circle_api_keys_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    create_vouches?: ValueTypes['order_by'] | undefined | null;
+    createdByUser?: ValueTypes['users_order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    read_circle?: ValueTypes['order_by'] | undefined | null;
+    read_epochs?: ValueTypes['order_by'] | undefined | null;
+    read_member_profiles?: ValueTypes['order_by'] | undefined | null;
+    read_nominees?: ValueTypes['order_by'] | undefined | null;
+    read_pending_token_gifts?: ValueTypes['order_by'] | undefined | null;
+    update_circle?: ValueTypes['order_by'] | undefined | null;
+    update_pending_token_gifts?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "circle_api_keys" */
+  ['circle_api_keys_select_column']: circle_api_keys_select_column;
+  /** order by stddev() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by sum() on columns of table "circle_api_keys" */
+  ['circle_api_keys_sum_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "circle_api_keys" */
+  ['circle_api_keys_variance_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: AliasType<{
     /** An object relationship */
@@ -1231,6 +1395,29 @@ export type ValueTypes = {
   /** columns and relationships of "circles" */
   ['circles']: AliasType<{
     alloc_text?: boolean | `@${string}`;
+    api_keys?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_api_keys_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_api_keys_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_api_keys']
+    ];
     auto_opt_out?: boolean | `@${string}`;
     burns?: [
       {
@@ -1489,6 +1676,7 @@ export type ValueTypes = {
     _not?: ValueTypes['circles_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['circles_bool_exp']> | undefined | null;
     alloc_text?: ValueTypes['String_comparison_exp'] | undefined | null;
+    api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     auto_opt_out?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
@@ -1574,6 +1762,10 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
+    api_keys_aggregate?:
+      | ValueTypes['circle_api_keys_aggregate_order_by']
+      | undefined
+      | null;
     auto_opt_out?: ValueTypes['order_by'] | undefined | null;
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle_private?: ValueTypes['circle_private_order_by'] | undefined | null;
@@ -2775,6 +2967,17 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['DeleteUserInput'] },
       ValueTypes['ConfirmationResponse']
     ];
+    delete_circle_api_keys?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_api_keys_bool_exp'];
+      },
+      ValueTypes['circle_api_keys_mutation_response']
+    ];
+    delete_circle_api_keys_by_pk?: [
+      { hash: string },
+      ValueTypes['circle_api_keys']
+    ];
     delete_circle_integrations?: [
       {
         /** filter the rows which have to be deleted */
@@ -3459,7 +3662,10 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -3665,7 +3871,10 @@ columns and relationships of "distributions" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
@@ -3797,6 +4006,30 @@ columns and relationships of "distributions" */
       ValueTypes['burns']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    circle_api_keys?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_api_keys_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_api_keys_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_api_keys']
+    ];
+    circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
     circle_integrations?: [
       {
         /** distinct select on columns */
@@ -4363,6 +4596,30 @@ columns and relationships of "distributions" */
       ValueTypes['burns']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    circle_api_keys?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_api_keys_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_api_keys_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_api_keys']
+    ];
+    circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
     circle_integrations?: [
       {
         /** distinct select on columns */
@@ -5049,7 +5306,10 @@ columns and relationships of "distributions" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for past epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -5411,7 +5671,10 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "user_private" */
   ['user_private_select_column']: user_private_select_column;
-  /** columns and relationships of "users" */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: AliasType<{
     address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -6471,6 +6734,64 @@ export type ModelTypes = {
   ['burns_var_samp_order_by']: GraphQLTypes['burns_var_samp_order_by'];
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
+  ['circle_api_keys']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    create_vouches: boolean;
+    /** An object relationship */
+    createdByUser: GraphQLTypes['users'];
+    created_at: GraphQLTypes['timestamptz'];
+    created_by: GraphQLTypes['bigint'];
+    hash: string;
+    name: string;
+    read_circle: boolean;
+    read_epochs: boolean;
+    read_member_profiles: boolean;
+    read_nominees: boolean;
+    read_pending_token_gifts: boolean;
+    update_circle: boolean;
+    update_pending_token_gifts: boolean;
+  };
+  /** order by aggregate values of table "circle_api_keys" */
+  ['circle_api_keys_aggregate_order_by']: GraphQLTypes['circle_api_keys_aggregate_order_by'];
+  /** order by avg() on columns of table "circle_api_keys" */
+  ['circle_api_keys_avg_order_by']: GraphQLTypes['circle_api_keys_avg_order_by'];
+  /** Boolean expression to filter rows from the table "circle_api_keys". All fields are combined with a logical 'AND'. */
+  ['circle_api_keys_bool_exp']: GraphQLTypes['circle_api_keys_bool_exp'];
+  /** order by max() on columns of table "circle_api_keys" */
+  ['circle_api_keys_max_order_by']: GraphQLTypes['circle_api_keys_max_order_by'];
+  /** order by min() on columns of table "circle_api_keys" */
+  ['circle_api_keys_min_order_by']: GraphQLTypes['circle_api_keys_min_order_by'];
+  /** response of any mutation on the table "circle_api_keys" */
+  ['circle_api_keys_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_api_keys']>;
+  };
+  /** Ordering options when selecting data from "circle_api_keys". */
+  ['circle_api_keys_order_by']: GraphQLTypes['circle_api_keys_order_by'];
+  /** select columns of table "circle_api_keys" */
+  ['circle_api_keys_select_column']: GraphQLTypes['circle_api_keys_select_column'];
+  /** order by stddev() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_order_by']: GraphQLTypes['circle_api_keys_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_pop_order_by']: GraphQLTypes['circle_api_keys_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_samp_order_by']: GraphQLTypes['circle_api_keys_stddev_samp_order_by'];
+  /** order by sum() on columns of table "circle_api_keys" */
+  ['circle_api_keys_sum_order_by']: GraphQLTypes['circle_api_keys_sum_order_by'];
+  /** order by var_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_pop_order_by']: GraphQLTypes['circle_api_keys_var_pop_order_by'];
+  /** order by var_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_samp_order_by']: GraphQLTypes['circle_api_keys_var_samp_order_by'];
+  /** order by variance() on columns of table "circle_api_keys" */
+  ['circle_api_keys_variance_order_by']: GraphQLTypes['circle_api_keys_variance_order_by'];
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
     /** An object relationship */
@@ -6534,6 +6855,8 @@ export type ModelTypes = {
   /** columns and relationships of "circles" */
   ['circles']: {
     alloc_text?: string | undefined;
+    /** An array relationship */
+    api_keys: Array<GraphQLTypes['circle_api_keys']>;
     auto_opt_out: boolean;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
@@ -6969,6 +7292,12 @@ columns and relationships of "distributions" */
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** delete data from the table: "circle_api_keys" */
+    delete_circle_api_keys?:
+      | GraphQLTypes['circle_api_keys_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_api_keys" */
+    delete_circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -7237,7 +7566,10 @@ columns and relationships of "distributions" */
   ['pending_gift_private_order_by']: GraphQLTypes['pending_gift_private_order_by'];
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: GraphQLTypes['pending_gift_private_select_column'];
-  /** columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -7289,7 +7621,10 @@ columns and relationships of "distributions" */
   ['pending_token_gifts_var_samp_order_by']: GraphQLTypes['pending_token_gifts_var_samp_order_by'];
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
-  /** columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: {
     address: string;
     avatar?: string | undefined;
@@ -7330,6 +7665,10 @@ columns and relationships of "distributions" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** fetch data from the table: "circle_api_keys" */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
+    /** fetch data from the table: "circle_api_keys" using primary key columns */
+    circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
@@ -7410,6 +7749,10 @@ columns and relationships of "distributions" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** fetch data from the table: "circle_api_keys" */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
+    /** fetch data from the table: "circle_api_keys" using primary key columns */
+    circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
@@ -7531,7 +7874,10 @@ columns and relationships of "distributions" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for past epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -7716,7 +8062,10 @@ columns and relationships of "distributions" */
   ['user_private_order_by']: GraphQLTypes['user_private_order_by'];
   /** select columns of table "user_private" */
   ['user_private_select_column']: GraphQLTypes['user_private_select_column'];
-  /** columns and relationships of "users" */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: {
     address: string;
     bio?: string | undefined;
@@ -8384,6 +8733,157 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
+  ['circle_api_keys']: {
+    __typename: 'circle_api_keys';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    create_vouches: boolean;
+    /** An object relationship */
+    createdByUser: GraphQLTypes['users'];
+    created_at: GraphQLTypes['timestamptz'];
+    created_by: GraphQLTypes['bigint'];
+    hash: string;
+    name: string;
+    read_circle: boolean;
+    read_epochs: boolean;
+    read_member_profiles: boolean;
+    read_nominees: boolean;
+    read_pending_token_gifts: boolean;
+    update_circle: boolean;
+    update_pending_token_gifts: boolean;
+  };
+  /** order by aggregate values of table "circle_api_keys" */
+  ['circle_api_keys_aggregate_order_by']: {
+    avg?: GraphQLTypes['circle_api_keys_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['circle_api_keys_max_order_by'] | undefined;
+    min?: GraphQLTypes['circle_api_keys_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['circle_api_keys_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['circle_api_keys_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['circle_api_keys_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['circle_api_keys_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['circle_api_keys_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['circle_api_keys_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['circle_api_keys_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "circle_api_keys" */
+  ['circle_api_keys_avg_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "circle_api_keys". All fields are combined with a logical 'AND'. */
+  ['circle_api_keys_bool_exp']: {
+    _and?: Array<GraphQLTypes['circle_api_keys_bool_exp']> | undefined;
+    _not?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['circle_api_keys_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    create_vouches?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    createdByUser?: GraphQLTypes['users_bool_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_epochs?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_member_profiles?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_nominees?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_pending_token_gifts?:
+      | GraphQLTypes['Boolean_comparison_exp']
+      | undefined;
+    update_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    update_pending_token_gifts?:
+      | GraphQLTypes['Boolean_comparison_exp']
+      | undefined;
+  };
+  /** order by max() on columns of table "circle_api_keys" */
+  ['circle_api_keys_max_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "circle_api_keys" */
+  ['circle_api_keys_min_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** response of any mutation on the table "circle_api_keys" */
+  ['circle_api_keys_mutation_response']: {
+    __typename: 'circle_api_keys_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_api_keys']>;
+  };
+  /** Ordering options when selecting data from "circle_api_keys". */
+  ['circle_api_keys_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    create_vouches?: GraphQLTypes['order_by'] | undefined;
+    createdByUser?: GraphQLTypes['users_order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    read_circle?: GraphQLTypes['order_by'] | undefined;
+    read_epochs?: GraphQLTypes['order_by'] | undefined;
+    read_member_profiles?: GraphQLTypes['order_by'] | undefined;
+    read_nominees?: GraphQLTypes['order_by'] | undefined;
+    read_pending_token_gifts?: GraphQLTypes['order_by'] | undefined;
+    update_circle?: GraphQLTypes['order_by'] | undefined;
+    update_pending_token_gifts?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "circle_api_keys" */
+  ['circle_api_keys_select_column']: circle_api_keys_select_column;
+  /** order by stddev() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_stddev_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by sum() on columns of table "circle_api_keys" */
+  ['circle_api_keys_sum_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "circle_api_keys" */
+  ['circle_api_keys_var_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "circle_api_keys" */
+  ['circle_api_keys_variance_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "circle_integrations" */
   ['circle_integrations']: {
     __typename: 'circle_integrations';
@@ -8538,6 +9038,8 @@ export type GraphQLTypes = {
   ['circles']: {
     __typename: 'circles';
     alloc_text?: string | undefined;
+    /** An array relationship */
+    api_keys: Array<GraphQLTypes['circle_api_keys']>;
     auto_opt_out: boolean;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
@@ -8606,6 +9108,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['circles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['circles_bool_exp']> | undefined;
     alloc_text?: GraphQLTypes['String_comparison_exp'] | undefined;
+    api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     auto_opt_out?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
@@ -8686,6 +9189,9 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
+    api_keys_aggregate?:
+      | GraphQLTypes['circle_api_keys_aggregate_order_by']
+      | undefined;
     auto_opt_out?: GraphQLTypes['order_by'] | undefined;
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle_private?: GraphQLTypes['circle_private_order_by'] | undefined;
@@ -9672,6 +10178,12 @@ columns and relationships of "distributions" */
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** delete data from the table: "circle_api_keys" */
+    delete_circle_api_keys?:
+      | GraphQLTypes['circle_api_keys_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_api_keys" */
+    delete_circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** delete data from the table: "circle_integrations" */
     delete_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -10126,7 +10638,10 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: {
     __typename: 'pending_token_gifts';
     /** An object relationship */
@@ -10316,7 +10831,10 @@ columns and relationships of "distributions" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
@@ -10408,6 +10926,10 @@ columns and relationships of "distributions" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** fetch data from the table: "circle_api_keys" */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
+    /** fetch data from the table: "circle_api_keys" using primary key columns */
+    circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
@@ -10489,6 +11011,10 @@ columns and relationships of "distributions" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** fetch data from the table: "circle_api_keys" */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
+    /** fetch data from the table: "circle_api_keys" using primary key columns */
+    circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
@@ -10706,7 +11232,10 @@ columns and relationships of "distributions" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for past epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -11049,7 +11578,10 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "user_private" */
   ['user_private_select_column']: user_private_select_column;
-  /** columns and relationships of "users" */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: {
     __typename: 'users';
     address: string;
@@ -11754,6 +12286,22 @@ export const enum burns_select_column {
   tokens_burnt = 'tokens_burnt',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** select columns of table "circle_api_keys" */
+export const enum circle_api_keys_select_column {
+  circle_id = 'circle_id',
+  create_vouches = 'create_vouches',
+  created_at = 'created_at',
+  created_by = 'created_by',
+  hash = 'hash',
+  name = 'name',
+  read_circle = 'read_circle',
+  read_epochs = 'read_epochs',
+  read_member_profiles = 'read_member_profiles',
+  read_nominees = 'read_nominees',
+  read_pending_token_gifts = 'read_pending_token_gifts',
+  update_circle = 'update_circle',
+  update_pending_token_gifts = 'update_pending_token_gifts',
 }
 /** select columns of table "circle_integrations" */
 export const enum circle_integrations_select_column {

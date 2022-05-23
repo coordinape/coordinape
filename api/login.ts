@@ -1,9 +1,13 @@
 import assert from 'assert';
-import { randomBytes, createHash } from 'crypto';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
+import {
+  formatAuthHeader,
+  generateTokenString,
+  hashTokenString,
+} from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
 import {
@@ -82,7 +86,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 abilities: '["read"]',
                 tokenable_type: 'App\\Models\\Profile',
                 tokenable_id: profile.id,
-                token: createHash('sha256').update(tokenString).digest('hex'),
+                token: hashTokenString(tokenString),
                 updated_at: now,
                 created_at: now,
                 last_used_at: now,
@@ -96,23 +100,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       );
 
-    return res.status(200).json({ token: `${token?.id}|${tokenString}` });
+    return res
+      .status(200)
+      .json({ token: formatAuthHeader(token?.id, tokenString) });
   } catch (error: any) {
     errorResponse(res, error);
   }
-}
-
-function generateTokenString(len = 40): string {
-  const bufSize = len * 2;
-  if (bufSize > 65536) {
-    const e = new Error();
-    (e as any).code = 22;
-    e.message = `Quota exceeded: requested ${bufSize} > 65536 bytes`;
-    e.name = 'QuotaExceededError';
-    throw e;
-  }
-  const candidateString = randomBytes(bufSize).toString('base64').slice(0, len);
-  if (candidateString.includes('/') || candidateString.includes('+'))
-    return generateTokenString(len);
-  return candidateString;
 }

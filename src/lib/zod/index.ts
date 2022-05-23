@@ -70,6 +70,21 @@ export const createNomineeInputSchema = z
   })
   .strict();
 
+export const generateApiKeyInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    read_circle: z.boolean().optional(),
+    update_circle: z.boolean().optional(),
+    read_nominees: z.boolean().optional(),
+    create_vouches: z.boolean().optional(),
+    read_pending_token_gifts: z.boolean().optional(),
+    update_pending_token_gifts: z.boolean().optional(),
+    read_member_profiles: z.boolean().optional(),
+    read_epochs: z.boolean().optional(),
+  })
+  .strict();
+
 export const updateUserSchemaInput = z
   .object({
     circle_id: z.number(),

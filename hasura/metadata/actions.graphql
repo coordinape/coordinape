@@ -39,6 +39,10 @@ type Mutation {
 }
 
 type Mutation {
+  generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -225,6 +229,19 @@ input CreateVaultInput {
   chain_id: Int!
 }
 
+input GenerateApiKeyInput {
+  name: String!
+  circle_id: Int!
+  read_circle: Boolean
+  update_circle: Boolean
+  read_nominees: Boolean
+  create_vouches: Boolean
+  read_allocations: Boolean
+  update_allocations: Boolean
+  read_member_profiles: Boolean
+  read_epochs: Boolean
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -283,6 +300,11 @@ type AllocationCsvResponse {
 
 type VaultResponse {
   id: ID!
+}
+
+type GenerateApiKeyResponse {
+  api_key: String!
+  hash: String!
 }
 
 scalar timestamptz
