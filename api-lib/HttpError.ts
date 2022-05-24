@@ -18,7 +18,10 @@ if (SENTRY_DSN) {
     dsn: SENTRY_DSN,
     tracesSampleRate: 0.1,
     normalizeDepth: 50,
-    ignoreErrors: ['Error sending telegram notification .*'],
+    ignoreErrors: [
+      'Error sending telegram notification',
+      'Discord Daily Update error for circle',
+    ],
   });
   Sentry.setTag('application', 'vercel');
 }
@@ -143,8 +146,10 @@ function zodParserErrorResponse(res: VercelResponse, zodError: ZodError): void {
   errorResponse(res, ue);
 }
 
-export function errorLog(message: string) {
-  Sentry.captureMessage(message);
+export function errorLog(message: string, reportToSentry = true) {
+  if (reportToSentry) {
+    Sentry.captureMessage(message);
+  }
   console.error(message);
 }
 

@@ -320,7 +320,8 @@ export interface GraphQLResponse {
 export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
-    console.error(response);
+    // eslint-disable-next-line no-console
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';

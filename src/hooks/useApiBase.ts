@@ -108,7 +108,10 @@ export const useApiBase = () => {
             return;
           }
         } catch (e) {
-          console.error('Failed to login', e);
+          // for debugging this issue
+          // eslint-disable-next-line no-console
+          console.info(e);
+          console.error('Failed to login');
         }
 
         delete authTokens[address];
@@ -118,7 +121,7 @@ export const useApiBase = () => {
         });
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
-        throw 'Failed to get a login token';
+        throw new Error('Failed to get a login token');
       },
     []
   );
