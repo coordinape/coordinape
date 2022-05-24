@@ -4,7 +4,6 @@ import { IApiCircle, ICircle } from './api.circle';
 export interface IApiProfile {
   id: number;
   address: string;
-  admin_view: boolean;
   avatar?: string;
   background?: string;
   bio?: string;
@@ -60,7 +59,6 @@ export interface IMyUser extends IUser {
 }
 
 export interface IProfile extends IApiProfile {
-  hasAdminView: boolean;
   users: IUser[];
 }
 

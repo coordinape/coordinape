@@ -23,19 +23,6 @@ select_permissions:
     - original_amount
     - created_at
     - updated_at
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - id
-    - user_id
-    - epoch_id
-    - circle_id
-    - tokens_burnt
-    - regift_percent
-    - original_amount
-    - created_at
-    - updated_at
     filter:
       circle:
         users:

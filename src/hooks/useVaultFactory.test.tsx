@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { Asset } from 'lib/vaults';
@@ -47,13 +49,16 @@ test('create a vault', async () => {
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const contracts = useContracts();
-    if (!contracts) return null;
 
-    daiAddress = contracts.getToken('DAI').address;
+    useEffect(() => {
+      if (!contracts) return;
 
-    createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
-      if (v) vault = v as GraphQLTypes['vaults'];
-    });
+      daiAddress = contracts.getToken('DAI').address;
+
+      createVault({ simpleTokenAddress: '0x0', type: Asset.DAI }).then(v => {
+        if (v) vault = v as GraphQLTypes['vaults'];
+      });
+    }, [contracts]);
     return null;
   };
 
@@ -83,11 +88,15 @@ test('create a vault with a custom asset', async () => {
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const contracts = useContracts();
-    if (!contracts) return null;
 
-    createVault({ simpleTokenAddress: yamAddress }).then(v => {
-      if (v) vault = v as GraphQLTypes['vaults'];
-    });
+    useEffect(() => {
+      if (!contracts) return;
+
+      createVault({ simpleTokenAddress: yamAddress }).then(v => {
+        if (v) vault = v as GraphQLTypes['vaults'];
+      });
+    }, [contracts]);
+
     return null;
   };
 

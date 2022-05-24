@@ -53,7 +53,9 @@ export const INFURA_PROJECT_ID = getEnvValue(
   'missing-infura-id'
 );
 
-export const HARDHAT_GANACHE_PORT = getEnvValue('HARDHAT_GANACHE_PORT');
+export const HARDHAT_GANACHE_PORT: number = getEnvValue(
+  'HARDHAT_GANACHE_PORT' || 8546
+);
 
 export const ETHEREUM_RPC_URL: string = getEnvValue('ETHEREUM_RPC_URL');
 

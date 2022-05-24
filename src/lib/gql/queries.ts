@@ -50,7 +50,6 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
         {
           id: true,
           address: true,
-          admin_view: true,
           avatar: true,
           background: true,
           bio: true,
@@ -317,7 +316,7 @@ export const getFullCircle = async (
                 avatar: true,
                 id: true,
                 address: true,
-                admin_view: true,
+                skills: true,
               },
               role: true,
               teammates: [
@@ -406,9 +405,16 @@ export const getFullCircle = async (
   const adaptedUsers = circles_by_pk.users.map(user => {
     const adaptedUser: Omit<typeof user, 'teammates'> & {
       teammates?: IApiUser[];
+      profile: Omit<typeof user.profile, 'skills'> & {
+        skills: string[];
+      };
     } = {
       ...user,
       teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      profile: {
+        ...user.profile,
+        skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],
+      },
     };
     return adaptedUser;
   });
@@ -528,7 +534,6 @@ export const fetchManifest = async (
         {
           id: true,
           address: true,
-          admin_view: true,
           avatar: true,
           background: true,
           bio: true,

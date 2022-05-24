@@ -23,15 +23,6 @@ object_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - voucher_id
-    - nominee_id
-    - created_at
-    - updated_at
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
     - created_at
     - id
     - nominee_id

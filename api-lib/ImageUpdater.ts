@@ -36,7 +36,8 @@ export class ImageUpdater<T> {
       throw new InternalServerError(
         err.message
           ? 'error uploading to s3: ' + err.message
-          : 'Unexpected error uploading file'
+          : 'Unexpected error uploading file',
+        err
       );
     }
 

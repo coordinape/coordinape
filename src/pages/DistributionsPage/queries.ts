@@ -61,11 +61,13 @@ export const getEpochData = async (
             {
               created_at: true,
               total_amount: true,
+              tx_hash: true,
               vault: {
                 id: true,
                 decimals: true,
                 symbol: true,
                 vault_address: true,
+                chain_id: true,
               },
               epoch: {
                 number: true,
@@ -130,13 +132,14 @@ export const getPreviousDistribution = async (
           where: {
             epoch: { circle_id: { _eq: circleId } },
             vault_id: { _eq: vaultId },
-            saved_on_chain: { _eq: true },
+            tx_hash: { _is_null: false },
           },
         },
         {
           id: true,
           vault_id: true,
           distribution_json: [{}, true],
+          tx_hash: true,
         },
       ],
     },

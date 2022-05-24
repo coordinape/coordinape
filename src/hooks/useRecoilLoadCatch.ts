@@ -55,8 +55,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
           .catch(err => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
             let e = transformError ? transformError(err) : err;
-            const normalized = normalizeError(e);
-            e = normalized ?? e;
+            e = normalizeError(e);
             if (
               e.message ===
               'MetaMask Message Signature: User denied message signature.'

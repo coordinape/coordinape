@@ -6,7 +6,6 @@ import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
-import { normalizeError } from '../utils/reporting';
 import { useRecoilLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -165,51 +164,34 @@ export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async () => {
-        try {
-          const walletAuth = await snapshot.getPromise(rWalletAuth);
-          if (
-            !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-          ) {
-            throw 'Wallet must be connected to fetch manifest';
-          }
-
-          const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-          const manifest = await queries.fetchManifest(
-            walletAuth.address,
-            circleId
-          );
-
-          set(rApiManifest, manifest);
-          const fullCircle = manifest.circle;
-          if (fullCircle) {
-            set(rSelectedCircleIdSource, fullCircle.circle.id);
-            set(rApiFullCircle, m => {
-              const result = new Map(m);
-              result.set(fullCircle.circle.id, fullCircle);
-              return result;
-            });
-
-            fetchSelfIds(fullCircle.users.map(u => u.address));
-          } else {
-            set(rSelectedCircleIdSource, undefined);
-          }
-          return manifest;
-        } catch (e) {
-          const fixedUpError = normalizeError(e);
-          // eslint-disable-next-line no-console
-          console.info(
-            'error fetching manifest:',
-            fixedUpError ? fixedUpError.message : JSON.stringify(e)
-          );
-          // eslint-disable-next-line no-console
-          console.info('raw manifest error:');
-          // eslint-disable-next-line no-console
-          console.info(e);
-          if (fixedUpError) {
-            throw fixedUpError;
-          }
-          throw e;
+        const walletAuth = await snapshot.getPromise(rWalletAuth);
+        if (
+          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
+        ) {
+          throw 'Wallet must be connected to fetch manifest';
         }
+
+        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
+        const manifest = await queries.fetchManifest(
+          walletAuth.address,
+          circleId
+        );
+
+        set(rApiManifest, manifest);
+        const fullCircle = manifest.circle;
+        if (fullCircle) {
+          set(rSelectedCircleIdSource, fullCircle.circle.id);
+          set(rApiFullCircle, m => {
+            const result = new Map(m);
+            result.set(fullCircle.circle.id, fullCircle);
+            return result;
+          });
+
+          fetchSelfIds(fullCircle.users.map(u => u.address));
+        } else {
+          set(rSelectedCircleIdSource, undefined);
+        }
+        return manifest;
       },
     []
   );

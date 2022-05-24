@@ -28,23 +28,33 @@ export function useSaveEpochDistribution() {
 }
 
 export function useMarkDistributionSaved() {
-  return useMutation(({ epochId, id }: { id: number; epochId: number }) => {
-    return client.mutate(
-      {
-        update_distributions_by_pk: [
-          {
-            _set: {
-              saved_on_chain: true,
-              distribution_epoch_id: epochId,
+  return useMutation(
+    ({
+      epochId,
+      id,
+      txHash,
+    }: {
+      id: number;
+      epochId: number;
+      txHash: string;
+    }) => {
+      return client.mutate(
+        {
+          update_distributions_by_pk: [
+            {
+              _set: {
+                tx_hash: txHash,
+                distribution_epoch_id: epochId,
+              },
+              pk_columns: { id },
             },
-            pk_columns: { id },
-          },
-          { id: true },
-        ],
-      },
-      {
-        operationName: 'useMarkDistributionSaved',
-      }
-    );
-  });
+            { id: true },
+          ],
+        },
+        {
+          operationName: 'useMarkDistributionSaved',
+        }
+      );
+    }
+  );
 }

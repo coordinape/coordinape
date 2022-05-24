@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     color: theme.colors.text,
     margin: 0,
+    maxWidth: '100%',
+    textAlign: 'center',
   },
   description: {
     padding: '0 100px',
