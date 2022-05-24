@@ -169,7 +169,8 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         {...customAddressField}
       />
       <Button
-        color="alert"
+        color="primary"
+        outlined
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid}
       >
