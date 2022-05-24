@@ -305,7 +305,7 @@ export const menuGroupStyle = {
   },
 };
 
-export const linkStyle = {
+export const navLinkStyle = {
   my: 0,
   mx: '$xs',
   fontSize: '$large',
@@ -318,13 +318,13 @@ export const linkStyle = {
   border: '1px solid transparent',
   display: 'flex',
   alignItems: 'center',
+  cursor: 'pointer',
   '&:hover': {
     borderColor: '$secondaryText',
   },
   '&.active': {
     backgroundColor: '$focusedBorder',
     fontWeight: '$bold',
-    cursor: 'default',
     color: '$text',
   },
   '@sm': {
@@ -368,7 +368,7 @@ export const TopLevelLinks = ({
     >
       {links.map(([path, label, matchPaths]) => (
         <Link
-          css={linkStyle}
+          css={navLinkStyle}
           as={NavLink}
           key={path}
           to={path}

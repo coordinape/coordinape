@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { Popover, makeStyles, Hidden } from '@material-ui/core';
+import { Hidden } from '@material-ui/core';
 
-import { linkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
+import { navLinkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
@@ -18,7 +18,15 @@ import { ChevronUp, ChevronDown } from 'icons';
 import { rSelectedCircle } from 'recoilState/app';
 import { useHasCircles } from 'recoilState/db';
 import { paths, isCircleSpecificPath } from 'routes/paths';
-import { Box, Link, Text, PopoverRadix } from 'ui';
+import {
+  Box,
+  Link,
+  Text,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from 'ui';
 
 import { getOrgData } from './getOrgData';
 
@@ -26,29 +34,12 @@ import type { Awaited } from 'types/shim';
 
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
-const useStyles = makeStyles(theme => ({
-  popover: {
-    marginTop: theme.spacing(0.5),
-    padding: 0,
-    borderRadius: 8,
-    background: '#FFF',
-    boxShadow:
-      '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
-    display: 'flex',
-    flexDirection: 'column',
-    top: '13.5px !important',
-    left: '45px !important',
-    transition: 'none !important',
-  },
-}));
-
 const mainLinks = [
   [paths.circles, 'Overview'],
   isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
-  const classes = useStyles();
   const address = useConnectedAddress();
   const query = useQuery(
     ['myOrgs', address],
@@ -58,8 +49,6 @@ export const OverviewMenu = () => {
     }
   );
   const orgs = query.data?.organizations;
-
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const navigate = useNavigate();
   const { selectCircle } = useApiBase();
@@ -89,86 +78,81 @@ export const OverviewMenu = () => {
     : location.pathname.includes(paths.vaults)
     ? 'Vaults'
     : 'Overview';
+  const overviewMenuTrigger = (
+    <Link
+      css={navLinkStyle}
+      className={
+        paths.circles?.includes(location.pathname) ||
+        location.pathname.includes(paths.history)
+          ? 'active'
+          : ''
+      }
+      href="#"
+    >
+      {overviewMenuTriggerText}
+      <Box css={{ marginLeft: '$xs', display: 'flex' }}>
+        <ChevronDown size="md" />
+      </Box>
+    </Link>
+  );
 
   return (
     <>
-      <Link
-        css={linkStyle}
-        onClick={event => setAnchorEl(event.currentTarget)}
-        className={
-          paths.circles?.includes(location.pathname) ||
-          location.pathname.includes(paths.history)
-            ? 'active'
-            : ''
-        }
-        href="#"
-      >
-        {overviewMenuTriggerText}
-        <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-          <ChevronDown size="md" />
-        </Box>
-      </Link>
-      <PopoverRadix>
-        <h3>PopoverRadix content</h3>
-        <p>Are you sure you wanna do this?</p>
-      </PopoverRadix>
       <Hidden smDown>
-        <Popover
-          anchorEl={anchorEl}
-          classes={{ paper: classes.popover }}
-          id="overview-popover"
-          onClick={() => setTimeout(() => setAnchorEl(null))}
-          onClose={() => setAnchorEl(null)}
-          open={!!anchorEl}
-        >
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              p: '$md',
-            }}
-          >
-            <Link
-              type="menu"
-              css={{
-                py: '$sm',
-                fontWeight: '$bold',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              {overviewMenuTriggerText}
-              <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                <ChevronUp size="md" />
-              </Box>
-            </Link>
+        <Popover>
+          <PopoverTrigger asChild>{overviewMenuTrigger}</PopoverTrigger>
+          <PopoverContent sideOffset={-58} alignOffset={1}>
             <Box
               css={{
                 display: 'flex',
                 flexDirection: 'column',
-                marginTop: '$sm',
+                p: '$md',
               }}
             >
-              {hasCircles && <TopLevelLinks links={mainLinks} />}
-            </Box>
-            {orgs?.map(org => (
-              <Box key={org.id} css={menuGroupStyle}>
-                <Text variant="label" as="label">
-                  {org.name}
-                </Text>
-                <Box css={{ display: 'flex', flexDirection: 'column' }}>
-                  {sortBy(org.circles, c => -c.users.length).map(circle => (
-                    <CircleItem
-                      circle={circle}
-                      key={circle.id}
-                      onButtonClick={goToCircle}
-                    />
-                  ))}
-                </Box>
+              <PopoverClose asChild>
+                <Link
+                  type="menu"
+                  css={{
+                    py: '$sm',
+                    fontWeight: '$bold',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  {overviewMenuTriggerText}
+                  <Box css={{ marginLeft: '$xs', display: 'flex' }}>
+                    <ChevronUp size="md" />
+                  </Box>
+                </Link>
+              </PopoverClose>
+              <Box
+                css={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  marginTop: '$sm',
+                }}
+              >
+                {hasCircles && <TopLevelLinks links={mainLinks} />}
               </Box>
-            ))}
-          </Box>
+              {orgs?.map(org => (
+                <Box key={org.id} css={menuGroupStyle}>
+                  <Text variant="label" as="label">
+                    {org.name}
+                  </Text>
+                  <Box css={{ display: 'flex', flexDirection: 'column' }}>
+                    {sortBy(org.circles, c => -c.users.length).map(circle => (
+                      <CircleItem
+                        circle={circle}
+                        key={circle.id}
+                        onButtonClick={goToCircle}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </PopoverContent>
         </Popover>
       </Hidden>
     </>

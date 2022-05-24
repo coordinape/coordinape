@@ -1,42 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ReactNode } from 'react';
+import React from 'react';
 
-import * as Popover from '@radix-ui/react-popover';
-import { CSS, styled } from 'stitches.config';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
+import { styled } from '@stitches/react';
 
-// const Content = styled(Popover.Content, {
-//   backgroundColor: '$white',
-//   borderRadius: '$3',
-//   width: '90vw',
-//   maxWidth: '650px',
-//   padding: '$2xl',
-//   margin: 'calc($xl * 2) auto $xl',
-//   position: 'relative',
-// });
+const StyledContent = styled(PopoverPrimitive.Content, {
+  padding: 0,
+  borderRadius: 8,
+  background: '$white',
+  boxShadow:
+    '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
+  display: 'flex',
+  flexDirection: 'column',
+});
 
-type PopoverProps = {
-  children: ReactNode;
-  // title?: string;
-  // onClose: () => void;
-  css?: CSS;
-  // open?: boolean;
-};
-export const PopoverRadix = ({
-  children,
-  // title,
-  // onClose,
-  css = {},
-}: // open = true,
-PopoverProps) => {
-  return (
-    <Popover.Root>
-      <Popover.Trigger>trigger</Popover.Trigger>
-      <Popover.Content>
-        what is this
-        <Popover.Close />
-        <Popover.Arrow />
-      </Popover.Content>
-    </Popover.Root>
-  );
-};
+export const Popover = PopoverPrimitive.Root;
+export const PopoverTrigger = PopoverPrimitive.Trigger;
+export const PopoverContent = StyledContent;
+export const PopoverClose = PopoverPrimitive.Close;

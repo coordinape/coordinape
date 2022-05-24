@@ -42,5 +42,5 @@ test('show circle links for distributions route', async () => {
     );
   });
 
-  expect(screen.getByText('History')).toBeTruthy();
+  expect(screen.getByText('Allocate')).toBeTruthy();
 });

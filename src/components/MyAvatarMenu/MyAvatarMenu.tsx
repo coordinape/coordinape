@@ -3,7 +3,7 @@ import React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { NavLink } from 'react-router-dom';
 
-import { Popover, makeStyles, Hidden } from '@material-ui/core';
+import { makeStyles, Hidden } from '@material-ui/core';
 
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
@@ -15,7 +15,14 @@ import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
-import { Box, Link } from 'ui';
+import {
+  Box,
+  Link,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from 'ui';
 import { shortenAddress } from 'utils';
 import { connectors } from 'utils/connectors';
 
@@ -26,20 +33,6 @@ const useStyles = makeStyles(theme => ({
     width: '50px',
     cursor: 'pointer',
   },
-  popover: {
-    marginTop: theme.spacing(0.5),
-    padding: 0,
-    borderRadius: 8,
-    background: '$surface',
-    boxShadow:
-      '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
-    display: 'flex',
-    flexDirection: 'column',
-    top: '9px !important',
-    right: '24px !important',
-    left: 'auto !important',
-    transition: 'none !important',
-  },
 }));
 
 export const MyAvatarMenu = () => {
@@ -47,76 +40,78 @@ export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
   const { icon, address, logout } = useWalletStatus();
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-
   return (
     <>
-      <Link onClick={event => setAnchorEl(event.currentTarget)} href="#">
-        <ApeAvatar profile={myProfile} className={classes.avatarButton} />
-      </Link>
       <Hidden smDown>
-        <Popover
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          classes={{ paper: classes.popover }}
-          id="my-avatar-popover"
-          onClick={() => setTimeout(() => setAnchorEl(null))}
-          onClose={() => setAnchorEl(null)}
-          open={!!anchorEl}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        >
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              textAlign: 'right',
-              alignItems: 'end',
-              p: '$md',
-            }}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Link href="#">
+              <ApeAvatar profile={myProfile} className={classes.avatarButton} />
+            </Link>
+          </PopoverTrigger>
+          <PopoverContent
+            sideOffset={-66}
+            alignOffset={-16}
+            css={{ background: '$surface' }}
           >
-            <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-              <ApeAvatar className={classes.avatarButton} profile={myProfile} />
-            </Box>
             <Box
               css={{
                 display: 'flex',
-                alignItems: 'center',
-                mb: '$xs',
-                fontWeight: '$bold',
-                fontSize: '$large',
+                flexDirection: 'column',
+                textAlign: 'right',
+                alignItems: 'end',
+                p: '$md',
               }}
             >
-              <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
-              {address && shortenAddress(address)}
-            </Box>
-            <Link
-              type="menu"
-              css={{ fontSize: '$xs', color: '$headingText' }}
-              onClick={logout}
-            >
-              Disconnect
-            </Link>
-            <Box css={menuGroupStyle}>
-              <Link type="menu" as={NavLink} to={paths.profile('me')}>
-                Profile
-              </Link>
-              <Link type="menu" as={NavLink} to={paths.circles}>
-                Circles
-              </Link>
-            </Box>
-            <Box css={menuGroupStyle}>
-              <Link type="menu" href={EXTERNAL_URL_DOCS}>
-                Docs
-              </Link>
+              <PopoverClose asChild>
+                <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
+                  <ApeAvatar
+                    className={classes.avatarButton}
+                    profile={myProfile}
+                  />
+                </Box>
+              </PopoverClose>
+              <Box
+                css={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mb: '$xs',
+                  fontWeight: '$bold',
+                  fontSize: '$large',
+                }}
+              >
+                <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
+                {address && shortenAddress(address)}
+              </Box>
               <Link
                 type="menu"
-                href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
-                target="_blank"
+                css={{ fontSize: '$xs', color: '$headingText' }}
+                onClick={logout}
               >
-                Give Feedback
+                Disconnect
               </Link>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" as={NavLink} to={paths.profile('me')}>
+                  Profile
+                </Link>
+                <Link type="menu" as={NavLink} to={paths.circles}>
+                  Circles
+                </Link>
+              </Box>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" href={EXTERNAL_URL_DOCS}>
+                  Docs
+                </Link>
+                <Link
+                  type="menu"
+                  href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
+                  target="_blank"
+                >
+                  Give Feedback
+                </Link>
+              </Box>
             </Box>
-          </Box>
+          </PopoverContent>
         </Popover>
       </Hidden>
     </>
