@@ -437,7 +437,7 @@ export const AdminCircleModal = ({
         <FormAutocomplete
           value={fixedPaymentToken}
           onChange={(v: string) => {
-            const found = tokens.find(p => p === v);
+            const found = tokens.some(p => p === v);
             if (found || v === 'Disabled') setFixedPaymentToken(v);
           }}
           options={tokens}
@@ -445,7 +445,7 @@ export const AdminCircleModal = ({
           fullWidth
           TextFieldProps={{
             onBlur: ({ target: { value } }) => {
-              if (!tokens.find(p => p === value))
+              if (!tokens.some(p => p === value))
                 setFixedPaymentToken('Disabled');
             },
           }}
