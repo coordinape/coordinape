@@ -16,7 +16,6 @@ import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 import VouchingPage from 'pages/VouchingPage';
 import {
-  useMyProfile,
   useSelectedCircleLoadable,
   useHasSelectedCircle,
 } from 'recoilState/app';
@@ -92,10 +91,9 @@ const LoggedInRoutes = () => {
 
 const RequireAdmin = ({ children }: { children: React.ReactElement }) => {
   const selectedUser = useSelectedCircleLoadable().valueMaybe()?.myUser;
-  const hasAdminView =
-    useMyProfile().hasAdminView || !!selectedUser?.isCircleAdmin;
+  const isCircleAdmin = !!selectedUser?.isCircleAdmin;
 
-  if (selectedUser && !hasAdminView)
+  if (selectedUser && !isCircleAdmin)
     return <Navigate to={paths.home} replace />;
 
   return children;

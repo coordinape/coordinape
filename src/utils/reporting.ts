@@ -3,27 +3,41 @@ import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { CaptureContext } from '@sentry/types';
 
+import { flattenZeusError, GQLError } from '../common-lib/errorHandling';
 import { GraphQLError } from '../lib/gql/__generated__/zeus';
 
 import { DOMAIN_IS_LOCALHOST, DOMAIN_IS_PREVIEW, RENDER_APP } from './domain';
 
 export const reportException = (
-  exception: any,
+  error: any,
   captureContext?: CaptureContext
 ) => {
   if (DOMAIN_IS_LOCALHOST) return;
-  if (
-    !(exception instanceof Error) &&
-    typeof exception == 'object' &&
-    'message' in exception
-  ) {
-    return Sentry.captureException(
-      new Error(exception.message),
-      captureContext
-    );
-  } else {
-    return Sentry.captureException(new Error(exception), captureContext);
-  }
+
+  Sentry.withScope(scope => {
+    if (error.details) {
+      scope.setExtra('details', error.details);
+      if (error.details.path) {
+        scope.addBreadcrumb({
+          category: 'query-path',
+          message: error.details.path,
+          level: Sentry.Severity.Debug,
+        });
+      }
+    }
+    if (error.causeMessage) {
+      scope.setExtra('cause', error.causeMessage);
+    }
+    if (error instanceof Error) {
+      Sentry.captureException(error, captureContext);
+    } else if (error.message) {
+      // Sentry much prefers an Error object to a string/object
+      Sentry.captureException(new Error(error.message), captureContext);
+    } else {
+      // No idea what's going on here so at least get an error with a string in it
+      Sentry.captureException(new Error(JSON.stringify(error)), captureContext);
+    }
+  });
 };
 
 export const initSentry = () => {
@@ -46,27 +60,12 @@ export const initSentry = () => {
     normalizeDepth: 50,
   });
   Sentry.setTag('landing_page', !RENDER_APP);
+  Sentry.setTag('application', 'web');
 };
 
-export const normalizeError = (error: unknown): undefined | Error => {
-  if (error && error instanceof GraphQLError) {
-    // graphql error?
-    if (error.message != '') {
-      return error;
-    } else if (error.response.errors) {
-      // elevate the error to the top level so sentry (and logging) can handle it better
-      if (error.response.errors.length > 0) {
-        // return
-        const newMsg = error.response.errors
-          .map(e => {
-            // FIXME: Here rather than stringify, i really want to grab the extensions array, extract path, details etc
-            return JSON.stringify(e);
-          })
-          .join('; ');
-        error.message = 'GraphQL Error: ' + newMsg;
-        return error;
-      }
-    }
+export const normalizeError = (error: any): any => {
+  if (error instanceof GraphQLError) {
+    return flattenZeusError(error as GQLError);
   }
-  return undefined;
+  return error;
 };

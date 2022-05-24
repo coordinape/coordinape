@@ -21,22 +21,6 @@ insert_permissions:
     - data
     - name
     - type
-  role: superadmin
-- permission:
-    backend_only: false
-    check:
-      circle:
-        users:
-          _and:
-          - role:
-              _eq: 1
-          - address:
-              _eq: X-Hasura-Address
-    columns:
-    - circle_id
-    - data
-    - name
-    - type
   role: user
 select_permissions:
 - permission:
@@ -47,27 +31,8 @@ select_permissions:
     - name
     - type
     filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - circle_id
-    - id
-    - data
-    - name
-    - type
-    filter: {}
   role: user
 delete_permissions:
-- permission:
-    filter:
-      circle:
-        users:
-          _and:
-          - role:
-              _eq: 1
-          - address:
-              _eq: X-Hasura-Address
-  role: superadmin
 - permission:
     filter:
       circle:

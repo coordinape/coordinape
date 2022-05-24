@@ -133,13 +133,19 @@ export function useSubmitDistribution() {
       );
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
+      const txHash = receipt?.transactionHash;
       const distributorEpochId = event?.args?.epochId;
       assert(distributorEpochId, "Couldn't find epoch ID");
+      assert(
+        txHash,
+        `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`
+      );
 
       showInfo('Saving Distribution...');
       await markSaved({
         id: response.id,
         epochId: distributorEpochId.toNumber(),
+        txHash,
       });
       showInfo('Distribution saved successfully');
       return {

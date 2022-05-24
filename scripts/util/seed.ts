@@ -11,6 +11,8 @@ import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
 
+faker.seed(4);
+
 import { SEED_PHRASE, getAccountPath } from './eth';
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();

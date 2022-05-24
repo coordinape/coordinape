@@ -27,14 +27,6 @@ select_permissions:
     - note
     - recipient_id
     - sender_id
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - gift_id
-    - note
-    - recipient_id
-    - sender_id
     filter:
       _or:
       - recipient:

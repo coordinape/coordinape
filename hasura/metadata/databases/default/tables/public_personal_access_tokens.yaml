@@ -11,17 +11,3 @@ object_relationships:
       remote_table:
         name: profiles
         schema: public
-select_permissions:
-- permission:
-    columns:
-    - id
-    - tokenable_type
-    - tokenable_id
-    - name
-    - token
-    - abilities
-    - last_used_at
-    - created_at
-    - updated_at
-    filter: {}
-  role: superadmin

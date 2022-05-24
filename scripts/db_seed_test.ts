@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 
 import {
@@ -10,7 +9,7 @@ import {
   getCircleName,
 } from './util/seed';
 
-faker.seed(4);
+const { CI } = process.env;
 
 async function main() {
   await createFreshOpenEpochDevAdmin();
@@ -19,7 +18,8 @@ async function main() {
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
-  await getAvatars();
+  // eslint-disable-next-line no-console
+  CI ? console.log('Skipping Avatars') : await getAvatars();
 }
 
 main()
@@ -48,6 +48,7 @@ async function createCircleWithGiftsNotYetEnded() {
       {}
     )
   );
+
   const circleId = result[0].circle_id;
   const epochId = await makeEpoch(
     circleId,

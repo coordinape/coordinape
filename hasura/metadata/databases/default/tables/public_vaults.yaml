@@ -19,6 +19,7 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
+    - chain_id
     - created_at
     - created_by
     - decimals

@@ -49,24 +49,29 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - id
-    - number
-    - start_date
-    - end_date
     - circle_id
     - created_at
-    - updated_at
-    - ended
-    - notified_start
-    - notified_before_end
-    - notified_end
-    - grant
-    - regift_days
     - days
+    - end_date
+    - ended
+    - grant
+    - id
+    - number
+    - regift_days
     - repeat
     - repeat_day_of_month
-    filter: {}
-  role: superadmin
+    - start_date
+    - updated_at
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_epochs:
+              _eq: true
+    limit: 10
+  role: api-user
 - permission:
     columns:
     - circle_id

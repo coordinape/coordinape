@@ -9,7 +9,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: allocationCsv
   definition:
     kind: synchronous
@@ -19,7 +18,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createCircle
   definition:
     kind: synchronous
@@ -30,7 +28,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createEpoch
   definition:
     kind: synchronous
@@ -40,7 +37,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createNominee
   definition:
     kind: synchronous
@@ -50,7 +46,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createUser
   definition:
     kind: synchronous
@@ -61,7 +56,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createUsers
   definition:
     kind: synchronous
@@ -72,7 +66,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createVault
   definition:
     kind: synchronous
@@ -81,7 +74,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
 - name: deleteEpoch
   definition:
@@ -92,7 +84,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: deleteUser
   definition:
     kind: synchronous
@@ -102,7 +93,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: logoutUser
   definition:
     kind: synchronous
@@ -111,7 +101,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
 - name: updateAllocations
   definition:
@@ -122,7 +111,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateCircle
   definition:
     kind: synchronous
@@ -131,7 +119,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
 - name: updateEpoch
   definition:
@@ -142,7 +129,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateTeammates
   definition:
     kind: synchronous
@@ -152,7 +138,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateUser
   definition:
     kind: synchronous
@@ -161,7 +146,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
   comment: Update own user
 - name: uploadCircleLogo
@@ -196,7 +180,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: uploadProfileBackground
   definition:
     kind: synchronous
@@ -207,7 +190,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: vouch
   definition:
     kind: synchronous
@@ -217,7 +199,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 custom_types:
   enums: []
   input_objects:

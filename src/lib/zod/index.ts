@@ -274,7 +274,7 @@ export const HasuraUserSessionVariables = z
         'profileId not an integer'
       )
       .transform(Number.parseInt),
-    'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
+    'x-hasura-role': z.literal('user'),
     'x-hasura-address': zEthAddressOnly,
   })
   .transform(vars => {

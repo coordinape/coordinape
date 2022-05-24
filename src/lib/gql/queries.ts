@@ -50,7 +50,6 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
         {
           id: true,
           address: true,
-          admin_view: true,
           avatar: true,
           background: true,
           bio: true,
@@ -317,7 +316,6 @@ export const getFullCircle = async (
                 avatar: true,
                 id: true,
                 address: true,
-                admin_view: true,
                 skills: true,
               },
               role: true,
@@ -536,7 +534,6 @@ export const fetchManifest = async (
         {
           id: true,
           address: true,
-          admin_view: true,
           avatar: true,
           background: true,
           bio: true,
