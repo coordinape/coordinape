@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
@@ -10,7 +10,7 @@ import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Text } from 'ui';
+import { Button, Flex, Text } from 'ui';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -167,11 +167,14 @@ const AdminPage = () => {
             {!isMobile && (
               <div className={classes.actionBarInner}>
                 <Button
-                  variant="contained"
+                  color="primary"
+                  outlined
                   size="small"
-                  startIcon={<EditIcon />}
                   onClick={() => setEditCircle(true)}
                 >
+                  <Flex css={{ mr: '$xs' }}>
+                    <EditIcon />
+                  </Flex>
                   Settings
                 </Button>
 
@@ -184,12 +187,14 @@ const AdminPage = () => {
                   tokenName={selectedCircle.tokenName}
                 />
                 <Button
-                  variant="contained"
                   color="primary"
+                  outlined
                   size="small"
-                  startIcon={<PlusCircleIcon />}
                   onClick={() => navigate(paths.createCircle)}
                 >
+                  <Flex css={{ mr: '$xs' }}>
+                    <PlusCircleIcon />
+                  </Flex>
                   Add Circle
                 </Button>
               </div>

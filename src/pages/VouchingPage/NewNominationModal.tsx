@@ -221,7 +221,8 @@ export const NewNominationModal = ({
         )}
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="alert"
+          color="primary"
+          outlined
           size="medium"
           type="submit"
           disabled={submitting}

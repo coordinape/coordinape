@@ -85,8 +85,8 @@ export const IntegrationCallbackPage: FC = () => {
             </Typography>
             <Button
               css={{ width: '100%', marginTop: '$lg' }}
-              color="alert"
-              size="large"
+              color="primary"
+              outlined
               onClick={() => navigate(paths.adminCircles)}
             >
               Back to Circle Overview

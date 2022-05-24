@@ -56,7 +56,12 @@ export const CreateEpochButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button
+      color="primary"
+      outlined
+      size={inline ? 'inline' : 'small'}
+      onClick={onClick}
+    >
       Create Epoch
       <Tooltip
         content={
@@ -90,7 +95,12 @@ export const AddContributorButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button
+      color="primary"
+      outlined
+      size={inline ? 'inline' : 'small'}
+      onClick={onClick}
+    >
       Add Contributor
       <Tooltip
         content={

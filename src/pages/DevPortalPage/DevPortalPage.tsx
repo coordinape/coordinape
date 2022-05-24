@@ -55,7 +55,7 @@ export const DevPortalPage: React.FC = () => {
             target="_blank"
             style={{ textDecoration: 'none' }}
           >
-            <Button size="large" color="alert">
+            <Button size="large" color="primary" outlined>
               Open API Explorer
             </Button>
           </a>
