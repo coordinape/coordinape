@@ -12,3 +12,4 @@ export * from './recoil';
 export * from './selfid';
 export * from './contracts.vault';
 export * from './api.manifest';
+export * from './allocation';

@@ -56,6 +56,7 @@ export const paths = {
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
   home: '/',
+
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,

@@ -1,13 +1,10 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import { rCircle, rLocalGift, rLocalGifts } from 'recoilState';
-import { fixtures, TestWrapper, useMockRecoilState } from 'utils/testing';
+import { TestWrapper } from 'utils/testing';
 
 import { ProfileCard } from './ProfileCard';
 
 import { IUser } from 'types';
-
-jest.mock('hooks/useContributions');
 
 const otherUser = {
   id: 2,
@@ -17,23 +14,14 @@ const otherUser = {
 
 const startingGift = { user: otherUser, tokens: 1, note: 'hi' };
 
-const snapshotState: any = {};
-
-afterEach(() => snapshotState.release?.());
+jest.mock('hooks/useContributions');
 
 test('allow reducing allocation to 0', async () => {
-  const Harness = () => {
-    useMockRecoilState(snapshotState, set => {
-      set(rLocalGifts(1), () => [startingGift]);
-    });
+  const mockSetGift = jest.fn();
 
+  const Harness = () => {
     return (
-      <ProfileCard
-        user={otherUser}
-        tokens={1}
-        note="Hello world"
-        circleId={fixtures.circle.id}
-      />
+      <ProfileCard user={otherUser} gift={startingGift} setGift={mockSetGift} />
     );
   };
 
@@ -45,15 +33,11 @@ test('allow reducing allocation to 0', async () => {
     );
   });
 
-  // there seems to be a race condition between rendering & Recoil updating.
-  // this works around it
-  await snapshotState.snapshot?.getPromise(rCircle(fixtures.circle.id));
-
+  fireEvent.click(screen.getByTestId('decrement'));
+  // do it a couple times make sure we cant go neg
+  fireEvent.click(screen.getByTestId('decrement'));
   fireEvent.click(screen.getByTestId('decrement'));
 
-  const gift = await snapshotState.snapshot?.getPromise(
-    rLocalGift(otherUser.id, fixtures.circle.id)
-  );
-  expect(gift?.tokens).toBe(0);
-  expect(gift?.note).toBe(startingGift.note);
+  expect(mockSetGift).toHaveBeenCalledWith({ ...startingGift, tokens: 0 });
+  expect(mockSetGift).toHaveBeenCalledTimes(3);
 });

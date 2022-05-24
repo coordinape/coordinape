@@ -27,6 +27,9 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       small: {
         width: '$xl !important',
         height: '$xl',
+        '> span': {
+          fontSize: '$medium',
+        },
       },
       large: {
         width: '$3xl',
@@ -52,11 +55,11 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$black',
-  backgroundColor: '$surface',
+  color: '$text',
+  backgroundColor: '$border',
   lineHeight: 1,
   fontSize: '$large',
-  fontWeight: '$medium',
+  fontWeight: '$normal',
   cursor: 'pointer',
 });
 
@@ -75,15 +78,13 @@ export const Avatar = ({
   small?: boolean;
   children?: React.ReactNode;
 }) => {
-  const avatarPath = getAvatarPath(path);
-
   return (
     <AvatarRoot
       onClick={() => onClick?.()}
       size={small ? 'small' : 'large'}
       {...props}
     >
-      <AvatarImage src={avatarPath} alt={name} />
+      {path && <AvatarImage src={getAvatarPath(path)} alt={name} />}
       <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>
   );

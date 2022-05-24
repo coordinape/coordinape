@@ -35,14 +35,15 @@ const log = debug('routes');
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const AppRoutes = () => {
+  const allocationPage = <AllocationPage />;
   return (
     <Routes>
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="history" element={<HistoryPage />} />
-        <Route path="allocation" element={<AllocationPage />} />
-        <Route path="team" element={<AllocationPage />} />
-        <Route path="epoch" element={<AllocationPage />} />
-        <Route path="give" element={<AllocationPage />} />
+        <Route path="allocation" element={allocationPage} />
+        <Route path="team" element={allocationPage} />
+        <Route path="epoch" element={allocationPage} />
+        <Route path="give" element={allocationPage} />
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="vouching" element={<VouchingPage />} />
         <Route path="admin" element={<AdminRouteHandler />}>
