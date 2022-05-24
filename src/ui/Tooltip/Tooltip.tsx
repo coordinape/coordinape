@@ -1,14 +1,13 @@
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 
 import { keyframes, styled } from '../../stitches.config';
-import useMobileDetect from 'hooks/useMobileDetect';
-import { Modal } from 'ui/Modal';
 
 const scaleUpAnimation = keyframes({
   '0%': { opacity: 0, transform: 'scale(0)' },
   '100%': { opacity: 1, transform: 'scale(1)' },
 });
 
+/** **NOTE**: The hover card is intended for mouse users only. */
 const HoverCardContent = styled(HoverCardPrimitive.Content, {
   borderRadius: 8,
   padding: '$sm',
@@ -44,26 +43,14 @@ const TooltipTrigger = styled(HoverCardPrimitive.Trigger, {
 export const Tooltip = ({
   content,
   children,
-  title,
 }: {
   content: React.ReactNode;
   children?: React.ReactNode;
-  /** title is used for dialog on mobile. */
-  title?: string;
 }) => {
-  const { isMobile } = useMobileDetect();
   return (
-    <>
-      {isMobile ? (
-        <Modal onClose={() => {}} title={title}>
-          {content}
-        </Modal>
-      ) : (
-        <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
-          <TooltipTrigger>{children}</TooltipTrigger>
-          <HoverCardContent>{content}</HoverCardContent>
-        </HoverCardPrimitive.Root>
-      )}
-    </>
+    <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
+      <TooltipTrigger>{children}</TooltipTrigger>
+      <HoverCardContent>{content}</HoverCardContent>
+    </HoverCardPrimitive.Root>
   );
 };

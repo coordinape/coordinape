@@ -57,7 +57,6 @@ export const CreateEpochButton = ({
     <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
       Create Epoch
       <Tooltip
-        title="Create Epoch"
         content={
           <>
             An Epoch is a period of time where circle members contribute value &
@@ -90,7 +89,6 @@ export const AddContributorButton = ({
     <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
       Add Contributor
       <Tooltip
-        title="Add Contributor"
         content={
           <>
             A member of a circle that can receive GIVE or kudos for
@@ -224,8 +222,8 @@ export const renderUserCard = (user: IUser) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             minWidth: 0,
-        }}
-      >
+          }}
+        >
           {user.name}
         </Title>
         <Flex
@@ -608,7 +606,6 @@ export const ContributorsTable = ({
           {user.role !== USER_ROLE_COORDINAPE ? (
             <Box css={{ marginTop: '6px' }}>
               <Tooltip
-                title="Why is Coordinape in your circle?"
                 content={
                   <p>
                     We&apos;re experimenting with the gift circle mechanism as
@@ -634,7 +631,7 @@ export const ContributorsTable = ({
 
   const renderTooltip = (content: React.ReactNode) => {
     return (
-      <Tooltip title="" content={content}>
+      <Tooltip content={content}>
         <InfoCircledIcon />
       </Tooltip>
     );
