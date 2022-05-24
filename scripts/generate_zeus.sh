@@ -35,7 +35,7 @@ function generate() {
   elif [ "$PLATFORM" == "LINUX" ]; then
     sed -i 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
-    sed -i 's/console\.error(response)/\/\/ eslint-disable-next-line no-console\nconsole\.info(JSON\.stringify(response))/g' "$TMP_GEN_PATH"/zeus/index.ts
+    sed -i 's/console\.error(response)/\/\/ eslint-disable-next-line no-console\nconsole\.info(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   else
     echo "unknown platform; exiting"
     exit 1
