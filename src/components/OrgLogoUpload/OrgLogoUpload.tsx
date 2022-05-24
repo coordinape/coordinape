@@ -6,7 +6,7 @@ import { updateOrgLogo } from 'lib/gql/mutations';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { UploadIcon } from 'icons';
+import { UploadIcon, EditIcon} from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 
@@ -119,11 +119,6 @@ export const OrgLogoUpload = ({
         path={imageUrl}
         orgLogo={true}
         name={name}
-        onClick={
-          isAdmin && !formFileUploadProps.hasChanged
-            ? () => fileInput.current?.click?.()
-            : undefined
-        }
       />
       <Box css={{ position: 'absolute', bottom: '0', right: '0' }}>
         <Box css={{ display: 'flex', flexDirection: 'row' }}>
@@ -146,6 +141,18 @@ export const OrgLogoUpload = ({
               {<CloseIcon />}
             </Button>
           )}
+          {isAdmin && !formFileUploadProps.hasChanged &&(
+          <Button
+            onClick={
+              !formFileUploadProps.hasChanged
+                ? () => fileInput.current?.click?.()
+                : undefined
+            }
+            size="smaller"
+          >
+            <EditIcon />
+          </Button>
+        )}
         </Box>
         <input
           ref={fileInput}

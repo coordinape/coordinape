@@ -158,7 +158,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: uploadOrgLogo
   definition:
     kind: synchronous
@@ -169,7 +168,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: uploadProfileAvatar
   definition:
     kind: synchronous
