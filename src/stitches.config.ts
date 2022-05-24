@@ -137,6 +137,10 @@ export const {
       tall2: 1.75,
       taller: '2',
     },
+    shadows: {
+      heavy:
+        '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
+    },
   },
   media: {
     ...MediaQueryKeys,
