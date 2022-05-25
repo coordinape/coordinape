@@ -59,10 +59,10 @@ export const MainHeader = () => {
     >
       <Box
         css={{
-          mt: 'calc($sm - 1px)',
-          mb: '-2px',
+          mt: '$sm',
+          // mb: '-2px',
           pb: '$xs',
-          px: '20px',
+          px: '$md',
           color: '$neutral',
           fontWeight: '$black',
         }}
@@ -307,7 +307,7 @@ export const menuGroupStyle = {
 
 export const navLinkStyle = {
   my: 0,
-  mx: '$xs',
+  mr: '$xs',
   fontSize: '$large',
   color: '$white',
   borderRadius: '$pill',
