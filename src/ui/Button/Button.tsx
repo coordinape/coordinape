@@ -4,6 +4,12 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const Button = styled('button', {
+  '& img': {
+    paddingRight: '$sm',
+  },
+  '& svg': {
+    margin: '$sm',
+  },
   px: '$md',
   display: 'flex',
   justifyContent: 'center',
@@ -46,6 +52,14 @@ export const Button = styled('button', {
           backgroundColor: 'transparent',
         },
       },
+      textOnly: {
+        padding: '$xs',
+        backgroundColor: 'transparent',
+        color: '$text',
+        '&:hover': {
+          textDecoration: 'underline',
+        },
+      },
     },
     size: {
       large: {
@@ -73,6 +87,13 @@ export const Button = styled('button', {
         fontWeight: '$medium',
         lineHeight: '$shorter',
         borderRadius: '$3',
+      },
+      inline: {
+        fontSize: '$2',
+        fontWeight: '$medium',
+        lineHeight: '$shorter',
+        borderRadius: '$3',
+        py: '0px',
       },
     },
     variant: {

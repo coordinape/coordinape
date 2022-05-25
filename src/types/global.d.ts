@@ -4,6 +4,8 @@ export type Maybe<T> = T | null;
 
 export interface ITableColumn {
   label: string;
+  tooltip?: string;
+  tooltipMoreUrl?: string;
   accessor?: string;
   render?: (obj: GenericObject) => React.ReactNode;
   sortFunc?: (a: any, b: any) => number;
@@ -29,6 +31,8 @@ export interface ITableSortOrder {
 export interface StaticTableProps {
   className?: string;
   columns: ITableColumn[];
+  singleColumn?: boolean;
+  renderSingleColumn?: (obj: GenericObject) => React.ReactNode;
   data: any[];
   perPage: number;
   filter?: (o: any) => boolean;

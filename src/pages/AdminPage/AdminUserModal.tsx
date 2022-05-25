@@ -2,13 +2,17 @@ import { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField, ApeToggle, ActionDialog } from 'components';
+import { FormModal, FormTextField, ActionDialog } from 'components';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { CheckBox, Link } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
+
+const GIFT_CIRCLE_DOCS_URL =
+  'https://docs.coordinape.com/welcome/gift_circle#the-gift-circle';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -21,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: '1fr',
     columnGap: theme.spacing(3),
-    rowGap: theme.spacing(3),
+    // rowGap: theme.spacing(3),
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
@@ -106,33 +110,78 @@ export const AdminUserModal = ({
           errors={errors}
           size="small"
         >
-          <div className={classes.twoColumn}>
-            <FormTextField {...fields.name} label="Contributor Name" />
-            <FormTextField
-              {...fields.starting_tokens}
-              type="number"
-              label="Starting Tokens"
-            />
+          <div>
             <FormTextField
               {...fields.address}
               label="Contributor ETH address"
               fullWidth
               className={classes.ethInput}
             />
-            <ApeToggle {...fields.role} label="Are They Admin?" />
-            <ApeToggle
-              label="Can Give?"
-              {...non_giver}
-              onChange={v => nonGiverOnChange(!v)}
-              value={!nonGiverValue}
+
+            <div className={classes.twoColumn}>
+              <FormTextField {...fields.name} label="Contributor Name" />
+              <FormTextField
+                {...fields.starting_tokens}
+                type="number"
+                infoTooltip={
+                  <>
+                    The maximum amount of giving a user can allocate in an epoch{' '}
+                    <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                      Learn More
+                    </Link>
+                  </>
+                }
+                label={`${selectedCircle.tokenName} Allotment`}
+              />
+            </div>
+
+            <CheckBox
+              {...fields.role}
+              label="Grant Administrative Permissions"
+              infoTooltip={
+                <>
+                  As a Circle Admin, you will be able to edit Circle Settings,
+                  Edit Epoch settings, edit your users, and create new circles.{' '}
+                  <Link
+                    href="https://docs.coordinape.com/welcome/admin_info"
+                    target="_blank"
+                  >
+                    Learn More
+                  </Link>
+                </>
+              }
             />
-            <ApeToggle {...fields.fixed_non_receiver} label="Force Opted Out" />
-            <ApeToggle
-              label="Opted Out"
+            <CheckBox
+              {...non_giver}
+              value={!nonGiverValue}
+              label={`Allow contributor to send ${selectedCircle.tokenName}`}
+              onChange={v => nonGiverOnChange(!v)}
+              infoTooltip={
+                <>
+                  Allows the Contributor to get paid based on the amount of
+                  giving allocated by circle members.{' '}
+                  <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                    Learn More
+                  </Link>
+                </>
+              }
+            />
+            <CheckBox
               {...fields.non_receiver}
+              label={`Allow contributor to receive ${selectedCircle.tokenName}`}
               disabled={fields.fixed_non_receiver.value}
+              infoTooltip={
+                <>
+                  Gives the member the ability to reward circle members with
+                  giving.{' '}
+                  <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                    Learn More
+                  </Link>
+                </>
+              }
             />
           </div>
+
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
             title="This user has GIVE allocated."
