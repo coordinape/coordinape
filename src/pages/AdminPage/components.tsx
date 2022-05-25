@@ -724,7 +724,7 @@ export const ContributorsTable = ({
                 clickable
                 onClick={() => updateOrder('fixed_non_receiver')}
               >
-                {renderLabel(`Can receive  `, order, 'fixed_non_receiver')}
+                {renderLabel(`Can receive ${circle.tokenName}`, order, 'fixed_non_receiver')}
                 {renderTooltip(
                   <>{`Circle Member receiving ${circle.tokenName}`}</>
                 )}
