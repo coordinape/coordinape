@@ -131,7 +131,7 @@ export const AdminUserModal = ({
                     </Link>
                   </>
                 }
-                label="GIVE Allotment"
+                label={`${selectedCircle.tokenName} Allotment`}
               />
             </div>
 
