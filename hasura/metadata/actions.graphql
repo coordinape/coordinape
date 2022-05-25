@@ -200,6 +200,7 @@ input Allocation {
 input Allocations {
   allocations: [Allocation!]
   circle_id: Int!
+  user_id: Int
 }
 
 input CreateUsersInput {

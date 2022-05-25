@@ -1,12 +1,16 @@
 import * as Sentry from '@sentry/react';
 import { z } from 'zod';
 
+import { getCircleApiKey } from '../../../api-lib/authHelpers';
 import {
   zEthAddressOnly,
   zStringISODateUTC,
 } from '../../../src/forms/formHelpers';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+
+export const sha256HashString = z.string().length(64);
+
 export const loginInput = z.object({
   address: zEthAddressOnly,
   data: z.string().refine(
@@ -257,6 +261,10 @@ export const updateAllocationsInput = z.object({
   circle_id: z.number().int().positive(),
 });
 
+export const updateAllocationsApiInput = updateAllocationsInput.extend({
+  user_id: z.number().int().positive(),
+});
+
 export const allocationCsvInput = z
   .object({
     circle_id: z.number().int().positive(),
@@ -278,6 +286,18 @@ export const createVaultInput = z
   })
   .strict();
 
+const IntIdString = z
+  .string()
+  .refine(
+    s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
+    'profileId not an integer'
+  )
+  .transform(Number.parseInt);
+
+/*
+  Hasura Auth Session Variables
+*/
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
@@ -286,15 +306,26 @@ export const HasuraAdminSessionVariables = z
     hasuraRole: vars['x-hasura-role'],
   }));
 
+export const HasuraApiSessionVariables = z
+  .object({
+    'x-hasura-api-key-hash': sha256HashString,
+    'x-hasura-role': z.literal('api-user'),
+    'x-hasura-circle-id': IntIdString,
+  })
+  .transform(async vars => {
+    const apiKeyHash = vars['x-hasura-api-key-hash'];
+    Sentry.setTag('action_api_key_hash', apiKeyHash);
+    const apiKey = await getCircleApiKey(apiKeyHash);
+    return {
+      hasuraRole: vars['x-hasura-role'],
+      hasuraCircleId: vars['x-hasura-circle-id'],
+      apiKey,
+    };
+  });
+
 export const HasuraUserSessionVariables = z
   .object({
-    'x-hasura-user-id': z
-      .string()
-      .refine(
-        s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
-        'profileId not an integer'
-      )
-      .transform(Number.parseInt),
+    'x-hasura-user-id': IntIdString,
     'x-hasura-role': z.literal('user'),
     'x-hasura-address': zEthAddressOnly,
   })
@@ -309,12 +340,31 @@ export const HasuraUserSessionVariables = z
 
 type SessionVariableSchema =
   | typeof HasuraAdminSessionVariables
-  | typeof HasuraUserSessionVariables;
+  | typeof HasuraUserSessionVariables
+  | typeof HasuraApiSessionVariables;
+
+type ApiKeyPermission =
+  | 'create_vouches'
+  | 'read_circle'
+  | 'read_epochs'
+  | 'read_member_profiles'
+  | 'read_nominees'
+  | 'read_pending_token_gifts'
+  | 'update_circle'
+  | 'update_pending_token_gifts';
+
+export const apiUserWithCirclePermission = (permission: ApiKeyPermission) => {
+  return (vars: z.infer<typeof HasuraApiSessionVariables>) => {
+    return vars.hasuraRole === 'api-user' && vars.apiKey?.[permission] === true;
+  };
+};
+
+type InputSchema<T extends z.ZodRawShape> =
+  | z.ZodObject<T, 'strict' | 'strip'>
+  | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
 
 export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-  inputSchema:
-    | z.ZodObject<T, 'strict' | 'strip'>
-    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
+  inputSchema: InputSchema<T>
 ) {
   return z.object({
     // for some reason, it's unsafe to transform the generic input
@@ -330,9 +380,7 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
 }
 
 export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
-  inputSchema:
-    | z.ZodObject<T, 'strict' | 'strip'>
-    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>
+  inputSchema: InputSchema<T>
 ) {
   return z.object({
     input: z.object({ payload: inputSchema }),
@@ -342,16 +390,28 @@ export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
 export function composeHasuraActionRequestBodyWithSession<
   T extends z.ZodRawShape,
   V extends SessionVariableSchema
->(
-  inputSchema:
-    | z.ZodObject<T, 'strict' | 'strip'>
-    | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>,
-  sessionType: V
-) {
+>(inputSchema: InputSchema<T>, sessionType: V) {
   return z.object({
     input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
     session_variables: sessionType,
+    request_query: z.string().optional(),
+  });
+}
+
+export function composeHasuraActionRequestBodyWithApiPermissions<
+  T extends z.ZodRawShape
+>(inputSchema: InputSchema<T>, permissions: ApiKeyPermission[]) {
+  return z.object({
+    input: z.object({ payload: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: HasuraApiSessionVariables.refine(vars => {
+      for (const p of permissions) {
+        if (!vars.apiKey?.[p]) return false;
+      }
+
+      return true;
+    }, `Provided API key does not have the required permissions: ${permissions.join(',')}`),
     request_query: z.string().optional(),
   });
 }
