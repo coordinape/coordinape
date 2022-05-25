@@ -1,6 +1,21 @@
 import assert from 'assert';
 
+import { Selector } from './gql/__generated__/zeus';
 import { adminClient } from './gql/adminClient';
+
+const userSelector = Selector('users')({
+  id: true,
+  role: true,
+  name: true,
+  address: true,
+  circle_id: true,
+  give_token_remaining: true,
+  give_token_received: true,
+  non_giver: true,
+  non_receiver: true,
+  fixed_non_receiver: true,
+  starting_tokens: true,
+});
 
 export const getUserFromProfileId = async (
   profileId: number,
@@ -19,19 +34,7 @@ export const getUserFromProfileId = async (
                 circle_id: { _eq: circleId },
               },
             },
-            {
-              id: true,
-              role: true,
-              name: true,
-              address: true,
-              circle_id: true,
-              give_token_remaining: true,
-              give_token_received: true,
-              non_giver: true,
-              non_receiver: true,
-              fixed_non_receiver: true,
-              starting_tokens: true,
-            },
+            userSelector,
           ],
         },
       ],
@@ -61,18 +64,7 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
             ],
           },
         },
-        {
-          id: true,
-          role: true,
-          address: true,
-          circle_id: true,
-          give_token_remaining: true,
-          give_token_received: true,
-          non_giver: true,
-          non_receiver: true,
-          fixed_non_receiver: true,
-          starting_tokens: true,
-        },
+        userSelector,
       ],
     },
     {
@@ -97,18 +89,7 @@ export const getUsersFromUserIds = async (
             deleted_at: { _is_null: true },
           },
         },
-        {
-          id: true,
-          role: true,
-          address: true,
-          circle_id: true,
-          give_token_remaining: true,
-          give_token_received: true,
-          non_giver: true,
-          non_receiver: true,
-          fixed_non_receiver: true,
-          starting_tokens: true,
-        },
+        userSelector,
       ],
     },
     {

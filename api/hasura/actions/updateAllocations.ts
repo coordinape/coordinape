@@ -1,4 +1,7 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { getUsersFromUserIds } from '../../../api-lib/findUser';
 import {
@@ -8,27 +11,63 @@ import {
 } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
-import { getUserFromProfileIdWithCircle } from '../../../api-lib/nominees';
+import {
+  getUserFromProfileIdWithCircle,
+  getUserWithCircle,
+  UserWithCircleResponse,
+} from '../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   updateAllocationsInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
+  updateAllocationsApiInput,
+  composeHasuraActionRequestBodyWithApiPermissions,
 } from '../../../src/lib/zod';
 
+const userRequestSchema = composeHasuraActionRequestBodyWithSession(
+  updateAllocationsInput,
+  HasuraUserSessionVariables
+);
+
+const apiRequestSchema = composeHasuraActionRequestBodyWithApiPermissions(
+  updateAllocationsApiInput,
+  ['update_pending_token_gifts']
+);
+
+const requestSchema = z.union([userRequestSchema, apiRequestSchema]);
+
 async function handler(req: VercelRequest, res: VercelResponse) {
+  const requestData = await requestSchema.parseAsync(req.body);
+
   const {
     input: { payload: input },
     session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    updateAllocationsInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-
-  const profileId = sessionVariables.hasuraProfileId;
+  } = requestData;
   const { circle_id, allocations } = input;
 
-  const user = await getUserFromProfileIdWithCircle(profileId, circle_id);
+  let user: UserWithCircleResponse;
+
+  // Since both api-users and users can call this action, we have different
+  // handlers for fetching the target user
+  if (sessionVariables.hasuraRole === 'api-user') {
+    // technically zod already validated this but TS needs explicit narrowing here
+    assert('user_id' in input, 'user_id not specified');
+    if (circle_id !== sessionVariables.hasuraCircleId) {
+      return errorResponseWithStatusCode(
+        res,
+        { message: `API Key does not belong to circle ID ${circle_id}` },
+        403
+      );
+    }
+    user = await getUserWithCircle(input.user_id, circle_id);
+  } else {
+    user = await getUserFromProfileIdWithCircle(
+      sessionVariables.hasuraProfileId,
+      circle_id
+    );
+  }
+
   if (!user) {
     return errorResponseWithStatusCode(
       res,
