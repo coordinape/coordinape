@@ -59,9 +59,7 @@ export const MainHeader = () => {
     >
       <Box
         css={{
-          mt: '$sm',
-          pb: '$xs',
-          px: '$md',
+          p: '$sm $md $xs',
           color: '$neutral',
           fontWeight: '$black',
         }}
