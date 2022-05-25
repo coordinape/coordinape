@@ -175,8 +175,14 @@ const AdminPage = () => {
                   Settings
                 </Button>
 
-                <AddContributorButton onClick={() => setNewUser(true)} />
-                <CreateEpochButton onClick={() => setNewEpoch(true)} />
+                <AddContributorButton
+                  onClick={() => setNewUser(true)}
+                  tokenName={selectedCircle.tokenName}
+                />
+                <CreateEpochButton
+                  onClick={() => setNewEpoch(true)}
+                  tokenName={selectedCircle.tokenName}
+                />
                 <Button
                   variant="contained"
                   color="primary"
@@ -193,7 +199,12 @@ const AdminPage = () => {
             )}
           </div>
         </div>
-        {isMobile && <EpochsTableHeader onClick={() => setNewEpoch(true)} />}
+        {isMobile && (
+          <EpochsTableHeader
+            onClick={() => setNewEpoch(true)}
+            tokenName={selectedCircle.tokenName}
+          />
+        )}
 
         <EpochsTable
           circle={selectedCircle}
@@ -204,7 +215,12 @@ const AdminPage = () => {
           setNewEpoch={setNewEpoch}
         />
 
-        {isMobile && <UsersTableHeader onClick={() => setNewUser(true)} />}
+        {isMobile && (
+          <UsersTableHeader
+            onClick={() => setNewUser(true)}
+            tokenName={selectedCircle.tokenName}
+          />
+        )}
         <div className={classes.userActionBar}>
           <input
             className={classes.searchInput}
@@ -217,6 +233,7 @@ const AdminPage = () => {
         <ContributorsTable
           users={visibleUsers}
           myUser={me}
+          circle={selectedCircle}
           setNewUser={setNewUser}
           filter={filterUser}
           setEditUser={setEditUser}
@@ -253,7 +270,7 @@ const AdminPage = () => {
         onPrimary={() => setNewCircle(false)}
       >
         You’ll need to add your teammates to your circle and schedule an epoch
-        before you can start allocating GIVE.
+        before you can start allocating {selectedCircle.tokenName}.
       </ActionDialog>
       <ActionDialog
         open={!!deleteUserDialog}

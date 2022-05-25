@@ -48,9 +48,11 @@ export const SettingsIconButton = ({ onClick }: { onClick: () => void }) => {
 
 export const CreateEpochButton = ({
   onClick,
+  tokenName,
   inline,
 }: {
   inline?: boolean;
+  tokenName: string;
   onClick: () => void;
 }) => {
   return (
@@ -60,7 +62,7 @@ export const CreateEpochButton = ({
         content={
           <>
             An Epoch is a period of time where circle members contribute value &
-            allocate GIVE tokens to one another.{' '}
+            allocate {tokenName} tokens to one another.{' '}
             <Link
               css={{ color: 'Blue' }}
               rel="noreferrer"
@@ -80,9 +82,11 @@ export const CreateEpochButton = ({
 
 export const AddContributorButton = ({
   onClick,
+  tokenName,
   inline,
 }: {
   inline?: boolean;
+  tokenName: string;
   onClick: () => void;
 }) => {
   return (
@@ -91,7 +95,7 @@ export const AddContributorButton = ({
       <Tooltip
         content={
           <>
-            A member of a circle that can receive GIVE or kudos for
+            A member of a circle that can receive {tokenName} or kudos for
             contributions performed.{' '}
             <Link
               css={{ color: 'Blue' }}
@@ -110,7 +114,13 @@ export const AddContributorButton = ({
   );
 };
 
-export const UsersTableHeader = ({ onClick }: { onClick: () => void }) => {
+export const UsersTableHeader = ({
+  tokenName,
+  onClick,
+}: {
+  onClick: () => void;
+  tokenName: string;
+}) => {
   return (
     <Box
       css={{
@@ -122,12 +132,18 @@ export const UsersTableHeader = ({ onClick }: { onClick: () => void }) => {
       }}
     >
       <Text h3>Users</Text>
-      <AddContributorButton inline onClick={onClick} />
+      <AddContributorButton inline onClick={onClick} tokenName={tokenName} />
     </Box>
   );
 };
 
-export const EpochsTableHeader = ({ onClick }: { onClick: () => void }) => {
+export const EpochsTableHeader = ({
+  tokenName,
+  onClick,
+}: {
+  onClick: () => void;
+  tokenName: string;
+}) => {
   return (
     <Box
       css={{
@@ -139,7 +155,7 @@ export const EpochsTableHeader = ({ onClick }: { onClick: () => void }) => {
       }}
     >
       <Text h3>Epochs</Text>
-      <CreateEpochButton inline onClick={onClick} />
+      <CreateEpochButton inline onClick={onClick} tokenName={tokenName} />
     </Box>
   );
 };
@@ -198,7 +214,7 @@ export const renderEpochCard = (e: IEpoch) => {
   );
 };
 
-export const renderUserCard = (user: IUser) => {
+export const renderUserCard = (user: IUser, tokenName: string) => {
   return (
     <Flex
       css={{
@@ -236,7 +252,7 @@ export const renderUserCard = (user: IUser) => {
           <LightText>
             {user.role === USER_ROLE_ADMIN
               ? 'Admin'
-              : `${!user.non_giver ? '✅' : '❌'} GIVE`}
+              : `${!user.non_giver ? '✅' : '❌'} ${tokenName}`}
           </LightText>
         </Flex>
       </Box>
@@ -521,6 +537,7 @@ const englishCollator = new Intl.Collator('en-u-kf-upper');
 export const ContributorsTable = ({
   users,
   myUser: me,
+  circle,
   setNewUser,
   setEditUser,
   setDeleteUserDialog,
@@ -529,6 +546,7 @@ export const ContributorsTable = ({
 }: {
   users: IUser[];
   myUser: IUser;
+  circle: ICircle;
   setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
@@ -693,15 +711,23 @@ export const ContributorsTable = ({
                 clickable
                 onClick={() => updateOrder('non_giver')}
               >
-                {renderLabel('GIVER', order, 'non_giver')}
-                {renderTooltip(<>Circle Member allocating GIVE</>)}
+                {renderLabel(
+                  `Can give ${circle.tokenName}`,
+                  order,
+                  'non_giver'
+                )}
+                {renderTooltip(
+                  <>{`Circle Member allocating ${circle.tokenName}`}</>
+                )}
               </Table.HeaderCell>
               <Table.HeaderCell
                 clickable
                 onClick={() => updateOrder('fixed_non_receiver')}
               >
-                {renderLabel('GIVE Recipient', order, 'fixed_non_receiver')}
-                {renderTooltip(<>Circle Member receiving GIVE</>)}
+                {renderLabel(`Can receive  `, order, 'fixed_non_receiver')}
+                {renderTooltip(
+                  <>{`Circle Member receiving ${circle.tokenName}`}</>
+                )}
               </Table.HeaderCell>
               <Table.HeaderCell clickable onClick={() => updateOrder('role')}>
                 {renderLabel('Admin', order, 'role')}
@@ -723,13 +749,21 @@ export const ContributorsTable = ({
                 clickable
                 onClick={() => updateOrder('give_token_remaining')}
               >
-                {renderLabel('GIVE sent', order, 'fixed_non_receiver')}
+                {renderLabel(
+                  `${circle.tokenName} sent`,
+                  order,
+                  'fixed_non_receiver'
+                )}
               </Table.HeaderCell>
               <Table.HeaderCell
                 clickable
                 onClick={() => updateOrder('give_token_received')}
               >
-                {renderLabel('GIVE received', order, 'give_token_received')}
+                {renderLabel(
+                  `${circle.tokenName} received`,
+                  order,
+                  'give_token_received'
+                )}
               </Table.HeaderCell>
               <Table.HeaderCell>Actions</Table.HeaderCell>
             </Table.Row>
@@ -739,7 +773,11 @@ export const ContributorsTable = ({
           {users.length ? (
             isMobile ? (
               pagedView.map(u => {
-                return <Table.Row key={u.id}>{renderUserCard(u)}</Table.Row>;
+                return (
+                  <Table.Row key={u.id}>
+                    {renderUserCard(u, circle.tokenName)}
+                  </Table.Row>
+                );
               })
             ) : (
               pagedView.map(u => {
