@@ -60,7 +60,6 @@ export const MainHeader = () => {
       <Box
         css={{
           mt: '$sm',
-          // mb: '-2px',
           pb: '$xs',
           px: '$md',
           color: '$neutral',
