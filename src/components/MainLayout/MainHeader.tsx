@@ -51,7 +51,7 @@ export const MainHeader = () => {
     <Box
       css={{
         px: '$1xl',
-        height: '91px',
+        height: '$headerHeight',
         display: 'flex',
         flexDirection: 'column',
         background: '$headingText',
@@ -75,7 +75,7 @@ export const MainHeader = () => {
           position: 'relative',
         }}
       >
-        <OverviewMenu />
+        {address && <OverviewMenu />}
         <Box
           css={{
             display: 'flex',
@@ -384,7 +384,6 @@ const CircleNav = () => {
 
   const links: [string, string, string[]?][] = useMemo(() => {
     const l: [string, string, string[]?][] = [
-      // [paths.contributions, 'Contributions'],
       [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
       [paths.map(), 'Map'],
     ];

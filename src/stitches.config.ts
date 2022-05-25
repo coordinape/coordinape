@@ -99,6 +99,7 @@ export const {
       full: '100%',
       smallScreen: '900px',
       mediumScreen: '1280px',
+      headerHeight: '91px',
       ...spaces,
     },
     radii: {

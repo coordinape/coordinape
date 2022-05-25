@@ -3,7 +3,7 @@ import { styled } from '@stitches/react';
 
 const StyledContent = styled(PopoverPrimitive.Content, {
   padding: 0,
-  borderRadius: 8,
+  borderRadius: '$3',
   background: '$white',
   boxShadow: '$heavy',
   display: 'flex',

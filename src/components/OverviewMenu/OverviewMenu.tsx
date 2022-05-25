@@ -101,7 +101,11 @@ export const OverviewMenu = () => {
       <Hidden smDown>
         <Popover>
           <PopoverTrigger asChild>{overviewMenuTrigger}</PopoverTrigger>
-          <PopoverContent sideOffset={-58} alignOffset={1}>
+          <PopoverContent
+            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
+            sideOffset={-58}
+            alignOffset={1}
+          >
             <Box
               css={{
                 display: 'flex',
