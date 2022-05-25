@@ -186,6 +186,11 @@ export const AdminUserModal = ({
                 </>
               }
             />
+            <FormTextField
+              {...fields.fixed_payment_amount}
+              helperText="(USDC)"
+              label="Fixed Payment Amount"
+            />
           </div>
 
           <ActionDialog

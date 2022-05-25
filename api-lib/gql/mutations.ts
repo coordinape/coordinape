@@ -42,6 +42,9 @@ export async function insertMemberships(
             non_giver: true,
             non_receiver: true,
             fixed_non_receiver: true,
+            user_private: {
+              fixed_payment_amount: true,
+            },
           },
         },
       ],
