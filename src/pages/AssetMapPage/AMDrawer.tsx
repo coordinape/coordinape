@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
+import { MagnifyingGlassIcon, PinLeftIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 
-import { makeStyles, Button } from '@material-ui/core';
-import DnsIcon from '@material-ui/icons/Dns';
-import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles, Button as MUButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 
 import { Drawer, ApeAutocomplete } from 'components';
@@ -15,22 +14,27 @@ import {
   useMapResults,
   useMapMeasures,
   useSetAmSearch,
+  useStateAmMetric,
+  useStateAmEpochId,
+  useMapEpochs,
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
+import { Text, Select } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
+
+import { MetricEnum } from 'types';
+
+interface MetricOption {
+  label: string;
+  value: MetricEnum;
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-    padding: theme.spacing(0, 2),
+    border: 1,
   },
   title: {
     fontWeight: 300,
@@ -40,9 +44,20 @@ const useStyles = makeStyles(theme => ({
   },
   controls: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    backgroundColor: theme.colors.surface,
     width: '100%',
-    margin: theme.spacing(1, 0, 1),
+    borderRadius: 8,
+    padding: theme.spacing(1, 2),
+    marginTop: 8,
+  },
+  filterHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 15 - 8,
+    color: theme.colors.placeholder,
   },
   rank: {
     minWidth: 47,
@@ -63,8 +78,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     width: '100%',
     overflowY: 'scroll',
-    scrollbarColor: `${theme.colors.secondaryText} #EAEFF0`,
+    padding: theme.spacing(2, 0),
+    marginTop: 8,
+    scrollbarColor: theme.colors.secondaryText,
     scrollbarWidth: 'thin',
+    backgroundColor: theme.colors.surface,
     '&::-webkit-scrollbar': {
       backgroundColor: theme.colors.surface,
       width: 8,
@@ -75,6 +93,18 @@ const useStyles = makeStyles(theme => ({
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: theme.colors.focusedBorder,
     },
+    borderRadius: 8,
+  },
+  toggleButton: {
+    width: 50,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: theme.spacing(2, 1.5),
+  },
+  selectWrapper: {
+    display: 'flex',
+    marginTop: 8,
   },
 }));
 
@@ -89,6 +119,33 @@ export const AMDrawer = () => {
   const rawProfiles = useMapResults();
   const { measures } = useMapMeasures(metric);
   const showHiddenFeatures = useDevMode();
+  const [metric2, setMetric2] = useStateAmMetric();
+  const amEpochs = useMapEpochs();
+  const [amEpochId, setAmEpochId] = useStateAmEpochId();
+
+  // This is the AssetMapPage Controller
+  useEffect(() => {
+    if (amEpochs.length === 0) {
+      return;
+    }
+    setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
+  }, [amEpochs]);
+
+  const epochOptions = useMemo(() => {
+    return amEpochs.length > 0
+      ? [
+          {
+            label: 'ALL',
+            value: -1,
+          },
+        ].concat(
+          amEpochs.map(e => ({
+            label: e.labelGraph,
+            value: e.id,
+          }))
+        )
+      : [];
+  }, [amEpochs]);
 
   const profiles = useMemo(
     () =>
@@ -102,6 +159,25 @@ export const AMDrawer = () => {
     [rawProfiles, measures, showRank]
   );
 
+  const metricOptions = [
+    {
+      label: `Number of ${circle.tokenName} received`,
+      value: 'give',
+    },
+    {
+      label: 'In Degree (# incoming links)',
+      value: 'in_degree',
+    },
+    {
+      label: 'Out Degree (# outgoing links)',
+      value: 'out_degree',
+    },
+    {
+      label: `Degree Standardization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
+      value: 'standardized',
+    },
+  ] as MetricOption[];
+
   const handleSetOpen = (value: boolean) => {
     if (!value) {
       setSearch('');
@@ -113,13 +189,32 @@ export const AMDrawer = () => {
     setShowRank(!showRank);
   };
 
+  if (!epochOptions || amEpochId === undefined) {
+    return <div className={classes.root}></div>;
+  }
+
   return (
-    <Drawer open={open} setOpen={handleSetOpen} Icon={<DnsIcon />} anchorRight>
-      <div className={classes.header}>
-        <h5 className={classes.title}>Active Users</h5>
+    <>
+      <Drawer open={open} setOpen={handleSetOpen}>
         <div className={classes.controls}>
+          <div className={classes.filterHeader}>
+            <Text
+              css={{
+                fontWeight: '$bold',
+                fontSize: '$large',
+                lineHeight: '$short',
+                color: '$headingText',
+              }}
+            >
+              Filters
+            </Text>
+            <PinLeftIcon
+              onClick={() => setOpen(!open)}
+              style={{ color: 'currentColor', cursor: 'pointer' }}
+            />
+          </div>
           {showHiddenFeatures && (
-            <Button
+            <MUButton
               onClick={onRankToggle}
               variant="contained"
               color="primary"
@@ -127,31 +222,51 @@ export const AMDrawer = () => {
               className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
             >
               <SortIcon />
-            </Button>
+            </MUButton>
+          )}
+          <div className={classes.selectWrapper}>
+            <Select
+              defaultValue={String(amEpochId)}
+              options={epochOptions}
+              onValueChange={value => setAmEpochId(Number(value))}
+            />
+          </div>
+          {showHiddenFeatures && (
+            <div className={classes.selectWrapper}>
+              <Select
+                defaultValue={metric2}
+                options={metricOptions}
+                onValueChange={value => setMetric2(value as MetricEnum)}
+              />
+            </div>
           )}
           <ApeAutocomplete
             onChange={setSearch}
             freeSolo
             options={SKILLS}
             color="secondary"
-            placeholder="Search by Keyword"
+            placeholder="Search"
             InputProps={{
-              startAdornment: <SearchIcon />,
+              endAdornment: (
+                <MagnifyingGlassIcon
+                  style={{ width: 16, height: 16, color: '#B8BDBF' }}
+                />
+              ),
             }}
           />
         </div>
-      </div>
-      <div className={classes.users}>
-        {profiles.map(profile => (
-          <AMProfileCard
-            key={profile.id}
-            profile={profile}
-            summarize={showRank}
-            circle={circle}
-          />
-        ))}
-      </div>
-    </Drawer>
+        <div className={classes.users}>
+          {profiles.map(profile => (
+            <AMProfileCard
+              key={profile.id}
+              profile={profile}
+              summarize={showRank}
+              circle={circle}
+            />
+          ))}
+        </div>
+      </Drawer>
+    </>
   );
 };
 

@@ -2,27 +2,33 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, IconButton } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import MuiDrawer from '@material-ui/core/Drawer';
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
+
+import { Text, Button } from 'ui';
+import { ArrowIcon } from 'ui/icons/ArrowIcon';
 
 const useStyles = makeStyles(theme => ({
   root: {},
   paper: {
     position: 'absolute',
-    backgroundColor: theme.colors.surface,
-    boxShadow: '2px 3px 6px rgba(81, 99, 105, 0.5)',
+    top: 0,
+    bottom: 0,
+    backgroundColor: 'transparent',
     display: 'flex',
     alignItems: 'stretch',
     transition: 'width .4s ease',
-    border: 0,
-  },
-  open: {
+    border: 1,
+    paddingBottom: 32,
     width: theme.custom.appDrawerWidth,
     maxWidth: '95vw',
+    marginLeft: 26,
   },
-  closed: {
-    width: 47,
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 50,
+    width: theme.custom.appDrawerWidth,
   },
   content: {
     flexGrow: 1,
@@ -40,38 +46,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     cursor: 'pointer',
   },
-  toggleButton: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 50,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: theme.spacing(2, 1.5),
-  },
-  right: {
-    '& $toggleButton': {
-      justifyContent: 'flex-start',
-    },
-  },
 }));
 
 interface IProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   children: React.ReactNode;
-  Icon?: React.ReactNode;
-  anchorRight?: boolean;
 }
 
-export const Drawer = ({
-  open,
-  setOpen,
-  children,
-  Icon,
-  anchorRight = false,
-}: IProps) => {
+export const Drawer = ({ open, setOpen, children }: IProps) => {
   const classes = useStyles();
 
   return (
@@ -80,32 +63,45 @@ export const Drawer = ({
       onClose={() => setOpen(false)}
       classes={{
         root: classes.root,
-        paper: clsx(classes.paper, {
-          [classes.open]: open,
-          [classes.closed]: !open,
-          [classes.right]: anchorRight,
-        }),
+        paper: clsx(classes.paper),
       }}
       variant="persistent"
-      anchor={anchorRight ? 'right' : 'left'}
+      anchor={'left'}
     >
+      <div className={classes.header}>
+        <Text h2 css={{ fontSize: '$h1', fontWeights: '$semibold' }}>
+          Circle Map
+        </Text>
+        <Text
+          css={{
+            fontSize: '$medium',
+            color: '$text',
+            marginTop: 20,
+            marginBottom: 40,
+          }}
+        >
+          See how gift circle rewards are flowing
+        </Text>
+      </div>
       {open ? (
         <div className={classes.content}>{children}</div>
       ) : (
-        <div className={classes.icon} onClick={() => setOpen(!open)}>
-          {Icon}
-        </div>
-      )}
-      {open && (
-        <div className={classes.toggleButton}>
-          <IconButton
-            color="inherit"
-            onClick={() => setOpen(false)}
-            size="small"
-          >
-            {anchorRight ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-          </IconButton>
-        </div>
+        <Button
+          outlined
+          size="large"
+          onClick={() => setOpen(!open)}
+          css={{
+            width: 'fit-content',
+            justifyContent: 'flex-start',
+          }}
+        >
+          Filters
+          <ArrowIcon
+            size="md"
+            color={'secondaryText'}
+            css={{ marginLeft: 8 }}
+          />
+        </Button>
       )}
     </MuiDrawer>
   );
