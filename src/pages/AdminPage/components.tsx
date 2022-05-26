@@ -632,7 +632,7 @@ export const ContributorsTable = ({
                       flexDirection: 'column',
                     }}
                   >
-                    <Text large css={{ my: '$md' }}>
+                    <Text size="large" css={{ my: '$md' }}>
                       Why is Coordinape in your circle?
                     </Text>
                     <p>
