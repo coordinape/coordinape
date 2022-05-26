@@ -28,20 +28,6 @@ export interface ITableSortOrder {
   ascending: 1 | -1;
 }
 
-export interface StaticTableProps {
-  className?: string;
-  columns: ITableColumn[];
-  singleColumn?: boolean;
-  renderSingleColumn?: (obj: GenericObject) => React.ReactNode;
-  data: any[];
-  perPage: number;
-  filter?: (o: any) => boolean;
-  sortable?: boolean;
-  placeholder?: React.ReactNode;
-  label?: string;
-  initialSortOrder?: ITableSortOrder;
-}
-
 export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
