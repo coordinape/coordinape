@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
+  formatAuthHeader,
   generateTokenString,
   hashTokenString,
 } from '../../../api-lib/authHelpers';
@@ -46,7 +47,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   return res.status(200).json({
-    api_key: apiKey,
+    api_key: formatAuthHeader('api', apiKey),
     hash,
   });
 }

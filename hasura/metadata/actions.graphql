@@ -236,8 +236,8 @@ input GenerateApiKeyInput {
   update_circle: Boolean
   read_nominees: Boolean
   create_vouches: Boolean
-  read_allocations: Boolean
-  update_allocations: Boolean
+  read_pending_token_gifts: Boolean
+  update_pending_token_gifts: Boolean
   read_member_profiles: Boolean
   read_epochs: Boolean
 }

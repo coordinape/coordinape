@@ -1,5 +1,7 @@
 import { createHash, randomBytes } from 'crypto';
 
+export type AuthHeaderPrefix = 'api' | number;
+
 export function generateTokenString(len = 40): string {
   const bufSize = len * 2;
   if (bufSize > 65536) {
@@ -19,17 +21,23 @@ export function hashTokenString(tokenString: string): string {
   return createHash('sha256').update(tokenString).digest('hex');
 }
 
-export function formatAuthHeader(prefix: string, tokenString: string): string {
+export function formatAuthHeader(
+  prefix: AuthHeaderPrefix,
+  tokenString: string
+): string {
   return `${prefix}|${tokenString}`;
 }
 
 export function parseAuthHeader(header: string): {
-  prefix: string;
+  prefix: AuthHeaderPrefix;
   tokenHash: string;
 } {
   const [prefix, tokenString] = header.replace('Bearer ', '').split('|');
 
   const tokenHash = hashTokenString(tokenString);
 
-  return { prefix, tokenHash };
+  return {
+    prefix: prefix === 'api' ? prefix : Number.parseInt(prefix, 10),
+    tokenHash,
+  };
 }
