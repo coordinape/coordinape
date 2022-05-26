@@ -31,7 +31,7 @@ context('Coordinape', () => {
     cy.contains('Kasey', { timeout: 120000 })
       .parents('tr')
       .within(() => {
-        cy.get('td').last().get('[d^=M4]').click(); // This selects the pencil SVG
+        cy.get('td').last().get('button:first').click();
       });
 
     // enter the new address
@@ -51,7 +51,7 @@ context('Coordinape', () => {
     cy.contains('Kasey', { timeout: 120000 })
       .parents('tr')
       .within(() => {
-        cy.get('td').last().get('[d^=M4]').click(); // This selects the pencil SVG
+        cy.get('td').last().get('button:first').click();
       });
 
     // enter the old address

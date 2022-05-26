@@ -4,17 +4,19 @@ import { createForm } from './createForm';
 
 const schema = z
   .object({
-    user_name: z
-      .string()
-      .min(3, 'User name must be at least 3 characters long.'),
-    circle_name: z
-      .string()
-      .min(3, 'Circle name must be at least 3 characters long.'),
-    protocol_name: z
-      .string()
-      .min(3, 'Org name must be at least 3 characters long.'),
+    user_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
+    circle_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Circle name must be at least 3 characters long.',
+    }),
+    protocol_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Org name must be at least 3 characters long.',
+    }),
     protocol_id: z.number().optional(),
-    contact: z.string().min(4, 'Circle Point of Contact is Required.'),
+    contact: z.string().refine(val => val.trim().length >= 4, {
+      message: 'Circle Point of Contact is Required.',
+    }),
   })
   .strict();
 

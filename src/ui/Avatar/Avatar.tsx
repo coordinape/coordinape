@@ -6,10 +6,9 @@ import { styled } from '../../stitches.config';
 import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
-  width: 60,
-  height: 60,
   margin: '$sm',
   display: 'inline-flex',
+  flexShrink: '0',
   alignItems: 'center',
   justifyContent: 'center',
   verticalAlign: 'middle',
@@ -22,6 +21,21 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   border: `1px solid $border`,
   '&:hover': {
     border: '1px solid $alert',
+  },
+  variants: {
+    size: {
+      small: {
+        width: '$xl !important',
+        height: '$xl',
+      },
+      large: {
+        width: 60,
+        height: 60,
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'large',
   },
 });
 
@@ -50,18 +64,25 @@ export const Avatar = ({
   path,
   name,
   onClick,
+  small,
   ...props
 }: {
   path?: string;
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
   onClick?: () => void;
+  /** represents avatar with smaller size `32x32` */
+  small?: boolean;
   children?: React.ReactNode;
 }) => {
   const avatarPath = getAvatarPath(path);
 
   return (
-    <AvatarRoot onClick={() => onClick?.()} {...props}>
+    <AvatarRoot
+      onClick={() => onClick?.()}
+      size={small ? 'small' : 'large'}
+      {...props}
+    >
       <AvatarImage src={avatarPath} alt={name} />
       <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>

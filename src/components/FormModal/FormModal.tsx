@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     textAlign: 'center',
+    maxWidth: '100%',
+    display: 'block',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   subtitle: {
     margin: theme.spacing(0, 0, 2),

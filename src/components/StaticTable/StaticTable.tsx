@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
 import { Spacer } from 'components';
+import { ApeInfoTooltip } from 'components/ApeInfoTooltip/ApeInfoTooltip';
 import { usePrevious } from 'hooks';
 
 import { ITableSortOrder, StaticTableProps } from 'types';
@@ -93,6 +94,8 @@ interface GenericObject {
 export const StaticTable = ({
   className,
   columns,
+  singleColumn = false,
+  renderSingleColumn,
   data,
   perPage,
   filter,
@@ -162,49 +165,83 @@ export const StaticTable = ({
   return (
     <div className={clsx(className, classes.root)}>
       <table className={classes.table}>
-        <thead>
-          <tr
-            className={clsx(classes.headerTr, {
-              [classes.emptyHeader]: !data.length,
-            })}
-          >
-            {columns.map(({ label, wide, narrow, noSort, leftAlign }, idx) => (
-              <th
-                key={idx}
-                className={clsx(classes.headerTh, {
-                  [classes.sortable]: sortable && !noSort,
-                  [classes.wide]: wide,
-                  [classes.narrow]: narrow,
-                  [classes.leftAlign]: leftAlign,
-                })}
-                onClick={
-                  sortable && !noSort ? () => onClickSort(idx) : undefined
-                }
-              >
-                {label}
-                {order.field === idx && sortable
-                  ? order.ascending > 0
-                    ? ' ↑'
-                    : ' ↓'
-                  : ''}
-              </th>
-            ))}
-          </tr>
-        </thead>
+        {!singleColumn && (
+          <thead>
+            <tr
+              className={clsx(classes.headerTr, {
+                [classes.emptyHeader]: !data.length,
+              })}
+            >
+              {columns.map(
+                (
+                  {
+                    label,
+                    tooltip,
+                    tooltipMoreUrl,
+                    wide,
+                    narrow,
+                    noSort,
+                    leftAlign,
+                  },
+                  idx
+                ) => (
+                  <th
+                    key={idx}
+                    className={clsx(classes.headerTh, {
+                      [classes.sortable]: sortable && !noSort,
+                      [classes.wide]: wide,
+                      [classes.narrow]: narrow,
+                      [classes.leftAlign]: leftAlign,
+                    })}
+                    onClick={
+                      sortable && !noSort ? () => onClickSort(idx) : undefined
+                    }
+                  >
+                    {label}
+                    {order.field === idx && sortable
+                      ? order.ascending > 0
+                        ? ' ↑'
+                        : ' ↓'
+                      : ''}
+                    {tooltip && (
+                      <ApeInfoTooltip>
+                        {tooltip}
+                        {tooltipMoreUrl && (
+                          <a
+                            href={tooltipMoreUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {' '}
+                            Learn More
+                          </a>
+                        )}
+                      </ApeInfoTooltip>
+                    )}
+                  </th>
+                )
+              )}
+            </tr>
+          </thead>
+        )}
         <tbody>
           {data.length
             ? pagedView.map((row, rid) => (
                 <tr className={classes.tableTr} key={rid}>
-                  {columns.map(({ leftAlign }, cid) => (
-                    <td
-                      key={cid}
-                      className={clsx(classes.tableTd, {
-                        [classes.leftAlign]: leftAlign,
-                      })}
-                    >
-                      {getValueByCid(row, cid)}
-                    </td>
-                  ))}
+                  {singleColumn && (
+                    <td key={rid}>{renderSingleColumn?.(row)}</td>
+                  )}
+                  {!singleColumn &&
+                    columns.map(({ leftAlign }, cid) => (
+                      <td
+                        key={cid}
+                        className={clsx(classes.tableTd, {
+                          [classes.leftAlign]: leftAlign,
+                        })}
+                      >
+                        {getValueByCid(row, cid)}
+                      </td>
+                    ))}
                 </tr>
               ))
             : placeholder && (
