@@ -210,7 +210,7 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
           fontWeight: 400,
           textAlign: 'left',
           '&::placeholder': {
-            color: theme.colors.placeholder,
+            color: theme.colors.secondaryText,
             textAlign: 'left',
           },
         },

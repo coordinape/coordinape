@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 15 - 8,
-    color: theme.colors.placeholder,
+    color: theme.colors.secondaryText,
   },
   rank: {
     minWidth: 47,
