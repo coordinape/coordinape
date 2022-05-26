@@ -1,16 +1,14 @@
 import React from 'react';
 
-import clsx from 'clsx';
+import { styled } from 'stitches.config';
 
-import { makeStyles } from '@material-ui/core';
 import MuiDrawer from '@material-ui/core/Drawer';
 
-import { Text, Button } from 'ui';
+import { Flex, Text, Button } from 'ui';
 import { ArrowIcon } from 'ui/icons/ArrowIcon';
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  paper: {
+const StyledMuiDrawer = styled(MuiDrawer, {
+  '> .MuiDrawer-paper': {
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -19,34 +17,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'stretch',
     transition: 'width .4s ease',
     border: 1,
-    paddingBottom: 32,
-    width: theme.custom.appDrawerWidth,
+    width: 'calc($xl * 12)',
     maxWidth: '95vw',
-    marginLeft: 26,
+    marginLeft: '$lg',
   },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: 50,
-    width: theme.custom.appDrawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    overflowX: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  icon: {
-    flexGrow: 1,
-    paddingTop: theme.spacing(1.5),
-    opacity: 0.5,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    cursor: 'pointer',
-  },
-}));
+});
 
 interface IProps {
   open: boolean;
@@ -55,36 +30,27 @@ interface IProps {
 }
 
 export const Drawer = ({ open, setOpen, children }: IProps) => {
-  const classes = useStyles();
-
   return (
-    <MuiDrawer
+    <StyledMuiDrawer
       open
       onClose={() => setOpen(false)}
-      classes={{
-        root: classes.root,
-        paper: clsx(classes.paper),
-      }}
       variant="persistent"
-      anchor={'left'}
+      anchor="left"
     >
-      <div className={classes.header}>
-        <Text h2 css={{ fontSize: '$h1', fontWeights: '$semibold' }}>
-          Circle Map
-        </Text>
-        <Text
+      <Text h2 css={{ my: '$xl', fontSize: '$h1', fontWeights: '$semibold' }}>
+        Circle Map
+      </Text>
+      {open ? (
+        <Flex
           css={{
-            fontSize: '$medium',
-            color: '$text',
-            marginTop: 20,
-            marginBottom: 40,
+            flexGrow: 1,
+            overflowX: 'hidden',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          See how gift circle rewards are flowing
-        </Text>
-      </div>
-      {open ? (
-        <div className={classes.content}>{children}</div>
+          {children}
+        </Flex>
       ) : (
         <Button
           outlined
@@ -103,6 +69,6 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           />
         </Button>
       )}
-    </MuiDrawer>
+    </StyledMuiDrawer>
   );
 };

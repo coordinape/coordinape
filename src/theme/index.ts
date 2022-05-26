@@ -242,7 +242,6 @@ export const createTheme = () => {
     _.merge({}, baseOptions, themeOptions, {
       custom: {
         appHeaderHeight: 82,
-        appDrawerWidth: 375,
       },
       colors: customColor,
     }) as any
