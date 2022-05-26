@@ -38,7 +38,6 @@ export * from './RecoilDebugger/RecoilDebugger';
 export * from './SentryScopeController/SentryScopeController';
 export * from './SkillToggles/SkillToggles';
 export * from './Spacer/Spacer';
-export * from './StaticTable/StaticTable';
 export * from './ThreeDotMenu/ThreeDotMenu';
 export * from './WalletAuthModal/WalletAuthModal';
 export * from './WalletController/WalletController';

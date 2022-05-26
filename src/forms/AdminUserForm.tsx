@@ -14,7 +14,9 @@ interface IUserAndCircle {
 
 const schema = z
   .object({
-    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
     address: zEthAddress,
     non_giver: z.boolean(),
     fixed_non_receiver: z.boolean(),

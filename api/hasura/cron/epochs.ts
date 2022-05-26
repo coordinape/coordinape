@@ -466,7 +466,8 @@ async function createNextEpoch(epoch: {
 
   if (existingEpoch) {
     errorLog(
-      `For circle id ${epoch.circle_id},  ${nextStartDate} overlaps with the another epoch: existing epoch id: ${existingEpoch?.id}, start: ${existingEpoch?.start_date}, end: ${existingEpoch?.end_date}`
+      `For circle id ${epoch.circle_id},  ${nextStartDate} overlaps with the another epoch: existing epoch id: ${existingEpoch?.id}, start: ${existingEpoch?.start_date}, end: ${existingEpoch?.end_date}`,
+      false
     );
     return;
   }

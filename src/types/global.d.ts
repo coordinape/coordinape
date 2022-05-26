@@ -4,6 +4,8 @@ export type Maybe<T> = T | null;
 
 export interface ITableColumn {
   label: string;
+  tooltip?: string;
+  tooltipMoreUrl?: string;
   accessor?: string;
   render?: (obj: GenericObject) => React.ReactNode;
   sortFunc?: (a: any, b: any) => number;
@@ -24,18 +26,6 @@ export type TUpdateGift = ({
 export interface ITableSortOrder {
   field: number;
   ascending: 1 | -1;
-}
-
-export interface StaticTableProps {
-  className?: string;
-  columns: ITableColumn[];
-  data: any[];
-  perPage: number;
-  filter?: (o: any) => boolean;
-  sortable?: boolean;
-  placeholder?: React.ReactNode;
-  label?: string;
-  initialSortOrder?: ITableSortOrder;
 }
 
 export enum EConnectorNames {

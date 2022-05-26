@@ -16,6 +16,7 @@ import { ApeInfoTooltip } from 'components';
 const ApeTextVariants = {
   default: 'default',
   token: 'token',
+  select: 'select',
 } as const;
 
 type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
@@ -193,6 +194,24 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
           textAlign: 'right',
           '&::placeholder': {
             color: theme.colors.secondaryText,
+          },
+        },
+      };
+    case 'select':
+      return {
+        inputRoot: {
+          backgroundColor: theme.colors.white,
+          borderColor: theme.colors.white,
+        },
+        input: {
+          padding: theme.spacing(1.25, 0),
+          fontSize: 16,
+          lineHeight: 1.33,
+          fontWeight: 400,
+          textAlign: 'left',
+          '&::placeholder': {
+            color: theme.colors.placeholder,
+            textAlign: 'left',
           },
         },
       };

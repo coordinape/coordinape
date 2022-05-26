@@ -2,6 +2,45 @@ table:
   name: circle_api_keys
   schema: public
 object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
 - name: createdByUser
   using:
     foreign_key_constraint_on: created_by
+select_permissions:
+- permission:
+    columns:
+    - circle_id
+    - created_by
+    - create_vouches
+    - read_circle
+    - read_epochs
+    - read_member_profiles
+    - read_nominees
+    - read_pending_token_gifts
+    - update_circle
+    - update_pending_token_gifts
+    - hash
+    - name
+    - created_at
+    filter:
+      circle:
+        users:
+          _and:
+          - role:
+              _eq: 1
+          - address:
+              _eq: X-Hasura-Address
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      circle:
+        users:
+          _and:
+          - role:
+              _eq: 1
+          - address:
+              _eq: X-Hasura-Address
+  role: user

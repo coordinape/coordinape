@@ -70,6 +70,21 @@ export const createNomineeInputSchema = z
   })
   .strict();
 
+export const generateApiKeyInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    read_circle: z.boolean().optional(),
+    update_circle: z.boolean().optional(),
+    read_nominees: z.boolean().optional(),
+    create_vouches: z.boolean().optional(),
+    read_pending_token_gifts: z.boolean().optional(),
+    update_pending_token_gifts: z.boolean().optional(),
+    read_member_profiles: z.boolean().optional(),
+    read_epochs: z.boolean().optional(),
+  })
+  .strict();
+
 export const updateUserSchemaInput = z
   .object({
     circle_id: z.number(),
@@ -208,7 +223,11 @@ export const updateCircleInput = z
 
   .object({
     circle_id: z.number().positive(),
-    name: z.string().min(3).max(255).optional(),
+    name: z
+      .string()
+      .max(255)
+      .refine(val => val.trim().length >= 3)
+      .optional(),
     alloc_text: z.string().max(5000).optional(),
     auto_opt_out: z.boolean().optional(),
     default_opt_in: z.boolean().optional(),
@@ -218,7 +237,11 @@ export const updateCircleInput = z
     only_giver_vouch: z.boolean().optional(),
     team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
-    token_name: z.string().max(255).optional(),
+    token_name: z
+      .string()
+      .max(255)
+      .refine(val => val.trim().length >= 3)
+      .optional(),
     update_webhook: z.boolean().optional(),
     vouching: z.boolean().optional(),
     vouching_text: z.string().max(5000).optional(),

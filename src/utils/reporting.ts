@@ -51,6 +51,9 @@ export const initSentry = () => {
       'The user rejected the request.',
       'pktAnnotationHighlighter', // https://github.com/LessWrong2/Lesswrong2/issues/1150
       'Failed to login Waiting for signature, timed out.',
+      'Error: Failed to get a login token', // This happens even when a user denies signature
+      'Failed to login',
+      'Authentication hook unauthorized this request',
     ],
     integrations: [
       new Integrations.BrowserTracing(),
