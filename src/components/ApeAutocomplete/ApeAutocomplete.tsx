@@ -88,6 +88,7 @@ export const ApeAutocomplete = ({
           <ApeTextField
             {...params}
             InputProps={{
+              ...params.InputProps,
               ...InputProps,
               classes: {
                 ...(InputProps?.classes ?? {}),
