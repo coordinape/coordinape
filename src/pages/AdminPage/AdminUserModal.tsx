@@ -158,8 +158,8 @@ export const AdminUserModal = ({
               onChange={v => nonGiverOnChange(!v)}
               infoTooltip={
                 <>
-                  Allows the Contributor to get paid based on the amount of
-                  giving allocated by circle members.{' '}
+                  Gives the member the ability to reward circle members with
+                  giving.{' '}
                   <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
                     Learn More
                   </Link>
@@ -172,8 +172,8 @@ export const AdminUserModal = ({
               disabled={fields.fixed_non_receiver.value}
               infoTooltip={
                 <>
-                  Gives the member the ability to reward circle members with
-                  giving.{' '}
+                  Allows the Contributor to get paid based on the amount of
+                  giving allocated by circle members.{' '}
                   <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
                     Learn More
                   </Link>
