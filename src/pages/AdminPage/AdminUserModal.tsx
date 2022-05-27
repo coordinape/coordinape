@@ -72,9 +72,7 @@ export const AdminUserModal = ({
       source={source}
       hideFieldErrors
       submit={params => {
-        const hasOptOutChanged =
-          isOptedOut !==
-          (!!params?.fixed_non_receiver || !!params?.non_receiver);
+        const hasOptOutChanged = isOptedOut !== !!params?.fixed_non_receiver;
         const showWarning =
           hasOptOutChanged && hasGiveAllocated && !hasAcceptedOptOutWarning;
 
@@ -94,6 +92,11 @@ export const AdminUserModal = ({
             value: nonGiverValue,
             onChange: nonGiverOnChange,
             ...non_giver
+          },
+          fixed_non_receiver: {
+            value: fixedNonReceiverValue,
+            onChange: fixedNonReceiverOnChange,
+            ...fixed_non_receiver
           },
           ...fields
         },
@@ -167,9 +170,10 @@ export const AdminUserModal = ({
               }
             />
             <CheckBox
-              {...fields.non_receiver}
+              {...fixed_non_receiver}
+              value={!fixedNonReceiverValue}
+              onChange={v => fixedNonReceiverOnChange(!v)}
               label={`Allow contributor to receive ${selectedCircle.tokenName}`}
-              disabled={fields.fixed_non_receiver.value}
               infoTooltip={
                 <>
                   Allows the Contributor to get paid based on the amount of
