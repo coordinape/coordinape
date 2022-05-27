@@ -805,10 +805,10 @@ export const ContributorsTable = ({
 
                     <Table.Cell key={`recipient-${u.id}`}>
                       {u.fixed_non_receiver
-                        ? 'Forced Opt Out'
+                        ? 'Forced ❌'
                         : u.non_receiver
-                        ? '✅'
-                        : '❌'}
+                        ? '❌'
+                        : '✅'}
                     </Table.Cell>
 
                     <Table.Cell key={`admin-${u.id}`}>
