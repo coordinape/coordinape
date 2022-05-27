@@ -11,7 +11,7 @@ import { UploadIcon, EditIcon } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 
-const VALID_FILE_TYPES = ['image/jp', 'image/jpeg', 'image/png'];
+const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
 export const OrgLogoUpload = ({
   name,
