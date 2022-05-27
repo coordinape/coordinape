@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
-import { SiweMessage } from 'siwe';
+import { SiweMessage, SiweErrorType } from 'siwe';
 
 import {
   formatAuthHeader,
@@ -29,12 +29,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // TODO: replace by configured domain
       // TODO: Include this in .env?
       const domain = 'localhost:3000';
-      if (message.domain !== domain) {
-        return errorResponse(res, {
-          message: `domain in message doesnt match ${domain}`,
-          httpStatus: 401,
-        });
-      }
 
       const verificationResult = await message.verify({
         signature,
@@ -49,11 +43,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       address = message.address;
-    } catch (e: unknown) {
-      return errorResponse(res, {
-        message: 'invalid signature: ' + e,
-        httpStatus: 401,
-      });
+    } catch (e: any) {
+      if (Object.values(SiweErrorType).some(val => val === e.error.type)){
+        return errorResponse(res, {
+          message: 'SIWE error: ' + e.error.type,
+          httpStatus: 401,
+        });
+
+      } else {
+        // Return generic error for non-SIWE exceptions
+        return errorResponse(res, {
+          message: 'login error: ' + e,
+          httpStatus: 401,
+        });
+      }
     }
 
     const { profiles } = await adminClient.query(
