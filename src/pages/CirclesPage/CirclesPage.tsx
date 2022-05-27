@@ -104,7 +104,6 @@ const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
 const nonMemberPanelCss: CSS = {
   backgroundColor: 'white',
   border: '1px solid $border',
-  '.hover-buttons': { display: 'none' },
 };
 
 type CircleRowProps = {
@@ -218,38 +217,40 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           )}
           {isCurrent && <Box>Allocation Period Open</Box>}
         </Box>
-        <Box
-          className="hover-buttons"
-          css={{
-            display: 'flex',
-            gap: '$sm',
-            justifyContent: 'flex-end',
-            flexWrap: 'wrap',
-            '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
-          }}
-        >
-          {buttons.map(
-            ([path, label, hide]) =>
-              (!hide || !hide(circle)) && (
-                <Link
-                  key={label}
-                  css={{
-                    padding: '$sm',
-                    color: '$text',
-                    fontWeight: '$semibold',
-                    '&:hover': {
-                      filter: 'brightness(0.2)',
-                    },
-                  }}
-                  onClick={event => (
-                    onButtonClick(circle.id, path), event.stopPropagation()
-                  )}
-                >
-                  {label}
-                </Link>
-              )
-          )}
-        </Box>
+        {!nonMember && (
+          <Box
+            className="hover-buttons"
+            css={{
+              display: 'flex',
+              gap: '$sm',
+              justifyContent: 'flex-end',
+              flexWrap: 'wrap',
+              '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
+            }}
+          >
+            {buttons.map(
+              ([path, label, hide]) =>
+                (!hide || !hide(circle)) && (
+                  <Link
+                    key={label}
+                    css={{
+                      padding: '$sm',
+                      color: '$text',
+                      fontWeight: '$semibold',
+                      '&:hover': {
+                        filter: 'brightness(0.2)',
+                      },
+                    }}
+                    onClick={event => (
+                      onButtonClick(circle.id, path), event.stopPropagation()
+                    )}
+                  >
+                    {label}
+                  </Link>
+                )
+            )}
+          </Box>
+        )}
       </Box>
     </Panel>
   );
