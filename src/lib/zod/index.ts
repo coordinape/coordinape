@@ -220,13 +220,8 @@ export const updateCircleInput = z
       .max(200)
       .transform(s => (s === 'Disabled' ? null : s))
       .optional(),
-    chain_id: z.number().optional(),
   })
-  .strict()
-  .refine(
-    data => !(data.fixed_payment_token_type && !data.chain_id),
-    'Chain_id must be provided if setting fixed_payment_token_type.'
-  );
+  .strict();
 
 export const updateAllocationsInput = z.object({
   allocations: z

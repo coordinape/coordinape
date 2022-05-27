@@ -11,6 +11,7 @@ import {
   ApeToggle,
   FormAutocomplete,
 } from 'components';
+import isFeatureEnabled from 'config/features';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
@@ -136,7 +137,6 @@ export const AdminCircleModal = ({
   const tokens = ['Disabled'].concat(
     contracts ? contracts.getAvailableTokens() : []
   );
-  const chain_id = contracts ? Number.parseInt(contracts.chainId) : null;
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
@@ -246,7 +246,6 @@ export const AdminCircleModal = ({
           auto_opt_out: autoOptOut,
           update_webhook: allowEdit,
           fixed_payment_token_type: fixedPaymentToken,
-          chain_id: chain_id,
         }).then(() => {
           onClose();
         });
@@ -433,23 +432,17 @@ export const AdminCircleModal = ({
           onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
         />
-
-        <FormAutocomplete
-          value={fixedPaymentToken}
-          onChange={(v: string) => {
-            const found = tokens.some(p => p === v);
-            if (found || v === 'Disabled') setFixedPaymentToken(v);
-          }}
-          options={tokens}
-          label="Fixed Payment Token"
-          fullWidth
-          TextFieldProps={{
-            onBlur: ({ target: { value } }) => {
-              if (!tokens.some(p => p === value))
-                setFixedPaymentToken('Disabled');
-            },
-          }}
-        />
+        {isFeatureEnabled('fixed_payments') && (
+          <FormAutocomplete
+            value={fixedPaymentToken}
+            onChange={(v: string) => {
+              setFixedPaymentToken(v);
+            }}
+            options={tokens}
+            label="Fixed Payment Token"
+            fullWidth
+          />
+        )}
       </div>
       <AdminIntegrations />
       <div className={classes.bottomContainer}>

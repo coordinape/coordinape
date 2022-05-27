@@ -176,7 +176,6 @@ input UpdateCircleInput {
   auto_opt_out: Boolean
   update_webhook: Boolean
   fixed_payment_token_type: String
-  chain_id: Int
 }
 
 input UpdateEpochInput {
