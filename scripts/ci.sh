@@ -21,7 +21,6 @@ fi
 
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 
-# comment out DOCKER_GATEWAY_HOST if running locally on macOS
 CMD=(docker compose --profile ci -p coordinape-ci up)
 
 if [ "$VERBOSE" ]; then
