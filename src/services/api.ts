@@ -38,13 +38,11 @@ export class APIService {
     }
 
     const message = new SiweMessage({
-      // TODO: replace by configured domain
-      domain: 'domain.tld',
+      domain: window.location.host,
       address,
       // TODO: replace by desired statement
       statement: 'Coordinape wants to Sign-In With Ethereum',
-      // TODO: replace by configured domain and URI
-      uri: 'https://domain.tld/',
+      uri: window.location.origin,
       version: '1',
       chainId: 1,
       nonce,

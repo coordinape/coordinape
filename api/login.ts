@@ -21,10 +21,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
       const message = new SiweMessage(data);
+
+      // TODO: replace by configured domain
+      // TODO: Include this in .env?
+      const domain = 'localhost:3000';
+      if (message.domain !== domain) {
+        return errorResponse(res, {
+          message: `domain in message doesnt match ${domain}`,
+          httpStatus: 401,
+        });
+      }
+
       const verificationResult = await message.verify({
         signature,
-        // TODO: replace by configured domain
-        domain: 'domain.tld',
+        domain,
       });
 
       if (!verificationResult.success) {
