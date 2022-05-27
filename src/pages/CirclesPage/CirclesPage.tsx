@@ -26,7 +26,6 @@ export const CirclesPage = () => {
   const navigate = useNavigate();
   const { selectCircle } = useApiBase();
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
-  //  const [uploadingLogo, setUploadingLogo] = useState(false);
   const address = useConnectedAddress();
   const query = useQuery(
     ['myOrgs', address],
