@@ -65,7 +65,6 @@ export const Avatar = ({
   name,
   onClick,
   small,
-  orgLogo,
   ...props
 }: {
   path?: string;
@@ -74,15 +73,9 @@ export const Avatar = ({
   onClick?: () => void;
   /** represents avatar with smaller size `32x32` */
   small?: boolean;
-  orgLogo?: boolean;
   children?: React.ReactNode;
 }) => {
-  let avatarPath = undefined;
-  if (orgLogo) {
-    avatarPath = path;
-  } else {
-    avatarPath = getAvatarPath(path);
-  }
+  const avatarPath = getAvatarPath(path);
 
   return (
     <AvatarRoot

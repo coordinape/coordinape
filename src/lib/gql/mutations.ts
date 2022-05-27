@@ -97,7 +97,11 @@ export const updateOrgLogo = async (
             org_id: variables.$('orgId'),
           },
         },
-        { id: true },
+        {
+          org: {
+            logo: true,
+          },
+        },
       ],
     },
     {

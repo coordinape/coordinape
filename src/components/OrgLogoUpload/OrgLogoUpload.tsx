@@ -1,56 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 
 import CloseIcon from '@material-ui/icons/Close';
 
+import { LoadingModal } from 'components';
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { UploadIcon, EditIcon} from 'icons';
+import { UploadIcon, EditIcon } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 
 const VALID_FILE_TYPES = ['image/jp', 'image/jpeg', 'image/png'];
 
-const centerCropImage = (url: string) => {
-  return new Promise<HTMLCanvasElement>(resolve => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = url;
-
-    img.onload = () => {
-      const aspectRation = img.naturalWidth / img.naturalHeight;
-      let cropWidth = img.naturalWidth;
-      let cropHeight = img.naturalHeight;
-      if (aspectRation > 1) {
-        cropWidth = cropHeight;
-      } else {
-        cropHeight = cropWidth;
-      }
-
-      const dX = (cropWidth - img.naturalWidth) / 2;
-      const dY = (cropHeight - img.naturalHeight) / 2;
-
-      const canvas = document.createElement('canvas');
-
-      canvas.width = cropWidth;
-      canvas.height = cropHeight;
-
-      const ctx = canvas.getContext('2d');
-      ctx?.drawImage(img, dX, dY);
-      resolve(canvas);
-    };
-  });
-};
-
 export const OrgLogoUpload = ({
-  commit,
   name,
   original,
   id,
   isAdmin,
 }: {
-  commit: (isupdated: boolean) => void;
   id: number;
   name: string;
   original?: string;
@@ -61,6 +29,11 @@ export const OrgLogoUpload = ({
   const { imageUrl, formFileUploadProps } = useImageUploader(
     getAvatarPathWithFallback(original, name)
   );
+
+  const [uploadedLogoUrl, setUploadedLogoUrl] = useState<undefined | string>(
+    undefined
+  );
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
 
   const { showError } = useApeSnackbar();
 
@@ -80,80 +53,71 @@ export const OrgLogoUpload = ({
   };
   const uploadLogo = async (orgId: number, logo: File) => {
     const image_data_base64 = await fileToBase64(logo);
-    await updateOrgLogo(orgId, image_data_base64);
+    return await updateOrgLogo(orgId, image_data_base64);
   };
 
   const onSave = async () => {
-    commit(true);
-    if (formFileUploadProps.value === undefined || !commit) {
+    setIsUploadingLogo(true);
+    if (formFileUploadProps.value === undefined) {
+      setIsUploadingLogo(false);
       return;
     }
-    await uploadLogo(id, formFileUploadProps.value);
-    commit(false);
+    const response = await uploadLogo(id, formFileUploadProps.value);
+    setIsUploadingLogo(false);
+    setUploadedLogoUrl(response.uploadOrgLogo?.org.logo);
   };
-
-  useEffect(() => {
-    const cropImage = async (imageUrl: string) => {
-      if (formFileUploadProps.value) {
-        const canvas = await centerCropImage(imageUrl);
-        const data = canvas.toDataURL();
-        const blobBin = atob(data.split(',')[1]);
-        const mimeString = data.split(',')[0].split(':')[1].split(';')[0];
-        const array = [];
-        for (let i = 0; i < blobBin.length; i++) {
-          array.push(blobBin.charCodeAt(i));
-        }
-        const blob = new Blob([new Uint8Array(array)], { type: mimeString });
-        const file = new File([blob], formFileUploadProps.value.name);
-        formFileUploadProps.onChange(file);
-      }
-    };
-    if (formFileUploadProps.value) {
-      cropImage(imageUrl).catch(console.warn);
-    }
-  }, [formFileUploadProps.hasChanged]);
 
   return (
     <Box css={{ position: 'relative' }}>
       <Avatar
-        path={imageUrl}
-        orgLogo={true}
+        path={
+          uploadedLogoUrl && !formFileUploadProps.hasChanged
+            ? uploadedLogoUrl
+            : imageUrl
+        }
         name={name}
       />
       <Box css={{ position: 'absolute', bottom: '0', right: '0' }}>
-        <Box css={{ display: 'flex', flexDirection: 'row' }}>
-          {formFileUploadProps.hasChanged && !!commit && (
-            <Button onClick={onSave} size="smaller">
-              {<UploadIcon />}
-            </Button>
-          )}
-          {formFileUploadProps.hasChanged && (
-            <Button
-              onClick={() => {
-                formFileUploadProps.onChange(undefined);
-                // This clears the fileInput so that if the user chooses the same file again, onChange still fires
-                if (fileInput.current) {
-                  fileInput.current.value = '';
-                }
-              }}
-              size="smaller"
-            >
-              {<CloseIcon />}
-            </Button>
-          )}
-          {isAdmin && !formFileUploadProps.hasChanged &&(
-          <Button
-            onClick={
-              !formFileUploadProps.hasChanged
-                ? () => fileInput.current?.click?.()
-                : undefined
-            }
-            size="smaller"
-          >
-            <EditIcon />
-          </Button>
+        {isUploadingLogo && (
+          <Box>
+            <LoadingModal visible />
+          </Box>
         )}
-        </Box>
+        {!isUploadingLogo && (
+          <Box css={{ display: 'flex', flexDirection: 'row' }}>
+            {formFileUploadProps.hasChanged && (
+              <Button onClick={onSave} size="smallIcon">
+                {<UploadIcon />}
+              </Button>
+            )}
+            {formFileUploadProps.hasChanged && (
+              <Button
+                onClick={() => {
+                  formFileUploadProps.onChange(undefined);
+                  // This clears the fileInput so that if the user chooses the same file again, onChange still fires
+                  if (fileInput.current) {
+                    fileInput.current.value = '';
+                  }
+                }}
+                size="smallIcon"
+              >
+                {<CloseIcon />}
+              </Button>
+            )}
+            {isAdmin && !formFileUploadProps.hasChanged && (
+              <Button
+                onClick={
+                  !formFileUploadProps.hasChanged
+                    ? () => fileInput.current?.click?.()
+                    : undefined
+                }
+                size="smallIcon"
+              >
+                <EditIcon />
+              </Button>
+            )}
+          </Box>
+        )}
         <input
           ref={fileInput}
           accept={VALID_FILE_TYPES.join(', ')}

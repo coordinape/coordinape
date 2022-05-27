@@ -94,8 +94,8 @@ export const Button = styled('button', {
         lineHeight: '$shorter',
         borderRadius: '$3',
         py: '0px',
-        },
-      iconOnly: {
+      },
+      smallIcon: {
         height: '$lg',
         minHeight: '$lg',
         width: '$lg',

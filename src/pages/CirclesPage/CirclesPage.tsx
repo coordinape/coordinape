@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
@@ -26,7 +26,7 @@ export const CirclesPage = () => {
   const navigate = useNavigate();
   const { selectCircle } = useApiBase();
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
-  const [uploadingLogo, setUploadingLogo] = useState(false);
+  //  const [uploadingLogo, setUploadingLogo] = useState(false);
   const address = useConnectedAddress();
   const query = useQuery(
     ['myOrgs', address],
@@ -56,14 +56,7 @@ export const CirclesPage = () => {
   const isAdmin = (org: QueryResult['organizations'][0]) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
-  const updateLogo = async (isUpdated: boolean) => {
-    setUploadingLogo(isUpdated);
-    if (isUpdated === false) {
-      query.refetch();
-    }
-  };
-
-  if (query.isLoading || query.isIdle || query.isRefetching || uploadingLogo)
+  if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible />;
 
   return (
@@ -77,7 +70,6 @@ export const CirclesPage = () => {
                 original={org?.logo}
                 isAdmin={isAdmin(org)}
                 name={org.name}
-                commit={updateLogo}
               />
               <Text h2 css={{ ml: '$sm' }}>
                 {org.name}
