@@ -1,6 +1,5 @@
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
-
-import { keyframes, styled } from '../../stitches.config';
+import { keyframes, styled } from 'stitches.config';
 
 const scaleUpAnimation = keyframes({
   '0%': { opacity: 0, transform: 'scale(0)' },

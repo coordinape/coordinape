@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   withVaults: {
-    minHeight: 668,
     display: 'grid',
     gridTemplateColumns: '1fr',
     alignContent: 'space-between',
