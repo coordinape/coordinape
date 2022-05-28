@@ -13,6 +13,12 @@
 CRON_FILE=./hasura/metadata/cron_triggers.yaml
 BACKUP=$CRON_FILE.bak
 
+if [ -z "$CI" ]; then
+  HASURA_ENV="--envfile ../.env"
+else
+  HASURA_ENV="--envfile ../.ci.env"
+fi
+
 function toggle_cron () {
   if [[ -e $BACKUP ]]
   then
@@ -24,6 +30,6 @@ function toggle_cron () {
 
 toggle_cron
 
-yarn hasura metadata apply
+yarn hasura $HASURA_ENV metadata apply
 
 toggle_cron

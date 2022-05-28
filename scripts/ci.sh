@@ -5,6 +5,7 @@ export CI=1
 EXECARGS=()
 while [[ "$#" -gt 0 ]]; do case $1 in
   --cypress-only) CYPRESS_ONLY=1;;
+  --local) LOCAL=1;;
   -v|--verbose-hasura) VERBOSE=1;;
   *) OTHERARGS+=("$1");;
 esac; shift; done
@@ -37,7 +38,7 @@ VERCEL_CMD=(vercel dev -t "$CI_VERCEL_TOKEN" -l "$CI_VERCEL_PORT" --confirm)
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
 
 # Kill Hasura & Vercel when this script exits
-trap 'kill $VERCEL_PID; docker compose --profile ci -p coordinape-ci down || true' EXIT
+trap 'unset CI; kill $VERCEL_PID; docker compose --profile ci -p coordinape-ci down -v || true' EXIT
 
 sleep 5
 until curl -s -o/dev/null http://localhost:"$CI_HASURA_PORT"; do
@@ -58,9 +59,13 @@ done
 
 yarn db-seed-fresh
 
-if [ -z "$CYPRESS_ONLY" ]; then 
+if [ -z "$CYPRESS_ONLY" ]; then
   craco test --runInBand --coverage
   yarn --cwd hardhat test
 fi
 
-yarn cy:run ${OTHERARGS[@]}
+if [ -z "$LOCAL" ]; then
+  yarn cy:run ${OTHERARGS[@]}
+else
+  yarn cypress open > /dev/null
+fi
