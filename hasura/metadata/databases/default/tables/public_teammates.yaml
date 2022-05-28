@@ -29,8 +29,10 @@ select_permissions:
     - created_at
     - updated_at
     filter:
-      user_id:
-        _eq: X-Hasura-User-Id
+      user:
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
   role: user
 event_triggers:
 - definition:
