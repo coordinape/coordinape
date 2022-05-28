@@ -185,7 +185,9 @@ const AllocationEpoch = ({
             />
             <ActionDialog
               open={optOutOpen}
-              title={`If you Opt Out you will lose your ${myUser.give_token_received} GIVE`}
+              title={`If you Opt Out you will lose your ${
+                myUser.give_token_received
+              } ${selectedCircle?.token_name || 'GIVE'}`}
               onClose={() => setOptOutOpen(false)}
               onPrimary={() => {
                 setNonReceiver(true);
@@ -193,9 +195,10 @@ const AllocationEpoch = ({
               }}
               primaryText="Proceed to Opt Out"
             >
-              Opting out during an in-progress epoch will result in any GIVE you
-              have received being returned to senders. Are you sure you wish to
-              proceed? This cannot be undone.
+              Opting out during an in-progress epoch will result in any{' '}
+              {selectedCircle?.token_name || 'GIVE'} you have received being
+              returned to senders. Are you sure you wish to proceed? This cannot
+              be undone.
             </ActionDialog>
           </div>
         </>

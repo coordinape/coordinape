@@ -173,7 +173,9 @@ export const AdminUserModal = ({
               {...fixed_non_receiver}
               value={!fixedNonReceiverValue}
               onChange={v => fixedNonReceiverOnChange(!v)}
-              label={`Allow contributor to receive ${selectedCircle.tokenName}`}
+              label={`Allow contributor to receive ${
+                selectedCircle.tokenName || 'GIVE'
+              }`}
               infoTooltip={
                 <>
                   Allows the Contributor to get paid based on the amount of
@@ -188,14 +190,17 @@ export const AdminUserModal = ({
 
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-            title="This user has GIVE allocated."
+            title={`This user has ${
+              selectedCircle.tokenName || 'GIVE'
+            } allocated.`}
             onPrimary={() => {
               setHasAcceptedOptOutWarning(true);
               setShowOptOutChangeWarning(false);
             }}
           >
-            Changing their opt-in status will remove all GIVE allocated to them.
-            This cannot be undone.
+            Changing their opt-in status will remove all{' '}
+            {selectedCircle.tokenName || 'GIVE'} allocated to them. This cannot
+            be undone.
           </ActionDialog>
         </FormModal>
       )}

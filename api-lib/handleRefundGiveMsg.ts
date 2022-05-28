@@ -19,6 +19,8 @@ export default async function handleRefundGiveMsg(
     return false;
   }
 
+  const { circles_by_pk: circle } = await queries.getCircle(data.old.circle_id);
+
   const currentEpoch = await queries.getCurrentEpoch(data.old.circle_id);
   if (currentEpoch) {
     const { users_by_pk: sender } = await adminClient.query(
@@ -51,8 +53,9 @@ export default async function handleRefundGiveMsg(
         // and will be deprecated. This total will be removed when the column
         // is removed
         message:
-          `${sender.name} has been refunded ${data.old.tokens} GIVE ` +
-          `from ${recipient.name}`,
+          `${sender.name} has been refunded ${data.old.tokens} ${
+            circle?.token_name || 'GIVE'
+          } ` + `from ${recipient.name}`,
         circleId: data.old.circle_id,
         channels,
       });

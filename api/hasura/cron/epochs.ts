@@ -91,6 +91,7 @@ async function getEpochsToNotify() {
                 id: true,
                 name: true,
                 telegram_id: true,
+                token_name: true,
                 discord_webhook: true,
                 organization: { name: true },
                 users: [
@@ -240,7 +241,9 @@ export async function notifyEpochEnd({
       ${circle.organization?.name}/${
         circle.name
       } epoch ends in less than 24 hours!
-      Users that have yet to fully allocate their GIVE:
+      Users that have yet to fully allocate their ${
+        circle.token_name || 'GIVE'
+      }:
       ${usersHodlingGive.join(', ')}
     `;
 
