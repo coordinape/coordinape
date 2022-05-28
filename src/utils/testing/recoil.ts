@@ -36,6 +36,7 @@ const circle: IApiCircle = {
   vouching: false,
   vouching_text: '',
   updated_at: new Date(0),
+  fixed_payment_token_type: '',
 };
 
 const profile: IApiProfile = {

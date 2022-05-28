@@ -4,8 +4,15 @@ import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
-import { useApiAdminCircle } from 'hooks';
+import {
+  ApeAvatar,
+  FormModal,
+  ApeTextField,
+  ApeToggle,
+  FormAutocomplete,
+} from 'components';
+import isFeatureEnabled from 'config/features';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { Flex, Button } from 'ui';
@@ -126,6 +133,11 @@ export const AdminCircleModal = ({
 }) => {
   const classes = useStyles();
   const { circleId } = useSelectedCircle();
+  const contracts = useContracts();
+  const tokens = ['Disabled'].concat(
+    contracts ? contracts.getAvailableTokens() : []
+  );
+
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
   const [logoData, setLogoData] = useState<{
@@ -149,6 +161,9 @@ export const AdminCircleModal = ({
   const [webhook, setWebhook] = useState('');
   const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
   const [vouchingText, setVouchingText] = useState(circle.vouchingText);
+  const [fixedPaymentToken, setFixedPaymentToken] = useState(
+    circle.fixed_payment_token_type ?? 'Disabled'
+  );
   const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
   const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
@@ -211,7 +226,8 @@ export const AdminCircleModal = ({
         vouchingText !== circle.vouchingText ||
         onlyGiverVouch !== circle.only_giver_vouch ||
         teamSelection !== circle.team_selection ||
-        autoOptOut !== circle.auto_opt_out
+        autoOptOut !== circle.auto_opt_out ||
+        fixedPaymentToken !== circle.fixed_payment_token_type
       ) {
         await updateCircle({
           circle_id: circle.id,
@@ -229,6 +245,7 @@ export const AdminCircleModal = ({
           team_selection: teamSelection,
           auto_opt_out: autoOptOut,
           update_webhook: allowEdit,
+          fixed_payment_token_type: fixedPaymentToken,
         }).then(() => {
           onClose();
         });
@@ -253,7 +270,8 @@ export const AdminCircleModal = ({
     vouchingText !== circle.vouchingText ||
     onlyGiverVouch !== circle.only_giver_vouch ||
     teamSelection !== circle.team_selection ||
-    autoOptOut !== circle.auto_opt_out;
+    autoOptOut !== circle.auto_opt_out ||
+    fixedPaymentToken !== circle.fixed_payment_token_type;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -414,6 +432,17 @@ export const AdminCircleModal = ({
           onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
         />
+        {isFeatureEnabled('fixed_payments') && (
+          <FormAutocomplete
+            value={fixedPaymentToken}
+            onChange={(v: string) => {
+              setFixedPaymentToken(v);
+            }}
+            options={tokens}
+            label="Fixed Payment Token"
+            fullWidth
+          />
+        )}
       </div>
       <AdminIntegrations />
       <div className={classes.bottomContainer}>

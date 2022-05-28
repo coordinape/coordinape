@@ -187,6 +187,7 @@ export const createCircle = async (
               updated_at: true,
             },
             auto_opt_out: true,
+            fixed_payment_token_type: true,
           },
         },
       ],
