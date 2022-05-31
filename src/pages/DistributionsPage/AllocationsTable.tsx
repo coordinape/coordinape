@@ -35,7 +35,6 @@ export const AllocationsTable = ({
         `${tokenName || 'GIVE'} Received`,
         '% of Epoch',
         'Vault Funds Allocated',
-        'Fixed Payment Amount',
       ]}
       data={users}
       startingSortIndex={2}
@@ -67,7 +66,6 @@ export const AllocationsTable = ({
                   2
                 )} ${tokenName}`}
           </td>
-          <td>{'user.fixed_payment_amount'}</td>
         </tr>
       )}
     </UserTable>
