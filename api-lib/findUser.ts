@@ -15,6 +15,7 @@ const userSelector = Selector('users')({
   non_receiver: true,
   fixed_non_receiver: true,
   starting_tokens: true,
+  fixed_payment_amount: true,
 });
 
 export const getUserFromProfileId = async (

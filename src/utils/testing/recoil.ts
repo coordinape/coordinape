@@ -61,6 +61,7 @@ const user: IApiUser = {
   non_receiver: false,
   role: 0,
   starting_tokens: 100,
+  fixed_payment_amount: 0,
   updated_at: '1970-01-01T00:00:00',
 };
 

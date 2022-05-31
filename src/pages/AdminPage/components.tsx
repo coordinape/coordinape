@@ -785,6 +785,18 @@ export const ContributorsTable = ({
                   'give_token_received'
                 )}
               </Table.HeaderCell>
+              <Table.HeaderCell
+                clickable
+                onClick={() => updateOrder('fixed_payment_amount')}
+              >
+                {renderLabel(
+                  `Fixed Payment Amount ${
+                    circle.fixed_payment_token_type ?? '(Disabled)'
+                  }`,
+                  order,
+                  'fixed_payment_amount'
+                )}
+              </Table.HeaderCell>
               <Table.HeaderCell>Actions</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -853,6 +865,11 @@ export const ContributorsTable = ({
                       (!!u.fixed_non_receiver || !!u.non_receiver)
                         ? '-'
                         : u.give_token_received}
+                    </Table.Cell>
+                    <Table.Cell key={`fixed-amount-${u.id}`}>
+                      {u.fixed_payment_amount === 0
+                        ? '-'
+                        : u.fixed_payment_amount}
                     </Table.Cell>
                     <Table.Cell key={`actions-${u.id}`}>
                       {renderActions(
