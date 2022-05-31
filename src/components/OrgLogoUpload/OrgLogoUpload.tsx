@@ -65,6 +65,7 @@ export const OrgLogoUpload = ({
     const response = await uploadLogo(id, formFileUploadProps.value);
     setIsUploadingLogo(false);
     setUploadedLogoUrl(response.uploadOrgLogo?.org.logo);
+    formFileUploadProps.onChange(undefined);
   };
 
   return (
