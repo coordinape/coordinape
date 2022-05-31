@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     borderRadius: 8,
     padding: theme.spacing(1, 2),
-    marginTop: 8,
+    marginBottom: 16,
   },
   filterHeader: {
     display: 'flex',
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 15 - 8,
-    color: theme.colors.placeholder,
+    color: theme.colors.secondaryText,
   },
   rank: {
     minWidth: 47,
@@ -79,7 +79,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     overflowY: 'scroll',
     padding: theme.spacing(2, 0),
-    marginTop: 8,
     scrollbarColor: theme.colors.secondaryText,
     scrollbarWidth: 'thin',
     backgroundColor: theme.colors.surface,
