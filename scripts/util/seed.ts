@@ -36,7 +36,7 @@ type ProtocolInput = {
   name?: string;
 };
 
-async function insertProtocol(input: ProtocolInput) {
+async function insertProtocol(input: ProtocolInput) : Promise<number> {
   const result = await adminClient.mutate({
     insert_organizations_one: [
       {
@@ -54,7 +54,7 @@ type CircleInput = {
   protocolInput: ProtocolInput;
 };
 
-async function insertCircles(input: CircleInput) {
+export async function insertCircles(input: CircleInput) {
   const protocolId = await insertProtocol(input.protocolInput);
 
   const circleInputWithProtocol = input.circlesInput.map(circle => ({

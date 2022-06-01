@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 
+import {adminClient} from "../api-lib/gql/adminClient";
+
 import {
   getAvatars,
   getMembershipInput,
@@ -13,11 +15,14 @@ const { CI } = process.env;
 
 async function main() {
   await createFreshOpenEpochDevAdmin();
-  await createFreshOpenEpoch();
+  const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
+
+  const protocolId = await getProtocolIdForCircle(circleId);
+  await createCircleInOrgButNoDevMember(protocolId!);
   // eslint-disable-next-line no-console
   CI ? console.log('Skipping Avatars') : await getAvatars();
 }
@@ -27,6 +32,19 @@ main()
   .then(() => console.log('Finished Seeding DB'))
   .catch(console.error);
 
+async function getProtocolIdForCircle(circleId: number) {
+  const { circles_by_pk } = await adminClient.query({
+    circles_by_pk:[
+      {
+        id: circleId,
+      },
+      {
+        protocol_id:true,
+      }
+    ]
+  });
+  return circles_by_pk?.protocol_id;
+}
 async function createCircleWithGiftsNotYetEnded() {
   const result = await insertMemberships(
     getMembershipInput(
@@ -58,6 +76,7 @@ async function createCircleWithGiftsNotYetEnded() {
     false
   );
   await createGifts(result, epochId);
+  return circleId;
 }
 
 async function createFreshOpenEpochNoDev() {
@@ -103,6 +122,7 @@ async function createFreshOpenEpoch() {
     DateTime.now().plus({ days: 6, hours: 23 }),
     1
   );
+  return circleId;
 }
 
 async function createEndedEpochWithGifts() {
@@ -120,6 +140,7 @@ async function createEndedEpochWithGifts() {
     1
   );
   await createGifts(result, epochId, 9, 100, false);
+  return circleId;
 }
 
 async function createCircleWithPendingGiftsEndingSoon() {
@@ -134,4 +155,30 @@ async function createCircleWithPendingGiftsEndingSoon() {
     1
   );
   await createGifts(result, epochId);
+}
+
+
+async function createCircleInOrgButNoDevMember(protocolId: number) {
+  await adminClient.mutate({
+    insert_circles: [
+      {
+        objects: [{
+          name: getCircleName() + ' not a member',
+          auto_opt_out: true,
+          default_opt_in: true,
+          min_vouches: 2,
+          protocol_id: protocolId,
+          nomination_days_limit: 1,
+          only_giver_vouch: false,
+          token_name: 'GIVE',
+          vouching: true,
+        }],
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
 }

@@ -825,11 +825,11 @@ export const ContributorsTable = ({
 
                     <Table.Cell key={`recipient-${u.id}`}>
                       {u.fixed_non_receiver ? (
-                        'Forced Opt Out'
+                        'Forced ❌'
                       ) : u.non_receiver ? (
-                        <CheckIcon size="inherit" color="complete" />
-                      ) : (
                         <CloseIcon size="inherit" color="alert" />
+                      ) : (
+                        <CheckIcon size="inherit" color="complete" />
                       )}
                     </Table.Cell>
 

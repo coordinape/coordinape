@@ -785,9 +785,11 @@ export type ValueTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
+    chain_id?: number | undefined | null;
     circle_id: number;
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
+    fixed_payment_token_type?: string | undefined | null;
     min_vouches?: number | undefined | null;
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
@@ -8455,9 +8457,11 @@ export type GraphQLTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
+    chain_id?: number | undefined;
     circle_id: number;
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
+    fixed_payment_token_type?: string | undefined;
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;

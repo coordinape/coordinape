@@ -179,6 +179,7 @@ input UpdateCircleInput {
   only_giver_vouch: Boolean
   auto_opt_out: Boolean
   update_webhook: Boolean
+  fixed_payment_token_type: String
 }
 
 input UpdateEpochInput {
