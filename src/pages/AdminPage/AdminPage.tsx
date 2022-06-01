@@ -10,7 +10,7 @@ import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Button, Flex, Text } from 'ui';
+import { Button, Text } from 'ui';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -168,12 +168,9 @@ const AdminPage = () => {
                 <Button
                   color="primary"
                   outlined
-                  size="small"
                   onClick={() => setEditCircle(true)}
                 >
-                  <Flex css={{ mr: '$xs' }}>
-                    <EditIcon />
-                  </Flex>
+                  <EditIcon />
                   Settings
                 </Button>
 
@@ -188,12 +185,9 @@ const AdminPage = () => {
                 <Button
                   color="primary"
                   outlined
-                  size="small"
                   onClick={() => navigate(paths.createCircle)}
                 >
-                  <Flex css={{ mr: '$xs' }}>
-                    <PlusCircleIcon />
-                  </Flex>
+                  <PlusCircleIcon />
                   Add Circle
                 </Button>
               </div>

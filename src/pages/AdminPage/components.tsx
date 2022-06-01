@@ -9,7 +9,7 @@ import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { PlusCircleIcon } from 'icons';
+import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
@@ -59,7 +59,7 @@ export const CreateEpochButton = ({
     <Button
       color="primary"
       outlined
-      size={inline ? 'inline' : 'small'}
+      size={inline ? 'inline' : 'medium'}
       onClick={onClick}
     >
       Create Epoch
@@ -98,7 +98,7 @@ export const AddContributorButton = ({
     <Button
       color="primary"
       outlined
-      size={inline ? 'inline' : 'small'}
+      size={inline ? 'inline' : 'medium'}
       onClick={onClick}
     >
       Add Contributor
@@ -262,7 +262,13 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
           <LightText>
             {user.role === USER_ROLE_ADMIN
               ? 'Admin'
-              : `${!user.non_giver ? '✅' : '❌'} ${tokenName}`}
+              : `${
+                  !user.non_giver ? (
+                    <CheckIcon size="inherit" color="complete" />
+                  ) : (
+                    <CloseIcon size="inherit" color="alert" />
+                  )
+                } ${tokenName}`}
           </LightText>
         </Flex>
       </Box>
@@ -326,7 +332,7 @@ const EmptyTable = ({
       >
         {content}
       </Text>
-      <Button color="alert" onClick={() => onClick()}>
+      <Button color="secondary" onClick={() => onClick()}>
         <PlusCircleIcon />
         Add Contributor
       </Button>
@@ -810,19 +816,29 @@ export const ContributorsTable = ({
                     </Table.Cell>
 
                     <Table.Cell key={`giver-${u.id}`}>
-                      {!u.non_giver ? '✅' : '❌'}
+                      {!u.non_giver ? (
+                        <CheckIcon size="inherit" color="complete" />
+                      ) : (
+                        <CloseIcon size="inherit" color="alert" />
+                      )}
                     </Table.Cell>
 
                     <Table.Cell key={`recipient-${u.id}`}>
-                      {u.fixed_non_receiver
-                        ? 'Forced Opt Out'
-                        : u.non_receiver
-                        ? '✅'
-                        : '❌'}
+                      {u.fixed_non_receiver ? (
+                        'Forced Opt Out'
+                      ) : u.non_receiver ? (
+                        <CheckIcon size="inherit" color="complete" />
+                      ) : (
+                        <CloseIcon size="inherit" color="alert" />
+                      )}
                     </Table.Cell>
 
                     <Table.Cell key={`admin-${u.id}`}>
-                      {u.role === USER_ROLE_ADMIN ? '✅' : '❌'}
+                      {u.role === USER_ROLE_ADMIN ? (
+                        <CheckIcon size="inherit" color="complete" />
+                      ) : (
+                        <CloseIcon size="inherit" color="alert" />
+                      )}
                     </Table.Cell>
                     <Table.Cell key={`give-sent-${u.id}`}>
                       {!u.non_giver ||

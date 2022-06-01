@@ -142,7 +142,6 @@ export const FormModal = ({
           <Button
             css={{ mt: '$lg', gap: '$xs' }}
             color="primary"
-            outlined
             size="medium"
             onClick={event => {
               event.preventDefault();

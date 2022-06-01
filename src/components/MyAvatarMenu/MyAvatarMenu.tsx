@@ -51,7 +51,7 @@ export const MyAvatarMenu = () => {
           </PopoverTrigger>
           <PopoverContent
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-66}
+            sideOffset={-67}
             alignOffset={-16}
             css={{ background: '$surface' }}
           >
@@ -61,7 +61,7 @@ export const MyAvatarMenu = () => {
                 flexDirection: 'column',
                 textAlign: 'right',
                 alignItems: 'end',
-                p: '$md',
+                p: 'calc($md + $xs)',
               }}
             >
               <PopoverClose asChild>

@@ -28,7 +28,7 @@ const Template: ComponentStory<typeof ButtonStory> = args => (
 export const SingleButton = Template.bind({});
 
 SingleButton.args = {
-  color: 'alert',
+  color: 'destructive',
   children: 'Button',
 };
 

@@ -17,15 +17,15 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     color: theme.colors.text,
     background: theme.colors.surface,
     '&:hover': {
-      background: theme.colors.secondary + '80',
+      background: theme.colors.complete + '80',
       color: theme.colors.white,
     },
   },
   active: {
     color: theme.colors.white,
-    background: theme.colors.secondary,
+    background: theme.colors.complete,
     '&:hover': {
-      background: theme.colors.secondary,
+      background: theme.colors.complete,
     },
   },
   grouped: {

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { FormControlLabel, Radio, makeStyles } from '@material-ui/core';
 
-import { ReactComponent as CheckedRadioSVG } from 'assets/svgs/button/checked-radio.svg';
-import { ReactComponent as UnCheckedRadioSVG } from 'assets/svgs/button/unchecked-radio.svg';
+import { CheckedRadio, UnCheckedRadio } from 'icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,9 +53,9 @@ export const OptInput = (props: IProps) => {
         control={
           <Radio
             checked={isChecked}
-            checkedIcon={<CheckedRadioSVG />}
+            checkedIcon={<CheckedRadio color="complete" />}
             className={classes.radioInput}
-            icon={<UnCheckedRadioSVG />}
+            icon={<UnCheckedRadio />}
             onChange={() => updateOpt()}
           />
         }

@@ -33,6 +33,18 @@ export const SvgIconConfig = {
         width: '$xl',
         height: '$xl',
       },
+      inherit: {
+        width: 'inherit',
+        height: 'inherit',
+      },
+    },
+    color: {
+      default: { color: '$text' },
+      neutral: { color: '$neutral' },
+      alert: { color: '$alert' },
+      primary: { color: '$primary' },
+      white: { color: '$white' },
+      complete: { color: '$complete' },
     },
   },
   defaultVariants: {
@@ -43,7 +55,7 @@ export const SvgIconConfig = {
 const spaces = {
   xs: '4px',
   sm: '8px',
-  md: '16px',
+  md: '12px',
   lg: '24px',
   xl: '32px',
   '1xl': '40px',
@@ -56,6 +68,7 @@ export const colors = {
 
   primary: figmaColors.blue12,
   textOnPrimary: '#fff',
+  textOnSecondary: '#fff',
 
   alert: figmaColors.red12,
   alertDark: figmaColors.red20,

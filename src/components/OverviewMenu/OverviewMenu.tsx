@@ -104,13 +104,13 @@ export const OverviewMenu = () => {
           <PopoverContent
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-58}
-            alignOffset={1}
+            alignOffset={-3}
           >
             <Box
               css={{
                 display: 'flex',
                 flexDirection: 'column',
-                p: '$md',
+                p: 'calc($md + $xs)',
               }}
             >
               <PopoverClose asChild>

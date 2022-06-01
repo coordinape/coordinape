@@ -32,24 +32,26 @@ export const PaginatorButton = styled('button', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '6px',
+  borderRadius: '$1',
   transition: 'all 400ms',
+  cursor: 'pointer',
   // STATES
   '&:hover': {
-    backgroundColor: '$secondary',
+    backgroundColor: '$primary',
     color: '$white',
   },
   '&:disabled': {
     opacity: '0.4',
     backgroundColor: 'transparent',
     color: 'inherit',
+    cursor: 'default',
   },
   variants: {
     active: {
       true: {
         // TODO: toggle 'aria-current' instead.
         borderRadius: '$1',
-        backgroundColor: '$secondary !important',
+        backgroundColor: '$primary !important',
         color: 'white !important',
       },
     },
