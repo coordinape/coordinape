@@ -209,27 +209,23 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         .sort(({ expiryDate: a }, { expiryDate: b }) => a.diff(b).milliseconds)
         .toArray();
 
-      const meOrPretend = myUser
-        ? { ...myUser, profile: myProfile }
-        : undefined;
-
-      if (meOrPretend === undefined || circle === undefined) {
-        console.error(
-          'unable to load circle or current user - circle?',
-          circle,
-          'user?',
-          meOrPretend
-        );
-        return neverEndingPromise();
+      if (!circle) {
+        throw new Error(`unable to load circle '${circleId}'`);
       }
+
+      if (!myUser) {
+        throw new Error(`user is not a member of circle '${circle.name}'`);
+      }
+
+      const me = { ...myUser, profile: myProfile };
 
       return {
         circleId,
         circle,
-        myUser: meOrPretend,
+        myUser: me,
         users: getCircleUsers().toArray(),
         usersNotMe: getCircleUsers()
-          .filter(u => u.id !== meOrPretend?.id)
+          .filter(u => u.id !== me.id)
           .toArray(),
         usersWithDeleted: iti(users)
           .filter(u => u.circle_id === circleId)
