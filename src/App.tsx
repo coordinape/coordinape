@@ -11,7 +11,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {
-  RecoilDebugger,
   GlobalUi,
   ErrorBoundary,
   MainLayout,
@@ -59,7 +58,6 @@ function App() {
                   <BrowserRouter>
                     <WalletController />
                     <MainLayout>
-                      <RecoilDebugger />
                       <GlobalUi />
                       <SentryScopeController />
                       <AppRoutes />

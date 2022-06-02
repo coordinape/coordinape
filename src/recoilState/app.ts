@@ -156,31 +156,6 @@ export const rProfile = selectorFamily({
   },
 });
 
-/*
- *
- * Joining Base State Selectors
- *
- ***************/
-export const rCircles = selector({
-  key: 'rCircles',
-  get: ({ get }) => {
-    const circleMap = get(rCirclesMap);
-    const allCircles = Array.from(circleMap.values());
-    const myCircles = iti(get(rMyProfile).myUsers)
-      .map(u => circleMap.get(u.circle_id))
-      .filter(c => c !== undefined)
-      .toArray() as unknown as ICircle[]; // Brittle
-    const myCirclesSet = new Set(myCircles.map(c => c.id));
-    const viewOnlyCircles = allCircles.filter(c => !myCirclesSet.has(c.id));
-
-    return {
-      myCircles,
-      allCircles,
-      viewOnlyCircles,
-    };
-  },
-});
-
 export const rCircle = selectorFamily<ICircleState, number | undefined>({
   key: 'rCircle',
   get:
@@ -349,7 +324,6 @@ export interface ICircleState {
 
 export const useHasSelectedCircle = () =>
   useRecoilValueLoadable(rSelectedCircleId).valueMaybe() !== undefined;
-export const useCircles = () => useRecoilValue(rCircles);
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);

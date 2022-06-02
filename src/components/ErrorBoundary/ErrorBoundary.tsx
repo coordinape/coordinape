@@ -73,32 +73,21 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          minHeight: '100vh',
-          padding: '0 50px 30px',
+          gap: '1em',
+          margin: '2em 4em',
         }}
       >
         <div>
-          <h5>An uncaught error hit the error boundary.</h5>
+          <h3>An uncaught error hit the error boundary.</h3>
           <p>
             Get technical support on{' '}
             <a href={EXTERNAL_URL_DISCORD_SUPPORT}>Discord</a> or refresh to
             return to the app.
           </p>
-        </div>
-        <div
-          style={{
-            minWidth: '300px',
-            width: '20%',
-            fontSize: '14px',
-            color: '#555',
-          }}
-        >
-          {JSON.stringify(this.state.errorMessage)}
+          <p style={{ color: '#666' }}>Error: {this.state.errorMessage}</p>
           <div
             style={{
-              marginTop: '10px',
+              color: '#666',
               display: 'flex',
               flexDirection: 'column',
               fontSize: '10px',

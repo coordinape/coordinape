@@ -35,7 +35,6 @@ export * from './ProfileSkills/ProfileSkills';
 export * from './ProfileSocialIcons/ProfileSocialIcons';
 export * from './ReadMore/ReadMore';
 export * from './ReceiveInfo/ReceiveInfo';
-export * from './RecoilDebugger/RecoilDebugger';
 export * from './SentryScopeController/SentryScopeController';
 export * from './SkillToggles/SkillToggles';
 export * from './Spacer/Spacer';
