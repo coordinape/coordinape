@@ -18,6 +18,10 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
+  '&:hover': {
+    // using saturate until hover colors are defined
+    filter: 'saturate(1.4)',
+  },
   '&[disabled]': {
     opacity: 0.4,
     cursor: 'default',
@@ -43,6 +47,9 @@ export const Button = styled('button', {
       },
       surface: {
         backgroundColor: '$surface',
+        '&:hover': {
+          filter: 'saturate(3)',
+        },
       },
       complete: {
         backgroundColor: '$complete',
@@ -152,6 +159,7 @@ export const Button = styled('button', {
         borderColor: '$primary',
         '&:hover': {
           color: '$white',
+          filter: 'saturate(1)',
           backgroundColor: '$primary !important',
         },
       },
@@ -164,6 +172,7 @@ export const Button = styled('button', {
         borderColor: '$secondary',
         '&:hover': {
           color: '$white',
+          filter: 'saturate(1)',
           backgroundColor: '$secondary !important',
         },
       },
@@ -176,6 +185,7 @@ export const Button = styled('button', {
         borderColor: '$alert',
         '&:hover': {
           color: '$white',
+          filter: 'saturate(1)',
           backgroundColor: '$alert !important',
         },
       },
@@ -188,6 +198,7 @@ export const Button = styled('button', {
         borderColor: '$text',
         '&:hover': {
           color: '$white',
+          filter: 'saturate(1)',
           backgroundColor: '$neutral !important',
         },
       },
@@ -200,6 +211,7 @@ export const Button = styled('button', {
         borderColor: '$complete',
         '&:hover': {
           color: '$white',
+          filter: 'saturate(1)',
           backgroundColor: '$complete !important',
         },
       },
