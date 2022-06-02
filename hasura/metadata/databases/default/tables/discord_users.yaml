@@ -30,6 +30,8 @@ select_permissions:
               _and:
               - hash:
                   _eq: X-Hasura-Api-Key-Hash
+              - read_discord:
+                  _eq: true
               - read_member_profiles:
                   _eq: true
   role: api-user

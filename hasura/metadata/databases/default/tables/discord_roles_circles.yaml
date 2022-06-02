@@ -33,7 +33,7 @@ select_permissions:
           _and:
           - hash:
               _eq: X-Hasura-Api-Key-Hash
-          - read_circle:
+          - read_discord:
               _eq: true
   role: api-user
 - permission:
