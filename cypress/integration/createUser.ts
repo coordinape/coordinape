@@ -52,6 +52,13 @@ context('Coordinape', () => {
             .parents('tr')
             .within(() => {
                 cy.get('td').eq(7).should('have.text', '12000');
-            })
+        })
+        // Reset Setting
+        cy.contains('Settings').click();
+        cy.contains('Fixed Payment Token').parent().within(() => {
+            cy.get('input').clear().type('Disabled').blur();
+        })
+
+        cy.contains('Save').click();
     });
 });

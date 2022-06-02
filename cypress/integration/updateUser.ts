@@ -84,7 +84,7 @@ context('Coordinape', () => {
     // Enabled Fixed Payments
     cy.contains('Settings').click();
     cy.contains('Fixed Payment Token').parent().within(() => {
-      cy.get('input').clear().type('DAI').blur();
+      cy.get('input').clear().type('USDC').blur();
     })
 
     cy.contains('Save').click();
@@ -114,6 +114,13 @@ context('Coordinape', () => {
         .within(() => {
           cy.get('td').eq(7).should('have.text', '12000');
         })
+    // Reset Setting
+    cy.contains('Settings').click();
+    cy.contains('Fixed Payment Token').parent().within(() => {
+      cy.get('input').clear().type('Disabled').blur();
+    })
+
+    cy.contains('Save').click();
   });
 });
 
