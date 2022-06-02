@@ -43,6 +43,10 @@ type Mutation {
 }
 
 type Mutation {
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -243,6 +247,10 @@ input GenerateApiKeyInput {
   read_epochs: Boolean
 }
 
+input LinkDiscordUserInput {
+  discord_id: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -306,6 +314,10 @@ type VaultResponse {
 type GenerateApiKeyResponse {
   api_key: String!
   hash: String!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
 }
 
 scalar timestamptz
