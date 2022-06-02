@@ -1,0 +1,64 @@
+table:
+  name: users
+  schema: discord
+object_relationships:
+- name: profile
+  using:
+    foreign_key_constraint_on: profile_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - user_snowflake
+    set:
+      profile_id: x-hasura-User-Id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - created_at
+    - id
+    - profile_id
+    - updated_at
+    - user_snowflake
+    filter:
+      profile:
+        users:
+          circle:
+            api_keys:
+              _and:
+              - hash:
+                  _eq: X-Hasura-Api-Key-Hash
+              - read_member_profiles:
+                  _eq: true
+  role: api-user
+- permission:
+    columns:
+    - created_at
+    - id
+    - profile_id
+    - updated_at
+    - user_snowflake
+    filter:
+      profile:
+        id:
+          _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - user_snowflake
+    filter:
+      profile:
+        id:
+          _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      profile:
+        id:
+          _eq: X-Hasura-User-Id
+  role: user

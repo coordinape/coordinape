@@ -285,6 +285,12 @@ export const createVaultInput = z
   })
   .strict();
 
+export const linkDiscordInputSchema = z
+  .object({
+    discord_id: z.string(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
