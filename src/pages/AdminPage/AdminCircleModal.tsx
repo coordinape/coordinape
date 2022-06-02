@@ -395,8 +395,12 @@ export const AdminCircleModal = ({
           label="Default Opt In?"
           infoTooltip={
             <YesNoTooltip
-              yes="All new members are eligible to receive GIVE"
-              no="New members need to log into Coordinape and opt in to receiving GIVE"
+              yes={`All new members are eligible to receive ${
+                circle.tokenName || 'GIVE'
+              }`}
+              no={`New members need to log into Coordinape and opt in to receiving ${
+                circle.tokenName || 'GIVE'
+              }`}
               href={DOCS_HREF}
               anchorText={DOCS_TEXT}
             />
@@ -409,7 +413,9 @@ export const AdminCircleModal = ({
           label="Only Givers can vouch"
           infoTooltip={
             <YesNoTooltip
-              yes="Only members who are eligible to send GIVE can vouch for new members"
+              yes={`Only members who are eligible to send ${
+                circle.tokenName || 'GIVE'
+              } can vouch for new members`}
               no="Anyone in the circle can vouch for new members"
               href={DOCS_HREF}
               anchorText={DOCS_TEXT}

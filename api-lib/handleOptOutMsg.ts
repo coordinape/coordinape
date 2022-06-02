@@ -12,6 +12,9 @@ export default async function handleOptOutMsg(
 
   if (data.old.non_receiver === false && data.new.non_receiver === true) {
     const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
+    const { circles_by_pk: circle } = await queries.getCircle(
+      data.new.circle_id
+    );
 
     if (currentEpoch) {
       await sendSocialMessage({
@@ -20,7 +23,9 @@ export default async function handleOptOutMsg(
         // is removed
         message:
           `${data.new.name} has opted out of the current epoch.\n` +
-          `A Total of ${data.old.give_token_received} GIVE was refunded`,
+          `A Total of ${data.old.give_token_received} ${
+            circle?.token_name || 'GIVE'
+          } was refunded`,
         circleId: data.new.circle_id,
         channels,
       });
@@ -29,6 +34,9 @@ export default async function handleOptOutMsg(
   }
   if (data.old.non_giver === false && data.new.non_giver === true) {
     const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
+    const { circles_by_pk: circle } = await queries.getCircle(
+      data.new.circle_id
+    );
 
     if (currentEpoch) {
       await sendSocialMessage({
@@ -39,7 +47,7 @@ export default async function handleOptOutMsg(
           `${data.new.name} can no longer allocate GIVE during the current epoch.\n` +
           `A Total of ${
             data.old.starting_tokens - data.old.give_token_remaining
-          } GIVE was refunded`,
+          } ${circle?.token_name || 'GIVE'} was refunded`,
         circleId: data.new.circle_id,
         channels,
       });
