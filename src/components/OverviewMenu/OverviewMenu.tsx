@@ -11,7 +11,6 @@ import { Hidden } from '@material-ui/core';
 import { navLinkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
-import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ChevronUp, ChevronDown } from 'icons';
@@ -52,7 +51,6 @@ export const OverviewMenu = () => {
   const orgs = query.data?.organizations;
 
   const navigate = useNavigate();
-  const { selectCircle } = useApiBase();
   const hasCircles = useHasCircles();
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
 
@@ -64,10 +62,8 @@ export const OverviewMenu = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectCircle(id).then(() => {
-      scrollToTop();
-      navigate(path);
-    });
+    scrollToTop();
+    navigate(path);
   };
 
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
@@ -84,7 +80,7 @@ export const OverviewMenu = () => {
       css={navLinkStyle}
       className={
         paths.circles?.includes(location.pathname) ||
-        location.pathname.includes(paths.history)
+        location.pathname.includes('history')
           ? 'active'
           : ''
       }
@@ -202,7 +198,9 @@ const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
   return (
     <Link
       type="menu"
-      onClick={() => !nonMember && onButtonClick(circle.id, paths.history)}
+      onClick={() =>
+        !nonMember && onButtonClick(circle.id, paths.history(circle.id))
+      }
     >
       {circle.name}
     </Link>

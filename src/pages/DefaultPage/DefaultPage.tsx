@@ -1,19 +1,15 @@
-import React, { ReactNode } from 'react';
-
-import { Web3Provider } from '@ethersproject/providers';
-import { useWeb3React } from '@web3-react/core';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 
-import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
+import { rMyProfile, rSelectedCircle } from 'recoilState/app';
 import {
-  paths,
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_LANDING_PAGE,
   EXTERNAL_URL_TWITTER,
+  paths,
 } from 'routes/paths';
 import { Box } from 'ui';
 
@@ -57,47 +53,24 @@ const useStyles = makeStyles(theme => ({
 export const DefaultPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const web3Context = useWeb3React<Web3Provider>();
 
-  const authToken = useAuthToken();
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
   const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
 
-  const Wrapper = ({ children }: { children: ReactNode }) => (
-    <Box
-      css={{
-        maxWidth: '700px',
-        mx: 'auto',
-        pt: '$2xl',
-        px: '$lg',
-        textAlign: 'center',
-      }}
-    >
-      {children}
-      <Footer />
-    </Box>
-  );
-
-  // TODO: Split these off into separate components..
-  // But also Alex Ryan likes the idea of us making this more useful.
-  if (!authToken) {
-    return (
-      <Wrapper>
-        <p className={classes.title}>Reward Your Fellow Contributors</p>
-        <p className={classes.subTitle}>
-          {!web3Context.account
-            ? 'Connect your wallet to participate.'
-            : 'Login to Coordinape'}
-        </p>
-      </Wrapper>
-    );
-  }
   // still loading
   if (!myProfile) return null;
 
   if (!selectedCircle) {
     return (
-      <Wrapper>
+      <Box
+        css={{
+          maxWidth: '700px',
+          mx: 'auto',
+          pt: '$2xl',
+          px: '$lg',
+          textAlign: 'center',
+        }}
+      >
         <p className={classes.title}>Welcome!</p>
         <div className={classes.welcomeSection}>
           <p className={classes.welcomeText}>
@@ -118,16 +91,12 @@ export const DefaultPage = () => {
             Start a Circle
           </Button>
         </div>
-      </Wrapper>
+        <Footer />
+      </Box>
     );
   }
 
-  return (
-    // FIXME this is basically unreachable because
-    <Wrapper>
-      <p className={classes.title}>Welcome to {selectedCircle.circle.name}!</p>
-    </Wrapper>
-  );
+  return <Navigate to="/circles" replace />;
 };
 
 const Footer = () => (

@@ -454,7 +454,7 @@ export const EpochsTable = ({
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
             {downloadCSVButton(e.number, downloadLink)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.distributions(e.id)}>
+              <TableLink to={paths.distributions(circle.id, e.id)}>
                 Distributions
               </TableLink>
             )}

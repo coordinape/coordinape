@@ -1,25 +1,23 @@
+import assert from 'assert';
+
 import { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import debug from 'debug';
 import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
-import { useNavigate, useLocation } from 'react-router';
 
 import { useRecoilLoadCatch } from 'hooks';
 import {
-  rSelectedCircleId,
   rSelectedCircleIdSource,
   rCirclesMap,
   rWalletAuth,
-  rCircle,
 } from 'recoilState/app';
 import {
   rApiManifest,
   rApiFullCircle,
   rSelfIdProfileMap,
 } from 'recoilState/db';
-import { paths } from 'routes/paths';
 import { getApiService } from 'services/api';
 import { connectors } from 'utils/connectors';
 import { getSelfIdProfiles } from 'utils/selfIdHelpers';
@@ -27,66 +25,33 @@ import { assertDef } from 'utils/tools';
 
 import { EConnectorNames } from 'types';
 
-const log = debug('recoil:useApiBase');
+const log = debug('useApiBase');
 
 export const useApiBase = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const navigateDefault = useRecoilLoadCatch(
-    ({ snapshot }) =>
-      async () => {
-        try {
-          // When navigateDefault is called, rSelectedCircleId will hang
-          // if a circle isn't selected, which only should happen if the
-          // user doesn't have a circle. This is all a bit too clever.
-          // Ideally, clever things are isolated.
-          const selectedCircleId = await Promise.race([
-            snapshot.getPromise(rSelectedCircleId),
-            timeoutPromise<number>(1000),
-          ]);
-          const {
-            circleEpochsStatus: { epochIsActive },
-          } = await snapshot.getPromise(rCircle(selectedCircleId));
-
-          if (location.pathname === '/') {
-            if (epochIsActive) {
-              navigate(paths.allocation);
-            } else {
-              navigate(paths.history);
-            }
-          }
-        } catch (e) {
-          // Timed out - this just means there is no circle. Strange but it's how it works I guess -CG
-        }
-      },
-    [history]
-  );
-
-  const updateAuth = useRecoilLoadCatch(
+  const finishAuth = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async ({
-        address,
         web3Context,
-        resetManifest,
       }: {
-        address: string;
         web3Context: Web3ReactContextInterface<Web3Provider>;
-        resetManifest?: boolean;
       }) => {
+        log('finishAuth');
         const { authTokens } = await snapshot.getPromise(rWalletAuth);
+        const { connector, account: address, library } = web3Context;
+        assert(address && library);
 
         try {
           const connectorName = assertDef(
             Object.entries(connectors).find(
-              ([, connector]) =>
-                web3Context.connector?.constructor === connector.constructor
+              ([, c]) => connector?.constructor === c.constructor
             )?.[0],
             'Unknown web3Context.connector'
           ) as EConnectorNames;
 
-          const token =
-            authTokens[address] ?? (await getApiService().login(address)).token;
+          const api = getApiService();
+          if (!api.provider) api.setProvider(web3Context.library);
+
+          const token = authTokens[address] ?? (await api.login(address)).token;
           if (token) {
             // Send a truncated address to sentry to help us debug customer issues
             Sentry.setTag(
@@ -95,35 +60,40 @@ export const useApiBase = () => {
                 '...' +
                 address.substr(address.length - 8, 8)
             );
-            if (resetManifest) {
-              set(rApiFullCircle, new Map());
-              set(rApiManifest, undefined);
-            }
             set(rWalletAuth, {
               connectorName,
               address,
               authTokens: { ...authTokens, [address]: token },
             });
 
+            // wrapped in setTimeout so rWalletAuth is updated before this runs
+            return new Promise(
+              (res, rej) =>
+                setTimeout(() => fetchManifest().then(res).catch(rej))
+              // TODO logout if this fails?
+            );
+          }
+        } catch (e: any) {
+          if (
+            [/User denied message signature/].some(r => e.message?.match(r))
+          ) {
             return;
           }
-        } catch (e) {
+
           // for debugging this issue
           // eslint-disable-next-line no-console
           console.info(e);
-          console.error('Failed to login');
+          console.error(`Failed to login: ${e.message || e}`);
         }
 
+        // FIXME is this still needed?
         delete authTokens[address];
-
-        set(rWalletAuth, {
-          authTokens,
-        });
+        set(rWalletAuth, { authTokens });
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
-        throw new Error('Failed to get a login token');
       },
-    []
+    [],
+    { who: 'finishAuth' }
   );
 
   const logout = useRecoilLoadCatch(
@@ -161,7 +131,7 @@ export const useApiBase = () => {
         });
       },
     [],
-    { hideLoading: true }
+    { hideLoading: true, who: 'fetchSelfIds' }
   );
 
   const fetchManifest = useRecoilLoadCatch(
@@ -174,29 +144,12 @@ export const useApiBase = () => {
           throw 'Wallet must be connected to fetch manifest';
         }
 
-        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-        const manifest = await queries.fetchManifest(
-          walletAuth.address,
-          circleId
-        );
-
+        const manifest = await queries.fetchManifest(walletAuth.address);
         set(rApiManifest, manifest);
-        const fullCircle = manifest.circle;
-        if (fullCircle) {
-          set(rSelectedCircleIdSource, fullCircle.circle.id);
-          set(rApiFullCircle, m => {
-            const result = new Map(m);
-            result.set(fullCircle.circle.id, fullCircle);
-            return result;
-          });
-
-          fetchSelfIds(fullCircle.users.map(u => u.address));
-        } else {
-          set(rSelectedCircleIdSource, undefined);
-        }
         return manifest;
       },
-    []
+    [],
+    { who: 'fetchManifest' }
   );
 
   const fetchCircle = useRecoilLoadCatch(
@@ -228,7 +181,8 @@ export const useApiBase = () => {
         }
         fetchSelfIds(fullCircle.users.map(u => u.address));
       },
-    []
+    [],
+    { who: 'fetchCircle' }
   );
 
   const selectCircle = useRecoilLoadCatch(
@@ -243,11 +197,11 @@ export const useApiBase = () => {
         if (circleId === -1) {
           // This signifies no circle selected
           // TODO: Change to use undefined
-          set(rSelectedCircleIdSource, circleId);
+          set(rSelectedCircleIdSource, undefined);
         }
 
         if (!walletAuth.address) {
-          throw 'Wallet must be connected to fetch manifest';
+          throw 'Wallet must be connected to fetch circle';
         }
         if (!(await snapshot.getPromise(rCirclesMap)).has(circleId)) {
           // Wasn't included in their manifest.
@@ -262,21 +216,15 @@ export const useApiBase = () => {
           set(rSelectedCircleIdSource, circleId);
         }
       },
-    []
+    [],
+    { who: 'selectCircle' }
   );
 
   return {
-    updateAuth,
+    finishAuth,
     logout,
     fetchManifest,
     fetchCircle,
     selectCircle,
-    navigateDefault,
   };
 };
-
-function timeoutPromise<T>(ms: number) {
-  return new Promise<T>((_, reject) => {
-    setTimeout(() => reject(new Error('Timed out.')), ms);
-  });
-}

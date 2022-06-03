@@ -148,8 +148,8 @@ export const AllocationPage = () => {
     selectedMyUser.non_receiver !== nonReceiver;
 
   useEffect(() => {
-    const exactStep = allSteps.find(({ path }) =>
-      matchPath(path, location.pathname)
+    const exactStep = allSteps.find(({ pathFn }) =>
+      matchPath(pathFn(circleId), location.pathname)
     );
     if (exactStep === undefined) {
       if (!completedSteps.has(STEP_MY_EPOCH)) {
@@ -179,7 +179,7 @@ export const AllocationPage = () => {
           ? STEP_ALLOCATION
           : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
-        navigate(_nextStep.path);
+        navigate(_nextStep.pathFn(circleId));
       }
     } catch (e) {
       console.warn('handleSaveEpoch', e);
@@ -191,7 +191,7 @@ export const AllocationPage = () => {
       await saveTeammates();
       if (epochIsActive) {
         setActiveStep(STEP_ALLOCATION.key);
-        navigate(STEP_ALLOCATION.path);
+        navigate(STEP_ALLOCATION.pathFn(circleId));
       }
     } catch (e) {
       console.warn('handleSaveTeamList', e);
@@ -210,7 +210,7 @@ export const AllocationPage = () => {
   };
 
   const getHandleStep = (step: IAllocationStep) => () => {
-    navigate(step.path);
+    navigate(step.pathFn(circleId));
     setActiveStep(step.key);
   };
 

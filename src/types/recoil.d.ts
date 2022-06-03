@@ -52,5 +52,5 @@ export interface IAtomEffectParams {
 export interface IAllocationStep {
   key: number;
   buildLabel: (circle: ICircle) => string;
-  path: string;
+  pathFn: (circleId: number) => string;
 }
