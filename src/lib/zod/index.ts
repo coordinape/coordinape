@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react';
-import { z } from 'zod';
 import { SiweMessage } from 'siwe';
+import { z } from 'zod';
 
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
 import {

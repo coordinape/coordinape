@@ -15,7 +15,9 @@ import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
-const allowedDomains = (process.env.SIWE_ALLOWED_DOMAINS)?.split(",").filter(item => item !== "") || ["localhost:3000"];
+const allowedDomains = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
+  item => item !== ''
+) || ['localhost:3000'];
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -26,7 +28,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let address;
 
     try {
-
       const message = new SiweMessage(data);
 
       if (!allowedDomains.includes(message.domain)) {
@@ -49,12 +50,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       address = message.address;
     } catch (e: any) {
-      if (Object.values(SiweErrorType).some(val => val === e.error.type)){
+      if (Object.values(SiweErrorType).some(val => val === e.error.type)) {
         return errorResponse(res, {
           message: 'SIWE error: ' + e.error.type,
           httpStatus: 401,
         });
-
       } else {
         // Return generic error for non-SIWE exceptions
         return errorResponse(res, {
