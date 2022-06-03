@@ -40,6 +40,7 @@ const mockCircle = {
       },
     },
     id: 1,
+    token_name: 'GIVE',
     name: 'mockCircle',
     organization: {
       name: 'mock Org',
@@ -48,6 +49,7 @@ const mockCircle = {
   notifyEndEpochs: {
     id: 1,
     circle_id: 5,
+    token_name: 'GIVE',
     name: 'circle with ending epoch',
     organization: { name: 'mock Org' },
     users: [{ name: 'bob' }, { name: 'alice' }],
