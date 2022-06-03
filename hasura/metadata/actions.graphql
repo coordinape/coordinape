@@ -289,6 +289,7 @@ input GenerateApiKeyInput {
   update_pending_token_gifts: Boolean
   read_member_profiles: Boolean
   read_epochs: Boolean
+  read_discord: Boolean
 }
 
 input UploadOrgImageInput {
