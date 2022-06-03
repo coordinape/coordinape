@@ -291,6 +291,7 @@ input GenerateApiKeyInput {
   read_epochs: Boolean
   read_contributions: Boolean
   create_contributions: Boolean
+  read_discord: Boolean
 }
 
 input UploadOrgImageInput {

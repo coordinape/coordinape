@@ -118,6 +118,7 @@ export const generateApiKeyInputSchema = z
     read_epochs: z.boolean().optional(),
     read_contributions: z.boolean().optional(),
     create_contributions: z.boolean().optional(),
+    read_discord: z.boolean().optional(),
   })
   .strict();
 
