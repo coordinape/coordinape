@@ -11,6 +11,8 @@ import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
+const allowedDomains = (process.env.SIWE_ALLOWED_DOMAINS)?.split(",") || ["localhost:3000"];
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
@@ -19,39 +21,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let address;
 
-    try {
-      const message = new SiweMessage(data);
+    for (const [i, domain] of allowedDomains.entries()) {
+      if (domain) {
+        try {
+          const message = new SiweMessage(data);
 
-      // TODO: replace by configured domain
-      // TODO: Include this in .env?
-      const domain = 'localhost:3000';
+          const verificationResult = await message.verify({
+            signature,
+            domain,
+          });
 
-      const verificationResult = await message.verify({
-        signature,
-        domain,
-      });
+          if (!verificationResult.success) {
+            return errorResponse(res, {
+              message: 'invalid signature',
+              httpStatus: 401,
+            });
+          }
 
-      if (!verificationResult.success) {
-        return errorResponse(res, {
-          message: 'invalid signature',
-          httpStatus: 401,
-        });
-      }
+          address = message.address;
+        } catch (e: any) {
+          if (Object.values(SiweErrorType).some(val => val === e.error.type)){
+            // If we're not in the last allowed domain from the array, we still
+            // want to check the other ones
+            if (e.error.type === SiweErrorType.DOMAIN_MISMATCH && i !== allowedDomains.length - 1) {
+              continue;
+            }
+            return errorResponse(res, {
+              message: 'SIWE error: ' + e.error.type,
+              httpStatus: 401,
+            });
 
-      address = message.address;
-    } catch (e: any) {
-      if (Object.values(SiweErrorType).some(val => val === e.error.type)){
-        return errorResponse(res, {
-          message: 'SIWE error: ' + e.error.type,
-          httpStatus: 401,
-        });
-
-      } else {
-        // Return generic error for non-SIWE exceptions
-        return errorResponse(res, {
-          message: 'login error: ' + e,
-          httpStatus: 401,
-        });
+          } else {
+            // Return generic error for non-SIWE exceptions
+            return errorResponse(res, {
+              message: 'login error: ' + e,
+              httpStatus: 401,
+            });
+          }
+        }
       }
     }
 
