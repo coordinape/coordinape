@@ -86,6 +86,7 @@ export const generateApiKeyInputSchema = z
     update_pending_token_gifts: z.boolean().optional(),
     read_member_profiles: z.boolean().optional(),
     read_epochs: z.boolean().optional(),
+    read_discord: z.boolean().optional(),
   })
   .strict();
 

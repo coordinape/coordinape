@@ -762,6 +762,7 @@ export type ValueTypes = {
     create_vouches?: boolean | undefined | null;
     name: string;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -788,6 +789,15 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['LinkDiscordUserInput']: {
+    discord_id: string;
+  };
+  ['LinkDiscordUserResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    linkDiscordUser_DiscordUser?: ValueTypes['discord_users'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
     /** An object relationship */
@@ -1340,6 +1350,7 @@ columns and relationships of "circle_api_keys" */
     hash?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     read_circle?: boolean | `@${string}`;
+    read_discord?: boolean | `@${string}`;
     read_epochs?: boolean | `@${string}`;
     read_member_profiles?: boolean | `@${string}`;
     read_nominees?: boolean | `@${string}`;
@@ -1435,6 +1446,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_discord?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_epochs?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_member_profiles?:
       | ValueTypes['Boolean_comparison_exp']
@@ -1469,6 +1481,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -1535,6 +1548,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     read_circle?: ValueTypes['order_by'] | undefined | null;
+    read_discord?: ValueTypes['order_by'] | undefined | null;
     read_epochs?: ValueTypes['order_by'] | undefined | null;
     read_member_profiles?: ValueTypes['order_by'] | undefined | null;
     read_nominees?: ValueTypes['order_by'] | undefined | null;
@@ -1557,6 +1571,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -3616,6 +3631,8 @@ columns and relationships of "circle_api_keys" */
 
 columns and relationships of "discord.roles_circles" */
   ['discord_roles_circles']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -3670,6 +3687,7 @@ columns and relationships of "discord.roles_circles" */
       | Array<ValueTypes['discord_roles_circles_bool_exp']>
       | undefined
       | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -3685,6 +3703,7 @@ columns and relationships of "discord.roles_circles" */
   };
   /** input type for inserting data into table "discord.roles_circles" */
   ['discord_roles_circles_insert_input']: {
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -3725,6 +3744,7 @@ columns and relationships of "discord.roles_circles" */
   };
   /** Ordering options when selecting data from "discord.roles_circles". */
   ['discord_roles_circles_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -3796,6 +3816,8 @@ columns and relationships of "discord.users" */
   ['discord_users']: AliasType<{
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     user_snowflake?: boolean | `@${string}`;
@@ -3844,6 +3866,7 @@ columns and relationships of "discord.users" */
     _or?: Array<ValueTypes['discord_users_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     user_snowflake?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -3859,6 +3882,7 @@ columns and relationships of "discord.users" */
   ['discord_users_insert_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_snowflake?: string | undefined | null;
@@ -3899,6 +3923,7 @@ columns and relationships of "discord.users" */
   ['discord_users_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_snowflake?: ValueTypes['order_by'] | undefined | null;
@@ -6313,6 +6338,10 @@ columns and relationships of "distributions" */
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches']
+    ];
+    linkDiscordUser?: [
+      { payload: ValueTypes['LinkDiscordUserInput'] },
+      ValueTypes['LinkDiscordUserResponse']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     updateAllocations?: [
@@ -14150,6 +14179,12 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LinkDiscordUserInput']: GraphQLTypes['LinkDiscordUserInput'];
+  ['LinkDiscordUserResponse']: {
+    id: number;
+    /** An object relationship */
+    linkDiscordUser_DiscordUser: GraphQLTypes['discord_users'];
+  };
   ['LogoutResponse']: {
     id?: number | undefined;
     /** An object relationship */
@@ -14417,6 +14452,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -15342,6 +15378,8 @@ columns and relationships of "circle_api_keys" */
 
 columns and relationships of "discord.roles_circles" */
   ['discord_roles_circles']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
@@ -15467,6 +15505,8 @@ columns and relationships of "discord.users" */
   ['discord_users']: {
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
     updated_at: GraphQLTypes['timestamptz'];
     user_snowflake: string;
@@ -16554,6 +16594,8 @@ columns and relationships of "distributions" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    /** allow authenticated users to link a discord account to their profile */
+    linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -19248,6 +19290,7 @@ export type GraphQLTypes = {
     create_vouches?: boolean | undefined;
     name: string;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -19273,6 +19316,15 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['LinkDiscordUserInput']: {
+    discord_id: string;
+  };
+  ['LinkDiscordUserResponse']: {
+    __typename: 'LinkDiscordUserResponse';
+    id: number;
+    /** An object relationship */
+    linkDiscordUser_DiscordUser: GraphQLTypes['discord_users'];
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
@@ -19821,6 +19873,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -19900,6 +19953,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_discord?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_epochs?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_member_profiles?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_nominees?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -19929,6 +19983,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -19995,6 +20050,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     read_circle?: GraphQLTypes['order_by'] | undefined;
+    read_discord?: GraphQLTypes['order_by'] | undefined;
     read_epochs?: GraphQLTypes['order_by'] | undefined;
     read_member_profiles?: GraphQLTypes['order_by'] | undefined;
     read_nominees?: GraphQLTypes['order_by'] | undefined;
@@ -20017,6 +20073,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -21611,6 +21668,8 @@ columns and relationships of "circle_api_keys" */
 columns and relationships of "discord.roles_circles" */
   ['discord_roles_circles']: {
     __typename: 'discord_roles_circles';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
@@ -21659,6 +21718,7 @@ columns and relationships of "discord.roles_circles" */
     _and?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
     _not?: GraphQLTypes['discord_roles_circles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -21674,6 +21734,7 @@ columns and relationships of "discord.roles_circles" */
   };
   /** input type for inserting data into table "discord.roles_circles" */
   ['discord_roles_circles_insert_input']: {
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -21714,6 +21775,7 @@ columns and relationships of "discord.roles_circles" */
   };
   /** Ordering options when selecting data from "discord.roles_circles". */
   ['discord_roles_circles_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -21786,6 +21848,8 @@ columns and relationships of "discord.users" */
     __typename: 'discord_users';
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
     updated_at: GraphQLTypes['timestamptz'];
     user_snowflake: string;
@@ -21824,6 +21888,7 @@ columns and relationships of "discord.users" */
     _or?: Array<GraphQLTypes['discord_users_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     user_snowflake?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -21839,6 +21904,7 @@ columns and relationships of "discord.users" */
   ['discord_users_insert_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_snowflake?: string | undefined;
@@ -21879,6 +21945,7 @@ columns and relationships of "discord.users" */
   ['discord_users_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_snowflake?: GraphQLTypes['order_by'] | undefined;
@@ -23519,6 +23586,8 @@ columns and relationships of "distributions" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    /** allow authenticated users to link a discord account to their profile */
+    linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -27914,6 +27983,7 @@ export const enum circle_api_keys_select_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -27930,6 +28000,7 @@ export const enum circle_api_keys_update_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',

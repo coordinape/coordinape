@@ -34,6 +34,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
+  LinkDiscordUserInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
   UpdateEpochInput: {
@@ -279,6 +280,7 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'String_comparison_exp',
     name: 'String_comparison_exp',
     read_circle: 'Boolean_comparison_exp',
+    read_discord: 'Boolean_comparison_exp',
     read_epochs: 'Boolean_comparison_exp',
     read_member_profiles: 'Boolean_comparison_exp',
     read_nominees: 'Boolean_comparison_exp',
@@ -327,6 +329,7 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'order_by',
     name: 'order_by',
     read_circle: 'order_by',
+    read_discord: 'order_by',
     read_epochs: 'order_by',
     read_member_profiles: 'order_by',
     read_nominees: 'order_by',
@@ -1148,6 +1151,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'discord_roles_circles_bool_exp',
     _not: 'discord_roles_circles_bool_exp',
     _or: 'discord_roles_circles_bool_exp',
+    circle: 'circles_bool_exp',
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
@@ -1160,6 +1164,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   discord_roles_circles_insert_input: {
+    circle: 'circles_obj_rel_insert_input',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     id: 'bigint',
@@ -1171,6 +1176,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'discord_roles_circles_bool_exp',
   },
   discord_roles_circles_order_by: {
+    circle: 'circles_order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
@@ -1199,6 +1205,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'discord_users_bool_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
+    profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
     user_snowflake: 'String_comparison_exp',
@@ -1211,6 +1218,7 @@ export const AllTypesProps: Record<string, any> = {
   discord_users_insert_input: {
     created_at: 'timestamptz',
     id: 'bigint',
+    profile: 'profiles_obj_rel_insert_input',
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
@@ -1222,6 +1230,7 @@ export const AllTypesProps: Record<string, any> = {
   discord_users_order_by: {
     created_at: 'order_by',
     id: 'order_by',
+    profile: 'profiles_order_by',
     profile_id: 'order_by',
     updated_at: 'order_by',
     user_snowflake: 'order_by',
@@ -2220,6 +2229,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    linkDiscordUser: {
+      payload: 'LinkDiscordUserInput',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -5001,6 +5013,10 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  LinkDiscordUserResponse: {
+    id: 'Int',
+    linkDiscordUser_DiscordUser: 'discord_users',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -5176,6 +5192,7 @@ export const ReturnTypes: Record<string, any> = {
     hash: 'String',
     name: 'String',
     read_circle: 'Boolean',
+    read_discord: 'Boolean',
     read_epochs: 'Boolean',
     read_member_profiles: 'Boolean',
     read_nominees: 'Boolean',
@@ -5728,6 +5745,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   discord_roles_circles: {
+    circle: 'circles',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     id: 'bigint',
@@ -5804,6 +5822,7 @@ export const ReturnTypes: Record<string, any> = {
   discord_users: {
     created_at: 'timestamptz',
     id: 'bigint',
+    profile: 'profiles',
     profile_id: 'bigint',
     updated_at: 'timestamptz',
     user_snowflake: 'String',
@@ -6452,6 +6471,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults_one: 'vaults',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
