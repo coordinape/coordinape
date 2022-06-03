@@ -59,6 +59,10 @@ type Mutation {
 }
 
 type Mutation {
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -335,6 +339,10 @@ input MarkClaimedInput {
   tx_hash: String!
 }
 
+input LinkDiscordUserInput {
+  discord_id: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -424,6 +432,10 @@ type UpdateContributionResponse {
 
 type MarkClaimedOutput {
   ids: [Int!]!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
 }
 
 scalar timestamptz
