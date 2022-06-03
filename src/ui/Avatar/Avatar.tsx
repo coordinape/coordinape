@@ -29,8 +29,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         height: '$xl',
       },
       large: {
-        width: 60,
-        height: 60,
+        width: '$3xl',
+        height: '$3xl',
       },
     },
   },

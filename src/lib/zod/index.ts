@@ -131,6 +131,13 @@ export const uploadCircleImageInput = z
   })
   .strict();
 
+export const uploadOrgImageInput = z
+  .object({
+    org_id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
+
 export const vouchInput = z
   .object({
     nominee_id: z.number(),

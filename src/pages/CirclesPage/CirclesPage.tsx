@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import type { CSS } from 'stitches.config';
 
-import { LoadingModal } from 'components';
+import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
@@ -25,7 +25,6 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 export const CirclesPage = () => {
   const navigate = useNavigate();
   const { selectCircle } = useApiBase();
-
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
   const query = useQuery(
@@ -33,6 +32,8 @@ export const CirclesPage = () => {
     () => getOrgData(address as string),
     {
       enabled: !!address,
+
+      notifyOnChangeProps: ['data'],
     }
   );
   const orgs = query.data?.organizations;
@@ -54,16 +55,25 @@ export const CirclesPage = () => {
   const isAdmin = (org: QueryResult['organizations'][0]) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
-  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
+  if (query.isLoading || query.isIdle || query.isRefetching)
+    return <LoadingModal visible />;
 
   return (
     <SingleColumnLayout>
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Box css={{ display: 'flex', mb: '$md', alignItems: 'flex-start' }}>
-            <Text h2 css={{ flexGrow: 1 }}>
-              {org.name}
-            </Text>
+            <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+              <OrgLogoUpload
+                id={org.id}
+                original={org?.logo}
+                isAdmin={isAdmin(org)}
+                name={org.name}
+              />
+              <Text h2 css={{ ml: '$sm' }}>
+                {org.name}
+              </Text>
+            </Box>
             {isAdmin(org) && (
               <Button
                 color="primary"

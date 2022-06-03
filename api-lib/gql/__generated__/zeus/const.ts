@@ -43,6 +43,7 @@ export const AllTypesProps: Record<string, any> = {
   UpdateUserInput: {},
   UploadCircleImageInput: {},
   UploadImageInput: {},
+  UploadOrgImageInput: {},
   UserObj: {},
   VouchInput: {},
   bigint: 'String',
@@ -2337,6 +2338,9 @@ export const AllTypesProps: Record<string, any> = {
     uploadCircleLogo: {
       payload: 'UploadCircleImageInput',
     },
+    uploadOrgLogo: {
+      payload: 'UploadOrgImageInput',
+    },
     uploadProfileAvatar: {
       payload: 'UploadImageInput',
     },
@@ -2589,6 +2593,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp_comparison_exp',
     id: 'bigint_comparison_exp',
     is_verified: 'Boolean_comparison_exp',
+    logo: 'String_comparison_exp',
     name: 'String_comparison_exp',
     telegram_id: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
@@ -2619,6 +2624,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     id: 'order_by',
     is_verified: 'order_by',
+    logo: 'order_by',
     name: 'order_by',
     telegram_id: 'order_by',
     updated_at: 'order_by',
@@ -4809,6 +4815,10 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     id: 'Int',
   },
+  UpdateOrgResponse: {
+    id: 'Int',
+    org: 'organizations',
+  },
   UpdateProfileResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -6138,6 +6148,7 @@ export const ReturnTypes: Record<string, any> = {
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
     uploadCircleLogo: 'UpdateCircleResponse',
+    uploadOrgLogo: 'UpdateOrgResponse',
     uploadProfileAvatar: 'UpdateProfileResponse',
     uploadProfileBackground: 'UpdateProfileResponse',
     vouch: 'VouchOutput',
@@ -6273,6 +6284,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamp',
     id: 'bigint',
     is_verified: 'Boolean',
+    logo: 'String',
     name: 'String',
     telegram_id: 'String',
     updated_at: 'timestamp',
@@ -6302,6 +6314,7 @@ export const ReturnTypes: Record<string, any> = {
   organizations_max_fields: {
     created_at: 'timestamp',
     id: 'bigint',
+    logo: 'String',
     name: 'String',
     telegram_id: 'String',
     updated_at: 'timestamp',
@@ -6309,6 +6322,7 @@ export const ReturnTypes: Record<string, any> = {
   organizations_min_fields: {
     created_at: 'timestamp',
     id: 'bigint',
+    logo: 'String',
     name: 'String',
     telegram_id: 'String',
     updated_at: 'timestamp',
