@@ -1139,6 +1139,104 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'date',
     _nin: 'date',
   },
+  discord_roles_circles_aggregate_fields: {
+    count: {
+      columns: 'discord_roles_circles_select_column',
+    },
+  },
+  discord_roles_circles_bool_exp: {
+    _and: 'discord_roles_circles_bool_exp',
+    _not: 'discord_roles_circles_bool_exp',
+    _or: 'discord_roles_circles_bool_exp',
+    circle_id: 'bigint_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'bigint_comparison_exp',
+    role: 'String_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  discord_roles_circles_constraint: true,
+  discord_roles_circles_inc_input: {
+    circle_id: 'bigint',
+    id: 'bigint',
+  },
+  discord_roles_circles_insert_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_roles_circles_on_conflict: {
+    constraint: 'discord_roles_circles_constraint',
+    update_columns: 'discord_roles_circles_update_column',
+    where: 'discord_roles_circles_bool_exp',
+  },
+  discord_roles_circles_order_by: {
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    role: 'order_by',
+    updated_at: 'order_by',
+  },
+  discord_roles_circles_pk_columns_input: {
+    id: 'bigint',
+  },
+  discord_roles_circles_select_column: true,
+  discord_roles_circles_set_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_roles_circles_update_column: true,
+  discord_users_aggregate_fields: {
+    count: {
+      columns: 'discord_users_select_column',
+    },
+  },
+  discord_users_bool_exp: {
+    _and: 'discord_users_bool_exp',
+    _not: 'discord_users_bool_exp',
+    _or: 'discord_users_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'bigint_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    user_snowflake: 'String_comparison_exp',
+  },
+  discord_users_constraint: true,
+  discord_users_inc_input: {
+    id: 'bigint',
+    profile_id: 'bigint',
+  },
+  discord_users_insert_input: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_users_on_conflict: {
+    constraint: 'discord_users_constraint',
+    update_columns: 'discord_users_update_column',
+    where: 'discord_users_bool_exp',
+  },
+  discord_users_order_by: {
+    created_at: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    updated_at: 'order_by',
+    user_snowflake: 'order_by',
+  },
+  discord_users_pk_columns_input: {
+    id: 'bigint',
+  },
+  discord_users_select_column: true,
+  discord_users_set_input: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_users_update_column: true,
   distributions: {
     claims: {
       distinct_on: 'claims_select_column',
@@ -1824,6 +1922,18 @@ export const AllTypesProps: Record<string, any> = {
     delete_claims_by_pk: {
       id: 'bigint',
     },
+    delete_discord_roles_circles: {
+      where: 'discord_roles_circles_bool_exp',
+    },
+    delete_discord_roles_circles_by_pk: {
+      id: 'bigint',
+    },
+    delete_discord_users: {
+      where: 'discord_users_bool_exp',
+    },
+    delete_discord_users_by_pk: {
+      id: 'bigint',
+    },
     delete_distributions: {
       where: 'distributions_bool_exp',
     },
@@ -1970,6 +2080,22 @@ export const AllTypesProps: Record<string, any> = {
     insert_claims_one: {
       object: 'claims_insert_input',
       on_conflict: 'claims_on_conflict',
+    },
+    insert_discord_roles_circles: {
+      objects: 'discord_roles_circles_insert_input',
+      on_conflict: 'discord_roles_circles_on_conflict',
+    },
+    insert_discord_roles_circles_one: {
+      object: 'discord_roles_circles_insert_input',
+      on_conflict: 'discord_roles_circles_on_conflict',
+    },
+    insert_discord_users: {
+      objects: 'discord_users_insert_input',
+      on_conflict: 'discord_users_on_conflict',
+    },
+    insert_discord_users_one: {
+      object: 'discord_users_insert_input',
+      on_conflict: 'discord_users_on_conflict',
     },
     insert_distributions: {
       objects: 'distributions_insert_input',
@@ -2174,6 +2300,26 @@ export const AllTypesProps: Record<string, any> = {
       _inc: 'claims_inc_input',
       _set: 'claims_set_input',
       pk_columns: 'claims_pk_columns_input',
+    },
+    update_discord_roles_circles: {
+      _inc: 'discord_roles_circles_inc_input',
+      _set: 'discord_roles_circles_set_input',
+      where: 'discord_roles_circles_bool_exp',
+    },
+    update_discord_roles_circles_by_pk: {
+      _inc: 'discord_roles_circles_inc_input',
+      _set: 'discord_roles_circles_set_input',
+      pk_columns: 'discord_roles_circles_pk_columns_input',
+    },
+    update_discord_users: {
+      _inc: 'discord_users_inc_input',
+      _set: 'discord_users_set_input',
+      where: 'discord_users_bool_exp',
+    },
+    update_discord_users_by_pk: {
+      _inc: 'discord_users_inc_input',
+      _set: 'discord_users_set_input',
+      pk_columns: 'discord_users_pk_columns_input',
     },
     update_distributions: {
       _append: 'distributions_append_input',
@@ -3116,6 +3262,32 @@ export const AllTypesProps: Record<string, any> = {
     claims_by_pk: {
       id: 'bigint',
     },
+    discord_roles_circles: {
+      distinct_on: 'discord_roles_circles_select_column',
+      order_by: 'discord_roles_circles_order_by',
+      where: 'discord_roles_circles_bool_exp',
+    },
+    discord_roles_circles_aggregate: {
+      distinct_on: 'discord_roles_circles_select_column',
+      order_by: 'discord_roles_circles_order_by',
+      where: 'discord_roles_circles_bool_exp',
+    },
+    discord_roles_circles_by_pk: {
+      id: 'bigint',
+    },
+    discord_users: {
+      distinct_on: 'discord_users_select_column',
+      order_by: 'discord_users_order_by',
+      where: 'discord_users_bool_exp',
+    },
+    discord_users_aggregate: {
+      distinct_on: 'discord_users_select_column',
+      order_by: 'discord_users_order_by',
+      where: 'discord_users_bool_exp',
+    },
+    discord_users_by_pk: {
+      id: 'bigint',
+    },
     distributions: {
       distinct_on: 'distributions_select_column',
       order_by: 'distributions_order_by',
@@ -3414,6 +3586,32 @@ export const AllTypesProps: Record<string, any> = {
       where: 'claims_bool_exp',
     },
     claims_by_pk: {
+      id: 'bigint',
+    },
+    discord_roles_circles: {
+      distinct_on: 'discord_roles_circles_select_column',
+      order_by: 'discord_roles_circles_order_by',
+      where: 'discord_roles_circles_bool_exp',
+    },
+    discord_roles_circles_aggregate: {
+      distinct_on: 'discord_roles_circles_select_column',
+      order_by: 'discord_roles_circles_order_by',
+      where: 'discord_roles_circles_bool_exp',
+    },
+    discord_roles_circles_by_pk: {
+      id: 'bigint',
+    },
+    discord_users: {
+      distinct_on: 'discord_users_select_column',
+      order_by: 'discord_users_order_by',
+      where: 'discord_users_bool_exp',
+    },
+    discord_users_aggregate: {
+      distinct_on: 'discord_users_select_column',
+      order_by: 'discord_users_order_by',
+      where: 'discord_users_bool_exp',
+    },
+    discord_users_by_pk: {
       id: 'bigint',
     },
     distributions: {
@@ -4799,7 +4997,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
   },
   GenerateApiKeyResponse: {
-    apiKey: 'String',
+    api_key: 'String',
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
@@ -5529,6 +5727,154 @@ export const ReturnTypes: Record<string, any> = {
     new_amount: 'Float',
     user_id: 'Float',
   },
+  discord_roles_circles: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    role: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_roles_circles_aggregate: {
+    aggregate: 'discord_roles_circles_aggregate_fields',
+    nodes: 'discord_roles_circles',
+  },
+  discord_roles_circles_aggregate_fields: {
+    avg: 'discord_roles_circles_avg_fields',
+    count: 'Int',
+    max: 'discord_roles_circles_max_fields',
+    min: 'discord_roles_circles_min_fields',
+    stddev: 'discord_roles_circles_stddev_fields',
+    stddev_pop: 'discord_roles_circles_stddev_pop_fields',
+    stddev_samp: 'discord_roles_circles_stddev_samp_fields',
+    sum: 'discord_roles_circles_sum_fields',
+    var_pop: 'discord_roles_circles_var_pop_fields',
+    var_samp: 'discord_roles_circles_var_samp_fields',
+    variance: 'discord_roles_circles_variance_fields',
+  },
+  discord_roles_circles_avg_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_max_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    role: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_roles_circles_min_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    role: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_roles_circles_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'discord_roles_circles',
+  },
+  discord_roles_circles_stddev_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_stddev_pop_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_stddev_samp_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_sum_fields: {
+    circle_id: 'bigint',
+    id: 'bigint',
+  },
+  discord_roles_circles_var_pop_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_var_samp_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_roles_circles_variance_fields: {
+    circle_id: 'Float',
+    id: 'Float',
+  },
+  discord_users: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    user_snowflake: 'String',
+  },
+  discord_users_aggregate: {
+    aggregate: 'discord_users_aggregate_fields',
+    nodes: 'discord_users',
+  },
+  discord_users_aggregate_fields: {
+    avg: 'discord_users_avg_fields',
+    count: 'Int',
+    max: 'discord_users_max_fields',
+    min: 'discord_users_min_fields',
+    stddev: 'discord_users_stddev_fields',
+    stddev_pop: 'discord_users_stddev_pop_fields',
+    stddev_samp: 'discord_users_stddev_samp_fields',
+    sum: 'discord_users_sum_fields',
+    var_pop: 'discord_users_var_pop_fields',
+    var_samp: 'discord_users_var_samp_fields',
+    variance: 'discord_users_variance_fields',
+  },
+  discord_users_avg_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_max_fields: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    user_snowflake: 'String',
+  },
+  discord_users_min_fields: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    user_snowflake: 'String',
+  },
+  discord_users_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'discord_users',
+  },
+  discord_users_stddev_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_stddev_pop_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_stddev_samp_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_sum_fields: {
+    id: 'bigint',
+    profile_id: 'bigint',
+  },
+  discord_users_var_pop_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_var_samp_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_users_variance_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+  },
   distributions: {
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
@@ -6021,6 +6367,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_circles_by_pk: 'circles',
     delete_claims: 'claims_mutation_response',
     delete_claims_by_pk: 'claims',
+    delete_discord_roles_circles: 'discord_roles_circles_mutation_response',
+    delete_discord_roles_circles_by_pk: 'discord_roles_circles',
+    delete_discord_users: 'discord_users_mutation_response',
+    delete_discord_users_by_pk: 'discord_users',
     delete_distributions: 'distributions_mutation_response',
     delete_distributions_by_pk: 'distributions',
     delete_epochs: 'epochs_mutation_response',
@@ -6066,6 +6416,10 @@ export const ReturnTypes: Record<string, any> = {
     insert_circles_one: 'circles',
     insert_claims: 'claims_mutation_response',
     insert_claims_one: 'claims',
+    insert_discord_roles_circles: 'discord_roles_circles_mutation_response',
+    insert_discord_roles_circles_one: 'discord_roles_circles',
+    insert_discord_users: 'discord_users_mutation_response',
+    insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
     insert_distributions_one: 'distributions',
     insert_epochs: 'epochs_mutation_response',
@@ -6117,6 +6471,10 @@ export const ReturnTypes: Record<string, any> = {
     update_circles_by_pk: 'circles',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
+    update_discord_roles_circles: 'discord_roles_circles_mutation_response',
+    update_discord_roles_circles_by_pk: 'discord_roles_circles',
+    update_discord_users: 'discord_users_mutation_response',
+    update_discord_users_by_pk: 'discord_users',
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_epochs: 'epochs_mutation_response',
@@ -6772,6 +7130,12 @@ export const ReturnTypes: Record<string, any> = {
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     claims_by_pk: 'claims',
+    discord_roles_circles: 'discord_roles_circles',
+    discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
+    discord_roles_circles_by_pk: 'discord_roles_circles',
+    discord_users: 'discord_users',
+    discord_users_aggregate: 'discord_users_aggregate',
+    discord_users_by_pk: 'discord_users',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
@@ -6842,6 +7206,12 @@ export const ReturnTypes: Record<string, any> = {
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     claims_by_pk: 'claims',
+    discord_roles_circles: 'discord_roles_circles',
+    discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
+    discord_roles_circles_by_pk: 'discord_roles_circles',
+    discord_users: 'discord_users',
+    discord_users_aggregate: 'discord_users_aggregate',
+    discord_users_by_pk: 'discord_users',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',

@@ -301,6 +301,12 @@ const IntIdString = z
   )
   .transform(Number.parseInt);
 
+export const linkDiscordInputSchema = z
+  .object({
+    discord_id: z.string(),
+  })
+  .strict();
+
 /*
   Hasura Auth Session Variables
 */

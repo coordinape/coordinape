@@ -1,0 +1,96 @@
+table:
+  name: roles_circles
+  schema: discord
+object_relationships:
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - update_circle:
+              _eq: true
+    columns:
+    - role
+    set:
+      circle_id: x-hasura-Circle-Id
+  role: api-user
+select_permissions:
+- permission:
+    columns:
+    - circle_id
+    - id
+    - role
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_discord:
+              _eq: true
+  role: api-user
+- permission:
+    columns:
+    - circle_id
+    - id
+    - role
+    - created_at
+    - updated_at
+    filter:
+      circle:
+        users:
+          _and:
+          - profile:
+              id:
+                _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - role
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - update_circle:
+              _eq: true
+  role: api-user
+- permission:
+    check: null
+    columns:
+    - role
+    filter:
+      circle:
+        users:
+          _and:
+          - profile:
+              id:
+                _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
+          - role:
+              _eq: 1
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - update_circle:
+              _eq: true
+  role: api-user

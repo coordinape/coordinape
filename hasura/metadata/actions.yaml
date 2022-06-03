@@ -103,6 +103,16 @@ actions:
   permissions:
   - role: user
   comment: Generates an API key for a circle
+- name: linkDiscordUser
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/linkDiscordUser'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  comment: allow authenticated users to link a discord account to their profile
 - name: logoutUser
   definition:
     kind: synchronous
@@ -233,6 +243,7 @@ custom_types:
   - name: CreateVaultInput
   - name: GenerateApiKeyInput
   - name: UploadOrgImageInput
+  - name: LinkDiscordUserInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -381,6 +392,16 @@ custom_types:
         schema: public
         name: protocols
       name: org
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: LinkDiscordUserResponse
+    relationships:
+    - remote_table:
+        schema: discord
+        name: users
+      name: linkDiscordUser_DiscordUser
       source: default
       type: object
       field_mapping:
