@@ -28,11 +28,11 @@ import {
   PopoverClose,
 } from 'ui';
 
-import { getOrgData } from './getOrgData';
+import { getOverviewMenuData } from './getOverviewMenuData';
 
 import type { Awaited } from 'types/shim';
 
-type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
+type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
 
 const mainLinks = [
   [paths.circles, 'Overview'],
@@ -43,7 +43,7 @@ export const OverviewMenu = () => {
   const address = useConnectedAddress();
   const query = useQuery(
     ['myOrgs', address],
-    () => getOrgData(address as string),
+    () => getOverviewMenuData(address as string),
     {
       enabled: !!address,
     }
