@@ -107,6 +107,16 @@ export const Button = styled('button', {
         borderRadius: '$1',
         py: '0px',
       },
+      smallIcon: {
+        height: '$lg',
+        minHeight: '$lg',
+        width: '$lg',
+        minWidth: '$lg',
+        fontSize: '$1',
+        fontWeight: '$medium',
+        lineHeight: 'none',
+        borderRadius: '$3',
+      },
     },
     variant: {
       wallet: {

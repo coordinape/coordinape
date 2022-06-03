@@ -11,6 +11,7 @@ import {
 } from 'components';
 import EpochForm, { summarizeEpoch } from 'forms/AdminEpochForm';
 import { useApiAdminCircle } from 'hooks';
+import { useSelectedCircle } from 'recoilState/app';
 
 import { IEpoch } from 'types';
 
@@ -90,6 +91,8 @@ export const AdminEpochModal = ({
 
   const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
+  const { circle } = useSelectedCircle();
+
   const source = useMemo(
     () => ({
       epoch: epoch,
@@ -118,7 +121,7 @@ export const AdminEpochModal = ({
         >
           <div className={classes.modalDescription}>
             An Epoch is a period of time where circle members contribute value &
-            allocate GIVE tokens to one another.{' '}
+            allocate {circle.tokenName || 'GIVE'} tokens to one another.{' '}
             <span>
               <a
                 className={classes.modalExternalLink}

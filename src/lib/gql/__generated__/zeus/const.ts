@@ -37,6 +37,7 @@ export const AllTypesProps: Record<string, any> = {
   UpdateUserInput: {},
   UploadCircleImageInput: {},
   UploadImageInput: {},
+  UploadOrgImageInput: {},
   UserObj: {},
   VouchInput: {},
   bigint: 'String',
@@ -1306,6 +1307,9 @@ export const AllTypesProps: Record<string, any> = {
     uploadCircleLogo: {
       payload: 'UploadCircleImageInput',
     },
+    uploadOrgLogo: {
+      payload: 'UploadOrgImageInput',
+    },
     uploadProfileAvatar: {
       payload: 'UploadImageInput',
     },
@@ -1498,6 +1502,7 @@ export const AllTypesProps: Record<string, any> = {
     circles: 'circles_bool_exp',
     created_at: 'timestamp_comparison_exp',
     id: 'bigint_comparison_exp',
+    logo: 'String_comparison_exp',
     name: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     vaults: 'vaults_bool_exp',
@@ -1506,6 +1511,7 @@ export const AllTypesProps: Record<string, any> = {
     circles_aggregate: 'circles_aggregate_order_by',
     created_at: 'order_by',
     id: 'order_by',
+    logo: 'order_by',
     name: 'order_by',
     updated_at: 'order_by',
     vaults_aggregate: 'vaults_aggregate_order_by',
@@ -2943,6 +2949,10 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     id: 'Int',
   },
+  UpdateOrgResponse: {
+    id: 'Int',
+    org: 'organizations',
+  },
   UpdateProfileResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -3263,6 +3273,7 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     uploadCircleLogo: 'UpdateCircleResponse',
+    uploadOrgLogo: 'UpdateOrgResponse',
     uploadProfileAvatar: 'UpdateProfileResponse',
     uploadProfileBackground: 'UpdateProfileResponse',
     vouch: 'VouchOutput',
@@ -3391,6 +3402,7 @@ export const ReturnTypes: Record<string, any> = {
     circles: 'circles',
     created_at: 'timestamp',
     id: 'bigint',
+    logo: 'String',
     name: 'String',
     updated_at: 'timestamp',
     vaults: 'vaults',

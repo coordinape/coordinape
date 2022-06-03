@@ -43,6 +43,14 @@ export const getAvatarPath = (avatar?: string, placeholder?: string) => {
     return avatar;
   }
 
+  if (avatar.startsWith('http://')) {
+    return avatar;
+  }
+
+  if (avatar.startsWith('blob')) {
+    return avatar;
+  }
+
   if (avatar.startsWith('ipfs://')) {
     return getIpfsUrl(avatar);
   }

@@ -32,7 +32,7 @@ export const AllocationsTable = ({
       headers={[
         'Name',
         'ETH Wallet',
-        'GIVE Received',
+        `${tokenName || 'GIVE'} Received`,
         '% of Epoch',
         'Vault Funds Allocated',
       ]}

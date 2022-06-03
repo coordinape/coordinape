@@ -27,6 +27,7 @@ select_permissions:
     columns:
     - created_at
     - id
+    - logo
     - name
     - updated_at
     filter:
