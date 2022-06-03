@@ -21,44 +21,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let address;
 
-    for (const [i, domain] of allowedDomains.entries()) {
-      try {
+    try {
 
-        const message = new SiweMessage(data);
+      const message = new SiweMessage(data);
 
-        const verificationResult = await message.verify({
-          signature,
-          domain,
+      if (!allowedDomains.includes(message.domain)) {
+        return errorResponse(res, {
+          message: 'invalid domain',
+          httpStatus: 401,
+        });
+      }
+
+      const verificationResult = await message.verify({
+        signature,
+      });
+
+      if (!verificationResult.success) {
+        return errorResponse(res, {
+          message: 'invalid signature',
+          httpStatus: 401,
+        });
+      }
+
+      address = message.address;
+    } catch (e: any) {
+      if (Object.values(SiweErrorType).some(val => val === e.error.type)){
+        return errorResponse(res, {
+          message: 'SIWE error: ' + e.error.type,
+          httpStatus: 401,
         });
 
-        if (!verificationResult.success) {
-          return errorResponse(res, {
-            message: 'invalid signature',
-            httpStatus: 401,
-          });
-        }
-
-        address = message.address;
-      } catch (e: any) {
-        if (Object.values(SiweErrorType).some(val => val === e.error.type)){
-
-          // If we're not in the last allowed domain from the array, we still
-          // want to check the other ones
-          if (e.error.type === SiweErrorType.DOMAIN_MISMATCH && i !== allowedDomains.length - 1) {
-            continue;
-          }
-          return errorResponse(res, {
-            message: 'SIWE error: ' + e.error.type,
-            httpStatus: 401,
-          });
-
-        } else {
-          // Return generic error for non-SIWE exceptions
-          return errorResponse(res, {
-            message: 'login error: ' + e,
-            httpStatus: 401,
-          });
-        }
+      } else {
+        // Return generic error for non-SIWE exceptions
+        return errorResponse(res, {
+          message: 'login error: ' + e,
+          httpStatus: 401,
+        });
       }
     }
 
