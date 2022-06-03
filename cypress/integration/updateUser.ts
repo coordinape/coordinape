@@ -88,10 +88,10 @@ context('Coordinape', () => {
     })
 
     cy.contains('Save').click();
-    cy.contains("Kasey",{ timeout: 120000 }).should("be.visible")
+    cy.contains("Kasey",{ timeout: 240000 }).should("be.visible")
 
     // Click on edit user
-    cy.contains('Kasey', { timeout: 120000 })
+    cy.contains('Kasey', { timeout: 240000 })
         .parents('tr')
         .within(() => {
           cy.get('td').last().get('button:first').click();

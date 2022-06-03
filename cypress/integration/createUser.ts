@@ -46,9 +46,9 @@ context('Coordinape', () => {
 
         cy.contains('Save').click();
         cy.reload(true);
-        cy.contains("A Test User",{ timeout: 120000 }).should("be.visible");
+        cy.contains("A Test User",{ timeout: 240000 }).should("be.visible");
         // Verify new value in contributors table
-        cy.contains('A Test User', { timeout: 120000 })
+        cy.contains('A Test User', { timeout: 240000 })
             .parents('tr')
             .within(() => {
                 cy.get('td').eq(7).should('have.text', '12000');
