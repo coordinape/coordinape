@@ -14,7 +14,6 @@ export * from './Panel/Panel';
 export * from './Popover';
 export * from './Select/Select';
 export * from './SvgIcon/SvgIcon';
-export * from './Spacer/Spacer';
 export * from './Text/Text';
 export * from './TextArea/TextArea';
 export * from './TextField/TextField';
