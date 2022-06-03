@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const refundFromCounterpartyMutations = pending_sent_gifts.reduce(
       (ops, gift) => {
         if (gift.tokens > 0)
-          ops[gift.id] = {
+          ops['refund' + gift.id] = {
             update_users_by_pk: [
               {
                 pk_columns: { id: gift.recipient_id },
@@ -89,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           };
         return ops;
       },
-      {} as { [aliasKey: number]: ValueTypes['mutation_root'] }
+      {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
     );
 
     const newNonGiverResult = await adminClient.mutate(

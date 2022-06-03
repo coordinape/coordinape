@@ -6,7 +6,6 @@ import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 import { useNavigate, useLocation } from 'react-router';
 
-import { normalizeError } from '../utils/reporting';
 import { useRecoilLoadCatch } from 'hooks';
 import {
   rSelectedCircleId,
@@ -109,7 +108,10 @@ export const useApiBase = () => {
             return;
           }
         } catch (e) {
-          console.error('Failed to login', e);
+          // for debugging this issue
+          // eslint-disable-next-line no-console
+          console.info(e);
+          console.error('Failed to login');
         }
 
         delete authTokens[address];
@@ -119,7 +121,7 @@ export const useApiBase = () => {
         });
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
-        throw 'Failed to get a login token';
+        throw new Error('Failed to get a login token');
       },
     []
   );
@@ -165,48 +167,34 @@ export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async () => {
-        try {
-          const walletAuth = await snapshot.getPromise(rWalletAuth);
-          if (
-            !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-          ) {
-            throw 'Wallet must be connected to fetch manifest';
-          }
-
-          const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-          const manifest = await queries.fetchManifest(
-            walletAuth.address,
-            circleId
-          );
-
-          set(rApiManifest, manifest);
-          const fullCircle = manifest.circle;
-          if (fullCircle) {
-            set(rSelectedCircleIdSource, fullCircle.circle.id);
-            set(rApiFullCircle, m => {
-              const result = new Map(m);
-              result.set(fullCircle.circle.id, fullCircle);
-              return result;
-            });
-
-            fetchSelfIds(fullCircle.users.map(u => u.address));
-          } else {
-            set(rSelectedCircleIdSource, undefined);
-          }
-          return manifest;
-        } catch (e) {
-          const fixedUpError = normalizeError(e);
-          console.error(
-            'error fetching manifest:',
-            fixedUpError ? fixedUpError.message : JSON.stringify(e)
-          );
-          console.error('raw manifest error:');
-          console.error(e);
-          if (fixedUpError) {
-            throw fixedUpError;
-          }
-          throw e;
+        const walletAuth = await snapshot.getPromise(rWalletAuth);
+        if (
+          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
+        ) {
+          throw 'Wallet must be connected to fetch manifest';
         }
+
+        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
+        const manifest = await queries.fetchManifest(
+          walletAuth.address,
+          circleId
+        );
+
+        set(rApiManifest, manifest);
+        const fullCircle = manifest.circle;
+        if (fullCircle) {
+          set(rSelectedCircleIdSource, fullCircle.circle.id);
+          set(rApiFullCircle, m => {
+            const result = new Map(m);
+            result.set(fullCircle.circle.id, fullCircle);
+            return result;
+          });
+
+          fetchSelfIds(fullCircle.users.map(u => u.address));
+        } else {
+          set(rSelectedCircleIdSource, undefined);
+        }
+        return manifest;
       },
     []
   );

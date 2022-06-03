@@ -21,7 +21,9 @@ import {
 
 const schema = z
   .object({
-    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
     address: zEthAddress,
     description: z
       .string()
@@ -40,6 +42,21 @@ const labelStyles = {
   textAlign: 'center',
   mb: '$sm',
 };
+
+interface errorObj {
+  message: string;
+}
+function addServerErrors<T>(
+  errors: errorObj[],
+  setError: (
+    fieldName: keyof T,
+    error: { type: string; message: string | undefined }
+  ) => void
+) {
+  return errors.forEach((err, key) => {
+    setError(key as keyof T, { type: 'server', message: err.message });
+  });
+}
 
 export const NewNominationModal = ({
   onClose,
@@ -72,6 +89,7 @@ export const NewNominationModal = ({
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<NominateFormSchema>({
     resolver: zodResolver(schema),
@@ -101,7 +119,13 @@ export const NewNominationModal = ({
     createNominee(circle.id, data)
       .then(refetchNominees)
       .then(onClose)
-      .catch(console.warn);
+      .catch(err => {
+        if (err.response?.errors?.length > 0) {
+          err = err.response.errors;
+          setSubmitting(false);
+          addServerErrors(err, setError);
+        }
+      });
   };
   return (
     <Modal title="Nominate New Member" open={visible} onClose={onClose}>
@@ -173,7 +197,7 @@ export const NewNominationModal = ({
                 ta: 'left',
                 p: '0 $sm',
                 fontWeight: '$light',
-                fontSize: '$4',
+                fontSize: '$medium',
                 lineHeight: '$base',
                 color: '$text',
               }}
@@ -187,7 +211,7 @@ export const NewNominationModal = ({
               flexDirection: 'column',
               justifyContent: 'center',
               margin: 0,
-              color: '$red',
+              color: '$alert',
             }}
           >
             {Object.values(errors).map((error, i) => (
@@ -197,7 +221,7 @@ export const NewNominationModal = ({
         )}
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="red"
+          color="alert"
           size="medium"
           type="submit"
           disabled={submitting}

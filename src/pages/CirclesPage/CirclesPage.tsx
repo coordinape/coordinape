@@ -7,13 +7,13 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import type { CSS } from 'stitches.config';
 
-import { LoadingModal } from 'components';
+import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
-import { Box, Button, Panel, Text } from 'ui';
+import { Box, Button, Link, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -25,7 +25,6 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 export const CirclesPage = () => {
   const navigate = useNavigate();
   const { selectCircle } = useApiBase();
-
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
   const query = useQuery(
@@ -33,6 +32,8 @@ export const CirclesPage = () => {
     () => getOrgData(address as string),
     {
       enabled: !!address,
+
+      notifyOnChangeProps: ['data'],
     }
   );
   const orgs = query.data?.organizations;
@@ -54,19 +55,28 @@ export const CirclesPage = () => {
   const isAdmin = (org: QueryResult['organizations'][0]) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
-  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
+  if (query.isLoading || query.isIdle || query.isRefetching)
+    return <LoadingModal visible />;
 
   return (
     <SingleColumnLayout>
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Box css={{ display: 'flex', mb: '$md', alignItems: 'flex-start' }}>
-            <Text variant="sectionHeader" css={{ flexGrow: 1 }}>
-              {org.name}
-            </Text>
+            <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+              <OrgLogoUpload
+                id={org.id}
+                original={org?.logo}
+                isAdmin={isAdmin(org)}
+                name={org.name}
+              />
+              <Text h2 css={{ ml: '$sm' }}>
+                {org.name}
+              </Text>
+            </Box>
             {isAdmin(org) && (
               <Button
-                color="blue"
+                color="primary"
                 outlined
                 onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
               >
@@ -103,8 +113,7 @@ const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: 'white',
-  border: '1px solid $lightGray',
-  '.hover-buttons': { display: 'none' },
+  border: '1px solid $border',
 };
 
 type CircleRowProps = {
@@ -114,7 +123,7 @@ type CircleRowProps = {
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
-  const nonMemberCss = nonMember ? { color: '$placeholder' } : {};
+  const nonMemberCss = nonMember ? { color: '$secondaryText' } : {};
 
   const epoch = circle.epochs[0];
   const nomineeCount =
@@ -138,10 +147,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         flexDirection: 'row',
         gap: '$md',
         '.hover-buttons': {
-          visibility: 'hidden',
-          '@sm': { visibility: 'visible' },
+          display: 'none',
+          '@sm': { display: 'flex' },
         },
-        '&:hover .hover-buttons': { visibility: 'visible' },
+        '&:hover .hover-buttons': { display: 'flex' },
         ...(nonMember
           ? nonMemberPanelCss
           : {
@@ -161,13 +170,13 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         }}
       >
         <Box>
-          <Text variant="sectionHeader" css={{ mb: '$xs', ...nonMemberCss }}>
+          <Text h2 css={{ mb: '$xs', ...nonMemberCss }}>
             {circle.name}
           </Text>
           <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
             <Torso
               css={{ height: 12, width: 12, mr: '$xs' }}
-              color={role ? 'primary' : 'placeholder'}
+              color={role ? 'text' : 'secondaryText'}
             />
             {role === 1
               ? 'Circle Admin'
@@ -187,10 +196,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         >
           {epoch && startDate && endDate ? (
             <>
-              <Text css={{ fontSize: '$7', ...nonMemberCss }}>
+              <Text css={{ fontSize: '$h3', ...nonMemberCss }}>
                 Epoch {epoch.number}
               </Text>
-              <Text css={{ fontSize: '$7', ...nonMemberCss }} bold>
+              <Text css={{ fontSize: '$h3', ...nonMemberCss }} bold>
                 {startDate.toFormat('MMM d')} -{' '}
                 {endDate.toFormat(
                   endDate.month === startDate.month ? 'd' : 'MMM d'
@@ -208,7 +217,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               display: 'flex',
               justifyContent: 'space-around',
             },
-            ...(nonMember ? { color: '$placeholder' } : {}),
+            ...(nonMember ? { color: '$secondaryText' } : {}),
           }}
         >
           {!!nomineeCount && (
@@ -218,32 +227,40 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           )}
           {isCurrent && <Box>Allocation Period Open</Box>}
         </Box>
-        <Box
-          className="hover-buttons"
-          css={{
-            display: 'flex',
-            gap: '$sm',
-            justifyContent: 'flex-end',
-            flexWrap: 'wrap',
-            '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
-          }}
-        >
-          {buttons.map(
-            ([path, label, hide]) =>
-              (!hide || !hide(circle)) && (
-                <Button
-                  key={label}
-                  outlined
-                  color="teal"
-                  onClick={event => (
-                    onButtonClick(circle.id, path), event.stopPropagation()
-                  )}
-                >
-                  {label}
-                </Button>
-              )
-          )}
-        </Box>
+        {!nonMember && (
+          <Box
+            className="hover-buttons"
+            css={{
+              display: 'flex',
+              gap: '$sm',
+              justifyContent: 'flex-end',
+              flexWrap: 'wrap',
+              '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
+            }}
+          >
+            {buttons.map(
+              ([path, label, hide]) =>
+                (!hide || !hide(circle)) && (
+                  <Link
+                    key={label}
+                    css={{
+                      padding: '$sm',
+                      color: '$text',
+                      fontWeight: '$semibold',
+                      '&:hover': {
+                        filter: 'brightness(0.2)',
+                      },
+                    }}
+                    onClick={event => (
+                      onButtonClick(circle.id, path), event.stopPropagation()
+                    )}
+                  >
+                    {label}
+                  </Link>
+                )
+            )}
+          </Box>
+        )}
       </Box>
     </Panel>
   );

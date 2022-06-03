@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { useEffect } from 'react';
 
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
@@ -23,7 +24,34 @@ let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
-    addVault: jest.fn(x => Promise.resolve({ insert_vaults_one: x })),
+    addVault: jest
+      .fn()
+      .mockImplementationOnce(x =>
+        Promise.resolve({
+          createVault: {
+            vault: {
+              ...x,
+              token_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+              decimals: 18,
+              symbol: 'DAI',
+              org_id: 101,
+            },
+          },
+        })
+      )
+      .mockImplementationOnce(x =>
+        Promise.resolve({
+          createVault: {
+            vault: {
+              ...x,
+              token_address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+              decimals: 6,
+              symbol: 'USDC',
+              org_id: 101,
+            },
+          },
+        })
+      ),
   };
 });
 
@@ -73,35 +101,38 @@ test('submit distribution', async () => {
     const contracts = useContracts();
     const { deposit } = useVaultRouter(contracts);
     const { getEpochRoot } = useDistributor();
-    if (!contracts) return null;
 
-    work = (async () => {
-      const vault = await createVault({
-        simpleTokenAddress: '0x0',
-        type: Asset.DAI,
-      });
-      assert(vault, 'vault not created');
+    useEffect(() => {
+      if (!contracts) return;
 
-      await deposit(vault, '100');
+      work = (async () => {
+        const vault = await createVault({
+          simpleTokenAddress: '0x0',
+          type: Asset.DAI,
+        });
+        assert(vault, 'vault not created');
 
-      const distro = await submitDistribution({
-        amount: '100',
-        vault,
-        circleId: 2,
-        userIdsByAddress,
-        epochId: 2,
-        gifts,
-      });
-      merkleRootFromSubmission = distro.merkleRoot;
+        await deposit(vault, '100');
 
-      merkleRootFromDistributor = await getEpochRoot(
-        vault.vault_address,
-        distro.encodedCircleId,
-        await contracts.getVault(vault.vault_address).vault(),
-        distro.epochId
-      );
-      return true;
-    })();
+        const distro = await submitDistribution({
+          amount: '100',
+          vault,
+          circleId: 2,
+          userIdsByAddress,
+          epochId: 2,
+          gifts,
+        });
+        merkleRootFromSubmission = distro.merkleRoot;
+
+        merkleRootFromDistributor = await getEpochRoot(
+          vault.vault_address,
+          distro.encodedCircleId,
+          await contracts.getVault(vault.vault_address).vault(),
+          distro.epochId
+        );
+        return true;
+      })();
+    }, [contracts]);
 
     return null;
   };
@@ -132,41 +163,44 @@ test('previous distribution', async () => {
     const contracts = useContracts();
     const { deposit } = useVaultRouter(contracts);
 
-    if (!contracts) return null;
+    useEffect(() => {
+      if (!contracts) return;
 
-    work = (async () => {
-      const vault = await createVault({
-        simpleTokenAddress: '0x0',
-        type: Asset.USDC,
-      });
-      assert(vault, 'vault not created');
-      await deposit(vault, '120');
+      work = (async () => {
+        const vault = await createVault({
+          simpleTokenAddress: '0x0',
+          type: Asset.USDC,
+        });
+        assert(vault, 'vault not created');
+        await deposit(vault, '120');
 
-      previousTotal = await getWrappedAmount('100', vault, contracts);
-      expectedTotal = previousTotal.mul(2);
+        previousTotal = await getWrappedAmount('100', vault, contracts);
+        expectedTotal = previousTotal.mul(2);
 
-      const previousDistribution = createDistribution(
-        previousGifts,
-        previousTotal
-      );
+        const previousDistribution = createDistribution(
+          previousGifts,
+          previousTotal
+        );
 
-      const distro = await submitDistribution({
-        amount: '100',
-        vault,
-        circleId: 2,
-        userIdsByAddress,
-        epochId: 2,
-        gifts,
-        previousDistribution: {
-          id: 1,
-          vault_id: 1,
-          distribution_json: JSON.stringify(previousDistribution),
-        },
-      });
+        const distro = await submitDistribution({
+          amount: '100',
+          vault,
+          circleId: 2,
+          userIdsByAddress,
+          epochId: 2,
+          gifts,
+          previousDistribution: {
+            id: 1,
+            vault_id: 1,
+            distribution_json: JSON.stringify(previousDistribution),
+            tx_hash: '0x0',
+          },
+        });
 
-      newTotal = distro.totalAmount;
-      return true;
-    })();
+        newTotal = distro.totalAmount;
+        return true;
+      })();
+    }, [contracts]);
 
     return null;
   };

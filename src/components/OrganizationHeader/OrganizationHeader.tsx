@@ -20,7 +20,7 @@ export const OrganizationHeader = ({ css = {} }: { css?: CSS }) => {
           marginRight: '16px',
         }}
       />
-      <Text css={{ fontWeight: '$bold', fontSize: '$8', flexGrow: 1 }}>
+      <Text css={{ fontWeight: '$bold', fontSize: '$h2', flexGrow: 1 }}>
         {currentOrg.data?.name}
       </Text>
     </Box>

@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
@@ -7,11 +9,11 @@ import {
 import * as mutations from '../../../api-lib/gql/mutations';
 import * as queries from '../../../api-lib/gql/queries';
 import {
-  BadRequestError,
   errorResponse,
   ForbiddenError,
   InternalServerError,
   NotFoundError,
+  UnprocessableError,
 } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -74,7 +76,9 @@ async function validate(nomineeId: number, voucherProfileId: number) {
 
   // make sure the nomination period hasn't ended
   if (nominee.ended) {
-    throw new BadRequestError('nomination has already ended for this nominee');
+    throw new UnprocessableError(
+      'nomination has already ended for this nominee'
+    );
   }
 
   // TODO: could this be handled by a unique index in the vouches table?
@@ -136,8 +140,8 @@ async function convertNomineeToUser(nominee: Nominee) {
       throw new InternalServerError('unable to add user');
     }
     userId = addedUser.id;
+    assert(userId);
   }
-
   // The profile is automatically created by the createProfile event trigger, if needed
 
   // attach the user id to the nominee, and mark the nomination ended

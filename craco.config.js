@@ -27,7 +27,9 @@ module.exports = {
       collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
         '!src/**/*.d.ts',
+        '!**/__generated__/**',
         'api/**/*.ts',
+        'api-lib/**/*.ts',
       ],
       coverageReporters: ['json', 'lcov', 'text-summary'],
       transform: {

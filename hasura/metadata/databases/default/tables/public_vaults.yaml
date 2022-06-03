@@ -16,34 +16,10 @@ array_relationships:
       table:
         name: vault_transactions
         schema: public
-insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      protocol:
-        circles:
-          users:
-            _and:
-            - deleted_at:
-                _is_null: true
-            - profile:
-                id:
-                  _eq: X-Hasura-User-Id
-    columns:
-    - created_by
-    - decimals
-    - id
-    - org_id
-    - simple_token_address
-    - symbol
-    - token_address
-    - vault_address
-    set:
-      created_by: x-hasura-User-Id
-  role: user
 select_permissions:
 - permission:
     columns:
+    - chain_id
     - created_at
     - created_by
     - decimals

@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import clsx from 'clsx';
-import { transparentize } from 'polished';
 
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormModal, ApeTextField, ApeToggle } from 'components';
-import { useApiAdminCircle } from 'hooks';
+import {
+  ApeAvatar,
+  FormModal,
+  ApeTextField,
+  ApeToggle,
+  FormAutocomplete,
+} from 'components';
+import isFeatureEnabled from 'config/features';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
+import { Flex, Button } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
@@ -21,35 +28,12 @@ const DOCS_TEXT = 'See the docs...';
 const useStyles = makeStyles(theme => ({
   logoContainer: {
     position: 'relative',
-    width: 96,
-    height: 96,
     margin: 'auto',
     borderRadius: 30,
     fontSize: 12,
     fontWeight: 400,
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(10),
-    '&:after': {
-      content: `" "`,
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      top: 0,
-      left: 0,
-      borderRadius: '50%',
-      background: 'rgba(0,0,0,0.6)',
-      opacity: 0.7,
-      transition: 'all 0.5s',
-      '-webkit-transition': 'all 0.5s',
-    },
-    '&:hover': {
-      '&:after': {
-        opacity: 1,
-      },
-      '& .upload-image-icon': {
-        background: 'rgba(81, 99, 105, 0.9)',
-      },
-    },
   },
   errorColor: {
     color: theme.palette.error.main,
@@ -59,29 +43,6 @@ const useStyles = makeStyles(theme => ({
     height: 96,
     border: '4px solid #FFFFFF',
     borderRadius: '50%',
-  },
-  uploadImageIconWrapper: {
-    position: 'absolute',
-    marginTop: theme.spacing(2),
-    left: 'calc(1% - 40px)',
-    width: 178,
-    height: 32,
-    borderRadius: 8,
-    background: transparentize(0.5, theme.colors.text),
-    boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
-    cursor: 'pointer',
-    zIndex: 2,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: 600,
-    paddingLeft: 8,
-    '& > svg': {
-      // fontSize: 14,
-      marginRight: theme.spacing(1),
-    },
   },
   uploadImageTitle: {},
   quadGrid: {
@@ -118,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: 500,
     color: theme.colors.text,
-    background: theme.colors.background,
+    background: theme.colors.surface,
     borderRadius: theme.spacing(1),
     border: 0,
     outline: 'none',
@@ -135,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     margin: theme.spacing(2, 0, 0),
     textAlign: 'center',
-    color: theme.colors.linkBlue,
+    color: theme.colors.link,
   },
 }));
 
@@ -172,6 +133,11 @@ export const AdminCircleModal = ({
 }) => {
   const classes = useStyles();
   const { circleId } = useSelectedCircle();
+  const contracts = useContracts();
+  const tokens = ['Disabled'].concat(
+    contracts ? contracts.getAvailableTokens() : []
+  );
+
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
   const [logoData, setLogoData] = useState<{
@@ -195,6 +161,9 @@ export const AdminCircleModal = ({
   const [webhook, setWebhook] = useState('');
   const [defaultOptIn, setDefaultOptIn] = useState(circle.default_opt_in);
   const [vouchingText, setVouchingText] = useState(circle.vouchingText);
+  const [fixedPaymentToken, setFixedPaymentToken] = useState(
+    circle.fixed_payment_token_type ?? 'Disabled'
+  );
   const [onlyGiverVouch, setOnlyGiverVouch] = useState(circle.only_giver_vouch);
   const [autoOptOut, setAutoOptOut] = useState(circle.auto_opt_out);
 
@@ -209,7 +178,8 @@ export const AdminCircleModal = ({
     }
   };
 
-  const editDiscordWebhook = async () => {
+  const editDiscordWebhook = async (event: MouseEvent) => {
+    event.preventDefault();
     try {
       const _webhook = await getDiscordWebhook();
       setWebhook(_webhook);
@@ -256,7 +226,8 @@ export const AdminCircleModal = ({
         vouchingText !== circle.vouchingText ||
         onlyGiverVouch !== circle.only_giver_vouch ||
         teamSelection !== circle.team_selection ||
-        autoOptOut !== circle.auto_opt_out
+        autoOptOut !== circle.auto_opt_out ||
+        fixedPaymentToken !== circle.fixed_payment_token_type
       ) {
         await updateCircle({
           circle_id: circle.id,
@@ -274,6 +245,7 @@ export const AdminCircleModal = ({
           team_selection: teamSelection,
           auto_opt_out: autoOptOut,
           update_webhook: allowEdit,
+          fixed_payment_token_type: fixedPaymentToken,
         }).then(() => {
           onClose();
         });
@@ -298,7 +270,8 @@ export const AdminCircleModal = ({
     vouchingText !== circle.vouchingText ||
     onlyGiverVouch !== circle.only_giver_vouch ||
     teamSelection !== circle.team_selection ||
-    autoOptOut !== circle.auto_opt_out;
+    autoOptOut !== circle.auto_opt_out ||
+    fixedPaymentToken !== circle.fixed_payment_token_type;
   return (
     <FormModal
       title="Edit Circle Settings"
@@ -308,26 +281,30 @@ export const AdminCircleModal = ({
       onClose={onClose}
       size="medium"
     >
-      <div className={classes.logoContainer}>
+      <Flex
+        css={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '$xs',
+          mb: '$lg',
+        }}
+      >
+        <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
         <label htmlFor="upload-logo-button">
-          <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
-          <div
-            className={clsx(
-              classes.uploadImageIconWrapper,
-              'upload-image-icon'
-            )}
-          >
-            <UploadIcon />
-            <span>Upload Circle Logo</span>
-          </div>
+          <Button as="div" size="small" color="neutral">
+            <Flex css={{ mr: '$sm' }}>
+              <UploadIcon />
+            </Flex>
+            Upload Circle Logo
+          </Button>
         </label>
-        <input
-          id="upload-logo-button"
-          onChange={onChangeLogo}
-          style={{ display: 'none' }}
-          type="file"
-        />
-      </div>
+      </Flex>
+      <input
+        id="upload-logo-button"
+        onChange={onChangeLogo}
+        style={{ display: 'none' }}
+        type="file"
+      />
       <div className={classes.quadGrid}>
         <ApeTextField
           label="Circle name"
@@ -418,8 +395,12 @@ export const AdminCircleModal = ({
           label="Default Opt In?"
           infoTooltip={
             <YesNoTooltip
-              yes="All new members are eligible to receive GIVE"
-              no="New members need to log into Coordinape and opt in to receiving GIVE"
+              yes={`All new members are eligible to receive ${
+                circle.tokenName || 'GIVE'
+              }`}
+              no={`New members need to log into Coordinape and opt in to receiving ${
+                circle.tokenName || 'GIVE'
+              }`}
               href={DOCS_HREF}
               anchorText={DOCS_TEXT}
             />
@@ -432,7 +413,9 @@ export const AdminCircleModal = ({
           label="Only Givers can vouch"
           infoTooltip={
             <YesNoTooltip
-              yes="Only members who are eligible to send GIVE can vouch for new members"
+              yes={`Only members who are eligible to send ${
+                circle.tokenName || 'GIVE'
+              } can vouch for new members`}
               no="Anyone in the circle can vouch for new members"
               href={DOCS_HREF}
               anchorText={DOCS_TEXT}
@@ -455,6 +438,17 @@ export const AdminCircleModal = ({
           onChange={val => setAutoOptOut(val)}
           label="Auto Opt Out?"
         />
+        {isFeatureEnabled('fixed_payments') && (
+          <FormAutocomplete
+            value={fixedPaymentToken}
+            onChange={(v: string) => {
+              setFixedPaymentToken(v);
+            }}
+            options={tokens}
+            label="Fixed Payment Token"
+            fullWidth
+          />
+        )}
       </div>
       <AdminIntegrations />
       <div className={classes.bottomContainer}>
@@ -469,12 +463,10 @@ export const AdminCircleModal = ({
         )}
         <div className={classes.webhookButtonContainer}>
           {!allowEdit && (
-            <Button
-              onClick={editDiscordWebhook}
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-            >
+            <Button onClick={editDiscordWebhook} color="neutral" size="small">
+              <Flex css={{ mr: '$sm' }}>
+                <EditIcon />
+              </Flex>
               Edit WebHook
             </Button>
           )}

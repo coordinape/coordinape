@@ -1,7 +1,7 @@
 import { useRecoilCallback, CallbackInterface } from 'recoil';
 
 import { rGlobalLoading } from 'recoilState/ui';
-import { reportException } from 'utils/reporting';
+import { normalizeError, reportException } from 'utils/reporting';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
@@ -53,11 +53,9 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
             resolve(result);
           })
           .catch(err => {
-            if (err.response?.errors?.length > 0) {
-              err = err.response.errors[0];
-            }
             !hideLoading && set(rGlobalLoading, v => v - 1);
-            const e = transformError ? transformError(err) : err;
+            let e = transformError ? transformError(err) : err;
+            e = normalizeError(e);
             if (
               e.message ===
               'MetaMask Message Signature: User denied message signature.'
@@ -70,7 +68,6 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
                 extra: { ...(e.code ? { code: e.code } : {}) },
               });
             }
-
             reject(e);
           });
       });

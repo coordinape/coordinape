@@ -3,23 +3,41 @@ import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { CaptureContext } from '@sentry/types';
 
+import { flattenZeusError, GQLError } from '../common-lib/errorHandling';
 import { GraphQLError } from '../lib/gql/__generated__/zeus';
 
 import { DOMAIN_IS_LOCALHOST, DOMAIN_IS_PREVIEW, RENDER_APP } from './domain';
 
 export const reportException = (
-  exception: any,
+  error: any,
   captureContext?: CaptureContext
 ) => {
   if (DOMAIN_IS_LOCALHOST) return;
-  if (!(exception instanceof Error) && 'message' in exception) {
-    return Sentry.captureException(
-      new Error(exception.message),
-      captureContext
-    );
-  } else {
-    return Sentry.captureException(exception, captureContext);
-  }
+
+  Sentry.withScope(scope => {
+    if (error.details) {
+      scope.setExtra('details', error.details);
+      if (error.details.path) {
+        scope.addBreadcrumb({
+          category: 'query-path',
+          message: error.details.path,
+          level: Sentry.Severity.Debug,
+        });
+      }
+    }
+    if (error.causeMessage) {
+      scope.setExtra('cause', error.causeMessage);
+    }
+    if (error instanceof Error) {
+      Sentry.captureException(error, captureContext);
+    } else if (error.message) {
+      // Sentry much prefers an Error object to a string/object
+      Sentry.captureException(new Error(error.message), captureContext);
+    } else {
+      // No idea what's going on here so at least get an error with a string in it
+      Sentry.captureException(new Error(JSON.stringify(error)), captureContext);
+    }
+  });
 };
 
 export const initSentry = () => {
@@ -32,30 +50,25 @@ export const initSentry = () => {
       'MetaMask: Received invalid isUnlocked parameter.',
       'The user rejected the request.',
       'pktAnnotationHighlighter', // https://github.com/LessWrong2/Lesswrong2/issues/1150
+      'Failed to login Waiting for signature, timed out.',
+      'Error: Failed to get a login token', // This happens even when a user denies signature
+      'Failed to login',
+      'Authentication hook unauthorized this request',
     ],
     integrations: [
       new Integrations.BrowserTracing(),
       new CaptureConsole({ levels: ['error'] }),
     ],
     tracesSampleRate: 0.1,
+    normalizeDepth: 50,
   });
   Sentry.setTag('landing_page', !RENDER_APP);
+  Sentry.setTag('application', 'web');
 };
 
-export const normalizeError = (error: unknown): undefined | Error => {
+export const normalizeError = (error: any): any => {
   if (error instanceof GraphQLError) {
-    // graphql error?
-    if (error.message) {
-      // this is fine
-      return error;
-    } else if (error.response.errors) {
-      // elevate the error to the top level so sentry (and logging) can handle it better
-      if (error.response.errors.length > 0) {
-        // return
-        error.message = error.response.errors.map(e => e.message).join('; ');
-        return error;
-      }
-    }
+    return flattenZeusError(error as GQLError);
   }
-  return undefined;
+  return error;
 };

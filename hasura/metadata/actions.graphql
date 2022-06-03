@@ -27,11 +27,19 @@ type Mutation {
 }
 
 type Mutation {
+  createVault(payload: CreateVaultInput!): VaultResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
 type Mutation {
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+}
+
+type Mutation {
+  generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
 type Mutation {
@@ -60,6 +68,10 @@ type Mutation {
 
 type Mutation {
   uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
+}
+
+type Mutation {
+  uploadOrgLogo(payload: UploadOrgImageInput!): UpdateOrgResponse
 }
 
 type Mutation {
@@ -171,6 +183,7 @@ input UpdateCircleInput {
   only_giver_vouch: Boolean
   auto_opt_out: Boolean
   update_webhook: Boolean
+  fixed_payment_token_type: String
 }
 
 input UpdateEpochInput {
@@ -213,6 +226,30 @@ input AllocationCsvInput {
   grant: Float
   epoch: Int
   epoch_id: Int
+}
+
+input CreateVaultInput {
+  org_id: Int!
+  vault_address: String!
+  chain_id: Int!
+}
+
+input GenerateApiKeyInput {
+  name: String!
+  circle_id: Int!
+  read_circle: Boolean
+  update_circle: Boolean
+  read_nominees: Boolean
+  create_vouches: Boolean
+  read_pending_token_gifts: Boolean
+  update_pending_token_gifts: Boolean
+  read_member_profiles: Boolean
+  read_epochs: Boolean
+ }
+  
+input UploadOrgImageInput {
+  org_id: Int!
+  image_data_base64: String!
 }
 
 type CreateCircleResponse {
@@ -269,6 +306,19 @@ type AllocationsResponse {
 
 type AllocationCsvResponse {
   file: String!
+}
+
+type VaultResponse {
+  id: ID!
+}
+
+type GenerateApiKeyResponse {
+  api_key: String!
+  hash: String!
+}
+
+type UpdateOrgResponse {
+  id: Int!
 }
 
 scalar timestamptz

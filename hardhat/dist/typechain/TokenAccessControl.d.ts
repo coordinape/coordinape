@@ -21,36 +21,48 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface TokenAccessControlInterface extends ethers.utils.Interface {
   functions: {
+    "addAllowlistedAddresses(address[])": FunctionFragment;
     "addMinters(address[])": FunctionFragment;
-    "addWhitelistedAddresses(address[])": FunctionFragment;
+    "allowlistDisabled()": FunctionFragment;
+    "allowlistedAddresses(address)": FunctionFragment;
     "changePauseStatus(bool)": FunctionFragment;
+    "disableAllowlist()": FunctionFragment;
     "disableMintingForever()": FunctionFragment;
     "disablePausingForever()": FunctionFragment;
-    "disableWhitelist()": FunctionFragment;
     "foreverUnpaused()": FunctionFragment;
     "minters(address)": FunctionFragment;
     "mintingDisabled()": FunctionFragment;
     "owner()": FunctionFragment;
     "paused()": FunctionFragment;
+    "removeAllowlistedAddresses(address[])": FunctionFragment;
     "removeMinters(address[])": FunctionFragment;
-    "removeWhitelistedAddresses(address[])": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "whitelistDisabled()": FunctionFragment;
-    "whitelistedAddresses(address)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "addAllowlistedAddresses",
+    values: [string[]]
+  ): string;
   encodeFunctionData(
     functionFragment: "addMinters",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "addWhitelistedAddresses",
-    values: [string[]]
+    functionFragment: "allowlistDisabled",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "allowlistedAddresses",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "changePauseStatus",
     values: [boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "disableAllowlist",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "disableMintingForever",
@@ -58,10 +70,6 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "disablePausingForever",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "disableWhitelist",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -76,11 +84,11 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "removeMinters",
+    functionFragment: "removeAllowlistedAddresses",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "removeWhitelistedAddresses",
+    functionFragment: "removeMinters",
     values: [string[]]
   ): string;
   encodeFunctionData(
@@ -91,22 +99,26 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "whitelistDisabled",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "whitelistedAddresses",
-    values: [string]
-  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "addAllowlistedAddresses",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addMinters", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "addWhitelistedAddresses",
+    functionFragment: "allowlistDisabled",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "allowlistedAddresses",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "changePauseStatus",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "disableAllowlist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -115,10 +127,6 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "disablePausingForever",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "disableWhitelist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -133,11 +141,11 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "removeMinters",
+    functionFragment: "removeAllowlistedAddresses",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "removeWhitelistedAddresses",
+    functionFragment: "removeMinters",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -148,30 +156,22 @@ interface TokenAccessControlInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "whitelistDisabled",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "whitelistedAddresses",
-    data: BytesLike
-  ): Result;
 
   events: {
+    "AllowlistedAddressesAdded(address[])": EventFragment;
+    "AllowlistedAddressesRemoved(address[])": EventFragment;
     "MintersAdded(address[])": EventFragment;
     "MintersRemoved(address[])": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "WhitelistedAddressesAdded(address[])": EventFragment;
-    "WhitelistedAddressesRemoved(address[])": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AllowlistedAddressesAdded"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "AllowlistedAddressesRemoved"
+  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MintersAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MintersRemoved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WhitelistedAddressesAdded"): EventFragment;
-  getEvent(
-    nameOrSignatureOrTopic: "WhitelistedAddressesRemoved"
-  ): EventFragment;
 }
 
 export class TokenAccessControl extends BaseContract {
@@ -218,18 +218,29 @@ export class TokenAccessControl extends BaseContract {
   interface: TokenAccessControlInterface;
 
   functions: {
+    addAllowlistedAddresses(
+      _addresses: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     addMinters(
       _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    addWhitelistedAddresses(
-      _addresses: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    allowlistDisabled(overrides?: CallOverrides): Promise<[boolean]>;
+
+    allowlistedAddresses(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     changePauseStatus(
       _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    disableAllowlist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -238,10 +249,6 @@ export class TokenAccessControl extends BaseContract {
     ): Promise<ContractTransaction>;
 
     disablePausingForever(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    disableWhitelist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -255,13 +262,13 @@ export class TokenAccessControl extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    removeMinters(
-      _minters: string[],
+    removeAllowlistedAddresses(
+      _addresses: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    removeWhitelistedAddresses(
-      _addresses: string[],
+    removeMinters(
+      _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -273,27 +280,31 @@ export class TokenAccessControl extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    whitelistDisabled(overrides?: CallOverrides): Promise<[boolean]>;
-
-    whitelistedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
   };
+
+  addAllowlistedAddresses(
+    _addresses: string[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   addMinters(
     _minters: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  addWhitelistedAddresses(
-    _addresses: string[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  allowlistDisabled(overrides?: CallOverrides): Promise<boolean>;
+
+  allowlistedAddresses(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   changePauseStatus(
     _status: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  disableAllowlist(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -302,10 +313,6 @@ export class TokenAccessControl extends BaseContract {
   ): Promise<ContractTransaction>;
 
   disablePausingForever(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  disableWhitelist(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -319,13 +326,13 @@ export class TokenAccessControl extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  removeMinters(
-    _minters: string[],
+  removeAllowlistedAddresses(
+    _addresses: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  removeWhitelistedAddresses(
-    _addresses: string[],
+  removeMinters(
+    _minters: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -338,31 +345,31 @@ export class TokenAccessControl extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  whitelistDisabled(overrides?: CallOverrides): Promise<boolean>;
-
-  whitelistedAddresses(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   callStatic: {
-    addMinters(_minters: string[], overrides?: CallOverrides): Promise<void>;
-
-    addWhitelistedAddresses(
+    addAllowlistedAddresses(
       _addresses: string[],
       overrides?: CallOverrides
     ): Promise<void>;
+
+    addMinters(_minters: string[], overrides?: CallOverrides): Promise<void>;
+
+    allowlistDisabled(overrides?: CallOverrides): Promise<boolean>;
+
+    allowlistedAddresses(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     changePauseStatus(
       _status: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    disableAllowlist(overrides?: CallOverrides): Promise<void>;
+
     disableMintingForever(overrides?: CallOverrides): Promise<void>;
 
     disablePausingForever(overrides?: CallOverrides): Promise<void>;
-
-    disableWhitelist(overrides?: CallOverrides): Promise<void>;
 
     foreverUnpaused(overrides?: CallOverrides): Promise<boolean>;
 
@@ -374,12 +381,12 @@ export class TokenAccessControl extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    removeMinters(_minters: string[], overrides?: CallOverrides): Promise<void>;
-
-    removeWhitelistedAddresses(
+    removeAllowlistedAddresses(
       _addresses: string[],
       overrides?: CallOverrides
     ): Promise<void>;
+
+    removeMinters(_minters: string[], overrides?: CallOverrides): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -387,16 +394,17 @@ export class TokenAccessControl extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    whitelistDisabled(overrides?: CallOverrides): Promise<boolean>;
-
-    whitelistedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
   };
 
   filters: {
+    AllowlistedAddressesAdded(
+      minters?: null
+    ): TypedEventFilter<[string[]], { minters: string[] }>;
+
+    AllowlistedAddressesRemoved(
+      minters?: null
+    ): TypedEventFilter<[string[]], { minters: string[] }>;
+
     MintersAdded(
       minters?: null
     ): TypedEventFilter<[string[]], { minters: string[] }>;
@@ -412,29 +420,32 @@ export class TokenAccessControl extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
-
-    WhitelistedAddressesAdded(
-      minters?: null
-    ): TypedEventFilter<[string[]], { minters: string[] }>;
-
-    WhitelistedAddressesRemoved(
-      minters?: null
-    ): TypedEventFilter<[string[]], { minters: string[] }>;
   };
 
   estimateGas: {
+    addAllowlistedAddresses(
+      _addresses: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     addMinters(
       _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    addWhitelistedAddresses(
-      _addresses: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+    allowlistDisabled(overrides?: CallOverrides): Promise<BigNumber>;
+
+    allowlistedAddresses(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     changePauseStatus(
       _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    disableAllowlist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -443,10 +454,6 @@ export class TokenAccessControl extends BaseContract {
     ): Promise<BigNumber>;
 
     disablePausingForever(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    disableWhitelist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -460,13 +467,13 @@ export class TokenAccessControl extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    removeMinters(
-      _minters: string[],
+    removeAllowlistedAddresses(
+      _addresses: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    removeWhitelistedAddresses(
-      _addresses: string[],
+    removeMinters(
+      _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -478,28 +485,32 @@ export class TokenAccessControl extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    whitelistDisabled(overrides?: CallOverrides): Promise<BigNumber>;
-
-    whitelistedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    addAllowlistedAddresses(
+      _addresses: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     addMinters(
       _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    addWhitelistedAddresses(
-      _addresses: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+    allowlistDisabled(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    allowlistedAddresses(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     changePauseStatus(
       _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    disableAllowlist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -508,10 +519,6 @@ export class TokenAccessControl extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     disablePausingForever(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    disableWhitelist(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -528,13 +535,13 @@ export class TokenAccessControl extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    removeMinters(
-      _minters: string[],
+    removeAllowlistedAddresses(
+      _addresses: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    removeWhitelistedAddresses(
-      _addresses: string[],
+    removeMinters(
+      _minters: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -545,13 +552,6 @@ export class TokenAccessControl extends BaseContract {
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    whitelistDisabled(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    whitelistedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

@@ -5,15 +5,18 @@ import { formatRelative, parseISO } from 'date-fns';
 import { isUserAdmin } from 'lib/users';
 import { getUnwrappedAmount } from 'lib/vaults';
 import uniqBy from 'lodash/uniqBy';
+import { FiExternalLink } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
+import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
 import { useFixCircleState } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { Box, Panel, Text } from 'ui';
+import { Box, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { makeExplorerUrl } from 'utils/provider';
 
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
@@ -98,17 +101,17 @@ export function DistributionsPage() {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Text variant="sectionHeader" css={{ mb: '$sm' }}>
+        <Text h2 css={{ mb: '$sm' }}>
           Distributions
         </Text>
-        <Text variant="sectionHeader" normal>
+        <Text h2 normal>
           {epoch?.circle?.name}: Epoch {epoch?.number}
         </Text>
 
         {epochError ? (
           <Text
             css={{
-              fontSize: '$7',
+              fontSize: '$h3',
               fontWeight: '$semibold',
               textAlign: 'center',
               display: 'block',
@@ -148,6 +151,11 @@ export function DistributionsPage() {
     </SingleColumnLayout>
   );
 }
+//TODO: Discuss with the team what do about Icons in general. This should go in a separate file.
+const Icon = styled(FiExternalLink, {
+  size: '$md',
+  color: '$focusedBorder',
+});
 
 const Summary = ({
   distribution,
@@ -156,6 +164,38 @@ const Summary = ({
 }) => {
   const distTime = parseISO(distribution.created_at + 'Z');
   return (
-    <Text>Distribution submitted {formatRelative(distTime, Date.now())}</Text>
+    <Box
+      css={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Text css={{ color: '$complete' }}>
+        Distribution submitted {formatRelative(distTime, Date.now())}
+      </Text>
+      <ExplorerLink distribution={distribution} />
+    </Box>
+  );
+};
+
+const ExplorerLink = ({
+  distribution,
+}: {
+  distribution: EpochDataResult['distributions'][0];
+}) => {
+  const { tx_hash } = distribution;
+  const { chain_id } = distribution.vault;
+
+  const explorerHref = makeExplorerUrl(chain_id, tx_hash);
+
+  if (!explorerHref) return <></>;
+
+  return (
+    <Box css={{ display: 'flex', alignItems: 'center' }}>
+      <Icon css={{}} />
+      <Link css={{ ml: '$xs' }} href={explorerHref}>
+        View on Etherscan
+      </Link>
+    </Box>
   );
 };

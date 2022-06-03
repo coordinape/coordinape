@@ -1,6 +1,6 @@
 import { USDC_ADDRESS } from '../../../constants';
 import {
-  ApeToken,
+  COToken,
   ApeVaultFactoryBeacon,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
@@ -8,7 +8,7 @@ import {
 import { Account } from '../account';
 
 export async function createApeVault(
-  apeToken: ApeToken,
+  coToken: COToken,
   apeVaultFactory: ApeVaultFactoryBeacon,
   from: Account
 ): Promise<ApeVaultWrapperImplementation> {
@@ -16,7 +16,7 @@ export async function createApeVault(
 
   const tx = await apeVaultFactory.createApeVault(
     USDC_ADDRESS,
-    apeToken.address
+    coToken.address
   );
   const receipt = await tx.wait();
   if (receipt && receipt?.events) {

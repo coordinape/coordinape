@@ -27,11 +27,11 @@ export const Paginator = ({
           width: '$xl',
           height: '$xl !important',
           fontFamily: 'Inter',
-          fontSize: '$4',
+          fontSize: '$medium',
           fontWeight: '$normal',
           padding: 0,
           backgroundColor: 'white',
-          color: '$primary',
+          color: '$text',
         },
         ...css,
       }}
@@ -52,7 +52,7 @@ export const Paginator = ({
               ? {}
               : {
                   borderRadius: '$1',
-                  backgroundColor: '$teal !important',
+                  backgroundColor: '$link !important',
                   color: 'white !important',
                 }
           }

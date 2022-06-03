@@ -69,6 +69,21 @@ export const createNomineeInputSchema = z
   })
   .strict();
 
+export const generateApiKeyInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    read_circle: z.boolean().optional(),
+    update_circle: z.boolean().optional(),
+    read_nominees: z.boolean().optional(),
+    create_vouches: z.boolean().optional(),
+    read_pending_token_gifts: z.boolean().optional(),
+    update_pending_token_gifts: z.boolean().optional(),
+    read_member_profiles: z.boolean().optional(),
+    read_epochs: z.boolean().optional(),
+  })
+  .strict();
+
 export const updateUserSchemaInput = z
   .object({
     circle_id: z.number(),
@@ -111,6 +126,13 @@ export const uploadImageInput = z
 export const uploadCircleImageInput = z
   .object({
     circle_id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
+
+export const uploadOrgImageInput = z
+  .object({
+    org_id: z.number(),
     image_data_base64: z.string(),
   })
   .strict();
@@ -200,7 +222,11 @@ export const updateCircleInput = z
 
   .object({
     circle_id: z.number().positive(),
-    name: z.string().min(3).max(255).optional(),
+    name: z
+      .string()
+      .max(255)
+      .refine(val => val.trim().length >= 3)
+      .optional(),
     alloc_text: z.string().max(5000).optional(),
     auto_opt_out: z.boolean().optional(),
     default_opt_in: z.boolean().optional(),
@@ -210,10 +236,19 @@ export const updateCircleInput = z
     only_giver_vouch: z.boolean().optional(),
     team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
-    token_name: z.string().max(255).optional(),
+    token_name: z
+      .string()
+      .max(255)
+      .refine(val => val.trim().length >= 3)
+      .optional(),
     update_webhook: z.boolean().optional(),
     vouching: z.boolean().optional(),
     vouching_text: z.string().max(5000).optional(),
+    fixed_payment_token_type: z
+      .string()
+      .max(200)
+      .transform(s => (s === 'Disabled' ? null : s))
+      .optional(),
   })
   .strict();
 
@@ -241,6 +276,14 @@ export const allocationCsvInput = z
     'Either epoch or a epoch_id must be provided.'
   );
 
+export const createVaultInput = z
+  .object({
+    org_id: z.number().positive(),
+    vault_address: zEthAddressOnly,
+    chain_id: z.number(),
+  })
+  .strict();
+
 export const HasuraAdminSessionVariables = z
   .object({
     'x-hasura-role': z.literal('admin'),
@@ -258,7 +301,7 @@ export const HasuraUserSessionVariables = z
         'profileId not an integer'
       )
       .transform(Number.parseInt),
-    'x-hasura-role': z.union([z.literal('user'), z.literal('superadmin')]),
+    'x-hasura-role': z.literal('user'),
     'x-hasura-address': zEthAddressOnly,
   })
   .transform(vars => {

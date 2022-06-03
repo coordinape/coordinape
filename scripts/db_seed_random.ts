@@ -250,7 +250,6 @@ function fakeCircle() {
 function fakeProfile() {
   return {
     address: new ethers.Wallet(faker.datatype.hexaDecimal(32)).address,
-    admin_view: false,
     bio: faker.lorem.paragraph(3),
     website: faker.internet.url(),
   } as ValueTypes['profiles_insert_input'];

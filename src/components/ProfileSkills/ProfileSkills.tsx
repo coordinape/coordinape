@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
   skillItem: {
     margin: theme.spacing(0.2),
     padding: theme.spacing(0.2, 1.7),
-    background: theme.colors.lightBlue,
+    background: theme.colors.secondary,
     textAlign: 'center',
     fontSize: 14,
     fontWeight: 600,
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
   },
   adminSkillItem: {
-    background: theme.colors.darkBlue,
+    background: theme.colors.secondaryDark,
   },
 }));
 

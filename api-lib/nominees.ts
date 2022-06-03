@@ -124,14 +124,15 @@ export const insertNominee = async (params: {
   const today = new Date();
   const expiry = new Date();
   expiry.setDate(today.getDate() + params.nomination_days_limit);
+  const input = { ...params, nomination_days_limit: undefined };
   const { insert_nominees_one } = await adminClient.mutate(
     {
       insert_nominees_one: [
         {
           object: {
-            ...params,
-            nominated_date: today,
-            expiry_date: expiry,
+            ...input,
+            nominated_date: today.toISOString(),
+            expiry_date: expiry.toISOString(),
           },
         },
         {

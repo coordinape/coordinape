@@ -25,7 +25,7 @@ const Content = styled(Dialog.Content, {
 });
 
 const Title = styled(Dialog.Title, {
-  fontSize: '$8',
+  fontSize: '$h2',
   fontWeight: '$bold',
   display: 'block',
   textAlign: 'center',
@@ -59,7 +59,7 @@ export const Modal = ({
                 position: 'absolute',
                 right: 'calc($sm + 3px)',
                 top: '$sm',
-                fontSize: '$7',
+                fontSize: '$h3',
               }}
             >
               &#x2715;

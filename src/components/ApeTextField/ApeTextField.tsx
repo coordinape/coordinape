@@ -16,6 +16,7 @@ import { ApeInfoTooltip } from 'components';
 const ApeTextVariants = {
   default: 'default',
   token: 'token',
+  select: 'select',
 } as const;
 
 type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
@@ -176,13 +177,13 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
         },
         inputRoot: {
           padding: theme.spacing(0, 1, 0),
-          backgroundColor: theme.colors.third,
+          backgroundColor: theme.colors.surface,
           borderRadius: 16,
           color: theme.colors.text,
-          border: `1px solid ${theme.colors.third}`,
+          border: `1px solid ${theme.colors.border}`,
           transition: 'border 200ms ease-out',
           '&:focus-within': {
-            border: `1px solid ${theme.colors.lightBlue}80`,
+            border: `1px solid ${theme.colors.secondary}80`,
           },
         },
         input: {
@@ -192,7 +193,25 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
           fontWeight: 400,
           textAlign: 'right',
           '&::placeholder': {
-            color: theme.colors.text + '80',
+            color: theme.colors.secondaryText,
+          },
+        },
+      };
+    case 'select':
+      return {
+        inputRoot: {
+          backgroundColor: theme.colors.white,
+          borderColor: theme.colors.white,
+        },
+        input: {
+          padding: theme.spacing(1.25, 0),
+          fontSize: 16,
+          lineHeight: 1.33,
+          fontWeight: 400,
+          textAlign: 'left',
+          '&::placeholder': {
+            color: theme.colors.secondaryText,
+            textAlign: 'left',
           },
         },
       };
@@ -226,21 +245,21 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     },
     inputRoot: ({ variant }) => ({
       margin: theme.spacing(1),
-      backgroundColor: theme.colors.third,
+      backgroundColor: theme.colors.surface,
       borderRadius: 8,
       color: theme.colors.text,
-      border: `1px solid ${theme.colors.third}`,
+      border: `1px solid ${theme.colors.border}`,
       transition: 'border 200ms ease-out',
       '&:focus-within': {
-        border: `1px solid ${theme.colors.lightBlue}80`,
+        border: `1px solid ${theme.colors.secondary}80`,
       },
       ...apeVariants(theme, variant)?.inputRoot,
     }),
     inputRootError: {
-      border: `1px solid ${theme.colors.red}dd`,
-      color: '#ad0003',
+      border: `1px solid ${theme.colors.alert}dd`,
+      color: theme.colors.alert,
       '&:focus-within': {
-        border: `1px solid ${theme.colors.red}`,
+        border: `1px solid ${theme.colors.alert}`,
       },
     },
     input: ({ variant }) => ({
@@ -250,7 +269,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontWeight: 300,
       textAlign: 'center',
       '&::placeholder': {
-        color: theme.colors.text + '80',
+        color: theme.colors.secondaryText,
       },
       ...apeVariants(theme, variant)?.input,
     }),
@@ -263,7 +282,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontSize: 13,
       lineHeight: 1.2,
       fontWeight: 600,
-      color: theme.colors.red,
+      color: theme.colors.alert,
     },
     multiLineInput: {
       textAlign: 'left',

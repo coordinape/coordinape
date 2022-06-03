@@ -71,15 +71,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Update the state after all external validations have passed
 
+  // doing this spread to remove new_address from the updateInput
+  const { new_address: newAddress, ...updateInput } = input;
+
   const mutationResult = await adminClient.mutate(
     {
       update_users: [
         {
           _set: {
-            ...input,
+            ...updateInput,
             // falls back to undefined and is therefore not updated in the DB
             // if new_address is not included
-            address: input.new_address,
+            address: newAddress,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
             give_token_remaining: input.starting_tokens,

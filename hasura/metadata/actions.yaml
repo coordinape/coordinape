@@ -9,7 +9,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: allocationCsv
   definition:
     kind: synchronous
@@ -19,7 +18,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createCircle
   definition:
     kind: synchronous
@@ -30,7 +28,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createEpoch
   definition:
     kind: synchronous
@@ -40,7 +37,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createNominee
   definition:
     kind: synchronous
@@ -50,7 +46,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createUser
   definition:
     kind: synchronous
@@ -61,7 +56,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: createUsers
   definition:
     kind: synchronous
@@ -72,7 +66,15 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
+- name: createVault
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/createVault'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
 - name: deleteEpoch
   definition:
     kind: synchronous
@@ -82,7 +84,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: deleteUser
   definition:
     kind: synchronous
@@ -92,7 +93,16 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
+- name: generateApiKey
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/generateApiKey'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
+  comment: Generates an API key for a circle
 - name: logoutUser
   definition:
     kind: synchronous
@@ -101,7 +111,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
 - name: updateAllocations
   definition:
@@ -112,7 +121,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateCircle
   definition:
     kind: synchronous
@@ -121,7 +129,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
 - name: updateEpoch
   definition:
@@ -132,7 +139,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateTeammates
   definition:
     kind: synchronous
@@ -142,7 +148,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: updateUser
   definition:
     kind: synchronous
@@ -151,7 +156,6 @@ actions:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   permissions:
-  - role: superadmin
   - role: user
   comment: Update own user
 - name: uploadCircleLogo
@@ -164,7 +168,16 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
+- name: uploadOrgLogo
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/uploadOrgLogo'
+    forward_client_headers: true
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
 - name: uploadProfileAvatar
   definition:
     kind: synchronous
@@ -175,7 +188,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: uploadProfileBackground
   definition:
     kind: synchronous
@@ -186,7 +198,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 - name: vouch
   definition:
     kind: synchronous
@@ -196,7 +207,6 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
-  - role: superadmin
 custom_types:
   enums: []
   input_objects:
@@ -219,6 +229,9 @@ custom_types:
   - name: CreateUsersInput
   - name: UserObj
   - name: AllocationCsvInput
+  - name: CreateVaultInput
+  - name: GenerateApiKeyInput
+  - name: UploadOrgImageInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -341,5 +354,35 @@ custom_types:
       field_mapping:
         user_id: id
   - name: AllocationCsvResponse
+  - name: VaultResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: vaults
+      name: vault
+      source: default
+      type: object
+      field_mapping:
+        id: id
+  - name: GenerateApiKeyResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: circle_api_keys
+      name: circleApiKey
+      source: default
+      type: object
+      field_mapping:
+        hash: hash
+  - name: UpdateOrgResponse
+    relationships:
+    - remote_table:
+        schema: public
+        name: protocols
+      name: org
+      source: default
+      type: object
+      field_mapping:
+        id: id
   scalars:
   - name: timestamptz

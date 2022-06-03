@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 12,
     fontSize: 30,
     fontWeight: 600,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     display: '-webkit-box',
     '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical',
@@ -343,6 +343,7 @@ const ProfilePageContent = ({
                   <div key={u.id} className={classes.circle}>
                     <Avatar
                       name={u.circle.name}
+                      small
                       path={getCircleAvatar({
                         avatar: u.circle.logo,
                         circleName: u.circle.name,

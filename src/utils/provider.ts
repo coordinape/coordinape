@@ -54,3 +54,21 @@ export const _validateContractSignature = async (
     console.error('_validateContractSignature', error);
   }
 };
+
+export function makeExplorerUrl(chainId: number, txHash: string | undefined) {
+  if (!txHash) return;
+  switch (chainId) {
+    case 1:
+      return 'https://etherscan.io/tx/' + txHash;
+    case 4:
+      return 'https://rinkeby.etherscan.io/tx/' + txHash;
+    case 5:
+      return 'https://goerli.etherscan.io/tx/' + txHash;
+    case 1337:
+    case 1338:
+      // provide a dead link for rendering purposes in dev
+      return '#' + txHash;
+    default:
+      console.warn(`No explorer for chain ID ${chainId}; tx Hash: ` + txHash);
+  }
+}

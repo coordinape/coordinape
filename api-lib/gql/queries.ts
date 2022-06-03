@@ -16,6 +16,7 @@ export async function getCircle(id: number) {
           team_sel_text: true,
           discord_webhook: true,
           telegram_id: true,
+          token_name: true,
           organization: {
             telegram_id: true,
           },
@@ -327,7 +328,7 @@ export async function getExpiredNominees() {
             ended: {
               _eq: false,
             },
-            expiry_date: { _lte: new Date() },
+            expiry_date: { _lte: DateTime.now().toISO() },
           },
         },
         {
@@ -410,12 +411,12 @@ export async function getOverlappingEpoch(
     circle_id: { _eq: circle_id },
     _or: [
       {
-        start_date: { _lt: end_date },
-        end_date: { _gte: end_date },
+        start_date: { _lt: end_date.toISO() },
+        end_date: { _gte: end_date.toISO() },
       },
       {
-        start_date: { _lte: start_date },
-        end_date: { _gt: start_date },
+        start_date: { _lte: start_date.toISO() },
+        end_date: { _gt: start_date.toISO() },
       },
     ],
   };

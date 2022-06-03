@@ -1,5 +1,3 @@
-import { transparentize } from 'polished';
-
 import { IconButton, makeStyles } from '@material-ui/core';
 
 import { ApeTextField } from 'components';
@@ -49,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       wordBreak: 'normal',
     },
     '&.MuiInputBase-root': {
-      backgroundColor: transparentize(0.3, theme.colors.white),
+      backgroundColor: theme.colors.background,
       padding: theme.spacing(1.5, 0),
     },
   },

@@ -24,26 +24,15 @@ select_permissions:
 - permission:
     columns:
     - id
-    - user_id
-    - team_mate_id
-    - created_at
-    - updated_at
-    filter: {}
-  role: superadmin
-- permission:
-    columns:
-    - id
     - team_mate_id
     - user_id
     - created_at
     - updated_at
     filter:
       user:
-        circle:
-          users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
   role: user
 event_triggers:
 - definition:

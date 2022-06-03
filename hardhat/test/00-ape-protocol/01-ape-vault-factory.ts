@@ -27,7 +27,7 @@ describe('ApeVaultFactory', () => {
   it('should create vault successfully', async () => {
     const user0 = deploymentInfo.accounts[0];
     const vault = await createApeVault(
-      deploymentInfo.contracts.apeToken,
+      deploymentInfo.contracts.coToken,
       deploymentInfo.contracts.apeVaultFactory,
       user0
     );

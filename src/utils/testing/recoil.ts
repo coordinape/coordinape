@@ -36,12 +36,12 @@ const circle: IApiCircle = {
   vouching: false,
   vouching_text: '',
   updated_at: new Date(0),
+  fixed_payment_token_type: '',
 };
 
 const profile: IApiProfile = {
   id: 1,
   address: '0x100020003000400050006000700080009000a000',
-  admin_view: false,
   created_at: '1970-01-01T00:00:00',
   updated_at: '1970-01-01T00:00:00',
 };

@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   closeButton: {
-    color: theme.colors.mediumGray,
+    color: theme.colors.secondaryText,
     top: 0,
     right: 0,
     position: 'absolute',
@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.2,
     color: theme.colors.text,
     textAlign: 'center',
+    maxWidth: '100%',
+    display: 'block',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   subtitle: {
     margin: theme.spacing(0, 0, 2),
@@ -74,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-end',
     margin: 0,
     minHeight: 45,
-    color: theme.colors.red,
+    color: theme.colors.alert,
   },
 }));
 
@@ -137,7 +141,7 @@ export const FormModal = ({
         {!!onSubmit && (
           <Button
             css={{ mt: '$lg', gap: '$xs' }}
-            color="red"
+            color="alert"
             size="medium"
             onClick={event => {
               event.preventDefault();

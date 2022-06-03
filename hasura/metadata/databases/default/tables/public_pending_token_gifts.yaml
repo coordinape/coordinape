@@ -31,21 +31,27 @@ object_relationships:
     foreign_key_constraint_on: sender_id
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
-    - id
-    - sender_id
-    - sender_address
-    - recipient_id
-    - recipient_address
-    - tokens
-    - note
-    - dts_created
-    - created_at
-    - updated_at
     - circle_id
+    - created_at
+    - dts_created
     - epoch_id
-    filter: {}
-  role: superadmin
+    - id
+    - recipient_id
+    - sender_id
+    - tokens
+    - updated_at
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_pending_token_gifts:
+              _eq: true
+    limit: 100
+  role: api-user
 - permission:
     columns:
     - circle_id

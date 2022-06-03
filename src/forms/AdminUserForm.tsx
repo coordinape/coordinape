@@ -14,11 +14,14 @@ interface IUserAndCircle {
 
 const schema = z
   .object({
-    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
     address: zEthAddress,
     non_giver: z.boolean(),
     fixed_non_receiver: z.boolean(),
-    non_receiver: z.boolean(),
+    // this isn't presented in the UI
+    // non_receiver: z.boolean(),
     role: zBooleanToNumber,
     starting_tokens: z.number(),
   })
@@ -33,7 +36,8 @@ const AdminUserForm = createForm({
     address: v.user?.address ?? '',
     non_giver: v.user?.non_giver ?? false,
     fixed_non_receiver: !!v.user?.fixed_non_receiver ?? false,
-    non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
+    // this isn't presented in the UI so it's disabled for now
+    // non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
     role: v.user?.role === USER_ROLE_ADMIN ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
   }),

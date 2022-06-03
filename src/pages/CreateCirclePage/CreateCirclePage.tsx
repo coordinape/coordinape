@@ -22,11 +22,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: 40,
     lineHeight: 1,
     fontWeight: 700,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: theme.spacing(7, 2, 2),
   },
   subtitle: {
-    color: theme.colors.primary,
+    color: theme.colors.text,
     fontWeight: 400,
     size: 20,
     lineHeight: 1.5,
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   sectionTitle: {
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
     size: 10,
     lineHeight: 1.55,
@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
     lineHeight: 1,
     fontWeight: 300,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     margin: theme.spacing(7, 2, 4),
   },
   label: {
@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   discordButton: {
-    backgroundColor: '#5865F2',
+    backgroundColor: theme.colors.blurple,
     margin: theme.spacing(1),
     borderRadius: 8,
     fontSize: 15,

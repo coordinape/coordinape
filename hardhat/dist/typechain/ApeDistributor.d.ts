@@ -33,6 +33,7 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     "isClaimed(address,bytes32,address,uint256,uint256)": FunctionFragment;
     "registry()": FunctionFragment;
     "setAllowance(bytes32,address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "tapEpochAndDistribute(address,bytes32,address,address[],uint256[],uint256,uint8)": FunctionFragment;
     "updateCircleAdmin(bytes32,address)": FunctionFragment;
     "uploadEpochRoot(address,bytes32,address,bytes32,uint256,uint8)": FunctionFragment;
     "vaultApprovals(address,bytes32)": FunctionFragment;
@@ -113,6 +114,18 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "tapEpochAndDistribute",
+    values: [
+      string,
+      BytesLike,
+      string,
+      string[],
+      BigNumberish[],
+      BigNumberish,
+      BigNumberish
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateCircleAdmin",
     values: [BytesLike, string]
   ): string;
@@ -153,6 +166,10 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tapEpochAndDistribute",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -339,6 +356,17 @@ export class ApeDistributor extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    tapEpochAndDistribute(
+      _vault: string,
+      _circle: BytesLike,
+      _token: string,
+      _users: string[],
+      _amounts: BigNumberish[],
+      _amount: BigNumberish,
+      _tapType: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     updateCircleAdmin(
       _circle: BytesLike,
       _admin: string,
@@ -471,6 +499,17 @@ export class ApeDistributor extends BaseContract {
     _cooldownInterval: BigNumberish,
     _epochs: BigNumberish,
     _intervalStart: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  tapEpochAndDistribute(
+    _vault: string,
+    _circle: BytesLike,
+    _token: string,
+    _users: string[],
+    _amounts: BigNumberish[],
+    _amount: BigNumberish,
+    _tapType: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -609,6 +648,17 @@ export class ApeDistributor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    tapEpochAndDistribute(
+      _vault: string,
+      _circle: BytesLike,
+      _token: string,
+      _users: string[],
+      _amounts: BigNumberish[],
+      _amount: BigNumberish,
+      _tapType: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     updateCircleAdmin(
       _circle: BytesLike,
       _admin: string,
@@ -623,7 +673,7 @@ export class ApeDistributor extends BaseContract {
       _amount: BigNumberish,
       _tapType: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
     vaultApprovals(
       arg0: string,
@@ -811,6 +861,17 @@ export class ApeDistributor extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    tapEpochAndDistribute(
+      _vault: string,
+      _circle: BytesLike,
+      _token: string,
+      _users: string[],
+      _amounts: BigNumberish[],
+      _amount: BigNumberish,
+      _tapType: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     updateCircleAdmin(
       _circle: BytesLike,
       _admin: string,
@@ -933,6 +994,17 @@ export class ApeDistributor extends BaseContract {
       _cooldownInterval: BigNumberish,
       _epochs: BigNumberish,
       _intervalStart: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    tapEpochAndDistribute(
+      _vault: string,
+      _circle: BytesLike,
+      _token: string,
+      _users: string[],
+      _amounts: BigNumberish[],
+      _amount: BigNumberish,
+      _tapType: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

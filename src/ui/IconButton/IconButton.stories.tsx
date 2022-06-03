@@ -17,6 +17,6 @@ export const IconButtonArrow = Template.bind({});
 
 IconButtonArrow.args = {
   size: 'xs',
-  variant: 'shadow',
+  variant: 'ghost',
   children: <DownArrowIcon size="md" />,
 };

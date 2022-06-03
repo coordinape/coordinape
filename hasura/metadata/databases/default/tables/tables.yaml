@@ -1,4 +1,5 @@
 - "!include public_burns.yaml"
+- "!include public_circle_api_keys.yaml"
 - "!include public_circle_integrations.yaml"
 - "!include public_circle_metadata.yaml"
 - "!include public_circle_private.yaml"
@@ -16,6 +17,7 @@
 - "!include public_protocols.yaml"
 - "!include public_teammates.yaml"
 - "!include public_token_gifts.yaml"
+- "!include public_user_private.yaml"
 - "!include public_users.yaml"
 - "!include public_vault_transactions.yaml"
 - "!include public_vaults.yaml"

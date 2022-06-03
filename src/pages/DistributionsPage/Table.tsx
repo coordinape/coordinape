@@ -10,12 +10,12 @@ import { Box } from 'ui';
 export const Table = styled('table', {
   width: '100%',
   borderCollapse: 'collapse',
-  fontSize: '$3',
+  fontSize: '$small',
   tr: {
-    borderBottom: '0.5px solid $lightBackground',
+    borderBottom: '0.5px solid $border',
   },
   'thead tr': {
-    backgroundColor: '$subtleGray',
+    backgroundColor: '$background',
     height: '$2xl',
   },
   'th, td': {
