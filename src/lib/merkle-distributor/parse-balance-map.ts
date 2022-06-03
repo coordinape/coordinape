@@ -80,7 +80,7 @@ export function parseBalanceMap(
     const { amount } = dataByAddress[address];
     memo[address] = {
       index,
-      amount: amount.toHexString(),
+      amount: amount.toString(),
       proof: tree.getProof(index, address, amount),
     };
     return memo;
@@ -93,7 +93,7 @@ export function parseBalanceMap(
 
   return {
     merkleRoot: tree.getHexRoot(),
-    tokenTotal: tokenTotal.toHexString(),
+    tokenTotal: tokenTotal.toString(),
     claims,
   };
 }
