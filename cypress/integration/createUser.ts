@@ -11,8 +11,7 @@ context('Coordinape', () => {
         cy.login();
         // This is highly dependent upon how our seed is constructed..
         cy.url({ timeout: 120000 }).should('include', '/circles');
-        // Sports is a circle w/ an ended epoch, the Admin button is a child of a peer element
-        cy.contains('Sports', { timeout: 120000 })
+        cy.contains('Toys', { timeout: 120000 })
             .parent()
             .parent()
             .within(() => {
@@ -20,14 +19,6 @@ context('Coordinape', () => {
                 cy.get('a').contains('Admin').click();
             });
         cy.url({ timeout: 120000 }).should('include', '/admin');
-
-        // Enabled Fixed Payments
-        cy.contains('Settings').click();
-        cy.contains('Fixed Payment Token').parent().within(() => {
-            cy.get('input').clear().type('YFI').blur();
-        })
-
-        cy.contains('Save').click();
         cy.contains("Add Contributor",{ timeout: 120000 }).should("be.visible");
         cy.contains('Add Contributor').click();
         cy.contains('Contributor Name').parent().within(() => {
@@ -46,19 +37,12 @@ context('Coordinape', () => {
 
         cy.contains('Save').click();
         cy.reload(true);
-        cy.contains("A Test User",{ timeout: 240000 }).should("be.visible");
+        cy.contains("A Test User",{ timeout: 120000 }).should("be.visible");
         // Verify new value in contributors table
-        cy.contains('A Test User', { timeout: 240000 })
+        cy.contains('A Test User', { timeout: 120000 })
             .parents('tr')
             .within(() => {
                 cy.get('td').eq(7).should('have.text', '12000');
         })
-        // Reset Setting
-        cy.contains('Settings').click();
-        cy.contains('Fixed Payment Token').parent().within(() => {
-            cy.get('input').clear().type('Disabled').blur();
-        })
-
-        cy.contains('Save').click();
     });
 });
