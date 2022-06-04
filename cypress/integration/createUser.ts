@@ -11,7 +11,7 @@ context('Coordinape', () => {
         cy.login();
         // This is highly dependent upon how our seed is constructed..
         cy.url({ timeout: 120000 }).should('include', '/circles');
-        cy.contains('Toys', { timeout: 120000 })
+        cy.contains('Garden', { timeout: 120000 })
             .parent()
             .parent()
             .within(() => {
