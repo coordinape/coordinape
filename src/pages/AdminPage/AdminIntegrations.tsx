@@ -6,7 +6,7 @@ import { makeStyles, IconButton } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import { DeleteIcon, DeworkIcon, DeworkLogo } from 'icons';
+import { DeleteIcon, DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
 import { paths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
@@ -71,18 +71,34 @@ export const AdminIntegrations = () => {
           </div>
         ))}
       </div>
-      <Button
-        as="a"
-        color="neutral"
-        size="medium"
-        outlined
-        href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
-      >
-        <Flex css={{ mr: '$sm' }}>
-          <DeworkIcon size="md" />
-        </Flex>
-        Connect Dework
-      </Button>
+      <Flex css={{ mr: '$sm' }} className={classes.integrationRow}>
+        <Button
+          as="a"
+          color="neutral"
+          size="medium"
+          outlined
+          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
+        >
+          <Flex css={{ mr: '$sm' }}>
+            <DeworkIcon size="md" />
+          </Flex>
+          Connect Dework
+        </Button>
+        <Button
+          as="a"
+          color="neutral"
+          size="medium"
+          outlined
+          href={
+            'https://docs.coordinape.com/get-started/compensation/paying-your-team'
+          }
+        >
+          <Flex css={{ mr: '$sm' }}>
+            <ParcelIcon size="md" />
+          </Flex>
+          Pay with Parcel
+        </Button>
+      </Flex>
 
       <ActionDialog
         open={!!deleteIntegration}
