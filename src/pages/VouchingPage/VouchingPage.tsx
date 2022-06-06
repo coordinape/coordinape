@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import { useQuery } from 'react-query';
 
-import { Button, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { LoadingModal } from 'components';
 import { useSelectedCircle } from 'recoilState/app';
+import { Button } from 'ui';
 
 import { getActiveNominees } from './getActiveNominees';
 import { NewNominationModal } from './NewNominationModal';
@@ -30,9 +31,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 400,
     color: theme.colors.text,
     textAlign: 'center',
-  },
-  nominateButton: {
-    margin: theme.spacing(8, 2),
   },
   subTitle: {
     maxWidth: theme.breakpoints.values.md,
@@ -109,9 +107,9 @@ export const VouchingPage = () => {
         )}
       </p>
       <Button
-        variant="contained"
+        css={{ my: '$xl' }}
         color="primary"
-        className={classes.nominateButton}
+        outlined
         disabled={cannotVouch}
         onClick={() => setNewNomination(true)}
       >

@@ -11,6 +11,7 @@ export * from './Link/Link';
 export * from './IconButton/IconButton';
 export * from './Modal';
 export * from './Panel/Panel';
+export * from './Popover';
 export * from './Select/Select';
 export * from './SvgIcon/SvgIcon';
 export * from './Text/Text';

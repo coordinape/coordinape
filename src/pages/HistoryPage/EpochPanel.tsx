@@ -62,16 +62,21 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
       </Box>
       <Panel nested>
         <Text variant="label">You received</Text>
-        <Text bold font="inter" large css={{ mb: '$md' }}>
+        <Text bold font="inter" size="large" css={{ mb: '$md' }}>
           {totalReceived} {tokenName}
         </Text>
         <Text variant="label">Total Distributed</Text>
-        <Text bold font="inter" large>
+        <Text bold font="inter" size="large">
           {totalAllocated} {tokenName}
         </Text>
         {dist && distAmount && (
           <AppLink to={paths.distributions(epoch.id)}>
-            <Text bold large font="inter" css={{ color: '$secondaryText' }}>
+            <Text
+              bold
+              font="inter"
+              size="large"
+              css={{ color: '$secondaryText' }}
+            >
               {distAmount.toString()} {dist.vault.symbol}
             </Text>
           </AppLink>
@@ -91,13 +96,13 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           <Box css={{ display: 'flex', gap: '$md' }}>
             <Box>
               <Text variant="label">Notes Left</Text>
-              <Text bold font="inter" large>
+              <Text bold font="inter" size="large">
                 {sent.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>
             <Box>
               <Text variant="label">Received</Text>
-              <Text bold font="inter" large>
+              <Text bold font="inter" size="large">
                 {received.filter(g => g.gift_private?.note).length}
               </Text>
             </Box>

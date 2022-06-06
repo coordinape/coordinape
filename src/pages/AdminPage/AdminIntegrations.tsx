@@ -74,7 +74,8 @@ export const AdminIntegrations = () => {
       <Button
         as="a"
         color="neutral"
-        size="small"
+        size="medium"
+        outlined
         href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
       >
         <Flex css={{ mr: '$sm' }}>

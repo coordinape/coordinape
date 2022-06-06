@@ -9,7 +9,7 @@ import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { PlusCircleIcon } from 'icons';
+import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
@@ -56,7 +56,12 @@ export const CreateEpochButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button
+      color="primary"
+      outlined
+      size={inline ? 'inline' : 'medium'}
+      onClick={onClick}
+    >
       Create Epoch
       <Tooltip
         content={
@@ -90,7 +95,12 @@ export const AddContributorButton = ({
   onClick: () => void;
 }) => {
   return (
-    <Button color="alert" size={inline ? 'inline' : 'small'} onClick={onClick}>
+    <Button
+      color="primary"
+      outlined
+      size={inline ? 'inline' : 'medium'}
+      onClick={onClick}
+    >
       Add Contributor
       <Tooltip
         content={
@@ -252,7 +262,13 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
           <LightText>
             {user.role === USER_ROLE_ADMIN
               ? 'Admin'
-              : `${!user.non_giver ? '✅' : '❌'} ${tokenName}`}
+              : `${
+                  !user.non_giver ? (
+                    <CheckIcon size="inherit" color="complete" />
+                  ) : (
+                    <CloseIcon size="inherit" color="alert" />
+                  )
+                } ${tokenName}`}
           </LightText>
         </Flex>
       </Box>
@@ -316,7 +332,7 @@ const EmptyTable = ({
       >
         {content}
       </Text>
-      <Button color="alert" onClick={() => onClick()}>
+      <Button color="secondary" onClick={() => onClick()}>
         <PlusCircleIcon />
         Add Contributor
       </Button>
@@ -632,7 +648,7 @@ export const ContributorsTable = ({
                       flexDirection: 'column',
                     }}
                   >
-                    <Text large css={{ my: '$md' }}>
+                    <Text size="large" css={{ my: '$md' }}>
                       Why is Coordinape in your circle?
                     </Text>
                     <p>
@@ -800,19 +816,29 @@ export const ContributorsTable = ({
                     </Table.Cell>
 
                     <Table.Cell key={`giver-${u.id}`}>
-                      {!u.non_giver ? '✅' : '❌'}
+                      {!u.non_giver ? (
+                        <CheckIcon size="inherit" color="complete" />
+                      ) : (
+                        <CloseIcon size="inherit" color="alert" />
+                      )}
                     </Table.Cell>
 
                     <Table.Cell key={`recipient-${u.id}`}>
-                      {u.fixed_non_receiver
-                        ? 'Forced ❌'
-                        : u.non_receiver
-                        ? '❌'
-                        : '✅'}
+                      {u.fixed_non_receiver ? (
+                        'Forced ❌'
+                      ) : u.non_receiver ? (
+                        <CloseIcon size="inherit" color="alert" />
+                      ) : (
+                        <CheckIcon size="inherit" color="complete" />
+                      )}
                     </Table.Cell>
 
                     <Table.Cell key={`admin-${u.id}`}>
-                      {u.role === USER_ROLE_ADMIN ? '✅' : '❌'}
+                      {u.role === USER_ROLE_ADMIN ? (
+                        <CheckIcon size="inherit" color="complete" />
+                      ) : (
+                        <CloseIcon size="inherit" color="alert" />
+                      )}
                     </Table.Cell>
                     <Table.Cell key={`give-sent-${u.id}`}>
                       {!u.non_giver ||

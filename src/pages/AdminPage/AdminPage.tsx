@@ -2,15 +2,14 @@ import React, { useState, useMemo } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { makeStyles, Button } from '@material-ui/core';
-
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Text } from 'ui';
+import { Button, Flex, Panel, Text, TextField } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
@@ -27,88 +26,7 @@ import {
 
 import { IUser, IEpoch } from 'types';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: theme.spacing(0, 0, 4),
-    margin: 'auto',
-    maxWidth: theme.breakpoints.values.lg,
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2, 4),
-    },
-  },
-  withVaults: {
-    minHeight: 668,
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    alignContent: 'space-between',
-    justifyItems: 'stretch',
-    borderRadius: 8,
-    background: theme.colors.surface,
-    alignItems: 'center',
-    columnGap: theme.spacing(3),
-    padding: theme.spacing(0, 4, 4),
-    margin: theme.spacing(4, 4),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-      gridTemplateColumns: '1fr',
-    },
-    '& > *': {
-      alignSelf: 'start',
-    },
-    '& .MuiSkeleton-root': {
-      marginLeft: theme.spacing(1.5),
-    },
-    '& .MuiSkeleton-rect': {
-      borderRadius: 5,
-    },
-  },
-  actionsAndEpochs: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  actionBar: {
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  actionBarInner: {
-    display: 'flex',
-    flexDirection: 'row',
-    '& > *': {
-      marginLeft: theme.spacing(1.5),
-    },
-  },
-  userActionBar: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 70,
-  },
-  searchInput: {
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(1),
-    fontSize: 14,
-    fontWeight: 500,
-    textAlign: 'center',
-    color: theme.colors.text,
-    background: theme.colors.white,
-    border: 'none',
-    borderRadius: 8,
-    outline: 'none',
-    '&::placeholder': {
-      color: theme.colors.secondaryText,
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
-  },
-}));
-
 const AdminPage = () => {
-  const classes = useStyles();
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
@@ -157,48 +75,44 @@ const AdminPage = () => {
   );
 
   return (
-    <div className={classes.root}>
-      <div className={classes.withVaults}>
-        <div className={classes.actionsAndEpochs}>
+    <SingleColumnLayout>
+      <Panel>
+        <Flex css={{ alignItems: 'center' }}>
           <Text h2 css={{ my: '$xl' }}>
             {selectedCircle?.name}
           </Text>
-          <div className={classes.actionBar}>
-            {!isMobile && (
-              <div className={classes.actionBarInner}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  startIcon={<EditIcon />}
-                  onClick={() => setEditCircle(true)}
-                >
-                  Settings
-                </Button>
+          {!isMobile ? (
+            <Flex css={{ flexGrow: 1, justifyContent: 'flex-end', gap: '$md' }}>
+              <Button
+                color="primary"
+                outlined
+                onClick={() => setEditCircle(true)}
+              >
+                <EditIcon />
+                Settings
+              </Button>
 
-                <AddContributorButton
-                  onClick={() => setNewUser(true)}
-                  tokenName={selectedCircle.tokenName}
-                />
-                <CreateEpochButton
-                  onClick={() => setNewEpoch(true)}
-                  tokenName={selectedCircle.tokenName}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  startIcon={<PlusCircleIcon />}
-                  onClick={() => navigate(paths.createCircle)}
-                >
-                  Add Circle
-                </Button>
-              </div>
-            )}
-            {isMobile && (
-              <SettingsIconButton onClick={() => setEditCircle(true)} />
-            )}
-          </div>
-        </div>
+              <AddContributorButton
+                onClick={() => setNewUser(true)}
+                tokenName={selectedCircle.tokenName}
+              />
+              <CreateEpochButton
+                onClick={() => setNewEpoch(true)}
+                tokenName={selectedCircle.tokenName}
+              />
+              <Button
+                color="primary"
+                outlined
+                onClick={() => navigate(paths.createCircle)}
+              >
+                <PlusCircleIcon />
+                Add Circle
+              </Button>
+            </Flex>
+          ) : (
+            <SettingsIconButton onClick={() => setEditCircle(true)} />
+          )}
+        </Flex>
         {isMobile && (
           <EpochsTableHeader
             onClick={() => setNewEpoch(true)}
@@ -221,14 +135,16 @@ const AdminPage = () => {
             tokenName={selectedCircle.tokenName}
           />
         )}
-        <div className={classes.userActionBar}>
-          <input
-            className={classes.searchInput}
-            onChange={onChangeKeyword}
-            placeholder="🔍 Search"
-            value={keyword}
-          />
-        </div>
+        <TextField
+          inPanel
+          size="sm"
+          css={{
+            my: '$md',
+          }}
+          onChange={onChangeKeyword}
+          placeholder="🔍 Search"
+          value={keyword}
+        />
 
         <ContributorsTable
           users={visibleUsers}
@@ -240,7 +156,7 @@ const AdminPage = () => {
           setDeleteUserDialog={setDeleteUserDialog}
           perPage={15}
         />
-      </div>
+      </Panel>
       {(editUser || newUser) && (
         <AdminUserModal
           onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
@@ -300,7 +216,7 @@ const AdminPage = () => {
             : undefined
         }
       />
-    </div>
+    </SingleColumnLayout>
   );
 };
 

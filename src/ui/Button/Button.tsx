@@ -8,7 +8,7 @@ export const Button = styled('button', {
     paddingRight: '$sm',
   },
   '& svg': {
-    margin: '$sm',
+    margin: '0 $xs',
   },
   px: '$md',
   display: 'flex',
@@ -18,12 +18,13 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
-  '&[disabled]': {
-    opacity: 0.5,
-  },
-
   '&:hover': {
-    opacity: 0.8,
+    // using saturate until hover colors are defined
+    filter: 'saturate(1.4)',
+  },
+  '&[disabled]': {
+    opacity: 0.4,
+    cursor: 'default',
   },
 
   variants: {
@@ -32,7 +33,11 @@ export const Button = styled('button', {
         backgroundColor: '$primary',
         color: '$textOnPrimary',
       },
-      alert: {
+      secondary: {
+        backgroundColor: '$secondary',
+        color: '$textOnSecondary',
+      },
+      destructive: {
         backgroundColor: '$alert',
         color: '$textOnAlert',
       },
@@ -42,7 +47,13 @@ export const Button = styled('button', {
       },
       surface: {
         backgroundColor: '$surface',
-        color: '$text',
+        '&:hover': {
+          filter: 'saturate(3)',
+        },
+      },
+      complete: {
+        backgroundColor: '$complete',
+        color: 'white',
       },
       transparent: {
         padding: '$xs',
@@ -73,26 +84,27 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
-        height: 'calc($xl + 4px)',
-        minHeight: 'calc($xl + 4px)',
-        fontSize: '$medium',
-        fontWeight: '$bold',
-        lineHeight: '$shorter',
-        borderRadius: '$4',
-      },
-      small: {
         height: '$xl',
         minHeight: '$xl',
-        fontSize: '$small',
+        fontSize: '$medium',
         fontWeight: '$medium',
         lineHeight: '$shorter',
         borderRadius: '$3',
+      },
+      small: {
+        height: '$lg',
+        minHeight: '$lg',
+        fontSize: '$small',
+        fontWeight: '$medium',
+        lineHeight: '$shorter',
+        borderRadius: '$1',
+        px: '$sm',
       },
       inline: {
         fontSize: '$2',
         fontWeight: '$medium',
         lineHeight: '$shorter',
-        borderRadius: '$3',
+        borderRadius: '$1',
         py: '0px',
       },
       smallIcon: {
@@ -130,11 +142,9 @@ export const Button = styled('button', {
         '&:hover': {
           color: '$secondary',
           background: '$surface',
-          opacity: 1,
         },
         '&:disabled': {
           color: '$text',
-          opacity: 0.5,
         },
       },
     },
@@ -157,22 +167,63 @@ export const Button = styled('button', {
       css: {
         color: '$primary',
         borderColor: '$primary',
+        '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$primary !important',
+        },
       },
     },
     {
-      color: 'alert',
+      color: 'secondary',
+      outlined: true,
+      css: {
+        color: '$secondary',
+        borderColor: '$secondary',
+        '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$secondary !important',
+        },
+      },
+    },
+    {
+      color: 'destructive',
       outlined: true,
       css: {
         color: '$alert',
         borderColor: '$alert',
+        '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$alert !important',
+        },
       },
     },
     {
       color: 'neutral',
       outlined: true,
       css: {
-        color: '$neutral',
-        borderColor: '$neutral',
+        color: '$text',
+        borderColor: '$text',
+        '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$neutral !important',
+        },
+      },
+    },
+    {
+      color: 'complete',
+      outlined: true,
+      css: {
+        color: '$complete',
+        borderColor: '$complete',
+        '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$complete !important',
+        },
       },
     },
   ],

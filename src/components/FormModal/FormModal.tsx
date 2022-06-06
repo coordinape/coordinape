@@ -141,7 +141,7 @@ export const FormModal = ({
         {!!onSubmit && (
           <Button
             css={{ mt: '$lg', gap: '$xs' }}
-            color="alert"
+            color="primary"
             size="medium"
             onClick={event => {
               event.preventDefault();

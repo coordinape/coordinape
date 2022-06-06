@@ -26,18 +26,21 @@ export const TextField = styled('input', {
 
   color: '$text',
   variants: {
+    inPanel: {
+      true: {
+        backgroundColor: '$white',
+      },
+    },
     size: {
       sm: {
         width: '175px',
-        height: '48px',
+        height: '$xl',
+        fontSize: '$small',
       },
       md: {
         width: '250px',
         height: '48px',
       },
-    },
-    variant: {
-      token: {},
     },
     error: {
       true: {

@@ -260,13 +260,13 @@ export const AllocationPage = () => {
             />
             <div className={classes.buttonContainer}>
               {epochDirty ? (
-                <Button size="large" color="alert" onClick={handleSaveEpoch}>
+                <Button size="large" color="primary" onClick={handleSaveEpoch}>
                   Save Epoch Settings
                 </Button>
               ) : (
                 <Button
                   size="large"
-                  color="alert"
+                  color="primary"
                   disabled={!selectedCircle.team_selection && !epochIsActive}
                   onClick={getHandleStep(
                     !selectedCircle.team_selection
@@ -286,13 +286,17 @@ export const AllocationPage = () => {
             <AllocationTeam />
             <div className={classes.buttonContainer}>
               {localTeammatesChanged ? (
-                <Button size="large" color="alert" onClick={handleSaveTeamList}>
+                <Button
+                  size="large"
+                  color="primary"
+                  onClick={handleSaveTeamList}
+                >
                   Save Teammate List
                 </Button>
               ) : (
                 <Button
                   size="large"
-                  color="alert"
+                  color="primary"
                   disabled={!epochIsActive}
                   onClick={getHandleStep(STEP_ALLOCATION)}
                 >
@@ -326,7 +330,7 @@ export const AllocationPage = () => {
               {localGiftsChanged && (
                 <Button
                   size="large"
-                  color="alert"
+                  color="primary"
                   onClick={handleSaveAllocations}
                   disabled={tokenRemaining < 0}
                 >

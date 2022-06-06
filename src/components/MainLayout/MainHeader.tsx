@@ -5,7 +5,12 @@ import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
 
-import { ReceiveInfo, MyAvatarMenu, NewApeAvatar } from 'components';
+import {
+  ReceiveInfo,
+  MyAvatarMenu,
+  NewApeAvatar,
+  OverviewMenu,
+} from 'components';
 import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
@@ -16,7 +21,6 @@ import {
   useMyProfile,
   useSelectedCircle,
 } from 'recoilState/app';
-import { useHasCircles } from 'recoilState/db';
 import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Button } from 'ui';
 import { shortenAddress } from 'utils';
@@ -24,13 +28,12 @@ import { shortenAddress } from 'utils';
 const log = debug('recoil:MainHeader');
 
 const mainLinks = [
-  [paths.circles, 'Circles'],
+  [paths.circles, 'Overview'],
   isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
   const { address } = useWalletStatus();
-  const hasCircles = useHasCircles();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && isCircleSpecificPath(location);
@@ -48,53 +51,59 @@ export const MainHeader = () => {
     <Box
       css={{
         px: '$1xl',
-        pt: '9px', // manual offset to align breadcrumb
-        height: '80px',
+        height: '$headerHeight',
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: '$text',
+        flexDirection: inCircle ? 'column' : 'row',
+        justifyContent: inCircle ? 'normal' : 'space-between',
+        alignItems: inCircle ? 'normal' : 'center',
+        background: '$headingText',
       }}
     >
-      <Image
-        alt="logo"
-        css={{ height: '$1xl', mr: '$md' }}
-        src="/svgs/logo/logo.svg"
-      />
-      {hasCircles && <TopLevelLinks links={mainLinks} />}
-
+      <Box
+        css={{
+          p: '$sm $md $xs',
+          color: '$neutral',
+          fontWeight: '$black',
+        }}
+      >
+        COORDINAPE
+      </Box>
       <Box
         css={{
           display: 'flex',
-          flexGrow: 1,
-          justifyContent: 'flex-end',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           position: 'relative',
-          top: '-7px', // half of breadcrumb line-height
         }}
       >
-        {inCircle && (
-          <Box>
-            <Box
-              css={{ color: '$secondaryText', ml: '$md', lineHeight: '14px' }}
-            >
-              {breadcrumb}
+        {inCircle && <OverviewMenu />}
+        <Box
+          css={{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'flex-start',
+            position: 'relative',
+          }}
+        >
+          {inCircle && (
+            <Box>
+              <Suspense fallback={null}>
+                <CircleNav />
+              </Suspense>
             </Box>
-
-            <Suspense fallback={null}>
-              <CircleNav />
-            </Suspense>
-          </Box>
+          )}
+        </Box>
+        {inCircle && (
+          <Suspense fallback={null}>
+            <ReceiveInfo />
+          </Suspense>
         )}
-      </Box>
-      {inCircle && (
+        {!address && <ConnectButton />}
         <Suspense fallback={null}>
-          <ReceiveInfo />
+          <MyAvatarMenu />
         </Suspense>
-      )}
-      {!address && <ConnectButton />}
-      <Suspense fallback={null}>
-        <MyAvatarMenu />
-      </Suspense>
+      </Box>
     </Box>
   );
 };
@@ -284,46 +293,38 @@ const MobileAvatar = () => {
   );
 };
 
-const linkStyle = {
-  my: 0,
-  mx: '$md',
-  fontSize: '$large',
-  fontWeight: '$bold',
-  color: '$white',
-  textDecoration: 'none',
-  px: 0,
-  py: '$xs',
-  position: 'relative',
-  '&::after': {
-    content: `" "`,
-    position: 'absolute',
-    left: '50%',
-    right: '50%',
-    backgroundColor: '$red4',
-    transition: 'all 0.3s',
-    bottom: 0,
-    height: 2,
+export const menuGroupStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  borderTop: '1px solid $border',
+  width: '100%',
+  mt: '$md',
+  'a, label': {
+    mt: '$sm',
   },
+};
+
+export const navLinkStyle = {
+  my: 0,
+  mr: '$xs',
+  fontSize: '$large',
+  color: '$white',
+  borderRadius: '$pill',
+  textDecoration: 'none',
+  px: '$md',
+  py: '$sm',
+  position: 'relative',
+  border: '1px solid transparent',
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
   '&:hover': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$red4',
-    },
+    borderColor: '$secondaryText',
   },
   '&.active': {
-    '&::after': {
-      left: 0,
-      right: 0,
-      backgroundColor: '$alert',
-    },
-    '&:hover': {
-      '&::after': {
-        left: 0,
-        right: 0,
-        backgroundColor: '$alert',
-      },
-    },
+    backgroundColor: '$focusedBorder',
+    fontWeight: '$bold',
+    color: '$text',
   },
   '@sm': {
     position: 'unset',
@@ -366,7 +367,7 @@ export const TopLevelLinks = ({
     >
       {links.map(([path, label, matchPaths]) => (
         <Link
-          css={linkStyle}
+          css={navLinkStyle}
           as={NavLink}
           key={path}
           to={path}
@@ -385,7 +386,6 @@ const CircleNav = () => {
 
   const links: [string, string, string[]?][] = useMemo(() => {
     const l: [string, string, string[]?][] = [
-      [paths.history, 'History'],
       [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
       [paths.map(), 'Map'],
     ];
@@ -395,7 +395,7 @@ const CircleNav = () => {
     return l;
   }, [circle.id]);
 
-  return <TopLevelLinks links={links} css={{ mr: '$md' }} />;
+  return <TopLevelLinks links={links} css={{ mr: '$xs' }} />;
 };
 
 export default MainHeader;

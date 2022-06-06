@@ -1,20 +1,28 @@
 import React from 'react';
 
 import { useWeb3React } from '@web3-react/core';
-import clsx from 'clsx';
+import { NavLink } from 'react-router-dom';
 
-import { Popover, makeStyles, Hidden } from '@material-ui/core';
+import { makeStyles, Hidden } from '@material-ui/core';
 
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ApeAvatar } from 'components';
+import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
-import { AppLink, Box, Link } from 'ui';
+import {
+  Box,
+  Link,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+} from 'ui';
 import { shortenAddress } from 'utils';
 import { connectors } from 'utils/connectors';
 
@@ -24,25 +32,6 @@ const useStyles = makeStyles(theme => ({
     height: '50px',
     width: '50px',
     cursor: 'pointer',
-    border: '3px solid #828F93',
-    transition: 'border-color .3s ease',
-    '&.selected': {
-      border: '3px solid rgba(239, 115, 118, 1)',
-    },
-    '&:hover': {
-      border: '3px solid rgba(239, 115, 118, 1)',
-    },
-  },
-  popover: {
-    width: 237,
-    marginTop: theme.spacing(0.5),
-    padding: 0,
-    borderRadius: 8,
-    background:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(207, 231, 233, 0) 100%), #FFFFFF',
-    boxShadow: '0px 4px 6px rgba(181, 193, 199, 0.16)',
-    display: 'flex',
-    flexDirection: 'column',
   },
 }));
 
@@ -51,67 +40,79 @@ export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
   const { icon, address, logout } = useWalletStatus();
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-
   return (
     <>
-      <ApeAvatar
-        profile={myProfile}
-        onClick={event => setAnchorEl(event.currentTarget)}
-        className={
-          !anchorEl
-            ? classes.avatarButton
-            : clsx(classes.avatarButton, 'selected')
-        }
-      />
       <Hidden smDown>
-        <Popover
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          classes={{ paper: classes.popover }}
-          id="my-avatar-popover"
-          onClick={() => setTimeout(() => setAnchorEl(null))}
-          onClose={() => setAnchorEl(null)}
-          open={!!anchorEl}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        >
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              pt: '$md',
-              '> *': { padding: '$xs $lg' },
-              '> a': {
-                color: '$text',
-                '&:hover': { color: '$black' },
-              },
-            }}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Link href="#">
+              <ApeAvatar profile={myProfile} className={classes.avatarButton} />
+            </Link>
+          </PopoverTrigger>
+          <PopoverContent
+            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
+            sideOffset={-67}
+            alignOffset={-16}
+            css={{ background: '$surface' }}
           >
-            <Box css={{ display: 'flex', alignItems: 'center' }}>
-              <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
-              {address && shortenAddress(address)}
-            </Box>
-
-            <AppLink to={paths.profile('me')}>My Profile</AppLink>
-            <AppLink to={paths.circles}>My Circles</AppLink>
-            <Link href={EXTERNAL_URL_DOCS}>Docs</Link>
-            <Link css={{ cursor: 'pointer' }} onClick={logout}>
-              Log Out
-            </Link>
-            <Link
+            <Box
               css={{
-                backgroundColor: '$secondaryDark',
-                mt: '$md',
-                py: '$md !important',
-                color: 'white !important',
-                '&:hover': { opacity: 0.8 },
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'right',
+                alignItems: 'end',
+                p: 'calc($md + $xs)',
               }}
-              href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
-              target="_blank"
             >
-              Give Feedback
-            </Link>
-          </Box>
+              <PopoverClose asChild>
+                <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
+                  <ApeAvatar
+                    className={classes.avatarButton}
+                    profile={myProfile}
+                  />
+                </Box>
+              </PopoverClose>
+              <Box
+                css={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mb: '$xs',
+                  fontWeight: '$bold',
+                  fontSize: '$large',
+                }}
+              >
+                <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
+                {address && shortenAddress(address)}
+              </Box>
+              <Link
+                type="menu"
+                css={{ fontSize: '$xs', color: '$headingText' }}
+                onClick={logout}
+              >
+                Disconnect
+              </Link>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" as={NavLink} to={paths.profile('me')}>
+                  Profile
+                </Link>
+                <Link type="menu" as={NavLink} to={paths.circles}>
+                  Circles
+                </Link>
+              </Box>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" href={EXTERNAL_URL_DOCS}>
+                  Docs
+                </Link>
+                <Link
+                  type="menu"
+                  href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
+                  target="_blank"
+                >
+                  Give Feedback
+                </Link>
+              </Box>
+            </Box>
+          </PopoverContent>
         </Popover>
       </Hidden>
     </>

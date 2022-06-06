@@ -147,7 +147,7 @@ export function DistributionForm({
                           fontSize: '$small',
                           lineHeight: '$shorter',
                           fontWeight: '$semibold',
-                          color: '$red',
+                          color: '$alert',
                           textAlign: 'center',
                           paddingTop: '$sm',
                         }}
@@ -189,7 +189,7 @@ export function DistributionForm({
         </Box>
       </Box>
       <Box css={{ display: 'flex', justifyContent: 'center' }}>
-        <Button color="alert" size="medium" disabled={submitting}>
+        <Button color="primary" outlined size="medium" disabled={submitting}>
           {submitting ? 'Submitting...' : 'Submit Distribution'}
         </Button>
       </Box>

@@ -127,10 +127,10 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         flexDirection: 'column',
       }}
     >
-      <Text font="source" large semibold css={{ mb: '$sm' }}>
+      <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
         Select a Vault Asset
       </Text>
-      <Text font="source" medium>
+      <Text font="source" size="medium">
         Vaults allow you to fund your circles with the asset of your choice.
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
@@ -169,7 +169,8 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
         {...customAddressField}
       />
       <Button
-        color="alert"
+        color="primary"
+        outlined
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid}
       >

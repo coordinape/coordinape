@@ -291,10 +291,8 @@ export const AdminCircleModal = ({
       >
         <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
         <label htmlFor="upload-logo-button">
-          <Button as="div" size="small" color="neutral">
-            <Flex css={{ mr: '$sm' }}>
-              <UploadIcon />
-            </Flex>
+          <Button as="div" color="neutral" outlined>
+            <UploadIcon />
             Upload Circle Logo
           </Button>
         </label>
@@ -463,10 +461,13 @@ export const AdminCircleModal = ({
         )}
         <div className={classes.webhookButtonContainer}>
           {!allowEdit && (
-            <Button onClick={editDiscordWebhook} color="neutral" size="small">
-              <Flex css={{ mr: '$sm' }}>
-                <EditIcon />
-              </Flex>
+            <Button
+              onClick={editDiscordWebhook}
+              color="neutral"
+              size="medium"
+              outlined
+            >
+              <EditIcon />
               Edit WebHook
             </Button>
           )}

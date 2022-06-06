@@ -141,7 +141,7 @@ const themeOptions = {
     MuiStepIcon: {
       root: {
         '&.MuiStepIcon-active': {
-          color: customColor.alert,
+          color: customColor.primary,
           '& .MuiStepIcon-text': {
             fill: 'white',
           },

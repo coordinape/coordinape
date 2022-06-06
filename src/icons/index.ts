@@ -12,6 +12,10 @@
 
 export * from './AwardIcon';
 export * from './BalanceIcon';
+export * from './ChevronDown';
+export * from './ChevronUp';
+export * from './CheckIcon';
+export * from './CheckedRadio';
 export * from './CloseIcon';
 export * from './DeleteIcon';
 export * from './DeworkIcon';
@@ -32,4 +36,5 @@ export * from './RightArrowIcon';
 export * from './SaveIcon';
 export * from './TelegramIcon';
 export * from './TwitterIcon';
+export * from './UnCheckedRadio';
 export * from './UploadIcon';

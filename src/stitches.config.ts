@@ -33,6 +33,18 @@ export const SvgIconConfig = {
         width: '$xl',
         height: '$xl',
       },
+      inherit: {
+        width: 'inherit',
+        height: 'inherit',
+      },
+    },
+    color: {
+      default: { color: '$text' },
+      neutral: { color: '$neutral' },
+      alert: { color: '$alert' },
+      primary: { color: '$primary' },
+      white: { color: '$white' },
+      complete: { color: '$complete' },
     },
   },
   defaultVariants: {
@@ -43,7 +55,7 @@ export const SvgIconConfig = {
 const spaces = {
   xs: '4px',
   sm: '8px',
-  md: '16px',
+  md: '12px',
   lg: '24px',
   xl: '32px',
   '1xl': '40px',
@@ -57,6 +69,7 @@ export const colors = {
 
   primary: figmaColors.blue12,
   textOnPrimary: '#fff',
+  textOnSecondary: '#fff',
 
   alert: figmaColors.red12,
   alertDark: figmaColors.red20,
@@ -76,7 +89,7 @@ export const colors = {
   link: figmaColors.blue12,
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
-  secondaryText: figmaColors.grey12,
+  secondaryText: figmaColors.grey10,
 };
 
 export const {
@@ -100,6 +113,7 @@ export const {
       full: '100%',
       smallScreen: '900px',
       mediumScreen: '1280px',
+      headerHeight: '91px',
       ...spaces,
     },
     radii: {
@@ -137,6 +151,10 @@ export const {
       tall: 1.625,
       tall2: 1.75,
       taller: '2',
+    },
+    shadows: {
+      heavy:
+        '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
     },
   },
   media: {

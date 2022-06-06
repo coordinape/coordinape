@@ -116,7 +116,7 @@ export function DistributionsPage() {
               textAlign: 'center',
               display: 'block',
               mt: '$md',
-              color: '$red',
+              color: '$alert',
             }}
           >
             {epochError}
