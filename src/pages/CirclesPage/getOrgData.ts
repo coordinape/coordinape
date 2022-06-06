@@ -40,6 +40,6 @@ export const getOrgData = (address: string) =>
       ],
     },
     {
-      operationName: 'getMenuData',
+      operationName: 'getOrgData',
     }
   );
