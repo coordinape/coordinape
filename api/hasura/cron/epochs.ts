@@ -649,7 +649,7 @@ async function setNextEpochNumber({
           {
             where: {
               circle_id: { _eq: circle_id },
-              ended: { _eq: true },
+              end_date: { _lte: 'now()' },
             },
           },
           { aggregate: { max: { number: true } } },
