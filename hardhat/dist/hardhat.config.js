@@ -54,6 +54,7 @@ const tokens = {
     .addParam('address', 'The recipient', constants_1.HARDHAT_OWNER_ADDRESS)
     .addParam('amount', 'The amount to mint')
     .setAction(async (args, hre) => {
+    console.log('derpazoid');
     const mintEth = async (receiver, amount) => {
         const signers = await hre.ethers.getSigners();
         await signers[0].sendTransaction({
@@ -95,7 +96,7 @@ const sharedNetworkSettings = {
     gasPrice: 'auto',
     gasMultiplier: 1,
     accounts: {
-        mnemonic: 'coordinape',
+        mnemonic: 'test test test test test test test test test test test junk',
     },
     deploy: ['./scripts/deploy'],
 };

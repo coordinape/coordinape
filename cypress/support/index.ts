@@ -21,6 +21,16 @@ declare global {
        * @example cy.multiClick(5)
        */
       multiClick(count: number): Chainable;
+
+      /**
+       * Custom command to mint ERC20 tokens to an arbitrary address
+       * on the test ganache chain
+       */
+      mintErc20(
+        symbol: 'USDC' | 'DAI',
+        receiver: string,
+        amount: string
+      ): Chainable;
     }
   }
 }
