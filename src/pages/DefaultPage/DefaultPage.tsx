@@ -1,9 +1,8 @@
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { Button, makeStyles } from '@material-ui/core';
-
-import { rMyProfile, rSelectedCircle } from 'recoilState/app';
+import { useHasCircles } from 'hooks/migration';
+import { rMyProfile } from 'recoilState/app';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
@@ -11,88 +10,50 @@ import {
   EXTERNAL_URL_TWITTER,
   paths,
 } from 'routes/paths';
-import { Box } from 'ui';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: 0,
-  },
-  subTitle: {
-    margin: 0,
-    padding: theme.spacing(0, 5),
-    fontSize: 30,
-    fontWeight: 400,
-    color: theme.colors.text,
-  },
-  welcomeSection: {
-    width: '100%',
-    textAlign: 'left',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: 400,
-    color: theme.colors.text,
-  },
-  startCircle: {
-    margin: 'auto',
-    marginTop: theme.spacing(3),
-  },
-}));
+import { Box, Button, Flex, Text } from 'ui';
 
 export const DefaultPage = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
 
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const hasCircles = useHasCircles();
 
   // still loading
   if (!myProfile) return null;
 
-  if (!selectedCircle) {
+  if (!hasCircles) {
     return (
-      <Box
+      <Flex
         css={{
+          flexDirection: 'column',
           maxWidth: '700px',
           mx: 'auto',
           pt: '$2xl',
           px: '$lg',
-          textAlign: 'center',
+          '> p': { mt: 0, mb: '$md', color: '$text', fontSize: '$medium' },
         }}
       >
-        <p className={classes.title}>Welcome!</p>
-        <div className={classes.welcomeSection}>
-          <p className={classes.welcomeText}>
-            This wallet isn&apos;t associated with a circle.
-          </p>
-          <p className={classes.welcomeText}>
-            If you are supposed to be part of a circle already, contact your
-            circle&apos;s admin to make sure they added this address:{' '}
-            {myProfile.address}
-          </p>
-          <p className={classes.welcomeText}>Or, create a new circle.</p>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(paths.createCircle)}
-            className={classes.startCircle}
-          >
-            Start a Circle
-          </Button>
-        </div>
+        <Text h1 css={{ justifyContent: 'center', mb: '$md' }}>
+          Welcome!
+        </Text>
+        <p>This wallet isn&apos;t associated with a circle.</p>
+        <p>
+          If you are supposed to be part of a circle already, contact your
+          circle&apos;s admin to make sure they added this address:{' '}
+          {myProfile.address}
+        </p>
+        <p>Or, create a new circle.</p>
+        <Button
+          color="primary"
+          size="large"
+          outlined
+          onClick={() => navigate(paths.createCircle)}
+          css={{ alignSelf: 'center' }}
+        >
+          Start a Circle
+        </Button>
         <Footer />
-      </Box>
+      </Flex>
     );
   }
 

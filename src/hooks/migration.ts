@@ -9,7 +9,7 @@ import debug from 'debug';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { useApiBase } from 'hooks';
-import { rSelectedCircle, rManifest } from 'recoilState';
+import { rSelectedCircle, rApiManifest, rManifest } from 'recoilState';
 
 // if you have a new page that doesn't use Recoil and is related to a specific
 // circle, you may want to use this hook to make sure that if you then navigate
@@ -36,3 +36,6 @@ export const useRoleInCircle = (circleId: number) => {
   const user = manifest.myProfile.myUsers.find(u => u.circle_id === circleId);
   return user?.role;
 };
+
+export const useHasCircles = () =>
+  (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;

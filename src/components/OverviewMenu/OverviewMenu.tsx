@@ -12,10 +12,10 @@ import { navLinkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
+import { useHasCircles } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ChevronUp, ChevronDown } from 'icons';
 import { rSelectedCircle } from 'recoilState/app';
-import { useHasCircles } from 'recoilState/db';
 import { paths, isCircleSpecificPath } from 'routes/paths';
 import {
   Box,
