@@ -150,6 +150,7 @@ export const CreateForm = ({
               alt={symbol}
               height={25}
               width={25}
+              style={{ paddingRight: 0 }}
             />
             <Text css={{ ml: '$xs' }}>{symbol}</Text>
           </AssetButton>
