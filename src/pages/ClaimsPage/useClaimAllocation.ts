@@ -83,6 +83,7 @@ export function useClaimAllocation() {
 
       return txHash;
     } catch (e) {
+      console.error(e);
       showError(e);
       return new Error(e as string);
     }

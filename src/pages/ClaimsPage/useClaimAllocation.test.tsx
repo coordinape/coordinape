@@ -72,8 +72,9 @@ test('claim single successfully', async () => {
     work = (async () => {
       const vault = await createVault({
         simpleTokenAddress: '0x0',
-        type: Asset.USDC,
+        type: Asset.DAI,
       });
+      console.log(vault);
       assert(vault, 'vault not created');
       await deposit(vault, '100');
 

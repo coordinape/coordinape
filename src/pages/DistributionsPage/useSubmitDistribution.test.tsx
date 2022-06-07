@@ -100,7 +100,7 @@ test('submit distribution', async () => {
   let merkleRootFromDistributor = 'actual';
 
   const Harness = () => {
-    const { createVault } = useVaultFactory(101); // fake org id
+    const { createVault } = useVaultFactory(101); // fake org  id
     const submitDistribution = useSubmitDistribution();
 
     const contracts = useContracts();
