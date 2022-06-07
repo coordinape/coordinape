@@ -9,18 +9,20 @@ context('Coordinape', () => {
   after(() => {
     // might want something more surgical and lightweight
     // to facilitate faster idempotent testing
-    //cy.exec('yarn db-seed-fresh');
+    // cy.exec('yarn db-seed-fresh');
   });
   it('can deploy a vault and create a distribution', () => {
     cy.visit('/circles');
-    cy.login();
+    cy.login().wait(3000);
     // This is highly dependent upon how our seed is constructed..
-    cy.url({ timeout: 120000 }).should('include', '/circles');
     // Sports is a circle w/ an ended epoch, the Vaults button is a child of a peer element
+    cy.contains('Sports', { timeout: 120000 }).click().wait(20000);
     cy.contains('Sports', { timeout: 120000 }).click();
     cy.contains('Vaults', { timeout: 120000 }).click();
     // Create a vault where none exist
-    cy.contains('There are no vaults in your organization yet.');
+    cy.contains('There are no vaults in your organization yet.', {
+      timeout: 90000,
+    });
     cy.contains('Add Vault').click();
     cy.contains('USDC').click();
     cy.contains('Create Vault').click();
@@ -33,21 +35,16 @@ context('Coordinape', () => {
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
     // submit distribution onchain
-    cy.contains('Circles').click();
-    cy.contains('Sports', { timeout: 120000 })
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get('.hover-buttons').invoke('show');
-        cy.get('a').contains('Admin', { timeout: 45000 }).click();
-      });
-    cy.contains('a', 'Distributions').click();
-    cy.get('input[type=number]').click().type('4500');
+    cy.visit('/admin/circles');
+    cy.contains('a', 'Distributions', { timeout: 120000 }).click();
+    cy.get('input[type=number]').click().type('4500').wait(10000);
     cy.contains('button', 'Submit Distribution').click();
-    cy.contains('Transaction completed');
-    cy.contains('Distribution saved successfully', { timeout: 45000 });
-    // This takes extremely long time to render in the UI
-    // Not sure it's worth waiting two minutes for it to show up
-    //cy.contains('Distribution submitted today', { timeout: 240000 });
+    cy.contains('Submitting', { timeout: 120000 });
+    cy.contains('Please sign the transaction', { timeout: 120000 });
+    cy.contains('Transaction completed', { timeout: 120000 });
+    cy.contains('Distribution saved successfully', { timeout: 120000 });
+    // This takes extremely long time to render in the UI without a refresh
+    cy.reload(true);
+    cy.contains('Distribution submitted today', { timeout: 120000 });
   });
 });
