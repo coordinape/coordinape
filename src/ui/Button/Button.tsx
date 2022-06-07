@@ -116,6 +116,10 @@ export const Button = styled('button', {
         fontWeight: '$medium',
         lineHeight: 'none',
         borderRadius: '$3',
+        padding: 0,
+        '& svg': {
+          margin: 0,
+        },
       },
     },
     variant: {
