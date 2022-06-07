@@ -111,6 +111,7 @@ test('submit distribution', async () => {
           type: Asset.DAI,
         });
         assert(vault, 'vault not created');
+        await deposit(vault, '120');
 
         const distro = await submitDistribution({
           amount: '100',

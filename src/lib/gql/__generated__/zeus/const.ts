@@ -27,6 +27,7 @@ export const AllTypesProps: Record<string, any> = {
   CreateVaultInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
+  GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
@@ -1236,6 +1237,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_circle_integrations_by_pk: {
       id: 'bigint',
+    },
+    generateApiKey: {
+      payload: 'GenerateApiKeyInput',
     },
     insert_circle_integrations: {
       objects: 'circle_integrations_insert_input',
@@ -2959,6 +2963,11 @@ export const ReturnTypes: Record<string, any> = {
     epoch: 'epochs',
     id: 'ID',
   },
+  GenerateApiKeyResponse: {
+    api_key: 'String',
+    circleApiKey: 'circle_api_keys',
+    hash: 'String',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -3380,6 +3389,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_api_keys_by_pk: 'circle_api_keys',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
+    generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
     insert_claims: 'claims_mutation_response',

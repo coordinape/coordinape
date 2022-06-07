@@ -761,16 +761,16 @@ export type ValueTypes = {
     circle_id: number;
     create_vouches?: boolean | undefined | null;
     name: string;
-    read_allocations?: boolean | undefined | null;
     read_circle?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
-    update_allocations?: boolean | undefined | null;
+    read_pending_token_gifts?: boolean | undefined | null;
     update_circle?: boolean | undefined | null;
+    update_pending_token_gifts?: boolean | undefined | null;
   };
   ['GenerateApiKeyResponse']: AliasType<{
-    apiKey?: boolean | `@${string}`;
+    api_key?: boolean | `@${string}`;
     /** An object relationship */
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
@@ -829,7 +829,6 @@ export type ValueTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
-    chain_id?: number | undefined | null;
     circle_id: number;
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
@@ -11028,7 +11027,7 @@ columns and relationships of "profiles" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
@@ -13474,7 +13473,7 @@ export type ModelTypes = {
   };
   ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
   ['GenerateApiKeyResponse']: {
-    apiKey: string;
+    api_key: string;
     /** An object relationship */
     circleApiKey: GraphQLTypes['circle_api_keys'];
     hash: string;
@@ -17100,7 +17099,7 @@ columns and relationships of "profiles" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
@@ -18274,17 +18273,17 @@ export type GraphQLTypes = {
     circle_id: number;
     create_vouches?: boolean | undefined;
     name: string;
-    read_allocations?: boolean | undefined;
     read_circle?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
-    update_allocations?: boolean | undefined;
+    read_pending_token_gifts?: boolean | undefined;
     update_circle?: boolean | undefined;
+    update_pending_token_gifts?: boolean | undefined;
   };
   ['GenerateApiKeyResponse']: {
     __typename: 'GenerateApiKeyResponse';
-    apiKey: string;
+    api_key: string;
     /** An object relationship */
     circleApiKey: GraphQLTypes['circle_api_keys'];
     hash: string;
@@ -18342,7 +18341,6 @@ export type GraphQLTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
-    chain_id?: number | undefined;
     circle_id: number;
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
@@ -24496,7 +24494,7 @@ columns and relationships of "profiles" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
