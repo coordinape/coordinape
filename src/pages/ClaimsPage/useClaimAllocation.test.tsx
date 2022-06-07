@@ -1,15 +1,13 @@
 import assert from 'assert';
 
 import { act, render, waitFor } from '@testing-library/react';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
-import { getWrappedAmount, Asset } from 'lib/vaults';
+import { getWrappedAmount, encodeCircleId, Asset } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
-import { useDistributor } from 'hooks/useDistributor';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { useSubmitDistribution } from 'pages/DistributionsPage/useSubmitDistribution';
 import {
   provider,
   restoreSnapshot,
@@ -28,14 +26,9 @@ jest.mock('lib/gql/mutations', () => {
   };
 });
 
-jest.mock('pages/DistributionsPage/mutations', () => {
+jest.mock('./mutations', () => {
   return {
-    useSaveEpochDistribution: jest.fn().mockReturnValue({
-      mutateAsync: jest.fn().mockReturnValue({
-        id: 2,
-      }),
-    }),
-    useMarkDistributionSaved: jest.fn().mockReturnValue({
+    useMarkClaimTaken: jest.fn().mockReturnValue({
       mutateAsync: jest.fn().mockReturnValue({
         id: 2,
       }),
@@ -62,64 +55,65 @@ afterAll(async () => {
   await restoreSnapshot(snapshotId);
 });
 
-test('claim one', async () => {
+test('claim single successfully', async () => {
   let work: Promise<boolean> | null = null;
-  let merkleRootFromSubmission = 'expected';
-  let merkleRootFromDistributor = 'actual';
+  let expectedBalance = 0;
+  let finalBalance = 0;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
-    const submitDistribution = useSubmitDistribution();
     const claimAllocation = useClaimAllocation();
+    const address1 = '0xabc0000000000000000000000000000000000001';
 
     const contracts = useContracts();
     const { deposit } = useVaultRouter(contracts);
-    const { getEpochRoot } = useDistributor();
     if (!contracts) return null;
 
     work = (async () => {
       const vault = await createVault({
         simpleTokenAddress: '0x0',
-        type: Asset.DAI,
+        type: Asset.USDC,
       });
       assert(vault, 'vault not created');
-      await deposit(vault, '200');
+      await deposit(vault, '100');
+
+      const vaultContract = contracts.getVault(vault.vault_address);
+      const yVaultAddress = await vaultContract.vault();
+      const daiContract = contracts.getERC20(yVaultAddress);
 
       const total = await getWrappedAmount('90', vault, contracts);
 
-      const { claims } = createDistribution(gifts, total);
+      const { claims, merkleRoot } = createDistribution(gifts, total);
 
-      const distro = await submitDistribution({
-        amount: '100',
-        vault,
-        circleId: 2,
-        profileIdsByAddress,
-        epochId: 2,
-        gifts,
-      });
+      expectedBalance = parseInt(claims[address1].amount);
 
-      merkleRootFromSubmission = distro.merkleRoot;
-
-      merkleRootFromDistributor = await getEpochRoot(
+      const { wait } = await contracts.distributor.uploadEpochRoot(
         vault.vault_address,
-        distro.encodedCircleId,
-        await contracts.getVault(vault.vault_address).vault(),
-        distro.epochId
+        encodeCircleId(2),
+        yVaultAddress,
+        merkleRoot,
+        total,
+        utils.hexlify(1)
       );
 
-      const claim1 = claims['0xabc0000000000000000000000000000000000001'];
+      const { events } = await wait();
 
+      const event = events?.find(e => e.event === 'EpochFunded');
+      const distributorEpochId = event?.args?.epochId;
+
+      const claim1 = claims[address1];
       await claimAllocation({
-        address: '0xabc0000000000000000000000000000000000001',
-        circleId: distro.encodedCircleId,
+        address: address1,
+        circleId: encodeCircleId(2),
         claimId: 1,
-        distributionEpochId: BigNumber.from(0),
+        distributionEpochId: distributorEpochId,
         amount: claim1.amount,
         merkleIndex: BigNumber.from(claim1.index),
         proof: claim1.proof,
         vault: vault,
       });
 
+      finalBalance = (await daiContract.balanceOf(address1)).toNumber();
       return true;
     })();
 
@@ -136,14 +130,78 @@ test('claim one', async () => {
     await expect(work).resolves.toBeTruthy();
   });
 
-  expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
+  expect(finalBalance).toEqual(expectedBalance);
 }, 20000);
 
-const profileIdsByAddress = {
-  '0xabc0000000000000000000000000000000000001': 15,
-  '0xabc0000000000000000000000000000000000002': 13,
-  '0xabc0000000000000000000000000000000000003': 14,
-};
+test('claim revert if root not found', async () => {
+  let work: Promise<string | Error>;
+  let error: Error = new Error('');
+
+  const Harness = () => {
+    const { createVault } = useVaultFactory(101); // fake org id
+    const claimAllocation = useClaimAllocation();
+    const address1 = '0xabc0000000000000000000000000000000000001';
+
+    const contracts = useContracts();
+    const { deposit } = useVaultRouter(contracts);
+    if (!contracts) return null;
+
+    work = (async () => {
+      const vault = await createVault({
+        simpleTokenAddress: '0x0',
+        type: Asset.DAI,
+      });
+      assert(vault, 'vault not created');
+      await deposit(vault, '100');
+
+      const vaultContract = contracts.getVault(vault.vault_address);
+      const yVaultAddress = await vaultContract.vault();
+
+      const total = await getWrappedAmount('90', vault, contracts);
+
+      const { claims, merkleRoot } = createDistribution(gifts, total);
+
+      await contracts.distributor.uploadEpochRoot(
+        vault.vault_address,
+        encodeCircleId(2),
+        yVaultAddress,
+        merkleRoot,
+        total,
+        utils.hexlify(1)
+      );
+
+      const claim1 = claims[address1];
+      const trx = await claimAllocation({
+        address: address1,
+        circleId: encodeCircleId(2),
+        claimId: 1,
+        distributionEpochId: BigNumber.from(323), // fake epoch id
+        amount: claim1.amount,
+        merkleIndex: BigNumber.from(claim1.index),
+        proof: claim1.proof,
+        vault: vault,
+      });
+
+      if (trx instanceof Error) error = trx;
+
+      return trx;
+    })();
+
+    return null;
+  };
+
+  await act(async () => {
+    render(
+      <TestWrapper withWeb3>
+        <Harness />
+      </TestWrapper>
+    );
+    await waitFor(() => expect(work).toBeTruthy());
+    await expect(work).resolves.toThrow();
+  });
+
+  expect(error?.message).toEqual('Error: No Epoch Root Found');
+}, 20000);
 
 const gifts = {
   '0xabc0000000000000000000000000000000000001': 20,

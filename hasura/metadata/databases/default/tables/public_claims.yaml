@@ -43,7 +43,6 @@ select_permissions:
     columns:
     - address
     - amount
-    - claimed
     - created_at
     - distribution_id
     - id
@@ -51,6 +50,7 @@ select_permissions:
     - new_amount
     - profile_id
     - proof
+    - txHash
     - updated_at
     filter:
       distribution:
@@ -68,7 +68,7 @@ update_permissions:
 - permission:
     check: null
     columns:
-    - claimed
+    - txHash
     filter:
       distribution:
         epoch:

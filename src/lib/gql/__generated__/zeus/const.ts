@@ -635,7 +635,6 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'claims_bool_exp',
     address: 'String_comparison_exp',
     amount: 'numeric_comparison_exp',
-    claimed: 'Boolean_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     distribution: 'distributions_bool_exp',
     distribution_id: 'bigint_comparison_exp',
@@ -645,6 +644,7 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
     proof: 'String_comparison_exp',
+    txHash: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   claims_constraint: true,
@@ -666,6 +666,7 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
     proof: 'order_by',
+    txHash: 'order_by',
     updated_at: 'order_by',
   },
   claims_min_order_by: {
@@ -678,6 +679,7 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
     proof: 'order_by',
+    txHash: 'order_by',
     updated_at: 'order_by',
   },
   claims_on_conflict: {
@@ -688,7 +690,6 @@ export const AllTypesProps: Record<string, any> = {
   claims_order_by: {
     address: 'order_by',
     amount: 'order_by',
-    claimed: 'order_by',
     created_at: 'order_by',
     distribution: 'distributions_order_by',
     distribution_id: 'order_by',
@@ -698,6 +699,7 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_order_by',
     profile_id: 'order_by',
     proof: 'order_by',
+    txHash: 'order_by',
     updated_at: 'order_by',
   },
   claims_pk_columns_input: {
@@ -3085,7 +3087,6 @@ export const ReturnTypes: Record<string, any> = {
   claims: {
     address: 'String',
     amount: 'numeric',
-    claimed: 'Boolean',
     created_at: 'timestamptz',
     distribution: 'distributions',
     distribution_id: 'bigint',
@@ -3095,6 +3096,7 @@ export const ReturnTypes: Record<string, any> = {
     profile: 'profiles',
     profile_id: 'bigint',
     proof: 'String',
+    txHash: 'String',
     updated_at: 'timestamptz',
   },
   claims_aggregate: {
@@ -3132,6 +3134,7 @@ export const ReturnTypes: Record<string, any> = {
     new_amount: 'numeric',
     profile_id: 'bigint',
     proof: 'String',
+    txHash: 'String',
     updated_at: 'timestamptz',
   },
   claims_min_fields: {
@@ -3144,6 +3147,7 @@ export const ReturnTypes: Record<string, any> = {
     new_amount: 'numeric',
     profile_id: 'bigint',
     proof: 'String',
+    txHash: 'String',
     updated_at: 'timestamptz',
   },
   claims_mutation_response: {

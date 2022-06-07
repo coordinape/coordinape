@@ -1899,7 +1899,6 @@ columns and relationships of "circle_api_keys" */
   ['claims']: AliasType<{
     address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
-    claimed?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
     distribution?: ValueTypes['distributions'];
@@ -1911,6 +1910,7 @@ columns and relationships of "circle_api_keys" */
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     proof?: boolean | `@${string}`;
+    txHash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1987,7 +1987,6 @@ columns and relationships of "circle_api_keys" */
     _or?: Array<ValueTypes['claims_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
-    claimed?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -1997,6 +1996,7 @@ columns and relationships of "circle_api_keys" */
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     proof?: ValueTypes['String_comparison_exp'] | undefined | null;
+    txHash?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "claims" */
@@ -2026,6 +2026,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     proof?: boolean | `@${string}`;
+    txHash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2040,6 +2041,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     proof?: ValueTypes['order_by'] | undefined | null;
+    txHash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate min on columns */
@@ -2053,6 +2055,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     proof?: boolean | `@${string}`;
+    txHash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2067,6 +2070,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     proof?: ValueTypes['order_by'] | undefined | null;
+    txHash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** response of any mutation on the table "claims" */
@@ -2087,7 +2091,6 @@ columns and relationships of "circle_api_keys" */
   ['claims_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     amount?: ValueTypes['order_by'] | undefined | null;
-    claimed?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     distribution?: ValueTypes['distributions_order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
@@ -2097,6 +2100,7 @@ columns and relationships of "circle_api_keys" */
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     proof?: ValueTypes['order_by'] | undefined | null;
+    txHash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: claims */
@@ -2107,7 +2111,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_select_column']: claims_select_column;
   /** input type for updating data in table "claims" */
   ['claims_set_input']: {
-    claimed?: boolean | undefined | null;
+    txHash?: string | undefined | null;
   };
   /** aggregate stddev on columns */
   ['claims_stddev_fields']: AliasType<{
@@ -7172,7 +7176,6 @@ columns and relationships of "circle_api_keys" */
   ['claims']: {
     address: string;
     amount: GraphQLTypes['numeric'];
-    claimed: boolean;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
@@ -7184,6 +7187,7 @@ columns and relationships of "circle_api_keys" */
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     proof: string;
+    txHash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "claims" */
@@ -7237,6 +7241,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['numeric'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     proof?: string | undefined;
+    txHash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** order by max() on columns of table "claims" */
@@ -7252,6 +7257,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['numeric'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     proof?: string | undefined;
+    txHash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** order by min() on columns of table "claims" */
@@ -9673,7 +9679,6 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims';
     address: string;
     amount: GraphQLTypes['numeric'];
-    claimed: boolean;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
@@ -9685,6 +9690,7 @@ columns and relationships of "circle_api_keys" */
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     proof: string;
+    txHash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "claims" */
@@ -9754,7 +9760,6 @@ columns and relationships of "circle_api_keys" */
     _or?: Array<GraphQLTypes['claims_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
-    claimed?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -9764,6 +9769,7 @@ columns and relationships of "circle_api_keys" */
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     proof?: GraphQLTypes['String_comparison_exp'] | undefined;
+    txHash?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "claims" */
@@ -9793,6 +9799,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['numeric'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     proof?: string | undefined;
+    txHash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** order by max() on columns of table "claims" */
@@ -9806,6 +9813,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     proof?: GraphQLTypes['order_by'] | undefined;
+    txHash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate min on columns */
@@ -9820,6 +9828,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['numeric'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     proof?: string | undefined;
+    txHash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** order by min() on columns of table "claims" */
@@ -9833,6 +9842,7 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     proof?: GraphQLTypes['order_by'] | undefined;
+    txHash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "claims" */
@@ -9853,7 +9863,6 @@ columns and relationships of "circle_api_keys" */
   ['claims_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     amount?: GraphQLTypes['order_by'] | undefined;
-    claimed?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     distribution?: GraphQLTypes['distributions_order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
@@ -9863,6 +9872,7 @@ columns and relationships of "circle_api_keys" */
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     proof?: GraphQLTypes['order_by'] | undefined;
+    txHash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: claims */
@@ -9873,7 +9883,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_select_column']: claims_select_column;
   /** input type for updating data in table "claims" */
   ['claims_set_input']: {
-    claimed?: boolean | undefined;
+    txHash?: string | undefined;
   };
   /** aggregate stddev on columns */
   ['claims_stddev_fields']: {
@@ -12851,7 +12861,6 @@ export const enum claims_constraint {
 export const enum claims_select_column {
   address = 'address',
   amount = 'amount',
-  claimed = 'claimed',
   created_at = 'created_at',
   distribution_id = 'distribution_id',
   id = 'id',
@@ -12859,11 +12868,12 @@ export const enum claims_select_column {
   new_amount = 'new_amount',
   profile_id = 'profile_id',
   proof = 'proof',
+  txHash = 'txHash',
   updated_at = 'updated_at',
 }
 /** update columns of table "claims" */
 export const enum claims_update_column {
-  claimed = 'claimed',
+  txHash = 'txHash',
 }
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {

@@ -1,9 +1,9 @@
+import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
 import type { Awaited } from 'types/shim';
 
 export const getClaims = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   profileID: number
 ): Promise<typeof claims | undefined> => {
   const { claims } = await client.query(
@@ -11,6 +11,7 @@ export const getClaims = async (
       claims: [
         {
           where: { profile_id: { _eq: profileID } },
+          order_by: [{ created_at: order_by.desc }],
         },
         {
           id: true,
@@ -18,9 +19,11 @@ export const getClaims = async (
           index: true,
           proof: true,
           amount: true,
+          txHash: true,
           distribution: {
             id: true,
             distribution_epoch_id: true,
+            distribution_json: [{}, true],
             merkle_root: true,
             vault: {
               id: true,
@@ -36,6 +39,9 @@ export const getClaims = async (
             },
             epoch: {
               id: true,
+              start_date: true,
+              end_date: true,
+              number: true,
               circle: {
                 id: true,
                 logo: true,
