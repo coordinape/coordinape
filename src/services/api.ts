@@ -56,7 +56,16 @@ export class APIService {
         },
       }),
     });
-    return await rawResponse.json();
+
+    const body = await rawResponse.json();
+    if (!rawResponse.ok) {
+      throw new Error(
+        `${rawResponse.status} ${rawResponse.statusText}: ${
+          body.error?.message || 'No message'
+        }`
+      );
+    }
+    return body;
   };
 }
 

@@ -63,18 +63,11 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
             log(`failed loading: ${who}`);
             let e = transformError ? transformError(err) : err;
             e = normalizeError(e);
-            if (
-              e.message ===
-              'MetaMask Message Signature: User denied message signature.'
-            ) {
-              apeInfo('Denied message signature.');
-            } else {
-              apeError(e);
-              reportException(e, {
-                tags: { call_point: 'useRecoilLoadCatch' },
-                extra: { ...(e.code ? { code: e.code } : {}) },
-              });
-            }
+            apeError(e);
+            reportException(e, {
+              tags: { call_point: 'useRecoilLoadCatch' },
+              extra: { ...(e.code ? { code: e.code } : {}) },
+            });
             reject(e);
           });
       });

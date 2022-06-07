@@ -68,7 +68,6 @@ const RequireAuth = (props: { children: ReactElement }) => {
   const web3Context = useWeb3React();
   const { finishAuth } = useApiBase();
   const [authStep, setAuthStep] = useState<AuthSteps>('connect');
-  console.log(authStep, web3Context.active, web3Context.account, address); // eslint-disable-line
 
   useEffect(() => {
     // reset after logging out or signature error

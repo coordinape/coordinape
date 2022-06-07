@@ -23,11 +23,19 @@ import { connectors } from 'utils/connectors';
 import { getSelfIdProfiles } from 'utils/selfIdHelpers';
 import { assertDef } from 'utils/tools';
 
+import { useApeSnackbar } from './useApeSnackbar';
+
 import { EConnectorNames } from 'types';
 
 const log = debug('useApiBase');
 
 export const useApiBase = () => {
+  const { showError } = useApeSnackbar();
+
+  // FIXME it's a bit inconsistent that this catches its own errors instead of
+  // delegating to useRecoilLoadCatch. but we should probably just not use
+  // useRecoilLoadCatch at all and instead just get the walletAuth data from an
+  // ordinary useRecoilValue hook in RequireAuth
   const finishAuth = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async ({
@@ -83,7 +91,7 @@ export const useApiBase = () => {
           // for debugging this issue
           // eslint-disable-next-line no-console
           console.info(e);
-          console.error(`Failed to login: ${e.message || e}`);
+          showError(`Failed to login: ${e.message || e}`);
         }
 
         // FIXME is this still needed?
@@ -167,9 +175,6 @@ export const useApiBase = () => {
         }
 
         const fullCircle = await queries.getFullCircle(circleId);
-
-        // eslint-disable-next-line no-console
-        console.log('fetchCircle', fullCircle);
 
         set(rApiFullCircle, m => {
           const result = new Map(m);
