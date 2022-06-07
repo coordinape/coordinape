@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
   const v = process.env[key];
   if (v) {
