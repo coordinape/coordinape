@@ -23,6 +23,7 @@ services:
       - ${LOCAL_HASURA_PORT:-8080}:${LOCAL_HASURA_PORT:-8080}
     depends_on:
       - postgres
+      - localstack
     restart: always
     environment: &graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
@@ -52,6 +53,7 @@ services:
       - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
     depends_on:
       - postgres-ci
+      - localstack
     environment:
       <<: *graphql_engine_environment
       HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}

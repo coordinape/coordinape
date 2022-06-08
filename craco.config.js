@@ -1,9 +1,5 @@
 const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
-const dotenv = require('dotenv');
-if (process.env.CI) {
-  dotenv.config({ path: './.ci.env', override: true });
-}
 
 const {
   SENTRY_AUTH_TOKEN,

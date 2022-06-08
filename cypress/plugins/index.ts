@@ -13,7 +13,7 @@ export default (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   config = dotenvPlugin(config, { debug: true }, true);
-  if (config.env.CI || process.env.CI) {
+  if (config.env.CI) {
     config.baseUrl = 'http://localhost:' + config.env.CI_VERCEL_PORT;
   } else {
     config.baseUrl = 'http://localhost:' + config.env.LOCAL_VERCEL_PORT;

@@ -26,11 +26,6 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
   - Runs React and the serverless functions in `api/`
 - Go to http://localhost:3000 and start giving!
 
-If you want to hack on end-to-end tests, or see why one might be failing,
-see our [cypress README].
-
-[cypress readme]: ./cypress/README.md
-
 # Frontend
 
 More detailed guidelines coming soon.

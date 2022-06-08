@@ -1,16 +1,9 @@
 # Cypress E2E Tests
 
-To get started locally, run `yarn cy:dev`. This will spin up the full stack
-and open the cypress development GUI. Click the integration test
-you're working on from the list and cypress will open a runner, which will
-execute the test file, and re-execute it each time the file is saved again.
+To get started locally, run `yarn cy:dev`
 
-Cypress will watch all files in the cypress folder and restart anytime one
-is modified.
-
-If you want to run the tests headlessly as a one-off run `yarn cy:run`.
-However, expect to see some environmental errors since this mode is tuned
-for CI contexts.
+If you want to run the tests headless and produce video and snapshot files,
+run `yarn cy:run`.
 
 Cypress is laid out as follows:
 
