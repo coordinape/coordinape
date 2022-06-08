@@ -7,7 +7,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 Cypress.Commands.add('login', () => {
-  cy.contains('Connect your wallet').click();
   cy.contains('Metamask').click();
 });
 
