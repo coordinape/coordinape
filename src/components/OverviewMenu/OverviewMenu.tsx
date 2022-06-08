@@ -46,6 +46,7 @@ export const OverviewMenu = () => {
     () => getOverviewMenuData(address as string),
     {
       enabled: !!address,
+      staleTime: Infinity,
     }
   );
   const orgs = query.data?.organizations;

@@ -32,8 +32,7 @@ export const CirclesPage = () => {
     () => getOrgData(address as string),
     {
       enabled: !!address,
-
-      notifyOnChangeProps: ['data'],
+      staleTime: Infinity,
     }
   );
   const orgs = query.data?.organizations;
