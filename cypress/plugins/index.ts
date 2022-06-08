@@ -14,6 +14,11 @@ export default (on, config) => {
   // `config` is the resolved Cypress config
   config = dotenvPlugin(config, { debug: true }, true);
   if (config.env.CI || process.env.CI) {
+    config = dotenvPlugin(
+      config,
+      { debug: true, path: '.ci.env', ovverride: true },
+      true
+    );
     config.baseUrl = 'http://localhost:' + config.env.CI_VERCEL_PORT;
   } else {
     config.baseUrl = 'http://localhost:' + config.env.LOCAL_VERCEL_PORT;

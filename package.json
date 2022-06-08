@@ -94,7 +94,7 @@
     "hardhat:ganache": "./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "yarn hardhat:ganache --exec craco test --runInBand",
-    "test:ci": "yarn hardhat:ganache --exec ./scripts/ci.sh",
+    "test:ci": "CI=true yarn hardhat:ganache --exec ./scripts/ci.sh",
     "dev": "BROWSER=none craco start",
     "eject": "craco eject",
     "format:staged": "lint-staged",

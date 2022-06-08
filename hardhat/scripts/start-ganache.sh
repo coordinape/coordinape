@@ -6,8 +6,13 @@ set -e
 SCRIPT_DIR="${0%/*}"
 
 # read .env, filtering out comments
-DOTENV_FILE=$SCRIPT_DIR/../../.env 
+DOTENV_FILE=$SCRIPT_DIR/../../.env
 if [ -f "$DOTENV_FILE" ]; then
+  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
+fi
+
+if [ -n "$CI" ]; then
+  DOTENV_FILE=$SCRIPT_DIR/../../.ci.env
   export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
 fi
 
@@ -66,7 +71,7 @@ else
     echo "Writing output to" $LOGFILE
     "${GANACHE_ARGS[@]}" > $LOGFILE 2>&1 & PID=$!
   fi
-  
+
   # Wait for the testnet to become responsive
   sleep 5
   until curl -s -o/dev/null http://localhost:$PORT; do
@@ -104,4 +109,3 @@ else
     while true; do read; done
   fi
 fi
-

@@ -22,7 +22,7 @@ fi
 
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 
-CMD=(docker compose --profile ci -p coordinape-ci up)
+CMD=(docker compose --profile ci up)
 
 if [ "$VERBOSE" ]; then
   "${CMD[@]}" 2>&1 & PID=$!
@@ -38,7 +38,7 @@ VERCEL_CMD=(vercel dev -t "$CI_VERCEL_TOKEN" -l "$CI_VERCEL_PORT" --confirm)
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
 
 # Kill Hasura & Vercel when this script exits
-trap 'unset CI; kill $VERCEL_PID; docker compose --profile ci -p coordinape-ci down -v || true' EXIT
+trap 'unset CI; kill $VERCEL_PID; docker compose --profile ci down -v || true' EXIT
 
 sleep 5
 until curl -s -o/dev/null http://localhost:"$CI_HASURA_PORT"; do
