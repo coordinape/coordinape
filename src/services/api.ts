@@ -38,7 +38,7 @@ export class APIService {
     }
 
     const message = new SiweMessage({
-      domain: window.location.host,
+      domain: window.location.hostname + (window.location.port ? ':' + window.location.port: ''),
       address,
       statement: 'Coordinape wants to Sign-In With Ethereum',
       uri: window.location.origin,
