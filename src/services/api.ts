@@ -5,6 +5,8 @@ import { getSignature } from 'utils/provider';
 
 import { IApiLogin } from 'types';
 
+const SIWE_EXPIRES_AFTER = 5 * 60000;
+
 export class APIService {
   provider = undefined as Web3Provider | undefined;
   token = undefined as string | undefined;
@@ -45,6 +47,8 @@ export class APIService {
       version: '1',
       chainId: 1,
       nonce,
+      notBefore: new Date().toISOString(),
+      expirationTime: new Date(Date.now() + SIWE_EXPIRES_AFTER).toISOString(),
     });
     const data = message.prepareMessage();
 

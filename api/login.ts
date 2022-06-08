@@ -25,15 +25,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
 
-    console.log({ input });
     const { data, signature } = input;
 
     let address;
 
     try {
       const message = new SiweMessage(data);
-
-      console.log({ message });
 
       if (
         !allowedDomains.find(allowedRegex => allowedRegex.test(message.domain))
