@@ -31,12 +31,14 @@ export class APIService {
   }
 
   login = async (address: string): Promise<IApiLogin> => {
-    let nonce;
+    let nonce, time;
     try {
       const nonceReq = await fetch('/api/time');
-      nonce = await nonceReq.text();
+      const nonceData = JSON.parse(await nonceReq.text());
+      ({ nonce, time } = nonceData);
     } catch (e) {
       nonce = generateNonce();
+      time = Date.now();
     }
 
     const message = new SiweMessage({
@@ -47,8 +49,8 @@ export class APIService {
       version: '1',
       chainId: 1,
       nonce,
-      notBefore: new Date().toISOString(),
-      expirationTime: new Date(Date.now() + SIWE_EXPIRES_AFTER).toISOString(),
+      notBefore: new Date(time).toISOString(),
+      expirationTime: new Date(time + SIWE_EXPIRES_AFTER).toISOString(),
     });
     const data = message.prepareMessage();
 
