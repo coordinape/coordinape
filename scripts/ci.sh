@@ -65,7 +65,7 @@ if [ -z "$CYPRESS_ONLY" ]; then
 fi
 
 if [ -z "$LOCAL" ]; then
-  yarn cy:run ${OTHERARGS[@]}
+  yarn cypress run ${OTHERARGS[@]}
 else
   yarn cypress open > /dev/null
 fi

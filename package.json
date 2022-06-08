@@ -85,7 +85,7 @@
     "docker:stop": "docker compose --profile dev down",
     "docker:clean": "docker compose --profile dev down -v",
     "cy:dev": "yarn test:ci --cypress-only --local",
-    "cy:run": "cypress run",
+    "cy:run": "yarn test:ci --cypress-only",
     "start": "craco start",
     "build": "craco build",
     "build:local": "craco  --max_old_space_size=4096 build",
