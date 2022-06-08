@@ -41,7 +41,6 @@ export function useClaimAllocation() {
     assert(contracts, 'This network is not supported');
     const vaultContract = contracts.getVault(vault.vault_address);
     const yVaultAddress = await vaultContract.vault();
-
     try {
       const encodedCircleId = encodeCircleId(circleId);
 
