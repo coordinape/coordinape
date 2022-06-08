@@ -4,10 +4,8 @@ export CI=1
 
 EXECARGS=()
 while [[ "$#" -gt 0 ]]; do case $1 in
-  --cypress-only) CYPRESS_ONLY=1;;
-  --local) LOCAL=1;;
   -v|--verbose-hasura) VERBOSE=1;;
-  *) OTHERARGS+=("$1");;
+  *) EXECARGS+=("$1");;
 esac; shift; done
 
 if [ ! "$HARDHAT_FORK_BLOCK" ]; then
@@ -22,7 +20,8 @@ fi
 
 echo "Starting Hasura on port ${CI_HASURA_PORT}..."
 
-CMD=(docker compose --profile ci -p coordinape-ci up)
+# comment out DOCKER_GATEWAY_HOST if running locally on macOS
+CMD=(docker compose --profile ci up)
 
 if [ "$VERBOSE" ]; then
   "${CMD[@]}" 2>&1 & PID=$!
@@ -32,13 +31,14 @@ else
   "${CMD[@]}" > "$LOGFILE" 2>&1 & PID=$!
 fi
 
+
 export NODE_HASURA_URL=http://localhost:"$CI_HASURA_PORT"/v1/graphql
 VERCEL_CMD=(vercel dev -t "$CI_VERCEL_TOKEN" -l "$CI_VERCEL_PORT" --confirm)
 
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
 
-# Kill Hasura & Vercel when this script exits
-trap 'unset CI; kill $VERCEL_PID; docker compose --profile ci -p coordinape-ci down -v || true' EXIT
+# Kill Hasura when this script exits
+trap 'docker compose --profile ci down && kill $VERCEL_PID' EXIT
 
 sleep 5
 until curl -s -o/dev/null http://localhost:"$CI_HASURA_PORT"; do
@@ -58,14 +58,6 @@ until curl -s -o/dev/null http://localhost:"$CI_VERCEL_PORT"; do
 done
 
 yarn db-seed-fresh
-
-if [ -z "$CYPRESS_ONLY" ]; then
-  craco test --runInBand --coverage
-  yarn --cwd hardhat test
-fi
-
-if [ -z "$LOCAL" ]; then
-  yarn cypress run ${OTHERARGS[@]}
-else
-  yarn cypress open > /dev/null
-fi
+craco test --runInBand --coverage
+yarn --cwd hardhat test
+yarn cy:run
