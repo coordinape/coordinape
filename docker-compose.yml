@@ -61,7 +61,6 @@ services:
 
   # for local s3 storage for images
   localstack:
-    profiles: ['ci']
     image: localstack/localstack:latest
     restart: always
     hostname: s3
