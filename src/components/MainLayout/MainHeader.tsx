@@ -10,7 +10,6 @@ import {
   MyAvatarMenu,
   NewApeAvatar,
   OverviewMenu,
-  WalletAuthModal,
 } from 'components';
 import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
@@ -22,7 +21,7 @@ import {
   useSelectedCircle,
 } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
-import { Box, IconButton, Link, Image, Button } from 'ui';
+import { Box, IconButton, Link, Image } from 'ui';
 import { shortenAddress } from 'utils';
 
 const mainLinks = [
@@ -31,7 +30,6 @@ const mainLinks = [
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
-  const { address } = useWalletStatus();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && isCircleSpecificPath(location);
@@ -95,25 +93,11 @@ export const MainHeader = () => {
             <ReceiveInfo />
           </Suspense>
         )}
-        {!address && <ConnectButton />}
         <Suspense fallback={null}>
           <MyAvatarMenu />
         </Suspense>
       </Box>
     </Box>
-  );
-};
-
-const ConnectButton = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  return (
-    <>
-      <Button color="surface" size="small" onClick={() => setShowModal(true)}>
-        Connect your wallet
-      </Button>
-      <WalletAuthModal open={showModal} setOpen={setShowModal} />
-    </>
   );
 };
 
@@ -136,21 +120,6 @@ const MobileHeader = ({
     !address && setIsMobileMenuOpen(false);
   }, [address]);
 
-  const menuWalletButton = !address ? (
-    <ConnectButton />
-  ) : (
-    <IconButton
-      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      aria-label="menu"
-    >
-      {!isMobileMenuOpen ? (
-        <HamburgerIcon color="white" />
-      ) : (
-        <CloseIcon color="white" />
-      )}
-    </IconButton>
-  );
-
   return (
     <Box>
       <Box
@@ -164,7 +133,16 @@ const MobileHeader = ({
         }}
       >
         <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
-        {menuWalletButton}
+        <IconButton
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="menu"
+        >
+          {!isMobileMenuOpen ? (
+            <HamburgerIcon color="white" />
+          ) : (
+            <CloseIcon color="white" />
+          )}
+        </IconButton>
       </Box>
       {isMobileMenuOpen && (
         <Box

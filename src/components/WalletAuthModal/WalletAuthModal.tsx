@@ -34,13 +34,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const WalletAuthModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen?: (val: boolean) => void;
-}) => {
+export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const classes = useStyles();
   const [connectMessage, setConnectMessage] = useState<string>('');
 
@@ -83,8 +77,6 @@ export const WalletAuthModal = ({
       } catch (e: unknown) {
         console.error(e);
       }
-
-      setOpen?.(false);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
         showInfo('Switch to mainnet to continue.');
@@ -109,7 +101,6 @@ export const WalletAuthModal = ({
       window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
       walletAuth.connectorName
     ) {
-      setOpen?.(true);
       walletAuth.connectorName && activate(walletAuth.connectorName);
     }
   }, []);
@@ -118,7 +109,6 @@ export const WalletAuthModal = ({
     <Modal
       className={classes.modal}
       disableBackdropClick={isConnecting}
-      onClose={() => setOpen?.(false)}
       open={open}
     >
       <Box
