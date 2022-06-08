@@ -15,14 +15,17 @@ import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
 
-const allowedDomains = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
+const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
   item => item !== ''
 ) || ['localhost:3000'];
+
+const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
 
+    console.log({ input });
     const { data, signature } = input;
 
     let address;
@@ -30,7 +33,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       const message = new SiweMessage(data);
 
-      if (!allowedDomains.includes(message.domain)) {
+      console.log({ message });
+
+      if (
+        !allowedDomains.find(allowedRegex => allowedRegex.test(message.domain))
+      ) {
         return errorResponse(res, {
           message: 'invalid domain',
           httpStatus: 401,
