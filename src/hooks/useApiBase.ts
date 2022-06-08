@@ -8,11 +8,7 @@ import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 
 import { useRecoilLoadCatch } from 'hooks';
-import {
-  rSelectedCircleIdSource,
-  rCirclesMap,
-  rWalletAuth,
-} from 'recoilState/app';
+import { rSelectedCircleIdSource, rWalletAuth } from 'recoilState/app';
 import {
   rApiManifest,
   rApiFullCircle,
@@ -152,19 +148,8 @@ export const useApiBase = () => {
   );
 
   const fetchCircle = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
+    ({ set }) =>
       async ({ circleId, select }: { circleId: number; select?: boolean }) => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        if (!(await snapshot.getPromise(rCirclesMap)).has(circleId)) {
-          // Wasn't included in their manifest.
-          throw `Your profile doesn't have access to ${circleId}`;
-        }
-
         const fullCircle = await queries.getFullCircle(circleId);
 
         set(rApiFullCircle, m => {
@@ -172,9 +157,8 @@ export const useApiBase = () => {
           result.set(fullCircle.circle.id, fullCircle);
           return result;
         });
-        if (select) {
-          set(rSelectedCircleIdSource, circleId);
-        }
+
+        if (select) set(rSelectedCircleIdSource, circleId);
         fetchSelfIds(fullCircle.users.map(u => u.address));
       },
     [],
@@ -184,33 +168,15 @@ export const useApiBase = () => {
   const selectCircle = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async (circleId: number) => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        if (circleId === -1) {
-          // This signifies no circle selected
-          // TODO: Change to use undefined
-          set(rSelectedCircleIdSource, undefined);
-        }
-
-        if (!walletAuth.address) {
-          throw 'Wallet must be connected to fetch circle';
-        }
-        if (!(await snapshot.getPromise(rCirclesMap)).has(circleId)) {
-          // Wasn't included in their manifest.
-          throw `Your profile doesn't have access to ${circleId}`;
-        }
-
-        if (!(await snapshot.getPromise(rApiFullCircle)).has(circleId)) {
-          // Need to fetch this circle
-          log(`selectCircle -> fetchCircle ${circleId}`);
-          await fetchCircle({ circleId, select: true });
-        } else {
+        const fullCircles = await snapshot.getPromise(rApiFullCircle);
+        if (fullCircles.has(circleId)) {
           set(rSelectedCircleIdSource, circleId);
+          return;
         }
+
+        // Need to fetch this circle
+        log(`selectCircle -> fetchCircle ${circleId}`);
+        await fetchCircle({ circleId, select: true });
       },
     [],
     { who: 'selectCircle' }
