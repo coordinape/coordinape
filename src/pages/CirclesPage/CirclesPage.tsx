@@ -51,7 +51,7 @@ export const CirclesPage = () => {
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
   if (query.isLoading || query.isIdle || query.isRefetching)
-    return <LoadingModal visible />;
+    return <LoadingModal visible note="CirclesPage" />;
 
   return (
     <SingleColumnLayout>

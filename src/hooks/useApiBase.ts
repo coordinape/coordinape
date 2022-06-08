@@ -29,6 +29,12 @@ import { EConnectorNames } from 'types';
 
 const log = debug('useApiBase');
 
+const clearStateAfterLogout = (set: any) => {
+  set(rWalletAuth, { authTokens: {} });
+  set(rApiFullCircle, new Map());
+  set(rApiManifest, undefined);
+};
+
 export const useApiBase = () => {
   const { showError } = useApeSnackbar();
 
@@ -43,7 +49,6 @@ export const useApiBase = () => {
       }: {
         web3Context: Web3ReactContextInterface<Web3Provider>;
       }) => {
-        log('finishAuth');
         const { authTokens } = await snapshot.getPromise(rWalletAuth);
         const { connector, account: address, library } = web3Context;
         assert(address && library);
@@ -75,17 +80,23 @@ export const useApiBase = () => {
             });
 
             // wrapped in setTimeout so rWalletAuth is updated before this runs
-            return new Promise(
-              (res, rej) =>
-                setTimeout(() => fetchManifest().then(res).catch(rej))
-              // TODO logout if this fails?
+            return new Promise(res =>
+              setTimeout(() =>
+                fetchManifest()
+                  .then(res)
+                  .catch(() => {
+                    // we had a cached token & it's invalid
+                    clearStateAfterLogout(set);
+                    res(false);
+                  })
+              )
             );
           }
         } catch (e: any) {
           if (
             [/User denied message signature/].some(r => e.message?.match(r))
           ) {
-            return;
+            return false;
           }
 
           // for debugging this issue
@@ -93,35 +104,15 @@ export const useApiBase = () => {
           console.info(e);
           showError(`Failed to login: ${e.message || e}`);
         }
-
-        // FIXME is this still needed?
-        delete authTokens[address];
-        set(rWalletAuth, { authTokens });
-        set(rApiFullCircle, new Map());
-        set(rApiManifest, undefined);
       },
     [],
     { who: 'finishAuth' }
   );
 
   const logout = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
-      async () => {
-        const { authTokens: recoilTokens, address: original } =
-          await snapshot.getPromise(rWalletAuth);
-        const authTokens = { ...recoilTokens };
-
-        if (original) {
-          delete authTokens[original];
-        }
-
-        // Logout triggered by walletAuth removal of token.
-        set(rApiFullCircle, new Map());
-        set(rApiManifest, undefined);
-        set(rWalletAuth, {
-          authTokens,
-        });
-      },
+    ({ set }) =>
+      async () =>
+        clearStateAfterLogout(set),
     []
   );
 
