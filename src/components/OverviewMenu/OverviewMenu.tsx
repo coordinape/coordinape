@@ -42,7 +42,7 @@ const mainLinks = [
 export const OverviewMenu = () => {
   const address = useConnectedAddress();
   const query = useQuery(
-    ['myOrgs', address],
+    ['OverviewMenu', address],
     () => getOverviewMenuData(address as string),
     {
       enabled: !!address,
