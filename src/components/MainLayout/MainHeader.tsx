@@ -53,9 +53,8 @@ export const MainHeader = () => {
         px: '$1xl',
         height: '$headerHeight',
         display: 'flex',
-        flexDirection: inCircle ? 'column' : 'row',
-        justifyContent: inCircle ? 'normal' : 'space-between',
-        alignItems: inCircle ? 'normal' : 'center',
+        flexDirection: 'column',
+        alignItems: 'stretch',
         background: '$headingText',
       }}
     >
@@ -77,7 +76,7 @@ export const MainHeader = () => {
           position: 'relative',
         }}
       >
-        {inCircle && <OverviewMenu />}
+        <OverviewMenu />
         <Box
           css={{
             display: 'flex',
