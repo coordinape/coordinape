@@ -42,11 +42,6 @@ export function useClaimAllocation() {
     const yVaultAddress = await vaultContract.vault();
     const ZERO_ADDRESS =
       '0x0000000000000000000000000000000000000000000000000000000000000000';
-    const tokenAddress =
-      vault.simple_token_address === ZERO_ADDRESS
-        ? vault.token_address
-        : vault.simple_token_address;
-    assert(tokenAddress, 'No Valid Token Address found');
     try {
       const root = await contracts.distributor.epochRoots(
         vault.vault_address,

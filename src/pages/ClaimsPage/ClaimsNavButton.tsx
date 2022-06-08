@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,8 +13,6 @@ export default function ClaimsNavButton() {
   const contracts = useContracts();
   const profile = useMyProfile();
   const navigate = useNavigate();
-
-  assert(address || contracts);
 
   const { data: claims } = useQuery(
     ['claims', profile.id],
