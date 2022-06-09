@@ -2,7 +2,9 @@
 // for the api/*, perhaps conditionally disable
 // Long term, refactor for monorepo
 import dotenv from 'dotenv';
-dotenv.config();
+if (process.env.CI) {
+  dotenv.config({ path: './.ci.env', override: true });
+} else dotenv.config();
 
 function getEnvValue<T extends string | number>(
   key: string,

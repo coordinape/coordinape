@@ -37,7 +37,7 @@ context('Coordinape', () => {
     cy.get('[data-testid=profileCard]')
       .eq(1)
       .within(() => {
-        cy.get('[data-testid=increment]').multiClick(5).wait(5000);
+        cy.get('[data-testid=increment]').multiClick(5).wait(10000);
         // there's some recoil funny business happening where old
         // textbox state is restored if typing starts too quickly after
         // incrementing tokens. This delay prevents an application error
