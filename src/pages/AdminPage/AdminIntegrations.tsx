@@ -90,7 +90,7 @@ export const AdminIntegrations = () => {
           size="medium"
           outlined
           href={
-            'https://docs.coordinape.com/get-started/compensation/paying-your-team'
+            'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'
           }
         >
           <Flex css={{ mr: '$sm' }}>
