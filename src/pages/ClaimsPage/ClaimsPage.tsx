@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { LoadingModal, makeTable } from 'components';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useMyProfile } from 'recoilState/app';
 import { Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -276,6 +277,106 @@ export default function ClaimsPage() {
                   >
                     <Text>
                       {amount} {distribution.vault.symbol}
+                    </Text>
+                    <Button
+                      color="primary"
+                      outlined
+                      css={{
+                        fontWeight: '$normal',
+                        minHeight: '$xs',
+                        px: '$sm',
+                        minWidth: '5vw',
+                        borderRadius: '$2',
+                      }}
+                    >
+                      View on Etherscan
+                    </Button>
+                  </Flex>
+                </Flex>
+              </td>
+            </tr>
+          )}
+        </ClaimsTable>
+      </Panel>
+
+      <Box
+        css={{
+          fontSize: '$h2',
+          color: '$neutral',
+          display: 'flex',
+          alignItems: 'left',
+          mt: '$2xl',
+        }}
+      >
+        Claim History
+      </Box>
+
+      <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
+        <ClaimsTable
+          headers={[
+            {
+              title: 'Organization',
+              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+            },
+            {
+              title: 'Circle',
+              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+            },
+            {
+              title: 'Epoch',
+              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+            },
+            {
+              title: 'Rewards',
+              style: { textAlign: 'right', width: '98%' },
+            },
+          ]}
+          data={claims.filter(c => c.txHash)}
+          startingSortIndex={2}
+          startingSortDesc
+          sortByColumn={() => {
+            return c => c;
+          }}
+        >
+          {claim => (
+            <tr key={claim.id}>
+              <td>
+                <Text>{claim.distribution.epoch.circle?.name}</Text>
+              </td>
+              <td>
+                <Flex row css={{ gap: '$sm' }}>
+                  <Text>{claim.distribution.epoch.circle?.name}</Text>
+                </Flex>
+              </td>
+              <td>
+                <Text>
+                  Epoch {claim.distribution.epoch.number}
+                  {': '}
+                  {formatEpochDates(
+                    claim.distribution.epoch.start_date,
+                    claim.distribution.epoch.end_date
+                  )}
+                </Text>
+              </td>
+              <td>
+                <Flex
+                  css={{
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Flex
+                    css={{
+                      minWidth: '10vw',
+                      justifyContent: 'flex-end',
+                      gap: '$md',
+                      mr: '$md',
+                      '@sm': {
+                        minWidth: '20vw',
+                      },
+                    }}
+                  >
+                    <Text>
+                      {claim.amount} {claim.distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
