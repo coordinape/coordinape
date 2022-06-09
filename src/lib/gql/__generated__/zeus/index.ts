@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response));
+    console.info(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -592,6 +592,7 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
+    fixed_payment_amount?: number | undefined | null;
     name?: string | undefined | null;
     new_address?: string | undefined | null;
     non_giver?: boolean | undefined | null;
@@ -732,6 +733,25 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined | null;
+    name: string;
+    read_circle?: boolean | undefined | null;
+    read_epochs?: boolean | undefined | null;
+    read_member_profiles?: boolean | undefined | null;
+    read_nominees?: boolean | undefined | null;
+    read_pending_token_gifts?: boolean | undefined | null;
+    update_circle?: boolean | undefined | null;
+    update_pending_token_gifts?: boolean | undefined | null;
+  };
+  ['GenerateApiKeyResponse']: AliasType<{
+    api_key?: boolean | `@${string}`;
+    /** An object relationship */
+    circleApiKey?: ValueTypes['circle_api_keys'];
+    hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -785,7 +805,6 @@ export type ValueTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
-    chain_id?: number | undefined | null;
     circle_id: number;
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
@@ -3000,6 +3019,10 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_integrations']
+    ];
+    generateApiKey?: [
+      { payload: ValueTypes['GenerateApiKeyInput'] },
+      ValueTypes['GenerateApiKeyResponse']
     ];
     insert_circle_integrations?: [
       {
@@ -5325,7 +5348,7 @@ columns and relationships of "profiles" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
@@ -5727,6 +5750,7 @@ columns and relationships of "users" */
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
     fixed_non_receiver?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5920,6 +5944,7 @@ columns and relationships of "users" */
   /** order by avg() on columns of table "users" */
   ['users_avg_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -5941,6 +5966,10 @@ columns and relationships of "users" */
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     fixed_non_receiver?:
       | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
+    fixed_payment_amount?:
+      | ValueTypes['numeric_comparison_exp']
       | undefined
       | null;
     give_token_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -5973,6 +6002,7 @@ columns and relationships of "users" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -5988,6 +6018,7 @@ columns and relationships of "users" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6007,6 +6038,7 @@ columns and relationships of "users" */
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
     fixed_non_receiver?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6044,6 +6076,7 @@ columns and relationships of "users" */
   /** order by stddev() on columns of table "users" */
   ['users_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6053,6 +6086,7 @@ columns and relationships of "users" */
   /** order by stddev_pop() on columns of table "users" */
   ['users_stddev_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6062,6 +6096,7 @@ columns and relationships of "users" */
   /** order by stddev_samp() on columns of table "users" */
   ['users_stddev_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6071,6 +6106,7 @@ columns and relationships of "users" */
   /** order by sum() on columns of table "users" */
   ['users_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6080,6 +6116,7 @@ columns and relationships of "users" */
   /** order by var_pop() on columns of table "users" */
   ['users_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6089,6 +6126,7 @@ columns and relationships of "users" */
   /** order by var_samp() on columns of table "users" */
   ['users_var_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6098,6 +6136,7 @@ columns and relationships of "users" */
   /** order by variance() on columns of table "users" */
   ['users_variance_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6651,6 +6690,13 @@ export type ModelTypes = {
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     id: string;
+  };
+  ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
+  ['GenerateApiKeyResponse']: {
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
@@ -7331,6 +7377,8 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -7901,7 +7949,7 @@ columns and relationships of "profiles" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
@@ -8105,6 +8153,7 @@ columns and relationships of "users" */
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
+    fixed_payment_amount: GraphQLTypes['numeric'];
     give_token_received: number;
     give_token_remaining: number;
     id: GraphQLTypes['bigint'];
@@ -8310,6 +8359,7 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
+    fixed_payment_amount?: number | undefined;
     name?: string | undefined;
     new_address?: string | undefined;
     non_giver?: boolean | undefined;
@@ -8429,6 +8479,25 @@ export type GraphQLTypes = {
     epoch: GraphQLTypes['epochs'];
     id: string;
   };
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined;
+    name: string;
+    read_circle?: boolean | undefined;
+    read_epochs?: boolean | undefined;
+    read_member_profiles?: boolean | undefined;
+    read_nominees?: boolean | undefined;
+    read_pending_token_gifts?: boolean | undefined;
+    update_circle?: boolean | undefined;
+    update_pending_token_gifts?: boolean | undefined;
+  };
+  ['GenerateApiKeyResponse']: {
+    __typename: 'GenerateApiKeyResponse';
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined;
@@ -8482,7 +8551,6 @@ export type GraphQLTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
-    chain_id?: number | undefined;
     circle_id: number;
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
@@ -10231,6 +10299,8 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -11275,7 +11345,7 @@ columns and relationships of "profiles" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for past epochs
+  /** GIVE allocations made by circle members for completed epochs
 
 
 columns and relationships of "token_gifts" */
@@ -11638,6 +11708,7 @@ columns and relationships of "users" */
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
+    fixed_payment_amount: GraphQLTypes['numeric'];
     give_token_received: number;
     give_token_remaining: number;
     id: GraphQLTypes['bigint'];
@@ -11683,6 +11754,7 @@ columns and relationships of "users" */
   /** order by avg() on columns of table "users" */
   ['users_avg_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11703,6 +11775,7 @@ columns and relationships of "users" */
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     fixed_non_receiver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     give_token_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
     give_token_remaining?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -11731,6 +11804,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11746,6 +11820,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11765,6 +11840,7 @@ columns and relationships of "users" */
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
     fixed_non_receiver?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11797,6 +11873,7 @@ columns and relationships of "users" */
   /** order by stddev() on columns of table "users" */
   ['users_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11806,6 +11883,7 @@ columns and relationships of "users" */
   /** order by stddev_pop() on columns of table "users" */
   ['users_stddev_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11815,6 +11893,7 @@ columns and relationships of "users" */
   /** order by stddev_samp() on columns of table "users" */
   ['users_stddev_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11824,6 +11903,7 @@ columns and relationships of "users" */
   /** order by sum() on columns of table "users" */
   ['users_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11833,6 +11913,7 @@ columns and relationships of "users" */
   /** order by var_pop() on columns of table "users" */
   ['users_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11842,6 +11923,7 @@ columns and relationships of "users" */
   /** order by var_samp() on columns of table "users" */
   ['users_var_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11851,6 +11933,7 @@ columns and relationships of "users" */
   /** order by variance() on columns of table "users" */
   ['users_variance_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -12558,6 +12641,7 @@ export const enum users_select_column {
   deleted_at = 'deleted_at',
   epoch_first_visit = 'epoch_first_visit',
   fixed_non_receiver = 'fixed_non_receiver',
+  fixed_payment_amount = 'fixed_payment_amount',
   give_token_received = 'give_token_received',
   give_token_remaining = 'give_token_remaining',
   id = 'id',

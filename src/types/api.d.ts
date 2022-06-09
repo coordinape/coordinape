@@ -22,6 +22,7 @@ export interface UpdateUsersParam {
   non_receiver?: boolean;
   role?: number;
   starting_tokens?: number;
+  fixed_payment_amount?: number;
 }
 
 export interface PutUsersParam {

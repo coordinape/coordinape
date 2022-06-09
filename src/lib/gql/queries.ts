@@ -80,6 +80,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
               give_token_remaining: true,
               role: true,
               epoch_first_visit: true,
+              fixed_payment_amount: true,
               circle: {
                 id: true,
                 name: true,
@@ -124,6 +125,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    fixed_payment_amount: true,
                   },
                 },
               ],
@@ -311,6 +313,7 @@ export const getFullCircle = async (
               give_token_received: true,
               give_token_remaining: true,
               epoch_first_visit: true,
+              fixed_payment_amount: true,
               created_at: true,
               updated_at: true,
               deleted_at: true,
@@ -340,6 +343,7 @@ export const getFullCircle = async (
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    fixed_payment_amount: true,
                   },
                 },
               ],
@@ -567,6 +571,7 @@ export const fetchManifest = async (
               give_token_remaining: true,
               role: true,
               epoch_first_visit: true,
+              fixed_payment_amount: true,
               teammates: [
                 {},
                 {
@@ -586,6 +591,7 @@ export const fetchManifest = async (
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    fixed_payment_amount: true,
                   },
                 },
               ],

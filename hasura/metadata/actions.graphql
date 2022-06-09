@@ -124,6 +124,7 @@ input AdminUpdateUserInput {
   fixed_non_receiver: Boolean
   non_receiver: Boolean
   role: Int
+  fixed_payment_amount: Float
 }
 
 input DeleteEpochInput {
@@ -245,8 +246,8 @@ input GenerateApiKeyInput {
   update_pending_token_gifts: Boolean
   read_member_profiles: Boolean
   read_epochs: Boolean
- }
-  
+}
+
 input UploadOrgImageInput {
   org_id: Int!
   image_data_base64: String!

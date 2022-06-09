@@ -27,6 +27,7 @@ export const AllTypesProps: Record<string, any> = {
   CreateVaultInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
+  GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
@@ -1225,6 +1226,9 @@ export const AllTypesProps: Record<string, any> = {
     delete_circle_integrations_by_pk: {
       id: 'bigint',
     },
+    generateApiKey: {
+      payload: 'GenerateApiKeyInput',
+    },
     insert_circle_integrations: {
       objects: 'circle_integrations_insert_input',
     },
@@ -2403,6 +2407,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_avg_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2422,6 +2427,7 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'timestamp_comparison_exp',
     epoch_first_visit: 'Boolean_comparison_exp',
     fixed_non_receiver: 'Boolean_comparison_exp',
+    fixed_payment_amount: 'numeric_comparison_exp',
     give_token_received: 'Int_comparison_exp',
     give_token_remaining: 'Int_comparison_exp',
     id: 'bigint_comparison_exp',
@@ -2445,6 +2451,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2459,6 +2466,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2477,6 +2485,7 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'order_by',
     epoch_first_visit: 'order_by',
     fixed_non_receiver: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2497,6 +2506,7 @@ export const AllTypesProps: Record<string, any> = {
   users_select_column: true,
   users_stddev_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2505,6 +2515,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_stddev_pop_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2513,6 +2524,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_stddev_samp_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2521,6 +2533,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_sum_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2529,6 +2542,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_var_pop_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2537,6 +2551,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_var_samp_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2545,6 +2560,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   users_variance_order_by: {
     circle_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     give_token_received: 'order_by',
     give_token_remaining: 'order_by',
     id: 'order_by',
@@ -2937,6 +2953,11 @@ export const ReturnTypes: Record<string, any> = {
     epoch: 'epochs',
     id: 'ID',
   },
+  GenerateApiKeyResponse: {
+    api_key: 'String',
+    circleApiKey: 'circle_api_keys',
+    hash: 'String',
+  },
   LogoutResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -3250,6 +3271,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_api_keys_by_pk: 'circle_api_keys',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
+    generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
     insert_claims: 'claims_mutation_response',
@@ -3690,6 +3712,7 @@ export const ReturnTypes: Record<string, any> = {
     deleted_at: 'timestamp',
     epoch_first_visit: 'Boolean',
     fixed_non_receiver: 'Boolean',
+    fixed_payment_amount: 'numeric',
     give_token_received: 'Int',
     give_token_remaining: 'Int',
     id: 'bigint',

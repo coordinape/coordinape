@@ -23,6 +23,7 @@ export interface IApiProfile {
 export interface IApiUser {
   id: number;
   circle_id: number;
+  fixed_payment_amount: number;
   address: string;
   name: string;
   // User Circle settings

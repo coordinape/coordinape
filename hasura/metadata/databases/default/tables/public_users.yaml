@@ -69,6 +69,7 @@ select_permissions:
     - circle_id
     - created_at
     - fixed_non_receiver
+    - fixed_payment_amount
     - give_token_received
     - give_token_remaining
     - id
@@ -101,6 +102,7 @@ select_permissions:
     - deleted_at
     - epoch_first_visit
     - fixed_non_receiver
+    - fixed_payment_amount
     - give_token_received
     - give_token_remaining
     - id

@@ -24,6 +24,7 @@ const schema = z
     // non_receiver: z.boolean(),
     role: zBooleanToNumber,
     starting_tokens: z.number(),
+    fixed_payment_amount: z.number().min(0),
   })
   .strict();
 
@@ -40,6 +41,7 @@ const AdminUserForm = createForm({
     // non_receiver: !!v.user?.fixed_non_receiver || !!v.user?.non_receiver,
     role: v.user?.role === USER_ROLE_ADMIN ?? false,
     starting_tokens: v.user?.starting_tokens ?? 100,
+    fixed_payment_amount: v.user?.fixed_payment_amount,
   }),
   fieldKeys: Object.keys(schema.shape),
   fieldProps: {},
