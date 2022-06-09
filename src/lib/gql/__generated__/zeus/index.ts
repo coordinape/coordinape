@@ -4704,6 +4704,29 @@ columns and relationships of "profiles" */
       },
       ValueTypes['user_private']
     ];
+    user_private_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['user_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['user_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['user_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['user_private_aggregate']
+    ];
     users?: [
       {
         /** distinct select on columns */
@@ -5317,6 +5340,29 @@ columns and relationships of "profiles" */
       },
       ValueTypes['user_private']
     ];
+    user_private_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['user_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['user_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['user_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['user_private_aggregate']
+    ];
     users?: [
       {
         /** distinct select on columns */
@@ -5901,6 +5947,42 @@ columns and relationships of "token_gifts" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** aggregated selection of "user_private" */
+  ['user_private_aggregate']: AliasType<{
+    aggregate?: ValueTypes['user_private_aggregate_fields'];
+    nodes?: ValueTypes['user_private'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "user_private" */
+  ['user_private_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['user_private_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['user_private_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['user_private_max_fields'];
+    min?: ValueTypes['user_private_min_fields'];
+    stddev?: ValueTypes['user_private_stddev_fields'];
+    stddev_pop?: ValueTypes['user_private_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['user_private_stddev_samp_fields'];
+    sum?: ValueTypes['user_private_sum_fields'];
+    var_pop?: ValueTypes['user_private_var_pop_fields'];
+    var_samp?: ValueTypes['user_private_var_samp_fields'];
+    variance?: ValueTypes['user_private_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['user_private_avg_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
   ['user_private_bool_exp']: {
     _and?: Array<ValueTypes['user_private_bool_exp']> | undefined | null;
@@ -5918,6 +6000,20 @@ columns and relationships of "token_gifts" */
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
+  /** aggregate max on columns */
+  ['user_private_max_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    fixed_payment_token_type?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['user_private_min_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    fixed_payment_token_type?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Ordering options when selecting data from "user_private". */
   ['user_private_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -5928,6 +6024,48 @@ columns and relationships of "token_gifts" */
   };
   /** select columns of table "user_private" */
   ['user_private_select_column']: user_private_select_column;
+  /** aggregate stddev on columns */
+  ['user_private_stddev_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['user_private_stddev_pop_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['user_private_stddev_samp_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate sum on columns */
+  ['user_private_sum_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_pop on columns */
+  ['user_private_var_pop_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['user_private_var_samp_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['user_private_variance_fields']: AliasType<{
+    fixed_payment_amount?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Members of a circle
 
 
@@ -8126,6 +8264,8 @@ columns and relationships of "profiles" */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
+    /** fetch aggregated fields from the table: "user_private" */
+    user_private_aggregate: GraphQLTypes['user_private_aggregate'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
@@ -8212,6 +8352,8 @@ columns and relationships of "profiles" */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
+    /** fetch aggregated fields from the table: "user_private" */
+    user_private_aggregate: GraphQLTypes['user_private_aggregate'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
@@ -8457,12 +8599,83 @@ columns and relationships of "token_gifts" */
     user?: GraphQLTypes['users'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** aggregated selection of "user_private" */
+  ['user_private_aggregate']: {
+    aggregate?: GraphQLTypes['user_private_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['user_private']>;
+  };
+  /** aggregate fields of "user_private" */
+  ['user_private_aggregate_fields']: {
+    avg?: GraphQLTypes['user_private_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['user_private_max_fields'] | undefined;
+    min?: GraphQLTypes['user_private_min_fields'] | undefined;
+    stddev?: GraphQLTypes['user_private_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['user_private_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['user_private_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['user_private_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['user_private_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['user_private_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['user_private_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['user_private_avg_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
   ['user_private_bool_exp']: GraphQLTypes['user_private_bool_exp'];
+  /** aggregate max on columns */
+  ['user_private_max_fields']: {
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['user_private_min_fields']: {
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** Ordering options when selecting data from "user_private". */
   ['user_private_order_by']: GraphQLTypes['user_private_order_by'];
   /** select columns of table "user_private" */
   ['user_private_select_column']: GraphQLTypes['user_private_select_column'];
+  /** aggregate stddev on columns */
+  ['user_private_stddev_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['user_private_stddev_pop_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['user_private_stddev_samp_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['user_private_sum_fields']: {
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['user_private_var_pop_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['user_private_var_samp_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['user_private_variance_fields']: {
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** Members of a circle
 
 
@@ -11577,6 +11790,8 @@ columns and relationships of "profiles" */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
+    /** fetch aggregated fields from the table: "user_private" */
+    user_private_aggregate: GraphQLTypes['user_private_aggregate'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
@@ -11664,6 +11879,8 @@ columns and relationships of "profiles" */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
+    /** fetch aggregated fields from the table: "user_private" */
+    user_private_aggregate: GraphQLTypes['user_private_aggregate'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
@@ -12146,6 +12363,33 @@ columns and relationships of "token_gifts" */
     user?: GraphQLTypes['users'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** aggregated selection of "user_private" */
+  ['user_private_aggregate']: {
+    __typename: 'user_private_aggregate';
+    aggregate?: GraphQLTypes['user_private_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['user_private']>;
+  };
+  /** aggregate fields of "user_private" */
+  ['user_private_aggregate_fields']: {
+    __typename: 'user_private_aggregate_fields';
+    avg?: GraphQLTypes['user_private_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['user_private_max_fields'] | undefined;
+    min?: GraphQLTypes['user_private_min_fields'] | undefined;
+    stddev?: GraphQLTypes['user_private_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['user_private_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['user_private_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['user_private_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['user_private_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['user_private_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['user_private_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['user_private_avg_fields']: {
+    __typename: 'user_private_avg_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
   ['user_private_bool_exp']: {
     _and?: Array<GraphQLTypes['user_private_bool_exp']> | undefined;
@@ -12159,6 +12403,20 @@ columns and relationships of "token_gifts" */
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
+  /** aggregate max on columns */
+  ['user_private_max_fields']: {
+    __typename: 'user_private_max_fields';
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['user_private_min_fields']: {
+    __typename: 'user_private_min_fields';
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** Ordering options when selecting data from "user_private". */
   ['user_private_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -12169,6 +12427,48 @@ columns and relationships of "token_gifts" */
   };
   /** select columns of table "user_private" */
   ['user_private_select_column']: user_private_select_column;
+  /** aggregate stddev on columns */
+  ['user_private_stddev_fields']: {
+    __typename: 'user_private_stddev_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['user_private_stddev_pop_fields']: {
+    __typename: 'user_private_stddev_pop_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['user_private_stddev_samp_fields']: {
+    __typename: 'user_private_stddev_samp_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['user_private_sum_fields']: {
+    __typename: 'user_private_sum_fields';
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['user_private_var_pop_fields']: {
+    __typename: 'user_private_var_pop_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['user_private_var_samp_fields']: {
+    __typename: 'user_private_var_samp_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['user_private_variance_fields']: {
+    __typename: 'user_private_variance_fields';
+    fixed_payment_amount?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** Members of a circle
 
 

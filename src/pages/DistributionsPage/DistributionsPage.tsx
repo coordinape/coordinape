@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
+import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -41,6 +42,7 @@ export function DistributionsPage() {
 
   const [form1Amount, setForm1Amount] = useState<number>(0);
   const [vault1Id, setVault1Id] = useState<string>('');
+  const { users: circleUsers } = useSelectedCircle();
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
@@ -76,7 +78,11 @@ export function DistributionsPage() {
 
   const vaults = epoch.circle?.organization.vaults || [];
   const vault1TokenName = vaults.find(v => v.id === Number(vault1Id))?.symbol;
-
+  // const fixedPayments = circleUsers.reduce((ret, user) => {
+  //   ret[user.id] = user.give_token_received;
+  //   return ret;
+  // }, {} as Record<string, number>);
+  // console.log(fixedPayments);
   let totalAmount = form1Amount;
   let tokenName = vault1TokenName;
 
@@ -121,11 +127,14 @@ export function DistributionsPage() {
                 <Summary distribution={dist} />
               ) : (
                 <DistributionForm
+                  vault1Id={vault1Id}
+                  form1Amount={form1Amount}
                   epoch={epoch}
                   users={usersWithReceivedAmounts}
                   setAmount={setForm1Amount}
                   setVaultId={setVault1Id}
                   vaults={vaults}
+                  circleUsers={circleUsers}
                 />
               )}
             </Panel>

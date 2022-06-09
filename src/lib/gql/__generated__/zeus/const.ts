@@ -1892,6 +1892,11 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'user_private_order_by',
       where: 'user_private_bool_exp',
     },
+    user_private_aggregate: {
+      distinct_on: 'user_private_select_column',
+      order_by: 'user_private_order_by',
+      where: 'user_private_bool_exp',
+    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -2064,6 +2069,11 @@ export const AllTypesProps: Record<string, any> = {
       id: 'bigint',
     },
     user_private: {
+      distinct_on: 'user_private_select_column',
+      order_by: 'user_private_order_by',
+      where: 'user_private_bool_exp',
+    },
+    user_private_aggregate: {
       distinct_on: 'user_private_select_column',
       order_by: 'user_private_order_by',
       where: 'user_private_bool_exp',
@@ -2357,6 +2367,11 @@ export const AllTypesProps: Record<string, any> = {
     recipient_id: 'order_by',
     sender_id: 'order_by',
     tokens: 'order_by',
+  },
+  user_private_aggregate_fields: {
+    count: {
+      columns: 'user_private_select_column',
+    },
   },
   user_private_bool_exp: {
     _and: 'user_private_bool_exp',
@@ -3634,6 +3649,7 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
     user_private: 'user_private',
+    user_private_aggregate: 'user_private_aggregate',
     users: 'users',
     users_by_pk: 'users',
     vault_transactions: 'vault_transactions',
@@ -3678,6 +3694,7 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
     user_private: 'user_private',
+    user_private_aggregate: 'user_private_aggregate',
     users: 'users',
     users_by_pk: 'users',
     vault_transactions: 'vault_transactions',
@@ -3826,6 +3843,65 @@ export const ReturnTypes: Record<string, any> = {
     fixed_payment_token_type: 'String',
     user: 'users',
     user_id: 'bigint',
+  },
+  user_private_aggregate: {
+    aggregate: 'user_private_aggregate_fields',
+    nodes: 'user_private',
+  },
+  user_private_aggregate_fields: {
+    avg: 'user_private_avg_fields',
+    count: 'Int',
+    max: 'user_private_max_fields',
+    min: 'user_private_min_fields',
+    stddev: 'user_private_stddev_fields',
+    stddev_pop: 'user_private_stddev_pop_fields',
+    stddev_samp: 'user_private_stddev_samp_fields',
+    sum: 'user_private_sum_fields',
+    var_pop: 'user_private_var_pop_fields',
+    var_samp: 'user_private_var_samp_fields',
+    variance: 'user_private_variance_fields',
+  },
+  user_private_avg_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_max_fields: {
+    fixed_payment_amount: 'numeric',
+    fixed_payment_token_type: 'String',
+    user_id: 'bigint',
+  },
+  user_private_min_fields: {
+    fixed_payment_amount: 'numeric',
+    fixed_payment_token_type: 'String',
+    user_id: 'bigint',
+  },
+  user_private_stddev_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_stddev_pop_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_stddev_samp_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_sum_fields: {
+    fixed_payment_amount: 'numeric',
+    user_id: 'bigint',
+  },
+  user_private_var_pop_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_var_samp_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
+  },
+  user_private_variance_fields: {
+    fixed_payment_amount: 'Float',
+    user_id: 'Float',
   },
   users: {
     address: 'String',
