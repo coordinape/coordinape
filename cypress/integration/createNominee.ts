@@ -21,8 +21,8 @@ context('Coordinape', () => {
     cy.url({ timeout: 120000 }).should('include', '/vouching');
     cy.contains('Nominate New Member').click();
     // enter the nominee creation modal and fill it out
-    cy.contains('Name').click().type('Satoshi');
-    cy.contains('ETH Address')
+    cy.get('[name=name]').click().type('Satoshi');
+    cy.get('[name=address]')
       .click()
       .type('0x51508887C3FEf0b4390091C5A4B2B91562881526');
     cy.contains('Why are you nominating')
