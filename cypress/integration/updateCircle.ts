@@ -37,7 +37,7 @@ context('Coordinape', () => {
     }).as('hardReload');
     cy.reload(true);
     cy.wait('@hardReload').its('response.statusCode').should('equal', 200);
-    cy.contains('Settings').click();
+    cy.contains('Settings', { timeout: 120000 }).click();
     cy.contains('Fixed Payment Token')
       .parent()
       .within(() => {
