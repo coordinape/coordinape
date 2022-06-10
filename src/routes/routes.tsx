@@ -2,12 +2,13 @@ import React, { lazy } from 'react';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import DevPortalPage from '../pages/DevPortalPage';
+import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
+import DevPortalPage from 'pages/DevPortalPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
@@ -64,6 +65,14 @@ const LoggedInRoutes = () => {
       <Route path={paths.give} element={<AllocationPage />} />
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.vaults} element={<VaultsPage />} />
+      <Route
+        path={paths.adminApiKeys}
+        element={
+          <RequireAdmin>
+            <AdminCircleApiPage />
+          </RequireAdmin>
+        }
+      />
       <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
       <Route
         path={paths.adminCircles}

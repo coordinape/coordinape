@@ -37,6 +37,7 @@ const withSearchParams = (
 
 export const paths = {
   adminCircles: '/admin/circles',
+  adminApiKeys: '/admin/api',
   allocation: '/allocation',
   circles: '/circles',
   connectIntegration: '/connect-integration',
@@ -58,6 +59,7 @@ export const paths = {
 
 const circleSpecificPathKeys: (keyof typeof paths)[] = [
   'adminCircles',
+  'adminApiKeys',
   'allocation',
   'epoch',
   'give',

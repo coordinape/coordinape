@@ -617,6 +617,7 @@ export type ValueTypes = {
   ['Allocations']: {
     allocations?: Array<ValueTypes['Allocation']> | undefined | null;
     circle_id: number;
+    user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
     /** An object relationship */
@@ -732,6 +733,25 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined | null;
+    name: string;
+    read_circle?: boolean | undefined | null;
+    read_epochs?: boolean | undefined | null;
+    read_member_profiles?: boolean | undefined | null;
+    read_nominees?: boolean | undefined | null;
+    read_pending_token_gifts?: boolean | undefined | null;
+    update_circle?: boolean | undefined | null;
+    update_pending_token_gifts?: boolean | undefined | null;
+  };
+  ['GenerateApiKeyResponse']: AliasType<{
+    api_key?: boolean | `@${string}`;
+    /** An object relationship */
+    circleApiKey?: ValueTypes['circle_api_keys'];
+    hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -785,7 +805,6 @@ export type ValueTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
-    chain_id?: number | undefined | null;
     circle_id: number;
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
@@ -3000,6 +3019,10 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_integrations']
+    ];
+    generateApiKey?: [
+      { payload: ValueTypes['GenerateApiKeyInput'] },
+      ValueTypes['GenerateApiKeyResponse']
     ];
     insert_circle_integrations?: [
       {
@@ -6652,6 +6675,13 @@ export type ModelTypes = {
     epoch: GraphQLTypes['epochs'];
     id: string;
   };
+  ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
+  ['GenerateApiKeyResponse']: {
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LogoutResponse']: {
@@ -7331,6 +7361,8 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -8335,6 +8367,7 @@ export type GraphQLTypes = {
   ['Allocations']: {
     allocations?: Array<GraphQLTypes['Allocation']> | undefined;
     circle_id: number;
+    user_id?: number | undefined;
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
@@ -8429,6 +8462,25 @@ export type GraphQLTypes = {
     epoch: GraphQLTypes['epochs'];
     id: string;
   };
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined;
+    name: string;
+    read_circle?: boolean | undefined;
+    read_epochs?: boolean | undefined;
+    read_member_profiles?: boolean | undefined;
+    read_nominees?: boolean | undefined;
+    read_pending_token_gifts?: boolean | undefined;
+    update_circle?: boolean | undefined;
+    update_pending_token_gifts?: boolean | undefined;
+  };
+  ['GenerateApiKeyResponse']: {
+    __typename: 'GenerateApiKeyResponse';
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined;
@@ -8482,7 +8534,6 @@ export type GraphQLTypes = {
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
-    chain_id?: number | undefined;
     circle_id: number;
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
@@ -10231,6 +10282,8 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
