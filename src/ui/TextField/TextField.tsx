@@ -39,7 +39,7 @@ export const TextField = styled('input', {
       },
       md: {
         width: '250px',
-        height: '48px',
+        height: '$2xl',
       },
     },
     error: {

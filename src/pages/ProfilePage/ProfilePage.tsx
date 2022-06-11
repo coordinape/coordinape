@@ -343,7 +343,7 @@ const ProfilePageContent = ({
                   <div key={u.id} className={classes.circle}>
                     <Avatar
                       name={u.circle.name}
-                      small
+                      size="small"
                       path={getCircleAvatar({
                         avatar: u.circle.logo,
                         circleName: u.circle.name,

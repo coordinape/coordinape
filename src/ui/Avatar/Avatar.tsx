@@ -28,6 +28,10 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         width: '$xl !important',
         height: '$xl',
       },
+      medium: {
+        width: '$2xl',
+        height: '$2xl',
+      },
       large: {
         width: '$3xl',
         height: '$3xl',
@@ -64,7 +68,7 @@ export const Avatar = ({
   path,
   name,
   onClick,
-  small,
+  size,
   ...props
 }: {
   path?: string;
@@ -72,17 +76,13 @@ export const Avatar = ({
   name?: string;
   onClick?: () => void;
   /** represents avatar with smaller size `32x32` */
-  small?: boolean;
+  size?: 'large' | 'medium' | 'small';
   children?: React.ReactNode;
 }) => {
   const avatarPath = getAvatarPath(path);
 
   return (
-    <AvatarRoot
-      onClick={() => onClick?.()}
-      size={small ? 'small' : 'large'}
-      {...props}
-    >
+    <AvatarRoot onClick={() => onClick?.()} size={size} {...props}>
       <AvatarImage src={avatarPath} alt={name} />
       <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
     </AvatarRoot>
