@@ -241,7 +241,7 @@ export const AllocationPage = () => {
           <a
             rel="noreferrer"
             target="_blank"
-            href="https://docs.coordinape.com/welcome/gift_circle#the-gift-circle"
+            href="https://docs.coordinape.com/info/documentation/gift_circle"
           >
             Learn More
           </a>

@@ -12,7 +12,7 @@ import { assertDef } from 'utils/tools';
 import { IUser } from 'types';
 
 const GIFT_CIRCLE_DOCS_URL =
-  'https://docs.coordinape.com/welcome/gift_circle#the-gift-circle';
+  'https://docs.coordinape.com/info/documentation/gift_circle';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -146,7 +146,7 @@ export const AdminUserModal = ({
                   As a Circle Admin, you will be able to edit Circle Settings,
                   Edit Epoch settings, edit your users, and create new circles.{' '}
                   <Link
-                    href="https://docs.coordinape.com/welcome/admin_info"
+                    href="https://docs.coordinape.com/get-started/admin"
                     target="_blank"
                   >
                     Learn More
