@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import DevPortalPage from '../pages/DevPortalPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
+import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
@@ -70,6 +71,14 @@ const LoggedInRoutes = () => {
         element={
           <RequireAdmin>
             <AdminPage />
+          </RequireAdmin>
+        }
+      />
+      <Route
+        path={paths.CircleAdmin}
+        element={
+          <RequireAdmin>
+            <CircleAdminPage />
           </RequireAdmin>
         }
       />
