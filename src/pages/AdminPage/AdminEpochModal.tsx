@@ -7,7 +7,6 @@ import {
   FormTextField,
   FormDatePicker,
   FormTimePicker,
-  FormRadioGroup,
 } from 'components';
 import EpochForm, { summarizeEpoch } from 'forms/AdminEpochForm';
 import { useApiAdminCircle } from 'hooks';
@@ -148,15 +147,11 @@ export const AdminEpochModal = ({
                   type="number"
                   helperText="(# of days)"
                 />
-                <FormTimePicker
-                  label="Epoch Start Time"
-                  {...fields.start_date}
-                />
+                <FormTimePicker {...fields.start_date} />
               </div>
             </div>
             <div className={classes.repeat}>
               <h6 className={classes.subTitle}>Should this epoch repeat?</h6>
-              <FormRadioGroup {...fields.repeat} />
             </div>
           </div>
           <div className={classes.summary}>{summarizeEpoch(value)}</div>

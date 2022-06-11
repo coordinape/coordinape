@@ -1,61 +1,68 @@
 import React from 'react';
 
-import {
-  makeStyles,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-} from '@material-ui/core';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { useController } from 'react-hook-form';
 
-const useStyles = makeStyles(theme => ({
-  redColor: {
-    color: theme.colors.alert,
-  },
-}));
+import {
+  Flex,
+  FormLabel,
+  RadioGroupRoot,
+  RadioGroupIndicator,
+  RadioGroupRadio,
+  Tooltip,
+} from 'ui';
 
 export const FormRadioGroup = ({
-  value,
-  onChange,
+  name,
+  control,
   label,
   options,
-  errorText,
-  error,
+  infoTooltip,
+  defaultValue,
 }: {
-  value: string;
-  onChange: (newValue: any) => void;
+  name: string;
+  control: any;
   label?: string;
-  options: { value: string; label: string }[];
-  errorText?: string;
-  error?: boolean;
+  options: { value: any; label: string }[];
+  infoTooltip?: React.ReactNode;
+  defaultValue: string;
 }) => {
-  const classes = useStyles();
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
-  };
+  const { field } = useController({
+    control,
+    name,
+  });
 
   return (
-    <div>
-      <FormControl component="fieldset" error={error}>
-        {!!label && <FormLabel component="legend">{label}</FormLabel>}
-        <RadioGroup value={value} onChange={handleChange}>
-          {options?.map(option => (
-            <FormControlLabel
-              value={option.value}
-              key={option.value}
-              classes={error ? { root: classes.redColor } : undefined}
-              control={
-                <Radio
-                  classes={error ? { root: classes.redColor } : undefined}
-                />
-              }
-              label={option.label}
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
-      {!!errorText && <div className={classes.redColor}>{errorText}</div>}
-    </div>
+    <Flex column css={{ gap: '$md' }}>
+      <FormLabel label>
+        {label}{' '}
+        {infoTooltip && (
+          <Tooltip content={infoTooltip}>
+            <InfoCircledIcon />
+          </Tooltip>
+        )}
+      </FormLabel>
+
+      <RadioGroupRoot
+        css={{ display: 'flex', flexDirection: 'row', gap: '$md' }}
+        name={field.name}
+        defaultValue={defaultValue}
+        onValueChange={val => field.onChange(val)}
+        aria-label="View density"
+        required
+      >
+        {options?.map(option => (
+          <Flex
+            key={option.value.toString()}
+            css={{ margin: 'md 0', alignItems: 'center', gap: '$xs' }}
+          >
+            <RadioGroupRadio value={option.value.toString()} id="r1">
+              <RadioGroupIndicator />
+            </RadioGroupRadio>
+            <FormLabel htmlFor="r1">{option.label}</FormLabel>
+          </Flex>
+        ))}
+      </RadioGroupRoot>
+    </Flex>
   );
 };
