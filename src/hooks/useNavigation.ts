@@ -21,6 +21,7 @@ export const useNavigation = () => {
 
   const go = (path: string, e?: React.MouseEvent<any>) => {
     if (e?.ctrlKey || e?.metaKey) {
+      //TODONEXT: replace this with useRouter -g
       window.open(path, '_blank');
     } else {
       navigate(path);

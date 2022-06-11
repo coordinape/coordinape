@@ -33,7 +33,7 @@ export default function DepositModal({
   const [max, setMax] = useState<any>();
   const [submitting, setSubmitting] = useState(false);
   const contracts = useContracts();
-  (window as any).contracts = contracts;
+
   const [selectedContracts, setSelectedContracts] = useState<Contracts>();
   const [isChainIdMatching, setIsChainIdMatching] = useState<boolean>(true);
   const [isSecondaryAccountActive, setIsSecondaryAccountActive] =
@@ -49,6 +49,7 @@ export default function DepositModal({
     setIsChainIdMatching(contracts.chainId === chainId.toString());
     setSelectedContracts(newContracts);
     setIsSecondaryAccountActive(true);
+    // we have a web3 provider here so we can assume client side and that window is available -g
     (window as any).contracts = newContracts;
   };
 
