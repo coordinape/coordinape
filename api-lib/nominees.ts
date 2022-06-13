@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { Selector, GraphQLTypes, InputType } from './gql/__generated__/zeus';
 import { adminClient } from './gql/adminClient';
 
 export const getNomineeFromAddress = async (
@@ -45,10 +46,53 @@ export const getNomineeFromAddress = async (
   return nominees.pop();
 };
 
+const userWithCircleSelector = Selector('users')({
+  pending_sent_gifts: [
+    {},
+    {
+      id: true,
+      recipient_id: true,
+      recipient_address: true,
+      note: true,
+      tokens: true,
+    },
+  ],
+  circle: {
+    id: true,
+    nomination_days_limit: true,
+    min_vouches: true,
+    epochs: [
+      {
+        where: {
+          _and: [
+            { end_date: { _gt: 'now()' } },
+            { start_date: { _lt: 'now()' } },
+          ],
+        },
+      },
+      {
+        start_date: true,
+        end_date: true,
+        id: true,
+      },
+    ],
+  },
+  id: true,
+  address: true,
+  give_token_remaining: true,
+  starting_tokens: true,
+  non_giver: true,
+});
+
+export type UserWithCircleResponse = InputType<
+  GraphQLTypes['users'],
+  typeof userWithCircleSelector
+>;
+
 export const getUserFromProfileIdWithCircle = async (
   profileId: number,
   circleId: number
-) => {
+): Promise<UserWithCircleResponse> => {
   const { profiles_by_pk } = await adminClient.query(
     {
       profiles_by_pk: [
@@ -62,42 +106,7 @@ export const getUserFromProfileIdWithCircle = async (
                 circle_id: { _eq: circleId },
               },
             },
-            {
-              pending_sent_gifts: [
-                {},
-                {
-                  id: true,
-                  recipient_id: true,
-                  recipient_address: true,
-                  note: true,
-                  tokens: true,
-                },
-              ],
-              circle: {
-                nomination_days_limit: true,
-                min_vouches: true,
-                epochs: [
-                  {
-                    where: {
-                      _and: [
-                        { end_date: { _gt: 'now()' } },
-                        { start_date: { _lt: 'now()' } },
-                      ],
-                    },
-                  },
-                  {
-                    start_date: true,
-                    end_date: true,
-                    id: true,
-                  },
-                ],
-              },
-              id: true,
-              address: true,
-              give_token_remaining: true,
-              starting_tokens: true,
-              non_giver: true,
-            },
+            userWithCircleSelector,
           ],
         },
       ],
@@ -109,6 +118,31 @@ export const getUserFromProfileIdWithCircle = async (
   assert(profiles_by_pk, 'Profile cannot be found');
   const user = profiles_by_pk.users.pop();
   assert(user, `user for circle_id ${circleId} not found`);
+  return user;
+};
+
+export const getUserWithCircle = async (
+  userId: number,
+  circleId: number
+): Promise<UserWithCircleResponse> => {
+  const { users_by_pk: user } = await adminClient.query(
+    {
+      users_by_pk: [
+        {
+          id: userId,
+        },
+        userWithCircleSelector,
+      ],
+    },
+    {
+      operationName: 'getUserWithCircle',
+    }
+  );
+  assert(user, 'User cannot be found');
+  assert(
+    user.circle.id === circleId,
+    `User does not belong to circle_id ${circleId}.`
+  );
   return user;
 };
 

@@ -20,7 +20,7 @@ context('Coordinape', () => {
       });
 
     // now we go to the admin page
-    cy.url({ timeout: 120000 }).should('include', '/admin/circles');
+    cy.url({ timeout: 120000 }).should('match', /circles\/\d+\/admin/);
     cy.contains('Sports');
     cy.contains('Epoch 2').should('not.exist');
     cy.contains('Create Epoch', { timeout: 45000 }).click();

@@ -9,7 +9,6 @@ import type { CSS } from 'stitches.config';
 
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
-import { useApiBase } from 'hooks';
 import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
@@ -24,7 +23,6 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const CirclesPage = () => {
   const navigate = useNavigate();
-  const { selectCircle } = useApiBase();
   const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
   const query = useQuery(
@@ -45,17 +43,15 @@ export const CirclesPage = () => {
 
   const goToCircle = (id: number, path: string) => {
     setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
-    selectCircle(id).then(() => {
-      scrollToTop();
-      navigate(path);
-    });
+    scrollToTop();
+    navigate(path);
   };
 
   const isAdmin = (org: QueryResult['organizations'][0]) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
   if (query.isLoading || query.isIdle || query.isRefetching)
-    return <LoadingModal visible />;
+    return <LoadingModal visible note="CirclesPage" />;
 
   return (
     <SingleColumnLayout>
@@ -102,10 +98,14 @@ export default CirclesPage;
 
 type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
-const buttons: [string, string, ((c: QueryCircle) => boolean)?][] = [
+const buttons: [
+  (circleId: number) => string,
+  string,
+  ((c: QueryCircle) => boolean)?
+][] = [
   [paths.history, 'History'],
   [paths.allocation, 'Allocation'],
-  [paths.map(), 'Map'],
+  [paths.map, 'Map'],
   [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],
   [paths.adminCircles, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];
@@ -156,7 +156,9 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               cursor: 'pointer',
             }),
       }}
-      onClick={() => !nonMember && onButtonClick(circle.id, paths.history)}
+      onClick={() =>
+        !nonMember && onButtonClick(circle.id, paths.history(circle.id))
+      }
     >
       <Box
         css={{
@@ -238,7 +240,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             }}
           >
             {buttons.map(
-              ([path, label, hide]) =>
+              ([pathFn, label, hide]) =>
                 (!hide || !hide(circle)) && (
                   <Link
                     key={label}
@@ -251,7 +253,8 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                       },
                     }}
                     onClick={event => (
-                      onButtonClick(circle.id, path), event.stopPropagation()
+                      onButtonClick(circle.id, pathFn(circle.id)),
+                      event.stopPropagation()
                     )}
                   >
                     {label}

@@ -14,7 +14,7 @@ import {
   scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile, useApiBase } from 'hooks';
+import { useImageUploader, useApiWithProfile } from 'hooks';
 import { EditIcon } from 'icons';
 import {
   useMyProfile,
@@ -246,13 +246,10 @@ const ProfilePageContent = ({
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
   const navigate = useNavigate();
-  const { selectCircle } = useApiBase();
 
   const goToCircleHistory = (id: number, path: string) => {
-    selectCircle(id).then(() => {
-      scrollToTop();
-      navigate(path);
-    });
+    scrollToTop();
+    navigate(path);
   };
 
   const {
@@ -349,7 +346,10 @@ const ProfilePageContent = ({
                         circleName: u.circle.name,
                       })}
                       onClick={() =>
-                        goToCircleHistory(u.circle_id, paths.history)
+                        goToCircleHistory(
+                          u.circle_id,
+                          paths.history(u.circle_id)
+                        )
                       }
                     />
 

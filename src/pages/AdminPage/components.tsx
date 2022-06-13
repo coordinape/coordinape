@@ -72,7 +72,7 @@ export const CreateEpochButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+              href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch="
             >
               Learn More
             </Link>
@@ -111,7 +111,7 @@ export const AddContributorButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+              href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch="
             >
               Learn More
             </Link>
@@ -454,7 +454,7 @@ export const EpochsTable = ({
           <Box css={{ display: 'flex', flexDirection: 'column' }}>
             {downloadCSVButton(e.number, downloadLink)}
             {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.distributions(e.id)}>
+              <TableLink to={paths.distributions(circle.id, e.id)}>
                 Distributions
               </TableLink>
             )}
@@ -757,7 +757,7 @@ export const ContributorsTable = ({
                     Edit Epoch settings, edit your users, and create new
                     circles.{' '}
                     <Link
-                      href="https://docs.coordinape.com/welcome/admin_info"
+                      href="https://docs.coordinape.com/get-started/admin"
                       target="_blank"
                     >
                       Learn More

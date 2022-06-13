@@ -40,4 +40,3 @@ export * from './SkillToggles/SkillToggles';
 export * from './Spacer/Spacer';
 export * from './ThreeDotMenu/ThreeDotMenu';
 export * from './WalletAuthModal/WalletAuthModal';
-export * from './WalletController/WalletController';

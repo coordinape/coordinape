@@ -179,7 +179,10 @@ export const ReceiveInfo = () => {
           ))}
         <div className={classes.historyContainer}>
           <p className={classes.regiftTitle}>
-            <NavLink className={classes.navLink} to={paths.history}>
+            <NavLink
+              className={classes.navLink}
+              to={paths.history(selectedCircle.id)}
+            >
               See Complete History
             </NavLink>
           </p>

@@ -29,4 +29,3 @@ export const rDevMode = atom({
 
 export const useDevMode = () => useRecoilValue(rDevMode);
 export const useSetEditProfileOpen = () => useSetRecoilState(rEditProfileOpen);
-export const useSetWalletModalOpen = () => useSetRecoilState(rWalletModalOpen);

@@ -1,5 +1,5 @@
 import { ZERO_ADDRESS } from 'config/constants';
-import { chainId, provider } from 'utils/testing';
+import { chainId, provider } from 'utils/testing/provider';
 
 import { Contracts } from './contracts';
 

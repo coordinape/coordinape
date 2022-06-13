@@ -22,7 +22,7 @@ import { AdminIntegrations } from './AdminIntegrations';
 
 import { ICircle } from 'types';
 
-const DOCS_HREF = 'https://docs.coordinape.com/welcome/admin_info';
+const DOCS_HREF = 'https://docs.coordinape.com/get-started/admin';
 const DOCS_TEXT = 'See the docs...';
 
 const useStyles = makeStyles(theme => ({

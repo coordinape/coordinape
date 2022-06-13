@@ -10,13 +10,9 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-import {
-  HARDHAT_CHAIN_ID,
-  HARDHAT_PORT,
-  HARDHAT_GANACHE_CHAIN_ID,
-  HARDHAT_GANACHE_PORT,
-} from 'config/env';
 import { createTheme } from 'theme';
+
+import { chainId, rpcUrl } from './provider';
 
 const theme = createTheme();
 
@@ -27,14 +23,6 @@ type TestWrapperProps = {
 };
 
 const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
-
-export const chainId = process.env.TEST_ON_HARDHAT_NODE
-  ? HARDHAT_CHAIN_ID
-  : HARDHAT_GANACHE_CHAIN_ID;
-const port = process.env.TEST_ON_HARDHAT_NODE
-  ? HARDHAT_PORT
-  : HARDHAT_GANACHE_PORT;
-const rpcUrl = `http://localhost:${port}`;
 
 const connector = new NetworkConnector({
   urls: { [chainId]: rpcUrl },
