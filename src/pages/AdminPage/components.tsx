@@ -72,7 +72,7 @@ export const CreateEpochButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+              href="https://docs.coordinape.com/get-started/epochs"
             >
               Learn More
             </Link>
@@ -111,7 +111,7 @@ export const AddContributorButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/welcome/how_to_use_coordinape#my-epoch"
+              href="https://docs.coordinape.com/get-started/members"
             >
               Learn More
             </Link>
