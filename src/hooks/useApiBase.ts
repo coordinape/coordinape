@@ -1,92 +1,66 @@
+import assert from 'assert';
+
 import { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import debug from 'debug';
 import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
-import { useNavigate, useLocation } from 'react-router';
 
 import { useRecoilLoadCatch } from 'hooks';
-import {
-  rSelectedCircleId,
-  rSelectedCircleIdSource,
-  rCirclesMap,
-  rWalletAuth,
-  rCircle,
-} from 'recoilState/app';
+import { rSelectedCircleIdSource, rWalletAuth } from 'recoilState/app';
 import {
   rApiManifest,
   rApiFullCircle,
   rSelfIdProfileMap,
 } from 'recoilState/db';
-import { paths } from 'routes/paths';
 import { getApiService } from 'services/api';
 import { connectors } from 'utils/connectors';
 import { getSelfIdProfiles } from 'utils/selfIdHelpers';
 import { assertDef } from 'utils/tools';
 
+import { useApeSnackbar } from './useApeSnackbar';
+
 import { EConnectorNames } from 'types';
 
-const log = debug('recoil:useApiBase');
+const log = debug('useApiBase');
+
+const clearStateAfterLogout = (set: any) => {
+  set(rWalletAuth, { authTokens: {} });
+  set(rApiFullCircle, new Map());
+  set(rApiManifest, undefined);
+};
 
 export const useApiBase = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { showError } = useApeSnackbar();
 
-  const navigateDefault = useRecoilLoadCatch(
-    ({ snapshot }) =>
-      async () => {
-        try {
-          // When navigateDefault is called, rSelectedCircleId will hang
-          // if a circle isn't selected, which only should happen if the
-          // user doesn't have a circle. This is all a bit too clever.
-          // Ideally, clever things are isolated.
-          const selectedCircleId = await Promise.race([
-            snapshot.getPromise(rSelectedCircleId),
-            timeoutPromise<number>(1000),
-          ]);
-          const {
-            circleEpochsStatus: { epochIsActive },
-          } = await snapshot.getPromise(rCircle(selectedCircleId));
-
-          if (location.pathname === '/') {
-            if (epochIsActive) {
-              navigate(paths.allocation);
-            } else {
-              navigate(paths.history);
-            }
-          }
-        } catch (e) {
-          // Timed out - this just means there is no circle. Strange but it's how it works I guess -CG
-        }
-      },
-    [history]
-  );
-
-  const updateAuth = useRecoilLoadCatch(
+  // FIXME it's a bit inconsistent that this catches its own errors instead of
+  // delegating to useRecoilLoadCatch. but we should probably just not use
+  // useRecoilLoadCatch at all and instead just get the walletAuth data from an
+  // ordinary useRecoilValue hook in RequireAuth
+  const finishAuth = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async ({
-        address,
         web3Context,
-        resetManifest,
       }: {
-        address: string;
         web3Context: Web3ReactContextInterface<Web3Provider>;
-        resetManifest?: boolean;
       }) => {
         const { authTokens } = await snapshot.getPromise(rWalletAuth);
+        const { connector, account: address, library } = web3Context;
+        assert(address && library);
 
         try {
           const connectorName = assertDef(
             Object.entries(connectors).find(
-              ([, connector]) =>
-                web3Context.connector?.constructor === connector.constructor
+              ([, c]) => connector?.constructor === c.constructor
             )?.[0],
             'Unknown web3Context.connector'
           ) as EConnectorNames;
 
-          const token =
-            authTokens[address] ?? (await getApiService().login(address)).token;
+          const api = getApiService();
+          if (!api.provider) api.setProvider(web3Context.library);
+
+          const token = authTokens[address] ?? (await api.login(address)).token;
           if (token) {
             // Send a truncated address to sentry to help us debug customer issues
             Sentry.setTag(
@@ -95,55 +69,46 @@ export const useApiBase = () => {
                 '...' +
                 address.substr(address.length - 8, 8)
             );
-            if (resetManifest) {
-              set(rApiFullCircle, new Map());
-              set(rApiManifest, undefined);
-            }
             set(rWalletAuth, {
               connectorName,
               address,
               authTokens: { ...authTokens, [address]: token },
             });
 
-            return;
+            // wrapped in setTimeout so rWalletAuth is updated before this runs
+            return new Promise(res =>
+              setTimeout(() =>
+                fetchManifest()
+                  .then(res)
+                  .catch(() => {
+                    // we had a cached token & it's invalid
+                    clearStateAfterLogout(set);
+                    res(false);
+                  })
+              )
+            );
           }
-        } catch (e) {
+        } catch (e: any) {
+          if (
+            [/User denied message signature/].some(r => e.message?.match(r))
+          ) {
+            return false;
+          }
+
           // for debugging this issue
           // eslint-disable-next-line no-console
           console.info(e);
-          console.error('Failed to login');
+          showError(`Failed to login: ${e.message || e}`);
         }
-
-        delete authTokens[address];
-
-        set(rWalletAuth, {
-          authTokens,
-        });
-        set(rApiFullCircle, new Map());
-        set(rApiManifest, undefined);
-        throw new Error('Failed to get a login token');
       },
-    []
+    [],
+    { who: 'finishAuth' }
   );
 
   const logout = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
-      async () => {
-        const { authTokens: recoilTokens, address: original } =
-          await snapshot.getPromise(rWalletAuth);
-        const authTokens = { ...recoilTokens };
-
-        if (original) {
-          delete authTokens[original];
-        }
-
-        // Logout triggered by walletAuth removal of token.
-        set(rApiFullCircle, new Map());
-        set(rApiManifest, undefined);
-        set(rWalletAuth, {
-          authTokens,
-        });
-      },
+    ({ set }) =>
+      async () =>
+        clearStateAfterLogout(set),
     []
   );
 
@@ -161,7 +126,7 @@ export const useApiBase = () => {
         });
       },
     [],
-    { hideLoading: true }
+    { hideLoading: true, who: 'fetchSelfIds' }
   );
 
   const fetchManifest = useRecoilLoadCatch(
@@ -174,109 +139,54 @@ export const useApiBase = () => {
           throw 'Wallet must be connected to fetch manifest';
         }
 
-        const circleId = await snapshot.getPromise(rSelectedCircleIdSource);
-        const manifest = await queries.fetchManifest(
-          walletAuth.address,
-          circleId
-        );
-
+        const manifest = await queries.fetchManifest(walletAuth.address);
         set(rApiManifest, manifest);
-        const fullCircle = manifest.circle;
-        if (fullCircle) {
-          set(rSelectedCircleIdSource, fullCircle.circle.id);
-          set(rApiFullCircle, m => {
-            const result = new Map(m);
-            result.set(fullCircle.circle.id, fullCircle);
-            return result;
-          });
-
-          fetchSelfIds(fullCircle.users.map(u => u.address));
-        } else {
-          set(rSelectedCircleIdSource, undefined);
-        }
         return manifest;
       },
-    []
+    [],
+    { who: 'fetchManifest' }
   );
 
   const fetchCircle = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
+    ({ set }) =>
       async ({ circleId, select }: { circleId: number; select?: boolean }) => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        if (!(await snapshot.getPromise(rCirclesMap)).has(circleId)) {
-          // Wasn't included in their manifest.
-          throw `Your profile doesn't have access to ${circleId}`;
-        }
-
         const fullCircle = await queries.getFullCircle(circleId);
-
-        // eslint-disable-next-line no-console
-        console.log('fetchCircle', fullCircle);
 
         set(rApiFullCircle, m => {
           const result = new Map(m);
           result.set(fullCircle.circle.id, fullCircle);
           return result;
         });
-        if (select) {
-          set(rSelectedCircleIdSource, circleId);
-        }
+
+        if (select) set(rSelectedCircleIdSource, circleId);
         fetchSelfIds(fullCircle.users.map(u => u.address));
       },
-    []
+    [],
+    { who: 'fetchCircle' }
   );
 
   const selectCircle = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async (circleId: number) => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        if (circleId === -1) {
-          // This signifies no circle selected
-          // TODO: Change to use undefined
+        const fullCircles = await snapshot.getPromise(rApiFullCircle);
+        if (fullCircles.has(circleId)) {
           set(rSelectedCircleIdSource, circleId);
+          return;
         }
 
-        if (!walletAuth.address) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
-        if (!(await snapshot.getPromise(rCirclesMap)).has(circleId)) {
-          // Wasn't included in their manifest.
-          throw `Your profile doesn't have access to ${circleId}`;
-        }
-
-        if (!(await snapshot.getPromise(rApiFullCircle)).has(circleId)) {
-          // Need to fetch this circle
-          log(`selectCircle -> fetchCircle ${circleId}`);
-          await fetchCircle({ circleId, select: true });
-        } else {
-          set(rSelectedCircleIdSource, circleId);
-        }
+        // Need to fetch this circle
+        log(`selectCircle -> fetchCircle ${circleId}`);
+        await fetchCircle({ circleId, select: true });
       },
-    []
+    [],
+    { who: 'selectCircle' }
   );
 
   return {
-    updateAuth,
+    finishAuth,
     logout,
     fetchManifest,
     fetchCircle,
     selectCircle,
-    navigateDefault,
   };
 };
-
-function timeoutPromise<T>(ms: number) {
-  return new Promise<T>((_, reject) => {
-    setTimeout(() => reject(new Error('Timed out.')), ms);
-  });
-}

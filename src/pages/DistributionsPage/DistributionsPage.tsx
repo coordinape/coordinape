@@ -12,7 +12,6 @@ import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
-import { useFixCircleState } from 'hooks/migration';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Box, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -22,10 +21,6 @@ import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { EpochDataResult, Gift } from './queries';
 import { getEpochData } from './queries';
-
-// circle context:
-// maybe you loaded the page from scratch so the circle is wrong
-// maybe you navigated from history or admin so the circle is right
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -46,8 +41,6 @@ export function DistributionsPage() {
 
   const [form1Amount, setForm1Amount] = useState<number>(0);
   const [vault1Id, setVault1Id] = useState<string>('');
-
-  useFixCircleState(epoch?.circle?.id, 'DistributionsPage');
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 

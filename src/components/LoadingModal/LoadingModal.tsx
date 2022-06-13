@@ -30,6 +30,7 @@ export const LoadingModal = (props: {
   visible: boolean;
   onClose?: () => void;
   text?: string;
+  note?: string;
 }) => {
   const classes = useStyles();
   const { onClose, text, visible } = props;
@@ -41,7 +42,10 @@ export const LoadingModal = (props: {
       onClose={onClose}
       open={visible}
     >
-      <div className={classes.content}>
+      <div
+        className={classes.content}
+        data-note={`loading-${props.note || ''}`}
+      >
         <CircularProgress size={80} />
         {text && (
           <Typography className={classes.title} component="div">

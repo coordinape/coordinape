@@ -63,7 +63,7 @@
     "react-string-replace": "0.4.4",
     "react-virtualized-auto-sizer": "1.0.5",
     "recoil": "0.4.1",
-    "sharp": "^0.30.1",
+    "sharp": "^0.30.5",
     "source-map-explorer": "2.5.2",
     "stream": "^0.0.2",
     "styled-components": "5.2.3",

@@ -56,7 +56,16 @@ export class APIService {
         },
       }),
     });
-    return await rawResponse.json();
+
+    const body = await rawResponse.json();
+    if (!rawResponse.ok) {
+      throw new Error(
+        `${rawResponse.status} ${rawResponse.statusText}: ${
+          body.error?.message || body.message || 'No message'
+        }`
+      );
+    }
+    return body;
   };
 }
 
@@ -70,4 +79,8 @@ export const getApiService = (): APIService => {
   return apiService;
 };
 
-export const getAuthToken = () => getApiService().token;
+export const getAuthToken = () => {
+  const token = getApiService().token;
+  if (!token) throw new Error('auth token not set');
+  return token;
+};

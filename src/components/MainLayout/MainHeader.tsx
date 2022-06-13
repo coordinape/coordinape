@@ -1,6 +1,6 @@
+import assert from 'assert';
 import { Suspense, useState, useEffect, useMemo } from 'react';
 
-import debug from 'debug';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
@@ -15,17 +15,14 @@ import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
-import { useSetWalletModalOpen } from 'recoilState';
 import {
   rSelectedCircle,
   useMyProfile,
   useSelectedCircle,
 } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
-import { Box, IconButton, Link, Image, Button } from 'ui';
+import { Box, IconButton, Link, Image } from 'ui';
 import { shortenAddress } from 'utils';
-
-const log = debug('recoil:MainHeader');
 
 const mainLinks = [
   [paths.circles, 'Overview'],
@@ -33,11 +30,9 @@ const mainLinks = [
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
-  const { address } = useWalletStatus();
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && isCircleSpecificPath(location);
-  if (circle?.id) log(`circle: ${circle?.id}`);
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
@@ -98,26 +93,11 @@ export const MainHeader = () => {
             <ReceiveInfo />
           </Suspense>
         )}
-        {!address && <ConnectButton />}
         <Suspense fallback={null}>
           <MyAvatarMenu />
         </Suspense>
       </Box>
     </Box>
-  );
-};
-
-const ConnectButton = () => {
-  const setWalletModalOpen = useSetWalletModalOpen();
-
-  return (
-    <Button
-      color="surface"
-      size="small"
-      onClick={() => setWalletModalOpen(true)}
-    >
-      Connect your wallet
-    </Button>
   );
 };
 
@@ -140,21 +120,6 @@ const MobileHeader = ({
     !address && setIsMobileMenuOpen(false);
   }, [address]);
 
-  const menuWalletButton = !address ? (
-    <ConnectButton />
-  ) : (
-    <IconButton
-      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      aria-label="menu"
-    >
-      {!isMobileMenuOpen ? (
-        <HamburgerIcon color="white" />
-      ) : (
-        <CloseIcon color="white" />
-      )}
-    </IconButton>
-  );
-
   return (
     <Box>
       <Box
@@ -168,7 +133,16 @@ const MobileHeader = ({
         }}
       >
         <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
-        {menuWalletButton}
+        <IconButton
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="menu"
+        >
+          {!isMobileMenuOpen ? (
+            <HamburgerIcon color="white" />
+          ) : (
+            <CloseIcon color="white" />
+          )}
+        </IconButton>
       </Box>
       {isMobileMenuOpen && (
         <Box
@@ -384,14 +358,19 @@ const CircleNav = () => {
   const { circle, myUser } = useSelectedCircle();
 
   const links: [string, string, string[]?][] = useMemo(() => {
+    assert(circle.id);
     const l: [string, string, string[]?][] = [
-      [paths.allocation, 'Allocate', [paths.epoch, paths.team, paths.give]],
-      [paths.map(), 'Map'],
+      [
+        paths.allocation(circle.id),
+        'Allocate',
+        [paths.epoch(circle.id), paths.team(circle.id), paths.give(circle.id)],
+      ],
+      [paths.map(circle.id), 'Map'],
     ];
 
-    if (circle.hasVouching) l.push([paths.vouching, 'Vouching']);
-    if (myUser.isCircleAdmin) l.push([paths.adminCircles, 'Members']);
-    if (myUser.isCircleAdmin) l.push([paths.CircleAdmin, 'Admin']);
+    if (circle.hasVouching) l.push([paths.vouching(circle.id), 'Vouching']);
+    if (myUser.isCircleAdmin)
+      l.push([paths.adminCircles(circle.id), 'Members']);
     return l;
   }, [circle.id]);
 

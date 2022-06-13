@@ -28,7 +28,7 @@ test('show circle links for distributions route', async () => {
     });
 
     useEffect(() => {
-      navigate('/admin/distributions/10');
+      navigate(`/circles/${fixtures.circle.id}/distributions/10`);
     }, []);
 
     return <MainHeader />;
