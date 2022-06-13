@@ -125,7 +125,7 @@ export const AdminEpochModal = ({
             <span>
               <a
                 className={classes.modalExternalLink}
-                href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch="
+                href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch"
                 rel="noreferrer"
                 target="_blank"
               >
