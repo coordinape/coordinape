@@ -37,7 +37,8 @@ const withSearchParams = (
 
 export const paths = {
   // circle-specific
-  adminCircles: (circleId: number) => `/circles/${circleId}/admin`,
+  adminCircles: (circleId: number) => `/circles/${circleId}/members`,
+  circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
   allocation: (circleId: number) => `/circles/${circleId}/allocation`,
   connectIntegration: (circleId: number) =>
     `/circles/${circleId}/admin/connect-integration`,
