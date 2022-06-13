@@ -38,6 +38,7 @@ export const ApeAutocomplete = ({
   placeholder,
   helperText,
   label,
+  isSelect,
   ...props
 }: Omit<
   React.ComponentProps<typeof Autocomplete>,
@@ -53,6 +54,7 @@ export const ApeAutocomplete = ({
   helperText?: string;
   error?: boolean;
   label?: string;
+  isSelect?: boolean;
 }) => {
   const classes = useStyles();
 
@@ -101,7 +103,7 @@ export const ApeAutocomplete = ({
             placeholder={placeholder}
             helperText={helperText}
             error={error}
-            apeVariant="select"
+            apeVariant={isSelect ? 'select' : undefined}
           />
         );
       }}
