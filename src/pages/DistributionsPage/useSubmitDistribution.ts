@@ -26,6 +26,9 @@ export type SubmitDistribution = {
   gifts: Record<string, number>;
   circleId: number;
   epochId: number;
+  fixedAmount: string;
+  giftAmount: string;
+  type: number;
 };
 
 export type SubmitDistributionResult = {
@@ -66,6 +69,9 @@ export function useSubmitDistribution() {
     gifts,
     previousDistribution,
     profileIdsByAddress,
+    fixedAmount,
+    giftAmount,
+    type,
   }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
@@ -121,7 +127,11 @@ export function useSubmitDistribution() {
         claims: { data: claims },
         vault_id: Number(vault.id),
         distribution_json: JSON.stringify(distribution),
+        fixed_amount: Number(FixedNumber.from(fixedAmount, 'fixed128x18')),
+        gift_amount: Number(FixedNumber.from(giftAmount, 'fixed128x18')),
+        distribution_type: type,
       });
+
       assert(response, 'Distribution was not saved.');
 
       const encodedCircleId = encodeCircleId(circleId);

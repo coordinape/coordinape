@@ -2,6 +2,7 @@ import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+// import { getUnwrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -9,7 +10,7 @@ import { FormControl, MenuItem, Select } from '@material-ui/core';
 
 import { IUser } from '../../types';
 import { LoadingModal, ApeTextField } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useApeSnackbar, useContracts } from 'hooks';
 import { Box, Button, Text } from 'ui';
 
 import { getPreviousDistribution } from './queries';
@@ -72,8 +73,11 @@ export function DistributionForm({
   form1Amount,
 }: SubmitFormProps) {
   const [submitting, setSubmitting] = useState(false);
+  const [sufficientTokens, setSufficientTokens] = useState(false);
+
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
+  const contracts = useContracts();
 
   const circle = epoch?.circle;
   const fixed_payment_token_type = circle?.fixed_payment_token_type;
@@ -97,6 +101,61 @@ export function DistributionForm({
   useEffect(() => {
     if (vaults[0]) setVaultId(String(vaults[0].id));
   }, [vaults]);
+
+  const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
+    value: any
+  ) => {
+    assert(epoch?.id && circle);
+    setSubmitting(true);
+    const vault = circle.organization?.vaults?.find(
+      v => v.id === Number(value.selectedVaultId)
+    );
+    assert(vault);
+
+    const gifts = circleUsers.reduce((ret, user) => {
+      //change to fixed_payment_amount when that PR gets merged
+      ret[user.address] = user.give_token_received;
+      return ret;
+    }, {} as Record<string, number>);
+
+    const userIdsByAddress = users.reduce((ret, user) => {
+      ret[user.address.toLowerCase()] = user.id;
+      return ret;
+    }, {} as Record<string, number>);
+
+    const type =
+      fixedPaymentTokenSel.length &&
+      vault1Id &&
+      fixedPaymentTokenSel[0].id.toString() === vault1Id
+        ? 3
+        : 2;
+
+    try {
+      await submitDistribution({
+        amount:
+          type === 3
+            ? String(totalFixedPayment + form1Amount)
+            : String(totalFixedPayment),
+        vault,
+        gifts,
+        userIdsByAddress,
+        previousDistribution: await getPreviousDistribution(
+          circle.id,
+          vault.id
+        ),
+        circleId: circle.id,
+        epochId: epoch.id,
+        fixedAmount: String(totalFixedPayment),
+        giftAmount: type === 3 ? String(form1Amount) : '0',
+        type,
+      });
+      setSubmitting(false);
+    } catch (e) {
+      showError(e);
+      console.error('DistributionsPage.onSubmit:', e);
+      setSubmitting(false);
+    }
+  };
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (value: any) => {
     assert(epoch?.id && circle);
@@ -128,6 +187,9 @@ export function DistributionForm({
         ),
         circleId: circle.id,
         epochId: epoch.id,
+        fixedAmount: '0',
+        giftAmount: value.amount,
+        type: 1,
       });
       setSubmitting(false);
     } catch (e) {
@@ -135,6 +197,26 @@ export function DistributionForm({
       console.error('DistributionsPage.onSubmit:', e);
       setSubmitting(false);
     }
+  };
+
+  const onChangeVault = async (vaultId: number, amountSet: number) => {
+    assert(circle);
+    const vault = circle.organization?.vaults?.find(v => v.id === vaultId);
+
+    assert(vault);
+    assert(contracts, 'This network is not supported');
+    console.log('amountSet', amountSet);
+    // const yToken = await contracts.getYVault(vault.vault_address);
+    // console.log(yToken);
+    // const vaultBalance = await yToken.balanceOf(vault.vault_address);
+    // console.log(vaultBalance);
+    // const pricePerShare = await contracts.getPricePerShare(vault.vault_address, vault.symbol, vault.decimals);
+    // console.log(pricePerShare);
+    // const tokenBalance = await getUnwrappedAmount(Number(vaultBalance), pricePerShare, vault.decimals);
+    // console.log(tokenBalance);
+    // if(tokenBalance < amountSet)
+    // setSufficientTokens(false);
+    setSufficientTokens(true);
   };
 
   return (
@@ -162,6 +244,7 @@ export function DistributionForm({
                         onChange={({ target: { value } }) => {
                           onChange(value);
                           setVaultId(String(value));
+                          onChangeVault(Number(value), form1Amount);
                         }}
                       >
                         {vaults.map(vault => (
@@ -210,6 +293,7 @@ export function DistributionForm({
                   }}
                   onBlur={({ target: { value } }) => {
                     setAmount(Number(value));
+                    onChangeVault(Number(vault1Id), Number(value));
                   }}
                   label="Total Distribution Amount"
                   onFocus={event =>
@@ -233,15 +317,19 @@ export function DistributionForm({
               color="primary"
               outlined
               size="medium"
-              disabled={submitting}
+              disabled={submitting || !sufficientTokens}
             >
-              {submitting ? 'Submitting...' : 'Submit Distribution'}
+              {sufficientTokens
+                ? submitting
+                  ? 'Submitting...'
+                  : 'Submit Distribution'
+                : 'Insufficient Tokens'}
             </Button>
           )}
         </Box>
         {submitting && <LoadingModal visible />}
       </form>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onFixedFormSubmit)}>
         <Box css={headerStyle}>Fixed Payment</Box>
         {!fixed_payment_token_type ? (
           <Box css={{ opacity: '0.3', textAlign: 'center' }}>
@@ -328,9 +416,13 @@ export function DistributionForm({
                   color="primary"
                   outlined
                   size="medium"
-                  disabled={submitting}
+                  disabled={submitting || !sufficientTokens}
                 >
-                  {submitting ? 'Submitting...' : 'Submit Distribution'}
+                  {sufficientTokens
+                    ? submitting
+                      ? 'Submitting...'
+                      : 'Submit Distribution'
+                    : 'Insufficient Tokens'}
                 </Button>
               ) : (
                 <Button color="primary" outlined size="medium">

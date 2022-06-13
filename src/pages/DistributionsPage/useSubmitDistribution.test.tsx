@@ -122,6 +122,9 @@ test('submit distribution', async () => {
           circleId: 2,
           profileIdsByAddress,
           epochId: 2,
+          fixedAmount: '0',
+          giftAmount: '100',
+          type: 1,
           gifts,
         });
         merkleRootFromSubmission = distro.merkleRoot;
@@ -214,6 +217,9 @@ test('previous distribution', async () => {
             vault_id: 1,
             distribution_json: JSON.stringify(previousDistribution),
           },
+          fixedAmount: '0',
+          giftAmount: '100',
+          type: 1,
         });
 
         newTotal = distro.totalAmount;

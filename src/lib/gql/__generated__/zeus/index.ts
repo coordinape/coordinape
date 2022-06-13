@@ -2343,9 +2343,12 @@ columns and relationships of "distributions" */
       },
       boolean | `@${string}`
     ];
+    distribution_type?: boolean | `@${string}`;
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
@@ -2409,7 +2412,10 @@ columns and relationships of "distributions" */
   ['distributions_avg_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2419,7 +2425,10 @@ columns and relationships of "distributions" */
   ['distributions_avg_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2437,8 +2446,11 @@ columns and relationships of "distributions" */
       | undefined
       | null;
     distribution_json?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
+    distribution_type?: ValueTypes['Int_comparison_exp'] | undefined | null;
     epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    fixed_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    gift_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | undefined | null;
     total_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
@@ -2457,7 +2469,10 @@ columns and relationships of "distributions" */
     claims?: ValueTypes['claims_arr_rel_insert_input'] | undefined | null;
     distribution_epoch_id?: ValueTypes['bigint'] | undefined | null;
     distribution_json?: ValueTypes['jsonb'] | undefined | null;
+    distribution_type?: number | undefined | null;
     epoch_id?: ValueTypes['bigint'] | undefined | null;
+    fixed_amount?: ValueTypes['numeric'] | undefined | null;
+    gift_amount?: ValueTypes['numeric'] | undefined | null;
     merkle_root?: string | undefined | null;
     total_amount?: ValueTypes['numeric'] | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
@@ -2467,7 +2482,10 @@ columns and relationships of "distributions" */
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
@@ -2480,7 +2498,10 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2492,7 +2513,10 @@ columns and relationships of "distributions" */
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
@@ -2505,7 +2529,10 @@ columns and relationships of "distributions" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2542,8 +2569,11 @@ columns and relationships of "distributions" */
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
     distribution_json?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch?: ValueTypes['epochs_order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2566,7 +2596,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2576,7 +2609,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2585,7 +2621,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2595,7 +2634,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_pop_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2604,7 +2646,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_samp_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2614,7 +2659,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_samp_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2623,7 +2671,10 @@ columns and relationships of "distributions" */
   ['distributions_sum_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2633,7 +2684,10 @@ columns and relationships of "distributions" */
   ['distributions_sum_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2644,7 +2698,10 @@ columns and relationships of "distributions" */
   ['distributions_var_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2654,7 +2711,10 @@ columns and relationships of "distributions" */
   ['distributions_var_pop_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2663,7 +2723,10 @@ columns and relationships of "distributions" */
   ['distributions_var_samp_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2673,7 +2736,10 @@ columns and relationships of "distributions" */
   ['distributions_var_samp_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2682,7 +2748,10 @@ columns and relationships of "distributions" */
   ['distributions_variance_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
     distribution_epoch_id?: boolean | `@${string}`;
+    distribution_type?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
+    fixed_amount?: boolean | `@${string}`;
+    gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
@@ -2692,7 +2761,10 @@ columns and relationships of "distributions" */
   ['distributions_variance_order_by']: {
     created_by?: ValueTypes['order_by'] | undefined | null;
     distribution_epoch_id?: ValueTypes['order_by'] | undefined | null;
+    distribution_type?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_amount?: ValueTypes['order_by'] | undefined | null;
+    gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -7550,9 +7622,12 @@ columns and relationships of "distributions" */
     created_by: GraphQLTypes['bigint'];
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
     distribution_json: GraphQLTypes['jsonb'];
+    distribution_type: number;
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
+    fixed_amount: GraphQLTypes['numeric'];
+    gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
     total_amount: GraphQLTypes['numeric'];
@@ -7586,7 +7661,10 @@ columns and relationships of "distributions" */
   ['distributions_avg_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7606,7 +7684,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
@@ -7620,7 +7701,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
@@ -7652,7 +7736,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7663,7 +7750,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_pop_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7674,7 +7764,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_samp_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7685,7 +7778,10 @@ columns and relationships of "distributions" */
   ['distributions_sum_fields']: {
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
@@ -7698,7 +7794,10 @@ columns and relationships of "distributions" */
   ['distributions_var_pop_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7709,7 +7808,10 @@ columns and relationships of "distributions" */
   ['distributions_var_samp_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -7720,7 +7822,10 @@ columns and relationships of "distributions" */
   ['distributions_variance_fields']: {
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10333,9 +10438,12 @@ columns and relationships of "distributions" */
     created_by: GraphQLTypes['bigint'];
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
     distribution_json: GraphQLTypes['jsonb'];
+    distribution_type: number;
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
+    fixed_amount: GraphQLTypes['numeric'];
+    gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
     total_amount: GraphQLTypes['numeric'];
@@ -10386,7 +10494,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_avg_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10395,7 +10506,10 @@ columns and relationships of "distributions" */
   ['distributions_avg_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10410,8 +10524,11 @@ columns and relationships of "distributions" */
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distribution_json?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
+    distribution_type?: GraphQLTypes['Int_comparison_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    gift_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     merkle_root?: GraphQLTypes['String_comparison_exp'] | undefined;
     total_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
@@ -10430,7 +10547,10 @@ columns and relationships of "distributions" */
     claims?: GraphQLTypes['claims_arr_rel_insert_input'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
     distribution_json?: GraphQLTypes['jsonb'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
@@ -10441,7 +10561,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
@@ -10453,7 +10576,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
@@ -10466,7 +10592,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
@@ -10478,7 +10607,10 @@ columns and relationships of "distributions" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
@@ -10512,8 +10644,11 @@ columns and relationships of "distributions" */
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
     distribution_json?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch?: GraphQLTypes['epochs_order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
@@ -10537,7 +10672,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_stddev_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10546,7 +10684,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10556,7 +10697,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_stddev_pop_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10565,7 +10709,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_pop_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10575,7 +10722,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_stddev_samp_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10584,7 +10734,10 @@ columns and relationships of "distributions" */
   ['distributions_stddev_samp_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10594,7 +10747,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_sum_fields';
     created_by?: GraphQLTypes['bigint'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     total_amount?: GraphQLTypes['numeric'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
@@ -10603,7 +10759,10 @@ columns and relationships of "distributions" */
   ['distributions_sum_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10615,7 +10774,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_var_pop_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10624,7 +10786,10 @@ columns and relationships of "distributions" */
   ['distributions_var_pop_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10634,7 +10799,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_var_samp_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10643,7 +10811,10 @@ columns and relationships of "distributions" */
   ['distributions_var_samp_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -10653,7 +10824,10 @@ columns and relationships of "distributions" */
     __typename: 'distributions_variance_fields';
     created_by?: number | undefined;
     distribution_epoch_id?: number | undefined;
+    distribution_type?: number | undefined;
     epoch_id?: number | undefined;
+    fixed_amount?: number | undefined;
+    gift_amount?: number | undefined;
     id?: number | undefined;
     total_amount?: number | undefined;
     vault_id?: number | undefined;
@@ -10662,7 +10836,10 @@ columns and relationships of "distributions" */
   ['distributions_variance_order_by']: {
     created_by?: GraphQLTypes['order_by'] | undefined;
     distribution_epoch_id?: GraphQLTypes['order_by'] | undefined;
+    distribution_type?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_amount?: GraphQLTypes['order_by'] | undefined;
+    gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -13261,7 +13438,10 @@ export const enum distributions_select_column {
   created_by = 'created_by',
   distribution_epoch_id = 'distribution_epoch_id',
   distribution_json = 'distribution_json',
+  distribution_type = 'distribution_type',
   epoch_id = 'epoch_id',
+  fixed_amount = 'fixed_amount',
+  gift_amount = 'gift_amount',
   id = 'id',
   merkle_root = 'merkle_root',
   total_amount = 'total_amount',
