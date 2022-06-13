@@ -19,7 +19,7 @@ context('Coordinape', () => {
         cy.get('a').contains('Vouching').click();
       });
     cy.url({ timeout: 120000 }).should('include', '/vouching');
-    cy.contains('Nominate New Member').click();
+    cy.contains('Nominate New Member', { timeout: 60000 }).click();
     // enter the nominee creation modal and fill it out
     cy.get('[name=name]').click().type('Satoshi');
     cy.get('[name=address]')
