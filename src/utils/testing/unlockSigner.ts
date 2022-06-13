@@ -1,6 +1,6 @@
 import { Signer } from 'ethers';
 
-import { provider } from './';
+import { provider } from './provider';
 
 export async function unlockSigner(address: string): Promise<Signer> {
   await provider.send('evm_addAccount', [address, '']);
