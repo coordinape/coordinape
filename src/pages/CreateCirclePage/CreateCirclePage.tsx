@@ -7,7 +7,7 @@ import { Button, makeStyles } from '@material-ui/core';
 
 import { ApeTextField, FormAutocomplete, FormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
-import { useApiBase, useApiWithProfile } from 'hooks';
+import { useApiWithProfile } from 'hooks';
 import { DiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
@@ -104,7 +104,6 @@ export const SummonCirclePage = () => {
   const [params] = useSearchParams();
 
   const { address: myAddress, myUsers } = useMyProfile();
-  const { selectCircle } = useApiBase();
 
   const protocols = useMemo(
     () =>
@@ -140,9 +139,8 @@ export const SummonCirclePage = () => {
         submit={async ({ ...params }) => {
           try {
             const newCircle = await createCircle({ ...params });
-            await selectCircle(newCircle.id);
             navigate({
-              pathname: paths.paths.adminCircles,
+              pathname: paths.paths.adminCircles(newCircle.id),
               search: paths.NEW_CIRCLE_CREATED_PARAMS,
             });
           } catch (e) {

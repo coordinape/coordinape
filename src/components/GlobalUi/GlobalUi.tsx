@@ -2,12 +2,11 @@ import { Suspense } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { LoadingModal, EditProfileModal, WalletAuthModal } from 'components';
+import { LoadingModal, EditProfileModal } from 'components';
 import {
   rGlobalLoading,
   rGlobalLoadingText,
   rEditProfileOpen,
-  rWalletModalOpen,
 } from 'recoilState/ui';
 
 export const GlobalUi = () => {
@@ -15,7 +14,6 @@ export const GlobalUi = () => {
     <>
       <GlobalLoadingModal />
       <GlobalEditProfileModal />
-      <GlobalWalletAuthModal />
     </>
   );
 };
@@ -24,7 +22,13 @@ const GlobalLoadingModal = () => {
   const globalLoading = useRecoilValue(rGlobalLoading);
   const globalLoadingText = useRecoilValue(rGlobalLoadingText);
 
-  return <LoadingModal text={globalLoadingText} visible={globalLoading > 0} />;
+  return (
+    <LoadingModal
+      text={globalLoadingText}
+      visible={globalLoading > 0}
+      note="global"
+    />
+  );
 };
 
 const GlobalEditProfileModal = () => {
@@ -37,14 +41,5 @@ const GlobalEditProfileModal = () => {
         onClose={() => setEditProfileOpen(false)}
       />
     </Suspense>
-  );
-};
-
-const GlobalWalletAuthModal = () => {
-  const [walletModalOpen, setWalletModalOpen] =
-    useRecoilState(rWalletModalOpen);
-
-  return (
-    <WalletAuthModal open={walletModalOpen} setOpen={setWalletModalOpen} />
   );
 };

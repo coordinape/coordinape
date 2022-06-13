@@ -6,13 +6,13 @@ import { IAllocationStep } from 'types';
 export const STEP_MY_EPOCH = {
   key: 0,
   buildLabel: () => 'My Epoch',
-  path: paths.epoch,
+  pathFn: paths.epoch,
 } as IAllocationStep;
 
 export const STEP_MY_TEAM = {
   key: 1,
   buildLabel: () => 'Select Team',
-  path: paths.team,
+  pathFn: paths.team,
 } as IAllocationStep;
 
 export const STEP_ALLOCATION = {
@@ -20,7 +20,7 @@ export const STEP_ALLOCATION = {
   buildLabel: circle => {
     return `Allocate ${circle.tokenName}`;
   },
-  path: paths.give,
+  pathFn: paths.give,
 } as IAllocationStep;
 
 export const STEPS: IAllocationStep[] = [

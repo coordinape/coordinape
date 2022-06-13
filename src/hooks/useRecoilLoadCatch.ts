@@ -1,9 +1,11 @@
+import debug from 'debug';
 import { useRecoilCallback, CallbackInterface } from 'recoil';
 
 import { rGlobalLoading } from 'recoilState/ui';
 import { normalizeError, reportException } from 'utils/reporting';
 
 import { useApeSnackbar } from './useApeSnackbar';
+const log = debug('useRecoilLoadCatch');
 
 // Make an async call with access to Recoil, errors and a loading modal.
 // Errors will trigger modal
@@ -31,10 +33,12 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     hideLoading,
     success,
     transformError,
+    who,
   }: {
     hideLoading?: boolean;
     success?: string;
     transformError?: (e: any) => any;
+    who?: string;
   } = {}
 ) => {
   const { apeError, apeInfo } = useApeSnackbar();
@@ -46,28 +50,24 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     return (...args: Args) =>
       new Promise<Return>((resolve, reject) => {
         !hideLoading && set(rGlobalLoading, v => v + 1);
+        log(`loading: ${who}`);
         call(...args)
           .then(result => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
+            log(`done loading: ${who}`);
             success && apeInfo(success);
             resolve(result);
           })
           .catch(err => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
+            log(`failed loading: ${who}`);
             let e = transformError ? transformError(err) : err;
             e = normalizeError(e);
-            if (
-              e.message ===
-              'MetaMask Message Signature: User denied message signature.'
-            ) {
-              apeInfo('Denied message signature.');
-            } else {
-              apeError(e);
-              reportException(e, {
-                tags: { call_point: 'useRecoilLoadCatch' },
-                extra: { ...(e.code ? { code: e.code } : {}) },
-              });
-            }
+            apeError(e);
+            reportException(e, {
+              tags: { call_point: 'useRecoilLoadCatch' },
+              extra: { ...(e.code ? { code: e.code } : {}) },
+            });
             reject(e);
           });
       });

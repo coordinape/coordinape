@@ -1,20 +1,21 @@
+// Code for use in migrating away from Recoil, that will be discarded
+// once that migration is complete.
+//
+// If at all possible, write new code that uses Recoil only in this file.
+
 import { useEffect } from 'react';
 
 import debug from 'debug';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { useApiBase } from 'hooks';
-import { rSelectedCircle } from 'recoilState';
+import { rSelectedCircle, rApiManifest, rManifest } from 'recoilState';
 
-// this is for use in migrating away from Recoil. if you have a new page that
-// doesn't use Recoil and is related to a specific circle, you may want to use
-// this hook to make sure that if you then navigate away to a legacy page, that
-// new page shows the correct circle.
-export const useFixCircleState = (
-  circleId: number | undefined,
-  label: string
-) => {
-  const log = debug(`recoil:${label}`);
+// if you have a new page that doesn't use Recoil and is related to a specific
+// circle, you may want to use this hook to make sure that if you then navigate
+// away to a legacy page, that new page shows the correct circle.
+export const useFixCircleState = (circleId: number | undefined) => {
+  const log = debug(`useFixCircleState`);
   const recoilValue = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
   const { selectCircle } = useApiBase();
 
@@ -29,3 +30,12 @@ export const useFixCircleState = (
     selectCircle(circleId);
   }, [circleId, recoilValue]);
 };
+
+export const useRoleInCircle = (circleId: number) => {
+  const manifest = useRecoilValue(rManifest);
+  const user = manifest.myProfile.myUsers.find(u => u.circle_id === circleId);
+  return user?.role;
+};
+
+export const useHasCircles = () =>
+  (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;
