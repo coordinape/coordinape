@@ -12,30 +12,26 @@ context('Coordinape', () => {
     // cy.exec('yarn db-seed-fresh');
   });
   it('can deploy a vault and create a distribution', () => {
-    cy.visit('/circles');
-    cy.login().wait(3000);
-    // This is highly dependent upon how our seed is constructed..
-    // Sports is a circle w/ an ended epoch, the Vaults button is a child of a peer element
-    cy.contains('Sports', { timeout: 120000 }).click().wait(20000);
-    cy.contains('Sports', { timeout: 120000 }).click();
-    cy.contains('Vaults', { timeout: 120000 }).click();
-    // Create a vault where none exist
+    cy.visit('/vaults');
+    cy.login();
+    cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.contains('There are no vaults in your organization yet.', {
       timeout: 90000,
     });
     cy.contains('Add Vault').click();
-    cy.contains('USDC').click();
+    cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create Vault').click();
     cy.contains('USDC Vault', { timeout: 120000 });
+
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
     cy.get('input[type=number]').click().wait(1000).type('5000');
     cy.contains('button', 'Deposit USDC').click();
     cy.contains('Transaction completed');
-    cy.contains('Transaction completed');
     cy.contains('5000 USDC');
+
     // submit distribution onchain
-    cy.visit('/admin/circles');
+    cy.visit('/circles/12/admin');
     cy.contains('a', 'Distributions', { timeout: 120000 }).click();
     cy.get('input[type=number]').click().type('4500').wait(10000);
     cy.contains('button', 'Submit Distribution').click();

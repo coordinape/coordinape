@@ -20,7 +20,7 @@ test('select an asset', async () => {
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <CreateForm onSuccess={() => {}} />
+        <CreateForm onSuccess={() => {}} orgId={1} />
       </TestWrapper>
     );
   });
@@ -34,7 +34,7 @@ test('input an invalid address for custom asset', async () => {
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <CreateForm onSuccess={() => {}} />
+        <CreateForm onSuccess={() => {}} orgId={1} />
       </TestWrapper>
     );
   });
@@ -49,7 +49,7 @@ test('input a valid but non-ERC20 address for custom asset', async () => {
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <CreateForm onSuccess={() => {}} />
+        <CreateForm onSuccess={() => {}} orgId={1} />
       </TestWrapper>
     );
   });

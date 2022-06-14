@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
@@ -9,7 +9,6 @@ import type { CSS } from 'stitches.config';
 
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
-import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Link, Panel, Text } from 'ui';
@@ -23,7 +22,6 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const CirclesPage = () => {
   const navigate = useNavigate();
-  const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
   const address = useConnectedAddress();
   const query = useQuery(
     ['myOrgs', address],
@@ -35,14 +33,7 @@ export const CirclesPage = () => {
   );
   const orgs = query.data?.organizations;
 
-  useEffect(() => {
-    if (orgs?.length && !currentOrgId) {
-      setCurrentOrgId(orgs[0].id);
-    }
-  }, [orgs]);
-
   const goToCircle = (id: number, path: string) => {
-    setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
     scrollToTop();
     navigate(path);
   };

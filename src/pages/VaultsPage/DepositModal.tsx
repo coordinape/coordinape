@@ -6,7 +6,6 @@ import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress, Contracts } from 'lib/vaults';
-import { useNavigate } from 'react-router-dom';
 
 import { FormModal, FormTokenField } from 'components';
 import SingleTokenForm from 'forms/SingleTokenForm';
@@ -27,7 +26,6 @@ export default function DepositModal({
   open?: boolean;
   vault: GraphQLTypes['vaults'];
 }) {
-  const navigate = useNavigate();
   const [max, setMax] = useState<any>();
   const contracts = useContracts();
   (window as any).contracts = contracts;
@@ -68,7 +66,6 @@ export default function DepositModal({
       if (error) return;
       onDeposit();
       onClose();
-      navigate('/admin/vaults');
     });
   };
 
