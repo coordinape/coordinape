@@ -87,7 +87,7 @@ export const IntegrationCallbackPage: FC = () => {
               css={{ width: '100%', marginTop: '$lg' }}
               color="primary"
               outlined
-              onClick={() => navigate(paths.adminCircles(circleId))}
+              onClick={() => navigate(paths.members(circleId))}
             >
               Back to Circle Overview
             </Button>
