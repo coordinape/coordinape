@@ -3,15 +3,19 @@ import { gqlQuery, injectWeb3 } from '../util';
 let circleId;
 
 context('Coordinape', () => {
-  before(async () => {
+  before(() => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
-    cy.mintErc20('USDC', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', '20000');
-
-    const q = await gqlQuery({
-      circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
-    });
-    circleId = q.circles[0].id;
+    return cy
+      .mintErc20('USDC', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', '20000')
+      .then(() =>
+        gqlQuery({
+          circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
+        })
+      )
+      .then(q => {
+        circleId = q.circles[0].id;
+      });
   });
   after(() => {
     // might want something more surgical and lightweight
@@ -22,9 +26,7 @@ context('Coordinape', () => {
     cy.visit('/vaults');
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
-    cy.contains('There are no vaults in your organization yet.', {
-      timeout: 90000,
-    });
+    cy.wait(1000);
     cy.contains('Add Vault').click();
     cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create Vault').click();
