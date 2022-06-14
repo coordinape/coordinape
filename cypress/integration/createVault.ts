@@ -1,10 +1,17 @@
-import { injectWeb3 } from '../util';
+import { gqlQuery, injectWeb3 } from '../util';
+
+let circleId;
 
 context('Coordinape', () => {
-  before(() => {
+  before(async () => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
     cy.mintErc20('USDC', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', '20000');
+
+    const q = await gqlQuery({
+      circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
+    });
+    circleId = q.circles[0].id;
   });
   after(() => {
     // might want something more surgical and lightweight
@@ -31,7 +38,7 @@ context('Coordinape', () => {
     cy.contains('5000 USDC');
 
     // submit distribution onchain
-    cy.visit('/circles/12/admin');
+    cy.visit(`/circles/${circleId}/admin`);
     cy.contains('a', 'Distributions', { timeout: 120000 }).click();
     cy.get('input[type=number]').click().type('4500').wait(10000);
     cy.contains('button', 'Submit Distribution').click();
