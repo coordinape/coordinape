@@ -5,13 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { EditIcon, PlusCircleIcon } from 'icons';
+import { PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 import {
@@ -20,7 +19,6 @@ import {
   CreateEpochButton,
   EpochsTable,
   EpochsTableHeader,
-  SettingsIconButton,
   UsersTableHeader,
 } from './components';
 
@@ -40,7 +38,6 @@ const AdminPage = () => {
     IEpoch | undefined
   >(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
-  const [editCircle, setEditCircle] = useState<boolean>(false);
   const [newCircle, setNewCircle] = useState<boolean>(
     window.location.search === NEW_CIRCLE_CREATED_PARAMS
   );
@@ -81,17 +78,8 @@ const AdminPage = () => {
           <Text h2 css={{ my: '$xl' }}>
             {selectedCircle?.name}
           </Text>
-          {!isMobile ? (
+          {!isMobile && (
             <Flex css={{ flexGrow: 1, justifyContent: 'flex-end', gap: '$md' }}>
-              <Button
-                color="primary"
-                outlined
-                onClick={() => setEditCircle(true)}
-              >
-                <EditIcon />
-                Settings
-              </Button>
-
               <AddContributorButton
                 onClick={() => setNewUser(true)}
                 tokenName={selectedCircle.tokenName}
@@ -109,8 +97,6 @@ const AdminPage = () => {
                 Add Circle
               </Button>
             </Flex>
-          ) : (
-            <SettingsIconButton onClick={() => setEditCircle(true)} />
           )}
         </Flex>
         {isMobile && (
@@ -175,13 +161,6 @@ const AdminPage = () => {
         }
         open={!!editEpoch || newEpoch}
       />
-      {!!selectedCircle && (
-        <AdminCircleModal
-          circle={selectedCircle}
-          onClose={() => setEditCircle(false)}
-          visible={editCircle}
-        />
-      )}
       <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."
