@@ -14,9 +14,10 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { getClaims, ClaimsResult } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
 
-const ClaimsTable = makeTable<ClaimsResult>('ClaimsTable');
-
 export default function ClaimsPage() {
+  // this causes errors if it's run at the top-level
+  const ClaimsTable = makeTable<ClaimsResult>('ClaimsTable');
+
   const address = useConnectedAddress();
   const contracts = useContracts();
   const allocateClaim = useClaimAllocation();

@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -617,6 +617,7 @@ export type ValueTypes = {
   ['Allocations']: {
     allocations?: Array<ValueTypes['Allocation']> | undefined | null;
     circle_id: number;
+    user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
     /** An object relationship */
@@ -8699,6 +8700,7 @@ export type GraphQLTypes = {
   ['Allocations']: {
     allocations?: Array<GraphQLTypes['Allocation']> | undefined;
     circle_id: number;
+    user_id?: number | undefined;
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
