@@ -331,21 +331,5 @@ export const useCircle = (id: number | undefined) =>
 export const useSelectedCircle = () =>
   useRecoilValue(rCircle(useSelectedCircleId()));
 
-export const useMyProfileLoadable = () => useRecoilValueLoadable(rMyProfile);
-export const useAuthToken = () => {
-  const { authTokens, address } =
-    useRecoilValueLoadable(rWalletAuth).valueMaybe() ?? {};
-  return address && authTokens?.[address];
-};
-
-export const useSelectedCircleLoadable = () =>
-  useRecoilValueLoadable(rCircle(useSelectedCircleId()));
-
-export const useSelectedCircleEpochsStatus = () =>
-  useEpochsStatus(useSelectedCircleId());
-
 export const useProfile = (address: string) =>
   useRecoilValue(rProfile(address));
-
-export const useEpochsStatus = (circleId: number) =>
-  useRecoilValue(rCircleEpochsStatus(circleId));
