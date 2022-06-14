@@ -19,6 +19,7 @@ export const FormRadioGroup = ({
   options,
   infoTooltip,
   defaultValue,
+  disabled,
 }: {
   name: string;
   control: any;
@@ -26,6 +27,7 @@ export const FormRadioGroup = ({
   options: { value: any; label: string }[];
   infoTooltip?: React.ReactNode;
   defaultValue: string;
+  disabled?: boolean;
 }) => {
   const { field } = useController({
     control,
@@ -33,7 +35,14 @@ export const FormRadioGroup = ({
   });
 
   return (
-    <Flex column css={{ gap: '$md' }}>
+    <Flex
+      column
+      css={{
+        gap: '$md',
+        opacity: disabled ? 0.5 : 1,
+        pointerEvents: disabled ? 'none' : 'auto',
+      }}
+    >
       <FormLabel label>
         {label}{' '}
         {infoTooltip && (

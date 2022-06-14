@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DateTime } from 'luxon';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -37,19 +38,24 @@ const textAreaStyles = {
   lineHeight: 'none',
 };*/
 
-const YesNoTooltip = ({
-  yes = '',
-  no = '',
+const ToolTip = ({
+  optionsInfo = [
+    {
+      label: '',
+      text: '',
+    },
+  ],
   href = '',
   anchorText = '',
-  onOff = false,
 }) => {
   return (
     <>
-      <strong>{!onOff ? 'Yes' : 'On'}</strong> - {yes}
-      <br />
-      <strong>{!onOff ? 'No' : 'Off'}</strong> - {no}
-      <br />
+      {optionsInfo.map(info => (
+        <div key={info.label}>
+          <strong>{info.label}</strong> - {info.text}
+          <br />
+        </div>
+      ))}
       {href && (
         <Link
           css={{
@@ -125,9 +131,6 @@ const schema = z
     circleName: z.string().refine(val => val.trim().length >= 3, {
       message: 'Circle Name must be at least 3 characters long.',
     }),
-    protocolName: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Organization Name must be at least 3 characters long.',
-    }),
     circleLogo: z.string().optional(),
     defaultOptIn: z.string().transform(stringBoolTransform),
     onlyGiverVouch: z.string().transform(stringBoolTransform),
@@ -137,7 +140,13 @@ const schema = z
     epochRepeatTime: z
       .string()
       .transform(repeat =>
-        repeat === 'weekly' ? 1 : repeat === 'monthly' ? 2 : 3
+        repeat === 'weekly'
+          ? 1
+          : repeat === 'monthly'
+          ? 2
+          : repeat === 'biweekly'
+          ? 3
+          : 0
       ),
     startDate: z.string(),
     endDate: z.string(),
@@ -151,9 +160,41 @@ export const CircleAdminPage = () => {
     circle,
     circleEpochsStatus: { epochs: epochsReverse },
   } = useSelectedCircle();
+
   const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
 
-  console.log(epochs);
+  const currentEpoch = useMemo(
+    () => epochs.filter(epoch => epoch.started && !epoch.ended),
+    [epochsReverse]
+  );
+  const UpcomingEpochs = useMemo(
+    () => epochsReverse.filter(epoch => !epoch.started && !epoch.ended),
+    [epochsReverse]
+  );
+
+  const initialEpoch = {
+    startDate: currentEpoch[0]
+      ? currentEpoch[0].startDate.setZone().toFormat('yyyy-MM-dd')
+      : UpcomingEpochs[0]
+      ? UpcomingEpochs[0].startDate.setZone().toFormat('yyyy-MM-dd')
+      : DateTime.utc().plus({ days: 1 }).setZone().toFormat('yyyy-MM-dd'),
+    endDate: currentEpoch[0]
+      ? currentEpoch[0].endDate.setZone().toFormat('yyyy-MM-dd')
+      : UpcomingEpochs[0]
+      ? UpcomingEpochs[0].endDate.setZone().toFormat('yyyy-MM-dd')
+      : DateTime.utc().plus({ month: 1 }).setZone().toFormat('yyyy-MM-dd'),
+    startTime: currentEpoch[0]
+      ? currentEpoch[0].startDate.setZone().toFormat('HH:MM')
+      : UpcomingEpochs[0]
+      ? UpcomingEpochs[0].startDate.setZone().toFormat('HH:MM')
+      : DateTime.utc().setZone().toFormat('HH:MM'),
+    repeat: currentEpoch[0]
+      ? currentEpoch[0].repeat
+      : UpcomingEpochs[0]
+      ? UpcomingEpochs[0].repeat
+      : 0,
+  };
+
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
@@ -170,8 +211,15 @@ export const CircleAdminPage = () => {
       onlyGiverVouch: circle.only_giver_vouch,
       teamSelection: circle.team_selection,
       autoOptOut: circle.auto_opt_out,
-      epochRepeat: false,
-      epochRepeatTime: 1,
+      epochRepeat: initialEpoch.repeat === 0 ? false : true,
+      epochRepeatTime:
+        initialEpoch.repeat === 1
+          ? 1
+          : initialEpoch.repeat === 2
+          ? 2
+          : initialEpoch.repeat === 3
+          ? 3
+          : 0,
     },
   });
 
@@ -181,16 +229,28 @@ export const CircleAdminPage = () => {
     defaultValue: circle.name,
   });
 
-  const { field: protocolName } = useController({
-    name: 'protocolName',
-    control,
-    defaultValue: '',
-  });
-
   const { field: circleLogo } = useController({
     name: 'circleLogo',
     control,
     defaultValue: '',
+  });
+
+  const { field: startDate } = useController({
+    name: 'startDate',
+    control,
+    defaultValue: initialEpoch.startDate,
+  });
+
+  const { field: endDate } = useController({
+    name: 'endDate',
+    control,
+    defaultValue: initialEpoch.endDate,
+  });
+
+  const { field: startTime } = useController({
+    name: 'startTime',
+    control,
+    defaultValue: initialEpoch.startTime,
   });
 
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -256,17 +316,6 @@ export const CircleAdminPage = () => {
                   </FormLabel>
                   <TextField id="circle_name" {...circleName} />
                 </Flex>
-                <Flex
-                  column
-                  css={{
-                    alignItems: 'center',
-                  }}
-                >
-                  <FormLabel label htmlFor="org_name" css={{ ...labelStyles }}>
-                    Org name
-                  </FormLabel>
-                  <TextField id="org_name" {...protocolName} />
-                </Flex>
                 <Box>
                   <Flex column css={{ alignItems: 'center' }}>
                     <Text variant="label" css={{ ...labelStyles }}>
@@ -315,13 +364,21 @@ export const CircleAdminPage = () => {
                   options={radioGroupOptions.yesNo}
                   defaultValue={circle.default_opt_in ? 'true' : 'false'}
                   infoTooltip={
-                    <YesNoTooltip
-                      yes={`All new members are eligible to receive ${
-                        circle.tokenName || 'GIVE'
-                      }`}
-                      no={`New members need to log into Coordinape and opt in to receiving ${
-                        circle.tokenName || 'GIVE'
-                      }`}
+                    <ToolTip
+                      optionsInfo={[
+                        {
+                          label: 'Yes',
+                          text: `All new members are eligible to receive ${
+                            circle.tokenName || 'GIVE'
+                          }`,
+                        },
+                        {
+                          label: 'No',
+                          text: `New members need to log into Coordinape and opt in to receiving ${
+                            circle.tokenName || 'GIVE'
+                          }`,
+                        },
+                      ]}
                       href={DOCS_HREF}
                       anchorText={DOCS_TEXT}
                     />
@@ -334,11 +391,19 @@ export const CircleAdminPage = () => {
                   options={radioGroupOptions.yesNo}
                   defaultValue={circle.only_giver_vouch ? 'true' : 'false'}
                   infoTooltip={
-                    <YesNoTooltip
-                      yes={`Only members who are eligible to send ${
-                        circle.tokenName || 'GIVE'
-                      } can vouch for new members`}
-                      no="Anyone in the circle can vouch for new members"
+                    <ToolTip
+                      optionsInfo={[
+                        {
+                          label: 'Yes',
+                          text: `Only members who are eligible to send ${
+                            circle.tokenName || 'GIVE'
+                          } can vouch for new members`,
+                        },
+                        {
+                          label: 'No',
+                          text: 'Anyone in the circle can vouch for new members',
+                        },
+                      ]}
                       href={DOCS_HREF}
                       anchorText={DOCS_TEXT}
                     />
@@ -351,10 +416,17 @@ export const CircleAdminPage = () => {
                   options={radioGroupOptions.onOff}
                   defaultValue={circle.team_selection ? 'true' : 'false'}
                   infoTooltip={
-                    <YesNoTooltip
-                      onOff
-                      yes="Members select a team during allocation and make allocations only to that team"
-                      no="Members make allocations to anyone in the circle"
+                    <ToolTip
+                      optionsInfo={[
+                        {
+                          label: 'Yes',
+                          text: 'Members select a team during allocation and make allocations only to that team',
+                        },
+                        {
+                          label: 'No',
+                          text: 'Members make allocations to anyone in the circle',
+                        },
+                      ]}
                     />
                   }
                 />
@@ -365,7 +437,12 @@ export const CircleAdminPage = () => {
                   options={radioGroupOptions.onOff}
                   defaultValue={circle.auto_opt_out ? 'true' : 'false'}
                   infoTooltip={
-                    <YesNoTooltip onOff yes="to be added" no="to be added" />
+                    <ToolTip
+                      optionsInfo={[
+                        { label: 'ON', text: 'to be added' },
+                        { label: 'OFF', text: 'to be added' },
+                      ]}
+                    />
                   }
                 />
               </Flex>
@@ -394,9 +471,14 @@ export const CircleAdminPage = () => {
                     name="epochRepeat"
                     control={control}
                     options={radioGroupOptions.epochType}
-                    defaultValue={'true'}
+                    defaultValue={initialEpoch.repeat === 0 ? 'false' : 'true'}
                     infoTooltip={
-                      <YesNoTooltip onOff yes="to be added" no="to be added" />
+                      <ToolTip
+                        optionsInfo={[
+                          { label: 'Repeating', text: 'to be added' },
+                          { label: 'One Time', text: 'to be added' },
+                        ]}
+                      />
                     }
                   />
                   <FormRadioGroup
@@ -404,9 +486,21 @@ export const CircleAdminPage = () => {
                     name="epochRepeatTime"
                     control={control}
                     options={radioGroupOptions.repeat}
-                    defaultValue={'monthly'}
+                    disabled={initialEpoch.repeat === 0 ? true : false}
+                    defaultValue={
+                      initialEpoch.repeat === 1
+                        ? 'weekly'
+                        : initialEpoch.repeat === 3
+                        ? 'biweekly'
+                        : 'monthly'
+                    }
                     infoTooltip={
-                      <YesNoTooltip onOff yes="to be added" no="to be added" />
+                      <ToolTip
+                        optionsInfo={[
+                          { label: 'Yes', text: 'to be added' },
+                          { label: 'No', text: 'to be added' },
+                        ]}
+                      />
                     }
                   />
                   <Flex
@@ -426,6 +520,7 @@ export const CircleAdminPage = () => {
                         Start Date
                       </FormLabel>
                       <TextField
+                        {...startDate}
                         type="date"
                         css={{ width: '125px', height: '$2xl' }}
                       ></TextField>
@@ -441,6 +536,7 @@ export const CircleAdminPage = () => {
                         End Date
                       </FormLabel>
                       <TextField
+                        {...endDate}
                         type="date"
                         css={{ width: '125px', height: '$2xl' }}
                       ></TextField>
@@ -455,6 +551,7 @@ export const CircleAdminPage = () => {
                         Start Time
                       </FormLabel>
                       <TextField
+                        {...startTime}
                         type="time"
                         css={{ width: '125px', height: '$2xl' }}
                       ></TextField>
