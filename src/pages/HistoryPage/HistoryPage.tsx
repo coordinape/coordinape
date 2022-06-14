@@ -67,7 +67,7 @@ export const HistoryPage = () => {
           This circle has no epochs yet.{' '}
           {me?.role === 1 ? (
             <>
-              <AppLink to={paths.adminCircles(circleId)}>
+              <AppLink to={paths.members(circleId)}>
                 Visit the admin page
               </AppLink>{' '}
               to create one.
