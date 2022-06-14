@@ -1,25 +1,40 @@
+import { client } from 'lib/gql/client';
+import { allVaultFields } from 'lib/gql/mutations';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
-import { useVaults } from 'hooks/gql/useVaults';
 import { Link, Panel, Text } from 'ui';
-import { OrgLayout } from 'ui/layouts';
+import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
 
 export const VaultTransactions = () => {
-  const { id } = useParams();
+  const { address } = useParams();
+  const { isLoading, isIdle, data } = useQuery('vault', () =>
+    client.query(
+      {
+        vaults: [
+          { where: { vault_address: { _eq: address } } },
+          {
+            ...allVaultFields,
+            protocol: {
+              name: true,
+            },
+          },
+        ],
+      },
+      { operationName: 'getVault' }
+    )
+  );
 
-  const currentOrg = useCurrentOrg();
-  const { isLoading, isIdle, data } = useVaults(Number(currentOrg.data?.id));
-  const vault = data?.find(v => v.vault_address === id);
+  const vault = data?.vaults[0];
 
   if (!vault && !isLoading && !isIdle) {
     // TODO
-    return <OrgLayout>404</OrgLayout>;
+    return <SingleColumnLayout>404</SingleColumnLayout>;
   }
 
   return (
-    <OrgLayout>
+    <OrgLayout name={data?.vaults[0].protocol.name}>
       <Panel>
         <Text h2 css={{ mb: '$md' }}>
           All Transactions for {vault?.symbol?.toUpperCase()} Vault

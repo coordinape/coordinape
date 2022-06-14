@@ -65,7 +65,10 @@ export const AppRoutes = () => {
         element={<ProfilePage />}
       />
       <Route path={paths.vaults} element={<VaultsPage />} />
-      <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
+      <Route
+        path={paths.vaultTxs(':address')}
+        element={<VaultTransactions />}
+      />
 
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>

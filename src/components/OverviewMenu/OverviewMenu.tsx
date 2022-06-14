@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
-
 import sortBy from 'lodash/sortBy';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
@@ -11,9 +8,7 @@ import { Hidden } from '@material-ui/core';
 import { navLinkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
-import { useCurrentOrgId } from 'hooks/gql/useCurrentOrg';
 import { useHasCircles } from 'hooks/migration';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ChevronUp, ChevronDown } from 'icons';
 import { rSelectedCircle } from 'recoilState/app';
 import { paths, isCircleSpecificPath } from 'routes/paths';
@@ -27,7 +22,10 @@ import {
   PopoverClose,
 } from 'ui';
 
-import { getOverviewMenuData } from './getOverviewMenuData';
+import {
+  getOverviewMenuData,
+  useOverviewMenuQuery,
+} from './getOverviewMenuData';
 
 import type { Awaited } from 'types/shim';
 
@@ -39,29 +37,13 @@ const mainLinks = [
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
-  const address = useConnectedAddress();
-  const query = useQuery(
-    ['OverviewMenu', address],
-    () => getOverviewMenuData(address as string),
-    {
-      enabled: !!address,
-      staleTime: Infinity,
-    }
-  );
+  const query = useOverviewMenuQuery();
   const orgs = query.data?.organizations;
 
   const navigate = useNavigate();
   const hasCircles = useHasCircles();
-  const [currentOrgId, setCurrentOrgId] = useCurrentOrgId();
-
-  useEffect(() => {
-    if (orgs?.length && !currentOrgId) {
-      setCurrentOrgId(orgs[0].id);
-    }
-  }, [orgs]);
 
   const goToCircle = (id: number, path: string) => {
-    setCurrentOrgId(orgs?.find(o => o.circles.some(c => c.id === id))?.id);
     scrollToTop();
     navigate(path);
   };
