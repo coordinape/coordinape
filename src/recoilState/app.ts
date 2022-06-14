@@ -1,4 +1,6 @@
 // at 5k elements for filter-map-slice itiriri is more performant
+
+import debug from 'debug';
 import iti from 'itiriri';
 import * as mutations from 'lib/gql/mutations';
 import * as queries from 'lib/gql/queries';
@@ -30,6 +32,8 @@ import {
   IAuth,
 } from 'types';
 
+const log = debug('recoil');
+
 export const rWalletAuth = atom({
   key: 'rWalletAuth',
   default: selector({
@@ -58,28 +62,22 @@ const updateApiService = ({ address, authTokens }: IAuth) => {
   api.setAuth(token);
 };
 
-export const rSelectedCircleIdSource = atom({
+export const rSelectedCircleIdSource = atom<number | undefined>({
   key: 'rSelectedCircleIdSource',
-  default: storage.getCircleId(),
-  effects_UNSTABLE: [
-    ({ onSet }) => {
-      onSet(newId => {
-        if (newId === undefined) {
-          storage.clearCircleId();
-        } else {
-          storage.setCircleId(newId as number);
-        }
-      });
-    },
-  ],
+  default: undefined,
 });
 
 // Suspend unless it has a value.
+// This is set by fetchCircle & selectCircle in useApiBase.ts
 export const rSelectedCircleId = selector({
   key: 'rSelectedCircleId',
   get: async ({ get }) => {
     const id = get(rSelectedCircleIdSource);
-    return id === undefined ? neverEndingPromise<number>() : id;
+    if (id === undefined) {
+      log('rSelectedCircleId: neverEndingPromise...');
+      return neverEndingPromise<number>();
+    }
+    return id;
   },
 });
 
@@ -333,21 +331,5 @@ export const useCircle = (id: number | undefined) =>
 export const useSelectedCircle = () =>
   useRecoilValue(rCircle(useSelectedCircleId()));
 
-export const useMyProfileLoadable = () => useRecoilValueLoadable(rMyProfile);
-export const useAuthToken = () => {
-  const { authTokens, address } =
-    useRecoilValueLoadable(rWalletAuth).valueMaybe() ?? {};
-  return address && authTokens?.[address];
-};
-
-export const useSelectedCircleLoadable = () =>
-  useRecoilValueLoadable(rCircle(useSelectedCircleId()));
-
-export const useSelectedCircleEpochsStatus = () =>
-  useEpochsStatus(useSelectedCircleId());
-
 export const useProfile = (address: string) =>
   useRecoilValue(rProfile(address));
-
-export const useEpochsStatus = (circleId: number) =>
-  useRecoilValue(rCircleEpochsStatus(circleId));

@@ -1,4 +1,7 @@
 import { client } from 'lib/gql/client';
+import { useQuery } from 'react-query';
+
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 export const getOverviewMenuData = (address: string) =>
   client.query(
@@ -27,3 +30,18 @@ export const getOverviewMenuData = (address: string) =>
       operationName: 'getOverviewMenuData',
     }
   );
+
+// extracting this from OverviewMenu because a list of all the orgs the user
+// belongs to is handy for multiple purposes, so if we use the same cache key,
+// we can reuse it
+export const useOverviewMenuQuery = () => {
+  const address = useConnectedAddress();
+  return useQuery(
+    ['OverviewMenu', address],
+    () => getOverviewMenuData(address as string),
+    {
+      enabled: !!address,
+      staleTime: Infinity,
+    }
+  );
+};

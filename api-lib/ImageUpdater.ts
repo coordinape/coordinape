@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { IMAGE_DIR } from './config';
-import { InternalServerError } from './HttpError';
+import { InternalServerError, UnprocessableError } from './HttpError';
 import { parseBase64Image } from './images';
 import { deleteImage, uploadImage } from './s3';
 
@@ -24,8 +24,12 @@ export class ImageUpdater<T> {
     const imageBytes = parseBase64Image(image_data_base64);
 
     // resize and crop the image
-    const resizedImage = await this.resizer(imageBytes);
-
+    let resizedImage: Buffer | undefined;
+    try {
+      resizedImage = await this.resizer(imageBytes);
+    } catch (e) {
+      throw new UnprocessableError('Invalid image format provided', e);
+    }
     // generate a filename for the new image
     const fileName = IMAGE_DIR + uuidv4() + '.jpg';
 

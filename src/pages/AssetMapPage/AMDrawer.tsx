@@ -245,6 +245,7 @@ export const AMDrawer = () => {
             options={SKILLS}
             color="secondary"
             placeholder="Search"
+            isSelect
             InputProps={{
               endAdornment: (
                 <MagnifyingGlassIcon

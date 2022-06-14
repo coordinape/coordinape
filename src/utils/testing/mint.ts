@@ -1,6 +1,6 @@
 import { BigNumber, ethers, utils } from 'ethers';
 
-import { provider } from './index';
+import { provider } from './provider';
 import { unlockSigner } from './unlockSigner';
 
 const tokens = {
@@ -23,35 +23,6 @@ export async function mint({
   address: string;
   amount: string;
 }) {
-  const mintEth = async (receiver: string, amount: string) => {
-    const signer = provider.getSigner();
-    await signer.sendTransaction({
-      to: receiver,
-      value: utils.parseEther(amount),
-    });
-  };
-
-  const mintToken = async (
-    symbol: 'USDC' | 'DAI',
-    receiver: string,
-    amount: string
-  ) => {
-    const { whale, addr } = tokens[symbol];
-    await mintEth(whale, '0.1');
-    const sender = await unlockSigner(whale);
-    const contract = new ethers.Contract(
-      addr,
-      [
-        'function transfer(address,uint)',
-        'function decimals() view returns (uint8)',
-      ],
-      sender
-    );
-    const decimals = await contract.decimals();
-    const wei = BigNumber.from(10).pow(decimals).mul(amount);
-    await contract.transfer(receiver, wei);
-  };
-
   switch (token) {
     case 'ETH':
       await mintEth(address, amount);
@@ -62,3 +33,32 @@ export async function mint({
       break;
   }
 }
+
+export const mintEth = async (receiver: string, amount: string) => {
+  const signer = provider.getSigner();
+  await signer.sendTransaction({
+    to: receiver,
+    value: utils.parseEther(amount),
+  });
+};
+
+export const mintToken = async (
+  symbol: 'USDC' | 'DAI',
+  receiver: string,
+  amount: string
+) => {
+  const { whale, addr } = tokens[symbol];
+  await mintEth(whale, '0.1');
+  const sender = await unlockSigner(whale);
+  const contract = new ethers.Contract(
+    addr,
+    [
+      'function transfer(address,uint)',
+      'function decimals() view returns (uint8)',
+    ],
+    sender
+  );
+  const decimals = await contract.decimals();
+  const wei = BigNumber.from(10).pow(decimals).mul(amount);
+  await contract.transfer(receiver, wei);
+};

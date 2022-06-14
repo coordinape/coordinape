@@ -134,7 +134,7 @@ const ProfileCardInner = ({
   tokenName?: string;
 }) => {
   const classes = useStyles();
-  const { getToMap, getToProfile } = useNavigation();
+  const { getToProfile } = useNavigation();
   const setEditProfileOpen = useSetEditProfileOpen();
 
   const userBioTextLength = user?.bio?.length ?? 0;
@@ -168,10 +168,11 @@ const ProfileCardInner = ({
         <div className={classes.moreContainer}>
           <ThreeDotMenu
             actions={[
-              {
-                label: 'View on Graph',
-                onClick: getToMap({ highlight: user.address }),
-              },
+              // FIXME need to pick a circle context
+              // {
+              //   label: 'View on Graph',
+              //   onClick: getToMap({ highlight: user.address }),
+              // },
               {
                 label: 'View Profile',
                 onClick: getToProfile(isMe ? 'me' : user.address),

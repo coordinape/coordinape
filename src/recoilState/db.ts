@@ -1,5 +1,5 @@
 import iti from 'itiriri';
-import { atom, selector, useRecoilValueLoadable } from 'recoil';
+import { atom, selector } from 'recoil';
 
 import {
   extraEpoch,
@@ -133,6 +133,3 @@ export const rFullCircle = selector<IFullCircle>({
     };
   },
 });
-
-export const useHasCircles = () =>
-  (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;

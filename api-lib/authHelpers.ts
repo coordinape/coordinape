@@ -1,5 +1,7 @@
 import { createHash, randomBytes } from 'crypto';
 
+import { adminClient } from './gql/adminClient';
+
 export type AuthHeaderPrefix = 'api' | number;
 
 export function generateTokenString(len = 40): string {
@@ -40,4 +42,32 @@ export function parseAuthHeader(header: string): {
     prefix: prefix === 'api' ? prefix : Number.parseInt(prefix, 10),
     tokenHash,
   };
+}
+
+export async function getCircleApiKey(hash: string) {
+  const apiKeyRes = await adminClient.query(
+    {
+      circle_api_keys_by_pk: [
+        {
+          hash,
+        },
+        {
+          hash: true,
+          circle_id: true,
+          name: true,
+          create_vouches: true,
+          read_pending_token_gifts: true,
+          read_nominees: true,
+          read_member_profiles: true,
+          read_epochs: true,
+          read_circle: true,
+          update_pending_token_gifts: true,
+          update_circle: true,
+        },
+      ],
+    },
+    { operationName: 'getCircleApiKey @cached(ttl: 60)' }
+  );
+
+  return apiKeyRes.circle_api_keys_by_pk;
 }

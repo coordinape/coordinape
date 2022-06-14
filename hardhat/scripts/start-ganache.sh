@@ -58,7 +58,7 @@ else
     $SCRIPT_DIR/../node_modules/.bin/ganache
       --chain.chainId $CHAIN_ID
       --port $PORT
-      --mnemonic coordinape
+      --mnemonic "test test test test test test test test test test test junk"
       --fork.url $ETHEREUM_RPC_URL
       --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
       --miner.defaultGasPrice 0x7735940000

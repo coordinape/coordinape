@@ -12,8 +12,18 @@ import { Box, Panel, Text, Button, AppLink } from 'ui';
 
 import type { QueryEpoch, QueryDistribution } from './getHistoryData';
 
-type EpochPanelProps = { epoch: QueryEpoch; tokenName: string; css?: CSS };
-export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
+type EpochPanelProps = {
+  circleId: number;
+  epoch: QueryEpoch;
+  tokenName: string;
+  css?: CSS;
+};
+export const EpochPanel = ({
+  circleId,
+  epoch,
+  tokenName,
+  css = {},
+}: EpochPanelProps) => {
   const [tab, setTab] = useState(0);
   const [showLess, setShowLess] = useState(true);
   const startDate = DateTime.fromISO(epoch.start_date);
@@ -70,7 +80,7 @@ export const EpochPanel = ({ epoch, tokenName, css = {} }: EpochPanelProps) => {
           {totalAllocated} {tokenName}
         </Text>
         {dist && distAmount && (
-          <AppLink to={paths.distributions(epoch.id)}>
+          <AppLink to={paths.distributions(circleId, epoch.id)}>
             <Text
               bold
               font="inter"

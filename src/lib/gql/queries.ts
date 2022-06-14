@@ -461,10 +461,7 @@ export const getFullCircle = async (
   return fullCircle;
 };
 
-export const fetchManifest = async (
-  address: string,
-  circleId?: number
-): Promise<IApiManifest> => {
+export const fetchManifest = async (address: string): Promise<IApiManifest> => {
   // Fetch as much as we can in this massive query. This mimics the old php fetch-manifest logic.
   // This will be destructured and spread out into smaller queries soon - this is for backwards compat w/ FE with
   // as little disruption as possible.
@@ -608,9 +605,10 @@ export const fetchManifest = async (
   }
 
   let circle: IApiFullCircle | undefined = undefined;
-  // Sort my membership to find the first circle that you are a member of
+  // Sort by membership to find the first circle that you are a member of
   let loadCircle = false;
-  if (!circleId && circles.length > 0) {
+  let circleId;
+  if (circles.length > 0) {
     circles.sort((a, b) => {
       const memberOfa = a.users.filter(u => u.address == p.address).length > 0;
       const memberOfb = b.users.filter(u => u.address == p.address).length > 0;
@@ -624,13 +622,10 @@ export const fetchManifest = async (
     });
     circleId = circles[0].id;
     loadCircle = true;
-  } else if (circleId) {
-    if (circles.find(c => c.id == circleId)) {
-      loadCircle = true;
-    }
   }
-  // there
-  if (circleId && loadCircle) {
+
+  // FIXME do we still need to do this?
+  if (loadCircle) {
     circle = await getFullCircle(circleId);
   }
 

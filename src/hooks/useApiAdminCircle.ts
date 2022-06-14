@@ -14,12 +14,12 @@ import {
 } from 'types';
 
 export const useApiAdminCircle = (circleId: number) => {
-  const { fetchManifest } = useApiBase();
+  const { fetchCircle } = useApiBase();
 
   const updateCircle = useRecoilLoadCatch(
     () => async (params: ValueTypes['UpdateCircleInput']) => {
       await mutations.updateCircle(params);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -28,7 +28,7 @@ export const useApiAdminCircle = (circleId: number) => {
     () => async (newLogo: File) => {
       const image_data_base64 = await fileToBase64(newLogo);
       await mutations.updateCircleLogo(circleId, image_data_base64);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -36,7 +36,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const createEpoch = useRecoilLoadCatch(
     () => async (params: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>) => {
       await mutations.createEpoch({ circle_id: circleId, ...params });
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId],
     { hideLoading: false }
@@ -45,7 +45,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateEpoch = useRecoilLoadCatch(
     () => async (epochId: number, params: UpdateCreateEpochParam) => {
       await mutations.updateEpoch(circleId, epochId, params);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId],
     { hideLoading: false }
@@ -54,7 +54,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
       await mutations.deleteEpoch(circleId, epochId);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -62,7 +62,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
       await mutations.adminUpdateUser(circleId, userAddress, params);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -70,7 +70,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const createUser = useRecoilLoadCatch(
     () => async (params: PostUsersParam) => {
       await mutations.createUser(circleId, params);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -78,7 +78,7 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
       await mutations.deleteUser(circleId, userAddress);
-      await fetchManifest();
+      await fetchCircle({ circleId });
     },
     [circleId]
   );
