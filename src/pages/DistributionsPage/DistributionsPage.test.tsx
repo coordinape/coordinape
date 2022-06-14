@@ -7,10 +7,6 @@ import { mockEpoch } from 'utils/testing/mocks';
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
-jest.mock('hooks/gql/useCurrentOrg', () => ({
-  useCurrentOrg: jest.fn(() => [1, jest.fn()]),
-}));
-
 jest.mock('react-router-dom', () => {
   const library = jest.requireActual('react-router-dom');
   return {
