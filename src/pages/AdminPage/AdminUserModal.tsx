@@ -148,30 +148,40 @@ export const AdminUserModal = ({
                 label={`${selectedCircle.tokenName} Allotment`}
               />
             </div>
-            <div
-              className={clsx(
-                classes.paymentInput,
-                !selectedCircle.fixed_payment_token_type && 'disabled'
-              )}
-            >
-              {isFeatureEnabled('fixed_payments') && (
-                <FormTextField
-                  {...fields.fixed_payment_amount}
-                  type="number"
-                  helperText={
-                    selectedCircle.fixed_payment_token_type
-                      ? `(${selectedCircle.fixed_payment_token_type})`
-                      : undefined
-                  }
-                  label="Fixed Payment Amount"
-                  errorText={
-                    !selectedCircle.fixed_payment_token_type
-                      ? 'Enable Fixed Payment Feature in Circle Settings'
-                      : undefined
-                  }
-                />
-              )}
-            </div>
+{isFeatureEnabled('fixed_payments') && (
+              <div>
+                {selectedCircle.fixed_payment_token_type ? (
+                  <FormTextField
+                    {...fields.fixed_payment_amount}
+                    label="Fixed Payment Amount"
+                    type="number"
+                    fullWidth
+                  />
+                ) : (
+                  <FormTextField
+                    fullWidth
+                    onChange={() => {}}
+                    label="Fixed Payment Amount"
+                    disabled={true}
+                    placeholder="Vault owner must set asset type first"
+                  />
+                )}
+                <pre>
+                  <Text>
+                    Edit Fixed Payment Token in{' '}
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        onClose();
+                        gotoSettings();
+                      }}
+                    >
+                      Circle Settings
+                    </Link>
+                  </Text>
+                </pre>
+              </div>
+            )}
             <CheckBox
               {...fields.role}
               label="Grant Administrative Permissions"
