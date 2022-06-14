@@ -6,11 +6,10 @@ import { Asset } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { useCurrentOrg } from 'hooks/gql/useCurrentOrg';
+import { LoadingModal } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Box, Button, Form, Text, TextField } from 'ui';
@@ -55,13 +54,18 @@ const useFormSetup = (
   return useForm<FormSchema>({ resolver, mode: 'onBlur' });
 };
 
-export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const navigate = useNavigate();
+export const CreateForm = ({
+  onSuccess,
+  orgId,
+}: {
+  onSuccess: () => void;
+  orgId: number;
+}) => {
   const contracts = useContracts();
-  const currentOrg = useCurrentOrg();
-  const { createVault } = useVaultFactory(currentOrg.data?.id);
+  const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
+  const [saving, setSaving] = useState(false);
 
   const {
     control,
@@ -108,10 +112,11 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
+    setSaving(true);
     createVault({ type: symbol, simpleTokenAddress: customAddress }).then(
       vault => {
         if (!vault) return;
-        navigate('/admin/vaults');
+        setSaving(false);
         onSuccess();
       }
     );
@@ -183,6 +188,7 @@ export const CreateForm = ({ onSuccess }: { onSuccess: () => void }) => {
             .join('. ')}
         </Text>
       )}
+      {saving && <LoadingModal visible />}
     </Form>
   );
 };

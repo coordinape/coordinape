@@ -4,10 +4,6 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
-jest.mock('hooks/gql/useCurrentOrg', () => ({
-  useCurrentOrgId: jest.fn(() => [1, jest.fn()]),
-}));
-
 jest.mock('./getOrgData', () => ({
   getOrgData: async () => ({
     organizations: [

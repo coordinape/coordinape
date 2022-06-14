@@ -10,6 +10,7 @@ import { useImageUploader, useApeSnackbar } from 'hooks';
 import { UploadIcon, EditIcon } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
+import { normalizeError } from 'utils/reporting';
 
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -62,7 +63,15 @@ export const OrgLogoUpload = ({
       setIsUploadingLogo(false);
       return;
     }
-    const response = await uploadLogo(id, formFileUploadProps.value);
+    let response = undefined;
+    try {
+      response = await uploadLogo(id, formFileUploadProps.value);
+    } catch (e: any) {
+      setIsUploadingLogo(false);
+      showError(normalizeError(e).message);
+      formFileUploadProps.onChange(undefined);
+      return;
+    }
     setIsUploadingLogo(false);
     setUploadedLogoUrl(response.uploadOrgLogo?.org.logo);
     formFileUploadProps.onChange(undefined);

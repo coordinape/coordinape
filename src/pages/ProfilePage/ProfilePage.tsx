@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
@@ -14,13 +14,10 @@ import {
   scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile } from 'hooks';
+import { useImageUploader, useApiWithProfile, useApeSnackbar } from 'hooks';
+import { useSomeCircleId } from 'hooks/migration';
 import { EditIcon } from 'icons';
-import {
-  useMyProfile,
-  useSelectedCircleLoadable,
-  useProfile,
-} from 'recoilState/app';
+import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
 import { Avatar } from 'ui';
@@ -195,38 +192,26 @@ const useStyles = makeStyles(theme => ({
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
 
-  const { address: myAddress } = useMyProfile();
-  const isMe = address === 'me' || address === myAddress;
+  const myProfile = useMyProfile();
+  const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
   }
-
   return isMe ? <MyProfilePage /> : <OtherProfilePage address={address} />;
 };
 
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
-  const selectedCircle = useSelectedCircleLoadable();
+  const circleId = useSomeCircleId();
 
-  return (
-    <ProfilePageContent
-      profile={myProfile}
-      circleId={selectedCircle.valueMaybe()?.circleId}
-      isMe
-    />
-  );
+  return <ProfilePageContent profile={myProfile} circleId={circleId} isMe />;
 };
 
 const OtherProfilePage = ({ address }: { address: string }) => {
   const profile = useProfile(address);
-  const selectedCircle = useSelectedCircleLoadable();
+  const circleId = useSomeCircleId();
 
-  return (
-    <ProfilePageContent
-      profile={profile}
-      circleId={selectedCircle.valueMaybe()?.circleId}
-    />
-  );
+  return <ProfilePageContent profile={profile} circleId={circleId} />;
 };
 
 const ProfilePageContent = ({
@@ -263,6 +248,15 @@ const ProfilePageContent = ({
     bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
     circle: user.circle,
   }));
+
+  const { showError } = useApeSnackbar();
+
+  useEffect(() => {
+    if (name === 'unknown') {
+      showError("Couldn't find that user");
+      navigate('/');
+    }
+  }, [name]);
 
   return (
     <div className={classes.root}>
