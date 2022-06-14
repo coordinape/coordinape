@@ -472,7 +472,7 @@ export const CircleAdminPage = () => {
             css={{
               display: 'grid',
               gridTemplateColumns: '23fr 77fr',
-              gap: '$md',
+              gap: '$lg',
               width: '100%',
               '@md': { display: 'flex' },
               mt: '$lg',
@@ -481,6 +481,57 @@ export const CircleAdminPage = () => {
             <Panel css={{ paddingLeft: '0' }}>
               <Text inline bold h2 font="inter">
                 Fixed Payment
+              </Text>
+            </Panel>
+            <Panel nested></Panel>
+          </Panel>
+          <Panel
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '23fr 77fr',
+              gap: '$lg',
+              width: '100%',
+              '@md': { display: 'flex' },
+              mt: '$lg',
+            }}
+          >
+            <Panel css={{ paddingLeft: '0' }}>
+              <Text inline bold h2 font="inter">
+                Customization
+              </Text>
+            </Panel>
+            <Panel nested></Panel>
+          </Panel>
+          <Panel
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '23fr 77fr',
+              gap: '$lg',
+              width: '100%',
+              '@md': { display: 'flex' },
+              mt: '$lg',
+            }}
+          >
+            <Panel css={{ paddingLeft: '0' }}>
+              <Text inline bold h2 font="inter">
+                Integration
+              </Text>
+            </Panel>
+            <Panel nested></Panel>
+          </Panel>
+          <Panel
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '23fr 77fr',
+              gap: '$lg',
+              width: '100%',
+              '@md': { display: 'flex' },
+              mt: '$lg',
+            }}
+          >
+            <Panel css={{ paddingLeft: '0' }}>
+              <Text inline bold h2 font="inter">
+                Danger Zone
               </Text>
             </Panel>
             <Panel nested></Panel>
