@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react';
+import { SiweMessage } from 'siwe';
 import { z } from 'zod';
 
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
@@ -15,14 +16,12 @@ export const loginInput = z.object({
   address: zEthAddressOnly,
   data: z.string().refine(
     msg => {
-      const templateOk = msg.startsWith('Login to Coordinape');
-      const timestamp = msg.split(' ').pop();
-      const timestampInPast =
-        timestamp && Number.parseInt(timestamp) * 1000 < Date.now();
-
-      const validLength = msg.length === 30;
-
-      return templateOk && validLength && timestampInPast;
+      try {
+        new SiweMessage(msg);
+      } catch (e: unknown) {
+        return false;
+      }
+      return true;
     },
     { message: 'Invalid message payload' }
   ),
