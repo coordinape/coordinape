@@ -99,7 +99,7 @@ export const Avatar = ({
       size={small ? 'small' : 'large'}
       {...props}
     >
-      {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
+      <AvatarImage src={avatarPath} alt={name} />
       <AvatarFallback size={small ? 'small' : 'large'}>
         {name && getInitialFromName(name)}
       </AvatarFallback>

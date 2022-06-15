@@ -316,19 +316,19 @@ export default function ClaimsPage() {
           headers={[
             {
               title: 'Organization',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Circle',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Epoch',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Rewards',
-              style: { textAlign: 'right', width: '98%' },
+              css: { textAlign: 'right', width: '98%' },
             },
           ]}
           data={claims.filter(c => c.txHash)}
