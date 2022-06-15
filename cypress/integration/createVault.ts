@@ -40,7 +40,7 @@ context('Coordinape', () => {
     cy.contains('5000 USDC');
 
     // submit distribution onchain
-    cy.visit(`/circles/${circleId}/admin`);
+    cy.visit(`/circles/${circleId}/members`);
     cy.contains('a', 'Distributions', { timeout: 120000 }).click();
     cy.get('input[type=number]').click().type('4500').wait(10000);
     cy.contains('button', 'Submit Distribution').click();
