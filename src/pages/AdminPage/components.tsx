@@ -423,9 +423,9 @@ export const EpochsTable = ({
         : 'monthly';
     return e.ended
       ? e.labelActivity
-      : `${e.calculatedDays} ${e.calculatedDays > 1 ? 'days' : 'day'}${
-          e.repeat ? ` repeats ${r}` : ''
-        }`;
+      : `${e.calculatedDays.toFixed()} ${
+          e.calculatedDays > 1 ? 'days' : 'day'
+        }${e.repeat ? ` repeats ${r}` : ''}`;
   };
 
   // Epoch Columns
