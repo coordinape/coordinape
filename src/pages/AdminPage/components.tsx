@@ -61,6 +61,7 @@ export const CreateEpochButton = ({
       outlined
       size={inline ? 'inline' : 'medium'}
       onClick={onClick}
+      css={{ minWidth: '180px' }}
     >
       Create Epoch
       <Tooltip
@@ -100,6 +101,7 @@ export const AddContributorButton = ({
       outlined
       size={inline ? 'inline' : 'medium'}
       onClick={onClick}
+      css={{ minWidth: '180px' }}
     >
       Add Contributor
       <Tooltip
