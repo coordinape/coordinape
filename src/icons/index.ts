@@ -31,6 +31,7 @@ export * from './InfoIcon';
 export * from './LinkIcon';
 export * from './MediumIcon';
 export * from './MinusCircleIcon';
+export * from './ParcelIcon';
 export * from './PlusCircleIcon';
 export * from './RightArrowIcon';
 export * from './SaveIcon';
