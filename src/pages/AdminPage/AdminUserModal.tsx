@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ActionDialog } from 'components';
@@ -7,6 +9,7 @@ import isFeatureEnabled from 'config/features';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
+import { paths } from 'routes/paths';
 import { CheckBox, Link, Text } from 'ui';
 import { assertDef } from 'utils/tools';
 
@@ -51,12 +54,10 @@ export const AdminUserModal = ({
   user,
   onClose,
   open,
-  gotoSettings,
 }: {
   user?: IUser;
   open?: boolean;
   onClose: () => void;
-  gotoSettings: () => void;
 }) => {
   const classes = useStyles();
 
@@ -169,15 +170,9 @@ export const AdminUserModal = ({
                 <pre>
                   <Text>
                     Edit Fixed Payment Token in{' '}
-                    <Link
-                      href="#"
-                      onClick={() => {
-                        onClose();
-                        gotoSettings();
-                      }}
-                    >
+                    <NavLink to={paths.circleAdmin(circleId)}>
                       Circle Settings
-                    </Link>
+                    </NavLink>
                   </Text>
                 </pre>
               </div>

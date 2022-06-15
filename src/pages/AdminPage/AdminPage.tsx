@@ -158,9 +158,6 @@ const AdminPage = () => {
         <AdminUserModal
           onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
           user={editUser}
-          gotoSettings={() => {
-            setEditCircle(true);
-          }}
         />
       )}
       <AdminEpochModal
