@@ -38,7 +38,7 @@ const LightText = styled(Text, {
   color: '$secondaryText',
 });
 
-export const SettingsIconButton = ({ onClick }: { onClick: () => void }) => {
+export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
   return (
     <IconButton size="lg" onClick={onClick}>
       <GearIcon width="30" height="30" />
