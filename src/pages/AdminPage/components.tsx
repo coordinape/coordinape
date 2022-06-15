@@ -262,15 +262,20 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
         >
           <Subtitle>{shortenAddress(user.address)}</Subtitle>
           <LightText>
-            {user.role === USER_ROLE_ADMIN
-              ? 'Admin'
-              : `${
-                  !user.non_giver ? (
+            {user.role === USER_ROLE_ADMIN ? (
+              'Admin'
+            ) : (
+              <>
+                <Box css={{ mr: '$xs' }}>
+                  {!user.non_giver ? (
                     <CheckIcon size="inherit" color="complete" />
                   ) : (
                     <CloseIcon size="inherit" color="alert" />
-                  )
-                } ${tokenName}`}
+                  )}
+                </Box>
+                {tokenName}
+              </>
+            )}
           </LightText>
         </Flex>
       </Box>
@@ -492,7 +497,11 @@ export const EpochsTable = ({
           {epochs.length ? (
             isMobile ? (
               pagedView.map(e => {
-                return <Table.Row key={e.id}>{renderEpochCard(e)}</Table.Row>;
+                return (
+                  <Table.Row key={e.id}>
+                    <td>{renderEpochCard(e)}</td>
+                  </Table.Row>
+                );
               })
             ) : (
               pagedView.map(e => {
@@ -811,7 +820,7 @@ export const ContributorsTable = ({
               pagedView.map(u => {
                 return (
                   <Table.Row key={u.id}>
-                    {renderUserCard(u, circle.tokenName)}
+                    <td>{renderUserCard(u, circle.tokenName)}</td>
                   </Table.Row>
                 );
               })
