@@ -6,13 +6,13 @@ set -e
 SCRIPT_DIR="${0%/*}"
 
 # read .env, filtering out comments
-DOTENV_FILE=$SCRIPT_DIR/../../.env
-if [ -f "$DOTENV_FILE" ]; then
-  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
-fi
-
 if [ -n "$CI" ]; then
   DOTENV_FILE=$SCRIPT_DIR/../../.ci.env
+else
+  DOTENV_FILE=$SCRIPT_DIR/../../.env
+fi
+
+if [ -f "$DOTENV_FILE" ]; then
   export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
 fi
 
