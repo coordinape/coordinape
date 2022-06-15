@@ -514,7 +514,16 @@ export const CircleAdminPage = () => {
             />
           }
         />
-        <ApeToggle {...autoOptOut} label="Auto Opt Out?" />
+        <ApeToggle
+          {...autoOptOut}
+          label="Auto Opt Out?"
+          infoTooltip={
+            <YesNoTooltip
+              yes="If a member doesn't make allocations in an epoch, they'll be set to opt out of receiving allocations in the next epoch. They can still opt back in."
+              no="Members' opt-in/opt-out settings will not be changed automatically."
+            />
+          }
+        />
         {isFeatureEnabled('fixed_payments') && (
           <FormAutocomplete
             {...fixedPaymentToken}
