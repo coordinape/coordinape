@@ -5,7 +5,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
 import { NoticeBox } from 'components';
-import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import {
+  USER_COORDINAPE_ADDRESS,
+  USER_ROLE_ADMIN,
+  USER_ROLE_COORDINAPE,
+} from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
@@ -291,19 +295,64 @@ export const TableLink = styled(RouterLink, {
   textDecoration: 'none',
 });
 
+const coorindapeTooltipContent = () => {
+  return (
+    <Box
+      css={{
+        m: '$sm',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Text size="large" css={{ my: '$md' }}>
+        Why is Coordinape in your circle?
+      </Text>
+      <p>
+        We&apos;re experimenting with the gift circle mechanism as our revenue
+        model. By default, Coordinape appears in your circle and any user can
+        allocate to Coordinape. To remove the Coordinape user, click the trash
+        can icon on the right side of this row.
+      </p>
+      <a
+        href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Let us know what you think
+      </a>
+    </Box>
+  );
+};
+
+const renderCoordinapeActions = (enabled: boolean, onClick: () => void) => {
+  return (
+    <Flex css={{ justifyContent: 'center' }}>
+      <Tooltip content={coorindapeTooltipContent()}>
+        <Button
+          size="small"
+          onClick={onClick}
+          color="textOnly"
+          css={{ opacity: 1 }}
+        >
+          {enabled ? 'Disable' : 'Enable'}
+        </Button>
+      </Tooltip>
+    </Flex>
+  );
+};
+
 const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
   <Flex css={{ justifyContent: 'center' }}>
-    {onEdit ? (
+    {onEdit && (
       <Button size="small" onClick={onEdit} color="textOnly">
         Edit
       </Button>
-    ) : (
-      <Box css={{ width: 30 }} />
     )}
-
+    {onEdit && onDelete && (
+      <Text css={{ color: '$text', opacity: 1, position: 'relative' }}>|</Text>
+    )}
     {onDelete && (
       <>
-        <Text css={{ color: '$text' }}>|</Text>
         <Button size="small" onClick={onDelete} color="textOnly">
           Delete
         </Button>
@@ -561,22 +610,52 @@ type TableSorting = {
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
+const makeCoordinape = (circleId: number): IUser => {
+  return {
+    circle_id: circleId,
+    created_at: new Date().toString(),
+    epoch_first_visit: false,
+    give_token_received: 0,
+    id: -1,
+    isCircleAdmin: false,
+    isCoordinapeUser: true,
+    deleted_at: new Date().toString(),
+    teammates: [],
+    updated_at: '',
+    name: 'Coordinape',
+    address: USER_COORDINAPE_ADDRESS,
+    role: 0,
+    non_receiver: false,
+    fixed_non_receiver: false,
+    starting_tokens: 0,
+    non_giver: true,
+    give_token_remaining: 0,
+    bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+  };
+};
+
 export const ContributorsTable = ({
-  users,
+  visibleUsers,
   myUser: me,
   circle,
   setNewUser,
   setEditUser,
   setDeleteUserDialog,
+  setCoordinapeDialog,
   filter,
   perPage = 6,
 }: {
-  users: IUser[];
+  visibleUsers: IUser[];
   myUser: IUser;
   circle: ICircle;
   setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
+  setCoordinapeDialog: (data: {
+    showDialog: boolean;
+    shouldEnable?: boolean;
+    coordinape?: IUser;
+  }) => void;
   filter: (u: IUser) => boolean;
   perPage?: number;
 }) => {
@@ -600,6 +679,15 @@ export const ContributorsTable = ({
   };
 
   const { getToProfile } = useNavigation();
+
+  const coordinapeUser = useMemo(() => makeCoordinape(circle.id), [circle]);
+
+  const users: IUser[] = useMemo(() => {
+    if (!visibleUsers.some(u => u.address === coordinapeUser.address)) {
+      return [...visibleUsers, coordinapeUser];
+    }
+    return visibleUsers;
+  }, [circle, visibleUsers, coordinapeUser]);
 
   useEffect(() => {
     const sortItem = order.sort ?? defaultSort;
@@ -648,37 +736,9 @@ export const ContributorsTable = ({
           {user.name}
         </Text>
         <span>
-          {user.role === USER_ROLE_COORDINAPE ? (
+          {user.address === USER_COORDINAPE_ADDRESS ? (
             <Box css={{ marginTop: '6px' }}>
-              <Tooltip
-                content={
-                  <Box
-                    css={{
-                      m: '$sm',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    <Text size="large" css={{ my: '$md' }}>
-                      Why is Coordinape in your circle?
-                    </Text>
-                    <p>
-                      We&apos;re experimenting with the gift circle mechanism as
-                      our revenue model. By default, Coordinape appears in your
-                      circle and any user can allocate to Coordinape. To remove
-                      the Coordinape user, click the trash can icon on the right
-                      side of this row.
-                    </p>
-                    <a
-                      href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Let us know what you think
-                    </a>
-                  </Box>
-                }
-              >
+              <Tooltip content={coorindapeTooltipContent()}>
                 <InfoCircledIcon />
               </Tooltip>
             </Box>
@@ -832,15 +892,22 @@ export const ContributorsTable = ({
                       key={`user-name-${u.id}`}
                       area="wide"
                       align="left"
+                      disabled={u.deleted_at !== null}
                     >
                       <UserName user={u} />
                     </Table.Cell>
 
-                    <Table.Cell key={`address-${u.id}`}>
+                    <Table.Cell
+                      key={`address-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {shortenAddress(u.address)}
                     </Table.Cell>
 
-                    <Table.Cell key={`giver-${u.id}`}>
+                    <Table.Cell
+                      key={`giver-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {!u.non_giver ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
@@ -848,7 +915,10 @@ export const ContributorsTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`recipient-${u.id}`}>
+                    <Table.Cell
+                      key={`recipient-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
@@ -858,14 +928,20 @@ export const ContributorsTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`admin-${u.id}`}>
+                    <Table.Cell
+                      key={`admin-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {u.role === USER_ROLE_ADMIN ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
                         <CloseIcon size="inherit" color="alert" />
                       )}
                     </Table.Cell>
-                    <Table.Cell key={`give-sent-${u.id}`}>
+                    <Table.Cell
+                      key={`give-sent-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {!u.non_giver ||
                       u.starting_tokens - u.give_token_remaining != 0
                         ? `${u.starting_tokens - u.give_token_remaining}/${
@@ -873,7 +949,10 @@ export const ContributorsTable = ({
                           }`
                         : '-'}
                     </Table.Cell>
-                    <Table.Cell key={`give-received-${u.id}`}>
+                    <Table.Cell
+                      key={`give-received-${u.id}`}
+                      disabled={u.deleted_at !== null}
+                    >
                       {u.give_token_received === 0 &&
                       (!!u.fixed_non_receiver || !!u.non_receiver)
                         ? '-'
@@ -887,14 +966,22 @@ export const ContributorsTable = ({
                       </Table.Cell>
                     )}
                     <Table.Cell key={`actions-${u.id}`}>
-                      {renderActions(
-                        u.role !== USER_ROLE_COORDINAPE
-                          ? () => setEditUser(u)
-                          : undefined,
-                        u.id !== me?.id
-                          ? () => setDeleteUserDialog(u)
-                          : undefined
-                      )}
+                      {u.address === USER_COORDINAPE_ADDRESS
+                        ? renderCoordinapeActions(u.deleted_at === null, () => {
+                            setCoordinapeDialog({
+                              showDialog: true,
+                              shouldEnable: u.deleted_at !== null,
+                              coordinape: coordinapeUser,
+                            });
+                          })
+                        : renderActions(
+                            u.role !== USER_ROLE_COORDINAPE
+                              ? () => setEditUser(u)
+                              : undefined,
+                            u.id !== me?.id
+                              ? () => setDeleteUserDialog(u)
+                              : undefined
+                          )}
                     </Table.Cell>
                   </Table.Row>
                 );
