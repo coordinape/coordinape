@@ -8,10 +8,9 @@ import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { AdminCircleModal } from './AdminCircleModal';
 import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 import {
@@ -40,7 +39,6 @@ const AdminPage = () => {
     IEpoch | undefined
   >(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
-  const [editCircle, setEditCircle] = useState<boolean>(false);
   const [newCircle, setNewCircle] = useState<boolean>(
     window.location.search === NEW_CIRCLE_CREATED_PARAMS
   );
@@ -77,21 +75,26 @@ const AdminPage = () => {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Flex css={{ alignItems: 'center' }}>
+        <Flex css={{ alignItems: 'center', mb: '$sm' }}>
           <Text h2 css={{ my: '$xl' }}>
             {selectedCircle?.name}
           </Text>
           {!isMobile ? (
-            <Flex css={{ flexGrow: 1, justifyContent: 'flex-end', gap: '$md' }}>
-              <Button
-                color="primary"
-                outlined
-                onClick={() => setEditCircle(true)}
-              >
-                <EditIcon />
-                Settings
-              </Button>
-
+            <Flex
+              css={{
+                flexGrow: 1,
+                flexWrap: 'wrap',
+                justifyContent: 'flex-end',
+                gap: '$md',
+                mb: '$md',
+              }}
+            >
+              <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+                <Button color="primary" outlined css={{ minWidth: '180px' }}>
+                  <EditIcon />
+                  Settings
+                </Button>
+              </AppLink>
               <AddContributorButton
                 onClick={() => setNewUser(true)}
                 tokenName={selectedCircle.tokenName}
@@ -104,13 +107,16 @@ const AdminPage = () => {
                 color="primary"
                 outlined
                 onClick={() => navigate(paths.createCircle)}
+                css={{ minWidth: '180px' }}
               >
                 <PlusCircleIcon />
                 Add Circle
               </Button>
             </Flex>
           ) : (
-            <SettingsIconButton onClick={() => setEditCircle(true)} />
+            <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+              <SettingsIconButton />
+            </AppLink>
           )}
         </Flex>
         {isMobile && (
@@ -172,13 +178,6 @@ const AdminPage = () => {
         }
         open={!!editEpoch || newEpoch}
       />
-      {!!selectedCircle && (
-        <AdminCircleModal
-          circle={selectedCircle}
-          onClose={() => setEditCircle(false)}
-          visible={editCircle}
-        />
-      )}
       <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."

@@ -114,6 +114,7 @@ export async function getUserAndCurrentEpoch(
           starting_tokens: true,
           give_token_received: true,
           give_token_remaining: true,
+          fixed_payment_amount: true,
           pending_sent_gifts: [
             // the join filters down to only gifts to the user
             {},
@@ -192,6 +193,7 @@ export async function getUserByIdAndCurrentEpoch(
         starting_tokens: true,
         give_token_received: true,
         give_token_remaining: true,
+        fixed_payment_amount: true,
         pending_sent_gifts: [
           // the join filters down to only gifts to the user
           {},

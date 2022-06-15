@@ -47,6 +47,7 @@ export const createFakeUser = (circleId: number): IUser => ({
   give_token_received: 0,
   give_token_remaining: 0,
   epoch_first_visit: false,
+  fixed_payment_amount: 0,
   created_at: '2021-07-07T23:29:18.000000Z',
   updated_at: '2021-07-07T23:29:18.000000Z',
   deleted_at: '2021-07-07T23:29:18.000000Z',
