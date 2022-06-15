@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
+import { SiweMessage, SiweErrorType } from 'siwe';
 
 import {
   formatAuthHeader,
@@ -10,41 +11,66 @@ import {
 } from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
-import {
-  parseInput,
-  verifyContractSignature,
-  verifySignature,
-} from '../api-lib/signature';
+import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
+
+const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
+  item => item !== ''
+) || ['localhost:3000'];
+
+const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
 
+    const { data, signature } = input;
+
+    let address;
+
     try {
-      const verificationResult = input.hash.length
-        ? await verifyContractSignature(input)
-        : verifySignature(input);
-      if (!verificationResult) {
+      const message = new SiweMessage(data);
+
+      if (
+        !allowedDomains.find(allowedRegex => allowedRegex.test(message.domain))
+      ) {
+        return errorResponse(res, {
+          message: 'invalid domain',
+          httpStatus: 401,
+        });
+      }
+
+      const verificationResult = await message.verify({
+        signature,
+      });
+
+      if (!verificationResult.success) {
         return errorResponse(res, {
           message: 'invalid signature',
           httpStatus: 401,
         });
       }
-    } catch (e: unknown) {
-      return errorResponse(res, {
-        message: 'invalid signature: ' + e,
-        httpStatus: 401,
-      });
+
+      address = message.address;
+    } catch (e: any) {
+      if (Object.values(SiweErrorType).some(val => val === e.error.type)) {
+        return errorResponse(res, {
+          message: 'SIWE error: ' + e.error.type,
+          httpStatus: 401,
+        });
+      } else {
+        // Return generic error for non-SIWE exceptions
+        return errorResponse(res, {
+          message: 'login error: ' + e,
+          httpStatus: 401,
+        });
+      }
     }
 
     const { profiles } = await adminClient.query(
       {
-        profiles: [
-          { where: { address: { _ilike: input.address } } },
-          { id: true },
-        ],
+        profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
       },
       {
         operationName: 'login_getProfile',
@@ -57,10 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
-          insert_profiles_one: [
-            { object: { address: input.address } },
-            { id: true },
-          ],
+          insert_profiles_one: [{ object: { address: address } }, { id: true }],
         },
         {
           operationName: 'login_insertProfile',
@@ -76,7 +99,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await adminClient.mutate(
         {
           delete_personal_access_tokens: [
-            { where: { profile: { address: { _ilike: input.address } } } },
+            { where: { profile: { address: { _ilike: address } } } },
             { affected_rows: true },
           ],
           insert_personal_access_tokens_one: [

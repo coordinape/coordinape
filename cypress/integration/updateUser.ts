@@ -14,8 +14,7 @@ context('Coordinape', () => {
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Sports is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Sports', { timeout: 120000 })
+    cy.contains('Garden', { timeout: 120000 })
       .parent()
       .parent()
       .within(() => {
@@ -64,6 +63,47 @@ context('Coordinape', () => {
 
     // Assert that the old address is there and correct
     assertAddr(oldAddress);
+  });
+
+  it("can set user's fixed payment amount", () => {
+    cy.visit('/circles');
+    cy.login();
+    // This is highly dependent upon how our seed is constructed..
+    cy.url({ timeout: 120000 }).should('include', '/circles');
+    cy.contains('Garden', { timeout: 120000 })
+        .parent()
+        .parent()
+        .within(() => {
+          cy.get('.hover-buttons').invoke('show');
+          cy.get('a').contains('Admin').click();
+        });
+    cy.url({ timeout: 120000 }).should('include', '/admin');
+    cy.contains("Kasey",{ timeout: 120000 }).should("be.visible")
+
+    // Click on edit user
+    cy.contains('Kasey', { timeout: 120000 })
+        .parents('tr')
+        .within(() => {
+          cy.get('td').last().get('button:first').click();
+    });
+
+    // enter the fixed payment amount
+    cy.contains('Edit Kasey').parent().within(() => {
+      cy.contains('Fixed Payment Amount').parent().within(() => {
+          // there seem to be a default 0 in a number input so we add one less 0
+          cy.get('input').clear().type('1200').blur();
+      })
+    })
+
+    cy.contains('Save').click();
+    cy.reload(true);
+    cy.contains("Kasey",{ timeout: 120000 }).should("be.visible");
+      // Verify new value in contributors table
+    cy.contains('Kasey', { timeout: 120000 })
+        .parents('tr')
+        .within(() => {
+          cy.get('td').eq(7).should('have.text', '12000');
+        })
   });
 });
 

@@ -3,10 +3,11 @@ import { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ActionDialog } from 'components';
+import isFeatureEnabled from 'config/features';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { CheckBox, Link } from 'ui';
+import { CheckBox, Link, Text } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
@@ -36,16 +37,26 @@ const useStyles = makeStyles(theme => ({
   helperBox: {
     height: 0,
   },
+  paymentInput: {
+    marginBottom: theme.spacing(3),
+    '&.disabled': {
+      opacity: 0.3,
+      pointerEvents: 'none',
+      '& span': { color: 'red' },
+    },
+  },
 }));
 
 export const AdminUserModal = ({
   user,
   onClose,
   open,
+  gotoSettings,
 }: {
   user?: IUser;
   open?: boolean;
   onClose: () => void;
+  gotoSettings: () => void;
 }) => {
   const classes = useStyles();
 
@@ -137,7 +148,40 @@ export const AdminUserModal = ({
                 label={`${selectedCircle.tokenName} Allotment`}
               />
             </div>
-
+            {isFeatureEnabled('fixed_payments') && (
+              <div>
+                {selectedCircle.fixed_payment_token_type ? (
+                  <FormTextField
+                    {...fields.fixed_payment_amount}
+                    label="Fixed Payment Amount"
+                    type="number"
+                    fullWidth
+                  />
+                ) : (
+                  <FormTextField
+                    fullWidth
+                    onChange={() => {}}
+                    label="Fixed Payment Amount"
+                    disabled={true}
+                    placeholder="Vault owner must set asset type first"
+                  />
+                )}
+                <pre>
+                  <Text>
+                    Edit Fixed Payment Token in{' '}
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        onClose();
+                        gotoSettings();
+                      }}
+                    >
+                      Circle Settings
+                    </Link>
+                  </Text>
+                </pre>
+              </div>
+            )}
             <CheckBox
               {...fields.role}
               label="Grant Administrative Permissions"
@@ -187,7 +231,6 @@ export const AdminUserModal = ({
               }
             />
           </div>
-
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
             title={`This user has ${

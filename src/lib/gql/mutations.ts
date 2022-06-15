@@ -265,6 +265,7 @@ export const adminUpdateUser = async (
             starting_tokens: params.starting_tokens,
             non_giver: params.non_giver,
             non_receiver: params.non_receiver || params.fixed_non_receiver,
+            fixed_payment_amount: params.fixed_payment_amount,
           },
         },
         {
@@ -293,6 +294,7 @@ export const createUser = async (circleId: number, params: PostUsersParam) => {
             non_receiver: params.fixed_non_receiver || params.non_receiver,
             fixed_non_receiver: params.fixed_non_receiver,
             starting_tokens: params.starting_tokens,
+            fixed_payment_amount: params.fixed_payment_amount,
           },
         },
         {

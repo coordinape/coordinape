@@ -320,6 +320,10 @@ export const getFullCircle = async (
                 address: true,
                 skills: true,
               },
+              user_private: {
+                fixed_payment_token_type: true,
+                fixed_payment_amount: true,
+              },
               role: true,
               teammates: [
                 {},
@@ -405,11 +409,12 @@ export const getFullCircle = async (
   }
 
   const adaptedUsers = circles_by_pk.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates'> & {
+    const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
       teammates?: IApiUser[];
       profile: Omit<typeof user.profile, 'skills'> & {
         skills: string[];
       };
+      fixed_payment_amount?: number;
     } = {
       ...user,
       teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
@@ -417,6 +422,9 @@ export const getFullCircle = async (
         ...user.profile,
         skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],
       },
+      fixed_payment_amount: user.user_private
+        ? user.user_private.fixed_payment_amount
+        : 0,
     };
     return adaptedUser;
   });
@@ -564,6 +572,9 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
               give_token_remaining: true,
               role: true,
               epoch_first_visit: true,
+              user_private: {
+                fixed_payment_amount: true,
+              },
               teammates: [
                 {},
                 {
@@ -630,11 +641,15 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
   }
 
   const adaptedUsers = p.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates'> & {
+    const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
       teammates?: IApiUser[];
+      fixed_payment_amount?: number;
     } = {
       ...user,
       teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      fixed_payment_amount: user.user_private
+        ? user.user_private.fixed_payment_amount
+        : 0,
     };
     return adaptedUser;
   });

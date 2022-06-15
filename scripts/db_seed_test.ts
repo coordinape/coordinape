@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import {adminClient} from "../api-lib/gql/adminClient";
+import { adminClient } from '../api-lib/gql/adminClient';
 
 import {
   getAvatars,
@@ -13,6 +13,8 @@ import {
 
 const { CI } = process.env;
 
+const startTime = Date.now();
+
 async function main() {
   await createFreshOpenEpochDevAdmin();
   const circleId = await createFreshOpenEpoch();
@@ -20,28 +22,29 @@ async function main() {
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
-
   const protocolId = await getProtocolIdForCircle(circleId);
   await createCircleInOrgButNoDevMember(protocolId!);
+  await createFreshOpenEpochDevAdminWithFixedPaymentToken();
+
   // eslint-disable-next-line no-console
-  CI ? console.log('Skipping Avatars') : await getAvatars();
+  CI ? console.log('Skipping avatars') : await getAvatars();
 }
 
 main()
   // eslint-disable-next-line no-console
-  .then(() => console.log('Finished Seeding DB'))
+  .then(() => console.log(`Finished seeding in ${Date.now() - startTime}ms`))
   .catch(console.error);
 
 async function getProtocolIdForCircle(circleId: number) {
   const { circles_by_pk } = await adminClient.query({
-    circles_by_pk:[
+    circles_by_pk: [
       {
         id: circleId,
       },
       {
-        protocol_id:true,
-      }
-    ]
+        protocol_id: true,
+      },
+    ],
   });
   return circles_by_pk?.protocol_id;
 }
@@ -157,22 +160,23 @@ async function createCircleWithPendingGiftsEndingSoon() {
   await createGifts(result, epochId);
 }
 
-
 async function createCircleInOrgButNoDevMember(protocolId: number) {
   await adminClient.mutate({
     insert_circles: [
       {
-        objects: [{
-          name: getCircleName() + ' not a member',
-          auto_opt_out: true,
-          default_opt_in: true,
-          min_vouches: 2,
-          protocol_id: protocolId,
-          nomination_days_limit: 1,
-          only_giver_vouch: false,
-          token_name: 'GIVE',
-          vouching: true,
-        }],
+        objects: [
+          {
+            name: getCircleName() + ' not a member',
+            auto_opt_out: true,
+            default_opt_in: true,
+            min_vouches: 2,
+            protocol_id: protocolId,
+            nomination_days_limit: 1,
+            only_giver_vouch: false,
+            token_name: 'GIVE',
+            vouching: true,
+          },
+        ],
       },
       {
         returning: {
@@ -181,4 +185,24 @@ async function createCircleInOrgButNoDevMember(protocolId: number) {
       },
     ],
   });
+}
+
+async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {
+  const result = await insertMemberships(
+      getMembershipInput(
+          { protocolInput: { name: 'Fresh Open Epoch Admin With Fixed Payment Token' },
+            circlesInput: [{
+              name: getCircleName(),
+              fixed_payment_token_type: 'DAI'
+            }]},
+          {}
+      )
+  );
+  const circleId = result[0].circle_id;
+  await makeEpoch(
+      circleId,
+      DateTime.now().minus({ hours: 1 }),
+      DateTime.now().plus({ days: 6, hours: 23 }),
+      1
+  );
 }
