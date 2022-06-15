@@ -4799,7 +4799,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
   },
   GenerateApiKeyResponse: {
-    apiKey: 'String',
+    api_key: 'String',
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },

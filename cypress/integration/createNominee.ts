@@ -10,7 +10,7 @@ context('Coordinape', () => {
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Kids is a circle w/ an ended epoch, the Admin button is a child of a peer element
+    // Movies is a circle w/ an ended epoch, the Admin button is a child of a peer element
     cy.contains('Movies', { timeout: 120000 })
       .parent()
       .parent()
