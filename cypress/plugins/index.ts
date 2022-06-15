@@ -16,7 +16,7 @@ export default (on, config) => {
   if (config.env.CI || process.env.CI) {
     config = dotenvPlugin(
       config,
-      { debug: true, path: '.ci.env', ovverride: true },
+      { debug: true, path: '.ci.env', override: true },
       true
     );
     config.baseUrl = 'http://localhost:' + config.env.CI_VERCEL_PORT;
