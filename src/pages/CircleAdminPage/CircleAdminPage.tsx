@@ -15,7 +15,7 @@ import {
   FormAutocomplete,
 } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useApiAdminCircle, useContracts } from 'hooks';
+import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon, SaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { Form, Flex, Button, Box } from 'ui';
@@ -182,7 +182,6 @@ const schema = z.object({
       })
   ),
   auto_opt_out: z.boolean(),
-  default_opt_in: z.boolean(),
   discord_webhook: z.optional(z.string().url().or(z.literal(''))),
   min_vouches: z.optional(
     z.number().min(1, {
@@ -230,6 +229,7 @@ export const CircleAdminPage = () => {
   const classes = useStyles();
   const { circleId, circle } = useSelectedCircle();
   const contracts = useContracts();
+  const { showInfo } = useApeSnackbar();
   const tokens = ['Disabled'].concat(
     contracts ? contracts.getAvailableTokens() : []
   );
@@ -295,11 +295,6 @@ export const CircleAdminPage = () => {
     name: 'alloc_text',
     control,
     defaultValue: circle.allocText,
-  });
-  const { field: defaultOptIn } = useController({
-    name: 'default_opt_in',
-    control,
-    defaultValue: circle.default_opt_in,
   });
   const { field: vouchingText } = useController({
     name: 'vouching_text',
@@ -374,7 +369,6 @@ export const CircleAdminPage = () => {
         nomination_days_limit: data.nomination_days_limit,
         alloc_text: data.alloc_text,
         discord_webhook: data.discord_webhook,
-        default_opt_in: data.default_opt_in,
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
         team_selection: data.team_selection,
@@ -382,6 +376,8 @@ export const CircleAdminPage = () => {
         update_webhook: data.update_webhook,
         fixed_payment_token_type: data.fixed_payment_token_type,
       });
+
+      showInfo('Saved changes');
     } catch (e) {
       console.warn(e);
     }
@@ -493,22 +489,6 @@ export const CircleAdminPage = () => {
             disabled={!vouching.value}
           />
         </div>
-        <ApeToggle
-          {...defaultOptIn}
-          label="Default Opt In?"
-          infoTooltip={
-            <YesNoTooltip
-              yes={`All new members are eligible to receive ${
-                circle.tokenName || 'GIVE'
-              }`}
-              no={`New members need to log into Coordinape and opt in to receiving ${
-                circle.tokenName || 'GIVE'
-              }`}
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
         <ApeToggle
           {...onlyGiverVouch}
           className={clsx(classes.vouchingItem, !vouching && 'disabled')}
