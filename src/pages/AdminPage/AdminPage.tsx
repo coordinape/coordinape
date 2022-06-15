@@ -75,14 +75,22 @@ const AdminPage = () => {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Flex css={{ alignItems: 'center' }}>
+        <Flex css={{ alignItems: 'center', mb: '$sm' }}>
           <Text h2 css={{ my: '$xl' }}>
             {selectedCircle?.name}
           </Text>
           {!isMobile ? (
-            <Flex css={{ flexGrow: 1, justifyContent: 'flex-end', gap: '$md' }}>
+            <Flex
+              css={{
+                flexGrow: 1,
+                flexWrap: 'wrap',
+                justifyContent: 'flex-end',
+                gap: '$md',
+                mb: '$md',
+              }}
+            >
               <AppLink to={paths.circleAdmin(selectedCircle.id)}>
-                <Button color="primary" outlined>
+                <Button color="primary" outlined css={{ minWidth: '180px' }}>
                   <EditIcon />
                   Settings
                 </Button>
@@ -99,6 +107,7 @@ const AdminPage = () => {
                 color="primary"
                 outlined
                 onClick={() => navigate(paths.createCircle)}
+                css={{ minWidth: '180px' }}
               >
                 <PlusCircleIcon />
                 Add Circle
