@@ -46,6 +46,9 @@ export const getClaims = async (
                 id: true,
                 logo: true,
                 name: true,
+                organization: {
+                  name: true,
+                },
               },
             },
           },

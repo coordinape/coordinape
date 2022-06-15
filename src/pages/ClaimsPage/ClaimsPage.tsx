@@ -104,19 +104,19 @@ export default function ClaimsPage() {
           headers={[
             {
               title: 'Organization',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Circle',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Epochs',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Rewards',
-              style: { textAlign: 'right', width: '98%' },
+              css: { textAlign: 'right', width: '98%' },
             },
           ]}
           data={claims.filter(c => !c.txHash)}
@@ -129,7 +129,9 @@ export default function ClaimsPage() {
           {claim => (
             <tr key={claim.id}>
               <td>
-                <Text>{claim.distribution.epoch.circle?.name}</Text>
+                <Text>
+                  {claim.distribution.epoch.circle?.organization?.name}
+                </Text>
               </td>
               <td>
                 <Flex row css={{ gap: '$sm' }}>
@@ -198,19 +200,19 @@ export default function ClaimsPage() {
           headers={[
             {
               title: 'Organization',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Circle',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Epoch',
-              style: { whiteSpace: 'nowrap', textAlign: 'left' },
+              css: { whiteSpace: 'nowrap', textAlign: 'left' },
             },
             {
               title: 'Rewards',
-              style: { textAlign: 'right', width: '98%' },
+              css: { textAlign: 'right', width: '98%' },
             },
           ]}
           data={claims.filter(c => c.txHash)}

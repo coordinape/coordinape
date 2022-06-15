@@ -11,6 +11,10 @@ export const Table = styled('table', {
     backgroundColor: '$white',
     height: '$2xl',
   },
+  'thead tr th': {
+    color: '$secondaryText',
+    fontWeight: '$semibold',
+  },
   'th, td': {
     textAlign: 'center',
     fontWeight: 'normal',
@@ -22,15 +26,12 @@ export const Table = styled('table', {
   },
   'tbody tr': {
     borderBottom: '0.5px solid $border',
-    backgroundColor: '$white',
+    backgroundColor: '$background',
     height: '$2xl',
   },
   'tbody tr:first-child': {
     borderTop: '0.5px solid $border',
   },
-  boxShadow: '0px 12px 26px rgba(16, 30, 115, 0.06)',
-  borderRadius: '$3',
-  overflow: 'hidden',
 });
 
 export type TableType = ReturnType<typeof Table>;

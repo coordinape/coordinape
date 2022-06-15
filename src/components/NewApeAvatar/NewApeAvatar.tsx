@@ -1,5 +1,7 @@
 /**
- * Intended to replace ApeAvatar. Work in progress.
+ *
+ * DEPRECATED -- please use src/ui/Avatar instead.
+ *
  */
 
 import { Avatar, AvatarProps } from '@material-ui/core';
