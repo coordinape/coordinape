@@ -48,13 +48,13 @@ export const AppRoutes = () => {
         <Route path="vouching" element={<VouchingPage />} />
         <Route path="members" element={<AdminRouteHandler />}>
           <Route path="" element={<AdminPage />} />
+        </Route>
+        <Route path="admin" element={<AdminRouteHandler />}>
+          <Route path="" element={<CircleAdminPage />} />
           <Route
             path="connect-integration"
             element={<IntegrationCallbackPage />}
           />
-        </Route>
-        <Route path="admin" element={<AdminRouteHandler />}>
-          <Route path="" element={<CircleAdminPage />} />
         </Route>
 
         <Route path="distributions/:epochId" element={<DistributionsPage />} />

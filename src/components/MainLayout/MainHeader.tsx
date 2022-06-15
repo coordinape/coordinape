@@ -370,8 +370,7 @@ const CircleNav = () => {
 
     if (circle.hasVouching) l.push([paths.vouching(circle.id), 'Vouching']);
     if (myUser.isCircleAdmin) {
-      l.push([paths.members(circle.id), 'Members']);
-      l.push([paths.circleAdmin(circle.id), 'Admin']);
+      l.push([paths.members(circle.id), 'Admin']);
     }
 
     return l;

@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { PlusCircleIcon } from 'icons';
+import { EditIcon, PlusCircleIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminEpochModal } from './AdminEpochModal';
@@ -19,6 +19,7 @@ import {
   CreateEpochButton,
   EpochsTable,
   EpochsTableHeader,
+  SettingsIconButton,
   UsersTableHeader,
 } from './components';
 
@@ -78,8 +79,14 @@ const AdminPage = () => {
           <Text h2 css={{ my: '$xl' }}>
             {selectedCircle?.name}
           </Text>
-          {!isMobile && (
+          {!isMobile ? (
             <Flex css={{ flexGrow: 1, justifyContent: 'flex-end', gap: '$md' }}>
+              <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+                <Button color="primary" outlined>
+                  <EditIcon />
+                  Settings
+                </Button>
+              </AppLink>
               <AddContributorButton
                 onClick={() => setNewUser(true)}
                 tokenName={selectedCircle.tokenName}
@@ -97,6 +104,10 @@ const AdminPage = () => {
                 Add Circle
               </Button>
             </Flex>
+          ) : (
+            <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+              <SettingsIconButton />
+            </AppLink>
           )}
         </Flex>
         {isMobile && (

@@ -589,8 +589,8 @@ export const CircleAdminPage = () => {
         size="medium"
         disabled={!isDirty}
       >
-        {<SaveIcon />}
-        {'Save'}
+        <SaveIcon />
+        Save
       </Button>
     </Form>
   );
