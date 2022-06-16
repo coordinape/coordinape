@@ -61,6 +61,8 @@ export const HARDHAT_GANACHE_PORT: number = getEnvValue(
 
 export const ETHEREUM_RPC_URL: string = getEnvValue('ETHEREUM_RPC_URL');
 
+export const GOERLI_RPC_URL: string = getEnvValue('GOERLI_RPC_URL');
+
 // This is only set to 'production' when deployed from main branch
 export const VERCEL_ENV: string = getEnvValue('VERCEL_ENV', 'development');
 export const IMAGE_DIR: string = getEnvValue('IMAGE_DIR', '');
