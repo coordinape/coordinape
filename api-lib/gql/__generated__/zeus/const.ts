@@ -8,6 +8,7 @@ export const AllTypesProps: Record<string, any> = {
     allocations: 'Allocation',
   },
   Boolean_comparison_exp: {},
+  CoordinapeInput: {},
   CreateCircleInput: {},
   CreateCircleResponse: {
     users: {
@@ -2094,6 +2095,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    restoreCoordinape: {
+      payload: 'CoordinapeInput',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -6099,6 +6103,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateEpoch: 'EpochResponse',

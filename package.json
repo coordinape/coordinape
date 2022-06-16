@@ -112,7 +112,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "figma-colors": "ts-node ./scripts/update_figma_colors.ts"
+    "figma-colors": "ts-node ./scripts/update_figma_colors.ts",
+    "vercel:dev": "vercel dev"
   },
   "lint-staged": {
     "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [

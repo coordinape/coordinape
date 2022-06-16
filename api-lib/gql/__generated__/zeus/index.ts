@@ -594,7 +594,6 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
     name?: string | undefined | null;
     new_address?: string | undefined | null;
     non_giver?: boolean | undefined | null;
@@ -620,6 +619,7 @@ export type ValueTypes = {
   ['Allocations']: {
     allocations?: Array<ValueTypes['Allocation']> | undefined | null;
     circle_id: number;
+    user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
     /** An object relationship */
@@ -643,6 +643,9 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['CoordinapeInput']: {
+    circle_id: number;
+  };
   ['CreateCircleInput']: {
     circle_name: string;
     contact?: string | undefined | null;
@@ -725,7 +728,6 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
     name: string;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
@@ -5897,6 +5899,10 @@ columns and relationships of "distributions" */
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    restoreCoordinape?: [
+      { payload: ValueTypes['CoordinapeInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
       ValueTypes['AllocationsResponse']
@@ -13439,6 +13445,7 @@ export type ModelTypes = {
   ['ConfirmationResponse']: {
     success: boolean;
   };
+  ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
     /** An object relationship */
@@ -15619,6 +15626,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
@@ -18144,7 +18152,6 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
     name?: string | undefined;
     new_address?: string | undefined;
     non_giver?: boolean | undefined;
@@ -18170,6 +18177,7 @@ export type GraphQLTypes = {
   ['Allocations']: {
     allocations?: Array<GraphQLTypes['Allocation']> | undefined;
     circle_id: number;
+    user_id?: number | undefined;
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
@@ -18192,6 +18200,9 @@ export type GraphQLTypes = {
   ['ConfirmationResponse']: {
     __typename: 'ConfirmationResponse';
     success: boolean;
+  };
+  ['CoordinapeInput']: {
+    circle_id: number;
   };
   ['CreateCircleInput']: {
     circle_name: string;
@@ -18233,7 +18244,6 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
     name: string;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
@@ -22180,6 +22190,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;

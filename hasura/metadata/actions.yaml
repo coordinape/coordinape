@@ -112,6 +112,15 @@ actions:
       value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
+- name: restoreCoordinape
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/restoreCoordinape'
+    headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  permissions:
+  - role: user
 - name: updateAllocations
   definition:
     kind: synchronous
@@ -233,6 +242,7 @@ custom_types:
   - name: CreateVaultInput
   - name: GenerateApiKeyInput
   - name: UploadOrgImageInput
+  - name: CoordinapeInput
   objects:
   - name: CreateCircleResponse
     relationships:
