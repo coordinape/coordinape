@@ -39,7 +39,7 @@ export default function ClaimsPage() {
   if (isError)
     return (
       <SingleColumnLayout>
-        Error retreiving your claims. {error}
+        Error retrieving your claims. {error}
       </SingleColumnLayout>
     );
   if (!claims) return <SingleColumnLayout>No claims found</SingleColumnLayout>;
