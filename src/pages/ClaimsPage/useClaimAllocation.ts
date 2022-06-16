@@ -1,19 +1,21 @@
 import assert from 'assert';
 
 import { BigNumber, BytesLike } from 'ethers';
+import { encodeCircleId } from 'lib/vaults';
 
+import { ZERO_UINT } from 'config/constants';
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useMarkClaimTaken } from './mutations';
 
-export type AllocateClaim = {
+export type ClaimAllocationProps = {
   claimId: number;
-  circleId: string;
-  distributionEpochId: BigNumber;
+  circleId: number;
+  distributionEpochId: number;
   amount: string;
-  merkleIndex: BigNumber;
+  index: number;
   address: string;
   proof: BytesLike[];
   vault: Pick<
@@ -27,39 +29,40 @@ export function useClaimAllocation() {
   const { mutateAsync: markSaved } = useMarkClaimTaken();
   const { showError, showInfo } = useApeSnackbar();
 
-  const allocateClaim = async ({
+  return async ({
     claimId,
     vault,
     circleId,
     distributionEpochId,
     amount,
-    merkleIndex,
+    index,
     address,
     proof,
-  }: AllocateClaim): Promise<string | Error> => {
+  }: ClaimAllocationProps): Promise<string | Error> => {
     assert(contracts, 'This network is not supported');
     const vaultContract = contracts.getVault(vault.vault_address);
     const yVaultAddress = await vaultContract.vault();
-    const ZERO_ADDRESS =
-      '0x0000000000000000000000000000000000000000000000000000000000000000';
+
     try {
+      const encodedCircleId = encodeCircleId(circleId);
+
       const root = await contracts.distributor.epochRoots(
         vault.vault_address,
-        circleId,
+        encodedCircleId,
         yVaultAddress,
         distributionEpochId
       );
 
-      if (root === ZERO_ADDRESS) throw new Error('No Epoch Root Found');
+      if (root === ZERO_UINT) throw new Error('No Epoch Root Found');
 
       const trx = await sendAndTrackTx(
         () =>
           contracts.distributor.claim(
             vault.vault_address,
-            circleId,
+            encodedCircleId,
             yVaultAddress,
-            distributionEpochId,
-            merkleIndex,
+            BigNumber.from(distributionEpochId),
+            BigNumber.from(index),
             address,
             amount,
             true,
@@ -74,9 +77,10 @@ export function useClaimAllocation() {
       const txHash = receipt?.transactionHash;
       assert(event, 'Claimed event not found');
       assert(txHash, "Claimed event didn't return a transaction hash");
-      showInfo('Saving Claim...');
+
+      showInfo('Saving record of claim...');
       await markSaved({ claimId, txHash });
-      showInfo('Claim Saved Successfully');
+      showInfo('Saved');
 
       return txHash;
     } catch (e) {
@@ -85,6 +89,4 @@ export function useClaimAllocation() {
       return new Error(e as string);
     }
   };
-
-  return allocateClaim;
 }

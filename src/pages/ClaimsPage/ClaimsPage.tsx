@@ -1,7 +1,5 @@
 import assert from 'assert';
 
-import { BigNumber } from 'ethers';
-import { encodeCircleId } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
 import { LoadingModal, makeTable } from 'components';
@@ -20,7 +18,7 @@ export default function ClaimsPage() {
 
   const address = useConnectedAddress();
   const contracts = useContracts();
-  const allocateClaim = useClaimAllocation();
+  const claimTokens = useClaimAllocation();
   const profile = useMyProfile();
 
   assert(address || contracts);
@@ -31,6 +29,7 @@ export default function ClaimsPage() {
     isError,
     error,
     data: claims,
+    refetch,
   } = useQuery(['claims', profile.id], () => getClaims(profile.id), {
     enabled: !!(contracts && address),
     retry: false,
@@ -49,27 +48,23 @@ export default function ClaimsPage() {
     const claim = claims.find(c => c.id === claimId);
     assert(claim);
     assert(address);
-    const circleId = encodeCircleId(claim.distribution.epoch.circle?.id);
-    const vault = claim.distribution.vault;
-    const merkleIndex = BigNumber.from(claim.index);
-    const distributionEpochId = BigNumber.from(claim.distribution.epoch.id);
+    const { index, proof, distribution } = claim;
 
-    const { claims: jsonClaims } = JSON.parse(
-      claim.distribution.distribution_json
-    );
-    const amount = jsonClaims[address.toLowerCase() as string].amount;
+    const { claims: jsonClaims } = JSON.parse(distribution.distribution_json);
+    const amount = jsonClaims[address.toLowerCase()].amount;
 
     try {
-      allocateClaim({
+      await claimTokens({
         claimId: claim.id,
-        circleId,
-        vault,
-        merkleIndex,
-        address: address as string,
+        circleId: distribution.epoch.circle?.id,
+        vault: distribution.vault,
+        index: index,
+        address,
         amount,
-        proof: claim.proof.split(','),
-        distributionEpochId,
+        proof: proof.split(','),
+        distributionEpochId: distribution.distribution_epoch_id,
       });
+      refetch();
     } catch (e) {
       console.error(e);
     }
@@ -126,16 +121,14 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {claim => (
-            <tr key={claim.id}>
+          {({ id, amount, distribution }) => (
+            <tr key={id}>
               <td>
-                <Text>
-                  {claim.distribution.epoch.circle?.organization?.name}
-                </Text>
+                <Text>{distribution.epoch.circle?.organization?.name}</Text>
               </td>
               <td>
                 <Flex row css={{ gap: '$sm' }}>
-                  <Text>{claim.distribution.epoch.circle?.name}</Text>
+                  <Text>{distribution.epoch.circle?.name}</Text>
                 </Flex>
               </td>
               <td>
@@ -159,7 +152,7 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {claim.amount} {claim.distribution.vault.symbol}
+                      {amount} {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
@@ -171,9 +164,9 @@ export default function ClaimsPage() {
                         minWidth: '5vw',
                         borderRadius: '$2',
                       }}
-                      onClick={() => processClaim(claim.id)}
+                      onClick={() => processClaim(id)}
                     >
-                      Claim {claim.distribution.vault.symbol}
+                      Claim {distribution.vault.symbol}
                     </Button>
                   </Flex>
                 </Flex>
@@ -222,23 +215,23 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {claim => (
-            <tr key={claim.id}>
+          {({ id, amount, distribution }) => (
+            <tr key={id}>
               <td>
-                <Text>{claim.distribution.epoch.circle?.name}</Text>
+                <Text>{distribution.epoch.circle?.organization?.name}</Text>
               </td>
               <td>
                 <Flex row css={{ gap: '$sm' }}>
-                  <Text>{claim.distribution.epoch.circle?.name}</Text>
+                  <Text>{distribution.epoch.circle?.name}</Text>
                 </Flex>
               </td>
               <td>
                 <Text>
-                  Epoch {claim.distribution.epoch.number}
+                  Epoch {distribution.epoch.number}
                   {': '}
                   {formatEpochDates(
-                    claim.distribution.epoch.start_date,
-                    claim.distribution.epoch.end_date
+                    distribution.epoch.start_date,
+                    distribution.epoch.end_date
                   )}
                 </Text>
               </td>
@@ -260,7 +253,7 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {claim.amount} {claim.distribution.vault.symbol}
+                      {amount} {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"

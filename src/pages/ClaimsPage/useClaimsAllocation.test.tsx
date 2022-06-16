@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
 import { useEffect } from 'react';
 
@@ -8,10 +7,8 @@ import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount, Asset, encodeCircleId } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
-import { useDistributor } from 'hooks/useDistributor';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { useSubmitDistribution } from 'pages/DistributionsPage/useSubmitDistribution';
 import {
   provider,
   restoreSnapshot,
@@ -88,8 +85,9 @@ afterAll(async () => {
 
 test('claim single successfully', async () => {
   let work: Promise<boolean> | null = null;
-  let expectedBalance = BigNumber.from(0);
+  let expectedBalance = BigNumber.from(1);
   let finalBalance = BigNumber.from(0);
+  const circleId = 2;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(10); // fake org id
@@ -121,7 +119,7 @@ test('claim single successfully', async () => {
 
         const { wait } = await contracts.distributor.uploadEpochRoot(
           vault.vault_address,
-          encodeCircleId(2),
+          encodeCircleId(circleId),
           yVaultAddress,
           merkleRoot,
           total,
@@ -133,15 +131,15 @@ test('claim single successfully', async () => {
         const event = events?.find(e => e.event === 'EpochFunded');
         const distributorEpochId = event?.args?.epochId;
 
-        const claim1 = claims[address1];
+        const { amount, proof, index } = claims[address1];
         await claimAllocation({
           address: address1,
-          circleId: encodeCircleId(2),
+          circleId,
           claimId: 1,
           distributionEpochId: distributorEpochId,
-          amount: claim1.amount,
-          merkleIndex: BigNumber.from(claim1.index),
-          proof: claim1.proof,
+          amount,
+          proof,
+          index,
           vault: vault,
         });
 
@@ -163,12 +161,15 @@ test('claim single successfully', async () => {
     await expect(work).resolves.toBeTruthy();
   });
 
+  expect(expectedBalance.gt('100000000')).toBeTruthy();
   expect(finalBalance).toEqual(expectedBalance);
 }, 20000);
 
-test('dont allow claim if root not found', async () => {
+test('do not allow claim if root not found', async () => {
   let work: Promise<string | Error>;
   let error: Error = new Error('');
+
+  const circleId = 3;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(10); // fake org id
@@ -176,7 +177,6 @@ test('dont allow claim if root not found', async () => {
     const address1 = '0xabc0000000000000000000000000000000000001';
 
     const contracts = useContracts();
-    const { deposit } = useVaultRouter(contracts);
 
     useEffect(() => {
       if (!contracts) return;
@@ -186,38 +186,22 @@ test('dont allow claim if root not found', async () => {
           type: Asset.USDC,
         });
         assert(vault, 'vault not created');
-        const depositTrx = await deposit(vault, '110');
 
-        const vaultContract = contracts.getVault(vault.vault_address);
-        const yVaultAddress = await vaultContract.vault();
+        const { claims } = createDistribution(gifts, BigNumber.from('1000000'));
 
-        const total = await getWrappedAmount('90', vault, contracts);
-
-        const { claims, merkleRoot } = createDistribution(gifts, total);
-
-        await contracts.distributor.uploadEpochRoot(
-          vault.vault_address,
-          encodeCircleId(2),
-          yVaultAddress,
-          merkleRoot,
-          total,
-          utils.hexlify(1)
-        );
-
-        const claim1 = claims[address1];
+        const { amount, index, proof } = claims[address1];
         const trx = await claimAllocation({
           address: address1,
-          circleId: encodeCircleId(2),
+          circleId,
           claimId: 1,
-          distributionEpochId: BigNumber.from(323), // fake epoch id
-          amount: claim1.amount,
-          merkleIndex: BigNumber.from(claim1.index),
-          proof: claim1.proof,
-          vault: vault,
+          distributionEpochId: 323, // fake epoch id
+          amount,
+          proof,
+          index,
+          vault,
         });
 
         if (trx instanceof Error) error = trx;
-
         return trx;
       })();
     }, [contracts]);

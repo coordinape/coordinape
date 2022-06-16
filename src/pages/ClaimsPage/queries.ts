@@ -4,13 +4,13 @@ import { client } from 'lib/gql/client';
 import type { Awaited } from 'types/shim';
 
 export const getClaims = async (
-  profileID: number
+  profileId: number
 ): Promise<typeof claims | undefined> => {
   const { claims } = await client.query(
     {
       claims: [
         {
-          where: { profile_id: { _eq: profileID } },
+          where: { profile_id: { _eq: profileId } },
           order_by: [{ created_at: order_by.desc }],
         },
         {
