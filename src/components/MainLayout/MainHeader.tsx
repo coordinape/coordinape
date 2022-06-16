@@ -89,13 +89,13 @@ export const MainHeader = () => {
             </Box>
           )}
         </Box>
-        {inCircle && (
+        {inCircle && !isFeatureEnabled('vaults') && (
           <Suspense fallback={null}>
             <ReceiveInfo />
           </Suspense>
         )}
         <Suspense fallback={null}>
-          <ClaimsNavButton />
+          {isFeatureEnabled('vaults') && <ClaimsNavButton />}
           <MyAvatarMenu />
         </Suspense>
       </Box>
