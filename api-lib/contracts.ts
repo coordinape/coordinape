@@ -1,4 +1,13 @@
-import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import type { JsonRpcProvider } from '@ethersproject/providers';
+
+import deploymentInfo from '../hardhat/dist/deploymentInfo.json';
+import type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactoryBeacon,
+  ApeVaultWrapperImplementation,
+  ERC20,
+} from '../hardhat/dist/typechain';
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
@@ -6,15 +15,7 @@ import {
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
   VaultAPI__factory,
-} from '@coordinape/hardhat/dist/typechain';
-import type {
-  ApeDistributor,
-  ApeRouter,
-  ApeVaultFactoryBeacon,
-  ApeVaultWrapperImplementation,
-  ERC20,
-} from '@coordinape/hardhat/dist/typechain';
-import type { JsonRpcProvider } from '@ethersproject/providers';
+} from '../hardhat/dist/typechain';
 
 export type {
   ApeDistributor,
@@ -22,7 +23,7 @@ export type {
   ApeVaultFactoryBeacon,
   ApeVaultWrapperImplementation,
   ERC20,
-} from '@coordinape/hardhat/dist/typechain';
+} from '../hardhat/dist/typechain';
 
 const requiredContracts = [
   'ApeVaultFactoryBeacon',
