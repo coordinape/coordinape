@@ -47,6 +47,10 @@ type Mutation {
 }
 
 type Mutation {
+  restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
+}
+
+type Mutation {
   updateAllocations(payload: Allocations!): AllocationsResponse
 }
 
@@ -103,7 +107,6 @@ input CreateUserInput {
   non_receiver: Boolean
   role: Int
   starting_tokens: Int
-  fixed_payment_amount: Float
 }
 
 input UploadImageInput {
@@ -125,7 +128,6 @@ input AdminUpdateUserInput {
   fixed_non_receiver: Boolean
   non_receiver: Boolean
   role: Int
-  fixed_payment_amount: Float
 }
 
 input DeleteEpochInput {
@@ -253,6 +255,10 @@ input GenerateApiKeyInput {
 input UploadOrgImageInput {
   org_id: Int!
   image_data_base64: String!
+}
+
+input CoordinapeInput {
+  circle_id: Int!
 }
 
 type CreateCircleResponse {

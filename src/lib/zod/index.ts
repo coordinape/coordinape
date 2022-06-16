@@ -258,6 +258,12 @@ export const updateCircleInput = z
   })
   .strict();
 
+export const restoreCoordinapeInput = z
+  .object({
+    circle_id: z.number(),
+  })
+  .strict();
+
 export const updateAllocationsInput = z.object({
   allocations: z
     .object({
