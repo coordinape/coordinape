@@ -2,7 +2,7 @@ import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { getUnwrappedAmount } from 'lib/vaults';
+import { getUnwrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -73,7 +73,11 @@ export function DistributionForm({
   form1Amount,
 }: SubmitFormProps) {
   const [submitting, setSubmitting] = useState(false);
-  const [sufficientTokens, setSufficientTokens] = useState(false);
+  const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
+    useState(false);
+  const [sufficientGiftTokens, setSufficientGiftTokens] = useState(false);
+  const [maxGiftTokens, setMaxGiftTokens] = useState(0);
+  const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] = useState(0);
 
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
@@ -81,9 +85,8 @@ export function DistributionForm({
 
   const circle = epoch?.circle;
   const fixed_payment_token_type = circle?.fixed_payment_token_type;
-  //change to fixed_payment_amount when that PR gets merged
   const totalFixedPayment = circleUsers
-    .map(g => g.give_token_received)
+    .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total);
   const fixedPaymentTokenSel = fixed_payment_token_type
     ? vaults.filter(
@@ -99,7 +102,16 @@ export function DistributionForm({
   });
 
   useEffect(() => {
-    if (vaults[0]) setVaultId(String(vaults[0].id));
+    if (vaults[0]) {
+      setVaultId(String(vaults[0].id));
+      updateBalanceState(vaults[0].id, form1Amount, 'gift');
+    }
+    if (fixedPaymentTokenSel[0])
+      updateBalanceState(
+        fixedPaymentTokenSel[0].id,
+        totalFixedPayment,
+        'fixed'
+      );
   }, [vaults]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
@@ -113,8 +125,7 @@ export function DistributionForm({
     assert(vault);
 
     const gifts = circleUsers.reduce((ret, user) => {
-      //change to fixed_payment_amount when that PR gets merged
-      ret[user.address] = user.give_token_received;
+      ret[user.address] = user.fixed_payment_amount ?? 0;
       return ret;
     }, {} as Record<string, number>);
 
@@ -123,12 +134,7 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const type =
-      fixedPaymentTokenSel.length &&
-      vault1Id &&
-      fixedPaymentTokenSel[0].id.toString() === vault1Id
-        ? 3
-        : 2;
+    const type = isCombinedDistribution() ? 3 : 2;
 
     try {
       await submitDistribution({
@@ -199,24 +205,65 @@ export function DistributionForm({
     }
   };
 
-  const onChangeVault = async (vaultId: number, amountSet: number) => {
+  const isCombinedDistribution = () => {
+    return (
+      fixedPaymentTokenSel.length &&
+      vault1Id &&
+      fixedPaymentTokenSel[0].id.toString() === vault1Id
+    );
+  };
+
+  const updateBalanceState = async (
+    vaultId: number,
+    amountSet: number,
+    formType: string
+  ) => {
     assert(circle);
     const vault = circle.organization?.vaults?.find(v => v.id === vaultId);
-
     assert(vault);
     assert(contracts, 'This network is not supported');
-    console.log('amountSet', amountSet);
-    // const yToken = await contracts.getYVault(vault.vault_address);
-    // console.log(yToken);
-    // const vaultBalance = await yToken.balanceOf(vault.vault_address);
-    // console.log(vaultBalance);
-    // const pricePerShare = await contracts.getPricePerShare(vault.vault_address, vault.symbol, vault.decimals);
-    // console.log(pricePerShare);
-    // const tokenBalance = await getUnwrappedAmount(Number(vaultBalance), pricePerShare, vault.decimals);
-    // console.log(tokenBalance);
-    // if(tokenBalance < amountSet)
-    // setSufficientTokens(false);
-    setSufficientTokens(true);
+    const yToken = await contracts.getYVault(vault.vault_address);
+    const vaultBalance = await yToken.balanceOf(vault.vault_address);
+    const pricePerShare = await contracts.getPricePerShare(
+      vault.vault_address,
+      vault.symbol,
+      vault.decimals
+    );
+    const tokenBalance = getUnwrappedAmount(
+      Number(vaultBalance),
+      pricePerShare,
+      vault.decimals
+    );
+    if (formType === 'gift') {
+      setMaxGiftTokens(tokenBalance);
+    } else {
+      setMaxFixedPaymentTokens(tokenBalance);
+    }
+    const isCombinedDist =
+      fixedPaymentTokenSel[0] && fixedPaymentTokenSel[0].id === vaultId;
+    const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
+    if (formType === 'gift' && !isCombinedDist) {
+      setSufficientGiftTokens(tokenBalance >= totalAmt);
+      if (fixedPaymentTokenSel[0] && vaultId !== fixedPaymentTokenSel[0].id) {
+        const fixedVault = circle.organization?.vaults?.find(
+          v => v.id === fixedPaymentTokenSel[0].id
+        );
+        assert(fixedVault);
+        const yToken = await contracts.getYVault(fixedVault.vault_address);
+        const vaultBalance = await yToken.balanceOf(fixedVault.vault_address);
+        const pricePerShare = await contracts.getPricePerShare(
+          fixedVault.vault_address,
+          fixedVault.symbol,
+          fixedVault.decimals
+        );
+        const tokenBalance = getUnwrappedAmount(
+          Number(vaultBalance),
+          pricePerShare,
+          fixedVault.decimals
+        );
+        setSufficientFixPaymentTokens(tokenBalance >= totalFixedPayment);
+      }
+    } else setSufficientFixPaymentTokens(tokenBalance >= totalAmt);
   };
 
   return (
@@ -244,7 +291,11 @@ export function DistributionForm({
                         onChange={({ target: { value } }) => {
                           onChange(value);
                           setVaultId(String(value));
-                          onChangeVault(Number(value), form1Amount);
+                          updateBalanceState(
+                            Number(value),
+                            form1Amount,
+                            'gift'
+                          );
                         }}
                       >
                         {vaults.map(vault => (
@@ -293,9 +344,9 @@ export function DistributionForm({
                   }}
                   onBlur={({ target: { value } }) => {
                     setAmount(Number(value));
-                    onChangeVault(Number(vault1Id), Number(value));
+                    updateBalanceState(Number(vault1Id), Number(value), 'gift');
                   }}
-                  label="Total Distribution Amount"
+                  label={`Available: ${maxGiftTokens}`}
                   onFocus={event =>
                     (event.currentTarget as HTMLInputElement).select()
                   }
@@ -305,9 +356,7 @@ export function DistributionForm({
           </Box>
         </Box>
         <Box css={{ display: 'flex', justifyContent: 'center' }}>
-          {fixedPaymentTokenSel.length &&
-          vault1Id &&
-          fixedPaymentTokenSel[0].id.toString() === vault1Id ? (
+          {isCombinedDistribution() ? (
             <span>
               Combined Distribution. Total {totalFixedPayment + form1Amount}{' '}
               {fixedPaymentTokenSel[0].symbol}
@@ -317,9 +366,10 @@ export function DistributionForm({
               color="primary"
               outlined
               size="medium"
-              disabled={submitting || !sufficientTokens}
+              disabled={submitting || !sufficientGiftTokens}
+              fullWidth
             >
-              {sufficientTokens
+              {sufficientGiftTokens
                 ? submitting
                   ? 'Submitting...'
                   : 'Submit Distribution'
@@ -401,7 +451,7 @@ export function DistributionForm({
                       helperText={error ? error.message : null}
                       value={totalFixedPayment}
                       disabled={true}
-                      label="Total Distribution Amount"
+                      label={`Available: ${maxFixedPaymentTokens}`}
                       onFocus={event =>
                         (event.currentTarget as HTMLInputElement).select()
                       }
@@ -416,16 +466,17 @@ export function DistributionForm({
                   color="primary"
                   outlined
                   size="medium"
-                  disabled={submitting || !sufficientTokens}
+                  disabled={submitting || !sufficientFixedPaymentTokens}
+                  fullWidth
                 >
-                  {sufficientTokens
+                  {sufficientFixedPaymentTokens
                     ? submitting
                       ? 'Submitting...'
                       : 'Submit Distribution'
                     : 'Insufficient Tokens'}
                 </Button>
               ) : (
-                <Button color="primary" outlined size="medium">
+                <Button color="primary" outlined size="medium" fullWidth>
                   Export CSV
                 </Button>
               )}
