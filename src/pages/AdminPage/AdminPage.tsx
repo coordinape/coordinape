@@ -15,7 +15,7 @@ import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
-  ContributorsTable,
+  MembersTable,
   CreateEpochButton,
   EpochsTable,
   EpochsTableHeader,
@@ -34,11 +34,6 @@ const AdminPage = () => {
     undefined
   );
   const [newUser, setNewUser] = useState<boolean>(false);
-  const [coordinapeOptionDialog, setCoordinapeOptionsDialog] = useState<{
-    showDialog: boolean;
-    shouldEnable?: boolean;
-    coordinape?: IUser;
-  }>({ showDialog: false });
   const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
   const [deleteEpochDialog, setDeleteEpochDialog] = useState<
     IEpoch | undefined
@@ -60,7 +55,7 @@ const AdminPage = () => {
 
   const { downloadCSV } = useApiAdminCircle(circleId);
 
-  const { deleteUser, deleteEpoch, createUser } = useApiAdminCircle(circleId);
+  const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
 
   const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
 
@@ -157,7 +152,7 @@ const AdminPage = () => {
           value={keyword}
         />
 
-        <ContributorsTable
+        <MembersTable
           visibleUsers={visibleUsers}
           myUser={me}
           circle={selectedCircle}
@@ -165,7 +160,6 @@ const AdminPage = () => {
           filter={filterUser}
           setEditUser={setEditUser}
           setDeleteUserDialog={setDeleteUserDialog}
-          setCoordinapeDialog={setCoordinapeOptionsDialog}
           perPage={15}
         />
       </Panel>
@@ -205,25 +199,6 @@ const AdminPage = () => {
                   .then(() => setDeleteUserDialog(undefined))
                   .catch(() => setDeleteUserDialog(undefined))
             : undefined
-        }
-      />
-      <ActionDialog
-        open={coordinapeOptionDialog.showDialog}
-        title={`${
-          coordinapeOptionDialog.shouldEnable ? 'Enable' : 'Disable'
-        }  Coordinape in ${selectedCircle.name}`}
-        onClose={() => setCoordinapeOptionsDialog({ showDialog: false })}
-        primaryText={coordinapeOptionDialog.shouldEnable ? 'Enable' : 'Disable'}
-        onPrimary={
-          () =>
-            /* eslint-disable @typescript-eslint/no-non-null-assertion */
-            (coordinapeOptionDialog.shouldEnable
-              ? createUser(coordinapeOptionDialog.coordinape!)
-              : deleteUser(coordinapeOptionDialog.coordinape!.address)
-            )
-              .then(() => setCoordinapeOptionsDialog({ showDialog: false }))
-              .catch(() => setCoordinapeOptionsDialog({ showDialog: false }))
-          /* eslint-disable @typescript-eslint/no-non-null-assertion */
         }
       />
       <ActionDialog
