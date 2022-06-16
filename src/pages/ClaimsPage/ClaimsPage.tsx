@@ -1,3 +1,4 @@
+import assert from 'assert';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import groupBy from 'lodash/groupBy';
@@ -338,23 +339,23 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {claim => (
-            <tr key={claim.id}>
+          {({ id, amount, distribution }) => (
+            <tr key={id}>
               <td>
-                <Text>{claim.distribution.epoch.circle?.name}</Text>
+                <Text>{distribution.epoch.circle?.organization?.name}</Text>
               </td>
               <td>
                 <Flex row css={{ gap: '$sm' }}>
-                  <Text>{claim.distribution.epoch.circle?.name}</Text>
+                  <Text>{distribution.epoch.circle?.name}</Text>
                 </Flex>
               </td>
               <td>
                 <Text>
-                  Epoch {claim.distribution.epoch.number}
+                  Epoch {distribution.epoch.number}
                   {': '}
                   {formatEpochDates(
-                    claim.distribution.epoch.start_date,
-                    claim.distribution.epoch.end_date
+                    distribution.epoch.start_date,
+                    distribution.epoch.end_date
                   )}
                 </Text>
               </td>
@@ -376,7 +377,7 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {claim.amount} {claim.distribution.vault.symbol}
+                      {amount} {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
