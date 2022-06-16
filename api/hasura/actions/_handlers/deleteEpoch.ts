@@ -3,12 +3,12 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { adminClient } from '../../../api-lib/gql/adminClient';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   deleteEpochInput,
   composeHasuraActionRequestBody,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 Settings.defaultZone = 'utc';
 

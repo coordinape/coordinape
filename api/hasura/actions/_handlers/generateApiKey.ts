@@ -4,16 +4,16 @@ import {
   formatAuthHeader,
   generateTokenString,
   hashTokenString,
-} from '../../../api-lib/authHelpers';
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { getUserFromProfileId } from '../../../api-lib/findUser';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { ForbiddenError } from '../../../api-lib/HttpError';
+} from '../../../../api-lib/authHelpers';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { getUserFromProfileId } from '../../../../api-lib/findUser';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { ForbiddenError } from '../../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
   generateApiKeyInputSchema,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

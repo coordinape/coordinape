@@ -2,17 +2,17 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import * as queries from '../../../api-lib/gql/queries';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import * as queries from '../../../../api-lib/gql/queries';
 import {
   errorResponseWithStatusCode,
   UnprocessableError,
-} from '../../../api-lib/HttpError';
+} from '../../../../api-lib/HttpError';
 import {
   adminUpdateUserSchemaInput,
   composeHasuraActionRequestBody,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
