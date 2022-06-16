@@ -11,7 +11,7 @@ import {
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
-import { useNavigation } from 'hooks';
+import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { paths } from 'routes/paths';
@@ -297,7 +297,7 @@ export const TableLink = styled(RouterLink, {
   textDecoration: 'none',
 });
 
-const coorindapeTooltipContent = () => {
+const coordinapeTooltipContent = () => {
   return (
     <Box
       css={{
@@ -329,7 +329,7 @@ const coorindapeTooltipContent = () => {
 const renderCoordinapeActions = (enabled: boolean, onClick: () => void) => {
   return (
     <Flex css={{ justifyContent: 'center' }}>
-      <Tooltip content={coorindapeTooltipContent()}>
+      <Tooltip content={coordinapeTooltipContent()}>
         <Button
           size="small"
           onClick={onClick}
@@ -629,7 +629,7 @@ const makeCoordinape = (circleId: number): IUser => {
     updated_at: '',
     name: 'Coordinape',
     address: USER_COORDINAPE_ADDRESS,
-    role: 0,
+    role: 2,
     non_receiver: false,
     fixed_non_receiver: false,
     starting_tokens: 0,
@@ -639,14 +639,13 @@ const makeCoordinape = (circleId: number): IUser => {
   };
 };
 
-export const ContributorsTable = ({
+export const MembersTable = ({
   visibleUsers,
   myUser: me,
   circle,
   setNewUser,
   setEditUser,
   setDeleteUserDialog,
-  setCoordinapeDialog,
   filter,
   perPage = 6,
 }: {
@@ -656,14 +655,10 @@ export const ContributorsTable = ({
   setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
-  setCoordinapeDialog: (data: {
-    showDialog: boolean;
-    shouldEnable?: boolean;
-    coordinape?: IUser;
-  }) => void;
   filter: (u: IUser) => boolean;
   perPage?: number;
 }) => {
+  const { restoreCoordinape, deleteUser } = useApiAdminCircle(circle.id);
   const { isMobile } = useMobileDetect();
   const [page, setPage] = useState<number>(1);
   const [view, setView] = useState<IUser[]>([]);
@@ -744,9 +739,9 @@ export const ContributorsTable = ({
           {user.name}
         </Text>
         <span>
-          {user.address === USER_COORDINAPE_ADDRESS ? (
+          {user.role === USER_ROLE_COORDINAPE ? (
             <Box css={{ marginTop: '6px' }}>
-              <Tooltip content={coorindapeTooltipContent()}>
+              <Tooltip content={coordinapeTooltipContent()}>
                 <InfoCircledIcon />
               </Tooltip>
             </Box>
@@ -974,18 +969,24 @@ export const ContributorsTable = ({
                       </Table.Cell>
                     )}
                     <Table.Cell key={`actions-${u.id}`}>
-                      {u.address === USER_COORDINAPE_ADDRESS
+                      {u.role === USER_ROLE_COORDINAPE
                         ? renderCoordinapeActions(u.deleted_at === null, () => {
-                            setCoordinapeDialog({
-                              showDialog: true,
-                              shouldEnable: u.deleted_at !== null,
-                              coordinape: coordinapeUser,
-                            });
+                            const shouldEnable = u.deleted_at !== null;
+                            const confirm = window.confirm(
+                              `${
+                                shouldEnable ? 'Enable' : 'Disable'
+                              } Coordinape in this ${circle.name}?`
+                            );
+                            if (confirm) {
+                              shouldEnable
+                                ? restoreCoordinape(circle.id).catch(e =>
+                                    console.error(e)
+                                  )
+                                : deleteUser(u.address);
+                            }
                           })
                         : renderActions(
-                            u.role !== USER_ROLE_COORDINAPE
-                              ? () => setEditUser(u)
-                              : undefined,
+                            () => setEditUser(u),
                             u.id !== me?.id
                               ? () => setDeleteUserDialog(u)
                               : undefined
