@@ -11,6 +11,7 @@ import { AppLink, Box, Button, Panel, Text } from 'ui';
 
 import DepositModal from './DepositModal';
 import { dummyTableData, TransactionTable } from './VaultTransactions';
+import WithdrawModal from './WithdrawModal';
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
@@ -45,6 +46,9 @@ export function VaultRow({
           onDeposit={updateBalance}
         />
       ) : null}
+      {modal === 'withdraw' ? (
+        <WithdrawModal visible={true} onClose={closeModal} vault={vault} />
+      ) : null}
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
@@ -63,7 +67,7 @@ export function VaultRow({
           color="primary"
           outlined
           size="small"
-          onClick={() => alert('TODO')}
+          onClick={() => setModal('withdraw')}
         >
           Withdraw
         </Button>
