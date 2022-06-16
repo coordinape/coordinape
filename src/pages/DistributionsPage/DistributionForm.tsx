@@ -2,7 +2,7 @@ import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getUnwrappedAmount } from 'lib/vaults';
+import { BigNumber } from 'ethers';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -228,18 +228,10 @@ export function DistributionForm({
     const vault = circle.organization?.vaults?.find(v => v.id === vaultId);
     assert(vault);
     assert(contracts, 'This network is not supported');
-    const yToken = await contracts.getYVault(vault.vault_address);
-    const vaultBalance = await yToken.balanceOf(vault.vault_address);
-    const pricePerShare = await contracts.getPricePerShare(
-      vault.vault_address,
-      vault.symbol,
-      vault.decimals
-    );
-    const tokenBalance = getUnwrappedAmount(
-      Number(vaultBalance),
-      pricePerShare,
-      vault.decimals
-    );
+    const cVault = await contracts.getVault(vault.vault_address);
+    const tokenBalance = (await cVault.underlyingValue())
+      .div(BigNumber.from(10).pow(vault.decimals))
+      .toNumber();
     if (formType === 'gift') {
       setMaxGiftTokens(tokenBalance);
     } else {
@@ -255,18 +247,10 @@ export function DistributionForm({
           v => v.id === fixedPaymentTokenSel[0].id
         );
         assert(fixedVault);
-        const yToken = await contracts.getYVault(fixedVault.vault_address);
-        const vaultBalance = await yToken.balanceOf(fixedVault.vault_address);
-        const pricePerShare = await contracts.getPricePerShare(
-          fixedVault.vault_address,
-          fixedVault.symbol,
-          fixedVault.decimals
-        );
-        const tokenBalance = getUnwrappedAmount(
-          Number(vaultBalance),
-          pricePerShare,
-          fixedVault.decimals
-        );
+        const cVault = await contracts.getVault(fixedVault.vault_address);
+        const tokenBalance = (await cVault.underlyingValue())
+          .div(BigNumber.from(10).pow(fixedVault.decimals))
+          .toNumber();
         setSufficientFixPaymentTokens(tokenBalance >= totalFixedPayment);
       }
     } else setSufficientFixPaymentTokens(tokenBalance >= totalAmt);
