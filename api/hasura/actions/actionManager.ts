@@ -61,10 +61,10 @@ export default async function actionHandler(
   }: ActionPayload<keyof GraphQLTypes> = req.body;
   const handlerMap = HANDLERS;
   if (!handlerMap[actionName]) {
-    // Log warning about no handler for this event
-    const warning = `No handler configured for ${actionName} event`;
+    // Log warning about no handler for this action
+    const warning = `No handler configured for ${actionName} action`;
     console.error(warning);
-    res.status(200).json({ message: warning });
+    res.status(422).json({ message: warning });
     return;
   }
 
