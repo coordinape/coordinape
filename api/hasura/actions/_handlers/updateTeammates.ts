@@ -1,16 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getUsersFromUserIds } from '../../../api-lib/findUser';
-import { teammates_constraint } from '../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
-import { getUserFromProfileIdWithCircle } from '../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { getUsersFromUserIds } from '../../../../api-lib/findUser';
+import { teammates_constraint } from '../../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { getUserFromProfileIdWithCircle } from '../../../../api-lib/nominees';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   updateTeammatesInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

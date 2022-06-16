@@ -5,23 +5,23 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   getUserFromAddress,
   getUserFromProfileId,
-} from '../../../api-lib/findUser';
-import * as mutations from '../../../api-lib/gql/mutations';
-import * as queries from '../../../api-lib/gql/queries';
+} from '../../../../api-lib/findUser';
+import * as mutations from '../../../../api-lib/gql/mutations';
+import * as queries from '../../../../api-lib/gql/queries';
 import {
   errorResponse,
   ForbiddenError,
   InternalServerError,
   NotFoundError,
   UnprocessableError,
-} from '../../../api-lib/HttpError';
-import { Awaited } from '../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+} from '../../../../api-lib/HttpError';
+import { Awaited } from '../../../../api-lib/ts4.5shim';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
   vouchInput,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 type Voucher = Awaited<ReturnType<typeof getUserFromProfileId>>;
 type Nominee = Awaited<ReturnType<typeof getNominee>>;

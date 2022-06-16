@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../api-lib/gql/adminClient';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createUserSchemaInput,
   composeHasuraActionRequestBody,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

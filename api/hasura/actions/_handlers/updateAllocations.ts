@@ -3,27 +3,27 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import { getUsersFromUserIds } from '../../../api-lib/findUser';
+import { getUsersFromUserIds } from '../../../../api-lib/findUser';
 import {
   ValueTypes,
   pending_token_gifts_constraint,
   pending_token_gifts_update_column,
-} from '../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
+} from '../../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   getUserFromProfileIdWithCircle,
   getUserWithCircle,
   UserWithCircleResponse,
-} from '../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+} from '../../../../api-lib/nominees';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   updateAllocationsInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
   updateAllocationsApiInput,
   composeHasuraActionRequestBodyWithApiPermissions,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 const userRequestSchema = composeHasuraActionRequestBodyWithSession(
   updateAllocationsInput,

@@ -1,29 +1,29 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { resizeCircleLogo } from '../../../api-lib/images';
-import { ImageUpdater } from '../../../api-lib/ImageUpdater';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { resizeCircleLogo } from '../../../../api-lib/images';
+import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-  uploadOrgImageInput,
-} from '../../../src/lib/zod';
+  uploadCircleImageInput,
+} from '../../../../src/lib/zod';
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload: input },
     // session_variables: sessionVariables,
   } = composeHasuraActionRequestBodyWithSession(
-    uploadOrgImageInput,
+    uploadCircleImageInput,
     HasuraUserSessionVariables
   ).parse(req.body);
 
-  const previousLogo = await getPreviousLogo(input.org_id);
+  const previousLogo = await getPreviousLogo(input.circle_id);
 
   const updater = new ImageUpdater<{ id: number }>(
     resizeCircleLogo,
-    logoUpdater(input.org_id)
+    logoUpdater(input.circle_id)
   );
 
   const updatedProfile = await updater.uploadImage(
@@ -34,9 +34,9 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
 };
 
 async function getPreviousLogo(id: number): Promise<string | undefined> {
-  const { organizations_by_pk } = await adminClient.query(
+  const { circles_by_pk } = await adminClient.query(
     {
-      organizations_by_pk: [
+      circles_by_pk: [
         {
           id: id,
         },
@@ -44,18 +44,18 @@ async function getPreviousLogo(id: number): Promise<string | undefined> {
       ],
     },
     {
-      operationName: 'updateOrgLogo_getPreviousLogo',
+      operationName: 'updateCircleLogo_getPreviousLogo',
     }
   );
 
-  return organizations_by_pk?.logo;
+  return circles_by_pk?.logo;
 }
 
 function logoUpdater(id: number) {
   return async (fileName: string) => {
     const mutationResult = await adminClient.mutate(
       {
-        update_organizations_by_pk: [
+        update_circles_by_pk: [
           {
             _set: { logo: fileName },
             pk_columns: { id: id },
@@ -66,17 +66,17 @@ function logoUpdater(id: number) {
         ],
       },
       {
-        operationName: 'updateOrgLogo_update',
+        operationName: 'updateCircleLogo_update',
       }
     );
 
-    if (!mutationResult.update_organizations_by_pk) {
+    if (!mutationResult.update_circles_by_pk) {
       throw 'circle mutation was not successful';
     }
     return {
-      id: mutationResult.update_organizations_by_pk.id,
+      id: mutationResult.update_circles_by_pk.id,
     };
   };
 }
 
-export default verifyHasuraRequestMiddleware(handler);
+export default authCircleAdminMiddleware(handler);
