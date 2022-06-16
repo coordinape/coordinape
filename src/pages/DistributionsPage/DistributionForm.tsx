@@ -40,7 +40,7 @@ const vaultInputStyles = {
 };
 
 const DistributionFormSchema = z.object({
-  amount: z.number().gt(0),
+  amount: z.number().gte(0),
   selectedVaultId: z.number(),
 });
 
@@ -125,16 +125,22 @@ export function DistributionForm({
     assert(vault);
 
     const gifts = circleUsers.reduce((ret, user) => {
-      ret[user.address] = user.fixed_payment_amount ?? 0;
+      if (user.fixed_payment_amount && user.fixed_payment_amount > 0)
+        ret[user.address] = user.fixed_payment_amount;
       return ret;
     }, {} as Record<string, number>);
+    const type = isCombinedDistribution() ? 3 : 2;
+    if (type === 3) {
+      users.map(user => {
+        if (!(user.address in gifts)) gifts[user.address] = 0;
 
-    const userIdsByAddress = users.reduce((ret, user) => {
+        gifts[user.address] += user.received;
+      });
+    }
+    const userIdsByAddress = circleUsers.reduce((ret, user) => {
       ret[user.address.toLowerCase()] = user.id;
       return ret;
     }, {} as Record<string, number>);
-
-    const type = isCombinedDistribution() ? 3 : 2;
 
     try {
       await submitDistribution({
