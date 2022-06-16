@@ -688,7 +688,10 @@ export const ContributorsTable = ({
   const coordinapeUser = useMemo(() => makeCoordinape(circle.id), [circle]);
 
   const users: IUser[] = useMemo(() => {
-    if (!visibleUsers.some(u => u.address === coordinapeUser.address)) {
+    if (
+      !visibleUsers.some(u => u.address === coordinapeUser.address) &&
+      visibleUsers.length > 0
+    ) {
       return [...visibleUsers, coordinapeUser];
     }
     return visibleUsers;
