@@ -52,7 +52,7 @@ const HANDLERS: HandlerDict = {
   vouch,
 };
 
-export default async function eventHandler(
+export default async function actionHandler(
   req: VercelRequest,
   res: VercelResponse
 ) {
