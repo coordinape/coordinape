@@ -37,5 +37,6 @@ export * from './ReceiveInfo/ReceiveInfo';
 export * from './SentryScopeController/SentryScopeController';
 export * from './SkillToggles/SkillToggles';
 export * from './Spacer/Spacer';
+export * from './Table/Table';
 export * from './ThreeDotMenu/ThreeDotMenu';
 export * from './WalletAuthModal/WalletAuthModal';

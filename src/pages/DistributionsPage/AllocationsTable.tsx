@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
 
-import { NewApeAvatar } from 'components';
+import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
-import { makeTable } from './Table';
 
 export const AllocationsTable = ({
   users,
@@ -30,11 +29,11 @@ export const AllocationsTable = ({
   return (
     <UserTable
       headers={[
-        'Name',
-        'ETH Wallet',
-        `${tokenName || 'GIVE'} Received`,
-        '% of Epoch',
-        'Vault Funds Allocated',
+        { title: 'Name' },
+        { title: 'ETH' },
+        { title: `${tokenName || 'GIVE'} Received` },
+        { title: '% of Epoch' },
+        { title: 'Vault Funds Allocated' },
       ]}
       data={users}
       startingSortIndex={2}
