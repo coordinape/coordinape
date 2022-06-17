@@ -19,22 +19,20 @@ jest.mock('hooks/useContributions');
 test('allow reducing allocation to 0', async () => {
   const mockSetGift = jest.fn();
 
-  const Harness = () => {
-    return (
-      <ProfileCard user={otherUser} gift={startingGift} setGift={mockSetGift} />
-    );
-  };
-
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <Harness />
+        <ProfileCard
+          user={otherUser}
+          gift={startingGift}
+          setGift={mockSetGift}
+        />
       </TestWrapper>
     );
   });
 
   fireEvent.click(screen.getByTestId('decrement'));
-  // do it a couple times make sure we cant go neg
+  // do it a couple times make sure we can't go neg
   fireEvent.click(screen.getByTestId('decrement'));
   fireEvent.click(screen.getByTestId('decrement'));
 
