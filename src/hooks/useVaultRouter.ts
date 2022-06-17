@@ -67,22 +67,24 @@ export function useVaultRouter(contracts?: Contracts) {
     );
   };
 
-  const delegateWithdrawal = async (
+  const withdraw = async (
     vault: GraphQLTypes['vaults'],
-    tokenAddress: string,
-    shareAmount: BigNumber,
+    humanAmount: string,
     underlying: boolean
-  ) => {
+  ): Promise<SendAndTrackTxResult> => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
-    return contracts.router.delegateWithdrawal(
-      account,
-      vault.vault_address as string,
-      tokenAddress,
-      shareAmount,
-      underlying
+    const amount = BigNumber.from(
+      utils.parseUnits(humanAmount, vault.decimals)
     );
+    const vaultContract = contracts.getVault(vault.vault_address);
+    const shares = await vaultContract.sharesForValue(amount);
+    return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
+      showError,
+      showInfo,
+      signingMessage: 'Please sign the transaction to withdraw tokens.',
+    });
   };
 
-  return { deposit, delegateWithdrawal };
+  return { deposit, withdraw };
 }

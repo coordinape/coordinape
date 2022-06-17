@@ -40,6 +40,13 @@ context('Coordinape', () => {
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
 
+    // Withdraw USDC from the Vault
+    cy.contains('Withdraw').click();
+    cy.get('input[type=number]').click().wait(1000).type('100');
+    cy.contains('button', 'Withdraw USDC').click();
+    cy.contains('Transaction completed');
+    cy.contains('4900 USDC');
+
     // submit distribution onchain
     cy.visit(`/circles/${circleId}/members`);
     cy.contains('a', 'Distributions', { timeout: 120000 }).click();
