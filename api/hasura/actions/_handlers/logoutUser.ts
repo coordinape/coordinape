@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   errorResponse,
   errorResponseWithStatusCode,
-} from '../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { HasuraUserSessionVariables } from '../../../src/lib/zod';
+} from '../../../../api-lib/HttpError';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { HasuraUserSessionVariables } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {

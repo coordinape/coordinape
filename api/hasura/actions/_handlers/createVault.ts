@@ -1,21 +1,21 @@
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { Contracts } from '../../../api-lib/contracts';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import * as queries from '../../../api-lib/gql/queries';
+import { Contracts } from '../../../../api-lib/contracts';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import * as queries from '../../../../api-lib/gql/queries';
 import {
   UnauthorizedError,
   UnprocessableError,
   InternalServerError,
-} from '../../../api-lib/HttpError';
-import { getProvider } from '../../../api-lib/provider';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+} from '../../../../api-lib/HttpError';
+import { getProvider } from '../../../../api-lib/provider';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   createVaultInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

@@ -2,14 +2,14 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { errorResponse } from '../../../../api-lib/HttpError';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   updateUserSchemaInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
