@@ -7,7 +7,7 @@ export const TextArea = styled('textarea', {
   background: '$surface',
   border: '1px solid $border',
   '&:focus': {
-    border: '1px solid $focusedBorder',
+    border: '1px solid $borderMedium',
     boxSizing: 'border-box',
   },
   '&::placeholder': {

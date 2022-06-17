@@ -84,7 +84,7 @@ export const colors = {
   background: figmaColors.grey1,
   surface: figmaColors.grey2,
   border: figmaColors.grey4,
-  focusedBorder: figmaColors.grey8,
+  borderMedium: figmaColors.grey8,
 
   link: figmaColors.blue12,
   text: figmaColors.grey20,
@@ -153,8 +153,12 @@ export const {
       taller: '2',
     },
     shadows: {
+      shadow4: '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F',
       heavy:
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
+    },
+    transitions: {
+      quick: 'all 0.2s',
     },
   },
   media: {
