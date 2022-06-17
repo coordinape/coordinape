@@ -533,7 +533,7 @@ export const CircleAdminPage = () => {
           />
         )}
       </Box>
-      <AdminIntegrations />
+      <AdminIntegrations circleId={circleId} />
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
         {allowEdit && (
