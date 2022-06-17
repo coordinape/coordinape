@@ -30,6 +30,9 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       small: {
         width: '$xl !important',
         height: '$xl',
+        '> span': {
+          fontSize: '$medium',
+        },
       },
       large: {
         width: '$3xl',
@@ -55,8 +58,8 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$black',
-  backgroundColor: '$surface',
+  color: '$text',
+  backgroundColor: '$border',
   lineHeight: 1,
   fontWeight: '$medium',
   cursor: 'pointer',
@@ -96,7 +99,7 @@ export const Avatar = ({
       size={small ? 'small' : 'large'}
       {...props}
     >
-      <AvatarImage src={avatarPath} alt={name} />
+      {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
       <AvatarFallback size={small ? 'small' : 'large'}>
         {name && getInitialFromName(name)}
       </AvatarFallback>

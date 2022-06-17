@@ -15,7 +15,7 @@ context('Coordinape', () => {
         cy.get('.hover-buttons').invoke('show');
         cy.get('a').contains('Allocation').click();
       });
-    cy.url().should('include', '/allocation', { timeout: 120000 });
+    cy.url({ timeout: 120000 }).should('include', '/epoch');
     cy.contains('What have you been working on').click();
   });
   it('can opt In', () => {
