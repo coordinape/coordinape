@@ -47,7 +47,13 @@ export function VaultRow({
         />
       ) : null}
       {modal === 'withdraw' ? (
-        <WithdrawModal visible={true} onClose={closeModal} vault={vault} />
+        <WithdrawModal
+          visible={true}
+          onClose={closeModal}
+          vault={vault}
+          balance={balance}
+          onWithdraw={updateBalance}
+        />
       ) : null}
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}

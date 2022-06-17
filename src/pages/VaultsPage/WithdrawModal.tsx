@@ -1,36 +1,103 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { createNominee } from 'lib/gql/mutations';
-import isEmpty from 'lodash/isEmpty';
-import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { Contracts } from 'lib/vaults';
+import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { FormTokenField } from 'components';
-import { Form, Button, Modal, Text, FormLabel, TextArea } from 'ui';
+import { useContracts } from 'hooks/useContracts';
+import { useVaultRouter } from 'hooks/useVaultRouter';
+import { Form, Button, Modal } from 'ui';
 
 export default function WithdrawModal({
   visible,
   onClose,
+  onWithdraw,
   vault,
+  balance,
 }: {
   visible: boolean;
   onClose: () => void;
+  onWithdraw: () => void;
   vault: GraphQLTypes['vaults'];
+  balance: number;
 }) {
-  const [max, setMax] = useState<any>();
-  console.info({ vault });
+  const schema = z.object({ amount: z.number().min(0).max(balance) }).strict();
+  type WithdrawFormSchema = z.infer<typeof schema>;
+  const contracts = useContracts();
+  const [submitting, setSubmitting] = useState(false);
+  const [selectedContracts, setSelectedContracts] = useState<Contracts>();
+  useEffect(() => {
+    if (contracts) setSelectedContracts(contracts);
+  }, [contracts]);
+  useEffect(() => {
+    if (!selectedContracts) return;
+  }, [selectedContracts]);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<WithdrawFormSchema>({
+    mode: 'all',
+    resolver: zodResolver(schema),
+  });
+  const { field: amountField } = useController({
+    name: 'amount',
+    control,
+    defaultValue: 0,
+  });
+  const { withdraw } = useVaultRouter(selectedContracts);
+
+  const onSubmit = () => {
+    setSubmitting(true);
+    withdraw(vault, amountField.value.toString(), true).then(({ error }) => {
+      setSubmitting(false);
+      if (error) return;
+      onWithdraw();
+      onClose();
+    });
+  };
+
   return (
     <Modal title="Withdraw Tokens From Vault" open={visible} onClose={onClose}>
-      <Text>Hello World</Text>
-      <FormTokenField
-        onChange={() => {}}
-        max={500000}
-        symbol={vault.symbol as string}
-        decimals={vault.decimals}
-        label={`Available to Withdraw: ${500000} ${vault.symbol?.toUpperCase()}`}
-      />
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          width: '100%',
+          padding: '0 0 $lg',
+          overflowY: 'auto',
+          maxHeight: '100vh',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <FormTokenField
+          max={balance}
+          symbol={vault.symbol}
+          decimals={vault.decimals}
+          label={`Available to Withdraw: ${balance} ${vault.symbol?.toUpperCase()}`}
+          error={!!errors.amount}
+          errorText={errors.amount?.message}
+          {...amountField}
+        />
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="primary"
+          outlined
+          size="medium"
+          type="submit"
+          disabled={!isValid || submitting}
+        >
+          {submitting
+            ? 'Withdrawing Funds...'
+            : `Withdraw ${vault.symbol.toUpperCase()}`}
+        </Button>
+      </Form>
     </Modal>
   );
 }
