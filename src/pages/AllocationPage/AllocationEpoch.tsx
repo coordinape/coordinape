@@ -180,7 +180,7 @@ const AllocationEpoch = ({
             <a
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch"
+              href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
             >
               Learn More
             </a>

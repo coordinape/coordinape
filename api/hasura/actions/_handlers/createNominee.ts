@@ -1,18 +1,18 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getUserFromAddress } from '../../../api-lib/findUser';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
+import { getUserFromAddress } from '../../../../api-lib/findUser';
+import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   insertNominee,
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
-} from '../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+} from '../../../../api-lib/nominees';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   createNomineeInputSchema,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

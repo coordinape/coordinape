@@ -1,16 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../api-lib/gql/adminClient';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   errorResponseWithStatusCode,
   InternalServerError,
-} from '../../../api-lib/HttpError';
+} from '../../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBody,
   createUsersBulkSchemaInput,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 const USER_ALIAS_PREFIX = 'update_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';

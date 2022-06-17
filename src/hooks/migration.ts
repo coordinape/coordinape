@@ -43,6 +43,6 @@ export const useHasCircles = () =>
 export const useSomeCircleId = () => {
   const selectedId =
     useRecoilValueLoadable(rSelectedCircle).valueMaybe()?.circleId;
-  const firstId = useRecoilValue(rApiManifest)?.myUsers[0].circle_id;
+  const firstId = useRecoilValue(rApiManifest)?.myUsers[0]?.circle_id;
   return selectedId ? selectedId : firstId;
 };

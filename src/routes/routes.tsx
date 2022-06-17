@@ -15,6 +15,7 @@ import DevPortalPage from '../pages/DevPortalPage';
 import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
+import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
@@ -46,8 +47,11 @@ export const AppRoutes = () => {
         <Route path="give" element={allocationPage} />
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="vouching" element={<VouchingPage />} />
-        <Route path="admin" element={<AdminRouteHandler />}>
+        <Route path="members" element={<AdminRouteHandler />}>
           <Route path="" element={<AdminPage />} />
+        </Route>
+        <Route path="admin" element={<AdminRouteHandler />}>
+          <Route path="" element={<CircleAdminPage />} />
           <Route
             path="connect-integration"
             element={<IntegrationCallbackPage />}

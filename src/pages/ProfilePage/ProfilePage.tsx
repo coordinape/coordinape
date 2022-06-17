@@ -220,7 +220,7 @@ const ProfilePageContent = ({
   isMe,
 }: {
   profile: IMyProfile | IProfile;
-  circleId?: number;
+  circleId: number | undefined;
   isMe?: boolean;
 }) => {
   const classes = useStyles();

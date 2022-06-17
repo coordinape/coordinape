@@ -38,7 +38,7 @@ const LightText = styled(Text, {
   color: '$secondaryText',
 });
 
-export const SettingsIconButton = ({ onClick }: { onClick: () => void }) => {
+export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
   return (
     <IconButton size="lg" onClick={onClick}>
       <GearIcon width="30" height="30" />
@@ -61,6 +61,7 @@ export const CreateEpochButton = ({
       outlined
       size={inline ? 'inline' : 'medium'}
       onClick={onClick}
+      css={{ minWidth: '180px' }}
     >
       Create Epoch
       <Tooltip
@@ -72,7 +73,7 @@ export const CreateEpochButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch="
+              href="https://docs.coordinape.com/get-started/epochs"
             >
               Learn More
             </Link>
@@ -100,6 +101,7 @@ export const AddContributorButton = ({
       outlined
       size={inline ? 'inline' : 'medium'}
       onClick={onClick}
+      css={{ minWidth: '180px' }}
     >
       Add Contributor
       <Tooltip
@@ -111,7 +113,7 @@ export const AddContributorButton = ({
               css={{ color: 'Blue' }}
               rel="noreferrer"
               target="_blank"
-              href="https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#my-epoch="
+              href="https://docs.coordinape.com/get-started/members"
             >
               Learn More
             </Link>
@@ -260,15 +262,20 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
         >
           <Subtitle>{shortenAddress(user.address)}</Subtitle>
           <LightText>
-            {user.role === USER_ROLE_ADMIN
-              ? 'Admin'
-              : `${
-                  !user.non_giver ? (
+            {user.role === USER_ROLE_ADMIN ? (
+              'Admin'
+            ) : (
+              <>
+                <Box css={{ mr: '$xs' }}>
+                  {!user.non_giver ? (
                     <CheckIcon size="inherit" color="complete" />
                   ) : (
                     <CloseIcon size="inherit" color="alert" />
-                  )
-                } ${tokenName}`}
+                  )}
+                </Box>
+                {tokenName}
+              </>
+            )}
           </LightText>
         </Flex>
       </Box>
@@ -423,9 +430,9 @@ export const EpochsTable = ({
         : 'monthly';
     return e.ended
       ? e.labelActivity
-      : `${e.calculatedDays} ${e.calculatedDays > 1 ? 'days' : 'day'}${
-          e.repeat ? ` repeats ${r}` : ''
-        }`;
+      : `${e.calculatedDays.toFixed()} ${
+          e.calculatedDays > 1 ? 'days' : 'day'
+        }${e.repeat ? ` repeats ${r}` : ''}`;
   };
 
   // Epoch Columns
@@ -490,7 +497,11 @@ export const EpochsTable = ({
           {epochs.length ? (
             isMobile ? (
               pagedView.map(e => {
-                return <Table.Row key={e.id}>{renderEpochCard(e)}</Table.Row>;
+                return (
+                  <Table.Row key={e.id}>
+                    <td>{renderEpochCard(e)}</td>
+                  </Table.Row>
+                );
               })
             ) : (
               pagedView.map(e => {
@@ -809,7 +820,7 @@ export const ContributorsTable = ({
               pagedView.map(u => {
                 return (
                   <Table.Row key={u.id}>
-                    {renderUserCard(u, circle.tokenName)}
+                    <td>{renderUserCard(u, circle.tokenName)}</td>
                   </Table.Row>
                 );
               })

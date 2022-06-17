@@ -1,16 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 as uuidv4 } from 'uuid';
 
-import { authCircleAdminMiddleware } from '../../../api-lib/circleAdmin';
-import { formatShortDateTime } from '../../../api-lib/dateTimeHelpers';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { getEpoch } from '../../../api-lib/gql/queries';
-import { errorResponseWithStatusCode } from '../../../api-lib/HttpError';
-import { uploadCsv } from '../../../api-lib/s3';
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { formatShortDateTime } from '../../../../api-lib/dateTimeHelpers';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getEpoch } from '../../../../api-lib/gql/queries';
+import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { uploadCsv } from '../../../../api-lib/s3';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
