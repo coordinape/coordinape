@@ -138,7 +138,7 @@ const schema = z.object({
         message: 'Expected number, received a string',
       })
       .refine(val => val > 0, {
-        message: 'nomination period should be 1 day al least',
+        message: 'nomination period should be 1 day at least',
       })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
