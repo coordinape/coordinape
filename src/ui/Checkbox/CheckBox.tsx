@@ -9,8 +9,6 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   all: 'unset',
   backgroundColor: 'transparent',
   boxSizing: 'border-box',
-  width: 20,
-  height: 20,
   borderRadius: '2px',
   display: 'flex',
   alignItems: 'center',
@@ -25,20 +23,43 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
         border: '2px solid $alert',
       },
     },
+    size: {
+      small: {
+        width: 20,
+        height: 20,
+      },
+      medium: {
+        width: 30,
+        height: 30,
+      },
+    },
   },
   defaultVariants: {
     border: 'default',
+    size: 'small',
   },
 });
 
 const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
   width: '100%',
   height: '100%',
-  color: '$white',
-  backgroundColor: '$secondaryText',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+
+  variants: {
+    color: {
+      default: { color: '$white' },
+      complete: { color: '$complete' },
+    },
+    backgroundColor: {
+      default: { backgroundColor: '$secondaryText' },
+      surface: { backgroundColor: '$surface' },
+    },
+  },
+  defaultVariants: {
+    color: 'default',
+  },
 });
 
 const Label = styled('label', {
@@ -49,6 +70,14 @@ const Label = styled('label', {
   lineHeight: '$base',
   fontWeight: '$bold',
   p: '$sm',
+
+  variants: {
+    fontWeight: {
+      default: { fontWeight: '$bold' },
+      normal: { fontWeight: '$normal' },
+    },
+  },
+  defaultVariants: { fontWeight: 'default' },
 });
 
 export const CheckBox = ({
@@ -59,14 +88,16 @@ export const CheckBox = ({
   disabled,
   onChange,
   infoTooltip,
+  circleAdmin,
 }: {
   value: boolean;
-  label: string;
+  label?: string;
   error?: boolean;
   errorText?: string;
   disabled?: boolean;
   onChange: (isChecked: boolean) => void;
   infoTooltip?: React.ReactNode;
+  circleAdmin?: boolean;
 }) => (
   <form>
     <Flex
@@ -81,15 +112,25 @@ export const CheckBox = ({
         onCheckedChange={onChange}
         disabled={disabled}
         id={label}
+        size={circleAdmin ? 'medium' : 'small'}
       >
-        <CheckboxIndicator>
+        <CheckboxIndicator
+          color={circleAdmin ? 'complete' : 'default'}
+          backgroundColor={circleAdmin ? 'surface' : 'default'}
+        >
           <CheckIcon />
         </CheckboxIndicator>
       </CheckboxRoot>
-      <Label htmlFor={label}>{label}</Label>
-      <Tooltip content={infoTooltip}>
-        <InfoCircledIcon />
-      </Tooltip>
+      {label && (
+        <Label fontWeight={circleAdmin ? 'normal' : 'default'} htmlFor={label}>
+          {label}
+        </Label>
+      )}
+      {infoTooltip && (
+        <Tooltip content={infoTooltip}>
+          <InfoCircledIcon />
+        </Tooltip>
+      )}
     </Flex>
     {error && errorText && (
       <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
