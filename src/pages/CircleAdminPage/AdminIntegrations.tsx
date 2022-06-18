@@ -8,7 +8,7 @@ import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { DeleteIcon, DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
 import { paths } from 'routes/paths';
-import { Flex, Button } from 'ui';
+import { Flex, Button, Text } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   errorColor: {
@@ -54,8 +54,14 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   }, [integrations.refetch, deleteIntegration]);
 
   return (
-    <div style={{ display: 'grid' }}>
-      <p className={classes.subTitle}>Integrations</p>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+      <Text className={classes.subTitle}>DeWork Integration</Text>
       <div className={classes.integrationContainer}>
         {integrations.data?.map((integration, index) => (
           <div key={index} className={classes.integrationRow}>
@@ -71,7 +77,13 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           </div>
         ))}
       </div>
-      <Flex css={{ mr: '$sm' }} className={classes.integrationRow}>
+      <Flex
+        column
+        css={{
+          mr: '$sm',
+        }}
+        className={classes.integrationRow}
+      >
         <Button
           as="a"
           color="neutral"
