@@ -90,6 +90,9 @@ export const colors = {
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
+
+  radioHover: figmaColors.green1,
+  radioSelect: figmaColors.green12,
 };
 
 export const {
