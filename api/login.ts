@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      address = message.address;
+      address = message.address.toLowerCase();
     } catch (e: any) {
       if (Object.values(SiweErrorType).some(val => val === e.error.type)) {
         return errorResponse(res, {
