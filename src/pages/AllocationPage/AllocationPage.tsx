@@ -210,11 +210,6 @@ const AllocationContents = ({
         note: g.note,
       });
     }
-    console.warn(
-      'ULG.pendingGiftsFrom',
-      localTeammates.length,
-      newGifts.length
-    );
     updateLocalGifts(localTeammates, newGifts);
   }, [localTeammates, pendingGiftsFrom]);
 
