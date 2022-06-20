@@ -81,7 +81,9 @@ const AllocationPage = () => {
 
   return (
     <AllocationContents
-      startingTeammates={startingTeammates}
+      startingTeammates={
+        selectedCircle.team_selection ? startingTeammates : allUsers
+      }
       allUsers={allUsers}
       pendingGiftsFrom={pendingGiftsFrom}
     />

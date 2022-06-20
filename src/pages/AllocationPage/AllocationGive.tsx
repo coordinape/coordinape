@@ -283,7 +283,10 @@ const AllocationGive = ({
     <>
       <div className={classes.root}>
         <div className={classes.headerContainer}>
-          <Text h2>{`${myUser.circle.name} ${longTimingMessage}`}</Text>
+          <Text
+            h2
+            css={{ justifyContent: 'center' }}
+          >{`${myUser.circle.name} ${longTimingMessage}`}</Text>
           <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
         </div>
         <div className={classes.accessaryContainer}>
