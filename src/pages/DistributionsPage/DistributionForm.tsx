@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber } from 'ethers';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 
+import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
 import { LoadingModal, ApeTextField } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
@@ -84,7 +86,8 @@ export function DistributionForm({
   const contracts = useContracts();
   assert(epoch);
   const circle = epoch.circle;
-  const fixed_payment_token_type = circle?.fixed_payment_token_type;
+  assert(circle);
+  const fixed_payment_token_type = circle.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total);
@@ -379,7 +382,13 @@ export function DistributionForm({
         )}
       </form>
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
-        <Box css={headerStyle}>Fixed Payment</Box>
+        <Box css={twoColStyle}>
+          <Box css={headerStyle}>Fixed Payment</Box>
+          <Box css={{ textAlign: 'right' }}>
+            <NavLink to={paths.circleAdmin(circle.id)}>Edit Settings</NavLink>
+          </Box>
+        </Box>
+
         {!fixed_payment_token_type ? (
           <Box css={{ opacity: '0.3', textAlign: 'center' }}>
             Fixed Payments are Disabled
