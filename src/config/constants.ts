@@ -10,13 +10,7 @@ export enum EConnectorNames {
   WalletLink = 'walletlink',
 }
 
-export const LOGGER_ID = 'flama';
-
-export const TOKEN_PRICE_DECIMALS = 18;
-export const WEIGHT_DECIMALS = 18;
-
-export const MAX_NAME_LENGTH = 20;
-export const MAX_BIO_LENGTH = 560;
+export const MAX_BIO_LENGTH = 1200;
 
 export const USER_ROLE_ADMIN = 1;
 export const USER_ROLE_COORDINAPE = 2;
