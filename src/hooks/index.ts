@@ -1,4 +1,3 @@
-export * from './useAllocation';
 export * from './useApeSnackbar';
 export * from './useApiAdminCircle';
 export * from './useApiBase';

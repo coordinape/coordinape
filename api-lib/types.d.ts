@@ -73,3 +73,7 @@ export interface EventTriggerPayload<
     name: string;
   };
 }
+
+export interface ActionPayload<G extends keyof GraphQLTypes> {
+  action: { name: G };
+}

@@ -18,7 +18,7 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { UploadIcon, EditIcon, SaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { Form, Flex, Button, Box } from 'ui';
+import { Form, Flex, Button, Box, Text } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
@@ -108,8 +108,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     borderRadius: 8,
     padding: theme.spacing(0, 8, 3),
-    overflowY: 'auto',
-    maxHeight: '100vh',
   },
   medium: {
     maxWidth: 820,
@@ -127,18 +125,6 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     minHeight: 45,
     color: theme.colors.alert,
-  },
-  title: {
-    margin: theme.spacing(3, 0, 2),
-    fontSize: 30,
-    fontWeight: 700,
-    lineHeight: 1.2,
-    color: theme.colors.text,
-    textAlign: 'center',
-    maxWidth: '100%',
-    display: 'block',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
   },
 }));
 
@@ -389,7 +375,9 @@ export const CircleAdminPage = () => {
       className={clsx([classes['medium']], classes.body)}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className={classes.title}>Circle Settings</h3>
+      <Text h2 css={{ my: '$lg' }}>
+        Circle Settings
+      </Text>
       <Flex
         css={{
           flexDirection: 'column',
@@ -533,7 +521,7 @@ export const CircleAdminPage = () => {
           />
         )}
       </Box>
-      <AdminIntegrations />
+      <AdminIntegrations circleId={circleId} />
       <div className={classes.bottomContainer}>
         <p className={classes.subTitle}>Discord Webhook</p>
         {allowEdit && (

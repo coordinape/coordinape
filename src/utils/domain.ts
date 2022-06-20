@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { STORAGE_URL } from 'config/env';
 
 import { getIpfsUrl } from './selfIdHelpers';
@@ -35,8 +37,22 @@ const getInitialsUrl = (name: string) => {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
 };
 
-export const getAvatarPath = (avatar?: string, placeholder?: string) => {
-  if (!avatar) return placeholder || AVATAR_PLACEHOLDER;
+export const getAvatarPath = (
+  avatar?: string,
+  placeholder?: string
+): string => {
+  let path;
+  if (avatar) {
+    path = getAvatarPathWithoutPlaceholder(avatar);
+    assert(path);
+  } else {
+    path = placeholder || AVATAR_PLACEHOLDER;
+  }
+  return path;
+};
+
+export const getAvatarPathWithoutPlaceholder = (avatar?: string) => {
+  if (!avatar) return;
 
   // dont transform if its already a URL
   if (avatar.startsWith('https://')) {

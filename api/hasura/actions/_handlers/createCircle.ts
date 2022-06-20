@@ -1,14 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { COORDINAPE_USER_ADDRESS } from '../../../api-lib/config';
-import * as mutations from '../../../api-lib/gql/mutations';
-import * as queries from '../../../api-lib/gql/queries';
-import { UnauthorizedError } from '../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
+import * as mutations from '../../../../api-lib/gql/mutations';
+import * as queries from '../../../../api-lib/gql/queries';
+import { UnauthorizedError } from '../../../../api-lib/HttpError';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   createCircleSchemaInput,
   composeHasuraActionRequestBody,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

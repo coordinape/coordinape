@@ -4,8 +4,14 @@ import { Avatar, AvatarProps } from '@material-ui/core';
 
 import { getAvatarPathWithFallback } from 'utils/domain';
 
-import { IUser, IProfile } from 'types';
+import { IProfile } from 'types';
 
+interface HasAvatar {
+  profile?: {
+    avatar?: string;
+  };
+  name: string;
+}
 export const ApeAvatar = ({
   user,
   path,
@@ -13,7 +19,7 @@ export const ApeAvatar = ({
   profile,
   ...props
 }: AvatarProps & {
-  user?: IUser;
+  user?: HasAvatar;
   path?: string;
   profile?: IProfile;
 }) => {

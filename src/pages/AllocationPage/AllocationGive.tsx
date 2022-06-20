@@ -1,13 +1,25 @@
+/* eslint-disable no-console */
+
 import React, { useState } from 'react';
 
 import clsx from 'clsx';
+import iti from 'itiriri';
 
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, IconButton, makeStyles } from '@material-ui/core';
 
+import { useApiBase, useRecoilLoadCatch } from '../../hooks';
+import { BalanceIcon } from '../../icons';
+import * as mutations from '../../lib/gql/mutations';
+import { ISimpleGift, PostTokenGiftsParam } from '../../types';
+import { Button as UIButton } from '../../ui';
 import { ProfileCard } from 'components';
-import { useAllocation } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import { Text } from 'ui';
+
+import BalanceContainer from './BalanceContainer';
+import BalanceDescription from './BalanceDescription';
+import { buildDiffMap, isLocalGiftsChanged } from './calculations';
+import SaveButtonContainer from './SaveButtonContainer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,28 +31,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(8, 4, 20),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 1, 20),
-    },
-  },
-  balanceContainer: {
-    position: 'fixed',
-    right: 50,
-    top: theme.custom.appHeaderHeight + 90,
-    zIndex: 1,
-    padding: theme.spacing(0.5, 1),
-    display: 'flex',
-    borderRadius: 8,
-    justifyContent: 'flex-end',
-    background: 'linear-gradient(0deg, #FAF1F2, #FAF1F2)',
-    boxShadow: '2px 3px 6px rgba(81, 99, 105, 0.12)',
-  },
-  balanceDescription: {
-    margin: 0,
-    fontSize: 20,
-    fontWeight: 300,
-    color: theme.colors.text,
-    '&:first-of-type': {
-      fontWeight: 500,
-      color: theme.colors.alert,
     },
   },
   headerContainer: {
@@ -152,6 +142,11 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
+  rebalanceButton: {
+    color: theme.colors.text,
+    marginLeft: theme.spacing(1),
+    padding: '1px',
+  },
 }));
 
 enum OrderType {
@@ -165,139 +160,278 @@ enum FilterType {
   NewMember = 2,
 }
 
-const AllocationGive = () => {
+type AllocationGiveProps = {
+  givePerUser: Map<number, ISimpleGift>;
+  localGifts: ISimpleGift[];
+  pendingGiftsFrom: { recipient_id: number; tokens: number; note?: string }[];
+  setLocalGifts: (value: React.SetStateAction<ISimpleGift[]>) => void;
+};
+
+const AllocationGive = ({
+  givePerUser,
+  localGifts,
+  pendingGiftsFrom,
+  setLocalGifts,
+}: AllocationGiveProps) => {
   const classes = useStyles();
+  const { fetchCircle } = useApiBase();
 
   const {
-    circleId,
     myUser,
     circleEpochsStatus: { epochIsActive, longTimingMessage },
     circle: selectedCircle,
   } = useSelectedCircle();
 
-  const { givePerUser, localGifts } = useAllocation(circleId);
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
 
+  const teammateReceiverCount = localGifts
+    .map(g => (g.user.non_receiver ? 0 : 1))
+    .reduce((a: number, b: number) => a + b, 0);
+
+  const tokenStarting = myUser.non_giver ? 0 : myUser.starting_tokens;
+  const tokenAllocated = Array.from(localGifts).reduce(
+    (sum, { tokens }: ISimpleGift) => sum + tokens,
+    0
+  );
+  const tokenRemaining = tokenStarting - tokenAllocated;
+
+  const localGiftsChanged =
+    pendingGiftsFrom && isLocalGiftsChanged(pendingGiftsFrom, localGifts);
+
+  const handleSaveAllocations = async () => {
+    try {
+      await saveGifts();
+    } catch (e) {
+      console.warn('handleSaveAllocations', e);
+    }
+  };
+
+  const rebalanceGifts = () => {
+    if (teammateReceiverCount === 0) {
+      return;
+    }
+    if (tokenAllocated === 0) {
+      setLocalGifts(
+        localGifts.slice().map(g => {
+          if (!g.user.non_receiver) {
+            return {
+              ...g,
+              tokens: Math.floor(tokenStarting / teammateReceiverCount),
+            };
+          }
+          return g;
+        })
+      );
+    } else {
+      const rebalance = tokenStarting / tokenAllocated;
+      setLocalGifts(
+        localGifts
+          .slice()
+          .map(g => ({ ...g, tokens: Math.floor(g.tokens * rebalance) }))
+      );
+    }
+  };
+
+  const updateLocalGift = (updatedGift: ISimpleGift): void => {
+    setLocalGifts(prevState => {
+      // This is to ensure it can't go negative in the UI
+      updatedGift.tokens = Math.max(0, updatedGift.tokens);
+
+      const idx = prevState.findIndex(g => g.user.id === updatedGift.user.id);
+
+      let updatedGifts;
+      if (idx === -1) {
+        updatedGifts = [...prevState, updatedGift];
+      } else {
+        updatedGifts = prevState.slice();
+        updatedGifts[idx] = updatedGift;
+      }
+
+      // prevent giving more than you have
+      const total = updatedGifts.reduce((t, g) => t + g.tokens, 0);
+      if (total > (myUser.non_giver ? 0 : myUser.starting_tokens))
+        return prevState;
+
+      return updatedGifts;
+    });
+  };
+
+  const saveGifts = useRecoilLoadCatch(
+    () => async () => {
+      const diff = buildDiffMap(pendingGiftsFrom, localGifts);
+
+      const params: PostTokenGiftsParam[] = iti(diff.entries())
+        .map(([userId, [tokens, note]]) => ({
+          tokens,
+          recipient_id: userId,
+          note,
+        }))
+        .toArray();
+
+      await mutations.updateAllocations(myUser.circle_id, params);
+
+      // FIXME: calling fetchCircle here is wasteful
+      // i think the only point of this is to update myUser.teammates
+      await fetchCircle({ circleId: myUser.circle_id });
+    },
+    [myUser, pendingGiftsFrom, localGifts],
+    { success: 'Saved Gifts' }
+  );
+
   return (
-    <div className={classes.root}>
-      <div className={classes.headerContainer}>
-        <Text h2>{`${myUser.circle.name} ${longTimingMessage}`}</Text>
-        <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
-      </div>
-      <div className={classes.accessaryContainer}>
-        <div className={classes.filterButtonContainer}>
-          <p className={classes.filterLabel}>filter by</p>
-          <div>
-            <Button
-              className={clsx(
-                classes.filterButton,
-                filterType & FilterType.OptIn ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setFilterType(filterType ^ FilterType.OptIn)}
-            >
-              Opt-In
-            </Button>
-            <Button
-              className={clsx(
-                classes.filterButton,
-                filterType & FilterType.NewMember ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setFilterType(filterType ^ FilterType.NewMember)}
-            >
-              New Members
-            </Button>
+    <>
+      <div className={classes.root}>
+        <div className={classes.headerContainer}>
+          <Text
+            h2
+            css={{ justifyContent: 'center' }}
+          >{`${myUser.circle.name} ${longTimingMessage}`}</Text>
+          <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
+        </div>
+        <div className={classes.accessaryContainer}>
+          <div className={classes.filterButtonContainer}>
+            <p className={classes.filterLabel}>filter by</p>
+            <div>
+              <Button
+                className={clsx(
+                  classes.filterButton,
+                  filterType & FilterType.OptIn ? 'selected' : ''
+                )}
+                disableRipple={true}
+                onClick={() => setFilterType(filterType ^ FilterType.OptIn)}
+              >
+                Opt-In
+              </Button>
+              <Button
+                className={clsx(
+                  classes.filterButton,
+                  filterType & FilterType.NewMember ? 'selected' : ''
+                )}
+                disableRipple={true}
+                onClick={() => setFilterType(filterType ^ FilterType.NewMember)}
+              >
+                New Members
+              </Button>
+            </div>
+          </div>
+          <div className={classes.sortButtonContainer}>
+            <p className={classes.sortLabel}>sort by</p>
+            <div>
+              <Button
+                className={clsx(
+                  classes.sortButton,
+                  orderType === OrderType.Alphabetical ? 'selected' : ''
+                )}
+                disableRipple={true}
+                onClick={() => setOrderType(OrderType.Alphabetical)}
+              >
+                Alphabetical
+              </Button>
+              <Button
+                className={clsx(
+                  classes.sortButton,
+                  orderType === OrderType.Give_Allocated ? 'selected' : ''
+                )}
+                disableRipple={true}
+                onClick={() => setOrderType(OrderType.Give_Allocated)}
+              >
+                {selectedCircle.tokenName} Allocated
+              </Button>
+              <Button
+                className={clsx(
+                  classes.sortButton,
+                  orderType === OrderType.Opt_In_First ? 'selected' : ''
+                )}
+                disableRipple={true}
+                onClick={() => setOrderType(OrderType.Opt_In_First)}
+              >
+                Opt-In First
+              </Button>
+            </div>
           </div>
         </div>
-        <div className={classes.sortButtonContainer}>
-          <p className={classes.sortLabel}>sort by</p>
-          <div>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Alphabetical ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Alphabetical)}
-            >
-              Alphabetical
-            </Button>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Give_Allocated ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Give_Allocated)}
-            >
-              {selectedCircle.tokenName} Allocated
-            </Button>
-            <Button
-              className={clsx(
-                classes.sortButton,
-                orderType === OrderType.Opt_In_First ? 'selected' : ''
-              )}
-              disableRipple={true}
-              onClick={() => setOrderType(OrderType.Opt_In_First)}
-            >
-              Opt-In First
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.teammateContainer}>
-        <ProfileCard
-          user={myUser}
-          tokens={0}
-          note=""
-          isMe
-          tokenName={myUser.circle.tokenName}
-          circleId={myUser.circle_id}
-        />
-        {localGifts
-          .map(g => g.user)
-          .filter(a => {
-            if (filterType & FilterType.OptIn) {
-              return !a.non_receiver;
-            }
-            if (filterType & FilterType.NewMember) {
-              return +new Date() - +new Date(a.created_at) < 24 * 3600 * 1000;
-            }
-            return true;
-          })
-          .sort((a, b) => {
-            switch (orderType) {
-              case OrderType.Alphabetical:
-                return a.name.localeCompare(b.name);
-              case OrderType.Give_Allocated: {
-                const av = givePerUser.get(a.id)?.tokens ?? 0;
-                const bv = givePerUser.get(b.id)?.tokens ?? 0;
-                if (av !== bv) {
-                  return av - bv;
-                } else {
-                  return a.name.localeCompare(b.name);
+        <div className={classes.teammateContainer}>
+          <ProfileCard
+            user={myUser}
+            isMe
+            tokenName={myUser.circle.tokenName}
+            gift={undefined}
+            setGift={() => {}}
+          />
+          {localGifts
+            .filter(a => {
+              if (filterType & FilterType.OptIn) {
+                return !a.user.non_receiver;
+              }
+              if (filterType & FilterType.NewMember) {
+                return (
+                  +new Date() - +new Date(a.user.created_at) < 24 * 3600 * 1000
+                );
+              }
+              return true;
+            })
+            .sort((a, b) => {
+              switch (orderType) {
+                case OrderType.Alphabetical:
+                  return a.user.name.localeCompare(b.user.name);
+                case OrderType.Give_Allocated: {
+                  const av = givePerUser.get(a.user.id)?.tokens ?? 0;
+                  const bv = givePerUser.get(b.user.id)?.tokens ?? 0;
+                  if (av !== bv) {
+                    return av - bv;
+                  } else {
+                    return a.user.name.localeCompare(b.user.name);
+                  }
+                }
+                case OrderType.Opt_In_First: {
+                  // FIXME: i dunno about this
+                  return a.user.non_receiver ? 1 : -1;
                 }
               }
-              case OrderType.Opt_In_First: {
-                return a.non_receiver - b.non_receiver;
-              }
-            }
-          })
-          .map(user => (
-            <ProfileCard
-              disabled={!epochIsActive}
-              key={user.id}
-              note={givePerUser.get(user.id)?.note || ''}
-              tokens={givePerUser.get(user.id)?.tokens || 0}
-              tokenName={myUser.circle.tokenName}
-              circleId={myUser.circle.id}
-              user={user}
-            />
-          ))}
+            })
+            .map(gift => (
+              <ProfileCard
+                disabled={!epochIsActive}
+                key={gift.user.id}
+                tokenName={myUser.circle.tokenName}
+                user={gift.user}
+                gift={gift}
+                setGift={(gift: ISimpleGift) => {
+                  updateLocalGift(gift);
+                }}
+              />
+            ))}
+        </div>
       </div>
-    </div>
+      <BalanceContainer>
+        <BalanceDescription>
+          {tokenRemaining} {selectedCircle.tokenName}
+        </BalanceDescription>
+        <BalanceDescription>&nbsp;left to allocate</BalanceDescription>
+        <IconButton
+          size="small"
+          /* FIXME: Can't make this stitches cuz it depends on a mui button */
+          className={classes.rebalanceButton}
+          onClick={rebalanceGifts}
+          disabled={tokenRemaining === 0}
+        >
+          <BalanceIcon />
+        </IconButton>
+      </BalanceContainer>
+      <SaveButtonContainer>
+        {localGiftsChanged && (
+          <UIButton
+            size="large"
+            color="primary"
+            onClick={handleSaveAllocations}
+            disabled={tokenRemaining < 0}
+          >
+            Save Allocations
+          </UIButton>
+        )}
+      </SaveButtonContainer>
+    </>
   );
 };
 

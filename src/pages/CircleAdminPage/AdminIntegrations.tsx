@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const AdminIntegrations = () => {
+export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const classes = useStyles();
 
   const integrations = useCurrentCircleIntegrations();
@@ -77,7 +77,9 @@ export const AdminIntegrations = () => {
           color="neutral"
           size="medium"
           outlined
-          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
+          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${
+            window.location.origin
+          }${paths.connectIntegration(circleId)}`}
         >
           <Flex css={{ mr: '$sm' }}>
             <DeworkIcon size="md" />
