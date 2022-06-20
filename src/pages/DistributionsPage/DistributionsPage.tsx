@@ -86,6 +86,15 @@ export function DistributionsPage() {
   let totalAmount = form1Amount;
   let tokenName = vault1TokenName;
 
+  assert(epoch);
+  let circleDist, fixedDist;
+  epoch.distributions.map(d => {
+    if (d.distribution_type === 1 || d.distribution_type === 3) {
+      circleDist = d;
+    }
+
+    if (d.distribution_type === 2 || d.distribution_type === 3) fixedDist = d;
+  });
   const dist = epoch?.distributions[0];
   if (dist) {
     const {
@@ -123,20 +132,27 @@ export function DistributionsPage() {
         ) : (
           <>
             <Panel nested css={{ mt: '$lg' }}>
-              {dist ? (
-                <Summary distribution={dist} />
-              ) : (
-                <DistributionForm
-                  vault1Id={vault1Id}
-                  form1Amount={form1Amount}
-                  epoch={epoch}
-                  users={usersWithReceivedAmounts}
-                  setAmount={setForm1Amount}
-                  setVaultId={setVault1Id}
-                  vaults={vaults}
-                  circleUsers={circleUsers}
-                />
-              )}
+              <DistributionForm
+                vault1Id={vault1Id}
+                form1Amount={form1Amount}
+                epoch={epoch}
+                users={usersWithReceivedAmounts}
+                setAmount={setForm1Amount}
+                setVaultId={setVault1Id}
+                vaults={vaults}
+                circleUsers={circleUsers}
+              />
+              <Box
+                css={{
+                  display: 'grid',
+                  width: '100%',
+                  'grid-template-columns': '1fr 1fr',
+                  'column-gap': '$lg',
+                }}
+              >
+                {circleDist && <Summary distribution={circleDist} />}
+                {fixedDist && <Summary distribution={fixedDist} />}
+              </Box>
             </Panel>
 
             <Box css={{ mt: '$lg' }}>

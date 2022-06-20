@@ -82,8 +82,8 @@ export function DistributionForm({
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
   const contracts = useContracts();
-
-  const circle = epoch?.circle;
+  assert(epoch);
+  const circle = epoch.circle;
   const fixed_payment_token_type = circle?.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
@@ -101,8 +101,17 @@ export function DistributionForm({
     resolver: zodResolver(DistributionFormSchema),
   });
 
+  const circleDist = epoch.distributions.find(
+    d => d.distribution_type === 1 || d.distribution_type === 3
+  );
+  const fixedDist = epoch.distributions.find(
+    d => d.distribution_type === 2 || d.distribution_type === 3
+  );
+
   useEffect(() => {
-    if (vaults[0]) {
+    if (circleDist) {
+      updateBalanceState(circleDist.vault.id, circleDist.gift_amount, 'gift');
+    } else if (vaults[0]) {
       setVaultId(String(vaults[0].id));
       updateBalanceState(vaults[0].id, form1Amount, 'gift');
     }
@@ -112,7 +121,7 @@ export function DistributionForm({
         totalFixedPayment,
         'fixed'
       );
-  }, [vaults]);
+  }, [vaults, fixedPaymentTokenSel, circleDist]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: any
@@ -129,11 +138,10 @@ export function DistributionForm({
         ret[user.address] = user.fixed_payment_amount;
       return ret;
     }, {} as Record<string, number>);
-    const type = isCombinedDistribution() ? 3 : 2;
+    const type = isCombinedDistribution() && !circleDist ? 3 : 2;
     if (type === 3) {
       users.map(user => {
         if (!(user.address in gifts)) gifts[user.address] = 0;
-
         gifts[user.address] += user.received;
       });
     }
@@ -274,10 +282,10 @@ export function DistributionForm({
                   return (
                     <>
                       <Select
-                        value={value || ''}
+                        value={circleDist ? circleDist.vault.id : value || ''}
                         label="coVault"
                         error={!!error}
-                        disabled={submitting}
+                        disabled={submitting || !!circleDist}
                         onChange={({ target: { value } }) => {
                           onChange(value);
                           setVaultId(String(value));
@@ -327,8 +335,8 @@ export function DistributionForm({
                   type="number"
                   error={!!error}
                   helperText={error ? error.message : null}
-                  value={value}
-                  disabled={submitting}
+                  value={circleDist ? circleDist.gift_amount : value}
+                  disabled={submitting || !!circleDist}
                   onChange={({ target: { value } }) => {
                     onChange(Number(value));
                   }}
@@ -345,29 +353,30 @@ export function DistributionForm({
             />
           </Box>
         </Box>
-        <Box css={{ display: 'flex', justifyContent: 'center' }}>
-          {isCombinedDistribution() ? (
-            <span>
-              Combined Distribution. Total {totalFixedPayment + form1Amount}{' '}
-              {fixedPaymentTokenSel[0].symbol}
-            </span>
-          ) : (
-            <Button
-              color="primary"
-              outlined
-              size="medium"
-              disabled={submitting || !sufficientGiftTokens}
-              fullWidth
-            >
-              {sufficientGiftTokens
-                ? submitting
-                  ? 'Submitting...'
-                  : 'Submit Distribution'
-                : 'Insufficient Tokens'}
-            </Button>
-          )}
-        </Box>
-        {submitting && <LoadingModal visible />}
+        {!circleDist && (
+          <Box css={{ display: 'flex', justifyContent: 'center' }}>
+            {isCombinedDistribution() ? (
+              <span>
+                Combined Distribution. Total {totalFixedPayment + form1Amount}{' '}
+                {fixedPaymentTokenSel[0].symbol}
+              </span>
+            ) : (
+              <Button
+                color="primary"
+                outlined
+                size="medium"
+                disabled={submitting || !sufficientGiftTokens}
+                fullWidth
+              >
+                {sufficientGiftTokens
+                  ? submitting
+                    ? 'Submitting...'
+                    : 'Submit Distribution'
+                  : 'Insufficient Tokens'}
+              </Button>
+            )}
+          </Box>
+        )}
       </form>
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
         <Box css={headerStyle}>Fixed Payment</Box>
@@ -390,7 +399,9 @@ export function DistributionForm({
                           <Select
                             value={
                               fixedPaymentTokenSel.length
-                                ? fixedPaymentTokenSel[0].id
+                                ? fixedDist
+                                  ? fixedDist.vault.id
+                                  : fixedPaymentTokenSel[0].id
                                 : '0'
                             }
                             label="coVault"
@@ -439,7 +450,9 @@ export function DistributionForm({
                       type="number"
                       error={!!error}
                       helperText={error ? error.message : null}
-                      value={totalFixedPayment}
+                      value={
+                        fixedDist ? fixedDist.fixed_amount : totalFixedPayment
+                      }
                       disabled={true}
                       label={`Available: ${maxFixedPaymentTokens}`}
                       onFocus={event =>
@@ -450,27 +463,30 @@ export function DistributionForm({
                 />
               </Box>
             </Box>
-            <Box css={{ display: 'flex', justifyContent: 'center' }}>
-              {fixedPaymentTokenSel.length ? (
-                <Button
-                  color="primary"
-                  outlined
-                  size="medium"
-                  disabled={submitting || !sufficientFixedPaymentTokens}
-                  fullWidth
-                >
-                  {sufficientFixedPaymentTokens
-                    ? submitting
-                      ? 'Submitting...'
-                      : 'Submit Distribution'
-                    : 'Insufficient Tokens'}
-                </Button>
-              ) : (
-                <Button color="primary" outlined size="medium" fullWidth>
-                  Export CSV
-                </Button>
-              )}
-            </Box>
+            {!fixedDist && (
+              <Box css={{ display: 'flex', justifyContent: 'center' }}>
+                {fixedPaymentTokenSel.length ? (
+                  <Button
+                    color="primary"
+                    outlined
+                    size="medium"
+                    disabled={submitting || !sufficientFixedPaymentTokens}
+                    fullWidth
+                  >
+                    {sufficientFixedPaymentTokens
+                      ? submitting
+                        ? 'Submitting...'
+                        : 'Submit Distribution'
+                      : 'Insufficient Tokens'}
+                  </Button>
+                ) : (
+                  <Button color="primary" outlined size="medium" fullWidth>
+                    Export CSV
+                  </Button>
+                )}
+              </Box>
+            )}
+
             {submitting && <LoadingModal visible />}
           </Box>
         )}

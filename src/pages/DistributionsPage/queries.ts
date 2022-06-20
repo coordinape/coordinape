@@ -64,6 +64,9 @@ export const getEpochData = async (
               created_at: true,
               total_amount: true,
               tx_hash: true,
+              distribution_type: true,
+              gift_amount: true,
+              fixed_amount: true,
               vault: {
                 id: true,
                 decimals: true,
