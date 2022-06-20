@@ -11,19 +11,18 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Form, Button, Modal } from 'ui';
 
-export default function WithdrawModal({
-  visible,
-  onClose,
-  onWithdraw,
-  vault,
-  balance,
-}: {
-  visible: boolean;
+export type WithdrawModalProps = {
   onClose: () => void;
   onWithdraw: () => void;
   vault: GraphQLTypes['vaults'];
   balance: number;
-}) {
+};
+export default function WithdrawModal({
+  onClose,
+  onWithdraw,
+  vault,
+  balance,
+}: WithdrawModalProps) {
   const schema = z.object({ amount: z.number().min(0).max(balance) }).strict();
   type WithdrawFormSchema = z.infer<typeof schema>;
   const contracts = useContracts();
@@ -61,7 +60,7 @@ export default function WithdrawModal({
   };
 
   return (
-    <Modal title="Withdraw Tokens From Vault" open={visible} onClose={onClose}>
+    <Modal title="Withdraw Tokens From Vault" open={true} onClose={onClose}>
       <Form
         css={{
           position: 'relative',

@@ -9,11 +9,9 @@ import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
-import DepositModal from './DepositModal';
+import DepositModal, { DepositModalProps } from './DepositModal';
 import { dummyTableData, TransactionTable } from './VaultTransactions';
-import WithdrawModal from './WithdrawModal';
-
-type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
+import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
 export function VaultRow({
   vault,
@@ -39,22 +37,14 @@ export function VaultRow({
 
   return (
     <Panel css={css}>
-      {modal === 'deposit' ? (
-        <DepositModal
-          vault={vault}
-          onClose={closeModal}
-          onDeposit={updateBalance}
-        />
-      ) : null}
-      {modal === 'withdraw' ? (
-        <WithdrawModal
-          visible={true}
-          onClose={closeModal}
-          vault={vault}
-          balance={balance}
-          onWithdraw={updateBalance}
-        />
-      ) : null}
+      <VaultModal
+        modal={modal}
+        onClose={closeModal}
+        vault={vault}
+        balance={balance}
+        onWithdraw={updateBalance}
+        onDeposit={updateBalance}
+      />
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
@@ -124,4 +114,33 @@ export function VaultRow({
       </Box>
     </Panel>
   );
+}
+
+type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
+
+type ModalProps =
+  | { modal: ModalLabel } & DepositModalProps & WithdrawModalProps;
+
+function VaultModal<T extends ModalProps>(props: T) {
+  switch (props.modal) {
+    case 'deposit':
+      return (
+        <DepositModal
+          vault={props.vault}
+          onClose={props.onClose}
+          onDeposit={props.onDeposit}
+        />
+      );
+    case 'withdraw':
+      return (
+        <WithdrawModal
+          onClose={props.onClose}
+          vault={props.vault}
+          balance={props.balance}
+          onWithdraw={props.onWithdraw}
+        />
+      );
+    default:
+      return <></>;
+  }
 }
