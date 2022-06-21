@@ -12,6 +12,9 @@ test('amounts', () => {
       [addr(2)]: 20,
       [addr(3)]: 30,
     },
+    {},
+    BigNumber.from('500000000'),
+    BigNumber.from('0'),
     BigNumber.from('500000000')
   );
 
@@ -32,6 +35,10 @@ test('dust limit', () => {
         [addr(8)]: randint(500),
         [addr(10)]: randint(1000),
       },
+      {},
+
+      BigNumber.from(Math.floor(Math.random() * 100000000)),
+      BigNumber.from('0'),
       BigNumber.from(Math.floor(Math.random() * 100000000))
     );
   }
@@ -52,6 +59,9 @@ test('combined root', () => {
       [addr(2)]: 100,
       [addr(4)]: 100,
     },
+    {},
+    BigNumber.from('600000000'),
+    BigNumber.from('0'),
     BigNumber.from('600000000'),
     previousDist
   );

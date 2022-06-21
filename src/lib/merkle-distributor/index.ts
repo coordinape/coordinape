@@ -10,7 +10,10 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
 /**
  *
  * @param gifts the map of GIVE allocations: address => total GIVE received
+ * @param fixedGifts the map of Fixed payment allocations: address => total fixed payment received
  * @param totalAmount the total amount of tokens to distribute, as a fixed-point number
+ * @param giftAmount the amount of gift tokens to distribute, as a fixed-point number
+ * @param fixedAmount the amount of fixed payment to distribute, as a fixed-point number
  * @param previousDistribution the previous epoch's distribution info
  *
  * the map of GIVE allocations is in GIVE tokens, but that has to be converted
@@ -23,14 +26,27 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
  */
 export const createDistribution = (
   gifts: Record<string, number>,
+  fixedGifts: Record<string, number> | undefined,
   totalAmount: BigNumber,
+  fixedAmount: BigNumber,
+  giftAmount: BigNumber,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v);
-  let balances = Object.keys(gifts).map(address => ({
-    address,
-    earnings: totalAmount.mul(gifts[address]).div(totalGive),
-  }));
+  let balances = Object.keys(gifts).map(address => {
+    const obj = {
+      address,
+      earnings: giftAmount.mul(gifts[address]).div(totalGive),
+    };
+    if (fixedGifts) {
+      Object.keys(fixedGifts).map(fAddress => {
+        if (fAddress === address) {
+          obj.earnings.add(fixedGifts[fAddress]);
+        }
+      });
+    }
+    return obj;
+  });
 
   // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);

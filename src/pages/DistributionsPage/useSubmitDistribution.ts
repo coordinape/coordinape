@@ -24,6 +24,7 @@ export type SubmitDistribution = {
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
+  fixedGifts: Record<string, number>;
   circleId: number;
   epochId: number;
   fixedAmount: string;
@@ -67,6 +68,7 @@ export function useSubmitDistribution() {
     circleId,
     epochId,
     gifts,
+    fixedGifts,
     previousDistribution,
     profileIdsByAddress,
     fixedAmount,
@@ -82,12 +84,28 @@ export function useSubmitDistribution() {
       const yVaultAddress = await vaultContract.vault();
       const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
       const shifter = FixedNumber.from(BigNumber.from(10).pow(vault.decimals));
-
+      const newGiftAmount = await getWrappedAmount(
+        giftAmount,
+        vault,
+        contracts
+      );
+      const newFixedAmount = await getWrappedAmount(
+        fixedAmount,
+        vault,
+        contracts
+      );
       const prev =
         previousDistribution &&
         JSON.parse(previousDistribution.distribution_json);
 
-      const distribution = createDistribution(gifts, newTotalAmount, prev);
+      const distribution = createDistribution(
+        gifts,
+        fixedGifts,
+        newTotalAmount,
+        newFixedAmount,
+        newGiftAmount,
+        prev
+      );
 
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims

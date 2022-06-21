@@ -114,7 +114,7 @@ export function DistributionForm({
   useEffect(() => {
     if (circleDist) {
       updateBalanceState(circleDist.vault.id, circleDist.gift_amount, 'gift');
-    } else if (vaults[0]) {
+    } else if (vaults[0] && !vault1Id) {
       setVaultId(String(vaults[0].id));
       updateBalanceState(vaults[0].id, form1Amount, 'gift');
     }
@@ -136,12 +136,13 @@ export function DistributionForm({
     );
     assert(vault);
 
-    const gifts = circleUsers.reduce((ret, user) => {
+    const fixedGifts = circleUsers.reduce((ret, user) => {
       if (user.fixed_payment_amount && user.fixed_payment_amount > 0)
         ret[user.address] = user.fixed_payment_amount;
       return ret;
     }, {} as Record<string, number>);
     const type = isCombinedDistribution() && !circleDist ? 3 : 2;
+    const gifts = {} as Record<string, number>;
     if (type === 3) {
       users.map(user => {
         if (!(user.address in gifts)) gifts[user.address] = 0;
@@ -152,7 +153,6 @@ export function DistributionForm({
       ret[user.address.toLowerCase()] = user.id;
       return ret;
     }, {} as Record<string, number>);
-
     try {
       await submitDistribution({
         amount:
@@ -161,6 +161,7 @@ export function DistributionForm({
             : String(totalFixedPayment),
         vault,
         gifts,
+        fixedGifts,
         userIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
@@ -203,6 +204,7 @@ export function DistributionForm({
         amount: value.amount,
         vault,
         gifts,
+        fixedGifts: {},
         profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,

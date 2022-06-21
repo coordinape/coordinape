@@ -126,6 +126,7 @@ test('submit distribution', async () => {
           giftAmount: '100',
           type: 1,
           gifts,
+          fixedGifts,
         });
         merkleRootFromSubmission = distro.merkleRoot;
 
@@ -202,6 +203,9 @@ test('previous distribution', async () => {
 
         const previousDistribution = createDistribution(
           previousGifts,
+          fixedGifts,
+          previousTotal,
+          BigNumber.from('0'),
           previousTotal
         );
 
@@ -212,6 +216,7 @@ test('previous distribution', async () => {
           profileIdsByAddress,
           epochId: 2,
           gifts,
+          fixedGifts,
           previousDistribution: {
             id: 1,
             vault_id: 1,
@@ -254,6 +259,8 @@ const gifts = {
   '0xabc0000000000000000000000000000000000002': 30,
   '0xabc0000000000000000000000000000000000003': 40,
 };
+
+const fixedGifts = {};
 
 const previousGifts = {
   '0xabc0000000000000000000000000000000000001': 10,
