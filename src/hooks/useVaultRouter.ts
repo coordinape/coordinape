@@ -26,6 +26,7 @@ export function useVaultRouter(contracts?: Contracts) {
 
     const tokenAddress = getTokenAddress(vault);
     const token = contracts.getERC20(tokenAddress);
+    const symbol = await token.symbol();
     const myAddress = await contracts.getMyAddress();
     const allowance = await token.allowance(
       myAddress,
@@ -40,6 +41,7 @@ export function useVaultRouter(contracts?: Contracts) {
           showInfo,
           signingMessage:
             'Please sign the transaction to approve the transfer.',
+          description: `Approve ${humanAmount} ${symbol}`,
         }
       );
       if (result.error) return result;
@@ -56,6 +58,7 @@ export function useVaultRouter(contracts?: Contracts) {
         showError,
         showInfo,
         signingMessage: 'Please sign the transaction to deposit tokens.',
+        description: `Deposit ${humanAmount} ${symbol}`,
       }
     );
   };
