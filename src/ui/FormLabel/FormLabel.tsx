@@ -12,6 +12,13 @@ export const FormLabel = styled('label', {
         textAlign: 'center',
         mb: '$sm',
       },
+      label: {
+        color: '$secondaryText',
+        textTransform: 'uppercase',
+        fontSize: '$small',
+        fontFamily: 'Inter',
+        fontWeight: '$semibold',
+      },
     },
   },
 });

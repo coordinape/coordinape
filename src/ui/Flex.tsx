@@ -15,5 +15,11 @@ export const Flex = styled(Box, {
         flexDirection: 'row',
       },
     },
+    disabled: {
+      true: {
+        opacity: 0.3,
+        pointerEvents: 'none',
+      },
+    },
   },
 });
