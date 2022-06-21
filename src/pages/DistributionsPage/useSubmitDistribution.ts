@@ -24,7 +24,7 @@ export type SubmitDistribution = {
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
-  fixedGifts: Record<string, number>;
+  fixedGifts: Record<string, BigNumber>;
   circleId: number;
   epochId: number;
   fixedAmount: string;

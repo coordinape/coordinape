@@ -138,9 +138,11 @@ export function DistributionForm({
 
     const fixedGifts = circleUsers.reduce((ret, user) => {
       if (user.fixed_payment_amount && user.fixed_payment_amount > 0)
-        ret[user.address] = user.fixed_payment_amount;
+        ret[user.address] = BigNumber.from(10)
+          .pow(vault.decimals)
+          .mul(user.fixed_payment_amount);
       return ret;
-    }, {} as Record<string, number>);
+    }, {} as Record<string, BigNumber>);
     const type = isCombinedDistribution() && !circleDist ? 3 : 2;
     const gifts = {} as Record<string, number>;
     if (type === 3) {

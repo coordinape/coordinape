@@ -26,7 +26,7 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
  */
 export const createDistribution = (
   gifts: Record<string, number>,
-  fixedGifts: Record<string, number> | undefined,
+  fixedGifts: Record<string, BigNumber> | undefined,
   totalAmount: BigNumber,
   fixedAmount: BigNumber,
   giftAmount: BigNumber,
@@ -38,18 +38,24 @@ export const createDistribution = (
       address,
       earnings: giftAmount.mul(gifts[address]).div(totalGive),
     };
-    if (fixedGifts) {
-      Object.keys(fixedGifts).map(fAddress => {
-        if (fAddress === address) {
-          obj.earnings.add(fixedGifts[fAddress]);
-        }
-      });
-    }
+
     return obj;
   });
 
+  if (fixedGifts) {
+    Object.keys(fixedGifts).map(address => {
+      const idx = balances.findIndex(o => o.address === address);
+      if (idx >= 0) {
+        balances[idx].earnings.add(fixedGifts[address]);
+      } else {
+        balances.push({ address, earnings: fixedGifts[address] });
+      }
+    });
+  }
+
   // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);
+
   assert(dust.lt(20), `dust too high: ${dust.toString()}`);
   const topGift = assertDef(maxBy(Object.entries(gifts), x => x[1]));
   const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
