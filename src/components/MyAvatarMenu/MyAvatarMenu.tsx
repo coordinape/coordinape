@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
 import { NavLink } from 'react-router-dom';
@@ -40,11 +40,24 @@ export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
   const { icon, address, logout } = useWalletStatus();
 
+  const [popoverClicked, setPopoverClicked] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+  const clickPopover = () => {
+    if (popoverClicked) return;
+    ref.current?.click();
+    setPopoverClicked(true);
+  };
+
   return (
     <>
       <Hidden smDown>
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger
+            asChild
+            ref={ref}
+            onMouseEnter={clickPopover}
+            onMouseLeave={() => setPopoverClicked(false)}
+          >
             <Link href="#">
               <ApeAvatar profile={myProfile} className={classes.avatarButton} />
             </Link>
