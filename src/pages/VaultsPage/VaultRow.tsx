@@ -21,6 +21,7 @@ export function VaultRow({
   css?: CSS;
 }) {
   const [modal, setModal] = useState<ModalLabel>('');
+  const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
@@ -33,7 +34,23 @@ export function VaultRow({
         setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
       });
 
-  useBlockListener(updateBalance, [vault.id]);
+  const updateOwner = async () => {
+    const currentVault = contracts?.getVault(vault.vault_address);
+    if (!currentVault || !contracts) {
+      setUserIsOwner(false);
+      return;
+    }
+    const [ownerAddress, userAddress] = await Promise.all([
+      currentVault.owner(),
+      contracts.getMyAddress(),
+    ]);
+    setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
+  };
+
+  useBlockListener(() => {
+    updateBalance();
+    updateOwner();
+  }, [vault.id]);
 
   return (
     <Panel css={css}>
@@ -59,14 +76,16 @@ export function VaultRow({
         >
           Deposit
         </Button>
-        <Button
-          color="primary"
-          outlined
-          size="small"
-          onClick={() => setModal('withdraw')}
-        >
-          Withdraw
-        </Button>
+        {userIsOwner && (
+          <Button
+            color="primary"
+            outlined
+            size="small"
+            onClick={() => setModal('withdraw')}
+          >
+            Withdraw
+          </Button>
+        )}
       </Box>
       <Box
         css={{

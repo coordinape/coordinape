@@ -71,7 +71,6 @@ export default function WithdrawModal({
           width: '100%',
           padding: '0 0 $lg',
           overflowY: 'auto',
-          maxHeight: '100vh',
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
