@@ -41,10 +41,10 @@ export const MyAvatarMenu = () => {
   const { icon, address, logout } = useWalletStatus();
 
   const [popoverClicked, setPopoverClicked] = useState(false);
-  const ref = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const clickPopover = () => {
     if (popoverClicked) return;
-    ref.current?.click();
+    triggerRef.current?.click();
     setPopoverClicked(true);
   };
 
@@ -54,7 +54,7 @@ export const MyAvatarMenu = () => {
         <Popover>
           <PopoverTrigger
             asChild
-            ref={ref}
+            ref={triggerRef}
             onMouseEnter={clickPopover}
             onMouseLeave={() => setPopoverClicked(false)}
           >
@@ -67,6 +67,7 @@ export const MyAvatarMenu = () => {
             sideOffset={-67}
             alignOffset={-16}
             css={{ background: '$surface' }}
+            onClick={() => triggerRef.current?.click()}
           >
             <Box
               css={{
