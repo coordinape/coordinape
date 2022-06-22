@@ -12,6 +12,7 @@ type Options = {
   showInfo: (message: any) => void;
   showError: (message: any) => void;
   description?: string;
+  chainId: string;
 };
 
 export type SendAndTrackTxResult = {
@@ -29,6 +30,7 @@ export const sendAndTrackTx = async (
     showInfo,
     showError,
     description = 'Unlabeled transaction',
+    chainId,
   }: Options
 ): Promise<SendAndTrackTxResult> => {
   const timestamp = Date.now();
@@ -39,6 +41,7 @@ export const sendAndTrackTx = async (
       timestamp,
       status: 'pending',
       description,
+      chainId,
     });
     const tx = await promise;
     showInfo(sendingMessage);

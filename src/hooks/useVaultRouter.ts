@@ -42,6 +42,7 @@ export function useVaultRouter(contracts?: Contracts) {
           signingMessage:
             'Please sign the transaction to approve the transfer.',
           description: `Approve ${humanAmount} ${symbol}`,
+          chainId: contracts.chainId,
         }
       );
       if (result.error) return result;
@@ -59,6 +60,7 @@ export function useVaultRouter(contracts?: Contracts) {
         showInfo,
         signingMessage: 'Please sign the transaction to deposit tokens.',
         description: `Deposit ${humanAmount} ${symbol}`,
+        chainId: contracts.chainId,
       }
     );
   };

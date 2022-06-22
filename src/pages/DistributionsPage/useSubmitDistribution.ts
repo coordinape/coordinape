@@ -129,7 +129,12 @@ export function useSubmitDistribution() {
             newTotalAmount,
             utils.hexlify(1)
           ),
-        { showInfo, showError, description: 'Submit Distribution' }
+        {
+          showInfo,
+          showError,
+          description: 'Submit Distribution',
+          chainId: contracts.chainId,
+        }
       );
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');

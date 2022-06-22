@@ -47,6 +47,7 @@ export function useVaultFactory(orgId?: number) {
           showInfo,
           showError,
           description: `Create ${type || customSymbol} Vault`,
+          chainId: contracts.chainId,
         }
       );
 

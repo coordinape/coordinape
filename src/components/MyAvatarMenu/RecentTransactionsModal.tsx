@@ -10,6 +10,7 @@ type Tx = {
   description: string;
   hash?: string;
   status: 'pending' | 'confirmed' | 'error';
+  chainId: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,10 +19,11 @@ const placeholder = (status: Tx['status']): Tx => ({
   hash: '0xa0c653d17fee8bdd04b287706d995eabd8a3f73adca0abf344bcd14160457e0d',
   timestamp: 1655773321749,
   status,
+  chainId: '1338',
 });
 
 const getTxList = (): Tx[] =>
-  JSON.parse(localStorage.getItem(TX_LIST_KEY) || '[]').slice(-10);
+  JSON.parse(localStorage.getItem(TX_LIST_KEY) || '[]').slice(0, 10);
 
 const saveTxList = (list: Tx[]) =>
   localStorage.setItem(TX_LIST_KEY, JSON.stringify(list));
@@ -42,6 +44,16 @@ const statusColors = {
   error: '$alert',
 };
 
+const etherscanLinkProp = (chainId: string | undefined, hash: string) => {
+  if (chainId === '1') return { href: `https://etherscan.io/tx/${hash}` };
+  if (chainId === '5')
+    return { href: `https://goerli.etherscan.io/tx/${hash}` };
+
+  return {
+    onClick: () => alert(hash),
+  };
+};
+
 export const RecentTransactionsModal = ({
   onClose,
 }: {
@@ -55,34 +67,41 @@ export const RecentTransactionsModal = ({
       </Text>
       <Flex css={{ flexDirection: 'column' }}>
         {list.length === 0 && <>Your transactions will appear here.</>}
-        {list.map(({ description, hash, timestamp, status }, index) => (
-          <Box
-            key={timestamp}
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 40px',
-              padding: '$sm',
-              backgroundColor: index % 2 == 0 ? '$background' : 'transparent',
-            }}
-          >
-            <Box>
-              {description}
-              <Text size="small" css={{ color: '$secondaryText', mt: '$xs' }}>
-                {formatRelative(new Date(timestamp), Date.now())}
-                <Box css={{ mx: '$xs' }}>&bull;</Box>
-                <Text css={{ color: statusColors[status] }}>{status}</Text>
-              </Text>
+        {list.map(
+          ({ chainId, description, hash, timestamp, status }, index) => (
+            <Box
+              key={timestamp}
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 40px',
+                padding: '$sm',
+                backgroundColor: index % 2 == 0 ? '$background' : 'transparent',
+              }}
+            >
+              <Box>
+                {description}
+                <Text size="small" css={{ color: '$secondaryText', mt: '$xs' }}>
+                  {formatRelative(new Date(timestamp), Date.now())}
+                  <Box css={{ mx: '$xs' }}>&bull;</Box>
+                  {chainId === '1'
+                    ? 'Mainnet'
+                    : chainId === '5'
+                    ? 'Göerli'
+                    : `Chain ID ${chainId}`}
+                  <Box css={{ mx: '$xs' }}>&bull;</Box>
+                  <Text css={{ color: statusColors[status] }}>{status}</Text>
+                </Text>
+              </Box>
+              <Box css={{ textAlign: 'right', pt: '$xs' }}>
+                {hash && (
+                  <Link target="_blank" {...etherscanLinkProp(chainId, hash)}>
+                    <FiExternalLink />
+                  </Link>
+                )}
+              </Box>
             </Box>
-            <Box></Box>
-            <Box css={{ textAlign: 'right', pt: '$xs' }}>
-              {hash && (
-                <Link target="_blank" href={`https://etherscan.io/tx/${hash}`}>
-                  <FiExternalLink />
-                </Link>
-              )}
-            </Box>
-          </Box>
-        ))}
+          )
+        )}
       </Flex>
     </Modal>
   );
