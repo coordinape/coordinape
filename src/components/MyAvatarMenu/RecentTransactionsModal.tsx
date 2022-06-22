@@ -36,6 +36,12 @@ export const updateTransaction = (timestamp: number, updates: Partial<Tx>) => {
   saveTxList(list);
 };
 
+const statusColors = {
+  pending: '$secondaryText',
+  confirmed: '$complete',
+  error: '$alert',
+};
+
 export const RecentTransactionsModal = ({
   onClose,
 }: {
@@ -62,8 +68,9 @@ export const RecentTransactionsModal = ({
             <Box>
               {description}
               <Text size="small" css={{ color: '$secondaryText', mt: '$xs' }}>
-                {formatRelative(new Date(timestamp), Date.now())} &bull;{' '}
-                {status}
+                {formatRelative(new Date(timestamp), Date.now())}
+                <Box css={{ mx: '$xs' }}>&bull;</Box>
+                <Text css={{ color: statusColors[status] }}>{status}</Text>
               </Text>
             </Box>
             <Box></Box>
