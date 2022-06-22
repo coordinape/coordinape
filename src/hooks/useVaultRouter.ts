@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { getTokenAddress } from 'lib/vaults';
+import { getTokenAddress, getWrappedAmount } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -67,11 +67,8 @@ export function useVaultRouter(contracts?: Contracts) {
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
-    const amount = BigNumber.from(
-      utils.parseUnits(humanAmount, vault.decimals)
-    );
     const vaultContract = contracts.getVault(vault.vault_address);
-    const shares = await vaultContract.sharesForValue(amount);
+    const shares = await getWrappedAmount(humanAmount, vault, contracts);
     return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
       showError,
       showInfo,
