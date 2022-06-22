@@ -13,15 +13,6 @@ type Tx = {
   chainId: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const placeholder = (status: Tx['status']): Tx => ({
-  description: 'Placeholder',
-  hash: '0xa0c653d17fee8bdd04b287706d995eabd8a3f73adca0abf344bcd14160457e0d',
-  timestamp: 1655773321749,
-  status,
-  chainId: '1338',
-});
-
 const getTxList = (): Tx[] =>
   JSON.parse(localStorage.getItem(TX_LIST_KEY) || '[]').slice(0, 10);
 
