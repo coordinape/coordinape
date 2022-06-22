@@ -129,7 +129,7 @@ export function useSubmitDistribution() {
             newTotalAmount,
             utils.hexlify(1)
           ),
-        { showInfo, showError }
+        { showInfo, showError, description: 'Submit Distribution' }
       );
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
