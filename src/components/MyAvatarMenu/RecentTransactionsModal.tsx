@@ -45,6 +45,14 @@ const etherscanLinkProp = (chainId: string | undefined, hash: string) => {
   };
 };
 
+const chainLabel = (chainId: string) => {
+  return chainId === '1'
+    ? 'Mainnet'
+    : chainId === '5'
+    ? 'Göerli'
+    : `Chain ID ${chainId}`;
+};
+
 export const RecentTransactionsModal = ({
   onClose,
 }: {
@@ -74,11 +82,7 @@ export const RecentTransactionsModal = ({
                 <Text size="small" css={{ color: '$secondaryText', mt: '$xs' }}>
                   {formatRelative(new Date(timestamp), Date.now())}
                   <Box css={{ mx: '$xs' }}>&bull;</Box>
-                  {chainId === '1'
-                    ? 'Mainnet'
-                    : chainId === '5'
-                    ? 'Göerli'
-                    : `Chain ID ${chainId}`}
+                  {chainLabel(chainId)}
                   <Box css={{ mx: '$xs' }}>&bull;</Box>
                   <Text css={{ color: statusColors[status] }}>{status}</Text>
                 </Text>

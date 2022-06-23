@@ -26,8 +26,10 @@ export function useVaultRouter(contracts?: Contracts) {
 
     const tokenAddress = getTokenAddress(vault);
     const token = contracts.getERC20(tokenAddress);
-    const symbol = await token.symbol();
-    const myAddress = await contracts.getMyAddress();
+    const [symbol, myAddress] = await Promise.all([
+      token.symbol(),
+      contracts.getMyAddress(),
+    ]);
     const allowance = await token.allowance(
       myAddress,
       contracts.router.address
