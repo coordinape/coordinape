@@ -89,11 +89,6 @@ export function useSubmitDistribution() {
         vault,
         contracts
       );
-      const newFixedAmount = await getWrappedAmount(
-        fixedAmount,
-        vault,
-        contracts
-      );
       const prev =
         previousDistribution &&
         JSON.parse(previousDistribution.distribution_json);
@@ -102,7 +97,6 @@ export function useSubmitDistribution() {
         gifts,
         fixedGifts,
         newTotalAmount,
-        newFixedAmount,
         newGiftAmount,
         prev
       );

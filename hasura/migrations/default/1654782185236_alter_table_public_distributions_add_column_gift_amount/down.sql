@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."distributions" add column "gift_amount" numeric
---  not null default '0';
+alter table "public"."distributions" drop column "gift_amount";

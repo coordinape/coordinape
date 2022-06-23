@@ -28,19 +28,14 @@ export const createDistribution = (
   gifts: Record<string, number>,
   fixedGifts: Record<string, BigNumber> | undefined,
   totalAmount: BigNumber,
-  fixedAmount: BigNumber,
   giftAmount: BigNumber,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v);
-  let balances = Object.keys(gifts).map(address => {
-    const obj = {
-      address,
-      earnings: giftAmount.mul(gifts[address]).div(totalGive),
-    };
-
-    return obj;
-  });
+  let balances = Object.keys(gifts).map(address => ({
+    address,
+    earnings: giftAmount.mul(gifts[address]).div(totalGive),
+  }));
 
   if (fixedGifts) {
     Object.keys(fixedGifts).map(address => {

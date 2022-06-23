@@ -14,7 +14,6 @@ test('amounts', () => {
     },
     {},
     BigNumber.from('500000000'),
-    BigNumber.from('0'),
     BigNumber.from('500000000')
   );
 
@@ -38,7 +37,6 @@ test('dust limit', () => {
       {},
 
       BigNumber.from(Math.floor(Math.random() * 100000000)),
-      BigNumber.from('0'),
       BigNumber.from(Math.floor(Math.random() * 100000000))
     );
   }
@@ -61,7 +59,6 @@ test('combined root', () => {
     },
     {},
     BigNumber.from('600000000'),
-    BigNumber.from('0'),
     BigNumber.from('600000000'),
     previousDist
   );

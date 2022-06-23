@@ -40,8 +40,8 @@ export function DistributionsPage() {
     { enabled: !!(contracts && address), retry: false }
   );
 
-  const [form1Amount, setForm1Amount] = useState<number>(0);
-  const [vault1Id, setVault1Id] = useState<string>('');
+  const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
+  const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers } = useSelectedCircle();
 
   if (isIdle || isLoading) return <LoadingModal visible />;
@@ -87,6 +87,7 @@ export function DistributionsPage() {
         name: user.name,
         address: user.address,
         fixed_payment_amount: user.fixed_payment_amount ?? 0,
+        avatar: user.profile?.avatar,
         givers: receivedGifts ? receivedGifts.length : 0,
         received: receivedGifts
           ? receivedGifts.reduce((t, g) => t + g.tokens, 0) || 0
@@ -114,7 +115,9 @@ export function DistributionsPage() {
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
   const vaults = circle.organization.vaults || [];
-  const vault1TokenName = vaults.find(v => v.id === Number(vault1Id))?.symbol;
+  const vault1TokenName = vaults.find(
+    v => v.id === Number(giftVaultId)
+  )?.symbol;
   let tokenName = vault1TokenName;
 
   if (circleDist) {
@@ -153,12 +156,12 @@ export function DistributionsPage() {
           <>
             <Panel nested css={{ mt: '$lg' }}>
               <DistributionForm
-                vault1Id={vault1Id}
-                form1Amount={form1Amount}
+                giftVaultId={giftVaultId}
+                formGiftAmount={formGiftAmount}
                 epoch={epoch}
                 users={usersWithReceivedAmounts}
-                setAmount={setForm1Amount}
-                setVaultId={setVault1Id}
+                setAmount={setFormGiftAmount}
+                setVaultId={setGiftVaultId}
                 vaults={vaults}
                 circleUsers={circleUsers}
               />

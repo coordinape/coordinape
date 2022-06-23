@@ -55,8 +55,8 @@ type SubmitFormProps = {
   setVaultId: (vaultId: string) => void;
   vaults: { id: number; symbol: string }[];
   circleUsers: IUser[];
-  vault1Id: string;
-  form1Amount: number;
+  giftVaultId: string;
+  formGiftAmount: number;
 };
 
 /**
@@ -71,8 +71,8 @@ export function DistributionForm({
   setVaultId,
   vaults,
   circleUsers,
-  vault1Id,
-  form1Amount,
+  giftVaultId,
+  formGiftAmount,
 }: SubmitFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
@@ -114,9 +114,9 @@ export function DistributionForm({
   useEffect(() => {
     if (circleDist) {
       updateBalanceState(circleDist.vault.id, circleDist.gift_amount, 'gift');
-    } else if (vaults[0] && !vault1Id) {
+    } else if (vaults[0] && !giftVaultId) {
       setVaultId(String(vaults[0].id));
-      updateBalanceState(vaults[0].id, form1Amount, 'gift');
+      updateBalanceState(vaults[0].id, formGiftAmount, 'gift');
     }
     if (fixedPaymentTokenSel[0])
       updateBalanceState(
@@ -159,7 +159,7 @@ export function DistributionForm({
       await submitDistribution({
         amount:
           type === 3
-            ? String(totalFixedPayment + form1Amount)
+            ? String(totalFixedPayment + formGiftAmount)
             : String(totalFixedPayment),
         vault,
         gifts,
@@ -172,7 +172,7 @@ export function DistributionForm({
         circleId: circle.id,
         epochId: epoch.id,
         fixedAmount: String(totalFixedPayment),
-        giftAmount: type === 3 ? String(form1Amount) : '0',
+        giftAmount: type === 3 ? String(formGiftAmount) : '0',
         type,
       });
       setSubmitting(false);
@@ -229,8 +229,8 @@ export function DistributionForm({
   const isCombinedDistribution = () => {
     return (
       fixedPaymentTokenSel.length &&
-      vault1Id &&
-      fixedPaymentTokenSel[0].id.toString() === vault1Id
+      giftVaultId &&
+      fixedPaymentTokenSel[0].id.toString() === giftVaultId
     );
   };
 
@@ -238,7 +238,7 @@ export function DistributionForm({
     vaultId: number,
     amountSet: number,
     formType: string
-  ) => {
+  ): Promise<void> => {
     assert(circle);
     const vault = circle.organization?.vaults?.find(v => v.id === vaultId);
     assert(vault);
@@ -257,17 +257,7 @@ export function DistributionForm({
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
     if (formType === 'gift' && !isCombinedDist) {
       setSufficientGiftTokens(tokenBalance >= totalAmt);
-      if (fixedPaymentTokenSel[0] && vaultId !== fixedPaymentTokenSel[0].id) {
-        const fixedVault = circle.organization?.vaults?.find(
-          v => v.id === fixedPaymentTokenSel[0].id
-        );
-        assert(fixedVault);
-        const cVault = await contracts.getVault(fixedVault.vault_address);
-        const tokenBalance = (await cVault.underlyingValue())
-          .div(BigNumber.from(10).pow(fixedVault.decimals))
-          .toNumber();
-        setSufficientFixPaymentTokens(tokenBalance >= totalFixedPayment);
-      }
+      setSufficientFixPaymentTokens(maxFixedPaymentTokens >= totalFixedPayment);
     } else setSufficientFixPaymentTokens(tokenBalance >= totalAmt);
   };
 
@@ -298,7 +288,7 @@ export function DistributionForm({
                           setVaultId(String(value));
                           updateBalanceState(
                             Number(value),
-                            form1Amount,
+                            formGiftAmount,
                             'gift'
                           );
                         }}
@@ -349,7 +339,11 @@ export function DistributionForm({
                   }}
                   onBlur={({ target: { value } }) => {
                     setAmount(Number(value));
-                    updateBalanceState(Number(vault1Id), Number(value), 'gift');
+                    updateBalanceState(
+                      Number(giftVaultId),
+                      Number(value),
+                      'gift'
+                    );
                   }}
                   label={`Available: ${maxGiftTokens}`}
                   onFocus={event =>
@@ -364,7 +358,8 @@ export function DistributionForm({
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
             {isCombinedDistribution() ? (
               <span>
-                Combined Distribution. Total {totalFixedPayment + form1Amount}{' '}
+                Combined Distribution. Total{' '}
+                {totalFixedPayment + formGiftAmount}{' '}
                 {fixedPaymentTokenSel[0].symbol}
               </span>
             ) : (

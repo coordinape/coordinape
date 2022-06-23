@@ -205,7 +205,6 @@ test('previous distribution', async () => {
           previousGifts,
           fixedGifts,
           previousTotal,
-          BigNumber.from('0'),
           previousTotal
         );
 

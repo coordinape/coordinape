@@ -18,6 +18,7 @@ export const AllocationsTable = ({
     claimed: number;
     circle_claimed: number;
     fixed_payment_amount: number;
+    avatar: string | undefined;
     givers: number;
   }[];
   totalGive: number;
@@ -64,6 +65,7 @@ export const AllocationsTable = ({
               <NewApeAvatar
                 name={user.name}
                 style={{ height: '32px', width: '32px' }}
+                profileImagePath={user.avatar}
               />
               <Text semibold>{user.name}</Text>
             </Flex>
@@ -74,18 +76,18 @@ export const AllocationsTable = ({
           <td>{(givenPercent(user) * 100).toFixed(2)}%</td>
           <td>
             {user.circle_claimed
-              ? `${user.circle_claimed} ${tokenName || 'GIVE'}`
+              ? `${user.circle_claimed.toFixed(2)} ${tokenName || 'GIVE'}`
               : '-'}
           </td>
           <td>
             {!combinedDist && user.claimed
-              ? user.claimed
-              : user.fixed_payment_amount}{' '}
+              ? user.claimed.toFixed(2)
+              : user.fixed_payment_amount.toFixed(2)}{' '}
             {fixedTokenName || ''}
           </td>
           {combinedDist && (
             <td>
-              {user.claimed} {tokenName}
+              {user.claimed.toFixed(2)} {tokenName}
             </td>
           )}
         </tr>
