@@ -33,7 +33,7 @@ export const AllocationsTable = ({
         { title: 'ETH' },
         { title: `${tokenName || 'GIVE'} Received` },
         { title: '% of Epoch' },
-        { title: 'Vault Funds Allocated' },
+        { title: 'Funds Allocated' },
       ]}
       data={users}
       startingSortIndex={2}

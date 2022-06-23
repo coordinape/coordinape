@@ -59,7 +59,7 @@ const VaultsPage = () => {
       </Box>
       <Box css={{ display: 'flex' }}>
         <Text h2 css={{ flexGrow: 1 }}>
-          Vaults
+          coVaults
         </Text>
         {isAdmin && (
           <Button
@@ -68,7 +68,7 @@ const VaultsPage = () => {
             size="small"
             onClick={() => setModal('create')}
           >
-            Add Vault
+            Add coVault
           </Button>
         )}
       </Box>
@@ -88,7 +88,7 @@ const VaultsPage = () => {
         </Panel>
       )}
       {modal === 'create' && currentOrg && (
-        <Modal onClose={closeModal} title="Create a New Vault">
+        <Modal onClose={closeModal} title="Create a New coVault">
           <CreateForm onSuccess={closeModal} orgId={currentOrg.id} />
         </Modal>
       )}
