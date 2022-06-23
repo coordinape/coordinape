@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { isUserAdmin } from 'lib/users';
 
 import { LoadingModal } from 'components';
 import { useOverviewMenuQuery } from 'components/OverviewMenu/getOverviewMenuData';
@@ -27,6 +28,7 @@ const VaultsPage = () => {
   const currentOrg = orgs
     ? orgs.find(o => o.id === currentOrgId) || orgs[0]
     : undefined;
+  const isAdmin = currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   const { refetch, isFetching, data: vaults } = useVaults(currentOrg?.id);
 
@@ -43,7 +45,7 @@ const VaultsPage = () => {
       <Box
         css={{ display: 'flex', flexDirection: 'row', gap: '$md', mb: '$lg' }}
       >
-        {orgsQuery.data?.organizations.map(org => (
+        {orgs?.map(org => (
           <Button
             css={{ borderRadius: '$pill' }}
             key={org.id}
@@ -59,14 +61,16 @@ const VaultsPage = () => {
         <Text h2 css={{ flexGrow: 1 }}>
           Vaults
         </Text>
-        <Button
-          color="primary"
-          outlined
-          size="small"
-          onClick={() => setModal('create')}
-        >
-          Add Vault
-        </Button>
+        {isAdmin && (
+          <Button
+            color="primary"
+            outlined
+            size="small"
+            onClick={() => setModal('create')}
+          >
+            Add Vault
+          </Button>
+        )}
       </Box>
       {vaults && vaults?.length > 0 ? (
         vaults?.map(vault => (
