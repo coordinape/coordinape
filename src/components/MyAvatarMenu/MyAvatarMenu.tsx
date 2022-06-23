@@ -66,7 +66,7 @@ export const MyAvatarMenu = () => {
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-67}
             alignOffset={-16}
-            css={{ background: '$surface' }}
+            css={{ background: '$surface', outline: 'none' }}
             onClick={() => triggerRef.current?.click()}
           >
             <Box
