@@ -4,6 +4,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { LinearProgress } from '@material-ui/core';
 
+import HelpButton from '../HelpButton';
 import {
   GlobalUi,
   LoadingModal,
@@ -48,6 +49,7 @@ export const MainLayout = () => {
             <SentryScopeController />
             <AppRoutes />
           </Box>
+          <HelpButton />
         </Suspense>
       </RequireAuth>
     </Box>
