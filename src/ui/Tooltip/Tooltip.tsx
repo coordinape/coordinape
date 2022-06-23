@@ -1,5 +1,5 @@
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
-import { keyframes, styled } from 'stitches.config';
+import { CSS, keyframes, styled } from 'stitches.config';
 
 const scaleUpAnimation = keyframes({
   '0%': { opacity: 0, transform: 'scale(0)' },
@@ -42,13 +42,15 @@ const TooltipTrigger = styled(HoverCardPrimitive.Trigger, {
 export const Tooltip = ({
   content,
   children,
+  css,
 }: {
   content: React.ReactNode;
   children?: React.ReactNode;
+  css?: CSS;
 }) => {
   return (
     <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
-      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipTrigger css={css}>{children}</TooltipTrigger>
       <HoverCardContent>{content}</HoverCardContent>
     </HoverCardPrimitive.Root>
   );

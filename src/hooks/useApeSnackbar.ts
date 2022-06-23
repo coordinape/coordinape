@@ -29,7 +29,7 @@ const displayError = (error: any) => {
 export const useApeSnackbar = () => {
   const { enqueueSnackbar } = useSnackbar();
   const showInfo = (message: string) =>
-    enqueueSnackbar(message, { variant: 'default' });
+    enqueueSnackbar(message, { variant: 'info' });
   const showError = (error: any) =>
     enqueueSnackbar(displayError(error), { variant: 'error' });
   return {

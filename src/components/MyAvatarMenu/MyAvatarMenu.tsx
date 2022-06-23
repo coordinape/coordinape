@@ -11,6 +11,7 @@ import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-co
 import { ApeAvatar } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { EConnectorNames } from 'config/constants';
+import isFeatureEnabled from 'config/features';
 import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
@@ -26,6 +27,8 @@ import {
 import { shortenAddress } from 'utils';
 import { connectors } from 'utils/connectors';
 
+import { RecentTransactionsModal } from './RecentTransactionsModal';
+
 const useStyles = makeStyles(theme => ({
   avatarButton: {
     marginLeft: theme.spacing(1.5),
@@ -39,6 +42,7 @@ export const MyAvatarMenu = () => {
   const classes = useStyles();
   const myProfile = useMyProfile();
   const { icon, address, logout } = useWalletStatus();
+  const [showTxModal, setShowTxModal] = useState(false);
 
   const [popoverClicked, setPopoverClicked] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -50,6 +54,9 @@ export const MyAvatarMenu = () => {
 
   return (
     <>
+      {showTxModal && (
+        <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
+      )}
       <Hidden smDown>
         <Popover>
           <PopoverTrigger
@@ -98,6 +105,15 @@ export const MyAvatarMenu = () => {
                 <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
                 {address && shortenAddress(address)}
               </Box>
+              {isFeatureEnabled('vaults') && (
+                <Link
+                  type="menu"
+                  css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
+                  onClick={() => setShowTxModal(true)}
+                >
+                  Recent Transactions
+                </Link>
+              )}
               <Link
                 type="menu"
                 css={{ fontSize: '$xs', color: '$headingText' }}

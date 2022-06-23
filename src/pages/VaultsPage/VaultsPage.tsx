@@ -28,7 +28,7 @@ const VaultsPage = () => {
     ? orgs.find(o => o.id === currentOrgId) || orgs[0]
     : undefined;
 
-  const { refetch, isLoading, data: vaults } = useVaults(currentOrg?.id);
+  const { refetch, isFetching, data: vaults } = useVaults(currentOrg?.id);
 
   const closeModal = () => {
     refetch();
@@ -78,7 +78,7 @@ const VaultsPage = () => {
         ))
       ) : (
         <Panel>
-          {isLoading
+          {isFetching
             ? 'Loading...'
             : 'There are no vaults in your organization yet.'}
         </Panel>

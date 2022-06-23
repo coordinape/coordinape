@@ -92,6 +92,19 @@ export const colors = {
   secondaryText: figmaColors.grey10,
 };
 
+// the notistack library is oriented toward Material-UI, so we can't set its
+// styles the normal way
+export const snackbarStyles = {
+  variantError: {
+    backgroundColor: colors.alert,
+    color: colors.textOnAlert,
+  },
+  variantInfo: {
+    backgroundColor: colors.primary,
+    color: colors.textOnPrimary,
+  },
+};
+
 export const {
   styled,
   css,
