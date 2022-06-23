@@ -1,7 +1,7 @@
 import { IconButton, makeStyles } from '@material-ui/core';
 
 import { ApeTextField } from 'components';
-import { PlusCircleIcon, MinusCircleIcon } from 'icons';
+import { PlusCircleIcon, DeprecatedMinusCircleIcon } from 'icons';
 
 import { CardInfoText } from './CardInfoText';
 
@@ -119,7 +119,7 @@ export const GiftInput = ({
                 onClick={() => updateGift({ tokens: tokens - 1 })}
                 disableRipple
               >
-                <MinusCircleIcon />
+                <DeprecatedMinusCircleIcon />
               </IconButton>
             ),
             endAdornment: (

@@ -16,7 +16,7 @@ import {
 } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { UploadIcon, EditIcon, SaveIcon } from 'icons';
+import { DeprecatedUploadIcon, EditIcon, DeprecatedSaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { Form, Flex, Button, Box, Text } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
@@ -389,7 +389,7 @@ export const CircleAdminPage = () => {
         <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
         <label htmlFor="upload-logo-button">
           <Button as="div" color="neutral" outlined>
-            <UploadIcon />
+            <DeprecatedUploadIcon />
             Upload Circle Logo
           </Button>
         </label>
@@ -566,7 +566,7 @@ export const CircleAdminPage = () => {
         size="medium"
         disabled={!isDirty}
       >
-        <SaveIcon />
+        <DeprecatedSaveIcon />
         Save
       </Button>
     </Form>

@@ -6,7 +6,12 @@ import { makeStyles, IconButton } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import { DeleteIcon, DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
+import {
+  DeprecatedDeleteIcon,
+  DeworkIcon,
+  DeworkLogo,
+  ParcelIcon,
+} from 'icons';
 import { paths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
@@ -66,7 +71,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
               className={classes.errorColor}
               size="small"
             >
-              <DeleteIcon />
+              <DeprecatedDeleteIcon />
             </IconButton>
           </div>
         ))}

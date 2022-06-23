@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SvgIcon } from '@material-ui/core';
 
-export const AwardIcon = (props: any) => (
+export const DeprecatedAwardIcon = (props: any) => (
   <SvgIcon {...props}>
     <path
       d="M12 15.4291C15.7871 15.4291 18.8571 12.3591 18.8571 8.57199C18.8571 4.78489 15.7871 1.71484 12 1.71484C8.21287 1.71484 5.14282 4.78489 5.14282 8.57199C5.14282 12.3591 8.21287 15.4291 12 15.4291Z"
