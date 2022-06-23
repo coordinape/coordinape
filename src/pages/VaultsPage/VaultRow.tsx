@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
@@ -34,23 +34,23 @@ export function VaultRow({
         setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
       });
 
-  const updateOwner = async () => {
-    const currentVault = contracts?.getVault(vault.vault_address);
-    if (!currentVault || !contracts) {
-      setUserIsOwner(false);
-      return;
-    }
-    const [ownerAddress, userAddress] = await Promise.all([
-      currentVault.owner(),
-      contracts.getMyAddress(),
-    ]);
-    setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
-  };
+  useBlockListener(updateBalance, [vault.id]);
 
-  useBlockListener(() => {
-    updateBalance();
+  useEffect(() => {
+    const updateOwner = async () => {
+      const currentVault = contracts?.getVault(vault.vault_address);
+      if (!currentVault || !contracts) {
+        setUserIsOwner(false);
+        return;
+      }
+      const [ownerAddress, userAddress] = await Promise.all([
+        currentVault.owner(),
+        contracts.getMyAddress(),
+      ]);
+      setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
+    };
     updateOwner();
-  }, [vault.id]);
+  }, [contracts, vault.id]);
 
   return (
     <Panel css={css}>
