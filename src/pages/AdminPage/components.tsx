@@ -890,27 +890,30 @@ export const MembersTable = ({
             ) : (
               pagedView.map(u => {
                 return (
-                  <Table.Row key={u.id}>
+                  <Table.Row
+                    key={u.id}
+                    css={
+                      u.deleted_at !== null
+                        ? {
+                            '> td': { opacity: 0.3 },
+                            '> td.normal': { opacity: 1 },
+                          }
+                        : {}
+                    }
+                  >
                     <Table.Cell
                       key={`user-name-${u.id}`}
                       area="wide"
                       align="left"
-                      disabled={u.deleted_at !== null}
                     >
                       <UserName user={u} />
                     </Table.Cell>
 
-                    <Table.Cell
-                      key={`address-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`address-${u.id}`}>
                       {shortenAddress(u.address)}
                     </Table.Cell>
 
-                    <Table.Cell
-                      key={`giver-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`giver-${u.id}`}>
                       {!u.non_giver ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
@@ -918,10 +921,7 @@ export const MembersTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell
-                      key={`recipient-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`recipient-${u.id}`}>
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
@@ -931,20 +931,14 @@ export const MembersTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell
-                      key={`admin-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`admin-${u.id}`}>
                       {u.role === USER_ROLE_ADMIN ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
                         <CloseIcon size="inherit" color="alert" />
                       )}
                     </Table.Cell>
-                    <Table.Cell
-                      key={`give-sent-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`give-sent-${u.id}`}>
                       {!u.non_giver ||
                       u.starting_tokens - u.give_token_remaining != 0
                         ? `${u.starting_tokens - u.give_token_remaining}/${
@@ -952,10 +946,7 @@ export const MembersTable = ({
                           }`
                         : '-'}
                     </Table.Cell>
-                    <Table.Cell
-                      key={`give-received-${u.id}`}
-                      disabled={u.deleted_at !== null}
-                    >
+                    <Table.Cell key={`give-received-${u.id}`}>
                       {u.give_token_received === 0 &&
                       (!!u.fixed_non_receiver || !!u.non_receiver)
                         ? '-'
@@ -968,7 +959,7 @@ export const MembersTable = ({
                           : u.fixed_payment_amount}
                       </Table.Cell>
                     )}
-                    <Table.Cell key={`actions-${u.id}`}>
+                    <Table.Cell key={`actions-${u.id}`} className="normal">
                       {u.role === USER_ROLE_COORDINAPE
                         ? renderCoordinapeActions(u.deleted_at === null, () => {
                             const shouldEnable = u.deleted_at !== null;
