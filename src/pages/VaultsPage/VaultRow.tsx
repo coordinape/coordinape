@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
@@ -9,9 +9,10 @@ import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
-import DepositModal, { DepositModalProps } from './DepositModal';
+import DepositModal from './DepositModal';
 import { dummyTableData, TransactionTable } from './VaultTransactions';
-import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
+
+type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
 export function VaultRow({
   vault,
@@ -21,7 +22,6 @@ export function VaultRow({
   css?: CSS;
 }) {
   const [modal, setModal] = useState<ModalLabel>('');
-  const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
@@ -36,32 +36,15 @@ export function VaultRow({
 
   useBlockListener(updateBalance, [vault.id]);
 
-  useEffect(() => {
-    const updateOwner = async () => {
-      const currentVault = contracts?.getVault(vault.vault_address);
-      if (!currentVault || !contracts) {
-        setUserIsOwner(false);
-        return;
-      }
-      const [ownerAddress, userAddress] = await Promise.all([
-        currentVault.owner(),
-        contracts.getMyAddress(),
-      ]);
-      setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
-    };
-    updateOwner();
-  }, [contracts, vault.id]);
-
   return (
     <Panel css={css}>
-      <VaultModal
-        modal={modal}
-        onClose={closeModal}
-        vault={vault}
-        balance={balance}
-        onWithdraw={updateBalance}
-        onDeposit={updateBalance}
-      />
+      {modal === 'deposit' ? (
+        <DepositModal
+          vault={vault}
+          onClose={closeModal}
+          onDeposit={updateBalance}
+        />
+      ) : null}
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
@@ -76,16 +59,14 @@ export function VaultRow({
         >
           Deposit
         </Button>
-        {userIsOwner && (
-          <Button
-            color="primary"
-            outlined
-            size="small"
-            onClick={() => setModal('withdraw')}
-          >
-            Withdraw
-          </Button>
-        )}
+        <Button
+          color="primary"
+          outlined
+          size="small"
+          onClick={() => alert('TODO')}
+        >
+          Withdraw
+        </Button>
       </Box>
       <Box
         css={{
@@ -133,33 +114,4 @@ export function VaultRow({
       </Box>
     </Panel>
   );
-}
-
-type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
-
-type ModalProps =
-  | { modal: ModalLabel } & DepositModalProps & WithdrawModalProps;
-
-function VaultModal<T extends ModalProps>(props: T) {
-  switch (props.modal) {
-    case 'deposit':
-      return (
-        <DepositModal
-          vault={props.vault}
-          onClose={props.onClose}
-          onDeposit={props.onDeposit}
-        />
-      );
-    case 'withdraw':
-      return (
-        <WithdrawModal
-          onClose={props.onClose}
-          vault={props.vault}
-          balance={props.balance}
-          onWithdraw={props.onWithdraw}
-        />
-      );
-    default:
-      return <></>;
-  }
 }
