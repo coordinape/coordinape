@@ -21,7 +21,10 @@ export const getTokenAddress = (
   const address = hasSimpleToken(vault)
     ? vault.simple_token_address
     : vault.token_address;
-  assert(address && address !== ZERO_ADDRESS, 'Vault is missing token address');
+  assert(
+    address && address !== ZERO_ADDRESS,
+    'coVault is missing token address'
+  );
   return address;
 };
 

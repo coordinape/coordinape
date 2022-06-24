@@ -28,10 +28,10 @@ context('Coordinape', () => {
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.wait(1000);
-    cy.contains('Add Vault').click();
+    cy.contains('Add coVault').click();
     cy.get('[role=dialog]').contains('USDC').click();
-    cy.contains('Create Vault').click();
-    cy.contains('USDC Vault', { timeout: 120000 });
+    cy.contains('Create coVault').click();
+    cy.contains('USDC coVault', { timeout: 120000 });
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
