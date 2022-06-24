@@ -560,19 +560,12 @@ export const EpochsTable = ({
               pagedView.map(e => {
                 return (
                   <Table.Row key={e.id}>
-                    <Table.Cell key={`details-${e.id}`} align="left">
+                    <Table.Cell align="left">
                       {RenderEpochDetails(e)}
                     </Table.Cell>
-
-                    <Table.Cell key={`status-${e.id}`}>
-                      {RenderEpochStatus(e)}
-                    </Table.Cell>
-
-                    <Table.Cell key={`date-${e.id}`} align="left">
-                      {RenderEpochDates(e)}
-                    </Table.Cell>
-
-                    <Table.Cell key={`actions-${e.id}`}>
+                    <Table.Cell>{RenderEpochStatus(e)}</Table.Cell>
+                    <Table.Cell align="left">{RenderEpochDates(e)}</Table.Cell>
+                    <Table.Cell>
                       {RenderEpochActions(
                         e,
                         `${circle?.protocol.name}-${circle?.name}-epoch-${e}.csv`
@@ -584,7 +577,7 @@ export const EpochsTable = ({
             )
           ) : (
             <Table.Row>
-              <Table.Cell key={`empty-epochs-table-view`} colSpan={4}>
+              <Table.Cell colSpan={4}>
                 <EmptyTable
                   content="You don’t have any epochs scheduled"
                   createLabel="Create Epoch"
@@ -901,19 +894,13 @@ export const MembersTable = ({
                         : {}
                     }
                   >
-                    <Table.Cell
-                      key={`user-name-${u.id}`}
-                      area="wide"
-                      align="left"
-                    >
+                    <Table.Cell area="wide" align="left">
                       <UserName user={u} />
                     </Table.Cell>
 
-                    <Table.Cell key={`address-${u.id}`}>
-                      {shortenAddress(u.address)}
-                    </Table.Cell>
+                    <Table.Cell>{shortenAddress(u.address)}</Table.Cell>
 
-                    <Table.Cell key={`giver-${u.id}`}>
+                    <Table.Cell>
                       {!u.non_giver ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
@@ -921,7 +908,7 @@ export const MembersTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`recipient-${u.id}`}>
+                    <Table.Cell>
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
@@ -931,14 +918,14 @@ export const MembersTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`admin-${u.id}`}>
+                    <Table.Cell>
                       {u.role === USER_ROLE_ADMIN ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
                         <CloseIcon size="inherit" color="alert" />
                       )}
                     </Table.Cell>
-                    <Table.Cell key={`give-sent-${u.id}`}>
+                    <Table.Cell>
                       {!u.non_giver ||
                       u.starting_tokens - u.give_token_remaining != 0
                         ? `${u.starting_tokens - u.give_token_remaining}/${
@@ -946,20 +933,20 @@ export const MembersTable = ({
                           }`
                         : '-'}
                     </Table.Cell>
-                    <Table.Cell key={`give-received-${u.id}`}>
+                    <Table.Cell>
                       {u.give_token_received === 0 &&
                       (!!u.fixed_non_receiver || !!u.non_receiver)
                         ? '-'
                         : u.give_token_received}
                     </Table.Cell>
                     {isFeatureEnabled('fixed_payments') && (
-                      <Table.Cell key={`fixed-amount-${u.id}`}>
+                      <Table.Cell>
                         {u.fixed_payment_amount === 0
                           ? '-'
                           : u.fixed_payment_amount}
                       </Table.Cell>
                     )}
-                    <Table.Cell key={`actions-${u.id}`} className="normal">
+                    <Table.Cell className="normal">
                       {u.role === USER_ROLE_COORDINAPE
                         ? renderCoordinapeActions(u.deleted_at === null, () => {
                             const shouldEnable = u.deleted_at !== null;
@@ -989,7 +976,7 @@ export const MembersTable = ({
             )
           ) : (
             <Table.Row>
-              <Table.Cell key={`empty-users-table-view`} colSpan={4}>
+              <Table.Cell colSpan={4}>
                 <EmptyTable
                   content="You haven’t added any contributors"
                   createLabel="Add Contributor"
