@@ -107,6 +107,7 @@ input CreateUserInput {
   non_receiver: Boolean
   role: Int
   starting_tokens: Int
+  fixed_payment_amount: Float
 }
 
 input UploadImageInput {
