@@ -244,7 +244,7 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, amount, distribution }) => (
+          {({ id, amount, unwrappedAmount, distribution }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -277,7 +277,8 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {amount} {distribution.vault.symbol}
+                      {parseFloat(unwrappedAmount || amount).toFixed(2)}{' '}
+                      {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
@@ -332,7 +333,7 @@ export default function ClaimsPage() {
               css: { textAlign: 'right', width: '98%' },
             },
           ]}
-          data={claims.filter(c => c.txHash)}
+          data={currentClaims(claims.filter(c => c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
@@ -350,14 +351,9 @@ export default function ClaimsPage() {
                 </Flex>
               </td>
               <td>
-                <Text>
-                  Epoch {distribution.epoch.number}
-                  {': '}
-                  {formatEpochDates(
-                    distribution.epoch.start_date,
-                    distribution.epoch.end_date
-                  )}
-                </Text>
+                {formatEpochDates(
+                  claimsGroupByVault[distribution.vault.vault_address]
+                )}
               </td>
               <td>
                 <Flex
