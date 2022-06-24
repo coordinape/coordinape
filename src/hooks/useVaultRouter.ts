@@ -80,6 +80,7 @@ export function useVaultRouter(contracts?: Contracts) {
       showError,
       showInfo,
       signingMessage: 'Please sign the transaction to withdraw tokens.',
+      chainId: contracts.chainId,
     });
   };
 
