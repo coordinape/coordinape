@@ -13,7 +13,6 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
  * @param fixedGifts the map of Fixed payment allocations: address => total fixed payment received
  * @param totalAmount the total amount of tokens to distribute, as a fixed-point number
  * @param giftAmount the amount of gift tokens to distribute, as a fixed-point number
- * @param fixedAmount the amount of fixed payment to distribute, as a fixed-point number
  * @param previousDistribution the previous epoch's distribution info
  *
  * the map of GIVE allocations is in GIVE tokens, but that has to be converted
