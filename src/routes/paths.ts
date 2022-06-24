@@ -58,6 +58,7 @@ export const paths = {
   give: circlePath('give'),
   history: circlePath('history'),
   members: circlePath('members'),
+  membersAdd: circlePath('members/add'),
   team: circlePath('team'),
   vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
@@ -75,6 +76,10 @@ export const paths = {
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
+
+  // for circle links
+  invite: (token: string) => `/invite/${token}`,
+  join: (token: string) => `/join/${token}`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

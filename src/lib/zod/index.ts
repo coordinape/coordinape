@@ -13,6 +13,10 @@ const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 
 export const sha256HashString = z.string().length(64);
 
+export const circleLandingInput = z.object({
+  token: z.string(),
+});
+
 export const loginInput = z.object({
   address: zEthAddressOnly,
   data: z.string().refine(

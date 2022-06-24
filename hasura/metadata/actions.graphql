@@ -373,6 +373,7 @@ type LogVaultTxResponse {
 type DeleteCircleResponse {
   success: Boolean!
 }
+
 type CircleLandingInfoResponse {
   circle_id: Int!
   name: String!
