@@ -415,7 +415,7 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
   return updateTeammates;
 }
 
-export async function restoreCoordinpeUser(circleId: number) {
+export async function restoreCoordinapeUser(circleId: number) {
   await client.mutate(
     {
       restoreCoordinape: [
