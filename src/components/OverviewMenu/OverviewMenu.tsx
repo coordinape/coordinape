@@ -46,7 +46,6 @@ export const OverviewMenu = () => {
   const hasCircles = useHasCircles();
 
   const goToCircle = (id: number, path: string) => {
-    triggerRef.current?.click();
     scrollToTop();
     navigate(path);
   };
@@ -79,10 +78,10 @@ export const OverviewMenu = () => {
   );
 
   const [popoverClicked, setPopoverClicked] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const clickPopover = () => {
     if (popoverClicked) return;
-    triggerRef.current?.click();
+    ref.current?.click();
     setPopoverClicked(true);
   };
 
@@ -92,7 +91,7 @@ export const OverviewMenu = () => {
         <Popover>
           <PopoverTrigger
             asChild
-            ref={triggerRef}
+            ref={ref}
             onMouseEnter={clickPopover}
             onMouseLeave={() => setPopoverClicked(false)}
           >
@@ -135,12 +134,7 @@ export const OverviewMenu = () => {
                   marginTop: '$sm',
                 }}
               >
-                {hasCircles && (
-                  <TopLevelLinks
-                    links={mainLinks}
-                    onClick={() => triggerRef.current?.click()}
-                  />
-                )}
+                {hasCircles && <TopLevelLinks links={mainLinks} />}
               </Box>
               {orgs?.map(org => (
                 <Box key={org.id} css={menuGroupStyle}>
@@ -175,10 +169,8 @@ type CircleItemProps = {
 
 export const TopLevelLinks = ({
   links,
-  onClick,
 }: {
   links: [string, string, string[]?][];
-  onClick?: () => void;
 }) => {
   const location = useLocation();
 
@@ -191,7 +183,6 @@ export const TopLevelLinks = ({
           as={NavLink}
           key={path}
           to={path}
-          onClick={onClick}
           className={matchPaths?.includes(location.pathname) ? 'active' : ''}
         >
           {label}

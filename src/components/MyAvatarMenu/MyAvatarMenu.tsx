@@ -45,10 +45,10 @@ export const MyAvatarMenu = () => {
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [popoverClicked, setPopoverClicked] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const clickPopover = () => {
     if (popoverClicked) return;
-    triggerRef.current?.click();
+    ref.current?.click();
     setPopoverClicked(true);
   };
 
@@ -61,7 +61,7 @@ export const MyAvatarMenu = () => {
         <Popover>
           <PopoverTrigger
             asChild
-            ref={triggerRef}
+            ref={ref}
             onMouseEnter={clickPopover}
             onMouseLeave={() => setPopoverClicked(false)}
           >
@@ -73,8 +73,7 @@ export const MyAvatarMenu = () => {
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-67}
             alignOffset={-16}
-            css={{ background: '$surface', outline: 'none' }}
-            onClick={() => triggerRef.current?.click()}
+            css={{ background: '$surface' }}
           >
             <Box
               css={{
