@@ -430,7 +430,7 @@ export async function restoreCoordinpeUser(circleId: number) {
       ],
     },
     {
-      operationName: 'resotre_coordinape',
+      operationName: 'restore_coordinape',
     }
   );
 }
