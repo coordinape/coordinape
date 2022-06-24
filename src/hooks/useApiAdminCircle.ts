@@ -99,7 +99,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const restoreCoordinape = useRecoilLoadCatch(
     () => async (circleId: number) => {
-      await mutations.restoreCoordinpeUser(circleId);
+      await mutations.restoreCoordinapeUser(circleId);
       await fetchCircle({ circleId });
     }
   );
