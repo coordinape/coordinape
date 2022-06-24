@@ -115,7 +115,7 @@ actions:
 - name: restoreCoordinape
   definition:
     kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/restoreCoordinape'
+    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
     headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
