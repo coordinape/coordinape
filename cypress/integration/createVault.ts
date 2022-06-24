@@ -51,5 +51,11 @@ context('Coordinape', () => {
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
     cy.contains('Distribution submitted today', { timeout: 120000 });
+
+    // claims allocations
+    cy.contains('button', 'Claim Allocations').click();
+    cy.contains('button', 'Claim USDC').click();
+    cy.contains('Please sign the transaction', { timeout: 120000 });
+    cy.contains('Claim of allocations successful', { timeout: 120000 });
   });
 });

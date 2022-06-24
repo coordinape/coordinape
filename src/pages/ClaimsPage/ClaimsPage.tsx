@@ -1,5 +1,4 @@
 import assert from 'assert';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import groupBy from 'lodash/groupBy';
 import { useQuery } from 'react-query';
@@ -196,102 +195,6 @@ export default function ClaimsPage() {
                       onClick={() => processClaim(id)}
                     >
                       Claim {distribution.vault.symbol}
-                    </Button>
-                  </Flex>
-                </Flex>
-              </td>
-            </tr>
-          )}
-        </ClaimsTable>
-      </Panel>
-
-      <Box
-        css={{
-          fontSize: '$h2',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-          mt: '$2xl',
-        }}
-      >
-        Claim History
-      </Box>
-
-      <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
-        <ClaimsTable
-          headers={[
-            {
-              title: 'Organization',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Circle',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Epoch',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Rewards',
-              css: { textAlign: 'right', width: '98%' },
-            },
-          ]}
-          data={currentClaims(claims.filter(c => c.txHash))}
-          startingSortIndex={2}
-          startingSortDesc
-          sortByColumn={() => {
-            return c => c;
-          }}
-        >
-          {({ id, amount, unwrappedAmount, distribution }) => (
-            <tr key={id}>
-              <td>
-                <Text>{distribution.epoch.circle?.organization?.name}</Text>
-              </td>
-              <td>
-                <Flex row css={{ gap: '$sm' }}>
-                  <Text>{distribution.epoch.circle?.name}</Text>
-                </Flex>
-              </td>
-              <td>
-                {formatEpochDates(
-                  claimsGroupByVault[distribution.vault.vault_address]
-                )}
-              </td>
-              <td>
-                <Flex
-                  css={{
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      minWidth: '10vw',
-                      justifyContent: 'flex-end',
-                      gap: '$md',
-                      mr: '$md',
-                      '@sm': {
-                        minWidth: '20vw',
-                      },
-                    }}
-                  >
-                    <Text>
-                      {parseFloat(unwrappedAmount || amount).toFixed(2)}{' '}
-                      {distribution.vault.symbol}
-                    </Text>
-                    <Button
-                      color="primary"
-                      outlined
-                      css={{
-                        fontWeight: '$normal',
-                        minHeight: '$xs',
-                        px: '$sm',
-                        minWidth: '5vw',
-                        borderRadius: '$2',
-                      }}
-                    >
-                      View on Etherscan
                     </Button>
                   </Flex>
                 </Flex>

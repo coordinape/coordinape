@@ -78,7 +78,7 @@ export function useClaimAllocation() {
 
       showInfo('Saving record of claim...');
       await markSaved({ circleId, txHash, vaultAddress: vault.vault_address });
-      showInfo('Saved');
+      showInfo('Claim of allocations successful');
 
       return txHash;
     } catch (e) {

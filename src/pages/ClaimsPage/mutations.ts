@@ -17,16 +17,20 @@ export function useMarkClaimTaken() {
           update_claims: [
             {
               _set: {
-                txHash,
+                txHash: txHash,
               },
               where: {
                 distribution: {
                   vault: { vault_address: { _eq: vaultAddress } },
-                  epoch: { circle_id: { _eq: circleId } },
+                  epoch: { circle: { id: { _eq: circleId } } },
                 },
               },
             },
-            {},
+            {
+              returning: {
+                id: true,
+              },
+            },
           ],
         },
         {

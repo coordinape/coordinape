@@ -1,6 +1,6 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { Contracts } from 'lib/vaults';
+import { Contracts, getUnwrappedAmount } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
@@ -69,21 +69,20 @@ export const getClaims = async (
   };
 
   for (const claim of claims) {
-    // const { distribution } = claim;
-    // const pricePerShare = await contracts.getPricePerShare(
-    //   distribution.vault.vault_address,
-    //   distribution.vault.symbol,
-    //   distribution.vault.decimals
-    // );
+    const { distribution } = claim;
+    const pricePerShare = await contracts.getPricePerShare(
+      distribution.vault.vault_address,
+      distribution.vault.symbol,
+      distribution.vault.decimals
+    );
 
-    // FIXME: underflow error when this is called.
-    // const unwrappedAmount = getUnwrappedAmount(
-    //   claim.amount,
-    //   pricePerShare,
-    //   distribution.vault.decimals
-    // );
+    const unwrappedAmount = getUnwrappedAmount(
+      claim.amount,
+      pricePerShare,
+      distribution.vault.decimals
+    );
 
-    (claim as ClaimWithUnwrappedAmount).unwrappedAmount = 12;
+    (claim as ClaimWithUnwrappedAmount).unwrappedAmount = unwrappedAmount;
   }
   return claims;
 };
