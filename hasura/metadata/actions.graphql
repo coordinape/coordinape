@@ -129,6 +129,7 @@ input AdminUpdateUserInput {
   fixed_non_receiver: Boolean
   non_receiver: Boolean
   role: Int
+  fixed_payment_amount: Float
 }
 
 input DeleteEpochInput {
