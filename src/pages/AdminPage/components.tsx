@@ -975,7 +975,7 @@ export const MembersTable = ({
                             const confirm = window.confirm(
                               `${
                                 shouldEnable ? 'Enable' : 'Disable'
-                              } Coordinape in this ${circle.name}?`
+                              } Coordinape in this circle?`
                             );
                             if (confirm) {
                               shouldEnable
