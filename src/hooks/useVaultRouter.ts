@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { getTokenAddress, getWrappedAmount } from 'lib/vaults';
+import { getTokenAddress } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -67,21 +67,22 @@ export function useVaultRouter(contracts?: Contracts) {
     );
   };
 
-  const withdraw = async (
+  const delegateWithdrawal = async (
     vault: GraphQLTypes['vaults'],
-    humanAmount: string,
+    tokenAddress: string,
+    shareAmount: BigNumber,
     underlying: boolean
-  ): Promise<SendAndTrackTxResult> => {
+  ) => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
-    const vaultContract = contracts.getVault(vault.vault_address);
-    const shares = await getWrappedAmount(humanAmount, vault, contracts);
-    return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
-      showError,
-      showInfo,
-      signingMessage: 'Please sign the transaction to withdraw tokens.',
-    });
+    return contracts.router.delegateWithdrawal(
+      account,
+      vault.vault_address as string,
+      tokenAddress,
+      shareAmount,
+      underlying
+    );
   };
 
-  return { deposit, withdraw };
+  return { deposit, delegateWithdrawal };
 }
