@@ -30,7 +30,6 @@ export function useClaimAllocation() {
   const { showError, showInfo } = useApeSnackbar();
 
   return async ({
-    claimId,
     vault,
     circleId,
     distributionEpochId,
@@ -79,7 +78,7 @@ export function useClaimAllocation() {
       assert(txHash, "Claimed event didn't return a transaction hash");
 
       showInfo('Saving record of claim...');
-      await markSaved({ claimId, txHash });
+      await markSaved({ circleId, txHash, vaultAddress: vault.vault_address });
       showInfo('Saved');
 
       return txHash;

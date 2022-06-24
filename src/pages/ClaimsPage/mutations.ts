@@ -3,17 +3,30 @@ import { useMutation } from 'react-query';
 
 export function useMarkClaimTaken() {
   return useMutation(
-    ({ claimId, txHash }: { claimId: number; txHash: string }) => {
+    ({
+      circleId,
+      txHash,
+      vaultAddress,
+    }: {
+      circleId: number;
+      txHash: string;
+      vaultAddress: string;
+    }) => {
       return client.mutate(
         {
-          update_claims_by_pk: [
+          update_claims: [
             {
               _set: {
                 txHash,
               },
-              pk_columns: { id: claimId },
+              where: {
+                distribution: {
+                  vault: { vault_address: { _eq: vaultAddress } },
+                  epoch: { circle_id: { _eq: circleId } },
+                },
+              },
             },
-            { id: true },
+            {},
           ],
         },
         {

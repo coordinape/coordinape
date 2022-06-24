@@ -1,10 +1,12 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
 export const getClaims = async (
-  profileId: number
+  profileId: number,
+  contracts?: Contracts
 ): Promise<typeof claims | undefined> => {
   const { claims } = await client.query(
     {
@@ -59,11 +61,33 @@ export const getClaims = async (
       operationName: 'getClaims',
     }
   );
+
+  if (!contracts) return claims;
+
+  type ClaimWithUnwrappedAmount = Exclude<typeof claims, undefined>[0] & {
+    unwrappedAmount: number;
+  };
+
+  for (const claim of claims) {
+    // const { distribution } = claim;
+    // const pricePerShare = await contracts.getPricePerShare(
+    //   distribution.vault.vault_address,
+    //   distribution.vault.symbol,
+    //   distribution.vault.decimals
+    // );
+
+    // FIXME: underflow error when this is called.
+    // const unwrappedAmount = getUnwrappedAmount(
+    //   claim.amount,
+    //   pricePerShare,
+    //   distribution.vault.decimals
+    // );
+
+    (claim as ClaimWithUnwrappedAmount).unwrappedAmount = 12;
+  }
   return claims;
 };
 
-export type ClaimsResults = Awaited<ReturnType<typeof getClaims>>;
-export type ClaimsResult = Exclude<
-  Awaited<ReturnType<typeof getClaims>>,
-  undefined
->[0];
+type Claims = Exclude<Awaited<ReturnType<typeof getClaims>>, undefined>[0];
+
+export type ClaimsResult = Claims & { unwrappedAmount?: number };

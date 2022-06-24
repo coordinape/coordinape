@@ -1,5 +1,10 @@
+/* eslint-disable no-console */
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
 
+import groupBy from 'lodash/groupBy';
+import uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 
 import { LoadingModal, makeTable } from 'components';
@@ -30,7 +35,7 @@ export default function ClaimsPage() {
     error,
     data: claims,
     refetch,
-  } = useQuery(['claims', profile.id], () => getClaims(profile.id), {
+  } = useQuery(['claims', profile.id], () => getClaims(profile.id, contracts), {
     enabled: !!(contracts && address),
     retry: false,
   });
@@ -43,6 +48,28 @@ export default function ClaimsPage() {
       </SingleColumnLayout>
     );
   if (!claims) return <SingleColumnLayout>No claims found</SingleColumnLayout>;
+
+  const claimsGroupByVault = groupBy(
+    claims.sort(c => c.id),
+    c => c.distribution.epoch.circle?.id && c.distribution.vault.vault_address
+  );
+
+  const currentClaims = (claims: ClaimsResult[]) =>
+    claims
+      .sort(c => c.id)
+      .reduce(
+        (finalClaims, curr) =>
+          finalClaims.filter(
+            c =>
+              c.distribution.vault.vault_address ==
+                curr.distribution.vault.vault_address &&
+              c.distribution.epoch.circle?.id ===
+                curr.distribution.epoch.circle?.id
+          ).length > 0
+            ? finalClaims
+            : [...finalClaims, curr],
+        [] as ClaimsResult[]
+      );
 
   const processClaim = async (claimId: number) => {
     const claim = claims.find(c => c.id === claimId);
@@ -114,14 +141,14 @@ export default function ClaimsPage() {
               css: { textAlign: 'right', width: '98%' },
             },
           ]}
-          data={claims.filter(c => !c.txHash)}
+          data={currentClaims(claims.filter(c => !c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
             return c => c;
           }}
         >
-          {({ id, amount, distribution }) => (
+          {({ id, amount, unwrappedAmount, distribution }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -132,7 +159,11 @@ export default function ClaimsPage() {
                 </Flex>
               </td>
               <td>
-                <Text>{3}</Text>
+                <Text>
+                  {formatEpochDates(
+                    claimsGroupByVault[distribution.vault.vault_address]
+                  )}
+                </Text>
               </td>
               <td>
                 <Flex
@@ -152,7 +183,8 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {amount} {distribution.vault.symbol}
+                      {parseFloat(unwrappedAmount || amount).toFixed(2)}{' '}
+                      {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
@@ -208,7 +240,7 @@ export default function ClaimsPage() {
               css: { textAlign: 'right', width: '98%' },
             },
           ]}
-          data={claims.filter(c => c.txHash)}
+          data={currentClaims(claims.filter(c => c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
@@ -226,14 +258,9 @@ export default function ClaimsPage() {
                 </Flex>
               </td>
               <td>
-                <Text>
-                  Epoch {distribution.epoch.number}
-                  {': '}
-                  {formatEpochDates(
-                    distribution.epoch.start_date,
-                    distribution.epoch.end_date
-                  )}
-                </Text>
+                {formatEpochDates(
+                  claimsGroupByVault[distribution.vault.vault_address]
+                )}
               </td>
               <td>
                 <Flex
@@ -279,9 +306,19 @@ export default function ClaimsPage() {
   );
 }
 
-function formatEpochDates(_startDate: any, _endDate: any) {
-  const startDate = new Date(_startDate);
-  const endDate = new Date(_endDate);
-  const month = startDate.toLocaleString('default', { month: 'long' });
-  return `${month} ${startDate.getDate()} - ${endDate.getDate()} ${endDate.getFullYear()}`;
+function formatEpochDates(claims: ClaimsResult[]) {
+  const startDate = new Date(claims[0].distribution.epoch.start_date);
+  const endDate = new Date(
+    claims[claims.length - 1].distribution.epoch.end_date
+  );
+  const epochsPlural = claims.length > 1 ? 'Epochs:' : 'Epoch:';
+
+  const monthName = (_date: Date) =>
+    _date.toLocaleString('default', { month: 'long' });
+
+  return `${claims.length} ${epochsPlural} ${monthName(
+    startDate
+  )} ${startDate.getDate()} - ${monthName(
+    endDate
+  )} ${endDate.getDate()} ${endDate.getFullYear()}`;
 }
