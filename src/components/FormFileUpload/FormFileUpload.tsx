@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { makeStyles, Button, ButtonGroup } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { UploadIcon, EditIcon } from 'icons';
+import { DeprecatedUploadIcon, EditIcon } from 'icons';
 
 const useStyles = makeStyles(theme => ({
   smallButton: {
@@ -63,7 +63,7 @@ export const FormFileUpload = ({
         {hasChanged && !!commit && (
           <Button
             onClick={onSave}
-            startIcon={<UploadIcon />}
+            startIcon={<DeprecatedUploadIcon />}
             size="small"
             className={buttonClass}
           >

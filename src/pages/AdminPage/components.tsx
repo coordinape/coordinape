@@ -65,6 +65,7 @@ export const CreateEpochButton = ({
     >
       Create Epoch
       <Tooltip
+        css={{ ml: '$xs' }}
         content={
           <>
             An Epoch is a period of time where circle members contribute value &
@@ -105,6 +106,7 @@ export const AddContributorButton = ({
     >
       Add Contributor
       <Tooltip
+        css={{ ml: '$xs' }}
         content={
           <>
             A member of a circle that can receive {tokenName} or kudos for

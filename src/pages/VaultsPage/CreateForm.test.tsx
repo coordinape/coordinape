@@ -20,7 +20,7 @@ test('select an asset', async () => {
   });
   await screen.findByText('DAI');
   fireEvent.click(screen.getByText('DAI'));
-  const submitButton = screen.getByText('Create Vault') as HTMLButtonElement;
+  const submitButton = screen.getByText('Create coVault') as HTMLButtonElement;
   await waitFor(() => expect(submitButton.disabled).toBeFalsy());
 });
 

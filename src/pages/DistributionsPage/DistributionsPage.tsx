@@ -147,7 +147,7 @@ export function DistributionsPage() {
 //TODO: Discuss with the team what do about Icons in general. This should go in a separate file.
 const Icon = styled(FiExternalLink, {
   size: '$md',
-  color: '$focusedBorder',
+  color: '$borderMedium',
 });
 
 const Summary = ({

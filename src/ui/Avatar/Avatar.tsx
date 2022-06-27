@@ -3,7 +3,10 @@ import React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { styled } from '../../stitches.config';
-import { getAvatarPath, getInitialFromName } from 'utils/domain';
+import {
+  getAvatarPathWithoutPlaceholder,
+  getInitialFromName,
+} from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
   margin: '$sm',
@@ -27,6 +30,9 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       small: {
         width: '$xl !important',
         height: '$xl',
+        '> span': {
+          fontSize: '$medium',
+        },
       },
       large: {
         width: '$3xl',
@@ -52,12 +58,22 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$black',
-  backgroundColor: '$surface',
+  color: '$text',
+  backgroundColor: '$border',
   lineHeight: 1,
-  fontSize: '$large',
   fontWeight: '$medium',
   cursor: 'pointer',
+
+  variants: {
+    size: {
+      small: {
+        fontSize: '$medium',
+      },
+      large: {
+        fontSize: '$large',
+      },
+    },
+  },
 });
 
 export const Avatar = ({
@@ -75,7 +91,7 @@ export const Avatar = ({
   small?: boolean;
   children?: React.ReactNode;
 }) => {
-  const avatarPath = getAvatarPath(path);
+  const avatarPath = getAvatarPathWithoutPlaceholder(path);
 
   return (
     <AvatarRoot
@@ -83,8 +99,10 @@ export const Avatar = ({
       size={small ? 'small' : 'large'}
       {...props}
     >
-      <AvatarImage src={avatarPath} alt={name} />
-      <AvatarFallback>{name && getInitialFromName(name)}</AvatarFallback>
+      {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
+      <AvatarFallback size={small ? 'small' : 'large'}>
+        {name && getInitialFromName(name)}
+      </AvatarFallback>
     </AvatarRoot>
   );
 };

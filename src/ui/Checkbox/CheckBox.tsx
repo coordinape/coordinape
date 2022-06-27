@@ -17,8 +17,8 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': { borderColor: '$focusedBorder' },
-  '&:focus': { borderColor: '$focusedBorder' },
+  '&:hover': { borderColor: '$borderMedium' },
+  '&:focus': { borderColor: '$borderMedium' },
   variants: {
     border: {
       default: {

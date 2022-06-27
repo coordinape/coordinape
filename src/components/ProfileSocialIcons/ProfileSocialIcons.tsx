@@ -3,12 +3,12 @@ import React from 'react';
 import { makeStyles, IconButton } from '@material-ui/core';
 
 import {
-  TwitterIcon,
-  DiscordIcon,
-  MediumIcon,
-  TelegramIcon,
-  LinkIcon,
-  GithubIcon,
+  DeprecatedTwitterIcon,
+  DeprecatedDiscordIcon,
+  DeprecatedMediumIcon,
+  DeprecatedTelegramIcon,
+  DeprecatedLinkIcon,
+  DeprecatedGithubIcon,
 } from 'icons';
 
 import { IApiProfile } from 'types';
@@ -33,7 +33,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://twitter.com/${profile.twitter_username}`}
           target="_blank"
         >
-          <TwitterIcon />
+          <DeprecatedTwitterIcon />
         </IconButton>
       )}
       {profile.github_username && (
@@ -43,7 +43,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://github.com/${profile.github_username}`}
           target="_blank"
         >
-          <GithubIcon />
+          <DeprecatedGithubIcon />
         </IconButton>
       )}
       {profile.telegram_username && (
@@ -53,7 +53,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://t.me/${profile.telegram_username}`}
           target="_blank"
         >
-          <TelegramIcon />
+          <DeprecatedTelegramIcon />
         </IconButton>
       )}
       {profile.discord_username && (
@@ -63,7 +63,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://discord.com/${profile.discord_username}`}
           target="_blank"
         >
-          <DiscordIcon />
+          <DeprecatedDiscordIcon />
         </IconButton>
       )}
       {profile.medium_username && (
@@ -73,7 +73,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://${profile.medium_username}.medium.com`}
           target="_blank"
         >
-          <MediumIcon />
+          <DeprecatedMediumIcon />
         </IconButton>
       )}
       {profile.website && (
@@ -83,7 +83,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={profile.website}
           target="_blank"
         >
-          <LinkIcon />
+          <DeprecatedLinkIcon />
         </IconButton>
       )}
     </>

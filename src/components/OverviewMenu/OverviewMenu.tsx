@@ -1,3 +1,5 @@
+import { useRef, useState } from 'react';
+
 import sortBy from 'lodash/sortBy';
 import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
@@ -33,7 +35,7 @@ type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'coVaults'],
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
@@ -55,7 +57,7 @@ export const OverviewMenu = () => {
   const overviewMenuTriggerText = inCircle
     ? currentCircle
     : location.pathname.includes(paths.vaults)
-    ? 'Vaults'
+    ? 'coVaults'
     : 'Overview';
   const overviewMenuTrigger = (
     <Link
@@ -75,15 +77,31 @@ export const OverviewMenu = () => {
     </Link>
   );
 
+  const [popoverClicked, setPopoverClicked] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+  const clickPopover = () => {
+    if (popoverClicked) return;
+    ref.current?.click();
+    setPopoverClicked(true);
+  };
+
   return (
     <>
       <Hidden smDown>
         <Popover>
-          <PopoverTrigger asChild>{overviewMenuTrigger}</PopoverTrigger>
+          <PopoverTrigger
+            asChild
+            ref={ref}
+            onMouseEnter={clickPopover}
+            onMouseLeave={() => setPopoverClicked(false)}
+          >
+            {overviewMenuTrigger}
+          </PopoverTrigger>
           <PopoverContent
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-58}
             alignOffset={-3}
+            css={{ outline: 'none' }}
           >
             <Box
               css={{

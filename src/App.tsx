@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
+import { makeStyles } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -14,7 +15,7 @@ import { ErrorBoundary, MainLayout } from 'components';
 import { createTheme } from 'theme';
 import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
-import { globalStyles } from './stitches.config';
+import { snackbarStyles, globalStyles } from './stitches.config';
 
 import './App.css';
 
@@ -38,11 +39,14 @@ const theme = createTheme();
 
 const queryClient = new QueryClient();
 
+const useStyles = makeStyles(() => snackbarStyles);
+
 function App() {
   globalStyles();
+  const snackbarClasses = useStyles();
   return (
     <RecoilRoot>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={3} classes={snackbarClasses}>
         <ErrorBoundary>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>

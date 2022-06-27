@@ -22,7 +22,7 @@ export const SvgIcon = styled('svg', {
   height: '$$size',
   '& path': {
     stroke: '$$color',
-    fill: '$color',
+    fill: '$$color',
   },
   variants: {
     color: {
@@ -43,6 +43,9 @@ export const SvgIcon = styled('svg', {
       },
       lg: {
         $$size: '24px',
+      },
+      xl: {
+        $$size: '48px',
       },
     },
   },

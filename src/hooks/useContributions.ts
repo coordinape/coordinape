@@ -52,7 +52,10 @@ export function useContributions(
 ): ContributionUser | undefined {
   const users = useContributionUsers();
   return useMemo(
-    () => users.find(u => u.address.toLowerCase() === address.toLowerCase()),
+    () =>
+      address
+        ? users.find(u => u.address.toLowerCase() === address.toLowerCase())
+        : undefined,
     [address, users]
   );
 }

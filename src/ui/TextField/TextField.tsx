@@ -7,7 +7,7 @@ export const TextField = styled('input', {
   background: '$surface',
   border: '1px solid $border',
   '&:focus': {
-    border: '1px solid $focusedBorder',
+    border: '1px solid $borderMedium',
   },
   '&::placeholder': {
     color: '$secondaryText',

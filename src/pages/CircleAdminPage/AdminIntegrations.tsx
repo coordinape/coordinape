@@ -6,7 +6,12 @@ import { makeStyles, IconButton } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import { DeleteIcon, DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
+import {
+  DeprecatedDeleteIcon,
+  DeworkIcon,
+  DeworkLogo,
+  ParcelIcon,
+} from 'icons';
 import { paths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
@@ -38,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const AdminIntegrations = () => {
+export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const classes = useStyles();
 
   const integrations = useCurrentCircleIntegrations();
@@ -66,7 +71,7 @@ export const AdminIntegrations = () => {
               className={classes.errorColor}
               size="small"
             >
-              <DeleteIcon />
+              <DeprecatedDeleteIcon />
             </IconButton>
           </div>
         ))}
@@ -77,7 +82,9 @@ export const AdminIntegrations = () => {
           color="neutral"
           size="medium"
           outlined
-          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${window.location.origin}${paths.connectIntegration}`}
+          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${
+            window.location.origin
+          }${paths.connectIntegration(circleId)}`}
         >
           <Flex css={{ mr: '$sm' }}>
             <DeworkIcon size="md" />

@@ -7,7 +7,6 @@ import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount, Asset } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
-import { useDistributor } from 'hooks/useDistributor';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import {
@@ -100,7 +99,6 @@ test('submit distribution', async () => {
 
     const contracts = useContracts();
     const { deposit } = useVaultRouter(contracts);
-    const { getEpochRoot } = useDistributor();
 
     useEffect(() => {
       if (!contracts) return;
@@ -124,7 +122,7 @@ test('submit distribution', async () => {
         });
         merkleRootFromSubmission = distro.merkleRoot;
 
-        merkleRootFromDistributor = await getEpochRoot(
+        merkleRootFromDistributor = await contracts.distributor.epochRoots(
           vault.vault_address,
           distro.encodedCircleId,
           await contracts.getVault(vault.vault_address).vault(),

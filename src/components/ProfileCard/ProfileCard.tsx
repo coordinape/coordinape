@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useRecoilState } from 'recoil';
-
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
@@ -16,7 +14,6 @@ import {
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
-import { rLocalGift } from 'recoilState';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 
@@ -24,7 +21,7 @@ import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
 import { GiftInput } from './GiftInput';
 
-import { IUser } from 'types';
+import { ISimpleGift, ISimpleGiftUser } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -118,20 +115,18 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileCardInner = ({
   user,
-  tokens,
-  note,
   disabled,
-  circleId,
   isMe,
   tokenName = 'GIVE',
+  gift,
+  setGift,
 }: {
-  user: IUser;
-  tokens: number;
-  note: string;
+  user: ISimpleGiftUser;
   disabled?: boolean;
-  circleId: number;
   isMe?: boolean;
   tokenName?: string;
+  gift?: ISimpleGift;
+  setGift: (gift: ISimpleGift) => void;
 }) => {
   const classes = useStyles();
   const { getToProfile } = useNavigation();
@@ -144,7 +139,6 @@ const ProfileCardInner = ({
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
 
   const contributions = useContributions(user.address);
-  const [gift, setGift] = useRecoilState(rLocalGift(user.id, circleId));
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({
@@ -224,9 +218,11 @@ const ProfileCardInner = ({
       {!disabled && !isMe && (
         <GiftInput
           tokens={
-            user.fixed_non_receiver || user.non_receiver ? undefined : tokens
+            user.fixed_non_receiver || user.non_receiver
+              ? undefined
+              : gift?.tokens || 0
           }
-          note={note}
+          note={gift?.note ?? ''}
           updateGift={updateGift}
           tokenName={tokenName}
         />

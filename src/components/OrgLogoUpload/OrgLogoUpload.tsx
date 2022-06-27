@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { LoadingModal } from 'components';
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { UploadIcon, EditIcon } from 'icons';
+import { DeprecatedUploadIcon, EditIcon } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { normalizeError } from 'utils/reporting';
@@ -97,7 +97,7 @@ export const OrgLogoUpload = ({
           <Box css={{ display: 'flex', flexDirection: 'row' }}>
             {formFileUploadProps.hasChanged && (
               <Button onClick={onSave} size="smallIcon">
-                {<UploadIcon />}
+                {<DeprecatedUploadIcon />}
               </Button>
             )}
             {formFileUploadProps.hasChanged && (

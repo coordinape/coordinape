@@ -113,13 +113,15 @@ export const CreateForm = ({
 
   const onSubmit = ({ symbol, customAddress }: any) => {
     setSaving(true);
-    createVault({ type: symbol, simpleTokenAddress: customAddress }).then(
-      vault => {
-        if (!vault) return;
-        setSaving(false);
-        onSuccess();
-      }
-    );
+    createVault({
+      type: symbol,
+      simpleTokenAddress: customAddress,
+      customSymbol,
+    }).then(vault => {
+      if (!vault) return;
+      setSaving(false);
+      onSuccess();
+    });
   };
 
   return (
@@ -133,10 +135,10 @@ export const CreateForm = ({
       }}
     >
       <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select a Vault Asset
+        Select a coVault Asset
       </Text>
       <Text font="source" size="medium">
-        Vaults allow you to fund your circles with the asset of your choice.
+        coVaults allow you to fund your circles with the asset of your choice.
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
         {contracts.getAvailableTokens().map(symbol => (
@@ -179,7 +181,7 @@ export const CreateForm = ({
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid}
       >
-        Create Vault
+        Create coVault
       </Button>
       {!isEmpty(errors) && (
         <Text color="alert" css={{ mt: '$sm' }}>
