@@ -14,7 +14,6 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - address
     - avatar
     - background
     - bio
