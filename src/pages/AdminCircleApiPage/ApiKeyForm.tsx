@@ -165,6 +165,7 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
         />
       </Box>
       <Button
+        size="large"
         color="primary"
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid || mutation.isLoading}

@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 
-// import { useFocus } from 'hooks/useFocus';
 import { Box, Button, Text, TextField } from 'ui';
 import { getConsoleUrl } from 'utils/apiKeyHelper';
 
 export const ApiKeyDisplay: FC<{ apiKey: string }> = ({ apiKey }) => {
-  const consoleUrl = apiKey ? getConsoleUrl(apiKey) : '';
+  const consoleUrl = getConsoleUrl(apiKey);
 
   return (
     <Box
