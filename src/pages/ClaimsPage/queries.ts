@@ -76,11 +76,7 @@ export const getClaims = async (
       distribution.vault.decimals
     );
 
-    const unwrappedAmount = getUnwrappedAmount(
-      claim.amount,
-      pricePerShare,
-      distribution.vault.decimals
-    );
+    const unwrappedAmount = getUnwrappedAmount(claim.amount, pricePerShare);
 
     (claim as ClaimWithUnwrappedAmount).unwrappedAmount = unwrappedAmount;
   }
