@@ -65,6 +65,7 @@ jobs:
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
       NODE_HASURA_URL: http://localhost:8081/v1/graphql
+      REACT_APP_FEATURE_FLAG_VAULTS: true
 
     steps:
       - uses: actions/checkout@v2

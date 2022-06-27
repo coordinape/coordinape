@@ -10,14 +10,7 @@ import { RecoilRoot } from 'recoil';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 
-import {
-  GlobalUi,
-  ErrorBoundary,
-  MainLayout,
-  SentryScopeController,
-  WalletController,
-} from 'components';
-import { AppRoutes } from 'routes/routes';
+import { ErrorBoundary, MainLayout } from 'components';
 import { createTheme } from 'theme';
 import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
@@ -56,12 +49,7 @@ function App() {
               <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
                 <Web3ReactProvider getLibrary={getLibrary}>
                   <BrowserRouter>
-                    <WalletController />
-                    <MainLayout>
-                      <GlobalUi />
-                      <SentryScopeController />
-                      <AppRoutes />
-                    </MainLayout>
+                    <MainLayout />
                   </BrowserRouter>
                 </Web3ReactProvider>
               </MuiPickersUtilsProvider>

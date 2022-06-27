@@ -44,6 +44,7 @@ export interface IApiUser {
   //
   profile?: Omit<IApiProfile, 'users'>;
   teammates?: IApiUser[];
+  fixed_payment_amount?: number;
 }
 
 export interface IUser extends IApiUser {

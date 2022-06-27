@@ -13,7 +13,7 @@ export const Text = styled('span', {
     font: {
       source: { fontFamily: 'Source Sans Pro' },
       space: { fontFamily: 'Space Grotesk' },
-      inter: { fontFamily: 'Inter' },
+      inter: { fontFamily: 'Inter, sans-serif' },
     },
     color: {
       default: { color: '$text' },

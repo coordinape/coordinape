@@ -1,18 +1,22 @@
 import { useMemo, useState } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core';
 
 import { FormModal, FormTextField, ActionDialog } from 'components';
+import isFeatureEnabled from 'config/features';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { CheckBox, Link } from 'ui';
+import { paths } from 'routes/paths';
+import { CheckBox, Link, Text } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IUser } from 'types';
 
 const GIFT_CIRCLE_DOCS_URL =
-  'https://docs.coordinape.com/welcome/gift_circle#the-gift-circle';
+  'https://docs.coordinape.com/info/documentation/gift_circle';
 
 const useStyles = makeStyles(theme => ({
   modalBody: {
@@ -35,6 +39,14 @@ const useStyles = makeStyles(theme => ({
   },
   helperBox: {
     height: 0,
+  },
+  paymentInput: {
+    marginBottom: theme.spacing(3),
+    '&.disabled': {
+      opacity: 0.3,
+      pointerEvents: 'none',
+      '& span': { color: 'red' },
+    },
   },
 }));
 
@@ -137,7 +149,34 @@ export const AdminUserModal = ({
                 label={`${selectedCircle.tokenName} Allotment`}
               />
             </div>
-
+            {isFeatureEnabled('fixed_payments') && (
+              <div>
+                {selectedCircle.fixed_payment_token_type ? (
+                  <FormTextField
+                    {...fields.fixed_payment_amount}
+                    label="Fixed Payment Amount"
+                    type="number"
+                    fullWidth
+                  />
+                ) : (
+                  <FormTextField
+                    fullWidth
+                    onChange={() => {}}
+                    label="Fixed Payment Amount"
+                    disabled={true}
+                    placeholder="Vault owner must set asset type first"
+                  />
+                )}
+                <pre>
+                  <Text>
+                    Edit Fixed Payment Token in{' '}
+                    <NavLink to={paths.circleAdmin(circleId)}>
+                      Circle Settings
+                    </NavLink>
+                  </Text>
+                </pre>
+              </div>
+            )}
             <CheckBox
               {...fields.role}
               label="Grant Administrative Permissions"
@@ -146,7 +185,7 @@ export const AdminUserModal = ({
                   As a Circle Admin, you will be able to edit Circle Settings,
                   Edit Epoch settings, edit your users, and create new circles.{' '}
                   <Link
-                    href="https://docs.coordinape.com/welcome/admin_info"
+                    href="https://docs.coordinape.com/get-started/admin"
                     target="_blank"
                   >
                     Learn More
@@ -187,7 +226,6 @@ export const AdminUserModal = ({
               }
             />
           </div>
-
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
             title={`This user has ${

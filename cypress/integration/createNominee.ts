@@ -10,7 +10,7 @@ context('Coordinape', () => {
     cy.login();
     // This is highly dependent upon how our seed is constructed..
     cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Kids is a circle w/ an ended epoch, the Admin button is a child of a peer element
+    // Movies is a circle w/ an ended epoch, the Admin button is a child of a peer element
     cy.contains('Movies', { timeout: 120000 })
       .parent()
       .parent()
@@ -19,10 +19,10 @@ context('Coordinape', () => {
         cy.get('a').contains('Vouching').click();
       });
     cy.url({ timeout: 120000 }).should('include', '/vouching');
-    cy.contains('Nominate New Member').click();
+    cy.contains('Nominate New Member', { timeout: 60000 }).click();
     // enter the nominee creation modal and fill it out
-    cy.contains('Name').click().type('Satoshi');
-    cy.contains('ETH Address')
+    cy.get('[name=name]').click().type('Satoshi');
+    cy.get('[name=address]')
       .click()
       .type('0x51508887C3FEf0b4390091C5A4B2B91562881526');
     cy.contains('Why are you nominating')

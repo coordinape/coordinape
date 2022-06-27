@@ -36,47 +36,32 @@ const withSearchParams = (
     : path;
 
 export const paths = {
-  adminCircles: '/admin/circles',
-  adminApiKeys: '/admin/api',
-  allocation: '/allocation',
+  // circle-specific
+  members: (circleId: number) => `/circles/${circleId}/members`,
+  circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
+  circleAdminApi: (circleId: number) => `/circles/${circleId}/admin/api`,
+  allocation: (circleId: number) => `/circles/${circleId}/allocation`,
+  connectIntegration: (circleId: number) =>
+    `/circles/${circleId}/admin/connect-integration`,
+  epoch: (circleId: number) => `/circles/${circleId}/epoch`,
+  give: (circleId: number) => `/circles/${circleId}/give`,
+  history: (circleId: number) => `/circles/${circleId}/history`,
+  distributions: (circleId: number, epochId: number | string) =>
+    `/circles/${circleId}/distributions/${epochId}`,
+  map: (circleId: number, params?: { highlight?: string }) =>
+    withSearchParams(`/circles/${circleId}/map`, params),
+  team: (circleId: number) => `/circles/${circleId}/team`,
+  vouching: (circleId: number) => `/circles/${circleId}/vouching`,
+
+  // other
   circles: '/circles',
-  connectIntegration: '/connect-integration',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
-  distributions: (epochId: number | string) =>
-    `/admin/distributions/${epochId}`,
-  epoch: '/epoch',
-  give: '/give',
-  history: '/history',
   home: '/',
-  map: (params?: { highlight?: string }) => withSearchParams('/map', params),
   profile: (address: string) => `/profile/${address}`,
-  team: '/team',
-  vaults: '/admin/vaults',
+  vaults: '/vaults',
   vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
-  vouching: '/vouching',
 };
 
-const circleSpecificPathKeys: (keyof typeof paths)[] = [
-  'adminCircles',
-  'adminApiKeys',
-  'allocation',
-  'epoch',
-  'give',
-  'history',
-  'map',
-  'team',
-  'vouching',
-];
-
-export const isCircleSpecificPath = (location: Location) => {
-  for (const key of circleSpecificPathKeys) {
-    if (paths[key] === location.pathname) return true;
-  }
-
-  for (const path of ['/admin/distributions', '/map']) {
-    if (location.pathname.startsWith(path)) return true;
-  }
-
-  return false;
-};
+export const isCircleSpecificPath = (location: Location) =>
+  location.pathname.match(/\/circles\/\d+/);

@@ -8,6 +8,7 @@ import NonceSubprovider from 'web3-provider-engine/subproviders/nonce-tracker';
 import RpcSubProvider from 'web3-provider-engine/subproviders/rpc';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 
+import { makeThunder } from '../../api-lib/gql/makeThunder';
 import {
   SEED_PHRASE as DEFAULT_SEED,
   getAccountPath,
@@ -65,3 +66,8 @@ export const injectWeb3 = (providerPort: string) => (win: any) => {
     console.warn('ethereum already enabled: ', win.ethereum);
   }
 };
+
+export const gqlQuery = makeThunder(
+  Cypress.env('NODE_HASURA_URL'),
+  Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET')
+)('query');

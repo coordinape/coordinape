@@ -130,7 +130,7 @@ const sharedNetworkSettings = {
   gasPrice: 'auto' as const,
   gasMultiplier: 1,
   accounts: {
-    mnemonic: 'coordinape',
+    mnemonic: 'test test test test test test test test test test test junk',
   },
   deploy: ['./scripts/deploy'],
 };

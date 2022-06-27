@@ -71,6 +71,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               non_receiver: true,
               role: true,
               starting_tokens: true,
+              fixed_payment_amount: true,
             },
           ],
         }
@@ -89,6 +90,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               non_receiver: true,
               role: true,
               starting_tokens: true,
+              fixed_payment_amount: true,
             },
           ],
         };

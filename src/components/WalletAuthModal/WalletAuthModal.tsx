@@ -34,15 +34,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WALLET_TIMEOUT = 1000 * 60; // 60 seconds
-
-export const WalletAuthModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (val: boolean) => void;
-}) => {
+export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const classes = useStyles();
   const [connectMessage, setConnectMessage] = useState<string>('');
 
@@ -72,36 +64,36 @@ export const WalletAuthModal = ({
       newConnector.walletConnectProvider = undefined;
     }
 
-    const timeoutHandle = setTimeout(() => {
-      showError('Wallet activation timed out.');
-      web3Context.deactivate();
-    }, WALLET_TIMEOUT);
+    try {
+      await web3Context.activate(newConnector, () => {}, true);
 
-    await web3Context.activate(newConnector, (error: Error) => {
+      // workaround to disable listening for a deprecated event that sends the
+      // wrong network ID
+      // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
+      const ethereum = (window as any).ethereum;
+      try {
+        if (ethereum.isMetaMask)
+          await ethereum?.removeAllListeners(['networkChanged']);
+      } catch (e: unknown) {
+        console.error(e);
+      }
+    } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
         showInfo('Switch to mainnet to continue.');
+      } else if (
+        [/rejected the request/, /User denied account authorization/].some(r =>
+          error.message.match(r)
+        )
+      ) {
+        // do nothing
       } else {
         showError(error);
         console.error(error);
+        web3Context.deactivate();
       }
-      web3Context.deactivate();
-    });
-
-    // workaround to disable listening for a deprecated event that sends the
-    // wrong network ID
-    // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
-    const ethereum = (window as any).ethereum;
-    try {
-      if (ethereum.isMetaMask)
-        await ethereum?.removeAllListeners(['networkChanged']);
-    } catch (e: unknown) {
-      console.error(e);
     }
 
-    clearTimeout(timeoutHandle);
-
     setConnectMessage('');
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -109,7 +101,6 @@ export const WalletAuthModal = ({
       window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
       walletAuth.connectorName
     ) {
-      setOpen(true);
       walletAuth.connectorName && activate(walletAuth.connectorName);
     }
   }, []);
@@ -118,7 +109,6 @@ export const WalletAuthModal = ({
     <Modal
       className={classes.modal}
       disableBackdropClick={isConnecting}
-      onClose={() => setOpen(false)}
       open={open}
     >
       <Box

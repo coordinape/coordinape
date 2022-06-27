@@ -1,133 +1,63 @@
-import React, { ReactNode } from 'react';
-
-import { Web3Provider } from '@ethersproject/providers';
-import { useWeb3React } from '@web3-react/core';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { makeStyles, Button } from '@material-ui/core';
-
-import { rSelectedCircle, useAuthToken, rMyProfile } from 'recoilState/app';
+import { useHasCircles } from 'hooks/migration';
+import { rMyProfile } from 'recoilState/app';
 import {
-  paths,
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_LANDING_PAGE,
   EXTERNAL_URL_TWITTER,
+  paths,
 } from 'routes/paths';
-import { Box } from 'ui';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: 700,
-    color: theme.colors.text,
-    margin: 0,
-  },
-  subTitle: {
-    margin: 0,
-    padding: theme.spacing(0, 5),
-    fontSize: 30,
-    fontWeight: 400,
-    color: theme.colors.text,
-  },
-  welcomeSection: {
-    width: '100%',
-    textAlign: 'left',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: 400,
-    color: theme.colors.text,
-  },
-  startCircle: {
-    margin: 'auto',
-    marginTop: theme.spacing(3),
-  },
-}));
+import { Box, Button, Flex, Text } from 'ui';
 
 export const DefaultPage = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
-  const web3Context = useWeb3React<Web3Provider>();
 
-  const authToken = useAuthToken();
   const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
-  const selectedCircle = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const hasCircles = useHasCircles();
 
-  const Wrapper = ({ children }: { children: ReactNode }) => (
-    <Box
-      css={{
-        maxWidth: '700px',
-        mx: 'auto',
-        pt: '$2xl',
-        px: '$lg',
-        textAlign: 'center',
-      }}
-    >
-      {children}
-      <Footer />
-    </Box>
-  );
-
-  // TODO: Split these off into separate components..
-  // But also Alex Ryan likes the idea of us making this more useful.
-  if (!authToken) {
-    return (
-      <Wrapper>
-        <p className={classes.title}>Reward Your Fellow Contributors</p>
-        <p className={classes.subTitle}>
-          {!web3Context.account
-            ? 'Connect your wallet to participate.'
-            : 'Login to Coordinape'}
-        </p>
-      </Wrapper>
-    );
-  }
   // still loading
   if (!myProfile) return null;
 
-  if (!selectedCircle) {
+  if (!hasCircles) {
     return (
-      <Wrapper>
-        <p className={classes.title}>Welcome!</p>
-        <div className={classes.welcomeSection}>
-          <p className={classes.welcomeText}>
-            This wallet isn&apos;t associated with a circle.
-          </p>
-          <p className={classes.welcomeText}>
-            If you are supposed to be part of a circle already, contact your
-            circle&apos;s admin to make sure they added this address:{' '}
-            {myProfile.address}
-          </p>
-          <p className={classes.welcomeText}>Or, create a new circle.</p>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(paths.createCircle)}
-            className={classes.startCircle}
-          >
-            Start a Circle
-          </Button>
-        </div>
-      </Wrapper>
+      <Flex
+        css={{
+          flexDirection: 'column',
+          maxWidth: '700px',
+          mx: 'auto',
+          pt: '$2xl',
+          px: '$lg',
+          '> p': { mt: 0, mb: '$md', color: '$text', fontSize: '$medium' },
+        }}
+      >
+        <Text h1 css={{ justifyContent: 'center', mb: '$md' }}>
+          Welcome!
+        </Text>
+        <p>This wallet isn&apos;t associated with a circle.</p>
+        <p>
+          If you are supposed to be part of a circle already, contact your
+          circle&apos;s admin to make sure they added this address:{' '}
+          {myProfile.address}
+        </p>
+        <p>Or, create a new circle.</p>
+        <Button
+          color="primary"
+          size="large"
+          outlined
+          onClick={() => navigate(paths.createCircle)}
+          css={{ alignSelf: 'center' }}
+        >
+          Start a Circle
+        </Button>
+        <Footer />
+      </Flex>
     );
   }
 
-  return (
-    // FIXME this is basically unreachable because
-    <Wrapper>
-      <p className={classes.title}>Welcome to {selectedCircle.circle.name}!</p>
-    </Wrapper>
-  );
+  return <Navigate to="/circles" replace />;
 };
 
 const Footer = () => (

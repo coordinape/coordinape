@@ -12,6 +12,7 @@ type Props = {
   nominees: number;
   unallocated: number;
   vouching: boolean;
+  circleId: number;
   tokenName?: string;
   css?: CSS;
 };
@@ -20,6 +21,7 @@ export const CurrentEpochPanel = ({
   vouching,
   nominees,
   unallocated,
+  circleId,
   tokenName = 'GIVE',
   css = {},
 }: Props) => {
@@ -67,7 +69,7 @@ export const CurrentEpochPanel = ({
                 ? `${nominees} nomination${nominees > 1 ? 's' : ''}`
                 : 'None yet. Nominate someone?'
             }
-            path={paths.vouching}
+            path={paths.vouching(circleId)}
             linkLabel="Go to Vouching"
           />
         )}
@@ -80,7 +82,7 @@ export const CurrentEpochPanel = ({
               ? `Allocate Your Remaining ${unallocated} ${tokenName}`
               : `No More ${tokenName} to Allocate`
           }
-          path={paths.allocation}
+          path={paths.allocation(circleId)}
           linkLabel="Allocate to Teammates"
         />
       </Box>

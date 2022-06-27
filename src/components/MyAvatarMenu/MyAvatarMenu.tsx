@@ -145,14 +145,18 @@ const connectorIcon = (connector: Connector | undefined) => {
 export const useWalletStatus = () => {
   const { connector, deactivate } = useWeb3React();
   const address = useConnectedAddress();
-  const { logout } = useApiBase();
+  const { logout } = useApiBase(); // eslint-disable-line
 
   return {
     icon: connectorIcon(connector),
     address,
     logout: () => {
-      deactivate();
       logout();
+
+      // this is wrapped in setTimeout to make sure the Recoil state changes
+      // from logout() above are applied before we re-render RequireAuth.
+      // otherwise, after logging out, you immediately see a signature prompt
+      setTimeout(deactivate);
     },
   };
 };

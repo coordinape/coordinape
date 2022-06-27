@@ -57,7 +57,8 @@ export const HistoryPage = () => {
   const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-  if (query.isLoading || query.isIdle) return <LoadingModal visible />;
+  if (query.isLoading || query.isIdle)
+    return <LoadingModal visible note="HistoryPage" />;
 
   if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
     return (
@@ -66,8 +67,10 @@ export const HistoryPage = () => {
           This circle has no epochs yet.{' '}
           {me?.role === 1 ? (
             <>
-              <AppLink to={paths.adminCircles}>Visit the admin page</AppLink> to
-              create one.
+              <AppLink to={paths.members(circleId)}>
+                Visit the admin page
+              </AppLink>{' '}
+              to create one.
             </>
           ) : (
             <>Please return once your admin has created one.</>
@@ -100,6 +103,7 @@ export const HistoryPage = () => {
           <Text h3>Current</Text>
           <CurrentEpochPanel
             css={{ mb: '$md' }}
+            circleId={circleId}
             epoch={currentEpoch}
             vouching={circle?.vouching}
             nominees={nominees}
@@ -114,6 +118,7 @@ export const HistoryPage = () => {
           {shownPastEpochs.map((epoch: QueryEpoch) => (
             <EpochPanel
               key={epoch.id}
+              circleId={circleId}
               epoch={epoch}
               tokenName={circle?.token_name || 'GIVE'}
             />
