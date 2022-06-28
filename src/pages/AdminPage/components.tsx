@@ -343,7 +343,7 @@ const EmptyTable = ({
       </Text>
       <Button color="secondary" onClick={() => onClick()}>
         <PlusCircleIcon />
-        Add Contributor
+        Add Epoch
       </Button>
     </Flex>
   );
