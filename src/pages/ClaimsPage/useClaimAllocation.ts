@@ -66,7 +66,12 @@ export function useClaimAllocation() {
             true,
             proof
           ),
-        { showInfo, showError }
+        {
+          showInfo,
+          showError,
+          description: 'Claim Tokens',
+          chainId: contracts.chainId,
+        }
       );
 
       const { receipt } = trx;
