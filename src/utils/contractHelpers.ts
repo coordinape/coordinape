@@ -11,7 +11,7 @@ type Options = {
   minedMessage?: string;
   showInfo: (message: any) => void;
   showError: (message: any) => void;
-  description?: string;
+  description: string;
   chainId: string;
 };
 
@@ -29,7 +29,7 @@ export const sendAndTrackTx = async (
     minedMessage = 'Transaction completed',
     showInfo,
     showError,
-    description = 'Unlabeled transaction',
+    description,
     chainId,
   }: Options
 ): Promise<SendAndTrackTxResult> => {
