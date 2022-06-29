@@ -241,12 +241,16 @@ export function DistributionForm({
   ): Promise<void> => {
     assert(circle);
     const vault = circle.organization?.vaults?.find(v => v.id === vaultId);
-    assert(vault);
     assert(contracts, 'This network is not supported');
-    const cVault = await contracts.getVault(vault.vault_address);
-    const tokenBalance = (await cVault.underlyingValue())
-      .div(BigNumber.from(10).pow(vault.decimals))
-      .toNumber();
+    let tokenBalance = 0;
+    if (vault) {
+      const cVault = await contracts.getVault(vault.vault_address);
+      tokenBalance = cVault
+        ? (await cVault.underlyingValue())
+            .div(BigNumber.from(10).pow(vault.decimals))
+            .toNumber()
+        : 0;
+    }
     if (formType === 'gift') {
       setMaxGiftTokens(tokenBalance);
     } else {
