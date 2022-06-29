@@ -5,9 +5,15 @@ object_relationships:
 - name: distribution
   using:
     foreign_key_constraint_on: distribution_id
-- name: user
+- name: profile
   using:
-    foreign_key_constraint_on: user_id
+    manual_configuration:
+      column_mapping:
+        profile_id: id
+      insertion_order: null
+      remote_table:
+        name: profiles
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false
@@ -16,52 +22,62 @@ insert_permissions:
         epoch:
           circle:
             users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+              _and:
+              - deleted_at:
+                  _is_null: true
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
     columns:
     - address
     - amount
     - id
     - index
     - new_amount
+    - profile_id
     - proof
-    - user_id
   role: user
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - address
     - amount
-    - claimed
     - created_at
     - distribution_id
     - id
     - index
     - new_amount
+    - profile_id
     - proof
+    - txHash
     - updated_at
-    - user_id
     filter:
       distribution:
         epoch:
           circle:
             users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+              _and:
+              - deleted_at:
+                  _is_null: true
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
   role: user
 update_permissions:
 - permission:
     check: null
     columns:
-    - claimed
+    - txHash
     filter:
       distribution:
         epoch:
           circle:
             users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+              _and:
+              - deleted_at:
+                  _is_null: true
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
   role: user

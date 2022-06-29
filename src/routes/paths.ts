@@ -55,6 +55,7 @@ export const paths = {
 
   // other
   circles: '/circles',
+  claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
   home: '/',

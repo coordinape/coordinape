@@ -1,4 +1,8 @@
-import React from 'react';
+/**
+ *
+ * DEPRECATED -- please use src/ui/Avatar instead.
+ *
+ */
 
 import { Avatar, AvatarProps } from '@material-ui/core';
 

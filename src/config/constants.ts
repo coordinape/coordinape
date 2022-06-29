@@ -16,6 +16,8 @@ export const USER_ROLE_ADMIN = 1;
 export const USER_ROLE_COORDINAPE = 2;
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const ZERO_UINT =
+  '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.Injected]: MetaMaskSVG,

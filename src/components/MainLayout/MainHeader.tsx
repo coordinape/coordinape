@@ -15,6 +15,7 @@ import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { HamburgerIcon, CloseIcon } from 'icons';
+import ClaimsNavButton from 'pages/ClaimsPage/ClaimsNavButton';
 import {
   rSelectedCircle,
   useMyProfile,
@@ -88,12 +89,13 @@ export const MainHeader = () => {
             </Box>
           )}
         </Box>
-        {inCircle && (
+        {inCircle && !isFeatureEnabled('vaults') && (
           <Suspense fallback={null}>
             <ReceiveInfo />
           </Suspense>
         )}
         <Suspense fallback={null}>
+          {isFeatureEnabled('vaults') && <ClaimsNavButton />}
           <MyAvatarMenu />
         </Suspense>
       </Box>

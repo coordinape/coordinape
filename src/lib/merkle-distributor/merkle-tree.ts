@@ -9,8 +9,10 @@ export default class MerkleTree {
 
   constructor(elements: Buffer[]) {
     this.elements = [...elements];
-    // Sort elements
-    this.elements.sort(Buffer.compare);
+
+    // Don't sort elements
+    // this.elements.sort(Buffer.compare);
+
     // Deduplicate elements
     this.elements = MerkleTree.bufDedup(this.elements);
 
@@ -53,11 +55,8 @@ export default class MerkleTree {
   }
 
   static combinedHash(first: Buffer, second: Buffer): Buffer {
-    if (!first) {
-      return second;
-    }
-    if (!second) {
-      return first;
+    if (!first || !second) {
+      throw new Error('missing argument to combinedHash');
     }
     return Buffer.from(keccak256(MerkleTree.sortAndConcat(first, second)));
   }

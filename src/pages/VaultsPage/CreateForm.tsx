@@ -9,7 +9,6 @@ import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { LoadingModal } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Box, Button, Form, Text, TextField } from 'ui';
@@ -152,6 +151,7 @@ export const CreateForm = ({
               alt={symbol}
               height={25}
               width={25}
+              style={{ paddingRight: 0 }}
             />
             <Text css={{ ml: '$xs' }}>{symbol}</Text>
           </AssetButton>
@@ -179,9 +179,9 @@ export const CreateForm = ({
         color="primary"
         outlined
         css={{ mt: '$lg', width: '100%' }}
-        disabled={!isValid}
+        disabled={!isValid || saving}
       >
-        Create coVault
+        {saving ? 'Saving...' : 'Create coVault'}
       </Button>
       {!isEmpty(errors) && (
         <Text color="alert" css={{ mt: '$sm' }}>
@@ -190,7 +190,6 @@ export const CreateForm = ({
             .join('. ')}
         </Text>
       )}
-      {saving && <LoadingModal visible />}
     </Form>
   );
 };

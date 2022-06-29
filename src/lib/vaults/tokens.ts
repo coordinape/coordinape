@@ -64,10 +64,15 @@ export const getWrappedAmount = async (
 export const getUnwrappedAmount = (
   amount: number,
   pricePerShare: FixedNumber,
-  decimals: number
+  decimals?: number
 ) => {
-  return FixedNumber.from(amount.toPrecision(30))
-    .mulUnsafe(pricePerShare)
-    .divUnsafe(FixedNumber.from(BigNumber.from(10).pow(decimals)))
-    .toUnsafeFloat();
+  const figure = Number.isInteger(amount) ? amount.toPrecision(30) : amount;
+  let result = FixedNumber.from(figure.toString()).mulUnsafe(pricePerShare);
+
+  if (decimals)
+    result = result.divUnsafe(
+      FixedNumber.from(BigNumber.from(10).pow(decimals))
+    );
+
+  return result.toUnsafeFloat();
 };
