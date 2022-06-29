@@ -112,7 +112,7 @@ export const CreateForm = ({
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
-    setSaving(false);
+    setSaving(true);
     createVault({
       type: symbol,
       simpleTokenAddress: customAddress,
