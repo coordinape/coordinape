@@ -144,7 +144,7 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, amount, unwrappedAmount, distribution }) => (
+          {({ id, unwrappedAmount, distribution }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -179,8 +179,7 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {parseFloat(unwrappedAmount || amount).toFixed(2)}{' '}
-                      {distribution.vault.symbol}
+                      {unwrappedAmount} {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"

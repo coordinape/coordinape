@@ -66,9 +66,8 @@ export const getUnwrappedAmount = (
   pricePerShare: FixedNumber,
   decimals?: number
 ) => {
-  let result = FixedNumber.from(amount.toPrecision(30)).mulUnsafe(
-    pricePerShare
-  );
+  const figure = Number.isInteger(amount) ? amount.toPrecision(30) : amount;
+  let result = FixedNumber.from(figure.toString()).mulUnsafe(pricePerShare);
 
   if (decimals)
     result = result.divUnsafe(

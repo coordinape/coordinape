@@ -20,6 +20,7 @@ async function main() {
   const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();
   await createEndedEpochWithGifts();
+  await createEndedEpochWithGiftsForClaims();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
   const protocolId = await getProtocolIdForCircle(circleId);
@@ -132,6 +133,24 @@ async function createEndedEpochWithGifts() {
   const result = await insertMemberships(
     getMembershipInput(
       { protocolInput: { name: 'Ended Epoch With Gifts' } },
+      {}
+    )
+  );
+  const circleId = result[0].circle_id;
+  const epochId = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 8 }),
+    DateTime.now().minus({ days: 1 }),
+    1
+  );
+  await createGifts(result, epochId, 9, 100, false);
+  return circleId;
+}
+
+async function createEndedEpochWithGiftsForClaims() {
+  const result = await insertMemberships(
+    getMembershipInput(
+      { protocolInput: { name: 'Ended Epoch With Gifts for Claims' } },
       {}
     )
   );
