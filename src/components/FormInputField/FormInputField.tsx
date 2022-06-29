@@ -26,6 +26,7 @@ type TFormInputField<TFieldValues extends FieldValues> = {
   disabled?: boolean;
   css?: CSS;
   number?: boolean;
+  showFieldErrors?: boolean;
 } & UseControllerProps<TFieldValues>;
 
 export const FormInputField = <TFieldValues extends FieldValues>(
@@ -45,6 +46,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
     disabled,
     css,
     number,
+    showFieldErrors,
   } = props;
 
   const { field, fieldState } = useController({
@@ -58,7 +60,9 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       field.onChange(e.target.value);
     } else {
       //convert string to number for input numbers to be parsed by ZOD
-      field.onChange(parseInt(e.target.value));
+      field.onChange(
+        !Number.isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : 0
+      );
     }
   };
   return (
@@ -107,7 +111,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           //     {...teamSelText}
         />
       )}
-      {fieldState.error && (
+      {showFieldErrors && fieldState.error && (
         <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
           {fieldState.error.message}
         </Text>
