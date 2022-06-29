@@ -26,6 +26,7 @@ test('dust limit', () => {
   const randint = (max: number) => 1 + Math.floor(Math.random() * max);
 
   for (let i = 0; i < 20; i++) {
+    const totalAmount = BigNumber.from(Math.floor(Math.random() * 100000000));
     createDistribution(
       {
         [addr(2)]: randint(10),
@@ -35,9 +36,8 @@ test('dust limit', () => {
         [addr(10)]: randint(1000),
       },
       {},
-
-      BigNumber.from(Math.floor(Math.random() * 100000000)),
-      BigNumber.from(Math.floor(Math.random() * 100000000))
+      totalAmount,
+      totalAmount
     );
   }
 });
