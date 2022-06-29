@@ -114,7 +114,7 @@ export function DistributionForm({
                 textAlign: 'center',
               }}
             >
-              Select Vault
+              Select coVault
             </Box>
             <Controller
               name="selectedVaultId"
@@ -127,7 +127,7 @@ export function DistributionForm({
                   <>
                     <Select
                       value={value || ''}
-                      label="Vault"
+                      label="coVault"
                       error={!!error}
                       disabled={submitting}
                       onChange={({ target: { value } }) => {

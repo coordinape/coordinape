@@ -17,9 +17,11 @@ export function useVaultFactory(orgId?: number) {
   const createVault = async ({
     simpleTokenAddress,
     type,
+    customSymbol,
   }: {
     simpleTokenAddress?: string;
     type?: Asset;
+    customSymbol?: string;
   }) => {
     assert(contracts && orgId, 'called before hooks were ready');
 
@@ -41,7 +43,12 @@ export function useVaultFactory(orgId?: number) {
 
       const { receipt } = await sendAndTrackTx(
         () => contracts.vaultFactory.createApeVault(...args),
-        { showInfo, showError }
+        {
+          showInfo,
+          showError,
+          description: `Create ${type || customSymbol} Vault`,
+          chainId: contracts.chainId,
+        }
       );
 
       for (const event of receipt?.events || []) {

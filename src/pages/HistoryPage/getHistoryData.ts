@@ -4,6 +4,7 @@ import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
 
 import { Awaited } from '../../types/shim';
+import { ZERO_ADDRESS } from 'config/constants';
 
 export const getHistoryData = async (
   circleId: number,
@@ -93,6 +94,7 @@ export const getHistoryData = async (
                         decimals: true,
                         symbol: true,
                         vault_address: true,
+                        simple_token_address: true,
                       },
                     },
                   ],
@@ -125,7 +127,7 @@ export const getHistoryData = async (
       (dist as DistributionWithPrice).pricePerShare =
         await contracts.getPricePerShare(
           dist.vault.vault_address,
-          dist.vault.symbol,
+          dist.vault.simple_token_address || ZERO_ADDRESS,
           dist.vault.decimals
         );
     }

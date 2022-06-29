@@ -39,6 +39,7 @@ export const paths = {
   // circle-specific
   members: (circleId: number) => `/circles/${circleId}/members`,
   circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
+  circleAdminApi: (circleId: number) => `/circles/${circleId}/admin/api`,
   allocation: (circleId: number) => `/circles/${circleId}/allocation`,
   connectIntegration: (circleId: number) =>
     `/circles/${circleId}/admin/connect-integration`,

@@ -6,7 +6,7 @@ import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
 import { ActionDialog } from 'components';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { InfoIcon } from 'icons';
+import { DeprecatedInfoIcon } from 'icons';
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -59,7 +59,7 @@ export const ApeInfoTooltip = ({
     <>
       {isMobile ? (
         <div>
-          <InfoIcon
+          <DeprecatedInfoIcon
             onClick={handleTooltipOpen}
             onClose={handleTooltipClose}
             inherit="inherit"
@@ -86,7 +86,7 @@ export const ApeInfoTooltip = ({
             <span>{props.component}</span>
           ) : (
             <span className={className}>
-              <InfoIcon
+              <DeprecatedInfoIcon
                 inherit="inherit"
                 className={iconTheme ?? localClasses.icon}
               />

@@ -36,6 +36,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       sessionVariables.hasuraAddress,
       COORDINAPE_USER_ADDRESS
     );
+
     return res.status(200).json(ret);
   }
 }

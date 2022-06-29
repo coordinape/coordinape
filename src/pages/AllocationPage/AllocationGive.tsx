@@ -8,7 +8,7 @@ import iti from 'itiriri';
 import { Button, IconButton, makeStyles } from '@material-ui/core';
 
 import { useApiBase, useRecoilLoadCatch } from '../../hooks';
-import { BalanceIcon } from '../../icons';
+import { DeprecatedBalanceIcon } from '../../icons';
 import * as mutations from '../../lib/gql/mutations';
 import { ISimpleGift, PostTokenGiftsParam } from '../../types';
 import { Button as UIButton } from '../../ui';
@@ -283,7 +283,10 @@ const AllocationGive = ({
     <>
       <div className={classes.root}>
         <div className={classes.headerContainer}>
-          <Text h2>{`${myUser.circle.name} ${longTimingMessage}`}</Text>
+          <Text
+            h2
+            css={{ justifyContent: 'center' }}
+          >{`${myUser.circle.name} ${longTimingMessage}`}</Text>
           <h2 className={classes.subTitle}>{myUser.circle.allocText}</h2>
         </div>
         <div className={classes.accessaryContainer}>
@@ -413,7 +416,7 @@ const AllocationGive = ({
           onClick={rebalanceGifts}
           disabled={tokenRemaining === 0}
         >
-          <BalanceIcon />
+          <DeprecatedBalanceIcon />
         </IconButton>
       </BalanceContainer>
       <SaveButtonContainer>

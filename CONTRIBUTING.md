@@ -233,7 +233,8 @@ In this example, 34 commits are included in a PR from a git branch into the `mai
 - The PRs description should clearly indicate what changes are happening, or link to the issue the PR addresses.
 - A PRs should include how to manually (and automatedly) test the feature changes of the PR.
 - PRs description should include images/videos of the change, if applicable.
-
+- Allow Coordinape maintainers to modify your PR by checking this box:
+![image](https://user-images.githubusercontent.com/17910833/176240518-d6ff734f-e10f-49ea-b68f-82e7635837cc.png)
 
 
 Coordinape has code owners assigned to various parts of the codebase who

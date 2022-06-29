@@ -65,6 +65,7 @@ export const CreateEpochButton = ({
     >
       Create Epoch
       <Tooltip
+        css={{ ml: '$xs' }}
         content={
           <>
             An Epoch is a period of time where circle members contribute value &
@@ -105,6 +106,7 @@ export const AddContributorButton = ({
     >
       Add Contributor
       <Tooltip
+        css={{ ml: '$xs' }}
         content={
           <>
             A member of a circle that can receive {tokenName} or kudos for
@@ -314,9 +316,11 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 
 const EmptyTable = ({
   content,
+  createLabel,
   onClick,
 }: {
   content: string;
+  createLabel: string;
   onClick: () => void;
 }) => {
   return (
@@ -341,7 +345,7 @@ const EmptyTable = ({
       </Text>
       <Button color="secondary" onClick={() => onClick()}>
         <PlusCircleIcon />
-        Add Contributor
+        {createLabel}
       </Button>
     </Flex>
   );
@@ -534,6 +538,7 @@ export const EpochsTable = ({
               <Table.Cell key={`empty-epochs-table-view`} colSpan={4}>
                 <EmptyTable
                   content="You don’t have any epochs scheduled"
+                  createLabel="Create Epoch"
                   onClick={() => setNewEpoch(true)}
                 />
               </Table.Cell>
@@ -905,6 +910,7 @@ export const ContributorsTable = ({
               <Table.Cell key={`empty-users-table-view`} colSpan={4}>
                 <EmptyTable
                   content="You haven’t added any contributors"
+                  createLabel="Add Contributor"
                   onClick={() => setNewUser(true)}
                 />
               </Table.Cell>

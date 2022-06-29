@@ -33,16 +33,6 @@ const schema = z
 
 type NominateFormSchema = z.infer<typeof schema>;
 
-const labelStyles = {
-  lineHeight: '$short',
-  color: '$text',
-  fontSize: '$4',
-  fontFamily: 'Inter',
-  fontWeight: '$bold',
-  textAlign: 'center',
-  mb: '$sm',
-};
-
 interface errorObj {
   message: string;
 }
@@ -156,10 +146,10 @@ export const NewNominationModal = ({
             'column-gap': '$lg',
           }}
         >
-          <FormLabel htmlFor="name" css={labelStyles}>
+          <FormLabel htmlFor="name" type="textField">
             Name
           </FormLabel>
-          <FormLabel htmlFor="address" css={labelStyles}>
+          <FormLabel htmlFor="address" type="textField">
             ETH Address
           </FormLabel>
           <TextField
@@ -183,7 +173,7 @@ export const NewNominationModal = ({
               mt: '$1xl',
             }}
           >
-            <FormLabel htmlFor="description" css={labelStyles}>
+            <FormLabel htmlFor="description" type="textField">
               Why are you nominating this person?
             </FormLabel>
             <TextArea
