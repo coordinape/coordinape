@@ -1,19 +1,13 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { NavLink } from 'react-router-dom';
 
 import { makeStyles, Hidden } from '@material-ui/core';
 
-import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
-import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { ApeAvatar } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
-import { EConnectorNames } from 'config/constants';
 import isFeatureEnabled from 'config/features';
-import { useApiBase } from 'hooks';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useWalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import {
@@ -25,7 +19,6 @@ import {
   PopoverClose,
 } from 'ui';
 import { shortenAddress } from 'utils';
-import { connectors } from 'utils/connectors';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
@@ -150,46 +143,4 @@ export const MyAvatarMenu = () => {
       </Hidden>
     </>
   );
-};
-
-type Connector = Exclude<
-  ReturnType<typeof useWeb3React>['connector'],
-  undefined
->;
-
-const connectorIcon = (connector: Connector | undefined) => {
-  if (!connector) return null;
-
-  const name = Object.entries(connectors).find(
-    ([, ctr]) => connector.constructor === ctr.constructor
-  )?.[0];
-
-  switch (name) {
-    case EConnectorNames.Injected:
-      return <MetaMaskSVG />;
-    case EConnectorNames.WalletConnect:
-      return <WalletConnectSVG />;
-    case EConnectorNames.WalletLink:
-      return <CoinbaseSVG />;
-  }
-  return null;
-};
-
-export const useWalletStatus = () => {
-  const { connector, deactivate } = useWeb3React();
-  const address = useConnectedAddress();
-  const { logout } = useApiBase(); // eslint-disable-line
-
-  return {
-    icon: connectorIcon(connector),
-    address,
-    logout: () => {
-      logout();
-
-      // this is wrapped in setTimeout to make sure the Recoil state changes
-      // from logout() above are applied before we re-render RequireAuth.
-      // otherwise, after logging out, you immediately see a signature prompt
-      setTimeout(deactivate);
-    },
-  };
 };

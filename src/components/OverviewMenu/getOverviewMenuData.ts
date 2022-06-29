@@ -1,6 +1,7 @@
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import { useAuthStep } from 'hooks/login';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
 export const getOverviewMenuData = (address: string) =>
@@ -36,11 +37,12 @@ export const getOverviewMenuData = (address: string) =>
 // we can reuse it
 export const useOverviewMenuQuery = () => {
   const address = useConnectedAddress();
+  const [authStep] = useAuthStep();
   return useQuery(
     ['OverviewMenu', address],
     () => getOverviewMenuData(address as string),
     {
-      enabled: !!address,
+      enabled: !!address && authStep === 'done',
       staleTime: Infinity,
     }
   );
