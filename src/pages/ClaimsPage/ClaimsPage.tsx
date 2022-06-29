@@ -179,7 +179,9 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {unwrappedAmount} {distribution.vault.symbol}
+                      {unwrappedAmount &&
+                        parseFloat(unwrappedAmount?.toString()).toFixed(2)}{' '}
+                      {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"

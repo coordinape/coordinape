@@ -33,4 +33,4 @@ test sequences and check out their [docs] and [api].
 ## Troubleshooting
 
 - `./scripts/ci.sh: line 48: 86189 Terminated: 15 "${VERCEL_CMD[@]}" 2>&1`
-  Try deleting your existing Docker containers and run the command again. You should be able to spin up your dev Docker environment afterwards normally by running `yarn docker:start`
+  Try stopping your existing Docker containers and run the command again. You should be able to spin up your dev Docker environment afterwards normally by running `yarn docker:start`

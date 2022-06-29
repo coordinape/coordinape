@@ -20,12 +20,12 @@ async function main() {
   const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();
   await createEndedEpochWithGifts();
-  await createEndedEpochWithGiftsForClaims();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
   const protocolId = await getProtocolIdForCircle(circleId);
   await createCircleInOrgButNoDevMember(protocolId!);
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
+  await createEndedEpochWithGiftsForClaims();
 
   // eslint-disable-next-line no-console
   CI ? console.log('Skipping avatars') : await getAvatars();
