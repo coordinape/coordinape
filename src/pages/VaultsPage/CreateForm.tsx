@@ -117,8 +117,8 @@ export const CreateForm = ({
       simpleTokenAddress: customAddress,
       customSymbol,
     }).then(vault => {
-      if (!vault) return;
       setSaving(false);
+      if (!vault) return;
       onSuccess();
     });
   };
