@@ -415,6 +415,26 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
   return updateTeammates;
 }
 
+export async function restoreCoordinapeUser(circleId: number) {
+  await client.mutate(
+    {
+      restoreCoordinape: [
+        {
+          payload: {
+            circle_id: circleId,
+          },
+        },
+        {
+          success: true,
+        },
+      ],
+    },
+    {
+      operationName: 'restore_coordinape',
+    }
+  );
+}
+
 export async function updateAllocations(
   circleId: number,
   params: PostTokenGiftsParam[]
