@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BigNumber } from 'ethers';
+import { getWrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
@@ -135,14 +136,29 @@ export function DistributionForm({
       v => v.id === Number(value.selectedVaultId)
     );
     assert(vault);
+    assert(contracts, 'This network is not supported');
 
-    const fixedGifts = circleUsers.reduce((ret, user) => {
-      if (user.fixed_payment_amount && user.fixed_payment_amount > 0)
-        ret[user.address] = BigNumber.from(10)
-          .pow(vault.decimals)
-          .mul(user.fixed_payment_amount);
-      return ret;
-    }, {} as Record<string, BigNumber>);
+    // compute wrapped amounts for fixed gifts
+    const fixedGiftsArray: [string, BigNumber][] = await Promise.all(
+      circleUsers.map(async (user): Promise<[string, BigNumber]> => {
+        const amt = user.fixed_payment_amount || 0;
+        const wrappedAmount = await getWrappedAmount(
+          amt.toString(),
+          vault,
+          contracts
+        );
+        return [user.address, wrappedAmount];
+      })
+    );
+
+    // marshall fixed gifts into an object
+    const fixedGifts = await fixedGiftsArray.reduce(
+      (ret, [userAddress, amount]) => {
+        if (amount.gt(0)) ret[userAddress] = amount;
+        return ret;
+      },
+      {} as Record<string, BigNumber>
+    );
     const type = isCombinedDistribution() && !circleDist ? 3 : 2;
     const gifts = {} as Record<string, number>;
     if (type === 3) {
