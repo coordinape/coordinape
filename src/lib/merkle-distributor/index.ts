@@ -40,7 +40,9 @@ export const createDistribution = (
     Object.keys(fixedGifts).map(address => {
       const idx = balances.findIndex(o => o.address === address);
       if (idx >= 0) {
-        balances[idx].earnings.add(fixedGifts[address]);
+        balances[idx].earnings = balances[idx].earnings.add(
+          fixedGifts[address]
+        );
       } else {
         balances.push({ address, earnings: fixedGifts[address] });
       }
@@ -50,7 +52,8 @@ export const createDistribution = (
   // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);
 
-  assert(dust.lt(20), `dust too high: ${dust.toString()}`);
+  // Failing this means we did bad math
+  assert(dust.lt(20), `panic: dust too high: ${dust.toString()}`);
   const topGift = assertDef(maxBy(Object.entries(gifts), x => x[1]));
   const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
   topBalance.earnings = topBalance.earnings.add(dust);
