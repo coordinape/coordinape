@@ -6,7 +6,7 @@ import type { Awaited } from 'types/shim';
 
 export const getClaims = async (
   profileId: number,
-  contracts?: Contracts
+  contracts: Contracts
 ): Promise<typeof claims | undefined> => {
   const { claims } = await client.query(
     {
@@ -62,8 +62,6 @@ export const getClaims = async (
     }
   );
 
-  if (!contracts) return claims;
-
   type ClaimWithUnwrappedAmount = Exclude<typeof claims, undefined>[0] & {
     unwrappedAmount: number;
   };
@@ -83,6 +81,6 @@ export const getClaims = async (
   return claims;
 };
 
-type Claims = Exclude<Awaited<ReturnType<typeof getClaims>>, undefined>[0];
+type Claim = Exclude<Awaited<ReturnType<typeof getClaims>>, undefined>[0];
 
-export type ClaimsResult = Claims & { unwrappedAmount?: number };
+export type QueryClaim = Claim & { unwrappedAmount?: number };

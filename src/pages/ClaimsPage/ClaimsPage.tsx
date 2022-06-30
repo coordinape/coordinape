@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { Dictionary } from 'lodash';
 import groupBy from 'lodash/groupBy';
 import { useQuery } from 'react-query';
 
@@ -10,19 +11,39 @@ import { useMyProfile } from 'recoilState/app';
 import { Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { getClaims, ClaimsResult } from './queries';
+import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
+
+const currentClaims = (claims: QueryClaim[]) =>
+  claims
+    .sort(c => c.id)
+    .reduce(
+      (finalClaims, curr) =>
+        finalClaims.filter(
+          c =>
+            c.distribution.vault.vault_address ==
+              curr.distribution.vault.vault_address &&
+            c.distribution.epoch.circle?.id ===
+              curr.distribution.epoch.circle?.id
+        ).length > 0
+          ? finalClaims
+          : [...finalClaims, curr],
+      [] as QueryClaim[]
+    );
+
+const styles = {
+  th: { whiteSpace: 'nowrap', textAlign: 'left' },
+  thLast: { textAlign: 'right', width: '98%' },
+};
 
 export default function ClaimsPage() {
   // this causes errors if it's run at the top-level
-  const ClaimsTable = makeTable<ClaimsResult>('ClaimsTable');
+  const ClaimsTable = makeTable<QueryClaim>('ClaimsTable');
 
   const address = useConnectedAddress();
   const contracts = useContracts();
   const claimTokens = useClaimAllocation();
   const profile = useMyProfile();
-
-  assert(address || contracts);
 
   const {
     isIdle,
@@ -31,41 +52,34 @@ export default function ClaimsPage() {
     error,
     data: claims,
     refetch,
-  } = useQuery(['claims', profile.id], () => getClaims(profile.id, contracts), {
-    enabled: !!(contracts && address),
-    retry: false,
-  });
+  } = useQuery(
+    ['claims', profile.id],
+    () => {
+      assert(contracts);
+      return getClaims(profile.id, contracts);
+    },
+    {
+      enabled: !!(contracts && address),
+      retry: false,
+    }
+  );
 
   if (isIdle || isLoading) return <LoadingModal visible />;
-  if (isError)
+  if (isError || !claims)
     return (
       <SingleColumnLayout>
-        Error retrieving your claims. {error}
+        {!claims ? (
+          <>No claims found.</>
+        ) : (
+          <>Error retrieving your claims. {error}</>
+        )}
       </SingleColumnLayout>
     );
-  if (!claims) return <SingleColumnLayout>No claims found</SingleColumnLayout>;
 
   const claimsGroupByVault = groupBy(
     claims.sort(c => c.id),
     c => c.distribution.epoch.circle?.id && c.distribution.vault.vault_address
   );
-
-  const currentClaims = (claims: ClaimsResult[]) =>
-    claims
-      .sort(c => c.id)
-      .reduce(
-        (finalClaims, curr) =>
-          finalClaims.filter(
-            c =>
-              c.distribution.vault.vault_address ==
-                curr.distribution.vault.vault_address &&
-              c.distribution.epoch.circle?.id ===
-                curr.distribution.epoch.circle?.id
-          ).length > 0
-            ? finalClaims
-            : [...finalClaims, curr],
-        [] as ClaimsResult[]
-      );
 
   const processClaim = async (claimId: number) => {
     const claim = claims.find(c => c.id === claimId);
@@ -120,22 +134,10 @@ export default function ClaimsPage() {
       <Panel css={{ my: '$lg', backgroundColor: '$border', mb: '$2xl' }}>
         <ClaimsTable
           headers={[
-            {
-              title: 'Organization',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Circle',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Epochs',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Rewards',
-              css: { textAlign: 'right', width: '98%' },
-            },
+            { title: 'Organization', css: styles.th },
+            { title: 'Circle', css: styles.th },
+            { title: 'Epochs', css: styles.th },
+            { title: 'Rewards', css: styles.thLast },
           ]}
           data={currentClaims(claims.filter(c => !c.txHash))}
           startingSortIndex={2}
@@ -145,62 +147,12 @@ export default function ClaimsPage() {
           }}
         >
           {({ id, unwrappedAmount, distribution }) => (
-            <tr key={id}>
-              <td>
-                <Text>{distribution.epoch.circle?.organization?.name}</Text>
-              </td>
-              <td>
-                <Flex row css={{ gap: '$sm' }}>
-                  <Text>{distribution.epoch.circle?.name}</Text>
-                </Flex>
-              </td>
-              <td>
-                <Text>
-                  {formatEpochDates(
-                    claimsGroupByVault[distribution.vault.vault_address]
-                  )}
-                </Text>
-              </td>
-              <td>
-                <Flex
-                  css={{
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      minWidth: '10vw',
-                      justifyContent: 'flex-end',
-                      gap: '$md',
-                      mr: '$md',
-                      '@sm': {
-                        minWidth: '20vw',
-                      },
-                    }}
-                  >
-                    <Text>
-                      {unwrappedAmount &&
-                        parseFloat(unwrappedAmount?.toString()).toFixed(2)}{' '}
-                      {distribution.vault.symbol}
-                    </Text>
-                    <Button
-                      color="primary"
-                      outlined
-                      css={{
-                        fontWeight: '$normal',
-                        minHeight: '$xs',
-                        px: '$sm',
-                        minWidth: '5vw',
-                        borderRadius: '$2',
-                      }}
-                      onClick={() => processClaim(id)}
-                    >
-                      Claim {distribution.vault.symbol}
-                    </Button>
-                  </Flex>
-                </Flex>
-              </td>
-            </tr>
+            <ClaimRow
+              {...{ id, unwrappedAmount, distribution }}
+              key={id}
+              onClickClaim={processClaim}
+              claimsGroupByVault={claimsGroupByVault}
+            />
           )}
         </ClaimsTable>
       </Panel>
@@ -220,22 +172,10 @@ export default function ClaimsPage() {
       <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
         <ClaimsTable
           headers={[
-            {
-              title: 'Organization',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Circle',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Epoch',
-              css: { whiteSpace: 'nowrap', textAlign: 'left' },
-            },
-            {
-              title: 'Rewards',
-              css: { textAlign: 'right', width: '98%' },
-            },
+            { title: 'Organization', css: styles.th },
+            { title: 'Circle', css: styles.th },
+            { title: 'Epochs', css: styles.th },
+            { title: 'Rewards', css: styles.thLast },
           ]}
           data={currentClaims(claims.filter(c => c.txHash))}
           startingSortIndex={2}
@@ -260,20 +200,14 @@ export default function ClaimsPage() {
                 )}
               </td>
               <td>
-                <Flex
-                  css={{
-                    justifyContent: 'flex-end',
-                  }}
-                >
+                <Flex css={{ justifyContent: 'flex-end' }}>
                   <Flex
                     css={{
                       minWidth: '10vw',
                       justifyContent: 'flex-end',
                       gap: '$md',
                       mr: '$md',
-                      '@sm': {
-                        minWidth: '20vw',
-                      },
+                      '@sm': { minWidth: '20vw' },
                     }}
                   >
                     <Text>
@@ -303,7 +237,75 @@ export default function ClaimsPage() {
   );
 }
 
-function formatEpochDates(claims: ClaimsResult[]) {
+type ClaimRowProps = {
+  id: number;
+  distribution: QueryClaim['distribution'];
+  unwrappedAmount: QueryClaim['unwrappedAmount'];
+  onClickClaim: (id: number) => void;
+  claimsGroupByVault: Dictionary<QueryClaim[]>;
+};
+const ClaimRow = ({
+  id,
+  distribution,
+  unwrappedAmount,
+  onClickClaim,
+  claimsGroupByVault,
+}: ClaimRowProps) => {
+  return (
+    <tr>
+      <td>
+        <Text>{distribution.epoch.circle?.organization?.name}</Text>
+      </td>
+      <td>
+        <Flex row css={{ gap: '$sm' }}>
+          <Text>{distribution.epoch.circle?.name}</Text>
+        </Flex>
+      </td>
+      <td>
+        <Text>
+          {formatEpochDates(
+            claimsGroupByVault[distribution.vault.vault_address]
+          )}
+        </Text>
+      </td>
+      <td>
+        <Flex css={{ justifyContent: 'flex-end' }}>
+          <Flex
+            css={{
+              minWidth: '10vw',
+              justifyContent: 'flex-end',
+              gap: '$md',
+              mr: '$md',
+              '@sm': { minWidth: '20vw' },
+            }}
+          >
+            <Text>
+              {unwrappedAmount &&
+                parseFloat(unwrappedAmount?.toString()).toFixed(2)}{' '}
+              {distribution.vault.symbol}
+            </Text>
+            <Button
+              color="primary"
+              outlined
+              css={{
+                fontWeight: '$normal',
+                minHeight: '$xs',
+                px: '$sm',
+                minWidth: '5vw',
+                borderRadius: '$2',
+              }}
+              onClick={() => onClickClaim(id)}
+            >
+              Claim {distribution.vault.symbol}
+            </Button>
+          </Flex>
+        </Flex>
+      </td>
+    </tr>
+  );
+};
+
+function formatEpochDates(claims: QueryClaim[]) {
   const startDate = new Date(claims[0].distribution.epoch.start_date);
   const endDate = new Date(
     claims[claims.length - 1].distribution.epoch.end_date
