@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { useQuery } from 'react-query';
 
 import { useContracts } from 'hooks';
@@ -14,7 +16,10 @@ export default function ClaimsNavButton() {
 
   const { data: claims } = useQuery(
     ['claims', profile.id],
-    () => getClaims(profile.id),
+    () => {
+      assert(contracts);
+      return getClaims(profile.id, contracts);
+    },
     {
       enabled: !!(contracts && address),
       retry: false,
