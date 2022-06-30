@@ -481,7 +481,7 @@ export async function deleteUser(circleId: number, address: string) {
       ],
     },
     {
-      operationName: 'deleteEpoch',
+      operationName: 'deleteUser',
     }
   );
   return deleteUser;
