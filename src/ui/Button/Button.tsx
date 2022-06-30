@@ -4,11 +4,8 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const Button = styled('button', {
-  '& img': {
-    paddingRight: '$sm',
-  },
-  '& svg': {
-    margin: '0 $xs',
+  '> img, > svg': {
+    mr: '$xs',
   },
   px: '$md',
   display: 'flex',
@@ -20,6 +17,9 @@ export const Button = styled('button', {
   textDecoration: 'none',
   '&:hover': {
     // using saturate until hover colors are defined
+    filter: 'saturate(1.4)',
+  },
+  '&:focus': {
     filter: 'saturate(1.4)',
   },
   '&[disabled]': {
@@ -50,6 +50,9 @@ export const Button = styled('button', {
         '&:hover': {
           filter: 'saturate(3)',
         },
+        '&:focus': {
+          filter: 'saturate(3)',
+        },
       },
       complete: {
         backgroundColor: '$complete',
@@ -60,6 +63,9 @@ export const Button = styled('button', {
         backgroundColor: 'transparent',
         color: '$text',
         '&:hover': {
+          backgroundColor: 'transparent',
+        },
+        '&:focus': {
           backgroundColor: 'transparent',
         },
       },
@@ -147,6 +153,10 @@ export const Button = styled('button', {
           color: '$secondary',
           background: '$surface',
         },
+        '&:focus': {
+          color: '$secondary',
+          background: '$surface',
+        },
         '&:disabled': {
           color: '$text',
         },
@@ -176,6 +186,11 @@ export const Button = styled('button', {
           filter: 'saturate(1)',
           backgroundColor: '$primary !important',
         },
+        '&:focus': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$primary !important',
+        },
       },
     },
     {
@@ -185,6 +200,11 @@ export const Button = styled('button', {
         color: '$secondary',
         borderColor: '$secondary',
         '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$secondary !important',
+        },
+        '&:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$secondary !important',
@@ -202,6 +222,11 @@ export const Button = styled('button', {
           filter: 'saturate(1)',
           backgroundColor: '$alert !important',
         },
+        '&:focus': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$alert !important',
+        },
       },
     },
     {
@@ -215,6 +240,11 @@ export const Button = styled('button', {
           filter: 'saturate(1)',
           backgroundColor: '$neutral !important',
         },
+        '&:focus': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$neutral !important',
+        },
       },
     },
     {
@@ -224,6 +254,11 @@ export const Button = styled('button', {
         color: '$complete',
         borderColor: '$complete',
         '&:hover': {
+          color: '$white',
+          filter: 'saturate(1)',
+          backgroundColor: '$complete !important',
+        },
+        '&:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$complete !important',

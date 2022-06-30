@@ -4,7 +4,6 @@ import padStart from 'lodash/padStart';
 import { createDistribution } from '.';
 
 const addr = (num: number) => '0xabc' + padStart(num.toString(), 37, '0');
-const hex2dec = (hexstr: string) => parseInt(hexstr, 16);
 
 test('amounts', () => {
   const { claims } = createDistribution(
@@ -16,9 +15,9 @@ test('amounts', () => {
     BigNumber.from('500000000')
   );
 
-  expect(hex2dec(claims[addr(1)].amount)).toEqual(83333333);
-  expect(hex2dec(claims[addr(2)].amount)).toEqual(166666666);
-  expect(hex2dec(claims[addr(3)].amount)).toEqual(250000001);
+  expect(claims[addr(1)].amount).toEqual('83333333');
+  expect(claims[addr(2)].amount).toEqual('166666666');
+  expect(claims[addr(3)].amount).toEqual('250000001');
 });
 
 test('dust limit', () => {
@@ -57,9 +56,9 @@ test('combined root', () => {
     previousDist
   );
 
-  expect(hex2dec(dist.claims[addr(1)].amount)).toEqual(283333333);
-  expect(hex2dec(dist.claims[addr(2)].amount)).toEqual(366666666);
-  expect(hex2dec(dist.claims[addr(3)].amount)).toEqual(250000001);
-  expect(hex2dec(dist.claims[addr(4)].amount)).toEqual(200000000);
-  expect(hex2dec(dist.tokenTotal)).toEqual(1100000000);
+  expect(dist.claims[addr(1)].amount).toEqual('283333333');
+  expect(dist.claims[addr(2)].amount).toEqual('366666666');
+  expect(dist.claims[addr(3)].amount).toEqual('250000001');
+  expect(dist.claims[addr(4)].amount).toEqual('200000000');
+  expect(dist.tokenTotal).toEqual('1100000000');
 });

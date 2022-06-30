@@ -8,7 +8,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { ApeTextField, FormAutocomplete, FormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
-import { DiscordIcon } from 'icons';
+import { DeprecatedDiscordIcon } from 'icons';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
 
@@ -223,7 +223,7 @@ export const SummonCirclePage = () => {
                   className={classes.discordButton}
                   variant="contained"
                   disableElevation
-                  startIcon={<DiscordIcon />}
+                  startIcon={<DeprecatedDiscordIcon />}
                   fullWidth
                   target="_blank"
                   rel="noreferrer"

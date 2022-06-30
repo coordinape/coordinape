@@ -73,8 +73,8 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const userIdsByAddress = users.reduce((ret, user) => {
-      ret[user.address.toLowerCase()] = user.id;
+    const profileIdsByAddress = users.reduce((ret, user) => {
+      ret[user.address.toLowerCase()] = user.profile.id;
       return ret;
     }, {} as Record<string, number>);
 
@@ -83,7 +83,7 @@ export function DistributionForm({
         amount: value.amount,
         vault,
         gifts,
-        userIdsByAddress,
+        profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
@@ -114,7 +114,7 @@ export function DistributionForm({
                 textAlign: 'center',
               }}
             >
-              Select Vault
+              Select coVault
             </Box>
             <Controller
               name="selectedVaultId"
@@ -127,7 +127,7 @@ export function DistributionForm({
                   <>
                     <Select
                       value={value || ''}
-                      label="Vault"
+                      label="coVault"
                       error={!!error}
                       disabled={submitting}
                       onChange={({ target: { value } }) => {

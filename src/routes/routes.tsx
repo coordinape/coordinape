@@ -11,14 +11,16 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import DevPortalPage from '../pages/DevPortalPage';
 import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
+import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
+import ClaimsPage from 'pages/ClaimsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
+import DevPortalPage from 'pages/DevPortalPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
@@ -56,11 +58,13 @@ export const AppRoutes = () => {
             path="connect-integration"
             element={<IntegrationCallbackPage />}
           />
+          <Route path="api" element={<AdminCircleApiPage />} />
         </Route>
 
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
       </Route>
 
+      <Route path={paths.claims} element={<ClaimsPage />} />
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
@@ -70,6 +74,8 @@ export const AppRoutes = () => {
         element={<ProfilePage />}
       />
       <Route path={paths.vaults} element={<VaultsPage />} />
+      <Route path={paths.vaultTxs(':id')} element={<VaultTransactions />} />
+
       <Route
         path={paths.vaultTxs(':address')}
         element={<VaultTransactions />}

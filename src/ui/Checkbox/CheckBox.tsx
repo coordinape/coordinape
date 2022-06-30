@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 
@@ -15,7 +17,8 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': { borderColor: '$focusedBorder' },
+  '&:hover': { borderColor: '$borderMedium' },
+  '&:focus': { borderColor: '$borderMedium' },
   variants: {
     border: {
       default: {
@@ -51,15 +54,7 @@ const Label = styled('label', {
   p: '$sm',
 });
 
-export const CheckBox = ({
-  value,
-  label,
-  error,
-  errorText,
-  disabled,
-  onChange,
-  infoTooltip,
-}: {
+type CheckBoxProps = {
   value: boolean;
   label: string;
   error?: boolean;
@@ -67,36 +62,46 @@ export const CheckBox = ({
   disabled?: boolean;
   onChange: (isChecked: boolean) => void;
   infoTooltip?: React.ReactNode;
-}) => (
-  <form>
-    <Flex
-      css={{
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <CheckboxRoot
-        border={error ? 'error' : 'default'}
-        checked={value}
-        onCheckedChange={onChange}
-        disabled={disabled}
-        id={label}
+};
+
+export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
+  (
+    { value, label, error, errorText, disabled, onChange, infoTooltip },
+    ref
+  ) => (
+    <>
+      <Flex
+        css={{
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <CheckboxIndicator>
-          <CheckIcon />
-        </CheckboxIndicator>
-      </CheckboxRoot>
-      <Label htmlFor={label}>{label}</Label>
-      <Tooltip content={infoTooltip}>
-        <InfoCircledIcon />
-      </Tooltip>
-    </Flex>
-    {error && errorText && (
-      <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
-        {errorText}
-      </Text>
-    )}
-  </form>
+        <CheckboxRoot
+          border={error ? 'error' : 'default'}
+          checked={value}
+          onCheckedChange={onChange}
+          disabled={disabled}
+          ref={ref}
+          id={label}
+        >
+          <CheckboxIndicator>
+            <CheckIcon />
+          </CheckboxIndicator>
+        </CheckboxRoot>
+        <Label htmlFor={label}>{label}</Label>
+        <Tooltip content={infoTooltip}>
+          <InfoCircledIcon />
+        </Tooltip>
+      </Flex>
+      {error && errorText && (
+        <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
+          {errorText}
+        </Text>
+      )}
+    </>
+  )
 );
+
+CheckBox.displayName = 'CheckBox';
 
 export default CheckBox;

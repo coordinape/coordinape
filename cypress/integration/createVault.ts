@@ -1,13 +1,14 @@
-import { gqlQuery, injectWeb3 } from '../util';
+import { gqlQuery, injectWeb3, deriveAccount } from '../util';
 
 let circleId;
 
 context('Coordinape', () => {
   before(() => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
+    const userAccount = deriveAccount().address;
     Cypress.on('window:before:load', injectWeb3(providerPort));
     return cy
-      .mintErc20('USDC', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', '20000')
+      .mintErc20('USDC', userAccount, '20000')
       .then(() =>
         gqlQuery({
           circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
@@ -27,10 +28,10 @@ context('Coordinape', () => {
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.wait(1000);
-    cy.contains('Add Vault').click();
+    cy.contains('Add coVault').click();
     cy.get('[role=dialog]').contains('USDC').click();
-    cy.contains('Create Vault').click();
-    cy.contains('USDC Vault', { timeout: 120000 });
+    cy.contains('Create coVault').click();
+    cy.contains('USDC coVault', { timeout: 120000 });
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
@@ -51,5 +52,11 @@ context('Coordinape', () => {
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
     cy.contains('Distribution submitted today', { timeout: 120000 });
+
+    // claims allocations
+    cy.contains('button', 'Claim Allocations').click();
+    cy.contains('button', 'Claim USDC').click();
+    cy.contains('Please sign the transaction', { timeout: 120000 });
+    cy.contains('Claim of allocations successful', { timeout: 120000 });
   });
 });

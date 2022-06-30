@@ -91,10 +91,10 @@ export class Contracts {
   // returns value ready to be converted to float, i.e. 1.5, not 1500000
   async getPricePerShare(
     vaultAddress: string,
-    symbol: string,
+    simple_token_address: string,
     decimals: number
   ) {
-    if (hasSimpleToken({ symbol })) return FixedNumber.from(1);
+    if (hasSimpleToken({ simple_token_address })) return FixedNumber.from(1);
     const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
     const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
     return FixedNumber.from(pps).divUnsafe(shifter);

@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.colors.surface,
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.colors.focusedBorder,
+      backgroundColor: theme.colors.borderMedium,
     },
     borderRadius: 8,
   },

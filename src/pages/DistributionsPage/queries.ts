@@ -51,6 +51,7 @@ export const getEpochData = async (
                 address: true,
                 profile: {
                   avatar: true,
+                  id: true,
                 },
               },
               tokens: true,
@@ -81,12 +82,9 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
-                  user: {
+                  profile: {
                     address: true,
-                    name: true,
-                    profile: {
-                      avatar: true,
-                    },
+                    avatar: true,
                   },
                 },
               ],

@@ -25,6 +25,7 @@ async function main() {
   const protocolId = await getProtocolIdForCircle(circleId);
   await createCircleInOrgButNoDevMember(protocolId!);
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
+  await createEndedEpochWithGiftsForClaims();
 
   // eslint-disable-next-line no-console
   CI ? console.log('Skipping avatars') : await getAvatars();
@@ -146,6 +147,38 @@ async function createEndedEpochWithGifts() {
   return circleId;
 }
 
+async function createEndedEpochWithGiftsForClaims() {
+  const result = await insertMemberships(
+    getMembershipInput(
+      { protocolInput: { name: 'Ended Epoch With Gifts for Claims' } },
+      {}
+    )
+  );
+  const circleId = result[0].circle_id;
+  const epochId1 = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 8 }),
+    DateTime.now().minus({ days: 1 }),
+    1
+  );
+  const epochId2 = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 16 }),
+    DateTime.now().minus({ days: 9 }),
+    2
+  );
+  const epochId3 = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 17 }),
+    DateTime.now().minus({ days: 10 }),
+    3
+  );
+  await createGifts(result, epochId1, 9, 100, false);
+  await createGifts(result, epochId2, 8, 100, false);
+  await createGifts(result, epochId3, 8, 100, false);
+  return circleId;
+}
+
 async function createCircleWithPendingGiftsEndingSoon() {
   const result = await insertMemberships(
     getMembershipInput({ protocolInput: { name: 'Open Epoch With Gifts' } }, {})
@@ -189,20 +222,26 @@ async function createCircleInOrgButNoDevMember(protocolId: number) {
 
 async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {
   const result = await insertMemberships(
-      getMembershipInput(
-          { protocolInput: { name: 'Fresh Open Epoch Admin With Fixed Payment Token' },
-            circlesInput: [{
-              name: getCircleName(),
-              fixed_payment_token_type: 'DAI'
-            }]},
-          {}
-      )
+    getMembershipInput(
+      {
+        protocolInput: {
+          name: 'Fresh Open Epoch Admin With Fixed Payment Token',
+        },
+        circlesInput: [
+          {
+            name: getCircleName(),
+            fixed_payment_token_type: 'DAI',
+          },
+        ],
+      },
+      {}
+    )
   );
   const circleId = result[0].circle_id;
   await makeEpoch(
-      circleId,
-      DateTime.now().minus({ hours: 1 }),
-      DateTime.now().plus({ days: 6, hours: 23 }),
-      1
+    circleId,
+    DateTime.now().minus({ hours: 1 }),
+    DateTime.now().plus({ days: 6, hours: 23 }),
+    1
   );
 }

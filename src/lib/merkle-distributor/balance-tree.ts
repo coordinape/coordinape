@@ -4,14 +4,25 @@ import { BigNumber, utils } from 'ethers';
 
 import MerkleTree from './merkle-tree';
 
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export default class BalanceTree {
   private readonly tree: MerkleTree;
   constructor(balances: { account: string; amount: BigNumber }[]) {
-    this.tree = new MerkleTree(
-      balances.map(({ account, amount }, index) => {
-        return BalanceTree.toNode(index, account, amount);
-      })
-    );
+    const nodes = balances.map(({ account, amount }, index) => {
+      return BalanceTree.toNode(index, account, amount);
+    });
+
+    let paddedLength = 1;
+    while (paddedLength < nodes.length) paddedLength *= 2;
+
+    while (nodes.length < paddedLength) {
+      nodes.push(
+        BalanceTree.toNode(nodes.length, ZERO_ADDRESS, BigNumber.from(0))
+      );
+    }
+
+    this.tree = new MerkleTree(nodes);
   }
 
   public static verifyProof(
@@ -21,6 +32,7 @@ export default class BalanceTree {
     proof: Buffer[],
     root: Buffer
   ): boolean {
+    if (root.length === 0) throw new Error('root has 0 length');
     let pair = BalanceTree.toNode(index, account, amount);
     for (const item of proof) {
       pair = MerkleTree.combinedHash(pair, item);
