@@ -68,6 +68,7 @@ export const getEpochData = async (
                 decimals: true,
                 symbol: true,
                 vault_address: true,
+                simple_token_address: true,
                 chain_id: true,
               },
               epoch: {
@@ -105,7 +106,7 @@ export const getEpochData = async (
       ...dist,
       pricePerShare: await contracts.getPricePerShare(
         dist.vault.vault_address,
-        dist.vault.symbol,
+        dist.vault.simple_token_address,
         dist.vault.decimals
       ),
     })) || []

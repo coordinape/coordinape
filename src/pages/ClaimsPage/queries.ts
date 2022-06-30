@@ -72,7 +72,7 @@ export const getClaims = async (
     const { distribution } = claim;
     const pricePerShare = await contracts.getPricePerShare(
       distribution.vault.vault_address,
-      distribution.vault.symbol,
+      distribution.vault.simple_token_address,
       distribution.vault.decimals
     );
 
