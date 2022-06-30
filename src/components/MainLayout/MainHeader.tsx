@@ -11,9 +11,9 @@ import {
   NewApeAvatar,
   OverviewMenu,
 } from 'components';
-import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
+import { useWalletStatus } from 'hooks/login';
 import { HamburgerIcon, CloseIcon } from 'icons';
 import ClaimsNavButton from 'pages/ClaimsPage/ClaimsNavButton';
 import {
