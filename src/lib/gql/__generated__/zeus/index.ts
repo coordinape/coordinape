@@ -10276,16 +10276,6 @@ columns and relationships of "circle_api_keys" */
     new_amount?: number | undefined;
     profile_id?: number | undefined;
   };
-  /** aggregate stddev on columns */
-  ['claims_stddev_fields']: {
-    __typename: 'claims_stddev_fields';
-    amount?: number | undefined;
-    distribution_id?: number | undefined;
-    id?: number | undefined;
-    index?: number | undefined;
-    new_amount?: number | undefined;
-    profile_id?: number | undefined;
-  };
   /** order by stddev() on columns of table "claims" */
   ['claims_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;

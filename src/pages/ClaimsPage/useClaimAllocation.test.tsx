@@ -113,7 +113,12 @@ test('claim single successfully', async () => {
 
         const total = await getWrappedAmount('90', vault, contracts);
 
-        const { claims, merkleRoot } = createDistribution(gifts, total);
+        const { claims, merkleRoot } = createDistribution(
+          gifts,
+          {},
+          total,
+          total
+        );
 
         expectedBalance = BigNumber.from(claims[address1].amount);
 
@@ -187,7 +192,12 @@ test('do not allow claim if root not found', async () => {
         });
         assert(vault, 'vault not created');
 
-        const { claims } = createDistribution(gifts, BigNumber.from('1000000'));
+        const { claims } = createDistribution(
+          gifts,
+          {},
+          BigNumber.from('1000000'),
+          BigNumber.from('1000000')
+        );
 
         const { amount, index, proof } = claims[address1];
         const trx = await claimAllocation({

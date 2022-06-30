@@ -73,7 +73,8 @@ export function DistributionsPage() {
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
       return (
-        (fixedDist && fixedDist.claims.some(c => c.user.id === u.id)) ||
+        (fixedDist &&
+          fixedDist.claims.some(c => c.profile?.id === u.profile?.id)) ||
         (circle.fixed_payment_token_type && u.fixed_payment_amount) ||
         epoch.token_gifts?.some(g => g.recipient.id === u.id && g.tokens > 0)
       );
@@ -95,12 +96,12 @@ export function DistributionsPage() {
         claimed: !fixedDist
           ? 0
           : fixedDist.claims
-              .filter(c => c.user.id === user.id)
+              .filter(c => c.profile?.id === user.profile?.id)
               .reduce((t, g) => t + g.amount, 0) || 0,
         circle_claimed: !circleDist
           ? 0
           : circleDist.claims
-              .filter(c => c.user.id === user.id)
+              .filter(c => c.profile?.id === user.profile?.id)
               .reduce((t, g) => t + g.amount, 0) || 0,
       };
     });

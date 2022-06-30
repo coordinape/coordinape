@@ -151,8 +151,9 @@ export function DistributionForm({
         gifts[user.address] += user.received;
       });
     }
-    const userIdsByAddress = circleUsers.reduce((ret, user) => {
-      ret[user.address.toLowerCase()] = user.id;
+
+    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
+      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
       return ret;
     }, {} as Record<string, number>);
     try {
@@ -164,7 +165,7 @@ export function DistributionForm({
         vault,
         gifts,
         fixedGifts,
-        userIdsByAddress,
+        profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
