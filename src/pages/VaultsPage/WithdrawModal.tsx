@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { Contracts } from 'lib/vaults';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -27,13 +26,6 @@ export default function WithdrawModal({
   type WithdrawFormSchema = z.infer<typeof schema>;
   const contracts = useContracts();
   const [submitting, setSubmitting] = useState(false);
-  const [selectedContracts, setSelectedContracts] = useState<Contracts>();
-  useEffect(() => {
-    if (contracts) setSelectedContracts(contracts);
-  }, [contracts]);
-  useEffect(() => {
-    if (!selectedContracts) return;
-  }, [selectedContracts]);
   const {
     handleSubmit,
     control,
@@ -47,7 +39,7 @@ export default function WithdrawModal({
     control,
     defaultValue: 0,
   });
-  const { withdraw } = useVaultRouter(selectedContracts);
+  const { withdraw } = useVaultRouter(contracts);
 
   const onSubmit = () => {
     setSubmitting(true);

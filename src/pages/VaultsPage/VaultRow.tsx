@@ -59,8 +59,7 @@ export function VaultRow({
         onClose={closeModal}
         vault={vault}
         balance={balance}
-        onWithdraw={updateBalance}
-        onDeposit={updateBalance}
+        onUpdateBalance={updateBalance}
       />
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
@@ -138,7 +137,11 @@ export function VaultRow({
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
 type ModalProps =
-  | { modal: ModalLabel } & DepositModalProps & WithdrawModalProps;
+  | { modal: ModalLabel; onUpdateBalance: () => void } & Omit<
+      DepositModalProps,
+      'onDeposit'
+    > &
+      Omit<WithdrawModalProps, 'onWithdraw'>;
 
 function VaultModal<T extends ModalProps>(props: T) {
   switch (props.modal) {
@@ -147,16 +150,16 @@ function VaultModal<T extends ModalProps>(props: T) {
         <DepositModal
           vault={props.vault}
           onClose={props.onClose}
-          onDeposit={props.onDeposit}
+          onDeposit={props.onUpdateBalance}
         />
       );
     case 'withdraw':
       return (
         <WithdrawModal
-          onClose={props.onClose}
           vault={props.vault}
+          onClose={props.onClose}
+          onWithdraw={props.onUpdateBalance}
           balance={props.balance}
-          onWithdraw={props.onWithdraw}
         />
       );
     default:
