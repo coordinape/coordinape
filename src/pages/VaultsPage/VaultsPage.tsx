@@ -43,7 +43,13 @@ const VaultsPage = () => {
   return (
     <SingleColumnLayout>
       <Box
-        css={{ display: 'flex', flexDirection: 'row', gap: '$md', mb: '$lg' }}
+        css={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '$md',
+          mb: '$lg',
+          flexWrap: 'wrap',
+        }}
       >
         {orgs?.map(org => (
           <Button
