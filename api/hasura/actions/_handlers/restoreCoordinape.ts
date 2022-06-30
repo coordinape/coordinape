@@ -52,7 +52,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'resotre_coordinape',
+      operationName: 'restore_coordinape',
     }
   );
 
