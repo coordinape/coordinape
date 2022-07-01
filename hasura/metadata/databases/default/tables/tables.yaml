@@ -20,5 +20,6 @@
 - "!include public_user_private.yaml"
 - "!include public_users.yaml"
 - "!include public_vault_transactions.yaml"
+- "!include public_vault_tx_types.yaml"
 - "!include public_vaults.yaml"
 - "!include public_vouches.yaml"

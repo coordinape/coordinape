@@ -11,6 +11,7 @@ import createNominee from './_handlers/createNominee';
 import createUser from './_handlers/createUser';
 import createUsers from './_handlers/createUsers';
 import createVault from './_handlers/createVault';
+import createVaultTx from './_handlers/createVaultTx';
 import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import generateApiKey from './_handlers/generateApiKey';
@@ -37,6 +38,7 @@ const HANDLERS: HandlerDict = {
   createUser,
   createUsers,
   createVault,
+  createVaultTx,
   deleteEpoch,
   deleteUser,
   generateApiKey,

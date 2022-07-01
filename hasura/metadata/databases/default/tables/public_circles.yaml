@@ -80,6 +80,13 @@ array_relationships:
       table:
         name: users
         schema: public
+- name: vault_transactions
+  using:
+    foreign_key_constraint_on:
+      column: circle_id
+      table:
+        name: vault_transactions
+        schema: public
 select_permissions:
 - permission:
     columns:

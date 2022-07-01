@@ -9,6 +9,13 @@ object_relationships:
   using:
     foreign_key_constraint_on: org_id
 array_relationships:
+- name: distributions
+  using:
+    foreign_key_constraint_on:
+      column: vault_id
+      table:
+        name: distributions
+        schema: public
 - name: vault_transactions
   using:
     foreign_key_constraint_on:

@@ -11,6 +11,13 @@ array_relationships:
       remote_table:
         name: users
         schema: public
+- name: vaults
+  using:
+    foreign_key_constraint_on:
+      column: created_by
+      table:
+        name: vaults
+        schema: public
 select_permissions:
 - permission:
     columns:

@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response));
+    console.info(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -717,6 +717,7 @@ export type ValueTypes = {
   };
   ['CreateVaultInput']: {
     chain_id: number;
+    deployment_block: number;
     org_id: number;
     vault_address: string;
   };
@@ -769,6 +770,19 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['LogVaultTxInput']: {
+    circle_id?: number | undefined | null;
+    distribution_id?: number | undefined | null;
+    tx_hash: string;
+    tx_type: string;
+    vault_id: number;
+  };
+  ['LogVaultTxResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_return_object?: ValueTypes['vault_transactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
     /** An object relationship */
@@ -1681,6 +1695,29 @@ columns and relationships of "circle_api_keys" */
       },
       ValueTypes['users']
     ];
+    vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
     vouching?: boolean | `@${string}`;
     vouching_text?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1747,6 +1784,10 @@ columns and relationships of "circle_api_keys" */
     token_name?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     users?: ValueTypes['users_bool_exp'] | undefined | null;
+    vault_transactions?:
+      | ValueTypes['vault_transactions_bool_exp']
+      | undefined
+      | null;
     vouching?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     vouching_text?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -1842,6 +1883,10 @@ columns and relationships of "circle_api_keys" */
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     users_aggregate?: ValueTypes['users_aggregate_order_by'] | undefined | null;
+    vault_transactions_aggregate?:
+      | ValueTypes['vault_transactions_aggregate_order_by']
+      | undefined
+      | null;
     vouching?: ValueTypes['order_by'] | undefined | null;
     vouching_text?: ValueTypes['order_by'] | undefined | null;
   };
@@ -2358,6 +2403,29 @@ columns and relationships of "distributions" */
     /** An object relationship */
     vault?: ValueTypes['vaults'];
     vault_id?: boolean | `@${string}`;
+    vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "distributions" */
@@ -2459,6 +2527,10 @@ columns and relationships of "distributions" */
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    vault_transactions?:
+      | ValueTypes['vault_transactions_bool_exp']
+      | undefined
+      | null;
   };
   /** unique or primary key constraints on table "distributions" */
   ['distributions_constraint']: distributions_constraint;
@@ -2582,6 +2654,10 @@ columns and relationships of "distributions" */
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
+    vault_transactions_aggregate?:
+      | ValueTypes['vault_transactions_aggregate_order_by']
+      | undefined
+      | null;
   };
   /** primary key columns input for table: distributions */
   ['distributions_pk_columns_input']: {
@@ -3229,6 +3305,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['CreateVaultInput'] },
       ValueTypes['VaultResponse']
     ];
+    createVaultTx?: [
+      { payload: ValueTypes['LogVaultTxInput'] },
+      ValueTypes['LogVaultTxResponse']
+    ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
       ValueTypes['DeleteEpochResponse']
@@ -3318,20 +3398,6 @@ columns and relationships of "distributions" */
           | null;
       },
       ValueTypes['distributions']
-    ];
-    insert_vault_transactions?: [
-      {
-        /** the rows to be inserted */
-        objects: Array<ValueTypes['vault_transactions_insert_input']>;
-      },
-      ValueTypes['vault_transactions_mutation_response']
-    ];
-    insert_vault_transactions_one?: [
-      {
-        /** the row to be inserted */
-        object: ValueTypes['vault_transactions_insert_input'];
-      },
-      ValueTypes['vault_transactions']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     restoreCoordinape?: [
@@ -4197,6 +4263,29 @@ columns and relationships of "profiles" */
       },
       ValueTypes['users']
     ];
+    vaults?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vaults_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vaults_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vaults_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vaults']
+    ];
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4219,6 +4308,7 @@ columns and relationships of "profiles" */
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     users?: ValueTypes['users_bool_exp'] | undefined | null;
+    vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** response of any mutation on the table "profiles" */
@@ -4245,6 +4335,10 @@ columns and relationships of "profiles" */
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     users_aggregate?: ValueTypes['users_aggregate_order_by'] | undefined | null;
+    vaults_aggregate?:
+      | ValueTypes['vaults_aggregate_order_by']
+      | undefined
+      | null;
     website?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: profiles */
@@ -4852,6 +4946,30 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['vault_transactions']
     ];
+    vault_tx_types?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_tx_types_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_tx_types_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_tx_types']
+    ];
+    vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
     vaults?: [
       {
         /** distinct select on columns */
@@ -5488,6 +5606,30 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['vault_transactions']
     ];
+    vault_tx_types?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_tx_types_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_tx_types_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_tx_types']
+    ];
+    vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
     vaults?: [
       {
         /** distinct select on columns */
@@ -5693,6 +5835,8 @@ columns and relationships of "token_gifts" */
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     dts_created?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
     epoch_id?: boolean | `@${string}`;
     /** An object relationship */
     gift_private?: ValueTypes['gift_private'];
@@ -5787,6 +5931,7 @@ columns and relationships of "token_gifts" */
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     dts_created?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     gift_private?: ValueTypes['gift_private_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -5863,6 +6008,7 @@ columns and relationships of "token_gifts" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     dts_created?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     gift_private?: ValueTypes['gift_private_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6172,6 +6318,29 @@ columns and relationships of "users" */
     ];
     /** An object relationship */
     circle?: ValueTypes['circles'];
+    circle_api_keys?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_api_keys_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_api_keys_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_api_keys']
+    ];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
@@ -6351,6 +6520,52 @@ columns and relationships of "users" */
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user_private?: ValueTypes['user_private'];
+    vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
+    vouches?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vouches_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vouches_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vouches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vouches']
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** order by aggregate values of table "users" */
@@ -6385,6 +6600,7 @@ columns and relationships of "users" */
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -6415,6 +6631,11 @@ columns and relationships of "users" */
     teammates?: ValueTypes['teammates_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user_private?: ValueTypes['user_private_bool_exp'] | undefined | null;
+    vault_transactions?:
+      | ValueTypes['vault_transactions_bool_exp']
+      | undefined
+      | null;
+    vouches?: ValueTypes['vouches_bool_exp'] | undefined | null;
   };
   /** order by max() on columns of table "users" */
   ['users_max_order_by']: {
@@ -6452,6 +6673,10 @@ columns and relationships of "users" */
     bio?: ValueTypes['order_by'] | undefined | null;
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_api_keys_aggregate?:
+      | ValueTypes['circle_api_keys_aggregate_order_by']
+      | undefined
+      | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
@@ -6488,6 +6713,14 @@ columns and relationships of "users" */
       | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_private?: ValueTypes['user_private_order_by'] | undefined | null;
+    vault_transactions_aggregate?:
+      | ValueTypes['vault_transactions_aggregate_order_by']
+      | undefined
+      | null;
+    vouches_aggregate?:
+      | ValueTypes['vouches_aggregate_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "users" */
   ['users_select_column']: users_select_column;
@@ -6556,20 +6789,25 @@ columns and relationships of "users" */
   };
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
-    description?: boolean | `@${string}`;
+    /** An object relationship */
+    distribution?: ValueTypes['distributions'];
+    distribution_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    name?: boolean | `@${string}`;
     tx_hash?: boolean | `@${string}`;
+    tx_type?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
-    value?: boolean | `@${string}`;
     /** An object relationship */
     vault?: ValueTypes['vaults'];
     vault_id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_type?: ValueTypes['vault_tx_types'];
     __typename?: boolean | `@${string}`;
   }>;
   /** order by aggregate values of table "vault_transactions" */
@@ -6606,9 +6844,10 @@ columns and relationships of "users" */
   };
   /** order by avg() on columns of table "vault_transactions" */
   ['vault_transactions_avg_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "vault_transactions". All fields are combined with a logical 'AND'. */
@@ -6616,138 +6855,234 @@ columns and relationships of "users" */
     _and?: Array<ValueTypes['vault_transactions_bool_exp']> | undefined | null;
     _not?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['vault_transactions_bool_exp']> | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    date?: ValueTypes['date_comparison_exp'] | undefined | null;
-    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    name?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    tx_type?:
+      | ValueTypes['vault_tx_types_enum_comparison_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
-    value?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-  };
-  /** input type for inserting data into table "vault_transactions" */
-  ['vault_transactions_insert_input']: {
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    date?: ValueTypes['date'] | undefined | null;
-    description?: string | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
-    tx_hash?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    value?: ValueTypes['bigint'] | undefined | null;
-    vault_id?: ValueTypes['bigint'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
   };
   /** order by max() on columns of table "vault_transactions" */
   ['vault_transactions_max_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
-    date?: ValueTypes['order_by'] | undefined | null;
-    description?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by min() on columns of table "vault_transactions" */
   ['vault_transactions_min_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
-    date?: ValueTypes['order_by'] | undefined | null;
-    description?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** response of any mutation on the table "vault_transactions" */
-  ['vault_transactions_mutation_response']: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ValueTypes['vault_transactions'];
-    __typename?: boolean | `@${string}`;
-  }>;
   /** Ordering options when selecting data from "vault_transactions". */
   ['vault_transactions_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
-    date?: ValueTypes['order_by'] | undefined | null;
-    description?: ValueTypes['order_by'] | undefined | null;
+    distribution?: ValueTypes['distributions_order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
+    tx_type?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
   };
   /** select columns of table "vault_transactions" */
   ['vault_transactions_select_column']: vault_transactions_select_column;
   /** order by stddev() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_pop() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_samp() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by sum() on columns of table "vault_transactions" */
   ['vault_transactions_sum_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_pop() on columns of table "vault_transactions" */
   ['vault_transactions_var_pop_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_samp() on columns of table "vault_transactions" */
   ['vault_transactions_var_samp_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by variance() on columns of table "vault_transactions" */
   ['vault_transactions_variance_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    value?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "vault_tx_types" */
+  ['vault_tx_types']: AliasType<{
+    comment?: boolean | `@${string}`;
+    value?: boolean | `@${string}`;
+    vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "vault_tx_types". All fields are combined with a logical 'AND'. */
+  ['vault_tx_types_bool_exp']: {
+    _and?: Array<ValueTypes['vault_tx_types_bool_exp']> | undefined | null;
+    _not?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['vault_tx_types_bool_exp']> | undefined | null;
+    comment?: ValueTypes['String_comparison_exp'] | undefined | null;
+    value?: ValueTypes['String_comparison_exp'] | undefined | null;
+    vault_transactions?:
+      | ValueTypes['vault_transactions_bool_exp']
+      | undefined
+      | null;
+  };
+  ['vault_tx_types_enum']: vault_tx_types_enum;
+  /** Boolean expression to compare columns of type "vault_tx_types_enum". All fields are combined with logical 'AND'. */
+  ['vault_tx_types_enum_comparison_exp']: {
+    _eq?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+    _in?: Array<ValueTypes['vault_tx_types_enum']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _neq?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+    _nin?: Array<ValueTypes['vault_tx_types_enum']> | undefined | null;
+  };
+  /** Ordering options when selecting data from "vault_tx_types". */
+  ['vault_tx_types_order_by']: {
+    comment?: ValueTypes['order_by'] | undefined | null;
+    value?: ValueTypes['order_by'] | undefined | null;
+    vault_transactions_aggregate?:
+      | ValueTypes['vault_transactions_aggregate_order_by']
+      | undefined
+      | null;
+  };
+  /** select columns of table "vault_tx_types" */
+  ['vault_tx_types_select_column']: vault_tx_types_select_column;
   /** columns and relationships of "vaults" */
   ['vaults']: AliasType<{
     chain_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
+    distributions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['distributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['distributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['distributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['distributions']
+    ];
+    distributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['distributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['distributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['distributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['distributions_aggregate']
+    ];
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -6815,6 +7150,7 @@ columns and relationships of "users" */
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     decimals?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
@@ -6866,6 +7202,10 @@ columns and relationships of "users" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    distributions_aggregate?:
+      | ValueTypes['distributions_aggregate_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
@@ -7112,6 +7452,12 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
+  ['LogVaultTxResponse']: {
+    id: string;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+  };
   ['LogoutResponse']: {
     id?: number | undefined;
     /** An object relationship */
@@ -7378,6 +7724,8 @@ columns and relationships of "circle_api_keys" */
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     vouching: boolean;
     vouching_text?: string | undefined;
   };
@@ -7637,6 +7985,8 @@ columns and relationships of "distributions" */
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
   };
   /** aggregated selection of "distributions" */
   ['distributions_aggregate']: {
@@ -7927,6 +8277,8 @@ columns and relationships of "distributions" */
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
+    /** Log offchain information for vault transactions */
+    createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -7963,14 +8315,6 @@ columns and relationships of "distributions" */
       | undefined;
     /** insert a single row into the table: "distributions" */
     insert_distributions_one?: GraphQLTypes['distributions'] | undefined;
-    /** insert data into the table: "vault_transactions" */
-    insert_vault_transactions?:
-      | GraphQLTypes['vault_transactions_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "vault_transactions" */
-    insert_vault_transactions_one?:
-      | GraphQLTypes['vault_transactions']
-      | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
@@ -8283,6 +8627,8 @@ columns and relationships of "profiles" */
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
+    /** An array relationship */
+    vaults: Array<GraphQLTypes['vaults']>;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -8307,7 +8653,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -8381,11 +8727,15 @@ columns and relationships of "profiles" */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table: "vault_tx_types" */
+    vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
+    /** fetch data from the table: "vault_tx_types" using primary key columns */
+    vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table: "vouches" */
+    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
@@ -8395,7 +8745,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -8469,11 +8819,15 @@ columns and relationships of "profiles" */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table: "vault_tx_types" */
+    vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
+    /** fetch data from the table: "vault_tx_types" using primary key columns */
+    vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table: "vouches" */
+    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
@@ -8534,6 +8888,8 @@ columns and relationships of "token_gifts" */
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
     epoch_id: number;
     /** An object relationship */
     gift_private?: GraphQLTypes['gift_private'] | undefined;
@@ -8794,6 +9150,8 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
+    /** An array relationship */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
@@ -8826,6 +9184,10 @@ columns and relationships of "users" */
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user_private?: GraphQLTypes['user_private'] | undefined;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+    /** An array relationship */
+    vouches: Array<GraphQLTypes['vouches']>;
   };
   /** order by aggregate values of table "users" */
   ['users_aggregate_order_by']: GraphQLTypes['users_aggregate_order_by'];
@@ -8857,20 +9219,25 @@ columns and relationships of "users" */
   ['users_variance_order_by']: GraphQLTypes['users_variance_order_by'];
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'] | undefined;
-    date: GraphQLTypes['date'];
-    description?: string | undefined;
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
-    name: string;
     tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
-    value?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** order by aggregate values of table "vault_transactions" */
   ['vault_transactions_aggregate_order_by']: GraphQLTypes['vault_transactions_aggregate_order_by'];
@@ -8878,19 +9245,10 @@ columns and relationships of "users" */
   ['vault_transactions_avg_order_by']: GraphQLTypes['vault_transactions_avg_order_by'];
   /** Boolean expression to filter rows from the table "vault_transactions". All fields are combined with a logical 'AND'. */
   ['vault_transactions_bool_exp']: GraphQLTypes['vault_transactions_bool_exp'];
-  /** input type for inserting data into table "vault_transactions" */
-  ['vault_transactions_insert_input']: GraphQLTypes['vault_transactions_insert_input'];
   /** order by max() on columns of table "vault_transactions" */
   ['vault_transactions_max_order_by']: GraphQLTypes['vault_transactions_max_order_by'];
   /** order by min() on columns of table "vault_transactions" */
   ['vault_transactions_min_order_by']: GraphQLTypes['vault_transactions_min_order_by'];
-  /** response of any mutation on the table "vault_transactions" */
-  ['vault_transactions_mutation_response']: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['vault_transactions']>;
-  };
   /** Ordering options when selecting data from "vault_transactions". */
   ['vault_transactions_order_by']: GraphQLTypes['vault_transactions_order_by'];
   /** select columns of table "vault_transactions" */
@@ -8909,12 +9267,32 @@ columns and relationships of "users" */
   ['vault_transactions_var_samp_order_by']: GraphQLTypes['vault_transactions_var_samp_order_by'];
   /** order by variance() on columns of table "vault_transactions" */
   ['vault_transactions_variance_order_by']: GraphQLTypes['vault_transactions_variance_order_by'];
+  /** columns and relationships of "vault_tx_types" */
+  ['vault_tx_types']: {
+    comment?: string | undefined;
+    value: string;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+  };
+  /** Boolean expression to filter rows from the table "vault_tx_types". All fields are combined with a logical 'AND'. */
+  ['vault_tx_types_bool_exp']: GraphQLTypes['vault_tx_types_bool_exp'];
+  ['vault_tx_types_enum']: GraphQLTypes['vault_tx_types_enum'];
+  /** Boolean expression to compare columns of type "vault_tx_types_enum". All fields are combined with logical 'AND'. */
+  ['vault_tx_types_enum_comparison_exp']: GraphQLTypes['vault_tx_types_enum_comparison_exp'];
+  /** Ordering options when selecting data from "vault_tx_types". */
+  ['vault_tx_types_order_by']: GraphQLTypes['vault_tx_types_order_by'];
+  /** select columns of table "vault_tx_types" */
+  ['vault_tx_types_select_column']: GraphQLTypes['vault_tx_types_select_column'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
     chain_id: number;
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
+    /** An array relationship */
+    distributions: Array<GraphQLTypes['distributions']>;
+    /** An aggregate relationship */
+    distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -9108,6 +9486,7 @@ export type GraphQLTypes = {
   };
   ['CreateVaultInput']: {
     chain_id: number;
+    deployment_block: number;
     org_id: number;
     vault_address: string;
   };
@@ -9159,6 +9538,19 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['LogVaultTxInput']: {
+    circle_id?: number | undefined;
+    distribution_id?: number | undefined;
+    tx_hash: string;
+    tx_type: string;
+    vault_id: number;
+  };
+  ['LogVaultTxResponse']: {
+    __typename: 'LogVaultTxResponse';
+    id: string;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
@@ -9835,6 +10227,8 @@ columns and relationships of "circle_api_keys" */
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     vouching: boolean;
     vouching_text?: string | undefined;
   };
@@ -9895,6 +10289,9 @@ columns and relationships of "circle_api_keys" */
     token_name?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     users?: GraphQLTypes['users_bool_exp'] | undefined;
+    vault_transactions?:
+      | GraphQLTypes['vault_transactions_bool_exp']
+      | undefined;
     vouching?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     vouching_text?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -9982,6 +10379,9 @@ columns and relationships of "circle_api_keys" */
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     users_aggregate?: GraphQLTypes['users_aggregate_order_by'] | undefined;
+    vault_transactions_aggregate?:
+      | GraphQLTypes['vault_transactions_aggregate_order_by']
+      | undefined;
     vouching?: GraphQLTypes['order_by'] | undefined;
     vouching_text?: GraphQLTypes['order_by'] | undefined;
   };
@@ -10445,6 +10845,8 @@ columns and relationships of "distributions" */
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
   };
   /** aggregated selection of "distributions" */
   ['distributions_aggregate']: {
@@ -10529,6 +10931,9 @@ columns and relationships of "distributions" */
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vault_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    vault_transactions?:
+      | GraphQLTypes['vault_transactions_bool_exp']
+      | undefined;
   };
   /** unique or primary key constraints on table "distributions" */
   ['distributions_constraint']: distributions_constraint;
@@ -10649,6 +11054,9 @@ columns and relationships of "distributions" */
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
+    vault_transactions_aggregate?:
+      | GraphQLTypes['vault_transactions_aggregate_order_by']
+      | undefined;
   };
   /** primary key columns input for table: distributions */
   ['distributions_pk_columns_input']: {
@@ -11140,6 +11548,8 @@ columns and relationships of "distributions" */
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
+    /** Log offchain information for vault transactions */
+    createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -11176,14 +11586,6 @@ columns and relationships of "distributions" */
       | undefined;
     /** insert a single row into the table: "distributions" */
     insert_distributions_one?: GraphQLTypes['distributions'] | undefined;
-    /** insert data into the table: "vault_transactions" */
-    insert_vault_transactions?:
-      | GraphQLTypes['vault_transactions_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "vault_transactions" */
-    insert_vault_transactions_one?:
-      | GraphQLTypes['vault_transactions']
-      | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
@@ -11823,6 +12225,8 @@ columns and relationships of "profiles" */
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
+    /** An array relationship */
+    vaults: Array<GraphQLTypes['vaults']>;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -11844,6 +12248,7 @@ columns and relationships of "profiles" */
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     users?: GraphQLTypes['users_bool_exp'] | undefined;
+    vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** response of any mutation on the table "profiles" */
@@ -11870,6 +12275,7 @@ columns and relationships of "profiles" */
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     users_aggregate?: GraphQLTypes['users_aggregate_order_by'] | undefined;
+    vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
     website?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: profiles */
@@ -11897,7 +12303,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -11971,11 +12377,15 @@ columns and relationships of "profiles" */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table: "vault_tx_types" */
+    vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
+    /** fetch data from the table: "vault_tx_types" using primary key columns */
+    vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table: "vouches" */
+    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
@@ -11986,7 +12396,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -12060,11 +12470,15 @@ columns and relationships of "profiles" */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table: "vault_tx_types" */
+    vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
+    /** fetch data from the table: "vault_tx_types" using primary key columns */
+    vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table: "vouches" */
+    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
@@ -12222,6 +12636,8 @@ columns and relationships of "token_gifts" */
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamp'];
     dts_created: GraphQLTypes['timestamp'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
     epoch_id: number;
     /** An object relationship */
     gift_private?: GraphQLTypes['gift_private'] | undefined;
@@ -12300,6 +12716,7 @@ columns and relationships of "token_gifts" */
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     dts_created?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     gift_private?: GraphQLTypes['gift_private_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -12376,6 +12793,7 @@ columns and relationships of "token_gifts" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     dts_created?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     gift_private?: GraphQLTypes['gift_private_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -12652,6 +13070,8 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
+    /** An array relationship */
+    circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
@@ -12684,6 +13104,10 @@ columns and relationships of "users" */
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user_private?: GraphQLTypes['user_private'] | undefined;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+    /** An array relationship */
+    vouches: Array<GraphQLTypes['vouches']>;
   };
   /** order by aggregate values of table "users" */
   ['users_aggregate_order_by']: {
@@ -12717,6 +13141,7 @@ columns and relationships of "users" */
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -12742,6 +13167,10 @@ columns and relationships of "users" */
     teammates?: GraphQLTypes['teammates_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user_private?: GraphQLTypes['user_private_bool_exp'] | undefined;
+    vault_transactions?:
+      | GraphQLTypes['vault_transactions_bool_exp']
+      | undefined;
+    vouches?: GraphQLTypes['vouches_bool_exp'] | undefined;
   };
   /** order by max() on columns of table "users" */
   ['users_max_order_by']: {
@@ -12779,6 +13208,9 @@ columns and relationships of "users" */
     bio?: GraphQLTypes['order_by'] | undefined;
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_api_keys_aggregate?:
+      | GraphQLTypes['circle_api_keys_aggregate_order_by']
+      | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
@@ -12810,6 +13242,10 @@ columns and relationships of "users" */
       | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_private?: GraphQLTypes['user_private_order_by'] | undefined;
+    vault_transactions_aggregate?:
+      | GraphQLTypes['vault_transactions_aggregate_order_by']
+      | undefined;
+    vouches_aggregate?: GraphQLTypes['vouches_aggregate_order_by'] | undefined;
   };
   /** select columns of table "users" */
   ['users_select_column']: users_select_column;
@@ -12879,20 +13315,25 @@ columns and relationships of "users" */
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     __typename: 'vault_transactions';
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     created_by?: GraphQLTypes['bigint'] | undefined;
-    date: GraphQLTypes['date'];
-    description?: string | undefined;
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
-    name: string;
     tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
-    value?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** order by aggregate values of table "vault_transactions" */
   ['vault_transactions_aggregate_order_by']: {
@@ -12914,9 +13355,10 @@ columns and relationships of "users" */
   };
   /** order by avg() on columns of table "vault_transactions" */
   ['vault_transactions_avg_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "vault_transactions". All fields are combined with a logical 'AND'. */
@@ -12924,132 +13366,156 @@ columns and relationships of "users" */
     _and?: Array<GraphQLTypes['vault_transactions_bool_exp']> | undefined;
     _not?: GraphQLTypes['vault_transactions_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['vault_transactions_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    date?: GraphQLTypes['date_comparison_exp'] | undefined;
-    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    name?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
-    value?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vault_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-  };
-  /** input type for inserting data into table "vault_transactions" */
-  ['vault_transactions_insert_input']: {
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    date?: GraphQLTypes['date'] | undefined;
-    description?: string | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
-    tx_hash?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    value?: GraphQLTypes['bigint'] | undefined;
-    vault_id?: GraphQLTypes['bigint'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
   };
   /** order by max() on columns of table "vault_transactions" */
   ['vault_transactions_max_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
-    date?: GraphQLTypes['order_by'] | undefined;
-    description?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by min() on columns of table "vault_transactions" */
   ['vault_transactions_min_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
-    date?: GraphQLTypes['order_by'] | undefined;
-    description?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
-  };
-  /** response of any mutation on the table "vault_transactions" */
-  ['vault_transactions_mutation_response']: {
-    __typename: 'vault_transactions_mutation_response';
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['vault_transactions']>;
   };
   /** Ordering options when selecting data from "vault_transactions". */
   ['vault_transactions_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
-    date?: GraphQLTypes['order_by'] | undefined;
-    description?: GraphQLTypes['order_by'] | undefined;
+    distribution?: GraphQLTypes['distributions_order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
+    tx_type?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
   };
   /** select columns of table "vault_transactions" */
   ['vault_transactions_select_column']: vault_transactions_select_column;
   /** order by stddev() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_pop() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_samp() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by sum() on columns of table "vault_transactions" */
   ['vault_transactions_sum_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_pop() on columns of table "vault_transactions" */
   ['vault_transactions_var_pop_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_samp() on columns of table "vault_transactions" */
   ['vault_transactions_var_samp_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by variance() on columns of table "vault_transactions" */
   ['vault_transactions_variance_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    value?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "vault_tx_types" */
+  ['vault_tx_types']: {
+    __typename: 'vault_tx_types';
+    comment?: string | undefined;
+    value: string;
+    /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+  };
+  /** Boolean expression to filter rows from the table "vault_tx_types". All fields are combined with a logical 'AND'. */
+  ['vault_tx_types_bool_exp']: {
+    _and?: Array<GraphQLTypes['vault_tx_types_bool_exp']> | undefined;
+    _not?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['vault_tx_types_bool_exp']> | undefined;
+    comment?: GraphQLTypes['String_comparison_exp'] | undefined;
+    value?: GraphQLTypes['String_comparison_exp'] | undefined;
+    vault_transactions?:
+      | GraphQLTypes['vault_transactions_bool_exp']
+      | undefined;
+  };
+  ['vault_tx_types_enum']: vault_tx_types_enum;
+  /** Boolean expression to compare columns of type "vault_tx_types_enum". All fields are combined with logical 'AND'. */
+  ['vault_tx_types_enum_comparison_exp']: {
+    _eq?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+    _in?: Array<GraphQLTypes['vault_tx_types_enum']> | undefined;
+    _is_null?: boolean | undefined;
+    _neq?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+    _nin?: Array<GraphQLTypes['vault_tx_types_enum']> | undefined;
+  };
+  /** Ordering options when selecting data from "vault_tx_types". */
+  ['vault_tx_types_order_by']: {
+    comment?: GraphQLTypes['order_by'] | undefined;
+    value?: GraphQLTypes['order_by'] | undefined;
+    vault_transactions_aggregate?:
+      | GraphQLTypes['vault_transactions_aggregate_order_by']
+      | undefined;
+  };
+  /** select columns of table "vault_tx_types" */
+  ['vault_tx_types_select_column']: vault_tx_types_select_column;
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
@@ -13057,6 +13523,10 @@ columns and relationships of "users" */
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
+    /** An array relationship */
+    distributions: Array<GraphQLTypes['distributions']>;
+    /** An aggregate relationship */
+    distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -13102,6 +13572,7 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     decimals?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
@@ -13149,6 +13620,9 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    distributions_aggregate?:
+      | GraphQLTypes['distributions_aggregate_order_by']
+      | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
@@ -13592,16 +14066,25 @@ export const enum users_select_column {
 }
 /** select columns of table "vault_transactions" */
 export const enum vault_transactions_select_column {
+  circle_id = 'circle_id',
   created_at = 'created_at',
   created_by = 'created_by',
-  date = 'date',
-  description = 'description',
+  distribution_id = 'distribution_id',
   id = 'id',
-  name = 'name',
   tx_hash = 'tx_hash',
+  tx_type = 'tx_type',
   updated_at = 'updated_at',
-  value = 'value',
   vault_id = 'vault_id',
+}
+export const enum vault_tx_types_enum {
+  Deposit = 'Deposit',
+  Distribution = 'Distribution',
+  Withdraw = 'Withdraw',
+}
+/** select columns of table "vault_tx_types" */
+export const enum vault_tx_types_select_column {
+  comment = 'comment',
+  value = 'value',
 }
 /** select columns of table "vaults" */
 export const enum vaults_select_column {
