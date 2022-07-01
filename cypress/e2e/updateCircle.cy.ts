@@ -27,7 +27,9 @@ context('Coordinape', () => {
       url: '/v1/graphql',
     }).as('saveCircle');
     cy.contains('Save').click();
-    cy.wait('@saveCircle').its('response.statusCode').should('equal', 200);
+    cy.wait('@saveCircle', { timeout: 90000 })
+      .its('response.statusCode')
+      .should('equal', 200);
     cy.intercept({
       method: 'POST',
       url: '/v1/graphql',
