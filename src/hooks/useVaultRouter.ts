@@ -75,12 +75,16 @@ export function useVaultRouter(contracts?: Contracts) {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
     const vaultContract = contracts.getVault(vault.vault_address);
+    const tokenAddress = getTokenAddress(vault);
+    const token = contracts.getERC20(tokenAddress);
+    const symbol = await token.symbol();
     const shares = await getWrappedAmount(humanAmount, vault, contracts);
     return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
       showError,
       showInfo,
       signingMessage: 'Please sign the transaction to withdraw tokens.',
       chainId: contracts.chainId,
+      description: `Withdraw ${humanAmount} ${symbol}`,
     });
   };
 
