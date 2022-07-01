@@ -12,6 +12,8 @@ test('amounts', () => {
       [addr(2)]: 20,
       [addr(3)]: 30,
     },
+    {},
+    BigNumber.from('500000000'),
     BigNumber.from('500000000')
   );
 
@@ -24,6 +26,7 @@ test('dust limit', () => {
   const randint = (max: number) => 1 + Math.floor(Math.random() * max);
 
   for (let i = 0; i < 20; i++) {
+    const totalAmount = BigNumber.from(Math.floor(Math.random() * 100000000));
     createDistribution(
       {
         [addr(2)]: randint(10),
@@ -32,7 +35,9 @@ test('dust limit', () => {
         [addr(8)]: randint(500),
         [addr(10)]: randint(1000),
       },
-      BigNumber.from(Math.floor(Math.random() * 100000000))
+      {},
+      totalAmount,
+      totalAmount
     );
   }
 });
@@ -52,6 +57,8 @@ test('combined root', () => {
       [addr(2)]: 100,
       [addr(4)]: 100,
     },
+    {},
+    BigNumber.from('600000000'),
     BigNumber.from('600000000'),
     previousDist
   );

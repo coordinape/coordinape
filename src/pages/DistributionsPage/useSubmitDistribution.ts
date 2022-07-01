@@ -24,8 +24,12 @@ export type SubmitDistribution = {
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
+  fixedGifts: Record<string, BigNumber>;
   circleId: number;
   epochId: number;
+  fixedAmount: string;
+  giftAmount: string;
+  type: number;
 };
 
 export type SubmitDistributionResult = {
@@ -64,8 +68,12 @@ export function useSubmitDistribution() {
     circleId,
     epochId,
     gifts,
+    fixedGifts,
     previousDistribution,
     profileIdsByAddress,
+    fixedAmount,
+    giftAmount,
+    type,
   }: SubmitDistribution): Promise<SubmitDistributionResult> => {
     assert(vault, 'No vault is found');
 
@@ -76,12 +84,22 @@ export function useSubmitDistribution() {
       const yVaultAddress = await vaultContract.vault();
       const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
       const shifter = FixedNumber.from(BigNumber.from(10).pow(vault.decimals));
-
+      const newGiftAmount = await getWrappedAmount(
+        giftAmount,
+        vault,
+        contracts
+      );
       const prev =
         previousDistribution &&
         JSON.parse(previousDistribution.distribution_json);
 
-      const distribution = createDistribution(gifts, newTotalAmount, prev);
+      const distribution = createDistribution(
+        gifts,
+        fixedGifts,
+        newTotalAmount,
+        newGiftAmount,
+        prev
+      );
 
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
@@ -121,7 +139,11 @@ export function useSubmitDistribution() {
         claims: { data: claims },
         vault_id: Number(vault.id),
         distribution_json: JSON.stringify(distribution),
+        fixed_amount: Number(FixedNumber.from(fixedAmount, 'fixed128x18')),
+        gift_amount: Number(FixedNumber.from(giftAmount, 'fixed128x18')),
+        distribution_type: type,
       });
+
       assert(response, 'Distribution was not saved.');
 
       const encodedCircleId = encodeCircleId(circleId);

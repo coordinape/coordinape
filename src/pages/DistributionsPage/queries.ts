@@ -24,6 +24,7 @@ export const getEpochData = async (
           circle: {
             id: true,
             name: true,
+            fixed_payment_token_type: true,
             // get this user's role so we can check that they're an admin
             users: [
               { where: { address: { _eq: myAddress.toLowerCase() } } },
@@ -63,6 +64,9 @@ export const getEpochData = async (
               created_at: true,
               total_amount: true,
               tx_hash: true,
+              distribution_type: true,
+              gift_amount: true,
+              fixed_amount: true,
               vault: {
                 id: true,
                 decimals: true,
@@ -83,7 +87,9 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
+                  amount: true,
                   profile: {
+                    id: true,
                     address: true,
                     avatar: true,
                   },
