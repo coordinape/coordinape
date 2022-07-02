@@ -1,19 +1,21 @@
 import { useState, useMemo } from 'react';
 
-import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
-import { LoadingModal } from 'components';
+import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
-import { useContracts } from 'hooks';
+import AdminEpochForm from 'forms/AdminEpochForm';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { paths } from 'routes/paths';
-import { Panel, Text, AppLink } from 'ui';
+import { Button, Text, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { NextEpoch } from './conponents';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import { EpochPanel } from './EpochPanel';
 import { getHistoryData, QueryEpoch } from './getHistoryData';
+
+import { IApiEpoch } from 'types';
 
 const pageSize = 3;
 
@@ -33,17 +35,18 @@ export const HistoryPage = () => {
   const circle = query.data;
   const me = circle?.users[0];
 
-  const nextEpoch = circle?.futureEpoch[0];
-  const nextEpochStartLabel = useMemo(() => {
-    if (!nextEpoch) return '';
-    const date = DateTime.fromISO(nextEpoch.start_date);
-    const diff = date
-      .diffNow(['days', 'hours', 'minutes'])
-      .toHuman({ unitDisplay: 'short', notation: 'compact' });
-    return `starts in ${diff}, on ${date.toFormat('LLL d')}`;
-  }, [nextEpoch]);
+  const { deleteEpoch } = useApiAdminCircle(circleId);
+
+  const [editEpoch, setEditEpoch] = useState<IApiEpoch | undefined>(undefined);
+  const [newEpoch, setNewEpoch] = useState<boolean>(false);
+  const [deleteEpochDialog, setDeleteEpochDialog] = useState<
+    IApiEpoch | undefined
+  >(undefined);
+
+  const futureEpochs = circle?.futureEpoch;
 
   const currentEpoch = circle?.currentEpoch[0];
+
   const pastEpochs = circle?.pastEpochs || [];
 
   // TODO fetch only data for page shown
@@ -60,44 +63,45 @@ export const HistoryPage = () => {
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
 
-  if (!currentEpoch && !nextEpoch && pastEpochs.length === 0) {
-    return (
-      <SingleColumnLayout>
-        <p>
-          This circle has no epochs yet.{' '}
-          {me?.role === 1 ? (
-            <>
-              <AppLink to={paths.members(circleId)}>
-                Visit the admin page
-              </AppLink>{' '}
-              to create one.
-            </>
-          ) : (
-            <>Please return once your admin has created one.</>
-          )}
-        </p>
-      </SingleColumnLayout>
-    );
-  }
-
   return (
     <SingleColumnLayout>
-      <Text h1 css={{ mb: '$md' }}>
-        Epoch Overview
-      </Text>
-      {nextEpoch && (
-        <>
-          <Text h3>Next</Text>
-          <Panel css={{ mb: '$md' }}>
-            <Text inline>
-              <Text inline bold color="neutral" font="inter">
-                Next Epoch
-              </Text>{' '}
-              {nextEpochStartLabel}
-            </Text>
-          </Panel>
-        </>
+      <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Text h1 css={{ mb: '$md' }}>
+          Epoch Overview
+        </Text>
+        <Button
+          color="primary"
+          outlined
+          onClick={() => setNewEpoch(true)}
+          disabled={newEpoch}
+        >
+          Create Epoch
+        </Button>
+      </Flex>
+      {(editEpoch || newEpoch) && (
+        <AdminEpochForm
+          circleId={circleId}
+          epochs={futureEpochs}
+          selectedEpoch={editEpoch}
+          currentEpoch={currentEpoch}
+          setEditEpoch={setEditEpoch}
+          setNewEpoch={setNewEpoch}
+        ></AdminEpochForm>
       )}
+
+      <Text h3>Upcoming Epochs</Text>
+      {futureEpochs?.length === 0 && <Text>There are no scheduled Epochs</Text>}
+      {futureEpochs?.map(e => {
+        return (
+          <NextEpoch
+            key={e.id}
+            epoch={e}
+            setEditEpoch={setEditEpoch}
+            isEditing={editEpoch || newEpoch ? true : false}
+            setDeleteEpochDialog={setDeleteEpochDialog}
+          ></NextEpoch>
+        );
+      })}
       {currentEpoch && (
         <>
           <Text h3>Current</Text>
@@ -126,6 +130,20 @@ export const HistoryPage = () => {
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
         </>
       )}
+      <ActionDialog
+        open={!!deleteEpochDialog}
+        title={`Remove Epoch ${deleteEpochDialog?.id}`}
+        onClose={() => setDeleteEpochDialog(undefined)}
+        primaryText="Remove"
+        onPrimary={
+          deleteEpochDialog
+            ? () =>
+                deleteEpoch(deleteEpochDialog?.id)
+                  .then(() => setDeleteEpochDialog(undefined))
+                  .catch(() => setDeleteEpochDialog(undefined))
+            : undefined
+        }
+      />
     </SingleColumnLayout>
   );
 };
