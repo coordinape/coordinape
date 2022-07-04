@@ -65,7 +65,7 @@ export function VaultRow({
         css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
       >
         <Text h3 css={{ flexGrow: 1 }}>
-          {vault.symbol || '...'} coVault
+          {vault.symbol || '...'} CoVault
         </Text>
         <Button
           color="primary"

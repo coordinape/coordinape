@@ -35,7 +35,7 @@ type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'coVaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
@@ -58,7 +58,7 @@ export const OverviewMenu = () => {
   const overviewMenuTriggerText = inCircle
     ? currentCircle
     : location.pathname.includes(paths.vaults)
-    ? 'coVaults'
+    ? 'CoVaults'
     : 'Overview';
   const overviewMenuTrigger = (
     <Link

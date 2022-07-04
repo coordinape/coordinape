@@ -134,10 +134,10 @@ export const CreateForm = ({
       }}
     >
       <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select a coVault Asset
+        Select a CoVault Asset
       </Text>
       <Text font="source" size="medium">
-        coVaults allow you to fund your circles with the asset of your choice.
+        CoVaults allow you to fund your circles with the asset of your choice.
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
         {contracts.getAvailableTokens().map(symbol => (
@@ -181,7 +181,7 @@ export const CreateForm = ({
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid || saving}
       >
-        {saving ? 'Saving...' : 'Create coVault'}
+        {saving ? 'Saving...' : 'Create CoVault'}
       </Button>
       {!isEmpty(errors) && (
         <Text color="alert" css={{ mt: '$sm' }}>

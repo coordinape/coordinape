@@ -27,7 +27,7 @@ import { shortenAddress } from 'utils';
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'coVaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {

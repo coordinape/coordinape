@@ -36,7 +36,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!isOrgAdmin)
     throw new UnauthorizedError(
-      `Error during coVault Creation: Address ${hasuraAddress} is not an admin` +
+      `Error during CoVault Creation: Address ${hasuraAddress} is not an admin` +
         ` of org ${org_id}`
     );
 
@@ -47,7 +47,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!vaultExists)
     throw new UnprocessableError(
-      `No coVault with address ${vault_address} exists`
+      `No CoVault with address ${vault_address} exists`
     );
 
   const vault = contracts.getVault(vault_address);
@@ -91,7 +91,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!result?.id)
     throw new InternalServerError(
-      `No coVault ID returned for ${vault_address}`
+      `No CoVault ID returned for ${vault_address}`
     );
   res.status(200).json(result);
 }
