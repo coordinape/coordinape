@@ -9,6 +9,7 @@ export const AllocationsTable = ({
   totalGive,
   tokenName,
   fixedTokenName,
+  giveTokenName,
 }: {
   users: {
     id: number;
@@ -24,6 +25,7 @@ export const AllocationsTable = ({
   totalGive: number;
   tokenName: string | undefined;
   fixedTokenName: string | undefined;
+  giveTokenName: string | undefined;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
 
@@ -38,7 +40,7 @@ export const AllocationsTable = ({
     { title: 'Name' },
     { title: 'ETH' },
     { title: 'Givers' },
-    { title: `${tokenName || 'GIVE'} Received` },
+    { title: `${giveTokenName || 'GIVE'} Received` },
     { title: '% of Epoch' },
     { title: 'Circle Rewards' },
     { title: 'Fixed Rewards' },
