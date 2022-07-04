@@ -1,0 +1,42 @@
+table:
+  name: contributions
+  schema: public
+object_relationships:
+- name: epoch
+  using:
+    foreign_key_constraint_on: epoch_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      user:
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
+    columns:
+    - description
+    - epoch_id
+    - user_id
+  role: user
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - epoch_id
+    - user_id
+    - description
+    - deleted_at
+    - created_at
+    - updated_at
+    filter:
+      user:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user
