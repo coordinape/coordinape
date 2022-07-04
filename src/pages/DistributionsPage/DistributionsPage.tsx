@@ -185,6 +185,7 @@ export function DistributionsPage() {
                 tokenName={tokenName}
                 totalGive={totalGive}
                 fixedTokenName={fixedDist?.vault.symbol}
+                giveTokenName={circle.token_name}
               />
             </Box>
           </>
