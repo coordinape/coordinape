@@ -305,7 +305,7 @@ export function DistributionForm({
                     <>
                       <Select
                         value={circleDist ? circleDist.vault.id : value || ''}
-                        label="coVault"
+                        label="CoVault"
                         error={!!error}
                         disabled={submitting || !!circleDist}
                         onChange={({ target: { value } }) => {
@@ -437,7 +437,7 @@ export function DistributionForm({
                                   : fixedPaymentTokenSel[0].id
                                 : '0'
                             }
-                            label="coVault"
+                            label="CoVault"
                             error={!!error}
                             disabled={true}
                           >
