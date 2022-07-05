@@ -23,6 +23,10 @@ export const getHistoryData = async (
             { where: { id: { _eq: userId } } },
             { role: true, give_token_remaining: true, non_giver: true },
           ],
+          organization: {
+            name: true,
+          },
+
           nominees_aggregate: [
             { where: { ended: { _eq: false } } },
             { aggregate: { count: [{}, true] } },
@@ -86,6 +90,7 @@ export const getHistoryData = async (
                 },
                 {
                   id: true,
+                  number: true,
                   start_date: true,
                   end_date: true,
                   token_gifts_aggregate: [

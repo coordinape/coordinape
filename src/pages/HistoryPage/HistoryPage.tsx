@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 
+import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
 import { ActionDialog, LoadingModal } from 'components';
@@ -7,7 +8,15 @@ import { Paginator } from 'components/Paginator';
 import AdminEpochForm from 'forms/AdminEpochForm';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
-import { Button, Text, Flex } from 'ui';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Button,
+  Text,
+  Flex,
+  Link,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { NextEpoch } from './conponents';
@@ -42,6 +51,7 @@ export const HistoryPage = () => {
   const [deleteEpochDialog, setDeleteEpochDialog] = useState<
     IApiEpoch | undefined
   >(undefined);
+  const [open, setOpen] = useState(false);
 
   const futureEpochs = circle?.futureEpoch;
 
@@ -63,20 +73,33 @@ export const HistoryPage = () => {
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
 
+  const isAdmin = isUserAdmin(me);
+
   return (
     <SingleColumnLayout>
-      <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+      <Flex
+        css={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         <Text h1 css={{ mb: '$md' }}>
           Epoch Overview
         </Text>
-        <Button
-          color="primary"
-          outlined
-          onClick={() => setNewEpoch(true)}
-          disabled={newEpoch}
-        >
-          Create Epoch
-        </Button>
+        {isAdmin && (
+          <Button
+            color="primary"
+            outlined
+            onClick={() => setNewEpoch(true)}
+            disabled={newEpoch}
+            css={{
+              minWidth: '130px',
+            }}
+          >
+            Create Epoch
+          </Button>
+        )}
       </Flex>
       {(editEpoch || newEpoch) && (
         <AdminEpochForm
@@ -91,17 +114,46 @@ export const HistoryPage = () => {
 
       <Text h3>Upcoming Epochs</Text>
       {futureEpochs?.length === 0 && <Text>There are no scheduled Epochs</Text>}
-      {futureEpochs?.map(e => {
-        return (
+      <Collapsible open={open} onOpenChange={setOpen}>
+        <Flex
+          css={{ alignItems: 'center', justifyContent: 'space-between' }}
+        ></Flex>
+
+        {futureEpochs && futureEpochs.length > 0 && (
           <NextEpoch
-            key={e.id}
-            epoch={e}
+            key={futureEpochs[0].id}
+            epoch={futureEpochs[0]}
             setEditEpoch={setEditEpoch}
             isEditing={editEpoch || newEpoch ? true : false}
             setDeleteEpochDialog={setDeleteEpochDialog}
+            isAdmin={isAdmin}
           ></NextEpoch>
-        );
-      })}
+        )}
+
+        {futureEpochs?.slice(1).map(e => {
+          return (
+            <CollapsibleContent key={e.id}>
+              <NextEpoch
+                epoch={e}
+                setEditEpoch={setEditEpoch}
+                isEditing={editEpoch || newEpoch ? true : false}
+                setDeleteEpochDialog={setDeleteEpochDialog}
+                isAdmin={isAdmin}
+              ></NextEpoch>
+            </CollapsibleContent>
+          );
+        })}
+        {futureEpochs && futureEpochs.length > 1 && (
+          <CollapsibleTrigger asChild>
+            <Link css={{ fontWeight: '$bold' }}>
+              {!open
+                ? `View ${futureEpochs.length - 1} More`
+                : 'Hide Upcoming Epochs'}
+            </Link>
+          </CollapsibleTrigger>
+        )}
+      </Collapsible>
+
       {currentEpoch && (
         <>
           <Text h3>Current</Text>
@@ -123,8 +175,11 @@ export const HistoryPage = () => {
             <EpochPanel
               key={epoch.id}
               circleId={circleId}
+              circleName={circle?.name}
+              protocolName={circle?.organization.name}
               epoch={epoch}
               tokenName={circle?.token_name || 'GIVE'}
+              isAdmin={isAdmin}
             />
           ))}
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
@@ -132,7 +187,9 @@ export const HistoryPage = () => {
       )}
       <ActionDialog
         open={!!deleteEpochDialog}
-        title={`Remove Epoch ${deleteEpochDialog?.id}`}
+        title={`Remove Epoch ${
+          deleteEpochDialog?.number ? deleteEpochDialog.number : ''
+        }`}
         onClose={() => setDeleteEpochDialog(undefined)}
         primaryText="Remove"
         onPrimary={

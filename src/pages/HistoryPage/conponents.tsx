@@ -11,11 +11,13 @@ export const NextEpoch = ({
   setDeleteEpochDialog,
   setEditEpoch,
   isEditing,
+  isAdmin,
 }: {
   epoch: IApiEpoch;
   setDeleteEpochDialog: (e: IApiEpoch) => void;
   setEditEpoch: (e: IApiEpoch) => void;
   isEditing: boolean;
+  isAdmin: boolean;
 }) => {
   const nextEpochStartLabel = useMemo(() => {
     const startDate = DateTime.fromISO(epoch.start_date);
@@ -45,13 +47,21 @@ export const NextEpoch = ({
 
   return (
     <Panel css={{ mb: '$md', p: '$md' }}>
-      <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+      <Flex
+        css={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '$md',
+          flexWrap: 'wrap',
+        }}
+      >
         <Text inline>{nextEpochStartLabel}</Text>
-        {!isEditing && (
-          <Flex css={{ gap: '$md' }}>
+        {!isEditing && isAdmin && (
+          <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
             <Button
               color="primary"
               outlined
+              css={{ minWidth: '130px' }}
               onClick={() => setEditEpoch(epoch)}
             >
               Edit Epoch
@@ -59,6 +69,7 @@ export const NextEpoch = ({
             <Button
               color="destructive"
               outlined
+              css={{ minWidth: '130px' }}
               onClick={() => {
                 setDeleteEpochDialog(epoch);
               }}
