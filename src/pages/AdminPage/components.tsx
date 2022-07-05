@@ -4,20 +4,18 @@ import { GearIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { NoticeBox } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
-import { paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { Paginator } from './Paginator';
 import * as Table from './Table';
 
-import { ICircle, IEpoch, IUser } from 'types';
+import { ICircle, IUser } from 'types';
 
 const Title = styled(Text, {
   fontSize: '$4',
@@ -43,47 +41,6 @@ export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
     <IconButton size="lg" onClick={onClick}>
       <GearIcon width="30" height="30" />
     </IconButton>
-  );
-};
-
-export const CreateEpochButton = ({
-  onClick,
-  tokenName,
-  inline,
-}: {
-  inline?: boolean;
-  tokenName: string;
-  onClick: () => void;
-}) => {
-  return (
-    <Button
-      color="primary"
-      outlined
-      size={inline ? 'inline' : 'medium'}
-      onClick={onClick}
-      css={{ minWidth: '180px' }}
-    >
-      Create Epoch
-      <Tooltip
-        css={{ ml: '$xs' }}
-        content={
-          <>
-            An Epoch is a period of time where circle members contribute value &
-            allocate {tokenName} tokens to one another.{' '}
-            <Link
-              css={{ color: 'Blue' }}
-              rel="noreferrer"
-              target="_blank"
-              href="https://docs.coordinape.com/get-started/epochs"
-            >
-              Learn More
-            </Link>
-          </>
-        }
-      >
-        <InfoCircledIcon />
-      </Tooltip>
-    </Button>
   );
 };
 
@@ -148,83 +105,6 @@ export const UsersTableHeader = ({
       <Text h3>Users</Text>
       <AddContributorButton inline onClick={onClick} tokenName={tokenName} />
     </Box>
-  );
-};
-
-export const EpochsTableHeader = ({
-  tokenName,
-  onClick,
-}: {
-  onClick: () => void;
-  tokenName: string;
-}) => {
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: 'auto',
-        my: '$md',
-      }}
-    >
-      <Text h3>Epochs</Text>
-      <CreateEpochButton inline onClick={onClick} tokenName={tokenName} />
-    </Box>
-  );
-};
-
-const RenderEpochDates = (e: IEpoch) => (
-  <Flex
-    css={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: '$sm',
-    }}
-  >
-    <LightText>
-      {e.labelYearEnd} - {e.labelDayRange}
-    </LightText>
-    <LightText>{e.ended ? e.labelTimeEnd : e.labelTimeStart}</LightText>
-  </Flex>
-);
-
-const renderEpochDuration = (e: IEpoch) => {
-  const repeats =
-    e.repeatEnum == 'none' ? "doesn't repeat" : `repeats ${e.repeatEnum}`;
-  return `${e.calculatedDays} days, ${repeats}`;
-};
-
-export const RenderEpochStatus = (e: IEpoch) =>
-  e.ended ? (
-    <NoticeBox variant="error">Complete</NoticeBox>
-  ) : e.started ? (
-    <NoticeBox variant="success">Current</NoticeBox>
-  ) : (
-    <NoticeBox variant="warning">Upcoming</NoticeBox>
-  );
-
-export const renderEpochCard = (e: IEpoch) => {
-  return (
-    <Flex
-      css={{
-        flexDirection: 'column',
-        width: 'auto',
-        margin: '$md',
-      }}
-    >
-      <Flex
-        css={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Title>Epoch {e.number}</Title>
-        {RenderEpochStatus(e)}
-      </Flex>
-      <Subtitle>{renderEpochDuration(e)}</Subtitle>
-      {RenderEpochDates(e)}
-    </Flex>
   );
 };
 
@@ -346,210 +226,6 @@ const EmptyTable = ({
         Add Contributor
       </Button>
     </Flex>
-  );
-};
-
-export const EpochsTable = ({
-  circle,
-  epochs,
-  perPage = 6,
-  downloadCSV,
-  setEditEpoch,
-  setDeleteEpochDialog,
-  setNewEpoch,
-}: {
-  circle: ICircle;
-  epochs: IEpoch[];
-  perPage?: number;
-  downloadCSV: (epoch: number) => Promise<any>;
-  setEditEpoch: (e: IEpoch) => void;
-  setDeleteEpochDialog: (e: IEpoch) => void;
-  setNewEpoch: (newEpoch: boolean) => void;
-}) => {
-  const { isMobile } = useMobileDetect();
-
-  const [page, setPage] = useState<number>(1);
-  const [view, setView] = useState<IEpoch[]>([]);
-
-  useEffect(() => {
-    setView(epochs);
-  }, [perPage, epochs]);
-
-  const pagedView = useMemo(
-    () =>
-      view.slice((page - 1) * perPage, Math.min(page * perPage, view.length)),
-    [view, perPage, page]
-  );
-
-  const TwoLineCell = styled('div', {
-    height: 48,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    fontSize: 11,
-    lineHeight: 1.5,
-    '@xs': {
-      height: 'auto',
-    },
-  });
-
-  const CellTitle = styled('span', {
-    fontWeight: '$semibold',
-  });
-
-  const CellSubtitle = styled('span', {
-    fontWeight: '$normal',
-  });
-
-  const downloadCSVButton = (epoch: number, downloadLink: string) => (
-    <TableLink
-      to=""
-      onClick={async () => {
-        // use the authed api to download the CSV
-        const csv = await downloadCSV(epoch);
-
-        if (csv?.file) {
-          const a = document.createElement('a');
-          a.download = downloadLink;
-          a.href = csv.file;
-          a.click();
-          a.href = '';
-        }
-
-        return false;
-      }}
-    >
-      Export CSV
-    </TableLink>
-  );
-
-  const epochDetail = (e: IEpoch) => {
-    const r =
-      e.repeatEnum === 'none'
-        ? ''
-        : e.repeatEnum === 'weekly'
-        ? `${e.startDay} - ${e.endDay}`
-        : 'monthly';
-    return e.ended
-      ? e.labelActivity
-      : `${e.calculatedDays.toFixed()} ${
-          e.calculatedDays > 1 ? 'days' : 'day'
-        }${e.repeat ? ` repeats ${r}` : ''}`;
-  };
-
-  // Epoch Columns
-  const RenderEpochDetails = (e: IEpoch) => (
-    <TwoLineCell>
-      <CellTitle>Epoch {e.number}</CellTitle>
-      <CellSubtitle>{epochDetail(e)}</CellSubtitle>
-    </TwoLineCell>
-  );
-
-  const RenderEpochDates = (e: IEpoch) => (
-    <TwoLineCell>
-      <CellTitle>
-        {e.labelYearEnd} - {e.labelDayRange}
-      </CellTitle>
-      <CellSubtitle>{e.ended ? e.labelTimeEnd : e.labelTimeStart}</CellSubtitle>
-    </TwoLineCell>
-  );
-
-  const RenderEpochActions = (e: IEpoch, downloadLink: string) => {
-    if (e.ended) {
-      // this epoch is over, so there are no edit/delete actions, only download CSV
-      // assert that e.number is non-null
-      if (e.number) {
-        return (
-          <Box css={{ display: 'flex', flexDirection: 'column' }}>
-            {downloadCSVButton(e.number, downloadLink)}
-            {isFeatureEnabled('vaults') && (
-              <TableLink to={paths.distributions(circle.id, e.id)}>
-                Distributions
-              </TableLink>
-            )}
-          </Box>
-        );
-      } else {
-        // epoch/number is null, so we can't provide a download link
-        return <></>;
-      }
-    } else {
-      // epoch still in progress
-      return renderActions(
-        () => setEditEpoch(e),
-        !e.started ? () => setDeleteEpochDialog(e) : undefined
-      );
-    }
-  };
-
-  return (
-    <Table.Table>
-      <Table.Root>
-        {!isMobile && (
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell align="left">Epoch Details</Table.HeaderCell>
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell align="left">Dates</Table.HeaderCell>
-              <Table.HeaderCell area="narrow">Actions</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-        )}
-        <Table.Body>
-          {epochs.length ? (
-            isMobile ? (
-              pagedView.map(e => {
-                return (
-                  <Table.Row key={e.id}>
-                    <td>{renderEpochCard(e)}</td>
-                  </Table.Row>
-                );
-              })
-            ) : (
-              pagedView.map(e => {
-                return (
-                  <Table.Row key={e.id}>
-                    <Table.Cell key={`details-${e.id}`} align="left">
-                      {RenderEpochDetails(e)}
-                    </Table.Cell>
-
-                    <Table.Cell key={`status-${e.id}`}>
-                      {RenderEpochStatus(e)}
-                    </Table.Cell>
-
-                    <Table.Cell key={`date-${e.id}`} align="left">
-                      {RenderEpochDates(e)}
-                    </Table.Cell>
-
-                    <Table.Cell key={`actions-${e.id}`}>
-                      {RenderEpochActions(
-                        e,
-                        `${circle?.protocol.name}-${circle?.name}-epoch-${e}.csv`
-                      )}
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })
-            )
-          ) : (
-            <Table.Row>
-              <Table.Cell key={`empty-epochs-table-view`} colSpan={4}>
-                <EmptyTable
-                  content="You don’t have any epochs scheduled"
-                  onClick={() => setNewEpoch(true)}
-                />
-              </Table.Cell>
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table.Root>
-      <Paginator
-        totalItems={epochs.length}
-        currentPage={page}
-        onPageChange={setPage}
-        itemsPerPage={perPage}
-      />
-    </Table.Table>
   );
 };
 
