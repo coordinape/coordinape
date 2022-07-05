@@ -7037,6 +7037,7 @@ columns and relationships of "users" */
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     decimals?: boolean | `@${string}`;
+    deployment_block?: boolean | `@${string}`;
     distributions?: [
       {
         /** distinct select on columns */
@@ -7138,6 +7139,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7150,6 +7152,7 @@ columns and relationships of "users" */
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     decimals?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    deployment_block?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -7174,6 +7177,7 @@ columns and relationships of "users" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     simple_token_address?: ValueTypes['order_by'] | undefined | null;
@@ -7188,6 +7192,7 @@ columns and relationships of "users" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     simple_token_address?: ValueTypes['order_by'] | undefined | null;
@@ -7202,6 +7207,7 @@ columns and relationships of "users" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
       | undefined
@@ -7227,6 +7233,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7235,6 +7242,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7243,6 +7251,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7251,6 +7260,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7259,6 +7269,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7267,6 +7278,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -7275,6 +7287,7 @@ columns and relationships of "users" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     decimals?: ValueTypes['order_by'] | undefined | null;
+    deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -9289,6 +9302,7 @@ columns and relationships of "users" */
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
+    deployment_block: GraphQLTypes['bigint'];
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -13523,6 +13537,7 @@ columns and relationships of "users" */
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     decimals: number;
+    deployment_block: GraphQLTypes['bigint'];
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -13560,6 +13575,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13572,6 +13588,7 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     decimals?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    deployment_block?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -13592,6 +13609,7 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     simple_token_address?: GraphQLTypes['order_by'] | undefined;
@@ -13606,6 +13624,7 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     simple_token_address?: GraphQLTypes['order_by'] | undefined;
@@ -13620,6 +13639,7 @@ columns and relationships of "users" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
       | undefined;
@@ -13643,6 +13663,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13651,6 +13672,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13659,6 +13681,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13667,6 +13690,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13675,6 +13699,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13683,6 +13708,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13691,6 +13717,7 @@ columns and relationships of "users" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     decimals?: GraphQLTypes['order_by'] | undefined;
+    deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -14092,6 +14119,7 @@ export const enum vaults_select_column {
   created_at = 'created_at',
   created_by = 'created_by',
   decimals = 'decimals',
+  deployment_block = 'deployment_block',
   id = 'id',
   org_id = 'org_id',
   simple_token_address = 'simple_token_address',

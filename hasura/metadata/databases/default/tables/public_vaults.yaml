@@ -30,6 +30,7 @@ select_permissions:
     - created_at
     - created_by
     - decimals
+    - deployment_block
     - id
     - org_id
     - simple_token_address
