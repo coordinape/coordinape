@@ -2,6 +2,7 @@ import { IconButton, makeStyles } from '@material-ui/core';
 
 import { ApeTextField } from 'components';
 import { PlusCircleIcon, DeprecatedMinusCircleIcon } from 'icons';
+import { Link } from 'ui';
 
 import { CardInfoText } from './CardInfoText';
 
@@ -147,6 +148,17 @@ export const GiftInput = ({
       )}
       <ApeTextField
         label="Leave a Note"
+        infoTooltip={
+          <>
+            What contributions earned your GIVE? Be specific, give examples!{' '}
+            <Link
+              target="_blank"
+              href="https://coordinape.com/post/giving-feedback-in-web3?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=givingfeedback"
+            >
+              Learn more about feedback here
+            </Link>
+          </>
+        }
         className={[classes.textField, classes.noteTextField].join(' ')}
         onChange={onChangeNote}
         placeholder="Thank you for..."
