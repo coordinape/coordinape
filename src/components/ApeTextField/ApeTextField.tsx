@@ -244,7 +244,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       color: theme.colors.text + '80',
     },
     inputRoot: ({ variant }) => ({
-      margin: theme.spacing(1),
+      margin: theme.spacing(1, 0),
       backgroundColor: theme.colors.surface,
       borderRadius: 8,
       color: theme.colors.text,

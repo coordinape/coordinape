@@ -20,7 +20,7 @@ export const FormTimePicker = ({
   };
 
   const labelFunc = (date: DateType | null, invalidLabel: string) =>
-    date?.toFormat('t ZZZZ') ?? invalidLabel;
+    date?.toFormat('hh:mm a') ?? invalidLabel;
 
   return (
     <TimePicker

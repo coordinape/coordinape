@@ -56,7 +56,12 @@ export const NewFormRadioGroup = <TFieldValues extends FieldValues>(
       </FormLabel>
 
       <RadioGroupRoot
-        css={{ display: 'flex', flexDirection: 'row', gap: '$md' }}
+        css={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '$md',
+          flexWrap: 'wrap',
+        }}
         name={field.name}
         defaultValue={defaultValue}
         onValueChange={val => field.onChange(val)}
@@ -72,7 +77,9 @@ export const NewFormRadioGroup = <TFieldValues extends FieldValues>(
             <RadioGroupRadio value={option.value.toString()} id="r1">
               <RadioGroupIndicator />
             </RadioGroupRadio>
-            <FormLabel htmlFor="r1">{option.label}</FormLabel>
+            <FormLabel type="radioLabel" htmlFor="r1">
+              {option.label}
+            </FormLabel>
           </Flex>
         ))}
       </RadioGroupRoot>
