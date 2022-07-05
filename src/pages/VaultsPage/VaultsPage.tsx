@@ -43,7 +43,13 @@ const VaultsPage = () => {
   return (
     <SingleColumnLayout>
       <Box
-        css={{ display: 'flex', flexDirection: 'row', gap: '$md', mb: '$lg' }}
+        css={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '$md',
+          mb: '$lg',
+          flexWrap: 'wrap',
+        }}
       >
         {orgs?.map(org => (
           <Button
@@ -59,7 +65,7 @@ const VaultsPage = () => {
       </Box>
       <Box css={{ display: 'flex' }}>
         <Text h2 css={{ flexGrow: 1 }}>
-          coVaults
+          CoVaults
         </Text>
         {isAdmin && (
           <Button
@@ -68,7 +74,7 @@ const VaultsPage = () => {
             size="small"
             onClick={() => setModal('create')}
           >
-            Add coVault
+            Add CoVault
           </Button>
         )}
       </Box>
@@ -88,7 +94,7 @@ const VaultsPage = () => {
         </Panel>
       )}
       {modal === 'create' && currentOrg && (
-        <Modal onClose={closeModal} title="Create a New coVault">
+        <Modal onClose={closeModal} title="Create a New CoVault">
           <CreateForm onSuccess={closeModal} orgId={currentOrg.id} />
         </Modal>
       )}

@@ -90,6 +90,11 @@ export const Cell = styled('td', {
         width: '20%',
       },
     },
+    disabled: {
+      true: {
+        opacity: 0.3,
+      },
+    },
   },
   defaultVariants: {
     align: 'center',

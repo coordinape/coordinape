@@ -10,7 +10,9 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
 /**
  *
  * @param gifts the map of GIVE allocations: address => total GIVE received
+ * @param fixedGifts the map of Fixed payment allocations: address => total fixed payment received
  * @param totalAmount the total amount of tokens to distribute, as a fixed-point number
+ * @param giftAmount the amount of gift tokens to distribute, as a fixed-point number
  * @param previousDistribution the previous epoch's distribution info
  *
  * the map of GIVE allocations is in GIVE tokens, but that has to be converted
@@ -23,18 +25,35 @@ import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
  */
 export const createDistribution = (
   gifts: Record<string, number>,
+  fixedGifts: Record<string, BigNumber> | undefined,
   totalAmount: BigNumber,
+  giftAmount: BigNumber,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v);
   let balances = Object.keys(gifts).map(address => ({
     address,
-    earnings: totalAmount.mul(gifts[address]).div(totalGive),
+    earnings: giftAmount.mul(gifts[address]).div(totalGive),
   }));
+
+  if (fixedGifts) {
+    Object.keys(fixedGifts).map(address => {
+      const idx = balances.findIndex(o => o.address === address);
+      if (idx >= 0) {
+        balances[idx].earnings = balances[idx].earnings.add(
+          fixedGifts[address]
+        );
+      } else {
+        balances.push({ address, earnings: fixedGifts[address] });
+      }
+    });
+  }
 
   // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);
-  assert(dust.lt(20), `dust too high: ${dust.toString()}`);
+
+  // Failing this means we did bad math
+  assert(dust.lt(20), `panic: dust too high: ${dust.toString()}`);
   const topGift = assertDef(maxBy(Object.entries(gifts), x => x[1]));
   const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
   topBalance.earnings = topBalance.earnings.add(dust);

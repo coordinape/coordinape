@@ -22,6 +22,7 @@ object_relationships:
         schema: public
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - user_id
     - fixed_payment_token_type

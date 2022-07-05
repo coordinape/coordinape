@@ -12,6 +12,8 @@ import {
   WalletAuthModal,
 } from 'components';
 import { useApiBase } from 'hooks';
+import { AuthContext, useAuthStep } from 'hooks/login';
+import type { AuthStep } from 'hooks/login';
 import { useWalletAuth } from 'recoilState';
 import { AppRoutes } from 'routes/routes';
 import { Box } from 'ui';
@@ -20,7 +22,10 @@ import { MainHeader } from './MainHeader';
 
 // this component sets up the top navigation bar to stay fixed on-screen and
 // have content scroll underneath it
+
 export const MainLayout = () => {
+  const authStepState = useState<AuthStep>('connect');
+
   return (
     <Box
       css={{
@@ -35,23 +40,25 @@ export const MainLayout = () => {
         '& > main': { flex: 1 },
       }}
     >
-      <MainHeader />
-      <RequireAuth>
-        <Suspense fallback={<LinearProgress />}>
-          <Box
-            as="main"
-            css={{
-              overflowY: 'auto',
-              '@sm': { zIndex: 1 }, // for hamburger menu
-            }}
-          >
-            <GlobalUi />
-            <SentryScopeController />
-            <AppRoutes />
-          </Box>
-          <HelpButton />
-        </Suspense>
-      </RequireAuth>
+      <AuthContext.Provider value={authStepState}>
+        <MainHeader />
+        <RequireAuth>
+          <Suspense fallback={<LinearProgress />}>
+            <Box
+              as="main"
+              css={{
+                overflowY: 'auto',
+                '@sm': { zIndex: 1 }, // for hamburger menu
+              }}
+            >
+              <GlobalUi />
+              <SentryScopeController />
+              <AppRoutes />
+            </Box>
+            <HelpButton />
+          </Suspense>
+        </RequireAuth>
+      </AuthContext.Provider>
     </Box>
   );
 };
@@ -63,13 +70,11 @@ export const scrollToTop = () => {
   document.getElementsByTagName('main')[0].scrollTop = 0;
 };
 
-type AuthSteps = 'connect' | 'sign' | 'done';
-
 const RequireAuth = (props: { children: ReactElement }) => {
   const address = useWalletAuth().address;
   const web3Context = useWeb3React();
   const { finishAuth } = useApiBase();
-  const [authStep, setAuthStep] = useState<AuthSteps>('connect');
+  const [authStep, setAuthStep] = useAuthStep();
 
   useEffect(() => {
     // reset after logging out or signature error

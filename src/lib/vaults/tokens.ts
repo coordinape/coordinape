@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { BigNumber, FixedNumber } from 'ethers';
+import { BigNumber, FixedNumber, utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { ZERO_ADDRESS } from 'config/constants';
@@ -9,8 +9,11 @@ import type { Contracts } from './contracts';
 
 export const hasSimpleToken = ({
   simple_token_address,
-}: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) =>
-  simple_token_address && simple_token_address !== ZERO_ADDRESS;
+}: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) => {
+  if (!simple_token_address) return false;
+  assert(utils.isAddress(simple_token_address), 'invalid address');
+  return simple_token_address !== ZERO_ADDRESS;
+};
 
 export const getTokenAddress = (
   vault: Pick<
@@ -23,7 +26,7 @@ export const getTokenAddress = (
     : vault.token_address;
   assert(
     address && address !== ZERO_ADDRESS,
-    'coVault is missing token address'
+    'CoVault is missing token address'
   );
   return address;
 };
@@ -40,7 +43,7 @@ export const getWrappedAmount = async (
     'decimals' | 'vault_address' | 'simple_token_address'
   >,
   contracts: Contracts
-) => {
+): Promise<BigNumber> => {
   const shifter = BigNumber.from(10).pow(vault.decimals);
   const weiAmount = BigNumber.from(amount).mul(shifter);
   if (hasSimpleToken(vault)) return weiAmount;
@@ -64,10 +67,15 @@ export const getWrappedAmount = async (
 export const getUnwrappedAmount = (
   amount: number,
   pricePerShare: FixedNumber,
-  decimals: number
+  decimals?: number
 ) => {
-  return FixedNumber.from(amount.toPrecision(30))
-    .mulUnsafe(pricePerShare)
-    .divUnsafe(FixedNumber.from(BigNumber.from(10).pow(decimals)))
-    .toUnsafeFloat();
+  const figure = Number.isInteger(amount) ? amount.toPrecision(30) : amount;
+  let result = FixedNumber.from(figure.toString()).mulUnsafe(pricePerShare);
+
+  if (decimals)
+    result = result.divUnsafe(
+      FixedNumber.from(BigNumber.from(10).pow(decimals))
+    );
+
+  return result.toUnsafeFloat();
 };

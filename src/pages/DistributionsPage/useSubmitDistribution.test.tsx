@@ -2,7 +2,7 @@ import assert from 'assert';
 import { useEffect } from 'react';
 
 import { act, render, waitFor } from '@testing-library/react';
-import { BigNumber } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount, Asset } from 'lib/vaults';
 
@@ -17,6 +17,10 @@ import {
 } from 'utils/testing';
 import { mint } from 'utils/testing/mint';
 
+import {
+  useSaveEpochDistribution,
+  useMarkDistributionSaved,
+} from './mutations';
 import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
@@ -34,6 +38,7 @@ jest.mock('lib/gql/mutations', () => {
               decimals: 18,
               symbol: 'DAI',
               org_id: 101,
+              id: 1,
             },
           },
         })
@@ -47,6 +52,7 @@ jest.mock('lib/gql/mutations', () => {
               decimals: 6,
               symbol: 'USDC',
               org_id: 101,
+              id: 2,
             },
           },
         })
@@ -55,16 +61,15 @@ jest.mock('lib/gql/mutations', () => {
 });
 
 jest.mock('pages/DistributionsPage/mutations', () => {
+  const save1 = jest.fn().mockReturnValue({ id: 2 });
+  const save2 = jest.fn().mockReturnValue({ id: 2 });
+
   return {
     useSaveEpochDistribution: jest.fn().mockReturnValue({
-      mutateAsync: jest.fn().mockReturnValue({
-        id: 2,
-      }),
+      mutateAsync: save1,
     }),
     useMarkDistributionSaved: jest.fn().mockReturnValue({
-      mutateAsync: jest.fn().mockReturnValue({
-        id: 2,
-      }),
+      mutateAsync: save2,
     }),
   };
 });
@@ -109,16 +114,19 @@ test('submit distribution', async () => {
           type: Asset.DAI,
         });
         assert(vault, 'vault not created');
-
-        await deposit(vault, '100');
+        await deposit(vault, '120');
 
         const distro = await submitDistribution({
           amount: '100',
           vault,
           circleId: 2,
-          userIdsByAddress,
+          profileIdsByAddress,
           epochId: 2,
+          fixedAmount: '0',
+          giftAmount: '100',
+          type: 1,
           gifts,
+          fixedGifts,
         });
         merkleRootFromSubmission = distro.merkleRoot;
 
@@ -146,6 +154,24 @@ test('submit distribution', async () => {
   });
 
   expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
+
+  // did we save to the db twice?
+  const save1calls = (useSaveEpochDistribution().mutateAsync as any).mock.calls;
+  expect(save1calls.length).toBe(1);
+  const save2calls = (useMarkDistributionSaved().mutateAsync as any).mock.calls;
+  expect(save2calls.length).toBe(1);
+
+  // did we store values in the db?
+  const args1 = save1calls[0][0];
+  const distJson = JSON.parse(args1.distribution_json);
+  expect(args1.claims.data.length).toBe(3);
+  const savedTotal = FixedNumber.from(args1.total_amount);
+  const distJsonTotal = FixedNumber.from(distJson.tokenTotal);
+  expect(distJsonTotal).toEqual(savedTotal);
+
+  // did we save a tx hash to the db?
+  const args2 = save2calls[0][0];
+  expect(args2.txHash).toMatch(/0x[0-9a-z]{64}/);
 }, 20000);
 
 test('previous distribution', async () => {
@@ -177,6 +203,8 @@ test('previous distribution', async () => {
 
         const previousDistribution = createDistribution(
           previousGifts,
+          fixedGifts,
+          previousTotal,
           previousTotal
         );
 
@@ -184,15 +212,18 @@ test('previous distribution', async () => {
           amount: '100',
           vault,
           circleId: 2,
-          userIdsByAddress,
+          profileIdsByAddress,
           epochId: 2,
           gifts,
+          fixedGifts,
           previousDistribution: {
             id: 1,
             vault_id: 1,
             distribution_json: JSON.stringify(previousDistribution),
-            tx_hash: '0x0',
           },
+          fixedAmount: '0',
+          giftAmount: '100',
+          type: 1,
         });
 
         newTotal = distro.totalAmount;
@@ -216,7 +247,7 @@ test('previous distribution', async () => {
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
-const userIdsByAddress = {
+const profileIdsByAddress = {
   '0xabc0000000000000000000000000000000000001': 15,
   '0xabc0000000000000000000000000000000000002': 13,
   '0xabc0000000000000000000000000000000000003': 14,
@@ -227,6 +258,8 @@ const gifts = {
   '0xabc0000000000000000000000000000000000002': 30,
   '0xabc0000000000000000000000000000000000003': 40,
 };
+
+const fixedGifts = {};
 
 const previousGifts = {
   '0xabc0000000000000000000000000000000000001': 10,

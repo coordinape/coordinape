@@ -14,7 +14,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
-  ContributorsTable,
+  MembersTable,
   SettingsIconButton,
   UsersTableHeader,
 } from './components';
@@ -120,8 +120,8 @@ const AdminPage = () => {
           value={keyword}
         />
 
-        <ContributorsTable
-          users={visibleUsers}
+        <MembersTable
+          visibleUsers={visibleUsers}
           myUser={me}
           circle={selectedCircle}
           setNewUser={setNewUser}

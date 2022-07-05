@@ -97,16 +97,24 @@ export const useApiAdminCircle = (circleId: number) => {
     [circleId]
   );
 
+  const restoreCoordinape = useRecoilLoadCatch(
+    () => async (circleId: number) => {
+      await mutations.restoreCoordinapeUser(circleId);
+      await fetchCircle({ circleId });
+    }
+  );
+
   return {
+    createEpoch,
+    createUser,
+    deleteEpoch,
+    deleteUser,
+    downloadCSV,
+    getDiscordWebhook,
+    restoreCoordinape,
     updateCircle,
     updateCircleLogo,
-    createEpoch,
     updateEpoch,
-    deleteEpoch,
     updateUser,
-    createUser,
-    deleteUser,
-    getDiscordWebhook,
-    downloadCSV,
   };
 };

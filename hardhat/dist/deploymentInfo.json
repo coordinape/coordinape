@@ -90,14 +90,14 @@
         "ApeRouter": {
             "address": "0x3D24345bb7FEE3B0B50d66a58946722BBbB26dFf"
         },
-        "ApeToken": {
-            "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
-        },
         "ApeVaultFactoryBeacon": {
             "address": "0x2997bACD026E3aE48fa57812bFb0cf61DB53baEd"
         },
         "ApeVaultWrapperImplementation": {
             "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
+        },
+        "COToken": {
+            "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
         },
         "DAI": {
             "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"

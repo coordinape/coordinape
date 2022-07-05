@@ -35,7 +35,7 @@ type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'coVaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
@@ -46,6 +46,7 @@ export const OverviewMenu = () => {
   const hasCircles = useHasCircles();
 
   const goToCircle = (id: number, path: string) => {
+    closePopover();
     scrollToTop();
     navigate(path);
   };
@@ -57,7 +58,7 @@ export const OverviewMenu = () => {
   const overviewMenuTriggerText = inCircle
     ? currentCircle
     : location.pathname.includes(paths.vaults)
-    ? 'coVaults'
+    ? 'CoVaults'
     : 'Overview';
   const overviewMenuTrigger = (
     <Link
@@ -78,11 +79,14 @@ export const OverviewMenu = () => {
   );
 
   const [popoverClicked, setPopoverClicked] = useState(false);
-  const ref = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const clickPopover = () => {
     if (popoverClicked) return;
-    ref.current?.click();
+    triggerRef.current?.click();
     setPopoverClicked(true);
+  };
+  const closePopover = () => {
+    setTimeout(() => triggerRef.current?.click());
   };
 
   return (
@@ -91,7 +95,7 @@ export const OverviewMenu = () => {
         <Popover>
           <PopoverTrigger
             asChild
-            ref={ref}
+            ref={triggerRef}
             onMouseEnter={clickPopover}
             onMouseLeave={() => setPopoverClicked(false)}
           >
@@ -134,7 +138,9 @@ export const OverviewMenu = () => {
                   marginTop: '$sm',
                 }}
               >
-                {hasCircles && <TopLevelLinks links={mainLinks} />}
+                {hasCircles && (
+                  <TopLevelLinks links={mainLinks} onClick={closePopover} />
+                )}
               </Box>
               {orgs?.map(org => (
                 <Box key={org.id} css={menuGroupStyle}>
@@ -169,8 +175,10 @@ type CircleItemProps = {
 
 export const TopLevelLinks = ({
   links,
+  onClick,
 }: {
   links: [string, string, string[]?][];
+  onClick?: () => void;
 }) => {
   const location = useLocation();
 
@@ -183,6 +191,7 @@ export const TopLevelLinks = ({
           as={NavLink}
           key={path}
           to={path}
+          onClick={onClick}
           className={matchPaths?.includes(location.pathname) ? 'active' : ''}
         >
           {label}

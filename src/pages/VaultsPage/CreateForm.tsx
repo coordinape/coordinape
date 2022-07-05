@@ -9,7 +9,6 @@ import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { LoadingModal } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Box, Button, Form, Text, TextField } from 'ui';
@@ -118,8 +117,8 @@ export const CreateForm = ({
       simpleTokenAddress: customAddress,
       customSymbol,
     }).then(vault => {
-      if (!vault) return;
       setSaving(false);
+      if (!vault) return;
       onSuccess();
     });
   };
@@ -135,10 +134,10 @@ export const CreateForm = ({
       }}
     >
       <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select a coVault Asset
+        Select a CoVault Asset
       </Text>
       <Text font="source" size="medium">
-        coVaults allow you to fund your circles with the asset of your choice.
+        CoVaults allow you to fund your circles with the asset of your choice.
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
         {contracts.getAvailableTokens().map(symbol => (
@@ -152,6 +151,7 @@ export const CreateForm = ({
               alt={symbol}
               height={25}
               width={25}
+              style={{ paddingRight: 0 }}
             />
             <Text css={{ ml: '$xs' }}>{symbol}</Text>
           </AssetButton>
@@ -179,9 +179,9 @@ export const CreateForm = ({
         color="primary"
         outlined
         css={{ mt: '$lg', width: '100%' }}
-        disabled={!isValid}
+        disabled={!isValid || saving}
       >
-        Create coVault
+        {saving ? 'Saving...' : 'Create CoVault'}
       </Button>
       {!isEmpty(errors) && (
         <Text color="alert" css={{ mt: '$sm' }}>
@@ -190,7 +190,6 @@ export const CreateForm = ({
             .join('. ')}
         </Text>
       )}
-      {saving && <LoadingModal visible />}
     </Form>
   );
 };

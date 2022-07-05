@@ -28,10 +28,10 @@ context('Coordinape', () => {
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.wait(1000);
-    cy.contains('Add coVault').click();
+    cy.contains('Add CoVault').click();
     cy.get('[role=dialog]').contains('USDC').click();
-    cy.contains('Create coVault').click();
-    cy.contains('USDC coVault', { timeout: 120000 });
+    cy.contains('Create CoVault').click();
+    cy.contains('USDC CoVault', { timeout: 120000 });
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
@@ -39,6 +39,13 @@ context('Coordinape', () => {
     cy.contains('button', 'Deposit USDC').click();
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
+
+    // Withdraw USDC from the Vault
+    cy.contains('Withdraw').click();
+    cy.get('input[type=number]').click().wait(1000).type('100');
+    cy.contains('button', 'Withdraw USDC').click();
+    cy.contains('Transaction completed');
+    cy.contains('4900 USDC');
 
     // submit distribution onchain
     cy.visit(`/circles/${circleId}/members`);
@@ -52,5 +59,11 @@ context('Coordinape', () => {
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
     cy.contains('Distribution submitted today', { timeout: 120000 });
+
+    // claims allocations
+    cy.contains('button', 'Claim Allocations').click();
+    cy.contains('button', 'Claim USDC').click();
+    cy.contains('Please sign the transaction', { timeout: 120000 });
+    cy.contains('Claim of allocations successful', { timeout: 120000 });
   });
 });

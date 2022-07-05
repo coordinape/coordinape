@@ -29,7 +29,10 @@ insert_permissions:
     columns:
     - distribution_epoch_id
     - distribution_json
+    - distribution_type
     - epoch_id
+    - fixed_amount
+    - gift_amount
     - merkle_root
     - total_amount
     - vault_id
@@ -44,11 +47,14 @@ select_permissions:
     - created_by
     - distribution_epoch_id
     - distribution_json
+    - distribution_type
     - epoch_id
+    - fixed_amount
+    - gift_amount
     - id
     - merkle_root
-    - tx_hash
     - total_amount
+    - tx_hash
     - vault_id
     filter:
       epoch:

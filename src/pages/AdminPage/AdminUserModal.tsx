@@ -164,7 +164,7 @@ export const AdminUserModal = ({
                     onChange={() => {}}
                     label="Fixed Payment Amount"
                     disabled={true}
-                    placeholder="coVault owner must set asset type first"
+                    placeholder="CoVault owner must set asset type first"
                   />
                 )}
                 <pre>

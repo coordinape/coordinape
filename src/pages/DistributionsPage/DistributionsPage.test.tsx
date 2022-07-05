@@ -7,6 +7,13 @@ import { mockEpoch } from 'utils/testing/mocks';
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
+jest.mock('recoilState/app', () => ({
+  useSelectedCircle: jest.fn(() => ({
+    circle: { id: 2 },
+    users: mockEpoch.circle.users,
+  })),
+}));
+
 jest.mock('react-router-dom', () => {
   const library = jest.requireActual('react-router-dom');
   return {
@@ -24,24 +31,25 @@ const mockEpochData = {
   circle: {
     name: mockEpoch.circle.name,
     users: [{ role: 1 }],
+    fixed_payment_token_type: 'USDC',
     organization: {
       vaults: [
         {
           id: 2,
-          symbol: 'DAI',
-          decimals: 18,
-          vault_address: '0x0',
+          symbol: 'USDC',
+          decimals: 6,
+          vault_address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
         },
       ],
     },
   },
   token_gifts: [
     {
-      tokens: 10,
+      tokens: 100,
       recipient: {
-        id: 1,
+        id: 21,
         name: 'foo',
-        address: '0x1',
+        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
         profile: {
           avatar: 'fooface.jpg',
         },
@@ -79,9 +87,8 @@ test('render without a distribution', async () => {
   await waitFor(() => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
-
   expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
-  expect(screen.getByText('Submit Distribution')).toBeInTheDocument();
+  expect(screen.getByText('Insufficient Tokens')).toBeInTheDocument();
 });
 
 test('render with a distribution', async () => {
@@ -93,10 +100,20 @@ test('render with a distribution', async () => {
           created_at: '2022-04-27T00:28:03.27622',
           total_amount: 10000000,
           pricePerShare: FixedNumber.from('1.08'),
+          distribution_type: 1,
           vault: {
+            id: 2,
             decimals: 6,
             symbol: 'USDC',
           },
+          claims: [
+            {
+              amount: 10.8,
+              user: {
+                id: 21,
+              },
+            },
+          ],
         },
       ],
     })

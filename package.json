@@ -114,7 +114,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "figma-colors": "ts-node ./scripts/update_figma_colors.ts"
+    "figma-colors": "ts-node ./scripts/update_figma_colors.ts",
+    "vercel:dev": "vercel dev"
   },
   "lint-staged": {
     "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [
@@ -185,7 +186,7 @@
     "assert": "2.0.0",
     "buffer": "6.0.3",
     "crypto-browserify": "3.12.0",
-    "cypress": "9.5.3",
+    "cypress": "10.2.0",
     "cypress-dotenv": "2.0.0",
     "dotenv": "16.0.0",
     "dotenv-expand": "6.0.1",

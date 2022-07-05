@@ -91,7 +91,7 @@ export class Contracts {
   // returns value ready to be converted to float, i.e. 1.5, not 1500000
   async getPricePerShare(
     vaultAddress: string,
-    simple_token_address: string,
+    simple_token_address: string | undefined,
     decimals: number
   ) {
     if (hasSimpleToken({ simple_token_address })) return FixedNumber.from(1);

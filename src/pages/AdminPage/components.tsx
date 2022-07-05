@@ -4,9 +4,13 @@ import { GearIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
+import {
+  USER_COORDINAPE_ADDRESS,
+  USER_ROLE_ADMIN,
+  USER_ROLE_COORDINAPE,
+} from 'config/constants';
 import { isFeatureEnabled } from 'config/features';
-import { useNavigation } from 'hooks';
+import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
@@ -173,19 +177,64 @@ export const TableLink = styled(RouterLink, {
   textDecoration: 'none',
 });
 
+const coordinapeTooltipContent = () => {
+  return (
+    <Box
+      css={{
+        m: '$sm',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Text size="large" css={{ my: '$md' }}>
+        Why is Coordinape in your circle?
+      </Text>
+      <p>
+        We&apos;re experimenting with the gift circle mechanism as our revenue
+        model. By default, Coordinape appears in your circle and any user can
+        allocate to Coordinape. To show or hide the Coordinape user, use the
+        links on the right side of this row.
+      </p>
+      <a
+        href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Let us know what you think
+      </a>
+    </Box>
+  );
+};
+
+const renderCoordinapeActions = (enabled: boolean, onClick: () => void) => {
+  return (
+    <Flex css={{ justifyContent: 'center' }}>
+      <Tooltip content={coordinapeTooltipContent()}>
+        <Button
+          size="small"
+          onClick={onClick}
+          color="textOnly"
+          css={{ opacity: 1 }}
+        >
+          {enabled ? 'Disable' : 'Enable'}
+        </Button>
+      </Tooltip>
+    </Flex>
+  );
+};
+
 const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
   <Flex css={{ justifyContent: 'center' }}>
-    {onEdit ? (
+    {onEdit && (
       <Button size="small" onClick={onEdit} color="textOnly">
         Edit
       </Button>
-    ) : (
-      <Box css={{ width: 30 }} />
     )}
-
+    {onEdit && onDelete && (
+      <Text css={{ color: '$text', opacity: 1, position: 'relative' }}>|</Text>
+    )}
     {onDelete && (
       <>
-        <Text css={{ color: '$text' }}>|</Text>
         <Button size="small" onClick={onDelete} color="textOnly">
           Delete
         </Button>
@@ -196,9 +245,11 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 
 const EmptyTable = ({
   content,
+  createLabel,
   onClick,
 }: {
   content: string;
+  createLabel: string;
   onClick: () => void;
 }) => {
   return (
@@ -223,7 +274,7 @@ const EmptyTable = ({
       </Text>
       <Button color="secondary" onClick={() => onClick()}>
         <PlusCircleIcon />
-        Add Contributor
+        {createLabel}
       </Button>
     </Flex>
   );
@@ -239,8 +290,32 @@ type TableSorting = {
 
 const englishCollator = new Intl.Collator('en-u-kf-upper');
 
-export const ContributorsTable = ({
-  users,
+const makeCoordinape = (circleId: number): IUser => {
+  return {
+    circle_id: circleId,
+    created_at: new Date().toString(),
+    epoch_first_visit: false,
+    give_token_received: 0,
+    id: -1,
+    isCircleAdmin: false,
+    isCoordinapeUser: true,
+    deleted_at: new Date().toString(),
+    teammates: [],
+    updated_at: '',
+    name: 'Coordinape',
+    address: USER_COORDINAPE_ADDRESS,
+    role: 2,
+    non_receiver: false,
+    fixed_non_receiver: false,
+    starting_tokens: 0,
+    non_giver: true,
+    give_token_remaining: 0,
+    bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+  };
+};
+
+export const MembersTable = ({
+  visibleUsers,
   myUser: me,
   circle,
   setNewUser,
@@ -249,7 +324,7 @@ export const ContributorsTable = ({
   filter,
   perPage = 6,
 }: {
-  users: IUser[];
+  visibleUsers: IUser[];
   myUser: IUser;
   circle: ICircle;
   setNewUser: (newUser: boolean) => void;
@@ -258,6 +333,7 @@ export const ContributorsTable = ({
   filter: (u: IUser) => boolean;
   perPage?: number;
 }) => {
+  const { restoreCoordinape, deleteUser } = useApiAdminCircle(circle.id);
   const { isMobile } = useMobileDetect();
   const [page, setPage] = useState<number>(1);
   const [view, setView] = useState<IUser[]>([]);
@@ -278,6 +354,18 @@ export const ContributorsTable = ({
   };
 
   const { getToProfile } = useNavigation();
+
+  const coordinapeUser = useMemo(() => makeCoordinape(circle.id), [circle]);
+
+  const users: IUser[] = useMemo(() => {
+    if (
+      !visibleUsers.some(u => u.address === coordinapeUser.address) &&
+      visibleUsers.length > 0
+    ) {
+      return [...visibleUsers, coordinapeUser];
+    }
+    return visibleUsers;
+  }, [circle, visibleUsers, coordinapeUser]);
 
   useEffect(() => {
     const sortItem = order.sort ?? defaultSort;
@@ -328,35 +416,7 @@ export const ContributorsTable = ({
         <span>
           {user.role === USER_ROLE_COORDINAPE ? (
             <Box css={{ marginTop: '6px' }}>
-              <Tooltip
-                content={
-                  <Box
-                    css={{
-                      m: '$sm',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    <Text size="large" css={{ my: '$md' }}>
-                      Why is Coordinape in your circle?
-                    </Text>
-                    <p>
-                      We&apos;re experimenting with the gift circle mechanism as
-                      our revenue model. By default, Coordinape appears in your
-                      circle and any user can allocate to Coordinape. To remove
-                      the Coordinape user, click the trash can icon on the right
-                      side of this row.
-                    </p>
-                    <a
-                      href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Let us know what you think
-                    </a>
-                  </Box>
-                }
-              >
+              <Tooltip content={coordinapeTooltipContent()}>
                 <InfoCircledIcon />
               </Tooltip>
             </Box>
@@ -505,20 +565,24 @@ export const ContributorsTable = ({
             ) : (
               pagedView.map(u => {
                 return (
-                  <Table.Row key={u.id}>
-                    <Table.Cell
-                      key={`user-name-${u.id}`}
-                      area="wide"
-                      align="left"
-                    >
+                  <Table.Row
+                    key={u.id}
+                    css={
+                      u.deleted_at !== null
+                        ? {
+                            '> td': { opacity: 0.3 },
+                            '> td.normal': { opacity: 1 },
+                          }
+                        : {}
+                    }
+                  >
+                    <Table.Cell area="wide" align="left">
                       <UserName user={u} />
                     </Table.Cell>
 
-                    <Table.Cell key={`address-${u.id}`}>
-                      {shortenAddress(u.address)}
-                    </Table.Cell>
+                    <Table.Cell>{shortenAddress(u.address)}</Table.Cell>
 
-                    <Table.Cell key={`giver-${u.id}`}>
+                    <Table.Cell>
                       {!u.non_giver ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
@@ -526,7 +590,7 @@ export const ContributorsTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`recipient-${u.id}`}>
+                    <Table.Cell>
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
@@ -536,14 +600,14 @@ export const ContributorsTable = ({
                       )}
                     </Table.Cell>
 
-                    <Table.Cell key={`admin-${u.id}`}>
+                    <Table.Cell>
                       {u.role === USER_ROLE_ADMIN ? (
                         <CheckIcon size="inherit" color="complete" />
                       ) : (
                         <CloseIcon size="inherit" color="alert" />
                       )}
                     </Table.Cell>
-                    <Table.Cell key={`give-sent-${u.id}`}>
+                    <Table.Cell>
                       {!u.non_giver ||
                       u.starting_tokens - u.give_token_remaining != 0
                         ? `${u.starting_tokens - u.give_token_remaining}/${
@@ -551,28 +615,42 @@ export const ContributorsTable = ({
                           }`
                         : '-'}
                     </Table.Cell>
-                    <Table.Cell key={`give-received-${u.id}`}>
+                    <Table.Cell>
                       {u.give_token_received === 0 &&
                       (!!u.fixed_non_receiver || !!u.non_receiver)
                         ? '-'
                         : u.give_token_received}
                     </Table.Cell>
                     {isFeatureEnabled('fixed_payments') && (
-                      <Table.Cell key={`fixed-amount-${u.id}`}>
+                      <Table.Cell>
                         {u.fixed_payment_amount === 0
                           ? '-'
                           : u.fixed_payment_amount}
                       </Table.Cell>
                     )}
-                    <Table.Cell key={`actions-${u.id}`}>
-                      {renderActions(
-                        u.role !== USER_ROLE_COORDINAPE
-                          ? () => setEditUser(u)
-                          : undefined,
-                        u.id !== me?.id
-                          ? () => setDeleteUserDialog(u)
-                          : undefined
-                      )}
+                    <Table.Cell className="normal">
+                      {u.role === USER_ROLE_COORDINAPE
+                        ? renderCoordinapeActions(u.deleted_at === null, () => {
+                            const shouldEnable = u.deleted_at !== null;
+                            const confirm = window.confirm(
+                              `${
+                                shouldEnable ? 'Enable' : 'Disable'
+                              } Coordinape in this circle?`
+                            );
+                            if (confirm) {
+                              shouldEnable
+                                ? restoreCoordinape(circle.id).catch(e =>
+                                    console.error(e)
+                                  )
+                                : deleteUser(u.address);
+                            }
+                          })
+                        : renderActions(
+                            () => setEditUser(u),
+                            u.id !== me?.id
+                              ? () => setDeleteUserDialog(u)
+                              : undefined
+                          )}
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -580,9 +658,10 @@ export const ContributorsTable = ({
             )
           ) : (
             <Table.Row>
-              <Table.Cell key={`empty-users-table-view`} colSpan={4}>
+              <Table.Cell colSpan={4}>
                 <EmptyTable
                   content="You haven’t added any contributors"
+                  createLabel="Add Contributor"
                   onClick={() => setNewUser(true)}
                 />
               </Table.Cell>
