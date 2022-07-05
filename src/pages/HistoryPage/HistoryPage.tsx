@@ -109,6 +109,7 @@ export const HistoryPage = () => {
           currentEpoch={currentEpoch}
           setEditEpoch={setEditEpoch}
           setNewEpoch={setNewEpoch}
+          refetchEpochs={query.refetch}
         ></AdminEpochForm>
       )}
 
@@ -197,6 +198,7 @@ export const HistoryPage = () => {
             ? () =>
                 deleteEpoch(deleteEpochDialog?.id)
                   .then(() => setDeleteEpochDialog(undefined))
+                  .then(() => query.refetch())
                   .catch(() => setDeleteEpochDialog(undefined))
             : undefined
         }
