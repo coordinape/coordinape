@@ -92,7 +92,7 @@ export const HistoryPage = () => {
             color="primary"
             outlined
             onClick={() => setNewEpoch(true)}
-            disabled={newEpoch}
+            disabled={newEpoch || !!editEpoch}
             css={{
               minWidth: '130px',
             }}
