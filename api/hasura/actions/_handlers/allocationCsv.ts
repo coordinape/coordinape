@@ -65,9 +65,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   tokens: true,
                 },
               ],
-              profile: {
-                id: true,
-              },
             },
           ],
         },
