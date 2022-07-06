@@ -11,10 +11,11 @@ import {
   NewApeAvatar,
   OverviewMenu,
 } from 'components';
-import { useWalletStatus } from 'components/MyAvatarMenu/MyAvatarMenu';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
+import { useWalletStatus } from 'hooks/login';
 import { HamburgerIcon, CloseIcon } from 'icons';
+import ClaimsNavButton from 'pages/ClaimsPage/ClaimsNavButton';
 import {
   rSelectedCircle,
   useMyProfile,
@@ -26,7 +27,7 @@ import { shortenAddress } from 'utils';
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
 export const MainHeader = () => {
@@ -88,12 +89,13 @@ export const MainHeader = () => {
             </Box>
           )}
         </Box>
-        {inCircle && (
+        {inCircle && !isFeatureEnabled('vaults') && (
           <Suspense fallback={null}>
             <ReceiveInfo />
           </Suspense>
         )}
         <Suspense fallback={null}>
+          {isFeatureEnabled('vaults') && <ClaimsNavButton />}
           <MyAvatarMenu />
         </Suspense>
       </Box>
@@ -295,7 +297,7 @@ export const navLinkStyle = {
     borderColor: '$secondaryText',
   },
   '&.active': {
-    backgroundColor: '$focusedBorder',
+    backgroundColor: '$borderMedium',
     fontWeight: '$bold',
     color: '$text',
   },

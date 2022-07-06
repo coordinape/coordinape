@@ -81,7 +81,9 @@ const AllocationPage = () => {
 
   return (
     <AllocationContents
-      startingTeammates={startingTeammates}
+      startingTeammates={
+        selectedCircle.team_selection ? startingTeammates : allUsers
+      }
       allUsers={allUsers}
       pendingGiftsFrom={pendingGiftsFrom}
     />
@@ -208,11 +210,6 @@ const AllocationContents = ({
         note: g.note,
       });
     }
-    console.warn(
-      'ULG.pendingGiftsFrom',
-      localTeammates.length,
-      newGifts.length
-    );
     updateLocalGifts(localTeammates, newGifts);
   }, [localTeammates, pendingGiftsFrom]);
 

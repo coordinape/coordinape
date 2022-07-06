@@ -47,6 +47,10 @@ type Mutation {
 }
 
 type Mutation {
+  restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
+}
+
+type Mutation {
   updateAllocations(payload: Allocations!): AllocationsResponse
 }
 
@@ -248,11 +252,15 @@ input GenerateApiKeyInput {
   update_pending_token_gifts: Boolean
   read_member_profiles: Boolean
   read_epochs: Boolean
- }
-  
+}
+
 input UploadOrgImageInput {
   org_id: Int!
   image_data_base64: String!
+}
+
+input CoordinapeInput {
+  circle_id: Int!
 }
 
 type CreateCircleResponse {

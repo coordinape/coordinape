@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 
@@ -13,7 +15,8 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': { borderColor: '$focusedBorder' },
+  '&:hover': { borderColor: '$borderMedium' },
+  '&:focus': { borderColor: '$borderMedium' },
   variants: {
     border: {
       default: {
@@ -80,16 +83,7 @@ const Label = styled('label', {
   defaultVariants: { fontWeight: 'default' },
 });
 
-export const CheckBox = ({
-  value,
-  label,
-  error,
-  errorText,
-  disabled,
-  onChange,
-  infoTooltip,
-  circleAdmin,
-}: {
+type CheckBoxProps = {
   value: boolean;
   label?: string;
   error?: boolean;
@@ -98,46 +92,68 @@ export const CheckBox = ({
   onChange: (isChecked: boolean) => void;
   infoTooltip?: React.ReactNode;
   circleAdmin?: boolean;
-}) => (
-  <form>
-    <Flex
-      css={{
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <CheckboxRoot
-        border={error ? 'error' : 'default'}
-        checked={value}
-        onCheckedChange={onChange}
-        disabled={disabled}
-        id={label}
-        size={circleAdmin ? 'medium' : 'small'}
+};
+
+export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
+  (
+    {
+      value,
+      label,
+      error,
+      errorText,
+      disabled,
+      onChange,
+      infoTooltip,
+      circleAdmin,
+    },
+    ref
+  ) => (
+    <>
+      <Flex
+        css={{
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <CheckboxIndicator
-          color={circleAdmin ? 'complete' : 'default'}
-          backgroundColor={circleAdmin ? 'surface' : 'default'}
+        <CheckboxRoot
+          border={error ? 'error' : 'default'}
+          checked={value}
+          onCheckedChange={onChange}
+          disabled={disabled}
+          ref={ref}
+          id={label}
+          size={circleAdmin ? 'medium' : 'small'}
         >
-          <CheckIcon />
-        </CheckboxIndicator>
-      </CheckboxRoot>
-      {label && (
-        <Label fontWeight={circleAdmin ? 'normal' : 'default'} htmlFor={label}>
-          {label}
-        </Label>
+          <CheckboxIndicator
+            color={circleAdmin ? 'complete' : 'default'}
+            backgroundColor={circleAdmin ? 'surface' : 'default'}
+          >
+            <CheckIcon />
+          </CheckboxIndicator>
+        </CheckboxRoot>
+        {label && (
+          <Label
+            fontWeight={circleAdmin ? 'normal' : 'default'}
+            htmlFor={label}
+          >
+            {label}
+          </Label>
+        )}
+        {infoTooltip && (
+          <Tooltip content={infoTooltip}>
+            <InfoCircledIcon />
+          </Tooltip>
+        )}
+      </Flex>
+      {error && errorText && (
+        <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
+          {errorText}
+        </Text>
       )}
-      {infoTooltip && (
-        <Tooltip content={infoTooltip}>
-          <InfoCircledIcon />
-        </Tooltip>
-      )}
-    </Flex>
-    {error && errorText && (
-      <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
-        {errorText}
-      </Text>
-    )}
-  </form>
+    </>
+  )
 );
+
+CheckBox.displayName = 'CheckBox';
 
 export default CheckBox;

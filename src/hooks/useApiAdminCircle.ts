@@ -91,22 +91,30 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const downloadCSV = useRecoilLoadCatch(
-    () => async (epoch: number) => {
-      return await mutations.allocationCsv(circleId, epoch);
+    () => async (epoch?: number, epochId?: number) => {
+      return await mutations.allocationCsv(circleId, epoch, epochId);
     },
     [circleId]
   );
 
+  const restoreCoordinape = useRecoilLoadCatch(
+    () => async (circleId: number) => {
+      await mutations.restoreCoordinapeUser(circleId);
+      await fetchCircle({ circleId });
+    }
+  );
+
   return {
+    createEpoch,
+    createUser,
+    deleteEpoch,
+    deleteUser,
+    downloadCSV,
+    getDiscordWebhook,
+    restoreCoordinape,
     updateCircle,
     updateCircleLogo,
-    createEpoch,
     updateEpoch,
-    deleteEpoch,
     updateUser,
-    createUser,
-    deleteUser,
-    getDiscordWebhook,
-    downloadCSV,
   };
 };

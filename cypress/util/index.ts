@@ -21,9 +21,9 @@ import {
 export class TestProvider {
   engine: ProviderEngine;
   constructor(url: string, accountIndex = 0, seed: string = DEFAULT_SEED) {
-    const privateKey = HDNode.fromMnemonic(seed)
-      .derivePath(getAccountPath(accountIndex))
-      .privateKey.substring(2);
+    const privateKey = deriveAccount(accountIndex, seed).privateKey.substring(
+      2
+    );
 
     this.engine = new ProviderEngine();
     this.engine.addProvider(new FiltersSubprovider());
@@ -66,6 +66,9 @@ export const injectWeb3 = (providerPort: string) => (win: any) => {
     console.warn('ethereum already enabled: ', win.ethereum);
   }
 };
+
+export const deriveAccount = (index = 0, seed: string = DEFAULT_SEED) =>
+  HDNode.fromMnemonic(seed).derivePath(getAccountPath(index));
 
 export const gqlQuery = makeThunder(
   Cypress.env('NODE_HASURA_URL'),

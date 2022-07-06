@@ -1,8 +1,0 @@
-{
-  "supportFile": "cypress/support/index.ts",
-  "pluginsFile": "cypress/plugins/index.ts",
-  "defaultCommandTimeout": 15000,
-  "viewportHeight": 1080,
-  "viewportWidth": 1920,
-  "video": false
-}

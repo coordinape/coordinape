@@ -373,7 +373,7 @@ export const CircleAdminPage = () => {
                 />
                 <Box>
                   <Flex column css={{ alignItems: 'flex-start' }}>
-                    <FormLabel label css={{ ...labelStyles }}>
+                    <FormLabel type="label" css={{ ...labelStyles }}>
                       Circle Logo
                       {
                         <Tooltip
@@ -604,7 +604,7 @@ export const CircleAdminPage = () => {
                     gap: '$sm',
                   }}
                 >
-                  <FormLabel label css={{ fontWeight: '$bold' }}>
+                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Enable Vouching?
                     <Tooltip
                       content={

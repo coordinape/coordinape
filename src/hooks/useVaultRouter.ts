@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
-import { getTokenAddress } from 'lib/vaults';
+import { getTokenAddress, getWrappedAmount } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -26,7 +26,10 @@ export function useVaultRouter(contracts?: Contracts) {
 
     const tokenAddress = getTokenAddress(vault);
     const token = contracts.getERC20(tokenAddress);
-    const myAddress = await contracts.getMyAddress();
+    const [symbol, myAddress] = await Promise.all([
+      token.symbol(),
+      contracts.getMyAddress(),
+    ]);
     const allowance = await token.allowance(
       myAddress,
       contracts.router.address
@@ -40,6 +43,8 @@ export function useVaultRouter(contracts?: Contracts) {
           showInfo,
           signingMessage:
             'Please sign the transaction to approve the transfer.',
+          description: `Approve ${humanAmount} ${symbol}`,
+          chainId: contracts.chainId,
         }
       );
       if (result.error) return result;
@@ -56,26 +61,32 @@ export function useVaultRouter(contracts?: Contracts) {
         showError,
         showInfo,
         signingMessage: 'Please sign the transaction to deposit tokens.',
+        description: `Deposit ${humanAmount} ${symbol}`,
+        chainId: contracts.chainId,
       }
     );
   };
 
-  const delegateWithdrawal = async (
+  const withdraw = async (
     vault: GraphQLTypes['vaults'],
-    tokenAddress: string,
-    shareAmount: BigNumber,
+    humanAmount: string,
     underlying: boolean
-  ) => {
+  ): Promise<SendAndTrackTxResult> => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
-    return contracts.router.delegateWithdrawal(
-      account,
-      vault.vault_address as string,
-      tokenAddress,
-      shareAmount,
-      underlying
-    );
+    const vaultContract = contracts.getVault(vault.vault_address);
+    const tokenAddress = getTokenAddress(vault);
+    const token = contracts.getERC20(tokenAddress);
+    const symbol = await token.symbol();
+    const shares = await getWrappedAmount(humanAmount, vault, contracts);
+    return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
+      showError,
+      showInfo,
+      signingMessage: 'Please sign the transaction to withdraw tokens.',
+      chainId: contracts.chainId,
+      description: `Withdraw ${humanAmount} ${symbol}`,
+    });
   };
 
-  return { deposit, delegateWithdrawal };
+  return { deposit, withdraw };
 }

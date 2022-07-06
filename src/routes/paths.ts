@@ -39,6 +39,7 @@ export const paths = {
   // circle-specific
   members: (circleId: number) => `/circles/${circleId}/members`,
   circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
+  circleAdminApi: (circleId: number) => `/circles/${circleId}/admin/api`,
   allocation: (circleId: number) => `/circles/${circleId}/allocation`,
   connectIntegration: (circleId: number) =>
     `/circles/${circleId}/admin/connect-integration`,
@@ -54,6 +55,7 @@ export const paths = {
 
   // other
   circles: '/circles',
+  claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
   home: '/',

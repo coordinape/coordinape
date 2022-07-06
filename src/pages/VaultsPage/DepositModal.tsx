@@ -1,32 +1,34 @@
 import assert from 'assert';
-import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress, Contracts } from 'lib/vaults';
+import { useForm, useController } from 'react-hook-form';
+import * as z from 'zod';
 
-import { FormModal, FormTokenField } from 'components';
-import SingleTokenForm from 'forms/SingleTokenForm';
+import { FormTokenField } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { PlusCircleIcon } from 'icons';
-import { Box, Button } from 'ui';
+import { Button, Form, Modal, Link } from 'ui';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
+export type DepositModalProps = {
+  onClose: () => void;
+  onDeposit: () => void;
+  vault: GraphQLTypes['vaults'];
+};
+
 export default function DepositModal({
-  open,
   onDeposit,
   onClose,
   vault,
-}: {
-  onClose: () => void;
-  onDeposit: () => void;
-  open?: boolean;
-  vault: GraphQLTypes['vaults'];
-}) {
+}: DepositModalProps) {
   const [max, setMax] = useState<any>();
+  const [submitting, setSubmitting] = useState(false);
   const contracts = useContracts();
   (window as any).contracts = contracts;
   const [selectedContracts, setSelectedContracts] = useState<Contracts>();
@@ -57,12 +59,28 @@ export default function DepositModal({
     })();
   }, [selectedContracts]);
 
-  const source = useMemo(() => ({ starting: 0, balance: max }), [vault, max]);
+  const schema = z.object({ amount: z.number().min(0).max(max) }).strict();
+  type DepositFormSchema = z.infer<typeof schema>;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<DepositFormSchema>({
+    mode: 'all',
+    resolver: zodResolver(schema),
+  });
+  const { field: amountField } = useController({
+    name: 'amount',
+    control,
+    defaultValue: 0,
+  });
 
   const { deposit } = useVaultRouter(selectedContracts);
 
-  const handleSubmit = (amount: number) => {
-    deposit(vault, amount.toString()).then(({ error }) => {
+  const onSubmit = () => {
+    setSubmitting(true);
+    deposit(vault, amountField.value.toString()).then(({ error }) => {
+      setSubmitting(false);
       if (error) return;
       onDeposit();
       onClose();
@@ -70,38 +88,51 @@ export default function DepositModal({
   };
 
   return (
-    <SingleTokenForm.FormController
-      source={source}
-      submit={({ amount }) => handleSubmit(amount)}
+    <Modal
+      title={`Deposit ${vault.symbol?.toUpperCase()}`}
+      open={true}
+      onClose={onClose}
     >
-      {({ fields, handleSubmit, changedOutput }) => (
-        <FormModal
-          onClose={onClose}
-          open={open}
-          title={`Deposit ${vault.symbol?.toUpperCase()}`}
-          subtitle=""
-          onSubmit={handleSubmit}
-          submitDisabled={!changedOutput}
-          size="small"
-          icon={<PlusCircleIcon />}
-          submitText={`Deposit ${vault.symbol?.toUpperCase()}`}
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          width: '100%',
+          padding: '0 0 $lg',
+          overflowY: 'auto',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <SecondWallet
+          onConnect={onConnectSecondWallet}
+          onDisconnect={onDisconnectSecondWallet}
+        />
+        <FormTokenField
+          max={max}
+          symbol={vault.symbol as string}
+          decimals={vault.decimals}
+          label={`Available: ${max} ${vault.symbol?.toUpperCase()}`}
+          error={!!errors.amount}
+          errorText={errors.amount?.message}
+          {...amountField}
+        />
+        <Button
+          css={{ mt: '$lg', gap: '$xs', alignSelf: 'center' }}
+          color="primary"
+          outlined
+          size="medium"
+          type="submit"
+          disabled={!isValid || submitting}
         >
-          <Box css={{ my: '$2xl' }}>
-            <SecondWallet
-              onConnect={onConnectSecondWallet}
-              onDisconnect={onDisconnectSecondWallet}
-            />
-            <FormTokenField
-              {...fields.amount}
-              max={max}
-              symbol={vault.symbol as string}
-              decimals={vault.decimals}
-              label={`Available: ${max} ${vault.symbol?.toUpperCase()}`}
-            />
-          </Box>
-        </FormModal>
-      )}
-    </SingleTokenForm.FormController>
+          {submitting
+            ? 'Depositing Funds...'
+            : `Deposit ${vault.symbol.toUpperCase()}`}
+        </Button>
+      </Form>
+    </Modal>
   );
 }
 
@@ -148,7 +179,7 @@ const SecondWalletInner = ({
         </>
       ) : (
         <button onClick={onClickStart}>
-          Use a different wallet via WalletConnect
+          Use a different wallet via <Link>WalletConnect</Link>
         </button>
       )}
     </>

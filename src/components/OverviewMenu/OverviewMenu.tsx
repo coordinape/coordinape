@@ -1,3 +1,5 @@
+import { useRef, useState } from 'react';
+
 import sortBy from 'lodash/sortBy';
 import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
@@ -33,7 +35,7 @@ type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
 
 const mainLinks = [
   [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'Vaults'],
+  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
 export const OverviewMenu = () => {
@@ -44,6 +46,7 @@ export const OverviewMenu = () => {
   const hasCircles = useHasCircles();
 
   const goToCircle = (id: number, path: string) => {
+    closePopover();
     scrollToTop();
     navigate(path);
   };
@@ -55,7 +58,7 @@ export const OverviewMenu = () => {
   const overviewMenuTriggerText = inCircle
     ? currentCircle
     : location.pathname.includes(paths.vaults)
-    ? 'Vaults'
+    ? 'CoVaults'
     : 'Overview';
   const overviewMenuTrigger = (
     <Link
@@ -75,15 +78,34 @@ export const OverviewMenu = () => {
     </Link>
   );
 
+  const [popoverClicked, setPopoverClicked] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const clickPopover = () => {
+    if (popoverClicked) return;
+    triggerRef.current?.click();
+    setPopoverClicked(true);
+  };
+  const closePopover = () => {
+    setTimeout(() => triggerRef.current?.click());
+  };
+
   return (
     <>
       <Hidden smDown>
         <Popover>
-          <PopoverTrigger asChild>{overviewMenuTrigger}</PopoverTrigger>
+          <PopoverTrigger
+            asChild
+            ref={triggerRef}
+            onMouseEnter={clickPopover}
+            onMouseLeave={() => setPopoverClicked(false)}
+          >
+            {overviewMenuTrigger}
+          </PopoverTrigger>
           <PopoverContent
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-58}
             alignOffset={-3}
+            css={{ outline: 'none' }}
           >
             <Box
               css={{
@@ -116,7 +138,9 @@ export const OverviewMenu = () => {
                   marginTop: '$sm',
                 }}
               >
-                {hasCircles && <TopLevelLinks links={mainLinks} />}
+                {hasCircles && (
+                  <TopLevelLinks links={mainLinks} onClick={closePopover} />
+                )}
               </Box>
               {orgs?.map(org => (
                 <Box key={org.id} css={menuGroupStyle}>
@@ -151,8 +175,10 @@ type CircleItemProps = {
 
 export const TopLevelLinks = ({
   links,
+  onClick,
 }: {
   links: [string, string, string[]?][];
+  onClick?: () => void;
 }) => {
   const location = useLocation();
 
@@ -165,6 +191,7 @@ export const TopLevelLinks = ({
           as={NavLink}
           key={path}
           to={path}
+          onClick={onClick}
           className={matchPaths?.includes(location.pathname) ? 'active' : ''}
         >
           {label}

@@ -24,6 +24,8 @@ export const getEpochData = async (
           circle: {
             id: true,
             name: true,
+            fixed_payment_token_type: true,
+            token_name: true,
             // get this user's role so we can check that they're an admin
             users: [
               { where: { address: { _eq: myAddress.toLowerCase() } } },
@@ -51,6 +53,7 @@ export const getEpochData = async (
                 address: true,
                 profile: {
                   avatar: true,
+                  id: true,
                 },
               },
               tokens: true,
@@ -62,11 +65,15 @@ export const getEpochData = async (
               created_at: true,
               total_amount: true,
               tx_hash: true,
+              distribution_type: true,
+              gift_amount: true,
+              fixed_amount: true,
               vault: {
                 id: true,
                 decimals: true,
                 symbol: true,
                 vault_address: true,
+                simple_token_address: true,
                 chain_id: true,
               },
               epoch: {
@@ -81,12 +88,11 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
-                  user: {
+                  amount: true,
+                  profile: {
+                    id: true,
                     address: true,
-                    name: true,
-                    profile: {
-                      avatar: true,
-                    },
+                    avatar: true,
                   },
                 },
               ],
@@ -107,7 +113,7 @@ export const getEpochData = async (
       ...dist,
       pricePerShare: await contracts.getPricePerShare(
         dist.vault.vault_address,
-        dist.vault.symbol,
+        dist.vault.simple_token_address,
         dist.vault.decimals
       ),
     })) || []
