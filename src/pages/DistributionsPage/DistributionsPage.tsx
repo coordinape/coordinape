@@ -42,10 +42,9 @@ export function DistributionsPage() {
 
   const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
   const [giftVaultId, setGiftVaultId] = useState<string>('');
-  const { users: circleUsers } = useSelectedCircle();
-  assert(epoch && epoch.circle);
-  const circle = epoch.circle;
-  const { downloadCSV } = useApiAdminCircle(circle.id);
+  const { users: circleUsers, circleId } = useSelectedCircle();
+  const { downloadCSV } = useApiAdminCircle(circleId);
+
   if (isIdle || isLoading) return <LoadingModal visible />;
 
   let epochError;
@@ -55,7 +54,8 @@ export function DistributionsPage() {
     return <SingleColumnLayout>Epoch not found</SingleColumnLayout>;
 
   const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
-
+  assert(epoch.circle);
+  const circle = epoch.circle;
   if (!isUserAdmin(circle.users[0])) {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {

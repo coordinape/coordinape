@@ -9,7 +9,7 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { uploadCsv } from '../../../../api-lib/s3';
-import isFeatureEnabled from '../../../../src/config/features';
+import { isFeatureEnabled } from '../../../../src/config/features';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,

@@ -515,6 +515,7 @@ export function DistributionForm({
                   </Button>
                 ) : (
                   <Button
+                    type="button"
                     color="primary"
                     outlined
                     size="medium"
