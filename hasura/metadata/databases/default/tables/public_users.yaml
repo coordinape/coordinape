@@ -69,13 +69,6 @@ array_relationships:
       remote_table:
         name: teammates
         schema: public
-- name: vault_transactions
-  using:
-    foreign_key_constraint_on:
-      column: created_by
-      table:
-        name: vault_transactions
-        schema: public
 - name: vouches
   using:
     foreign_key_constraint_on:

@@ -5,7 +5,22 @@ alter table "public"."vaults" add column "deployment_block" bigint
 -- It's easier to drop and recreate the table wholesale
 DROP table "public"."vault_transactions";
 
-CREATE TABLE "public"."vault_transactions" ("id" bigserial NOT NULL, "tx_hash" text NOT NULL, "vault_id" bigint NOT NULL, "tx_type" text NOT NULL, "created_by" bigint, "distribution_id" bigint, "circle_id" bigint, "created_at" timestamp NOT NULL DEFAULT now(), "updated_at" timestamp NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("circle_id") REFERENCES "public"."circles"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("distribution_id") REFERENCES "public"."distributions"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("vault_id") REFERENCES "public"."vaults"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"));
+CREATE TABLE "public"."vault_transactions" (
+  "id" bigserial NOT NULL,
+  "tx_hash" text NOT NULL,
+  "vault_id" bigint NOT NULL,
+  "tx_type" text NOT NULL,
+  "created_by" bigint,
+  "distribution_id" bigint,
+  "circle_id" bigint,
+  "created_at" timestamp NOT NULL DEFAULT now(),
+  "updated_at" timestamp NOT NULL DEFAULT now(),
+  PRIMARY KEY ("id") ,
+  FOREIGN KEY ("circle_id") REFERENCES "public"."circles"("id") ON UPDATE restrict ON DELETE restrict,
+  FOREIGN KEY ("created_by") REFERENCES "public"."profiles"("id") ON UPDATE restrict ON DELETE restrict,
+  FOREIGN KEY ("distribution_id") REFERENCES "public"."distributions"("id") ON UPDATE restrict ON DELETE restrict,
+  FOREIGN KEY ("vault_id") REFERENCES "public"."vaults"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id")
+);
 CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE

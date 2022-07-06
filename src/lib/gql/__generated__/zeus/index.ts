@@ -4263,6 +4263,29 @@ columns and relationships of "profiles" */
       },
       ValueTypes['users']
     ];
+    vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
     vaults?: [
       {
         /** distinct select on columns */
@@ -4308,6 +4331,10 @@ columns and relationships of "profiles" */
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     users?: ValueTypes['users_bool_exp'] | undefined | null;
+    vault_transactions?:
+      | ValueTypes['vault_transactions_bool_exp']
+      | undefined
+      | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -4335,6 +4362,10 @@ columns and relationships of "profiles" */
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     users_aggregate?: ValueTypes['users_aggregate_order_by'] | undefined | null;
+    vault_transactions_aggregate?:
+      | ValueTypes['vault_transactions_aggregate_order_by']
+      | undefined
+      | null;
     vaults_aggregate?:
       | ValueTypes['vaults_aggregate_order_by']
       | undefined
@@ -6520,29 +6551,6 @@ columns and relationships of "users" */
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user_private?: ValueTypes['user_private'];
-    vault_transactions?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['vault_transactions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['vault_transactions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['vault_transactions']
-    ];
     vouches?: [
       {
         /** distinct select on columns */
@@ -6631,10 +6639,6 @@ columns and relationships of "users" */
     teammates?: ValueTypes['teammates_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user_private?: ValueTypes['user_private_bool_exp'] | undefined | null;
-    vault_transactions?:
-      | ValueTypes['vault_transactions_bool_exp']
-      | undefined
-      | null;
     vouches?: ValueTypes['vouches_bool_exp'] | undefined | null;
   };
   /** order by max() on columns of table "users" */
@@ -6713,10 +6717,6 @@ columns and relationships of "users" */
       | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_private?: ValueTypes['user_private_order_by'] | undefined | null;
-    vault_transactions_aggregate?:
-      | ValueTypes['vault_transactions_aggregate_order_by']
-      | undefined
-      | null;
     vouches_aggregate?:
       | ValueTypes['vouches_aggregate_order_by']
       | undefined
@@ -6798,11 +6798,11 @@ columns and relationships of "users" */
     distribution?: ValueTypes['distributions'];
     distribution_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     tx_hash?: boolean | `@${string}`;
     tx_type?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    /** An object relationship */
-    user?: ValueTypes['users'];
     /** An object relationship */
     vault?: ValueTypes['vaults'];
     vault_id?: boolean | `@${string}`;
@@ -6862,13 +6862,13 @@ columns and relationships of "users" */
     distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_type?:
       | ValueTypes['vault_tx_types_enum_comparison_exp']
       | undefined
       | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
-    user?: ValueTypes['users_bool_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
@@ -6904,10 +6904,10 @@ columns and relationships of "users" */
     distribution?: ValueTypes['distributions_order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     tx_type?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    user?: ValueTypes['users_order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
     vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
@@ -8641,6 +8641,8 @@ columns and relationships of "profiles" */
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+    /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     website?: string | undefined;
   };
@@ -9198,8 +9200,6 @@ columns and relationships of "users" */
     /** An object relationship */
     user_private?: GraphQLTypes['user_private'] | undefined;
     /** An array relationship */
-    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
-    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
   };
   /** order by aggregate values of table "users" */
@@ -9241,11 +9241,11 @@ columns and relationships of "users" */
     distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
     updated_at: GraphQLTypes['timestamp'];
-    /** An object relationship */
-    user?: GraphQLTypes['users'] | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
@@ -12240,6 +12240,8 @@ columns and relationships of "profiles" */
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An array relationship */
+    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
+    /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     website?: string | undefined;
   };
@@ -12262,6 +12264,9 @@ columns and relationships of "profiles" */
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     users?: GraphQLTypes['users_bool_exp'] | undefined;
+    vault_transactions?:
+      | GraphQLTypes['vault_transactions_bool_exp']
+      | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -12289,6 +12294,9 @@ columns and relationships of "profiles" */
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     users_aggregate?: GraphQLTypes['users_aggregate_order_by'] | undefined;
+    vault_transactions_aggregate?:
+      | GraphQLTypes['vault_transactions_aggregate_order_by']
+      | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
     website?: GraphQLTypes['order_by'] | undefined;
   };
@@ -13119,8 +13127,6 @@ columns and relationships of "users" */
     /** An object relationship */
     user_private?: GraphQLTypes['user_private'] | undefined;
     /** An array relationship */
-    vault_transactions: Array<GraphQLTypes['vault_transactions']>;
-    /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
   };
   /** order by aggregate values of table "users" */
@@ -13181,9 +13187,6 @@ columns and relationships of "users" */
     teammates?: GraphQLTypes['teammates_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user_private?: GraphQLTypes['user_private_bool_exp'] | undefined;
-    vault_transactions?:
-      | GraphQLTypes['vault_transactions_bool_exp']
-      | undefined;
     vouches?: GraphQLTypes['vouches_bool_exp'] | undefined;
   };
   /** order by max() on columns of table "users" */
@@ -13256,9 +13259,6 @@ columns and relationships of "users" */
       | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_private?: GraphQLTypes['user_private_order_by'] | undefined;
-    vault_transactions_aggregate?:
-      | GraphQLTypes['vault_transactions_aggregate_order_by']
-      | undefined;
     vouches_aggregate?: GraphQLTypes['vouches_aggregate_order_by'] | undefined;
   };
   /** select columns of table "users" */
@@ -13338,11 +13338,11 @@ columns and relationships of "users" */
     distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
     updated_at: GraphQLTypes['timestamp'];
-    /** An object relationship */
-    user?: GraphQLTypes['users'] | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
     vault_id: GraphQLTypes['bigint'];
@@ -13387,10 +13387,10 @@ columns and relationships of "users" */
     distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
-    user?: GraphQLTypes['users_bool_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vault_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
@@ -13426,10 +13426,10 @@ columns and relationships of "users" */
     distribution?: GraphQLTypes['distributions_order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     tx_type?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    user?: GraphQLTypes['users_order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
     vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
