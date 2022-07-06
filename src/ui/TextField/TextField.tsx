@@ -44,7 +44,7 @@ export const TextField = styled('input', {
     },
     error: {
       true: {
-        border: '1px solid $alert',
+        backgroundColor: '$errorBackground',
         boxSizing: 'border-box',
       },
     },

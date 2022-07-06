@@ -138,7 +138,7 @@ const schema = z.object({
         message: 'Expected number, received a string',
       })
       .refine(val => val > 0, {
-        message: 'nomination period should be 1 day at least',
+        message: 'Nomination period should be 1 day at least',
       })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
@@ -359,6 +359,7 @@ export const CircleAdminPage = () => {
                   css={{
                     alignItems: 'flex-start',
                   }}
+                  showFieldErrors
                 />
                 <FormInputField
                   id="token_name"
@@ -370,6 +371,7 @@ export const CircleAdminPage = () => {
                   css={{
                     alignItems: 'flex-start',
                   }}
+                  showFieldErrors
                 />
                 <Box>
                   <Flex column css={{ alignItems: 'flex-start' }}>
@@ -563,6 +565,7 @@ export const CircleAdminPage = () => {
                   }}
                   label="Contribution Help Text"
                   description="Change the default text contributors see on team selection"
+                  showFieldErrors
                 />
 
                 <FormInputField
@@ -577,6 +580,7 @@ export const CircleAdminPage = () => {
                   }}
                   label="Reward Help Text"
                   description="Change the default text contributors see during epoch allocation"
+                  showFieldErrors
                 />
               </Box>
               <Divider css={{ mt: '$1xl', mb: '$lg' }} />
@@ -656,6 +660,7 @@ export const CircleAdminPage = () => {
                     disabled={!vouching.value}
                     label="Mininum vouches to add member"
                     infoTooltip=" Minimum number of Vouches for a nominee to be accepted as a user of the circle"
+                    showFieldErrors
                   />
                   <FormInputField
                     id="nomination_length"
@@ -674,6 +679,7 @@ export const CircleAdminPage = () => {
                     disabled={!vouching.value}
                     label="Length of Nomination Period"
                     infoTooltip="Set the length of Nomination period in days"
+                    showFieldErrors
                   />
                 </Flex>
                 <Flex
@@ -697,6 +703,7 @@ export const CircleAdminPage = () => {
                     defaultValue={circle.vouchingText}
                     label="Vouching Text"
                     description="Change the default text contributors see in vouching page"
+                    showFieldErrors
                   />
                   <Button
                     css={{

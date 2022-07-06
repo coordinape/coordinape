@@ -95,6 +95,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           {...inputProps}
           ref={field.ref}
           id={id}
+          error={!!fieldState.error}
         ></TextField>
       )}
       {textArea && (
@@ -108,11 +109,11 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           }}
           id={id}
           {...areaProps}
-          //     {...teamSelText}
+          error={!!fieldState.error}
         />
       )}
       {showFieldErrors && fieldState.error && (
-        <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
+        <Text color="alert" css={{ fontSize: '$3' }}>
           {fieldState.error.message}
         </Text>
       )}
