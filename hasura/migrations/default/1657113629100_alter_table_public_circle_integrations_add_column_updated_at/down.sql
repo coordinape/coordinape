@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."circle_integrations" add column "updated_at" timestamptz
---  null;
+alter table "public"."circle_integrations" drop column "updated_at";
