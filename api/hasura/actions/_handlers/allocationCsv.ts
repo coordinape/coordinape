@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,6 +9,7 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { uploadCsv } from '../../../../api-lib/s3';
+import isFeatureEnabled from '../../../../src/config/features';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,
@@ -18,7 +21,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   } = composeHasuraActionRequestBody(allocationCsvInput).parse(req.body);
 
   const { circle_id, epoch_id, epoch } = payload;
-
   const epochObj = await getEpoch(circle_id, epoch_id, epoch);
   if (!epochObj) {
     return errorResponseWithStatusCode(
@@ -27,36 +29,45 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       422
     );
   }
-  const { users } = await adminClient.query(
+  const { circles_by_pk } = await adminClient.query(
     {
-      users: [
+      circles_by_pk: [
+        { id: circle_id },
         {
-          where: {
-            circle_id: { _eq: circle_id },
-            _or: [
-              {
-                deleted_at: { _is_null: true },
-              },
-              {
-                deleted_at: { _gt: epochObj.end_date },
-              },
-            ],
-          },
-        },
-        {
-          id: true,
-          name: true,
-          address: true,
-          received_gifts: [
-            { where: { epoch_id: { _eq: epochObj.id } } },
+          fixed_payment_token_type: true,
+          users: [
             {
-              tokens: true,
+              where: {
+                _or: [
+                  {
+                    deleted_at: { _is_null: true },
+                  },
+                  {
+                    deleted_at: { _gt: epochObj.end_date },
+                  },
+                ],
+              },
             },
-          ],
-          sent_gifts: [
-            { where: { epoch_id: { _eq: epochObj.id } } },
             {
-              tokens: true,
+              id: true,
+              name: true,
+              address: true,
+              fixed_payment_amount: true,
+              received_gifts: [
+                { where: { epoch_id: { _eq: epochObj.id } } },
+                {
+                  tokens: true,
+                },
+              ],
+              sent_gifts: [
+                { where: { epoch_id: { _eq: epochObj.id } } },
+                {
+                  tokens: true,
+                },
+              ],
+              profile: {
+                id: true,
+              },
             },
           ],
         },
@@ -66,6 +77,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'allocationCsv_getGifts',
     }
   );
+  assert(circles_by_pk, 'No Circle Found');
+  const fixedPaymentsEnabled =
+    isFeatureEnabled('fixed_payments') &&
+    circles_by_pk.fixed_payment_token_type;
+  const users = circles_by_pk.users;
   const grant = payload.grant ?? epochObj.grant;
   const totalTokensSent = epochObj.token_gifts.length
     ? epochObj.token_gifts
@@ -84,6 +100,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     'epoch_number',
     'Date',
   ];
+  if (fixedPaymentsEnabled) {
+    headers.push('fixed_payment_amount');
+    headers.push('fixed_payment_token_symbol');
+  }
   if (grant) headers.push('Grant_amt');
 
   let csvText = `${headers.join(',')}\r\n`;
@@ -106,6 +126,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       epochObj.number,
       dateRange,
     ];
+    if (fixedPaymentsEnabled) {
+      rowValues.push(u.fixed_payment_amount);
+      rowValues.push(circles_by_pk.fixed_payment_token_type);
+    }
     if (grant)
       rowValues.push(
         received
