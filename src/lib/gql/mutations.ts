@@ -144,6 +144,11 @@ export const deleteCircleIntegration = async (id: number) =>
     }
   );
 
+// Warning: this pattern of constructing ad-hoc ValueTypes selections
+// and passing them into various queries does not work for array
+// relationships in Zeus. These need to be assembled inline
+// with the query or explicitly typed. It's interesting that typing or
+// casting this object causes typechecking issues
 export const allVaultFields = {
   id: true,
   created_at: true,
@@ -166,6 +171,11 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
       operationName: 'addVault',
     }
   );
+
+export const addVaultTx = (vaultTx: ValueTypes['LogVaultTxInput']) =>
+  client.mutate({
+    createVaultTx: [{ payload: vaultTx }, { __typename: true }],
+  });
 
 export const logout = async (): Promise<boolean> => {
   const { logoutUser } = await client.mutate(

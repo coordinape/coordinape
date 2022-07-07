@@ -3,6 +3,7 @@ import assert from 'assert';
 import debug from 'debug';
 import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { addVaultTx } from 'lib/gql/mutations';
 import { createDistribution } from 'lib/merkle-distributor';
 import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
@@ -174,6 +175,13 @@ export function useSubmitDistribution() {
         txHash,
         `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`
       );
+      await addVaultTx({
+        tx_type: 'Distribution',
+        vault_id: vault.id,
+        tx_hash: txHash,
+        distribution_id: response.id,
+        circle_id: circleId,
+      });
 
       showInfo('Saving Distribution...');
       await markDistributionUploaded({

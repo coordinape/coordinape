@@ -3,6 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { addVaultTx } from 'lib/gql/mutations';
 import { getTokenAddress, getWrappedAmount } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
@@ -50,7 +51,7 @@ export function useVaultRouter(contracts?: Contracts) {
       if (result.error) return result;
     }
 
-    return sendAndTrackTx(
+    const txResult = await sendAndTrackTx(
       () =>
         contracts.router.delegateDeposit(
           vault.vault_address as string,
@@ -65,6 +66,13 @@ export function useVaultRouter(contracts?: Contracts) {
         chainId: contracts.chainId,
       }
     );
+    if (txResult?.tx)
+      await addVaultTx({
+        tx_type: 'Deposit',
+        vault_id: vault.id,
+        tx_hash: txResult.tx.hash,
+      });
+    return txResult;
   };
 
   const withdraw = async (
@@ -79,13 +87,23 @@ export function useVaultRouter(contracts?: Contracts) {
     const token = contracts.getERC20(tokenAddress);
     const symbol = await token.symbol();
     const shares = await getWrappedAmount(humanAmount, vault, contracts);
-    return sendAndTrackTx(() => vaultContract.apeWithdraw(shares, underlying), {
-      showError,
-      showInfo,
-      signingMessage: 'Please sign the transaction to withdraw tokens.',
-      chainId: contracts.chainId,
-      description: `Withdraw ${humanAmount} ${symbol}`,
-    });
+    const txResult = await sendAndTrackTx(
+      () => vaultContract.apeWithdraw(shares, underlying),
+      {
+        showError,
+        showInfo,
+        signingMessage: 'Please sign the transaction to withdraw tokens.',
+        chainId: contracts.chainId,
+        description: `Withdraw ${humanAmount} ${symbol}`,
+      }
+    );
+    if (txResult?.tx)
+      await addVaultTx({
+        tx_type: 'Withdraw',
+        vault_id: vault.id,
+        tx_hash: txResult.tx.hash,
+      });
+    return txResult;
   };
 
   return { deposit, withdraw };
