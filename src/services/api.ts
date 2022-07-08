@@ -81,6 +81,8 @@ export class APIService {
         }`
       );
     }
+
+    this.setAuth(body.token);
     return body;
   };
 }
