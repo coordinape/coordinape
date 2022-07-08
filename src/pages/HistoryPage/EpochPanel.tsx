@@ -123,7 +123,7 @@ export const EpochPanel = ({
             },
           }}
         >
-          <Flex column css={{ gap: '$md' }}>
+          <Flex column css={{ gap: '$sm' }}>
             <Text>Notes</Text>
             <Flex css={{ gap: '$md' }}>
               <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
@@ -161,9 +161,10 @@ export const EpochPanel = ({
             </Flex>
           </Flex>
           {isAdmin && (
-            <Flex column css={{ gap: '$md' }}>
+            <Flex column css={{ gap: '$sm' }}>
               <Text>Distribution</Text>
               <Button
+                size="small"
                 outlined
                 color="primary"
                 onClick={e => {

@@ -54,7 +54,7 @@ const getCollisionMessage = (
     (e.repeatEnum === 'none' && newRepeat === 'none')
   ) {
     return newInterval.overlaps(e.interval)
-      ? `Overlap with an epoch starts in ${e.startDate.toFormat(longFormat)}`
+      ? `Overlap with an epoch starting ${e.startDate.toFormat(longFormat)}`
       : undefined;
   }
   // Only one will be allowed to be repeating
@@ -287,20 +287,20 @@ const AdminEpochForm = ({
             <Button
               color="primary"
               outlined
-              type="submit"
-              disabled={submitting}
-              onClick={handleSubmit(onSubmit)}
-            >
-              {submitting ? 'Saving...' : 'Save Epoch'}
-            </Button>
-            <Button
-              color="primary"
-              outlined
               onClick={() => {
                 selectedEpoch ? setEditEpoch(undefined) : setNewEpoch(false);
               }}
             >
               Cancel
+            </Button>
+
+            <Button
+              color="primary"
+              type="submit"
+              disabled={submitting}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {submitting ? 'Saving...' : 'Save'}
             </Button>
           </Flex>
         </Flex>
@@ -370,12 +370,7 @@ const AdminEpochForm = ({
                     )}
                   />
                 </Flex>
-                <Flex
-                  css={{
-                    maxWidth: '100px',
-                    gap: '$xs',
-                  }}
-                >
+                <Flex css={{ maxWidth: '150px', gap: '$xs' }}>
                   <FormInputField
                     id="days"
                     name="days"
@@ -383,8 +378,8 @@ const AdminEpochForm = ({
                       source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4
                     }
                     control={control}
-                    label="Duration"
-                    infoTooltip={'How lond will the epoch last in days?'}
+                    label="Duration (days)"
+                    infoTooltip={'How long the epoch lasts in days'}
                     number
                   />
                 </Flex>
@@ -477,50 +472,50 @@ const epochsPreview = (
     days: value.days,
   });
   return (
-    <>
+    <Flex css={{ flexDirection: 'column', gap: '$xs' }}>
       <Text variant="label">Preview</Text>
-      <Text bold css={{ mt: '$md' }}>
+      <Text bold css={{ mt: '$sm' }}>
         Epoch 1
       </Text>
       <Text>
-        {epochStart.toFormat('ccc LLL d')} -{epochEnd.toFormat('ccc LLL d')}
+        {epochStart.toFormat('ccc LLL d')} - {epochEnd.toFormat('ccc LLL d')}
       </Text>
       {(value.repeat === 'weekly' || value.repeat === 'monthly') && (
         <>
-          <Text bold css={{ mt: '$md' }}>
+          <Text bold css={{ mt: '$sm' }}>
             Epoch 2
           </Text>
           <Text>
             {epochStart
               .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
               .toFormat('ccc LLL d')}{' '}
-            -
+            -{' '}
             {epochEnd
               .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
               .toFormat('ccc LLL d')}
           </Text>
-          <Text bold css={{ mt: '$md' }}>
+          <Text bold css={{ mt: '$sm' }}>
             Epoch 3
           </Text>
           <Text>
             {epochStart
               .plus(value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 })
               .toFormat('ccc LLL d')}{' '}
-            -
+            -{' '}
             {epochEnd
               .plus(value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 })
               .toFormat('ccc LLL d')}
           </Text>
         </>
       )}
-      <Text css={{ mt: '$lg' }}>
+      <Text css={{ mt: '$sm' }}>
         {value.repeat === 'monthly'
-          ? 'Repeat every months'
+          ? 'Repeats monthly'
           : value.repeat === 'weekly'
-          ? 'Repeats every week.'
-          : "The epoch doesn't repeat."}
+          ? 'Repeats weekly'
+          : ''}
       </Text>
-    </>
+    </Flex>
   );
 };
 

@@ -61,20 +61,16 @@ export const NextEpoch = ({
             <Button
               color="primary"
               outlined
-              css={{ minWidth: '130px' }}
               onClick={() => setEditEpoch(epoch)}
             >
-              Edit Epoch
+              Edit
             </Button>
             <Button
               color="destructive"
               outlined
-              css={{ minWidth: '130px' }}
-              onClick={() => {
-                setDeleteEpochDialog(epoch);
-              }}
+              onClick={() => setDeleteEpochDialog(epoch)}
             >
-              Delete Epoch
+              Delete
             </Button>
           </Flex>
         )}

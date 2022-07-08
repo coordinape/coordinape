@@ -19,7 +19,7 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { NextEpoch } from './conponents';
+import { NextEpoch } from './components';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import { EpochPanel } from './EpochPanel';
 import { getHistoryData, QueryEpoch } from './getHistoryData';

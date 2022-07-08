@@ -62,10 +62,8 @@ const AdminPage = () => {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Flex css={{ alignItems: 'center', mb: '$sm' }}>
-          <Text h2 css={{ my: '$xl' }}>
-            {selectedCircle?.name}
-          </Text>
+        <Flex css={{ alignItems: 'center', mb: '$lg' }}>
+          <Text h2>{selectedCircle?.name}</Text>
           {!isMobile ? (
             <Flex
               css={{
@@ -73,7 +71,6 @@ const AdminPage = () => {
                 flexWrap: 'wrap',
                 justifyContent: 'flex-end',
                 gap: '$md',
-                mb: '$md',
               }}
             >
               <AppLink to={paths.circleAdmin(selectedCircle.id)}>
