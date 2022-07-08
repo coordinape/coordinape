@@ -18,9 +18,9 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import AdminEpochForm from './AdminEpochForm';
 import { NextEpoch } from './components';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
+import EpochForm from './EpochForm';
 import { EpochPanel } from './EpochPanel';
 import { getHistoryData, QueryEpoch } from './getHistoryData';
 
@@ -102,7 +102,7 @@ export const HistoryPage = () => {
         )}
       </Flex>
       {(editEpoch || newEpoch) && (
-        <AdminEpochForm
+        <EpochForm
           circleId={circleId}
           epochs={futureEpochs}
           selectedEpoch={editEpoch}
@@ -110,7 +110,7 @@ export const HistoryPage = () => {
           setEditEpoch={setEditEpoch}
           setNewEpoch={setNewEpoch}
           refetchEpochs={query.refetch}
-        ></AdminEpochForm>
+        ></EpochForm>
       )}
 
       <Text h3>Upcoming Epochs</Text>

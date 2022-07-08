@@ -183,7 +183,7 @@ const repeat = [
   },
 ];
 
-const AdminEpochForm = ({
+const EpochForm = ({
   selectedEpoch,
   epochs,
   currentEpoch,
@@ -544,4 +544,4 @@ const summarizeEpoch = (
 
   return `This epoch starts on ${startDate} and will end on ${endDate}. ${repeating}`;
 };
-export default AdminEpochForm;
+export default EpochForm;
