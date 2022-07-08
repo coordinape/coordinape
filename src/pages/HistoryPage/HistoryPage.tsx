@@ -5,7 +5,6 @@ import { useQuery } from 'react-query';
 
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
-import AdminEpochForm from 'forms/AdminEpochForm';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
@@ -19,6 +18,7 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import AdminEpochForm from './AdminEpochForm';
 import { NextEpoch } from './components';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import { EpochPanel } from './EpochPanel';
