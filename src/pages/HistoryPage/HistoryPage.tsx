@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
-import { useApiAdminCircle, useContracts } from 'hooks';
+import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   Collapsible,
@@ -70,10 +70,23 @@ export const HistoryPage = () => {
   const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-  if (query.isLoading || query.isIdle)
-    return <LoadingModal visible note="HistoryPage" />;
+  const { showInfo } = useApeSnackbar();
 
   const isAdmin = isUserAdmin(me);
+
+  const closeFormHandler = () => {
+    if (editEpoch) {
+      setEditEpoch(undefined);
+      showInfo('Saved Changes');
+    } else {
+      setNewEpoch(false);
+      showInfo('Created Epoch');
+    }
+    query.refetch();
+  };
+
+  if (query.isLoading || query.isIdle)
+    return <LoadingModal visible note="HistoryPage" />;
 
   return (
     <SingleColumnLayout>
@@ -109,7 +122,7 @@ export const HistoryPage = () => {
           currentEpoch={currentEpoch}
           setEditEpoch={setEditEpoch}
           setNewEpoch={setNewEpoch}
-          refetchEpochs={query.refetch}
+          onClose={closeFormHandler}
         ></EpochForm>
       )}
 

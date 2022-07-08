@@ -190,7 +190,7 @@ const EpochForm = ({
   circleId,
   setNewEpoch,
   setEditEpoch,
-  refetchEpochs,
+  onClose,
 }: {
   selectedEpoch: IApiEpoch | undefined;
   epochs: IApiEpoch[] | undefined;
@@ -198,7 +198,7 @@ const EpochForm = ({
   circleId: number;
   setNewEpoch: (e: boolean) => void;
   setEditEpoch: (e: IApiEpoch | undefined) => void;
-  refetchEpochs: () => void;
+  onClose: () => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
@@ -265,7 +265,7 @@ const EpochForm = ({
       .then(() => {
         setSubmitting(false);
       })
-      .then(refetchEpochs)
+      .then(onClose)
       .catch(console.warn);
   };
 

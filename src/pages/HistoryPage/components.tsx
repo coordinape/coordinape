@@ -26,22 +26,30 @@ export const NextEpoch = ({
       .diffNow(['days', 'hours', 'minutes'])
       .toHuman({ unitDisplay: 'short', notation: 'compact' });
     return (
-      <>
-        <Text inline bold color="neutral" font="inter">
-          {`${startDate.toFormat('LLLL d')} - ${
+      <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
+        <Text
+          inline
+          bold
+          color="neutral"
+          font="inter"
+          css={{ minWidth: '180px' }}
+        >
+          {`${startDate.toFormat('LLL d')} - ${
             startDate.month === endDate.month
               ? endDate.day
-              : endDate.toFormat('LLLL d')
+              : endDate.toFormat('LLL d')
           }`}
         </Text>
-        {`   starts in ${diff}${
-          epoch.repeat === 1
-            ? '( repeats weekly)'
-            : epoch.repeat === 2
-            ? '( repeats monthly)'
-            : ''
-        }`}
-      </>
+        <Text>
+          {`    starts in ${diff}${
+            epoch.repeat === 1
+              ? '( repeats weekly)'
+              : epoch.repeat === 2
+              ? '( repeats monthly)'
+              : ''
+          }`}
+        </Text>
+      </Flex>
     );
   }, [epoch]);
 
