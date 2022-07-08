@@ -1,6 +1,6 @@
 name: Typecheck, Lint and Test
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   lint_and_typecheck:
