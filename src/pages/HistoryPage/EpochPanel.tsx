@@ -163,30 +163,39 @@ export const EpochPanel = ({
           {isAdmin && (
             <Flex column css={{ gap: '$sm' }}>
               <Text>Distribution</Text>
-              <Button
-                size="small"
-                outlined
-                color="primary"
-                onClick={e => {
-                  e.stopPropagation(),
-                    (async () => {
-                      // use the authed api to download the CSV
-                      const csv = await downloadCSV(epoch.number, epoch.id);
 
-                      if (csv?.file) {
-                        const a = document.createElement('a');
-                        a.download = `${protocolName}-${circleName}-epoch-${epoch}.csv`;
-                        a.href = csv.file;
-                        a.click();
-                        a.href = '';
-                      }
+              {isFeatureEnabled('vaults') ? (
+                <AppLink to={paths.distributions(circleId, epoch.id)}>
+                  <Button size="small" outlined color="primary">
+                    View Distribution
+                  </Button>
+                </AppLink>
+              ) : (
+                <Button
+                  size="small"
+                  outlined
+                  color="primary"
+                  onClick={e => {
+                    e.stopPropagation(),
+                      (async () => {
+                        // use the authed api to download the CSV
+                        const csv = await downloadCSV(epoch.number, epoch.id);
 
-                      return false;
-                    })();
-                }}
-              >
-                Export CSV
-              </Button>
+                        if (csv?.file) {
+                          const a = document.createElement('a');
+                          a.download = `${protocolName}-${circleName}-epoch-${epoch}.csv`;
+                          a.href = csv.file;
+                          a.click();
+                          a.href = '';
+                        }
+
+                        return false;
+                      })();
+                  }}
+                >
+                  Export CSV
+                </Button>
+              )}
             </Flex>
           )}
           <Box>
