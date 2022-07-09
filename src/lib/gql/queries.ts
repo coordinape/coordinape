@@ -1,3 +1,6 @@
+import { order_by } from 'lib/gql/__generated__/zeus';
+import { allVaultFields } from 'lib/gql/mutations';
+
 import {
   IApiFullCircle,
   IApiManifest,
@@ -192,6 +195,85 @@ export const getDiscordWebhook = async (circleId: number) => {
     }
   );
   return circle_private.pop()?.discord_webhook;
+};
+
+export const getVaultAndTransactions = async (address: string | undefined) => {
+  const result = await client.query(
+    {
+      vaults: [
+        { where: { vault_address: { _eq: address } } },
+        {
+          ...allVaultFields,
+          vault_transactions: [
+            { order_by: [{ id: order_by.asc }] },
+            {
+              tx_hash: true,
+              tx_type: true,
+              created_at: true,
+              profile: {
+                address: true,
+                users: [{}, { circle_id: true, name: true }],
+              },
+              distribution: {
+                gift_amount: true,
+                fixed_amount: true,
+                epoch: {
+                  start_date: true,
+                  end_date: true,
+                  number: true,
+                  circle: { name: true },
+                },
+              },
+            },
+          ],
+          protocol: {
+            name: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'getVault' }
+  );
+  const vault = result.vaults.pop();
+  if (!vault) throw new Error(`No Vault for address ${address}`);
+  return vault;
+};
+
+export const getCircle = async (circle_id: number) => {
+  const { circles_by_pk } = await client.query({
+    circles_by_pk: [
+      { id: circle_id },
+      {
+        id: true,
+        name: true,
+        logo: true,
+        default_opt_in: true,
+        is_verified: true,
+        alloc_text: true,
+        team_sel_text: true,
+        token_name: true,
+        vouching: true,
+        min_vouches: true,
+        nomination_days_limit: true,
+        vouching_text: true,
+        only_giver_vouch: true,
+        team_selection: true,
+        created_at: true,
+        updated_at: true,
+        protocol_id: true,
+        organization: {
+          id: true,
+          created_at: true,
+          name: true,
+          updated_at: true,
+        },
+        auto_opt_out: true,
+        fixed_payment_token_type: true,
+      },
+    ],
+  });
+  if (!circles_by_pk) throw new Error(`circle with id ${circle_id} not found`);
+  return circles_by_pk;
 };
 
 export const getFullCircle = async (
