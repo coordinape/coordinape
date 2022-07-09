@@ -14,6 +14,7 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
+import { paths } from 'routes/paths';
 import {
   Avatar,
   Box,
@@ -27,6 +28,7 @@ import {
   Text,
   Tooltip,
   CheckBox,
+  AppLink,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
@@ -487,8 +489,16 @@ export const CircleAdminPage = () => {
                 />
               </Flex>
               <Divider css={{ mt: '$1xl', mb: '$lg' }} />
-              <Text h3 semibold>
+              <Text h3 semibold css={{ mb: '$md' }}>
                 Epoch Timing
+              </Text>
+              <Text css={{ whiteSpace: 'pre' }}>
+                Edit your epoch timing on the
+                <AppLink to={paths.history(circleId)}>
+                  {' '}
+                  Epoch Overview
+                </AppLink>{' '}
+                by creating or editing an epoch
               </Text>
             </Panel>
           </Panel>
@@ -742,7 +752,9 @@ export const CircleAdminPage = () => {
             <Panel nested>
               <AdminIntegrations circleId={circleId} />
               <Box>
-                <p>Discord Webhook</p>
+                <Text bold css={{ mt: '$lg', mb: '$md' }}>
+                  Discord Webhook
+                </Text>
                 {allowEdit && (
                   <>
                     <input readOnly={!allowEdit} {...discordWebhook} />
