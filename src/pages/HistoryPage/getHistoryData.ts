@@ -93,6 +93,7 @@ export const getHistoryData = async (
                         decimals: true,
                         symbol: true,
                         vault_address: true,
+                        simple_token_address: true,
                       },
                     },
                   ],
@@ -125,7 +126,7 @@ export const getHistoryData = async (
       (dist as DistributionWithPrice).pricePerShare =
         await contracts.getPricePerShare(
           dist.vault.vault_address,
-          dist.vault.symbol,
+          dist.vault.simple_token_address,
           dist.vault.decimals
         );
     }

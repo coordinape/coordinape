@@ -300,48 +300,46 @@ export function DistributionForm({
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
-                }) => {
-                  return (
-                    <>
-                      <Select
-                        value={circleDist ? circleDist.vault.id : value || ''}
-                        label="CoVault"
-                        error={!!error}
-                        disabled={submitting || !!circleDist}
-                        onChange={({ target: { value } }) => {
-                          onChange(value);
-                          setVaultId(String(value));
-                          updateBalanceState(
-                            Number(value),
-                            formGiftAmount,
-                            'gift'
-                          );
+                }) => (
+                  <>
+                    <Select
+                      value={circleDist ? circleDist.vault.id : value || ''}
+                      label="CoVault"
+                      error={!!error}
+                      disabled={submitting || !!circleDist}
+                      onChange={({ target: { value } }) => {
+                        onChange(value);
+                        setVaultId(String(value));
+                        updateBalanceState(
+                          Number(value),
+                          formGiftAmount,
+                          'gift'
+                        );
+                      }}
+                    >
+                      {vaults.map(vault => (
+                        <MenuItem key={vault.id} value={vault.id}>
+                          {vault.symbol}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error && (
+                      <Text
+                        css={{
+                          fontSize: '$small',
+                          lineHeight: '$shorter',
+                          fontWeight: '$semibold',
+                          color: '$alert',
+                          textAlign: 'center',
+                          paddingTop: '$sm',
                         }}
+                        className="error"
                       >
-                        {vaults.map(vault => (
-                          <MenuItem key={vault.id} value={vault.id}>
-                            {vault.symbol}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {error && (
-                        <Text
-                          css={{
-                            fontSize: '$small',
-                            lineHeight: '$shorter',
-                            fontWeight: '$semibold',
-                            color: '$alert',
-                            textAlign: 'center',
-                            paddingTop: '$sm',
-                          }}
-                          className="error"
-                        >
-                          {error.message}
-                        </Text>
-                      )}
-                    </>
-                  );
-                }}
+                        {error.message}
+                      </Text>
+                    )}
+                  </>
+                )}
               />
             </FormControl>
           </Box>
@@ -426,51 +424,49 @@ export function DistributionForm({
                   <Controller
                     name="selectedVaultId"
                     control={control}
-                    render={({ fieldState: { error } }) => {
-                      return (
-                        <>
-                          <Select
-                            value={
-                              fixedPaymentTokenSel.length
-                                ? fixedDist
-                                  ? fixedDist.vault.id
-                                  : fixedPaymentTokenSel[0].id
-                                : '0'
-                            }
-                            label="CoVault"
-                            error={!!error}
-                            disabled={true}
-                          >
-                            {fixedPaymentTokenSel.length ? (
-                              fixedPaymentTokenSel.map(vault => (
-                                <MenuItem key={vault.id} value={vault.id}>
-                                  {vault.symbol}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              <MenuItem key="0" value="0">
-                                No Vault
+                    render={({ fieldState: { error } }) => (
+                      <>
+                        <Select
+                          value={
+                            fixedPaymentTokenSel.length
+                              ? fixedDist
+                                ? fixedDist.vault.id
+                                : fixedPaymentTokenSel[0].id
+                              : '0'
+                          }
+                          label="CoVault"
+                          error={!!error}
+                          disabled={true}
+                        >
+                          {fixedPaymentTokenSel.length ? (
+                            fixedPaymentTokenSel.map(vault => (
+                              <MenuItem key={vault.id} value={vault.id}>
+                                {vault.symbol}
                               </MenuItem>
-                            )}
-                          </Select>
-                          {error && (
-                            <Text
-                              css={{
-                                fontSize: '$small',
-                                lineHeight: '$shorter',
-                                fontWeight: '$semibold',
-                                color: '$red',
-                                textAlign: 'center',
-                                paddingTop: '$sm',
-                              }}
-                              className="error"
-                            >
-                              {error.message}
-                            </Text>
+                            ))
+                          ) : (
+                            <MenuItem key="0" value="0">
+                              No Vault
+                            </MenuItem>
                           )}
-                        </>
-                      );
-                    }}
+                        </Select>
+                        {error && (
+                          <Text
+                            css={{
+                              fontSize: '$small',
+                              lineHeight: '$shorter',
+                              fontWeight: '$semibold',
+                              color: '$red',
+                              textAlign: 'center',
+                              paddingTop: '$sm',
+                            }}
+                            className="error"
+                          >
+                            {error.message}
+                          </Text>
+                        )}
+                      </>
+                    )}
                   />
                 </FormControl>
               </Box>

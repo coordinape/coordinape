@@ -21,7 +21,7 @@ import { assertDef } from 'utils/tools';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
-import { EConnectorNames } from 'types';
+import { EConnectorNames, IAuth } from 'types';
 
 const log = debug('useApiBase');
 
@@ -69,16 +69,17 @@ export const useApiBase = () => {
                 '...' +
                 address.substr(address.length - 8, 8)
             );
-            set(rWalletAuth, {
+            const newWalletAuth = {
               connectorName,
               address,
               authTokens: { ...authTokens, [address]: token },
-            });
+            };
+            set(rWalletAuth, newWalletAuth);
 
-            // wrapped in setTimeout so rWalletAuth is updated before this runs
+            // passing in newWalletAuth because Recoil snapshot is not updated yet
             return new Promise(res =>
               setTimeout(() =>
-                fetchManifest()
+                fetchManifest(newWalletAuth)
                   .then(res)
                   .catch(() => {
                     // we had a cached token & it's invalid
@@ -131,8 +132,9 @@ export const useApiBase = () => {
 
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
-      async () => {
-        const walletAuth = await snapshot.getPromise(rWalletAuth);
+      async (newWalletAuth?: IAuth) => {
+        const walletAuth =
+          newWalletAuth || (await snapshot.getPromise(rWalletAuth));
         if (
           !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
         ) {

@@ -15,7 +15,7 @@ import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
-  ContributorsTable,
+  MembersTable,
   CreateEpochButton,
   EpochsTable,
   EpochsTableHeader,
@@ -152,8 +152,8 @@ const AdminPage = () => {
           value={keyword}
         />
 
-        <ContributorsTable
-          users={visibleUsers}
+        <MembersTable
+          visibleUsers={visibleUsers}
           myUser={me}
           circle={selectedCircle}
           setNewUser={setNewUser}
