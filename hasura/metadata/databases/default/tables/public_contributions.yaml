@@ -12,10 +12,17 @@ insert_permissions:
 - permission:
     backend_only: false
     check:
-      user:
-        profile:
-          id:
-            _eq: X-Hasura-User-Id
+      _and:
+      - user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+      - _or:
+        - epoch_id:
+            _is_null: true
+        - epoch:
+            ended:
+              _eq: false
     columns:
     - description
     - epoch_id
@@ -44,12 +51,18 @@ update_permissions:
 - permission:
     check: null
     columns:
+    - deleted_at
     - description
-    - epoch_id
-    - user_id
     filter:
-      user:
-        profile:
-          id:
-            _eq: X-Hasura-User-Id
+      _and:
+      - user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+      - _or:
+        - epoch_id:
+            _is_null: true
+        - epoch:
+            ended:
+              _eq: false
   role: user
