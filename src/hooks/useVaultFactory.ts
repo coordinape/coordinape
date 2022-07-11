@@ -60,7 +60,9 @@ export function useVaultFactory(orgId?: number) {
             org_id: orgId,
             chain_id: Number.parseInt(contracts.chainId),
           };
-          return addVault(vault).then(r => r.createVault?.vault);
+
+          const { createVault } = await addVault(vault);
+          return createVault?.vault;
         }
       }
 
@@ -75,6 +77,8 @@ export function useVaultFactory(orgId?: number) {
       } else {
         showError(e);
       }
+
+      return null;
     }
   };
 

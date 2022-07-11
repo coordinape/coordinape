@@ -7,14 +7,13 @@ import uniqBy from 'lodash/uniqBy';
 import { FiExternalLink } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { styled } from 'stitches.config';
 
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Button, Link, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Link, Panel, Text, Icon } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
@@ -194,11 +193,6 @@ export function DistributionsPage() {
     </SingleColumnLayout>
   );
 }
-//TODO: Discuss with the team what do about Icons in general. This should go in a separate file.
-const Icon = styled(FiExternalLink, {
-  size: '$md',
-  color: '$borderMedium',
-});
 
 const Summary = ({
   distribution,
@@ -228,6 +222,7 @@ const ExplorerLink = ({
 }) => {
   const { tx_hash } = distribution;
   const { chain_id } = distribution.vault;
+  const LinkIcon = Icon(FiExternalLink);
 
   const explorerHref = makeExplorerUrl(chain_id, tx_hash);
 
@@ -235,7 +230,7 @@ const ExplorerLink = ({
 
   return (
     <Box css={{ display: 'flex', alignItems: 'center' }}>
-      <Icon css={{}} />
+      <LinkIcon css={{ size: '$md', color: '$borderMedium', length: 0 }} />
       <Link css={{ ml: '$xs' }} href={explorerHref}>
         View on Etherscan
       </Link>

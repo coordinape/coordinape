@@ -206,4 +206,5 @@ const AssetButton = styled(Button, {
     backgroundColor: '$secondaryText !important',
     '> span': { color: 'white !important' },
   },
+  length: 0,
 });
