@@ -11,13 +11,13 @@ import { useApiAdminCircle } from 'hooks';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, AppLink, Flex } from 'ui';
 
-import type { QueryEpoch, QueryDistribution } from './getHistoryData';
+import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
 
 type EpochPanelProps = {
   circleId: number;
   circleName?: string;
   protocolName?: string;
-  epoch: QueryEpoch;
+  epoch: QueryPastEpoch;
   tokenName: string;
   css?: CSS;
   isAdmin: boolean;
@@ -248,8 +248,8 @@ export const EpochPanel = ({
   );
 };
 
-type QueryReceivedGift = QueryEpoch['receivedGifts'][0];
-type QuerySentGift = QueryEpoch['sentGifts'][0];
+type QueryReceivedGift = QueryPastEpoch['receivedGifts'][0];
+type QuerySentGift = QueryPastEpoch['sentGifts'][0];
 type QueryGift = QueryReceivedGift | QuerySentGift;
 
 type NotesProps = {

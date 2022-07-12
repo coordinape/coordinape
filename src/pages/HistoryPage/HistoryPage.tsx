@@ -21,10 +21,12 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import EpochForm from './EpochForm';
 import { EpochPanel } from './EpochPanel';
-import { getHistoryData, QueryEpoch } from './getHistoryData';
+import {
+  getHistoryData,
+  QueryPastEpoch,
+  QueryFutureEpoch,
+} from './getHistoryData';
 import { NextEpoch } from './NextEpoch';
-
-import { IApiEpoch } from 'types';
 
 const pageSize = 3;
 
@@ -46,11 +48,13 @@ export const HistoryPage = () => {
 
   const { deleteEpoch } = useApiAdminCircle(circleId);
 
-  const [editEpoch, setEditEpoch] = useState<IApiEpoch | undefined>(undefined);
-  const [newEpoch, setNewEpoch] = useState<boolean>(false);
-  const [epochToDelete, setEpochToDelete] = useState<IApiEpoch | undefined>(
+  const [editEpoch, setEditEpoch] = useState<QueryFutureEpoch | undefined>(
     undefined
   );
+  const [newEpoch, setNewEpoch] = useState<boolean>(false);
+  const [epochToDelete, setEpochToDelete] = useState<
+    QueryFutureEpoch | undefined
+  >(undefined);
   const [open, setOpen] = useState(false);
 
   const futureEpochs = circle?.futureEpoch;
@@ -180,7 +184,7 @@ export const HistoryPage = () => {
       {pastEpochs.length > 0 && (
         <>
           <Text h3>Past</Text>
-          {shownPastEpochs.map((epoch: QueryEpoch) => (
+          {shownPastEpochs.map((epoch: QueryPastEpoch) => (
             <EpochPanel
               key={epoch.id}
               circleId={circleId}

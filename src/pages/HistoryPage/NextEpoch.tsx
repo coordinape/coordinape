@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 import { Button, Flex, Panel, Text } from 'ui';
 
-import { IApiEpoch } from 'types';
+import { QueryFutureEpoch } from './getHistoryData';
 
 export const NextEpoch = ({
   epoch,
@@ -13,9 +13,9 @@ export const NextEpoch = ({
   isEditing,
   isAdmin,
 }: {
-  epoch: IApiEpoch;
-  setEpochToDelete: (e: IApiEpoch) => void;
-  setEditEpoch: (e: IApiEpoch) => void;
+  epoch: QueryFutureEpoch;
+  setEpochToDelete: (e: QueryFutureEpoch) => void;
+  setEditEpoch: (e: QueryFutureEpoch) => void;
   isEditing: boolean;
   isAdmin: boolean;
 }) => {

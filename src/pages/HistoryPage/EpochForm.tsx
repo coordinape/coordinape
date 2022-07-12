@@ -15,15 +15,14 @@ import {
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Box, Flex, Form, FormLabel, Text, Button, Panel, Tooltip } from 'ui';
-import { extraEpoch } from 'utils/modelExtenders';
 
-import { IEpoch, IApiEpoch } from 'types';
+import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
 const longFormat = "DD 'at' H:mm";
 
 interface IEpochFormSource {
-  epoch?: IEpoch;
-  epochs?: IEpoch[];
+  epoch?: IQueryEpoch;
+  epochs?: IQueryEpoch[];
 }
 const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly']);
 type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
@@ -44,10 +43,30 @@ const nextIntervalFactory = (repeat: TEpochRepeatEnum) => {
     Interval.fromDateTimes(i.start.plus(increment), i.end.plus(increment));
 };
 
+const extraEpoch = (raw: QueryFutureEpoch): IQueryEpoch => {
+  const startDate = DateTime.fromISO(raw.start_date, {
+    zone: 'utc',
+  });
+  const endDate = DateTime.fromISO(raw.end_date, { zone: 'utc' });
+
+  const calculatedDays = endDate.diff(startDate, 'days').days;
+
+  const repeatEnum =
+    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : 'none';
+
+  return {
+    ...raw,
+    repeatEnum,
+    startDate,
+    interval: startDate.until(endDate),
+    calculatedDays,
+  };
+};
+
 const getCollisionMessage = (
   newInterval: Interval,
   newRepeat: TEpochRepeatEnum,
-  e: IEpoch
+  e: IQueryEpoch
 ) => {
   if (
     newInterval.overlaps(e.interval) ||
@@ -192,12 +211,12 @@ const EpochForm = ({
   setEditEpoch,
   onClose,
 }: {
-  selectedEpoch: IApiEpoch | undefined;
-  epochs: IApiEpoch[] | undefined;
-  currentEpoch: IApiEpoch | undefined;
+  selectedEpoch: QueryFutureEpoch | undefined;
+  epochs: QueryFutureEpoch[] | undefined;
+  currentEpoch: QueryFutureEpoch | undefined;
   circleId: number;
   setNewEpoch: (e: boolean) => void;
-  setEditEpoch: (e: IApiEpoch | undefined) => void;
+  setEditEpoch: (e: QueryFutureEpoch | undefined) => void;
   onClose: () => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
