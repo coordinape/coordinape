@@ -9,7 +9,7 @@ import { SafeParseReturnType, z } from 'zod';
 
 import {
   FormInputField,
-  NewFormRadioGroup,
+  FormRadioGroup,
   FormDatePicker,
   FormTimePicker,
 } from 'components';
@@ -419,7 +419,7 @@ const EpochForm = ({
                 </Flex>
               </Flex>
               <Flex column css={{ mt: '$lg ' }}>
-                <NewFormRadioGroup
+                <FormRadioGroup
                   name="repeat"
                   control={control}
                   defaultValue={
