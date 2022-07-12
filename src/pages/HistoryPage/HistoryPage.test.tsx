@@ -18,6 +18,9 @@ jest.mock('./getHistoryData', () => {
   return {
     getHistoryData: async (): ReturnType<typeof getHistoryData> => ({
       token_name: 'WOOFY',
+      organization: {
+        name: 'Yearn',
+      },
       vouching: true,
       users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
       nominees_aggregate: {
@@ -108,9 +111,9 @@ test('basic rendering', async () => {
   await screen.findByText('Allocate Your Remaining 77 WOOFY');
   await screen.findByText('1234 WOOFY');
 
-  fireEvent.click(screen.getByText('Show More'));
+  fireEvent.click(screen.getByText('1 Received'));
   await screen.findByText('10 WOOFY received from Deleted User');
 
-  fireEvent.click(screen.getByText('Sent'));
+  fireEvent.click(screen.getByText('1 Sent'));
   await screen.findByText('11 WOOFY sent to Bob');
 });
