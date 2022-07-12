@@ -12,7 +12,7 @@ import { styled } from 'stitches.config';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
-import { useContracts } from 'hooks';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { AppLink, Box, Button, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -42,7 +42,8 @@ export function DistributionsPage() {
 
   const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
   const [giftVaultId, setGiftVaultId] = useState<string>('');
-  const { users: circleUsers } = useSelectedCircle();
+  const { users: circleUsers, circleId } = useSelectedCircle();
+  const { downloadCSV } = useApiAdminCircle(circleId);
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
@@ -52,11 +53,9 @@ export function DistributionsPage() {
   if (!epoch?.id)
     return <SingleColumnLayout>Epoch not found</SingleColumnLayout>;
 
-  assert(epoch);
-
   const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
+  assert(epoch.circle);
   const circle = epoch.circle;
-  assert(circle);
   if (!isUserAdmin(circle.users[0])) {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {
@@ -165,6 +164,7 @@ export function DistributionsPage() {
                 setVaultId={setGiftVaultId}
                 vaults={vaults}
                 circleUsers={circleUsers}
+                downloadCSV={downloadCSV}
               />
               <Box
                 css={{
