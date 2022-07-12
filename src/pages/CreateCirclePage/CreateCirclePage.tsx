@@ -175,21 +175,12 @@ export const SummonCirclePage = () => {
                     placeholder="Your name in this circle"
                     fullWidth
                   />
-                  <div>
-                    <Text variant="label" css={{ width: '100%', mb: '$sm' }}>
-                      Email Address
-                      <Tooltip
-                        css={{ ml: '$xs' }}
-                        content={'We use this as follow-up & support'}
-                      >
-                        <InfoCircledIcon />
-                      </Tooltip>
-                    </Text>
-                    <TextField
-                      placeholder="Email Address"
-                      css={{ width: '100%' }}
-                    />
-                  </div>
+                  <FormTextField
+                    {...fields.contact}
+                    fullWidth
+                    label="Email Address"
+                    placeholder="Point of contact email"
+                  />
                 </Box>
                 <Box
                   css={{
