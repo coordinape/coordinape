@@ -175,19 +175,19 @@ export function useSubmitDistribution() {
         txHash,
         `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`
       );
-      await addVaultTx({
-        tx_type: 'Distribution',
-        vault_id: vault.id,
-        tx_hash: txHash,
-        distribution_id: response.id,
-        circle_id: circleId,
-      });
 
       showInfo('Saving Distribution...');
       await markDistributionUploaded({
         id: response.id,
         epochId: distributorEpochId.toNumber(),
         txHash,
+      });
+      await addVaultTx({
+        tx_type: 'Distribution',
+        vault_id: vault.id,
+        tx_hash: txHash,
+        distribution_id: response.id,
+        circle_id: circleId,
       });
       showInfo('Distribution saved successfully');
       return {
