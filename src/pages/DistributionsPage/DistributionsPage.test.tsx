@@ -108,7 +108,7 @@ test('render with a distribution', async () => {
           },
           claims: [
             {
-              amount: 10.8,
+              new_amount: 10.8,
               user: {
                 id: 21,
               },

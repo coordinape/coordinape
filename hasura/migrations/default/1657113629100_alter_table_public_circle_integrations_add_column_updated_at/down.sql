@@ -1,0 +1,1 @@
+alter table "public"."circle_integrations" drop column "updated_at";

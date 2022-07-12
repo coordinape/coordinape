@@ -58,6 +58,7 @@ type SubmitFormProps = {
   circleUsers: IUser[];
   giftVaultId: string;
   formGiftAmount: number;
+  downloadCSV: (epoch: number) => Promise<any>;
 };
 
 /**
@@ -74,6 +75,7 @@ export function DistributionForm({
   circleUsers,
   giftVaultId,
   formGiftAmount,
+  downloadCSV,
 }: SubmitFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
@@ -85,7 +87,6 @@ export function DistributionForm({
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
   const contracts = useContracts();
-  assert(epoch);
   const circle = epoch.circle;
   assert(circle);
   const fixed_payment_token_type = circle.fixed_payment_token_type;
@@ -300,48 +301,46 @@ export function DistributionForm({
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
-                }) => {
-                  return (
-                    <>
-                      <Select
-                        value={circleDist ? circleDist.vault.id : value || ''}
-                        label="CoVault"
-                        error={!!error}
-                        disabled={submitting || !!circleDist}
-                        onChange={({ target: { value } }) => {
-                          onChange(value);
-                          setVaultId(String(value));
-                          updateBalanceState(
-                            Number(value),
-                            formGiftAmount,
-                            'gift'
-                          );
+                }) => (
+                  <>
+                    <Select
+                      value={circleDist ? circleDist.vault.id : value || ''}
+                      label="CoVault"
+                      error={!!error}
+                      disabled={submitting || !!circleDist}
+                      onChange={({ target: { value } }) => {
+                        onChange(value);
+                        setVaultId(String(value));
+                        updateBalanceState(
+                          Number(value),
+                          formGiftAmount,
+                          'gift'
+                        );
+                      }}
+                    >
+                      {vaults.map(vault => (
+                        <MenuItem key={vault.id} value={vault.id}>
+                          {vault.symbol}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error && (
+                      <Text
+                        css={{
+                          fontSize: '$small',
+                          lineHeight: '$shorter',
+                          fontWeight: '$semibold',
+                          color: '$alert',
+                          textAlign: 'center',
+                          paddingTop: '$sm',
                         }}
+                        className="error"
                       >
-                        {vaults.map(vault => (
-                          <MenuItem key={vault.id} value={vault.id}>
-                            {vault.symbol}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {error && (
-                        <Text
-                          css={{
-                            fontSize: '$small',
-                            lineHeight: '$shorter',
-                            fontWeight: '$semibold',
-                            color: '$alert',
-                            textAlign: 'center',
-                            paddingTop: '$sm',
-                          }}
-                          className="error"
-                        >
-                          {error.message}
-                        </Text>
-                      )}
-                    </>
-                  );
-                }}
+                        {error.message}
+                      </Text>
+                    )}
+                  </>
+                )}
               />
             </FormControl>
           </Box>
@@ -426,51 +425,49 @@ export function DistributionForm({
                   <Controller
                     name="selectedVaultId"
                     control={control}
-                    render={({ fieldState: { error } }) => {
-                      return (
-                        <>
-                          <Select
-                            value={
-                              fixedPaymentTokenSel.length
-                                ? fixedDist
-                                  ? fixedDist.vault.id
-                                  : fixedPaymentTokenSel[0].id
-                                : '0'
-                            }
-                            label="CoVault"
-                            error={!!error}
-                            disabled={true}
-                          >
-                            {fixedPaymentTokenSel.length ? (
-                              fixedPaymentTokenSel.map(vault => (
-                                <MenuItem key={vault.id} value={vault.id}>
-                                  {vault.symbol}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              <MenuItem key="0" value="0">
-                                No Vault
+                    render={({ fieldState: { error } }) => (
+                      <>
+                        <Select
+                          value={
+                            fixedPaymentTokenSel.length
+                              ? fixedDist
+                                ? fixedDist.vault.id
+                                : fixedPaymentTokenSel[0].id
+                              : '0'
+                          }
+                          label="CoVault"
+                          error={!!error}
+                          disabled={true}
+                        >
+                          {fixedPaymentTokenSel.length ? (
+                            fixedPaymentTokenSel.map(vault => (
+                              <MenuItem key={vault.id} value={vault.id}>
+                                {vault.symbol}
                               </MenuItem>
-                            )}
-                          </Select>
-                          {error && (
-                            <Text
-                              css={{
-                                fontSize: '$small',
-                                lineHeight: '$shorter',
-                                fontWeight: '$semibold',
-                                color: '$red',
-                                textAlign: 'center',
-                                paddingTop: '$sm',
-                              }}
-                              className="error"
-                            >
-                              {error.message}
-                            </Text>
+                            ))
+                          ) : (
+                            <MenuItem key="0" value="0">
+                              No Vault
+                            </MenuItem>
                           )}
-                        </>
-                      );
-                    }}
+                        </Select>
+                        {error && (
+                          <Text
+                            css={{
+                              fontSize: '$small',
+                              lineHeight: '$shorter',
+                              fontWeight: '$semibold',
+                              color: '$red',
+                              textAlign: 'center',
+                              paddingTop: '$sm',
+                            }}
+                            className="error"
+                          >
+                            {error.message}
+                          </Text>
+                        )}
+                      </>
+                    )}
                   />
                 </FormControl>
               </Box>
@@ -513,7 +510,27 @@ export function DistributionForm({
                       : 'Insufficient Tokens'}
                   </Button>
                 ) : (
-                  <Button color="primary" outlined size="medium" fullWidth>
+                  <Button
+                    type="button"
+                    color="primary"
+                    outlined
+                    size="medium"
+                    fullWidth
+                    onClick={async () => {
+                      // use the authed api to download the CSV
+                      if (epoch.number) {
+                        const csv = await downloadCSV(epoch.number);
+                        if (csv?.file) {
+                          const a = document.createElement('a');
+                          a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
+                          a.href = csv.file;
+                          a.click();
+                          a.href = '';
+                        }
+                      }
+                      return false;
+                    }}
+                  >
                     Export CSV
                   </Button>
                 )}
