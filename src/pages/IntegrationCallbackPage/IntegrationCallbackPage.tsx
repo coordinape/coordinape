@@ -28,7 +28,10 @@ const integrationConfigs: ConnectIntegrationConfig[] = [
     create(params) {
       const organizationId = params.get('dework_organization_id');
       const organizationName = params.get('dework_organization_name');
-      const workspaceIds = params.get('dework_workspace_ids')?.split(',');
+      const workspaceIdsString = params.get('dework_workspace_ids');
+      const workspaceIds = workspaceIdsString
+        ? workspaceIdsString.split(',')
+        : undefined;
       return {
         integrationName:
           `${organizationName} on Dework` +
