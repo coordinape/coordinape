@@ -136,7 +136,8 @@ export const EpochPanel = ({
                   <Text
                     variant="label"
                     css={{
-                      color: tab === 0 ? '$text' : '$secondaryText',
+                      color:
+                        tab === 0 && !showLess ? '$text' : '$secondaryText',
                     }}
                   >
                     {received.filter(g => g.gift_private?.note).length} Received
@@ -151,7 +152,8 @@ export const EpochPanel = ({
                   <Text
                     variant="label"
                     css={{
-                      color: tab === 1 ? '$text' : '$secondaryText',
+                      color:
+                        tab === 1 && !showLess ? '$text' : '$secondaryText',
                     }}
                   >
                     {sent.filter(g => g.gift_private?.note).length} Sent
@@ -225,9 +227,7 @@ export const EpochPanel = ({
           </Box>
         </Flex>
 
-        {showLess ? (
-          <></>
-        ) : (
+        {!showLess && (
           <Flex
             column
             css={{

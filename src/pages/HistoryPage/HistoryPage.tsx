@@ -18,11 +18,11 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { NextEpoch } from './components';
 import { CurrentEpochPanel } from './CurrentEpochPanel';
 import EpochForm from './EpochForm';
 import { EpochPanel } from './EpochPanel';
 import { getHistoryData, QueryEpoch } from './getHistoryData';
+import { NextEpoch } from './NextEpoch';
 
 import { IApiEpoch } from 'types';
 
@@ -48,9 +48,9 @@ export const HistoryPage = () => {
 
   const [editEpoch, setEditEpoch] = useState<IApiEpoch | undefined>(undefined);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
-  const [deleteEpochDialog, setDeleteEpochDialog] = useState<
-    IApiEpoch | undefined
-  >(undefined);
+  const [epochToDelete, setEpochToDelete] = useState<IApiEpoch | undefined>(
+    undefined
+  );
   const [open, setOpen] = useState(false);
 
   const futureEpochs = circle?.futureEpoch;
@@ -127,36 +127,31 @@ export const HistoryPage = () => {
       )}
 
       <Text h3>Upcoming Epochs</Text>
-      {futureEpochs?.length === 0 && <Text>There are no scheduled Epochs</Text>}
-      <Collapsible open={open} onOpenChange={setOpen}>
-        <Flex
-          css={{ alignItems: 'center', justifyContent: 'space-between' }}
-        ></Flex>
-
+      {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
+      <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
         {futureEpochs && futureEpochs.length > 0 && (
           <NextEpoch
             key={futureEpochs[0].id}
             epoch={futureEpochs[0]}
             setEditEpoch={setEditEpoch}
             isEditing={editEpoch || newEpoch ? true : false}
-            setDeleteEpochDialog={setDeleteEpochDialog}
+            setEpochToDelete={setEpochToDelete}
             isAdmin={isAdmin}
-          ></NextEpoch>
+          />
         )}
 
-        {futureEpochs?.slice(1).map(e => {
-          return (
-            <CollapsibleContent key={e.id}>
-              <NextEpoch
-                epoch={e}
-                setEditEpoch={setEditEpoch}
-                isEditing={editEpoch || newEpoch ? true : false}
-                setDeleteEpochDialog={setDeleteEpochDialog}
-                isAdmin={isAdmin}
-              ></NextEpoch>
-            </CollapsibleContent>
-          );
-        })}
+        <CollapsibleContent>
+          {futureEpochs?.slice(1).map(e => (
+            <NextEpoch
+              key={e.id}
+              epoch={e}
+              setEditEpoch={setEditEpoch}
+              isEditing={editEpoch || newEpoch ? true : false}
+              setEpochToDelete={setEpochToDelete}
+              isAdmin={isAdmin}
+            />
+          ))}
+        </CollapsibleContent>
         {futureEpochs && futureEpochs.length > 1 && (
           <CollapsibleTrigger asChild>
             <Link css={{ fontWeight: '$bold' }}>
@@ -200,19 +195,19 @@ export const HistoryPage = () => {
         </>
       )}
       <ActionDialog
-        open={!!deleteEpochDialog}
+        open={!!epochToDelete}
         title={`Remove Epoch ${
-          deleteEpochDialog?.number ? deleteEpochDialog.number : ''
+          epochToDelete?.number ? epochToDelete.number : ''
         }`}
-        onClose={() => setDeleteEpochDialog(undefined)}
+        onClose={() => setEpochToDelete(undefined)}
         primaryText="Remove"
         onPrimary={
-          deleteEpochDialog
+          epochToDelete
             ? () =>
-                deleteEpoch(deleteEpochDialog?.id)
-                  .then(() => setDeleteEpochDialog(undefined))
+                deleteEpoch(epochToDelete?.id)
+                  .then(() => setEpochToDelete(undefined))
                   .then(() => query.refetch())
-                  .catch(() => setDeleteEpochDialog(undefined))
+                  .catch(() => setEpochToDelete(undefined))
             : undefined
         }
       />

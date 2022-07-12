@@ -8,13 +8,13 @@ import { IApiEpoch } from 'types';
 
 export const NextEpoch = ({
   epoch,
-  setDeleteEpochDialog,
+  setEpochToDelete,
   setEditEpoch,
   isEditing,
   isAdmin,
 }: {
   epoch: IApiEpoch;
-  setDeleteEpochDialog: (e: IApiEpoch) => void;
+  setEpochToDelete: (e: IApiEpoch) => void;
   setEditEpoch: (e: IApiEpoch) => void;
   isEditing: boolean;
   isAdmin: boolean;
@@ -76,7 +76,7 @@ export const NextEpoch = ({
             <Button
               color="destructive"
               outlined
-              onClick={() => setDeleteEpochDialog(epoch)}
+              onClick={() => setEpochToDelete(epoch)}
             >
               Delete
             </Button>
