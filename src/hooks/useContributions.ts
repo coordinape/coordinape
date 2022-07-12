@@ -33,7 +33,13 @@ export function useContributionUsers(): ContributionUser[] {
             queryKey: `circle-integration-contributions-${i.id}-${epoch.id}`,
             queryFn: () =>
               fetch(
-                `https://api.deworkxyz.com/integrations/coordinape/${i.data.organizationId}?epoch_start=${epoch.start_date}&epoch_end=${epoch.end_date}`
+                `https://api.demo.dework.xyz/integrations/coordinape/${
+                  i.data.organizationId
+                }?epoch_start=${epoch.start_date}&epoch_end=${
+                  epoch.end_date
+                }&workspace_ids=${encodeURIComponent(
+                  i.data.workspaceIds?.join(',') || ''
+                )}`
               )
                 .then(res => res.json())
                 .then(res => res as Response),
