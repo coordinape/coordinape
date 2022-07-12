@@ -329,11 +329,8 @@ const EpochForm = ({
               justifyContent: 'space-between',
               mt: '$1xl',
               flexDirection: 'row',
-              '@x1s': {
-                display: 'flex',
-                rowGap: '$1xl',
-                flexDirection: 'column',
-              },
+              flexWrap: 'wrap',
+              gap: '$lg',
             }}
           >
             <Flex column>
@@ -437,7 +434,7 @@ const EpochForm = ({
                   infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
                 />
               </Flex>
-              <Box css={{ maxWidth: '900px', mt: '$1xl', mr: '$md' }}>
+              <Box css={{ maxWidth: '900px', mt: '$xl' }}>
                 {summarizeEpoch(watchFields)}
               </Box>
             </Flex>

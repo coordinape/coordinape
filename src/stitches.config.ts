@@ -7,7 +7,6 @@ import { colors as figmaColors } from 'ui/colors';
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
-  x1s: '(max-width: 650px)',
   sm: '(max-width: 960px)',
   md: '(max-width: 1200px)',
   lg: '(max-width: 1800px)',
