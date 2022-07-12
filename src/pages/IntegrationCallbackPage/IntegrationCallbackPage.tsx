@@ -28,15 +28,12 @@ const integrationConfigs: ConnectIntegrationConfig[] = [
     create(params) {
       const organizationId = params.get('dework_organization_id');
       const organizationName = params.get('dework_organization_name');
-      const workspaceIds = params.get('dework_workspace_ids');
+      const workspaceIds = params.get('dework_workspace_ids')?.split(',');
       return {
         integrationName:
           `${organizationName} on Dework` +
           (workspaceIds?.length ? ` (${workspaceIds.length} spaces)` : ''),
-        integrationConfig: {
-          organizationId,
-          workspaceIds: workspaceIds?.split(','),
-        },
+        integrationConfig: { organizationId, workspaceIds },
       };
     },
   },
