@@ -3,7 +3,7 @@ alter table "public"."vaults" add column "deployment_block" bigint
  not null;
 
 -- It's easier to drop and recreate the table wholesale
-DROP table "public"."vault_transactions";
+DROP table IF EXISTS "public"."vault_transactions";
 
 CREATE TABLE "public"."vault_transactions" (
   "id" bigserial NOT NULL,
