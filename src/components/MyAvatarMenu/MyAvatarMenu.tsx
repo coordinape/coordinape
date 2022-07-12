@@ -37,15 +37,12 @@ export const MyAvatarMenu = () => {
   const { icon, address, logout } = useWalletStatus();
   const [showTxModal, setShowTxModal] = useState(false);
 
-  const [popoverClicked, setPopoverClicked] = useState(false);
+  const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
+  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const clickPopover = () => {
-    if (popoverClicked) return;
-    triggerRef.current?.click();
-    setPopoverClicked(true);
-  };
+
   const closePopover = () => {
-    setTimeout(() => triggerRef.current?.click());
+    setMouseEnterPopover(false);
   };
 
   return (
@@ -54,18 +51,24 @@ export const MyAvatarMenu = () => {
         <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
       )}
       <Hidden smDown>
-        <Popover>
+        <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
             asChild
             ref={triggerRef}
-            onMouseEnter={clickPopover}
-            onMouseLeave={() => setPopoverClicked(false)}
+            onMouseEnter={() => setMouseEnterTrigger(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterTrigger(false), 200)
+            }
           >
             <Link href="#">
               <ApeAvatar profile={myProfile} className={classes.avatarButton} />
             </Link>
           </PopoverTrigger>
           <PopoverContent
+            onMouseEnter={() => setMouseEnterPopover(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterPopover(false), 200)
+            }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-67}
             alignOffset={-16}
