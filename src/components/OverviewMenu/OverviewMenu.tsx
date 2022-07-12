@@ -78,30 +78,33 @@ export const OverviewMenu = () => {
     </Link>
   );
 
-  const [popoverClicked, setPopoverClicked] = useState(false);
+  const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
+  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const clickPopover = () => {
-    if (popoverClicked) return;
-    triggerRef.current?.click();
-    setPopoverClicked(true);
-  };
+
   const closePopover = () => {
-    setTimeout(() => triggerRef.current?.click());
+    setMouseEnterPopover(false);
   };
 
   return (
     <>
       <Hidden smDown>
-        <Popover>
+        <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
             asChild
             ref={triggerRef}
-            onMouseEnter={clickPopover}
-            onMouseLeave={() => setPopoverClicked(false)}
+            onMouseEnter={() => setMouseEnterTrigger(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterTrigger(false), 200)
+            }
           >
             {overviewMenuTrigger}
           </PopoverTrigger>
           <PopoverContent
+            onMouseEnter={() => setMouseEnterPopover(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterPopover(false), 200)
+            }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-58}
             alignOffset={-3}
