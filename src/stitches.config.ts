@@ -125,7 +125,7 @@ export const {
       min: 'min-content',
       full: '100%',
       smallScreen: '900px',
-      mediumScreen: '1280px',
+      mediumScreen: '1392px',
       headerHeight: '91px',
       ...spaces,
     },
