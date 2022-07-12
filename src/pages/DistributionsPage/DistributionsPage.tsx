@@ -97,12 +97,12 @@ export function DistributionsPage() {
           ? 0
           : fixedDist.claims
               .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.amount, 0) || 0,
+              .reduce((t, g) => t + g.new_amount, 0) || 0,
         circle_claimed: !circleDist
           ? 0
           : circleDist.claims
               .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.amount, 0) || 0,
+              .reduce((t, g) => t + g.new_amount, 0) || 0,
       };
     });
   const usersWithReceivedAmounts = uniqBy(
