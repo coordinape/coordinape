@@ -9,7 +9,7 @@ const StyledRadio = styled(RadioGroupPrimitive.Item, {
   height: 25,
   borderRadius: '100%',
   boxShadow: '0 2px 10px $surface',
-  '&:hover': { backgroundColor: '$radioHover' },
+  '&:hover': { backgroundColor: '$completeLight' },
   '&:focus': { boxShadow: `0 0 0 2px surface` },
 });
 
@@ -26,7 +26,7 @@ const StyledIndicator = styled(RadioGroupPrimitive.Indicator, {
     width: 14,
     height: 14,
     borderRadius: '50%',
-    backgroundColor: '$radioSelect',
+    backgroundColor: '$complete',
   },
 });
 
