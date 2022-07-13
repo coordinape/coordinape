@@ -169,7 +169,7 @@ export const EpochPanel = ({
               {isFeatureEnabled('vaults') ? (
                 <AppLink to={paths.distributions(circleId, epoch.id)}>
                   <Button size="small" outlined color="primary">
-                    View Distribution
+                    Distributions
                   </Button>
                 </AppLink>
               ) : (
