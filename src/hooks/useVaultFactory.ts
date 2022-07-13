@@ -59,6 +59,7 @@ export function useVaultFactory(orgId?: number) {
             vault_address: vaultAddress,
             org_id: orgId,
             chain_id: Number.parseInt(contracts.chainId),
+            deployment_block: receipt?.blockNumber || 0,
           };
 
           const { createVault } = await addVault(vault);

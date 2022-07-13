@@ -23,6 +23,7 @@ let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
+    addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
     addVault: jest
       .fn()
       .mockImplementationOnce(x =>

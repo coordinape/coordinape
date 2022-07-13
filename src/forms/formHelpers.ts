@@ -39,3 +39,7 @@ export const zEthAddressOrBlank = z.string().refine(async val => {
   if (val == '') return true;
   return zEthAddress.parseAsync(val);
 });
+
+export const zBytes32 = z
+  .string()
+  .refine(val => ethers.utils.isHexString(val, 32));
