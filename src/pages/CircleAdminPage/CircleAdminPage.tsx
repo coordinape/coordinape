@@ -36,6 +36,7 @@ import { getCircleAvatar } from 'utils/domain';
 import { AdminIntegrations } from './AdminIntegrations';
 
 const labelStyles = {
+  fontWeight: '$bold',
   textAlign: 'center',
   mb: '$sm',
 };
@@ -333,12 +334,12 @@ export const CircleAdminPage = () => {
                   </a>
                 </span>
               </Text>
-              <Box
+              <Flex
                 css={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, 180px)',
                   justifyItems: 'start',
+                  flexWrap: 'wrap',
                   mt: '$md',
+                  mb: '$lg',
                   gap: '$xl',
                 }}
               >
@@ -351,9 +352,73 @@ export const CircleAdminPage = () => {
                   infoTooltip="This will be the circle name that your users will select"
                   css={{
                     alignItems: 'flex-start',
+                    minWidth: '224px',
+                  }}
+                  inputProps={{
+                    css: { height: '$1xl', width: '100%' },
                   }}
                   showFieldErrors
                 />
+
+                <Flex
+                  column
+                  css={{ alignItems: 'flex-start', minWidth: '224px' }}
+                >
+                  <FormLabel type="label" css={{ ...labelStyles }}>
+                    Circle Logo{' '}
+                    {
+                      <Tooltip
+                        content={<div>Upload a logo to your circle</div>}
+                      >
+                        <InfoCircledIcon />
+                      </Tooltip>
+                    }
+                  </FormLabel>
+                  <Flex
+                    row
+                    css={{
+                      alignItems: 'center',
+                      gap: '$sm',
+                      width: '100%',
+                    }}
+                  >
+                    <Avatar
+                      size="medium"
+                      margin="noMargin"
+                      path={logoData.avatar}
+                    />
+                    <FormLabel
+                      htmlFor="upload-logo-button"
+                      css={{ flexGrow: '1' }}
+                    >
+                      <Button
+                        as="div"
+                        css={{
+                          height: '$1xl',
+                          minHeight: '$1xl',
+                          width: '100%',
+                          fontSize: '$large',
+                          fontWeight: '$semibold',
+                          lineHeight: '$short',
+                          borderRadius: '$3',
+                        }}
+                        color="primary"
+                        outlined
+                      >
+                        Upload File
+                      </Button>
+                    </FormLabel>
+                  </Flex>
+                  <input
+                    id="upload-logo-button"
+                    onBlur={circleLogo.onBlur}
+                    ref={circleLogo.ref}
+                    name={circleLogo.name}
+                    onChange={onChangeLogo}
+                    style={{ display: 'none' }}
+                    type="file"
+                  />
+                </Flex>
                 <FormInputField
                   id="token_name"
                   name="token_name"
@@ -363,48 +428,14 @@ export const CircleAdminPage = () => {
                   infoTooltip="This will be the token name displayed to all the circle users"
                   css={{
                     alignItems: 'flex-start',
+                    minWidth: '224px',
+                  }}
+                  inputProps={{
+                    css: { height: '$1xl', width: '100%' },
                   }}
                   showFieldErrors
                 />
-                <Box>
-                  <Flex column css={{ alignItems: 'flex-start' }}>
-                    <FormLabel type="label" css={{ ...labelStyles }}>
-                      Circle Logo
-                      {
-                        <Tooltip
-                          content={<div>Upload a logo to your circle</div>}
-                        >
-                          <InfoCircledIcon />
-                        </Tooltip>
-                      }
-                    </FormLabel>
-                    <Flex
-                      row
-                      css={{
-                        alignItems: 'center',
-                        gap: '$xs',
-                        mb: '$lg',
-                      }}
-                    >
-                      <Avatar small path={logoData.avatar} />
-                      <label htmlFor="upload-logo-button">
-                        <Button as="div" size="medium" color="primary" outlined>
-                          Upload File
-                        </Button>
-                      </label>
-                    </Flex>
-                    <input
-                      id="upload-logo-button"
-                      onBlur={circleLogo.onBlur}
-                      ref={circleLogo.ref}
-                      name={circleLogo.name}
-                      onChange={onChangeLogo}
-                      style={{ display: 'none' }}
-                      type="file"
-                    />
-                  </Flex>
-                </Box>
-              </Box>
+              </Flex>
               <Flex
                 row
                 css={{
