@@ -120,7 +120,7 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
         margin: '$md',
       }}
     >
-      <Avatar path={user.profile?.avatar} name={user.name} small />
+      <Avatar path={user.profile?.avatar} name={user.name} size="small" />
       <Box
         css={{
           display: 'grid',
@@ -399,7 +399,7 @@ export const MembersTable = ({
         <Avatar
           path={user?.profile?.avatar}
           name={user?.name}
-          small
+          size="small"
           onClick={getToProfile(user.address)}
         />
         <Text
