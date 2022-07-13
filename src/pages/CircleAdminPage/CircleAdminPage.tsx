@@ -593,8 +593,24 @@ export const CircleAdminPage = () => {
                   showFieldErrors
                 />
               </Box>
-              <Divider css={{ mt: '$1xl', mb: '$lg' }} />
-
+            </Panel>
+          </Panel>
+          <Panel
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '23fr 77fr',
+              gap: '$lg',
+              width: '100%',
+              '@md': { display: 'flex' },
+              mt: '$lg',
+            }}
+          >
+            <Panel css={{ paddingLeft: '0' }}>
+              <Text inline bold h2 font="inter">
+                Vouching
+              </Text>
+            </Panel>
+            <Panel nested>
               <Text h3 semibold css={{ mb: '$sm' }}>
                 Vouching Settings
               </Text>
