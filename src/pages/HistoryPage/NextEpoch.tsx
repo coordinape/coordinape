@@ -24,7 +24,8 @@ export const NextEpoch = ({
     const endDate = DateTime.fromISO(epoch.end_date);
     const diff = startDate
       .diffNow(['days', 'hours', 'minutes'])
-      .toHuman({ unitDisplay: 'short', notation: 'compact' });
+      .toHuman({ unitDisplay: 'short', notation: 'compact' })
+      .replace(/(0 days, |0 hr, )/g, '');
     return (
       <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
         <Text
@@ -41,11 +42,11 @@ export const NextEpoch = ({
           }`}
         </Text>
         <Text>
-          {`    starts in ${diff}${
+          {`starts in ${diff}${
             epoch.repeat === 1
-              ? '( repeats weekly)'
+              ? ' (repeats weekly)'
               : epoch.repeat === 2
-              ? '( repeats monthly)'
+              ? ' (repeats monthly)'
               : ''
           }`}
         </Text>
