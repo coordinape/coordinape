@@ -10,10 +10,7 @@ import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
 import DepositModal, { DepositModalProps } from './DepositModal';
-import {
-  TransactionTable,
-  getOnchainVaultTransactions,
-} from './VaultTransactions';
+import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
 export function VaultRow({
@@ -25,7 +22,6 @@ export function VaultRow({
 }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
-  const [vaultTxList, setVaultTxList] = useState<any[]>([]);
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
@@ -56,9 +52,7 @@ export function VaultRow({
     updateOwner();
   }, [contracts, vault.id]);
 
-  useEffect(() => {
-    getOnchainVaultTransactions(vault).then(setVaultTxList);
-  }, [vault.id, vault.vault_transactions.length]);
+  const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
 
   return (
     <Panel css={css}>
@@ -124,10 +118,12 @@ export function VaultRow({
           marginBottom: '$md',
         }}
       >
-        Recent Transactions {!vaultTxList.length && 'Loading...'}
+        Recent Transactions
       </Text>
       <Box>
-        {vaultTxList.length ? (
+        {isLoading ? (
+          'Loading...'
+        ) : vaultTxList?.length ? (
           <TransactionTable rows={vaultTxList.slice(0, 3)} />
         ) : (
           'No Transactions Yet'

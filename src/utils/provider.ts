@@ -89,7 +89,7 @@ export function getProviderForChain(chainId: number) {
     case 1338:
       return new JsonRpcProvider(
         'http://localhost:' + HARDHAT_GANACHE_PORT,
-        1338
+        chainId
       );
     default:
       throw new Error(`chainId ${chainId} is unsupported`);

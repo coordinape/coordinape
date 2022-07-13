@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-
 import { ContractsReadonly } from 'common-lib/contracts';
 import { BigNumber } from 'ethers';
-import { getCircle, getVaultAndTransactions } from 'lib/gql/queries';
 import { decodeCircleId } from 'lib/vaults';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
+import { LoadingModal } from 'components/LoadingModal/LoadingModal';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
 import { getProviderForChain } from 'utils/provider';
+
+import { getVaultAndTransactions } from './queries';
 
 import { Awaited } from 'types/shim';
 
@@ -19,7 +19,6 @@ type VaultAndTransactions = Awaited<ReturnType<typeof getVaultAndTransactions>>;
 
 export const VaultTransactions = () => {
   const { address } = useParams();
-  const [vaultTxList, setVaultTxList] = useState<any>([]);
   const {
     isLoading,
     isIdle,
@@ -29,14 +28,13 @@ export const VaultTransactions = () => {
     return result;
   });
 
-  useEffect(() => {
-    if (vault) getOnchainVaultTransactions(vault).then(setVaultTxList);
-  }, [vault]);
-  if (!vault) {
+  const { data: vaultTxList } = useOnChainTransactions(vault);
+
+  if (!vaultTxList || !vault) {
     // TODO
     if (!isLoading && !isIdle)
       return <SingleColumnLayout>404</SingleColumnLayout>;
-    return <>Loading...</>;
+    return <LoadingModal visible />;
   }
 
   return (
@@ -51,17 +49,24 @@ export const VaultTransactions = () => {
   );
 };
 
+export function useOnChainTransactions(
+  vault: VaultAndTransactions | undefined
+) {
+  return useQuery(
+    ['vault-txs', vault?.id],
+    async () => (vault ? getOnchainVaultTransactions(vault) : []),
+    { initialData: [] }
+  );
+}
+
 export async function getOnchainVaultTransactions(vault: VaultAndTransactions) {
   const { chain_id } = vault;
   const provider = getProviderForChain(chain_id);
   const contracts = new ContractsReadonly(chain_id, provider);
-  const depositEvents = getDepositEvents(contracts, vault);
-  const withdrawEvents = getWithdrawEvents(contracts, vault);
-  const distributionEvents = getDistributionEvents(contracts, vault);
   const eventResults = await Promise.all([
-    depositEvents,
-    withdrawEvents,
-    distributionEvents,
+    getDepositEvents(contracts, vault),
+    getWithdrawEvents(contracts, vault),
+    getDistributionEvents(contracts, vault),
   ]);
   const txs = eventResults.flat();
   // there are more efficient ways to sort the list since we can assume
@@ -243,9 +248,6 @@ async function getDistributionEvents(
     const txDetails = vault_transactions.find(
       tx => tx.tx_hash === event.transactionHash
     );
-    const { name: circleName, id: circleId } = await getCircle(
-      decodeCircleId(event.args.circle)
-    );
     if (txDetails?.tx_type === 'Distribution') {
       const distribution = txDetails.distribution;
       const epoch = distribution?.epoch;
@@ -253,14 +255,14 @@ async function getDistributionEvents(
       distributions.push({
         block: event.blockNumber,
         type: 'Distribution',
-        circle: txDetails.distribution?.epoch?.circle?.name || circleName,
+        circle: txDetails.distribution?.epoch?.circle?.name || 'unknown',
         amount: BigNumber.from(distribution.fixed_amount || 0).add(
           BigNumber.from(distribution.gift_amount || 0)
         ),
         details: `Distribution for Epoch ${epoch.number}`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
-        circleId: circleId,
+        circleId: decodeCircleId(event.args.circle),
       });
       continue;
     }
