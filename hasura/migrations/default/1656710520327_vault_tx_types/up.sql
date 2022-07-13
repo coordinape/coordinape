@@ -22,16 +22,16 @@ CREATE TABLE "public"."vault_transactions" (
   FOREIGN KEY ("distribution_id") REFERENCES "public"."distributions"("id") ON UPDATE restrict ON DELETE restrict,
   FOREIGN KEY ("vault_id") REFERENCES "public"."vaults"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id")
 );
-CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
-RETURNS TRIGGER AS $$
-DECLARE
-  _new record;
-BEGIN
-  _new := NEW;
-  _new."updated_at" = NOW();
-  RETURN _new;
-END;
-$$ LANGUAGE plpgsql;
+-- CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
+-- RETURNS TRIGGER AS $$
+-- DECLARE
+--   _new record;
+-- BEGIN
+--   _new := NEW;
+--   _new."updated_at" = NOW();
+--   RETURN _new;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER "set_public_vault_transactions_updated_at"
 BEFORE UPDATE ON "public"."vault_transactions"
