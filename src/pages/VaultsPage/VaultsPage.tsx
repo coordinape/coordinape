@@ -5,6 +5,7 @@ import { isUserAdmin } from 'lib/users';
 
 import { LoadingModal } from 'components';
 import { useOverviewMenuQuery } from 'components/OverviewMenu/getOverviewMenuData';
+import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Box, Button, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -16,6 +17,7 @@ const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
 
   const orgsQuery = useOverviewMenuQuery();
+  const contracts = useContracts();
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
 
@@ -30,7 +32,11 @@ const VaultsPage = () => {
     : undefined;
   const isAdmin = currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
-  const { refetch, isFetching, data: vaults } = useVaults(currentOrg?.id);
+  const {
+    refetch,
+    isFetching,
+    data: vaults,
+  } = useVaults({ orgId: currentOrg?.id, chainId: Number(contracts?.chainId) });
 
   const closeModal = () => {
     refetch();

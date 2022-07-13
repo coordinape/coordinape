@@ -1,5 +1,6 @@
 import React from 'react';
 
+import LuxonUtils from '@date-io/luxon';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
 import { SnackbarProvider } from 'notistack';
@@ -13,7 +14,6 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { ErrorBoundary, MainLayout } from 'components';
 import { createTheme } from 'theme';
-import LuxonUTCUtils from 'utils/LuxonUTCUtils';
 
 import { snackbarStyles, globalStyles } from './stitches.config';
 
@@ -50,7 +50,7 @@ function App() {
         <ErrorBoundary>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
-              <MuiPickersUtilsProvider utils={LuxonUTCUtils}>
+              <MuiPickersUtilsProvider utils={LuxonUtils}>
                 <Web3ReactProvider getLibrary={getLibrary}>
                   <BrowserRouter>
                     <MainLayout />

@@ -7,7 +7,6 @@ import { colors as figmaColors } from 'ui/colors';
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
-  x1s: '(max-width: 650px)',
   sm: '(max-width: 960px)',
   md: '(max-width: 1200px)',
   lg: '(max-width: 1800px)',
@@ -80,6 +79,7 @@ export const colors = {
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
   complete: figmaColors.green12,
+  completeLight: figmaColors.green1,
   blurple: figmaColors.discordblurple,
 
   background: figmaColors.grey1,
@@ -92,9 +92,6 @@ export const colors = {
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
-
-  radioHover: figmaColors.green1,
-  radioSelect: figmaColors.green12,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its

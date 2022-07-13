@@ -1,4 +1,9 @@
-import iti from 'itiriri';
+/**
+ *
+ * DEPRECATED -- please use Zeus types directly instead
+ *
+ */
+
 import { DateTime } from 'luxon';
 
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
@@ -140,58 +145,19 @@ export const extraNominee = (
   };
 };
 
-export const extraEpoch = (raw: IApiEpoch, gifts?: ITokenGift[]): IEpoch => {
+export const extraEpoch = (raw: IApiEpoch): IEpoch => {
   const startDate = DateTime.fromISO(raw.start_date, {
     zone: 'utc',
   });
   const endDate = DateTime.fromISO(raw.end_date, { zone: 'utc' });
 
   const [started, timeUntilStart] = calculateTimeUntil(startDate);
-  const [ended, timeUntilEnd] = calculateTimeUntil(endDate);
+  const [, timeUntilEnd] = calculateTimeUntil(endDate);
 
   const calculatedDays = endDate.diff(startDate, 'days').days;
-  const labelTimeStart = started
-    ? startDate.toFormat("'Started' h:mma 'UTC'")
-    : startDate.toFormat("'Starts' h:mma 'UTC'");
-  const labelTimeEnd = ended
-    ? startDate.toFormat("'Ended' h:mma 'UTC'")
-    : startDate.toFormat("'Ends' h:mma 'UTC'");
 
   const repeatEnum =
     raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : 'none';
-
-  let giftProperties = {
-    totalTokens: 0,
-    uniqueUsers: 0,
-    activeUsers: 0,
-    labelActivity: 'allocation status not loaded',
-  };
-
-  if (gifts) {
-    const uniqueUsers = iti(gifts)
-      .flat(g => [g.recipient_id, g.sender_id])
-      .distinct()
-      .length();
-    const activeUsers = iti(gifts)
-      .map(g => g.sender_id)
-      .distinct()
-      .length();
-    const totalTokens =
-      iti(gifts)
-        .map(g => g.tokens)
-        .sum() ?? 0;
-
-    const labelActivity =
-      gifts.length > 0
-        ? `${activeUsers} members allocated ${totalTokens} Tokens`
-        : '';
-    giftProperties = {
-      totalTokens,
-      uniqueUsers,
-      activeUsers,
-      labelActivity,
-    };
-  }
 
   return {
     ...raw,
@@ -207,14 +173,8 @@ export const extraEpoch = (raw: IApiEpoch, gifts?: ITokenGift[]): IEpoch => {
     interval: startDate.until(endDate),
     calculatedDays,
     labelGraph: getEpochLabel(raw),
-    labelDayRange: getLongEpochDateLabel(startDate, endDate),
-    labelTimeStart,
-    labelTimeEnd,
     labelUntilStart: timingToLeastUnit(timeUntilStart),
     labelUntilEnd: timingToLeastUnit(timeUntilEnd),
-    labelYearEnd: endDate.toFormat('yyyy'),
-    // Give related
-    ...giftProperties,
   };
 };
 
@@ -266,6 +226,3 @@ const getEpochLabel = (epoch: IApiEpoch): string => {
       : `${startDate.monthShort} ${startDate.day} - ${endDate.day}`;
   return `${epochNumber} ${epochDates}`;
 };
-
-const getLongEpochDateLabel = (start: DateTime, end: DateTime): string =>
-  `${start.toFormat('LLL d')} to ${end.toFormat('LLL d')}`;

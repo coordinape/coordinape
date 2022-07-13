@@ -24,14 +24,7 @@ import {
   PopoverClose,
 } from 'ui';
 
-import {
-  getOverviewMenuData,
-  useOverviewMenuQuery,
-} from './getOverviewMenuData';
-
-import type { Awaited } from 'types/shim';
-
-type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
+import { useOverviewMenuQuery } from './getOverviewMenuData';
 
 const mainLinks = [
   [paths.circles, 'Overview'],
@@ -45,7 +38,7 @@ export const OverviewMenu = () => {
   const navigate = useNavigate();
   const hasCircles = useHasCircles();
 
-  const goToCircle = (id: number, path: string) => {
+  const closeAndGo = (path: string) => {
     closePopover();
     scrollToTop();
     navigate(path);
@@ -54,9 +47,8 @@ export const OverviewMenu = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && isCircleSpecificPath(location);
-  const currentCircle = inCircle ? `${circle.name}` : '';
   const overviewMenuTriggerText = inCircle
-    ? currentCircle
+    ? circle.name
     : location.pathname.includes(paths.vaults)
     ? 'CoVaults'
     : 'Overview';
@@ -78,30 +70,33 @@ export const OverviewMenu = () => {
     </Link>
   );
 
-  const [popoverClicked, setPopoverClicked] = useState(false);
+  const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
+  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const clickPopover = () => {
-    if (popoverClicked) return;
-    triggerRef.current?.click();
-    setPopoverClicked(true);
-  };
+
   const closePopover = () => {
-    setTimeout(() => triggerRef.current?.click());
+    setMouseEnterPopover(false);
   };
 
   return (
     <>
       <Hidden smDown>
-        <Popover>
+        <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
             asChild
             ref={triggerRef}
-            onMouseEnter={clickPopover}
-            onMouseLeave={() => setPopoverClicked(false)}
+            onMouseEnter={() => setMouseEnterTrigger(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterTrigger(false), 200)
+            }
           >
             {overviewMenuTrigger}
           </PopoverTrigger>
           <PopoverContent
+            onMouseEnter={() => setMouseEnterPopover(true)}
+            onMouseLeave={() =>
+              setTimeout(() => setMouseEnterPopover(false), 200)
+            }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-58}
             alignOffset={-3}
@@ -124,6 +119,11 @@ export const OverviewMenu = () => {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}
+                  onClick={
+                    inCircle
+                      ? () => closeAndGo(paths.history(circle.id))
+                      : undefined
+                  }
                 >
                   {overviewMenuTriggerText}
                   <Box css={{ marginLeft: '$xs', display: 'flex' }}>
@@ -148,13 +148,17 @@ export const OverviewMenu = () => {
                     {org.name}
                   </Text>
                   <Box css={{ display: 'flex', flexDirection: 'column' }}>
-                    {sortBy(org.circles, c => -c.users.length).map(circle => (
-                      <CircleItem
-                        circle={circle}
-                        key={circle.id}
-                        onButtonClick={goToCircle}
-                      />
-                    ))}
+                    {sortBy(org.circles, c => c.name)
+                      .filter(c => c.users.length)
+                      .map(circle => (
+                        <Link
+                          key={circle.id}
+                          type="menu"
+                          onClick={() => closeAndGo(paths.history(circle.id))}
+                        >
+                          {circle.name}
+                        </Link>
+                      ))}
                   </Box>
                 </Box>
               ))}
@@ -164,13 +168,6 @@ export const OverviewMenu = () => {
       </Hidden>
     </>
   );
-};
-
-type QueryCircle = QueryResult['organizations'][0]['circles'][0];
-
-type CircleItemProps = {
-  circle: QueryCircle;
-  onButtonClick: (id: number, path: string) => void;
 };
 
 export const TopLevelLinks = ({
@@ -198,20 +195,5 @@ export const TopLevelLinks = ({
         </Link>
       ))}
     </>
-  );
-};
-
-const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
-  const role = circle.users[0]?.role;
-  const nonMember = role === undefined;
-  return (
-    <Link
-      type="menu"
-      onClick={() =>
-        !nonMember && onButtonClick(circle.id, paths.history(circle.id))
-      }
-    >
-      {circle.name}
-    </Link>
   );
 };
