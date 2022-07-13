@@ -2,6 +2,7 @@ import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
+import { DateTime, Interval } from 'luxon';
 
 import { Awaited } from '../../types/shim';
 
@@ -22,6 +23,10 @@ export const getHistoryData = async (
             { where: { id: { _eq: userId } } },
             { role: true, give_token_remaining: true, non_giver: true },
           ],
+          organization: {
+            name: true,
+          },
+
           nominees_aggregate: [
             { where: { ended: { _eq: false } } },
             { aggregate: { count: [{}, true] } },
@@ -32,9 +37,17 @@ export const getHistoryData = async (
                 {
                   where: { start_date: { _gt: 'now' } },
                   order_by: [{ start_date: order_by.asc }],
-                  limit: 1,
                 },
-                { start_date: true, end_date: true },
+                {
+                  id: true,
+                  number: true,
+                  start_date: true,
+                  end_date: true,
+                  circle_id: true,
+                  ended: true,
+                  days: true,
+                  repeat: true,
+                },
               ],
             },
             currentEpoch: {
@@ -43,7 +56,16 @@ export const getHistoryData = async (
                   where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
                   limit: 1,
                 },
-                { start_date: true, end_date: true },
+                {
+                  id: true,
+                  number: true,
+                  start_date: true,
+                  end_date: true,
+                  circle_id: true,
+                  ended: true,
+                  days: true,
+                  repeat: true,
+                },
               ],
             },
             pastEpochs: {
@@ -54,6 +76,7 @@ export const getHistoryData = async (
                 },
                 {
                   id: true,
+                  number: true,
                   start_date: true,
                   end_date: true,
                   token_gifts_aggregate: [
@@ -136,12 +159,24 @@ export const getHistoryData = async (
 };
 
 export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
-export type QueryEpoch = Exclude<QueryResult, undefined>['pastEpochs'][0];
+export type QueryPastEpoch = Exclude<QueryResult, undefined>['pastEpochs'][0];
+export type QueryFutureEpoch = Exclude<
+  QueryResult,
+  undefined
+>['futureEpoch'][0];
+
+export interface IQueryEpoch extends QueryFutureEpoch {
+  repeatEnum: 'weekly' | 'monthly' | 'none';
+  startDate: DateTime;
+  interval: Interval;
+  // Calculated:
+  calculatedDays: number;
+}
 
 // FIXME find a way to not have to hardcode this.
 // in DistributionsPage/queries it works because the return value
 // of the query is reassigned, but doing that here, with more
 // levels of nesting, creates a mess of `await Promise.all...`
-export type QueryDistribution = QueryEpoch['distributions'][0] & {
+export type QueryDistribution = QueryPastEpoch['distributions'][0] & {
   pricePerShare: FixedNumber;
 };

@@ -1,10 +1,22 @@
 name: Typecheck, Lint and Test
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
+  skip_duplicates:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v4
+        with:
+          concurrent_skipping: 'same_content_newer'
+
   lint_and_typecheck:
     runs-on: ubuntu-latest
+    needs: skip_duplicates
+    if: ${{ needs.skip_duplicates.outputs.should_skip != 'true' }}
     env:
       CI: true
     steps:
@@ -20,7 +32,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: "/home/runner/.cache"
+          path: '/home/runner/.cache'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - uses: actions/cache@v2
@@ -40,6 +52,8 @@ jobs:
           rm node_modules/@coordinape/hardhat
   test:
     runs-on: ubuntu-latest
+    needs: skip_duplicates
+    if: ${{ needs.skip_duplicates.outputs.should_skip != 'true' }}
     env:
       CI: true
       DOCKER_GATEWAY_HOST: 172.17.0.1
@@ -75,7 +89,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: "/home/runner/.cache"
+          path: '/home/runner/.cache'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - uses: actions/cache@v2

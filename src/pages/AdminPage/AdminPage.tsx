@@ -11,19 +11,15 @@ import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { AdminEpochModal } from './AdminEpochModal';
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
   MembersTable,
-  CreateEpochButton,
-  EpochsTable,
-  EpochsTableHeader,
   SettingsIconButton,
   UsersTableHeader,
 } from './components';
 
-import { IUser, IEpoch } from 'types';
+import { IUser } from 'types';
 
 const AdminPage = () => {
   const { isMobile } = useMobileDetect();
@@ -34,11 +30,7 @@ const AdminPage = () => {
     undefined
   );
   const [newUser, setNewUser] = useState<boolean>(false);
-  const [editEpoch, setEditEpoch] = useState<IEpoch | undefined>(undefined);
-  const [deleteEpochDialog, setDeleteEpochDialog] = useState<
-    IEpoch | undefined
-  >(undefined);
-  const [newEpoch, setNewEpoch] = useState<boolean>(false);
+
   const [newCircle, setNewCircle] = useState<boolean>(
     window.location.search === NEW_CIRCLE_CREATED_PARAMS
   );
@@ -50,14 +42,9 @@ const AdminPage = () => {
     myUser: me,
     users: visibleUsers,
     circle: selectedCircle,
-    circleEpochsStatus: { epochs: epochsReverse },
   } = useSelectedCircle();
 
-  const { downloadCSV } = useApiAdminCircle(circleId);
-
-  const { deleteUser, deleteEpoch } = useApiAdminCircle(circleId);
-
-  const epochs = useMemo(() => [...epochsReverse].reverse(), [epochsReverse]);
+  const { deleteUser } = useApiAdminCircle(circleId);
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
@@ -75,10 +62,8 @@ const AdminPage = () => {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Flex css={{ alignItems: 'center', mb: '$sm' }}>
-          <Text h2 css={{ my: '$xl' }}>
-            {selectedCircle?.name}
-          </Text>
+        <Flex css={{ alignItems: 'center', mb: '$lg' }}>
+          <Text h2>{selectedCircle?.name}</Text>
           {!isMobile ? (
             <Flex
               css={{
@@ -86,7 +71,6 @@ const AdminPage = () => {
                 flexWrap: 'wrap',
                 justifyContent: 'flex-end',
                 gap: '$md',
-                mb: '$md',
               }}
             >
               <AppLink to={paths.circleAdmin(selectedCircle.id)}>
@@ -99,10 +83,7 @@ const AdminPage = () => {
                 onClick={() => setNewUser(true)}
                 tokenName={selectedCircle.tokenName}
               />
-              <CreateEpochButton
-                onClick={() => setNewEpoch(true)}
-                tokenName={selectedCircle.tokenName}
-              />
+
               <Button
                 color="primary"
                 outlined
@@ -119,22 +100,6 @@ const AdminPage = () => {
             </AppLink>
           )}
         </Flex>
-        {isMobile && (
-          <EpochsTableHeader
-            onClick={() => setNewEpoch(true)}
-            tokenName={selectedCircle.tokenName}
-          />
-        )}
-
-        <EpochsTable
-          circle={selectedCircle}
-          epochs={epochs}
-          downloadCSV={downloadCSV}
-          setEditEpoch={setEditEpoch}
-          setDeleteEpochDialog={setDeleteEpochDialog}
-          setNewEpoch={setNewEpoch}
-        />
-
         {isMobile && (
           <UsersTableHeader
             onClick={() => setNewUser(true)}
@@ -169,15 +134,6 @@ const AdminPage = () => {
           user={editUser}
         />
       )}
-      <AdminEpochModal
-        epochs={epochs}
-        circleId={circleId}
-        epoch={editEpoch}
-        onClose={() =>
-          newEpoch ? setNewEpoch(false) : setEditEpoch(undefined)
-        }
-        open={!!editEpoch || newEpoch}
-      />
       <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."
@@ -198,20 +154,6 @@ const AdminPage = () => {
                 deleteUser(deleteUserDialog.address)
                   .then(() => setDeleteUserDialog(undefined))
                   .catch(() => setDeleteUserDialog(undefined))
-            : undefined
-        }
-      />
-      <ActionDialog
-        open={!!deleteEpochDialog}
-        title={`Remove Epoch ${deleteEpochDialog?.number}`}
-        onClose={() => setDeleteEpochDialog(undefined)}
-        primaryText="Remove"
-        onPrimary={
-          deleteEpochDialog
-            ? () =>
-                deleteEpoch(deleteEpochDialog?.id)
-                  .then(() => setDeleteEpochDialog(undefined))
-                  .catch(() => setDeleteEpochDialog(undefined))
             : undefined
         }
       />
