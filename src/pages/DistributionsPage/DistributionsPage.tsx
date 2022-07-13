@@ -7,14 +7,13 @@ import uniqBy from 'lodash/uniqBy';
 import { FiExternalLink } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { styled } from 'stitches.config';
 
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
-import { useContracts } from 'hooks';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Button, Link, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Link, Panel, Text, Icon } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
@@ -42,7 +41,8 @@ export function DistributionsPage() {
 
   const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
   const [giftVaultId, setGiftVaultId] = useState<string>('');
-  const { users: circleUsers } = useSelectedCircle();
+  const { users: circleUsers, circleId } = useSelectedCircle();
+  const { downloadCSV } = useApiAdminCircle(circleId);
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
@@ -52,11 +52,9 @@ export function DistributionsPage() {
   if (!epoch?.id)
     return <SingleColumnLayout>Epoch not found</SingleColumnLayout>;
 
-  assert(epoch);
-
   const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
+  assert(epoch.circle);
   const circle = epoch.circle;
-  assert(circle);
   if (!isUserAdmin(circle.users[0])) {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {
@@ -97,12 +95,12 @@ export function DistributionsPage() {
           ? 0
           : fixedDist.claims
               .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.amount, 0) || 0,
+              .reduce((t, g) => t + g.new_amount, 0) || 0,
         circle_claimed: !circleDist
           ? 0
           : circleDist.claims
               .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.amount, 0) || 0,
+              .reduce((t, g) => t + g.new_amount, 0) || 0,
       };
     });
   const usersWithReceivedAmounts = uniqBy(
@@ -165,6 +163,7 @@ export function DistributionsPage() {
                 setVaultId={setGiftVaultId}
                 vaults={vaults}
                 circleUsers={circleUsers}
+                downloadCSV={downloadCSV}
               />
               <Box
                 css={{
@@ -194,11 +193,6 @@ export function DistributionsPage() {
     </SingleColumnLayout>
   );
 }
-//TODO: Discuss with the team what do about Icons in general. This should go in a separate file.
-const Icon = styled(FiExternalLink, {
-  size: '$md',
-  color: '$borderMedium',
-});
 
 const Summary = ({
   distribution,
@@ -228,6 +222,7 @@ const ExplorerLink = ({
 }) => {
   const { tx_hash } = distribution;
   const { chain_id } = distribution.vault;
+  const LinkIcon = Icon(FiExternalLink);
 
   const explorerHref = makeExplorerUrl(chain_id, tx_hash);
 
@@ -235,7 +230,7 @@ const ExplorerLink = ({
 
   return (
     <Box css={{ display: 'flex', alignItems: 'center' }}>
-      <Icon css={{}} />
+      <LinkIcon css={{ size: '$md', color: '$borderMedium', length: 0 }} />
       <Link css={{ ml: '$xs' }} href={explorerHref}>
         View on Etherscan
       </Link>

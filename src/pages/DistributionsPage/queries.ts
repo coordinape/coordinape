@@ -31,8 +31,8 @@ export const getEpochData = async (
               { where: { address: { _eq: myAddress.toLowerCase() } } },
               { role: true },
             ],
-
             organization: {
+              name: true,
               vaults: [
                 {},
                 {
@@ -88,7 +88,6 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
-                  amount: true,
                   profile: {
                     id: true,
                     address: true,
