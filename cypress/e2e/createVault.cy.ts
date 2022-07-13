@@ -35,22 +35,31 @@ context('Coordinape', () => {
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
-    cy.get('input[type=number]').click().wait(1000).type('5000');
+    cy.get('input[type=number]', { timeout: 90000 })
+      .click()
+      .wait(1000)
+      .type('5000');
     cy.contains('button', 'Deposit USDC').click();
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
 
     // Withdraw USDC from the Vault
     cy.contains('Withdraw').click();
-    cy.get('input[type=number]').click().wait(1000).type('100');
+    cy.get('input[type=number]', { timeout: 120000 })
+      .click()
+      .wait(1000)
+      .type('100');
     cy.contains('button', 'Withdraw USDC').click();
     cy.contains('Transaction completed');
     cy.contains('4900 USDC');
 
     // submit distribution onchain
-    cy.visit(`/circles/${circleId}/members`);
+    cy.visit(`/circles/${circleId}/history`);
     cy.contains('a', 'Distributions', { timeout: 120000 }).click();
-    cy.get('input[type=number]').click().type('4500').wait(10000);
+    cy.get('input[type=number]', { timeout: 90000 })
+      .click()
+      .type('4500')
+      .wait(10000);
     cy.contains('button', 'Submit Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });

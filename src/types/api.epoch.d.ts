@@ -52,15 +52,6 @@ export interface IEpoch extends IApiEpoch {
   // timeUntilEnd: ITiming;
   calculatedDays: number;
   labelGraph: string;
-  labelDayRange: string;
-  labelTimeStart: string;
-  labelTimeEnd: string;
   labelUntilStart: string;
   labelUntilEnd: string;
-  labelYearEnd: string;
-  // Give related:
-  totalTokens: number;
-  uniqueUsers: number;
-  activeUsers: number;
-  labelActivity: string;
 }

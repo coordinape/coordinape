@@ -18,6 +18,9 @@ jest.mock('./getHistoryData', () => {
   return {
     getHistoryData: async (): ReturnType<typeof getHistoryData> => ({
       token_name: 'WOOFY',
+      organization: {
+        name: 'Yearn',
+      },
       vouching: true,
       users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
       nominees_aggregate: {
@@ -29,12 +32,24 @@ jest.mock('./getHistoryData', () => {
         {
           start_date: now.plus({ days: 7, minutes: 1 }),
           end_date: now.plus({ days: 14 }),
+          repeat: 0,
+          days: 7,
+          id: 0,
+          number: 0,
+          circle_id: 0,
+          ended: true,
         },
       ],
       currentEpoch: [
         {
           start_date: now.minus({ days: 6 }),
           end_date: now.plus({ hours: 1 }),
+          repeat: 0,
+          days: 7,
+          id: 0,
+          number: 0,
+          circle_id: 0,
+          ended: true,
         },
       ],
       pastEpochs: [
@@ -82,9 +97,9 @@ test('basic rendering', async () => {
   await screen.findByText('Allocate Your Remaining 77 WOOFY');
   await screen.findByText('1234 WOOFY');
 
-  fireEvent.click(screen.getByText('Show More'));
+  fireEvent.click(screen.getByText('1 Received'));
   await screen.findByText('10 WOOFY received from Deleted User');
 
-  fireEvent.click(screen.getByText('Sent'));
+  fireEvent.click(screen.getByText('1 Sent'));
   await screen.findByText('11 WOOFY sent to Bob');
 });

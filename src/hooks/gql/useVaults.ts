@@ -4,7 +4,13 @@ import { useQuery } from 'react-query';
 
 import { Awaited } from 'types/shim';
 
-export function useVaults(orgId: number | undefined) {
+export function useVaults({
+  orgId,
+  chainId,
+}: {
+  orgId: number;
+  chainId: number;
+}) {
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
@@ -12,7 +18,7 @@ export function useVaults(orgId: number | undefined) {
         {
           vaults: [
             {
-              where: { org_id: { _eq: orgId } },
+              where: { chain_id: { _eq: chainId }, org_id: { _eq: orgId } },
             },
             allVaultFields,
           ],
@@ -23,7 +29,7 @@ export function useVaults(orgId: number | undefined) {
       );
       return vaults;
     },
-    { enabled: !!orgId }
+    { enabled: !!orgId && !!chainId }
   );
 }
 

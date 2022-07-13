@@ -113,9 +113,7 @@ export const rFullCircle = selector<IFullCircle>({
       .map(g => extraGift({ ...g, id: g.id + 1000000000 }, userMap, true))
       .concat(pastGifts);
     const epochs = iti(fullCircle.values()).flat(fc =>
-      fc.epochs.map(e =>
-        extraEpoch(e, allGifts.filter(g => g.epoch_id === e.id).toArray())
-      )
+      fc.epochs.map(e => extraEpoch(e))
     );
     const nominees = iti(fullCircle.values()).flat(fc =>
       fc.nominees.map(n => extraNominee(n, userMap))

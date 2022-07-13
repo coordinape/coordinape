@@ -59,8 +59,11 @@ export function useVaultFactory(orgId?: number) {
             vault_address: vaultAddress,
             org_id: orgId,
             chain_id: Number.parseInt(contracts.chainId),
+            deployment_block: receipt?.blockNumber || 0,
           };
-          return addVault(vault).then(r => r.createVault?.vault);
+
+          const { createVault } = await addVault(vault);
+          return createVault?.vault;
         }
       }
 
@@ -75,6 +78,8 @@ export function useVaultFactory(orgId?: number) {
       } else {
         showError(e);
       }
+
+      return null;
     }
   };
 

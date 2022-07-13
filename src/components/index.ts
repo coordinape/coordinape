@@ -14,6 +14,7 @@ export * from './ErrorBoundary/ErrorBoundary';
 export * from './FormAutocomplete/FormAutocomplete';
 export * from './FormDatePicker/FormDatePicker';
 export * from './FormFileUpload/FormFileUpload';
+export * from './FormInputField/FormInputField';
 export * from './FormModal/FormModal';
 export * from './FormRadioGroup/FormRadioGroup';
 export * from './FormRadioSelect/FormRadioSelect';
