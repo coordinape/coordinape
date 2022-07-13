@@ -102,8 +102,8 @@ export const SummonCirclePage = () => {
                   css={{
                     mb: '$md',
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                    gap: '$md',
+                    gridTemplateColumns: '1fr 1fr 1fr',
+                    gap: '$lg',
                     '@sm': { gridTemplateColumns: '1fr' },
                   }}
                 >
@@ -164,8 +164,8 @@ export const SummonCirclePage = () => {
                   css={{
                     mb: '$md',
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                    gap: '$md',
+                    gridTemplateColumns: '1fr 1fr 1fr',
+                    gap: '$lg',
                     '@sm': { gridTemplateColumns: '1fr' },
                   }}
                 >

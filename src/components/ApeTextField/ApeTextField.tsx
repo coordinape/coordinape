@@ -224,6 +224,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     root: {
       display: 'flex',
       flexDirection: 'column',
+      margin: theme.spacing(0, 0, 1),
     },
     rootFullWidth: {
       width: '100%',
