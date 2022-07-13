@@ -24,14 +24,7 @@ import {
   PopoverClose,
 } from 'ui';
 
-import {
-  getOverviewMenuData,
-  useOverviewMenuQuery,
-} from './getOverviewMenuData';
-
-import type { Awaited } from 'types/shim';
-
-type QueryResult = Awaited<ReturnType<typeof getOverviewMenuData>>;
+import { useOverviewMenuQuery } from './getOverviewMenuData';
 
 const mainLinks = [
   [paths.circles, 'Overview'],
@@ -45,7 +38,7 @@ export const OverviewMenu = () => {
   const navigate = useNavigate();
   const hasCircles = useHasCircles();
 
-  const goToCircle = (id: number, path: string) => {
+  const closeAndGo = (path: string) => {
     closePopover();
     scrollToTop();
     navigate(path);
@@ -54,9 +47,8 @@ export const OverviewMenu = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = circle && isCircleSpecificPath(location);
-  const currentCircle = inCircle ? `${circle.name}` : '';
   const overviewMenuTriggerText = inCircle
-    ? currentCircle
+    ? circle.name
     : location.pathname.includes(paths.vaults)
     ? 'CoVaults'
     : 'Overview';
@@ -127,6 +119,11 @@ export const OverviewMenu = () => {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}
+                  onClick={
+                    inCircle
+                      ? () => closeAndGo(paths.history(circle.id))
+                      : undefined
+                  }
                 >
                   {overviewMenuTriggerText}
                   <Box css={{ marginLeft: '$xs', display: 'flex' }}>
@@ -151,13 +148,17 @@ export const OverviewMenu = () => {
                     {org.name}
                   </Text>
                   <Box css={{ display: 'flex', flexDirection: 'column' }}>
-                    {sortBy(org.circles, c => -c.users.length).map(circle => (
-                      <CircleItem
-                        circle={circle}
-                        key={circle.id}
-                        onButtonClick={goToCircle}
-                      />
-                    ))}
+                    {sortBy(org.circles, c => c.name)
+                      .filter(c => c.users.length)
+                      .map(circle => (
+                        <Link
+                          key={circle.id}
+                          type="menu"
+                          onClick={() => closeAndGo(paths.history(circle.id))}
+                        >
+                          {circle.name}
+                        </Link>
+                      ))}
                   </Box>
                 </Box>
               ))}
@@ -167,13 +168,6 @@ export const OverviewMenu = () => {
       </Hidden>
     </>
   );
-};
-
-type QueryCircle = QueryResult['organizations'][0]['circles'][0];
-
-type CircleItemProps = {
-  circle: QueryCircle;
-  onButtonClick: (id: number, path: string) => void;
 };
 
 export const TopLevelLinks = ({
@@ -201,20 +195,5 @@ export const TopLevelLinks = ({
         </Link>
       ))}
     </>
-  );
-};
-
-const CircleItem = ({ circle, onButtonClick }: CircleItemProps) => {
-  const role = circle.users[0]?.role;
-  const nonMember = role === undefined;
-  return (
-    <Link
-      type="menu"
-      onClick={() =>
-        !nonMember && onButtonClick(circle.id, paths.history(circle.id))
-      }
-    >
-      {circle.name}
-    </Link>
   );
 };
