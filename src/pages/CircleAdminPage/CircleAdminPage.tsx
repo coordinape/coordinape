@@ -124,29 +124,19 @@ const schema = z.object({
   auto_opt_out: z.string().transform(stringBoolTransform),
   discord_webhook: z.optional(z.string().url().or(z.literal(''))),
   min_vouches: z.optional(
-    z
-      .number()
-      .refine(val => !Number.isNaN(val), {
-        message: 'Expected number, received a string',
-      })
-      .refine(val => val > 0, {
-        message: 'Number of vouchers can not be 0',
-      })
+    z.number().refine(val => val > 0, {
+      message: 'Number of vouchers can not be 0',
+    })
   ),
   nomination_days_limit: z.optional(
-    z
-      .number()
-      .refine(val => !Number.isNaN(val), {
-        message: 'Expected number, received a string',
-      })
-      .refine(val => val > 0, {
-        message: 'Nomination period should be 1 day at least',
-      })
+    z.number().refine(val => val > 0, {
+      message: 'Nomination period should be 1 day at least',
+    })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
   team_sel_text: z.optional(
     z.string().refine(val => val.trim().length > 20, {
-      message: 'Contribution Help Text must be at least 20 characters long.',
+      message: 'Contribution help text must be at least 20 characters long.',
     })
   ),
   team_selection: z.string().transform(stringBoolTransform),
@@ -154,22 +144,23 @@ const schema = z.object({
     z
       .string()
       .max(255, {
-        message: 'Token name length can 255 characters long at max',
+        message: 'Token name length must be between 3 and 255 characters.',
       })
       .refine(val => val.trim().length >= 3, {
-        message: 'Token name length must be between 3 and 255.',
+        message: 'Token name length must be between 3 and 255 characters.',
       })
   ),
   vouching: z.boolean(),
   vouching_text: z.optional(
     z.string().refine(val => val.trim().length >= 20, {
-      message: 'Vouching Text must be at least 20 characters long.',
+      message: 'Vouching text must be at least 20 characters long.',
     })
   ),
   fixed_payment_token_type: z.optional(
     z.optional(
       z.string().max(200, {
-        message: 'Fixed payment token type can be 200 characters at most',
+        message:
+          'Fixed payment token type length can not exceed 200 characters',
       })
     )
   ),
