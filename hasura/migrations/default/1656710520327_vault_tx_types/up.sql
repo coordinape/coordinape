@@ -1,5 +1,6 @@
 -- add deployment_block column
-alter table "public"."vaults" add column "deployment_block" bigint
+alter table "public"."vaults" add column if not exists "deployment_block" bigint
+ default 6800000 -- a pre-testing block on goerli; still valid on mainnet
  not null;
 
 -- It's easier to drop and recreate the table wholesale
