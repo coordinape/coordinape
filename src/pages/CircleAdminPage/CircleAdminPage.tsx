@@ -564,7 +564,6 @@ export const CircleAdminPage = () => {
                 }}
               >
                 <FormInputField
-                  textArea
                   id="contribution_text"
                   name="team_sel_text"
                   control={control}
@@ -579,7 +578,6 @@ export const CircleAdminPage = () => {
                 />
 
                 <FormInputField
-                  textArea
                   id="alloc_text"
                   name="alloc_text"
                   control={control}
