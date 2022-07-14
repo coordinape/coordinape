@@ -178,6 +178,11 @@ export const HistoryPage = () => {
             nominees={nominees}
             unallocated={unallocated}
             tokenName={circle?.token_name}
+            isAdmin={isAdmin}
+            isEditing={editEpoch || newEpoch ? true : false}
+            editCurrentEpoch={() => {
+              setEditEpoch(currentEpoch);
+            }}
           />
         </>
       )}

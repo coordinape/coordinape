@@ -104,7 +104,7 @@ const getCollisionMessage = (
   return undefined;
 };
 
-const getZodParser = (source?: IEpochFormSource) => {
+const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
   const otherRepeating = source?.epochs?.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
@@ -140,10 +140,15 @@ const getZodParser = (source?: IEpochFormSource) => {
       start_date: DateTime.fromISO(start_date).setZone(),
       ...fields,
     }))
-    .refine(({ start_date }) => start_date > DateTime.now().setZone(), {
-      path: ['start_date'],
-      message: 'Start date must be in the future',
-    })
+    .refine(
+      ({ start_date }) =>
+        start_date > DateTime.now().setZone() ||
+        source?.epoch?.id === currentEpoch,
+      {
+        path: ['start_date'],
+        message: 'Start date must be in the future',
+      }
+    )
     .refine(
       ({ start_date, days }) =>
         start_date.plus({ days }) > DateTime.now().setZone(),
@@ -226,10 +231,12 @@ const EpochForm = ({
     () => ({
       epoch: selectedEpoch ? extraEpoch(selectedEpoch) : undefined,
       epochs: currentEpoch
-        ? epochs
-            ?.filter(e => e.id !== selectedEpoch?.id)
-            .concat(currentEpoch)
-            .map(e => extraEpoch(e))
+        ? currentEpoch.id !== selectedEpoch?.id
+          ? epochs
+              ?.filter(e => e.id !== selectedEpoch?.id)
+              .concat(currentEpoch)
+              .map(e => extraEpoch(e))
+          : epochs?.map(e => extraEpoch(e))
         : epochs
             ?.filter(e => e.id !== selectedEpoch?.id)
             .map(e => extraEpoch(e)),
@@ -257,7 +264,7 @@ const EpochForm = ({
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
     const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
-      getZodParser(source).safeParse(data);
+      getZodParser(source, currentEpoch?.id).safeParse(data);
     if (!value.success) {
       const path = value.error.errors[0].path[0];
       setError(
@@ -376,6 +383,7 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
+                        disabled={currentEpoch?.id === selectedEpoch?.id}
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -419,6 +427,7 @@ const EpochForm = ({
                             onBlur={onBlur}
                             onChange={onChange}
                             value={value}
+                            disabled={currentEpoch?.id === selectedEpoch?.id}
                           />
                         </Box>
                       )}
