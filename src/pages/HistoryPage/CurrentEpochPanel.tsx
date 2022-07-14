@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, Button } from 'ui';
+import { Box, Panel, Text, Button, Flex } from 'ui';
 import Medal from 'ui/icons/Medal.svg';
 import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 
@@ -14,6 +14,9 @@ type Props = {
   vouching: boolean;
   circleId: number;
   tokenName?: string;
+  editCurrentEpoch: () => void;
+  isEditing: boolean;
+  isAdmin: boolean;
   css?: CSS;
 };
 export const CurrentEpochPanel = ({
@@ -23,6 +26,9 @@ export const CurrentEpochPanel = ({
   unallocated,
   circleId,
   tokenName = 'GIVE',
+  editCurrentEpoch,
+  isEditing,
+  isAdmin,
   css = {},
 }: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
@@ -52,40 +58,49 @@ export const CurrentEpochPanel = ({
           {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
-      <Box
-        css={{
-          display: 'flex',
-          gap: '$md',
-          '@sm': { flexDirection: 'column' },
-        }}
-      >
-        {vouching && (
+      <Flex column css={{ gap: '$md' }}>
+        <Flex css={{ justifyContent: 'flex-end' }}>
+          {!isEditing && isAdmin && (
+            <Button color="primary" outlined onClick={() => editCurrentEpoch()}>
+              Edit
+            </Button>
+          )}
+        </Flex>
+        <Box
+          css={{
+            display: 'flex',
+            gap: '$md',
+            '@sm': { flexDirection: 'column' },
+          }}
+        >
+          {vouching && (
+            <Minicard
+              icon={Medal}
+              title="Nominations"
+              alert={nominees > 0}
+              content={
+                nominees > 0
+                  ? `${nominees} nomination${nominees > 1 ? 's' : ''}`
+                  : 'None yet. Nominate someone?'
+              }
+              path={paths.vouching(circleId)}
+              linkLabel="Go to Vouching"
+            />
+          )}
           <Minicard
-            icon={Medal}
-            title="Nominations"
-            alert={nominees > 0}
+            icon={PlusInCircle}
+            title="Allocations"
+            alert={unallocated > 0}
             content={
-              nominees > 0
-                ? `${nominees} nomination${nominees > 1 ? 's' : ''}`
-                : 'None yet. Nominate someone?'
+              unallocated > 0
+                ? `Allocate Your Remaining ${unallocated} ${tokenName}`
+                : `No More ${tokenName} to Allocate`
             }
-            path={paths.vouching(circleId)}
-            linkLabel="Go to Vouching"
+            path={paths.allocation(circleId)}
+            linkLabel="Allocate to Teammates"
           />
-        )}
-        <Minicard
-          icon={PlusInCircle}
-          title="Allocations"
-          alert={unallocated > 0}
-          content={
-            unallocated > 0
-              ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-              : `No More ${tokenName} to Allocate`
-          }
-          path={paths.allocation(circleId)}
-          linkLabel="Allocate to Teammates"
-        />
-      </Box>
+        </Box>
+      </Flex>
     </Panel>
   );
 };
