@@ -83,6 +83,7 @@ export const OverviewMenu = () => {
       <Hidden smDown>
         <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
+            asChild
             css={{ outline: 'none' }}
             ref={triggerRef}
             onMouseEnter={() => setMouseEnterTrigger(true)}
