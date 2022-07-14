@@ -69,7 +69,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
     <Flex
       column
       css={{
-        gap: '$sm',
+        gap: '$xs',
         ...css,
       }}
       disabled={disabled}

@@ -224,7 +224,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     root: {
       display: 'flex',
       flexDirection: 'column',
-      margin: theme.spacing(0, 0, 1),
+      margin: theme.spacing(0, 0, 1), // FIXME this should be removed
     },
     rootFullWidth: {
       width: '100%',

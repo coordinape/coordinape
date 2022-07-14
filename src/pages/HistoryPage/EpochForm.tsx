@@ -356,17 +356,15 @@ const EpochForm = ({
               <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
                 <Flex
                   column
-                  css={{ alignItems: 'flex-start', maxWidth: '150px' }}
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '150px',
+                    gap: '$xs',
+                  }}
                 >
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Start Date{' '}
-                    <Tooltip
-                      content={
-                        <Box>
-                          The first day of the epoch in your local time zone
-                        </Box>
-                      }
-                    >
+                    <Tooltip content="The first day of the epoch in your local time zone">
                       <InfoCircledIcon />
                     </Tooltip>
                   </FormLabel>
@@ -386,7 +384,7 @@ const EpochForm = ({
                     )}
                   />
                 </Flex>
-                <Flex css={{ maxWidth: '150px', gap: '$xs' }}>
+                <Flex css={{ maxWidth: '150px' }}>
                   <FormInputField
                     id="days"
                     name="days"
@@ -395,46 +393,41 @@ const EpochForm = ({
                     }
                     control={control}
                     label="Duration (days)"
-                    infoTooltip={'How long the epoch lasts in days'}
+                    infoTooltip="How long the epoch lasts in days"
                     number
                   />
                 </Flex>
-                <Flex css={{ gap: '$md', alignItems: 'flex-end' }}>
-                  <Flex
-                    column
-                    css={{
-                      alignItems: 'flex-start',
-                      maxWidth: '150px',
-                    }}
-                  >
-                    <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                      Start Time{' '}
-                      <Tooltip
-                        content={
-                          <Box>
-                            The start time of the epoch in your local time zone
-                          </Box>
-                        }
-                      >
-                        <InfoCircledIcon />
-                      </Tooltip>
-                    </FormLabel>
+                <Flex column css={{ gap: '$xs' }}>
+                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                    Start Time{' '}
+                    <Tooltip content="The start time of the epoch in your local time zone">
+                      <InfoCircledIcon />
+                    </Tooltip>
+                  </FormLabel>
+                  <Flex row css={{ gap: '$sm' }}>
                     <Controller
                       control={control}
                       name="start_date"
                       render={({ field: { onChange, value, onBlur } }) => (
-                        <FormTimePicker
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          value={value}
-                        />
+                        <Box
+                          css={{
+                            maxWidth: '150px',
+                            '> div': { mb: '0 !important' },
+                          }}
+                        >
+                          <FormTimePicker
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                          />
+                        </Box>
                       )}
                     />
+                    <Text font="inter" size="medium">
+                      In your
+                      <br /> local timezone
+                    </Text>
                   </Flex>
-                  <Text font="inter" size="medium" css={{ pb: '$sm' }}>
-                    In your
-                    <br /> local timezone
-                  </Text>
                 </Flex>
               </Flex>
               <Flex column css={{ mt: '$lg ' }}>
