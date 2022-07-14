@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
 
-import { makeStyles, IconButton } from '@material-ui/core';
-
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
@@ -13,39 +11,9 @@ import {
   ParcelIcon,
 } from 'icons';
 import { paths } from 'routes/paths';
-import { Flex, Button, Text } from 'ui';
-
-const useStyles = makeStyles(theme => ({
-  errorColor: {
-    color: theme.palette.error.main,
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  integrationContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  integrationRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  },
-  integrationText: {
-    color: theme.colors.text,
-    margin: 0,
-    flex: 1,
-  },
-  integrationIcon: {
-    color: theme.colors.text,
-  },
-}));
+import { Flex, Box, Button, Text } from 'ui';
 
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
-  const classes = useStyles();
-
   const integrations = useCurrentCircleIntegrations();
   const [deleteIntegration, setDeleteIntegration] =
     useState<Exclude<typeof integrations['data'], undefined>[number]>();
@@ -59,35 +27,46 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   }, [integrations.refetch, deleteIntegration]);
 
   return (
-    <div
-      style={{
+    <Box
+      css={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
       }}
     >
-      <Text className={classes.subTitle}>DeWork Integration</Text>
-      <div className={classes.integrationContainer}>
+      <Text h3 semibold css={{ mb: '$sm' }}>
+        Connected Integration
+      </Text>
+      <Box>
         {integrations.data?.map((integration, index) => (
-          <div key={index} className={classes.integrationRow}>
-            <DeworkLogo size="md" className={classes.integrationIcon} />
-            <p className={classes.integrationText}>{integration.name}</p>
-            <IconButton
+          <Flex
+            key={index}
+            css={{ alignItems: 'center', gap: '$sm', mb: '$md' }}
+          >
+            <DeworkLogo size="md" css={{ color: '$text' }} />
+            <Text css={{ flex: '1' }}>{integration.name}</Text>
+            <Button
               onClick={() => setDeleteIntegration(integration)}
-              className={classes.errorColor}
+              css={{
+                color: '$alert',
+                backgroundColor: '$transparent',
+                height: '$md',
+                width: '$md',
+                ml: '$1xl',
+              }}
               size="small"
             >
               <DeprecatedDeleteIcon />
-            </IconButton>
-          </div>
+            </Button>
+          </Flex>
         ))}
-      </div>
+      </Box>
       <Flex
         column
         css={{
           mr: '$sm',
+          gap: '$sm',
         }}
-        className={classes.integrationRow}
       >
         <Button
           as="a"
@@ -126,6 +105,6 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         primaryText="Remove Integration"
         onPrimary={deleteIntegration ? handleDeleteIntegration : undefined}
       />
-    </div>
+    </Box>
   );
 };
