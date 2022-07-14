@@ -46,7 +46,7 @@ export const colors = {
   purple20: '#6213a1',
   purple24: '#350a57',
   // Red
-  red1: '#fef0f3',
+  red1: '#fef0f2',
   red4: '#fbbbc3',
   red8: '#f88492',
   red12: '#f65b6e',
