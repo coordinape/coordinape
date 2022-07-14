@@ -10,10 +10,13 @@ import { getTokenAddress, Contracts } from 'lib/vaults';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
+import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { FormTokenField } from 'components';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Button, Form, Modal, Link } from 'ui';
+import { Button, Form, Modal, Text } from 'ui';
+import { shortenAddress } from 'utils';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
 export type DepositModalProps = {
@@ -98,10 +101,8 @@ export default function DepositModal({
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          backgroundColor: 'white',
           width: '100%',
-          padding: '0 0 $lg',
+          padding: '$sm 0 $lg',
           overflowY: 'auto',
         }}
         onSubmit={handleSubmit(onSubmit)}
@@ -110,6 +111,7 @@ export default function DepositModal({
           onConnect={onConnectSecondWallet}
           onDisconnect={onDisconnectSecondWallet}
         />
+
         <FormTokenField
           max={max}
           symbol={vault.symbol as string}
@@ -120,11 +122,12 @@ export default function DepositModal({
           {...amountField}
         />
         <Button
-          css={{ mt: '$lg', gap: '$xs', alignSelf: 'center' }}
+          css={{ mt: '$lg', gap: '$xs' }}
           color="primary"
           outlined
-          size="medium"
+          size="large"
           type="submit"
+          fullWidth
           disabled={!isValid || submitting}
         >
           {submitting
@@ -166,21 +169,47 @@ const SecondWalletInner = ({
     onDisconnect();
   };
 
+  const address = useConnectedAddress();
+
   return (
     <>
       {account ? (
         <>
-          <p>
-            connected to {account}
-            <Button onClick={onClickStop} size="small">
-              Deactivate
+          <Text css={{ mb: '$lg' }}>
+            From secondary wallet:
+            <Text css={{ ml: '$sm', mr: '$xs' }}>
+              <WalletConnectSVG />
+            </Text>
+            <Text semibold>{account && shortenAddress(account)}</Text>
+            <Button
+              onClick={onClickStop}
+              size="small"
+              css={{ ml: '$sm' }}
+              color="primary"
+              outlined
+            >
+              Disconnect
             </Button>
-          </p>
+          </Text>
         </>
       ) : (
-        <button onClick={onClickStart}>
-          Use a different wallet via <Link>WalletConnect</Link>
-        </button>
+        <>
+          <Text css={{ mb: '$lg' }}>
+            From primary wallet:
+            <Text semibold css={{ ml: '$sm' }}>
+              {address && shortenAddress(address)}
+            </Text>
+            <Button
+              onClick={onClickStart}
+              size="small"
+              css={{ ml: '$sm' }}
+              color="primary"
+              outlined
+            >
+              Connect a secondary wallet
+            </Button>
+          </Text>
+        </>
       )}
     </>
   );
