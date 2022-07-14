@@ -1,6 +1,6 @@
 name: Typecheck, Lint and Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   skip_duplicates:
