@@ -5,11 +5,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import * as z from 'zod';
 
-import {
-  FormAutocomplete,
-  FormInputField,
-  NewFormRadioGroup,
-} from 'components';
+import { FormAutocomplete, FormInputField, FormRadioGroup } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { EditIcon } from 'icons';
@@ -444,7 +440,7 @@ export const CircleAdminPage = () => {
                   gap: '$lg',
                 }}
               >
-                <NewFormRadioGroup
+                <FormRadioGroup
                   label="Only Givers can vouch"
                   name="only_giver_vouch"
                   control={control}
@@ -467,7 +463,7 @@ export const CircleAdminPage = () => {
                     />
                   }
                 />
-                <NewFormRadioGroup
+                <FormRadioGroup
                   label="Team Selection"
                   name="team_selection"
                   control={control}
@@ -488,7 +484,7 @@ export const CircleAdminPage = () => {
                     />
                   }
                 />
-                <NewFormRadioGroup
+                <FormRadioGroup
                   label="Auto Opt Out"
                   name="auto_opt_out"
                   control={control}

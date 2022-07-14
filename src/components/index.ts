@@ -27,7 +27,6 @@ export * from './LoadingModal/LoadingModal';
 export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
 export * from './NewApeAvatar/NewApeAvatar';
-export * from './NewFormRadioGroup/NewFormRadioGroup';
 export * from './NoticeBox/NoticeBox';
 export * from './OptInput/OptInput';
 export * from './OverviewMenu/OverviewMenu';
