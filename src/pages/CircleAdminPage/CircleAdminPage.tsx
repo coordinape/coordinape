@@ -675,7 +675,7 @@ export const CircleAdminPage = () => {
                       <InfoCircledIcon />
                     </Tooltip>
                   </FormLabel>
-                  <CheckBox circleAdmin {...vouching} label="Yes" />
+                  <CheckBox fontWeight="normal" {...vouching} label="Yes" />
                 </Flex>
                 <Flex
                   row

@@ -9,12 +9,14 @@ import Text from 'ui/Text/Text';
 
 const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   all: 'unset',
-  backgroundColor: 'transparent',
+  backgroundColor: '$surface',
   boxSizing: 'border-box',
-  borderRadius: '2px',
+  borderRadius: '$1',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  width: '$lg',
+  height: '$lg',
   '&:hover': { borderColor: '$borderMedium' },
   '&:focus': { borderColor: '$borderMedium' },
   variants: {
@@ -26,20 +28,9 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
         border: '2px solid $alert',
       },
     },
-    size: {
-      small: {
-        width: 20,
-        height: 20,
-      },
-      medium: {
-        width: 30,
-        height: 30,
-      },
-    },
   },
   defaultVariants: {
     border: 'default',
-    size: 'small',
   },
 });
 
@@ -49,20 +40,9 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-
-  variants: {
-    color: {
-      default: { color: '$white' },
-      complete: { color: '$complete' },
-    },
-    backgroundColor: {
-      default: { backgroundColor: '$secondaryText' },
-      surface: { backgroundColor: '$surface' },
-    },
-  },
-  defaultVariants: {
-    color: 'default',
-  },
+  color: '$complete',
+  backgroundColor: '$transparent',
+  transform: 'scale(1.5)',
 });
 
 const Label = styled('label', {
@@ -91,7 +71,7 @@ type CheckBoxProps = {
   disabled?: boolean;
   onChange: (isChecked: boolean) => void;
   infoTooltip?: React.ReactNode;
-  circleAdmin?: boolean;
+  fontWeight?: 'default' | 'normal';
 };
 
 export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
@@ -104,7 +84,7 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
       disabled,
       onChange,
       infoTooltip,
-      circleAdmin,
+      fontWeight,
     },
     ref
   ) => (
@@ -122,20 +102,13 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
           disabled={disabled}
           ref={ref}
           id={label}
-          size={circleAdmin ? 'medium' : 'small'}
         >
-          <CheckboxIndicator
-            color={circleAdmin ? 'complete' : 'default'}
-            backgroundColor={circleAdmin ? 'surface' : 'default'}
-          >
+          <CheckboxIndicator>
             <CheckIcon />
           </CheckboxIndicator>
         </CheckboxRoot>
         {label && (
-          <Label
-            fontWeight={circleAdmin ? 'normal' : 'default'}
-            htmlFor={label}
-          >
+          <Label fontWeight={fontWeight} htmlFor={label}>
             {label}
           </Label>
         )}
