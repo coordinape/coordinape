@@ -183,6 +183,7 @@ export function DistributionsPage() {
                 users={usersWithGiftnFixedAmounts}
                 tokenName={tokenName}
                 totalGive={totalGive}
+                formGiftAmount={formGiftAmount}
                 fixedTokenName={fixedDist?.vault.symbol}
                 giveTokenName={circle.token_name}
               />
