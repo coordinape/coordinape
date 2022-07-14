@@ -72,6 +72,7 @@ export const colors = {
   textOnSecondary: '#fff',
 
   alert: figmaColors.red12,
+  alertLight: figmaColors.red1,
   alertDark: figmaColors.red20,
   textOnAlert: '#fff',
 
@@ -86,7 +87,6 @@ export const colors = {
   surface: figmaColors.grey2,
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
-  errorBackground: figmaColors.red1,
 
   link: figmaColors.blue12,
   text: figmaColors.grey20,

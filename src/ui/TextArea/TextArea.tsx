@@ -31,7 +31,7 @@ export const TextArea = styled('textarea', {
   variants: {
     error: {
       true: {
-        backgroundColor: '$errorBackground',
+        backgroundColor: '$alertLight',
         boxSizing: 'border-box',
       },
     },
