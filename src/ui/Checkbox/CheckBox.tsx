@@ -51,16 +51,8 @@ const Label = styled('label', {
   fontSize: '$4',
   userSelect: 'none',
   lineHeight: '$base',
-  fontWeight: '$bold',
+  fontWeight: '$normal',
   p: '$sm',
-
-  variants: {
-    fontWeight: {
-      default: { fontWeight: '$bold' },
-      normal: { fontWeight: '$normal' },
-    },
-  },
-  defaultVariants: { fontWeight: 'default' },
 });
 
 type CheckBoxProps = {
@@ -71,21 +63,11 @@ type CheckBoxProps = {
   disabled?: boolean;
   onChange: (isChecked: boolean) => void;
   infoTooltip?: React.ReactNode;
-  fontWeight?: 'default' | 'normal';
 };
 
 export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
   (
-    {
-      value,
-      label,
-      error,
-      errorText,
-      disabled,
-      onChange,
-      infoTooltip,
-      fontWeight,
-    },
+    { value, label, error, errorText, disabled, onChange, infoTooltip },
     ref
   ) => (
     <>
@@ -107,11 +89,7 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
             <CheckIcon />
           </CheckboxIndicator>
         </CheckboxRoot>
-        {label && (
-          <Label fontWeight={fontWeight} htmlFor={label}>
-            {label}
-          </Label>
-        )}
+        {label && <Label htmlFor={label}>{label}</Label>}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
             <InfoCircledIcon />
