@@ -380,7 +380,7 @@ export const CircleAdminPage = () => {
                   >
                     <Avatar
                       size="medium"
-                      margin="noMargin"
+                      margin="none"
                       path={logoData.avatar}
                     />
                     <FormLabel

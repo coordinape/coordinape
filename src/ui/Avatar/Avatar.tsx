@@ -46,7 +46,7 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       },
     },
     margin: {
-      noMargin: {
+      none: {
         margin: '0',
       },
       small: {
@@ -108,7 +108,7 @@ export const Avatar = ({
   onClick?: () => void;
   /** represents avatar with smaller size `32x32` */
   size?: 'large' | 'medium' | 'small';
-  margin?: 'noMargin' | 'small'; //can be extended if needed
+  margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
 }) => {
   const avatarPath = getAvatarPathWithoutPlaceholder(path);
