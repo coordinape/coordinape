@@ -77,11 +77,7 @@ export const SummonCirclePage = () => {
         <Box>
           <Text h2>Get Started</Text>
         </Box>
-        <Panel
-          css={{
-            background: '$white',
-          }}
-        >
+        <Panel nested>
           <CreateCircleForm.FormController
             source={source}
             submit={async ({ ...params }) => {
