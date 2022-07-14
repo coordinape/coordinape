@@ -567,7 +567,7 @@ export const CircleAdminPage = () => {
             </Panel>
             <Panel nested>
               <Text h3 semibold>
-                Rewards PlaceHolder Text
+                Rewards Placeholder Text
               </Text>
               <Text css={{ mt: '$md' }}>
                 Change the default text contributors see during epoch allocation
@@ -747,21 +747,6 @@ export const CircleAdminPage = () => {
                     description="Change the default text contributors see in vouching page"
                     showFieldErrors
                   />
-                  <Button
-                    css={{
-                      gap: '$xs',
-                      alignSelf: 'flex-end',
-                    }}
-                    color="primary"
-                    size="large"
-                    type="submit"
-                    form="circle_admin"
-                    onClick={handleSubmit(onSubmit)}
-                    outlined
-                    disabled={!isDirty}
-                  >
-                    Save Settings
-                  </Button>
                 </Flex>
               </Flex>
             </Panel>
