@@ -47,12 +47,7 @@ const panelStyles = {
 };
 
 const RadioToolTip = ({
-  optionsInfo = [
-    {
-      label: '',
-      text: '',
-    },
-  ],
+  optionsInfo = [{ label: '', text: '' }],
   href = '',
   anchorText = '',
 }) => {
@@ -85,24 +80,12 @@ const RadioToolTip = ({
 
 const radioGroupOptions = {
   yesNo: [
-    {
-      value: 'true',
-      label: 'Yes',
-    },
-    {
-      value: 'false',
-      label: 'No',
-    },
+    { value: 'true', label: 'Yes' },
+    { value: 'false', label: 'No' },
   ],
   onOff: [
-    {
-      value: 'true',
-      label: 'On',
-    },
-    {
-      value: 'false',
-      label: 'Off',
-    },
+    { value: 'true', label: 'On' },
+    { value: 'false', label: 'Off' },
   ],
 };
 
@@ -256,10 +239,7 @@ export const CircleAdminPage = () => {
     try {
       if (logoData.avatarRaw) {
         await updateCircleLogo(logoData.avatarRaw);
-        setLogoData({
-          ...logoData,
-          avatarRaw: null,
-        });
+        setLogoData({ ...logoData, avatarRaw: null });
       }
       await updateCircle({
         circle_id: circle.id,
@@ -285,7 +265,7 @@ export const CircleAdminPage = () => {
   };
 
   return (
-    <Form id="circle_Admin">
+    <Form id="circle_admin">
       <SingleColumnLayout>
         <Flex
           css={{
@@ -345,13 +325,8 @@ export const CircleAdminPage = () => {
                 defaultValue={circle.name}
                 label="Circle Name"
                 infoTooltip="This will be the circle name that your users will select"
-                css={{
-                  alignItems: 'flex-start',
-                  minWidth: '224px',
-                }}
-                inputProps={{
-                  css: { height: '$1xl', width: '100%' },
-                }}
+                css={{ alignItems: 'flex-start', minWidth: '224px' }}
+                inputProps={{ css: { height: '$1xl', width: '100%' } }}
                 showFieldErrors
               />
 
@@ -369,11 +344,7 @@ export const CircleAdminPage = () => {
                 </FormLabel>
                 <Flex
                   row
-                  css={{
-                    alignItems: 'center',
-                    gap: '$sm',
-                    width: '100%',
-                  }}
+                  css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
                 >
                   <Avatar size="medium" margin="none" path={logoData.avatar} />
                   <FormLabel
@@ -415,13 +386,8 @@ export const CircleAdminPage = () => {
                 defaultValue={circle.token_name}
                 label="Token Name"
                 infoTooltip="This will be the token name displayed to all the circle users"
-                css={{
-                  alignItems: 'flex-start',
-                  minWidth: '224px',
-                }}
-                inputProps={{
-                  css: { height: '$1xl', width: '100%' },
-                }}
+                css={{ alignItems: 'flex-start', minWidth: '224px' }}
+                inputProps={{ css: { height: '$1xl', width: '100%' } }}
                 showFieldErrors
               />
             </Flex>
@@ -540,22 +506,13 @@ export const CircleAdminPage = () => {
             <Text>
               Change the default text contributors see during epoch allocation
             </Text>
-            <Flex
-              css={{
-                mt: '$lg',
-                flexWrap: 'wrap',
-                gap: '$1xl',
-              }}
-            >
+            <Flex css={{ mt: '$lg', flexWrap: 'wrap', gap: '$1xl' }}>
               <FormInputField
                 id="contribution_text"
                 name="team_sel_text"
                 control={control}
                 defaultValue={circle.teamSelText}
-                css={{
-                  flexGrow: 1,
-                  textAlign: 'flex-start',
-                }}
+                css={{ flexGrow: 1, textAlign: 'flex-start' }}
                 label="Contribution Help Text"
                 description="Change the default text contributors see on team selection"
                 showFieldErrors
@@ -566,10 +523,7 @@ export const CircleAdminPage = () => {
                 name="alloc_text"
                 control={control}
                 defaultValue={circle.allocText}
-                css={{
-                  flexGrow: 1,
-                  textAlign: 'flex-start',
-                }}
+                css={{ flexGrow: 1, textAlign: 'flex-start' }}
                 label="Reward Help Text"
                 description="Change the default text contributors see during epoch allocation"
                 showFieldErrors
@@ -598,13 +552,7 @@ export const CircleAdminPage = () => {
               </span>
             </Text>
             <Flex column css={{ mt: '$lg', gap: '$lg' }}>
-              <Flex
-                column
-                css={{
-                  alignItems: 'flex-start',
-                  gap: '$sm',
-                }}
-              >
+              <Flex column css={{ alignItems: 'flex-start', gap: '$sm' }}>
                 <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                   Enable Vouching?{' '}
                   <Tooltip
@@ -645,9 +593,7 @@ export const CircleAdminPage = () => {
                   control={control}
                   defaultValue={circle.min_vouches}
                   number
-                  inputProps={{
-                    type: 'number',
-                  }}
+                  inputProps={{ type: 'number' }}
                   css={{
                     alignItems: 'flex-start',
                     flexGrow: 1,
@@ -664,9 +610,7 @@ export const CircleAdminPage = () => {
                   control={control}
                   defaultValue={circle.nomination_days_limit}
                   number
-                  inputProps={{
-                    type: 'number',
-                  }}
+                  inputProps={{ type: 'number' }}
                   css={{
                     alignItems: 'flex-start',
                     flexGrow: 1,
