@@ -9,7 +9,6 @@ import {
 } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
-  margin: '$sm',
   display: 'inline-flex',
   flexShrink: '0',
   alignItems: 'center',
@@ -34,14 +33,30 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
           fontSize: '$medium',
         },
       },
+      medium: {
+        width: '$1xl !important',
+        height: '$1xl',
+        '> span': {
+          fontSize: '$medium',
+        },
+      },
       large: {
         width: '$3xl',
         height: '$3xl',
       },
     },
+    margin: {
+      none: {
+        margin: '0',
+      },
+      small: {
+        margin: '$sm',
+      },
+    },
   },
   defaultVariants: {
     size: 'large',
+    margin: 'small',
   },
 });
 
@@ -69,6 +84,9 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
       small: {
         fontSize: '$medium',
       },
+      medium: {
+        fontSize: '$medium',
+      },
       large: {
         fontSize: '$large',
       },
@@ -80,7 +98,8 @@ export const Avatar = ({
   path,
   name,
   onClick,
-  small,
+  size,
+  margin,
   ...props
 }: {
   path?: string;
@@ -88,7 +107,8 @@ export const Avatar = ({
   name?: string;
   onClick?: () => void;
   /** represents avatar with smaller size `32x32` */
-  small?: boolean;
+  size?: 'large' | 'medium' | 'small';
+  margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
 }) => {
   const avatarPath = getAvatarPathWithoutPlaceholder(path);
@@ -96,11 +116,12 @@ export const Avatar = ({
   return (
     <AvatarRoot
       onClick={() => onClick?.()}
-      size={small ? 'small' : 'large'}
+      size={size}
+      margin={margin}
       {...props}
     >
       {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
-      <AvatarFallback size={small ? 'small' : 'large'}>
+      <AvatarFallback size={size}>
         {name && getInitialFromName(name)}
       </AvatarFallback>
     </AvatarRoot>

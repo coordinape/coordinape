@@ -9,14 +9,14 @@ import Text from 'ui/Text/Text';
 
 const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   all: 'unset',
-  backgroundColor: 'transparent',
+  backgroundColor: '$surface',
   boxSizing: 'border-box',
-  width: 20,
-  height: 20,
-  borderRadius: '2px',
+  borderRadius: '$1',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  width: '$lg',
+  height: '$lg',
   '&:hover': { borderColor: '$borderMedium' },
   '&:focus': { borderColor: '$borderMedium' },
   variants: {
@@ -37,11 +37,12 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
 const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
   width: '100%',
   height: '100%',
-  color: '$white',
-  backgroundColor: '$secondaryText',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: '$complete',
+  backgroundColor: '$transparent',
+  transform: 'scale(1.5)',
 });
 
 const Label = styled('label', {
@@ -50,13 +51,13 @@ const Label = styled('label', {
   fontSize: '$4',
   userSelect: 'none',
   lineHeight: '$base',
-  fontWeight: '$bold',
+  fontWeight: '$normal',
   p: '$sm',
 });
 
 type CheckBoxProps = {
   value: boolean;
-  label: string;
+  label?: string;
   error?: boolean;
   errorText?: string;
   disabled?: boolean;
@@ -88,10 +89,12 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
             <CheckIcon />
           </CheckboxIndicator>
         </CheckboxRoot>
-        <Label htmlFor={label}>{label}</Label>
-        <Tooltip content={infoTooltip}>
-          <InfoCircledIcon />
-        </Tooltip>
+        {label && <Label htmlFor={label}>{label}</Label>}
+        {infoTooltip && (
+          <Tooltip content={infoTooltip}>
+            <InfoCircledIcon />
+          </Tooltip>
+        )}
       </Flex>
       {error && errorText && (
         <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>

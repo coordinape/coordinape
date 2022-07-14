@@ -72,6 +72,7 @@ export const colors = {
   textOnSecondary: '#fff',
 
   alert: figmaColors.red12,
+  alertLight: figmaColors.red1,
   alertDark: figmaColors.red20,
   textOnAlert: '#fff',
 
