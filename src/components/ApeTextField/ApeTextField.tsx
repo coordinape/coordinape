@@ -173,7 +173,6 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
           fontWeight: 300,
           lineHeight: 1.2,
           color: theme.colors.text,
-          textAlign: 'center',
         },
         inputRoot: {
           padding: theme.spacing(0, 1, 0),
@@ -225,16 +224,18 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     root: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
+      margin: theme.spacing(0, 0, 1),
     },
     rootFullWidth: {
       width: '100%',
     },
     label: ({ variant }) => ({
-      fontSize: 16,
+      fontSize: 13,
       lineHeight: 1.3,
       fontWeight: 700,
-      color: theme.colors.text,
+      color: theme.colors.secondaryText,
+      textTransform: 'uppercase',
+      marginBottom: theme.spacing(1),
       ...apeVariants(theme, variant)?.label,
     }),
     subLabel: {
@@ -244,14 +245,13 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       color: theme.colors.text + '80',
     },
     inputRoot: ({ variant }) => ({
-      margin: theme.spacing(1, 0),
       backgroundColor: theme.colors.surface,
       borderRadius: 8,
       color: theme.colors.text,
-      border: `1px solid ${theme.colors.border}`,
+      border: `1px solid transparent`,
       transition: 'border 200ms ease-out',
       '&:focus-within': {
-        border: `1px solid ${theme.colors.secondary}80`,
+        borderColor: theme.colors.borderMedium,
       },
       ...apeVariants(theme, variant)?.inputRoot,
     }),
@@ -267,7 +267,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontSize: 15,
       lineHeight: 1.33,
       fontWeight: 300,
-      textAlign: 'center',
+
       '&::placeholder': {
         color: theme.colors.secondaryText,
       },
@@ -290,7 +290,6 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     },
     helperBox: {
       width: '100%',
-      textAlign: 'center',
     },
   })
 );

@@ -109,30 +109,15 @@ export default function ClaimsPage() {
   };
 
   return (
-    <Box
-      css={{
-        margin: '$lg auto',
-        padding: '$md',
-        maxWidth: '$mediumScreen',
-      }}
-    >
-      <Box
-        css={{
-          fontSize: '$h1',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-        }}
-      >
-        Claim Your Allocations
-      </Box>
-      <Box css={{ color: '$neutral', maxWidth: '60%', my: '$lg' }}>
+    <SingleColumnLayout>
+      <Text h1>Claim Your Allocations</Text>
+      <Box css={{ color: '$neutral', maxWidth: '60%' }}>
         You can claim all your rewards from this page. Note that you can claim
         them for all your epochs in one circle but each token requires its own
         claim transaction.
       </Box>
 
-      <Panel css={{ my: '$lg', backgroundColor: '$border', mb: '$2xl' }}>
+      <Panel css={{ mb: '$lg' }}>
         <ClaimsTable
           headers={[
             { title: 'Organization', css: styles.th },
@@ -159,19 +144,10 @@ export default function ClaimsPage() {
         </ClaimsTable>
       </Panel>
 
-      <Box
-        css={{
-          fontSize: '$h2',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-          mt: '$2xl',
-        }}
-      >
-        Claim History
-      </Box>
-
-      <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
+      <Text h2 css={{ mb: '$sm' }}>
+        Claims History
+      </Text>
+      <Panel>
         <ClaimsTable
           headers={[
             { title: 'Organization', css: styles.th },
@@ -235,7 +211,7 @@ export default function ClaimsPage() {
           )}
         </ClaimsTable>
       </Panel>
-    </Box>
+    </SingleColumnLayout>
   );
 }
 
