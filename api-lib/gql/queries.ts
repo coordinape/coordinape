@@ -529,3 +529,49 @@ export async function getEpoch(
   );
   return epoch;
 }
+
+export async function getVaultAndDistributionForAddress(
+  address: string,
+  vaultId: number
+) {
+  const result = await adminClient.query({
+    vaults_by_pk: [
+      {
+        id: vaultId,
+      },
+      {
+        protocol: {
+          circles: [
+            { where: { users: { address: { _eq: address } } } },
+            { id: true },
+          ],
+        },
+      },
+    ],
+  });
+  return result.vaults_by_pk;
+}
+
+export async function getDistributionForVault({
+  vault_id,
+  tx_hash,
+  distribution_id,
+}: {
+  vault_id: number;
+  tx_hash: string;
+  distribution_id: number;
+}) {
+  const result = await adminClient.query({
+    distributions: [
+      {
+        where: {
+          id: { _eq: distribution_id },
+          tx_hash: { _eq: tx_hash },
+          vault_id: { _eq: vault_id },
+        },
+      },
+      { __typename: true },
+    ],
+  });
+  return result.distributions;
+}

@@ -6,6 +6,7 @@ import { getCircleApiKey } from '../../../api-lib/authHelpers';
 import {
   zEthAddressOnly,
   zStringISODateUTC,
+  zBytes32,
 } from '../../../src/forms/formHelpers';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
@@ -225,7 +226,6 @@ export const updateTeammatesInput = z
   .strict();
 
 export const updateCircleInput = z
-
   .object({
     circle_id: z.number().positive(),
     name: z
@@ -297,8 +297,56 @@ export const createVaultInput = z
     org_id: z.number().positive(),
     vault_address: zEthAddressOnly,
     chain_id: z.number(),
+    deployment_block: z.number().min(1),
   })
   .strict();
+
+const VaultLogEnum = z.enum([
+  'Deposit',
+  'Withdraw',
+  'Distribution',
+  'CircleBudget',
+]);
+
+export const VaultLogInputSchema = z.object({
+  tx_type: VaultLogEnum,
+  tx_hash: zBytes32,
+  vault_id: z.number().min(0),
+  distribution_id: z.number().min(0).optional(),
+  circle_id: z.number().min(0).optional(),
+});
+
+export const DepositLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Deposit),
+    vault_id: z.number().min(0),
+    tx_hash: zBytes32,
+  })
+  .strict();
+
+export const WithdrawLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Withdraw),
+    vault_id: z.number().min(0),
+    tx_hash: zBytes32,
+  })
+  .strict();
+
+export const DistributionLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Distribution),
+    tx_hash: zBytes32,
+    vault_id: z.number().min(1),
+    circle_id: z.number().min(1),
+    distribution_id: z.number().min(1),
+  })
+  .strict();
+
+export const VaultLogUnionSchema = z.discriminatedUnion('tx_type', [
+  DepositLogInputSchema,
+  WithdrawLogInputSchema,
+  DistributionLogInputSchema,
+]);
 
 const IntIdString = z
   .string()
@@ -306,7 +354,7 @@ const IntIdString = z
     s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
     'profileId not an integer'
   )
-  .transform(Number.parseInt);
+  .transform(val => Number.parseInt(val));
 
 /*
   Hasura Auth Session Variables

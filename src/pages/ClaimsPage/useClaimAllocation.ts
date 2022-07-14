@@ -37,7 +37,7 @@ export function useClaimAllocation() {
     index,
     address,
     proof,
-  }: ClaimAllocationProps): Promise<string | Error> => {
+  }: ClaimAllocationProps): Promise<string | undefined> => {
     assert(contracts, 'This network is not supported');
     const vaultContract = contracts.getVault(vault.vault_address);
     const yVaultAddress = await vaultContract.vault();
@@ -74,7 +74,9 @@ export function useClaimAllocation() {
         }
       );
 
-      const { receipt } = trx;
+      const { receipt, error } = trx;
+      if ((error as any)?.message.match(/User denied transaction signature/))
+        return;
 
       const event = receipt?.events?.find(e => e.event === 'Claimed');
       const txHash = receipt?.transactionHash;
@@ -89,7 +91,6 @@ export function useClaimAllocation() {
     } catch (e) {
       console.error(e);
       showError(e);
-      return new Error(e as string);
     }
   };
 }

@@ -31,6 +31,10 @@ type Mutation {
 }
 
 type Mutation {
+  createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -239,6 +243,7 @@ input CreateVaultInput {
   org_id: Int!
   vault_address: String!
   chain_id: Int!
+  deployment_block: Int!
 }
 
 input GenerateApiKeyInput {
@@ -261,6 +266,14 @@ input UploadOrgImageInput {
 
 input CoordinapeInput {
   circle_id: Int!
+}
+
+input LogVaultTxInput {
+  tx_type: String!
+  tx_hash: String!
+  vault_id: Int!
+  distribution_id: Int
+  circle_id: Int
 }
 
 type CreateCircleResponse {
@@ -330,6 +343,10 @@ type GenerateApiKeyResponse {
 
 type UpdateOrgResponse {
   id: Int!
+}
+
+type LogVaultTxResponse {
+  id: ID!
 }
 
 scalar timestamptz

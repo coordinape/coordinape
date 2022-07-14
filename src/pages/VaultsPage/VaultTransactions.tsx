@@ -1,3 +1,4 @@
+import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { allVaultFields } from 'lib/gql/mutations';
 import { useQuery } from 'react-query';
@@ -9,13 +10,28 @@ import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
 
 export const VaultTransactions = () => {
   const { address } = useParams();
-  const { isLoading, isIdle, data } = useQuery('vault', () =>
-    client.query(
+  const { isLoading, isIdle, data } = useQuery(['vault', address], async () => {
+    const result = await client.query(
       {
         vaults: [
           { where: { vault_address: { _eq: address } } },
           {
             ...allVaultFields,
+            vault_transactions: [
+              { order_by: [{ id: order_by.asc }] },
+              {
+                tx_hash: true,
+                tx_type: true,
+                created_at: true,
+                profile: {
+                  address: true,
+                  users: [{}, { circle_id: true, name: true }],
+                },
+                distribution: {
+                  epoch: { start_date: true, end_date: true, number: true },
+                },
+              },
+            ],
             protocol: {
               name: true,
             },
@@ -23,8 +39,10 @@ export const VaultTransactions = () => {
         ],
       },
       { operationName: 'getVault' }
-    )
-  );
+    );
+    result.vaults[0].vault_transactions[0];
+    return result;
+  });
 
   const vault = data?.vaults[0];
 

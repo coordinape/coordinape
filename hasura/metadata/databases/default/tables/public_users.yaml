@@ -25,6 +25,13 @@ array_relationships:
       table:
         name: burns
         schema: public
+- name: circle_api_keys
+  using:
+    foreign_key_constraint_on:
+      column: created_by
+      table:
+        name: circle_api_keys
+        schema: public
 - name: pending_received_gifts
   using:
     foreign_key_constraint_on:
@@ -61,6 +68,13 @@ array_relationships:
       insertion_order: null
       remote_table:
         name: teammates
+        schema: public
+- name: vouches
+  using:
+    foreign_key_constraint_on:
+      column: voucher_id
+      table:
+        name: vouches
         schema: public
 select_permissions:
 - permission:
