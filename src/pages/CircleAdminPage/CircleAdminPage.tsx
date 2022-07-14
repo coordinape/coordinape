@@ -37,6 +37,15 @@ const labelStyles = {
   mb: '$sm',
 };
 
+const panelStyles = {
+  display: 'grid',
+  gridTemplateColumns: '23fr 77fr',
+  gap: '$md',
+  width: '100%',
+  '@md': { display: 'flex' },
+  mb: '$lg',
+};
+
 const RadioToolTip = ({
   optionsInfo = [
     {
@@ -276,549 +285,474 @@ export const CircleAdminPage = () => {
   };
 
   return (
-    <>
-      <Form id="circle_Admin">
-        <SingleColumnLayout>
-          <Flex css={{ justifyContent: 'space-between' }}>
-            <Text h1 css={{ mb: '$md' }}>
-              Circle Admin
-            </Text>
-            <Button
-              css={{
-                gap: '$xs',
-                alignSelf: 'flex-end',
-              }}
-              color="primary"
-              size="medium"
-              type="submit"
-              form="circle_admin"
-              outlined
-              disabled={!isDirty}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Save Settings
-            </Button>
-          </Flex>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$md',
-              width: '100%',
-              '@md': { display: 'flex' },
-            }}
+    <Form id="circle_Admin">
+      <SingleColumnLayout>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            mb: '$lg',
+          }}
+        >
+          <Text h1>Circle Admin</Text>
+          <Button
+            color="primary"
+            size="medium"
+            type="submit"
+            form="circle_admin"
+            outlined
+            disabled={!isDirty}
+            onClick={handleSubmit(onSubmit)}
           >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                General
-              </Text>
-            </Panel>
-            <Panel nested>
-              <Text h3 semibold>
-                Circle Settings
-              </Text>
-              <Text css={{ mt: '$md', display: 'block' }}>
-                Coordinape circles allow you to collectively reward circle
-                members through equitable and transparent payments.{' '}
-                <span>
-                  <a
-                    href="https://docs.coordinape.com/get-started/admin/update-circle-settings"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Learn More
-                  </a>
-                </span>
-              </Text>
-              <Flex
+            Save Settings
+          </Button>
+        </Flex>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            General
+          </Text>
+          <Panel nested>
+            <Text h3 semibold css={{ mb: '$md' }}>
+              Circle Settings
+            </Text>
+            <Text css={{ display: 'block' }}>
+              Coordinape circles allow you to collectively reward circle members
+              through equitable and transparent payments.{' '}
+              <span>
+                <a
+                  href="https://docs.coordinape.com/get-started/admin/update-circle-settings"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Learn More
+                </a>
+              </span>
+            </Text>
+            <Flex
+              css={{
+                justifyItems: 'start',
+                flexWrap: 'wrap',
+                mt: '$md',
+                mb: '$lg',
+                gap: '$xl',
+              }}
+            >
+              <FormInputField
+                id="circle_name"
+                name="circle_name"
+                control={control}
+                defaultValue={circle.name}
+                label="Circle Name"
+                infoTooltip="This will be the circle name that your users will select"
                 css={{
-                  justifyItems: 'start',
-                  flexWrap: 'wrap',
-                  mt: '$md',
-                  mb: '$lg',
-                  gap: '$xl',
+                  alignItems: 'flex-start',
+                  minWidth: '224px',
+                }}
+                inputProps={{
+                  css: { height: '$1xl', width: '100%' },
+                }}
+                showFieldErrors
+              />
+
+              <Flex
+                column
+                css={{ alignItems: 'flex-start', minWidth: '224px' }}
+              >
+                <FormLabel type="label" css={{ ...labelStyles }}>
+                  Circle Logo{' '}
+                  {
+                    <Tooltip content={<div>Upload a logo to your circle</div>}>
+                      <InfoCircledIcon />
+                    </Tooltip>
+                  }
+                </FormLabel>
+                <Flex
+                  row
+                  css={{
+                    alignItems: 'center',
+                    gap: '$sm',
+                    width: '100%',
+                  }}
+                >
+                  <Avatar size="medium" margin="none" path={logoData.avatar} />
+                  <FormLabel
+                    htmlFor="upload-logo-button"
+                    css={{ flexGrow: '1' }}
+                  >
+                    <Button
+                      as="div"
+                      css={{
+                        height: '$1xl',
+                        minHeight: '$1xl',
+                        width: '100%',
+                        fontSize: '$large',
+                        fontWeight: '$semibold',
+                        lineHeight: '$short',
+                        borderRadius: '$3',
+                      }}
+                      color="primary"
+                      outlined
+                    >
+                      Upload File
+                    </Button>
+                  </FormLabel>
+                </Flex>
+                <input
+                  id="upload-logo-button"
+                  onBlur={circleLogo.onBlur}
+                  ref={circleLogo.ref}
+                  name={circleLogo.name}
+                  onChange={onChangeLogo}
+                  style={{ display: 'none' }}
+                  type="file"
+                />
+              </Flex>
+              <FormInputField
+                id="token_name"
+                name="token_name"
+                control={control}
+                defaultValue={circle.token_name}
+                label="Token Name"
+                infoTooltip="This will be the token name displayed to all the circle users"
+                css={{
+                  alignItems: 'flex-start',
+                  minWidth: '224px',
+                }}
+                inputProps={{
+                  css: { height: '$1xl', width: '100%' },
+                }}
+                showFieldErrors
+              />
+            </Flex>
+            <Flex
+              row
+              css={{
+                justifyContent: 'flex-start',
+                flexWrap: 'wrap',
+                gap: '$lg',
+              }}
+            >
+              <FormRadioGroup
+                label="Only Givers can vouch"
+                name="only_giver_vouch"
+                control={control}
+                options={radioGroupOptions.yesNo}
+                defaultValue={circle.only_giver_vouch ? 'true' : 'false'}
+                infoTooltip={
+                  <RadioToolTip
+                    optionsInfo={[
+                      {
+                        label: 'Yes',
+                        text: `Only members who are eligible to send ${
+                          circle.tokenName || 'GIVE'
+                        } can vouch for new members`,
+                      },
+                      {
+                        label: 'No',
+                        text: 'Anyone in the circle can vouch for new members',
+                      },
+                    ]}
+                  />
+                }
+              />
+              <FormRadioGroup
+                label="Team Selection"
+                name="team_selection"
+                control={control}
+                options={radioGroupOptions.onOff}
+                defaultValue={circle.team_selection ? 'true' : 'false'}
+                infoTooltip={
+                  <RadioToolTip
+                    optionsInfo={[
+                      {
+                        label: 'Yes',
+                        text: 'Members select a team during allocation and make allocations only to that team',
+                      },
+                      {
+                        label: 'No',
+                        text: 'Members make allocations to anyone in the circle',
+                      },
+                    ]}
+                  />
+                }
+              />
+              <FormRadioGroup
+                label="Auto Opt Out"
+                name="auto_opt_out"
+                control={control}
+                options={radioGroupOptions.onOff}
+                defaultValue={circle.auto_opt_out ? 'true' : 'false'}
+                infoTooltip={
+                  <RadioToolTip
+                    optionsInfo={[
+                      {
+                        label: 'ON',
+                        text: "If a member doesn't make allocations in an epoch, they'll be set to opt out of receiving allocations in the next epoch. They can still opt back in.",
+                      },
+                      {
+                        label: 'OFF',
+                        text: "Members' opt-in/opt-out settings will not be changed automatically.",
+                      },
+                    ]}
+                  />
+                }
+              />
+            </Flex>
+            <Divider css={{ mt: '$1xl', mb: '$lg' }} />
+            <Text h3 semibold css={{ mb: '$md' }}>
+              Epoch Timing
+            </Text>
+            <Text css={{ display: 'block' }}>
+              Edit your epoch timing on the
+              <AppLink to={paths.history(circleId)}> Epoch Overview</AppLink> by
+              creating or editing an epoch
+            </Text>
+          </Panel>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Fixed Payment
+          </Text>
+          <Panel nested>
+            <Flex css={{ justifyContent: 'flex-start' }}>
+              {isFeatureEnabled('fixed_payments') && (
+                <FormAutocomplete
+                  {...fixedPaymentToken}
+                  options={tokens}
+                  label="Fixed Payment Token"
+                  error={true}
+                  errorText={fixedPaymentTokenState.error?.message}
+                  style={{ maxWidth: '180px' }}
+                />
+              )}
+            </Flex>
+          </Panel>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Customization
+          </Text>
+          <Panel nested>
+            <Text h3 semibold css={{ mb: '$md' }}>
+              Rewards Placeholder Text
+            </Text>
+            <Text>
+              Change the default text contributors see during epoch allocation
+            </Text>
+            <Box
+              css={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, 400px)',
+                mt: '$lg',
+                flexWrap: 'wrap',
+                gap: '$1xl',
+              }}
+            >
+              <FormInputField
+                id="contribution_text"
+                name="team_sel_text"
+                control={control}
+                defaultValue={circle.teamSelText}
+                css={{
+                  flexGrow: 1,
+                  textAlign: 'flex-start',
+                }}
+                label="Contribution Help Text"
+                description="Change the default text contributors see on team selection"
+                showFieldErrors
+              />
+
+              <FormInputField
+                id="alloc_text"
+                name="alloc_text"
+                control={control}
+                defaultValue={circle.allocText}
+                css={{
+                  flexGrow: 1,
+                  textAlign: 'flex-start',
+                }}
+                label="Reward Help Text"
+                description="Change the default text contributors see during epoch allocation"
+                showFieldErrors
+              />
+            </Box>
+          </Panel>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Vouching
+          </Text>
+          <Panel nested>
+            <Text h3 semibold css={{ mb: '$sm' }}>
+              Vouching Settings
+            </Text>
+            <Text css={{ display: 'block' }}>
+              Vouching default text and settings.{' '}
+              <span>
+                <a
+                  href="https://docs.coordinape.com/get-started/admin/enable-vouching"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Learn More
+                </a>
+              </span>
+            </Text>
+            <Flex column css={{ mt: '$lg', gap: '$lg' }}>
+              <Flex
+                column
+                css={{
+                  alignItems: 'flex-start',
+                  gap: '$sm',
                 }}
               >
-                <FormInputField
-                  id="circle_name"
-                  name="circle_name"
-                  control={control}
-                  defaultValue={circle.name}
-                  label="Circle Name"
-                  infoTooltip="This will be the circle name that your users will select"
-                  css={{
-                    alignItems: 'flex-start',
-                    minWidth: '224px',
-                  }}
-                  inputProps={{
-                    css: { height: '$1xl', width: '100%' },
-                  }}
-                  showFieldErrors
-                />
-
-                <Flex
-                  column
-                  css={{ alignItems: 'flex-start', minWidth: '224px' }}
-                >
-                  <FormLabel type="label" css={{ ...labelStyles }}>
-                    Circle Logo{' '}
-                    {
-                      <Tooltip
-                        content={<div>Upload a logo to your circle</div>}
-                      >
-                        <InfoCircledIcon />
-                      </Tooltip>
+                <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                  Enable Vouching?{' '}
+                  <Tooltip
+                    content={
+                      <div>
+                        {
+                          <RadioToolTip
+                            optionsInfo={[
+                              {
+                                label: 'Enabled',
+                                text: 'Circle members can invite new people to the circle; they become new members if enough other members vouch for them',
+                              },
+                              {
+                                label: 'Disabled',
+                                text: 'Only circle admins may add new members',
+                              },
+                            ]}
+                          />
+                        }
+                      </div>
                     }
-                  </FormLabel>
-                  <Flex
-                    row
-                    css={{
-                      alignItems: 'center',
-                      gap: '$sm',
-                      width: '100%',
-                    }}
                   >
-                    <Avatar
-                      size="medium"
-                      margin="none"
-                      path={logoData.avatar}
-                    />
-                    <FormLabel
-                      htmlFor="upload-logo-button"
-                      css={{ flexGrow: '1' }}
-                    >
-                      <Button
-                        as="div"
-                        css={{
-                          height: '$1xl',
-                          minHeight: '$1xl',
-                          width: '100%',
-                          fontSize: '$large',
-                          fontWeight: '$semibold',
-                          lineHeight: '$short',
-                          borderRadius: '$3',
-                        }}
-                        color="primary"
-                        outlined
-                      >
-                        Upload File
-                      </Button>
-                    </FormLabel>
-                  </Flex>
-                  <input
-                    id="upload-logo-button"
-                    onBlur={circleLogo.onBlur}
-                    ref={circleLogo.ref}
-                    name={circleLogo.name}
-                    onChange={onChangeLogo}
-                    style={{ display: 'none' }}
-                    type="file"
-                  />
-                </Flex>
-                <FormInputField
-                  id="token_name"
-                  name="token_name"
-                  control={control}
-                  defaultValue={circle.token_name}
-                  label="Token Name"
-                  infoTooltip="This will be the token name displayed to all the circle users"
-                  css={{
-                    alignItems: 'flex-start',
-                    minWidth: '224px',
-                  }}
-                  inputProps={{
-                    css: { height: '$1xl', width: '100%' },
-                  }}
-                  showFieldErrors
-                />
+                    <InfoCircledIcon />
+                  </Tooltip>
+                </FormLabel>
+                <CheckBox {...vouching} label="Yes" />
               </Flex>
               <Flex
                 row
                 css={{
                   justifyContent: 'flex-start',
                   flexWrap: 'wrap',
-                  gap: '$lg',
-                }}
-              >
-                <FormRadioGroup
-                  label="Only Givers can vouch"
-                  name="only_giver_vouch"
-                  control={control}
-                  options={radioGroupOptions.yesNo}
-                  defaultValue={circle.only_giver_vouch ? 'true' : 'false'}
-                  infoTooltip={
-                    <RadioToolTip
-                      optionsInfo={[
-                        {
-                          label: 'Yes',
-                          text: `Only members who are eligible to send ${
-                            circle.tokenName || 'GIVE'
-                          } can vouch for new members`,
-                        },
-                        {
-                          label: 'No',
-                          text: 'Anyone in the circle can vouch for new members',
-                        },
-                      ]}
-                    />
-                  }
-                />
-                <FormRadioGroup
-                  label="Team Selection"
-                  name="team_selection"
-                  control={control}
-                  options={radioGroupOptions.onOff}
-                  defaultValue={circle.team_selection ? 'true' : 'false'}
-                  infoTooltip={
-                    <RadioToolTip
-                      optionsInfo={[
-                        {
-                          label: 'Yes',
-                          text: 'Members select a team during allocation and make allocations only to that team',
-                        },
-                        {
-                          label: 'No',
-                          text: 'Members make allocations to anyone in the circle',
-                        },
-                      ]}
-                    />
-                  }
-                />
-                <FormRadioGroup
-                  label="Auto Opt Out"
-                  name="auto_opt_out"
-                  control={control}
-                  options={radioGroupOptions.onOff}
-                  defaultValue={circle.auto_opt_out ? 'true' : 'false'}
-                  infoTooltip={
-                    <RadioToolTip
-                      optionsInfo={[
-                        {
-                          label: 'ON',
-                          text: "If a member doesn't make allocations in an epoch, they'll be set to opt out of receiving allocations in the next epoch. They can still opt back in.",
-                        },
-                        {
-                          label: 'OFF',
-                          text: "Members' opt-in/opt-out settings will not be changed automatically.",
-                        },
-                      ]}
-                    />
-                  }
-                />
-              </Flex>
-              <Divider css={{ mt: '$1xl', mb: '$lg' }} />
-              <Text h3 semibold css={{ mb: '$md' }}>
-                Epoch Timing
-              </Text>
-              <Text css={{ whiteSpace: 'pre' }}>
-                Edit your epoch timing on the
-                <AppLink to={paths.history(circleId)}>
-                  {' '}
-                  Epoch Overview
-                </AppLink>{' '}
-                by creating or editing an epoch
-              </Text>
-            </Panel>
-          </Panel>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$lg',
-              width: '100%',
-              '@md': { display: 'flex' },
-              mt: '$lg',
-            }}
-          >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                Fixed Payment
-              </Text>
-            </Panel>
-            <Panel nested>
-              <Flex css={{ justifyContent: 'flex-start' }}>
-                {isFeatureEnabled('fixed_payments') && (
-                  <FormAutocomplete
-                    {...fixedPaymentToken}
-                    options={tokens}
-                    label="Fixed Payment Token"
-                    error={true}
-                    errorText={fixedPaymentTokenState.error?.message}
-                    style={{ maxWidth: '180px' }}
-                  />
-                )}
-              </Flex>
-            </Panel>
-          </Panel>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$lg',
-              width: '100%',
-              '@md': { display: 'flex' },
-              mt: '$lg',
-            }}
-          >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                Customization
-              </Text>
-            </Panel>
-            <Panel nested>
-              <Text h3 semibold>
-                Rewards Placeholder Text
-              </Text>
-              <Text css={{ mt: '$md' }}>
-                Change the default text contributors see during epoch allocation
-              </Text>
-              <Box
-                css={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, 400px)',
-                  mt: '$lg',
-                  flexWrap: 'wrap',
                   gap: '$1xl',
                 }}
               >
                 <FormInputField
-                  id="contribution_text"
-                  name="team_sel_text"
+                  id="min_vouches"
+                  name="min_vouches"
                   control={control}
-                  defaultValue={circle.teamSelText}
-                  css={{
-                    flexGrow: 1,
-                    textAlign: 'flex-start',
+                  defaultValue={circle.min_vouches}
+                  number
+                  inputProps={{
+                    type: 'number',
                   }}
-                  label="Contribution Help Text"
-                  description="Change the default text contributors see on team selection"
-                  showFieldErrors
-                />
-
-                <FormInputField
-                  id="alloc_text"
-                  name="alloc_text"
-                  control={control}
-                  defaultValue={circle.allocText}
-                  css={{
-                    flexGrow: 1,
-                    textAlign: 'flex-start',
-                  }}
-                  label="Reward Help Text"
-                  description="Change the default text contributors see during epoch allocation"
-                  showFieldErrors
-                />
-              </Box>
-            </Panel>
-          </Panel>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$lg',
-              width: '100%',
-              '@md': { display: 'flex' },
-              mt: '$lg',
-            }}
-          >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                Vouching
-              </Text>
-            </Panel>
-            <Panel nested>
-              <Text h3 semibold css={{ mb: '$sm' }}>
-                Vouching Settings
-              </Text>
-              <Text>
-                Vouching default text and settings.{' '}
-                <span>
-                  <a
-                    href="https://docs.coordinape.com/get-started/admin/enable-vouching"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Learn More
-                  </a>
-                </span>
-              </Text>
-              <Flex column css={{ mt: '$lg', gap: '$lg' }}>
-                <Flex
-                  column
                   css={{
                     alignItems: 'flex-start',
-                    gap: '$sm',
+                    flexGrow: 1,
+                    maxWidth: '50%',
                   }}
-                >
-                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                    Enable Vouching?
-                    <Tooltip
-                      content={
-                        <div>
-                          {
-                            <RadioToolTip
-                              optionsInfo={[
-                                {
-                                  label: 'Enabled',
-                                  text: 'Circle members can invite new people to the circle; they become new members if enough other members vouch for them',
-                                },
-                                {
-                                  label: 'Disabled',
-                                  text: 'Only circle admins may add new members',
-                                },
-                              ]}
-                            />
-                          }
-                        </div>
-                      }
-                    >
-                      <InfoCircledIcon />
-                    </Tooltip>
-                  </FormLabel>
-                  <CheckBox {...vouching} label="Yes" />
-                </Flex>
-                <Flex
-                  row
+                  disabled={!vouching.value}
+                  label="Mininum vouches to add member"
+                  infoTooltip=" Minimum number of Vouches for a nominee to be accepted as a user of the circle"
+                  showFieldErrors
+                />
+                <FormInputField
+                  id="nomination_length"
+                  name="nomination_days_limit"
+                  control={control}
+                  defaultValue={circle.nomination_days_limit}
+                  number
+                  inputProps={{
+                    type: 'number',
+                  }}
                   css={{
-                    justifyContent: 'flex-start',
-                    flexWrap: 'wrap',
-                    gap: '$1xl',
+                    alignItems: 'flex-start',
+                    flexGrow: 1,
+                    maxWidth: '50%',
                   }}
-                >
-                  <FormInputField
-                    id="min_vouches"
-                    name="min_vouches"
-                    control={control}
-                    defaultValue={circle.min_vouches}
-                    number
-                    inputProps={{
-                      type: 'number',
-                    }}
-                    css={{
-                      alignItems: 'flex-start',
-                      flexGrow: 1,
-                      maxWidth: '50%',
-                    }}
-                    disabled={!vouching.value}
-                    label="Mininum vouches to add member"
-                    infoTooltip=" Minimum number of Vouches for a nominee to be accepted as a user of the circle"
-                    showFieldErrors
-                  />
-                  <FormInputField
-                    id="nomination_length"
-                    name="nomination_days_limit"
-                    control={control}
-                    defaultValue={circle.nomination_days_limit}
-                    number
-                    inputProps={{
-                      type: 'number',
-                    }}
-                    css={{
-                      alignItems: 'flex-start',
-                      flexGrow: 1,
-                      maxWidth: '50%',
-                    }}
-                    disabled={!vouching.value}
-                    label="Length of Nomination Period"
-                    infoTooltip="Set the length of Nomination period in days"
-                    showFieldErrors
-                  />
-                </Flex>
-                <Flex
-                  css={{
-                    gap: '$lg',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <FormInputField
-                    textArea
-                    id="vouching_text"
-                    name="vouching_text"
-                    control={control}
-                    areaProps={{
-                      placeholder:
-                        'This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how.',
-                    }}
-                    css={{ maxWidth: '50%' }}
-                    disabled={!vouching.value}
-                    defaultValue={circle.vouchingText}
-                    label="Vouching Text"
-                    description="Change the default text contributors see in vouching page"
-                    showFieldErrors
-                  />
-                </Flex>
+                  disabled={!vouching.value}
+                  label="Length of Nomination Period"
+                  infoTooltip="Set the length of Nomination period in days"
+                  showFieldErrors
+                />
               </Flex>
-            </Panel>
+              <Flex
+                css={{
+                  gap: '$lg',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <FormInputField
+                  textArea
+                  id="vouching_text"
+                  name="vouching_text"
+                  control={control}
+                  areaProps={{
+                    placeholder:
+                      'This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how.',
+                  }}
+                  css={{ maxWidth: '50%' }}
+                  disabled={!vouching.value}
+                  defaultValue={circle.vouchingText}
+                  label="Vouching Text"
+                  description="Change the default text contributors see in vouching page"
+                  showFieldErrors
+                />
+              </Flex>
+            </Flex>
           </Panel>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$lg',
-              width: '100%',
-              '@md': { display: 'flex' },
-              mt: '$lg',
-            }}
-          >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                Integration
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Integration
+          </Text>
+          <Panel nested>
+            <AdminIntegrations circleId={circleId} />
+            <Box>
+              <Text bold css={{ mt: '$lg', mb: '$md' }}>
+                Discord Webhook
               </Text>
-            </Panel>
-            <Panel nested>
-              <AdminIntegrations circleId={circleId} />
-              <Box>
-                <Text bold css={{ mt: '$lg', mb: '$md' }}>
-                  Discord Webhook
-                </Text>
-                {allowEdit && (
-                  <>
-                    <input readOnly={!allowEdit} {...discordWebhook} />
-                    {discordWebhookState.error && (
-                      <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
-                        {discordWebhookState.error.message}
-                      </Text>
-                    )}
-                  </>
-                )}
-
-                <div>
-                  {!allowEdit && (
-                    <Button
-                      onClick={editDiscordWebhook}
-                      color="neutral"
-                      size="medium"
-                      outlined
-                    >
-                      <EditIcon />
-                      Edit WebHook
-                    </Button>
+              {allowEdit && (
+                <>
+                  <input readOnly={!allowEdit} {...discordWebhook} />
+                  {discordWebhookState.error && (
+                    <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
+                      {discordWebhookState.error.message}
+                    </Text>
                   )}
-                </div>
-              </Box>
-            </Panel>
+                </>
+              )}
+
+              <div>
+                {!allowEdit && (
+                  <Button
+                    onClick={editDiscordWebhook}
+                    color="neutral"
+                    size="medium"
+                    outlined
+                  >
+                    <EditIcon />
+                    Edit WebHook
+                  </Button>
+                )}
+              </div>
+            </Box>
           </Panel>
-          <Panel
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '23fr 77fr',
-              gap: '$lg',
-              width: '100%',
-              '@md': { display: 'flex' },
-              mt: '$lg',
-            }}
-          >
-            <Panel css={{ paddingLeft: '0' }}>
-              <Text inline bold h2 font="inter">
-                Danger Zone
-              </Text>
-            </Panel>
-            <Panel nested></Panel>
-          </Panel>
-        </SingleColumnLayout>
-      </Form>
-    </>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Danger Zone
+          </Text>
+          <Panel nested></Panel>
+        </Panel>
+      </SingleColumnLayout>
+    </Form>
   );
 };
 
