@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 
 import { ApeInfoTooltip } from 'components';
+import { Text } from 'ui';
 
 const ApeTextVariants = {
   default: 'default',
@@ -139,10 +140,15 @@ export const ApeTextField = ({
       )}
     >
       {(label || infoTooltip) && (
-        <label htmlFor={id ?? fallbackId} className={classes.label}>
+        <Text
+          variant="label"
+          as="label"
+          htmlFor={id ?? fallbackId}
+          className={classes.label}
+        >
           {label}{' '}
           {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-        </label>
+        </Text>
       )}
       {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
       <InputBase {...mergedInputProps} />
@@ -229,15 +235,6 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     rootFullWidth: {
       width: '100%',
     },
-    label: ({ variant }) => ({
-      fontSize: 13,
-      lineHeight: 1.3,
-      fontWeight: 700,
-      color: theme.colors.secondaryText,
-      textTransform: 'uppercase',
-      marginBottom: theme.spacing(1),
-      ...apeVariants(theme, variant)?.label,
-    }),
     subLabel: {
       padding: theme.spacing(0, 0, 1),
       fontSize: 15,
