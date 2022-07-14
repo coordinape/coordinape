@@ -540,10 +540,8 @@ export const CircleAdminPage = () => {
             <Text>
               Change the default text contributors see during epoch allocation
             </Text>
-            <Box
+            <Flex
               css={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, 400px)',
                 mt: '$lg',
                 flexWrap: 'wrap',
                 gap: '$1xl',
@@ -576,7 +574,7 @@ export const CircleAdminPage = () => {
                 description="Change the default text contributors see during epoch allocation"
                 showFieldErrors
               />
-            </Box>
+            </Flex>
           </Panel>
         </Panel>
         <Panel css={panelStyles}>
@@ -635,7 +633,6 @@ export const CircleAdminPage = () => {
                 <CheckBox {...vouching} label="Yes" />
               </Flex>
               <Flex
-                row
                 css={{
                   justifyContent: 'flex-start',
                   flexWrap: 'wrap',
