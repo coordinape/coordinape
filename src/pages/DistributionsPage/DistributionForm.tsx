@@ -196,6 +196,11 @@ export function DistributionForm({
         type,
       });
       setSubmitting(false);
+      updateBalanceState(
+        Number(fixedPaymentTokenSel[0].id),
+        Number(totalFixedPayment),
+        'fixed'
+      );
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -239,6 +244,7 @@ export function DistributionForm({
         type: 1,
       });
       setSubmitting(false);
+      updateBalanceState(Number(giftVaultId), Number(formGiftAmount), 'gift');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -271,14 +277,21 @@ export function DistributionForm({
             .toNumber()
         : 0;
     }
-    if (formType === 'gift') {
-      setMaxGiftTokens(tokenBalance);
-    } else {
-      setMaxFixedPaymentTokens(tokenBalance);
-    }
+
     const isCombinedDist =
       fixedPaymentTokenSel[0] && fixedPaymentTokenSel[0].id === vaultId;
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
+
+    if (isCombinedDist) {
+      setMaxGiftTokens(tokenBalance);
+      setMaxFixedPaymentTokens(tokenBalance);
+    } else {
+      if (formType === 'gift') {
+        setMaxGiftTokens(tokenBalance);
+      } else {
+        setMaxFixedPaymentTokens(tokenBalance);
+      }
+    }
 
     if (formType === 'gift' && !isCombinedDist) {
       setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
