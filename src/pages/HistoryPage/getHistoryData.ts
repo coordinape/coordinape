@@ -108,7 +108,9 @@ export const getHistoryData = async (
                     },
                   },
                   distributions: [
-                    {},
+                    {
+                      where: { tx_hash: { _is_null: false } },
+                    },
                     {
                       id: true,
                       total_amount: true,
