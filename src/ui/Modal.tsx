@@ -28,7 +28,6 @@ const Title = styled(Dialog.Title, {
   fontSize: '$h2',
   fontWeight: '$bold',
   display: 'block',
-  textAlign: 'center',
   marginTop: 'calc($sm * -1)',
   color: '$text',
 });

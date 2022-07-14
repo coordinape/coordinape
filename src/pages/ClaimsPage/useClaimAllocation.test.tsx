@@ -23,6 +23,7 @@ let snapshotId: string;
 
 jest.mock('lib/gql/mutations', () => {
   return {
+    addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
     addVault: jest
       .fn()
       .mockImplementationOnce(x =>
@@ -64,6 +65,8 @@ jest.mock('./mutations', () => {
   };
 });
 
+const origError = console.error;
+
 beforeAll(async () => {
   snapshotId = await takeSnapshot();
   const mainAccount = (await provider.listAccounts())[0];
@@ -77,10 +80,13 @@ beforeAll(async () => {
     address: mainAccount,
     amount: '1000',
   });
+
+  console.error = jest.fn();
 });
 
 afterAll(async () => {
   await restoreSnapshot(snapshotId);
+  console.error = origError;
 });
 
 test('claim single successfully', async () => {
@@ -171,8 +177,7 @@ test('claim single successfully', async () => {
 }, 20000);
 
 test('do not allow claim if root not found', async () => {
-  let work: Promise<string | Error>;
-  let error: Error = new Error('');
+  let work: Promise<string | undefined>;
 
   const circleId = 3;
 
@@ -211,7 +216,6 @@ test('do not allow claim if root not found', async () => {
           vault,
         });
 
-        if (trx instanceof Error) error = trx;
         return trx;
       })();
     }, [contracts]);
@@ -226,10 +230,11 @@ test('do not allow claim if root not found', async () => {
       </TestWrapper>
     );
     await waitFor(() => expect(work).toBeTruthy());
-    await expect(work).resolves.toThrow();
+    await expect(work).resolves.toBeFalsy();
   });
 
-  expect(error?.message).toEqual('Error: No Epoch Root Found');
+  const error = (console.error as any).mock.calls[0][0];
+  expect(error?.message).toEqual('No Epoch Root Found');
 }, 20000);
 
 const gifts = {

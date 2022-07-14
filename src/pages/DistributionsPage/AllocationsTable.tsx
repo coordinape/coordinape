@@ -7,6 +7,7 @@ import { shortenAddress } from 'utils';
 export const AllocationsTable = ({
   users,
   totalGive,
+  formGiftAmount,
   tokenName,
   fixedTokenName,
   giveTokenName,
@@ -23,6 +24,7 @@ export const AllocationsTable = ({
     givers: number;
   }[];
   totalGive: number;
+  formGiftAmount: number;
   tokenName: string | undefined;
   fixedTokenName: string | undefined;
   giveTokenName: string | undefined;
@@ -79,7 +81,9 @@ export const AllocationsTable = ({
           <td>
             {user.circle_claimed
               ? `${user.circle_claimed.toFixed(2)} ${tokenName || 'GIVE'}`
-              : '-'}
+              : `${(givenPercent(user) * formGiftAmount).toFixed(2)} ${
+                  tokenName || 'GIVE'
+                }`}
           </td>
           <td>
             {!combinedDist && user.claimed

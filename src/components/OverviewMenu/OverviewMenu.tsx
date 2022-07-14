@@ -145,7 +145,7 @@ export const OverviewMenu = () => {
               </Box>
               {orgs?.map(org => (
                 <Box key={org.id} css={menuGroupStyle}>
-                  <Text variant="label" as="label">
+                  <Text variant="label" as="label" css={{ mb: 0 }}>
                     {org.name}
                   </Text>
                   <Box css={{ display: 'flex', flexDirection: 'column' }}>

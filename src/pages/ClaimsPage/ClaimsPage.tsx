@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { useState } from 'react';
 
 import { Dictionary } from 'lodash';
 import groupBy from 'lodash/groupBy';
@@ -44,6 +45,7 @@ export default function ClaimsPage() {
   const contracts = useContracts();
   const claimTokens = useClaimAllocation();
   const profile = useMyProfile();
+  const [claiming, setClaiming] = useState<Record<number, boolean>>({});
 
   const {
     isIdle,
@@ -61,6 +63,7 @@ export default function ClaimsPage() {
     {
       enabled: !!(contracts && address),
       retry: false,
+      staleTime: Infinity,
     }
   );
 
@@ -90,48 +93,31 @@ export default function ClaimsPage() {
     const { claims: jsonClaims } = JSON.parse(distribution.distribution_json);
     const amount = jsonClaims[address.toLowerCase()].amount;
 
-    try {
-      await claimTokens({
-        claimId: claim.id,
-        circleId: distribution.epoch.circle?.id,
-        vault: distribution.vault,
-        index: index,
-        address,
-        amount,
-        proof: proof.split(','),
-        distributionEpochId: distribution.distribution_epoch_id,
-      });
-      refetch();
-    } catch (e) {
-      console.error(e);
-    }
+    setClaiming(val => ({ ...val, [claim.id]: true }));
+    const hash = await claimTokens({
+      claimId: claim.id,
+      circleId: distribution.epoch.circle?.id,
+      vault: distribution.vault,
+      index: index,
+      address,
+      amount,
+      proof: proof.split(','),
+      distributionEpochId: distribution.distribution_epoch_id,
+    });
+    if (hash) refetch();
+    setClaiming(val => ({ ...val, [claim.id]: false }));
   };
 
   return (
-    <Box
-      css={{
-        margin: '$lg auto',
-        padding: '$md',
-        maxWidth: '$mediumScreen',
-      }}
-    >
-      <Box
-        css={{
-          fontSize: '$h1',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-        }}
-      >
-        Claim Your Allocations
-      </Box>
-      <Box css={{ color: '$neutral', maxWidth: '60%', my: '$lg' }}>
+    <SingleColumnLayout>
+      <Text h1>Claim Your Allocations</Text>
+      <Box css={{ color: '$neutral', maxWidth: '60%' }}>
         You can claim all your rewards from this page. Note that you can claim
         them for all your epochs in one circle but each token requires its own
         claim transaction.
       </Box>
 
-      <Panel css={{ my: '$lg', backgroundColor: '$border', mb: '$2xl' }}>
+      <Panel css={{ mb: '$lg' }}>
         <ClaimsTable
           headers={[
             { title: 'Organization', css: styles.th },
@@ -150,26 +136,18 @@ export default function ClaimsPage() {
             <ClaimRow
               {...{ id, unwrappedAmount, distribution }}
               key={id}
-              onClickClaim={processClaim}
+              onClickClaim={() => processClaim(id)}
+              claiming={claiming[id]}
               claimsGroupByVault={claimsGroupByVault}
             />
           )}
         </ClaimsTable>
       </Panel>
 
-      <Box
-        css={{
-          fontSize: '$h2',
-          color: '$neutral',
-          display: 'flex',
-          alignItems: 'left',
-          mt: '$2xl',
-        }}
-      >
-        Claim History
-      </Box>
-
-      <Panel css={{ my: '$lg', backgroundColor: '$border' }}>
+      <Text h2 css={{ mb: '$sm' }}>
+        Claims History
+      </Text>
+      <Panel>
         <ClaimsTable
           headers={[
             { title: 'Organization', css: styles.th },
@@ -233,23 +211,23 @@ export default function ClaimsPage() {
           )}
         </ClaimsTable>
       </Panel>
-    </Box>
+    </SingleColumnLayout>
   );
 }
 
 type ClaimRowProps = {
-  id: number;
   distribution: QueryClaim['distribution'];
   unwrappedAmount: QueryClaim['unwrappedAmount'];
-  onClickClaim: (id: number) => void;
+  onClickClaim: () => void;
   claimsGroupByVault: Dictionary<QueryClaim[]>;
+  claiming: boolean;
 };
 const ClaimRow = ({
-  id,
   distribution,
   unwrappedAmount,
   onClickClaim,
   claimsGroupByVault,
+  claiming,
 }: ClaimRowProps) => {
   return (
     <tr>
@@ -294,9 +272,10 @@ const ClaimRow = ({
                 minWidth: '5vw',
                 borderRadius: '$2',
               }}
-              onClick={() => onClickClaim(id)}
+              onClick={onClickClaim}
+              disabled={claiming}
             >
-              Claim {distribution.vault.symbol}
+              {claiming ? 'Claiming...' : `Claim ${distribution.vault.symbol}`}
             </Button>
           </Flex>
         </Flex>

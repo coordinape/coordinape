@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 
 import { ApeInfoTooltip } from 'components';
+import { Text } from 'ui';
 
 const ApeTextVariants = {
   default: 'default',
@@ -139,10 +140,15 @@ export const ApeTextField = ({
       )}
     >
       {(label || infoTooltip) && (
-        <label htmlFor={id ?? fallbackId} className={classes.label}>
+        <Text
+          variant="label"
+          as="label"
+          htmlFor={id ?? fallbackId}
+          className={classes.label}
+        >
           {label}{' '}
           {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-        </label>
+        </Text>
       )}
       {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
       <InputBase {...mergedInputProps} />
@@ -173,7 +179,6 @@ const apeVariants: any = (theme: Theme, variant: ApeTextVariantType) => {
           fontWeight: 300,
           lineHeight: 1.2,
           color: theme.colors.text,
-          textAlign: 'center',
         },
         inputRoot: {
           padding: theme.spacing(0, 1, 0),
@@ -225,18 +230,11 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     root: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
+      margin: theme.spacing(0, 0, 1), // FIXME this should be removed
     },
     rootFullWidth: {
       width: '100%',
     },
-    label: ({ variant }) => ({
-      fontSize: 16,
-      lineHeight: 1.3,
-      fontWeight: 700,
-      color: theme.colors.text,
-      ...apeVariants(theme, variant)?.label,
-    }),
     subLabel: {
       padding: theme.spacing(0, 0, 1),
       fontSize: 15,
@@ -244,14 +242,13 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       color: theme.colors.text + '80',
     },
     inputRoot: ({ variant }) => ({
-      margin: theme.spacing(1, 0),
       backgroundColor: theme.colors.surface,
       borderRadius: 8,
       color: theme.colors.text,
-      border: `1px solid ${theme.colors.border}`,
+      border: `1px solid transparent`,
       transition: 'border 200ms ease-out',
       '&:focus-within': {
-        border: `1px solid ${theme.colors.secondary}80`,
+        borderColor: theme.colors.borderMedium,
       },
       ...apeVariants(theme, variant)?.inputRoot,
     }),
@@ -267,7 +264,7 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
       fontSize: 15,
       lineHeight: 1.33,
       fontWeight: 300,
-      textAlign: 'center',
+
       '&::placeholder': {
         color: theme.colors.secondaryText,
       },
@@ -290,7 +287,6 @@ const useBaseStyles = makeStyles<Theme, { variant: ApeTextVariantType }>(
     },
     helperBox: {
       width: '100%',
-      textAlign: 'center',
     },
   })
 );

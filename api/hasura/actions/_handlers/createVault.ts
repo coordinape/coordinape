@@ -26,7 +26,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     HasuraUserSessionVariables
   ).parse(req.body);
 
-  const { org_id, chain_id, vault_address } = payload;
+  const { org_id, chain_id, vault_address, deployment_block } = payload;
   const { hasuraAddress, hasuraProfileId } = session_variables;
 
   const isOrgAdmin = await queries.checkAddressAdminInOrg(
@@ -76,6 +76,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             decimals,
             chain_id,
             org_id,
+            deployment_block,
             vault_address,
             created_by: hasuraProfileId,
             token_address: yTokenAddress,
