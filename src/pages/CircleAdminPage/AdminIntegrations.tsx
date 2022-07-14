@@ -35,7 +35,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
       }}
     >
       <Text h3 semibold css={{ mb: '$sm' }}>
-        Connected Integration
+        Connected Integrations
       </Text>
       <Box>
         {integrations.data?.map((integration, index) => (
