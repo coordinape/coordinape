@@ -11,7 +11,6 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
   },
   inactive: {
     color: theme.colors.text,
@@ -37,11 +36,12 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     },
   },
   label: {
-    fontSize: 16,
+    fontSize: 13,
     lineHeight: 1.3,
     fontWeight: 700,
+    color: theme.colors.secondaryText,
+    textTransform: 'uppercase',
     marginBottom: theme.spacing(1),
-    color: theme.colors.text,
   },
   helper: {
     fontSize: 13,
