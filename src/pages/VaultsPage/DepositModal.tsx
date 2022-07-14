@@ -15,7 +15,7 @@ import { FormTokenField } from 'components';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Button, Form, Modal, Text } from 'ui';
+import { Box, Button, Form, Link, Modal, Text } from 'ui';
 import { shortenAddress } from 'utils';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
@@ -174,42 +174,32 @@ const SecondWalletInner = ({
   return (
     <>
       {account ? (
-        <>
-          <Text css={{ mb: '$lg' }}>
-            From secondary wallet:
-            <Text css={{ ml: '$sm', mr: '$xs' }}>
+        <Box css={{ mb: '$md' }}>
+          <Text variant="label" as="label">
+            From secondary wallet
+          </Text>
+          <Text inline h3 semibold>
+            <Text css={{ mr: '$xs' }}>
               <WalletConnectSVG />
             </Text>
-            <Text semibold>{account && shortenAddress(account)}</Text>
-            <Button
-              onClick={onClickStop}
-              size="small"
-              css={{ ml: '$sm' }}
-              color="primary"
-              outlined
-            >
-              Disconnect
-            </Button>
+            {account && shortenAddress(account)}
           </Text>
-        </>
+          <Link onClick={onClickStop} css={{ ml: '$sm' }}>
+            Disconnect this wallet
+          </Link>
+        </Box>
       ) : (
-        <>
-          <Text css={{ mb: '$lg' }}>
-            From primary wallet:
-            <Text semibold css={{ ml: '$sm' }}>
-              {address && shortenAddress(address)}
-            </Text>
-            <Button
-              onClick={onClickStart}
-              size="small"
-              css={{ ml: '$sm' }}
-              color="primary"
-              outlined
-            >
-              Connect a secondary wallet
-            </Button>
+        <Box css={{ mb: '$md' }}>
+          <Text variant="label" as="label">
+            From primary wallet
           </Text>
-        </>
+          <Text inline h3 semibold>
+            {address && shortenAddress(address)}
+          </Text>
+          <Link onClick={onClickStart} css={{ ml: '$sm' }}>
+            Use a different wallet
+          </Link>
+        </Box>
       )}
     </>
   );
