@@ -246,7 +246,7 @@ const EpochForm = ({
   );
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     handleSubmit,
     setError,
@@ -276,15 +276,19 @@ const EpochForm = ({
         ? 'weekly'
         : 'none',
   });
+  const extraErrors = useRef(false);
+
   useEffect(() => {
     watch(data => {
       const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
         getZodParser(source, currentEpoch?.id).safeParse(data);
       if (!value.success) {
+        extraErrors.current = true;
         setError('customError', {
           message: value.error.errors[0].message,
         });
       } else {
+        extraErrors.current = false;
         clearErrors('customError');
       }
 
@@ -295,6 +299,9 @@ const EpochForm = ({
   }, [watch]);
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
+    if (extraErrors.current) {
+      return;
+    }
     setSubmitting(true);
     (source?.epoch
       ? updateEpoch(source.epoch.id, {
@@ -343,7 +350,7 @@ const EpochForm = ({
             <Button
               color="primary"
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !isDirty || !isEmpty(errors)}
               onClick={handleSubmit(onSubmit)}
             >
               {submitting ? 'Saving...' : 'Save'}
