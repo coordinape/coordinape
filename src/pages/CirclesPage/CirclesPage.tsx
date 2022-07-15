@@ -58,7 +58,7 @@ export const CirclesPage = () => {
           outlined
           onClick={() => navigate(paths.createCircle)}
         >
-          Create Circle in New Organization
+          Create New Circle
         </Button>
       </Flex>
       <Text
