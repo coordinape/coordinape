@@ -71,7 +71,7 @@ export const CirclesPage = () => {
             )}
           </Box>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
-            {sortBy(org.circles, c => -c.users.length).map(circle => (
+            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
               <CircleRow
                 circle={circle}
                 key={circle.id}
