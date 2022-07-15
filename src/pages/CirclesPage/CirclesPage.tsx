@@ -11,7 +11,7 @@ import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
-import { Box, Button, Link, Panel, Text } from 'ui';
+import { Box, Button, Flex, Link, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -46,9 +46,35 @@ export const CirclesPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Flex
+        row
+        css={{ justifyContent: 'space-between', alignItems: 'baseline' }}
+      >
+        <Text h1 css={{ mb: '$sm' }}>
+          Overview
+        </Text>
+        <Button
+          color="primary"
+          outlined
+          onClick={() => navigate(paths.createCircle)}
+        >
+          Create New Circle
+        </Button>
+      </Flex>
+      <Text
+        variant="p"
+        as="p"
+        css={{
+          mb: '$lg',
+          width: '50%',
+          '@sm': { width: '100%' },
+        }}
+      >
+        All your organizations and circles in one place.
+      </Text>
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
-          <Box css={{ display: 'flex', mb: '$md', alignItems: 'flex-start' }}>
+          <Flex row css={{ mb: '$md', alignItems: 'baseline' }}>
             <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
               <OrgLogoUpload
                 id={org.id}
@@ -69,7 +95,7 @@ export const CirclesPage = () => {
                 Add Circle
               </Button>
             )}
-          </Box>
+          </Flex>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
             {sortBy(org.circles, c => -c.users.length).map(circle => (
               <CircleRow
