@@ -10,7 +10,7 @@ import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
 import DepositModal, { DepositModalProps } from './DepositModal';
-import { dummyTableData, TransactionTable } from './VaultTransactions';
+import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
 export function VaultRow({
@@ -51,6 +51,8 @@ export function VaultRow({
     };
     updateOwner();
   }, [contracts, vault.id]);
+
+  const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
 
   return (
     <Panel css={css}>
@@ -119,7 +121,13 @@ export function VaultRow({
         Recent Transactions
       </Text>
       <Box>
-        <TransactionTable rows={dummyTableData} />
+        {isLoading ? (
+          'Loading...'
+        ) : vaultTxList?.length ? (
+          <TransactionTable rows={vaultTxList.slice(0, 3)} />
+        ) : (
+          'No Transactions Yet'
+        )}
 
         <Box css={{ textAlign: 'center', mt: '$md' }}>
           <AppLink
