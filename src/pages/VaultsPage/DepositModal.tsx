@@ -35,19 +35,27 @@ export default function DepositModal({
   const contracts = useContracts();
   (window as any).contracts = contracts;
   const [selectedContracts, setSelectedContracts] = useState<Contracts>();
+  const [isChainIdMatching, setIsChainIdMatching] = useState<boolean>(true);
+  const [isSecondaryAccountActive, setIsSecondaryAccountActive] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (contracts) setSelectedContracts(contracts);
   }, [contracts]);
 
-  const onConnectSecondWallet = (provider: Web3Provider) => {
+  const onConnectSecondWallet = (provider: Web3Provider, chainId: number) => {
     assert(contracts);
     const newContracts = new Contracts(contracts.chainId, provider);
+    setIsChainIdMatching(contracts.chainId === chainId.toString());
     setSelectedContracts(newContracts);
+    setIsSecondaryAccountActive(true);
     (window as any).contracts = newContracts;
   };
 
-  const onDisconnectSecondWallet = () => setSelectedContracts(contracts);
+  const onDisconnectSecondWallet = () => {
+    setSelectedContracts(contracts);
+    setIsSecondaryAccountActive(false);
+  };
 
   useEffect(() => {
     if (!selectedContracts) return;
@@ -60,7 +68,7 @@ export default function DepositModal({
         setMax(ethers.utils.formatUnits(balance, vault.decimals));
       }
     })();
-  }, [selectedContracts]);
+  }, [selectedContracts, isSecondaryAccountActive]);
 
   const schema = z.object({ amount: z.number().min(0).max(max) }).strict();
   type DepositFormSchema = z.infer<typeof schema>;
@@ -110,6 +118,7 @@ export default function DepositModal({
         <SecondWallet
           onConnect={onConnectSecondWallet}
           onDisconnect={onDisconnectSecondWallet}
+          validChainId={isChainIdMatching}
         />
 
         <FormTokenField
@@ -128,7 +137,7 @@ export default function DepositModal({
           size="large"
           type="submit"
           fullWidth
-          disabled={!isValid || submitting}
+          disabled={!isChainIdMatching || !isValid || submitting}
         >
           {submitting
             ? 'Depositing Funds...'
@@ -145,17 +154,20 @@ const connector = makeWalletConnectConnector();
 const SecondWalletInner = ({
   onConnect,
   onDisconnect,
+  validChainId,
 }: {
-  onConnect: (provider: Web3Provider) => void;
+  onConnect: (provider: Web3Provider, chainId: number) => void;
   onDisconnect: () => void;
+  validChainId: boolean;
 }) => {
-  const { activate, deactivate, account, library, error } =
+  const { activate, deactivate, account, library, error, chainId } =
     useWeb3React<Web3Provider>(ROOT_KEY);
+  const { chainId: primaryChainId } = useWeb3React();
 
   if (error) console.error(error);
 
   useEffect(() => {
-    if (library) onConnect(library);
+    if (library && chainId) onConnect(library, chainId);
   }, [library]);
 
   const onClickStart = (event: MouseEvent) => {
@@ -187,6 +199,12 @@ const SecondWalletInner = ({
           <Link onClick={onClickStop} css={{ ml: '$sm' }}>
             Disconnect this wallet
           </Link>
+          {!validChainId && primaryChainId && (
+            <Text variant="label" as="label" color="alert">
+              Please set your network to{' '}
+              {NetworkNames[primaryChainId.toString()]}
+            </Text>
+          )}
         </Box>
       ) : (
         <Box css={{ mb: '$md' }}>
@@ -203,6 +221,11 @@ const SecondWalletInner = ({
       )}
     </>
   );
+};
+
+const NetworkNames: Record<string, string> = {
+  '5': 'Goerli',
+  '1': 'Mainnet',
 };
 
 const SecondWalletProvider = createWeb3ReactRoot(ROOT_KEY);
