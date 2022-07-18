@@ -1,25 +1,25 @@
 import assert from 'assert';
 import React, { useState } from 'react';
 
-import { formatRelative, parseISO } from 'date-fns';
 import { isUserAdmin } from 'lib/users';
 import uniqBy from 'lodash/uniqBy';
-import { FiExternalLink } from 'react-icons/fi';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
+import { ReactComponent as LeftArrowSVG } from 'assets/svgs/button/left-arrow.svg';
 import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Button, Link, Panel, Text, Icon } from 'ui';
+import { AppLink, Box, Button, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { makeExplorerUrl } from 'utils/provider';
+// import { makeExplorerUrl } from 'utils/provider';
 
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
-import type { EpochDataResult, Gift } from './queries';
+import type { Gift } from './queries';
 import { getEpochData } from './queries';
 
 export function DistributionsPage() {
@@ -41,7 +41,7 @@ export function DistributionsPage() {
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
-  const [giftVaultId, setGiftVaultId] = useState<string>('');
+  const [giftVaultSymbol, setGiftVaultSymbol] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
 
@@ -115,30 +115,47 @@ export function DistributionsPage() {
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
   const vaults = circle.organization.vaults || [];
-  const vault1TokenName = vaults.find(
-    v => v.id === Number(giftVaultId)
-  )?.symbol;
-  let tokenName = vault1TokenName;
+  let tokenName = giftVaultSymbol;
 
   if (circleDist) {
     tokenName = circleDist.vault.symbol;
   }
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
 
   return (
     <SingleColumnLayout>
-      <Panel>
-        <AppLink to={paths.members(circle.id)}>
-          <Button outlined css={{ minWidth: '100px', marginBottom: '$sm' }}>
-            &larr; Back
-          </Button>
-        </AppLink>
-        <Text h2 css={{ mb: '$sm' }}>
-          Distributions
+      <AppLink to={paths.members(circle.id)}>
+        <Button size="small" outlined css={{ padding: '$sm' }}>
+          <LeftArrowSVG />
+          Back
+        </Button>
+      </AppLink>
+      <Box>
+        <Text h1>
+          Distributions&nbsp;
+          <Text normal>
+            Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
+            {endDate.toFormat(
+              endDate.month === startDate.month ? 'd' : 'MMM d'
+            )}
+          </Text>
         </Text>
-        <Text h2 normal>
-          {circle.name}: Epoch {epoch.number}
-        </Text>
-
+        <br />
+        <Box css={{ maxWidth: '712px' }}>
+          <Text css={{ lineHeight: `$shorter` }}>
+            Please review the distribution details below and if all looks good,
+            approve the distribution so that contributors can claim their funds.
+            <br />
+            <br />
+            Each token distribution requires a seperate transaction. If you
+            choose the same token you can combine Gift Circle and Fixed Payment
+            transactions. If you choose a token that you don’t have a vault for
+            you can export the distribution to a CSV.
+          </Text>
+        </Box>
+      </Box>
+      <Box>
         {epochError ? (
           <Text
             css={{
@@ -154,89 +171,38 @@ export function DistributionsPage() {
           </Text>
         ) : (
           <>
-            <Panel nested css={{ mt: '$lg' }}>
+            <Box css={{ mt: '$lg' }}>
               <DistributionForm
-                giftVaultId={giftVaultId}
+                circleDist={circleDist}
+                fixedDist={fixedDist}
+                giftVaultSymbol={giftVaultSymbol}
                 formGiftAmount={formGiftAmount}
                 epoch={epoch}
                 users={usersWithReceivedAmounts}
                 setAmount={setFormGiftAmount}
-                setVaultId={setGiftVaultId}
+                setGiftVaultSymbol={setGiftVaultSymbol}
                 vaults={vaults}
                 circleUsers={circleUsers}
                 downloadCSV={downloadCSV}
                 refetch={refetch}
               />
-              <Box
-                css={{
-                  display: 'grid',
-                  width: '100%',
-                  'grid-template-columns': '1fr 1fr',
-                  'column-gap': '$lg',
-                }}
-              >
-                {circleDist && <Summary distribution={circleDist} />}
-                {fixedDist && <Summary distribution={fixedDist} />}
-              </Box>
-            </Panel>
+            </Box>
 
             <Box css={{ mt: '$lg' }}>
               <AllocationsTable
+                epoch={epoch}
                 users={usersWithGiftnFixedAmounts}
                 tokenName={tokenName}
                 totalGive={totalGive}
                 formGiftAmount={formGiftAmount}
                 fixedTokenName={fixedDist?.vault.symbol}
                 giveTokenName={circle.token_name}
+                downloadCSV={downloadCSV}
               />
             </Box>
           </>
         )}
-      </Panel>
+      </Box>
     </SingleColumnLayout>
   );
 }
-
-const Summary = ({
-  distribution,
-}: {
-  distribution: EpochDataResult['distributions'][0];
-}) => {
-  const distTime = parseISO(distribution.created_at + 'Z');
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Text css={{ color: '$complete' }}>
-        Distribution submitted {formatRelative(distTime, Date.now())}
-      </Text>
-      <ExplorerLink distribution={distribution} />
-    </Box>
-  );
-};
-
-const ExplorerLink = ({
-  distribution,
-}: {
-  distribution: EpochDataResult['distributions'][0];
-}) => {
-  const { tx_hash } = distribution;
-  const { chain_id } = distribution.vault;
-  const LinkIcon = Icon(FiExternalLink);
-
-  const explorerHref = makeExplorerUrl(chain_id, tx_hash);
-
-  if (!explorerHref) return <></>;
-
-  return (
-    <Box css={{ display: 'flex', alignItems: 'center' }}>
-      <LinkIcon css={{ size: '$md', color: '$borderMedium', length: 0 }} />
-      <Link css={{ ml: '$xs' }} href={explorerHref}>
-        View on Etherscan
-      </Link>
-    </Box>
-  );
-};
