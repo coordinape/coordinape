@@ -161,12 +161,14 @@ interface ApeRegistryBeaconInterface extends ethers.utils.Interface {
     "CallCancelled(bytes32)": EventFragment;
     "CallExecuted(bytes32,address,bytes)": EventFragment;
     "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
+    "NewImplementationPushed(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewImplementationPushed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
@@ -468,6 +470,10 @@ export class ApeRegistryBeacon extends BaseContract {
         delay: BigNumber;
       }
     >;
+
+    NewImplementationPushed(
+      newImplementation?: null
+    ): TypedEventFilter<[string], { newImplementation: string }>;
 
     OwnershipTransferred(
       previousOwner?: string | null,
