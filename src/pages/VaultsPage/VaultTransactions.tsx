@@ -53,7 +53,7 @@ export function useOnChainTransactions(
   vault: VaultAndTransactions | undefined
 ) {
   return useQuery(
-    ['vault-txs', vault?.id],
+    ['vault-txs', vault?.id, vault?.vault_transactions.length],
     async () => (vault ? getOnchainVaultTransactions(vault) : []),
     { initialData: [] }
   );
