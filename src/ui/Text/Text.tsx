@@ -48,7 +48,10 @@ export const Text = styled('span', {
         lineHeight: '$shorter',
         marginBottom: '$xs',
       },
-      p: {
+    },
+    p: {
+      true: {
+        display: 'inline',
         color: '$text',
         fontSize: '$medium',
         lineHeight: '$base',

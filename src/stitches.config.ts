@@ -84,6 +84,7 @@ export const colors = {
 
   background: figmaColors.grey1,
   surface: figmaColors.grey2,
+  info: figmaColors.blue4,
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
 

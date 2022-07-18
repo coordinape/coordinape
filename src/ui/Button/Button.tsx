@@ -80,7 +80,6 @@ export const Button = styled('button', {
     },
     size: {
       large: {
-        height: '$2xl',
         minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
@@ -90,7 +89,6 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
-        height: '$xl',
         minHeight: '$xl',
         fontSize: '$medium',
         fontWeight: '$medium',
@@ -98,7 +96,6 @@ export const Button = styled('button', {
         borderRadius: '$3',
       },
       small: {
-        height: '$lg',
         minHeight: '$lg',
         fontSize: '$small',
         fontWeight: '$medium',
@@ -171,6 +168,16 @@ export const Button = styled('button', {
       true: {
         backgroundColor: 'transparent !important',
         border: '1px solid',
+      },
+    },
+    inline: {
+      true: {
+        display: 'inline',
+      },
+    },
+    inlineBlock: {
+      true: {
+        display: 'inlineBlock',
       },
     },
   },

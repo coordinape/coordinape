@@ -10,8 +10,12 @@ import type { CSS } from 'stitches.config';
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { paths } from 'routes/paths';
-import { Box, Button, Flex, Link, Panel, Text } from 'ui';
+import {
+  paths,
+  EXTERNAL_URL_GET_STARTED,
+  EXTERNAL_URL_DISCORD,
+} from 'routes/paths';
+import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
 import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -44,25 +48,33 @@ export const CirclesPage = () => {
   if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible note="CirclesPage" />;
 
+  // if (orgs?.length == 0) return <GetStarted />;
+
   return (
     <SingleColumnLayout>
       <Flex
         row
-        css={{ justifyContent: 'space-between', alignItems: 'baseline' }}
+        css={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: '$sm',
+          '@sm': {
+            flexDirection: 'column',
+            alignItems: 'start',
+          },
+        }}
       >
         <Text h1 css={{ mb: '$sm' }}>
           Overview
         </Text>
-        <Button
-          color="primary"
-          outlined
-          onClick={() => navigate(paths.createCircle)}
-        >
-          Create New Circle
-        </Button>
+        <Link href={paths.createCircle}>
+          <Button color="primary" outlined>
+            Create New Circle
+          </Button>
+        </Link>
       </Flex>
       <Text
-        variant="p"
+        p
         as="p"
         css={{
           mb: '$lg',
@@ -72,6 +84,7 @@ export const CirclesPage = () => {
       >
         All your organizations and circles in one place.
       </Text>
+      {orgs?.length == 0 && <GetStarted />}
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Flex row css={{ mb: '$md', alignItems: 'baseline' }}>
@@ -135,6 +148,74 @@ const nonMemberPanelCss: CSS = {
 type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
+};
+const GetStarted = () => {
+  return (
+    <>
+      <Panel
+        info
+        css={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 3fr',
+          gap: '$md',
+          '@sm': { gridTemplateColumns: '1fr' },
+        }}
+      >
+        <Box>
+          <Text h2 normal>
+            Get Started
+          </Text>
+        </Box>
+        <Flex
+          column
+          css={{
+            width: '65%',
+            '@sm': { width: '100%' },
+          }}
+        >
+          <Text p as="p" css={{ mb: '$lg' }}>
+            An Organization houses all of your Circles in Coordinape. A Circle
+            is equal to a team. Start a Circle, add members, then create an
+            epoch.{' '}
+            <Link href={EXTERNAL_URL_DISCORD} target="_blank">
+              Join our discord
+            </Link>{' '}
+            where we&apos;re always happy to help and keep you updated on whats
+            happening.
+          </Text>
+          <Box>
+            <Link
+              css={{
+                mr: '$md',
+                '@sm': { mb: '$md' },
+              }}
+              href={paths.createCircle}
+            >
+              <Button color="primary" outlined inlineBlock>
+                Create New Circle
+              </Button>
+            </Link>
+            <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
+              <Button color="primary" outlined inlineBlock>
+                Get Started Guide
+              </Button>
+            </Link>
+          </Box>
+        </Flex>
+      </Panel>
+      <Image
+        alt="Illustration of circle allocations"
+        css={{
+          pt: '$xl',
+          mt: '$xl',
+          mx: 'auto',
+          width: '100%',
+          maxWidth: '600px',
+        }}
+        src="/imgs/background/circles-illustration.jpg"
+      />
+    </>
+  );
 };
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;

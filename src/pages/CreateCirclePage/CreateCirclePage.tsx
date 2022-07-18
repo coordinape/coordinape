@@ -53,7 +53,7 @@ export const SummonCirclePage = () => {
         Create a Circle
       </Text>
       <Text
-        variant="p"
+        p
         as="p"
         css={{
           mb: '$xl',
