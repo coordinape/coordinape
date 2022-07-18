@@ -59,6 +59,7 @@ type SubmitFormProps = {
   giftVaultId: string;
   formGiftAmount: number;
   downloadCSV: (epoch: number) => Promise<any>;
+  refetch: () => void;
 };
 
 /**
@@ -76,6 +77,7 @@ export function DistributionForm({
   giftVaultId,
   formGiftAmount,
   downloadCSV,
+  refetch,
 }: SubmitFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
@@ -196,6 +198,7 @@ export function DistributionForm({
         type,
       });
       setSubmitting(false);
+      refetch();
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -239,6 +242,7 @@ export function DistributionForm({
         type: 1,
       });
       setSubmitting(false);
+      refetch();
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);

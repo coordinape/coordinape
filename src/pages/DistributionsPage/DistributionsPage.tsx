@@ -33,6 +33,7 @@ export function DistributionsPage() {
     isError,
     error,
     data: epoch,
+    refetch,
   } = useQuery(
     ['distributions', epochId],
     () => getEpochData(Number(epochId), address, contracts),
@@ -164,6 +165,7 @@ export function DistributionsPage() {
                 vaults={vaults}
                 circleUsers={circleUsers}
                 downloadCSV={downloadCSV}
+                refetch={refetch}
               />
               <Box
                 css={{
