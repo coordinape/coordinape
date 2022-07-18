@@ -129,14 +129,16 @@ export function VaultRow({
           'No Transactions Yet'
         )}
 
-        <Box css={{ textAlign: 'center', mt: '$md' }}>
-          <AppLink
-            css={{ color: '$secondaryText' }}
-            to={paths.vaultTxs(vault.vault_address)}
-          >
-            View All Transactions
-          </AppLink>
-        </Box>
+        {!!vaultTxList?.length && (
+          <Box css={{ textAlign: 'center', mt: '$md' }}>
+            <AppLink
+              css={{ color: '$secondaryText' }}
+              to={paths.vaultTxs(vault.vault_address)}
+            >
+              View All Transactions
+            </AppLink>
+          </Box>
+        )}
       </Box>
     </Panel>
   );
