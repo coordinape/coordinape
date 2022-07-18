@@ -31,6 +31,30 @@ export const SingleColumnLayout = ({
   );
 };
 
+type TwoColumnLayoutProps = {
+  children: ReactNode;
+  css?: CSS;
+};
+
+export const TwoColumnLayout = ({
+  children,
+  css = {},
+}: TwoColumnLayoutProps) => {
+  return (
+    <Box
+      css={{
+        maxWidth: '$mediumScreen',
+        display: 'grid',
+        gap: '$xl',
+        gridTemplateColumns: '1fr 1fr',
+        ...css,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
 export const OrgLayout = ({
   name,
   children,
