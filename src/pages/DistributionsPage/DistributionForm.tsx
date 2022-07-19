@@ -432,23 +432,25 @@ export function DistributionForm({
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
         <Panel css={{ padding: '16px', minHeight: '147px' }}>
-          <Box css={{ width: '80%', display: 'inline-block' }}>
-            <Text h2 css={headerStyle}>
-              Fixed Payment
-            </Text>
-          </Box>
-          <Box
-            css={{
-              width: '20%',
-              display: 'inline-block',
-              textAlign: 'right',
-              verticalAlign: '$baseline',
-              fontSize: '$small',
-            }}
-          >
-            <NavLink to={paths.circleAdmin(circle.id)}>
-              <Text css={{ color: '$primary' }}>Edit Settings</Text>
-            </NavLink>
+          <Box>
+            <Box css={{ width: '80%', display: 'inline-block' }}>
+              <Text h2 css={headerStyle}>
+                Fixed Payment
+              </Text>
+            </Box>
+            <Box
+              css={{
+                width: '20%',
+                display: 'inline-block',
+                textAlign: 'right',
+                verticalAlign: '$baseline',
+                fontSize: '$small',
+              }}
+            >
+              <NavLink to={paths.circleAdmin(circle.id)}>
+                <Text css={{ color: '$primary' }}>Edit Settings</Text>
+              </NavLink>
+            </Box>
           </Box>
 
           {!fixed_payment_token_type ? (
