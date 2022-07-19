@@ -432,25 +432,23 @@ export function DistributionForm({
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
         <Panel css={{ padding: '16px', minHeight: '147px' }}>
-          <Box>
-            <Box css={{ width: '80%', display: 'inline-block' }}>
-              <Text h2 css={headerStyle}>
-                Fixed Payment
-              </Text>
-            </Box>
-            <Box
-              css={{
-                width: '20%',
-                display: 'inline-block',
-                textAlign: 'right',
-                verticalAlign: '$baseline',
-                fontSize: '$small',
-              }}
-            >
-              <NavLink to={paths.circleAdmin(circle.id)}>
-                <Text css={{ color: '$primary' }}>Edit Settings</Text>
-              </NavLink>
-            </Box>
+          <Box css={{ width: '80%', display: 'inline-block' }}>
+            <Text h2 css={headerStyle}>
+              Fixed Payment
+            </Text>
+          </Box>
+          <Box
+            css={{
+              width: '20%',
+              display: 'inline-block',
+              textAlign: 'right',
+              verticalAlign: '$baseline',
+              fontSize: '$small',
+            }}
+          >
+            <NavLink to={paths.circleAdmin(circle.id)}>
+              <Text css={{ color: '$primary' }}>Edit Settings</Text>
+            </NavLink>
           </Box>
 
           {!fixed_payment_token_type ? (
@@ -467,7 +465,7 @@ export function DistributionForm({
               Fixed Payments are Disabled
             </Box>
           ) : (
-            <Box>
+            <>
               <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <FormControl fullWidth>
@@ -568,7 +566,7 @@ export function DistributionForm({
               </TwoColumnLayout>
 
               {submitting && <LoadingModal visible />}
-            </Box>
+            </>
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
