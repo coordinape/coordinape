@@ -13,7 +13,7 @@ export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
   border: '1px solid transparent',
-  padding: '$lg',
+  padding: '$2sm',
 
   variants: {
     stack: {

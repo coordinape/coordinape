@@ -173,7 +173,7 @@ const GetStarted = () => {
             '@sm': { width: '100%' },
           }}
         >
-          <Text p as="p" css={{ mb: '$lg' }}>
+          <Text p as="p" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
             epoch.{' '}
@@ -185,20 +185,12 @@ const GetStarted = () => {
           </Text>
           <Box>
             <Link href={paths.createCircle}>
-              <Button
-                color="primary"
-                outlined
-                inline
-                css={{
-                  mr: '$md',
-                  mb: '$md',
-                }}
-              >
+              <Button color="primary" outlined inline css={{ mr: '$md' }}>
                 Create New Circle
               </Button>
             </Link>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
-              <Button color="primary" outlined inline>
+              <Button color="primary" outlined inline css={{ mt: '$md' }}>
                 Get Started Guide
               </Button>
             </Link>
@@ -208,8 +200,7 @@ const GetStarted = () => {
       <Image
         alt="Illustration of circle allocations"
         css={{
-          pt: '$xl',
-          mt: '$xl',
+          mt: '$3xl',
           mx: 'auto',
           width: '100%',
           maxWidth: '600px',
