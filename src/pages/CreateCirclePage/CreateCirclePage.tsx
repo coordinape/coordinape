@@ -42,7 +42,7 @@ export const SummonCirclePage = () => {
 
   const org = protocols.find(p => p.id === Number(params.get('org')));
   const source = {
-    protocol_id: org?.id,
+    protocol_id: org?.id || undefined,
     protocol_name: org?.name || '',
     user_name: myUsers.find(u => u !== undefined)?.name,
   };
