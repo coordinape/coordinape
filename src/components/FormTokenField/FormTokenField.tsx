@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ApeTextField } from 'components';
+import { Text } from 'ui';
 
 export const FormTokenField = ({
   value,
@@ -32,7 +33,14 @@ export const FormTokenField = ({
     <ApeTextField
       {...props}
       InputProps={{
-        startAdornment: <span onClick={() => onChange(Number(max))}>MAX</span>,
+        startAdornment: (
+          <Text
+            css={{ color: '$primary', cursor: 'pointer' }}
+            onClick={() => onChange(Number(max))}
+          >
+            Max
+          </Text>
+        ),
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"

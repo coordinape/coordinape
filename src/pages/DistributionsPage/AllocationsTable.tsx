@@ -1,10 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
-
 import { Paginator } from '../../components/Paginator';
 import { NewApeAvatar, makeTable } from 'components';
-import { Flex, Text, Panel, Box, Button } from 'ui';
+import { Flex, Text, Panel, Button, Link } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 import { EpochDataResult } from './queries';
@@ -68,13 +66,15 @@ export const AllocationsTable = ({
   }
   return (
     <Panel>
-      <Box
+      <Flex
         css={{
-          display: 'flex',
           justifyContent: 'space-between',
         }}
       >
-        <Text h3 css={{ fontWeight: '$semibold', mb: '$lg' }}>
+        <Text
+          h3
+          css={{ fontWeight: '$semibold', color: '$headingText', mb: '$lg' }}
+        >
           Distributions Table
         </Text>
         <Button
@@ -99,7 +99,7 @@ export const AllocationsTable = ({
         >
           Export CSV
         </Button>
-      </Box>
+      </Flex>
       <UserTable
         headers={headers}
         data={shownUsers}
@@ -150,18 +150,21 @@ export const AllocationsTable = ({
           </tr>
         )}
       </UserTable>
-      <Box
+      <Flex
         css={{
-          display: 'flex',
           justifyContent: 'space-between',
           mt: '$lg',
         }}
       >
-        <NavLink to="https://docs.coordinape.com/get-started/compensation/paying-your-team">
+        <Link
+          css={{ color: '$primary' }}
+          target="_blank"
+          href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
+        >
           Paying Your Team Documentation
-        </NavLink>
+        </Link>
         <Paginator pages={totalPages} current={page} onSelect={setPage} />
-      </Box>
+      </Flex>
     </Panel>
   );
 };

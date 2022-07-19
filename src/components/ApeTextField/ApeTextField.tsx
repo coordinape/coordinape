@@ -12,7 +12,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 
 import { ApeInfoTooltip } from 'components';
-import { Text } from 'ui';
+import { Text, Flex } from 'ui';
 
 const ApeTextVariants = {
   default: 'default',
@@ -32,6 +32,7 @@ type ApeSizeType = typeof ApeSizes[keyof typeof ApeSizes];
 interface ApeTextStyleProps {
   infoTooltip?: React.ReactNode;
   subtitle?: React.ReactNode;
+  prelabel?: React.ReactNode;
   apeVariant?: ApeTextVariantType;
   apeSize?: ApeSizeType;
 }
@@ -45,6 +46,7 @@ export type ApeTextFieldProps = TextFieldProps & ApeTextStyleProps;
 export const ApeTextField = ({
   infoTooltip,
   subtitle,
+  prelabel,
   apeVariant = 'default',
   apeSize = 'default',
   ...props
@@ -148,16 +150,42 @@ export const ApeTextField = ({
         fullWidth && classes.rootFullWidth
       )}
     >
-      {(label || infoTooltip) && (
-        <Text
-          variant="label"
-          as="label"
-          htmlFor={id ?? fallbackId}
-          className={classes.label}
+      {prelabel && label ? (
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+          }}
         >
-          {label}{' '}
-          {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-        </Text>
+          <Text
+            variant="label"
+            as="label"
+            htmlFor={id ?? fallbackId}
+            className={classes.label}
+          >
+            {prelabel}{' '}
+            {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+          </Text>
+          <Text
+            variant="label"
+            as="label"
+            htmlFor={id ?? fallbackId}
+            className={classes.label}
+          >
+            {label}{' '}
+          </Text>
+        </Flex>
+      ) : (
+        (label || infoTooltip) && (
+          <Text
+            variant="label"
+            as="label"
+            htmlFor={id ?? fallbackId}
+            className={classes.label}
+          >
+            {label}{' '}
+            {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+          </Text>
+        )
       )}
       {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
       <InputBase {...mergedInputProps} />

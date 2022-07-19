@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
+import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { ReactComponent as LeftArrowSVG } from 'assets/svgs/button/left-arrow.svg';
@@ -15,7 +16,6 @@ import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { AppLink, Box, Button, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-// import { makeExplorerUrl } from 'utils/provider';
 
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
@@ -64,10 +64,14 @@ export function DistributionsPage() {
     epochError = 'No tokens were allocated during this epoch.';
   }
   const circleDist = epoch.distributions.find(
-    d => d.distribution_type === 1 || d.distribution_type === 3
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
   const fixedDist = epoch.distributions.find(
-    d => d.distribution_type === 2 || d.distribution_type === 3
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
@@ -126,7 +130,11 @@ export function DistributionsPage() {
   return (
     <SingleColumnLayout>
       <AppLink to={paths.members(circle.id)}>
-        <Button size="small" outlined css={{ padding: '$sm' }}>
+        <Button
+          size="small"
+          outlined
+          css={{ padding: '$sm', color: '$neutral', borderColor: '$neutral' }}
+        >
           <LeftArrowSVG />
           Back
         </Button>
@@ -188,14 +196,18 @@ export function DistributionsPage() {
               />
             </Box>
 
-            <Box css={{ mt: '$lg' }}>
+            <Box>
               <AllocationsTable
                 epoch={epoch}
                 users={usersWithGiftnFixedAmounts}
                 tokenName={tokenName}
                 totalGive={totalGive}
                 formGiftAmount={formGiftAmount}
-                fixedTokenName={fixedDist?.vault.symbol}
+                fixedTokenName={
+                  fixedDist
+                    ? fixedDist.vault.symbol
+                    : circle.fixed_payment_token_type
+                }
                 giveTokenName={circle.token_name}
                 downloadCSV={downloadCSV}
               />
