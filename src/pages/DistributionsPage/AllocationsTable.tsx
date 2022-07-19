@@ -24,6 +24,7 @@ export const AllocationsTable = ({
     received: number;
     claimed: number;
     circle_claimed: number;
+    combined_claimed: number;
     fixed_payment_amount: number;
     avatar: string | undefined;
     givers: number;
@@ -144,7 +145,7 @@ export const AllocationsTable = ({
             </td>
             {combinedDist && (
               <td>
-                {numberWithCommas(user.claimed.toFixed(2))} {tokenName}
+                {numberWithCommas(user.combined_claimed.toFixed(2))} {tokenName}
               </td>
             )}
           </tr>

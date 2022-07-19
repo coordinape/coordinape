@@ -633,8 +633,7 @@ const Summary = ({
         justifyContent: 'center',
         height: '$2xl',
         fontSize: '$small',
-        mt: '$sm',
-        mb: '$sm',
+        mt: '$xl',
       }}
     >
       {distribution && (
