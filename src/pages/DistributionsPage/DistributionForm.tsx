@@ -401,9 +401,9 @@ export function DistributionForm({
           </TwoColumnLayout>
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        {!circleDist ? (
-          <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
-            {isCombinedDistribution() ? (
+        <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
+          {!circleDist ? (
+            isCombinedDistribution() ? (
               <Text css={{ fontSize: '$small', lineHeight: '$xtaller' }}>
                 Combined Distribution. Total{' '}
                 {totalFixedPayment + formGiftAmount}{' '}
@@ -423,11 +423,11 @@ export function DistributionForm({
                     : `Submit ${giftVaultSymbol} Vault Distribution`
                   : `Insufficient Tokens`}
               </Button>
-            )}
-          </Flex>
-        ) : (
-          <EtherscanButton distribution={circleDist} />
-        )}
+            )
+          ) : (
+            <EtherscanButton distribution={circleDist} />
+          )}
+        </Flex>
       </form>
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
@@ -572,9 +572,9 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
-        {!fixedDist ? (
-          <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
-            {fixedPaymentTokenSel.length ? (
+        <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
+          {!fixedDist ? (
+            fixedPaymentTokenSel.length ? (
               <Button
                 color="primary"
                 outlined
@@ -612,11 +612,11 @@ export function DistributionForm({
               >
                 Export CSV
               </Button>
-            )}
-          </Flex>
-        ) : (
-          <EtherscanButton distribution={fixedDist} />
-        )}
+            )
+          ) : (
+            <EtherscanButton distribution={fixedDist} />
+          )}
+        </Flex>
       </form>
     </TwoColumnLayout>
   );
