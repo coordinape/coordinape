@@ -11,13 +11,15 @@ import { z } from 'zod';
 
 import { FormControl } from '@material-ui/core';
 
+import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
 import { numberWithCommas } from '../../utils';
 import { LoadingModal, FormTokenField, FormAutocomplete } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
-import { Box, Button, Panel, Text } from 'ui';
+import { Box, Button, Flex, Panel, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
+import { makeExplorerUrl } from 'utils/provider';
 
 import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
@@ -25,6 +27,7 @@ import { useSubmitDistribution } from './useSubmitDistribution';
 
 const headerStyle = {
   fontWeight: '$bold',
+  color: '$headingText',
 };
 
 const DistributionFormSchema = z.object({
@@ -47,7 +50,6 @@ type SubmitFormProps = {
   refetch: () => void;
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
-
 };
 
 /**
@@ -149,9 +151,12 @@ export function DistributionForm({
       },
       {} as Record<string, BigNumber>
     );
-    const type = isCombinedDistribution() && !circleDist ? 3 : 2;
+    const type =
+      isCombinedDistribution() && !circleDist && formGiftAmount > 0
+        ? DISTRIBUTION_TYPE.COMBINED
+        : DISTRIBUTION_TYPE.FIXED;
     const gifts = {} as Record<string, number>;
-    if (type === 3) {
+    if (type === DISTRIBUTION_TYPE.COMBINED) {
       users.map(user => {
         if (!(user.address in gifts)) gifts[user.address] = 0;
         gifts[user.address] += user.received;
@@ -165,7 +170,7 @@ export function DistributionForm({
     try {
       await submitDistribution({
         amount:
-          type === 3
+          type === DISTRIBUTION_TYPE.COMBINED
             ? String(totalFixedPayment + formGiftAmount)
             : String(totalFixedPayment),
         vault,
@@ -179,11 +184,13 @@ export function DistributionForm({
         circleId: circle.id,
         epochId: epoch.id,
         fixedAmount: String(totalFixedPayment),
-        giftAmount: type === 3 ? String(formGiftAmount) : '0',
+        giftAmount:
+          type === DISTRIBUTION_TYPE.COMBINED ? String(formGiftAmount) : '0',
         type,
       });
       setSubmitting(false);
       refetch();
+      updateBalanceState(value.selectedVaultSymbol, totalFixedPayment, 'fixed');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -238,6 +245,7 @@ export function DistributionForm({
       });
       setSubmitting(false);
       refetch();
+      updateBalanceState(value.selectedVaultSymbol, value.amount, 'gift');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -308,11 +316,17 @@ export function DistributionForm({
                     <>
                       <FormAutocomplete
                         value={
-                          circleDist ? circleDist.vault.symbol : giftVaultSymbol
+                          circleDist
+                            ? circleDist.vault.symbol
+                            : vaults.length
+                            ? giftVaultSymbol
+                            : 'No Vaults Available'
                         }
                         label="CoVault"
                         error={!!error}
-                        disabled={submitting || !!circleDist}
+                        disabled={
+                          submitting || !!circleDist || vaults.length === 0
+                        }
                         isSelect={true}
                         options={vaults.length ? vaults.map(t => t.symbol) : []}
                         onChange={val => {
@@ -362,8 +376,15 @@ export function DistributionForm({
                     type="number"
                     error={!!error}
                     value={circleDist ? circleDist.gift_amount : value}
-                    disabled={submitting || !!circleDist}
+                    disabled={submitting || !!circleDist || vaults.length === 0}
                     max={Number(maxGiftTokens)}
+                    prelabel={'Budget Amount'}
+                    infoTooltip={
+                      <>
+                        CoVault funds to be allocated to the distribution of
+                        this gift circle.
+                      </>
+                    }
                     label={`Avail. ${numberWithCommas(
                       maxGiftTokens
                     )} ${giftVaultSymbol}`}
@@ -380,10 +401,10 @@ export function DistributionForm({
           </TwoColumnLayout>
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        {!circleDist && (
-          <Box css={{ display: 'flex', justifyContent: 'center', mt: '$xl' }}>
+        {!circleDist ? (
+          <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
             {isCombinedDistribution() ? (
-              <Text css={{ fontSize: '$small', lineHeight: '$short' }}>
+              <Text css={{ fontSize: '$small', lineHeight: '$xtaller' }}>
                 Combined Distribution. Total{' '}
                 {totalFixedPayment + formGiftAmount}{' '}
                 {fixedPaymentTokenSel[0].symbol}
@@ -403,7 +424,9 @@ export function DistributionForm({
                   : `Insufficient Tokens`}
               </Button>
             )}
-          </Box>
+          </Flex>
+        ) : (
+          <EtherscanButton distribution={circleDist} />
         )}
       </form>
 
@@ -424,7 +447,9 @@ export function DistributionForm({
                 fontSize: '$small',
               }}
             >
-              <NavLink to={paths.circleAdmin(circle.id)}>Edit Settings</NavLink>
+              <NavLink to={paths.circleAdmin(circle.id)}>
+                <Text css={{ color: '$primary' }}>Edit Settings</Text>
+              </NavLink>
             </Box>
           </Box>
 
@@ -457,7 +482,7 @@ export function DistributionForm({
                                 ? fixedDist
                                   ? fixedDist.vault.symbol
                                   : fixedPaymentTokenSel[0].symbol
-                                : 'No Vault'
+                                : 'No Vaults Available'
                             }
                             label="CoVault"
                             error={!!error}
@@ -520,9 +545,20 @@ export function DistributionForm({
                         }
                         disabled={true}
                         max={Number(maxFixedPaymentTokens)}
+                        prelabel={'Budget Amount'}
+                        infoTooltip={
+                          <>
+                            CoVault funds to be allocated to the distribution of
+                            the fixed payment.
+                          </>
+                        }
                         label={`Avail. ${numberWithCommas(
                           maxFixedPaymentTokens
-                        )} ${fixedPaymentTokenSel[0]?.symbol}`}
+                        )} ${
+                          fixedPaymentTokenSel[0]
+                            ? fixedPaymentTokenSel[0].symbol
+                            : ''
+                        }`}
                         onChange={() => {}}
                         apeSize="small"
                       />
@@ -536,8 +572,8 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
-        {!fixedDist && (
-          <Box css={{ display: 'flex', justifyContent: 'center', mt: '$xl' }}>
+        {!fixedDist ? (
+          <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
             {fixedPaymentTokenSel.length ? (
               <Button
                 color="primary"
@@ -577,7 +613,9 @@ export function DistributionForm({
                 Export CSV
               </Button>
             )}
-          </Box>
+          </Flex>
+        ) : (
+          <EtherscanButton distribution={fixedDist} />
         )}
       </form>
     </TwoColumnLayout>
@@ -590,9 +628,8 @@ const Summary = ({
   distribution: EpochDataResult['distributions'][0] | undefined;
 }) => {
   return (
-    <Box
+    <Flex
       css={{
-        display: 'flex',
         justifyContent: 'center',
         height: '$2xl',
         fontSize: '$small',
@@ -606,6 +643,32 @@ const Summary = ({
           {formatRelative(parseISO(distribution.created_at + 'Z'), Date.now())}
         </Text>
       )}
-    </Box>
+    </Flex>
+  );
+};
+
+const EtherscanButton = ({
+  distribution,
+}: {
+  distribution: EpochDataResult['distributions'][0];
+}) => {
+  return (
+    <Button
+      type="button"
+      color="primary"
+      outlined
+      size="large"
+      fullWidth
+      onClick={() => {
+        const explorerHref = makeExplorerUrl(
+          distribution.vault.chain_id,
+          distribution.tx_hash
+        );
+        if (!explorerHref) return false;
+        window.open(explorerHref, '_blank');
+      }}
+    >
+      View on Etherscan
+    </Button>
   );
 };
