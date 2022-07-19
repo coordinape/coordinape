@@ -86,6 +86,16 @@ export function DistributionsPage() {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient.id === user.id
       );
+      const claimed = !fixedDist
+        ? 0
+        : fixedDist.claims
+            .filter(c => c.profile?.id === user.profile?.id)
+            .reduce((t, g) => t + g.new_amount, 0) || 0;
+      const circle_claimed = !circleDist
+        ? 0
+        : circleDist.claims
+            .filter(c => c.profile?.id === user.profile?.id)
+            .reduce((t, g) => t + g.new_amount, 0) || 0;
       return {
         id: user.id,
         name: user.name,
@@ -96,16 +106,15 @@ export function DistributionsPage() {
         received: receivedGifts
           ? receivedGifts.reduce((t, g) => t + g.tokens, 0) || 0
           : 0,
-        claimed: !fixedDist
-          ? 0
-          : fixedDist.claims
-              .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.new_amount, 0) || 0,
-        circle_claimed: !circleDist
-          ? 0
-          : circleDist.claims
-              .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.new_amount, 0) || 0,
+        claimed,
+        circle_claimed,
+        combined_claimed: !(
+          fixedDist &&
+          circleDist &&
+          circleDist.distribution_type === fixedDist.distribution_type
+        )
+          ? claimed + circle_claimed
+          : claimed,
       };
     });
   const usersWithReceivedAmounts = uniqBy(

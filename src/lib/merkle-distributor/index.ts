@@ -30,11 +30,16 @@ export const createDistribution = (
   giftAmount: BigNumber,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
-  const totalGive = Object.values(gifts).reduce((t, v) => t + v);
-  let balances = Object.keys(gifts).map(address => ({
-    address,
-    earnings: giftAmount.mul(gifts[address]).div(totalGive),
-  }));
+  let balances: Balance[] = [];
+  if (Object.keys(gifts).length) {
+    const totalGive = Object.values(gifts).reduce((t, v) => t + v);
+    Object.keys(gifts).map(address => {
+      balances.push({
+        address,
+        earnings: giftAmount.mul(gifts[address]).div(totalGive),
+      });
+    });
+  }
 
   if (fixedGifts) {
     Object.keys(fixedGifts).map(address => {
@@ -54,7 +59,10 @@ export const createDistribution = (
 
   // Failing this means we did bad math
   assert(dust.lt(20), `panic: dust too high: ${dust.toString()}`);
-  const topGift = assertDef(maxBy(Object.entries(gifts), x => x[1]));
+  const topGift =
+    Object.keys(gifts).length === 0 && fixedGifts
+      ? assertDef(maxBy(Object.entries(fixedGifts), x => x[1]))
+      : assertDef(maxBy(Object.entries(gifts), x => x[1]));
   const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
   topBalance.earnings = topBalance.earnings.add(dust);
   assert(getDust(totalAmount, balances).eq(0), `dust is still not 0`);
