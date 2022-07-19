@@ -129,7 +129,7 @@ export function DistributionsPage() {
 
   return (
     <SingleColumnLayout>
-      <AppLink to={paths.members(circle.id)}>
+      <AppLink to={paths.history(circle.id)}>
         <Button
           size="small"
           outlined
