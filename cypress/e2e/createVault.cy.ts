@@ -67,7 +67,7 @@ context('Coordinape', () => {
     cy.contains('Distribution saved successfully', { timeout: 120000 });
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
-    cy.contains('Distribution submitted today', { timeout: 120000 });
+    cy.contains('Distribution completed on', { timeout: 120000 });
 
     // claims allocations
     cy.contains('button', 'Claim Allocations').click();
