@@ -135,5 +135,5 @@ test('render with a distribution', async () => {
   });
 
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
-  expect(screen.getByText('10.80 USDC')).toBeInTheDocument();
+  expect(screen.getAllByText('10.80 USDC').length).toEqual(2);
 });
