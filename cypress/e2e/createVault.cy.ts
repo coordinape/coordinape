@@ -70,7 +70,7 @@ context('Coordinape', () => {
       .click()
       .type('4500')
       .wait(10000);
-    cy.contains('button', 'Submit Distribution').click();
+    cy.contains('button', 'Submit USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });
