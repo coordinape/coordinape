@@ -148,82 +148,73 @@ export function DistributionsPage() {
           Back
         </Button>
       </AppLink>
-      <Box>
-        <Text h1>
-          Distributions&nbsp;
-          <Text normal>
-            Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
-            {endDate.toFormat(
-              endDate.month === startDate.month ? 'd' : 'MMM d'
-            )}
-          </Text>
+      <Text h1 css={{ '@sm': { display: 'block' } }}>
+        Distributions&nbsp;
+        <Text normal>
+          Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
+          {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
         </Text>
-        <br />
-        <Box css={{ maxWidth: '712px' }}>
-          <Text css={{ lineHeight: `$shorter` }}>
-            Please review the distribution details below and if all looks good,
-            approve the distribution so that contributors can claim their funds.
-            <br />
-            <br />
-            Each token distribution requires a seperate transaction. If you
-            choose the same token you can combine Gift Circle and Fixed Payment
-            transactions. If you choose a token that you don’t have a vault for
-            you can export the distribution to a CSV.
-          </Text>
-        </Box>
+      </Text>
+      <br />
+      <Box css={{ maxWidth: '712px' }}>
+        <Text css={{ lineHeight: `$shorter` }}>
+          Please review the distribution details below and if all looks good,
+          approve the distribution so that contributors can claim their funds.
+          <br />
+          <br />
+          Each token distribution requires a seperate transaction. If you choose
+          the same token you can combine Gift Circle and Fixed Payment
+          transactions. If you choose a token that you don’t have a vault for
+          you can export the distribution to a CSV.
+        </Text>
       </Box>
-      <Box>
-        {epochError ? (
-          <Text
-            css={{
-              fontSize: '$h3',
-              fontWeight: '$semibold',
-              textAlign: 'center',
-              display: 'block',
-              mt: '$md',
-              color: '$alert',
-            }}
-          >
-            {epochError}
-          </Text>
-        ) : (
-          <>
-            <Box css={{ mt: '$lg' }}>
-              <DistributionForm
-                circleDist={circleDist}
-                fixedDist={fixedDist}
-                giftVaultSymbol={giftVaultSymbol}
-                formGiftAmount={formGiftAmount}
-                epoch={epoch}
-                users={usersWithReceivedAmounts}
-                setAmount={setFormGiftAmount}
-                setGiftVaultSymbol={setGiftVaultSymbol}
-                vaults={vaults}
-                circleUsers={circleUsers}
-                downloadCSV={downloadCSV}
-                refetch={refetch}
-              />
-            </Box>
-
-            <Box>
-              <AllocationsTable
-                epoch={epoch}
-                users={usersWithGiftnFixedAmounts}
-                tokenName={tokenName}
-                totalGive={totalGive}
-                formGiftAmount={formGiftAmount}
-                fixedTokenName={
-                  fixedDist
-                    ? fixedDist.vault.symbol
-                    : circle.fixed_payment_token_type
-                }
-                giveTokenName={circle.token_name}
-                downloadCSV={downloadCSV}
-              />
-            </Box>
-          </>
-        )}
-      </Box>
+      {epochError ? (
+        <Text
+          css={{
+            fontSize: '$h3',
+            fontWeight: '$semibold',
+            textAlign: 'center',
+            display: 'block',
+            mt: '$md',
+            color: '$alert',
+          }}
+        >
+          {epochError}
+        </Text>
+      ) : (
+        <>
+          <Box css={{ mt: '$lg' }}>
+            <DistributionForm
+              circleDist={circleDist}
+              fixedDist={fixedDist}
+              giftVaultSymbol={giftVaultSymbol}
+              formGiftAmount={formGiftAmount}
+              epoch={epoch}
+              users={usersWithReceivedAmounts}
+              setAmount={setFormGiftAmount}
+              setGiftVaultSymbol={setGiftVaultSymbol}
+              vaults={vaults}
+              circleUsers={circleUsers}
+              downloadCSV={downloadCSV}
+              refetch={refetch}
+            />
+          </Box>
+          <AllocationsTable
+            epoch={epoch}
+            users={usersWithGiftnFixedAmounts}
+            tokenName={tokenName}
+            totalGive={totalGive}
+            formGiftAmount={formGiftAmount}
+            fixedTokenName={
+              fixedDist
+                ? fixedDist.vault.symbol
+                : circle.fixed_payment_token_type
+            }
+            giveTokenName={circle.token_name}
+            downloadCSV={downloadCSV}
+          />
+        </>
+      )}
     </SingleColumnLayout>
   );
 }

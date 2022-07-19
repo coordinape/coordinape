@@ -43,10 +43,10 @@ export const TwoColumnLayout = ({
   return (
     <Box
       css={{
-        maxWidth: '$mediumScreen',
         display: 'grid',
         gap: '$xl',
         gridTemplateColumns: '1fr 1fr',
+        '@sm': { gridTemplateColumns: '1fr' },
         ...css,
       }}
     >
