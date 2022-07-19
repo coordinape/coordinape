@@ -9,7 +9,7 @@ import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
-import { Box, Button, Panel, Text, TextField, Tooltip } from 'ui';
+import { Box, Button, Panel, Text, Tooltip } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const SummonCirclePage = () => {
@@ -42,7 +42,7 @@ export const SummonCirclePage = () => {
 
   const org = protocols.find(p => p.id === Number(params.get('org')));
   const source = {
-    protocol_id: org?.id || '',
+    protocol_id: org?.id || undefined,
     protocol_name: org?.name || '',
     user_name: myUsers.find(u => u !== undefined)?.name,
   };
@@ -141,9 +141,10 @@ export const SummonCirclePage = () => {
                           <InfoCircledIcon />
                         </Tooltip>
                       </Text>
-                      <TextField
+                      <FormTextField
+                        {...fields.protocol_name}
                         placeholder="Organization Name"
-                        css={{ width: '100%' }}
+                        fullWidth
                       />
                     </div>
                   )}
