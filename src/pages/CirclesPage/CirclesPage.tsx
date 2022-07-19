@@ -184,19 +184,21 @@ const GetStarted = () => {
             happening.
           </Text>
           <Box>
-            <Link
-              css={{
-                mr: '$md',
-                '@sm': { mb: '$md' },
-              }}
-              href={paths.createCircle}
-            >
-              <Button color="primary" outlined inlineBlock>
+            <Link href={paths.createCircle}>
+              <Button
+                color="primary"
+                outlined
+                inline
+                css={{
+                  mr: '$md',
+                  mb: '$md',
+                }}
+              >
                 Create New Circle
               </Button>
             </Link>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
-              <Button color="primary" outlined inlineBlock>
+              <Button color="primary" outlined inline>
                 Get Started Guide
               </Button>
             </Link>

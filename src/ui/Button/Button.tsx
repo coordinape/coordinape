@@ -175,11 +175,6 @@ export const Button = styled('button', {
         display: 'inline',
       },
     },
-    inlineBlock: {
-      true: {
-        display: 'inlineBlock',
-      },
-    },
   },
   compoundVariants: [
     {
