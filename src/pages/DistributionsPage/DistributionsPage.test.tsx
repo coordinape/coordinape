@@ -1,5 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { FixedNumber } from 'ethers';
+import { DateTime } from 'luxon';
 
 import { TestWrapper } from 'utils/testing';
 import { mockEpoch } from 'utils/testing/mocks';
@@ -28,6 +29,8 @@ const mockEpochData = {
   id: 1,
   number: mockEpoch.number,
   ended: true,
+  start_date: DateTime.now().minus({ days: 1 }),
+  end_date: DateTime.now().plus({ days: 1 }),
   circle: {
     name: mockEpoch.circle.name,
     users: [{ role: 1 }],
@@ -87,7 +90,7 @@ test('render without a distribution', async () => {
   await waitFor(() => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
-  expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
+  expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(screen.getByText('Insufficient Tokens')).toBeInTheDocument();
 });
 
@@ -131,6 +134,6 @@ test('render with a distribution', async () => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
 
-  expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
+  expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(screen.getByText('10.80 USDC')).toBeInTheDocument();
 });
