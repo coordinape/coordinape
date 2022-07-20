@@ -20,6 +20,7 @@ export const getVaultAndTransactions = async (address: string | undefined) => {
                 users: [{}, { circle_id: true, name: true }],
               },
               distribution: {
+                claims: [{}, { profile_id: true }],
                 gift_amount: true,
                 fixed_amount: true,
                 epoch: {

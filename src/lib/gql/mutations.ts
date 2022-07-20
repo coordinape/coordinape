@@ -172,7 +172,6 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
         {
           vault: {
             ...allVaultFields,
-
             vault_transactions: [
               {},
               {
@@ -184,6 +183,7 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
                   users: [{}, { circle_id: true, name: true }],
                 },
                 distribution: {
+                  claims: [{}, { profile_id: true }],
                   fixed_amount: true,
                   gift_amount: true,
                   epoch: {

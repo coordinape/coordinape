@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { GraphQLTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { CSS } from 'stitches.config';
 
 import { useBlockListener } from 'hooks/useBlockListener';
@@ -35,6 +35,10 @@ export function VaultRow({
       });
 
   useBlockListener(updateBalance, [vault.id]);
+  // for UI updates when the user is switching between orgs quickly
+  useEffect(() => {
+    updateBalance();
+  }, [vault.id]);
 
   useEffect(() => {
     const updateOwner = async () => {
@@ -51,6 +55,9 @@ export function VaultRow({
     };
     updateOwner();
   }, [contracts, vault.id]);
+
+  const distributionCount = getDistributions(vault).length;
+  const uniqueContributors = getUniqueContributors(vault);
 
   const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
 
@@ -106,7 +113,9 @@ export function VaultRow({
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
         <Text font="source">
-          <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
+          <strong>{distributionCount}</strong>&nbsp;Distribution
+          {distributionCount !== 1 ?? 's'}
+          -&nbsp;<strong>{uniqueContributors}</strong>
           &nbsp;Unique Contributors Paid
         </Text>
       </Box>
@@ -143,6 +152,21 @@ export function VaultRow({
     </Panel>
   );
 }
+
+const getDistributions = (
+  vault: GraphQLTypes['vaults']
+): GraphQLTypes['vault_transactions'][] => {
+  return vault.vault_transactions.filter(
+    t => t.tx_type === vault_tx_types_enum.Distribution
+  );
+};
+
+const getUniqueContributors = (vault: GraphQLTypes['vaults']): number =>
+  new Set(
+    getDistributions(vault).flatMap(d =>
+      d.distribution?.claims.map(c => c.profile_id)
+    )
+  ).size;
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
