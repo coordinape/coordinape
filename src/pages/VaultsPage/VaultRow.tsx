@@ -114,7 +114,7 @@ export function VaultRow({
         </Text>
         <Text font="source">
           <strong>{distributionCount}</strong>&nbsp;Distribution
-          {distributionCount !== 1 ?? 's'}
+          {distributionCount !== 1 && 's'}
           -&nbsp;<strong>{uniqueContributors}</strong>
           &nbsp;Unique Contributors Paid
         </Text>
