@@ -358,7 +358,7 @@ export function DistributionForm({
             </Box>
             <Box css={{ width: '100%' }}>
               <Controller
-                name={'amount'}
+                name="amount"
                 control={control}
                 render={({
                   field: { onChange, value },
@@ -377,7 +377,7 @@ export function DistributionForm({
                     value={circleDist ? circleDist.gift_amount : value}
                     disabled={submitting || !!circleDist || vaults.length === 0}
                     max={Number(maxGiftTokens)}
-                    prelabel={'Budget Amount'}
+                    prelabel="Budget Amount"
                     infoTooltip={
                       <>
                         CoVault funds to be allocated to the distribution of
@@ -418,9 +418,9 @@ export function DistributionForm({
               >
                 {sufficientGiftTokens
                   ? submitting
-                    ? `Submitting...`
+                    ? 'Submitting...'
                     : `Submit ${giftVaultSymbol} Vault Distribution`
-                  : `Insufficient Tokens`}
+                  : 'Insufficient Tokens'}
               </Button>
             )
           ) : (
@@ -509,7 +509,7 @@ export function DistributionForm({
                 </Box>
                 <Box css={{ width: '100%' }}>
                   <Controller
-                    name={'amount'}
+                    name="amount"
                     control={control}
                     render={({ fieldState: { error } }) => (
                       <FormTokenField
