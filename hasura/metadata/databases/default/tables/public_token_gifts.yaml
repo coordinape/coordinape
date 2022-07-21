@@ -25,6 +25,28 @@ object_relationships:
     foreign_key_constraint_on: sender_id
 select_permissions:
 - permission:
+    columns:
+    - circle_id
+    - created_at
+    - dts_created
+    - epoch_id
+    - id
+    - recipient_id
+    - sender_id
+    - tokens
+    - updated_at
+    filter:
+      circle:
+        api_keys:
+          _and:
+          - hash:
+              _eq: X-Hasura-Api-Key-Hash
+          - read_pending_token_gifts:
+              _eq: true
+          - read_epochs:
+              _eq: true
+  role: api-user
+- permission:
     allow_aggregations: true
     columns:
     - circle_id
