@@ -6,7 +6,6 @@ import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber } from 'ethers';
 import { getWrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 
 import { FormControl } from '@material-ui/core';
@@ -17,7 +16,7 @@ import { IUser } from '../../types';
 import { numberWithCommas } from '../../utils';
 import { LoadingModal, FormTokenField, FormAutocomplete } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
-import { Box, Button, Flex, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
@@ -432,26 +431,19 @@ export function DistributionForm({
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
         <Panel css={{ padding: '16px', minHeight: '147px' }}>
-          <Box>
-            <Box css={{ width: '80%', display: 'inline-block' }}>
-              <Text h2 css={headerStyle}>
-                Fixed Payment
-              </Text>
-            </Box>
-            <Box
-              css={{
-                width: '20%',
-                display: 'inline-block',
-                textAlign: 'right',
-                verticalAlign: '$baseline',
-                fontSize: '$small',
-              }}
-            >
-              <NavLink to={paths.circleAdmin(circle.id)}>
+          <Flex>
+            <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
+              Fixed Payment
+            </Text>
+            <Box css={{ fontSize: '$small', alignSelf: 'center' }}>
+              <AppLink
+                to={paths.circleAdmin(circle.id)}
+                css={{ textDecoration: 'none' }}
+              >
                 <Text css={{ color: '$primary' }}>Edit Settings</Text>
-              </NavLink>
+              </AppLink>
             </Box>
-          </Box>
+          </Flex>
 
           {!fixed_payment_token_type ? (
             <Box
