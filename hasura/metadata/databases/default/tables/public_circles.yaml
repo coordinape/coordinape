@@ -92,6 +92,7 @@ select_permissions:
     columns:
     - alloc_text
     - default_opt_in
+    - deleted_at
     - id
     - is_verified
     - logo
@@ -118,6 +119,7 @@ select_permissions:
     - auto_opt_out
     - created_at
     - default_opt_in
+    - deleted_at
     - fixed_payment_token_type
     - id
     - is_verified
@@ -195,17 +197,3 @@ update_permissions:
             id:
               _eq: X-Hasura-User-Id
   role: user
-event_triggers:
-- definition:
-    enable_manual: false
-    insert:
-      columns: "*"
-  headers:
-  - name: verification_key
-    value_from_env: HASURA_EVENT_SECRET
-  name: createCircleCRM
-  retry_conf:
-    interval_sec: 3600
-    num_retries: 5
-    timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"

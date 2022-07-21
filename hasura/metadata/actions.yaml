@@ -85,6 +85,15 @@ actions:
   permissions:
   - role: user
   comment: Log offchain information for vault transactions
+- name: deleteCircle
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+    headers:
+    - value: HASURA_EVENT_SECRET
+      name: verification_key
+  permissions:
+  - role: user
 - name: deleteEpoch
   definition:
     kind: synchronous
@@ -254,6 +263,7 @@ custom_types:
   - name: UploadOrgImageInput
   - name: CoordinapeInput
   - name: LogVaultTxInput
+  - name: DeleteCircleInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -416,5 +426,6 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteCirlceResponse
   scalars:
   - name: timestamptz
