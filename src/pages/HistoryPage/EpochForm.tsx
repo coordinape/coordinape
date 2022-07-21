@@ -104,7 +104,7 @@ const getCollisionMessage = (
   return undefined;
 };
 
-const getZodParser = (source?: IEpochFormSource) => {
+const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
   const otherRepeating = source?.epochs?.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
@@ -140,10 +140,15 @@ const getZodParser = (source?: IEpochFormSource) => {
       start_date: DateTime.fromISO(start_date).setZone(),
       ...fields,
     }))
-    .refine(({ start_date }) => start_date > DateTime.now().setZone(), {
-      path: ['start_date'],
-      message: 'Start date must be in the future',
-    })
+    .refine(
+      ({ start_date }) =>
+        start_date > DateTime.now().setZone() ||
+        source?.epoch?.id === currentEpoch,
+      {
+        path: ['start_date'],
+        message: 'Start date must be in the future',
+      }
+    )
     .refine(
       ({ start_date, days }) =>
         start_date.plus({ days }) > DateTime.now().setZone(),
@@ -226,10 +231,12 @@ const EpochForm = ({
     () => ({
       epoch: selectedEpoch ? extraEpoch(selectedEpoch) : undefined,
       epochs: currentEpoch
-        ? epochs
-            ?.filter(e => e.id !== selectedEpoch?.id)
-            .concat(currentEpoch)
-            .map(e => extraEpoch(e))
+        ? currentEpoch.id !== selectedEpoch?.id
+          ? epochs
+              ?.filter(e => e.id !== selectedEpoch?.id)
+              .concat(currentEpoch)
+              .map(e => extraEpoch(e))
+          : epochs?.map(e => extraEpoch(e))
         : epochs
             ?.filter(e => e.id !== selectedEpoch?.id)
             .map(e => extraEpoch(e)),
@@ -257,7 +264,7 @@ const EpochForm = ({
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
     const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
-      getZodParser(source).safeParse(data);
+      getZodParser(source, currentEpoch?.id).safeParse(data);
     if (!value.success) {
       const path = value.error.errors[0].path[0];
       setError(
@@ -356,17 +363,15 @@ const EpochForm = ({
               <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
                 <Flex
                   column
-                  css={{ alignItems: 'flex-start', maxWidth: '150px' }}
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '150px',
+                    gap: '$xs',
+                  }}
                 >
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Start Date{' '}
-                    <Tooltip
-                      content={
-                        <Box>
-                          The first day of the epoch in your local time zone
-                        </Box>
-                      }
-                    >
+                    <Tooltip content="The first day of the epoch in your local time zone">
                       <InfoCircledIcon />
                     </Tooltip>
                   </FormLabel>
@@ -378,6 +383,7 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
+                        disabled={currentEpoch?.id === selectedEpoch?.id}
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -386,7 +392,7 @@ const EpochForm = ({
                     )}
                   />
                 </Flex>
-                <Flex css={{ maxWidth: '150px', gap: '$xs' }}>
+                <Flex css={{ maxWidth: '150px' }}>
                   <FormInputField
                     id="days"
                     name="days"
@@ -395,46 +401,42 @@ const EpochForm = ({
                     }
                     control={control}
                     label="Duration (days)"
-                    infoTooltip={'How long the epoch lasts in days'}
+                    infoTooltip="How long the epoch lasts in days"
                     number
                   />
                 </Flex>
-                <Flex css={{ gap: '$md', alignItems: 'flex-end' }}>
-                  <Flex
-                    column
-                    css={{
-                      alignItems: 'flex-start',
-                      maxWidth: '150px',
-                    }}
-                  >
-                    <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                      Start Time{' '}
-                      <Tooltip
-                        content={
-                          <Box>
-                            The start time of the epoch in your local time zone
-                          </Box>
-                        }
-                      >
-                        <InfoCircledIcon />
-                      </Tooltip>
-                    </FormLabel>
+                <Flex column css={{ gap: '$xs' }}>
+                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                    Start Time{' '}
+                    <Tooltip content="The start time of the epoch in your local time zone">
+                      <InfoCircledIcon />
+                    </Tooltip>
+                  </FormLabel>
+                  <Flex row css={{ gap: '$sm' }}>
                     <Controller
                       control={control}
                       name="start_date"
                       render={({ field: { onChange, value, onBlur } }) => (
-                        <FormTimePicker
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          value={value}
-                        />
+                        <Box
+                          css={{
+                            maxWidth: '150px',
+                            '> div': { mb: '0 !important' },
+                          }}
+                        >
+                          <FormTimePicker
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            disabled={currentEpoch?.id === selectedEpoch?.id}
+                          />
+                        </Box>
                       )}
                     />
+                    <Text font="inter" size="medium">
+                      In your
+                      <br /> local timezone
+                    </Text>
                   </Flex>
-                  <Text font="inter" size="medium" css={{ pb: '$sm' }}>
-                    In your
-                    <br /> local timezone
-                  </Text>
                 </Flex>
               </Flex>
               <Flex column css={{ mt: '$lg ' }}>

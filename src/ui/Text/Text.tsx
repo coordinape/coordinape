@@ -30,9 +30,9 @@ export const Text = styled('span', {
       true: { fontSize: '$h1', color: '$headingText', fontWeight: '$semibold' },
     },
     h2: {
-      true: { fontSize: '$h2', color: '$headingText', fontWeight: '$semibold' },
+      true: { fontSize: '$h2', fontWeight: '$semibold' },
     },
-    h3: { true: { fontSize: '$h3', color: '$headingText' } },
+    h3: { true: { fontSize: '$h3' } },
 
     size: {
       small: { fontSize: '$small', lineHeight: '$shorter' },
@@ -44,8 +44,14 @@ export const Text = styled('span', {
         color: '$secondaryText',
         textTransform: 'uppercase',
         fontSize: '$small',
-        fontWeight: '$semibold',
+        fontWeight: '$bold',
         lineHeight: '$shorter',
+        marginBottom: '$xs',
+      },
+      p: {
+        color: '$text',
+        fontSize: '$medium',
+        lineHeight: '$base',
       },
     },
   },

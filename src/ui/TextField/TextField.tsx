@@ -5,24 +5,21 @@ import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
   background: '$surface',
-  border: '1px solid $border',
+  padding: '$sm',
+  border: '1px solid transparent',
   '&:focus': {
-    border: '1px solid $borderMedium',
+    borderColor: '$borderMedium',
   },
   '&::placeholder': {
     color: '$secondaryText',
   },
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
   borderRadius: '8px',
 
   fontWeight: '$light',
   fontSize: '$medium',
   lineHeight: '$base',
-
-  textAlign: 'center',
 
   color: '$text',
   variants: {

@@ -11,7 +11,7 @@ const StyledContent = styled(PopoverPrimitive.Content, {
 });
 
 export const Popover = PopoverPrimitive.Root;
-export const PopoverTrigger = PopoverPrimitive.Trigger;
+export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
 export const PopoverContent = StyledContent;
 export const PopoverClose = PopoverPrimitive.Close;
 export const PopoverArrow = PopoverPrimitive.Arrow;

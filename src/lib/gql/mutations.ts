@@ -160,12 +160,44 @@ export const allVaultFields = {
   token_address: true,
   updated_at: true,
   vault_address: true,
+  chain_id: true,
+  deployment_block: true,
 };
 
 export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
   client.mutate(
     {
-      createVault: [{ payload: vault }, { vault: allVaultFields }],
+      createVault: [
+        { payload: vault },
+        {
+          vault: {
+            ...allVaultFields,
+
+            vault_transactions: [
+              {},
+              {
+                tx_hash: true,
+                tx_type: true,
+                created_at: true,
+                profile: {
+                  address: true,
+                  users: [{}, { circle_id: true, name: true }],
+                },
+                distribution: {
+                  fixed_amount: true,
+                  gift_amount: true,
+                  epoch: {
+                    start_date: true,
+                    end_date: true,
+                    number: true,
+                    circle: { name: true },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
     },
     {
       operationName: 'addVault',

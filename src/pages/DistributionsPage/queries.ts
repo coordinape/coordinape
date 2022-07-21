@@ -60,7 +60,9 @@ export const getEpochData = async (
             },
           ],
           distributions: [
-            {},
+            {
+              where: { tx_hash: { _is_null: false } },
+            },
             {
               created_at: true,
               total_amount: true,

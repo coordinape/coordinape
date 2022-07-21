@@ -12,7 +12,10 @@ export const getClaims = async (
     {
       claims: [
         {
-          where: { profile_id: { _eq: profileId } },
+          where: {
+            profile_id: { _eq: profileId },
+            distribution: { tx_hash: { _is_null: false } },
+          },
           order_by: [{ created_at: order_by.desc }],
         },
         {

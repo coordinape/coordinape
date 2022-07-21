@@ -84,6 +84,7 @@ export const OverviewMenu = () => {
         <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
             asChild
+            css={{ outline: 'none' }}
             ref={triggerRef}
             onMouseEnter={() => setMouseEnterTrigger(true)}
             onMouseLeave={() =>
@@ -144,7 +145,7 @@ export const OverviewMenu = () => {
               </Box>
               {orgs?.map(org => (
                 <Box key={org.id} css={menuGroupStyle}>
-                  <Text variant="label" as="label">
+                  <Text variant="label" as="label" css={{ mb: 0 }}>
                     {org.name}
                   </Text>
                   <Box css={{ display: 'flex', flexDirection: 'column' }}>

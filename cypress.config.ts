@@ -13,6 +13,5 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return plugins(on, config);
     },
-    baseUrl: 'http://localhost:undefined',
   },
 });

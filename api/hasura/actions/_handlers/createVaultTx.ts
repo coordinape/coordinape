@@ -9,7 +9,7 @@ import {
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   getDistributionForVault,
-  getVaultAndDistributionForAddress,
+  getVaultForAddress,
 } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
@@ -30,7 +30,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ).parse(req.body);
   const actionToLog = VaultLogUnionSchema.parse(payload);
 
-  const validVault = await getVaultAndDistributionForAddress(
+  const validVault = await getVaultForAddress(
     hasuraAddress,
     actionToLog.vault_id
   );

@@ -53,6 +53,7 @@ export const MyAvatarMenu = () => {
       <Hidden smDown>
         <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
+            css={{ outline: 'none' }}
             asChild
             ref={triggerRef}
             onMouseEnter={() => setMouseEnterTrigger(true)}

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
@@ -89,6 +89,11 @@ export const HistoryPage = () => {
     query.refetch();
   };
 
+  useEffect(() => {
+    setEditEpoch(undefined);
+    setNewEpoch(false);
+  }, [circleId]);
+
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
 
@@ -178,6 +183,11 @@ export const HistoryPage = () => {
             nominees={nominees}
             unallocated={unallocated}
             tokenName={circle?.token_name}
+            isAdmin={isAdmin}
+            isEditing={editEpoch || newEpoch ? true : false}
+            editCurrentEpoch={() => {
+              setEditEpoch(currentEpoch);
+            }}
           />
         </>
       )}
