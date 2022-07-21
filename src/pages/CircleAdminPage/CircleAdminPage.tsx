@@ -30,6 +30,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
+import { RemoveCircleModal } from './RemoveCircleModal';
 
 const labelStyles = {
   fontWeight: '$bold',
@@ -178,6 +179,9 @@ export const CircleAdminPage = () => {
 
   const [allowEdit, setAllowEdit] = useState(false);
 
+  const [circleToRemove, setCircleToRemove] = useState<number | undefined>(
+    undefined
+  );
   const {
     control,
     handleSubmit,
@@ -690,7 +694,30 @@ export const CircleAdminPage = () => {
           <Text inline bold h2 font="inter">
             Danger Zone
           </Text>
-          <Panel nested></Panel>
+          <Panel nested>
+            <Text h3 semibold css={{ mb: '$sm' }}>
+              Permanently Remove Circle
+            </Text>
+            <Button
+              color="destructive"
+              outlined
+              css={{
+                width: 'fit-content',
+              }}
+              onClick={event => {
+                event.preventDefault();
+                setCircleToRemove(1);
+              }}
+            >
+              Remove Circle
+            </Button>
+            <RemoveCircleModal
+              onClose={() => {
+                setCircleToRemove(undefined);
+              }}
+              visible={!!circleToRemove}
+            ></RemoveCircleModal>
+          </Panel>
         </Panel>
       </SingleColumnLayout>
     </Form>
