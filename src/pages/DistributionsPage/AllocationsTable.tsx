@@ -162,7 +162,7 @@ export const AllocationsTable = ({
           target="_blank"
           href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
         >
-          Documentation: Paying Your Team 
+          Documentation: Paying Your Team
         </Link>
         <Paginator pages={totalPages} current={page} onSelect={setPage} />
       </Flex>
