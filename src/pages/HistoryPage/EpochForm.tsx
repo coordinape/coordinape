@@ -383,7 +383,10 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
-                        disabled={currentEpoch?.id === selectedEpoch?.id}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -427,7 +430,10 @@ const EpochForm = ({
                             onBlur={onBlur}
                             onChange={onChange}
                             value={value}
-                            disabled={currentEpoch?.id === selectedEpoch?.id}
+                            disabled={
+                              selectedEpoch &&
+                              currentEpoch?.id === selectedEpoch?.id
+                            }
                           />
                         </Box>
                       )}
