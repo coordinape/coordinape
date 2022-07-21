@@ -162,9 +162,9 @@ export function DistributionsPage() {
           approve the distribution so that contributors can claim their funds.
           <br />
           <br />
-          Each token distribution requires a seperate transaction. If you choose
-          the same token you can combine Gift Circle and Fixed Payment
-          transactions. If you choose a token that you don’t have a vault for
+          Each token distribution requires a separate transaction. If you choose
+          the same token, you can combine Gift Circle and Fixed Payment
+          transactions. If you choose a token that you don’t have a vault for,
           you can export the distribution to a CSV.
         </Text>
       </Box>
