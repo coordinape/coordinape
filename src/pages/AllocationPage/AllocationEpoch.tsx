@@ -133,6 +133,7 @@ const AllocationEpoch = ({
   useEffect(() => {
     if (myUser) {
       setEpochBio(myUser?.bio ?? '');
+      setNonReceiver(myUser.non_receiver);
     }
   }, [myUser]);
 
