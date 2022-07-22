@@ -31,7 +31,7 @@ export const createDistribution = (
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v, 0);
-  const balances = Object.keys(gifts).map(address => ({
+  let balances = Object.keys(gifts).map(address => ({
     address,
     earnings: giftAmount.mul(gifts[address]).div(totalGive),
   }));
