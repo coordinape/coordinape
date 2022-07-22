@@ -165,7 +165,6 @@ export const {
       tall: 1.625,
       tall2: 1.75,
       taller: '2',
-      xtaller: '3.5',
     },
     shadows: {
       shadow4: '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F',
