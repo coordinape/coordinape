@@ -133,7 +133,6 @@ const AllocationEpoch = ({
   useEffect(() => {
     if (myUser) {
       setEpochBio(myUser?.bio ?? '');
-      setNonReceiver(myUser.non_receiver);
     }
   }, [myUser]);
 
@@ -204,6 +203,14 @@ const AllocationEpoch = ({
             <hr className={classes.optHr} />
             <div className={classes.optInputContainer}>
               <OptInput
+                isChecked={!nonReceiver}
+                subTitle={`I want to be eligible to receive ${
+                  selectedCircle?.token_name || 'GIVE'
+                }`}
+                title="Opt In"
+                updateOpt={() => setNonReceiver(false)}
+              />
+              <OptInput
                 isChecked={nonReceiver}
                 subTitle="I am paid sufficiently via other channels"
                 title="Opt Out"
@@ -214,14 +221,6 @@ const AllocationEpoch = ({
                     setNonReceiver(true);
                   }
                 }}
-              />
-              <OptInput
-                isChecked={!nonReceiver}
-                subTitle={`I want to be eligible to receive ${
-                  selectedCircle?.token_name || 'GIVE'
-                }`}
-                title="Opt In"
-                updateOpt={() => setNonReceiver(false)}
               />
               <ActionDialog
                 open={optOutOpen}
