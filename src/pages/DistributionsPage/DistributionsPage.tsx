@@ -73,6 +73,13 @@ export function DistributionsPage() {
       d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
       d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
+
+  const isCombinedDistribution =
+    fixedDist &&
+    circleDist &&
+    circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED &&
+    fixedDist.distribution_type === DISTRIBUTION_TYPE.COMBINED;
+
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
       return (
@@ -108,11 +115,9 @@ export function DistributionsPage() {
           : 0,
         claimed,
         circle_claimed,
-        combined_claimed: !(
-          fixedDist &&
-          circleDist &&
-          circleDist.distribution_type === fixedDist.distribution_type
-        )
+        // if its a combined distribution we don't add the claim amounts twice
+        // to avoid double counting towards the total claimed
+        combined_claimed: !isCombinedDistribution
           ? claimed + circle_claimed
           : claimed,
       };

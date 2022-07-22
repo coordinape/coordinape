@@ -31,15 +31,13 @@ export const createDistribution = (
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   let balances: Balance[] = [];
-  if (Object.keys(gifts).length) {
-    const totalGive = Object.values(gifts).reduce((t, v) => t + v);
-    Object.keys(gifts).map(address => {
-      balances.push({
-        address,
-        earnings: giftAmount.mul(gifts[address]).div(totalGive),
-      });
+  const totalGive = Object.values(gifts).reduce((t, v) => t + v, 0);
+  Object.keys(gifts).map(address => {
+    balances.push({
+      address,
+      earnings: giftAmount.mul(gifts[address]).div(totalGive),
     });
-  }
+  });
 
   if (fixedGifts) {
     Object.keys(fixedGifts).map(address => {

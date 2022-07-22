@@ -220,8 +220,8 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const profileIdsByAddress = users.reduce((ret, user) => {
-      ret[user.address.toLowerCase()] = user.profile.id;
+    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
+      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
       return ret;
     }, {} as Record<string, number>);
 
@@ -240,7 +240,7 @@ export function DistributionForm({
         epochId: epoch.id,
         fixedAmount: '0',
         giftAmount: value.amount,
-        type: 1,
+        type: DISTRIBUTION_TYPE.GIFT,
       });
       setSubmitting(false);
       refetch();
@@ -254,6 +254,7 @@ export function DistributionForm({
 
   const isCombinedDistribution = () => {
     return (
+      ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
       fixedPaymentTokenSel.length &&
       giftVaultSymbol &&
       fixedPaymentTokenSel[0].symbol === giftVaultSymbol
@@ -278,7 +279,9 @@ export function DistributionForm({
         : 0;
     }
     const isCombinedDist =
-      fixedPaymentTokenSel[0] && fixedPaymentTokenSel[0].symbol === symbol;
+      fixedPaymentTokenSel[0] &&
+      fixedPaymentTokenSel[0].symbol === symbol &&
+      ((!fixedDist && !circleDist) || (circleDist && fixedDist));
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
     if (isCombinedDist) {
       setMaxGiftTokens(tokenBalance);
@@ -403,7 +406,7 @@ export function DistributionForm({
         <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
           {!circleDist ? (
             isCombinedDistribution() ? (
-              <Text css={{ fontSize: '$small', lineHeight: '$xtaller' }}>
+              <Text css={{ fontSize: '$small', pt: '$lg', pb: '$md' }}>
                 Combined Distribution. Total{' '}
                 {totalFixedPayment + formGiftAmount}{' '}
                 {fixedPaymentTokenSel[0].symbol}

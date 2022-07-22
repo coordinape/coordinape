@@ -22,12 +22,7 @@ const ApeTextVariants = {
 
 type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
 
-const ApeSizes = {
-  default: 'default',
-  small: 'small',
-} as const;
-
-type ApeSizeType = typeof ApeSizes[keyof typeof ApeSizes];
+type ApeSizeType = 'default' | 'small';
 
 interface ApeTextStyleProps {
   infoTooltip?: React.ReactNode;
