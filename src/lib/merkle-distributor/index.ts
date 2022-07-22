@@ -30,7 +30,7 @@ export const createDistribution = (
   giftAmount: BigNumber,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
-  let balances: Balance[] = [];
+  const balances: Balance[] = [];
   const totalGive = Object.values(gifts).reduce((t, v) => t + v, 0);
   Object.keys(gifts).map(address => {
     balances.push({
