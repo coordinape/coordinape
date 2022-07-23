@@ -259,15 +259,20 @@ interface COTokenInterface extends ethers.utils.Interface {
   ): Result;
 
   events: {
+    "AllowlistDisabled()": EventFragment;
     "AllowlistedAddressesAdded(address[])": EventFragment;
     "AllowlistedAddressesRemoved(address[])": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
     "MintersAdded(address[])": EventFragment;
     "MintersRemoved(address[])": EventFragment;
+    "MintingDisabledForever()": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "PauseStatusChanged(bool)": EventFragment;
+    "PausingDisabledForever()": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AllowlistDisabled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AllowlistedAddressesAdded"): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "AllowlistedAddressesRemoved"
@@ -275,7 +280,10 @@ interface COTokenInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MintersAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MintersRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MintingDisabledForever"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PauseStatusChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PausingDisabledForever"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -712,6 +720,8 @@ export class COToken extends BaseContract {
   };
 
   filters: {
+    AllowlistDisabled(): TypedEventFilter<[], {}>;
+
     AllowlistedAddressesAdded(
       minters?: null
     ): TypedEventFilter<[string[]], { minters: string[] }>;
@@ -737,6 +747,8 @@ export class COToken extends BaseContract {
       minters?: null
     ): TypedEventFilter<[string[]], { minters: string[] }>;
 
+    MintingDisabledForever(): TypedEventFilter<[], {}>;
+
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -744,6 +756,12 @@ export class COToken extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
+
+    PauseStatusChanged(
+      status?: null
+    ): TypedEventFilter<[boolean], { status: boolean }>;
+
+    PausingDisabledForever(): TypedEventFilter<[], {}>;
 
     Transfer(
       from?: string | null,

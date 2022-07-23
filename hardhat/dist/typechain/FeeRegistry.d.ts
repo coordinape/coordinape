@@ -219,8 +219,8 @@ export class FeeRegistry extends BaseContract {
     getVariableFee(
       _yield: BigNumberish,
       _tapTotal: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { variableFee: BigNumber }>;
 
     isDoneCall(_id: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
 
@@ -293,8 +293,8 @@ export class FeeRegistry extends BaseContract {
   getVariableFee(
     _yield: BigNumberish,
     _tapTotal: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   isDoneCall(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
@@ -459,7 +459,7 @@ export class FeeRegistry extends BaseContract {
     getVariableFee(
       _yield: BigNumberish,
       _tapTotal: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     isDoneCall(_id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
@@ -531,7 +531,7 @@ export class FeeRegistry extends BaseContract {
     getVariableFee(
       _yield: BigNumberish,
       _tapTotal: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     isDoneCall(
