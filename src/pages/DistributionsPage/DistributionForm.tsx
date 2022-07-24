@@ -252,6 +252,21 @@ export function DistributionForm({
     }
   };
 
+  const getDecimals = ({
+    distribution,
+    symbol,
+  }: {
+    distribution: EpochDataResult['distributions'][0] | undefined;
+    symbol: string | undefined;
+  }) => {
+    if (distribution) return distribution.vault.decimals;
+    if (symbol) {
+      const v = findVault({ symbol });
+      if (v) return v.decimals;
+    }
+    return 0;
+  };
+
   const isCombinedDistribution = () => {
     return (
       ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
@@ -369,12 +384,10 @@ export function DistributionForm({
                 }) => (
                   <FormTokenField
                     symbol={giftVaultSymbol}
-                    decimals={(() => {
-                      if (circleDist) return circleDist.vault.decimals;
-                      const v = findVault({ symbol: giftVaultSymbol });
-                      if (v) return v.decimals;
-                      return 0;
-                    })()}
+                    decimals={getDecimals({
+                      distribution: circleDist,
+                      symbol: giftVaultSymbol,
+                    })}
                     type="number"
                     error={!!error}
                     value={circleDist ? circleDist.gift_amount : value}
@@ -404,31 +417,37 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
-          {!circleDist ? (
-            isCombinedDistribution() ? (
-              <Text css={{ fontSize: '$small', pt: '$lg', pb: '$md' }}>
-                Combined Distribution. Total{' '}
-                {totalFixedPayment + formGiftAmount}{' '}
-                {fixedPaymentTokenSel[0].symbol}
-              </Text>
-            ) : (
-              <Button
-                color="primary"
-                outlined
-                size="large"
-                disabled={submitting || !sufficientGiftTokens}
-                fullWidth
-              >
-                {sufficientGiftTokens
-                  ? submitting
-                    ? 'Submitting...'
-                    : `Submit ${giftVaultSymbol} Vault Distribution`
-                  : 'Insufficient Tokens'}
-              </Button>
-            )
-          ) : (
-            <EtherscanButton distribution={circleDist} />
-          )}
+          {(() => {
+            if (!circleDist) {
+              if (isCombinedDistribution()) {
+                return (
+                  <Text css={{ fontSize: '$small', pt: '$lg', pb: '$md' }}>
+                    Combined Distribution. Total{' '}
+                    {totalFixedPayment + formGiftAmount}{' '}
+                    {fixedPaymentTokenSel[0].symbol}
+                  </Text>
+                );
+              } else {
+                return (
+                  <Button
+                    color="primary"
+                    outlined
+                    size="large"
+                    disabled={submitting || !sufficientGiftTokens}
+                    fullWidth
+                  >
+                    {sufficientGiftTokens
+                      ? submitting
+                        ? 'Submitting...'
+                        : `Submit ${giftVaultSymbol} Vault Distribution`
+                      : 'Insufficient Tokens'}
+                  </Button>
+                );
+              }
+            } else {
+              return <EtherscanButton distribution={circleDist} />;
+            }
+          })()}
         </Flex>
       </form>
 
@@ -436,7 +455,7 @@ export function DistributionForm({
         <Panel css={{ padding: '16px', minHeight: '147px' }}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
-              Fixed Payment
+              Fixed Payments
             </Text>
             <Box css={{ fontSize: '$small', alignSelf: 'center' }}>
               <AppLink
@@ -523,16 +542,10 @@ export function DistributionForm({
                               : fixedPaymentTokenSel[0].symbol
                             : ''
                         }
-                        decimals={(() => {
-                          if (fixedDist) return fixedDist.vault.decimals;
-                          if (fixedPaymentTokenSel[0]) {
-                            const v = findVault({
-                              symbol: fixedPaymentTokenSel[0].symbol,
-                            });
-                            if (v) return v.decimals;
-                          }
-                          return 0;
-                        })()}
+                        decimals={getDecimals({
+                          distribution: fixedDist,
+                          symbol: fixedPaymentTokenSel[0]?.symbol,
+                        })}
                         type="number"
                         error={!!error}
                         value={
@@ -568,49 +581,58 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
         <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
-          {!fixedDist ? (
-            fixedPaymentTokenSel.length ? (
-              <Button
-                color="primary"
-                outlined
-                size="large"
-                disabled={submitting || !sufficientFixedPaymentTokens}
-                fullWidth
-              >
-                {sufficientFixedPaymentTokens
-                  ? submitting
-                    ? `Submitting...`
-                    : `Submit ${fixedPaymentTokenSel[0].symbol} Vault Distribution`
-                  : `Insufficient Tokens`}
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                color="primary"
-                outlined
-                size="large"
-                fullWidth
-                onClick={async () => {
-                  // use the authed api to download the CSV
-                  if (epoch.number) {
-                    const csv = await downloadCSV(epoch.number);
-                    if (csv?.file) {
-                      const a = document.createElement('a');
-                      a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
-                      a.href = csv.file;
-                      a.click();
-                      a.href = '';
-                    }
-                  }
-                  return false;
-                }}
-              >
-                Export CSV
-              </Button>
-            )
-          ) : (
-            <EtherscanButton distribution={fixedDist} />
-          )}
+          {(() => {
+            if (!fixedDist) {
+              if (fixedPaymentTokenSel.length) {
+                return (
+                  <Button
+                    color="primary"
+                    outlined
+                    size="large"
+                    disabled={submitting || !sufficientFixedPaymentTokens}
+                    fullWidth
+                  >
+                    {sufficientFixedPaymentTokens
+                      ? submitting
+                        ? `Submitting...`
+                        : `Submit ${fixedPaymentTokenSel[0].symbol} Vault Distribution`
+                      : `Insufficient Tokens`}
+                  </Button>
+                );
+              } else {
+                if (epoch.number) {
+                  return (
+                    <Button
+                      type="button"
+                      color="primary"
+                      outlined
+                      size="large"
+                      fullWidth
+                      onClick={async () => {
+                        // use the authed api to download the CSV
+                        if (epoch.number) {
+                          const csv = await downloadCSV(epoch.number);
+                          if (csv?.file) {
+                            const a = document.createElement('a');
+                            a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
+                            a.href = csv.file;
+                            a.click();
+                            a.href = '';
+                          }
+                        }
+
+                        return false;
+                      }}
+                    >
+                      Export CSV
+                    </Button>
+                  );
+                }
+              }
+            } else {
+              return <EtherscanButton distribution={fixedDist} />;
+            }
+          })()}
         </Flex>
       </form>
     </TwoColumnLayout>
@@ -646,6 +668,10 @@ const EtherscanButton = ({
 }: {
   distribution: EpochDataResult['distributions'][0];
 }) => {
+  const explorerHref = makeExplorerUrl(
+    distribution.vault.chain_id,
+    distribution.tx_hash
+  );
   return (
     <Button
       type="button"
@@ -653,14 +679,9 @@ const EtherscanButton = ({
       outlined
       size="large"
       fullWidth
-      onClick={() => {
-        const explorerHref = makeExplorerUrl(
-          distribution.vault.chain_id,
-          distribution.tx_hash
-        );
-        if (!explorerHref) return false;
-        window.open(explorerHref, '_blank');
-      }}
+      as="a"
+      target="_blank"
+      href={explorerHref}
     >
       View on Etherscan
     </Button>
