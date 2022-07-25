@@ -103,7 +103,7 @@ export function VaultRow({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',
           gridGap: '$md',
-          verticalAlign: 'middle',
+          alignItems: 'center',
         }}
       >
         <Text font="source" h3>
@@ -112,11 +112,10 @@ export function VaultRow({
         <Text font="source" h3>
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
-        <Text font="source">
-          <strong>{distributionCount}</strong>&nbsp;Distribution
-          {distributionCount !== 1 && 's'}
-          -&nbsp;<strong>{uniqueContributors}</strong>
-          &nbsp;Unique Contributors Paid
+        <Text font="source" css={{ display: 'block' }}>
+          <strong>{distributionCount}</strong> Distribution
+          {distributionCount !== 1 && 's'} -{' '}
+          <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
       </Box>
       <Text
