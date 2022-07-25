@@ -600,34 +600,30 @@ export function DistributionForm({
                   </Button>
                 );
               } else {
-                if (epoch.number) {
-                  return (
-                    <Button
-                      type="button"
-                      color="primary"
-                      outlined
-                      size="large"
-                      fullWidth
-                      onClick={async () => {
-                        // use the authed api to download the CSV
-                        if (epoch.number) {
-                          const csv = await downloadCSV(epoch.number);
-                          if (csv?.file) {
-                            const a = document.createElement('a');
-                            a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
-                            a.href = csv.file;
-                            a.click();
-                            a.href = '';
-                          }
-                        }
-
-                        return false;
-                      }}
-                    >
-                      Export CSV
-                    </Button>
-                  );
-                }
+                return (
+                  <Button
+                    type="button"
+                    color="primary"
+                    outlined
+                    size="large"
+                    fullWidth
+                    onClick={async () => {
+                      // use the authed api to download the CSV
+                      assert(epoch.number);
+                      const csv = await downloadCSV(epoch.number);
+                      if (csv?.file) {
+                        const a = document.createElement('a');
+                        a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
+                        a.href = csv.file;
+                        a.click();
+                        a.href = '';
+                      }
+                      return false;
+                    }}
+                  >
+                    Export CSV
+                  </Button>
+                );
               }
             } else {
               return <EtherscanButton distribution={fixedDist} />;
