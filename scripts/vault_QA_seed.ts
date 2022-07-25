@@ -29,7 +29,9 @@ const addys = [
   '0x70b51dd8F953155c80f09a6e73C384095e9A53ff',
   '0x6813730A6D73Ea44a0c5e45EeCE0D5b2ffe4B10c',
   '0x020F64F264ab7e90Ef24a108C379a796a82175dF',
-];
+  '0x7dC0eAb0A6C919D072B2f4f02D29fd947C839e5D',
+  '0x0e44F1eb0f7782d5d62a3D48B62E89AAd1D7f3dc',
+].map(a => a.toLowerCase());
 
 async function main() {
   for (const address of addys) {
