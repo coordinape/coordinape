@@ -10,13 +10,13 @@ import type { CSS } from 'stitches.config';
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { Torso } from 'icons';
 import {
   paths,
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
 import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
-import { Torso } from 'ui/icons';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData } from './getOrgData';
@@ -87,7 +87,7 @@ export const CirclesPage = () => {
       {orgs?.length == 0 && <GetStarted />}
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
-          <Flex row css={{ mb: '$md', alignItems: 'baseline' }}>
+          <Flex row css={{ mb: '$lg', alignItems: 'baseline' }}>
             <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
               <OrgLogoUpload
                 id={org.id}
@@ -100,13 +100,11 @@ export const CirclesPage = () => {
               </Text>
             </Box>
             {isAdmin(org) && (
-              <Button
-                color="primary"
-                outlined
-                onClick={() => navigate(paths.createCircle + '?org=' + org.id)}
-              >
-                Add Circle
-              </Button>
+              <Link href={paths.createCircle + '?org=' + org.id}>
+                <Button color="primary" outlined>
+                  Add Circle
+                </Button>
+              </Link>
             )}
           </Flex>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
@@ -141,8 +139,8 @@ const buttons: [
 ];
 
 const nonMemberPanelCss: CSS = {
-  backgroundColor: 'white',
-  border: '1px solid $border',
+  backgroundColor: '$background',
+  border: '1px solid $borderMedium',
 };
 
 type CircleRowProps = {
@@ -213,7 +211,7 @@ const GetStarted = () => {
 const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
-  const nonMemberCss = nonMember ? { color: '$secondaryText' } : {};
+  const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
 
   const epoch = circle.epochs[0];
   const nomineeCount =
@@ -254,7 +252,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
       <Box
         css={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr 2.5fr',
+          gridTemplateColumns: '1fr 1.5fr 2.5fr',
           width: '100%',
           gap: '$md',
           alignItems: 'center',
@@ -262,19 +260,25 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         }}
       >
         <Box>
-          <Text h2 css={{ mb: '$xs', ...nonMemberCss }}>
+          <Text
+            h3
+            semibold
+            css={{
+              mb: '$sm',
+              minHeight: '$lg',
+              alignItems: 'start',
+              ...nonMemberCss,
+            }}
+          >
             {circle.name}
           </Text>
-          <Text css={{ alignItems: 'baseline', ...nonMemberCss }}>
-            <Torso
-              css={{ height: 12, width: 12, mr: '$xs' }}
-              color={role ? 'text' : 'secondaryText'}
-            />
+          <Text color={'neutral'} size={'small'} css={{ ...nonMemberCss }}>
+            <Torso size={'md'} css={{ mr: '$xs' }} />
             {role === 1
               ? 'Circle Admin'
               : role === 0
               ? 'Circle Member'
-              : 'Non-Member'}
+              : 'Non Member'}
           </Text>
         </Box>
         <Box
@@ -286,38 +290,35 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             },
           }}
         >
-          {epoch && startDate && endDate ? (
-            <>
-              <Text css={{ fontSize: '$h3', ...nonMemberCss }}>
+          <Text h3 css={{ mb: '$sm', minHeight: '$lg', alignItems: 'start' }}>
+            {epoch && startDate && endDate ? (
+              <Text inline css={{ color: '$headingText', ...nonMemberCss }}>
                 Epoch {epoch.number}
+                <Text inline semibold color={'default'}>
+                  {startDate.toFormat('MMM d')} -{' '}
+                  {endDate.toFormat(
+                    endDate.month === startDate.month ? 'd' : 'MMM d'
+                  )}
+                </Text>
               </Text>
-              <Text css={{ fontSize: '$h3', ...nonMemberCss }} bold>
-                {startDate.toFormat('MMM d')} -{' '}
-                {endDate.toFormat(
-                  endDate.month === startDate.month ? 'd' : 'MMM d'
-                )}
+            ) : (
+              <Text
+                size={'medium'}
+                css={{ color: '$headingText', ...nonMemberCss }}
+              >
+                No active or upcoming epochs
               </Text>
-            </>
-          ) : (
-            'No active or upcoming epochs'
-          )}
-        </Box>
-        <Box
-          css={{
-            '@sm': {
-              gridColumnEnd: 'span 2',
-              display: 'flex',
-              justifyContent: 'space-around',
-            },
-            ...(nonMember ? { color: '$secondaryText' } : {}),
-          }}
-        >
-          {!!nomineeCount && (
-            <Box>
-              {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-            </Box>
-          )}
-          {isCurrent && <Box>Allocation Period Open</Box>}
+            )}
+          </Text>
+          <Text size={'small'} css={{ color: '$headingText', ...nonMemberCss }}>
+            {!!nomineeCount && (
+              <Box>
+                {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+              </Box>
+            )}
+            {isCurrent && <Box>Allocation Period Open</Box>}
+            <Box>Allocation Period Open TEST MESSAGE</Box>
+          </Text>
         </Box>
         {!nonMember && (
           <Box
@@ -327,7 +328,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               gap: '$sm',
               justifyContent: 'flex-end',
               flexWrap: 'wrap',
-              '@sm': { gridColumnEnd: 'span 2', justifyContent: 'center' },
+              '@sm': { gridColumnEnd: 'span 2', justifyContent: 'end' },
             }}
           >
             {buttons.map(
