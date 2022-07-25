@@ -187,7 +187,7 @@ const SecondWalletInner = ({
     <>
       {account ? (
         <Box css={{ mb: '$md' }}>
-          <Text variant="label" as="label">
+          <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From secondary wallet
           </Text>
           <Text inline h3 semibold>
@@ -200,7 +200,7 @@ const SecondWalletInner = ({
             Disconnect this wallet
           </Link>
           {!validChainId && primaryChainId && (
-            <Text variant="label" as="label" color="alert">
+            <Text variant="label" as="label" css={{ mb: '$xs' }} color="alert">
               Please set your network to{' '}
               {NetworkNames[primaryChainId.toString()]}
             </Text>
@@ -208,7 +208,7 @@ const SecondWalletInner = ({
         </Box>
       ) : (
         <Box css={{ mb: '$md' }}>
-          <Text variant="label" as="label">
+          <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From primary wallet
           </Text>
           <Text inline h3 semibold>

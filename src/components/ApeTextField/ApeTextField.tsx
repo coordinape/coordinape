@@ -156,6 +156,7 @@ export const ApeTextField = ({
             as="label"
             htmlFor={id ?? fallbackId}
             className={classes.label}
+            css={{ mb: '$xs' }}
           >
             {prelabel}{' '}
             {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}

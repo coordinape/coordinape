@@ -46,7 +46,6 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$bold',
         lineHeight: '$shorter',
-        marginBottom: '$xs',
       },
       p: {
         color: '$text',
