@@ -655,7 +655,7 @@ const Summary = ({
     >
       {distribution && (
         <Text css={{ color: '$primary' }}>
-          Distribution completed on{' '}
+          Distribution completed{' '}
           {formatRelative(parseISO(distribution.created_at + 'Z'), Date.now())}
         </Text>
       )}
