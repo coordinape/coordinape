@@ -319,7 +319,7 @@ export function DistributionForm({
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Panel css={{ padding: '16px', minHeight: '147px' }}>
+        <Panel css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}>
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
@@ -416,12 +416,12 @@ export function DistributionForm({
           </TwoColumnLayout>
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
+        <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
           {(() => {
             if (!circleDist) {
               if (isCombinedDistribution()) {
                 return (
-                  <Text css={{ fontSize: '$small', pt: '$lg', pb: '$md' }}>
+                  <Text css={{ fontSize: '$small' }}>
                     Combined Distribution. Total{' '}
                     {totalFixedPayment + formGiftAmount}{' '}
                     {fixedPaymentTokenSel[0].symbol}
@@ -452,7 +452,7 @@ export function DistributionForm({
       </form>
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
-        <Panel css={{ padding: '16px', minHeight: '147px' }}>
+        <Panel css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
               Fixed Payments
@@ -580,7 +580,7 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
-        <Flex css={{ justifyContent: 'center', mt: '$xl', mb: '$xl' }}>
+        <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
           {(() => {
             if (!fixedDist) {
               if (fixedPaymentTokenSel.length) {
@@ -648,9 +648,9 @@ const Summary = ({
     <Flex
       css={{
         justifyContent: 'center',
-        height: '$2xl',
+        height: '$lg',
         fontSize: '$small',
-        mt: '$xl',
+        mb: '$lg',
       }}
     >
       {distribution && (
