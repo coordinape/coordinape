@@ -134,10 +134,14 @@ export const CreateForm = ({
       }}
     >
       <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select a CoVault Asset
+        Select an Asset
       </Text>
-      <Text font="source" size="medium">
+      <Text font="source" size="medium" css={{ mb: '$sm' }}>
         CoVaults allow you to fund your circles with the asset of your choice.
+      </Text>
+      <Text font="source" size="medium" css={{ display: 'block' }}>
+        Choose a token below to create a CoVault that uses{' '}
+        <a href="https://docs.yearn.finance/">Yearn Vaults</a> to earn yield:
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
         {contracts.getAvailableTokens().map(symbol => (
@@ -157,7 +161,9 @@ export const CreateForm = ({
           </AssetButton>
         ))}
       </Box>
-      <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
+      <Text font="source" size="medium" css={{ mb: '$md' }}>
+        Or create a CoVault with any ERC-20 token:
+      </Text>
       <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
