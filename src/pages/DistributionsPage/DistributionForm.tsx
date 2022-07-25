@@ -386,7 +386,7 @@ export function DistributionForm({
           <Box css={{ display: 'flex', justifyContent: 'center' }}>
             {isCombinedDistribution() ? (
               <span>
-                Combined Distribution. Total{' '}
+                Combined Distribution Total:{' '}
                 {totalFixedPayment + formGiftAmount}{' '}
                 {fixedPaymentTokenSel[0].symbol}
               </span>
