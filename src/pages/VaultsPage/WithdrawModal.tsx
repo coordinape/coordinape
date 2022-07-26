@@ -5,6 +5,7 @@ import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
+import { numberWithCommas } from '../../utils';
 import { FormTokenField } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -70,7 +71,9 @@ export default function WithdrawModal({
           max={balance}
           symbol={vault.symbol}
           decimals={vault.decimals}
-          label={`Available to Withdraw: ${balance} ${vault.symbol?.toUpperCase()}`}
+          label={`Available to Withdraw: ${numberWithCommas(
+            balance
+          )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
