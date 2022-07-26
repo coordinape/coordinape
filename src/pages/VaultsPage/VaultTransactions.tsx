@@ -9,7 +9,7 @@ import { styled } from 'stitches.config';
 import { LoadingModal } from 'components/LoadingModal/LoadingModal';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
-import { getProviderForChain } from 'utils/provider';
+import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
 
 import { getVaultAndTransactions } from './queries';
 
@@ -43,7 +43,7 @@ export const VaultTransactions = () => {
         <Text h2 css={{ mb: '$md' }}>
           All Transactions for {vault?.symbol?.toUpperCase()} Vault
         </Text>
-        <TransactionTable rows={vaultTxList} />
+        <TransactionTable chain_id={vault.chain_id} rows={vaultTxList} />
       </Panel>
     </OrgLayout>
   );
@@ -284,7 +284,13 @@ async function getDistributionEvents(
 
 const Table = styled('table', {});
 
-export const TransactionTable = ({ rows }: { rows: any[] }) => (
+export const TransactionTable = ({
+  rows,
+  chain_id,
+}: {
+  rows: any[];
+  chain_id: number;
+}) => (
   <Table
     css={{
       width: '100%',
@@ -327,7 +333,7 @@ export const TransactionTable = ({ rows }: { rows: any[] }) => (
           <td>{row.details}</td>
           <td>{row.amount.toString()}</td>
           <td>
-            <Link href={`https://etherscan.io/tx/${row.hash}`}>Etherscan</Link>
+            <Link href={makeExplorerUrl(chain_id, row.hash)}>Etherscan</Link>
           </td>
         </tr>
       ))}
