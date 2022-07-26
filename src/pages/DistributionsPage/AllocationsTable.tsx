@@ -58,7 +58,7 @@ export const AllocationsTable = ({
     { title: 'ETH' },
     { title: 'Givers' },
     { title: `${giveTokenName || 'GIVE'} Received` },
-    { title: '% of Epoch' },
+    { title: `% of ${giveTokenName || 'GIVE'}` },
     { title: 'Circle Rewards' },
     { title: 'Fixed Rewards' },
   ];
