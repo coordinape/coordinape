@@ -95,19 +95,32 @@ export const CirclesPage = () => {
                 isAdmin={isAdmin(org)}
                 name={org.name}
               />
-              <Text h2 css={{ ml: '$sm' }}>
+              <Text
+                h2
+                medium
+                css={{
+                  ml: '$sm',
+                  '@sm': {
+                    fontSize: '$large',
+                  },
+                }}
+              >
                 {org.name}
               </Text>
             </Box>
             {isAdmin(org) && (
               <Link href={paths.createCircle + '?org=' + org.id}>
-                <Button color="primary" outlined>
+                <Button
+                  color="primary"
+                  outlined
+                  css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                >
                   Add Circle
                 </Button>
               </Link>
             )}
           </Flex>
-          <Box css={{ display: 'flex', flexDirection: 'column', gap: '$md' }}>
+          <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
             {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
               <CircleRow
                 circle={circle}
@@ -238,7 +251,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           display: 'none',
           '@sm': { display: 'flex' },
         },
-        '&:hover .hover-buttons': { display: 'flex' },
+        '&:hover': {
+          '.hover-buttons': { display: 'flex' },
+          '.circle-row-menu-indicator': { display: 'none' },
+        },
         ...(nonMember
           ? nonMemberPanelCss
           : {
@@ -255,7 +271,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           gridTemplateColumns: '1fr 1.5fr 2.5fr',
           width: '100%',
           gap: '$md',
-          alignItems: 'center',
+          alignItems: 'start',
           '@sm': { gridTemplateColumns: '1fr 1fr' },
         }}
       >
@@ -267,6 +283,9 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               mb: '$sm',
               minHeight: '$lg',
               alignItems: 'start',
+              '@sm': {
+                fontSize: '$large',
+              },
               ...nonMemberCss,
             }}
           >
@@ -286,25 +305,51 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             '@sm': {
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'flex-end',
+              alignItems: 'start',
             },
           }}
         >
-          <Text h3 css={{ mb: '$sm', minHeight: '$lg', alignItems: 'start' }}>
+          <Text
+            h3
+            css={{
+              mb: '$sm',
+              minHeight: '$lg',
+              alignItems: 'end',
+              '@sm': {
+                fontSize: '$medium',
+              },
+            }}
+          >
             {epoch && startDate && endDate ? (
-              <Text inline css={{ color: '$headingText', ...nonMemberCss }}>
-                Epoch {epoch.number}
-                <Text inline semibold color={'default'}>
-                  {startDate.toFormat('MMM d')} -{' '}
-                  {endDate.toFormat(
-                    endDate.month === startDate.month ? 'd' : 'MMM d'
-                  )}
+              <>
+                <Text
+                  inline
+                  css={{ pr: '$xs', color: '$headingText', ...nonMemberCss }}
+                >
+                  Epoch {epoch.number}
+                  <Text
+                    inline
+                    semibold
+                    color={'default'}
+                    css={{ whiteSpace: 'nowrap' }}
+                  >
+                    {startDate.toFormat('MMM d')} -{' '}
+                    {endDate.toFormat(
+                      endDate.month === startDate.month ? 'd' : 'MMM d'
+                    )}
+                  </Text>
                 </Text>
-              </Text>
+              </>
             ) : (
               <Text
                 size={'medium'}
-                css={{ color: '$headingText', ...nonMemberCss }}
+                css={{
+                  color: '$headingText',
+                  '@sm': {
+                    fontSize: '$small',
+                  },
+                  ...nonMemberCss,
+                }}
               >
                 No active or upcoming epochs
               </Text>
@@ -312,47 +357,72 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           </Text>
           <Text size={'small'} css={{ color: '$headingText', ...nonMemberCss }}>
             {!!nomineeCount && (
-              <Box>
+              <span>
                 {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-              </Box>
+              </span>
             )}
-            {isCurrent && <Box>Allocation Period Open</Box>}
-            <Box>Allocation Period Open TEST MESSAGE</Box>
+            {isCurrent && <span>Allocation Period Open</span>}
+            &nbsp;
           </Text>
         </Box>
         {!nonMember && (
           <Box
-            className="hover-buttons"
             css={{
               display: 'flex',
-              gap: '$sm',
               justifyContent: 'flex-end',
-              flexWrap: 'wrap',
-              '@sm': { gridColumnEnd: 'span 2', justifyContent: 'end' },
+              alignItems: 'center',
+              height: '100%',
+              width: '100%',
             }}
           >
-            {buttons.map(
-              ([pathFn, label, hide]) =>
-                (!hide || !hide(circle)) && (
-                  <Link
-                    key={label}
-                    css={{
-                      padding: '$sm',
-                      color: '$text',
-                      fontWeight: '$semibold',
-                      '&:hover': {
-                        filter: 'brightness(0.2)',
-                      },
-                    }}
-                    onClick={event => (
-                      onButtonClick(circle.id, pathFn(circle.id)),
-                      event.stopPropagation()
-                    )}
-                  >
-                    {label}
-                  </Link>
-                )
-            )}
+            <Box
+              className="circle-row-menu-indicator"
+              css={{
+                '@sm': { display: 'none' },
+              }}
+            >
+              <Text color="neutral" size="large">
+                &middot;&middot;&middot;
+              </Text>
+            </Box>
+            <Box
+              className="hover-buttons"
+              css={{
+                display: 'flex',
+                flexGrow: 1,
+                width: '100%',
+                gap: '$sm',
+                mr: '-$sm',
+                justifyContent: 'flex-end',
+                flexWrap: 'wrap',
+                '@sm': {
+                  gap: '$xs',
+                  mr: '-$xs',
+                  gridColumnEnd: 'span 2',
+                  justifyContent: 'end',
+                },
+              }}
+            >
+              {buttons.map(
+                ([pathFn, label, hide]) =>
+                  (!hide || !hide(circle)) && (
+                    <Link href={pathFn(circle.id)}>
+                      <Button
+                        color="neutral"
+                        outlined
+                        size="small"
+                        key={label}
+                        css={{
+                          border: 'none',
+                          fontWeight: '$semibold',
+                        }}
+                      >
+                        {label}
+                      </Button>
+                    </Link>
+                  )
+              )}
+            </Box>
           </Box>
         )}
       </Box>

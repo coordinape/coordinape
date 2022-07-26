@@ -19,12 +19,6 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   userSelect: 'none',
   borderRadius: '100%',
   backgroundColor: '$surface',
-  cursor: 'pointer',
-  transition: 'border-color .3s ease',
-  border: `1px solid $border`,
-  '&:hover': {
-    border: '1px solid $alert',
-  },
   variants: {
     size: {
       small: {
@@ -62,8 +56,6 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   backgroundColor: '$border',
   lineHeight: 1,
   fontWeight: '$medium',
-  cursor: 'pointer',
-
   variants: {
     size: {
       small: {

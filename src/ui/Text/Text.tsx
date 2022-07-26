@@ -23,6 +23,7 @@ export const Text = styled('span', {
     },
     bold: { true: { fontWeight: '$bold' } },
     normal: { true: { fontWeight: '$normal' } },
+    medium: { true: { fontWeight: '$medium' } },
     semibold: { true: { fontWeight: '$semibold' } },
     inline: { true: { display: 'inline' } },
 
