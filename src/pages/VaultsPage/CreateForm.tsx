@@ -56,15 +56,17 @@ const useFormSetup = (
 export const CreateForm = ({
   onSuccess,
   orgId,
+  setSaving,
 }: {
   onSuccess: () => void;
   orgId: number;
+  setSaving?: (saving: boolean) => void;
 }) => {
   const contracts = useContracts();
   const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
-  const [saving, setSaving] = useState(false);
+  const [saving, setSavingLocal] = useState(false);
 
   const {
     control,
@@ -111,17 +113,21 @@ export const CreateForm = ({
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
-    setSaving(true);
+    setSaving?.(true);
+    setSavingLocal(true);
     createVault({
       type: symbol,
       simpleTokenAddress: customAddress,
       customSymbol,
     }).then(vault => {
-      setSaving(false);
+      setSaving?.(false);
+      setSavingLocal(false);
       if (!vault) return;
       onSuccess();
     });
   };
+
+  if (saving) return <SavingInProgress />;
 
   return (
     <Form
@@ -213,3 +219,15 @@ const AssetButton = styled(Button, {
     '> span': { color: 'white !important' },
   },
 });
+
+const SavingInProgress = () => {
+  return (
+    <>
+      <Text variant="p" css={{ mb: '$md' }}>
+        Please follow the prompts in your wallet to submit a transaction, then
+        wait for the transaction to complete.
+      </Text>
+      <Text variant="p">Do not leave this page.</Text>
+    </>
+  );
+};
