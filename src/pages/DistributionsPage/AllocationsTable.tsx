@@ -148,7 +148,7 @@ export const AllocationsTable = ({
                 : numberWithCommas(user.fixed_payment_amount.toFixed(2))}{' '}
               {fixedTokenName || ''}
             </td>
-            {combinedDist && (
+            {combinedDist ? (
               <td>
                 {(() => {
                   if (circleDist && fixedDist) {
@@ -163,7 +163,7 @@ export const AllocationsTable = ({
                 })()}{' '}
                 {tokenName}
               </td>
-            )}
+            ) : null}
           </tr>
         )}
       </UserTable>
