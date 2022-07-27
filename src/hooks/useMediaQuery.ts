@@ -8,6 +8,7 @@ export function useMediaQuery(query: MediaQueryKeysType) {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
+    // safe to use window here because we are in useEffect -g
     const media = window.matchMedia(query);
     if (media.matches !== matches) {
       setMatches(media.matches);

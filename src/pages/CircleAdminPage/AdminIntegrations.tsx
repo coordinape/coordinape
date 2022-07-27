@@ -58,6 +58,14 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     }
   }, [integrations.refetch, deleteIntegration]);
 
+  const redirectUri = (): string => {
+    if (typeof window !== `undefined`) {
+      // this case will always be true until we move to nextjs
+      return `${window.location.origin}${paths.connectIntegration(circleId)}`;
+    }
+    // TODONEXT: this needs to useRouter
+    return `fix-me-later-${paths.connectIntegration(circleId)}`;
+  };
   return (
     <div style={{ display: 'grid' }}>
       <p className={classes.subTitle}>Integrations</p>
@@ -82,9 +90,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           color="neutral"
           size="medium"
           outlined
-          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${
-            window.location.origin
-          }${paths.connectIntegration(circleId)}`}
+          href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
             <DeworkIcon size="md" />
