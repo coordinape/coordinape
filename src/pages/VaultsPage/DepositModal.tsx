@@ -16,7 +16,7 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Box, Button, Form, Link, Modal, Text } from 'ui';
-import { shortenAddress } from 'utils';
+import { numberWithCommas, shortenAddress } from 'utils';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
 export type DepositModalProps = {
@@ -126,7 +126,9 @@ export default function DepositModal({
           max={max}
           symbol={vault.symbol as string}
           decimals={vault.decimals}
-          label={`Available: ${max} ${vault.symbol?.toUpperCase()}`}
+          label={`Available: ${numberWithCommas(
+            max
+          )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
