@@ -45,7 +45,6 @@ type SubmitFormProps = {
   circleUsers: IUser[];
   giftVaultSymbol: string;
   formGiftAmount: number;
-  downloadCSV: (epoch: number) => Promise<any>;
   refetch: () => void;
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
@@ -65,7 +64,6 @@ export function DistributionForm({
   circleUsers,
   giftVaultSymbol,
   formGiftAmount,
-  downloadCSV,
   refetch,
   circleDist,
   fixedDist,
@@ -597,31 +595,6 @@ export function DistributionForm({
                         ? `Submitting...`
                         : `Submit ${fixedPaymentTokenSel[0].symbol} Vault Distribution`
                       : `Insufficient Tokens`}
-                  </Button>
-                );
-              } else {
-                return (
-                  <Button
-                    type="button"
-                    color="primary"
-                    outlined
-                    size="large"
-                    fullWidth
-                    onClick={async () => {
-                      // use the authed api to download the CSV
-                      assert(epoch.number);
-                      const csv = await downloadCSV(epoch.number);
-                      if (csv?.file) {
-                        const a = document.createElement('a');
-                        a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
-                        a.href = csv.file;
-                        a.click();
-                        a.href = '';
-                      }
-                      return false;
-                    }}
-                  >
-                    Export CSV
                   </Button>
                 );
               }
