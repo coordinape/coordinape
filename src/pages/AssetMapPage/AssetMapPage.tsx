@@ -65,6 +65,7 @@ const DevModeInjector = () => {
 
   useEffect(() => {
     // Setup dev tool: trigger DevMode
+    // this is safe to access window because useEffect is only run on client side
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.setDevMode = setDevMode;

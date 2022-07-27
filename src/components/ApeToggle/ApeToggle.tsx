@@ -92,6 +92,7 @@ export const ApeToggle = ({
           as="label"
           htmlFor={groupId}
           className={classes.label}
+          css={{ mb: '$xs' }}
         >
           {label}{' '}
           {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}

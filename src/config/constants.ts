@@ -71,3 +71,9 @@ export const SKILLS = [
   'Tokenomics',
   'Contributor Experience',
 ];
+
+export const DISTRIBUTION_TYPE = {
+  GIFT: 1,
+  FIXED: 2,
+  COMBINED: 3,
+};

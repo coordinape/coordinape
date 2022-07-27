@@ -43,6 +43,8 @@ const VaultsPage = () => {
     setModal('');
   };
 
+  const [saving, setSaving] = useState(false);
+
   if (orgsQuery.isLoading || orgsQuery.isIdle)
     return <LoadingModal visible note="VaultsPage" />;
 
@@ -88,7 +90,7 @@ const VaultsPage = () => {
         vaults?.map(vault => (
           <VaultRow
             key={vault.id}
-            vault={vault as GraphQLTypes['vaults']}
+            vault={vault as GraphQLTypes['vaults']} // FIXME
             css={{ mb: '$sm' }}
           />
         ))
@@ -100,8 +102,16 @@ const VaultsPage = () => {
         </Panel>
       )}
       {modal === 'create' && currentOrg && (
-        <Modal onClose={closeModal} title="Create a New CoVault">
-          <CreateForm onSuccess={closeModal} orgId={currentOrg.id} />
+        <Modal
+          showClose={!saving}
+          onClose={closeModal}
+          title="Create a New CoVault"
+        >
+          <CreateForm
+            setSaving={setSaving}
+            onSuccess={closeModal}
+            orgId={currentOrg.id}
+          />
         </Modal>
       )}
     </SingleColumnLayout>

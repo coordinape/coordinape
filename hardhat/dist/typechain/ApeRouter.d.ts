@@ -170,6 +170,7 @@ interface ApeRouterInterface extends ethers.utils.Interface {
     "DepositInVault(address,address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "WithdrawFromVault(address,address,uint256)": EventFragment;
+    "YearnRegistryUpdated(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
@@ -178,6 +179,7 @@ interface ApeRouterInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "DepositInVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WithdrawFromVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "YearnRegistryUpdated"): EventFragment;
 }
 
 export class ApeRouter extends BaseContract {
@@ -537,6 +539,10 @@ export class ApeRouter extends BaseContract {
       [string, string, BigNumber],
       { vault: string; token: string; amount: BigNumber }
     >;
+
+    YearnRegistryUpdated(
+      registry?: null
+    ): TypedEventFilter<[string], { registry: string }>;
   };
 
   estimateGas: {

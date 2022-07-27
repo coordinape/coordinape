@@ -38,6 +38,7 @@ type ModalProps = {
   onClose: () => void;
   css?: CSS;
   open?: boolean;
+  showClose?: boolean;
 };
 export const Modal = ({
   children,
@@ -45,24 +46,28 @@ export const Modal = ({
   onClose,
   css = {},
   open = true,
+  showClose,
 }: ModalProps) => {
   return (
     <Dialog.Root defaultOpen modal open={open}>
       <Dialog.Portal>
         <Overlay>
           <Content css={css}>
-            <Button
-              color="transparent"
-              onClick={onClose}
-              css={{
-                position: 'absolute',
-                right: 'calc($sm + 3px)',
-                top: '$sm',
-                fontSize: '$h3',
-              }}
-            >
-              &#x2715;
-            </Button>
+            {showClose ||
+              (showClose === undefined && (
+                <Button
+                  color="transparent"
+                  onClick={onClose}
+                  css={{
+                    position: 'absolute',
+                    right: 'calc($sm + 3px)',
+                    top: '$sm',
+                    fontSize: '$h3',
+                  }}
+                >
+                  &#x2715;
+                </Button>
+              ))}
             {title && <Title>{title}</Title>}
             {children}
           </Content>
