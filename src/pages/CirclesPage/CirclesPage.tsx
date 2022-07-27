@@ -363,7 +363,6 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               </span>
             )}
             {isCurrent && <span>Allocation Period Open</span>}
-            {/* &nbsp; */}
           </Text>
         </Box>
         {!nonMember && (
