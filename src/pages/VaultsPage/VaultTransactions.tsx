@@ -333,7 +333,9 @@ export const TransactionTable = ({
           <td>{row.details}</td>
           <td>{row.amount.toString()}</td>
           <td>
-            <Link href={makeExplorerUrl(chainId, row.hash)}>Etherscan</Link>
+            <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
+              Etherscan
+            </Link>
           </td>
         </tr>
       ))}
