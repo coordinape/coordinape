@@ -285,6 +285,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               alignItems: 'start',
               '@sm': {
                 fontSize: '$large',
+                minHeight: '$xl',
               },
               ...nonMemberCss,
             }}
@@ -317,29 +318,43 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               alignItems: 'end',
               '@sm': {
                 fontSize: '$medium',
+                minHeight: '$xl',
               },
             }}
           >
             {epoch && startDate && endDate ? (
-              <>
+              <Box
+                css={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  '@sm': {
+                    flexDirection: 'column',
+                  },
+                }}
+              >
                 <Text
                   inline
-                  css={{ pr: '$xs', color: '$headingText', ...nonMemberCss }}
+                  css={{
+                    whiteSpace: 'nowrap',
+                    pr: '$md',
+                    color: '$headingText',
+                    ...nonMemberCss,
+                  }}
                 >
                   Epoch {epoch.number}
-                  <Text
-                    inline
-                    semibold
-                    color={'default'}
-                    css={{ whiteSpace: 'nowrap' }}
-                  >
-                    {startDate.toFormat('MMM d')} -{' '}
-                    {endDate.toFormat(
-                      endDate.month === startDate.month ? 'd' : 'MMM d'
-                    )}
-                  </Text>
                 </Text>
-              </>
+                <Text
+                  inline
+                  semibold
+                  color={'default'}
+                  css={{ whiteSpace: 'nowrap' }}
+                >
+                  {startDate.toFormat('MMM d')} -{' '}
+                  {endDate.toFormat(
+                    endDate.month === startDate.month ? 'd' : 'MMM d'
+                  )}
+                </Text>
+              </Box>
             ) : (
               <Text
                 // size={'medium'}
