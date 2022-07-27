@@ -90,8 +90,8 @@ actions:
     kind: synchronous
     handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
     headers:
-    - value: HASURA_EVENT_SECRET
-      name: verification_key
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
   permissions:
   - role: user
 - name: deleteEpoch

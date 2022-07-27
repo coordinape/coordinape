@@ -92,7 +92,6 @@ select_permissions:
     columns:
     - alloc_text
     - default_opt_in
-    - deleted_at
     - id
     - is_verified
     - logo

@@ -11,7 +11,13 @@ export const getOrgData = (address: string) =>
           name: true,
           logo: true,
           circles: [
-            {},
+            {
+              where: {
+                deleted_at: {
+                  _is_null: true,
+                },
+              },
+            },
             {
               id: true,
               name: true,

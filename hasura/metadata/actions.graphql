@@ -281,7 +281,7 @@ input LogVaultTxInput {
 }
 
 input DeleteCircleInput {
-  id: Int!
+  circle_id: Int!
 }
 
 type CreateCircleResponse {

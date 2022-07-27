@@ -12,6 +12,7 @@ import createUser from './_handlers/createUser';
 import createUsers from './_handlers/createUsers';
 import createVault from './_handlers/createVault';
 import createVaultTx from './_handlers/createVaultTx';
+import deleteCircle from './_handlers/deleteCircle';
 import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import generateApiKey from './_handlers/generateApiKey';
@@ -39,6 +40,7 @@ const HANDLERS: HandlerDict = {
   createUsers,
   createVault,
   createVaultTx,
+  deleteCircle,
   deleteEpoch,
   deleteUser,
   generateApiKey,

@@ -722,7 +722,7 @@ export type ValueTypes = {
     vault_address: string;
   };
   ['DeleteCircleInput']: {
-    id: number;
+    circle_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -1759,7 +1759,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
-    deleted_at?: ValueTypes['time_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
@@ -1805,6 +1805,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -1821,6 +1822,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -6162,19 +6164,6 @@ columns and relationships of "profiles" */
     team_mate_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  ['time']: unknown;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ['time_comparison_exp']: {
-    _eq?: ValueTypes['time'] | undefined | null;
-    _gt?: ValueTypes['time'] | undefined | null;
-    _gte?: ValueTypes['time'] | undefined | null;
-    _in?: Array<ValueTypes['time']> | undefined | null;
-    _is_null?: boolean | undefined | null;
-    _lt?: ValueTypes['time'] | undefined | null;
-    _lte?: ValueTypes['time'] | undefined | null;
-    _neq?: ValueTypes['time'] | undefined | null;
-    _nin?: Array<ValueTypes['time']> | undefined | null;
-  };
   ['timestamp']: unknown;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
   ['timestamp_comparison_exp']: {
@@ -8052,7 +8041,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
-    deleted_at?: GraphQLTypes['time'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -9385,9 +9374,6 @@ columns and relationships of "profiles" */
   ['teammates_var_samp_order_by']: GraphQLTypes['teammates_var_samp_order_by'];
   /** order by variance() on columns of table "teammates" */
   ['teammates_variance_order_by']: GraphQLTypes['teammates_variance_order_by'];
-  ['time']: any;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ['time_comparison_exp']: GraphQLTypes['time_comparison_exp'];
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
   ['timestamp_comparison_exp']: GraphQLTypes['timestamp_comparison_exp'];
@@ -10006,7 +9992,7 @@ export type GraphQLTypes = {
     vault_address: string;
   };
   ['DeleteCircleInput']: {
-    id: number;
+    circle_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -10714,7 +10700,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
-    deleted_at?: GraphQLTypes['time'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -10784,7 +10770,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
-    deleted_at?: GraphQLTypes['time_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epochs?: GraphQLTypes['epochs_bool_exp'] | undefined;
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
@@ -10824,6 +10810,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -10840,6 +10827,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -13328,19 +13316,6 @@ columns and relationships of "profiles" */
     id?: GraphQLTypes['order_by'] | undefined;
     team_mate_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
-  };
-  ['time']: any;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ['time_comparison_exp']: {
-    _eq?: GraphQLTypes['time'] | undefined;
-    _gt?: GraphQLTypes['time'] | undefined;
-    _gte?: GraphQLTypes['time'] | undefined;
-    _in?: Array<GraphQLTypes['time']> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: GraphQLTypes['time'] | undefined;
-    _lte?: GraphQLTypes['time'] | undefined;
-    _neq?: GraphQLTypes['time'] | undefined;
-    _nin?: Array<GraphQLTypes['time']> | undefined;
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */

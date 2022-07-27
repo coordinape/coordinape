@@ -438,6 +438,27 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   return updateCircle;
 }
 
+export async function deleteCircle(circle_id: number) {
+  const { deleteCircle } = await client.mutate(
+    {
+      deleteCircle: [
+        {
+          payload: {
+            circle_id: circle_id,
+          },
+        },
+        {
+          success: true,
+        },
+      ],
+    },
+    {
+      operationName: 'deleteCircle',
+    }
+  );
+  return deleteCircle;
+}
+
 export async function updateTeammates(circleId: number, teammates: number[]) {
   const { updateTeammates } = await client.mutate(
     {
