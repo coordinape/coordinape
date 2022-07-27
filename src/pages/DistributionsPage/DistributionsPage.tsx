@@ -200,7 +200,6 @@ export function DistributionsPage() {
               setGiftVaultSymbol={setGiftVaultSymbol}
               vaults={vaults}
               circleUsers={circleUsers}
-              downloadCSV={downloadCSV}
               refetch={refetch}
             />
           </Box>
