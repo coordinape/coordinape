@@ -216,7 +216,7 @@ const GetStarted = () => {
           width: '100%',
           maxWidth: '600px',
         }}
-        src="/imgs/background/circles-illustration.jpg"
+        src="/imgs/background/circles-illustration.png"
       />
     </>
   );
@@ -342,9 +342,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               </>
             ) : (
               <Text
-                size={'medium'}
+                // size={'medium'}
+                h3
                 css={{
-                  color: '$headingText',
+                  color: '$borderMedium',
                   '@sm': {
                     fontSize: '$small',
                   },
@@ -362,7 +363,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               </span>
             )}
             {isCurrent && <span>Allocation Period Open</span>}
-            &nbsp;
+            {/* &nbsp; */}
           </Text>
         </Box>
         {!nonMember && (
@@ -372,7 +373,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               justifyContent: 'flex-end',
               alignItems: 'center',
               height: '100%',
-              width: '100%',
+              '@sm': { gridColumnEnd: 'span 2' },
             }}
           >
             <Box
@@ -389,8 +390,6 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               className="hover-buttons"
               css={{
                 display: 'flex',
-                flexGrow: 1,
-                width: '100%',
                 gap: '$sm',
                 mr: '-$sm',
                 justifyContent: 'flex-end',

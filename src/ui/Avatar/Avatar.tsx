@@ -19,6 +19,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   userSelect: 'none',
   borderRadius: '100%',
   backgroundColor: '$surface',
+  position: 'relative',
+  zIndex: 1,
   variants: {
     size: {
       small: {

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, { useState } from 'react';
 
 import { fileToBase64 } from 'lib/base64';
@@ -9,7 +7,7 @@ import { updateOrgLogo } from 'lib/gql/mutations';
 
 import { LoadingModal } from 'components';
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { DeprecatedUploadIcon, SettingsIcon, CloseIcon } from 'icons';
+import { SettingsIcon } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { normalizeError } from 'utils/reporting';
@@ -98,7 +96,25 @@ export const OrgLogoUpload = ({
         }
         name={name}
       />
-      <Box css={{ position: 'absolute', top: '-$lg', left: '0' }}>
+      <Box
+        css={
+          formFileUploadProps.hasChanged
+            ? {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                background: '$white',
+                boxShadow: '$heavy',
+                borderRadius: '$3',
+                paddingLeft: '$2xl',
+                height: '$2xl',
+                display: 'flex',
+                alignItems: 'center',
+                pr: '$md',
+              }
+            : {}
+        }
+      >
         {isUploadingLogo && (
           <Box>
             <LoadingModal visible />
@@ -111,9 +127,9 @@ export const OrgLogoUpload = ({
                 onClick={onSave}
                 size="small"
                 color="primary"
+                outlined
                 css={{ mr: '$xs' }}
               >
-                {/* <DeprecatedUploadIcon /> */}
                 Upload
               </Button>
             )}
@@ -131,7 +147,6 @@ export const OrgLogoUpload = ({
                 outlined
                 css={{ background: '$white' }}
               >
-                {/* <CloseIcon /> */}
                 Cancel
               </Button>
             )}
@@ -146,7 +161,10 @@ export const OrgLogoUpload = ({
                   visibility: 'hidden',
                   color: '$secondaryText',
                   background: '$white',
-                  mt: '$lg',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  zIndex: 2,
                   '&:hover': {
                     color: '$primary',
                   },

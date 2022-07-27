@@ -184,6 +184,7 @@ export const SummonCirclePage = () => {
                     mt: '$lg',
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                     flexGrow: 1,
                   }}
                 >
