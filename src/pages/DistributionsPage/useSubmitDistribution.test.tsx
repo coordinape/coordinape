@@ -129,6 +129,8 @@ test('submit distribution', async () => {
           gifts,
           fixedGifts,
         });
+        expect(distro).toBeTruthy();
+        assert(distro);
         merkleRootFromSubmission = distro.merkleRoot;
 
         merkleRootFromDistributor = await contracts.distributor.epochRoots(
@@ -227,6 +229,8 @@ test('previous distribution', async () => {
           type: 1,
         });
 
+        expect(distro).toBeTruthy();
+        assert(distro);
         newTotal = distro.totalAmount;
         return true;
       })();
