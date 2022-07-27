@@ -61,8 +61,8 @@ export const formatToShortNumber = (number: string, decimals = 2): string => {
   return `${parseFloat(rNumber.toFixed(decimals))}${units[unitIndex]}`;
 };
 
-export const numberWithCommas = (x: number | string) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const numberWithCommas = (x: number | string | undefined) => {
+  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '0';
 };
 
 export const waitSeconds = (sec = 2): Promise<void> =>

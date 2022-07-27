@@ -31,6 +31,8 @@ declare global {
         receiver: string,
         amount: string
       ): Chainable;
+
+      getInputByLabel(label: string, options?: { timeout: number }): Chainable;
     }
   }
 }

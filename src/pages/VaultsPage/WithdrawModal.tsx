@@ -9,6 +9,7 @@ import { FormTokenField } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Form, Button, Modal } from 'ui';
+import { numberWithCommas } from 'utils';
 
 export type WithdrawModalProps = {
   onClose: () => void;
@@ -22,7 +23,9 @@ export default function WithdrawModal({
   vault,
   balance,
 }: WithdrawModalProps) {
-  const schema = z.object({ amount: z.number().min(0).max(balance) }).strict();
+  const schema = z
+    .object({ amount: z.number().positive().max(balance) })
+    .strict();
   type WithdrawFormSchema = z.infer<typeof schema>;
   const contracts = useContracts();
   const [submitting, setSubmitting] = useState(false);
@@ -70,7 +73,9 @@ export default function WithdrawModal({
           max={balance}
           symbol={vault.symbol}
           decimals={vault.decimals}
-          label={`Available to Withdraw: ${balance} ${vault.symbol?.toUpperCase()}`}
+          label={`Available to Withdraw: ${numberWithCommas(
+            balance
+          )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}

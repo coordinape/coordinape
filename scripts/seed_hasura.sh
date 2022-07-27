@@ -30,6 +30,13 @@ if [ "$1" == "--clean" ]; then
   # psql $PG_CXN -c "$CMD_TRUNCATE_ALL" >/dev/null
 fi
 
+if [ "$1" == "--QA" ]; then
+  echo "Seeding QA data..."
+  ts-node ./scripts/vault_QA_seed.ts
+  ./scripts/enable_triggers.sh
+  exit
+fi
+
 echo "Seeding..."
 ts-node ./scripts/db_seed_test.ts
 

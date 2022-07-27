@@ -64,7 +64,7 @@ export const paths = {
 
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',
-  vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
+  vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

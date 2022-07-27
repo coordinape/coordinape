@@ -19,29 +19,12 @@ context('Coordinape', () => {
 
     cy.contains('Add Contributor', { timeout: 120000 }).should('be.visible');
     cy.contains('Add Contributor').click();
-    cy.contains('Contributor Name')
-      .parent()
-      .within(() => {
-        cy.get('input').type('A Test User').blur();
-      });
-    cy.contains('Contributor ETH address')
-      .parent()
-      .within(() => {
-        cy.get('input')
-          .type('0xe00b84525b71ef52014e59f633c97530cb278e09')
-          .blur();
-      });
+    cy.getInputByLabel('Contributor Name').type('A Test User').blur();
+    cy.getInputByLabel('Contributor ETH address')
+      .type('0xe00b84525b71ef52014e59f633c97530cb278e09')
+      .blur();
     // enter the fixed payment amount
-    cy.contains('Create User')
-      .parent()
-      .within(() => {
-        cy.contains('Fixed Payment Amount')
-          .parent()
-          .within(() => {
-            // there seem to be a default 0 in a number input so we add one less 0
-            cy.get('input').clear().type('1200').blur();
-          });
-      });
+    cy.getInputByLabel('Fixed Payment Amount').clear().type('1200').blur();
 
     cy.contains('Save').click();
     cy.reload(true);

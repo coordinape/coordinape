@@ -17,30 +17,17 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     '& label': {
-      height: 14,
-      fontSize: 12,
-      fontWeight: 'bold',
-      marginTop: theme.spacing(0.5),
       color: 'rgba(81, 99, 105, 0.7)',
     },
   },
   noteTextField: {
     '& > div': {
-      marginTop: theme.spacing(0.5),
       marginBottom: 0,
     },
     '& textarea': {
       paddingTop: 0,
       paddingBottom: 0,
     },
-  },
-  tokenInputContainer: {
-    height: 66,
-    marginTop: theme.spacing(1.5),
-    marginBottom: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'end',
   },
   noteTextarea: {
     '& textarea': {
@@ -65,11 +52,12 @@ const useStyles = makeStyles(theme => ({
   tokenInput: {
     '& input': {
       fontSize: 25,
+      textAlign: 'center',
     },
     '&.MuiInputBase-root': {
       backgroundColor: 'white',
     },
-    width: 140,
+    width: '100%',
     height: 36,
   },
 }));

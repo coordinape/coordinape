@@ -29,14 +29,18 @@ export function getProtocolName() {
 }
 
 export function getCircleName() {
-  return faker.unique(faker.commerce.department);
+  try {
+    return faker.unique(faker.commerce.department);
+  } catch (e) {
+    return faker.commerce.color();
+  }
 }
 
 type ProtocolInput = {
   name?: string;
 };
 
-async function insertProtocol(input: ProtocolInput) : Promise<number> {
+async function insertProtocol(input: ProtocolInput): Promise<number> {
   const result = await adminClient.mutate({
     insert_organizations_one: [
       {

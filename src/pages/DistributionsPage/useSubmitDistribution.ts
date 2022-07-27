@@ -74,7 +74,7 @@ export function useSubmitDistribution() {
     fixedAmount,
     giftAmount,
     type,
-  }: SubmitDistribution): Promise<SubmitDistributionResult> => {
+  }: SubmitDistribution): Promise<SubmitDistributionResult | undefined> => {
     assert(vault, 'No vault is found');
 
     try {
@@ -165,6 +165,8 @@ export function useSubmitDistribution() {
           chainId: contracts.chainId,
         }
       );
+
+      if (!receipt) return;
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
       const txHash = receipt?.transactionHash;
