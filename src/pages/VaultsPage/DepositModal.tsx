@@ -144,8 +144,14 @@ export default function DepositModal({
         >
           {submitting
             ? 'Depositing Funds...'
-            : `Deposit ${vault.symbol.toUpperCase()}`}
+            : `Approve and Deposit ${vault.symbol.toUpperCase()}`}
         </Button>
+        <Text
+          size="small"
+          css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
+        >
+          You will sign two transactions: one for approval and one for deposit.
+        </Text>
       </Form>
     </Modal>
   );
