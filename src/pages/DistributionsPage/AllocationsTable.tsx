@@ -16,6 +16,8 @@ export const AllocationsTable = ({
   giveTokenName,
   downloadCSV,
   epoch,
+  fixedDist,
+  circleDist,
 }: {
   users: {
     id: number;
@@ -36,6 +38,8 @@ export const AllocationsTable = ({
   giveTokenName: string | undefined;
   downloadCSV: (epoch: number) => Promise<any>;
   epoch: EpochDataResult;
+  fixedDist: EpochDataResult['distributions'][0] | undefined;
+  circleDist: EpochDataResult['distributions'][0] | undefined;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
   const pageSize = 10;
@@ -48,6 +52,7 @@ export const AllocationsTable = ({
     (u: User) => u.received / totalGive,
     [totalGive]
   );
+
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
   const totalPages = Math.ceil(users.length / pageSize);
@@ -60,7 +65,7 @@ export const AllocationsTable = ({
     { title: `${giveTokenName || 'GIVE'} Received` },
     { title: `% of ${giveTokenName || 'GIVE'}` },
     { title: 'Circle Rewards' },
-    { title: 'Fixed Rewards' },
+    { title: 'Fixed Payments' },
   ];
   if (combinedDist) {
     headers.push({ title: 'Funds Allocated' });
@@ -138,14 +143,25 @@ export const AllocationsTable = ({
                   )} ${tokenName || 'GIVE'}`}
             </td>
             <td>
-              {!combinedDist && user.claimed
+              {!combinedDist && fixedDist
                 ? numberWithCommas(user.claimed.toFixed(2))
                 : numberWithCommas(user.fixed_payment_amount.toFixed(2))}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist && (
               <td>
-                {numberWithCommas(user.combined_claimed.toFixed(2))} {tokenName}
+                {(() => {
+                  if (circleDist && fixedDist) {
+                    return numberWithCommas(user.combined_claimed.toFixed(2));
+                  }
+                  const giftAmt = circleDist
+                    ? user.circle_claimed
+                    : givenPercent(user) * formGiftAmount;
+                  return numberWithCommas(
+                    (giftAmt + user.fixed_payment_amount).toFixed(2)
+                  );
+                })()}{' '}
+                {tokenName}
               </td>
             )}
           </tr>
