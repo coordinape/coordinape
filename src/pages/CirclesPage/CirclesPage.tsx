@@ -404,12 +404,11 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               {buttons.map(
                 ([pathFn, label, hide]) =>
                   (!hide || !hide(circle)) && (
-                    <Link href={pathFn(circle.id)}>
+                    <Link href={pathFn(circle.id)} key={label}>
                       <Button
                         color="neutral"
                         outlined
                         size="small"
-                        key={label}
                         css={{
                           border: 'none',
                           fontWeight: '$semibold',
