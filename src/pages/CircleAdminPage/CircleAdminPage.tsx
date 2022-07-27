@@ -695,14 +695,14 @@ export const CircleAdminPage = () => {
             Danger Zone
           </Text>
           <Panel nested>
-            <Text h3 semibold css={{ mb: '$sm' }}>
+            <Text h3 semibold css={{ mb: '$lg' }}>
               Permanently Remove Circle
             </Text>
             <Button
               color="destructive"
               outlined
               css={{
-                width: 'fit-content',
+                width: '163px',
               }}
               onClick={event => {
                 event.preventDefault();
@@ -712,6 +712,7 @@ export const CircleAdminPage = () => {
               Remove Circle
             </Button>
             <RemoveCircleModal
+              circleId={circleId}
               onClose={() => {
                 setCircleToRemove(undefined);
               }}
