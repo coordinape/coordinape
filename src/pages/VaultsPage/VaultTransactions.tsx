@@ -43,7 +43,7 @@ export const VaultTransactions = () => {
         <Text h2 css={{ mb: '$md' }}>
           All Transactions for {vault?.symbol?.toUpperCase()} Vault
         </Text>
-        <TransactionTable chain_id={vault.chain_id} rows={vaultTxList} />
+        <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>
     </OrgLayout>
   );
@@ -286,10 +286,10 @@ const Table = styled('table', {});
 
 export const TransactionTable = ({
   rows,
-  chain_id,
+  chainId,
 }: {
   rows: any[];
-  chain_id: number;
+  chainId: number;
 }) => (
   <Table
     css={{
@@ -333,7 +333,7 @@ export const TransactionTable = ({
           <td>{row.details}</td>
           <td>{row.amount.toString()}</td>
           <td>
-            <Link href={makeExplorerUrl(chain_id, row.hash)}>Etherscan</Link>
+            <Link href={makeExplorerUrl(chainId, row.hash)}>Etherscan</Link>
           </td>
         </tr>
       ))}

@@ -133,7 +133,7 @@ export function VaultRow({
           'Loading...'
         ) : vaultTxList?.length ? (
           <TransactionTable
-            chain_id={vault.chain_id}
+            chainId={vault.chain_id}
             rows={vaultTxList.slice(0, 3)}
           />
         ) : (
