@@ -90,7 +90,7 @@ const VaultsPage = () => {
         vaults?.map(vault => (
           <VaultRow
             key={vault.id}
-            vault={vault as GraphQLTypes['vaults']}
+            vault={vault as GraphQLTypes['vaults']} // FIXME
             css={{ mb: '$sm' }}
           />
         ))

@@ -28,11 +28,10 @@ export function VaultRow({
 
   const updateBalance = () =>
     contracts
-      ?.getVault(vault.vault_address)
-      .underlyingValue()
-      .then(x => {
-        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
-      });
+      ?.getVaultBalance(vault)
+      .then(x =>
+        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber())
+      );
 
   useBlockListener(updateBalance, [vault.id]);
   // for UI updates when the user is switching between orgs quickly

@@ -18,6 +18,7 @@ import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
+import type { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
 
@@ -98,6 +99,18 @@ export class Contracts {
     const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
     const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
     return FixedNumber.from(pps).divUnsafe(shifter);
+  }
+
+  async getVaultBalance(
+    vault: Pick<
+      GraphQLTypes['vaults'],
+      'simple_token_address' | 'vault_address'
+    >
+  ) {
+    const { simple_token_address, vault_address } = vault;
+    return simple_token_address
+      ? this.getERC20(simple_token_address).balanceOf(vault_address)
+      : this.getVault(vault_address).underlyingValue();
   }
 
   getAvailableTokens() {
