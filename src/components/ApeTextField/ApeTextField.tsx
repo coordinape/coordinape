@@ -145,12 +145,8 @@ export const ApeTextField = ({
         fullWidth && classes.rootFullWidth
       )}
     >
-      {prelabel && label ? (
-        <Flex
-          css={{
-            justifyContent: 'space-between',
-          }}
-        >
+      <Flex css={{ justifyContent: 'space-between' }}>
+        {prelabel && (
           <Text
             variant="label"
             as="label"
@@ -161,28 +157,23 @@ export const ApeTextField = ({
             {prelabel}{' '}
             {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
           </Text>
+        )}
+        {(label || infoTooltip) && (
           <Text
             variant="label"
             as="label"
             htmlFor={id ?? fallbackId}
             className={classes.label}
+            css={{ mb: '$xs' }}
           >
             {label}{' '}
+            {!prelabel && infoTooltip && (
+              <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>
+            )}
           </Text>
-        </Flex>
-      ) : (
-        (label || infoTooltip) && (
-          <Text
-            variant="label"
-            as="label"
-            htmlFor={id ?? fallbackId}
-            className={classes.label}
-          >
-            {label}{' '}
-            {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-          </Text>
-        )
-      )}
+        )}
+      </Flex>
+
       {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
       <InputBase {...mergedInputProps} />
       <div className={classes.helperBox}>
