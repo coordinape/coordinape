@@ -21,6 +21,7 @@ import { BigNumber, FixedNumber } from 'ethers';
 import type { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+import { assertDef } from 'utils/tools';
 
 import { Asset } from './';
 import { hasSimpleToken } from './tokens';
@@ -108,8 +109,8 @@ export class Contracts {
     >
   ) {
     const { simple_token_address, vault_address } = vault;
-    return simple_token_address
-      ? this.getERC20(simple_token_address).balanceOf(vault_address)
+    return hasSimpleToken(vault)
+      ? this.getERC20(assertDef(simple_token_address)).balanceOf(vault_address)
       : this.getVault(vault_address).underlyingValue();
   }
 

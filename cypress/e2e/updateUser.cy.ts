@@ -76,16 +76,7 @@ context('Coordinape', () => {
       });
 
     // enter the fixed payment amount
-    cy.contains('Edit Kasey')
-      .parent()
-      .within(() => {
-        cy.contains('Fixed Payment Amount')
-          .parent()
-          .within(() => {
-            // there seem to be a default 0 in a number input so we add one less 0
-            cy.get('input').clear().type('1200').blur();
-          });
-      });
+    cy.getInputByLabel('Fixed Payment Amount').clear().type('1200').blur();
 
     cy.contains('Save').click();
     cy.reload(true);
