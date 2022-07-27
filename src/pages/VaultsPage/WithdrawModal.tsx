@@ -23,7 +23,9 @@ export default function WithdrawModal({
   vault,
   balance,
 }: WithdrawModalProps) {
-  const schema = z.object({ amount: z.number().min(0).max(balance) }).strict();
+  const schema = z
+    .object({ amount: z.number().positive().max(balance) })
+    .strict();
   type WithdrawFormSchema = z.infer<typeof schema>;
   const contracts = useContracts();
   const [submitting, setSubmitting] = useState(false);

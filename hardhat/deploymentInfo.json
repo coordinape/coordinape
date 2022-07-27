@@ -68,13 +68,13 @@
       "address": "0x81f3A59B9e262e27B9c7717e7002d82c2bccDa27"
     },
     "MockRegistry": {
-      "address": "0xe8a0721aF820630398994127C5592d41bB939689"
+      "address": "0xa64014AdF0E28a4c3f464e1Ebfccc0edAee0E559"
     },
     "MockVaultFactory": {
-      "address": "0xf968AF55F713BA8284f24c37de8636529b3F9425"
+      "address": "0x5066CF36107E1f9B64A860dBEef3A1ba9E68a971"
     },
     "MockUSDCVaultFactory": {
-      "address": "0x3f49F1D1Eb9b85305A9DA6A131200458B262ddF6"
+      "address": "0x375aaF80E40b95fC7984b2fc3e5c6974A11f7679"
     },
     "USDC": {
       "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
