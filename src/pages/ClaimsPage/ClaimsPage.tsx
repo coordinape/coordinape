@@ -163,7 +163,7 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, amount, distribution }) => (
+          {({ id, amount, distribution, txHash }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -206,7 +206,7 @@ export default function ClaimsPage() {
                       target="_blank"
                       href={makeExplorerUrl(
                         distribution.vault.chain_id,
-                        distribution.tx_hash
+                        txHash
                       )}
                     >
                       View on Etherscan
