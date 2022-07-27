@@ -5,7 +5,7 @@ import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
-import { numberWithCommas } from '../../utils';
+import { numberWithCommas } from 'utils';
 import { FormTokenField } from 'components';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
