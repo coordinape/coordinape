@@ -131,7 +131,10 @@ export function VaultRow({
         {isLoading ? (
           'Loading...'
         ) : vaultTxList?.length ? (
-          <TransactionTable rows={vaultTxList.slice(0, 3)} />
+          <TransactionTable
+            chainId={vault.chain_id}
+            rows={vaultTxList.slice(0, 3)}
+          />
         ) : (
           'No Transactions Yet'
         )}
