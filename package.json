@@ -12,7 +12,6 @@
     "@gqty/react": "2.1.0",
     "@hcaptcha/react-hcaptcha": "0.3.7",
     "@hookform/resolvers": "^2.8.8",
-    "@jridgewell/gen-mapping": "^0.3.2",
     "@material-ui/core": "4.11.3",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.58",
