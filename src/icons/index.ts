@@ -34,7 +34,7 @@ export * from './DeprecatedMinusCircleIcon';
 export * from './ParcelIcon';
 export * from './PlusCircleIcon';
 export * from './RightArrowIcon';
-export * from './SettingsIcon';
+export * from './Settings';
 export * from './Torso';
 export * from './DeprecatedSaveIcon';
 export * from './DeprecatedTelegramIcon';
