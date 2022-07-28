@@ -9,7 +9,7 @@ import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
-import { paths } from 'routes/paths';
+import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import {
   Box,
   Link,
@@ -127,6 +127,18 @@ export const MyAvatarMenu = () => {
                 </Link>
                 <Link type="menu" as={NavLink} to={paths.circles}>
                   Circles
+                </Link>
+              </Box>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" href={EXTERNAL_URL_DOCS}>
+                  Docs
+                </Link>
+                <Link
+                  type="menu"
+                  href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
+                  target="_blank"
+                >
+                  Give Feedback
                 </Link>
               </Box>
             </Box>
