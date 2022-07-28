@@ -14,10 +14,7 @@ export async function createApeVault(
 ): Promise<ApeVaultWrapperImplementation> {
   apeVaultFactory.connect(from.signer);
 
-  const tx = await apeVaultFactory.createApeVault(
-    USDC_ADDRESS,
-    coToken.address
-  );
+  const tx = await apeVaultFactory.createCoVault(USDC_ADDRESS, coToken.address);
   const receipt = await tx.wait();
   if (receipt && receipt?.events) {
     for (const event of receipt.events) {
