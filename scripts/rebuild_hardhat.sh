@@ -8,7 +8,7 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 if [ "$FULL" ]; then
-  git submodule update --init --recursive
+#  git submodule update --init --recursive
   yarn --cwd hardhat install --frozen-lockfile
   yarn --cwd hardhat compile
 
@@ -34,4 +34,3 @@ yarn unlink >/dev/null 2>&1 || echo -n
 yarn link
 cd ..
 yarn link @coordinape/hardhat
-

@@ -84,6 +84,7 @@ export const OverviewMenu = () => {
         <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
             asChild
+            css={{ outline: 'none' }}
             ref={triggerRef}
             onMouseEnter={() => setMouseEnterTrigger(true)}
             onMouseLeave={() =>
@@ -106,7 +107,7 @@ export const OverviewMenu = () => {
               css={{
                 display: 'flex',
                 flexDirection: 'column',
-                p: 'calc($md + $xs)',
+                p: '$md',
               }}
             >
               <PopoverClose asChild>

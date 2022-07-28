@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
@@ -35,6 +35,7 @@ const schema = z
       .number()
       .refine(n => n >= 1, { message: 'Must be at least one day.' })
       .refine(n => n <= 100, { message: 'cant be more than 100 days' }),
+    customError: z.undefined(), //unregistered to disable submitting
   })
   .strict();
 const nextIntervalFactory = (repeat: TEpochRepeatEnum) => {
@@ -104,7 +105,7 @@ const getCollisionMessage = (
   return undefined;
 };
 
-const getZodParser = (source?: IEpochFormSource) => {
+const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
   const otherRepeating = source?.epochs?.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
@@ -140,10 +141,15 @@ const getZodParser = (source?: IEpochFormSource) => {
       start_date: DateTime.fromISO(start_date).setZone(),
       ...fields,
     }))
-    .refine(({ start_date }) => start_date > DateTime.now().setZone(), {
-      path: ['start_date'],
-      message: 'Start date must be in the future',
-    })
+    .refine(
+      ({ start_date }) =>
+        start_date > DateTime.now().setZone() ||
+        source?.epoch?.id === currentEpoch,
+      {
+        path: ['start_date'],
+        message: 'Start date must be in the future',
+      }
+    )
     .refine(
       ({ start_date, days }) =>
         start_date.plus({ days }) > DateTime.now().setZone(),
@@ -226,10 +232,12 @@ const EpochForm = ({
     () => ({
       epoch: selectedEpoch ? extraEpoch(selectedEpoch) : undefined,
       epochs: currentEpoch
-        ? epochs
-            ?.filter(e => e.id !== selectedEpoch?.id)
-            .concat(currentEpoch)
-            .map(e => extraEpoch(e))
+        ? currentEpoch.id !== selectedEpoch?.id
+          ? epochs
+              ?.filter(e => e.id !== selectedEpoch?.id)
+              .concat(currentEpoch)
+              .map(e => extraEpoch(e))
+          : epochs?.map(e => extraEpoch(e))
         : epochs
             ?.filter(e => e.id !== selectedEpoch?.id)
             .map(e => extraEpoch(e)),
@@ -238,14 +246,14 @@ const EpochForm = ({
   );
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     handleSubmit,
     setError,
+    clearErrors,
   } = useForm<epochFormSchema>({
     resolver: zodResolver(schema),
-    mode: 'onSubmit',
-
+    mode: 'all',
     defaultValues: {
       days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
       start_date:
@@ -253,19 +261,45 @@ const EpochForm = ({
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
     },
   });
-  const watchFields = watch();
+
+  const watchFields = useRef<
+    Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
+  >({
+    days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
+    start_date:
+      source?.epoch?.start_date ??
+      DateTime.now().setZone().plus({ days: 1 }).toISO(),
+    repeat:
+      source?.epoch?.repeat === 2
+        ? 'monthly'
+        : source?.epoch?.repeat === 1
+        ? 'weekly'
+        : 'none',
+  });
+  const extraErrors = useRef(false);
+
+  useEffect(() => {
+    watch(data => {
+      const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
+        getZodParser(source, currentEpoch?.id).safeParse(data);
+      if (!value.success) {
+        extraErrors.current = true;
+        setError('customError', {
+          message: value.error.errors[0].message,
+        });
+      } else {
+        extraErrors.current = false;
+        clearErrors('customError');
+      }
+
+      if (data.days) watchFields.current.days = data.days;
+      if (data.repeat) watchFields.current.repeat = data.repeat;
+      if (data.start_date) watchFields.current.start_date = data.start_date;
+    });
+  }, [watch]);
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
-    const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
-      getZodParser(source).safeParse(data);
-    if (!value.success) {
-      const path = value.error.errors[0].path[0];
-      setError(
-        path === 'repeat' ? 'repeat' : path === 'days' ? 'days' : 'start_date',
-        {
-          message: value.error.errors[0].message,
-        }
-      );
+    if (extraErrors.current) {
       return;
     }
     setSubmitting(true);
@@ -316,7 +350,7 @@ const EpochForm = ({
             <Button
               color="primary"
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !isDirty || !isEmpty(errors)}
               onClick={handleSubmit(onSubmit)}
             >
               {submitting ? 'Saving...' : 'Save'}
@@ -356,17 +390,15 @@ const EpochForm = ({
               <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
                 <Flex
                   column
-                  css={{ alignItems: 'flex-start', maxWidth: '150px' }}
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '150px',
+                    gap: '$xs',
+                  }}
                 >
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Start Date{' '}
-                    <Tooltip
-                      content={
-                        <Box>
-                          The first day of the epoch in your local time zone
-                        </Box>
-                      }
-                    >
+                    <Tooltip content="The first day of the epoch in your local time zone">
                       <InfoCircledIcon />
                     </Tooltip>
                   </FormLabel>
@@ -378,6 +410,10 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -386,7 +422,7 @@ const EpochForm = ({
                     )}
                   />
                 </Flex>
-                <Flex css={{ maxWidth: '150px', gap: '$xs' }}>
+                <Flex css={{ maxWidth: '150px' }}>
                   <FormInputField
                     id="days"
                     name="days"
@@ -395,46 +431,45 @@ const EpochForm = ({
                     }
                     control={control}
                     label="Duration (days)"
-                    infoTooltip={'How long the epoch lasts in days'}
+                    infoTooltip="How long the epoch lasts in days"
                     number
                   />
                 </Flex>
-                <Flex css={{ gap: '$md', alignItems: 'flex-end' }}>
-                  <Flex
-                    column
-                    css={{
-                      alignItems: 'flex-start',
-                      maxWidth: '150px',
-                    }}
-                  >
-                    <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                      Start Time{' '}
-                      <Tooltip
-                        content={
-                          <Box>
-                            The start time of the epoch in your local time zone
-                          </Box>
-                        }
-                      >
-                        <InfoCircledIcon />
-                      </Tooltip>
-                    </FormLabel>
+                <Flex column css={{ gap: '$xs' }}>
+                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                    Start Time{' '}
+                    <Tooltip content="The start time of the epoch in your local time zone">
+                      <InfoCircledIcon />
+                    </Tooltip>
+                  </FormLabel>
+                  <Flex row css={{ gap: '$sm' }}>
                     <Controller
                       control={control}
                       name="start_date"
                       render={({ field: { onChange, value, onBlur } }) => (
-                        <FormTimePicker
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          value={value}
-                        />
+                        <Box
+                          css={{
+                            maxWidth: '150px',
+                            '> div': { mb: '0 !important' },
+                          }}
+                        >
+                          <FormTimePicker
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            disabled={
+                              selectedEpoch &&
+                              currentEpoch?.id === selectedEpoch?.id
+                            }
+                          />
+                        </Box>
                       )}
                     />
+                    <Text font="inter" size="medium">
+                      In your
+                      <br /> local timezone
+                    </Text>
                   </Flex>
-                  <Text font="inter" size="medium" css={{ pb: '$sm' }}>
-                    In your
-                    <br /> local timezone
-                  </Text>
                 </Flex>
               </Flex>
               <Flex column css={{ mt: '$lg ' }}>
@@ -454,10 +489,10 @@ const EpochForm = ({
                 />
               </Flex>
               <Box css={{ maxWidth: '900px', mt: '$xl' }}>
-                {summarizeEpoch(watchFields)}
+                {summarizeEpoch(watchFields.current)}
               </Box>
             </Flex>
-            <Flex column>{epochsPreview(watchFields)}</Flex>
+            <Flex column>{epochsPreview(watchFields.current)}</Flex>
           </Box>
           {!isEmpty(errors) && (
             <Box

@@ -6,12 +6,12 @@ import uniqueId from 'lodash/uniqueId';
 import { makeStyles, ButtonGroup, Button, Theme } from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
+import { Text } from 'ui';
 
 const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
   },
   inactive: {
     color: theme.colors.text,
@@ -35,13 +35,6 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     '&:not(:last-child)': {
       borderRight: '1px solid white',
     },
-  },
-  label: {
-    fontSize: 16,
-    lineHeight: 1.3,
-    fontWeight: 700,
-    marginBottom: theme.spacing(1),
-    color: theme.colors.text,
   },
   helper: {
     fontSize: 13,
@@ -94,10 +87,16 @@ export const ApeToggle = ({
       })}
     >
       {(!!label || infoTooltip) && (
-        <label htmlFor={groupId} className={classes.label}>
+        <Text
+          variant="label"
+          as="label"
+          htmlFor={groupId}
+          className={classes.label}
+          css={{ mb: '$xs' }}
+        >
           {label}{' '}
           {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-        </label>
+        </Text>
       )}
       <ButtonGroup
         id={groupId}

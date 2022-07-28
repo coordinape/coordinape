@@ -44,8 +44,7 @@ export const getWrappedAmount = async (
   >,
   contracts: Contracts
 ): Promise<BigNumber> => {
-  const shifter = BigNumber.from(10).pow(vault.decimals);
-  const weiAmount = BigNumber.from(amount).mul(shifter);
+  const weiAmount = utils.parseUnits(amount, vault.decimals);
   if (hasSimpleToken(vault)) return weiAmount;
 
   const vaultContract = contracts.getVault(vault.vault_address);
@@ -57,7 +56,8 @@ export const getWrappedAmount = async (
   if (newTotalAmount.lte(vaultBalance)) return newTotalAmount;
 
   // this is acceptable rounding error
-  if (newTotalAmount.lt(vaultBalance.add(100))) return vaultBalance;
+  const acceptableError = BigNumber.from(10).pow(vault.decimals - 4);
+  if (newTotalAmount.lt(vaultBalance.add(acceptableError))) return vaultBalance;
 
   throw new Error(
     `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`

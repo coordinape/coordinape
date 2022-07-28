@@ -530,10 +530,7 @@ export async function getEpoch(
   return epoch;
 }
 
-export async function getVaultAndDistributionForAddress(
-  address: string,
-  vaultId: number
-) {
+export async function getVaultForAddress(address: string, vaultId: number) {
   const result = await adminClient.query({
     vaults_by_pk: [
       {

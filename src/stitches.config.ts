@@ -55,7 +55,7 @@ export const SvgIconConfig = {
 const spaces = {
   xs: '4px',
   sm: '8px',
-  md: '12px',
+  md: '16px',
   lg: '24px',
   xl: '32px',
   '1xl': '40px',
@@ -85,6 +85,7 @@ export const colors = {
 
   background: figmaColors.grey1,
   surface: figmaColors.grey2,
+  info: figmaColors.blue4,
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
 
@@ -127,7 +128,7 @@ export const {
       min: 'min-content',
       full: '100%',
       smallScreen: '900px',
-      mediumScreen: '1280px',
+      mediumScreen: '1392px',
       headerHeight: '91px',
       ...spaces,
     },

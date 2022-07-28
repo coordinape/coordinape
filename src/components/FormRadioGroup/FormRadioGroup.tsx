@@ -41,7 +41,7 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
     <Flex
       column
       css={{
-        gap: '$md',
+        gap: '$sm',
         opacity: disabled ? 0.5 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}

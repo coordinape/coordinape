@@ -1,25 +1,25 @@
 import assert from 'assert';
 import React, { useState } from 'react';
 
-import { formatRelative, parseISO } from 'date-fns';
 import { isUserAdmin } from 'lib/users';
 import uniqBy from 'lodash/uniqBy';
-import { FiExternalLink } from 'react-icons/fi';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
+import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
+import { ReactComponent as LeftArrowSVG } from 'assets/svgs/button/left-arrow.svg';
 import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Button, Link, Panel, Text, Icon } from 'ui';
+import { AppLink, Box, Button, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { makeExplorerUrl } from 'utils/provider';
 
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
-import type { EpochDataResult, Gift } from './queries';
+import type { Gift } from './queries';
 import { getEpochData } from './queries';
 
 export function DistributionsPage() {
@@ -33,6 +33,7 @@ export function DistributionsPage() {
     isError,
     error,
     data: epoch,
+    refetch,
   } = useQuery(
     ['distributions', epochId],
     () => getEpochData(Number(epochId), address, contracts),
@@ -40,7 +41,7 @@ export function DistributionsPage() {
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
-  const [giftVaultId, setGiftVaultId] = useState<string>('');
+  const [giftVaultSymbol, setGiftVaultSymbol] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
 
@@ -63,11 +64,22 @@ export function DistributionsPage() {
     epochError = 'No tokens were allocated during this epoch.';
   }
   const circleDist = epoch.distributions.find(
-    d => d.distribution_type === 1 || d.distribution_type === 3
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
   const fixedDist = epoch.distributions.find(
-    d => d.distribution_type === 2 || d.distribution_type === 3
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
+
+  const isCombinedDistribution =
+    fixedDist &&
+    circleDist &&
+    circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED &&
+    fixedDist.distribution_type === DISTRIBUTION_TYPE.COMBINED;
+
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
       return (
@@ -81,6 +93,16 @@ export function DistributionsPage() {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient.id === user.id
       );
+      const claimed = !fixedDist
+        ? 0
+        : fixedDist.claims
+            .filter(c => c.profile?.id === user.profile?.id)
+            .reduce((t, g) => t + g.new_amount, 0) || 0;
+      const circle_claimed = !circleDist
+        ? 0
+        : circleDist.claims
+            .filter(c => c.profile?.id === user.profile?.id)
+            .reduce((t, g) => t + g.new_amount, 0) || 0;
       return {
         id: user.id,
         name: user.name,
@@ -91,16 +113,13 @@ export function DistributionsPage() {
         received: receivedGifts
           ? receivedGifts.reduce((t, g) => t + g.tokens, 0) || 0
           : 0,
-        claimed: !fixedDist
-          ? 0
-          : fixedDist.claims
-              .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.new_amount, 0) || 0,
-        circle_claimed: !circleDist
-          ? 0
-          : circleDist.claims
-              .filter(c => c.profile?.id === user.profile?.id)
-              .reduce((t, g) => t + g.new_amount, 0) || 0,
+        claimed,
+        circle_claimed,
+        // if its a combined distribution we don't add the claim amounts twice
+        // to avoid double counting towards the total claimed
+        combined_claimed: !isCombinedDistribution
+          ? claimed + circle_claimed
+          : claimed,
       };
     });
   const usersWithReceivedAmounts = uniqBy(
@@ -114,127 +133,94 @@ export function DistributionsPage() {
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
   const vaults = circle.organization.vaults || [];
-  const vault1TokenName = vaults.find(
-    v => v.id === Number(giftVaultId)
-  )?.symbol;
-  let tokenName = vault1TokenName;
+  let tokenName = giftVaultSymbol;
 
   if (circleDist) {
     tokenName = circleDist.vault.symbol;
   }
+  const startDate = DateTime.fromISO(epoch.start_date);
+  const endDate = DateTime.fromISO(epoch.end_date);
 
   return (
     <SingleColumnLayout>
-      <Panel>
-        <AppLink to={paths.members(circle.id)}>
-          <Button outlined css={{ minWidth: '100px', marginBottom: '$sm' }}>
-            &larr; Back
-          </Button>
-        </AppLink>
-        <Text h2 css={{ mb: '$sm' }}>
-          Distributions
+      <AppLink to={paths.history(circle.id)}>
+        <Button
+          size="small"
+          outlined
+          css={{ padding: '$sm', color: '$neutral', borderColor: '$neutral' }}
+        >
+          <LeftArrowSVG />
+          Back
+        </Button>
+      </AppLink>
+      <Text h1 css={{ '@sm': { display: 'block' } }}>
+        Distributions&nbsp;
+        <Text normal>
+          Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
+          {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
         </Text>
-        <Text h2 normal>
-          {circle.name}: Epoch {epoch.number}
+      </Text>
+      <br />
+      <Box css={{ maxWidth: '712px' }}>
+        <Text css={{ lineHeight: `$shorter` }}>
+          Please review the distribution details below and if all looks good,
+          approve the distribution so that contributors can claim their funds.
+          <br />
+          <br />
+          Each token distribution requires a separate transaction. If you choose
+          the same token, you can combine Gift Circle and Fixed Payment
+          transactions. If you choose a token that you don’t have a vault for,
+          you can export the distribution to a CSV.
         </Text>
-
-        {epochError ? (
-          <Text
-            css={{
-              fontSize: '$h3',
-              fontWeight: '$semibold',
-              textAlign: 'center',
-              display: 'block',
-              mt: '$md',
-              color: '$alert',
-            }}
-          >
-            {epochError}
-          </Text>
-        ) : (
-          <>
-            <Panel nested css={{ mt: '$lg' }}>
-              <DistributionForm
-                giftVaultId={giftVaultId}
-                formGiftAmount={formGiftAmount}
-                epoch={epoch}
-                users={usersWithReceivedAmounts}
-                setAmount={setFormGiftAmount}
-                setVaultId={setGiftVaultId}
-                vaults={vaults}
-                circleUsers={circleUsers}
-                downloadCSV={downloadCSV}
-              />
-              <Box
-                css={{
-                  display: 'grid',
-                  width: '100%',
-                  'grid-template-columns': '1fr 1fr',
-                  'column-gap': '$lg',
-                }}
-              >
-                {circleDist && <Summary distribution={circleDist} />}
-                {fixedDist && <Summary distribution={fixedDist} />}
-              </Box>
-            </Panel>
-
-            <Box css={{ mt: '$lg' }}>
-              <AllocationsTable
-                users={usersWithGiftnFixedAmounts}
-                tokenName={tokenName}
-                totalGive={totalGive}
-                formGiftAmount={formGiftAmount}
-                fixedTokenName={fixedDist?.vault.symbol}
-                giveTokenName={circle.token_name}
-              />
-            </Box>
-          </>
-        )}
-      </Panel>
+      </Box>
+      {epochError ? (
+        <Text
+          css={{
+            fontSize: '$h3',
+            fontWeight: '$semibold',
+            textAlign: 'center',
+            display: 'block',
+            mt: '$md',
+            color: '$alert',
+          }}
+        >
+          {epochError}
+        </Text>
+      ) : (
+        <>
+          <Box css={{ mt: '$lg' }}>
+            <DistributionForm
+              circleDist={circleDist}
+              fixedDist={fixedDist}
+              giftVaultSymbol={giftVaultSymbol}
+              formGiftAmount={formGiftAmount}
+              epoch={epoch}
+              users={usersWithReceivedAmounts}
+              setAmount={setFormGiftAmount}
+              setGiftVaultSymbol={setGiftVaultSymbol}
+              vaults={vaults}
+              circleUsers={circleUsers}
+              refetch={refetch}
+            />
+          </Box>
+          <AllocationsTable
+            epoch={epoch}
+            users={usersWithGiftnFixedAmounts}
+            tokenName={tokenName}
+            totalGive={totalGive}
+            formGiftAmount={formGiftAmount}
+            fixedTokenName={
+              fixedDist
+                ? fixedDist.vault.symbol
+                : circle.fixed_payment_token_type
+            }
+            giveTokenName={circle.token_name}
+            downloadCSV={downloadCSV}
+            circleDist={circleDist}
+            fixedDist={fixedDist}
+          />
+        </>
+      )}
     </SingleColumnLayout>
   );
 }
-
-const Summary = ({
-  distribution,
-}: {
-  distribution: EpochDataResult['distributions'][0];
-}) => {
-  const distTime = parseISO(distribution.created_at + 'Z');
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Text css={{ color: '$complete' }}>
-        Distribution submitted {formatRelative(distTime, Date.now())}
-      </Text>
-      <ExplorerLink distribution={distribution} />
-    </Box>
-  );
-};
-
-const ExplorerLink = ({
-  distribution,
-}: {
-  distribution: EpochDataResult['distributions'][0];
-}) => {
-  const { tx_hash } = distribution;
-  const { chain_id } = distribution.vault;
-  const LinkIcon = Icon(FiExternalLink);
-
-  const explorerHref = makeExplorerUrl(chain_id, tx_hash);
-
-  if (!explorerHref) return <></>;
-
-  return (
-    <Box css={{ display: 'flex', alignItems: 'center' }}>
-      <LinkIcon css={{ size: '$md', color: '$borderMedium', length: 0 }} />
-      <Link css={{ ml: '$xs' }} href={explorerHref}>
-        View on Etherscan
-      </Link>
-    </Box>
-  );
-};

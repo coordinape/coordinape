@@ -33,10 +33,14 @@ export function useMarkDistributionSaved() {
       epochId,
       id,
       txHash,
+      circleId,
+      vaultId,
     }: {
       id: number;
       epochId: number;
       txHash: string;
+      vaultId: number;
+      circleId: number;
     }) => {
       return client.mutate(
         {
@@ -47,6 +51,18 @@ export function useMarkDistributionSaved() {
                 distribution_epoch_id: epochId,
               },
               pk_columns: { id },
+            },
+            { id: true },
+          ],
+          createVaultTx: [
+            {
+              payload: {
+                tx_type: 'Distribution',
+                vault_id: vaultId,
+                tx_hash: txHash,
+                distribution_id: id,
+                circle_id: circleId,
+              },
             },
             { id: true },
           ],

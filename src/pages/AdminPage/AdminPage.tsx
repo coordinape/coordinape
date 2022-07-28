@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -30,10 +30,14 @@ const AdminPage = () => {
     undefined
   );
   const [newUser, setNewUser] = useState<boolean>(false);
+  const [newCircle, setNewCircle] = useState<boolean>(false);
 
-  const [newCircle, setNewCircle] = useState<boolean>(
-    window.location.search === NEW_CIRCLE_CREATED_PARAMS
-  );
+  useEffect(() => {
+    // do this initialization in useEffect because window is only available client side -g
+    if (typeof window !== 'undefined') {
+      setNewCircle(window.location.search === NEW_CIRCLE_CREATED_PARAMS);
+    }
+  }, []);
 
   const navigate = useNavigate();
 

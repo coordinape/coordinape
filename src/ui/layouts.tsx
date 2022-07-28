@@ -19,10 +19,34 @@ export const SingleColumnLayout = ({
       css={{
         maxWidth: '$mediumScreen',
         px: '$lg',
-        margin: '$xl auto',
+        margin: '$2xl auto',
         display: 'flex',
         flexDirection: 'column',
         gap: '$md',
+        ...css,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
+type TwoColumnLayoutProps = {
+  children: ReactNode;
+  css?: CSS;
+};
+
+export const TwoColumnLayout = ({
+  children,
+  css = {},
+}: TwoColumnLayoutProps) => {
+  return (
+    <Box
+      css={{
+        display: 'grid',
+        gap: '$xl',
+        gridTemplateColumns: '1fr 1fr',
+        '@sm': { gridTemplateColumns: '1fr' },
         ...css,
       }}
     >

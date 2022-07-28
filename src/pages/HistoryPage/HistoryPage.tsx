@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
-import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
+import { useApeSnackbar, useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   Collapsible,
@@ -31,7 +31,6 @@ import { NextEpoch } from './NextEpoch';
 const pageSize = 3;
 
 export const HistoryPage = () => {
-  const contracts = useContracts();
   const {
     circle: { id: circleId },
     myUser: { id: userId },
@@ -39,7 +38,7 @@ export const HistoryPage = () => {
 
   const query = useQuery(
     ['history', circleId],
-    () => getHistoryData(circleId, userId, contracts),
+    () => getHistoryData(circleId, userId),
     { enabled: !!userId && !!circleId }
   );
 
@@ -88,6 +87,11 @@ export const HistoryPage = () => {
     }
     query.refetch();
   };
+
+  useEffect(() => {
+    setEditEpoch(undefined);
+    setNewEpoch(false);
+  }, [circleId]);
 
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
@@ -178,6 +182,11 @@ export const HistoryPage = () => {
             nominees={nominees}
             unallocated={unallocated}
             tokenName={circle?.token_name}
+            isAdmin={isAdmin}
+            isEditing={editEpoch || newEpoch ? true : false}
+            editCurrentEpoch={() => {
+              setEditEpoch(currentEpoch);
+            }}
           />
         </>
       )}

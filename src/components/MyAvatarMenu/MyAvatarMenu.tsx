@@ -53,6 +53,7 @@ export const MyAvatarMenu = () => {
       <Hidden smDown>
         <Popover open={mouseEnterPopover || mouseEnterTrigger}>
           <PopoverTrigger
+            css={{ outline: 'none' }}
             asChild
             ref={triggerRef}
             onMouseEnter={() => setMouseEnterTrigger(true)}
@@ -81,7 +82,7 @@ export const MyAvatarMenu = () => {
                 flexDirection: 'column',
                 textAlign: 'right',
                 alignItems: 'end',
-                p: 'calc($md + $xs)',
+                p: '$md',
               }}
             >
               <PopoverClose asChild>

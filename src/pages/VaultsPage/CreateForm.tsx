@@ -56,15 +56,17 @@ const useFormSetup = (
 export const CreateForm = ({
   onSuccess,
   orgId,
+  setSaving,
 }: {
   onSuccess: () => void;
   orgId: number;
+  setSaving?: (saving: boolean) => void;
 }) => {
   const contracts = useContracts();
   const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<Asset | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
-  const [saving, setSaving] = useState(false);
+  const [saving, setSavingLocal] = useState(false);
 
   const {
     control,
@@ -111,17 +113,21 @@ export const CreateForm = ({
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
-    setSaving(true);
+    setSaving?.(true);
+    setSavingLocal(true);
     createVault({
       type: symbol,
       simpleTokenAddress: customAddress,
       customSymbol,
     }).then(vault => {
-      setSaving(false);
+      setSaving?.(false);
+      setSavingLocal(false);
       if (!vault) return;
       onSuccess();
     });
   };
+
+  if (saving) return <SavingInProgress />;
 
   return (
     <Form
@@ -134,10 +140,14 @@ export const CreateForm = ({
       }}
     >
       <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select a CoVault Asset
+        Select an Asset
       </Text>
-      <Text font="source" size="medium">
+      <Text font="source" size="medium" css={{ mb: '$sm' }}>
         CoVaults allow you to fund your circles with the asset of your choice.
+      </Text>
+      <Text font="source" size="medium" css={{ display: 'block' }}>
+        Choose a token below to create a CoVault that uses{' '}
+        <a href="https://docs.yearn.finance/">Yearn Vaults</a> to earn yield:
       </Text>
       <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
         {contracts.getAvailableTokens().map(symbol => (
@@ -157,7 +167,9 @@ export const CreateForm = ({
           </AssetButton>
         ))}
       </Box>
-      <Text css={{ mb: '$md' }}>Or use a custom asset</Text>
+      <Text font="source" size="medium" css={{ mb: '$md' }}>
+        Or create a CoVault with any ERC-20 token:
+      </Text>
       <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
         Token contract address
         {customSymbol && (
@@ -207,3 +219,17 @@ const AssetButton = styled(Button, {
     '> span': { color: 'white !important' },
   },
 });
+
+const SavingInProgress = () => {
+  return (
+    <>
+      <Text p as="p" css={{ mb: '$md' }}>
+        Please follow the prompts in your wallet to submit a transaction, then
+        wait for the transaction to complete.
+      </Text>
+      <Text p as="p">
+        Do not leave this page.
+      </Text>
+    </>
+  );
+};

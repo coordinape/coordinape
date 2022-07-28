@@ -30,6 +30,7 @@ export const MainLayout = () => {
     <Box
       css={{
         position: 'fixed',
+        background: '$background',
         top: 0,
         left: 0,
         right: 0,

@@ -11,6 +11,8 @@ export const EXTERNAL_URL_LANDING_PAGE = 'https://coordinape.com';
 export const EXTERNAL_URL_DOCS_REGIFT = `${EXTERNAL_URL_DOCS}/welcome/new-feature-regift`;
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.coordinape.com';
+export const EXTERNAL_URL_GET_STARTED =
+  'https://docs.coordinape.com/get-started/get-started';
 export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.coordinape.com/support';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
@@ -62,7 +64,7 @@ export const paths = {
 
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',
-  vaultTxs: (id: string) => `${paths.vaults}/${id}/txs`,
+  vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

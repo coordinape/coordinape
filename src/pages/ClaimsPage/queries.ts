@@ -12,7 +12,10 @@ export const getClaims = async (
     {
       claims: [
         {
-          where: { profile_id: { _eq: profileId } },
+          where: {
+            profile_id: { _eq: profileId },
+            distribution: { tx_hash: { _is_null: false } },
+          },
           order_by: [{ created_at: order_by.desc }],
         },
         {
@@ -27,8 +30,10 @@ export const getClaims = async (
             distribution_epoch_id: true,
             distribution_json: [{}, true],
             merkle_root: true,
+            tx_hash: true,
             vault: {
               id: true,
+              chain_id: true,
               vault_address: true,
               token_address: true,
               simple_token_address: true,

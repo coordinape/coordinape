@@ -1,16 +1,10 @@
-import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import type { Contracts } from 'lib/vaults';
 import { DateTime, Interval } from 'luxon';
 
 import { Awaited } from '../../types/shim';
 
-export const getHistoryData = async (
-  circleId: number,
-  userId: number,
-  contracts?: Contracts
-) => {
+export const getHistoryData = async (circleId: number, userId: number) => {
   const gq = await client.query(
     {
       circles_by_pk: [
@@ -108,10 +102,13 @@ export const getHistoryData = async (
                     },
                   },
                   distributions: [
-                    {},
+                    {
+                      where: { tx_hash: { _is_null: false } },
+                    },
                     {
                       id: true,
-                      total_amount: true,
+                      fixed_amount: true,
+                      gift_amount: true,
                       vault: {
                         decimals: true,
                         symbol: true,
@@ -132,30 +129,7 @@ export const getHistoryData = async (
     }
   );
 
-  const circle = gq.circles_by_pk;
-
-  if (!contracts) return circle;
-
-  type DistributionWithPrice = Exclude<
-    typeof circle,
-    undefined
-  >['pastEpochs'][0]['distributions'][0] & {
-    pricePerShare: FixedNumber;
-  };
-
-  // FIXME cache these values by symbol to avoid redundant calls
-  for (const epoch of circle?.pastEpochs || []) {
-    for (const dist of epoch.distributions) {
-      (dist as DistributionWithPrice).pricePerShare =
-        await contracts.getPricePerShare(
-          dist.vault.vault_address,
-          dist.vault.simple_token_address,
-          dist.vault.decimals
-        );
-    }
-  }
-
-  return circle;
+  return gq.circles_by_pk;
 };
 
 export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
@@ -173,10 +147,4 @@ export interface IQueryEpoch extends QueryFutureEpoch {
   calculatedDays: number;
 }
 
-// FIXME find a way to not have to hardcode this.
-// in DistributionsPage/queries it works because the return value
-// of the query is reassigned, but doing that here, with more
-// levels of nesting, creates a mess of `await Promise.all...`
-export type QueryDistribution = QueryPastEpoch['distributions'][0] & {
-  pricePerShare: FixedNumber;
-};
+export type QueryDistribution = QueryPastEpoch['distributions'][0];

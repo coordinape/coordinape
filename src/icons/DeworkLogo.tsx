@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import * as React from 'react';
 
 import { styled, SvgIconConfig } from 'stitches.config';
@@ -6,7 +5,10 @@ import { styled, SvgIconConfig } from 'stitches.config';
 import { IconProps } from 'types';
 
 export const DeworkLogo = styled(
-  React.forwardRef<SVGSVGElement, IconProps>((props, forwardedRef) => {
+  React.forwardRef<SVGSVGElement, IconProps>(function DeworkLogo(
+    { ...props },
+    forwardedRef
+  ) {
     return (
       <svg
         width="16"
@@ -81,5 +83,5 @@ export const DeworkLogo = styled(
   }),
   SvgIconConfig
 );
-
+DeworkLogo.displayName = 'DeworkLogo';
 export default DeworkLogo;

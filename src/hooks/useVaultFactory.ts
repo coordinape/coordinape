@@ -42,7 +42,7 @@ export function useVaultFactory(orgId?: number) {
       }
 
       const { receipt } = await sendAndTrackTx(
-        () => contracts.vaultFactory.createApeVault(...args),
+        () => contracts.vaultFactory.createCoVault(...args),
         {
           showInfo,
           showError,

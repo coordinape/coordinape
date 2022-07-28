@@ -1,5 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers';
+import {
+  Web3Provider,
+  InfuraProvider,
+  JsonRpcProvider,
+} from '@ethersproject/providers';
 import { ethers } from 'ethers';
+
+import { INFURA_PROJECT_ID, HARDHAT_GANACHE_PORT } from 'config/env';
 
 export const getSignature = async (data: string, provider?: Web3Provider) => {
   if (!provider) throw 'Missing provider for getSignature';
@@ -70,5 +76,22 @@ export function makeExplorerUrl(chainId: number, txHash: string | undefined) {
       return '#' + txHash;
     default:
       console.warn(`No explorer for chain ID ${chainId}; tx Hash: ` + txHash);
+  }
+}
+
+export function getProviderForChain(chainId: number) {
+  switch (chainId) {
+    case 1: // mainnet
+      return new InfuraProvider('homestead', INFURA_PROJECT_ID);
+    case 5: // Goerli
+      return new InfuraProvider('goerli', INFURA_PROJECT_ID);
+    case 1337:
+    case 1338:
+      return new JsonRpcProvider(
+        'http://localhost:' + HARDHAT_GANACHE_PORT,
+        chainId
+      );
+    default:
+      throw new Error(`chainId ${chainId} is unsupported`);
   }
 }
