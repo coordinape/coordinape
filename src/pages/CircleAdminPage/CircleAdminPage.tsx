@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import * as z from 'zod';
 
 import { makeStyles } from '@material-ui/core';
@@ -14,6 +15,7 @@ import {
   DeprecatedFormTextField,
   ApeToggle,
   FormAutocomplete,
+  LoadingModal,
 } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
@@ -23,6 +25,7 @@ import { Form, Flex, Button, Box, Text } from 'ui';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
+import { getCircleSettings } from './getCircleSettings';
 
 const DOCS_HREF = 'https://docs.coordinape.com/get-started/admin';
 const DOCS_TEXT = 'See the docs...';
@@ -214,7 +217,30 @@ type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
   const classes = useStyles();
-  const { circleId, circle } = useSelectedCircle();
+  const { circleId, circle: circle1 } = useSelectedCircle();
+
+  const {
+    isLoading,
+    isIdle,
+    isError,
+    error,
+    data: circle,
+    refetch,
+  } = useQuery(
+    ['circleSettings', circleId],
+    () => getCircleSettings(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      initialData: circle1,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
   const tokens = ['Disabled'].concat(
@@ -227,7 +253,10 @@ export const CircleAdminPage = () => {
     avatar: string;
     avatarRaw: File | null;
   }>({
-    avatar: getCircleAvatar({ avatar: circle.logo, circleName: circle.name }),
+    avatar: getCircleAvatar({
+      avatar: circle?.logo,
+      circleName: circle?.name || '',
+    }),
     avatarRaw: null,
   });
 
@@ -245,63 +274,64 @@ export const CircleAdminPage = () => {
   const { field: circleName } = useController({
     name: 'circle_name',
     control,
-    defaultValue: circle.name,
+    defaultValue: circle?.name,
   });
   const { field: vouching } = useController({
     name: 'vouching',
     control,
-    defaultValue: circle.vouching,
+    defaultValue: circle?.vouching,
   });
+
   const { field: tokenName } = useController({
     name: 'token_name',
     control,
-    defaultValue: circle.tokenName,
+    defaultValue: circle?.tokenName,
   });
   const { field: minVouches } = useController({
     name: 'min_vouches',
     control,
-    defaultValue: circle.min_vouches,
+    defaultValue: circle?.min_vouches,
   });
   const { field: teamSelText } = useController({
     name: 'team_sel_text',
     control,
-    defaultValue: circle.teamSelText,
+    defaultValue: circle?.teamSelText,
   });
   const { field: teamSelection } = useController({
     name: 'team_selection',
     control,
-    defaultValue: circle.team_selection,
+    defaultValue: circle?.team_selection,
   });
   const { field: nominationDaysLimit } = useController({
     name: 'nomination_days_limit',
     control,
-    defaultValue: circle.nomination_days_limit,
+    defaultValue: circle?.nomination_days_limit,
   });
 
   const { field: allocText } = useController({
     name: 'alloc_text',
     control,
-    defaultValue: circle.allocText,
+    defaultValue: circle?.allocText,
   });
   const { field: vouchingText } = useController({
     name: 'vouching_text',
     control,
-    defaultValue: circle.vouchingText,
+    defaultValue: circle?.vouchingText,
   });
   const { field: fixedPaymentToken } = useController({
     name: 'fixed_payment_token_type',
     control,
-    defaultValue: circle.fixed_payment_token_type ?? 'Disabled',
+    defaultValue: circle?.fixed_payment_token_type ?? 'Disabled',
   });
   const { field: onlyGiverVouch } = useController({
     name: 'only_giver_vouch',
     control,
-    defaultValue: circle.only_giver_vouch,
+    defaultValue: circle?.only_giver_vouch,
   });
   const { field: autoOptOut } = useController({
     name: 'auto_opt_out',
     control,
-    defaultValue: circle.auto_opt_out,
+    defaultValue: circle?.auto_opt_out,
   });
   const { field: discordWebhook } = useController({
     name: 'discord_webhook',
@@ -347,7 +377,7 @@ export const CircleAdminPage = () => {
         });
       }
       await updateCircle({
-        circle_id: circle.id,
+        circle_id: circleId,
         name: data.circle_name,
         vouching: data.vouching,
         token_name: data.token_name,
@@ -364,11 +394,19 @@ export const CircleAdminPage = () => {
         fixed_payment_token_type: data.fixed_payment_token_type,
       });
 
+      await refetch();
       showInfo('Saved changes');
     } catch (e) {
       console.warn(e);
     }
   };
+
+  if (isLoading || isIdle) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error.message);
+    }
+  }
 
   return (
     <Form
@@ -489,7 +527,7 @@ export const CircleAdminPage = () => {
           infoTooltip={
             <YesNoTooltip
               yes={`Only members who are eligible to send ${
-                circle.tokenName || 'GIVE'
+                circle?.tokenName || 'GIVE'
               } can vouch for new members`}
               no="Anyone in the circle can vouch for new members"
               href={DOCS_HREF}
