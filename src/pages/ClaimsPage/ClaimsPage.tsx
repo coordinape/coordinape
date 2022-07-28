@@ -133,9 +133,9 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, unwrappedAmount, distribution }) => (
+          {({ id, unwrappedNewAmount, distribution }) => (
             <ClaimRow
-              {...{ id, unwrappedAmount, distribution }}
+              {...{ id, unwrappedNewAmount, distribution }}
               key={id}
               onClickClaim={() => processClaim(id)}
               claiming={claiming[id]}
@@ -163,7 +163,7 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, amount, distribution, txHash }) => (
+          {({ id, new_amount, distribution, txHash }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -190,7 +190,7 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {amount} {distribution.vault.symbol}
+                      {new_amount} {distribution.vault.symbol}
                     </Text>
                     <Button
                       color="primary"
@@ -224,14 +224,14 @@ export default function ClaimsPage() {
 
 type ClaimRowProps = {
   distribution: QueryClaim['distribution'];
-  unwrappedAmount: QueryClaim['unwrappedAmount'];
+  unwrappedNewAmount: QueryClaim['unwrappedNewAmount'];
   onClickClaim: () => void;
   claimsGroupByVault: Dictionary<QueryClaim[]>;
   claiming: boolean;
 };
 const ClaimRow = ({
   distribution,
-  unwrappedAmount,
+  unwrappedNewAmount,
   onClickClaim,
   claimsGroupByVault,
   claiming,
@@ -265,8 +265,8 @@ const ClaimRow = ({
             }}
           >
             <Text>
-              {unwrappedAmount &&
-                parseFloat(unwrappedAmount?.toString()).toFixed(2)}{' '}
+              {unwrappedNewAmount &&
+                parseFloat(unwrappedNewAmount?.toString()).toFixed(2)}{' '}
               {distribution.vault.symbol}
             </Text>
             <Button
