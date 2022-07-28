@@ -26,6 +26,7 @@ export const AllTypesProps: Record<string, any> = {
     users: 'UserObj',
   },
   CreateVaultInput: {},
+  DeleteCircleInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
@@ -475,6 +476,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_private: 'circle_private_bool_exp',
     created_at: 'timestamp_comparison_exp',
     default_opt_in: 'Boolean_comparison_exp',
+    deleted_at: 'timestamp_comparison_exp',
     epochs: 'epochs_bool_exp',
     fixed_payment_token_type: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
@@ -503,6 +505,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_max_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
@@ -518,6 +521,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_min_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
@@ -538,6 +542,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_private: 'circle_private_order_by',
     created_at: 'order_by',
     default_opt_in: 'order_by',
+    deleted_at: 'order_by',
     epochs_aggregate: 'epochs_aggregate_order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
@@ -1321,6 +1326,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createVaultTx: {
       payload: 'LogVaultTxInput',
+    },
+    deleteCircle: {
+      payload: 'DeleteCircleInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -3311,6 +3319,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_private: 'circle_private',
     created_at: 'timestamp',
     default_opt_in: 'Boolean',
+    deleted_at: 'timestamp',
     epochs: 'epochs',
     fixed_payment_token_type: 'String',
     id: 'bigint',
@@ -3756,6 +3765,7 @@ export const ReturnTypes: Record<string, any> = {
     createUsers: 'UserResponse',
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
+    deleteCircle: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',

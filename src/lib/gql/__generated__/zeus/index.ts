@@ -721,6 +721,9 @@ export type ValueTypes = {
     org_id: number;
     vault_address: string;
   };
+  ['DeleteCircleInput']: {
+    circle_id: number;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -1496,6 +1499,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private'];
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     epochs?: [
       {
         /** distinct select on columns */
@@ -1755,6 +1759,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
@@ -1800,6 +1805,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -1816,6 +1822,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -1848,6 +1855,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     default_opt_in?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     epochs_aggregate?:
       | ValueTypes['epochs_aggregate_order_by']
       | undefined
@@ -3493,6 +3501,10 @@ columns and relationships of "distributions" */
     createVaultTx?: [
       { payload: ValueTypes['LogVaultTxInput'] },
       ValueTypes['LogVaultTxResponse']
+    ];
+    deleteCircle?: [
+      { payload: ValueTypes['DeleteCircleInput'] },
+      ValueTypes['ConfirmationResponse']
     ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
@@ -7768,6 +7780,7 @@ export type ModelTypes = {
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
+  ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -8028,6 +8041,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -8740,6 +8754,7 @@ columns and relationships of "distributions" */
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -9976,6 +9991,9 @@ export type GraphQLTypes = {
     org_id: number;
     vault_address: string;
   };
+  ['DeleteCircleInput']: {
+    circle_id: number;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -10682,6 +10700,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -10751,6 +10770,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epochs?: GraphQLTypes['epochs_bool_exp'] | undefined;
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
@@ -10790,6 +10810,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -10806,6 +10827,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -10837,6 +10859,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     default_opt_in?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -12212,6 +12235,7 @@ columns and relationships of "distributions" */
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -14557,6 +14581,7 @@ export const enum circles_select_column {
   auto_opt_out = 'auto_opt_out',
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
+  deleted_at = 'deleted_at',
   fixed_payment_token_type = 'fixed_payment_token_type',
   id = 'id',
   is_verified = 'is_verified',

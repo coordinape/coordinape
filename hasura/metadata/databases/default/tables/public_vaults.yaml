@@ -48,4 +48,7 @@ select_permissions:
             - profile:
                 id:
                   _eq: X-Hasura-User-Id
+            - circle:
+                deleted_at:
+                  _is_null: true
   role: user

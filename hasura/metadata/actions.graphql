@@ -35,6 +35,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -276,6 +280,10 @@ input LogVaultTxInput {
   circle_id: Int
 }
 
+input DeleteCircleInput {
+  circle_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -347,6 +355,10 @@ type UpdateOrgResponse {
 
 type LogVaultTxResponse {
   id: ID!
+}
+
+type DeleteCirlceResponse {
+  success: Boolean!
 }
 
 scalar timestamptz
