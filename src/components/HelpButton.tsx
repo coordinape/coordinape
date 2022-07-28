@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
 
+import {
+  EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_MAILTO_SUPPORT,
+  EXTERNAL_URL_SCHEDULE_WALKTHROUGH,
+  EXTERNAL_URL_TYPEFORM_FEEDBACK,
+} from '../routes/paths';
 import { Button, Flex } from '../ui';
 import { Box } from '../ui/Box/Box';
 import { ClockIcon } from '../ui/icons/ClockIcon';
@@ -28,7 +35,7 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '258px', // magic number, yep. If i do auto the animations are terrible -g
+    height: '298px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
@@ -155,28 +162,32 @@ const HelpButton = () => {
           </Text>
         </div>
         <HelpOption
-          href={'https://discord.gg/pc7KFEdsSh'}
+          href={EXTERNAL_URL_DISCORD}
           icon={<DiscordIcon size={'md'} color={'text'} />}
         >
           Ask on Discord
         </HelpOption>
         <HelpOption
-          href={'mailto:support@coodinape.com'}
+          href={EXTERNAL_URL_MAILTO_SUPPORT}
           icon={<EnvelopeIcon size={'md'} color={'text'} />}
         >
           Email Us
         </HelpOption>
         <HelpOption
-          href={
-            'https://coordinape.com/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding'
-          }
+          href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
           icon={<ClockIcon size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough
         </HelpOption>
+        <HelpOption
+          href={EXTERNAL_URL_TYPEFORM_FEEDBACK}
+          icon={<ClockIcon size={'md'} color={'text'} />}
+        >
+          Share Feedback
+        </HelpOption>
         <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
           <HelpOption
-            href={'https://docs.coordinape.com/'}
+            href={EXTERNAL_URL_DOCS}
             icon={<DocumentIcon size={'md'} color={'text'} />}
           >
             Documentation
