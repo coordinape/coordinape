@@ -7,6 +7,8 @@ export const MAP_HIGHLIGHT_PARAM = 'highlight';
 export const EXTERNAL_URL_TYPEFORM =
   'https://yearnfinance.typeform.com/to/egGYEbrC';
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
+export const EXTERNAL_URL_SCHEDULE_WALKTHROUGH =
+  'https://coordinape.com/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding';
 export const EXTERNAL_URL_LANDING_PAGE = 'https://coordinape.com';
 export const EXTERNAL_URL_DOCS_REGIFT = `${EXTERNAL_URL_DOCS}/welcome/new-feature-regift`;
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
@@ -18,6 +20,9 @@ export const EXTERNAL_URL_MEDIUM_ARTICLE =
 // TODO: Change this to something more specific to feedback.
 export const EXTERNAL_URL_FEEDBACK =
   'https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a';
+export const EXTERNAL_URL_TYPEFORM_FEEDBACK =
+  'https://fe7gssn4rhy.typeform.com/to/nvOUfHKN';
+export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@coordinape.com';
 
 const toSearchString = (params: Record<string, string | number>) =>
   Object.entries(params)
