@@ -56,6 +56,7 @@ const spaces = {
   xs: '4px',
   sm: '8px',
   md: '12px',
+  '2sm': '16px',
   lg: '24px',
   xl: '32px',
   '1xl': '40px',
@@ -84,6 +85,7 @@ export const colors = {
 
   background: figmaColors.grey1,
   surface: figmaColors.grey2,
+  info: figmaColors.blue4,
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
 

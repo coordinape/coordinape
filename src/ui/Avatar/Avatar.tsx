@@ -19,12 +19,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   userSelect: 'none',
   borderRadius: '100%',
   backgroundColor: '$surface',
-  cursor: 'pointer',
-  transition: 'border-color .3s ease',
-  border: `1px solid $border`,
-  '&:hover': {
-    border: '1px solid $alert',
-  },
+  position: 'relative',
+  zIndex: 1,
   variants: {
     size: {
       small: {
@@ -35,8 +31,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         },
       },
       large: {
-        width: '$3xl',
-        height: '$3xl',
+        width: '$xl',
+        height: '$xl',
       },
     },
   },
@@ -62,8 +58,6 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   backgroundColor: '$border',
   lineHeight: 1,
   fontWeight: '$medium',
-  cursor: 'pointer',
-
   variants: {
     size: {
       small: {

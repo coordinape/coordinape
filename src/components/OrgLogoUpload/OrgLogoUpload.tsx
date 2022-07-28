@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 
-import CloseIcon from '@material-ui/icons/Close';
-
 import { LoadingModal } from 'components';
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { DeprecatedUploadIcon, EditIcon } from 'icons';
+import { Settings } from 'icons';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { normalizeError } from 'utils/reporting';
@@ -78,7 +76,16 @@ export const OrgLogoUpload = ({
   };
 
   return (
-    <Box css={{ position: 'relative' }}>
+    <Box
+      css={{
+        position: 'relative',
+        '&:hover': {
+          '*': {
+            visibility: 'visible',
+          },
+        },
+      }}
+    >
       <Avatar
         path={
           uploadedLogoUrl && !formFileUploadProps.hasChanged
@@ -87,7 +94,25 @@ export const OrgLogoUpload = ({
         }
         name={name}
       />
-      <Box css={{ position: 'absolute', bottom: '0', right: '0' }}>
+      <Box
+        css={
+          formFileUploadProps.hasChanged
+            ? {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                background: '$white',
+                boxShadow: '$heavy',
+                borderRadius: '$3',
+                paddingLeft: '$2xl',
+                height: '$2xl',
+                display: 'flex',
+                alignItems: 'center',
+                pr: '$md',
+              }
+            : {}
+        }
+      >
         {isUploadingLogo && (
           <Box>
             <LoadingModal visible />
@@ -96,8 +121,14 @@ export const OrgLogoUpload = ({
         {!isUploadingLogo && (
           <Box css={{ display: 'flex', flexDirection: 'row' }}>
             {formFileUploadProps.hasChanged && (
-              <Button onClick={onSave} size="smallIcon">
-                {<DeprecatedUploadIcon />}
+              <Button
+                onClick={onSave}
+                size="small"
+                color="primary"
+                outlined
+                css={{ mr: '$xs' }}
+              >
+                Upload
               </Button>
             )}
             {formFileUploadProps.hasChanged && (
@@ -109,9 +140,12 @@ export const OrgLogoUpload = ({
                     fileInput.current.value = '';
                   }
                 }}
-                size="smallIcon"
+                size="small"
+                color="destructive"
+                outlined
+                css={{ background: '$white' }}
               >
-                {<CloseIcon />}
+                Cancel
               </Button>
             )}
             {isAdmin && !formFileUploadProps.hasChanged && (
@@ -121,9 +155,24 @@ export const OrgLogoUpload = ({
                     ? () => fileInput.current?.click?.()
                     : undefined
                 }
+                css={{
+                  visibility: 'hidden',
+                  color: '$secondaryText',
+                  background: '$white',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  zIndex: 2,
+                  '&:hover': {
+                    color: '$primary',
+                  },
+                  '@sm': {
+                    visibility: 'visible',
+                  },
+                }}
                 size="smallIcon"
               >
-                <EditIcon />
+                <Settings />
               </Button>
             )}
           </Box>

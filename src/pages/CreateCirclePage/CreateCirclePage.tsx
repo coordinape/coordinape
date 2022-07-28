@@ -53,7 +53,7 @@ export const SummonCirclePage = () => {
         Create a Circle
       </Text>
       <Text
-        variant="p"
+        p
         as="p"
         css={{
           mb: '$xl',
@@ -184,6 +184,7 @@ export const SummonCirclePage = () => {
                     mt: '$lg',
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                     flexGrow: 1,
                   }}
                 >
