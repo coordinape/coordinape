@@ -2,73 +2,106 @@ table:
   name: pending_token_gifts
   schema: public
 object_relationships:
-- name: circle
-  using:
-    foreign_key_constraint_on: circle_id
-- name: epoch
-  using:
-    manual_configuration:
-      column_mapping:
-        epoch_id: id
-      insertion_order: null
-      remote_table:
-        name: epoches
-        schema: public
-- name: gift_private
-  using:
-    manual_configuration:
-      column_mapping:
-        id: gift_id
-      insertion_order: null
-      remote_table:
-        name: pending_gift_private
-        schema: public
-- name: recipient
-  using:
-    foreign_key_constraint_on: recipient_id
-- name: sender
-  using:
-    foreign_key_constraint_on: sender_id
+  - name: circle
+    using:
+      foreign_key_constraint_on: circle_id
+  - name: epoch
+    using:
+      manual_configuration:
+        column_mapping:
+          epoch_id: id
+        insertion_order: null
+        remote_table:
+          name: epoches
+          schema: public
+  - name: gift_private
+    using:
+      manual_configuration:
+        column_mapping:
+          id: gift_id
+        insertion_order: null
+        remote_table:
+          name: pending_gift_private
+          schema: public
+  - name: recipient
+    using:
+      foreign_key_constraint_on: recipient_id
+  - name: sender
+    using:
+      foreign_key_constraint_on: sender_id
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - circle_id
-    - created_at
-    - dts_created
-    - epoch_id
-    - id
-    - recipient_id
-    - sender_id
-    - tokens
-    - updated_at
-    filter:
-      circle:
-        api_keys:
-          _and:
-          - hash:
-              _eq: X-Hasura-Api-Key-Hash
-          - read_pending_token_gifts:
-              _eq: true
-    limit: 100
-  role: api-user
-- permission:
-    columns:
-    - circle_id
-    - created_at
-    - dts_created
-    - epoch_id
-    - id
-    - recipient_address
-    - recipient_id
-    - sender_address
-    - sender_id
-    - tokens
-    - updated_at
-    filter:
-      circle:
-        users:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-  role: user
+  - permission:
+      allow_aggregations: true
+      columns:
+        - circle_id
+        - created_at
+        - dts_created
+        - epoch_id
+        - id
+        - recipient_id
+        - sender_id
+        - tokens
+        - updated_at
+      filter:
+        circle:
+          api_keys:
+            _and:
+              - hash:
+                  _eq: X-Hasura-Api-Key-Hash
+              - read_pending_token_gifts:
+                  _eq: true
+      limit: 100
+    role: api-user
+  - permission:
+      columns:
+        - circle_id
+        - created_at
+        - dts_created
+        - epoch_id
+        - id
+        - recipient_address
+        - recipient_id
+        - sender_address
+        - sender_id
+        - tokens
+        - updated_at
+      filter:
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+    role: user
+event_triggers:
+  - definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      update:
+        columns:
+          - tokens
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: refundGiveDiscord
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+  - definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      update:
+        columns:
+          - tokens
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: refundGiveTelegram
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'

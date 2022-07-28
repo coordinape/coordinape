@@ -2,35 +2,49 @@ table:
   name: teammates
   schema: public
 object_relationships:
-- name: teammate
-  using:
-    manual_configuration:
-      column_mapping:
-        team_mate_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
-- name: user
-  using:
-    manual_configuration:
-      column_mapping:
-        user_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: teammate
+    using:
+      manual_configuration:
+        column_mapping:
+          team_mate_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 select_permissions:
-- permission:
-    columns:
-    - id
-    - team_mate_id
-    - user_id
-    - created_at
-    - updated_at
-    filter:
-      user:
-        profile:
-          id:
-            _eq: X-Hasura-User-Id
-  role: user
+  - permission:
+      columns:
+        - id
+        - team_mate_id
+        - user_id
+        - created_at
+        - updated_at
+      filter:
+        user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+    role: user
+event_triggers:
+  - definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: removeTeammate
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
