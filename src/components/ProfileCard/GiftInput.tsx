@@ -1,6 +1,6 @@
 import { IconButton, makeStyles } from '@material-ui/core';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
 import { PlusCircleIcon, DeprecatedMinusCircleIcon } from 'icons';
 import { Link } from 'ui';
 
@@ -92,7 +92,7 @@ export const GiftInput = ({
   return (
     <div className={classes.root}>
       {tokens !== undefined ? (
-        <ApeTextField
+        <DeprecatedApeTextField
           label={`${tokenName} Allocated`}
           value={tokens}
           onChange={onChangeTokens}
@@ -134,7 +134,7 @@ export const GiftInput = ({
           This contributor opted out of receiving {tokenName} this epoch.
         </CardInfoText>
       )}
-      <ApeTextField
+      <DeprecatedApeTextField
         label="Leave a Note"
         infoTooltip={
           <>
