@@ -2,91 +2,159 @@ table:
   name: nominees
   schema: public
 object_relationships:
-- name: circle
-  using:
-    manual_configuration:
-      column_mapping:
-        circle_id: id
-      insertion_order: null
-      remote_table:
-        name: circles
-        schema: public
-- name: nominator
-  using:
-    manual_configuration:
-      column_mapping:
-        nominated_by_user_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
-- name: user
-  using:
-    manual_configuration:
-      column_mapping:
-        user_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: circle
+    using:
+      manual_configuration:
+        column_mapping:
+          circle_id: id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
+  - name: nominator
+    using:
+      manual_configuration:
+        column_mapping:
+          nominated_by_user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 array_relationships:
-- name: nominations
-  using:
-    manual_configuration:
-      column_mapping:
-        id: nominee_id
-      insertion_order: null
-      remote_table:
-        name: vouches
-        schema: public
+  - name: nominations
+    using:
+      manual_configuration:
+        column_mapping:
+          id: nominee_id
+        insertion_order: null
+        remote_table:
+          name: vouches
+          schema: public
 select_permissions:
-- permission:
-    columns:
-    - circle_id
-    - description
-    - ended
-    - expiry_date
-    - id
-    - name
-    - nominated_by_user_id
-    - nominated_date
-    - user_id
-    - vouches_required
-    filter:
-      circle:
-        api_keys:
-          _and:
-          - hash:
-              _eq: X-Hasura-Api-Key-Hash
-          - read_nominees:
-              _eq: true
-    limit: 20
-  role: api-user
-- permission:
-    allow_aggregations: true
-    columns:
-    - address
-    - circle_id
-    - created_at
-    - description
-    - ended
-    - expiry_date
-    - id
-    - name
-    - nominated_by_user_id
-    - nominated_date
-    - updated_at
-    - user_id
-    - vouches_required
-    filter:
-      circle:
-        organization:
-          circles:
-            users:
-              _and:
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-              - deleted_at:
-                  _is_null: true
-  role: user
+  - permission:
+      columns:
+        - circle_id
+        - description
+        - ended
+        - expiry_date
+        - id
+        - name
+        - nominated_by_user_id
+        - nominated_date
+        - user_id
+        - vouches_required
+      filter:
+        circle:
+          api_keys:
+            _and:
+              - hash:
+                  _eq: X-Hasura-Api-Key-Hash
+              - read_nominees:
+                  _eq: true
+      limit: 20
+    role: api-user
+  - permission:
+      allow_aggregations: true
+      columns:
+        - address
+        - circle_id
+        - created_at
+        - description
+        - ended
+        - expiry_date
+        - id
+        - name
+        - nominated_by_user_id
+        - nominated_date
+        - updated_at
+        - user_id
+        - vouches_required
+      filter:
+        circle:
+          organization:
+            circles:
+              users:
+                _and:
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+                  - deleted_at:
+                      _is_null: true
+    role: user
+event_triggers:
+  - definition:
+      enable_manual: false
+      update:
+        columns:
+          - ended
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: checkNomineeDiscord
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+  - definition:
+      enable_manual: false
+      update:
+        columns:
+          - ended
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: checkNomineeTelegram
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+  - definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: createNomineeDiscord
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+  - definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: createNomineeTelegram
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+  - definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    name: createVouchedUser
+    retry_conf:
+      interval_sec: 10
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
