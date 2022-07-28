@@ -44,8 +44,7 @@ export const getWrappedAmount = async (
   >,
   contracts: Contracts
 ): Promise<BigNumber> => {
-  const shifter = BigNumber.from(10).pow(vault.decimals);
-  const weiAmount = BigNumber.from(amount).mul(shifter);
+  const weiAmount = utils.parseUnits(amount, vault.decimals);
   if (hasSimpleToken(vault)) return weiAmount;
 
   const vaultContract = contracts.getVault(vault.vault_address);
