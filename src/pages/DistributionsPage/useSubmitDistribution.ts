@@ -3,7 +3,6 @@ import assert from 'assert';
 import debug from 'debug';
 import { BigNumber, FixedNumber, utils } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
-import { addVaultTx } from 'lib/gql/mutations';
 import { createDistribution } from 'lib/merkle-distributor';
 import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
@@ -21,7 +20,10 @@ const log = debug('distributions'); // eslint-disable-line @typescript-eslint/no
 
 export type SubmitDistribution = {
   amount: string;
-  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
+  vault: Pick<
+    Vault,
+    'id' | 'decimals' | 'symbol' | 'vault_address' | 'simple_token_address'
+  >;
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
@@ -75,7 +77,7 @@ export function useSubmitDistribution() {
     fixedAmount,
     giftAmount,
     type,
-  }: SubmitDistribution): Promise<SubmitDistributionResult> => {
+  }: SubmitDistribution): Promise<SubmitDistributionResult | undefined> => {
     assert(vault, 'No vault is found');
 
     try {
@@ -167,6 +169,8 @@ export function useSubmitDistribution() {
         }
       );
 
+      if (!receipt) return;
+
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
       const txHash = receipt?.transactionHash;
       const distributorEpochId = event?.args?.epochId;
@@ -180,14 +184,9 @@ export function useSubmitDistribution() {
       await markDistributionUploaded({
         id: response.id,
         epochId: distributorEpochId.toNumber(),
+        vaultId: vault.id,
         txHash,
-      });
-      await addVaultTx({
-        tx_type: 'Distribution',
-        vault_id: vault.id,
-        tx_hash: txHash,
-        distribution_id: response.id,
-        circle_id: circleId,
+        circleId,
       });
       showInfo('Distribution saved successfully');
       return {

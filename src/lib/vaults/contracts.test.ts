@@ -6,7 +6,7 @@ import { Contracts } from './contracts';
 test('getPricePerShare', async () => {
   const contracts = new Contracts(chainId, provider);
   const tokenAddress = contracts.getToken('DAI').address;
-  const tx = await contracts.vaultFactory.createApeVault(
+  const tx = await contracts.vaultFactory.createCoVault(
     tokenAddress,
     ZERO_ADDRESS
   );
@@ -25,7 +25,7 @@ test('getPricePerShare', async () => {
 test('getPricePerShare with simple token', async () => {
   const contracts = new Contracts(chainId, provider);
   const tokenAddress = contracts.getToken('DAI').address;
-  const tx = await contracts.vaultFactory.createApeVault(
+  const tx = await contracts.vaultFactory.createCoVault(
     ZERO_ADDRESS,
     tokenAddress
   );

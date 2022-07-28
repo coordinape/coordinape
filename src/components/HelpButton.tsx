@@ -167,7 +167,9 @@ const HelpButton = () => {
           Email Us
         </HelpOption>
         <HelpOption
-          href={'https://calendly.com/zakku/coordinape-call'}
+          href={
+            'https://coordinape.com/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding'
+          }
           icon={<ClockIcon size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough

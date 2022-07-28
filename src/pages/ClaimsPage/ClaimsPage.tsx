@@ -11,6 +11,7 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 import { Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { makeExplorerUrl } from 'utils/provider';
 
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
@@ -201,6 +202,12 @@ export default function ClaimsPage() {
                         minWidth: '5vw',
                         borderRadius: '$2',
                       }}
+                      as="a"
+                      target="_blank"
+                      href={makeExplorerUrl(
+                        distribution.vault.chain_id,
+                        distribution.tx_hash
+                      )}
                     >
                       View on Etherscan
                     </Button>

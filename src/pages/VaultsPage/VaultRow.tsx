@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { GraphQLTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { CSS } from 'stitches.config';
 
 import { useBlockListener } from 'hooks/useBlockListener';
@@ -10,7 +10,7 @@ import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
 import DepositModal, { DepositModalProps } from './DepositModal';
-import { dummyTableData, TransactionTable } from './VaultTransactions';
+import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
 export function VaultRow({
@@ -28,13 +28,16 @@ export function VaultRow({
 
   const updateBalance = () =>
     contracts
-      ?.getVault(vault.vault_address)
-      .underlyingValue()
-      .then(x => {
-        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
-      });
+      ?.getVaultBalance(vault)
+      .then(x =>
+        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber())
+      );
 
   useBlockListener(updateBalance, [vault.id]);
+  // for UI updates when the user is switching between orgs quickly
+  useEffect(() => {
+    updateBalance();
+  }, [vault.id]);
 
   useEffect(() => {
     const updateOwner = async () => {
@@ -51,6 +54,11 @@ export function VaultRow({
     };
     updateOwner();
   }, [contracts, vault.id]);
+
+  const distributionCount = getDistributions(vault).length;
+  const uniqueContributors = getUniqueContributors(vault);
+
+  const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
 
   return (
     <Panel css={css}>
@@ -94,7 +102,7 @@ export function VaultRow({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',
           gridGap: '$md',
-          verticalAlign: 'middle',
+          alignItems: 'center',
         }}
       >
         <Text font="source" h3>
@@ -103,9 +111,10 @@ export function VaultRow({
         <Text font="source" h3>
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
-        <Text font="source">
-          <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
-          &nbsp;Unique Contributors Paid
+        <Text font="source" css={{ display: 'block' }}>
+          <strong>{distributionCount}</strong> Distribution
+          {distributionCount !== 1 && 's'} -{' '}
+          <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
       </Box>
       <Text
@@ -119,20 +128,46 @@ export function VaultRow({
         Recent Transactions
       </Text>
       <Box>
-        <TransactionTable rows={dummyTableData} />
+        {isLoading ? (
+          'Loading...'
+        ) : vaultTxList?.length ? (
+          <TransactionTable
+            chainId={vault.chain_id}
+            rows={vaultTxList.slice(0, 3)}
+          />
+        ) : (
+          'No Transactions Yet'
+        )}
 
-        <Box css={{ textAlign: 'center', mt: '$md' }}>
-          <AppLink
-            css={{ color: '$secondaryText' }}
-            to={paths.vaultTxs(vault.vault_address)}
-          >
-            View All Transactions
-          </AppLink>
-        </Box>
+        {!!vaultTxList?.length && (
+          <Box css={{ textAlign: 'center', mt: '$md' }}>
+            <AppLink
+              css={{ color: '$secondaryText' }}
+              to={paths.vaultTxs(vault.vault_address)}
+            >
+              View All Transactions
+            </AppLink>
+          </Box>
+        )}
       </Box>
     </Panel>
   );
 }
+
+const getDistributions = (
+  vault: GraphQLTypes['vaults']
+): GraphQLTypes['vault_transactions'][] => {
+  return vault.vault_transactions.filter(
+    t => t.tx_type === vault_tx_types_enum.Distribution
+  );
+};
+
+const getUniqueContributors = (vault: GraphQLTypes['vaults']): number =>
+  new Set(
+    getDistributions(vault).flatMap(d =>
+      d.distribution?.claims.map(c => c.profile_id)
+    )
+  ).size;
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 

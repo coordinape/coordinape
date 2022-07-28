@@ -21,6 +21,20 @@ interface Response {
   users: ContributionUser[];
 }
 
+// useful for quickly testing that the layout is still correct
+// FIXME ideally we'd show this in a Storybook story
+const mockData: ContributionUser = {
+  address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
+  contribution_details_link: 'http://mock.com',
+  contributions: [
+    { title: 'I did a thing', link: 'http://thing.com' },
+    { title: 'And then another', link: 'http://another.com' },
+    { title: 'And YET ANOTHER! O_O', link: 'http://yetanother.com' },
+    { title: 'Gib me tokens', link: 'http://gib.com' },
+    { title: 'I crushed it', link: 'http://crush.com' },
+  ],
+};
+
 export function useContributionUsers(): ContributionUser[] {
   const integrations = useCurrentCircleIntegrations();
   const epoch = useSelectedCircle().circleEpochsStatus.currentEpoch;
@@ -54,14 +68,18 @@ export function useContributionUsers(): ContributionUser[] {
 }
 
 export function useContributions(
-  address: string
+  address: string,
+  mock?: boolean
 ): ContributionUser | undefined {
   const users = useContributionUsers();
-  return useMemo(
+
+  const ret = useMemo(
     () =>
       address
         ? users.find(u => u.address.toLowerCase() === address.toLowerCase())
         : undefined,
     [address, users]
   );
+
+  return mock ? mockData : ret;
 }

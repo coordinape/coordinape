@@ -164,13 +164,23 @@ interface ApeRegistryInterface extends ethers.utils.Interface {
     "CallCancelled(bytes32)": EventFragment;
     "CallExecuted(bytes32,address,bytes)": EventFragment;
     "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
+    "DistributorChanged(address)": EventFragment;
+    "FactoryChanged(address)": EventFragment;
+    "FeeRegistryChanged(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "RouterChanged(address)": EventFragment;
+    "TreasuryChanged(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DistributorChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FactoryChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FeeRegistryChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RouterChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TreasuryChanged"): EventFragment;
 }
 
 export class ApeRegistry extends BaseContract {
@@ -490,6 +500,18 @@ export class ApeRegistry extends BaseContract {
       }
     >;
 
+    DistributorChanged(
+      distributor?: null
+    ): TypedEventFilter<[string], { distributor: string }>;
+
+    FactoryChanged(
+      factory?: null
+    ): TypedEventFilter<[string], { factory: string }>;
+
+    FeeRegistryChanged(
+      feeRegistry?: null
+    ): TypedEventFilter<[string], { feeRegistry: string }>;
+
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -497,6 +519,14 @@ export class ApeRegistry extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
+
+    RouterChanged(
+      router?: null
+    ): TypedEventFilter<[string], { router: string }>;
+
+    TreasuryChanged(
+      treasury?: null
+    ): TypedEventFilter<[string], { treasury: string }>;
   };
 
   estimateGas: {

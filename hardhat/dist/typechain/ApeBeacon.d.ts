@@ -52,11 +52,13 @@ interface ApeBeaconInterface extends ethers.utils.Interface {
   events: {
     "AdminChanged(address,address)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
+    "ProxyOwnershipTransferred(address)": EventFragment;
     "Upgraded(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProxyOwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
@@ -157,6 +159,10 @@ export class ApeBeacon extends BaseContract {
     BeaconUpgraded(
       beacon?: string | null
     ): TypedEventFilter<[string], { beacon: string }>;
+
+    ProxyOwnershipTransferred(
+      newOwner?: null
+    ): TypedEventFilter<[string], { newOwner: string }>;
 
     Upgraded(
       implementation?: string | null

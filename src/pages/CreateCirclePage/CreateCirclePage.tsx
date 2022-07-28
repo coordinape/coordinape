@@ -4,12 +4,12 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import uniqBy from 'lodash/uniqBy';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { FormAutocomplete, FormTextField } from 'components';
+import { FormAutocomplete, DeprecatedFormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
-import { Box, Button, Panel, Text, TextField, Tooltip } from 'ui';
+import { Box, Button, Panel, Text, Tooltip } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const SummonCirclePage = () => {
@@ -43,7 +43,7 @@ export const SummonCirclePage = () => {
   const org = protocols.find(p => p.id === Number(params.get('org')));
   const source = {
     protocol_id: org?.id,
-    protocol_name: org?.name,
+    protocol_name: org?.name || '',
     user_name: myUsers.find(u => u !== undefined)?.name,
   };
 
@@ -141,14 +141,15 @@ export const SummonCirclePage = () => {
                           <InfoCircledIcon />
                         </Tooltip>
                       </Text>
-                      <TextField
+                      <DeprecatedFormTextField
+                        {...fields.protocol_name}
                         placeholder="Organization Name"
-                        css={{ width: '100%' }}
+                        fullWidth
                       />
                     </div>
                   )}
                   <div>
-                    <FormTextField
+                    <DeprecatedFormTextField
                       {...fields.circle_name}
                       label="Circle Name"
                       placeholder="Circle Name"
@@ -165,13 +166,13 @@ export const SummonCirclePage = () => {
                     '@sm': { gridTemplateColumns: '1fr' },
                   }}
                 >
-                  <FormTextField
+                  <DeprecatedFormTextField
                     {...fields.user_name}
                     label="Username"
                     placeholder="Your name in this circle"
                     fullWidth
                   />
-                  <FormTextField
+                  <DeprecatedFormTextField
                     {...fields.contact}
                     fullWidth
                     label="Email Address"

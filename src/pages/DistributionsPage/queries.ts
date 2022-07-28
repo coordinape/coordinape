@@ -21,6 +21,8 @@ export const getEpochData = async (
           id: true,
           number: true,
           ended: true,
+          start_date: true,
+          end_date: true,
           circle: {
             id: true,
             name: true,
@@ -40,6 +42,7 @@ export const getEpochData = async (
                   symbol: true,
                   decimals: true,
                   vault_address: true,
+                  simple_token_address: true,
                 },
               ],
             },

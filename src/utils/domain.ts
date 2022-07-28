@@ -4,28 +4,58 @@ import { STORAGE_URL } from 'config/env';
 
 import { getIpfsUrl } from './selfIdHelpers';
 
+function hostname(): string {
+  if (typeof window !== 'undefined') {
+    // this will always be true until we move to nextjs
+    return window.location.hostname;
+  }
+  // TODONEXT: if this matters and remains, we would use useRouter here -g
+  return 'server-side-fixme';
+}
+
+function hostAndPort(): string {
+  if (typeof window !== 'undefined') {
+    // this will always be true until we move to nextjs
+    return window.location.host;
+  }
+  // TODONEXT: if this matters and remains, we would use useRouter here -g
+  return 'server-side-fixme';
+}
+
+function pathname(): string {
+  if (typeof window !== 'undefined') {
+    // this will always be true until we move to nextjs
+    return window.location.pathname;
+  }
+  // TODONEXT: if this matters and remains, we would use useRouter here -g
+  return '/fixme';
+}
+
+function origin(): string {
+  if (typeof window !== 'undefined') {
+    // this will always be true until we move to nextjs
+    return window.location.origin;
+  }
+  // TODONEXT: if this matters and remains, we would use useRouter here -g
+  return 'fixme-origin';
+}
+
 // Including local-ape.host for hCaptcha, see the component.
-export const DOMAIN_IS_PREVIEW = window.location.hostname.match(
+export const DOMAIN_IS_PREVIEW = hostname().match(
   /(local-ape\.host|localhost|vercel\.app)$/
 );
 
-export const DOMAIN_IS_LOCALHOST = window.location.hostname.match(
-  /(localhost|127.0.0.1)/
-);
+export const DOMAIN_IS_LOCALHOST = hostname().match(/(localhost|127.0.0.1)/);
 
-export const DOMAIN_IS_APP = window.location.host.split('.')[0] === 'app';
+export const DOMAIN_IS_APP = hostAndPort().split('.')[0] === 'app';
 
 export const RENDER_APP =
-  DOMAIN_IS_APP ||
-  (DOMAIN_IS_PREVIEW && window.location.pathname !== '/landing');
+  DOMAIN_IS_APP || (DOMAIN_IS_PREVIEW && pathname() !== '/landing');
 
-export const APP_URL =
+const APP_URL =
   DOMAIN_IS_APP || DOMAIN_IS_PREVIEW
-    ? window.location.origin
-    : window.location.origin.replace(
-        window.location.host,
-        `app.${window.location.host}`
-      );
+    ? origin()
+    : origin().replace(hostAndPort(), `app.${hostAndPort()}`);
 
 export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;

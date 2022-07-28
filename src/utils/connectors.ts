@@ -8,6 +8,7 @@ import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
 
 export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
+export const GOERLI_RPC_URL = `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`;
 
 const injected = new InjectedConnector({
   supportedChainIds: [...supportedChainIds, 1].map(n =>
@@ -21,7 +22,7 @@ const injected = new InjectedConnector({
 
 export const makeWalletConnectConnector = () =>
   new WalletConnectConnector({
-    rpc: { 1: MAINNET_RPC_URL },
+    rpc: { 1: MAINNET_RPC_URL, 5: GOERLI_RPC_URL },
   });
 
 const walletlink = new WalletLinkConnector({

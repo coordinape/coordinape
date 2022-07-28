@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
 
-export const FormTextField = ({
+export const DeprecatedFormTextField = ({
   value,
   onChange,
   helperText,
   error,
   errorText,
   ...props
-}: Omit<React.ComponentProps<typeof ApeTextField>, 'onChange'> & {
+}: Omit<React.ComponentProps<typeof DeprecatedApeTextField>, 'onChange'> & {
   onChange: (newValue: any) => void;
   errorText?: string;
 }) => {
@@ -20,7 +20,7 @@ export const FormTextField = ({
   };
 
   return (
-    <ApeTextField
+    <DeprecatedApeTextField
       {...props}
       error={error}
       helperText={!errorText ? helperText : errorText}

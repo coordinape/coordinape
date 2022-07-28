@@ -17,11 +17,10 @@ context('Coordinape', () => {
   it('can update circle settings', () => {
     cy.visit(`/circles/${circleId}/admin`);
     cy.login();
-    cy.contains('Fixed Payment Token', { timeout: 120000 })
-      .parent()
-      .within(() => {
-        cy.get('input').clear().type('DAI').blur();
-      });
+    cy.getInputByLabel('Fixed Payment Token', { timeout: 120000 })
+      .clear()
+      .type('DAI')
+      .blur();
     cy.intercept({
       method: 'POST',
       url: '/v1/graphql',
@@ -36,10 +35,9 @@ context('Coordinape', () => {
     }).as('hardReload');
     cy.reload(true);
     cy.wait('@hardReload').its('response.statusCode').should('equal', 200);
-    cy.contains('Fixed Payment Token', { timeout: 120000 })
-      .parent()
-      .within(() => {
-        cy.get('input').should('have.value', 'DAI');
-      });
+    cy.getInputByLabel('Fixed Payment Token', { timeout: 120000 }).should(
+      'have.value',
+      'DAI'
+    );
   });
 });
