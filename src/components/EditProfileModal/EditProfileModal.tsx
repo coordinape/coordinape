@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core';
 
 import {
   FormModal,
-  FormTextField,
+  DeprecatedFormTextField,
   SkillToggles,
   AvatarUpload,
 } from 'components';
@@ -96,7 +96,7 @@ export const EditProfileModal = ({
           </div>
 
           <h2 className={classes.sectionHeader}>Biography</h2>
-          <FormTextField
+          <DeprecatedFormTextField
             {...fields.bio}
             fullWidth
             placeholder="Tell us what you're working on"
@@ -106,32 +106,32 @@ export const EditProfileModal = ({
 
           <h2 className={classes.sectionHeader}>Links</h2>
           <div className={classes.links}>
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.twitter_username}
               placeholder="Enter username"
               label="Twitter"
             />
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.github_username}
               placeholder="Enter username"
               label="Github"
             />
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.telegram_username}
               placeholder="Enter username"
               label="Telegram"
             />
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.discord_username}
               placeholder="Username#xxxx"
               label="Discord"
             />
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.medium_username}
               placeholder="Enter username"
               label="Medium"
             />
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.website}
               placeholder="https://website.com"
               label="Website"

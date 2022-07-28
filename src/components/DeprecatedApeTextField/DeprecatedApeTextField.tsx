@@ -32,13 +32,13 @@ interface ApeTextStyleProps {
   apeSize?: ApeSizeType;
 }
 
-// ApeTextField
+// DeprecatedApeTextField
 //
 // Using the same interface as MaterialUI's TextField to make it compatible
 // with the the calendar.
 export type ApeTextFieldProps = TextFieldProps & ApeTextStyleProps;
 
-export const ApeTextField = ({
+export const DeprecatedApeTextField = ({
   infoTooltip,
   subtitle,
   prelabel,
