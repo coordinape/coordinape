@@ -23,7 +23,7 @@ interface ApeVaultFactoryBeaconInterface extends ethers.utils.Interface {
   functions: {
     "apeRegistry()": FunctionFragment;
     "beacon()": FunctionFragment;
-    "createApeVault(address,address)": FunctionFragment;
+    "createCoVault(address,address)": FunctionFragment;
     "vaultRegistry(address)": FunctionFragment;
     "yearnRegistry()": FunctionFragment;
   };
@@ -34,7 +34,7 @@ interface ApeVaultFactoryBeaconInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "beacon", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "createApeVault",
+    functionFragment: "createCoVault",
     values: [string, string]
   ): string;
   encodeFunctionData(
@@ -52,7 +52,7 @@ interface ApeVaultFactoryBeaconInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "beacon", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createApeVault",
+    functionFragment: "createCoVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -119,7 +119,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<[string]>;
 
-    createApeVault(
+    createCoVault(
       _token: string,
       _simpleToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -134,7 +134,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
 
   beacon(overrides?: CallOverrides): Promise<string>;
 
-  createApeVault(
+  createCoVault(
     _token: string,
     _simpleToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -149,7 +149,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<string>;
 
-    createApeVault(
+    createCoVault(
       _token: string,
       _simpleToken: string,
       overrides?: CallOverrides
@@ -169,7 +169,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<BigNumber>;
 
-    createApeVault(
+    createCoVault(
       _token: string,
       _simpleToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -185,7 +185,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    createApeVault(
+    createCoVault(
       _token: string,
       _simpleToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
