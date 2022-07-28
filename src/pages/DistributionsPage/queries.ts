@@ -42,6 +42,7 @@ export const getEpochData = async (
                   symbol: true,
                   decimals: true,
                   vault_address: true,
+                  simple_token_address: true,
                 },
               ],
             },

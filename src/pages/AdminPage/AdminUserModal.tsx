@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
 
-import { FormModal, FormTextField, ActionDialog } from 'components';
+import { FormModal, DeprecatedFormTextField, ActionDialog } from 'components';
 import isFeatureEnabled from 'config/features';
 import AdminUserForm from 'forms/AdminUserForm';
 import { useApiAdminCircle } from 'hooks';
@@ -126,7 +126,7 @@ export const AdminUserModal = ({
           size="small"
         >
           <div>
-            <FormTextField
+            <DeprecatedFormTextField
               {...fields.address}
               label="Contributor ETH address"
               fullWidth
@@ -134,8 +134,11 @@ export const AdminUserModal = ({
             />
 
             <div className={classes.twoColumn}>
-              <FormTextField {...fields.name} label="Contributor Name" />
-              <FormTextField
+              <DeprecatedFormTextField
+                {...fields.name}
+                label="Contributor Name"
+              />
+              <DeprecatedFormTextField
                 {...fields.starting_tokens}
                 type="number"
                 infoTooltip={
@@ -152,14 +155,14 @@ export const AdminUserModal = ({
             {isFeatureEnabled('fixed_payments') && (
               <div>
                 {selectedCircle.fixed_payment_token_type ? (
-                  <FormTextField
+                  <DeprecatedFormTextField
                     {...fields.fixed_payment_amount}
                     label="Fixed Payment Amount"
                     type="number"
                     fullWidth
                   />
                 ) : (
-                  <FormTextField
+                  <DeprecatedFormTextField
                     fullWidth
                     onChange={() => {}}
                     label="Fixed Payment Amount"

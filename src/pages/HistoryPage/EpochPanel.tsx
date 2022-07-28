@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { getUnwrappedAmount } from 'lib/vaults';
+import fp from 'lodash/fp';
+import round from 'lodash/round';
 import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
@@ -41,18 +42,9 @@ export const EpochPanel = ({
 
   const received = epoch.receivedGifts;
   const sent = epoch.sentGifts;
-  const totalAllocated = epoch.token_gifts_aggregate.aggregate?.sum?.tokens;
+  const totalAllocated =
+    epoch.token_gifts_aggregate.aggregate?.sum?.tokens || 0;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
-
-  const dist = epoch.distributions[0] as QueryDistribution | undefined;
-  const distAmount =
-    dist &&
-    isFeatureEnabled('vaults') &&
-    getUnwrappedAmount(
-      dist.total_amount,
-      dist.pricePerShare,
-      dist.vault.decimals
-    );
 
   return (
     <Panel
@@ -88,18 +80,11 @@ export const EpochPanel = ({
         <Text bold font="inter" size="large">
           {totalAllocated} {tokenName}
         </Text>
-        {dist && distAmount && (
-          <AppLink to={paths.distributions(circleId, epoch.id)}>
-            <Text
-              bold
-              font="inter"
-              size="large"
-              css={{ color: '$secondaryText' }}
-            >
-              {distAmount.toString()} {dist.vault.symbol}
-            </Text>
-          </AppLink>
-        )}
+        <DistributionSummary
+          distributions={epoch.distributions as QueryDistribution[]}
+          circleId={circleId}
+          epochId={epoch.id}
+        />
       </Panel>
 
       <Panel
@@ -311,5 +296,38 @@ const NotesItem = ({
         </Box>
       </Box>
     </Box>
+  );
+};
+
+const DistributionSummary = ({
+  distributions,
+  circleId,
+  epochId,
+}: {
+  distributions: QueryDistribution[];
+  circleId: number;
+  epochId: number;
+}) => {
+  if (!isFeatureEnabled('vaults') || !distributions.length) return null;
+
+  const tokens = fp.flow(
+    fp.groupBy<QueryDistribution>(dist => dist.vault.symbol),
+    fp.mapValues(fp.sumBy(d => d.gift_amount + d.fixed_amount))
+  )(distributions);
+
+  return (
+    <AppLink to={paths.distributions(circleId, epochId)}>
+      {Object.entries(tokens).map(([token, amount]) => (
+        <Text
+          key={token}
+          bold
+          font="inter"
+          size="large"
+          css={{ color: '$secondaryText' }}
+        >
+          {round(amount, 2)} {token}
+        </Text>
+      ))}
+    </AppLink>
   );
 };

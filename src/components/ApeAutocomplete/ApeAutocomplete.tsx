@@ -3,7 +3,7 @@ import React from 'react';
 import { makeStyles, InputProps } from '@material-ui/core';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
 
 const useStyles = makeStyles(theme => ({
   colorBlack: {
@@ -47,7 +47,7 @@ export const ApeAutocomplete = ({
   options?: string[];
   onChange?: (newValue: any) => void;
   InputProps?: Partial<InputProps>;
-  TextFieldProps?: Partial<React.ComponentProps<typeof ApeTextField>>;
+  TextFieldProps?: Partial<React.ComponentProps<typeof DeprecatedApeTextField>>;
   color?: 'primary' | 'default' | 'secondary';
   size?: 'small' | 'medium';
   placeholder?: string;
@@ -87,7 +87,7 @@ export const ApeAutocomplete = ({
       options={options}
       renderInput={(params: AutocompleteRenderInputParams) => {
         return (
-          <ApeTextField
+          <DeprecatedApeTextField
             {...params}
             InputProps={{
               ...params.InputProps,

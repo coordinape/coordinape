@@ -20,7 +20,10 @@ const log = debug('distributions'); // eslint-disable-line @typescript-eslint/no
 
 export type SubmitDistribution = {
   amount: string;
-  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
+  vault: Pick<
+    Vault,
+    'id' | 'decimals' | 'symbol' | 'vault_address' | 'simple_token_address'
+  >;
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;

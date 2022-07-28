@@ -4,7 +4,7 @@ import { DateType } from '@date-io/type';
 
 import { TimePicker } from '@material-ui/pickers';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
 
 export const FormTimePicker = ({
   onChange,
@@ -29,7 +29,7 @@ export const FormTimePicker = ({
       labelFunc={labelFunc}
       helperText={errorText}
       onChange={handleChange}
-      TextFieldComponent={ApeTextField}
+      TextFieldComponent={DeprecatedApeTextField}
     />
   );
 };
