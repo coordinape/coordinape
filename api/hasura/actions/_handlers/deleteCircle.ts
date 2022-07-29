@@ -16,12 +16,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { circle_id } = payload;
 
   const { circles_by_pk: circle } = await adminClient.query(
-    {
-      circles_by_pk: [{ id: circle_id }, { deleted_at: true }],
-    },
-    {
-      operationName: 'deleteCircle_getCircleStatus',
-    }
+    { circles_by_pk: [{ id: circle_id }, { deleted_at: true }] },
+    { operationName: 'deleteCircle_getCircleStatus' }
   );
 
   if (circle?.deleted_at) {
@@ -32,16 +28,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   await adminClient.mutate(
     {
       update_circles_by_pk: [
-        {
-          pk_columns: { id: circle_id },
-          _set: { deleted_at: 'now()' },
-        },
+        { pk_columns: { id: circle_id }, _set: { deleted_at: 'now()' } },
         { __typename: true },
       ],
     },
-    {
-      operationName: 'deleteCircle_delete',
-    }
+    { operationName: 'deleteCircle_delete' }
   );
 
   res.status(200).json({
