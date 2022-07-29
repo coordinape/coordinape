@@ -153,7 +153,7 @@ const buttons: [
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: '$background',
-  border: '1px solid $borderMedium',
+  borderColor: '$borderMedium',
 };
 
 type CircleRowProps = {
