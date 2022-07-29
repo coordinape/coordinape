@@ -13,6 +13,9 @@ export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.coordinape.com';
 export const EXTERNAL_URL_GET_STARTED =
   'https://docs.coordinape.com/get-started/get-started';
+export const EXTERNAL_URL_LEARN_ABOUT_VAULTS =
+  'https://docs.coordinape.com/info/documentation/coordinape-vaults';
+export const EXTERNAL_URL_YEARN_VAULTS = 'https://yearn.finance/vaults';
 export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.coordinape.com/support';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =

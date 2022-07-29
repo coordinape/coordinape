@@ -48,15 +48,13 @@ export const CirclesPage = () => {
   if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible note="CirclesPage" />;
 
-  // if (orgs?.length == 0) return <GetStarted />;
-
   return (
     <SingleColumnLayout>
       <Flex
         row
         css={{
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'baseline',
           mb: '$sm',
           '@sm': {
             flexDirection: 'column',
@@ -64,7 +62,7 @@ export const CirclesPage = () => {
           },
         }}
       >
-        <Text h1 css={{ mb: '$sm' }}>
+        <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
         <Link href={paths.createCircle}>
@@ -357,9 +355,8 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               </Box>
             ) : (
               <Text
-                // size={'medium'}
-                h3
                 css={{
+                  fontSize: '$medium',
                   color: '$borderMedium',
                   '@sm': {
                     fontSize: '$small',

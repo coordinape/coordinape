@@ -42,7 +42,7 @@ export const Button = styled('button', {
         color: '$textOnAlert',
       },
       neutral: {
-        backgroundColor: '$neutral',
+        backgroundColor: '$headingText',
         color: 'white',
       },
       surface: {
@@ -233,16 +233,16 @@ export const Button = styled('button', {
       outlined: true,
       css: {
         color: '$text',
-        borderColor: '$text',
+        borderColor: '$borderMedium',
         '&:hover': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
+          backgroundColor: '$headingText !important',
         },
         '&:focus': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
+          backgroundColor: '$headingText !important',
         },
       },
     },
