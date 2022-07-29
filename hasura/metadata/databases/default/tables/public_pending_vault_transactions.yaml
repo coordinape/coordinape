@@ -1,0 +1,23 @@
+table:
+  name: pending_vault_transactions
+  schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - chain_id
+    - claim_id
+    - distribution_id
+    - org_id
+    - tx_hash
+    - tx_type
+    set:
+      created_by: x-hasura-X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
+  role: user
