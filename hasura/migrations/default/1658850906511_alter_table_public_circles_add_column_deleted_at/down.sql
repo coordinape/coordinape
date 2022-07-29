@@ -1,1 +1,1 @@
-alter table "public"."circles" add column "deleted_at" timestamp;
+alter table "public"."circles" drop column "deleted_at" cascade;

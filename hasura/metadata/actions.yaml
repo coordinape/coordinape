@@ -1,431 +1,431 @@
 actions:
-- name: adminUpdateUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: allocationCsv
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createCircle
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createEpoch
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createNominee
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createUsers
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createVault
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: createVaultTx
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  comment: Log offchain information for vault transactions
-- name: deleteCircle
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: deleteEpoch
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: deleteUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: generateApiKey
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  comment: Generates an API key for a circle
-- name: logoutUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: restoreCoordinape
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: updateAllocations
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: api-user
-  - role: user
-- name: updateCircle
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: updateEpoch
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: updateTeammates
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: updateUser
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-  comment: Update own user
-- name: uploadCircleLogo
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: uploadOrgLogo
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: uploadProfileAvatar
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: uploadProfileBackground
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    forward_client_headers: true
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
-- name: vouch
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
-    headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  permissions:
-  - role: user
+  - name: adminUpdateUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: allocationCsv
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createCircle
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createEpoch
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createNominee
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createUsers
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createVault
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: createVaultTx
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Log offchain information for vault transactions
+  - name: deleteCircle
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: deleteEpoch
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: deleteUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: generateApiKey
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Generates an API key for a circle
+  - name: logoutUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: restoreCoordinape
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: updateAllocations
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: api-user
+      - role: user
+  - name: updateCircle
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: updateEpoch
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: updateTeammates
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: updateUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Update own user
+  - name: uploadCircleLogo
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: uploadOrgLogo
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: uploadProfileAvatar
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: uploadProfileBackground
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: vouch
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
 custom_types:
   enums: []
   input_objects:
-  - name: CreateCircleInput
-  - name: CreateUserInput
-  - name: UploadImageInput
-  - name: UploadCircleImageInput
-  - name: AdminUpdateUserInput
-  - name: DeleteEpochInput
-  - name: CreateNomineeInput
-  - name: UpdateUserInput
-  - name: VouchInput
-  - name: CreateEpochInput
-  - name: UpdateTeammatesInput
-  - name: DeleteUserInput
-  - name: UpdateCircleInput
-  - name: UpdateEpochInput
-  - name: Allocation
-  - name: Allocations
-  - name: CreateUsersInput
-  - name: UserObj
-  - name: AllocationCsvInput
-  - name: CreateVaultInput
-  - name: GenerateApiKeyInput
-  - name: UploadOrgImageInput
-  - name: CoordinapeInput
-  - name: LogVaultTxInput
-  - name: DeleteCircleInput
+    - name: CreateCircleInput
+    - name: CreateUserInput
+    - name: UploadImageInput
+    - name: UploadCircleImageInput
+    - name: AdminUpdateUserInput
+    - name: DeleteEpochInput
+    - name: CreateNomineeInput
+    - name: UpdateUserInput
+    - name: VouchInput
+    - name: CreateEpochInput
+    - name: UpdateTeammatesInput
+    - name: DeleteUserInput
+    - name: UpdateCircleInput
+    - name: UpdateEpochInput
+    - name: Allocation
+    - name: Allocations
+    - name: CreateUsersInput
+    - name: UserObj
+    - name: AllocationCsvInput
+    - name: CreateVaultInput
+    - name: GenerateApiKeyInput
+    - name: UploadOrgImageInput
+    - name: CoordinapeInput
+    - name: LogVaultTxInput
+    - name: DeleteCircleInput
   objects:
-  - name: CreateCircleResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: users
-      source: default
-      type: array
-      field_mapping:
-        id: circle_id
-    - remote_table:
-        schema: public
-        name: circles
-      name: circle
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: UpdateProfileResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: profiles
-      name: profile
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: UpdateCircleResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: circles
-      name: circle
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: LogoutResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: profiles
-      name: profile
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: UserResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: UserResponse
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: DeleteEpochResponse
-  - name: CreateNomineeResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: nominees
-      name: nominee
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: VouchOutput
-    relationships:
-    - remote_table:
-        schema: public
-        name: nominees
-      name: nominee
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: EpochResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: epoches
-      name: epoch
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: UpdateTeammatesResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_id: id
-  - name: ConfirmationResponse
-  - name: UpdateCircleOutput
-    relationships:
-    - remote_table:
-        schema: public
-        name: circles
-      name: circle
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: AllocationsResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: users
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_id: id
-  - name: AllocationCsvResponse
-  - name: VaultResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: vaults
-      name: vault
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: GenerateApiKeyResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: circle_api_keys
-      name: circleApiKey
-      source: default
-      type: object
-      field_mapping:
-        hash: hash
-  - name: UpdateOrgResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: protocols
-      name: org
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: LogVaultTxResponse
-    relationships:
-    - remote_table:
-        schema: public
-        name: vault_transactions
-      name: vault_tx_return_object
-      source: default
-      type: object
-      field_mapping:
-        id: id
-  - name: DeleteCirlceResponse
+    - name: CreateCircleResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: users
+          name: users
+          source: default
+          type: array
+          field_mapping:
+            id: circle_id
+        - remote_table:
+            schema: public
+            name: circles
+          name: circle
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: UpdateProfileResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: profiles
+          name: profile
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: UpdateCircleResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: circles
+          name: circle
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: LogoutResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: profiles
+          name: profile
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: UserResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: users
+          name: UserResponse
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: DeleteEpochResponse
+    - name: CreateNomineeResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: nominees
+          name: nominee
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: VouchOutput
+      relationships:
+        - remote_table:
+            schema: public
+            name: nominees
+          name: nominee
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: EpochResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: epoches
+          name: epoch
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: UpdateTeammatesResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: users
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_id: id
+    - name: ConfirmationResponse
+    - name: UpdateCircleOutput
+      relationships:
+        - remote_table:
+            schema: public
+            name: circles
+          name: circle
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: AllocationsResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: users
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_id: id
+    - name: AllocationCsvResponse
+    - name: VaultResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: vaults
+          name: vault
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: GenerateApiKeyResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: circle_api_keys
+          name: circleApiKey
+          source: default
+          type: object
+          field_mapping:
+            hash: hash
+    - name: UpdateOrgResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: protocols
+          name: org
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: LogVaultTxResponse
+      relationships:
+        - remote_table:
+            schema: public
+            name: vault_transactions
+          name: vault_tx_return_object
+          source: default
+          type: object
+          field_mapping:
+            id: id
+    - name: DeleteCircleResponse
   scalars:
-  - name: timestamptz
+    - name: timestamptz
