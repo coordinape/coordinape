@@ -57,7 +57,8 @@ export const OverviewMenu = () => {
       css={navLinkStyle}
       className={
         paths.circles?.includes(location.pathname) ||
-        location.pathname.includes('history')
+        location.pathname.includes('history') ||
+        location.pathname.includes('vaults')
           ? 'active'
           : ''
       }
