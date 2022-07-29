@@ -120,7 +120,7 @@ export function DistributionForm({
   }, []);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
-    value: any
+    value: TDistributionForm
   ) => {
     assert(epoch?.id && circle);
     setSubmitting(true);
@@ -212,7 +212,9 @@ export function DistributionForm({
     );
   };
 
-  const onSubmit: SubmitHandler<TDistributionForm> = async (value: any) => {
+  const onSubmit: SubmitHandler<TDistributionForm> = async (
+    value: TDistributionForm
+  ) => {
     assert(epoch?.id && circle);
     setSubmitting(true);
     const vault = findVault({ symbol: value.selectedVaultSymbol });
@@ -230,7 +232,7 @@ export function DistributionForm({
 
     try {
       const result = await submitDistribution({
-        amount: value.amount,
+        amount: value.amount.toString(),
         vault,
         gifts,
         fixedGifts: {},
@@ -242,7 +244,7 @@ export function DistributionForm({
         circleId: circle.id,
         epochId: epoch.id,
         fixedAmount: '0',
-        giftAmount: value.amount,
+        giftAmount: value.amount.toString(),
         type: DISTRIBUTION_TYPE.GIFT,
       });
       setSubmitting(false);
