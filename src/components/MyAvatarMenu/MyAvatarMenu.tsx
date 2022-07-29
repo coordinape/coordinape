@@ -71,7 +71,7 @@ export const MyAvatarMenu = () => {
               setTimeout(() => setMouseEnterPopover(false), 200)
             }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-67}
+            sideOffset={-66}
             alignOffset={-16}
             css={{ background: '$surface', outline: 'none' }}
             onClick={closePopover}

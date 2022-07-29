@@ -100,8 +100,8 @@ export const OverviewMenu = () => {
               setTimeout(() => setMouseEnterPopover(false), 200)
             }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-58}
-            alignOffset={-3}
+            sideOffset={-57}
+            alignOffset={1}
             css={{ outline: 'none' }}
           >
             <Box
