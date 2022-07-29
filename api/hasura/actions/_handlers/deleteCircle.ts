@@ -15,28 +15,16 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { circle_id } = payload;
 
-  const {
-    circles: [existingCircle],
-  } = await adminClient.query(
+  const { circles_by_pk: circle } = await adminClient.query(
     {
-      circles: [
-        {
-          limit: 1,
-          where: {
-            id: { _eq: circle_id },
-            // ignore soft_deleted circles
-            deleted_at: { _is_null: true },
-          },
-        },
-        { id: true },
-      ],
+      circles_by_pk: [{ id: circle_id }, { deleted_at: true }],
     },
     {
-      operationName: 'deleteCircle_getExistingCircle',
+      operationName: 'deleteCircle_getCircleStatus',
     }
   );
 
-  if (!existingCircle) {
+  if (circle?.deleted_at) {
     errorResponseWithStatusCode(res, { message: 'circle does not exist' }, 422);
     return;
   }
@@ -45,7 +33,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     {
       update_circles_by_pk: [
         {
-          pk_columns: { id: existingCircle.id },
+          pk_columns: { id: circle_id },
           _set: { deleted_at: 'now()' },
         },
         { __typename: true },

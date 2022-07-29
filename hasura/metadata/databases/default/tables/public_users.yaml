@@ -2,181 +2,181 @@ table:
   name: users
   schema: public
 object_relationships:
-  - name: circle
-    using:
-      foreign_key_constraint_on: circle_id
-  - name: profile
-    using:
-      foreign_key_constraint_on: address
-  - name: user_private
-    using:
-      manual_configuration:
-        column_mapping:
-          id: user_id
-        insertion_order: null
-        remote_table:
-          name: user_private
-          schema: public
+- name: circle
+  using:
+    foreign_key_constraint_on: circle_id
+- name: profile
+  using:
+    foreign_key_constraint_on: address
+- name: user_private
+  using:
+    manual_configuration:
+      column_mapping:
+        id: user_id
+      insertion_order: null
+      remote_table:
+        name: user_private
+        schema: public
 array_relationships:
-  - name: burns
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: burns
-          schema: public
-  - name: circle_api_keys
-    using:
-      foreign_key_constraint_on:
-        column: created_by
-        table:
-          name: circle_api_keys
-          schema: public
-  - name: pending_received_gifts
-    using:
-      foreign_key_constraint_on:
-        column: recipient_id
-        table:
-          name: pending_token_gifts
-          schema: public
-  - name: pending_sent_gifts
-    using:
-      foreign_key_constraint_on:
-        column: sender_id
-        table:
-          name: pending_token_gifts
-          schema: public
-  - name: received_gifts
-    using:
-      foreign_key_constraint_on:
-        column: recipient_id
-        table:
-          name: token_gifts
-          schema: public
-  - name: sent_gifts
-    using:
-      foreign_key_constraint_on:
-        column: sender_id
-        table:
-          name: token_gifts
-          schema: public
-  - name: teammates
-    using:
-      manual_configuration:
-        column_mapping:
-          id: user_id
-        insertion_order: null
-        remote_table:
-          name: teammates
-          schema: public
-  - name: vouches
-    using:
-      foreign_key_constraint_on:
-        column: voucher_id
-        table:
-          name: vouches
-          schema: public
+- name: burns
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: burns
+        schema: public
+- name: circle_api_keys
+  using:
+    foreign_key_constraint_on:
+      column: created_by
+      table:
+        name: circle_api_keys
+        schema: public
+- name: pending_received_gifts
+  using:
+    foreign_key_constraint_on:
+      column: recipient_id
+      table:
+        name: pending_token_gifts
+        schema: public
+- name: pending_sent_gifts
+  using:
+    foreign_key_constraint_on:
+      column: sender_id
+      table:
+        name: pending_token_gifts
+        schema: public
+- name: received_gifts
+  using:
+    foreign_key_constraint_on:
+      column: recipient_id
+      table:
+        name: token_gifts
+        schema: public
+- name: sent_gifts
+  using:
+    foreign_key_constraint_on:
+      column: sender_id
+      table:
+        name: token_gifts
+        schema: public
+- name: teammates
+  using:
+    manual_configuration:
+      column_mapping:
+        id: user_id
+      insertion_order: null
+      remote_table:
+        name: teammates
+        schema: public
+- name: vouches
+  using:
+    foreign_key_constraint_on:
+      column: voucher_id
+      table:
+        name: vouches
+        schema: public
 select_permissions:
-  - permission:
-      columns:
-        - bio
-        - circle_id
-        - created_at
-        - fixed_non_receiver
-        - give_token_received
-        - give_token_remaining
-        - id
-        - name
-        - non_giver
-        - non_receiver
-        - starting_tokens
-      filter:
-        _and:
-          - deleted_at:
-              _is_null: true
-          - circle:
-              api_keys:
-                _and:
-                  - hash:
-                      _eq: X-Hasura-Api-Key-Hash
-                  - _or:
-                      - read_pending_token_gifts:
-                          _eq: true
-                      - read_member_profiles:
-                          _eq: true
-      limit: 50
-    role: api-user
-  - permission:
-      columns:
-        - address
-        - bio
-        - circle_id
-        - created_at
-        - deleted_at
-        - epoch_first_visit
-        - fixed_non_receiver
-        - give_token_received
-        - give_token_remaining
-        - id
-        - name
-        - non_giver
-        - non_receiver
-        - role
-        - starting_tokens
-        - updated_at
-      filter:
-        _and:
-          - deleted_at:
-              _is_null: true
-          - circle:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-    role: user
+- permission:
+    columns:
+    - bio
+    - circle_id
+    - created_at
+    - fixed_non_receiver
+    - give_token_received
+    - give_token_remaining
+    - id
+    - name
+    - non_giver
+    - non_receiver
+    - starting_tokens
+    filter:
+      _and:
+      - deleted_at:
+          _is_null: true
+      - circle:
+          api_keys:
+            _and:
+            - hash:
+                _eq: X-Hasura-Api-Key-Hash
+            - _or:
+              - read_pending_token_gifts:
+                  _eq: true
+              - read_member_profiles:
+                  _eq: true
+    limit: 50
+  role: api-user
+- permission:
+    columns:
+    - address
+    - bio
+    - circle_id
+    - created_at
+    - deleted_at
+    - epoch_first_visit
+    - fixed_non_receiver
+    - give_token_received
+    - give_token_remaining
+    - id
+    - name
+    - non_giver
+    - non_receiver
+    - role
+    - starting_tokens
+    - updated_at
+    filter:
+      _and:
+      - deleted_at:
+          _is_null: true
+      - circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+  role: user
 event_triggers:
-  - definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-    name: optOutDiscord
-    retry_conf:
-      interval_sec: 10
-      num_retries: 5
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-  - definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-    name: optOutTelegram
-    retry_conf:
-      interval_sec: 10
-      num_retries: 5
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-  - definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-    name: refundPendingGift
-    retry_conf:
-      interval_sec: 10
-      num_retries: 5
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: optOutDiscord
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: optOutTelegram
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+- definition:
+    enable_manual: false
+    update:
+      columns:
+      - non_giver
+      - non_receiver
+  headers:
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
+  name: refundPendingGift
+  retry_conf:
+    interval_sec: 10
+    num_retries: 5
+    timeout_sec: 60
+  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"

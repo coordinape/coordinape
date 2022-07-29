@@ -357,7 +357,7 @@ type LogVaultTxResponse {
   id: ID!
 }
 
-type DeleteCirlceResponse {
+type DeleteCircleResponse {
   success: Boolean!
 }
 
