@@ -6,7 +6,10 @@ import { styled, SvgIconConfig } from 'stitches.config';
 import { IconProps } from 'types';
 
 export const UnCheckedRadio = styled(
-  React.forwardRef<SVGSVGElement, IconProps>(({ ...props }, forwardedRef) => {
+  React.forwardRef<SVGSVGElement, IconProps>(function UnCheckedRadio(
+    { ...props },
+    forwardedRef
+  ) {
     return (
       <svg
         width="24"
@@ -22,5 +25,5 @@ export const UnCheckedRadio = styled(
   }),
   SvgIconConfig
 );
-
+UnCheckedRadio.displayName = 'UnCheckedRadio';
 export default UnCheckedRadio;

@@ -82,7 +82,7 @@ export const MyAvatarMenu = () => {
                 flexDirection: 'column',
                 textAlign: 'right',
                 alignItems: 'end',
-                p: 'calc($md + $xs)',
+                p: '$md',
               }}
             >
               <PopoverClose asChild>

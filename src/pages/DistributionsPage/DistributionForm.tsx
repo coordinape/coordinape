@@ -118,6 +118,7 @@ export function DistributionForm({
         'fixed'
       );
   }, []);
+
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: any
   ) => {
@@ -165,7 +166,7 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
     try {
-      await submitDistribution({
+      const result = await submitDistribution({
         amount:
           type === DISTRIBUTION_TYPE.COMBINED
             ? String(totalFixedPayment + formGiftAmount)
@@ -186,6 +187,10 @@ export function DistributionForm({
         type,
       });
       setSubmitting(false);
+
+      // could be due to user cancellation
+      if (!result) return;
+
       refetch();
       updateBalanceState(value.selectedVaultSymbol, totalFixedPayment, 'fixed');
     } catch (e) {
@@ -224,7 +229,7 @@ export function DistributionForm({
     }, {} as Record<string, number>);
 
     try {
-      await submitDistribution({
+      const result = await submitDistribution({
         amount: value.amount,
         vault,
         gifts,
@@ -241,6 +246,10 @@ export function DistributionForm({
         type: DISTRIBUTION_TYPE.GIFT,
       });
       setSubmitting(false);
+
+      // could be due to user cancellation
+      if (!result) return;
+
       refetch();
       updateBalanceState(value.selectedVaultSymbol, value.amount, 'gift');
     } catch (e) {
@@ -282,15 +291,11 @@ export function DistributionForm({
     assert(circle);
     const vault = findVault({ symbol });
     assert(contracts, 'This network is not supported');
-    let tokenBalance = 0;
-    if (vault) {
-      const cVault = await contracts.getVault(vault.vault_address);
-      tokenBalance = cVault
-        ? (await cVault.underlyingValue())
-            .div(BigNumber.from(10).pow(vault.decimals))
-            .toNumber()
-        : 0;
-    }
+    const tokenBalance = vault
+      ? (await contracts.getVaultBalance(vault))
+          .div(BigNumber.from(10).pow(vault.decimals))
+          .toNumber()
+      : 0;
     const isCombinedDist =
       fixedPaymentTokenSel[0] &&
       fixedPaymentTokenSel[0].symbol === symbol &&

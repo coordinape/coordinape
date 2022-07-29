@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
 import { Text } from 'ui';
 
 export const FormTokenField = ({
@@ -17,7 +17,7 @@ export const FormTokenField = ({
   error,
   errorText,
   ...props
-}: Omit<React.ComponentProps<typeof ApeTextField>, 'onChange'> & {
+}: Omit<React.ComponentProps<typeof DeprecatedApeTextField>, 'onChange'> & {
   max: number;
   symbol: string;
   decimals: number;
@@ -30,7 +30,7 @@ export const FormTokenField = ({
   };
 
   return (
-    <ApeTextField
+    <DeprecatedApeTextField
       {...props}
       InputProps={{
         startAdornment: (

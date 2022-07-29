@@ -107,7 +107,7 @@ export const OverviewMenu = () => {
               css={{
                 display: 'flex',
                 flexDirection: 'column',
-                p: 'calc($md + $xs)',
+                p: '$md',
               }}
             >
               <PopoverClose asChild>

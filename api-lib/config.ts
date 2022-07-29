@@ -56,7 +56,8 @@ export const INFURA_PROJECT_ID = getEnvValue(
 );
 
 export const HARDHAT_GANACHE_PORT: number = getEnvValue(
-  'HARDHAT_GANACHE_PORT' || 8546
+  'HARDHAT_GANACHE_PORT',
+  8546
 );
 
 export const ETHEREUM_RPC_URL: string = getEnvValue('ETHEREUM_RPC_URL');

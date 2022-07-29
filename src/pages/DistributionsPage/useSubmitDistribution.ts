@@ -20,7 +20,10 @@ const log = debug('distributions'); // eslint-disable-line @typescript-eslint/no
 
 export type SubmitDistribution = {
   amount: string;
-  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
+  vault: Pick<
+    Vault,
+    'id' | 'decimals' | 'symbol' | 'vault_address' | 'simple_token_address'
+  >;
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
@@ -74,7 +77,7 @@ export function useSubmitDistribution() {
     fixedAmount,
     giftAmount,
     type,
-  }: SubmitDistribution): Promise<SubmitDistributionResult> => {
+  }: SubmitDistribution): Promise<SubmitDistributionResult | undefined> => {
     assert(vault, 'No vault is found');
 
     try {
@@ -165,6 +168,8 @@ export function useSubmitDistribution() {
           chainId: contracts.chainId,
         }
       );
+
+      if (!receipt) return;
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
       const txHash = receipt?.transactionHash;

@@ -216,6 +216,8 @@ export function DistributionsPage() {
             }
             giveTokenName={circle.token_name}
             downloadCSV={downloadCSV}
+            circleDist={circleDist}
+            fixedDist={fixedDist}
           />
         </>
       )}

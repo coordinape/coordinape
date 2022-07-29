@@ -53,21 +53,20 @@ export const Modal = ({
       <Dialog.Portal>
         <Overlay>
           <Content css={css}>
-            {showClose ||
-              (showClose === undefined && (
-                <Button
-                  color="transparent"
-                  onClick={onClose}
-                  css={{
-                    position: 'absolute',
-                    right: 'calc($sm + 3px)',
-                    top: '$sm',
-                    fontSize: '$h3',
-                  }}
-                >
-                  &#x2715;
-                </Button>
-              ))}
+            {(showClose || showClose === undefined) && (
+              <Button
+                color="transparent"
+                onClick={onClose}
+                css={{
+                  position: 'absolute',
+                  right: 'calc($sm + 3px)',
+                  top: '$sm',
+                  fontSize: '$h3',
+                }}
+              >
+                &#x2715;
+              </Button>
+            )}
             {title && <Title>{title}</Title>}
             {children}
           </Content>

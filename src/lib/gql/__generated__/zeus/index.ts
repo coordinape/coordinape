@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -9800,9 +9800,9 @@ columns and relationships of "users" */
     profile: GraphQLTypes['profiles'];
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
-    simple_token_address?: string | undefined;
+    simple_token_address: string;
     symbol: string;
-    token_address?: string | undefined;
+    token_address: string;
     updated_at: GraphQLTypes['timestamptz'];
     vault_address: string;
     /** An array relationship */
@@ -14244,9 +14244,9 @@ columns and relationships of "users" */
     profile: GraphQLTypes['profiles'];
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
-    simple_token_address?: string | undefined;
+    simple_token_address: string;
     symbol: string;
-    token_address?: string | undefined;
+    token_address: string;
     updated_at: GraphQLTypes['timestamptz'];
     vault_address: string;
     /** An array relationship */

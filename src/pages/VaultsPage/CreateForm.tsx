@@ -223,11 +223,13 @@ const AssetButton = styled(Button, {
 const SavingInProgress = () => {
   return (
     <>
-      <Text variant="p" css={{ mb: '$md' }}>
+      <Text p as="p" css={{ mb: '$md' }}>
         Please follow the prompts in your wallet to submit a transaction, then
         wait for the transaction to complete.
       </Text>
-      <Text variant="p">Do not leave this page.</Text>
+      <Text p as="p">
+        Do not leave this page.
+      </Text>
     </>
   );
 };
