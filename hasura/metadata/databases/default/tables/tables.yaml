@@ -3,6 +3,7 @@
 - "!include public_circle_integrations.yaml"
 - "!include public_circle_metadata.yaml"
 - "!include public_circle_private.yaml"
+- "!include public_circle_share_tokens.yaml"
 - "!include public_circles.yaml"
 - "!include public_claims.yaml"
 - "!include public_contributions.yaml"
