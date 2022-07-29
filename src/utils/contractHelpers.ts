@@ -1,4 +1,5 @@
 import { ContractTransaction, ContractReceipt } from 'ethers';
+import { deletePendingTx } from 'lib/gql/mutations';
 
 import {
   addTransaction,
@@ -6,6 +7,7 @@ import {
 } from 'components/MyAvatarMenu/RecentTransactionsModal';
 
 type Options = {
+  savePending?: (txHash: string, chainId: string) => Promise<void>;
   signingMessage?: string;
   sendingMessage?: string;
   minedMessage?: string;
@@ -31,22 +33,25 @@ export const sendAndTrackTx = async (
     showError,
     description,
     chainId,
+    savePending,
   }: Options
 ): Promise<SendAndTrackTxResult> => {
   const timestamp = Date.now();
   try {
     const promise = callback();
     showInfo(signingMessage);
+    const tx = await promise;
+    if (savePending) savePending(tx.hash, chainId);
     addTransaction({
       timestamp,
       status: 'pending',
       description,
       chainId,
     });
-    const tx = await promise;
     showInfo(sendingMessage);
     updateTransaction(timestamp, { hash: tx.hash });
     const receipt = await tx.wait();
+    if (savePending) deletePendingTx(tx.hash);
     updateTransaction(timestamp, { status: 'confirmed' });
     showInfo(minedMessage);
     return { tx, receipt }; // just guessing at a good return value here

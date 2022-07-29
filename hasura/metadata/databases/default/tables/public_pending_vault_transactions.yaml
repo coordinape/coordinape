@@ -13,7 +13,21 @@ insert_permissions:
     - tx_hash
     - tx_type
     set:
-      created_by: x-hasura-X-Hasura-User-Id
+      created_by: x-hasura-User-Id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - chain_id
+    - claim_id
+    - created_by
+    - org_id
+    - distribution_id
+    - tx_hash
+    - tx_type
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
   role: user
 delete_permissions:
 - permission:

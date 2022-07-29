@@ -1,7 +1,7 @@
 import assert from 'assert';
 
-import { ValueTypes } from 'lib/gql/__generated__/zeus';
-import { addVault } from 'lib/gql/mutations';
+import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
+import { addVault, savePendingTx } from 'lib/gql/mutations';
 import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';
@@ -49,6 +49,13 @@ export function useVaultFactory(orgId?: number) {
           showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,
+          savePending: async (txHash: string, chainId: string) => {
+            savePendingVaultTx({
+              tx_hash: txHash,
+              org_id: orgId,
+              chain_id: Number.parseInt(chainId),
+            });
+          },
         }
       );
 
@@ -85,6 +92,14 @@ export function useVaultFactory(orgId?: number) {
   };
 
   return { createVault };
+}
+
+async function savePendingVaultTx(input: {
+  tx_hash: string;
+  org_id: number;
+  chain_id: number;
+}) {
+  savePendingTx({ ...input, tx_type: vault_tx_types_enum.Vault_Deploy });
 }
 
 export type CreatedVault = Omit<Vault, 'protocol'>;
