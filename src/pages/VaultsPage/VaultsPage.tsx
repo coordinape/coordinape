@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { isUserAdmin } from 'lib/users';
 
 import { LoadingModal } from 'components';
@@ -109,11 +108,7 @@ const VaultsPage = () => {
       </Text>
       {vaults && vaults?.length > 0 ? (
         vaults?.map(vault => (
-          <VaultRow
-            key={vault.id}
-            vault={vault as GraphQLTypes['vaults']} // FIXME
-            css={{ mb: '$sm' }}
-          />
+          <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
         ))
       ) : (
         <>

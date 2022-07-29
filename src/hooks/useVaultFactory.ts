@@ -6,6 +6,7 @@ import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
+import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useContracts } from './useContracts';
@@ -22,7 +23,7 @@ export function useVaultFactory(orgId?: number) {
     simpleTokenAddress?: string;
     type?: Asset;
     customSymbol?: string;
-  }) => {
+  }): Promise<CreatedVault | undefined> => {
     assert(contracts && orgId, 'called before hooks were ready');
 
     // should be caught by form validation
@@ -79,9 +80,11 @@ export function useVaultFactory(orgId?: number) {
         showError(e);
       }
 
-      return null;
+      return;
     }
   };
 
   return { createVault };
 }
+
+export type CreatedVault = Omit<Vault, 'protocol'>;

@@ -2,11 +2,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { addVaultTx } from 'lib/gql/mutations';
 import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
+import type { CreatedVault } from 'hooks/useVaultFactory';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';
@@ -17,7 +17,7 @@ export function useVaultRouter(contracts?: Contracts) {
   const { showError, showInfo } = useApeSnackbar();
 
   const deposit = async (
-    vault: Vault,
+    vault: Vault | CreatedVault,
     humanAmount: string
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
@@ -81,7 +81,7 @@ export function useVaultRouter(contracts?: Contracts) {
   };
 
   const withdraw = async (
-    vault: GraphQLTypes['vaults'],
+    vault: Vault,
     humanAmount: string,
     underlying: boolean
   ): Promise<SendAndTrackTxResult> => {

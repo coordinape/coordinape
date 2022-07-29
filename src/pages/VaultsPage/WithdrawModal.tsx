@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { FormTokenField } from 'components';
+import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Form, Button, Modal } from 'ui';
@@ -14,7 +14,7 @@ import { numberWithCommas } from 'utils';
 export type WithdrawModalProps = {
   onClose: () => void;
   onWithdraw: () => void;
-  vault: GraphQLTypes['vaults'];
+  vault: Vault;
   balance: number;
 };
 export default function WithdrawModal({

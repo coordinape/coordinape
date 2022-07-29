@@ -5,13 +5,13 @@ import { Web3Provider } from '@ethersproject/providers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress, Contracts } from 'lib/vaults';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { FormTokenField } from 'components';
+import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -22,7 +22,7 @@ import { makeWalletConnectConnector } from 'utils/connectors';
 export type DepositModalProps = {
   onClose: () => void;
   onDeposit: () => void;
-  vault: GraphQLTypes['vaults'];
+  vault: Vault;
 };
 
 export default function DepositModal({

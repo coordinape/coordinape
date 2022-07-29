@@ -18,9 +18,9 @@ import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
-import type { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
+import type { Vault } from 'hooks/gql/useVaults';
 import { assertDef } from 'utils/tools';
 
 import { Asset } from './';
@@ -103,10 +103,7 @@ export class Contracts {
   }
 
   async getVaultBalance(
-    vault: Pick<
-      GraphQLTypes['vaults'],
-      'simple_token_address' | 'vault_address'
-    >
+    vault: Pick<Vault, 'simple_token_address' | 'vault_address'>
   ) {
     const { simple_token_address, vault_address } = vault;
     return hasSimpleToken(vault)
