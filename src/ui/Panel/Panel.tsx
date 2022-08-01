@@ -26,6 +26,7 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: 'white',
+        border: 'none',
       },
     },
     info: {

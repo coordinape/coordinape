@@ -71,21 +71,80 @@ export const EpochPanel = ({
           {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
-      <Panel nested>
-        <Text variant="label">You received</Text>
-        <Text bold font="inter" size="large" css={{ mb: '$md' }}>
-          {totalReceived} {tokenName}
-        </Text>
-        <Text variant="label">Total Distributed</Text>
-        <Text bold font="inter" size="large">
-          {totalAllocated} {tokenName}
-        </Text>
-        <DistributionSummary
-          distributions={epoch.distributions as QueryDistribution[]}
-          circleId={circleId}
-          epochId={epoch.id}
-        />
-      </Panel>
+      <Box>
+        <Panel nested>
+          <Text variant="label">You received</Text>
+          <Text bold font="inter" size="large" css={{ mb: '$md' }}>
+            {totalReceived} {tokenName}
+          </Text>
+          <Text variant="label">Total Distributed</Text>
+          <Text bold font="inter" size="large">
+            {totalAllocated} {tokenName}
+          </Text>
+          <DistributionSummary
+            distributions={epoch.distributions as QueryDistribution[]}
+            circleId={circleId}
+            epochId={epoch.id}
+          />
+          {isAdmin && (
+            <>
+              {isFeatureEnabled('vaults') ? (
+                <AppLink
+                  css={{
+                    mt: '$md',
+                    mx: '-$md',
+                    mb: '-$md',
+                  }}
+                  to={paths.distributions(circleId, epoch.id)}
+                >
+                  <Button
+                    fullWidth
+                    color="primary"
+                    css={{
+                      whiteSpace: 'nowrap',
+                      borderTopLeftRadius: 0,
+                      borderTopRightRadius: 0,
+                    }}
+                  >
+                    Review / Export
+                  </Button>
+                </AppLink>
+              ) : (
+                <Button
+                  color="primary"
+                  css={{
+                    whiteSpace: 'nowrap',
+                    mt: '$md',
+                    mx: '-$md',
+                    mb: '-$md',
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                  }}
+                  onClick={e => {
+                    e.stopPropagation(),
+                      (async () => {
+                        // use the authed api to download the CSV
+                        const csv = await downloadCSV(epoch.number, epoch.id);
+
+                        if (csv?.file) {
+                          const a = document.createElement('a');
+                          a.download = `${protocolName}-${circleName}-epoch-${epoch}.csv`;
+                          a.href = csv.file;
+                          a.click();
+                          a.href = '';
+                        }
+
+                        return false;
+                      })();
+                  }}
+                >
+                  Export CSV
+                </Button>
+              )}
+            </>
+          )}
+        </Panel>
+      </Box>
       <Panel
         nested
         css={{
@@ -146,44 +205,6 @@ export const EpochPanel = ({
               </Box>
             </Flex>
           </Flex>
-          {isAdmin && (
-            <Flex column css={{ gap: '$sm' }}>
-              <Text>Distribution</Text>
-
-              {isFeatureEnabled('vaults') ? (
-                <AppLink to={paths.distributions(circleId, epoch.id)}>
-                  <Button size="small" outlined color="primary">
-                    Distributions
-                  </Button>
-                </AppLink>
-              ) : (
-                <Button
-                  size="small"
-                  outlined
-                  color="primary"
-                  onClick={e => {
-                    e.stopPropagation(),
-                      (async () => {
-                        // use the authed api to download the CSV
-                        const csv = await downloadCSV(epoch.number, epoch.id);
-
-                        if (csv?.file) {
-                          const a = document.createElement('a');
-                          a.download = `${protocolName}-${circleName}-epoch-${epoch}.csv`;
-                          a.href = csv.file;
-                          a.click();
-                          a.href = '';
-                        }
-
-                        return false;
-                      })();
-                  }}
-                >
-                  Export CSV
-                </Button>
-              )}
-            </Flex>
-          )}
           <Box>
             {showLess ? (
               <button
