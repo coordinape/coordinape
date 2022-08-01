@@ -112,11 +112,11 @@ export function DistributionForm({
 
   useEffect(() => {
     if (fixedPaymentTokenSel[0])
-    updateBalanceState(
-      fixedPaymentTokenSel[0].symbol,
-      totalFixedPayment,
-      'fixed'
-    );
+      updateBalanceState(
+        fixedPaymentTokenSel[0].symbol,
+        totalFixedPayment,
+        'fixed'
+      );
   }, [fixed_payment_token_type, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
@@ -281,8 +281,7 @@ export function DistributionForm({
     symbol: string,
     amount: number
   ): string => {
-
-    if(amount === 0) {
+    if (amount === 0) {
       return `Please input a token amount`;
     }
     if (sufficientTokens) {
@@ -318,12 +317,12 @@ export function DistributionForm({
           .toNumber()
       : 0;
     const isCombinedDist =
-        // check if the two symbols are the same
+      // check if the two symbols are the same
       ((formType === 'gift' &&
         fixedPaymentTokenSel[0] &&
         fixedPaymentTokenSel[0].symbol === symbol) ||
         (formType === 'fixed' && giftVaultSymbol === symbol)) &&
-        // check if a non combined distribution is selected
+      // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
     if (isCombinedDist) {
@@ -336,8 +335,13 @@ export function DistributionForm({
         setMaxGiftTokens(tokenBalance);
         // if switching from combined dist selection to non combined
         // we need to recheck if the fixed payment have sufficient tokens
-        if(fixedPaymentTokenSel[0] && fixedPaymentTokenSel[0].symbol === giftVaultSymbol)
-          setSufficientFixPaymentTokens(maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0);
+        if (
+          fixedPaymentTokenSel[0] &&
+          fixedPaymentTokenSel[0].symbol === giftVaultSymbol
+        )
+          setSufficientFixPaymentTokens(
+            maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
+          );
       } else {
         setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
         setMaxFixedPaymentTokens(tokenBalance);

@@ -91,7 +91,7 @@ test('render without a distribution', async () => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
-  expect(screen.getByText('Insufficient Tokens')).toBeInTheDocument();
+  expect(screen.getByText('Please input a token amount')).toBeInTheDocument();
 });
 
 test('render with a distribution', async () => {
