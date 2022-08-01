@@ -40,14 +40,14 @@ export const sendAndTrackTx = async (
   try {
     const promise = callback();
     showInfo(signingMessage);
-    const tx = await promise;
-    if (savePending) savePending(tx.hash, chainId);
     addTransaction({
       timestamp,
       status: 'pending',
       description,
       chainId,
     });
+    const tx = await promise;
+    if (savePending) savePending(tx.hash, chainId);
     showInfo(sendingMessage);
     updateTransaction(timestamp, { hash: tx.hash });
     const receipt = await tx.wait();
