@@ -112,12 +112,12 @@ export function DistributionForm({
 
   useEffect(() => {
     if (fixedPaymentTokenSel[0])
-      updateBalanceState(
-        fixedPaymentTokenSel[0].symbol,
-        totalFixedPayment,
-        'fixed'
-      );
-  }, []);
+    updateBalanceState(
+      fixedPaymentTokenSel[0].symbol,
+      totalFixedPayment,
+      'fixed'
+    );
+  }, [fixed_payment_token_type, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
@@ -276,6 +276,25 @@ export function DistributionForm({
     return 0;
   };
 
+  const getButtonText = (
+    sufficientTokens: boolean,
+    symbol: string,
+    amount: number
+  ): string => {
+
+    if(amount === 0) {
+      return `Please input a token amount`;
+    }
+    if (sufficientTokens) {
+      if (submitting) {
+        return 'Submitting...';
+      }
+
+      return `Submit ${symbol} Vault Distribution`;
+    }
+    return 'Insufficient Tokens';
+  };
+
   const isCombinedDistribution = () => {
     return (
       ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
@@ -299,26 +318,31 @@ export function DistributionForm({
           .toNumber()
       : 0;
     const isCombinedDist =
-      fixedPaymentTokenSel[0] &&
-      fixedPaymentTokenSel[0].symbol === symbol &&
+        // check if the two symbols are the same
+      ((formType === 'gift' &&
+        fixedPaymentTokenSel[0] &&
+        fixedPaymentTokenSel[0].symbol === symbol) ||
+        (formType === 'fixed' && giftVaultSymbol === symbol)) &&
+        // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
     if (isCombinedDist) {
       setMaxGiftTokens(tokenBalance);
       setMaxFixedPaymentTokens(tokenBalance);
+      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
     } else {
       if (formType === 'gift') {
+        setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
         setMaxGiftTokens(tokenBalance);
+        // if switching from combined dist selection to non combined
+        // we need to recheck if the fixed payment have sufficient tokens
+        if(fixedPaymentTokenSel[0] && fixedPaymentTokenSel[0].symbol === giftVaultSymbol)
+          setSufficientFixPaymentTokens(maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0);
       } else {
+        setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
         setMaxFixedPaymentTokens(tokenBalance);
       }
     }
-
-    if (formType === 'gift' && !isCombinedDist) {
-      setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
-      setSufficientFixPaymentTokens(maxFixedPaymentTokens >= totalFixedPayment);
-    } else
-      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
   };
 
   return (
@@ -441,11 +465,11 @@ export function DistributionForm({
                     disabled={submitting || !sufficientGiftTokens}
                     fullWidth
                   >
-                    {sufficientGiftTokens
-                      ? submitting
-                        ? 'Submitting...'
-                        : `Submit ${giftVaultSymbol} Vault Distribution`
-                      : 'Insufficient Tokens'}
+                    {getButtonText(
+                      sufficientGiftTokens,
+                      giftVaultSymbol,
+                      formGiftAmount
+                    )}
                   </Button>
                 );
               }
@@ -597,11 +621,13 @@ export function DistributionForm({
                     disabled={submitting || !sufficientFixedPaymentTokens}
                     fullWidth
                   >
-                    {sufficientFixedPaymentTokens
-                      ? submitting
-                        ? `Submitting...`
-                        : `Submit ${fixedPaymentTokenSel[0].symbol} Vault Distribution`
-                      : `Insufficient Tokens`}
+                    {getButtonText(
+                      sufficientFixedPaymentTokens,
+                      fixedPaymentTokenSel[0].symbol,
+                      isCombinedDistribution()
+                        ? totalFixedPayment + formGiftAmount
+                        : totalFixedPayment
+                    )}
                   </Button>
                 );
               }
