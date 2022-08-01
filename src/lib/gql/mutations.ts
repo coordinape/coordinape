@@ -172,6 +172,9 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
         {
           vault: {
             ...allVaultFields,
+            protocol: {
+              name: true,
+            },
             vault_transactions: [
               {},
               {

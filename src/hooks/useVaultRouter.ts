@@ -6,7 +6,6 @@ import { addVaultTx } from 'lib/gql/mutations';
 import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
-import type { CreatedVault } from 'hooks/useVaultFactory';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';
@@ -17,7 +16,7 @@ export function useVaultRouter(contracts?: Contracts) {
   const { showError, showInfo } = useApeSnackbar();
 
   const deposit = async (
-    vault: Vault | CreatedVault,
+    vault: Vault,
     humanAmount: string
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');

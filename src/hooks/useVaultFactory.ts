@@ -23,7 +23,7 @@ export function useVaultFactory(orgId?: number) {
     simpleTokenAddress?: string;
     type?: Asset;
     customSymbol?: string;
-  }): Promise<CreatedVault | undefined> => {
+  }): Promise<Vault | undefined> => {
     assert(contracts && orgId, 'called before hooks were ready');
 
     // should be caught by form validation
@@ -101,5 +101,3 @@ async function savePendingVaultTx(input: {
 }) {
   savePendingTx({ ...input, tx_type: vault_tx_types_enum.Vault_Deploy });
 }
-
-export type CreatedVault = Omit<Vault, 'protocol'>;
