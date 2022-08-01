@@ -80,13 +80,13 @@ export function DistributionForm({
   const contracts = useContracts();
   const circle = epoch.circle;
   assert(circle);
-  const fixed_payment_token_type = circle.fixed_payment_token_type;
+  const fixedPaymentTokenType = circle.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total);
-  const fixedPaymentTokenSel = fixed_payment_token_type
+  const fixedPaymentTokenSel = fixedPaymentTokenType
     ? vaults.filter(
-        v => v.symbol.toLowerCase() === fixed_payment_token_type.toLowerCase()
+        v => v.symbol.toLowerCase() === fixedPaymentTokenType.toLowerCase()
       )
     : [];
   const { handleSubmit, control } = useForm<TDistributionForm>({
@@ -117,7 +117,7 @@ export function DistributionForm({
         totalFixedPayment,
         'fixed'
       );
-  }, [fixed_payment_token_type, totalFixedPayment]);
+  }, [fixedPaymentTokenType, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
@@ -500,7 +500,7 @@ export function DistributionForm({
             </Box>
           </Flex>
 
-          {!fixed_payment_token_type ? (
+          {!fixedPaymentTokenType ? (
             <Box
               css={{
                 pt: '$lg',
