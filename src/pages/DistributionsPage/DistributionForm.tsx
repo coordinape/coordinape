@@ -84,11 +84,11 @@ export function DistributionForm({
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total);
-  const fixedPaymentTokenSel = fixedPaymentTokenType
-    ? vaults.filter(
+  const fpTokenSymbol = fixedPaymentTokenType
+    ? vaults.find(
         v => v.symbol.toLowerCase() === fixedPaymentTokenType.toLowerCase()
-      )
-    : [];
+      )?.symbol
+    : undefined;
   const { handleSubmit, control } = useForm<TDistributionForm>({
     defaultValues: {
       selectedVaultSymbol: vaults[0]?.symbol,
@@ -111,12 +111,8 @@ export function DistributionForm({
   }, [vaults]);
 
   useEffect(() => {
-    if (fixedPaymentTokenSel[0])
-      updateBalanceState(
-        fixedPaymentTokenSel[0].symbol,
-        totalFixedPayment,
-        'fixed'
-      );
+    if (fpTokenSymbol)
+      updateBalanceState(fpTokenSymbol, totalFixedPayment, 'fixed');
   }, [fixedPaymentTokenType, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
@@ -290,9 +286,8 @@ export function DistributionForm({
   const isCombinedDistribution = () => {
     return (
       ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
-      fixedPaymentTokenSel.length &&
       giftVaultSymbol &&
-      fixedPaymentTokenSel[0].symbol === giftVaultSymbol
+      fpTokenSymbol === giftVaultSymbol
     );
   };
 
@@ -311,9 +306,7 @@ export function DistributionForm({
       : 0;
     const isCombinedDist =
       // check if the two symbols are the same
-      ((formType === 'gift' &&
-        fixedPaymentTokenSel[0] &&
-        fixedPaymentTokenSel[0].symbol === symbol) ||
+      ((formType === 'gift' && fpTokenSymbol === symbol) ||
         (formType === 'fixed' && giftVaultSymbol === symbol)) &&
       // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
@@ -328,10 +321,7 @@ export function DistributionForm({
       setMaxGiftTokens(tokenBalance);
       // if switching from combined dist selection to non combined
       // we need to recheck if the fixed payment have sufficient tokens
-      if (
-        fixedPaymentTokenSel[0] &&
-        fixedPaymentTokenSel[0].symbol === giftVaultSymbol
-      )
+      if (fpTokenSymbol === giftVaultSymbol)
         setSufficientFixPaymentTokens(
           maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
         );
@@ -448,8 +438,7 @@ export function DistributionForm({
                 return (
                   <Text css={{ fontSize: '$small' }}>
                     Combined Distribution. Total{' '}
-                    {totalFixedPayment + formGiftAmount}{' '}
-                    {fixedPaymentTokenSel[0].symbol}
+                    {totalFixedPayment + formGiftAmount} {fpTokenSymbol}
                   </Text>
                 );
               } else {
@@ -517,21 +506,19 @@ export function DistributionForm({
                         <>
                           <FormAutocomplete
                             value={
-                              fixedPaymentTokenSel.length
+                              fpTokenSymbol
                                 ? fixedDist
                                   ? fixedDist.vault.symbol
-                                  : fixedPaymentTokenSel[0].symbol
+                                  : fpTokenSymbol
                                 : 'No Vaults Available'
                             }
                             label="CoVault"
                             error={!!error}
                             disabled={true}
                             isSelect={true}
-                            options={
-                              fixedPaymentTokenSel.length
-                                ? fixedPaymentTokenSel.map(t => t.symbol)
-                                : ['No Vault']
-                            }
+                            options={[
+                              fpTokenSymbol ? fpTokenSymbol : 'No Vault',
+                            ]}
                           />
 
                           {error && (
@@ -561,15 +548,15 @@ export function DistributionForm({
                     render={({ fieldState: { error } }) => (
                       <FormTokenField
                         symbol={
-                          fixedPaymentTokenSel.length
+                          fpTokenSymbol
                             ? fixedDist
                               ? fixedDist.vault.symbol
-                              : fixedPaymentTokenSel[0].symbol
+                              : fpTokenSymbol
                             : ''
                         }
                         decimals={getDecimals({
                           distribution: fixedDist,
-                          symbol: fixedPaymentTokenSel[0]?.symbol,
+                          symbol: fpTokenSymbol,
                         })}
                         type="number"
                         error={!!error}
@@ -587,11 +574,7 @@ export function DistributionForm({
                         }
                         label={`Avail. ${numberWithCommas(
                           maxFixedPaymentTokens
-                        )} ${
-                          fixedPaymentTokenSel[0]
-                            ? fixedPaymentTokenSel[0].symbol
-                            : ''
-                        }`}
+                        )} ${fpTokenSymbol || ''}`}
                         onChange={() => {}}
                         apeSize="small"
                       />
@@ -608,7 +591,7 @@ export function DistributionForm({
         <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
           {(() => {
             if (!fixedDist) {
-              if (fixedPaymentTokenSel.length) {
+              if (fpTokenSymbol) {
                 return (
                   <Button
                     color="primary"
@@ -619,7 +602,7 @@ export function DistributionForm({
                   >
                     {getButtonText(
                       sufficientFixedPaymentTokens,
-                      fixedPaymentTokenSel[0].symbol,
+                      fpTokenSymbol,
                       isCombinedDistribution()
                         ? totalFixedPayment + formGiftAmount
                         : totalFixedPayment
