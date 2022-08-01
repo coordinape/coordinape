@@ -80,15 +80,15 @@ export function DistributionForm({
   const contracts = useContracts();
   const circle = epoch.circle;
   assert(circle);
-  const fixed_payment_token_type = circle.fixed_payment_token_type;
+  const fixedPaymentTokenType = circle.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total);
-  const fixedPaymentTokenSel = fixed_payment_token_type
-    ? vaults.filter(
-        v => v.symbol.toLowerCase() === fixed_payment_token_type.toLowerCase()
-      )
-    : [];
+  const fpTokenSymbol = fixedPaymentTokenType
+    ? vaults.find(
+        v => v.symbol.toLowerCase() === fixedPaymentTokenType.toLowerCase()
+      )?.symbol
+    : undefined;
   const { handleSubmit, control } = useForm<TDistributionForm>({
     defaultValues: {
       selectedVaultSymbol: vaults[0]?.symbol,
@@ -111,13 +111,9 @@ export function DistributionForm({
   }, [vaults]);
 
   useEffect(() => {
-    if (fixedPaymentTokenSel[0])
-      updateBalanceState(
-        fixedPaymentTokenSel[0].symbol,
-        totalFixedPayment,
-        'fixed'
-      );
-  }, []);
+    if (fpTokenSymbol)
+      updateBalanceState(fpTokenSymbol, totalFixedPayment, 'fixed');
+  }, [fixedPaymentTokenType, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
@@ -276,12 +272,22 @@ export function DistributionForm({
     return 0;
   };
 
+  const getButtonText = (
+    sufficientTokens: boolean,
+    symbol: string,
+    amount: number
+  ): string => {
+    if (amount === 0) return `Please input a token amount`;
+    if (!sufficientTokens) return 'Insufficient Tokens';
+    if (submitting) return 'Submitting...';
+    return `Submit ${symbol} Vault Distribution`;
+  };
+
   const isCombinedDistribution = () => {
     return (
       ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
-      fixedPaymentTokenSel.length &&
       giftVaultSymbol &&
-      fixedPaymentTokenSel[0].symbol === giftVaultSymbol
+      fpTokenSymbol === giftVaultSymbol
     );
   };
 
@@ -299,26 +305,30 @@ export function DistributionForm({
           .toNumber()
       : 0;
     const isCombinedDist =
-      fixedPaymentTokenSel[0] &&
-      fixedPaymentTokenSel[0].symbol === symbol &&
+      // check if the two symbols are the same
+      ((formType === 'gift' && fpTokenSymbol === symbol) ||
+        (formType === 'fixed' && giftVaultSymbol === symbol)) &&
+      // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
+
     if (isCombinedDist) {
       setMaxGiftTokens(tokenBalance);
       setMaxFixedPaymentTokens(tokenBalance);
-    } else {
-      if (formType === 'gift') {
-        setMaxGiftTokens(tokenBalance);
-      } else {
-        setMaxFixedPaymentTokens(tokenBalance);
-      }
-    }
-
-    if (formType === 'gift' && !isCombinedDist) {
-      setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
-      setSufficientFixPaymentTokens(maxFixedPaymentTokens >= totalFixedPayment);
-    } else
       setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+    } else if (formType === 'gift') {
+      setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setMaxGiftTokens(tokenBalance);
+      // if switching from combined dist selection to non combined
+      // we need to recheck if the fixed payment have sufficient tokens
+      if (fpTokenSymbol === giftVaultSymbol)
+        setSufficientFixPaymentTokens(
+          maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
+        );
+    } else {
+      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setMaxFixedPaymentTokens(tokenBalance);
+    }
   };
 
   return (
@@ -428,8 +438,7 @@ export function DistributionForm({
                 return (
                   <Text css={{ fontSize: '$small' }}>
                     Combined Distribution. Total{' '}
-                    {totalFixedPayment + formGiftAmount}{' '}
-                    {fixedPaymentTokenSel[0].symbol}
+                    {totalFixedPayment + formGiftAmount} {fpTokenSymbol}
                   </Text>
                 );
               } else {
@@ -441,11 +450,11 @@ export function DistributionForm({
                     disabled={submitting || !sufficientGiftTokens}
                     fullWidth
                   >
-                    {sufficientGiftTokens
-                      ? submitting
-                        ? 'Submitting...'
-                        : `Submit ${giftVaultSymbol} Vault Distribution`
-                      : 'Insufficient Tokens'}
+                    {getButtonText(
+                      sufficientGiftTokens,
+                      giftVaultSymbol,
+                      formGiftAmount
+                    )}
                   </Button>
                 );
               }
@@ -472,7 +481,7 @@ export function DistributionForm({
             </Box>
           </Flex>
 
-          {!fixed_payment_token_type ? (
+          {!fixedPaymentTokenType ? (
             <Box
               css={{
                 pt: '$lg',
@@ -497,21 +506,19 @@ export function DistributionForm({
                         <>
                           <FormAutocomplete
                             value={
-                              fixedPaymentTokenSel.length
+                              fpTokenSymbol
                                 ? fixedDist
                                   ? fixedDist.vault.symbol
-                                  : fixedPaymentTokenSel[0].symbol
+                                  : fpTokenSymbol
                                 : 'No Vaults Available'
                             }
                             label="CoVault"
                             error={!!error}
                             disabled={true}
                             isSelect={true}
-                            options={
-                              fixedPaymentTokenSel.length
-                                ? fixedPaymentTokenSel.map(t => t.symbol)
-                                : ['No Vault']
-                            }
+                            options={[
+                              fpTokenSymbol ? fpTokenSymbol : 'No Vault',
+                            ]}
                           />
 
                           {error && (
@@ -541,15 +548,15 @@ export function DistributionForm({
                     render={({ fieldState: { error } }) => (
                       <FormTokenField
                         symbol={
-                          fixedPaymentTokenSel.length
+                          fpTokenSymbol
                             ? fixedDist
                               ? fixedDist.vault.symbol
-                              : fixedPaymentTokenSel[0].symbol
+                              : fpTokenSymbol
                             : ''
                         }
                         decimals={getDecimals({
                           distribution: fixedDist,
-                          symbol: fixedPaymentTokenSel[0]?.symbol,
+                          symbol: fpTokenSymbol,
                         })}
                         type="number"
                         error={!!error}
@@ -567,11 +574,7 @@ export function DistributionForm({
                         }
                         label={`Avail. ${numberWithCommas(
                           maxFixedPaymentTokens
-                        )} ${
-                          fixedPaymentTokenSel[0]
-                            ? fixedPaymentTokenSel[0].symbol
-                            : ''
-                        }`}
+                        )} ${fpTokenSymbol || ''}`}
                         onChange={() => {}}
                         apeSize="small"
                       />
@@ -588,7 +591,7 @@ export function DistributionForm({
         <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
           {(() => {
             if (!fixedDist) {
-              if (fixedPaymentTokenSel.length) {
+              if (fpTokenSymbol) {
                 return (
                   <Button
                     color="primary"
@@ -597,11 +600,13 @@ export function DistributionForm({
                     disabled={submitting || !sufficientFixedPaymentTokens}
                     fullWidth
                   >
-                    {sufficientFixedPaymentTokens
-                      ? submitting
-                        ? `Submitting...`
-                        : `Submit ${fixedPaymentTokenSel[0].symbol} Vault Distribution`
-                      : `Insufficient Tokens`}
+                    {getButtonText(
+                      sufficientFixedPaymentTokens,
+                      fpTokenSymbol,
+                      isCombinedDistribution()
+                        ? totalFixedPayment + formGiftAmount
+                        : totalFixedPayment
+                    )}
                   </Button>
                 );
               }
