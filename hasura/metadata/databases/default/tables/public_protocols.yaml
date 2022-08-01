@@ -32,15 +32,14 @@ select_permissions:
     - updated_at
     filter:
       circles:
-        users:
-          _and:
-          - profile:
-              id:
-                _eq: X-Hasura-User-Id
-          - deleted_at:
-              _is_null: true
-          - _and:
-            - circle:
-                deleted_at:
-                  _is_null: true
+        _and:
+        - deleted_at:
+            _is_null: true
+        - users:
+            _and:
+            - profile:
+                id:
+                  _eq: X-Hasura-User-Id
+            - deleted_at:
+                _is_null: true
   role: user
