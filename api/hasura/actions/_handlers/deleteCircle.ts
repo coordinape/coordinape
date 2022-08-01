@@ -20,7 +20,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     { operationName: 'deleteCircle_getCircleStatus' }
   );
 
-  if (circle?.deleted_at) {
+  if (!circle || circle?.deleted_at) {
     errorResponseWithStatusCode(res, { message: 'circle does not exist' }, 422);
     return;
   }
