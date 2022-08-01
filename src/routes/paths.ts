@@ -15,6 +15,9 @@ export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.coordinape.com';
 export const EXTERNAL_URL_GET_STARTED =
   'https://docs.coordinape.com/get-started/get-started';
+export const EXTERNAL_URL_LEARN_ABOUT_VAULTS =
+  'https://docs.coordinape.com/info/documentation/coordinape-vaults';
+export const EXTERNAL_URL_YEARN_VAULTS = 'https://yearn.finance/vaults';
 export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.coordinape.com/support';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
@@ -42,26 +45,28 @@ const withSearchParams = (
     ? `${path}?${toSearchString(params)}`
     : path;
 
+const circlePath = (suffix: string) => (circleId: number) =>
+  `/circles/${circleId}/${suffix}`;
+
 export const paths = {
   // circle-specific
-  members: (circleId: number) => `/circles/${circleId}/members`,
-  circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
-  circleAdminApi: (circleId: number) => `/circles/${circleId}/admin/api`,
-  allocation: (circleId: number) => `/circles/${circleId}/allocation`,
-  connectIntegration: (circleId: number) =>
-    `/circles/${circleId}/admin/connect-integration`,
-  epoch: (circleId: number) => `/circles/${circleId}/epoch`,
-  give: (circleId: number) => `/circles/${circleId}/give`,
-  history: (circleId: number) => `/circles/${circleId}/history`,
+  allocation: circlePath('allocation'),
+  circleAdmin: circlePath('admin'),
+  circleAdminApi: circlePath('admin/api'),
+  connectIntegration: circlePath('admin/connect-integration'),
+  epoch: circlePath('epoch'),
+  give: circlePath('give'),
+  history: circlePath('history'),
+  members: circlePath('members'),
+  team: circlePath('team'),
+  vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
     `/circles/${circleId}/distributions/${epochId}`,
   map: (circleId: number, params?: { highlight?: string }) =>
     withSearchParams(`/circles/${circleId}/map`, params),
-  team: (circleId: number) => `/circles/${circleId}/team`,
-  vouching: (circleId: number) => `/circles/${circleId}/vouching`,
 
   // other
-  circles: '/circles',
+  circles: '/circles', // the overview page
   claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',

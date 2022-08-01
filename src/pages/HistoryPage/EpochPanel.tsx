@@ -86,7 +86,6 @@ export const EpochPanel = ({
           epochId={epoch.id}
         />
       </Panel>
-
       <Panel
         nested
         css={{

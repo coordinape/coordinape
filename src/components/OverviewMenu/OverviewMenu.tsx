@@ -56,8 +56,9 @@ export const OverviewMenu = () => {
     <Link
       css={navLinkStyle}
       className={
-        paths.circles?.includes(location.pathname) ||
-        location.pathname.includes('history')
+        location.pathname === paths.circles ||
+        location.pathname.includes('history') ||
+        location.pathname.includes(paths.vaults)
           ? 'active'
           : ''
       }
@@ -99,8 +100,8 @@ export const OverviewMenu = () => {
               setTimeout(() => setMouseEnterPopover(false), 200)
             }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-58}
-            alignOffset={-3}
+            sideOffset={-57}
+            alignOffset={1}
             css={{ outline: 'none' }}
           >
             <Box

@@ -46,7 +46,7 @@ export const MainHeader = () => {
   return (
     <Box
       css={{
-        px: '$1xl',
+        px: '$xl',
         height: '$headerHeight',
         display: 'flex',
         flexDirection: 'column',

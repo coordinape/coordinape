@@ -101,7 +101,7 @@ export const HistoryPage = () => {
       <Flex
         css={{
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'baseline',
           flexWrap: 'wrap',
         }}
       >
