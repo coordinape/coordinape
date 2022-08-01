@@ -12,13 +12,14 @@ context('Coordinape', () => {
       circleId = q.circles[0].id;
     });
   });
-  it('can create new epoch with default parameters', () => {
+  it('can create new epoch after changing parameters', () => {
     cy.visit(`/circles/${circleId}/history`);
     cy.login();
 
     cy.contains('Sports', { timeout: 120000 });
     cy.contains('There are no scheduled epochs');
     cy.contains('Create Epoch', { timeout: 45000 }).click();
+    cy.getInputByLabel('Duration (days)').type('1').blur();
     cy.contains('Save').click();
     cy.contains('starts in 23 hr', { timeout: 120000 });
   });
