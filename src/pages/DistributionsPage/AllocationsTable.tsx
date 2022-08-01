@@ -76,6 +76,7 @@ export const AllocationsTable = ({
         css={{
           justifyContent: 'space-between',
           mb: '$lg',
+          alignItems: 'center',
         }}
       >
         <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
