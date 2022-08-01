@@ -281,17 +281,10 @@ export function DistributionForm({
     symbol: string,
     amount: number
   ): string => {
-    if (amount === 0) {
-      return `Please input a token amount`;
-    }
-    if (sufficientTokens) {
-      if (submitting) {
-        return 'Submitting...';
-      }
-
-      return `Submit ${symbol} Vault Distribution`;
-    }
-    return 'Insufficient Tokens';
+    if (amount === 0) return `Please input a token amount`;
+    if (!sufficientTokens) return 'Insufficient Tokens';
+    if (submitting) return 'Submitting...';
+    return `Submit ${symbol} Vault Distribution`;
   };
 
   const isCombinedDistribution = () => {
