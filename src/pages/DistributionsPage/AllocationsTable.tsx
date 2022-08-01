@@ -75,12 +75,10 @@ export const AllocationsTable = ({
       <Flex
         css={{
           justifyContent: 'space-between',
+          mb: '$lg',
         }}
       >
-        <Text
-          h3
-          css={{ fontWeight: '$semibold', color: '$headingText', mb: '$lg' }}
-        >
+        <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
           Distributions Table
         </Text>
         <Button
