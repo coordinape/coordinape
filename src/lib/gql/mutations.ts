@@ -672,7 +672,7 @@ export async function allocationCsv(
   return allocationCsv;
 }
 
-export async function savePendingTx(
+export async function savePendingVaultTx(
   input: ValueTypes['pending_vault_transactions_insert_input']
 ) {
   client.mutate({
@@ -683,7 +683,7 @@ export async function savePendingTx(
   });
 }
 
-export async function deletePendingTx(tx_hash: string) {
+export async function deletePendingVaultTx(tx_hash: string) {
   client.mutate({
     delete_pending_vault_transactions_by_pk: [
       { tx_hash },

@@ -1,5 +1,4 @@
 import { ContractTransaction, ContractReceipt } from 'ethers';
-import { deletePendingTx } from 'lib/gql/mutations';
 
 import {
   addTransaction,
@@ -8,6 +7,7 @@ import {
 
 type Options = {
   savePending?: (txHash: string, chainId: string) => Promise<void>;
+  deletePending?: (txHash: string) => Promise<void>;
   signingMessage?: string;
   sendingMessage?: string;
   minedMessage?: string;
@@ -34,6 +34,7 @@ export const sendAndTrackTx = async (
     description,
     chainId,
     savePending,
+    deletePending,
   }: Options
 ): Promise<SendAndTrackTxResult> => {
   const timestamp = Date.now();
@@ -47,11 +48,11 @@ export const sendAndTrackTx = async (
       chainId,
     });
     const tx = await promise;
-    if (savePending) savePending(tx.hash, chainId);
     showInfo(sendingMessage);
+    await savePending?.(tx.hash, chainId);
     updateTransaction(timestamp, { hash: tx.hash });
     const receipt = await tx.wait();
-    if (savePending) deletePendingTx(tx.hash);
+    await deletePending?.(tx.hash);
     updateTransaction(timestamp, { status: 'confirmed' });
     showInfo(minedMessage);
     return { tx, receipt }; // just guessing at a good return value here
