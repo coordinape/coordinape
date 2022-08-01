@@ -16,7 +16,7 @@ import {
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData } from './getOrgData';
@@ -65,11 +65,11 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Link href={paths.createCircle}>
+        <AppLink to={paths.createCircle}>
           <Button color="primary" outlined>
             Create New Circle
           </Button>
-        </Link>
+        </AppLink>
       </Flex>
       <Text
         p
@@ -98,7 +98,7 @@ export const CirclesPage = () => {
               </Text>
             </Box>
             {isAdmin(org) && (
-              <Link href={paths.createCircle + '?org=' + org.id}>
+              <AppLink to={paths.createCircle + '?org=' + org.id}>
                 <Button
                   color="primary"
                   outlined
@@ -106,7 +106,7 @@ export const CirclesPage = () => {
                 >
                   Add Circle
                 </Button>
-              </Link>
+              </AppLink>
             )}
           </Flex>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
@@ -178,11 +178,11 @@ const GetStarted = () => {
             happening.
           </Text>
           <Box>
-            <Link href={paths.createCircle}>
+            <AppLink to={paths.createCircle}>
               <Button color="primary" outlined inline css={{ mr: '$md' }}>
                 Create New Circle
               </Button>
-            </Link>
+            </AppLink>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
               <Button color="primary" outlined inline css={{ mt: '$md' }}>
                 Get Started Guide
@@ -377,7 +377,11 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               {buttons.map(
                 ([pathFn, label, hide]) =>
                   (!hide || !hide(circle)) && (
-                    <Link href={pathFn(circle.id)} key={label}>
+                    <AppLink
+                      to={pathFn(circle.id)}
+                      key={label}
+                      onClick={event => event.stopPropagation()}
+                    >
                       <Button
                         color="neutral"
                         outlined
@@ -386,7 +390,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                       >
                         {label}
                       </Button>
-                    </Link>
+                    </AppLink>
                   )
               )}
             </Box>
