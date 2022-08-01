@@ -318,27 +318,26 @@ export function DistributionForm({
       // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
     const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
+
     if (isCombinedDist) {
       setMaxGiftTokens(tokenBalance);
       setMaxFixedPaymentTokens(tokenBalance);
       setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+    } else if (formType === 'gift') {
+      setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setMaxGiftTokens(tokenBalance);
+      // if switching from combined dist selection to non combined
+      // we need to recheck if the fixed payment have sufficient tokens
+      if (
+        fixedPaymentTokenSel[0] &&
+        fixedPaymentTokenSel[0].symbol === giftVaultSymbol
+      )
+        setSufficientFixPaymentTokens(
+          maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
+        );
     } else {
-      if (formType === 'gift') {
-        setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
-        setMaxGiftTokens(tokenBalance);
-        // if switching from combined dist selection to non combined
-        // we need to recheck if the fixed payment have sufficient tokens
-        if (
-          fixedPaymentTokenSel[0] &&
-          fixedPaymentTokenSel[0].symbol === giftVaultSymbol
-        )
-          setSufficientFixPaymentTokens(
-            maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
-          );
-      } else {
-        setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
-        setMaxFixedPaymentTokens(tokenBalance);
-      }
+      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setMaxFixedPaymentTokens(tokenBalance);
     }
   };
 
