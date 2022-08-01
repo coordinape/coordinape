@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -4495,10 +4495,18 @@ columns and relationships of "pending_vault_transactions" */
     chain_id?: boolean | `@${string}`;
     claim_id?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    /** An object relationship */
+    distribution?: ValueTypes['distributions'];
     distribution_id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     tx_hash?: boolean | `@${string}`;
     tx_type?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_type?: ValueTypes['vault_tx_types'];
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
@@ -4515,18 +4523,26 @@ columns and relationships of "pending_vault_transactions" */
     chain_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     claim_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_type?:
       | ValueTypes['vault_tx_types_enum_comparison_exp']
       | undefined
       | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
   };
   /** input type for inserting data into table "pending_vault_transactions" */
   ['pending_vault_transactions_insert_input']: {
     chain_id?: number | undefined | null;
     claim_id?: ValueTypes['bigint'] | undefined | null;
+    distribution?:
+      | ValueTypes['distributions_obj_rel_insert_input']
+      | undefined
+      | null;
     distribution_id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     tx_hash?: string | undefined | null;
@@ -4545,10 +4561,14 @@ columns and relationships of "pending_vault_transactions" */
     chain_id?: ValueTypes['order_by'] | undefined | null;
     claim_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution?: ValueTypes['distributions_order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     tx_type?: ValueTypes['order_by'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
@@ -9269,10 +9289,18 @@ columns and relationships of "pending_vault_transactions" */
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
     created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
   ['pending_vault_transactions_bool_exp']: GraphQLTypes['pending_vault_transactions_bool_exp'];
@@ -13137,10 +13165,18 @@ columns and relationships of "pending_vault_transactions" */
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
     created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
   ['pending_vault_transactions_bool_exp']: {
@@ -13154,15 +13190,22 @@ columns and relationships of "pending_vault_transactions" */
     chain_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     claim_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
   };
   /** input type for inserting data into table "pending_vault_transactions" */
   ['pending_vault_transactions_insert_input']: {
     chain_id?: number | undefined;
     claim_id?: GraphQLTypes['bigint'] | undefined;
+    distribution?:
+      | GraphQLTypes['distributions_obj_rel_insert_input']
+      | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     tx_hash?: string | undefined;
@@ -13181,10 +13224,14 @@ columns and relationships of "pending_vault_transactions" */
     chain_id?: GraphQLTypes['order_by'] | undefined;
     claim_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution?: GraphQLTypes['distributions_order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     tx_type?: GraphQLTypes['order_by'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;

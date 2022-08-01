@@ -323,7 +323,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -8556,10 +8556,18 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    /** An object relationship */
+    distribution?: ValueTypes['distributions'];
     distribution_id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     tx_hash?: boolean | `@${string}`;
     tx_type?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_type?: ValueTypes['vault_tx_types'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "pending_vault_transactions" */
@@ -8616,13 +8624,17 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_type?:
       | ValueTypes['vault_tx_types_enum_comparison_exp']
       | undefined
       | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "pending_vault_transactions" */
   ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
@@ -8640,10 +8652,23 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution?:
+      | ValueTypes['distributions_obj_rel_insert_input']
+      | undefined
+      | null;
     distribution_id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     tx_hash?: string | undefined | null;
     tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+    vault_tx_type?:
+      | ValueTypes['vault_tx_types_obj_rel_insert_input']
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ['pending_vault_transactions_max_fields']: AliasType<{
@@ -8692,10 +8717,14 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution?: ValueTypes['distributions_order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     tx_type?: ValueTypes['order_by'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
   };
   /** primary key columns input for table: pending_vault_transactions */
   ['pending_vault_transactions_pk_columns_input']: {
@@ -18309,10 +18338,18 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** aggregated selection of "pending_vault_transactions" */
   ['pending_vault_transactions_aggregate']: {
@@ -26112,10 +26149,18 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash: string;
     tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
   };
   /** aggregated selection of "pending_vault_transactions" */
   ['pending_vault_transactions_aggregate']: {
@@ -26174,10 +26219,14 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
   };
   /** unique or primary key constraints on table "pending_vault_transactions" */
   ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
@@ -26195,10 +26244,20 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution?:
+      | GraphQLTypes['distributions_obj_rel_insert_input']
+      | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     tx_hash?: string | undefined;
     tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+    vault_tx_type?:
+      | GraphQLTypes['vault_tx_types_obj_rel_insert_input']
+      | undefined;
   };
   /** aggregate max on columns */
   ['pending_vault_transactions_max_fields']: {
@@ -26244,10 +26303,14 @@ columns and relationships of "pending_vault_transactions" */
     claim_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution?: GraphQLTypes['distributions_order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     tx_type?: GraphQLTypes['order_by'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
   };
   /** primary key columns input for table: pending_vault_transactions */
   ['pending_vault_transactions_pk_columns_input']: {
