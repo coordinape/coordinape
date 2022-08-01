@@ -45,26 +45,28 @@ const withSearchParams = (
     ? `${path}?${toSearchString(params)}`
     : path;
 
+const circlePath = (suffix: string) => (circleId: number) =>
+  `/circles/${circleId}/${suffix}`;
+
 export const paths = {
   // circle-specific
-  members: (circleId: number) => `/circles/${circleId}/members`,
-  circleAdmin: (circleId: number) => `/circles/${circleId}/admin`,
-  circleAdminApi: (circleId: number) => `/circles/${circleId}/admin/api`,
-  allocation: (circleId: number) => `/circles/${circleId}/allocation`,
-  connectIntegration: (circleId: number) =>
-    `/circles/${circleId}/admin/connect-integration`,
-  epoch: (circleId: number) => `/circles/${circleId}/epoch`,
-  give: (circleId: number) => `/circles/${circleId}/give`,
-  history: (circleId: number) => `/circles/${circleId}/history`,
+  allocation: circlePath('allocation'),
+  circleAdmin: circlePath('admin'),
+  circleAdminApi: circlePath('admin/api'),
+  connectIntegration: circlePath('admin/connect-integration'),
+  epoch: circlePath('epoch'),
+  give: circlePath('give'),
+  history: circlePath('history'),
+  members: circlePath('members'),
+  team: circlePath('team'),
+  vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
     `/circles/${circleId}/distributions/${epochId}`,
   map: (circleId: number, params?: { highlight?: string }) =>
     withSearchParams(`/circles/${circleId}/map`, params),
-  team: (circleId: number) => `/circles/${circleId}/team`,
-  vouching: (circleId: number) => `/circles/${circleId}/vouching`,
 
   // other
-  circles: '/circles',
+  circles: '/circles', // the overview page
   claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
