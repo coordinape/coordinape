@@ -4,7 +4,6 @@ import { BigNumber, FixedNumber, utils } from 'ethers';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { ZERO_ADDRESS } from 'config/constants';
-import type { Vault } from 'hooks/gql/useVaults';
 
 import type { Contracts } from './contracts';
 
@@ -39,7 +38,10 @@ export const getTokenAddress = (
 // arguments are very different
 export const getWrappedAmount = async (
   amount: string,
-  vault: Pick<Vault, 'decimals' | 'vault_address' | 'simple_token_address'>,
+  vault: Pick<
+    GraphQLTypes['vaults'],
+    'decimals' | 'vault_address' | 'simple_token_address'
+  >,
   contracts: Contracts
 ): Promise<BigNumber> => {
   const weiAmount = utils.parseUnits(amount, vault.decimals);
