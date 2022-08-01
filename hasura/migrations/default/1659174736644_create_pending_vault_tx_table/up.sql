@@ -16,7 +16,7 @@ CREATE TABLE "public"."pending_vault_transactions"
   FOREIGN KEY ("tx_type") REFERENCES "public"."vault_tx_types"("value") ON UPDATE restrict ON DELETE restrict,
   FOREIGN KEY ("org_id") REFERENCES "public"."protocols"("id") ON UPDATE restrict ON DELETE restrict,
   FOREIGN KEY ("created_by") REFERENCES "public"."profiles"("id") ON UPDATE restrict ON DELETE restrict,
-  FOREIGN KEY ("distribution_id") REFERENCES "public"."distributions" ("id") on update restrict on delete restrict;
+  FOREIGN KEY ("distribution_id") REFERENCES "public"."distributions" ("id") on update restrict on delete restrict,
   UNIQUE ("tx_hash")
 );
 COMMENT ON TABLE "public"."pending_vault_transactions" IS E'stores app-specific context to aid in the recovery of incomplete transactions';
