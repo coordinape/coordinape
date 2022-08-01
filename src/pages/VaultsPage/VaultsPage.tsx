@@ -7,7 +7,11 @@ import { LoadingModal } from 'components';
 import { useOverviewMenuQuery } from 'components/OverviewMenu/getOverviewMenuData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
-import { Box, Button, Modal, Panel, Text } from 'ui';
+import {
+  EXTERNAL_URL_LEARN_ABOUT_VAULTS,
+  EXTERNAL_URL_YEARN_VAULTS,
+} from 'routes/paths';
+import { Box, Button, Flex, Link, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateForm } from './CreateForm';
@@ -71,21 +75,38 @@ const VaultsPage = () => {
           </Button>
         ))}
       </Box>
-      <Box css={{ display: 'flex' }}>
-        <Text h2 css={{ flexGrow: 1 }}>
-          CoVaults
+      <Flex
+        row
+        css={{
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          mb: '$sm',
+          '@sm': {
+            flexDirection: 'column',
+            alignItems: 'start',
+          },
+        }}
+      >
+        <Text h1 css={{ '@sm': { mb: '$sm' } }}>
+          {currentOrg?.name} Vaults
         </Text>
         {isAdmin && (
-          <Button
-            color="primary"
-            outlined
-            size="small"
-            onClick={() => setModal('create')}
-          >
-            Add CoVault
+          <Button color="primary" outlined onClick={() => setModal('create')}>
+            Create Vault
           </Button>
         )}
-      </Box>
+      </Flex>
+      <Text
+        p
+        as="p"
+        css={{
+          mb: '$lg',
+          width: '50%',
+          '@sm': { width: '100%' },
+        }}
+      >
+        Manage Vaults and fund circles with fixed and peer reward payments.
+      </Text>
       {vaults && vaults?.length > 0 ? (
         vaults?.map(vault => (
           <VaultRow
@@ -95,11 +116,66 @@ const VaultsPage = () => {
           />
         ))
       ) : (
-        <Panel>
-          {isFetching
-            ? 'Loading...'
-            : 'There are no vaults in your organization yet.'}
-        </Panel>
+        <>
+          {isFetching ? (
+            <Panel>Loading, please wait...</Panel>
+          ) : (
+            <Panel
+              info
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 3fr',
+                gap: '$md',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <Box>
+                <Text h2 normal>
+                  Welcome to CoVaults
+                </Text>
+              </Box>
+              <Flex
+                column
+                css={{
+                  width: '65%',
+                  '@sm': { width: '100%' },
+                }}
+              >
+                <Text p as="p" css={{ mb: '$md' }}>
+                  CoVaults allow you to compensate your team by storing funds in
+                  the vaults and sending payments promptly after a work cycle
+                  ends.
+                </Text>
+                <Text p as="p" css={{ mb: '$md' }}>
+                  In addition to paying your team, you can earn yield based on{' '}
+                  <Link href={EXTERNAL_URL_YEARN_VAULTS} target="_blank">
+                    the current APYs offered by Yearn
+                  </Link>
+                  . Vaults also enable you to set allowances for distributions
+                  per Circle.
+                </Text>
+                <Box>
+                  {isAdmin && (
+                    <Button
+                      onClick={() => setModal('create')}
+                      color="primary"
+                      outlined
+                      inline
+                      css={{ mr: '$md' }}
+                    >
+                      Create Vault
+                    </Button>
+                  )}
+                  <Link href={EXTERNAL_URL_LEARN_ABOUT_VAULTS} target="_blank">
+                    <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                      Vault Guide
+                    </Button>
+                  </Link>
+                </Box>
+              </Flex>
+            </Panel>
+          )}
+        </>
       )}
       {modal === 'create' && currentOrg && (
         <Modal

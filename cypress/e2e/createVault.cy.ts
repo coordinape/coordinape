@@ -28,7 +28,7 @@ context('Coordinape', () => {
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.wait(1000);
-    cy.contains('Add CoVault').click();
+    cy.contains('Create Vault').click();
     cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create CoVault').click();
     cy.contains('USDC CoVault', { timeout: 120000 });

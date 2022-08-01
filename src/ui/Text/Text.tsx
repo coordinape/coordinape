@@ -21,17 +21,21 @@ export const Text = styled('span', {
       alert: { color: '$alert' },
       primary: { color: '$primary' },
     },
-    bold: { true: { fontWeight: '$bold' } },
-    normal: { true: { fontWeight: '$normal' } },
-    medium: { true: { fontWeight: '$medium' } },
-    semibold: { true: { fontWeight: '$semibold' } },
-    inline: { true: { display: 'inline' } },
+    bold: { true: { fontWeight: '$bold !important' } },
+    normal: { true: { fontWeight: '$normal !important' } },
+    medium: { true: { fontWeight: '$medium !important' } },
+    semibold: { true: { fontWeight: '$semibold !important' } },
+    inline: { true: { display: 'inline !important' } },
 
     h1: {
       true: { fontSize: '$h1', color: '$headingText', fontWeight: '$semibold' },
     },
     h2: {
-      true: { fontSize: '$h2', fontWeight: '$semibold' },
+      true: {
+        fontSize: '$h2',
+        fontWeight: '$semibold',
+        lineHeight: '$shorter',
+      },
     },
     h3: { true: { fontSize: '$h3' } },
 

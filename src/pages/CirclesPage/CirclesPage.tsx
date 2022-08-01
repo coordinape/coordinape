@@ -16,7 +16,7 @@ import {
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData } from './getOrgData';
@@ -48,15 +48,13 @@ export const CirclesPage = () => {
   if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible note="CirclesPage" />;
 
-  // if (orgs?.length == 0) return <GetStarted />;
-
   return (
     <SingleColumnLayout>
       <Flex
         row
         css={{
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'baseline',
           mb: '$sm',
           '@sm': {
             flexDirection: 'column',
@@ -64,23 +62,19 @@ export const CirclesPage = () => {
           },
         }}
       >
-        <Text h1 css={{ mb: '$sm' }}>
+        <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Link href={paths.createCircle}>
+        <AppLink to={paths.createCircle}>
           <Button color="primary" outlined>
             Create New Circle
           </Button>
-        </Link>
+        </AppLink>
       </Flex>
       <Text
         p
         as="p"
-        css={{
-          mb: '$lg',
-          width: '50%',
-          '@sm': { width: '100%' },
-        }}
+        css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
       >
         All your organizations and circles in one place.
       </Text>
@@ -98,18 +92,13 @@ export const CirclesPage = () => {
               <Text
                 h2
                 medium
-                css={{
-                  ml: '$sm',
-                  '@sm': {
-                    fontSize: '$large',
-                  },
-                }}
+                css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
               >
                 {org.name}
               </Text>
             </Box>
             {isAdmin(org) && (
-              <Link href={paths.createCircle + '?org=' + org.id}>
+              <AppLink to={paths.createCircle + '?org=' + org.id}>
                 <Button
                   color="primary"
                   outlined
@@ -117,7 +106,7 @@ export const CirclesPage = () => {
                 >
                   Add Circle
                 </Button>
-              </Link>
+              </AppLink>
             )}
           </Flex>
           <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
@@ -177,13 +166,7 @@ const GetStarted = () => {
             Get Started
           </Text>
         </Box>
-        <Flex
-          column
-          css={{
-            width: '65%',
-            '@sm': { width: '100%' },
-          }}
-        >
+        <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
           <Text p as="p" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
@@ -195,11 +178,11 @@ const GetStarted = () => {
             happening.
           </Text>
           <Box>
-            <Link href={paths.createCircle}>
+            <AppLink to={paths.createCircle}>
               <Button color="primary" outlined inline css={{ mr: '$md' }}>
                 Create New Circle
               </Button>
-            </Link>
+            </AppLink>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
               <Button color="primary" outlined inline css={{ mt: '$md' }}>
                 Get Started Guide
@@ -210,12 +193,7 @@ const GetStarted = () => {
       </Panel>
       <Image
         alt="Illustration of circle allocations"
-        css={{
-          mt: '$3xl',
-          mx: 'auto',
-          width: '100%',
-          maxWidth: '600px',
-        }}
+        css={{ mt: '$3xl', mx: 'auto', width: '100%', maxWidth: '600px' }}
         src="/imgs/background/circles-illustration.png"
       />
     </>
@@ -247,19 +225,12 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
-        '.hover-buttons': {
-          display: 'none',
-          '@sm': { display: 'flex' },
-        },
+        '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
         '&:hover': {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
-        ...(nonMember
-          ? nonMemberPanelCss
-          : {
-              cursor: 'pointer',
-            }),
+        ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
       }}
       onClick={() =>
         !nonMember && onButtonClick(circle.id, paths.history(circle.id))
@@ -283,10 +254,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               mb: '$sm',
               minHeight: '$lg',
               alignItems: 'start',
-              '@sm': {
-                fontSize: '$large',
-                minHeight: '$xl',
-              },
+              '@sm': { fontSize: '$large', minHeight: '$xl' },
               ...nonMemberCss,
             }}
           >
@@ -316,10 +284,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               mb: '$sm',
               minHeight: '$lg',
               alignItems: 'end',
-              '@sm': {
-                fontSize: '$medium',
-                minHeight: '$xl',
-              },
+              '@sm': { fontSize: '$medium', minHeight: '$xl' },
             }}
           >
             {epoch && startDate && endDate ? (
@@ -327,9 +292,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                 css={{
                   display: 'flex',
                   flexDirection: 'row',
-                  '@sm': {
-                    flexDirection: 'column',
-                  },
+                  '@sm': { flexDirection: 'column' },
                 }}
               >
                 <Text
@@ -357,13 +320,10 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               </Box>
             ) : (
               <Text
-                // size={'medium'}
-                h3
                 css={{
+                  fontSize: '$medium',
                   color: '$borderMedium',
-                  '@sm': {
-                    fontSize: '$small',
-                  },
+                  '@sm': { fontSize: '$small' },
                   ...nonMemberCss,
                 }}
               >
@@ -392,9 +352,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           >
             <Box
               className="circle-row-menu-indicator"
-              css={{
-                '@sm': { display: 'none' },
-              }}
+              css={{ '@sm': { display: 'none' } }}
             >
               <Text color="neutral" size="large">
                 &middot;&middot;&middot;
@@ -419,19 +377,20 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               {buttons.map(
                 ([pathFn, label, hide]) =>
                   (!hide || !hide(circle)) && (
-                    <Link href={pathFn(circle.id)} key={label}>
+                    <AppLink
+                      to={pathFn(circle.id)}
+                      key={label}
+                      onClick={event => event.stopPropagation()}
+                    >
                       <Button
                         color="neutral"
                         outlined
                         size="small"
-                        css={{
-                          border: 'none',
-                          fontWeight: '$semibold',
-                        }}
+                        css={{ border: 'none', fontWeight: '$semibold' }}
                       >
                         {label}
                       </Button>
-                    </Link>
+                    </AppLink>
                   )
               )}
             </Box>
