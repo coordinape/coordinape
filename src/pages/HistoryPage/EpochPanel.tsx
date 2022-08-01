@@ -71,23 +71,21 @@ export const EpochPanel = ({
           {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
-      <Box>
-        <Panel nested>
-          <Text variant="label">You received</Text>
-          <Text bold font="inter" size="large" css={{ mb: '$md' }}>
-            {totalReceived} {tokenName}
-          </Text>
-          <Text variant="label">Total Distributed</Text>
-          <Text bold font="inter" size="large">
-            {totalAllocated} {tokenName}
-          </Text>
-          <DistributionSummary
-            distributions={epoch.distributions as QueryDistribution[]}
-            circleId={circleId}
-            epochId={epoch.id}
-          />
-        </Panel>
-      </Box>
+      <Panel nested>
+        <Text variant="label">You received</Text>
+        <Text bold font="inter" size="large" css={{ mb: '$md' }}>
+          {totalReceived} {tokenName}
+        </Text>
+        <Text variant="label">Total Distributed</Text>
+        <Text bold font="inter" size="large">
+          {totalAllocated} {tokenName}
+        </Text>
+        <DistributionSummary
+          distributions={epoch.distributions as QueryDistribution[]}
+          circleId={circleId}
+          epochId={epoch.id}
+        />
+      </Panel>
       <Panel
         nested
         css={{
