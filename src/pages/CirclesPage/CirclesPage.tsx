@@ -74,11 +74,7 @@ export const CirclesPage = () => {
       <Text
         p
         as="p"
-        css={{
-          mb: '$lg',
-          width: '50%',
-          '@sm': { width: '100%' },
-        }}
+        css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
       >
         All your organizations and circles in one place.
       </Text>
@@ -96,12 +92,7 @@ export const CirclesPage = () => {
               <Text
                 h2
                 medium
-                css={{
-                  ml: '$sm',
-                  '@sm': {
-                    fontSize: '$large',
-                  },
-                }}
+                css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
               >
                 {org.name}
               </Text>
@@ -175,13 +166,7 @@ const GetStarted = () => {
             Get Started
           </Text>
         </Box>
-        <Flex
-          column
-          css={{
-            width: '65%',
-            '@sm': { width: '100%' },
-          }}
-        >
+        <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
           <Text p as="p" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
@@ -208,12 +193,7 @@ const GetStarted = () => {
       </Panel>
       <Image
         alt="Illustration of circle allocations"
-        css={{
-          mt: '$3xl',
-          mx: 'auto',
-          width: '100%',
-          maxWidth: '600px',
-        }}
+        css={{ mt: '$3xl', mx: 'auto', width: '100%', maxWidth: '600px' }}
         src="/imgs/background/circles-illustration.png"
       />
     </>
@@ -245,19 +225,12 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
-        '.hover-buttons': {
-          display: 'none',
-          '@sm': { display: 'flex' },
-        },
+        '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
         '&:hover': {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
-        ...(nonMember
-          ? nonMemberPanelCss
-          : {
-              cursor: 'pointer',
-            }),
+        ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
       }}
       onClick={() =>
         !nonMember && onButtonClick(circle.id, paths.history(circle.id))
@@ -281,10 +254,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               mb: '$sm',
               minHeight: '$lg',
               alignItems: 'start',
-              '@sm': {
-                fontSize: '$large',
-                minHeight: '$xl',
-              },
+              '@sm': { fontSize: '$large', minHeight: '$xl' },
               ...nonMemberCss,
             }}
           >
@@ -314,10 +284,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
               mb: '$sm',
               minHeight: '$lg',
               alignItems: 'end',
-              '@sm': {
-                fontSize: '$medium',
-                minHeight: '$xl',
-              },
+              '@sm': { fontSize: '$medium', minHeight: '$xl' },
             }}
           >
             {epoch && startDate && endDate ? (
@@ -325,9 +292,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                 css={{
                   display: 'flex',
                   flexDirection: 'row',
-                  '@sm': {
-                    flexDirection: 'column',
-                  },
+                  '@sm': { flexDirection: 'column' },
                 }}
               >
                 <Text
@@ -358,9 +323,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                 css={{
                   fontSize: '$medium',
                   color: '$borderMedium',
-                  '@sm': {
-                    fontSize: '$small',
-                  },
+                  '@sm': { fontSize: '$small' },
                   ...nonMemberCss,
                 }}
               >
@@ -389,9 +352,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           >
             <Box
               className="circle-row-menu-indicator"
-              css={{
-                '@sm': { display: 'none' },
-              }}
+              css={{ '@sm': { display: 'none' } }}
             >
               <Text color="neutral" size="large">
                 &middot;&middot;&middot;
@@ -421,10 +382,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
                         color="neutral"
                         outlined
                         size="small"
-                        css={{
-                          border: 'none',
-                          fontWeight: '$semibold',
-                        }}
+                        css={{ border: 'none', fontWeight: '$semibold' }}
                       >
                         {label}
                       </Button>
