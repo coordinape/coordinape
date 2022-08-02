@@ -424,7 +424,9 @@ export const CircleAdminPage = () => {
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
           <DeprecatedApeTextField
-            label="Mininum vouches to add member"
+            label="Minimum vouches to add member"
+            // type="number"
+            // placeholder="0"
             {...minVouches}
             fullWidth
             disabled={!vouching.value}
@@ -445,6 +447,8 @@ export const CircleAdminPage = () => {
         >
           <DeprecatedApeTextField
             label="Length of nomination period"
+            // type="number"
+            // placeholder="0"
             {...nominationDaysLimit}
             helperText="(# of days)"
             fullWidth

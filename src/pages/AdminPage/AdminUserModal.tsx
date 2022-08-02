@@ -141,6 +141,7 @@ export const AdminUserModal = ({
               <DeprecatedFormTextField
                 {...fields.starting_tokens}
                 type="number"
+                placeholder="0"
                 infoTooltip={
                   <>
                     The maximum amount of giving a user can allocate in an epoch{' '}
@@ -159,6 +160,7 @@ export const AdminUserModal = ({
                     {...fields.fixed_payment_amount}
                     label="Fixed Payment Amount"
                     type="number"
+                    placeholder="0"
                     fullWidth
                   />
                 ) : (
