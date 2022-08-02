@@ -163,6 +163,13 @@ export const vouchInput = z
   })
   .strict();
 
+export const vouchApiInput = z
+  .object({
+    nominee_id: z.number(),
+    voucher_user_id: z.number().int().positive(),
+  })
+  .strict();
+
 export const deleteEpochInput = z
   .object({
     id: z.number().int().positive(),
@@ -437,6 +444,18 @@ export const apiUserWithCirclePermission = (permission: ApiKeyPermission) => {
   };
 };
 
+export const getApiUserSessionVarsSchemaWithPermissions = (
+  permissions: ApiKeyPermission[]
+) => {
+  return HasuraApiSessionVariables.refine(vars => {
+    for (const p of permissions) {
+      if (!vars.apiKey?.[p]) return false;
+    }
+
+    return true;
+  }, `Provided API key does not have the required permissions: ${permissions.join(',')}`);
+};
+
 type InputSchema<T extends z.ZodRawShape> =
   | z.ZodObject<T, 'strict' | 'strip'>
   | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
@@ -483,13 +502,7 @@ export function composeHasuraActionRequestBodyWithApiPermissions<
   return z.object({
     input: z.object({ payload: inputSchema }),
     action: z.object({ name: z.string() }),
-    session_variables: HasuraApiSessionVariables.refine(vars => {
-      for (const p of permissions) {
-        if (!vars.apiKey?.[p]) return false;
-      }
-
-      return true;
-    }, `Provided API key does not have the required permissions: ${permissions.join(',')}`),
+    session_variables: getApiUserSessionVarsSchemaWithPermissions(permissions),
     request_query: z.string().optional(),
   });
 }

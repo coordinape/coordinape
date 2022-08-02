@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import {
   getUserFromAddress,
@@ -18,25 +19,56 @@ import {
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
+  composeHasuraActionRequestBodyWithApiPermissions,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
+  vouchApiInput,
   vouchInput,
 } from '../../../../src/lib/zod';
 
 type Voucher = Awaited<ReturnType<typeof getUserFromProfileId>>;
 type Nominee = Awaited<ReturnType<typeof getNominee>>;
 
+const userRequestSchema = composeHasuraActionRequestBodyWithSession(
+  vouchInput,
+  HasuraUserSessionVariables
+);
+
+const apiRequestSchema = composeHasuraActionRequestBodyWithApiPermissions(
+  vouchApiInput,
+  ['create_vouches']
+);
+
+const requestSchema = z.union([userRequestSchema, apiRequestSchema]);
+
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
       input: { payload: input },
       session_variables: sessionVariables,
-    } = composeHasuraActionRequestBodyWithSession(
-      vouchInput,
-      HasuraUserSessionVariables
-    ).parse(req.body);
+    } = await requestSchema.parse(req.body);
 
-    const { hasuraProfileId: voucherProfileId } = sessionVariables;
+    let voucherProfileId: number | null;
+    // Allow passing in voucher_user_id for api-users to vouch on behalf of a user
+    if (sessionVariables.hasuraRole === 'api-user') {
+      assert('voucher_user_id' in input, 'voucher_user_id not specified');
+      voucherProfileId = input.voucher_user_id;
+
+      // Check if voucher exists in the same circle as the API key
+      // TODO: this uses assert for error handling
+      const voucher = await getUserFromProfileId(
+        voucherProfileId,
+        sessionVariables.hasuraCircleId
+      );
+      if (!voucher) {
+        throw new Error(
+          'This API key does not belong to the same circle as the voucher'
+        );
+      }
+    } else {
+      voucherProfileId = sessionVariables.hasuraProfileId;
+    }
+
     const { nominee_id: nomineeId } = input;
 
     // validate that this is allowed
