@@ -46,12 +46,16 @@ export class Contracts {
   distributor: ApeDistributor;
   chainId: string;
   provider: JsonRpcProvider;
-  signer: Signer;
+  signer: Signer | undefined;
 
-  constructor(chainId: number | string, provider: JsonRpcProvider) {
+  constructor(
+    chainId: number | string,
+    provider: JsonRpcProvider,
+    useSigner?: boolean
+  ) {
     this.chainId = chainId.toString();
     this.provider = provider;
-    this.signer = provider.getSigner();
+    if (useSigner) this.signer = provider.getSigner();
 
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
