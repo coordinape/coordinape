@@ -2,6 +2,15 @@ table:
   name: distributions
   schema: public
 object_relationships:
+- name: distribution_creator
+  using:
+    manual_configuration:
+      column_mapping:
+        created_by: id
+      insertion_order: null
+      remote_table:
+        name: profiles
+        schema: public
 - name: epoch
   using:
     foreign_key_constraint_on: epoch_id
