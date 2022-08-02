@@ -23,10 +23,12 @@ const currentClaims = (claims: QueryClaim[]) =>
       (finalClaims, curr) =>
         finalClaims.filter(
           c =>
-            c.distribution.vault.vault_address ==
+            c.distribution.vault.vault_address ===
               curr.distribution.vault.vault_address &&
             c.distribution.epoch.circle?.id ===
-              curr.distribution.epoch.circle?.id
+              curr.distribution.epoch.circle?.id &&
+            c.distribution.vault.simple_token_address ===
+              curr.distribution.vault.simple_token_address
         ).length > 0
           ? finalClaims
           : [...finalClaims, curr],
@@ -126,7 +128,7 @@ export default function ClaimsPage() {
             { title: 'Epochs', css: styles.th },
             { title: 'Rewards', css: styles.thLast },
           ]}
-          data={currentClaims(claims.filter(c => !c.txHash))}
+          data={currentClaims(claims.filter(c => c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
@@ -163,7 +165,7 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ id, new_amount, distribution, txHash }) => (
+          {({ id, distribution, txHash }) => (
             <tr key={id}>
               <td>
                 <Text>{distribution.epoch.circle?.organization?.name}</Text>
@@ -190,7 +192,9 @@ export default function ClaimsPage() {
                     }}
                   >
                     <Text>
-                      {new_amount} {distribution.vault.symbol}
+                      {formatClaimAmount(
+                        claimsGroupByVault[distribution.vault.vault_address]
+                      )}
                     </Text>
                     <Button
                       color="primary"
@@ -231,7 +235,6 @@ type ClaimRowProps = {
 };
 const ClaimRow = ({
   distribution,
-  unwrappedNewAmount,
   onClickClaim,
   claimsGroupByVault,
   claiming,
@@ -265,9 +268,9 @@ const ClaimRow = ({
             }}
           >
             <Text>
-              {unwrappedNewAmount &&
-                parseFloat(unwrappedNewAmount?.toString()).toFixed(2)}{' '}
-              {distribution.vault.symbol}
+              {formatClaimAmount(
+                claimsGroupByVault[distribution.vault.vault_address]
+              )}
             </Text>
             <Button
               color="primary"
@@ -306,4 +309,13 @@ function formatEpochDates(claims: QueryClaim[]) {
   )} ${startDate.getDate()} - ${monthName(
     endDate
   )} ${endDate.getDate()} ${endDate.getFullYear()}`;
+}
+
+function formatClaimAmount(claims: QueryClaim[]): string {
+  const totalAmount = claims.reduce((accumulator, curr) => {
+    return accumulator + (curr.unwrappedNewAmount || 0);
+  }, 0);
+  return `${parseFloat(totalAmount.toString()).toFixed(2)} ${
+    claims[0].distribution.vault.symbol
+  }`;
 }
