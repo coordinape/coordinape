@@ -46,6 +46,9 @@ export function useVaults({
                   },
                 },
               ],
+              protocol: {
+                name: true,
+              },
             },
           ],
         },

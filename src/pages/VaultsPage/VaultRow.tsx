@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
-import { GraphQLTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
+import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { CSS } from 'stitches.config';
 
+import type { Vault } from 'hooks/gql/useVaults';
 import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
@@ -13,13 +14,7 @@ import DepositModal, { DepositModalProps } from './DepositModal';
 import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
-export function VaultRow({
-  vault,
-  css = {},
-}: {
-  vault: GraphQLTypes['vaults'];
-  css?: CSS;
-}) {
+export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
@@ -154,15 +149,13 @@ export function VaultRow({
   );
 }
 
-const getDistributions = (
-  vault: GraphQLTypes['vaults']
-): GraphQLTypes['vault_transactions'][] => {
+const getDistributions = (vault: Vault) => {
   return vault.vault_transactions.filter(
     t => t.tx_type === vault_tx_types_enum.Distribution
   );
 };
 
-const getUniqueContributors = (vault: GraphQLTypes['vaults']): number =>
+const getUniqueContributors = (vault: Vault): number =>
   new Set(
     getDistributions(vault).flatMap(d =>
       d.distribution?.claims.map(c => c.profile_id)

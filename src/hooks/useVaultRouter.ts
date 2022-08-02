@@ -2,7 +2,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { addVaultTx } from 'lib/gql/mutations';
 import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
@@ -81,7 +80,7 @@ export function useVaultRouter(contracts?: Contracts) {
   };
 
   const withdraw = async (
-    vault: GraphQLTypes['vaults'],
+    vault: Vault,
     humanAmount: string,
     underlying: boolean
   ): Promise<SendAndTrackTxResult> => {

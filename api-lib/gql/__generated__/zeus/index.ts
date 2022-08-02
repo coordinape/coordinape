@@ -323,7 +323,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -1363,6 +1363,7 @@ columns and relationships of "circle_api_keys" */
     hash?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     read_circle?: boolean | `@${string}`;
+    read_discord?: boolean | `@${string}`;
     read_epochs?: boolean | `@${string}`;
     read_member_profiles?: boolean | `@${string}`;
     read_nominees?: boolean | `@${string}`;
@@ -1458,6 +1459,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_discord?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_epochs?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_member_profiles?:
       | ValueTypes['Boolean_comparison_exp']
@@ -1492,6 +1494,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -1558,6 +1561,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     read_circle?: ValueTypes['order_by'] | undefined | null;
+    read_discord?: ValueTypes['order_by'] | undefined | null;
     read_epochs?: ValueTypes['order_by'] | undefined | null;
     read_member_profiles?: ValueTypes['order_by'] | undefined | null;
     read_nominees?: ValueTypes['order_by'] | undefined | null;
@@ -1580,6 +1584,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -5824,6 +5829,17 @@ columns and relationships of "distributions" */
       { id: ValueTypes['bigint'] },
       ValueTypes['pending_token_gifts']
     ];
+    delete_pending_vault_transactions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['pending_vault_transactions_bool_exp'];
+      },
+      ValueTypes['pending_vault_transactions_mutation_response']
+    ];
+    delete_pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
+    ];
     delete_personal_access_tokens?: [
       {
         /** filter the rows which have to be deleted */
@@ -6238,6 +6254,30 @@ columns and relationships of "distributions" */
           | null;
       },
       ValueTypes['pending_token_gifts']
+    ];
+    insert_pending_vault_transactions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['pending_vault_transactions_insert_input']
+        > /** on conflict condition */;
+        on_conflict?:
+          | ValueTypes['pending_vault_transactions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions_mutation_response']
+    ];
+    insert_pending_vault_transactions_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['pending_vault_transactions_insert_input'] /** on conflict condition */;
+        on_conflict?:
+          | ValueTypes['pending_vault_transactions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
     ];
     insert_personal_access_tokens?: [
       {
@@ -6879,6 +6919,36 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['pending_token_gifts_pk_columns_input'];
       },
       ValueTypes['pending_token_gifts']
+    ];
+    update_pending_vault_transactions?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['pending_vault_transactions_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['pending_vault_transactions_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['pending_vault_transactions_bool_exp'];
+      },
+      ValueTypes['pending_vault_transactions_mutation_response']
+    ];
+    update_pending_vault_transactions_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['pending_vault_transactions_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['pending_vault_transactions_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['pending_vault_transactions_pk_columns_input'];
+      },
+      ValueTypes['pending_vault_transactions']
     ];
     update_personal_access_tokens?: [
       {
@@ -8482,6 +8552,267 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    /** An object relationship */
+    distribution?: ValueTypes['distributions'];
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    tx_hash?: boolean | `@${string}`;
+    tx_type?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_type?: ValueTypes['vault_tx_types'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['pending_vault_transactions_aggregate_fields'];
+    nodes?: ValueTypes['pending_vault_transactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['pending_vault_transactions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['pending_vault_transactions_max_fields'];
+    min?: ValueTypes['pending_vault_transactions_min_fields'];
+    stddev?: ValueTypes['pending_vault_transactions_stddev_fields'];
+    stddev_pop?: ValueTypes['pending_vault_transactions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['pending_vault_transactions_stddev_samp_fields'];
+    sum?: ValueTypes['pending_vault_transactions_sum_fields'];
+    var_pop?: ValueTypes['pending_vault_transactions_var_pop_fields'];
+    var_samp?: ValueTypes['pending_vault_transactions_var_samp_fields'];
+    variance?: ValueTypes['pending_vault_transactions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['pending_vault_transactions_avg_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['pending_vault_transactions_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['pending_vault_transactions_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['pending_vault_transactions_bool_exp']>
+      | undefined
+      | null;
+    chain_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    claim_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    tx_type?:
+      | ValueTypes['vault_tx_types_enum_comparison_exp']
+      | undefined
+      | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
+  /** input type for incrementing numeric columns in table "pending_vault_transactions" */
+  ['pending_vault_transactions_inc_input']: {
+    chain_id?: number | undefined | null;
+    claim_id?: ValueTypes['bigint'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: {
+    chain_id?: number | undefined | null;
+    claim_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution?:
+      | ValueTypes['distributions_obj_rel_insert_input']
+      | undefined
+      | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    tx_hash?: string | undefined | null;
+    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+    vault_tx_type?:
+      | ValueTypes['vault_tx_types_obj_rel_insert_input']
+      | undefined
+      | null;
+  };
+  /** aggregate max on columns */
+  ['pending_vault_transactions_max_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['pending_vault_transactions_min_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['pending_vault_transactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: {
+    constraint: ValueTypes['pending_vault_transactions_constraint'];
+    update_columns: Array<
+      ValueTypes['pending_vault_transactions_update_column']
+    >;
+    where?:
+      | ValueTypes['pending_vault_transactions_bool_exp']
+      | undefined
+      | null;
+  };
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
+    claim_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution?: ValueTypes['distributions_order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
+    tx_type?: ValueTypes['order_by'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: pending_vault_transactions */
+  ['pending_vault_transactions_pk_columns_input']: {
+    tx_hash: string;
+  };
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
+  /** input type for updating data in table "pending_vault_transactions" */
+  ['pending_vault_transactions_set_input']: {
+    chain_id?: number | undefined | null;
+    claim_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
+    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['pending_vault_transactions_stddev_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['pending_vault_transactions_stddev_pop_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['pending_vault_transactions_stddev_samp_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate sum on columns */
+  ['pending_vault_transactions_sum_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
+  /** aggregate var_pop on columns */
+  ['pending_vault_transactions_var_pop_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['pending_vault_transactions_var_samp_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['pending_vault_transactions_variance_fields']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "personal_access_tokens" */
   ['personal_access_tokens']: AliasType<{
     abilities?: boolean | `@${string}`;
@@ -9858,6 +10189,62 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['pending_token_gifts']
     ];
+    pending_vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
+    ];
+    pending_vault_transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions_aggregate']
+    ];
+    pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
+    ];
     personal_access_tokens?: [
       {
         /** distinct select on columns */
@@ -11108,6 +11495,62 @@ columns and relationships of "profiles" */
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['pending_token_gifts']
+    ];
+    pending_vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
+    ];
+    pending_vault_transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions_aggregate']
+    ];
+    pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
     ];
     personal_access_tokens?: [
       {
@@ -15005,6 +15448,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -16897,6 +17341,14 @@ columns and relationships of "distributions" */
     delete_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
+    /** delete data from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** delete data from the table: "personal_access_tokens" */
     delete_personal_access_tokens?:
       | GraphQLTypes['personal_access_tokens_mutation_response']
@@ -17037,6 +17489,14 @@ columns and relationships of "distributions" */
     insert_pending_token_gifts_one?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
+    /** insert data into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions_one?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** insert data into the table: "personal_access_tokens" */
     insert_personal_access_tokens?:
       | GraphQLTypes['personal_access_tokens_mutation_response']
@@ -17174,6 +17634,14 @@ columns and relationships of "distributions" */
     /** update single row of the table: "pending_token_gifts" */
     update_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
+      | undefined;
+    /** update data of the table: "pending_vault_transactions" */
+    update_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** update single row of the table: "pending_vault_transactions" */
+    update_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
       | undefined;
     /** update data of the table: "personal_access_tokens" */
     update_personal_access_tokens?:
@@ -17867,6 +18335,172 @@ columns and relationships of "pending_token_gifts" */
   };
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: {
+    chain_id: number;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at: GraphQLTypes['timestamp'];
+    created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
+  };
+  /** aggregated selection of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['pending_vault_transactions_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** aggregate fields of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate_fields']: {
+    avg?: GraphQLTypes['pending_vault_transactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['pending_vault_transactions_max_fields'] | undefined;
+    min?: GraphQLTypes['pending_vault_transactions_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['pending_vault_transactions_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['pending_vault_transactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['pending_vault_transactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['pending_vault_transactions_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['pending_vault_transactions_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['pending_vault_transactions_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['pending_vault_transactions_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['pending_vault_transactions_avg_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: GraphQLTypes['pending_vault_transactions_bool_exp'];
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: GraphQLTypes['pending_vault_transactions_constraint'];
+  /** input type for incrementing numeric columns in table "pending_vault_transactions" */
+  ['pending_vault_transactions_inc_input']: GraphQLTypes['pending_vault_transactions_inc_input'];
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: GraphQLTypes['pending_vault_transactions_insert_input'];
+  /** aggregate max on columns */
+  ['pending_vault_transactions_max_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['pending_vault_transactions_min_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+  };
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** on conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: GraphQLTypes['pending_vault_transactions_on_conflict'];
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
+  /** primary key columns input for table: pending_vault_transactions */
+  ['pending_vault_transactions_pk_columns_input']: GraphQLTypes['pending_vault_transactions_pk_columns_input'];
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: GraphQLTypes['pending_vault_transactions_select_column'];
+  /** input type for updating data in table "pending_vault_transactions" */
+  ['pending_vault_transactions_set_input']: GraphQLTypes['pending_vault_transactions_set_input'];
+  /** aggregate stddev on columns */
+  ['pending_vault_transactions_stddev_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['pending_vault_transactions_stddev_pop_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['pending_vault_transactions_stddev_samp_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['pending_vault_transactions_sum_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_update_column']: GraphQLTypes['pending_vault_transactions_update_column'];
+  /** aggregate var_pop on columns */
+  ['pending_vault_transactions_var_pop_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['pending_vault_transactions_var_samp_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['pending_vault_transactions_variance_fields']: {
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
   /** columns and relationships of "personal_access_tokens" */
   ['personal_access_tokens']: {
     abilities?: string | undefined;
@@ -18242,6 +18876,16 @@ columns and relationships of "profiles" */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch aggregated fields from the table: "pending_vault_transactions" */
+    pending_vault_transactions_aggregate: GraphQLTypes['pending_vault_transactions_aggregate'];
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -18394,6 +19038,16 @@ columns and relationships of "profiles" */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch aggregated fields from the table: "pending_vault_transactions" */
+    pending_vault_transactions_aggregate: GraphQLTypes['pending_vault_transactions_aggregate'];
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -20472,6 +21126,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -20551,6 +21206,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_discord?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_epochs?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_member_profiles?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_nominees?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -20580,6 +21236,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -20646,6 +21303,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     read_circle?: GraphQLTypes['order_by'] | undefined;
+    read_discord?: GraphQLTypes['order_by'] | undefined;
     read_epochs?: GraphQLTypes['order_by'] | undefined;
     read_member_profiles?: GraphQLTypes['order_by'] | undefined;
     read_nominees?: GraphQLTypes['order_by'] | undefined;
@@ -20668,6 +21326,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -23973,6 +24632,14 @@ columns and relationships of "distributions" */
     delete_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
+    /** delete data from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** delete data from the table: "personal_access_tokens" */
     delete_personal_access_tokens?:
       | GraphQLTypes['personal_access_tokens_mutation_response']
@@ -24113,6 +24780,14 @@ columns and relationships of "distributions" */
     insert_pending_token_gifts_one?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
+    /** insert data into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions_one?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** insert data into the table: "personal_access_tokens" */
     insert_personal_access_tokens?:
       | GraphQLTypes['personal_access_tokens_mutation_response']
@@ -24250,6 +24925,14 @@ columns and relationships of "distributions" */
     /** update single row of the table: "pending_token_gifts" */
     update_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
+      | undefined;
+    /** update data of the table: "pending_vault_transactions" */
+    update_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** update single row of the table: "pending_vault_transactions" */
+    update_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
       | undefined;
     /** update data of the table: "personal_access_tokens" */
     update_personal_access_tokens?:
@@ -25467,6 +26150,261 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: {
+    __typename: 'pending_vault_transactions';
+    chain_id: number;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at: GraphQLTypes['timestamp'];
+    created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
+  };
+  /** aggregated selection of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate']: {
+    __typename: 'pending_vault_transactions_aggregate';
+    aggregate?:
+      | GraphQLTypes['pending_vault_transactions_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** aggregate fields of "pending_vault_transactions" */
+  ['pending_vault_transactions_aggregate_fields']: {
+    __typename: 'pending_vault_transactions_aggregate_fields';
+    avg?: GraphQLTypes['pending_vault_transactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['pending_vault_transactions_max_fields'] | undefined;
+    min?: GraphQLTypes['pending_vault_transactions_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['pending_vault_transactions_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['pending_vault_transactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['pending_vault_transactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['pending_vault_transactions_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['pending_vault_transactions_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['pending_vault_transactions_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['pending_vault_transactions_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['pending_vault_transactions_avg_fields']: {
+    __typename: 'pending_vault_transactions_avg_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['pending_vault_transactions_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['pending_vault_transactions_bool_exp'] | undefined;
+    _or?:
+      | Array<GraphQLTypes['pending_vault_transactions_bool_exp']>
+      | undefined;
+    chain_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    claim_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
+  /** input type for incrementing numeric columns in table "pending_vault_transactions" */
+  ['pending_vault_transactions_inc_input']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution?:
+      | GraphQLTypes['distributions_obj_rel_insert_input']
+      | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    tx_hash?: string | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+    vault_tx_type?:
+      | GraphQLTypes['vault_tx_types_obj_rel_insert_input']
+      | undefined;
+  };
+  /** aggregate max on columns */
+  ['pending_vault_transactions_max_fields']: {
+    __typename: 'pending_vault_transactions_max_fields';
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['pending_vault_transactions_min_fields']: {
+    __typename: 'pending_vault_transactions_min_fields';
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+  };
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: {
+    __typename: 'pending_vault_transactions_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** on conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: {
+    constraint: GraphQLTypes['pending_vault_transactions_constraint'];
+    update_columns: Array<
+      GraphQLTypes['pending_vault_transactions_update_column']
+    >;
+    where?: GraphQLTypes['pending_vault_transactions_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
+    claim_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution?: GraphQLTypes['distributions_order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
+    tx_type?: GraphQLTypes['order_by'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
+  };
+  /** primary key columns input for table: pending_vault_transactions */
+  ['pending_vault_transactions_pk_columns_input']: {
+    tx_hash: string;
+  };
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
+  /** input type for updating data in table "pending_vault_transactions" */
+  ['pending_vault_transactions_set_input']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['pending_vault_transactions_stddev_fields']: {
+    __typename: 'pending_vault_transactions_stddev_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['pending_vault_transactions_stddev_pop_fields']: {
+    __typename: 'pending_vault_transactions_stddev_pop_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['pending_vault_transactions_stddev_samp_fields']: {
+    __typename: 'pending_vault_transactions_stddev_samp_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['pending_vault_transactions_sum_fields']: {
+    __typename: 'pending_vault_transactions_sum_fields';
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
+  /** aggregate var_pop on columns */
+  ['pending_vault_transactions_var_pop_fields']: {
+    __typename: 'pending_vault_transactions_var_pop_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['pending_vault_transactions_var_samp_fields']: {
+    __typename: 'pending_vault_transactions_var_samp_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['pending_vault_transactions_variance_fields']: {
+    __typename: 'pending_vault_transactions_variance_fields';
+    chain_id?: number | undefined;
+    claim_id?: number | undefined;
+    created_by?: number | undefined;
+    distribution_id?: number | undefined;
+    org_id?: number | undefined;
+  };
   /** columns and relationships of "personal_access_tokens" */
   ['personal_access_tokens']: {
     __typename: 'personal_access_tokens';
@@ -26024,6 +26962,16 @@ columns and relationships of "profiles" */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch aggregated fields from the table: "pending_vault_transactions" */
+    pending_vault_transactions_aggregate: GraphQLTypes['pending_vault_transactions_aggregate'];
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -26177,6 +27125,16 @@ columns and relationships of "profiles" */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch aggregated fields from the table: "pending_vault_transactions" */
+    pending_vault_transactions_aggregate: GraphQLTypes['pending_vault_transactions_aggregate'];
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -28760,6 +29718,7 @@ export const enum circle_api_keys_select_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -28776,6 +29735,7 @@ export const enum circle_api_keys_update_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -29166,6 +30126,32 @@ export const enum pending_token_gifts_update_column {
   tokens = 'tokens',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "pending_vault_transactions" */
+export const enum pending_vault_transactions_constraint {
+  pending_vault_transactions_pkey = 'pending_vault_transactions_pkey',
+}
+/** select columns of table "pending_vault_transactions" */
+export const enum pending_vault_transactions_select_column {
+  chain_id = 'chain_id',
+  claim_id = 'claim_id',
+  created_at = 'created_at',
+  created_by = 'created_by',
+  distribution_id = 'distribution_id',
+  org_id = 'org_id',
+  tx_hash = 'tx_hash',
+  tx_type = 'tx_type',
+}
+/** update columns of table "pending_vault_transactions" */
+export const enum pending_vault_transactions_update_column {
+  chain_id = 'chain_id',
+  claim_id = 'claim_id',
+  created_at = 'created_at',
+  created_by = 'created_by',
+  distribution_id = 'distribution_id',
+  org_id = 'org_id',
+  tx_hash = 'tx_hash',
+  tx_type = 'tx_type',
+}
 /** unique or primary key constraints on table "personal_access_tokens" */
 export const enum personal_access_tokens_constraint {
   personal_access_tokens_pkey = 'personal_access_tokens_pkey',
@@ -29378,8 +30364,10 @@ export const enum vault_tx_types_constraint {
   vault_tx_types_pkey = 'vault_tx_types_pkey',
 }
 export const enum vault_tx_types_enum {
+  Claim = 'Claim',
   Deposit = 'Deposit',
   Distribution = 'Distribution',
+  Vault_Deploy = 'Vault_Deploy',
   Withdraw = 'Withdraw',
 }
 /** select columns of table "vault_tx_types" */

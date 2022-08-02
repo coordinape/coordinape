@@ -1,3 +1,10 @@
+/**
+ *
+ * DEPRECATED -- these are all one-off types so they should be co-located with
+ * the code that uses them.
+ *
+ */
+
 export interface PostTokenGiftsParam {
   tokens: number;
   recipient_id: number;

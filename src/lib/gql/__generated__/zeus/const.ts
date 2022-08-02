@@ -1346,6 +1346,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_circle_integrations_by_pk: {
       id: 'bigint',
     },
+    delete_pending_vault_transactions: {
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    delete_pending_vault_transactions_by_pk: {},
     generateApiKey: {
       payload: 'GenerateApiKeyInput',
     },
@@ -1378,6 +1382,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_distributions_one: {
       object: 'distributions_insert_input',
       on_conflict: 'distributions_on_conflict',
+    },
+    insert_pending_vault_transactions: {
+      objects: 'pending_vault_transactions_insert_input',
+    },
+    insert_pending_vault_transactions_one: {
+      object: 'pending_vault_transactions_insert_input',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -1817,6 +1827,43 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
+  pending_vault_transactions_bool_exp: {
+    _and: 'pending_vault_transactions_bool_exp',
+    _not: 'pending_vault_transactions_bool_exp',
+    _or: 'pending_vault_transactions_bool_exp',
+    chain_id: 'Int_comparison_exp',
+    claim_id: 'bigint_comparison_exp',
+    created_by: 'bigint_comparison_exp',
+    distribution: 'distributions_bool_exp',
+    distribution_id: 'bigint_comparison_exp',
+    org_id: 'bigint_comparison_exp',
+    organization: 'organizations_bool_exp',
+    profile: 'profiles_bool_exp',
+    tx_hash: 'String_comparison_exp',
+    tx_type: 'vault_tx_types_enum_comparison_exp',
+    vault_tx_type: 'vault_tx_types_bool_exp',
+  },
+  pending_vault_transactions_insert_input: {
+    claim_id: 'bigint',
+    distribution: 'distributions_obj_rel_insert_input',
+    distribution_id: 'bigint',
+    org_id: 'bigint',
+    tx_type: 'vault_tx_types_enum',
+  },
+  pending_vault_transactions_order_by: {
+    chain_id: 'order_by',
+    claim_id: 'order_by',
+    created_by: 'order_by',
+    distribution: 'distributions_order_by',
+    distribution_id: 'order_by',
+    org_id: 'order_by',
+    organization: 'organizations_order_by',
+    profile: 'profiles_order_by',
+    tx_hash: 'order_by',
+    tx_type: 'order_by',
+    vault_tx_type: 'vault_tx_types_order_by',
+  },
+  pending_vault_transactions_select_column: true,
   profiles: {
     users: {
       distinct_on: 'users_select_column',
@@ -2000,6 +2047,12 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts_by_pk: {
       id: 'bigint',
     },
+    pending_vault_transactions: {
+      distinct_on: 'pending_vault_transactions_select_column',
+      order_by: 'pending_vault_transactions_order_by',
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    pending_vault_transactions_by_pk: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -2198,6 +2251,12 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts_by_pk: {
       id: 'bigint',
     },
+    pending_vault_transactions: {
+      distinct_on: 'pending_vault_transactions_select_column',
+      order_by: 'pending_vault_transactions_order_by',
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    pending_vault_transactions_by_pk: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -3772,6 +3831,9 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_api_keys_by_pk: 'circle_api_keys',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
+    delete_pending_vault_transactions:
+      'pending_vault_transactions_mutation_response',
+    delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
     generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
@@ -3781,6 +3843,9 @@ export const ReturnTypes: Record<string, any> = {
     insert_contributions_one: 'contributions',
     insert_distributions: 'distributions_mutation_response',
     insert_distributions_one: 'distributions',
+    insert_pending_vault_transactions:
+      'pending_vault_transactions_mutation_response',
+    insert_pending_vault_transactions_one: 'pending_vault_transactions',
     logoutUser: 'LogoutResponse',
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
@@ -3959,6 +4024,23 @@ export const ReturnTypes: Record<string, any> = {
     tokens: 'Int',
     updated_at: 'timestamp',
   },
+  pending_vault_transactions: {
+    chain_id: 'Int',
+    claim_id: 'bigint',
+    created_by: 'bigint',
+    distribution: 'distributions',
+    distribution_id: 'bigint',
+    org_id: 'bigint',
+    organization: 'organizations',
+    profile: 'profiles',
+    tx_hash: 'String',
+    tx_type: 'vault_tx_types_enum',
+    vault_tx_type: 'vault_tx_types',
+  },
+  pending_vault_transactions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'pending_vault_transactions',
+  },
   profiles: {
     address: 'String',
     avatar: 'String',
@@ -4012,6 +4094,8 @@ export const ReturnTypes: Record<string, any> = {
     pending_gift_private: 'pending_gift_private',
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_by_pk: 'pending_token_gifts',
+    pending_vault_transactions: 'pending_vault_transactions',
+    pending_vault_transactions_by_pk: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',
@@ -4062,6 +4146,8 @@ export const ReturnTypes: Record<string, any> = {
     pending_gift_private: 'pending_gift_private',
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_by_pk: 'pending_token_gifts',
+    pending_vault_transactions: 'pending_vault_transactions',
+    pending_vault_transactions_by_pk: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',

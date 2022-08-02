@@ -172,6 +172,9 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
         {
           vault: {
             ...allVaultFields,
+            protocol: {
+              name: true,
+            },
             vault_transactions: [
               {},
               {
@@ -667,4 +670,24 @@ export async function allocationCsv(
     }
   );
   return allocationCsv;
+}
+
+export async function savePendingVaultTx(
+  input: ValueTypes['pending_vault_transactions_insert_input']
+) {
+  client.mutate({
+    insert_pending_vault_transactions_one: [
+      { object: { ...input } },
+      { __typename: true },
+    ],
+  });
+}
+
+export async function deletePendingVaultTx(tx_hash: string) {
+  client.mutate({
+    delete_pending_vault_transactions_by_pk: [
+      { tx_hash },
+      { __typename: true },
+    ],
+  });
 }
