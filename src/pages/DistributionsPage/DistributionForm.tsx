@@ -498,48 +498,19 @@ export function DistributionForm({
             <>
               <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
-                  <FormControl fullWidth>
-                    <Controller
-                      name="selectedVaultSymbol"
-                      control={control}
-                      render={({ fieldState: { error } }) => (
-                        <>
-                          <FormAutocomplete
-                            value={
-                              fpTokenSymbol
-                                ? fixedDist
-                                  ? fixedDist.vault.symbol
-                                  : fpTokenSymbol
-                                : 'No Vaults Available'
-                            }
-                            label="CoVault"
-                            error={!!error}
-                            disabled={true}
-                            isSelect={true}
-                            options={[
-                              fpTokenSymbol ? fpTokenSymbol : 'No Vault',
-                            ]}
-                          />
-
-                          {error && (
-                            <Text
-                              css={{
-                                fontSize: '$small',
-                                lineHeight: '$shorter',
-                                fontWeight: '$semibold',
-                                color: '$red',
-                                textAlign: 'center',
-                                paddingTop: '$sm',
-                              }}
-                              className="error"
-                            >
-                              {error.message}
-                            </Text>
-                          )}
-                        </>
-                      )}
-                    />
-                  </FormControl>
+                  <FormAutocomplete
+                    value={
+                      fpTokenSymbol
+                        ? fixedDist
+                          ? fixedDist.vault.symbol
+                          : fpTokenSymbol
+                        : 'No Vaults Available'
+                    }
+                    label="CoVault"
+                    disabled={true}
+                    isSelect={true}
+                    options={[fpTokenSymbol ? fpTokenSymbol : 'No Vault']}
+                  />
                 </Box>
                 <Box css={{ width: '100%' }}>
                   <Controller
