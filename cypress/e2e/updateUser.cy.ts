@@ -78,7 +78,7 @@ context('Coordinape', () => {
     // enter the fixed payment amount
     cy.getInputByLabel('Fixed Payment Amount').clear().type('12000').blur();
 
-    cy.contains('Save').click({force: true});
+    cy.contains('Save').click({ force: true });
     cy.reload(true);
     cy.contains('Kasey', { timeout: 120000 }).should('be.visible');
     // Verify new value in contributors table
