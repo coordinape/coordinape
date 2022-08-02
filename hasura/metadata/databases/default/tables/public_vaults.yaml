@@ -41,11 +41,14 @@ select_permissions:
     filter:
       protocol:
         circles:
-          users:
-            _and:
-            - deleted_at:
-                _is_null: true
-            - profile:
-                id:
-                  _eq: X-Hasura-User-Id
+          _and:
+          - deleted_at:
+              _is_null: true
+          - users:
+              _and:
+              - deleted_at:
+                  _is_null: true
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
   role: user
