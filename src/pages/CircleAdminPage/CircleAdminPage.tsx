@@ -425,8 +425,8 @@ export const CircleAdminPage = () => {
         >
           <DeprecatedApeTextField
             label="Minimum vouches to add member"
-            // type="number"
-            // placeholder="0"
+            type="number"
+            placeholder="0"
             {...minVouches}
             fullWidth
             disabled={!vouching.value}
@@ -447,8 +447,8 @@ export const CircleAdminPage = () => {
         >
           <DeprecatedApeTextField
             label="Length of nomination period"
-            // type="number"
-            // placeholder="0"
+            type="number"
+            placeholder="0"
             {...nominationDaysLimit}
             helperText="(# of days)"
             fullWidth
