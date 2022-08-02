@@ -2,8 +2,9 @@ import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
 
+import { Contracts } from '../../../api-lib/contracts';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { getContracts } from '../../../src/utils/testing/provider';
+import { chainId, provider } from '../../../src/utils/testing/provider';
 
 import handler from './recoverVaults';
 
@@ -17,7 +18,7 @@ test('mix of invalid & valid txs', async () => {
   } as unknown as VercelRequest;
   const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
-  const contracts = getContracts();
+  const contracts = new Contracts(chainId, provider);
   const chain_id = Number(contracts.chainId);
   const createVaultTx = await contracts.vaultFactory.createCoVault(
     contracts.getTokenAddress('DAI'),
