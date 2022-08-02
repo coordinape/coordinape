@@ -41,6 +41,10 @@ const tokens = {
     addr: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     whale: '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',
   },
+  SHIB: {
+    addr: '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',
+    whale: '0xdead000000000000000042069420694206942069',
+  },
 };
 
 task('mine', 'Mine a block').setAction(async (_, hre) => {
@@ -87,11 +91,11 @@ task('mint', 'Mints the given token to specified account')
       };
 
       const mintToken = async (
-        symbol: 'USDC' | 'DAI',
+        symbol: string,
         receiver: string,
         amount: string
       ) => {
-        const { whale, addr } = tokens[symbol];
+        const { whale, addr } = tokens[symbol as keyof typeof tokens];
         await mintEth(whale, '0.1');
         const sender = await unlockSigner(whale, hre);
         const contract = new ethers.Contract(
@@ -109,16 +113,16 @@ task('mint', 'Mints the given token to specified account')
       };
 
       switch (args.token) {
-        case 'USDC':
-        case 'DAI':
-          await mintToken(args.token, args.address, args.amount);
-          break;
         case 'ETH':
           await mintEth(args.address, args.amount);
           break;
         default:
-          console.error(`Unknown token name: ${args.token}`);
-          process.exit(1);
+          try {
+            await mintToken(args.token, args.address, args.amount);
+          } catch (err) {
+            console.error(`Couldn't mint ${args.token}: ${err}`);
+            process.exit(1);
+          }
       }
     }
   );
