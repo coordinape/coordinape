@@ -261,6 +261,7 @@ custom_types:
   - name: UploadOrgImageInput
   - name: CoordinapeInput
   - name: LogVaultTxInput
+  - name: DeleteCircleInput
   objects:
   - name: CreateCircleResponse
     relationships:
@@ -423,5 +424,6 @@ custom_types:
       type: object
       field_mapping:
         id: id
+  - name: DeleteCircleResponse
   scalars:
   - name: timestamptz
