@@ -128,7 +128,7 @@ export default function ClaimsPage() {
             { title: 'Epochs', css: styles.th },
             { title: 'Rewards', css: styles.thLast },
           ]}
-          data={currentClaims(claims.filter(c => c.txHash))}
+          data={currentClaims(claims.filter(c => !c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
