@@ -46,12 +46,16 @@ export class Contracts {
   distributor: ApeDistributor;
   chainId: string;
   provider: JsonRpcProvider;
-  signer: Signer;
+  signer: Signer | undefined;
 
-  constructor(chainId: number | string, provider: JsonRpcProvider) {
+  constructor(
+    chainId: number | string,
+    provider: JsonRpcProvider,
+    useSigner?: boolean
+  ) {
     this.chainId = chainId.toString();
     this.provider = provider;
-    this.signer = provider.getSigner();
+    if (useSigner) this.signer = provider.getSigner();
 
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
@@ -59,15 +63,15 @@ export class Contracts {
     }
     this.vaultFactory = ApeVaultFactoryBeacon__factory.connect(
       info.ApeVaultFactoryBeacon.address,
-      this.signer
+      this.signer || this.provider
     );
     this.router = ApeRouter__factory.connect(
       info.ApeRouter.address,
-      this.signer
+      this.signer || this.provider
     );
     this.distributor = ApeDistributor__factory.connect(
       info.ApeDistributor.address,
-      this.signer
+      this.signer || this.provider
     );
   }
 

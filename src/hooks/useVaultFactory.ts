@@ -1,11 +1,7 @@
 import assert from 'assert';
 
 import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
-import {
-  addVault,
-  deletePendingVaultTx,
-  savePendingVaultTx,
-} from 'lib/gql/mutations';
+import { addVault, savePendingVaultTx } from 'lib/gql/mutations';
 import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';
@@ -46,7 +42,7 @@ export function useVaultFactory(orgId?: number) {
         args = [tokenAddress, ZERO_ADDRESS];
       }
 
-      const { receipt } = await sendAndTrackTx(
+      const { receipt, tx } = await sendAndTrackTx(
         () => contracts.vaultFactory.createCoVault(...args),
         {
           showInfo,
@@ -60,7 +56,6 @@ export function useVaultFactory(orgId?: number) {
               chain_id: Number.parseInt(chainId),
               tx_type: vault_tx_types_enum.Vault_Deploy,
             }),
-          deletePending: async (txHash: string) => deletePendingVaultTx(txHash),
         }
       );
 
@@ -75,7 +70,7 @@ export function useVaultFactory(orgId?: number) {
             deployment_block: receipt?.blockNumber || 0,
           };
 
-          const { createVault } = await addVault(vault);
+          const { createVault } = await addVault(vault, tx?.hash);
           return createVault?.vault;
         }
       }

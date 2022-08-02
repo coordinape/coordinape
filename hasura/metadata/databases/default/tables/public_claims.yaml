@@ -19,15 +19,8 @@ insert_permissions:
     backend_only: false
     check:
       distribution:
-        epoch:
-          circle:
-            users:
-              _and:
-              - deleted_at:
-                  _is_null: true
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+        created_by:
+          _eq: X-Hasura-User-Id
     columns:
     - address
     - amount
@@ -70,14 +63,6 @@ update_permissions:
     columns:
     - txHash
     filter:
-      distribution:
-        epoch:
-          circle:
-            users:
-              _and:
-              - deleted_at:
-                  _is_null: true
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+      profile_id:
+        _eq: X-Hasura-User-Id
   role: user
