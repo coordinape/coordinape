@@ -120,7 +120,7 @@ export function DistributionForm({
   ) => {
     assert(epoch?.id && circle);
     setSubmitting(true);
-    const vault = findVault({ symbol: value.selectedVaultSymbol });
+    const vault = findVault({ symbol: fpTokenSymbol });
     assert(vault);
     assert(contracts, 'This network is not supported');
 
