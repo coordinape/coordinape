@@ -152,27 +152,42 @@ async function createEndedEpochWithGiftsForClaims() {
     getMembershipInput({ protocolInput: { name: 'Org for Claims' } }, {})
   );
   const circleId = result[0].circle_id;
+
   const epochId1 = await makeEpoch(
     circleId,
-    DateTime.now().minus({ days: 8 }),
-    DateTime.now().minus({ days: 1 }),
+    DateTime.now().minus({ days: 40 }),
+    DateTime.now().minus({ days: 33 }),
     1
   );
   const epochId2 = await makeEpoch(
     circleId,
-    DateTime.now().minus({ days: 16 }),
-    DateTime.now().minus({ days: 9 }),
+    DateTime.now().minus({ days: 32 }),
+    DateTime.now().minus({ days: 25 }),
     2
   );
   const epochId3 = await makeEpoch(
     circleId,
+    DateTime.now().minus({ days: 24 }),
     DateTime.now().minus({ days: 17 }),
-    DateTime.now().minus({ days: 10 }),
     3
+  );
+  const epochId4 = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 16 }),
+    DateTime.now().minus({ days: 9 }),
+    4
+  );
+  const epochId5 = await makeEpoch(
+    circleId,
+    DateTime.now().minus({ days: 8 }),
+    DateTime.now().minus({ days: 1 }),
+    5
   );
   await createGifts(result, epochId1, 9, 100, false);
   await createGifts(result, epochId2, 8, 100, false);
   await createGifts(result, epochId3, 8, 100, false);
+  await createGifts(result, epochId4, 8, 100, false);
+  await createGifts(result, epochId5, 8, 100, false);
   return circleId;
 }
 

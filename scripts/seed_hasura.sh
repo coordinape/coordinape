@@ -52,6 +52,7 @@ echo "Seeding..."
 ts-node ./scripts/db_seed_test.ts
 
 # Re-enable event triggers post-seeding
+echo "Re-enabling triggers and cron"
 ./scripts/enable_triggers.sh
 
 # disable cron tasks to minimize unexpected CPU spikes
