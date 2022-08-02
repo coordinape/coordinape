@@ -166,6 +166,7 @@ export const AdminUserModal = ({
                 ) : (
                   <DeprecatedFormTextField
                     fullWidth
+                    type="number"
                     onChange={() => {}}
                     label="Fixed Payment Amount"
                     disabled={true}
