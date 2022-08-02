@@ -17,8 +17,11 @@ import { CircleApiKeysResponse } from './useCircleApiKeys';
 const schema = z.object({
   name: z.string().max(64).min(5),
   read_circle: z.boolean(),
+  update_circle: z.boolean(),
   read_nominees: z.boolean(),
+  create_vouches: z.boolean(),
   read_pending_token_gifts: z.boolean(),
+  update_pending_token_gifts: z.boolean(),
   read_member_profiles: z.boolean(),
   read_epochs: z.boolean(),
 });
@@ -71,6 +74,12 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
     defaultValue: false,
   });
 
+  const { field: updateCircle } = useController({
+    name: 'update_circle',
+    control,
+    defaultValue: false,
+  });
+
   const { field: readEpochs } = useController({
     name: 'read_epochs',
     control,
@@ -82,13 +91,27 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
     control,
     defaultValue: false,
   });
+
   const { field: readPendingTokenGifts } = useController({
     name: 'read_pending_token_gifts',
     control,
     defaultValue: false,
   });
+
+  const { field: updatePendingTokenGifts } = useController({
+    name: 'update_pending_token_gifts',
+    control,
+    defaultValue: false,
+  });
+
   const { field: readNominees } = useController({
     name: 'read_nominees',
+    control,
+    defaultValue: false,
+  });
+
+  const { field: createVouches } = useController({
+    name: 'create_vouches',
     control,
     defaultValue: false,
   });
@@ -126,6 +149,7 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
           width: '100%',
         }}
       >
+        <Text variant={'label'}>Read-only Permissions</Text>
         <CheckBox
           {...readCircle}
           label={API_PERMISSION_LABELS['read_circle']}
@@ -133,6 +157,7 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
             <>Allows reading your circle name, logo, and configuration.</>
           }
         />
+
         <CheckBox
           {...readEpochs}
           label={API_PERMISSION_LABELS['read_epochs']}
@@ -162,6 +187,34 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
           {...readNominees}
           label={API_PERMISSION_LABELS['read_nominees']}
           infoTooltip={<>Allows reading information about circle nominees.</>}
+        />
+        <Text variant={'label'} css={{ mt: '$md' }}>
+          Write Permissions
+        </Text>
+
+        <CheckBox
+          {...updateCircle}
+          label={API_PERMISSION_LABELS['update_circle']}
+          infoTooltip={
+            <>Allows updating your circle name, logo, and configuration.</>
+          }
+        />
+        <CheckBox
+          {...updatePendingTokenGifts}
+          label={API_PERMISSION_LABELS['update_pending_token_gifts']}
+          infoTooltip={
+            <>
+              Allows updating pending allocations in the current epoch on behalf
+              of circle members.
+            </>
+          }
+        />
+        <CheckBox
+          {...createVouches}
+          label={API_PERMISSION_LABELS['create_vouches']}
+          infoTooltip={
+            <>Allows vouching for new nominees on behalf of circle members.</>
+          }
         />
       </Box>
       <Button
