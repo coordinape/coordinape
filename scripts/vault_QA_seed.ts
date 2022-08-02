@@ -35,14 +35,8 @@ const addys = [
 
 async function main() {
   for (const address of addys) {
-    await createEndedEpochWithGiftsForClaims(
-      address,
-      'Ended Epoch With Gifts for Claims'
-    );
-    await createEndedEpochWithGiftsForClaims(
-      address,
-      'Ended Epoch With Gifts for Fixed Payment Testing'
-    );
+    await createOrg(address, 'Org for Claims');
+    await createOrg(address, 'Org for Fixed Payment Testing');
   }
 }
 
@@ -51,13 +45,10 @@ main()
   .then(() => console.log(`Finished seeding in ${Date.now() - startTime}ms`))
   .catch(console.error);
 
-async function createEndedEpochWithGiftsForClaims(
-  address: string,
-  protocolName: string
-) {
+async function createOrg(address: string, orgName: string) {
   const result = await insertMemberships(
     getMembershipInput(
-      { protocolInput: { name: protocolName } },
+      { protocolInput: { name: orgName } },
       { address, name: 'QA Test User' }
     )
   );

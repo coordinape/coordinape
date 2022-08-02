@@ -149,10 +149,7 @@ async function createEndedEpochWithGifts() {
 
 async function createEndedEpochWithGiftsForClaims() {
   const result = await insertMemberships(
-    getMembershipInput(
-      { protocolInput: { name: 'Ended Epoch With Gifts for Claims' } },
-      {}
-    )
+    getMembershipInput({ protocolInput: { name: 'Org for Claims' } }, {})
   );
   const circleId = result[0].circle_id;
   const epochId1 = await makeEpoch(
