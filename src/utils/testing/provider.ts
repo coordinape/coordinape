@@ -1,4 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
+import { Contracts } from 'lib/vaults';
 
 import {
   HARDHAT_CHAIN_ID,
@@ -27,3 +28,5 @@ export const restoreSnapshot = async (snapshotId?: string) => {
   }
   return provider.send('evm_revert', [snapshotId]);
 };
+
+export const getContracts = () => new Contracts(chainId, provider);

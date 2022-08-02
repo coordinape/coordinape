@@ -1,5 +1,6 @@
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
 
 import { Contracts } from '../../../api-lib/contracts';
@@ -12,6 +13,14 @@ import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 Settings.defaultZone = 'utc';
+
+const removeTx = (tx_hash: string) =>
+  adminClient.mutate({
+    delete_pending_vault_transactions_by_pk: [
+      { tx_hash },
+      { __typename: true },
+    ],
+  });
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const { pending_vault_transactions: txs } = await adminClient.query({
@@ -27,48 +36,42 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       },
     ],
   });
-  // TODO use Promise.all instead of a for loop
-  for (const pendingTx of txs) {
+
+  const handleTx = async (pendingTx: typeof txs[0]) => {
     // verify tx is more than 5 minutes old before operating
     // it's preferrable to do this in the query but date diffs are brittle in
     // hasura
-    if (
-      DateTime.fromISO(pendingTx.created_at) >
-      DateTime.now().minus({ minutes: 5 })
-    )
-      continue;
-    const provider = getProvider(pendingTx.chain_id);
-    const tx = await provider.getTransaction(pendingTx.tx_hash);
+    const { chain_id, tx_hash, org_id, created_at } = pendingTx;
+
+    if (DateTime.fromISO(created_at) > DateTime.now().minus({ minutes: 5 }))
+      return 'not old enough';
+
+    const provider = getProvider(chain_id);
+    const tx = await provider.getTransaction(tx_hash);
 
     // delete the entry if no tx exists or no org id is set
-    if (typeof tx == null || typeof pendingTx.org_id == null) {
-      await adminClient.mutate({
-        delete_pending_vault_transactions_by_pk: [
-          { tx_hash: pendingTx.tx_hash },
-          { __typename: true },
-        ],
-      });
-      continue;
+    if (!tx) {
+      await removeTx(tx_hash);
+      return 'no tx found';
+    }
+    if (!org_id) {
+      await removeTx(tx_hash);
+      return 'missing org id';
     }
 
     // skip if tx not yet mined
-    if (typeof tx.blockNumber === null) continue;
+    if (typeof tx.blockNumber === null) return 'not yet mined';
 
     let receipt;
     try {
       receipt = await tx.wait();
-    } catch (e) {
+    } catch (e: any) {
       // an error here means the tx failed for some reason
       // we don't care why, so we can just delete it from our table
-      await adminClient.mutate({
-        delete_pending_vault_transactions_by_pk: [
-          { tx_hash: pendingTx.tx_hash },
-          { __typename: true },
-        ],
-      });
-      continue;
+      await removeTx(tx_hash);
+      return `error fetching receipt: ${e?.message || e}`;
     }
-    const contracts = new Contracts(pendingTx.chain_id, provider);
+    const contracts = new Contracts(chain_id, provider);
 
     // we can only expect one deployment log in a tx based on our app and
     // contract config
@@ -79,13 +82,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       .pop();
 
     if (!rawLog) {
-      await adminClient.mutate({
-        delete_pending_vault_transactions_by_pk: [
-          { tx_hash: pendingTx.tx_hash },
-          { __typename: true },
-        ],
-      });
-      continue;
+      await removeTx(tx_hash);
+      return 'no event log found';
     }
 
     const log = contracts.vaultFactory.interface.parseLog(rawLog);
@@ -99,17 +97,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     if (!tokenAddress) {
       // no valid token address is configured so the vault isn't usable
       // therefore we can ignore it
-      await adminClient.mutate({
-        delete_pending_vault_transactions_by_pk: [
-          { tx_hash: pendingTx.tx_hash },
-          { __typename: true },
-        ],
-      });
-      continue;
+      await removeTx(tx_hash);
+      return 'invalid token address';
     }
-    const decimals = await contracts.getERC20(tokenAddress).decimals();
-    const symbol = await contracts.getERC20(tokenAddress).symbol();
-    await adminClient.mutate({
+
+    const token = contracts.getERC20(tokenAddress);
+    const decimals = await token.decimals();
+    const symbol = await token.symbol();
+    const addVault = await adminClient.mutate({
       insert_vaults_one: [
         {
           object: {
@@ -137,8 +132,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { __typename: true },
       ],
     });
-  }
-  res.status(200).json({ processed_txs: txs });
+    return `added vault id ${addVault.insert_vaults_one?.id}`;
+  };
+
+  const results = await Promise.all(
+    txs.map(async tx => {
+      try {
+        return await handleTx(tx);
+      } catch (err: any) {
+        return `error: ${err?.message || err}`;
+      }
+    })
+  );
+
+  res.status(200).json({
+    processed_txs: zipObject(
+      txs.map(t => t.tx_hash),
+      results
+    ),
+  });
 }
 
 export default verifyHasuraRequestMiddleware(handler);
