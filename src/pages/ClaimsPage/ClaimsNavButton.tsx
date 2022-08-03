@@ -26,12 +26,11 @@ export default function ClaimsNavButton() {
     }
   );
   const unclaimed = claims?.filter(c => !c.txHash);
+  const color = unclaimed && unclaimed?.length > 0 ? 'complete' : 'primary';
 
-  return (unclaimed?.length || 0) > 0 ? (
+  return (
     <AppLink to="/claims">
-      <Button color="complete">Claim Allocations</Button>
+      <Button color={color}>Claim Allocations</Button>
     </AppLink>
-  ) : (
-    <></>
   );
 }
