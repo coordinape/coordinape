@@ -89,14 +89,14 @@ export default function ClaimsPage() {
   const claimedClaimsGroupByRow = groupBy(
     claims.filter(c => c.txHash).sort(c => -c.id),
     c => {
-      return `${c.distribution.vault.vault_address} ${c.distribution.epoch.circle?.id} ${c.txHash}`;
+      return claimsRowKey(c.distribution, c.txHash);
     }
   );
 
   const unclaimedClaimsGroupByRow = groupBy(
     claims.filter(c => !c.txHash).sort(c => c.id),
     c => {
-      return `${c.distribution.vault.vault_address} ${c.distribution.epoch.circle?.id}`;
+      return claimsRowKey(c.distribution);
     }
   );
 
@@ -190,9 +190,7 @@ export default function ClaimsPage() {
               </td>
               <td>
                 {formatEpochDates(
-                  claimedClaimsGroupByRow[
-                    `${distribution.vault.vault_address} ${distribution.epoch.circle?.id} ${txHash}`
-                  ]
+                  claimedClaimsGroupByRow[claimsRowKey(distribution, txHash)]
                 )}
               </td>
               <td>
@@ -209,7 +207,7 @@ export default function ClaimsPage() {
                     <Text>
                       {formatClaimAmount(
                         claimedClaimsGroupByRow[
-                          `${distribution.vault.vault_address} ${distribution.epoch.circle?.id} ${txHash}`
+                          claimsRowKey(distribution, txHash)
                         ]
                       )}
                     </Text>
@@ -268,11 +266,7 @@ const ClaimRow = ({
       </td>
       <td>
         <Text>
-          {formatEpochDates(
-            claimsGroupByRow[
-              `${distribution.vault.vault_address} ${distribution.epoch.circle?.id}`
-            ]
-          )}
+          {formatEpochDates(claimsGroupByRow[claimsRowKey(distribution)])}
         </Text>
       </td>
       <td>
@@ -287,11 +281,7 @@ const ClaimRow = ({
             }}
           >
             <Text>
-              {formatClaimAmount(
-                claimsGroupByRow[
-                  `${distribution.vault.vault_address} ${distribution.epoch.circle?.id}`
-                ]
-              )}
+              {formatClaimAmount(claimsGroupByRow[claimsRowKey(distribution)])}
             </Text>
             <Button
               color="primary"
@@ -348,4 +338,15 @@ function formatClaimAmount(claims: QueryClaim[]): string {
   return `${parseFloat(totalAmount.toString()).toFixed(2)} ${
     claims[0].distribution.vault.symbol
   }`;
+}
+
+function claimsRowKey(
+  distribution: QueryClaim['distribution'],
+  txHash?: QueryClaim['txHash']
+): string {
+  let key = `${distribution.vault.vault_address}-${distribution.epoch.circle?.id}-`;
+  if (txHash) {
+    key += `${txHash}`;
+  }
+  return key;
 }
