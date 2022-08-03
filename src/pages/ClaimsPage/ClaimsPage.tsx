@@ -17,13 +17,13 @@ import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
 
 // claimRows: reduce all claims into one row per group of {vault, circle,
-// isClaimed} for display in UI (where we group all claims into one row per set
-// of claimable claims together. If you can claim them all together, display
-// them as one row. If they were claimed all together, display them as one row
+// txHash}, for representing a group of claims into one row per set
+// of batch claimable claims. If you can claim them all together, display
+// them all together. If they were claimed in same tx, display them as one row
 // with link to the claim on etherscan)
 const claimRows = (claims: QueryClaim[]) =>
   claims
-    .sort(c => c.id)
+    .sort(c => -c.id)
     .reduce(
       (finalClaims, curr) =>
         finalClaims.filter(
@@ -86,9 +86,18 @@ export default function ClaimsPage() {
       </SingleColumnLayout>
     );
 
-  const claimsGroupByVault = groupBy(
-    claims.sort(c => c.id),
-    c => c.distribution.epoch.circle?.id && c.distribution.vault.vault_address
+  const claimedClaimsGroupByRow = groupBy(
+    claims.filter(c => c.txHash).sort(c => -c.id),
+    c => {
+      return `${c.distribution.vault.vault_address} ${c.distribution.epoch.circle?.id} ${c.txHash}`;
+    }
+  );
+
+  const unclaimedClaimsGroupByRow = groupBy(
+    claims.filter(c => !c.txHash).sort(c => c.id),
+    c => {
+      return `${c.distribution.vault.vault_address} ${c.distribution.epoch.circle?.id}`;
+    }
   );
 
   const processClaim = async (claimId: number) => {
@@ -145,7 +154,7 @@ export default function ClaimsPage() {
               key={id}
               onClickClaim={() => processClaim(id)}
               claiming={claiming[id]}
-              claimsGroupByVault={claimsGroupByVault}
+              claimsGroupByRow={unclaimedClaimsGroupByRow}
             />
           )}
         </ClaimsTable>
@@ -181,7 +190,9 @@ export default function ClaimsPage() {
               </td>
               <td>
                 {formatEpochDates(
-                  claimsGroupByVault[distribution.vault.vault_address]
+                  claimedClaimsGroupByRow[
+                    `${distribution.vault.vault_address} ${distribution.epoch.circle?.id} ${txHash}`
+                  ]
                 )}
               </td>
               <td>
@@ -197,7 +208,9 @@ export default function ClaimsPage() {
                   >
                     <Text>
                       {formatClaimAmount(
-                        claimsGroupByVault[distribution.vault.vault_address]
+                        claimedClaimsGroupByRow[
+                          `${distribution.vault.vault_address} ${distribution.epoch.circle?.id} ${txHash}`
+                        ]
                       )}
                     </Text>
                     <Button
@@ -234,13 +247,13 @@ type ClaimRowProps = {
   distribution: QueryClaim['distribution'];
   unwrappedNewAmount: QueryClaim['unwrappedNewAmount'];
   onClickClaim: () => void;
-  claimsGroupByVault: Dictionary<QueryClaim[]>;
+  claimsGroupByRow: Dictionary<QueryClaim[]>;
   claiming: boolean;
 };
 const ClaimRow = ({
   distribution,
   onClickClaim,
-  claimsGroupByVault,
+  claimsGroupByRow,
   claiming,
 }: ClaimRowProps) => {
   return (
@@ -256,7 +269,9 @@ const ClaimRow = ({
       <td>
         <Text>
           {formatEpochDates(
-            claimsGroupByVault[distribution.vault.vault_address]
+            claimsGroupByRow[
+              `${distribution.vault.vault_address} ${distribution.epoch.circle?.id}`
+            ]
           )}
         </Text>
       </td>
@@ -273,7 +288,9 @@ const ClaimRow = ({
           >
             <Text>
               {formatClaimAmount(
-                claimsGroupByVault[distribution.vault.vault_address]
+                claimsGroupByRow[
+                  `${distribution.vault.vault_address} ${distribution.epoch.circle?.id}`
+                ]
               )}
             </Text>
             <Button
@@ -298,7 +315,14 @@ const ClaimRow = ({
   );
 };
 
+// Takes a group of claims, and generates a Epoch Date representation showing
+// the date range and number of epochs in group.
 function formatEpochDates(claims: QueryClaim[]) {
+  claims = claims.sort(
+    (a, b) =>
+      +new Date(a.distribution.epoch.start_date).valueOf() -
+      +new Date(b.distribution.epoch.start_date).valueOf()
+  );
   const startDate = new Date(claims[0].distribution.epoch.start_date);
   const endDate = new Date(
     claims[claims.length - 1].distribution.epoch.end_date
@@ -315,6 +339,8 @@ function formatEpochDates(claims: QueryClaim[]) {
   )} ${endDate.getDate()} ${endDate.getFullYear()}`;
 }
 
+// Takes a group of claims and reduces to a summed value for that group for
+// display
 function formatClaimAmount(claims: QueryClaim[]): string {
   const totalAmount = claims.reduce((accumulator, curr) => {
     return accumulator + (curr.unwrappedNewAmount || 0);
