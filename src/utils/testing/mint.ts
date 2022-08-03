@@ -3,7 +3,7 @@ import { BigNumber, ethers, utils } from 'ethers';
 import { provider } from './provider';
 import { unlockSigner } from './unlockSigner';
 
-const tokens = {
+export const tokens = {
   DAI: {
     addr: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     whale: '0x8d6f396d210d385033b348bcae9e4f9ea4e045bd',
@@ -11,6 +11,10 @@ const tokens = {
   USDC: {
     addr: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     whale: '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',
+  },
+  SHIB: {
+    addr: '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',
+    whale: '0xdead000000000000000042069420694206942069',
   },
 };
 
@@ -20,15 +24,15 @@ export async function mint({
   amount,
 }: {
   token: string;
-  address: string;
+  address?: string;
   amount: string;
 }) {
+  if (!address) address = (await provider.listAccounts())[0];
   switch (token) {
     case 'ETH':
       await mintEth(address, amount);
       break;
-    case 'USDC':
-    case 'DAI':
+    default:
       await mintToken(token, address, amount);
       break;
   }
@@ -43,11 +47,11 @@ export const mintEth = async (receiver: string, amount: string) => {
 };
 
 export const mintToken = async (
-  symbol: 'USDC' | 'DAI',
+  symbol: string,
   receiver: string,
   amount: string
 ) => {
-  const { whale, addr } = tokens[symbol];
+  const { whale, addr } = tokens[symbol as keyof typeof tokens];
   await mintEth(whale, '0.1');
   const sender = await unlockSigner(whale);
   const contract = new ethers.Contract(

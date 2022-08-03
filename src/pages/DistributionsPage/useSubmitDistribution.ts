@@ -1,10 +1,11 @@
 import assert from 'assert';
 
 import debug from 'debug';
-import { BigNumber, FixedNumber, utils } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { createDistribution } from 'lib/merkle-distributor';
-import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
+import { getWrappedAmount } from 'lib/vaults';
+import { uploadEpochRoot } from 'lib/vaults/distributor';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
@@ -38,8 +39,6 @@ export type SubmitDistribution = {
 export type SubmitDistributionResult = {
   merkleRoot: string;
   totalAmount: BigNumber;
-  encodedCircleId: string;
-  tokenAddress: string;
   epochId: BigNumber;
 };
 
@@ -83,8 +82,6 @@ export function useSubmitDistribution() {
     try {
       assert(contracts, 'This network is not supported');
 
-      const vaultContract = contracts.getVault(vault.vault_address);
-      const yVaultAddress = await vaultContract.vault();
       const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
       const shifter = FixedNumber.from(BigNumber.from(10).pow(vault.decimals));
       const newGiftAmount = await getWrappedAmount(
@@ -149,17 +146,14 @@ export function useSubmitDistribution() {
 
       assert(response, 'Distribution was not saved.');
 
-      const encodedCircleId = encodeCircleId(circleId);
-
       const { receipt } = await sendAndTrackTx(
         () =>
-          contracts.distributor.uploadEpochRoot(
-            vault.vault_address,
-            encodedCircleId,
-            yVaultAddress,
+          uploadEpochRoot(
+            contracts,
+            vault,
+            circleId,
             distribution.merkleRoot,
-            newTotalAmount,
-            utils.hexlify(1)
+            newTotalAmount
           ),
         {
           showInfo,
@@ -169,6 +163,7 @@ export function useSubmitDistribution() {
         }
       );
 
+      // could be due to user cancellation
       if (!receipt) return;
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
@@ -192,8 +187,6 @@ export function useSubmitDistribution() {
       return {
         merkleRoot: distribution.merkleRoot,
         totalAmount,
-        encodedCircleId,
-        tokenAddress: yVaultAddress.toString(),
         epochId: distributorEpochId,
       };
     } catch (e) {

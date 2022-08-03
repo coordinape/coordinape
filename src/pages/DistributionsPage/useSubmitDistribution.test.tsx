@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, FixedNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
-import { getWrappedAmount, Asset } from 'lib/vaults';
+import { getWrappedAmount, Asset, encodeCircleId } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -137,7 +137,7 @@ test('submit distribution', async () => {
 
         merkleRootFromDistributor = await contracts.distributor.epochRoots(
           vault.vault_address,
-          distro.encodedCircleId,
+          encodeCircleId(2),
           await contracts.getVault(vault.vault_address).vault(),
           distro.epochId
         );
