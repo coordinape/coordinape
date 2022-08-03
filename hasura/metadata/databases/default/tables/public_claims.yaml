@@ -18,12 +18,11 @@ insert_permissions:
 - permission:
     backend_only: false
     check:
-      _and:
-      - distribution:
-          created_by:
+      distribution:
+        _and:
+        - created_by:
             _eq: X-Hasura-User-Id
-      - distribution:
-          epoch:
+        - epoch:
             circle:
               deleted_at:
                 _is_null: true
