@@ -2,7 +2,7 @@
 set -e
 export CI=1
 
-EXECARGS=()
+OTHERARGS=()
 while [[ "$#" -gt 0 ]]; do case $1 in
   --cypress-only) CYPRESS_ONLY=1;;
   --local) LOCAL=1;;
@@ -61,7 +61,9 @@ yarn db-seed-fresh
 
 if [ -z "$CYPRESS_ONLY" ]; then
   craco test --runInBand --coverage
-  yarn --cwd hardhat test
+
+  # these are redundant with jest & cypress tests now
+  # yarn --cwd hardhat test
 fi
 
 if [ -z "$LOCAL" ]; then
