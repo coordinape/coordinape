@@ -15,7 +15,7 @@ export const DeprecatedFormTextField = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(
-      typeof value === 'number' ? Number(e.target.value) : e.target.value
+      typeof value === 'number' ? parseFloat(e.target.value) : e.target.value
     );
   };
 

@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core';
 import {
   ApeAvatar,
   DeprecatedApeTextField,
+  DeprecatedFormTextField,
   ApeToggle,
   FormAutocomplete,
 } from 'components';
@@ -423,8 +424,10 @@ export const CircleAdminPage = () => {
         <div
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
-          <DeprecatedApeTextField
-            label="Mininum vouches to add member"
+          <DeprecatedFormTextField
+            label="Minimum vouches to add member"
+            type="number"
+            placeholder="0"
             {...minVouches}
             fullWidth
             disabled={!vouching.value}
@@ -443,8 +446,10 @@ export const CircleAdminPage = () => {
         <div
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
-          <DeprecatedApeTextField
+          <DeprecatedFormTextField
             label="Length of nomination period"
+            type="number"
+            placeholder="0"
             {...nominationDaysLimit}
             helperText="(# of days)"
             fullWidth

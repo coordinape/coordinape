@@ -33,7 +33,7 @@ context('Coordinape', () => {
     cy.contains('A Test User', { timeout: 120000 })
       .parents('tr')
       .within(() => {
-        cy.get('td').eq(7).should('have.text', '12000');
+        cy.get('td').eq(7).should('have.text', '1200');
       });
   });
 });

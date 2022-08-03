@@ -404,6 +404,7 @@ export function DistributionForm({
                       symbol: giftVaultSymbol,
                     })}
                     type="number"
+                    placeholder="0"
                     error={!!error}
                     value={circleDist ? circleDist.gift_amount : value}
                     disabled={submitting || !!circleDist || vaults.length === 0}
@@ -530,6 +531,7 @@ export function DistributionForm({
                           symbol: fpTokenSymbol,
                         })}
                         type="number"
+                        placeholder="0"
                         error={!!error}
                         value={
                           fixedDist ? fixedDist.fixed_amount : totalFixedPayment
