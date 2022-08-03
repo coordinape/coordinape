@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
-import { formatShortDateTime } from '../../../../api-lib/dateTimeHelpers';
+import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
@@ -20,7 +20,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     input: { payload },
   } = composeHasuraActionRequestBody(allocationCsvInput).parse(req.body);
 
-  const { circle_id, epoch_id, epoch } = payload;
+  const { circle_id, epoch_id, epoch, form_gift_amount, gift_token_symbol } =
+    payload;
   const epochObj = await getEpoch(circle_id, epoch_id, epoch);
   if (!epochObj) {
     return errorResponseWithStatusCode(
@@ -35,6 +36,34 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { id: circle_id },
         {
           fixed_payment_token_type: true,
+          epochs: [
+            {
+              where: {
+                id: { _eq: epochObj.id },
+              },
+            },
+            {
+              distributions: [
+                {
+                  where: { tx_hash: { _is_null: false } },
+                },
+                {
+                  distribution_type: true,
+                  tx_hash: true,
+                  vault: {
+                    symbol: true,
+                  },
+                  claims: [
+                    {},
+                    {
+                      profile_id: true,
+                      new_amount: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
           users: [
             {
               where: {
@@ -53,6 +82,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               name: true,
               address: true,
               fixed_payment_amount: true,
+              profile: {
+                id: true,
+              },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochObj.id } } },
                 {
@@ -75,27 +107,42 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
   assert(circles_by_pk, 'No Circle Found');
+  assert(circles_by_pk.epochs[0], 'No Epoch Found');
+  const distEpoch = circles_by_pk.epochs[0];
+  const circleDist = distEpoch.distributions.find(
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+  );
+  const fixedDist = distEpoch.distributions.find(
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+  );
+  const { fixed_payment_token_type, users } = circles_by_pk;
+
+  const giftTokenSymbol = circleDist
+    ? circleDist.vault.symbol
+    : gift_token_symbol;
   const fixedPaymentsEnabled =
-    isFeatureEnabled('fixed_payments') &&
-    circles_by_pk.fixed_payment_token_type;
-  const users = circles_by_pk.users;
+    isFeatureEnabled('fixed_payments') && fixed_payment_token_type;
   const grant = payload.grant ?? epochObj.grant;
   const totalTokensSent = epochObj.token_gifts.length
     ? epochObj.token_gifts
         .map(g => g.tokens)
         .reduce((total, tokens) => tokens + total)
     : 0;
-  const dateRange = `${formatShortDateTime(
-    epochObj.start_date
-  )} - ${formatShortDateTime(epochObj.end_date)}`.replace(/,/g, '');
+
   const headers = [
     'No',
     'name',
     'address',
     'received',
     'sent',
-    'epoch_number',
-    'Date',
+    'givers',
+    'percentage_of_give',
+    'circle_rewards',
+    'circle_rewards_token',
   ];
   if (fixedPaymentsEnabled) {
     headers.push('fixed_payment_amount');
@@ -110,6 +157,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           .map(g => g.tokens)
           .reduce((total, tokens) => tokens + total)
       : 0;
+    const claimed = !fixedDist
+      ? 0
+      : fixedDist.claims
+          .filter(c => c.profile_id === u.profile?.id)
+          .reduce((t, g) => t + g.new_amount, 0) || 0;
+    let circle_claimed = !circleDist
+      ? 0
+      : circleDist.claims
+          .filter(c => c.profile_id === u.profile?.id)
+          .reduce((t, g) => t + g.new_amount, 0) || 0;
+
+    if (
+      circleDist &&
+      circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
+    )
+      circle_claimed -= u.fixed_payment_amount;
+
     const rowValues = [
       idx + 1,
       u.name,
@@ -120,12 +184,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             .map(g => g.tokens)
             .reduce((total, tokens) => tokens + total)
         : 0,
-      epochObj.number,
-      dateRange,
+      u.received_gifts.length,
+      (givenPercent(received, totalTokensSent) * 100).toFixed(2),
+      circle_claimed
+        ? circle_claimed.toFixed(2)
+        : (form_gift_amount * givenPercent(received, totalTokensSent)).toFixed(
+            2
+          ),
+      giftTokenSymbol,
     ];
     if (fixedPaymentsEnabled) {
-      rowValues.push(u.fixed_payment_amount);
-      rowValues.push(circles_by_pk.fixed_payment_token_type);
+      const fixedAmount =
+        fixedDist && fixedDist.distribution_type === DISTRIBUTION_TYPE.FIXED
+          ? claimed
+          : u.fixed_payment_amount;
+      rowValues.push(fixedAmount.toFixed(2));
+      rowValues.push(fixed_payment_token_type);
     }
     if (grant)
       rowValues.push(
@@ -147,3 +221,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export default authCircleAdminMiddleware(handler);
+
+const givenPercent = (received: number, totalGive: number) => {
+  return received / totalGive;
+};

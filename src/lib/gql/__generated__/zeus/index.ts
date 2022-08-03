@@ -609,6 +609,8 @@ export type ValueTypes = {
     circle_id: number;
     epoch?: number | undefined | null;
     epoch_id?: number | undefined | null;
+    form_gift_amount?: number | undefined | null;
+    gift_token_symbol?: string | undefined | null;
     grant?: number | undefined | null;
   };
   ['AllocationCsvResponse']: AliasType<{
@@ -10321,6 +10323,8 @@ export type GraphQLTypes = {
     circle_id: number;
     epoch?: number | undefined;
     epoch_id?: number | undefined;
+    form_gift_amount?: number | undefined;
+    gift_token_symbol?: string | undefined;
     grant?: number | undefined;
   };
   ['AllocationCsvResponse']: {

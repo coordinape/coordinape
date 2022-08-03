@@ -245,6 +245,8 @@ input AllocationCsvInput {
   grant: Float
   epoch: Int
   epoch_id: Int
+  form_gift_amount: Float
+  gift_token_symbol: String
 }
 
 input CreateVaultInput {

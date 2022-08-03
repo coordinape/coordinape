@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { Paginator } from '../../components/Paginator';
+import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
@@ -36,7 +37,12 @@ export const AllocationsTable = ({
   tokenName: string | undefined;
   fixedTokenName: string | undefined;
   giveTokenName: string | undefined;
-  downloadCSV: (epoch: number) => Promise<any>;
+  downloadCSV: (
+    epoch: number,
+    epochId: number,
+    formGiftAmount: number,
+    giftTokenSymbol: string
+  ) => Promise<any>;
   epoch: EpochDataResult;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   circleDist: EpochDataResult['distributions'][0] | undefined;
@@ -89,7 +95,12 @@ export const AllocationsTable = ({
           onClick={async () => {
             // use the authed api to download the CSV
             if (epoch.number) {
-              const csv = await downloadCSV(epoch.number);
+              const csv = await downloadCSV(
+                epoch.number,
+                epoch.id,
+                formGiftAmount,
+                tokenName || ''
+              );
               const circle = epoch.circle;
               if (csv?.file) {
                 const a = document.createElement('a');
@@ -134,9 +145,13 @@ export const AllocationsTable = ({
             <td>{(givenPercent(user) * 100).toFixed(2)}%</td>
             <td>
               {user.circle_claimed
-                ? `${numberWithCommas(user.circle_claimed.toFixed(2))} ${
-                    tokenName || 'GIVE'
-                  }`
+                ? `${numberWithCommas(
+                    (circleDist &&
+                    circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
+                      ? user.circle_claimed - user.fixed_payment_amount
+                      : user.circle_claimed
+                    ).toFixed(2)
+                  )} ${tokenName || 'GIVE'}`
                 : `${numberWithCommas(
                     (givenPercent(user) * formGiftAmount).toFixed(2)
                   )} ${tokenName || 'GIVE'}`}
