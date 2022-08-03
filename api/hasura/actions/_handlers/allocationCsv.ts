@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
+import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
@@ -209,7 +210,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       );
     return (csvText += `${rowValues.join(',')}\r\n`);
   });
-  const fileName = `${epochObj.circle?.organization?.name}-${epochObj.circle?.name}-${epochObj?.number}.csv`;
+
+  const fileName = `${epochObj.circle?.organization?.name}-${
+    epochObj.circle?.name
+  }-epoch-${epochObj.number}-date-${formatCustomDate(
+    epochObj.start_date,
+    'ddLLyy'
+  )}-${formatCustomDate(epochObj.end_date, 'ddLLyy')}.csv`;
   const result = await uploadCsv(
     `${circle_id}/${epochObj.id}/${uuidv4()}/${fileName}`,
     csvText

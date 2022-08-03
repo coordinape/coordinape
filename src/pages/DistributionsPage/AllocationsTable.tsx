@@ -101,10 +101,8 @@ export const AllocationsTable = ({
                 formGiftAmount,
                 tokenName || ''
               );
-              const circle = epoch.circle;
               if (csv?.file) {
                 const a = document.createElement('a');
-                a.download = `${circle?.organization.name}-${circle?.name}-epoch-${epoch.number}.csv`;
                 a.href = csv.file;
                 a.click();
                 a.href = '';
