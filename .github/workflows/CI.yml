@@ -35,13 +35,8 @@ jobs:
           path: '/home/runner/.cache'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v2
-        with:
-          path: '**/hardhat/node_modules'
-          key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
-
       - run: yarn --frozen-lockfile
-      - run: ./scripts/setup.sh
+      - run: ./scripts/link_hardhat.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check

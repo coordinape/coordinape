@@ -61,33 +61,6 @@ context('Coordinape', () => {
     // Assert that the old address is there and correct
     assertAddr(oldAddress);
   });
-
-  it("can set user's fixed payment amount", () => {
-    cy.visit(`/circles/${circleId}/members`);
-    cy.login();
-
-    cy.contains('Kasey', { timeout: 120000 }).should('be.visible');
-
-    // Click on edit user
-    cy.contains('Kasey', { timeout: 120000 })
-      .parents('tr')
-      .within(() => {
-        cy.get('td').last().get('button:first').click();
-      });
-
-    // enter the fixed payment amount
-    cy.getInputByLabel('Fixed Payment Amount').clear().type('12000').blur();
-
-    cy.contains('Save').click({ force: true });
-    cy.reload(true);
-    cy.contains('Kasey', { timeout: 120000 }).should('be.visible');
-    // Verify new value in contributors table
-    cy.contains('Kasey', { timeout: 120000 })
-      .parents('tr')
-      .within(() => {
-        cy.get('td').eq(7).should('have.text', '12000');
-      });
-  });
 });
 
 const assertAddr = (addr: string) => {

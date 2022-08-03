@@ -58,7 +58,7 @@ export function useVaultRouter(contracts?: Contracts) {
         isSimpleToken
           ? token.transfer(receiverAddress, amount)
           : contracts.router.delegateDeposit(
-              vault.vault_address as string,
+              vault.vault_address,
               tokenAddress,
               amount
             ),
