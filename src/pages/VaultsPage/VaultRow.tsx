@@ -70,23 +70,25 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
         <Text h3 css={{ flexGrow: 1 }}>
           {vault.symbol || '...'} CoVault
         </Text>
-        <Button
-          color="primary"
-          outlined
-          size="small"
-          onClick={() => setModal('deposit')}
-        >
-          Deposit
-        </Button>
         {userIsOwner && (
-          <Button
-            color="primary"
-            outlined
-            size="small"
-            onClick={() => setModal('withdraw')}
-          >
-            Withdraw
-          </Button>
+          <>
+            <Button
+              color="primary"
+              outlined
+              size="small"
+              onClick={() => setModal('deposit')}
+            >
+              Deposit
+            </Button>
+            <Button
+              color="primary"
+              outlined
+              size="small"
+              onClick={() => setModal('withdraw')}
+            >
+              Withdraw
+            </Button>
+          </>
         )}
       </Box>
       <Box
