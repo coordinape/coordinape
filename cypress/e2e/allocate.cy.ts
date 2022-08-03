@@ -1,24 +1,24 @@
-import { injectWeb3 } from '../util';
+import { gqlQuery, injectWeb3 } from '../util';
+
+let circleId;
 
 context('Coordinape', () => {
   before(() => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
+    return gqlQuery({
+      circles: [{ where: { name: { _eq: 'Movies' } } }, { id: true }],
+    }).then(q => {
+      circleId = q.circles[0].id;
+    });
   });
   it('can login', () => {
-    cy.visit('/');
+    cy.visit(`/circles/${circleId}/allocation`);
     cy.login();
-    cy.contains('Movies', { timeout: 120000 })
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get('.hover-buttons').invoke('show');
-        cy.get('a').contains('Allocation').click();
-      });
     cy.url({ timeout: 120000 }).should('include', '/epoch');
     cy.contains('What have you been working on').click();
   });
-  it('can opt In', () => {
+  it('can opt in', () => {
     cy.contains('Opt In').click();
     cy.contains('Continue With Current Settings').click();
     cy.url({ timeout: 30000 }).should('include', '/team');
@@ -34,14 +34,10 @@ context('Coordinape', () => {
     });
   });
   it('can allocate to teammates', () => {
-    // can be used to work on this test directly without waiting for other
-    // tests on each run
-    //cy.visit('/give');
-    //cy.login();
     cy.get('[data-testid=profileCard]')
       .eq(1)
       .within(() => {
-        cy.get('[data-testid=increment]').multiClick(5).wait(10000);
+        cy.get('[data-testid=increment]').multiClick(5);
         // there's some recoil funny business happening where old
         // textbox state is restored if typing starts too quickly after
         // incrementing tokens. This delay prevents an application error
