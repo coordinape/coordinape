@@ -16,7 +16,12 @@ import { makeExplorerUrl } from 'utils/provider';
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
 
-const currentClaims = (claims: QueryClaim[]) =>
+// claimRows: reduce all claims into one row per group of {vault, circle,
+// isClaimed} for display in UI (where we group all claims into one row per set
+// of claimable claims together. If you can claim them all together, display
+// them as one row. If they were claimed all together, display them as one row
+// with link to the claim on etherscan)
+const claimRows = (claims: QueryClaim[]) =>
   claims
     .sort(c => c.id)
     .reduce(
@@ -27,8 +32,7 @@ const currentClaims = (claims: QueryClaim[]) =>
               curr.distribution.vault.vault_address &&
             c.distribution.epoch.circle?.id ===
               curr.distribution.epoch.circle?.id &&
-            c.distribution.vault.simple_token_address ===
-              curr.distribution.vault.simple_token_address
+            c.txHash === curr.txHash
         ).length > 0
           ? finalClaims
           : [...finalClaims, curr],
@@ -128,7 +132,7 @@ export default function ClaimsPage() {
             { title: 'Epochs', css: styles.th },
             { title: 'Rewards', css: styles.thLast },
           ]}
-          data={currentClaims(claims.filter(c => !c.txHash))}
+          data={claimRows(claims.filter(c => !c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
@@ -158,7 +162,7 @@ export default function ClaimsPage() {
             { title: 'Epochs', css: styles.th },
             { title: 'Rewards', css: styles.thLast },
           ]}
-          data={currentClaims(claims.filter(c => c.txHash))}
+          data={claimRows(claims.filter(c => c.txHash))}
           startingSortIndex={2}
           startingSortDesc
           sortByColumn={() => {
