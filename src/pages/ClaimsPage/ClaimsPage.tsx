@@ -134,7 +134,7 @@ export default function ClaimsPage() {
                   {isClaiming
                     ? 'Claiming...'
                     : isClaimed
-                    ? 'Claimed!'
+                    ? 'Claimed'
                     : `Claim ${claimsRow.distribution.vault.symbol}`}
                 </Button>
               </ClaimRow>
