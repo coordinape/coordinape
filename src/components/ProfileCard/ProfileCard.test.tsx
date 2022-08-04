@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { any } from 'zod';
 
 import { TestWrapper } from 'utils/testing';
 
@@ -26,6 +27,7 @@ test('allow reducing allocation to 0', async () => {
           user={otherUser}
           gift={startingGift}
           setGift={mockSetGift}
+          tasks={any}
         />
       </TestWrapper>
     );

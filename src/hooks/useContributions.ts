@@ -15,6 +15,7 @@ export interface ContributionUser {
   address: string;
   contributions: Contribution[];
   contribution_details_link: string;
+  type: string;
 }
 
 interface Response {

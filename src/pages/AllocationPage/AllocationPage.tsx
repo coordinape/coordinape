@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 
 import isEqual from 'lodash/isEqual';
@@ -201,7 +200,6 @@ const AllocationContents = ({
     for (const g of pendingGiftsFrom) {
       const u: ISimpleGiftUser | undefined = usersMap.get(g.recipient_id);
       if (!u) {
-        console.warn('gift has no user dude???', usersMap.get(g.recipient_id));
         continue;
       }
       newGifts.push({

@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import iti from 'itiriri';
@@ -13,6 +11,7 @@ import * as mutations from '../../lib/gql/mutations';
 import { ISimpleGift, PostTokenGiftsParam } from '../../types';
 import { Button as UIButton } from '../../ui';
 import { ProfileCard } from 'components';
+import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { useSelectedCircle } from 'recoilState/app';
 import { Text } from 'ui';
 
@@ -160,6 +159,12 @@ enum FilterType {
   NewMember = 2,
 }
 
+export interface WonderContribution {
+  user_address: string;
+  tasks: [];
+  org_id: string;
+}
+
 type AllocationGiveProps = {
   givePerUser: Map<number, ISimpleGift>;
   localGifts: ISimpleGift[];
@@ -181,9 +186,10 @@ const AllocationGive = ({
     circleEpochsStatus: { epochIsActive, longTimingMessage },
     circle: selectedCircle,
   } = useSelectedCircle();
-
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
+  const integrations = useCurrentCircleIntegrations();
+  const [wonderTasks, setWonderTasks] = useState<any>();
 
   const teammateReceiverCount = localGifts
     .map(g => (g.user.non_receiver ? 0 : 1))
@@ -279,6 +285,72 @@ const AllocationGive = ({
     { success: 'Saved Gifts' }
   );
 
+  const getResult = async (wonderOrgIds: string | any[]) => {
+    let orgIdString = '';
+    let addresses = `&user_addresses=${myUser.address}`;
+    for (let i = 0; i < localGifts?.length; i++) {
+      if (localGifts[i].user.name !== 'Coordinape') {
+        addresses = addresses + `&user_addresses=${localGifts[i].user.address}`;
+      }
+    }
+    for (let i = 0; i < wonderOrgIds?.length; i++) {
+      orgIdString = orgIdString + `&organization_ids=${wonderOrgIds[i]}`;
+    }
+    await fetch(
+      `http://localhost:8001/v1/coordinape/user?${addresses}${orgIdString}&epoch_start=2022-07-21T18:42:57&epoch_end=2022-08-21T18:42:57`,
+      {
+        headers: new Headers({
+          Authorization: 'PPjXk7fvc2P7gU4dXGWnZsJo',
+          'Content-Type': 'application/json',
+        }),
+      }
+    )
+      .then(response => response.json())
+      .then(tasks => {
+        setWonderTasks(tasks?.data);
+      });
+  };
+
+  useEffect(() => {
+    const wonderOrgIds = [];
+    if (integrations?.data) {
+      const wonderIntegrations = integrations.data?.filter(
+        (integration: { type: string }) => integration?.type === 'wonder'
+      );
+      for (let i = 0; i < wonderIntegrations.length; i++) {
+        wonderOrgIds.push(...wonderIntegrations?.[i]?.data?.organizationId);
+      }
+
+      const uniqueOrgs = [...new Set(wonderOrgIds)];
+
+      getResult(uniqueOrgs);
+    }
+  }, [integrations.isFetched]);
+
+  const getMyWonderTasks = () => {
+    const myContributionIndex = wonderTasks?.findIndex(
+      (userTasks: { user_address: string }) =>
+        userTasks.user_address === myUser.address
+    );
+    return {
+      address: myUser.address,
+      contributions: wonderTasks?.[myContributionIndex]?.tasks,
+      type: 'wonder',
+    };
+  };
+
+  const getUserWonderTasks = (address: string) => {
+    const otherContributionIndex = wonderTasks?.findIndex(
+      (userTasks: { user_address: string }) =>
+        userTasks.user_address === address
+    );
+    return {
+      address: address,
+      contributions: wonderTasks?.[otherContributionIndex]?.tasks,
+      type: 'wonder',
+    };
+  };
+
   return (
     <>
       <div className={classes.root}>
@@ -358,6 +430,7 @@ const AllocationGive = ({
             tokenName={myUser.circle.tokenName}
             gift={undefined}
             setGift={() => {}}
+            tasks={getMyWonderTasks()}
           />
           {localGifts
             .filter(a => {
@@ -390,18 +463,21 @@ const AllocationGive = ({
                 }
               }
             })
-            .map(gift => (
-              <ProfileCard
-                disabled={!epochIsActive}
-                key={gift.user.id}
-                tokenName={myUser.circle.tokenName}
-                user={gift.user}
-                gift={gift}
-                setGift={(gift: ISimpleGift) => {
-                  updateLocalGift(gift);
-                }}
-              />
-            ))}
+            .map(gift => {
+              return (
+                <ProfileCard
+                  disabled={!epochIsActive}
+                  key={gift.user.id}
+                  tokenName={myUser.circle.tokenName}
+                  user={gift.user}
+                  gift={gift}
+                  tasks={getUserWonderTasks(gift.user.address)}
+                  setGift={(gift: ISimpleGift) => {
+                    updateLocalGift(gift);
+                  }}
+                />
+              );
+            })}
         </div>
       </div>
       <BalanceContainer>

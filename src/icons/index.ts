@@ -39,3 +39,5 @@ export * from './DeprecatedTelegramIcon';
 export * from './DeprecatedTwitterIcon';
 export * from './UnCheckedRadio';
 export * from './DeprecatedUploadIcon';
+export * from './WonderIcon';
+export * from './WonderLogo';

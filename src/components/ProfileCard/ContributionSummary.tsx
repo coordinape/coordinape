@@ -1,13 +1,6 @@
-import { FC } from 'react';
-
 import { makeStyles, Typography } from '@material-ui/core';
 
-import { ContributionUser } from 'hooks/useContributions';
-import { DeworkLogo, RightArrowIcon } from 'icons';
-
-interface Props {
-  contributions: ContributionUser;
-}
+import { DeworkLogo, RightArrowIcon, WonderLogo } from 'icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,29 +45,86 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ContributionSummary: FC<Props> = ({ contributions }) => {
+const renderIconInput = (type: string) => {
+  if (type === 'wonder') {
+    return <WonderLogo size="md" />;
+  } else {
+    return <DeworkLogo size="md" />;
+  }
+};
+
+export function ContributionSummary({
+  contributors,
+}: {
+  contributors: any;
+}): JSX.Element | null {
   const classes = useStyles();
-  if (!contributions.contributions.length) return null;
+  if (
+    !contributors[0]?.contributions?.length &&
+    !contributors[1]?.contributions?.length
+  )
+    return null;
+
   return (
     <div className={classes.root}>
       <Typography variant="body2" className={classes.title}>
-        Contributions ({contributions.contributions.length})
+        Contributions
       </Typography>
-      {contributions.contributions.map((contribution, index) => (
-        <a
-          key={index}
-          href={contribution.link}
-          target="_blank"
-          rel="noreferrer"
-          className={classes.row}
-        >
-          <DeworkLogo size="md" />
-          <Typography variant="body2" className={classes.rowTitle}>
-            {contribution.title}
-          </Typography>
-          <RightArrowIcon size="md" className={classes.moreIcon} />
-        </a>
-      ))}
+      {contributors.map((contributor: { contributions: any[]; type: string }) =>
+        contributor?.contributions?.map((contribution: any, index: number) => {
+          return (
+            <a
+              key={index}
+              href={'http://app.wonderverse.xyz'}
+              target="_blank"
+              rel="noreferrer"
+              className={classes.row}
+            >
+              {renderIconInput(contributor?.type)}
+              <Typography variant="body2" className={classes.rowTitle}>
+                {contribution.title}
+              </Typography>
+              <RightArrowIcon size="md" className={classes.moreIcon} />
+            </a>
+          );
+        })
+      )}
+      {/* {contributors[0]?.contributions?.map(
+        (contribution: any, index: number) => {
+          return (
+            <a
+              key={index}
+              href={'http://app.wonderverse.xyz'}
+              target="_blank"
+              rel="noreferrer"
+              className={classes.row}
+            >
+              {renderIconInput(contributors[0].type)}
+              <Typography variant="body2" className={classes.rowTitle}>
+                {contribution.title}
+              </Typography>
+              <RightArrowIcon size="md" className={classes.moreIcon} />
+            </a>
+          );
+        }
+      )}
+      {contributors[1]?.contributions?.map(
+        (contribution: any, index: number) => (
+          <a
+            key={index}
+            href={contribution.link}
+            target="_blank"
+            rel="noreferrer"
+            className={classes.row}
+          >
+            {renderIconInput(contributors[1].type)}
+            <Typography variant="body2" className={classes.rowTitle}>
+              {contribution.title}
+            </Typography>
+            <RightArrowIcon size="md" className={classes.moreIcon} />
+          </a>
+        )
+      )} */}
     </div>
   );
-};
+}

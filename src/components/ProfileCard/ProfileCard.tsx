@@ -113,6 +113,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+export interface WonderContribution {
+  user_address: string;
+  tasks: [];
+  org_id: string;
+}
 const ProfileCardInner = ({
   user,
   disabled,
@@ -120,6 +125,7 @@ const ProfileCardInner = ({
   tokenName = 'GIVE',
   gift,
   setGift,
+  tasks,
 }: {
   user: ISimpleGiftUser;
   disabled?: boolean;
@@ -127,18 +133,17 @@ const ProfileCardInner = ({
   tokenName?: string;
   gift?: ISimpleGift;
   setGift: (gift: ISimpleGift) => void;
+  tasks: any;
 }) => {
   const classes = useStyles();
   const { getToProfile } = useNavigation();
   const setEditProfileOpen = useSetEditProfileOpen();
-
+  const contributions = useContributions(user.address);
+  const contributors = [tasks, contributions];
   const userBioTextLength = user?.bio?.length ?? 0;
   const skillsLength = user?.profile?.skills?.length ?? 0;
-
   const hideUserBio =
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
-
-  const contributions = useContributions(user.address);
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({
@@ -206,8 +211,9 @@ const ProfileCardInner = ({
       </div>
 
       <div className={classes.bio}>
-        {contributions?.contributions.length ? (
-          <ContributionSummary contributions={contributions} />
+        {contributions?.contributions?.length ||
+        contributors?.[0]?.contributions?.length ? (
+          <ContributionSummary contributors={contributors} />
         ) : isMe && !user.bio ? (
           'Your Epoch Statement is Blank'
         ) : (
