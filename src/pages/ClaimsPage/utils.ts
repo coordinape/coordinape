@@ -35,13 +35,33 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   }`;
 }
 
-export function claimsRowKey(
-  distribution: QueryClaim['distribution'],
-  txHash?: QueryClaim['txHash']
-): string {
-  let key = `${distribution.vault.vault_address}-${distribution.epoch.circle?.id}-`;
-  if (txHash) {
-    key += `${txHash}`;
+export function claimsRowKey(claim: QueryClaim): string {
+  let key = `${claim.distribution.vault.vault_address}-${claim.distribution.epoch.circle?.id}-`;
+  if (claim.txHash) {
+    key += `${claim.txHash}`;
   }
   return key;
 }
+
+// claimRows: reduce all claims into one row per group of {vault, circle,
+// txHash}, for representing a group of claims into one row per set
+// of batch claimable claims. If you can claim them all together, display
+// them all together. If they were claimed in same tx, display them as one row
+// with link to the claim on etherscan)
+export const claimRows = (claims: QueryClaim[]) =>
+  claims
+    .sort(c => -c.id)
+    .reduce(
+      (finalClaims, curr) =>
+        finalClaims.filter(
+          c =>
+            c.distribution.vault.vault_address ===
+              curr.distribution.vault.vault_address &&
+            c.distribution.epoch.circle?.id ===
+              curr.distribution.epoch.circle?.id &&
+            c.txHash === curr.txHash
+        ).length > 0
+          ? finalClaims
+          : [...finalClaims, curr],
+      [] as QueryClaim[]
+    );
