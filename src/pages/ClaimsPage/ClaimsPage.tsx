@@ -189,15 +189,17 @@ export default function ClaimsPage() {
                 </Flex>
               </td>
               <td>
-                {formatEpochDates(
-                  claimedClaimsGroupByRow[claimsRowKey(distribution, txHash)]
-                )}
+                <Text>
+                  {formatEpochDates(
+                    claimedClaimsGroupByRow[claimsRowKey(distribution, txHash)]
+                  )}
+                </Text>
               </td>
               <td>
                 <Flex css={{ justifyContent: 'flex-end' }}>
                   <Flex
                     css={{
-                      minWidth: '10vw',
+                      minWidth: '11vw',
                       justifyContent: 'flex-end',
                       gap: '$md',
                       mr: '$md',
@@ -215,10 +217,10 @@ export default function ClaimsPage() {
                       color="primary"
                       outlined
                       css={{
-                        fontWeight: '$normal',
+                        fontWeight: '$medium',
                         minHeight: '$xs',
                         px: '$sm',
-                        minWidth: '5vw',
+                        minWidth: '15vw',
                         borderRadius: '$2',
                       }}
                       as="a"
@@ -287,10 +289,10 @@ const ClaimRow = ({
               color="primary"
               outlined
               css={{
-                fontWeight: '$normal',
+                fontWeight: '$medium',
                 minHeight: '$xs',
                 px: '$sm',
-                minWidth: '5vw',
+                minWidth: '11vw',
                 borderRadius: '$2',
               }}
               onClick={onClickClaim}
