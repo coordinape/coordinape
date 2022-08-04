@@ -10,6 +10,7 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { uploadCsv } from '../../../../api-lib/s3';
+import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { isFeatureEnabled } from '../../../../src/config/features';
 import {
   allocationCsvInput,
@@ -31,6 +32,163 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       422
     );
   }
+  const grant = payload.grant ?? epochObj.grant;
+
+  const totalTokensSent = epochObj.token_gifts.length
+    ? epochObj.token_gifts
+        .map(g => g.tokens)
+        .reduce((total, tokens) => tokens + total)
+    : 0;
+  const circle = await getCircleDetails(
+    circle_id,
+    epochObj.id,
+    epochObj.end_date
+  );
+  assert(circle, 'No Circle Found');
+  const fixedPaymentsEnabled =
+    isFeatureEnabled('fixed_payments') && !!circle.fixed_payment_token_type;
+
+  const userValues = generateCsvValues(
+    circle,
+    form_gift_amount,
+    gift_token_symbol,
+    totalTokensSent,
+    fixedPaymentsEnabled,
+    circle.fixed_payment_token_type,
+    grant
+  );
+
+  const headers = [
+    'No',
+    'name',
+    'address',
+    'received',
+    'sent',
+    'givers',
+    'percentage_of_give',
+    'circle_rewards',
+    'circle_rewards_token',
+  ];
+  if (fixedPaymentsEnabled) {
+    headers.push('fixed_payment_amount');
+    headers.push('fixed_payment_token_symbol');
+  }
+  if (grant) headers.push('Grant_amt');
+  let csvText = `${headers.join(',')}\r\n`;
+  userValues.map(rowValues => {
+    csvText += `${rowValues.join(',')}\r\n`;
+  });
+  const fileName = `${epochObj.circle?.organization?.name}-${
+    epochObj.circle?.name
+  }-epoch-${epochObj.number}-date-${formatCustomDate(
+    epochObj.start_date,
+    'ddLLyy'
+  )}-${formatCustomDate(epochObj.end_date, 'ddLLyy')}.csv`;
+  const result = await uploadCsv(
+    `${circle_id}/${epochObj.id}/${uuidv4()}/${fileName}`,
+    csvText
+  );
+
+  console.debug(result.Location);
+  res.status(200).json({
+    file: result.Location,
+  });
+}
+
+export function generateCsvValues(
+  circle: CircleDetails,
+  formGiftAmount: number,
+  giftTokenSymbol: string | undefined,
+  totalTokensSent: number,
+  fixedPaymentsEnabled: boolean,
+  fixedPaymentTokenType: string | undefined,
+  grant: number | undefined
+) {
+  assert(circle, 'No Circle Found');
+  assert(circle.epochs[0], 'No Epoch Found');
+
+  const distEpoch = circle.epochs[0];
+  const circleDist = distEpoch.distributions.find(
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+  );
+  const fixedDist = distEpoch.distributions.find(
+    d =>
+      d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+  );
+
+  giftTokenSymbol = circleDist ? circleDist.vault.symbol : giftTokenSymbol;
+  const { users } = circle;
+
+  const userValues: (string | number)[][] = [];
+  users.map((u, idx) => {
+    const received = u.received_gifts.length
+      ? u.received_gifts
+          .map(g => g.tokens)
+          .reduce((total, tokens) => tokens + total)
+      : 0;
+    const claimed = !fixedDist
+      ? 0
+      : fixedDist.claims
+          .filter(c => c.profile_id === u.profile?.id)
+          .reduce((t, g) => t + g.new_amount, 0) || 0;
+    let circle_claimed = !circleDist
+      ? 0
+      : circleDist.claims
+          .filter(c => c.profile_id === u.profile?.id)
+          .reduce((t, g) => t + g.new_amount, 0) || 0;
+
+    if (
+      circleDist &&
+      circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
+    )
+      circle_claimed -= u.fixed_payment_amount;
+
+    const rowValues: (string | number)[] = [
+      idx + 1,
+      u.name,
+      u.address,
+      received,
+      u.sent_gifts.length
+        ? u.sent_gifts
+            .map(g => g.tokens)
+            .reduce((total, tokens) => tokens + total)
+        : 0,
+      u.received_gifts.length,
+      (givenPercent(received, totalTokensSent) * 100).toFixed(2),
+      circle_claimed
+        ? circle_claimed.toFixed(2)
+        : (formGiftAmount * givenPercent(received, totalTokensSent)).toFixed(2),
+      giftTokenSymbol || '',
+    ];
+    if (fixedPaymentsEnabled && fixedPaymentTokenType) {
+      const fixedAmount =
+        fixedDist && fixedDist.distribution_type === DISTRIBUTION_TYPE.FIXED
+          ? claimed
+          : u.fixed_payment_amount;
+      rowValues.push(fixedAmount.toFixed(2));
+      rowValues.push(fixedPaymentTokenType);
+    }
+    if (grant)
+      rowValues.push(
+        received
+          ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
+          : 0
+      );
+    userValues.push(rowValues);
+  });
+
+  return userValues;
+}
+
+export type CircleDetails = Awaited<ReturnType<typeof getCircleDetails>>;
+export async function getCircleDetails(
+  circle_id: number,
+  epochId: number,
+  epochEndDate: string
+) {
   const { circles_by_pk } = await adminClient.query(
     {
       circles_by_pk: [
@@ -40,7 +198,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           epochs: [
             {
               where: {
-                id: { _eq: epochObj.id },
+                id: { _eq: epochId },
               },
             },
             {
@@ -73,7 +231,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                     deleted_at: { _is_null: true },
                   },
                   {
-                    deleted_at: { _gt: epochObj.end_date },
+                    deleted_at: { _gt: epochEndDate },
                   },
                 ],
               },
@@ -87,13 +245,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 id: true,
               },
               received_gifts: [
-                { where: { epoch_id: { _eq: epochObj.id } } },
+                { where: { epoch_id: { _eq: epochId } } },
                 {
                   tokens: true,
                 },
               ],
               sent_gifts: [
-                { where: { epoch_id: { _eq: epochObj.id } } },
+                { where: { epoch_id: { _eq: epochId } } },
                 {
                   tokens: true,
                 },
@@ -107,124 +265,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'allocationCsv_getGifts',
     }
   );
-  assert(circles_by_pk, 'No Circle Found');
-  assert(circles_by_pk.epochs[0], 'No Epoch Found');
-  const distEpoch = circles_by_pk.epochs[0];
-  const circleDist = distEpoch.distributions.find(
-    d =>
-      d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
-      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
-  );
-  const fixedDist = distEpoch.distributions.find(
-    d =>
-      d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
-      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
-  );
-  const { fixed_payment_token_type, users } = circles_by_pk;
 
-  const giftTokenSymbol = circleDist
-    ? circleDist.vault.symbol
-    : gift_token_symbol;
-  const fixedPaymentsEnabled =
-    isFeatureEnabled('fixed_payments') && fixed_payment_token_type;
-  const grant = payload.grant ?? epochObj.grant;
-  const totalTokensSent = epochObj.token_gifts.length
-    ? epochObj.token_gifts
-        .map(g => g.tokens)
-        .reduce((total, tokens) => tokens + total)
-    : 0;
-
-  const headers = [
-    'No',
-    'name',
-    'address',
-    'received',
-    'sent',
-    'givers',
-    'percentage_of_give',
-    'circle_rewards',
-    'circle_rewards_token',
-  ];
-  if (fixedPaymentsEnabled) {
-    headers.push('fixed_payment_amount');
-    headers.push('fixed_payment_token_symbol');
-  }
-  if (grant) headers.push('Grant_amt');
-
-  let csvText = `${headers.join(',')}\r\n`;
-  users.map((u, idx) => {
-    const received = u.received_gifts.length
-      ? u.received_gifts
-          .map(g => g.tokens)
-          .reduce((total, tokens) => tokens + total)
-      : 0;
-    const claimed = !fixedDist
-      ? 0
-      : fixedDist.claims
-          .filter(c => c.profile_id === u.profile?.id)
-          .reduce((t, g) => t + g.new_amount, 0) || 0;
-    let circle_claimed = !circleDist
-      ? 0
-      : circleDist.claims
-          .filter(c => c.profile_id === u.profile?.id)
-          .reduce((t, g) => t + g.new_amount, 0) || 0;
-
-    if (
-      circleDist &&
-      circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
-    )
-      circle_claimed -= u.fixed_payment_amount;
-
-    const rowValues = [
-      idx + 1,
-      u.name,
-      u.address,
-      received,
-      u.sent_gifts.length
-        ? u.sent_gifts
-            .map(g => g.tokens)
-            .reduce((total, tokens) => tokens + total)
-        : 0,
-      u.received_gifts.length,
-      (givenPercent(received, totalTokensSent) * 100).toFixed(2),
-      circle_claimed
-        ? circle_claimed.toFixed(2)
-        : (form_gift_amount * givenPercent(received, totalTokensSent)).toFixed(
-            2
-          ),
-      giftTokenSymbol,
-    ];
-    if (fixedPaymentsEnabled) {
-      const fixedAmount =
-        fixedDist && fixedDist.distribution_type === DISTRIBUTION_TYPE.FIXED
-          ? claimed
-          : u.fixed_payment_amount;
-      rowValues.push(fixedAmount.toFixed(2));
-      rowValues.push(fixed_payment_token_type);
-    }
-    if (grant)
-      rowValues.push(
-        received
-          ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
-          : 0
-      );
-    return (csvText += `${rowValues.join(',')}\r\n`);
-  });
-
-  const fileName = `${epochObj.circle?.organization?.name}-${
-    epochObj.circle?.name
-  }-epoch-${epochObj.number}-date-${formatCustomDate(
-    epochObj.start_date,
-    'ddLLyy'
-  )}-${formatCustomDate(epochObj.end_date, 'ddLLyy')}.csv`;
-  const result = await uploadCsv(
-    `${circle_id}/${epochObj.id}/${uuidv4()}/${fileName}`,
-    csvText
-  );
-
-  res.status(200).json({
-    file: result.Location,
-  });
+  return circles_by_pk;
 }
 
 export default authCircleAdminMiddleware(handler);
