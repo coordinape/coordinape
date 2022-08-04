@@ -23,6 +23,10 @@ type Mutation {
 }
 
 type Mutation {
+  createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
+}
+
+type Mutation {
   createUsers(payload: CreateUsersInput!): [UserResponse]
 }
 
@@ -284,6 +288,15 @@ input DeleteCircleInput {
   circle_id: Int!
 }
 
+input CircleLandingInfoInput {
+  token: String!
+}
+
+input CreateUserWithTokenInput {
+  name: String!
+  token: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -359,6 +372,11 @@ type LogVaultTxResponse {
 
 type DeleteCircleResponse {
   success: Boolean!
+}
+type CircleLandingInfoResponse {
+  circle_id: Int!
+  name: String!
+  logo: String!
 }
 
 scalar timestamptz

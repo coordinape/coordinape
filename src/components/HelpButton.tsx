@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
+import { PopupButton } from '@typeform/embed-react';
 
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_MAILTO_SUPPORT,
   EXTERNAL_URL_SCHEDULE_WALKTHROUGH,
-  EXTERNAL_URL_TYPEFORM_FEEDBACK,
 } from '../routes/paths';
 import { Button, Flex } from '../ui';
 import { Box } from '../ui/Box/Box';
@@ -180,12 +180,28 @@ const HelpButton = () => {
         >
           Schedule a Walkthrough
         </HelpOption>
-        <HelpOption
-          href={EXTERNAL_URL_TYPEFORM_FEEDBACK}
-          icon={<GiveArrowsIcon size={'md'} color={'text'} />}
+        <Button
+          color={'transparent'}
+          fullWidth={true}
+          css={{ paddingLeft: '0px' }}
         >
-          Share Feedback
-        </HelpOption>
+          <PopupButton
+            id="nvOUfHKN"
+            className="my-button"
+            style={{ marginTop: 0 }}
+          >
+            <Flex
+              css={{
+                alignItems: 'center',
+              }}
+            >
+              <Flex css={{ mr: '$sm', alignItems: 'center', color: '$text' }}>
+                <GiveArrowsIcon size={'md'} color={'text'} />
+              </Flex>
+              Share Feedback
+            </Flex>
+          </PopupButton>
+        </Button>
         <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}

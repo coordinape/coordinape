@@ -19,8 +19,13 @@ insert_permissions:
     backend_only: false
     check:
       distribution:
-        created_by:
-          _eq: X-Hasura-User-Id
+        _and:
+        - created_by:
+            _eq: X-Hasura-User-Id
+        - epoch:
+            circle:
+              deleted_at:
+                _is_null: true
     columns:
     - address
     - amount

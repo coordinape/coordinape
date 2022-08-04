@@ -52,7 +52,7 @@ export const DOMAIN_IS_APP = hostAndPort().split('.')[0] === 'app';
 export const RENDER_APP =
   DOMAIN_IS_APP || (DOMAIN_IS_PREVIEW && pathname() !== '/landing');
 
-const APP_URL =
+export const APP_URL =
   DOMAIN_IS_APP || DOMAIN_IS_PREVIEW
     ? origin()
     : origin().replace(hostAndPort(), `app.${hostAndPort()}`);
