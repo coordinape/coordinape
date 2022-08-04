@@ -17,9 +17,10 @@ import {
 } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { DeprecatedUploadIcon, EditIcon, DeprecatedSaveIcon } from 'icons';
+import { EditIcon, DeprecatedSaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { Form, Flex, Button, Box, Text } from 'ui';
+import { Form, Flex, Button, Box, Text, Panel } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
@@ -40,21 +41,8 @@ const useStyles = makeStyles(theme => ({
   errorColor: {
     color: theme.palette.error.main,
   },
-  logoAvatar: {
-    width: 96,
-    height: 96,
-    border: '4px solid #FFFFFF',
-    borderRadius: '50%',
-  },
   uploadImageTitle: {},
-  quadGrid: {
-    marginBottom: theme.spacing(2),
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: 'auto auto',
-    columnGap: theme.spacing(6),
-    rowGap: theme.spacing(3),
-  },
+
   vouchingItem: {
     width: '100%',
     display: 'flex',
@@ -63,17 +51,6 @@ const useStyles = makeStyles(theme => ({
       opacity: 0.3,
       pointerEvents: 'none',
     },
-  },
-  bottomContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
   },
   input: {
     width: 500,
@@ -100,16 +77,16 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: theme.colors.link,
   },
-  body: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '100%',
-    borderRadius: 8,
-    padding: theme.spacing(0, 8, 3),
-  },
+  // body: {
+  //   position: 'relative',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   backgroundColor: 'white',
+  //   width: '100%',
+  //   borderRadius: 8,
+  //   padding: theme.spacing(0, 8, 3),
+  // },
   medium: {
     maxWidth: 820,
   },
@@ -371,210 +348,378 @@ export const CircleAdminPage = () => {
   };
 
   return (
-    <Form
-      css={{ m: 'auto' }}
-      className={clsx([classes['medium']], classes.body)}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Text h2 css={{ my: '$lg' }}>
-        Circle Settings
+    <SingleColumnLayout>
+      <Text h1 css={{ mb: '$sm' }}>
+        Circle Admin
       </Text>
-      <Flex
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
         css={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '$xs',
-          mb: '$lg',
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: '$lg',
         }}
       >
-        <ApeAvatar path={logoData.avatar} className={classes.logoAvatar} />
-        <label htmlFor="upload-logo-button">
-          <Button as="div" color="neutral" outlined>
-            <DeprecatedUploadIcon />
-            Upload Circle Logo
-          </Button>
-        </label>
-      </Flex>
-      <input
-        id="upload-logo-button"
-        onBlur={circleLogo.onBlur}
-        ref={circleLogo.ref}
-        name={circleLogo.name}
-        onChange={onChangeLogo}
-        style={{ display: 'none' }}
-        type="file"
-      />
-      <Box className={classes.quadGrid}>
-        <DeprecatedApeTextField label="Circle name" {...circleName} fullWidth />
-        <ApeToggle
-          {...vouching}
-          label="Enable Vouching?"
-          infoTooltip={
-            <YesNoTooltip
-              yes="Circle members can invite new people to the
-          circle; they become new members if enough other members vouch for
-          them"
-              no="Only circle admins may add new members"
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
-        <DeprecatedApeTextField label="Token name" {...tokenName} fullWidth />
-        <div
-          className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
-        >
-          <DeprecatedFormTextField
-            label="Minimum vouches to add member"
-            type="number"
-            placeholder="0"
-            {...minVouches}
-            fullWidth
-            disabled={!vouching.value}
-          />
-        </div>
-        <DeprecatedApeTextField
-          label="Teammate selection page text"
-          {...teamSelText}
-          multiline
-          rows={4}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-        <div
-          className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
-        >
-          <DeprecatedFormTextField
-            label="Length of nomination period"
-            type="number"
-            placeholder="0"
-            {...nominationDaysLimit}
-            helperText="(# of days)"
-            fullWidth
-            disabled={!vouching.value}
-          />
-        </div>
-        <DeprecatedApeTextField
-          label="Allocation page text"
-          {...allocText}
-          multiline
-          rows={5}
-          inputProps={{
-            maxLength: 280,
-          }}
-          fullWidth
-        />
-        <div
-          className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
-        >
-          <DeprecatedApeTextField
-            label="Vouching text"
-            placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
-            {...vouchingText}
-            multiline
-            rows={5}
-            inputProps={{
-              maxLength: 280,
-            }}
-            fullWidth
-            disabled={!vouching.value}
-          />
-        </div>
-        <ApeToggle
-          {...onlyGiverVouch}
-          className={clsx(classes.vouchingItem, !vouching && 'disabled')}
-          label="Only Givers can vouch"
-          infoTooltip={
-            <YesNoTooltip
-              yes={`Only members who are eligible to send ${
-                circle.tokenName || 'GIVE'
-              } can vouch for new members`}
-              no="Anyone in the circle can vouch for new members"
-              href={DOCS_HREF}
-              anchorText={DOCS_TEXT}
-            />
-          }
-        />
-        <ApeToggle
-          {...teamSelection}
-          label="Team Selection Enabled"
-          infoTooltip={
-            <YesNoTooltip
-              yes="Members select a team during allocation and make allocations only to that team"
-              no="Members make allocations to anyone in the circle"
-            />
-          }
-        />
-        <ApeToggle
-          {...autoOptOut}
-          label="Auto Opt Out?"
-          infoTooltip={
-            <YesNoTooltip
-              yes="If a member doesn't make allocations in an epoch, they'll be set to opt out of receiving allocations in the next epoch. They can still opt back in."
-              no="Members' opt-in/opt-out settings will not be changed automatically."
-            />
-          }
-        />
-        {isFeatureEnabled('fixed_payments') && (
-          <FormAutocomplete
-            {...fixedPaymentToken}
-            options={tokens}
-            label="Fixed Payment Token"
-            fullWidth
-          />
-        )}
-      </Box>
-      <AdminIntegrations circleId={circleId} />
-      <div className={classes.bottomContainer}>
-        <p className={classes.subTitle}>Discord Webhook</p>
-        {allowEdit && (
-          <input
-            readOnly={!allowEdit}
-            className={classes.input}
-            {...discordWebhook}
-          />
-        )}
-        <div className={classes.webhookButtonContainer}>
-          {!allowEdit && (
-            <Button
-              onClick={editDiscordWebhook}
-              color="neutral"
-              size="medium"
-              outlined
-            >
-              <EditIcon />
-              Edit WebHook
-            </Button>
-          )}
-        </div>
-      </div>
-      {!isEmpty(errors) && (
-        <Box
+        <Panel
           css={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            margin: 0,
-            color: '$alert',
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
+            gap: '$md',
+            '@sm': { gridTemplateColumns: '1fr' },
           }}
         >
-          {Object.values(errors).map((error, i) => (
-            <div key={i}>{error.message}</div>
-          ))}
-        </Box>
-      )}
-      <Button
-        css={{ mt: '$lg', gap: '$xs' }}
-        color="primary"
-        size="medium"
-        disabled={!isDirty}
-      >
-        <DeprecatedSaveIcon />
-        Save
-      </Button>
-    </Form>
+          <Box>
+            <Text h2>General</Text>
+          </Box>
+          <Panel nested>
+            <Box>
+              <Text h3 semibold>
+                Circle Settings
+              </Text>
+              <Box
+                css={{
+                  mb: '$md',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gap: '$lg',
+                  '@sm': { gridTemplateColumns: '1fr' },
+                }}
+              >
+                <DeprecatedApeTextField
+                  label="Circle name"
+                  {...circleName}
+                  fullWidth
+                />
+                <Box>
+                  <Flex
+                    css={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: '$xs',
+                      mb: '$lg',
+                    }}
+                  >
+                    <ApeAvatar path={logoData.avatar} />
+                    <label htmlFor="upload-logo-button">
+                      <Button color="primary" outlined>
+                        Upload File
+                      </Button>
+                    </label>
+                  </Flex>
+                  <input
+                    id="upload-logo-button"
+                    onBlur={circleLogo.onBlur}
+                    ref={circleLogo.ref}
+                    name={circleLogo.name}
+                    onChange={onChangeLogo}
+                    style={{ display: 'none' }}
+                    type="file"
+                  />
+                </Box>
+                <DeprecatedApeTextField
+                  label="Token name"
+                  {...tokenName}
+                  fullWidth
+                />
+              </Box>
+              <Box
+                css={{
+                  mb: '$md',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gap: '$lg',
+                  '@sm': { gridTemplateColumns: '1fr' },
+                }}
+              >
+                <ApeToggle
+                  {...autoOptOut}
+                  label="Auto Opt Out?"
+                  infoTooltip={
+                    <YesNoTooltip
+                      yes="If a member doesn't make allocations in an epoch, they'll be set to opt out of receiving allocations in the next epoch. They can still opt back in."
+                      no="Members' opt-in/opt-out settings will not be changed automatically."
+                    />
+                  }
+                />
+                <ApeToggle
+                  {...onlyGiverVouch}
+                  className={clsx(
+                    classes.vouchingItem,
+                    !vouching && 'disabled'
+                  )}
+                  label="Only Givers can vouch"
+                  infoTooltip={
+                    <YesNoTooltip
+                      yes={`Only members who are eligible to send ${
+                        circle.tokenName || 'GIVE'
+                      } can vouch for new members`}
+                      no="Anyone in the circle can vouch for new members"
+                      href={DOCS_HREF}
+                      anchorText={DOCS_TEXT}
+                    />
+                  }
+                />
+                <ApeToggle
+                  {...teamSelection}
+                  label="Team Selection Enabled"
+                  infoTooltip={
+                    <YesNoTooltip
+                      yes="Members select a team during allocation and make allocations only to that team"
+                      no="Members make allocations to anyone in the circle"
+                    />
+                  }
+                />
+              </Box>
+            </Box>
+          </Panel>
+        </Panel>
+        <Panel
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
+            gap: '$md',
+            '@sm': { gridTemplateColumns: '1fr' },
+          }}
+        >
+          <Box>
+            <Text h2>Fixed Payments</Text>
+          </Box>
+          <Panel nested>
+            <Box
+              css={{
+                mb: '$md',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              {isFeatureEnabled('fixed_payments') && (
+                <FormAutocomplete
+                  {...fixedPaymentToken}
+                  options={tokens}
+                  label="Fixed Payment Vault"
+                  fullWidth
+                />
+              )}
+              <DeprecatedApeTextField
+                label="Token name for CSV export"
+                {...tokenName}
+                fullWidth
+              />
+            </Box>
+          </Panel>
+        </Panel>
+        <Panel
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
+            gap: '$md',
+            '@sm': { gridTemplateColumns: '1fr' },
+          }}
+        >
+          <Box>
+            <Text h2>Customization</Text>
+          </Box>
+          <Panel nested>
+            <Box
+              css={{
+                mb: '$md',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <DeprecatedApeTextField
+                label="Teammate selection page text"
+                {...teamSelText}
+                multiline
+                rows={4}
+                inputProps={{
+                  maxLength: 280,
+                }}
+                fullWidth
+              />
+
+              <DeprecatedApeTextField
+                label="Allocation page text"
+                {...allocText}
+                multiline
+                rows={5}
+                inputProps={{
+                  maxLength: 280,
+                }}
+                fullWidth
+              />
+            </Box>
+          </Panel>
+        </Panel>
+        <Panel
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
+            gap: '$md',
+            '@sm': { gridTemplateColumns: '1fr' },
+          }}
+        >
+          <Box>
+            <Text h2>Vouching</Text>
+          </Box>
+          <Panel nested>
+            <Box
+              css={{
+                mb: '$md',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <Box css={{ gridColumnEnd: 'span 2' }}>
+                <ApeToggle
+                  {...vouching}
+                  label="Enable Vouching?"
+                  infoTooltip={
+                    <YesNoTooltip
+                      yes="Circle members can invite new people to the
+                  circle; they become new members if enough other members vouch for
+                  them"
+                      no="Only circle admins may add new members"
+                      href={DOCS_HREF}
+                      anchorText={DOCS_TEXT}
+                    />
+                  }
+                />
+              </Box>
+              <div
+                className={clsx(
+                  classes.vouchingItem,
+                  !vouching.value && 'disabled'
+                )}
+              >
+                <DeprecatedFormTextField
+                  label="Minimum vouches to add member"
+                  type="number"
+                  placeholder="0"
+                  {...minVouches}
+                  fullWidth
+                  disabled={!vouching.value}
+                />
+              </div>
+              <div
+                className={clsx(
+                  classes.vouchingItem,
+                  !vouching.value && 'disabled'
+                )}
+              >
+                <DeprecatedFormTextField
+                  label="Length of nomination period"
+                  type="number"
+                  placeholder="0"
+                  {...nominationDaysLimit}
+                  helperText="(# of days)"
+                  fullWidth
+                  disabled={!vouching.value}
+                />
+              </div>
+              <div
+                className={clsx(
+                  classes.vouchingItem,
+                  !vouching.value && 'disabled'
+                )}
+              >
+                <DeprecatedApeTextField
+                  label="Vouching text"
+                  placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
+                  {...vouchingText}
+                  multiline
+                  rows={5}
+                  inputProps={{
+                    maxLength: 280,
+                  }}
+                  fullWidth
+                  disabled={!vouching.value}
+                />
+              </div>
+            </Box>
+          </Panel>
+        </Panel>
+        <Panel
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
+            gap: '$md',
+            '@sm': { gridTemplateColumns: '1fr' },
+          }}
+        >
+          <Box>
+            <Text h2>Integrations</Text>
+          </Box>
+          <Panel nested>
+            <Box
+              css={{
+                mb: '$md',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <AdminIntegrations circleId={circleId} />
+              <div>
+                <p>Discord Webhook</p>
+                {allowEdit && (
+                  <input
+                    readOnly={!allowEdit}
+                    className={classes.input}
+                    {...discordWebhook}
+                  />
+                )}
+                <div className={classes.webhookButtonContainer}>
+                  {!allowEdit && (
+                    <Button
+                      onClick={editDiscordWebhook}
+                      color="neutral"
+                      size="medium"
+                      outlined
+                    >
+                      <EditIcon />
+                      Edit WebHook
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </Box>
+          </Panel>
+        </Panel>
+
+        {!isEmpty(errors) && (
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              margin: 0,
+              color: '$alert',
+            }}
+          >
+            {Object.values(errors).map((error, i) => (
+              <div key={i}>{error.message}</div>
+            ))}
+          </Box>
+        )}
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="primary"
+          size="medium"
+          disabled={!isDirty}
+        >
+          <DeprecatedSaveIcon />
+          Save
+        </Button>
+      </Form>
+    </SingleColumnLayout>
   );
 };
 
