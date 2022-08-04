@@ -33,13 +33,13 @@
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
   comment: manage time-based epoch business logic
-- name: recoverVaults
-  webhook: '{{HASURA_API_BASE_URL}}/cron/recoverVaults'
+- name: recoverTransactions
+  webhook: '{{HASURA_API_BASE_URL}}/cron/recoverTransactions'
   schedule: '*/2 * * * *'
   include_in_metadata: true
   payload: {}
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  comment: tracks pending vault deployment transations in case the frontend doesn't
+  comment: tracks pending vault transations in case the frontend doesn't
     update the state upon deployment

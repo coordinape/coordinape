@@ -6,7 +6,7 @@ import { Contracts } from '../../../api-lib/contracts';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { chainId, provider } from '../../../src/utils/testing/provider';
 
-import handler from './recoverVaults';
+import handler from './recoverTransactions';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { mutate: jest.fn(), query: jest.fn() },
