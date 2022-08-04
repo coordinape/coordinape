@@ -37,11 +37,9 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
 }
 
 export function claimsRowKey(claim: QueryClaim): string {
-  let key = `${claim.distribution.vault.vault_address}-${claim.distribution.epoch.circle?.id}-`;
-  if (claim.txHash) {
-    key += `${claim.txHash}`;
-  }
-  return key;
+  return `${claim.distribution.vault.vault_address}-${
+    claim.distribution.epoch.circle?.id
+  }-${claim.txHash || ''}`;
 }
 
 // claimRows: reduce all claims into one row per group of {vault, circle,
