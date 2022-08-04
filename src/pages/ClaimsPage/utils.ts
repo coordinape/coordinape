@@ -1,13 +1,14 @@
+import sortBy from 'lodash/sortBy';
+
 import { QueryClaim } from './queries';
 
 // Takes a group of claims, and generates a Epoch Date representation showing
 // the date range and number of epochs in group.
 export function formatEpochDates(claims: QueryClaim[]) {
-  claims = claims.sort(
-    (a, b) =>
-      +new Date(a.distribution.epoch.start_date).valueOf() -
-      +new Date(b.distribution.epoch.start_date).valueOf()
+  claims = sortBy(claims, c =>
+    new Date(c.distribution.epoch.start_date).getTime()
   );
+
   const startDate = new Date(claims[0].distribution.epoch.start_date);
   const endDate = new Date(
     claims[claims.length - 1].distribution.epoch.end_date
@@ -49,19 +50,17 @@ export function claimsRowKey(claim: QueryClaim): string {
 // them all together. If they were claimed in same tx, display them as one row
 // with link to the claim on etherscan)
 export const claimRows = (claims: QueryClaim[]) =>
-  claims
-    .sort(c => -c.id)
-    .reduce(
-      (finalClaims, curr) =>
-        finalClaims.filter(
-          c =>
-            c.distribution.vault.vault_address ===
-              curr.distribution.vault.vault_address &&
-            c.distribution.epoch.circle?.id ===
-              curr.distribution.epoch.circle?.id &&
-            c.txHash === curr.txHash
-        ).length > 0
-          ? finalClaims
-          : [...finalClaims, curr],
-      [] as QueryClaim[]
-    );
+  claims.reduce(
+    (finalClaims, curr) =>
+      finalClaims.filter(
+        c =>
+          c.distribution.vault.vault_address ===
+            curr.distribution.vault.vault_address &&
+          c.distribution.epoch.circle?.id ===
+            curr.distribution.epoch.circle?.id &&
+          c.txHash === curr.txHash
+      ).length > 0
+        ? finalClaims
+        : [...finalClaims, curr],
+    [] as QueryClaim[]
+  );

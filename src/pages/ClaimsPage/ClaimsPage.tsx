@@ -110,7 +110,7 @@ export default function ClaimsPage() {
           ]}
           data={unclaimedClaimsRows}
           startingSortIndex={2}
-          startingSortDesc
+          startingSortDesc={false}
           sortByColumn={() => {
             return c => c;
           }}
@@ -156,7 +156,7 @@ export default function ClaimsPage() {
           ]}
           data={claimedClaimsRows}
           startingSortIndex={2}
-          startingSortDesc
+          startingSortDesc={false}
           sortByColumn={() => {
             return c => c;
           }}
