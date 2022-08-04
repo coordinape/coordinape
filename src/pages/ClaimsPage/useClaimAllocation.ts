@@ -3,9 +3,8 @@ import assert from 'assert';
 import { BigNumber, BytesLike } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { savePendingVaultTx } from 'lib/gql/mutations';
-import { encodeCircleId } from 'lib/vaults';
+import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 
-import { ZERO_UINT } from 'config/constants';
 import { useApeSnackbar, useContracts } from 'hooks';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -46,26 +45,19 @@ export function useClaimAllocation() {
       assert(circle);
       const encodedCircleId = encodeCircleId(circle.id);
 
-      const root = await contracts.distributor.epochRoots(
-        vault.vault_address,
-        encodedCircleId,
-        yVaultAddress,
-        distribution_epoch_id
-      );
-
-      if (root === ZERO_UINT) throw new Error('No Epoch Root Found');
+      const isSimpleToken = hasSimpleToken(vault);
 
       const trx = await sendAndTrackTx(
         () =>
           contracts.distributor.claim(
             vault.vault_address,
             encodedCircleId,
-            yVaultAddress,
+            isSimpleToken ? vault.simple_token_address : yVaultAddress,
             BigNumber.from(distribution_epoch_id),
             BigNumber.from(index),
             address,
             amount,
-            true,
+            !isSimpleToken,
             proof
           ),
         {
