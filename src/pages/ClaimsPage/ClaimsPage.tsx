@@ -2,19 +2,17 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { Dictionary } from 'lodash';
-import groupBy from 'lodash/groupBy';
-import { useQuery } from 'react-query';
 
 import { LoadingModal, makeTable } from 'components';
-import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { useMyProfile } from 'recoilState/app';
 import { Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
-import { getClaims, QueryClaim } from './queries';
+import { useClaimsTableData } from './hooks';
+import { QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
+import { formatEpochDates, formatClaimAmount, claimsRowKey } from './utils';
 
 // claimRows: reduce all claims into one row per group of {vault, circle,
 // txHash}, for representing a group of claims into one row per set
@@ -49,9 +47,7 @@ export default function ClaimsPage() {
   const ClaimsTable = makeTable<QueryClaim>('ClaimsTable');
 
   const address = useConnectedAddress();
-  const contracts = useContracts();
   const claimTokens = useClaimAllocation();
-  const profile = useMyProfile();
   const [claiming, setClaiming] = useState<Record<number, boolean>>({});
 
   const {
@@ -59,20 +55,11 @@ export default function ClaimsPage() {
     isLoading,
     isError,
     error,
-    data: claims,
+    claims,
     refetch,
-  } = useQuery(
-    ['claims', profile.id],
-    () => {
-      assert(contracts);
-      return getClaims(profile.id, contracts);
-    },
-    {
-      enabled: !!(contracts && address),
-      retry: false,
-      staleTime: Infinity,
-    }
-  );
+    claimedClaimsGroupByRow,
+    unclaimedClaimsGroupByRow,
+  } = useClaimsTableData();
 
   if (isIdle || isLoading) return <LoadingModal visible />;
   if (isError || !claims)
@@ -85,20 +72,6 @@ export default function ClaimsPage() {
         )}
       </SingleColumnLayout>
     );
-
-  const claimedClaimsGroupByRow = groupBy(
-    claims.filter(c => c.txHash).sort(c => -c.id),
-    c => {
-      return claimsRowKey(c.distribution, c.txHash);
-    }
-  );
-
-  const unclaimedClaimsGroupByRow = groupBy(
-    claims.filter(c => !c.txHash).sort(c => c.id),
-    c => {
-      return claimsRowKey(c.distribution);
-    }
-  );
 
   const processClaim = async (claimId: number) => {
     const claim = claims.find(c => c.id === claimId);
@@ -306,49 +279,3 @@ const ClaimRow = ({
     </tr>
   );
 };
-
-// Takes a group of claims, and generates a Epoch Date representation showing
-// the date range and number of epochs in group.
-function formatEpochDates(claims: QueryClaim[]) {
-  claims = claims.sort(
-    (a, b) =>
-      +new Date(a.distribution.epoch.start_date).valueOf() -
-      +new Date(b.distribution.epoch.start_date).valueOf()
-  );
-  const startDate = new Date(claims[0].distribution.epoch.start_date);
-  const endDate = new Date(
-    claims[claims.length - 1].distribution.epoch.end_date
-  );
-  const epochsPlural = claims.length > 1 ? 'Epochs:' : 'Epoch:';
-
-  const monthName = (_date: Date) =>
-    _date.toLocaleString('default', { month: 'long' });
-
-  return `${claims.length} ${epochsPlural} ${monthName(
-    startDate
-  )} ${startDate.getDate()} - ${monthName(
-    endDate
-  )} ${endDate.getDate()} ${endDate.getFullYear()}`;
-}
-
-// Takes a group of claims and reduces to a summed value for that group for
-// display
-function formatClaimAmount(claims: QueryClaim[]): string {
-  const totalAmount = claims.reduce((accumulator, curr) => {
-    return accumulator + (curr.unwrappedNewAmount || 0);
-  }, 0);
-  return `${parseFloat(totalAmount.toString()).toFixed(2)} ${
-    claims[0].distribution.vault.symbol
-  }`;
-}
-
-function claimsRowKey(
-  distribution: QueryClaim['distribution'],
-  txHash?: QueryClaim['txHash']
-): string {
-  let key = `${distribution.vault.vault_address}-${distribution.epoch.circle?.id}-`;
-  if (txHash) {
-    key += `${txHash}`;
-  }
-  return key;
-}
