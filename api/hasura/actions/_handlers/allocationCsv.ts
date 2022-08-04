@@ -89,7 +89,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     csvText
   );
 
-  console.debug(result.Location);
   res.status(200).json({
     file: result.Location,
   });
