@@ -16,7 +16,7 @@ const buttonStyles = {
   fontWeight: '$medium',
   minHeight: '$xs',
   px: '$sm',
-  minWidth: '15vw',
+  minWidth: '11vw',
   borderRadius: '$2',
 };
 
