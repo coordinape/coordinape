@@ -1,3 +1,4 @@
+import { hexZeroPad } from '@ethersproject/bytes';
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
@@ -25,18 +26,18 @@ test('mix of invalid & valid txs', async () => {
     AddressZero
   );
 
-  const validHashNoTx =
-    '0x81abe75c28e2ed37af2437e26233cecc2edd655caee273ba4eed808535896fe6';
+  const hash1 = hexZeroPad('0xa', 32);
 
   (adminClient.query as jest.Mock).mockImplementation(() =>
     Promise.resolve({
       pending_vault_transactions: [
         { tx_hash: '0xdead', chain_id },
-        { tx_hash: validHashNoTx, chain_id },
+        { tx_hash: hash1, chain_id },
         {
           chain_id,
           org_id: '1',
           tx_hash: createVaultTx.hash,
+          tx_type: 'Vault_Deploy',
           created_at: DateTime.now().minus({ minutes: 5.1 }),
         },
       ],
@@ -55,7 +56,7 @@ test('mix of invalid & valid txs', async () => {
     processed_txs: {
       '0xdead':
         'error: invalid hash (argument="value", value="0xdead", code=INVALID_ARGUMENT, version=providers/5.5.0)',
-      [validHashNoTx]: 'no tx found',
+      [hash1]: 'error: no tx found',
       [createVaultTx.hash]: 'added vault id 5',
     },
   });
