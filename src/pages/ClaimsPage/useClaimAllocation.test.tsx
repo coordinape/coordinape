@@ -95,7 +95,6 @@ test('claim single successfully', async () => {
   let work: Promise<boolean> | null = null;
   let expectedBalance = BigNumber.from(1);
   let finalBalance = BigNumber.from(0);
-  const circleId = 2;
 
   const Harness = () => {
     const { createVault } = useVaultFactory(10); // fake org id
@@ -132,7 +131,7 @@ test('claim single successfully', async () => {
 
         const { wait } = await contracts.distributor.uploadEpochRoot(
           vault.vault_address,
-          encodeCircleId(circleId),
+          encodeCircleId(123),
           yVaultAddress,
           merkleRoot,
           total,
@@ -140,20 +139,32 @@ test('claim single successfully', async () => {
         );
 
         const { events } = await wait();
-
         const event = events?.find(e => e.event === 'EpochFunded');
-        const distributorEpochId = event?.args?.epochId;
 
         const { amount, proof, index } = claims[address1];
         await claimAllocation({
           address: address1,
-          circleId,
+          distribution: {
+            id: 1,
+            distribution_json: '',
+            distribution_epoch_id: event?.args?.epochId,
+            epoch: {
+              id: 1,
+              number: 1,
+              start_date: '2020-01-01',
+              end_date: '2020-01-01',
+              circle: {
+                id: 123,
+                name: 'cir',
+                organization: { id: 3, name: 'org' },
+              },
+            },
+            vault,
+          },
           claimId: 1,
-          distributionEpochId: distributorEpochId,
           amount,
           proof,
           index,
-          vault: vault,
         });
 
         finalBalance = await daiContract.balanceOf(address1);
@@ -181,8 +192,6 @@ test('claim single successfully', async () => {
 test('do not allow claim if root not found', async () => {
   let work: Promise<string | undefined>;
 
-  const circleId = 3;
-
   const Harness = () => {
     const { createVault } = useVaultFactory(10); // fake org id
     const claimAllocation = useClaimAllocation();
@@ -207,15 +216,30 @@ test('do not allow claim if root not found', async () => {
         );
 
         const { amount, index, proof } = claims[address1];
+
         const trx = await claimAllocation({
           address: address1,
-          circleId,
+          distribution: {
+            id: 1,
+            distribution_json: '',
+            distribution_epoch_id: 323, // fake epoch id
+            epoch: {
+              id: 1,
+              number: 1,
+              start_date: '2020-01-01',
+              end_date: '2020-01-01',
+              circle: {
+                id: 2,
+                name: 'cir',
+                organization: { id: 3, name: 'org' },
+              },
+            },
+            vault,
+          },
           claimId: 1,
-          distributionEpochId: 323, // fake epoch id
           amount,
           proof,
           index,
-          vault,
         });
 
         return trx;

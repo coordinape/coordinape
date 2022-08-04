@@ -40,10 +40,6 @@ export const getClaims = async (
               simple_token_address: true,
               symbol: true,
               decimals: true,
-              protocol: {
-                id: true,
-                name: true,
-              },
             },
             epoch: {
               id: true,
@@ -55,6 +51,7 @@ export const getClaims = async (
                 logo: true,
                 name: true,
                 organization: {
+                  id: true,
                   name: true,
                 },
               },
@@ -63,9 +60,7 @@ export const getClaims = async (
         },
       ],
     },
-    {
-      operationName: 'getClaims',
-    }
+    { operationName: 'getClaims' }
   );
 
   type ClaimWithUnwrappedAmount = Exclude<typeof claims, undefined>[0] & {

@@ -27,16 +27,14 @@ export function useMarkClaimTaken() {
                 },
               },
             },
-            {
-              returning: {
-                id: true,
-              },
-            },
+            { returning: { id: true } },
+          ],
+          delete_pending_vault_transactions_by_pk: [
+            { tx_hash: txHash },
+            { __typename: true },
           ],
         },
-        {
-          operationName: 'useMarkClaimTaken',
-        }
+        { operationName: 'markClaimTaken' }
       );
     }
   );
