@@ -711,6 +711,10 @@ export type ValueTypes = {
     role?: number | undefined | null;
     starting_tokens?: number | undefined | null;
   };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
+  };
   ['CreateUsersInput']: {
     circle_id: number;
     users: Array<ValueTypes['UserObj'] | undefined | null>;
@@ -1445,6 +1449,53 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: {
+    _and?: Array<ValueTypes['circle_share_tokens_bool_exp']> | undefined | null;
+    _not?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['circle_share_tokens_bool_exp']> | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    type?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    uuid?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+  };
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+  };
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['circle_share_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    type?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    uuid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
   /** columns and relationships of "circles" */
   ['circles']: AliasType<{
     alloc_text?: boolean | `@${string}`;
@@ -2591,6 +2642,8 @@ columns and relationships of "distributions" */
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     total_amount?: boolean | `@${string}`;
     tx_hash?: boolean | `@${string}`;
     /** An object relationship */
@@ -2716,6 +2769,7 @@ columns and relationships of "distributions" */
     gift_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     total_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -2843,6 +2897,7 @@ columns and relationships of "distributions" */
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
@@ -3490,6 +3545,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
     ];
+    createUserWithToken?: [
+      { payload: ValueTypes['CreateUserWithTokenInput'] },
+      ValueTypes['UserResponse']
+    ];
     createUsers?: [
       { payload: ValueTypes['CreateUsersInput'] },
       ValueTypes['UserResponse']
@@ -3536,6 +3595,17 @@ columns and relationships of "distributions" */
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_integrations']
     ];
+    delete_circle_share_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_share_tokens_bool_exp'];
+      },
+      ValueTypes['circle_share_tokens_mutation_response']
+    ];
+    delete_circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
+    ];
     delete_pending_vault_transactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -3564,6 +3634,20 @@ columns and relationships of "distributions" */
         object: ValueTypes['circle_integrations_insert_input'];
       },
       ValueTypes['circle_integrations']
+    ];
+    insert_circle_share_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<ValueTypes['circle_share_tokens_insert_input']>;
+      },
+      ValueTypes['circle_share_tokens_mutation_response']
+    ];
+    insert_circle_share_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['circle_share_tokens_insert_input'];
+      },
+      ValueTypes['circle_share_tokens']
     ];
     insert_claims?: [
       {
@@ -4840,6 +4924,33 @@ columns and relationships of "profiles" */
       },
       ValueTypes['circle_private']
     ];
+    circle_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_share_tokens']
+    ];
+    circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
+    ];
     circles?: [
       {
         /** distinct select on columns */
@@ -5576,6 +5687,33 @@ columns and relationships of "profiles" */
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
       ValueTypes['circle_private']
+    ];
+    circle_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_share_tokens']
+    ];
+    circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
     ];
     circles?: [
       {
@@ -7291,6 +7429,19 @@ columns and relationships of "users" */
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  ['uuid']: unknown;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: {
+    _eq?: ValueTypes['uuid'] | undefined | null;
+    _gt?: ValueTypes['uuid'] | undefined | null;
+    _gte?: ValueTypes['uuid'] | undefined | null;
+    _in?: Array<ValueTypes['uuid']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['uuid'] | undefined | null;
+    _lte?: ValueTypes['uuid'] | undefined | null;
+    _neq?: ValueTypes['uuid'] | undefined | null;
+    _nin?: Array<ValueTypes['uuid']> | undefined | null;
+  };
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: AliasType<{
     /** An object relationship */
@@ -7948,6 +8099,7 @@ export type ModelTypes = {
     nominee: GraphQLTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
@@ -8199,6 +8351,31 @@ columns and relationships of "circle_api_keys" */
   ['circle_private_order_by']: GraphQLTypes['circle_private_order_by'];
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: GraphQLTypes['circle_private_select_column'];
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: GraphQLTypes['circle_share_tokens_bool_exp'];
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: GraphQLTypes['circle_share_tokens_insert_input'];
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_share_tokens']>;
+  };
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: GraphQLTypes['circle_share_tokens_order_by'];
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: GraphQLTypes['circle_share_tokens_select_column'];
   /** columns and relationships of "circles" */
   ['circles']: {
     alloc_text?: string | undefined;
@@ -8625,6 +8802,8 @@ columns and relationships of "distributions" */
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     total_amount: GraphQLTypes['numeric'];
     tx_hash?: string | undefined;
     /** An object relationship */
@@ -8920,6 +9099,7 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
@@ -8941,6 +9121,14 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** delete data from the table: "circle_share_tokens" */
+    delete_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_share_tokens" */
+    delete_circle_share_tokens_by_pk?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -8958,6 +9146,14 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?:
       | GraphQLTypes['circle_integrations']
+      | undefined;
+    /** insert data into the table: "circle_share_tokens" */
+    insert_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_share_tokens" */
+    insert_circle_share_tokens_one?:
+      | GraphQLTypes['circle_share_tokens']
       | undefined;
     /** insert data into the table: "claims" */
     insert_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
@@ -9375,6 +9571,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -9481,6 +9681,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -9955,6 +10159,9 @@ columns and relationships of "users" */
   ['users_var_samp_order_by']: GraphQLTypes['users_var_samp_order_by'];
   /** order by variance() on columns of table "users" */
   ['users_variance_order_by']: GraphQLTypes['users_variance_order_by'];
+  ['uuid']: any;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: GraphQLTypes['uuid_comparison_exp'];
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     /** An object relationship */
@@ -10218,6 +10425,10 @@ export type GraphQLTypes = {
     non_receiver?: boolean | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
+  };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
   };
   ['CreateUsersInput']: {
     circle_id: number;
@@ -10925,6 +11136,53 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: {
+    __typename: 'circle_share_tokens';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: {
+    _and?: Array<GraphQLTypes['circle_share_tokens_bool_exp']> | undefined;
+    _not?: GraphQLTypes['circle_share_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['circle_share_tokens_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    type?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    uuid?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+  };
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: {
+    __typename: 'circle_share_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_share_tokens']>;
+  };
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    type?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    uuid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
   /** columns and relationships of "circles" */
   ['circles']: {
     __typename: 'circles';
@@ -11763,6 +12021,8 @@ columns and relationships of "distributions" */
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     total_amount: GraphQLTypes['numeric'];
     tx_hash?: string | undefined;
     /** An object relationship */
@@ -11850,6 +12110,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     merkle_root?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     total_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -11973,6 +12234,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
@@ -12469,6 +12731,7 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
@@ -12490,6 +12753,14 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** delete data from the table: "circle_share_tokens" */
+    delete_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_share_tokens" */
+    delete_circle_share_tokens_by_pk?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -12507,6 +12778,14 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "circle_integrations" */
     insert_circle_integrations_one?:
       | GraphQLTypes['circle_integrations']
+      | undefined;
+    /** insert data into the table: "circle_share_tokens" */
+    insert_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_share_tokens" */
+    insert_circle_share_tokens_one?:
+      | GraphQLTypes['circle_share_tokens']
       | undefined;
     /** insert data into the table: "claims" */
     insert_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
@@ -13352,6 +13631,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -13459,6 +13742,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -14371,6 +14658,19 @@ columns and relationships of "users" */
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  ['uuid']: any;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: {
+    _eq?: GraphQLTypes['uuid'] | undefined;
+    _gt?: GraphQLTypes['uuid'] | undefined;
+    _gte?: GraphQLTypes['uuid'] | undefined;
+    _in?: Array<GraphQLTypes['uuid']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['uuid'] | undefined;
+    _lte?: GraphQLTypes['uuid'] | undefined;
+    _neq?: GraphQLTypes['uuid'] | undefined;
+    _nin?: Array<GraphQLTypes['uuid']> | undefined;
+  };
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     __typename: 'vault_transactions';
@@ -14923,6 +15223,14 @@ export const enum circle_integrations_select_column {
 export const enum circle_private_select_column {
   circle_id = 'circle_id',
   discord_webhook = 'discord_webhook',
+}
+/** select columns of table "circle_share_tokens" */
+export const enum circle_share_tokens_select_column {
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  type = 'type',
+  updated_at = 'updated_at',
+  uuid = 'uuid',
 }
 /** select columns of table "circles" */
 export const enum circles_select_column {

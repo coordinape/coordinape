@@ -119,6 +119,13 @@ export const createUserSchemaInput = z
   })
   .strict();
 
+export const createUserFromTokenInput = z
+  .object({
+    token: z.string().uuid(),
+    name: z.string().min(3).max(255),
+  })
+  .strict();
+
 export const createUsersBulkSchemaInput = z
   .object({
     circle_id: z.number(),

@@ -27,6 +27,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateNomineeInput: {},
   CreateUserInput: {},
+  CreateUserWithTokenInput: {},
   CreateUsersInput: {
     users: 'UserObj',
   },
@@ -282,7 +283,6 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'String_comparison_exp',
     name: 'String_comparison_exp',
     read_circle: 'Boolean_comparison_exp',
-    read_discord: 'Boolean_comparison_exp',
     read_epochs: 'Boolean_comparison_exp',
     read_member_profiles: 'Boolean_comparison_exp',
     read_nominees: 'Boolean_comparison_exp',
@@ -331,7 +331,6 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'order_by',
     name: 'order_by',
     read_circle: 'order_by',
-    read_discord: 'order_by',
     read_epochs: 'order_by',
     read_member_profiles: 'order_by',
     read_nominees: 'order_by',
@@ -651,6 +650,57 @@ export const AllTypesProps: Record<string, any> = {
   circle_private_set_input: {
     circle_id: 'bigint',
   },
+  circle_share_tokens_aggregate_fields: {
+    count: {
+      columns: 'circle_share_tokens_select_column',
+    },
+  },
+  circle_share_tokens_bool_exp: {
+    _and: 'circle_share_tokens_bool_exp',
+    _not: 'circle_share_tokens_bool_exp',
+    _or: 'circle_share_tokens_bool_exp',
+    circle: 'circles_bool_exp',
+    circle_id: 'bigint_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    type: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    uuid: 'uuid_comparison_exp',
+  },
+  circle_share_tokens_constraint: true,
+  circle_share_tokens_inc_input: {
+    circle_id: 'bigint',
+  },
+  circle_share_tokens_insert_input: {
+    circle: 'circles_obj_rel_insert_input',
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_on_conflict: {
+    constraint: 'circle_share_tokens_constraint',
+    update_columns: 'circle_share_tokens_update_column',
+    where: 'circle_share_tokens_bool_exp',
+  },
+  circle_share_tokens_order_by: {
+    circle: 'circles_order_by',
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    type: 'order_by',
+    updated_at: 'order_by',
+    uuid: 'order_by',
+  },
+  circle_share_tokens_pk_columns_input: {
+    circle_id: 'bigint',
+  },
+  circle_share_tokens_select_column: true,
+  circle_share_tokens_set_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_update_column: true,
   circles: {
     api_keys: {
       distinct_on: 'circle_api_keys_select_column',
@@ -1304,6 +1354,7 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     merkle_root: 'String_comparison_exp',
+    profile: 'profiles_bool_exp',
     total_amount: 'numeric_comparison_exp',
     tx_hash: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
@@ -1336,6 +1387,7 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'numeric',
     gift_amount: 'numeric',
     id: 'bigint',
+    profile: 'profiles_obj_rel_insert_input',
     total_amount: 'numeric',
     updated_at: 'timestamp',
     vault: 'vaults_obj_rel_insert_input',
@@ -1394,6 +1446,7 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'order_by',
     id: 'order_by',
     merkle_root: 'order_by',
+    profile: 'profiles_order_by',
     total_amount: 'order_by',
     tx_hash: 'order_by',
     updated_at: 'order_by',
@@ -1920,6 +1973,9 @@ export const AllTypesProps: Record<string, any> = {
     createUser: {
       payload: 'CreateUserInput',
     },
+    createUserWithToken: {
+      payload: 'CreateUserWithTokenInput',
+    },
     createUsers: {
       payload: 'CreateUsersInput',
     },
@@ -1962,6 +2018,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_circle_private: {
       where: 'circle_private_bool_exp',
+    },
+    delete_circle_share_tokens: {
+      where: 'circle_share_tokens_bool_exp',
+    },
+    delete_circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
     },
     delete_circles: {
       where: 'circles_bool_exp',
@@ -2117,6 +2179,14 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_circle_private_one: {
       object: 'circle_private_insert_input',
+    },
+    insert_circle_share_tokens: {
+      objects: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
+    },
+    insert_circle_share_tokens_one: {
+      object: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
     },
     insert_circles: {
       objects: 'circles_insert_input',
@@ -2344,6 +2414,16 @@ export const AllTypesProps: Record<string, any> = {
       _inc: 'circle_private_inc_input',
       _set: 'circle_private_set_input',
       where: 'circle_private_bool_exp',
+    },
+    update_circle_share_tokens: {
+      _inc: 'circle_share_tokens_inc_input',
+      _set: 'circle_share_tokens_set_input',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    update_circle_share_tokens_by_pk: {
+      _inc: 'circle_share_tokens_inc_input',
+      _set: 'circle_share_tokens_set_input',
+      pk_columns: 'circle_share_tokens_pk_columns_input',
     },
     update_circles: {
       _inc: 'circles_inc_input',
@@ -3405,6 +3485,19 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_private_order_by',
       where: 'circle_private_bool_exp',
     },
+    circle_share_tokens: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_aggregate: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
+    },
     circles: {
       distinct_on: 'circles_select_column',
       order_by: 'circles_order_by',
@@ -3737,6 +3830,19 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'circle_private_select_column',
       order_by: 'circle_private_order_by',
       where: 'circle_private_bool_exp',
+    },
+    circle_share_tokens: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_aggregate: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
     },
     circles: {
       distinct_on: 'circles_select_column',
@@ -4701,6 +4807,17 @@ export const AllTypesProps: Record<string, any> = {
     role: 'order_by',
     starting_tokens: 'order_by',
   },
+  uuid: 'String',
+  uuid_comparison_exp: {
+    _eq: 'uuid',
+    _gt: 'uuid',
+    _gte: 'uuid',
+    _in: 'uuid',
+    _lt: 'uuid',
+    _lte: 'uuid',
+    _neq: 'uuid',
+    _nin: 'uuid',
+  },
   vault_transactions_aggregate_fields: {
     count: {
       columns: 'vault_transactions_select_column',
@@ -5488,7 +5605,6 @@ export const ReturnTypes: Record<string, any> = {
     hash: 'String',
     name: 'String',
     read_circle: 'Boolean',
-    read_discord: 'Boolean',
     read_epochs: 'Boolean',
     read_member_profiles: 'Boolean',
     read_nominees: 'Boolean',
@@ -5772,6 +5888,81 @@ export const ReturnTypes: Record<string, any> = {
   },
   circle_private_variance_fields: {
     circle_id: 'Float',
+  },
+  circle_share_tokens: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_aggregate: {
+    aggregate: 'circle_share_tokens_aggregate_fields',
+    nodes: 'circle_share_tokens',
+  },
+  circle_share_tokens_aggregate_fields: {
+    avg: 'circle_share_tokens_avg_fields',
+    count: 'Int',
+    max: 'circle_share_tokens_max_fields',
+    min: 'circle_share_tokens_min_fields',
+    stddev: 'circle_share_tokens_stddev_fields',
+    stddev_pop: 'circle_share_tokens_stddev_pop_fields',
+    stddev_samp: 'circle_share_tokens_stddev_samp_fields',
+    sum: 'circle_share_tokens_sum_fields',
+    var_pop: 'circle_share_tokens_var_pop_fields',
+    var_samp: 'circle_share_tokens_var_samp_fields',
+    variance: 'circle_share_tokens_variance_fields',
+  },
+  circle_share_tokens_avg_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_max_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_min_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'circle_share_tokens',
+  },
+  circle_share_tokens_stddev_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_stddev_pop_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_stddev_samp_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_sum_fields: {
+    circle_id: 'bigint',
+    type: 'Int',
+  },
+  circle_share_tokens_var_pop_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_var_samp_fields: {
+    circle_id: 'Float',
+    type: 'Float',
+  },
+  circle_share_tokens_variance_fields: {
+    circle_id: 'Float',
+    type: 'Float',
   },
   circles: {
     alloc_text: 'String',
@@ -6157,6 +6348,7 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
+    profile: 'profiles',
     total_amount: 'numeric',
     tx_hash: 'String',
     updated_at: 'timestamp',
@@ -6653,6 +6845,7 @@ export const ReturnTypes: Record<string, any> = {
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    createUserWithToken: 'UserResponse',
     createUsers: 'UserResponse',
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
@@ -6668,6 +6861,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_metadata: 'circle_metadata_mutation_response',
     delete_circle_metadata_by_pk: 'circle_metadata',
     delete_circle_private: 'circle_private_mutation_response',
+    delete_circle_share_tokens: 'circle_share_tokens_mutation_response',
+    delete_circle_share_tokens_by_pk: 'circle_share_tokens',
     delete_circles: 'circles_mutation_response',
     delete_circles_by_pk: 'circles',
     delete_claims: 'claims_mutation_response',
@@ -6720,6 +6915,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_circle_metadata_one: 'circle_metadata',
     insert_circle_private: 'circle_private_mutation_response',
     insert_circle_private_one: 'circle_private',
+    insert_circle_share_tokens: 'circle_share_tokens_mutation_response',
+    insert_circle_share_tokens_one: 'circle_share_tokens',
     insert_circles: 'circles_mutation_response',
     insert_circles_one: 'circles',
     insert_claims: 'claims_mutation_response',
@@ -6779,6 +6976,8 @@ export const ReturnTypes: Record<string, any> = {
     update_circle_metadata: 'circle_metadata_mutation_response',
     update_circle_metadata_by_pk: 'circle_metadata',
     update_circle_private: 'circle_private_mutation_response',
+    update_circle_share_tokens: 'circle_share_tokens_mutation_response',
+    update_circle_share_tokens_by_pk: 'circle_share_tokens',
     update_circles: 'circles_mutation_response',
     update_circles_by_pk: 'circles',
     update_claims: 'claims_mutation_response',
@@ -7552,6 +7751,9 @@ export const ReturnTypes: Record<string, any> = {
     circle_metadata_by_pk: 'circle_metadata',
     circle_private: 'circle_private',
     circle_private_aggregate: 'circle_private_aggregate',
+    circle_share_tokens: 'circle_share_tokens',
+    circle_share_tokens_aggregate: 'circle_share_tokens_aggregate',
+    circle_share_tokens_by_pk: 'circle_share_tokens',
     circles: 'circles',
     circles_aggregate: 'circles_aggregate',
     circles_by_pk: 'circles',
@@ -7632,6 +7834,9 @@ export const ReturnTypes: Record<string, any> = {
     circle_metadata_by_pk: 'circle_metadata',
     circle_private: 'circle_private',
     circle_private_aggregate: 'circle_private_aggregate',
+    circle_share_tokens: 'circle_share_tokens',
+    circle_share_tokens_aggregate: 'circle_share_tokens_aggregate',
+    circle_share_tokens_by_pk: 'circle_share_tokens',
     circles: 'circles',
     circles_aggregate: 'circles_aggregate',
     circles_by_pk: 'circles',
