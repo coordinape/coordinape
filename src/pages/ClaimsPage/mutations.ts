@@ -20,6 +20,7 @@ export function useMarkClaimTaken() {
                 txHash: txHash,
               },
               where: {
+                txHash: { _is_null: true },
                 distribution: {
                   vault: { vault_address: { _eq: vaultAddress } },
                   epoch: { circle: { id: { _eq: circleId } } },
