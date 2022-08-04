@@ -19,7 +19,8 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { EditIcon, DeprecatedSaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
-import { Form, Flex, Button, Box, Text, Panel } from 'ui';
+import { paths } from 'routes/paths';
+import { AppLink, Form, Flex, Button, Box, Text, Panel } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
@@ -373,12 +374,15 @@ export const CircleAdminPage = () => {
           </Box>
           <Panel nested>
             <Box>
-              <Text h3 semibold>
+              <Text h3 semibold css={{ mb: '$md' }}>
                 Circle Settings
+              </Text>
+              <Text p as="p" size="small">
+                Change the default text contributors see during epoch allocation
               </Text>
               <Box
                 css={{
-                  mb: '$md',
+                  my: '$lg',
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '$lg',
@@ -390,18 +394,25 @@ export const CircleAdminPage = () => {
                   {...circleName}
                   fullWidth
                 />
-                <Box>
+                <Box
+                  css={{
+                    flexDirection: 'column',
+                    alignItems: 'end',
+                  }}
+                >
+                  <Text variant="label" css={{ mb: '$xs' }}>
+                    Circle logo
+                  </Text>
                   <Flex
                     css={{
                       flexDirection: 'row',
                       alignItems: 'center',
-                      gap: '$xs',
-                      mb: '$lg',
+                      gap: '$sm',
                     }}
                   >
                     <ApeAvatar path={logoData.avatar} />
                     <label htmlFor="upload-logo-button">
-                      <Button color="primary" outlined>
+                      <Button as="div" color="primary" outlined>
                         Upload File
                       </Button>
                     </label>
@@ -424,7 +435,7 @@ export const CircleAdminPage = () => {
               </Box>
               <Box
                 css={{
-                  mb: '$md',
+                  mb: '$lg',
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '$lg',
@@ -470,6 +481,23 @@ export const CircleAdminPage = () => {
                   }
                 />
               </Box>
+              <Text
+                h3
+                semibold
+                css={{
+                  mt: '$2xl',
+                  pt: '$lg',
+                  mb: '$md',
+                  borderTop: '1px solid $border',
+                }}
+              >
+                Epoch Timing
+              </Text>
+              <Text p as="p" size="small">
+                Edit your epoch timing on the{' '}
+                <AppLink to={paths.history(circle.id)}>Epoch Overview</AppLink>{' '}
+                by creating or editing an epoch.
+              </Text>
             </Box>
           </Panel>
         </Panel>
@@ -487,7 +515,6 @@ export const CircleAdminPage = () => {
           <Panel nested>
             <Box
               css={{
-                mb: '$md',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '$lg',
@@ -502,11 +529,11 @@ export const CircleAdminPage = () => {
                   fullWidth
                 />
               )}
-              <DeprecatedApeTextField
+              {/* <DeprecatedApeTextField
                 label="Token name for CSV export"
                 {...tokenName}
                 fullWidth
-              />
+              /> */}
             </Box>
           </Panel>
         </Panel>
@@ -524,7 +551,6 @@ export const CircleAdminPage = () => {
           <Panel nested>
             <Box
               css={{
-                mb: '$md',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '$lg',
@@ -546,7 +572,7 @@ export const CircleAdminPage = () => {
                 label="Allocation page text"
                 {...allocText}
                 multiline
-                rows={5}
+                rows={4}
                 inputProps={{
                   maxLength: 280,
                 }}
@@ -569,7 +595,6 @@ export const CircleAdminPage = () => {
           <Panel nested>
             <Box
               css={{
-                mb: '$md',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '$lg',
@@ -659,7 +684,6 @@ export const CircleAdminPage = () => {
           <Panel nested>
             <Box
               css={{
-                mb: '$md',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr',
                 gap: '$lg',
