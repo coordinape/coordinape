@@ -18,7 +18,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 Settings.defaultZone = 'utc';
 
-const assertOrRemove = async (hash: string, message: string, test?: any) => {
+const assertOrRemove = async (test: any, message: string, hash: string) => {
   if (test) return;
   await adminClient.mutate({
     delete_pending_vault_transactions_by_pk: [
@@ -41,6 +41,7 @@ const getPendingTxRecords = async () => {
         tx_type: true,
         chain_id: true,
         org_id: true,
+        claim_id: true,
       },
     ],
   });
@@ -60,10 +61,7 @@ const handleTxRecord = async (txRecord: TxRecord) => {
 
   const provider = getProvider(chain_id);
   const tx = await provider.getTransaction(tx_hash);
-
-  await assertOrRemove(tx_hash, 'no tx found', tx);
-
-  // skip if tx not yet mined
+  await assertOrRemove(tx, 'no tx found', tx_hash);
   if (typeof tx.blockNumber === null) return 'not yet mined';
 
   try {
@@ -73,16 +71,19 @@ const handleTxRecord = async (txRecord: TxRecord) => {
     switch (tx_type) {
       case 'Vault_Deploy':
         return handleVaultDeploy(contracts, txRecord, receipt);
-        break;
-      // case 'Claim':
-      //   return handleClaim(contracts, txRecord, receipt);
+      case 'Claim':
+        return handleClaim(contracts, txRecord, receipt);
       default:
         throw new Error(`${tx_type} not handled yet`);
     }
   } catch (e: any) {
     // an error here means the tx failed for some reason
     // we don't care why, so we can just delete it from our table
-    await assertOrRemove(tx_hash, `error fetching receipt: ${e?.message || e}`);
+    await assertOrRemove(
+      false,
+      `error fetching receipt: ${e?.message || e}`,
+      tx_hash
+    );
   }
 };
 
@@ -100,9 +101,14 @@ const handleVaultDeploy = async (
     .filter(log => log.address === contracts.vaultFactory.address)
     .pop();
 
-  await assertOrRemove(tx_hash, 'no event log found', rawLog);
+  await assertOrRemove(rawLog, 'no event log found', tx_hash);
   assert(rawLog);
   const log = contracts.vaultFactory.interface.parseLog(rawLog);
+  await assertOrRemove(
+    log.name === 'VaultCreated',
+    'event name mismatch',
+    tx_hash
+  );
 
   const vault = contracts.getVault(log.args.vault);
   const [simple_token_address, token_address] = await Promise.all([
@@ -112,49 +118,108 @@ const handleVaultDeploy = async (
   const tokenAddress = [token_address, simple_token_address].find(
     e => e != AddressZero
   );
-  await assertOrRemove(tx_hash, 'invalid token address', tokenAddress);
+  await assertOrRemove(tokenAddress, 'invalid token address', tx_hash);
   assert(tokenAddress);
   const token = contracts.getERC20(tokenAddress);
   const [decimals, symbol] = await Promise.all([
     token.decimals(),
     token.symbol(),
   ]);
-  const addVault = await adminClient.mutate({
-    insert_vaults_one: [
-      {
-        object: {
-          symbol,
-          decimals,
-          org_id: tx.org_id,
-          deployment_block: receipt.blockNumber,
-          vault_address: log.args.vault.toLowerCase(),
-          chain_id: tx.chain_id,
-          created_by: tx.created_by,
-          token_address,
-          simple_token_address,
+  const addVault = await adminClient.mutate(
+    {
+      insert_vaults_one: [
+        {
+          object: {
+            symbol,
+            decimals,
+            org_id: tx.org_id,
+            deployment_block: receipt.blockNumber,
+            vault_address: log.args.vault.toLowerCase(),
+            chain_id: tx.chain_id,
+            created_by: tx.created_by,
+            token_address,
+            simple_token_address,
+          },
+          // swallow error if vault already exists in table
+          // and delete the pending entry
+          on_conflict: {
+            constraint: vaults_constraint.vaults_vault_address_key,
+            update_columns: [],
+          },
         },
-        // swallow error if vault already exists in table
-        // and delete the pending entry
-        on_conflict: {
-          constraint: vaults_constraint.vaults_vault_address_key,
-          update_columns: [],
-        },
-      },
-      { id: true },
-    ],
-    delete_pending_vault_transactions_by_pk: [
-      { tx_hash },
-      { __typename: true },
-    ],
-  });
+        { id: true },
+      ],
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'recoverVaultDeploy' }
+  );
   return `added vault id ${addVault.insert_vaults_one?.id}`;
 };
 
-// const handleClaim = async (
-//   contracts: Contracts,
-//   tx: TxRecord,
-//   receipt: TransactionReceipt
-// ) => {};
+const handleClaim = async (
+  contracts: Contracts,
+  tx: TxRecord,
+  receipt: TransactionReceipt
+) => {
+  const { claim_id, tx_hash } = tx;
+
+  const rawLog = receipt.logs
+    .filter(log => log.address === contracts.distributor.address)
+    .pop();
+
+  await assertOrRemove(rawLog, 'no event log found', tx_hash);
+  assert(rawLog);
+  const log = contracts.distributor.interface.parseLog(rawLog);
+  await assertOrRemove(log.name === 'Claimed', 'event name mismatch', tx_hash);
+
+  const { claims_by_pk: data } = await adminClient.query({
+    claims_by_pk: [
+      { id: claim_id },
+      {
+        address: true,
+        distribution: {
+          vault: { vault_address: true },
+          epoch: { circle: { id: true } },
+        },
+      },
+    ],
+  });
+
+  await assertOrRemove(data, 'claim not found', tx_hash);
+  assert(data);
+  const {
+    address,
+    distribution: { vault, epoch },
+  } = data;
+  assert(epoch.circle);
+
+  const update = await adminClient.mutate(
+    {
+      update_claims: [
+        {
+          _set: {
+            txHash: tx_hash,
+          },
+          where: {
+            address: { _eq: address },
+            id: { _lte: claim_id },
+            distribution: {
+              vault: { vault_address: { _eq: vault.vault_address } },
+              epoch: { circle: { id: { _eq: epoch.circle.id } } },
+            },
+          },
+        },
+        { affected_rows: true },
+      ],
+    },
+    { operationName: 'recoverClaim' }
+  );
+
+  return `updated ${update.update_claims?.affected_rows} claims`;
+};
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const txRecords = await getPendingTxRecords();
