@@ -13,7 +13,7 @@ import {
   ParcelIcon,
 } from 'icons';
 import { paths } from 'routes/paths';
-import { Flex, Button } from 'ui';
+import { Flex, Button, Text, HR } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   errorColor: {
@@ -25,12 +25,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.colors.text,
     textAlign: 'center',
   },
-  integrationContainer: {
-    marginBottom: theme.spacing(2),
-  },
   integrationRow: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
     gap: 8,
   },
   integrationText: {
@@ -40,6 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   integrationIcon: {
     color: theme.colors.text,
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -67,40 +67,57 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     return `fix-me-later-${paths.connectIntegration(circleId)}`;
   };
   return (
-    <div style={{ display: 'grid' }}>
-      <p className={classes.subTitle}>Integrations</p>
-      <div className={classes.integrationContainer}>
-        {integrations.data?.map((integration, index) => (
-          <div key={index} className={classes.integrationRow}>
-            <DeworkLogo size="md" className={classes.integrationIcon} />
-            <p className={classes.integrationText}>{integration.name}</p>
-            <IconButton
-              onClick={() => setDeleteIntegration(integration)}
-              className={classes.errorColor}
-              size="small"
-            >
-              <DeprecatedDeleteIcon />
-            </IconButton>
-          </div>
-        ))}
-      </div>
-      <Flex css={{ mr: '$sm' }} className={classes.integrationRow}>
+    <div>
+      <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
+        <Text h3 semibold css={{ mb: '$md' }}>
+          Dework Integration
+        </Text>
+        <Flex
+          css={{
+            mb: integrations.data?.length ? '$md' : 0,
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          {integrations.data?.map((integration, index) => (
+            <div key={index} className={classes.integrationRow}>
+              <Text>
+                <DeworkLogo size="md" className={classes.integrationIcon} />
+                <Text className={classes.integrationText}>
+                  {integration.name}
+                </Text>
+              </Text>
+              <IconButton
+                onClick={() => setDeleteIntegration(integration)}
+                className={classes.errorColor}
+                size="small"
+              >
+                <DeprecatedDeleteIcon />
+              </IconButton>
+            </div>
+          ))}
+        </Flex>
+
         <Button
           as="a"
-          color="neutral"
-          size="medium"
+          color="primary"
           outlined
           href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
             <DeworkIcon size="md" />
           </Flex>
-          Connect Dework
+          Add Dework Connection
         </Button>
+      </Flex>
+      <HR />
+      <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
+        <Text h3 semibold css={{ mb: '$md' }}>
+          Parcel
+        </Text>
         <Button
           as="a"
-          color="neutral"
-          size="medium"
+          color="primary"
           outlined
           href={
             'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'

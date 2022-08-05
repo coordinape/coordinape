@@ -17,10 +17,9 @@ import {
 } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { EditIcon, DeprecatedSaveIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { AppLink, Form, Flex, Button, Box, Text, Panel } from 'ui';
+import { AppLink, Form, Flex, Button, Box, HR, Text, Panel } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
@@ -43,11 +42,15 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.error.main,
   },
   uploadImageTitle: {},
-
+  logoAvatar: {
+    width: 48,
+    height: 48,
+  },
   vouchingItem: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    marginBottom: theme.spacing(2),
     '&.disabled': {
       opacity: 0.3,
       pointerEvents: 'none',
@@ -70,7 +73,6 @@ const useStyles = makeStyles(theme => ({
   webhookButtonContainer: {
     position: 'relative',
     textAlign: 'center',
-    marginTop: theme.spacing(2),
   },
   tooltipLink: {
     display: 'block',
@@ -350,9 +352,6 @@ export const CircleAdminPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Text h1 css={{ mb: '$sm' }}>
-        Circle Admin
-      </Text>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         css={{
@@ -361,6 +360,52 @@ export const CircleAdminPage = () => {
           gap: '$lg',
         }}
       >
+        <Flex
+          row
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            mb: '$sm',
+            '@sm': {
+              flexDirection: 'column',
+              alignItems: 'start',
+            },
+          }}
+        >
+          <Text h1 css={{ '@sm': { mb: '$sm' } }}>
+            Circle Admin
+          </Text>
+          <Flex
+            css={{
+              flexDirection: 'column',
+              alignItems: 'end',
+              gap: '$xs',
+            }}
+          >
+            <Button
+              css={{ mt: '$lg', gap: '$xs' }}
+              color="primary"
+              disabled={!isDirty}
+            >
+              Save Settings
+            </Button>
+            {!isEmpty(errors) && (
+              <Box
+                css={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'end',
+                  margin: 0,
+                  color: '$alert',
+                }}
+              >
+                {Object.values(errors).map((error, i) => (
+                  <div key={i}>{error.message}</div>
+                ))}
+              </Box>
+            )}
+          </Flex>
+        </Flex>
         <Panel
           css={{
             display: 'grid',
@@ -374,15 +419,12 @@ export const CircleAdminPage = () => {
           </Box>
           <Panel nested>
             <Box>
-              <Text h3 semibold css={{ mb: '$md' }}>
+              <Text h3 semibold css={{ mb: '$sm' }}>
                 Circle Settings
-              </Text>
-              <Text p as="p" size="small">
-                Change the default text contributors see during epoch allocation
               </Text>
               <Box
                 css={{
-                  my: '$lg',
+                  mt: '$lg',
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '$lg',
@@ -410,7 +452,10 @@ export const CircleAdminPage = () => {
                       gap: '$sm',
                     }}
                   >
-                    <ApeAvatar path={logoData.avatar} />
+                    <ApeAvatar
+                      path={logoData.avatar}
+                      className={classes.logoAvatar}
+                    />
                     <label htmlFor="upload-logo-button">
                       <Button as="div" color="primary" outlined>
                         Upload File
@@ -435,7 +480,7 @@ export const CircleAdminPage = () => {
               </Box>
               <Box
                 css={{
-                  mb: '$lg',
+                  mt: '$lg',
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '$lg',
@@ -472,7 +517,7 @@ export const CircleAdminPage = () => {
                 />
                 <ApeToggle
                   {...teamSelection}
-                  label="Team Selection Enabled"
+                  label="Team Selection"
                   infoTooltip={
                     <YesNoTooltip
                       yes="Members select a team during allocation and make allocations only to that team"
@@ -481,16 +526,8 @@ export const CircleAdminPage = () => {
                   }
                 />
               </Box>
-              <Text
-                h3
-                semibold
-                css={{
-                  mt: '$2xl',
-                  pt: '$lg',
-                  mb: '$md',
-                  borderTop: '1px solid $border',
-                }}
-              >
+              <HR />
+              <Text h3 semibold css={{ mb: '$md' }}>
                 Epoch Timing
               </Text>
               <Text p as="p" size="small">
@@ -549,8 +586,15 @@ export const CircleAdminPage = () => {
             <Text h2>Customization</Text>
           </Box>
           <Panel nested>
+            <Text h3 semibold css={{ mb: '$sm' }}>
+              Allocation Placeholder Text
+            </Text>
+            <Text p as="p" size="small">
+              Change the default text contributors see during epoch allocation
+            </Text>
             <Box
               css={{
+                mt: '$lg',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '$lg',
@@ -593,8 +637,12 @@ export const CircleAdminPage = () => {
             <Text h2>Vouching</Text>
           </Box>
           <Panel nested>
+            <Text h3 semibold css={{ mb: '$sm' }}>
+              Vouching Settings
+            </Text>
             <Box
               css={{
+                mt: '$lg',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '$lg',
@@ -617,37 +665,39 @@ export const CircleAdminPage = () => {
                   }
                 />
               </Box>
-              <div
-                className={clsx(
-                  classes.vouchingItem,
-                  !vouching.value && 'disabled'
-                )}
-              >
-                <DeprecatedFormTextField
-                  label="Minimum vouches to add member"
-                  type="number"
-                  placeholder="0"
-                  {...minVouches}
-                  fullWidth
-                  disabled={!vouching.value}
-                />
-              </div>
-              <div
-                className={clsx(
-                  classes.vouchingItem,
-                  !vouching.value && 'disabled'
-                )}
-              >
-                <DeprecatedFormTextField
-                  label="Length of nomination period"
-                  type="number"
-                  placeholder="0"
-                  {...nominationDaysLimit}
-                  helperText="(# of days)"
-                  fullWidth
-                  disabled={!vouching.value}
-                />
-              </div>
+              <Box>
+                <div
+                  className={clsx(
+                    classes.vouchingItem,
+                    !vouching.value && 'disabled'
+                  )}
+                >
+                  <DeprecatedFormTextField
+                    label="Minimum vouches to add member"
+                    type="number"
+                    placeholder="0"
+                    {...minVouches}
+                    fullWidth
+                    disabled={!vouching.value}
+                  />
+                </div>
+                <div
+                  className={clsx(
+                    classes.vouchingItem,
+                    !vouching.value && 'disabled'
+                  )}
+                >
+                  <DeprecatedFormTextField
+                    label="Length of nomination period"
+                    type="number"
+                    placeholder="0"
+                    {...nominationDaysLimit}
+                    helperText="(# of days)"
+                    fullWidth
+                    disabled={!vouching.value}
+                  />
+                </div>
+              </Box>
               <div
                 className={clsx(
                   classes.vouchingItem,
@@ -670,6 +720,37 @@ export const CircleAdminPage = () => {
             </Box>
           </Panel>
         </Panel>
+        <Flex
+          css={{
+            flexDirection: 'column',
+            alignItems: 'end',
+            gap: '$xs',
+          }}
+        >
+          <Button
+            css={{ mt: '$lg', gap: '$xs' }}
+            color="primary"
+            disabled={!isDirty}
+          >
+            Save Settings
+          </Button>
+          {!isEmpty(errors) && (
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'end',
+                margin: 0,
+                color: '$alert',
+              }}
+            >
+              {Object.values(errors).map((error, i) => (
+                <div key={i}>{error.message}</div>
+              ))}
+            </Box>
+          )}
+        </Flex>
+        <HR />
         <Panel
           css={{
             display: 'grid',
@@ -682,66 +763,27 @@ export const CircleAdminPage = () => {
             <Text h2>Integrations</Text>
           </Box>
           <Panel nested>
-            <Box
-              css={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
-                gap: '$lg',
-                '@sm': { gridTemplateColumns: '1fr' },
-              }}
-            >
-              <AdminIntegrations circleId={circleId} />
-              <div>
-                <p>Discord Webhook</p>
-                {allowEdit && (
-                  <input
-                    readOnly={!allowEdit}
-                    className={classes.input}
-                    {...discordWebhook}
-                  />
-                )}
-                <div className={classes.webhookButtonContainer}>
-                  {!allowEdit && (
-                    <Button
-                      onClick={editDiscordWebhook}
-                      color="neutral"
-                      size="medium"
-                      outlined
-                    >
-                      <EditIcon />
-                      Edit WebHook
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </Box>
+            <AdminIntegrations circleId={circleId} />
+            <HR />
+            <Text h3 semibold css={{ mb: '$md' }}>
+              Discord Webhook
+            </Text>
+            {allowEdit && (
+              <input
+                readOnly={!allowEdit}
+                className={classes.input}
+                {...discordWebhook}
+              />
+            )}
+            <div className={classes.webhookButtonContainer}>
+              {!allowEdit && (
+                <Button onClick={editDiscordWebhook} color="primary" outlined>
+                  Edit WebHook
+                </Button>
+              )}
+            </div>
           </Panel>
         </Panel>
-
-        {!isEmpty(errors) && (
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              margin: 0,
-              color: '$alert',
-            }}
-          >
-            {Object.values(errors).map((error, i) => (
-              <div key={i}>{error.message}</div>
-            ))}
-          </Box>
-        )}
-        <Button
-          css={{ mt: '$lg', gap: '$xs' }}
-          color="primary"
-          size="medium"
-          disabled={!isDirty}
-        >
-          <DeprecatedSaveIcon />
-          Save
-        </Button>
       </Form>
     </SingleColumnLayout>
   );
