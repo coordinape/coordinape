@@ -204,7 +204,7 @@ export function getMembershipInput(
 
   if (devUser)
     membersInput.unshift({
-      name: 'Me',
+      name: 'Meee',
       address: devAddress,
       role: 1,
       ...devUser,
