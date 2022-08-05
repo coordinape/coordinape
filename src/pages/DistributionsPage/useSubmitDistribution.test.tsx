@@ -17,10 +17,7 @@ import {
 } from 'utils/testing';
 import { mint } from 'utils/testing/mint';
 
-import {
-  useSaveEpochDistribution,
-  useMarkDistributionSaved,
-} from './mutations';
+import { useSaveDistribution, useMarkDistributionDone } from './mutations';
 import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
@@ -68,10 +65,10 @@ jest.mock('pages/DistributionsPage/mutations', () => {
   const save2 = jest.fn().mockReturnValue({ id: 2 });
 
   return {
-    useSaveEpochDistribution: jest.fn().mockReturnValue({
+    useSaveDistribution: jest.fn().mockReturnValue({
       mutateAsync: save1,
     }),
-    useMarkDistributionSaved: jest.fn().mockReturnValue({
+    useMarkDistributionDone: jest.fn().mockReturnValue({
       mutateAsync: save2,
     }),
   };
@@ -161,9 +158,9 @@ test('submit distribution', async () => {
   expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
 
   // did we save to the db twice?
-  const save1calls = (useSaveEpochDistribution().mutateAsync as any).mock.calls;
+  const save1calls = (useSaveDistribution().mutateAsync as any).mock.calls;
   expect(save1calls.length).toBe(1);
-  const save2calls = (useMarkDistributionSaved().mutateAsync as any).mock.calls;
+  const save2calls = (useMarkDistributionDone().mutateAsync as any).mock.calls;
   expect(save2calls.length).toBe(1);
 
   // did we store values in the db?
