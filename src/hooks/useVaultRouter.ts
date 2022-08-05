@@ -92,7 +92,10 @@ export function useVaultRouter(contracts?: Contracts) {
     const symbol = await token.symbol();
     const shares = await getWrappedAmount(humanAmount, vault, contracts);
     const txResult = await sendAndTrackTx(
-      () => vaultContract.apeWithdraw(shares, underlying),
+      () =>
+        hasSimpleToken(vault)
+          ? vaultContract.apeWithdrawSimpleToken(shares)
+          : vaultContract.apeWithdraw(shares, underlying),
       {
         showError,
         showInfo,

@@ -1,6 +1,7 @@
 import assert from 'assert';
 
-import { BigNumber, FixedNumber, utils } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
+import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { ZERO_ADDRESS } from 'config/constants';
@@ -11,7 +12,7 @@ export const hasSimpleToken = ({
   simple_token_address,
 }: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) => {
   if (!simple_token_address) return false;
-  assert(utils.isAddress(simple_token_address), 'invalid address');
+  assert(isAddress(simple_token_address), 'invalid address');
   return simple_token_address !== ZERO_ADDRESS;
 };
 
@@ -44,7 +45,7 @@ export const getWrappedAmount = async (
   >,
   contracts: Contracts
 ): Promise<BigNumber> => {
-  const weiAmount = utils.parseUnits(amount, vault.decimals);
+  const weiAmount = parseUnits(amount, vault.decimals);
   if (hasSimpleToken(vault)) return weiAmount;
 
   const vaultContract = contracts.getVault(vault.vault_address);
