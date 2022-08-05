@@ -24,10 +24,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // get address from currrent user
   const { hasuraProfileId } = sessionVariables;
-  console.log('getting addr');
   const address = await getAddress(hasuraProfileId);
 
-  console.log('getting tokens');
   // get the circleId from the token and make sure its magic
   const { circle_share_tokens } = await adminClient.query({
     circle_share_tokens: [
@@ -56,8 +54,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (!circleId) {
     throw new UnprocessableError('invalid circle link');
   }
-
-  console.log('creating user');
 
   // create the user
   const mutationResult = await createUserMutation(address, circleId, {

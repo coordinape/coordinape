@@ -20,22 +20,21 @@ export function useMarkClaimTaken() {
                 txHash: txHash,
               },
               where: {
+                txHash: { _is_null: true },
                 distribution: {
                   vault: { vault_address: { _eq: vaultAddress } },
                   epoch: { circle: { id: { _eq: circleId } } },
                 },
               },
             },
-            {
-              returning: {
-                id: true,
-              },
-            },
+            { returning: { id: true } },
+          ],
+          delete_pending_vault_transactions_by_pk: [
+            { tx_hash: txHash },
+            { __typename: true },
           ],
         },
-        {
-          operationName: 'useMarkClaimTaken',
-        }
+        { operationName: 'markClaimTaken' }
       );
     }
   );

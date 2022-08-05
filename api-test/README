@@ -1,0 +1,5 @@
+This folder exists so that we can write Jest tests for code in api/, using
+code from src/, without breaking `yarn typecheck`.
+
+The backend code can't use "magic" (non-relative) imports because that's
+provided by Webpack only to frontend bundles and Jest.

@@ -24,6 +24,7 @@ export const getClaims = async (
           index: true,
           proof: true,
           amount: true,
+          new_amount: true,
           txHash: true,
           distribution: {
             id: true,
@@ -39,10 +40,6 @@ export const getClaims = async (
               simple_token_address: true,
               symbol: true,
               decimals: true,
-              protocol: {
-                id: true,
-                name: true,
-              },
             },
             epoch: {
               id: true,
@@ -54,6 +51,7 @@ export const getClaims = async (
                 logo: true,
                 name: true,
                 organization: {
+                  id: true,
                   name: true,
                 },
               },
@@ -62,13 +60,12 @@ export const getClaims = async (
         },
       ],
     },
-    {
-      operationName: 'getClaims',
-    }
+    { operationName: 'getClaims' }
   );
 
   type ClaimWithUnwrappedAmount = Exclude<typeof claims, undefined>[0] & {
     unwrappedAmount: number;
+    unwrappedNewAmount: number;
   };
 
   for (const claim of claims) {
@@ -80,12 +77,20 @@ export const getClaims = async (
     );
 
     const unwrappedAmount = getUnwrappedAmount(claim.amount, pricePerShare);
+    const unwrappedNewAmount = getUnwrappedAmount(
+      claim.new_amount,
+      pricePerShare
+    );
 
     (claim as ClaimWithUnwrappedAmount).unwrappedAmount = unwrappedAmount;
+    (claim as ClaimWithUnwrappedAmount).unwrappedNewAmount = unwrappedNewAmount;
   }
   return claims;
 };
 
 type Claim = Exclude<Awaited<ReturnType<typeof getClaims>>, undefined>[0];
 
-export type QueryClaim = Claim & { unwrappedAmount?: number };
+export type QueryClaim = Claim & {
+  unwrappedAmount?: number;
+  unwrappedNewAmount?: number;
+};
