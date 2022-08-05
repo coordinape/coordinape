@@ -120,12 +120,12 @@ export function DistributionsPage() {
         (fixedDist &&
           fixedDist.claims.some(c => c.profile?.id === u.profile?.id)) ||
         (circle.fixed_payment_token_type && u.fixed_payment_amount) ||
-        epoch.token_gifts?.some(g => g.recipient.id === u.id && g.tokens > 0)
+        epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0)
       );
     })
     .map(user => {
       const receivedGifts = epoch.token_gifts?.filter(
-        g => g.recipient.id === user.id
+        g => g.recipient?.id === user.id
       );
       const claimed = unwrappedAmount(user.profile?.id, fixedDist);
       const circle_claimed = unwrappedAmount(user.profile?.id, circleDist);
@@ -154,7 +154,7 @@ export function DistributionsPage() {
     ...user,
     received:
       epoch.token_gifts
-        ?.filter(g => g.recipient.id === user.id)
+        ?.filter(g => g.recipient?.id === user?.id)
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
 
