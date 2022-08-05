@@ -478,13 +478,11 @@ export const CircleAdminPage = () => {
                   fullWidth
                 />
               </Box>
-              <Box
+              <Flex
                 css={{
                   mt: '$lg',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
-                  gap: '$lg',
-                  '@sm': { gridTemplateColumns: '1fr' },
+                  gap: '$2xl',
+                  // '@sm': { gridTemplateColumns: '1fr' },
                 }}
               >
                 <ApeToggle
@@ -499,10 +497,7 @@ export const CircleAdminPage = () => {
                 />
                 <ApeToggle
                   {...onlyGiverVouch}
-                  className={clsx(
-                    classes.vouchingItem,
-                    !vouching && 'disabled'
-                  )}
+                  className={clsx(!vouching && 'disabled')}
                   label="Only Givers can vouch"
                   infoTooltip={
                     <YesNoTooltip
@@ -525,7 +520,7 @@ export const CircleAdminPage = () => {
                     />
                   }
                 />
-              </Box>
+              </Flex>
               <HR />
               <Text h3 semibold css={{ mb: '$md' }}>
                 Epoch Timing
