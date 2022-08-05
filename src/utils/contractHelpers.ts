@@ -6,7 +6,7 @@ import {
 } from 'components/MyAvatarMenu/RecentTransactionsModal';
 
 type Options = {
-  savePending?: (txHash: string, chainId: string) => Promise<void>;
+  savePending?: (txHash: string) => Promise<void>;
   deletePending?: (txHash: string) => Promise<void>;
   signingMessage?: string;
   sendingMessage?: string;
@@ -41,15 +41,10 @@ export const sendAndTrackTx = async (
   try {
     const promise = callback();
     showInfo(signingMessage);
-    addTransaction({
-      timestamp,
-      status: 'pending',
-      description,
-      chainId,
-    });
+    addTransaction({ timestamp, status: 'pending', description, chainId });
     const tx = await promise;
     showInfo(sendingMessage);
-    await savePending?.(tx.hash, chainId);
+    await savePending?.(tx.hash);
     updateTransaction(timestamp, { hash: tx.hash });
     const receipt = await tx.wait();
     await deletePending?.(tx.hash);

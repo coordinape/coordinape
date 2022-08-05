@@ -25,10 +25,16 @@ module.exports = {
   jest: {
     configure: {
       verbose: true,
-      roots: ['<rootDir>/src/', '<rootDir>/api/', '<rootDir>/api-lib'],
+      roots: [
+        '<rootDir>/src',
+        '<rootDir>/api',
+        '<rootDir>/api-lib',
+        '<rootDir>/api-test',
+      ],
       testMatch: [
         '<rootDir>/api/**/*.{spec,test}.{js,jsx,ts,tsx}',
         '<rootDir>/api-lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
+        '<rootDir>/api-test/**/*.{spec,test}.{js,jsx,ts,tsx}',
       ],
       collectCoverageFrom: [
         'src/**/*.{ts,tsx}',

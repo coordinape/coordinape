@@ -49,23 +49,23 @@ export const useClaimsTableData = () => {
 
   const processClaim = async (claimId: number) => {
     const claim = claims?.find(c => c.id === claimId);
-    assert(claim);
-    assert(address);
+    assert(claim && address);
     const { index, proof, distribution } = claim;
 
     const { claims: jsonClaims } = JSON.parse(distribution.distribution_json);
+
+    // we use this value instead of the column on the claims row because it is
+    // more precise
     const amount = jsonClaims[address.toLowerCase()].amount;
 
     setClaiming(val => ({ ...val, [claim.id]: 'pending' }));
     const hash = await claimTokens({
       claimId: claim.id,
-      circleId: distribution.epoch.circle?.id,
-      vault: distribution.vault,
-      index: index,
+      distribution,
+      index,
       address,
       amount,
       proof: proof.split(','),
-      distributionEpochId: distribution.distribution_epoch_id,
     });
     if (hash) refetch();
     setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));

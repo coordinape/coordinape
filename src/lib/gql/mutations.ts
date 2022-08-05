@@ -166,7 +166,7 @@ export const allVaultFields = {
 
 export const addVault = (
   vault: ValueTypes['CreateVaultInput'],
-  pendingTxHash?: string
+  pendingTxHash: string
 ) =>
   client.mutate(
     {
@@ -204,14 +204,10 @@ export const addVault = (
           },
         },
       ],
-      ...(pendingTxHash
-        ? {
-            delete_pending_vault_transactions_by_pk: [
-              { tx_hash: pendingTxHash },
-              { __typename: true },
-            ],
-          }
-        : {}),
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash: pendingTxHash },
+        { __typename: true },
+      ],
     },
     { operationName: 'addVault' }
   );

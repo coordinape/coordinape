@@ -49,11 +49,11 @@ export function useVaultFactory(orgId?: number) {
           showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,
-          savePending: async (txHash: string, chainId: string) =>
+          savePending: async (txHash: string) =>
             savePendingVaultTx({
               tx_hash: txHash,
               org_id: orgId,
-              chain_id: Number.parseInt(chainId),
+              chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Vault_Deploy,
             }),
         }
@@ -70,7 +70,8 @@ export function useVaultFactory(orgId?: number) {
             deployment_block: receipt?.blockNumber || 0,
           };
 
-          const { createVault } = await addVault(vault, tx?.hash);
+          assert(tx);
+          const { createVault } = await addVault(vault, tx.hash);
           return createVault?.vault;
         }
       }
