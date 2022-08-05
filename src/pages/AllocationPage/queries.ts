@@ -67,6 +67,7 @@ export const getTeammates = async (
         {
           id: true,
           name: true,
+          bio: true,
           address: true,
           non_receiver: true,
           fixed_non_receiver: true,
@@ -94,6 +95,7 @@ export const getTeammates = async (
             // id: true,
             name: true,
             address: true,
+            bio: true,
             non_receiver: true,
             fixed_non_receiver: true,
             created_at: true,
@@ -198,6 +200,7 @@ const getSelectedCurrentTeammates = async (
           teammate: {
             id: true,
             name: true,
+            bio: true,
             address: true,
             non_receiver: true,
             profile: {
