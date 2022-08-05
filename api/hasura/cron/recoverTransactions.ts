@@ -1,20 +1,19 @@
 import assert from 'assert';
 
 import type { TransactionReceipt } from '@ethersproject/abstract-provider';
+import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
 
 import { Contracts } from '../../../api-lib/contracts';
-import {
-  vault_tx_types_enum,
-  vaults_constraint,
-} from '../../../api-lib/gql/__generated__/zeus';
+import { vaults_constraint } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { encodeCircleId } from '../../../src/lib/vaults/circleId';
 
 Settings.defaultZone = 'utc';
 
@@ -32,7 +31,7 @@ const assertOrRemove = async (test: any, message: string, hash: string) => {
 const getPendingTxRecords = async () => {
   const data = await adminClient.query({
     pending_vault_transactions: [
-      { where: { tx_type: { _eq: vault_tx_types_enum.Vault_Deploy } } },
+      {},
       {
         __typename: true,
         created_at: true,
@@ -42,6 +41,7 @@ const getPendingTxRecords = async () => {
         chain_id: true,
         org_id: true,
         claim_id: true,
+        distribution_id: true,
       },
     ],
   });
@@ -73,8 +73,10 @@ const handleTxRecord = async (txRecord: TxRecord) => {
         return handleVaultDeploy(contracts, txRecord, receipt);
       case 'Claim':
         return handleClaim(contracts, txRecord, receipt);
+      case 'Distribution':
+        return handleDistribution(contracts, txRecord, receipt);
       default:
-        throw new Error(`tx_type '${tx_type}' not handled yet`);
+        throw new Error(`unrecognized tx_type: ${tx_type}`);
     }
   } catch (e: any) {
     // an error here means the tx failed for some reason
@@ -165,6 +167,7 @@ const handleClaim = async (
   receipt: TransactionReceipt
 ) => {
   const { claim_id, tx_hash } = tx;
+  await assertOrRemove(claim_id, 'no claim id', tx_hash);
 
   const rawLog = receipt.logs
     .filter(log => log.address === contracts.distributor.address)
@@ -180,6 +183,7 @@ const handleClaim = async (
       { id: claim_id },
       {
         address: true,
+        txHash: true,
         distribution: {
           vault: { vault_address: true },
           epoch: { circle: { id: true } },
@@ -190,6 +194,7 @@ const handleClaim = async (
 
   await assertOrRemove(data, 'claim not found', tx_hash);
   assert(data);
+  await assertOrRemove(!data?.txHash, 'tx_hash already set', tx_hash);
   const {
     address,
     distribution: { vault, epoch },
@@ -211,6 +216,7 @@ const handleClaim = async (
           where: {
             address: { _eq: address },
             id: { _lte: claim_id },
+            txHash: { _is_null: true },
             distribution: {
               vault: { vault_address: { _eq: vault.vault_address } },
               epoch: { circle: { id: { _eq: epoch.circle.id } } },
@@ -219,6 +225,10 @@ const handleClaim = async (
         },
         { affected_rows: true },
       ],
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash },
+        { __typename: true },
+      ],
     },
     { operationName: 'recoverClaim' }
   );
@@ -226,14 +236,102 @@ const handleClaim = async (
   return `updated ${update.update_claims?.affected_rows} claims`;
 };
 
+const handleDistribution = async (
+  contracts: Contracts,
+  tx: TxRecord,
+  receipt: TransactionReceipt
+) => {
+  const { distribution_id, tx_hash } = tx;
+  await assertOrRemove(distribution_id, 'no distribution id', tx_hash);
+
+  const rawLog = receipt.logs
+    .filter(log => log.address === contracts.distributor.address)
+    .pop();
+
+  await assertOrRemove(rawLog, 'no event log found', tx_hash);
+  assert(rawLog);
+  const log = contracts.distributor.interface.parseLog(rawLog);
+  await assertOrRemove(
+    log.name === 'EpochFunded',
+    'event name mismatch',
+    tx_hash
+  );
+
+  const { distributions_by_pk: data } = await adminClient.query({
+    distributions_by_pk: [
+      { id: distribution_id },
+      {
+        vault: { id: true, vault_address: true },
+        epoch: { circle_id: true },
+        tx_hash: true,
+        total_amount: true,
+        distribution_json: [{}, true],
+      },
+    ],
+  });
+  assert(data);
+  await assertOrRemove(!data.tx_hash, 'tx_hash already set', tx_hash);
+
+  const previousAmount = BigNumber.from(
+    JSON.parse(data.distribution_json).previousTotal || 0
+  );
+  const amount = BigNumber.from(data.total_amount).sub(previousAmount);
+
+  // these criteria don't strictly uniquely identify a distribution. if
+  // you wanted to be stricter, you could compare timestamps of the tx and
+  // the db row
+  await assertOrRemove(
+    data.vault.vault_address.toLowerCase() === log.args.vault.toLowerCase() &&
+      encodeCircleId(data.epoch.circle_id) === log.args.circle &&
+      amount.toString() === log.args.amount.toString(),
+    'data mismatch',
+    tx_hash
+  );
+
+  const update = await adminClient.mutate(
+    {
+      update_distributions_by_pk: [
+        {
+          pk_columns: { id: distribution_id },
+          _set: { tx_hash, distribution_epoch_id: log.args.epochId.toString() },
+        },
+        { id: true },
+      ],
+      // FIXME: this throws an error about missing Hasura header variables
+      // createVaultTx: [
+      //   {
+      //     payload: {
+      //       tx_type: 'Distribution',
+      //       tx_hash,
+      //       distribution_id,
+      //       circle_id: data.epoch.circle_id,
+      //       vault_id: data.vault.id,
+      //     },
+      //   },
+      //   { id: true },
+      // ],
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'recoverDistribution' }
+  );
+
+  return `updated distribution id ${update.update_distributions_by_pk?.id}`;
+};
+
 async function handler(req: VercelRequest, res: VercelResponse) {
   const txRecords = await getPendingTxRecords();
+
+  const stackTraces: any[] = [];
 
   const results = await Promise.all(
     txRecords.map(async tx => {
       try {
         return await handleTxRecord(tx);
       } catch (err: any) {
+        if (err.stack) stackTraces.push(err.stack);
         return `error: ${err?.message || err}`;
       }
     })
@@ -244,6 +342,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       txRecords.map(t => t.tx_hash),
       results
     ),
+    stackTraces,
   });
 }
 
