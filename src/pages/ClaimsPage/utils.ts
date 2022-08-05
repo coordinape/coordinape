@@ -1,3 +1,5 @@
+import groupBy from 'lodash/groupBy';
+import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 
 import { QueryClaim } from './queries';
@@ -36,18 +38,18 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   }`;
 }
 
-export function claimsRowKey(claim: QueryClaim): string {
-  return `${claim.distribution.vault.vault_address}-${
-    claim.distribution.epoch.circle?.id
-  }-${claim.txHash || ''}`;
-}
+const claimsRowKey = ({ distribution: { vault, epoch }, txHash }: QueryClaim) =>
+  `${vault.vault_address}-${epoch.circle?.id}-${txHash || ''}`;
 
-// claimRows: reduce all claims into one row per group of {vault, circle,
+// reduceClaims: reduce all claims into one row per group of {vault, circle,
 // txHash}, for representing a group of claims into one row per set
 // of batch claimable claims. If you can claim them all together, display
 // them all together. If they were claimed in same tx, display them as one row
 // with link to the claim on etherscan)
-export const claimRows = (claims: QueryClaim[]) =>
+//
+// note that the "representative claim" for its set is determined by the order
+// of the input, so the input must be sorted if you want sorted output.
+const reduceClaims = (claims: QueryClaim[]) =>
   claims.reduce(
     (finalClaims, curr) =>
       finalClaims.filter(
@@ -62,3 +64,14 @@ export const claimRows = (claims: QueryClaim[]) =>
         : [...finalClaims, curr],
     [] as QueryClaim[]
   );
+
+export const createClaimsRows = (claims: QueryClaim[]) => {
+  const groups = groupBy(claims, claimsRowKey);
+
+  return partition(claims, 'txHash').map(subset =>
+    reduceClaims(subset).map(claim => ({
+      claim,
+      group: groups[claimsRowKey(claim)],
+    }))
+  );
+};

@@ -1,8 +1,6 @@
 import assert from 'assert';
 import { useState, useMemo } from 'react';
 
-import groupBy from 'lodash/groupBy';
-import partition from 'lodash/partition';
 import { useQuery } from 'react-query';
 
 import { useContracts } from 'hooks';
@@ -11,12 +9,9 @@ import { useMyProfile } from 'recoilState/app';
 
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
-import { claimsRowKey, claimRows } from './utils';
+import { createClaimsRows } from './utils';
 
-export type ClaimsRowData = {
-  claimsRow: QueryClaim;
-  group: QueryClaim[];
-};
+export type ClaimsRowData = { claim: QueryClaim; group: QueryClaim[] };
 
 export const useClaimsTableData = () => {
   const contracts = useContracts();
@@ -49,26 +44,7 @@ export const useClaimsTableData = () => {
   );
 
   const [claimedClaimsRows, unclaimedClaimsRows] = useMemo(() => {
-    const [claimedClaims, unclaimedClaims] = partition(claims, 'txHash');
-    const claimedClaimsGroupByRow = groupBy(claimedClaims, c => {
-      return claimsRowKey(c);
-    });
-
-    const unclaimedClaimsGroupByRow = groupBy(unclaimedClaims, c => {
-      return claimsRowKey(c);
-    });
-
-    const claimedClaimsRows = claimRows(claimedClaims).map(claimsRow => ({
-      claimsRow,
-      group: claimedClaimsGroupByRow[claimsRowKey(claimsRow)],
-    }));
-
-    const unclaimedClaimsRows = claimRows(unclaimedClaims).map(claimsRow => ({
-      claimsRow,
-      group: unclaimedClaimsGroupByRow[claimsRowKey(claimsRow)],
-    }));
-
-    return [claimedClaimsRows, unclaimedClaimsRows];
+    return createClaimsRows(claims || []);
   }, [claims]);
 
   const processClaim = async (claimId: number) => {

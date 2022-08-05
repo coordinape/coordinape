@@ -4,7 +4,6 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
-import { QueryClaim } from './queries';
 import { formatEpochDates, formatClaimAmount } from './utils';
 
 const styles = {
@@ -20,28 +19,19 @@ const buttonStyles = {
   borderRadius: '$2',
 };
 
-type ClaimRowProps = {
-  claimsRow: QueryClaim;
-  claimsGroup: QueryClaim[];
-};
-
-const ClaimRow: React.FC<ClaimRowProps> = ({
-  claimsRow,
-  claimsGroup,
-  children,
-}) => {
+const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
   return (
     <tr>
       <td>
-        <Text>{claimsRow.distribution.epoch.circle?.organization?.name}</Text>
+        <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
       </td>
       <td>
         <Flex row css={{ gap: '$sm' }}>
-          <Text>{claimsRow.distribution.epoch.circle?.name}</Text>
+          <Text>{claim.distribution.epoch.circle?.name}</Text>
         </Flex>
       </td>
       <td>
-        <Text>{formatEpochDates(claimsGroup)}</Text>
+        <Text>{formatEpochDates(group)}</Text>
       </td>
       <td>
         <Flex css={{ justifyContent: 'flex-end' }}>
@@ -54,7 +44,7 @@ const ClaimRow: React.FC<ClaimRowProps> = ({
               '@sm': { minWidth: '20vw' },
             }}
           >
-            <Text>{formatClaimAmount(claimsGroup)}</Text>
+            <Text>{formatClaimAmount(group)}</Text>
             {children}
           </Flex>
         </Flex>
@@ -115,29 +105,25 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ claimsRow, group }) => {
-            const isClaiming = claiming[claimsRow.id] === 'pending';
-            const isClaimed = claiming[claimsRow.id] === 'claimed';
+          {({ claim, group }) => {
+            const isClaiming = claiming[claim.id] === 'pending';
+            const isClaimed = claiming[claim.id] === 'claimed';
             return (
-              <ClaimRow
-                claimsRow={claimsRow}
-                key={claimsRow.id}
-                claimsGroup={group}
-              >
+              <ClaimsRow claim={claim} key={claim.id} group={group}>
                 <Button
                   color="primary"
                   outlined
                   css={buttonStyles}
-                  onClick={() => processClaim(claimsRow.id)}
+                  onClick={() => processClaim(claim.id)}
                   disabled={isClaiming || isClaimed}
                 >
                   {isClaiming
                     ? 'Claiming...'
                     : isClaimed
                     ? 'Claimed'
-                    : `Claim ${claimsRow.distribution.vault.symbol}`}
+                    : `Claim ${claim.distribution.vault.symbol}`}
                 </Button>
-              </ClaimRow>
+              </ClaimsRow>
             );
           }}
         </ClaimsTable>
@@ -161,12 +147,8 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ claimsRow, group }) => (
-            <ClaimRow
-              claimsRow={claimsRow}
-              key={claimsRow.id}
-              claimsGroup={group}
-            >
+          {({ claim, group }) => (
+            <ClaimsRow claim={claim} key={claim.id} group={group}>
               <Button
                 color="primary"
                 outlined
@@ -174,13 +156,13 @@ export default function ClaimsPage() {
                 as="a"
                 target="_blank"
                 href={makeExplorerUrl(
-                  claimsRow.distribution.vault.chain_id,
-                  claimsRow.txHash
+                  claim.distribution.vault.chain_id,
+                  claim.txHash
                 )}
               >
                 View on Etherscan
               </Button>
-            </ClaimRow>
+            </ClaimsRow>
           )}
         </ClaimsTable>
       </Panel>
