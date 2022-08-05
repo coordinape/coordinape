@@ -100,7 +100,6 @@ test('mix of invalid & valid txs', async () => {
           },
           {
             chain_id,
-            org_id: '1',
             tx_hash: claimTx.hash,
             tx_type: 'Claim',
             created_at: 'earlier',
@@ -111,7 +110,7 @@ test('mix of invalid & valid txs', async () => {
     if (query.claims_by_pk)
       return Promise.resolve({
         claims_by_pk: {
-          address: '0xf00f00f00',
+          address: userAddress,
           distribution: {
             vault: { vault_address: '0xvault' },
             epoch: { circle: { id: 1 } },
@@ -144,4 +143,4 @@ test('mix of invalid & valid txs', async () => {
       [claimTx.hash]: 'updated 3 claims',
     },
   });
-});
+}, 10000);

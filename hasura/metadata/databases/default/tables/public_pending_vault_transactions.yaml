@@ -18,20 +18,23 @@ insert_permissions:
 - permission:
     backend_only: false
     check:
-      organization:
-        circles:
-          _and:
-          - deleted_at:
-              _is_null: true
-          - users:
-              _and:
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-              - role:
-                  _eq: 1
-              - deleted_at:
-                  _is_null: true
+      _or:
+      - org_id:
+          _is_null: true
+      - organization:
+          circles:
+            _and:
+            - deleted_at:
+                _is_null: true
+            - users:
+                _and:
+                - profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+                - role:
+                    _eq: 1
+                - deleted_at:
+                    _is_null: true
     columns:
     - chain_id
     - claim_id

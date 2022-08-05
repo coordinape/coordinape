@@ -69,7 +69,6 @@ export function useClaimAllocation() {
             savePendingVaultTx({
               tx_hash: txHash,
               claim_id: claimId,
-              org_id: circle.organization.id,
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Claim,
             }),

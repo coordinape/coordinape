@@ -74,7 +74,7 @@ const handleTxRecord = async (txRecord: TxRecord) => {
       case 'Claim':
         return handleClaim(contracts, txRecord, receipt);
       default:
-        throw new Error(`${tx_type} not handled yet`);
+        throw new Error(`tx_type '${tx_type}' not handled yet`);
     }
   } catch (e: any) {
     // an error here means the tx failed for some reason
@@ -196,13 +196,18 @@ const handleClaim = async (
   } = data;
   assert(epoch.circle);
 
+  // prevent linking claims to the wrong tx
+  await assertOrRemove(
+    log.args.account.toLowerCase() === address,
+    'address mismatch',
+    tx_hash
+  );
+
   const update = await adminClient.mutate(
     {
       update_claims: [
         {
-          _set: {
-            txHash: tx_hash,
-          },
+          _set: { txHash: tx_hash },
           where: {
             address: { _eq: address },
             id: { _lte: claim_id },
