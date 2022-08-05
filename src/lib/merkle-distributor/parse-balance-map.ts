@@ -13,6 +13,7 @@ const { isAddress } = utils;
 export interface MerkleDistributorInfo {
   merkleRoot: string;
   tokenTotal: string;
+  previousTotal?: string;
   claims: {
     [account: string]: {
       index: number;
