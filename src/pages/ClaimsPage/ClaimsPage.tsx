@@ -1,5 +1,5 @@
 import { LoadingModal, makeTable } from 'components';
-import { Box, Panel, Flex, Text, Button } from 'ui';
+import { Avatar, Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
@@ -23,10 +23,17 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
   return (
     <tr>
       <td>
-        <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
+        <Flex>
+          {claim.distribution.epoch.circle?.logo ? (
+            <Avatar small path={claim.distribution.epoch.circle?.logo} />
+          ) : (
+            ''
+          )}
+          <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
+        </Flex>
       </td>
       <td>
-        <Flex row css={{ gap: '$sm' }}>
+        <Flex css={{ gap: '$sm' }}>
           <Text>{claim.distribution.epoch.circle?.name}</Text>
         </Flex>
       </td>
