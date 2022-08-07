@@ -14,6 +14,7 @@ type MutationName = keyof ValueTypes['mutation_root'];
     'delete_teammates',
     'delete_vouches',
     'delete_nominees',
+    'delete_circle_api_keys',
     'delete_users',
     'delete_epochs',
     'delete_circle_integrations',
