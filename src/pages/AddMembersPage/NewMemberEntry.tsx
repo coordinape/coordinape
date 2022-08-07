@@ -1,20 +1,26 @@
+/* eslint-disable */
+
 import React from 'react';
+
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { CloseIcon } from '../../icons/CloseIcon';
 import { Box, Flex, Text, TextField } from '../../ui';
 
-import { NewMember } from './AddMembersPage';
+// import { NewMember } from './AddMembersPage';
 
 const EthAndNameEntry = ({
-  nameToAdd,
-  setNameToAdd,
   onFocus,
   onRemove,
+  register,
+  index,
+  error,
 }: {
-  nameToAdd: NewMember;
-  setNameToAdd(nameToAdd: NewMember): void;
   onFocus(): void;
   onRemove?(): void;
+  register: UseFormRegister<FieldValues>;
+  index: number;
+  error?: { name?: string; address?: string };
 }) => {
   // TODO: add zod validation and react form hook stuff??
   return (
@@ -24,24 +30,28 @@ const EthAndNameEntry = ({
         <TextField
           placeholder="ETH Address or ENS"
           inPanel
-          onFocus={onFocus}
-          value={nameToAdd.address}
-          onChange={evt =>
-            setNameToAdd({ ...nameToAdd, address: evt.target.value })
-          }
+          autoFocus={false}
+          onFocus={() => {
+            console.log('addrFocus');
+            onFocus();
+          }}
+          {...register(`address.${index}.value`)}
         />
+        <Box>{error?.address && error?.address}</Box>
       </Box>
       <Box css={{ mr: '$md' }}>
         <Text variant={'label'}>Name</Text>
         <TextField
           placeholder="Name"
           inPanel
-          onFocus={onFocus}
-          value={nameToAdd.name}
-          onChange={evt =>
-            setNameToAdd({ ...nameToAdd, name: evt.target.value })
-          }
+          autoFocus={false}
+          onFocus={() => {
+            console.log('nameFocus');
+            onFocus();
+          }}
+          {...register(`name.${index}.value`)}
         />
+        <Box>{error?.name && error?.name}</Box>
       </Box>
       {onRemove && (
         <Box>

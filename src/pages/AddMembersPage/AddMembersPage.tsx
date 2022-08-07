@@ -103,53 +103,7 @@ const AddMembersContents = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
-  const [newMembers, setNewMembers] = useState<NewMember[]>([
-    {
-      address: '',
-      name: '',
-    },
-  ]);
-
   const [success, setSuccess] = useState<boolean>(false);
-
-  const { showError } = useApeSnackbar();
-  const submitNewMembers = async () => {
-    try {
-      setLoading(true);
-      await client.mutate({
-        createUsers: [
-          {
-            payload: {
-              circle_id: circle.id,
-              users: newMembers.filter(m => m.address != '' && m.name != ''),
-            },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      });
-      // ok it worked, clear out?
-      setSuccess(true);
-    } catch (e) {
-      showError(normalizeError(e));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const [submittable, setSubmittable] = useState<boolean>(false);
-
-  useEffect(() => {
-    for (const m of newMembers) {
-      if (m.name !== '' && m.address !== '') {
-        // at least one good entry
-        setSubmittable(true);
-        return;
-      }
-    }
-    setSubmittable(false);
-  }, [newMembers]);
 
   return (
     <SingleColumnLayout>
@@ -186,8 +140,9 @@ const AddMembersContents = ({
         {currentTab === Tab.ETH && (
           <Box>
             <NewMemberList
-              newMembers={newMembers}
-              setNewMembers={setNewMembers}
+              circleId={circle.id}
+              // newMembers={newMembers}
+              // setNewMembers={setNewMembers}
             />
             {success && (
               <Box>
@@ -205,19 +160,6 @@ const AddMembersContents = ({
                     <WorkingIcon size="md" color="neutral" />
                   </Button>
                 </Flex>
-              </Box>
-            )}
-            {!success && (
-              <Box>
-                <Button
-                  disabled={!submittable || loading}
-                  color="primary"
-                  size="large"
-                  fullWidth
-                  onClick={submitNewMembers}
-                >
-                  Add Members
-                </Button>
               </Box>
             )}
           </Box>
