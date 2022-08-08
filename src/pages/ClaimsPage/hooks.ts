@@ -52,7 +52,7 @@ export const useClaimsTableData = () => {
     assert(claim && address);
     const { index, proof, distribution } = claim;
 
-    const { claims: jsonClaims } = JSON.parse(distribution.distribution_json);
+    const { claims: jsonClaims } = distribution.distribution_json;
 
     // we use this value instead of the column on the claims row because it is
     // more precise
