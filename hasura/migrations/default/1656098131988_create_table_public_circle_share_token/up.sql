@@ -8,7 +8,7 @@ CREATE TABLE "public"."circle_share_token" ("circle_id" bigint NOT NULL, "type" 
 --   _new."updated_at" = NOW();
 --   RETURN _new;
 -- END;
-$$ LANGUAGE plpgsql;
+-- $$ LANGUAGE plpgsql;
 CREATE TRIGGER "set_public_circle_share_token_updated_at"
 BEFORE UPDATE ON "public"."circle_share_token"
 FOR EACH ROW
