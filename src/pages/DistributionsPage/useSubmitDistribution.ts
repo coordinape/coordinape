@@ -128,12 +128,8 @@ export function useSubmitDistribution() {
 
       const response = await saveDistribution({
         // FIXME: we're storing total amounts as fixed numbers & claim amounts
-        // as floating-point numbers. we should change this to be consistent,
-        // but that will probably require hacking Zeus to return numeric
-        // columns as FixedNumber, not Number; otherwise, we create rounding
-        // error as soon as we read from the DB...
-        total_amount: FixedNumber.from(totalAmount).toString(),
-
+        // as floating-point numbers. we should change this to be consistent
+        total_amount: totalAmount.toString(),
         epoch_id: Number(epochId),
         merkle_root: distribution.merkleRoot,
         claims: { data: claims },
