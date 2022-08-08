@@ -1,5 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { FixedNumber } from 'ethers';
+import pick from 'lodash/pick';
 import { DateTime } from 'luxon';
 
 import { TestWrapper } from 'utils/testing';
@@ -25,6 +26,8 @@ jest.mock('react-router-dom', () => {
   };
 });
 
+const recipient = mockEpoch.circle.users[0];
+
 const mockEpochData = {
   id: 1,
   number: mockEpoch.number,
@@ -49,14 +52,7 @@ const mockEpochData = {
   token_gifts: [
     {
       tokens: 100,
-      recipient: {
-        id: 21,
-        name: 'foo',
-        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
-        profile: {
-          avatar: 'fooface.jpg',
-        },
-      },
+      recipient: pick(recipient, ['id', 'name', 'address', 'profile']),
     },
   ],
   distributions: [],
@@ -109,14 +105,7 @@ test('render with a distribution', async () => {
             decimals: 6,
             symbol: 'USDC',
           },
-          claims: [
-            {
-              new_amount: 10.8,
-              user: {
-                id: 21,
-              },
-            },
-          ],
+          claims: [{ new_amount: 10, profile: { id: recipient.profile.id } }],
         },
       ],
     })
@@ -131,9 +120,8 @@ test('render with a distribution', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.getByText('Mock User 1')).toBeInTheDocument();
   });
 
-  expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(screen.getAllByText('10.80 USDC').length).toEqual(2);
 });
