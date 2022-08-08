@@ -160,17 +160,17 @@ export function DistributionsPage() {
           {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
         </Text>
       </Text>
-      <br />
       <Box css={{ maxWidth: '712px' }}>
-        <Text css={{ lineHeight: `$shorter` }}>
-          Please review the distribution details below and if all looks good,
-          approve the distribution so that contributors can claim their funds.
-          <br />
-          <br />
-          Each token distribution requires a separate transaction. If you choose
-          the same token, you can combine Gift Circle and Fixed Payment
-          transactions. If you choose a token that you don’t have a vault for,
-          you can export the distribution to a CSV.
+        <Text p as="p" css={{ my: '$md' }}>
+          Please enter your budget for the epoch and review the distribution
+          details below. If all looks good, approve the distribution so that
+          contributors can claim their funds.
+        </Text>
+        <Text p as="p">
+          Please note: Each token distribution requires a separate transaction.
+          If you choose the same token, you can combine Gift Circle and Fixed
+          Payment transactions. If you choose a token that you don&apos;t have a
+          vault for, you can export the distribution to a CSV.
         </Text>
       </Box>
       {epochError ? (
