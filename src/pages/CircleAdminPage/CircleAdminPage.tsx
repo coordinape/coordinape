@@ -540,7 +540,12 @@ export const CircleAdminPage = () => {
                 '@sm': { gridTemplateColumns: '1fr' },
               }}
             >
-              <Box css={{ gridColumnEnd: 'span 2' }}>
+              <Box
+                css={{
+                  gridColumnEnd: 'span 2',
+                  '@sm': { gridColumnEnd: 'span 1' },
+                }}
+              >
                 <FormLabel type="label">
                   Enable Vouching?{' '}
                   <Tooltip
@@ -576,7 +581,6 @@ export const CircleAdminPage = () => {
                 number
                 inputProps={{ type: 'number' }}
                 disabled={!vouching.value}
-                css={{ mb: '$md' }}
                 label="Minimum vouches to add member"
                 infoTooltip=" Minimum number of Vouches for a nominee to be accepted as a user of the circle"
                 showFieldErrors
