@@ -89,42 +89,6 @@ export function ContributionSummary({
           );
         })
       )}
-      {/* {contributors[0]?.contributions?.map(
-        (contribution: any, index: number) => {
-          return (
-            <a
-              key={index}
-              href={'http://app.wonderverse.xyz'}
-              target="_blank"
-              rel="noreferrer"
-              className={classes.row}
-            >
-              {renderIconInput(contributors[0].type)}
-              <Typography variant="body2" className={classes.rowTitle}>
-                {contribution.title}
-              </Typography>
-              <RightArrowIcon size="md" className={classes.moreIcon} />
-            </a>
-          );
-        }
-      )}
-      {contributors[1]?.contributions?.map(
-        (contribution: any, index: number) => (
-          <a
-            key={index}
-            href={contribution.link}
-            target="_blank"
-            rel="noreferrer"
-            className={classes.row}
-          >
-            {renderIconInput(contributors[1].type)}
-            <Typography variant="body2" className={classes.rowTitle}>
-              {contribution.title}
-            </Typography>
-            <RightArrowIcon size="md" className={classes.moreIcon} />
-          </a>
-        )
-      )} */}
     </div>
   );
 }
