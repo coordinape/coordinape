@@ -63,6 +63,7 @@ export function DistributionsPage() {
   } else if (totalGive === 0) {
     epochError = 'No tokens were allocated during this epoch.';
   }
+
   const circleDist = epoch.distributions.find(
     d =>
       d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
@@ -80,6 +81,17 @@ export function DistributionsPage() {
     circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED &&
     fixedDist.distribution_type === DISTRIBUTION_TYPE.COMBINED;
 
+  const unwrappedAmount = (
+    id?: number,
+    dist?: typeof epoch.distributions[0]
+  ) => {
+    if (!id || !dist) return 0;
+    return (
+      (dist.claims.find(c => c.profile?.id === id)?.new_amount || 0) *
+      dist.pricePerShare.toUnsafeFloat()
+    );
+  };
+
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
       return (
@@ -93,26 +105,16 @@ export function DistributionsPage() {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient.id === user.id
       );
-      const claimed = !fixedDist
-        ? 0
-        : fixedDist.claims
-            .filter(c => c.profile?.id === user.profile?.id)
-            .reduce((t, g) => t + g.new_amount, 0) || 0;
-      const circle_claimed = !circleDist
-        ? 0
-        : circleDist.claims
-            .filter(c => c.profile?.id === user.profile?.id)
-            .reduce((t, g) => t + g.new_amount, 0) || 0;
+      const claimed = unwrappedAmount(user.profile?.id, fixedDist);
+      const circle_claimed = unwrappedAmount(user.profile?.id, circleDist);
       return {
         id: user.id,
         name: user.name,
         address: user.address,
         fixed_payment_amount: user.fixed_payment_amount ?? 0,
         avatar: user.profile?.avatar,
-        givers: receivedGifts ? receivedGifts.length : 0,
-        received: receivedGifts
-          ? receivedGifts.reduce((t, g) => t + g.tokens, 0) || 0
-          : 0,
+        givers: receivedGifts?.length || 0,
+        received: receivedGifts?.reduce((t, g) => t + g.tokens, 0) || 0,
         claimed,
         circle_claimed,
         // if its a combined distribution we don't add the claim amounts twice
@@ -122,6 +124,7 @@ export function DistributionsPage() {
           : claimed,
       };
     });
+
   const usersWithReceivedAmounts = uniqBy(
     epoch.token_gifts?.map((g: Gift) => g.recipient),
     'id'
@@ -132,12 +135,9 @@ export function DistributionsPage() {
         ?.filter(g => g.recipient.id === user.id)
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
-  const vaults = circle.organization.vaults || [];
-  let tokenName = giftVaultSymbol;
 
-  if (circleDist) {
-    tokenName = circleDist.vault.symbol;
-  }
+  const vaults = circle.organization.vaults || [];
+  const tokenName = circleDist ? circleDist.vault.symbol : giftVaultSymbol;
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
