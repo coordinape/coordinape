@@ -134,16 +134,6 @@ const schema = z.object({
         message: 'Token name length must be between 3 and 255 characters.',
       })
   ),
-  csv_export_token_name: z.optional(
-    z
-      .string()
-      .max(255, {
-        message: 'Token name length must be between 3 and 255 characters.',
-      })
-      .refine(val => val.trim().length >= 3, {
-        message: 'Token name length must be between 3 and 255 characters.',
-      })
-  ),
   vouching: z.boolean(),
   vouching_text: z.optional(
     z.string().refine(val => val.trim().length >= 20, {
@@ -251,7 +241,6 @@ export const CircleAdminPage = () => {
         name: data.circle_name,
         vouching: data.vouching,
         token_name: data.token_name,
-        // csv_export_token_name: data.csv_export_token_name,
         min_vouches: data.min_vouches,
         team_sel_text: data.team_sel_text,
         nomination_days_limit: data.nomination_days_limit,
@@ -479,15 +468,6 @@ export const CircleAdminPage = () => {
                   errorText={fixedPaymentTokenState.error?.message}
                 />
               )}
-              <FormInputField
-                id="token_name"
-                name="token_name"
-                control={control}
-                // defaultValue={circle.token_name}
-                label="Token name for CSV export"
-                infoTooltip="This will be the token used in csv exports, where distributions are handled external from Coordinape"
-                showFieldErrors
-              />
             </Box>
           </Panel>
         </Panel>
