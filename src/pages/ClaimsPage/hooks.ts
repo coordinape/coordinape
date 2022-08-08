@@ -65,7 +65,7 @@ export const useClaimsTableData = () => {
       index,
       address,
       amount,
-      proof: proof.split(','),
+      proof: proof ? proof.split(',') : [],
     });
     if (hash) refetch();
     setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));

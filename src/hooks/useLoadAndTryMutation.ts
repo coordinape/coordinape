@@ -11,18 +11,18 @@ export const useLoadAndTryMutation = <T>(
   { hideLoading, success }: { hideLoading?: boolean; success?: string } = {}
 ): (() => Promise<T | undefined>) => {
   const [, setGlobalLoading] = useRecoilState(rGlobalLoading);
-  const { apeError, apeInfo } = useApeSnackbar();
+  const { showError, showInfo } = useApeSnackbar();
 
   return async (): Promise<T | undefined> => {
     try {
       !hideLoading && setGlobalLoading(v => v + 1);
       const result = await fn();
       // if success is provided, notify about it
-      success && apeInfo(success);
+      success && showInfo(success);
       return result;
     } catch (e) {
       const err = normalizeError(e);
-      apeError(err);
+      showError(err);
       reportException(err);
     } finally {
       !hideLoading && setGlobalLoading(v => v - 1);

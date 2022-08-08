@@ -68,7 +68,9 @@ export function DistributionForm({
   circleDist,
   fixedDist,
 }: SubmitFormProps) {
-  const [submitting, setSubmitting] = useState(false);
+  const [giftSubmitting, setGiftSubmitting] = useState(false);
+  const [fixedSubmitting, setFixedSubmitting] = useState(false);
+
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
     useState(false);
   const [sufficientGiftTokens, setSufficientGiftTokens] = useState(false);
@@ -119,7 +121,7 @@ export function DistributionForm({
     value: TDistributionForm
   ) => {
     assert(epoch?.id && circle);
-    setSubmitting(true);
+    setFixedSubmitting(true);
     const vault = findVault({ symbol: fpTokenSymbol });
     assert(vault);
     assert(contracts, 'This network is not supported');
@@ -182,7 +184,7 @@ export function DistributionForm({
           type === DISTRIBUTION_TYPE.COMBINED ? String(formGiftAmount) : '0',
         type,
       });
-      setSubmitting(false);
+      setFixedSubmitting(false);
 
       // could be due to user cancellation
       if (!result) return;
@@ -192,7 +194,7 @@ export function DistributionForm({
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
-      setSubmitting(false);
+      setFixedSubmitting(false);
     }
   };
 
@@ -212,7 +214,7 @@ export function DistributionForm({
     value: TDistributionForm
   ) => {
     assert(epoch?.id && circle);
-    setSubmitting(true);
+    setGiftSubmitting(true);
     const vault = findVault({ symbol: value.selectedVaultSymbol });
     assert(vault);
 
@@ -243,7 +245,7 @@ export function DistributionForm({
         giftAmount: value.amount.toString(),
         type: DISTRIBUTION_TYPE.GIFT,
       });
-      setSubmitting(false);
+      setGiftSubmitting(false);
 
       // could be due to user cancellation
       if (!result) return;
@@ -253,7 +255,7 @@ export function DistributionForm({
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
-      setSubmitting(false);
+      setGiftSubmitting(false);
     }
   };
 
@@ -275,11 +277,16 @@ export function DistributionForm({
   const getButtonText = (
     sufficientTokens: boolean,
     symbol: string,
-    amount: number
+    amount: number,
+    type: string
   ): string => {
     if (amount === 0) return `Please input a token amount`;
     if (!sufficientTokens) return 'Insufficient Tokens';
-    if (submitting) return 'Submitting...';
+    if (
+      (giftSubmitting && type === 'gift') ||
+      (fixedSubmitting && type === 'fixed')
+    )
+      return 'Submitting...';
     return `Submit ${symbol} Vault Distribution`;
   };
 
@@ -357,7 +364,7 @@ export function DistributionForm({
                         label="CoVault"
                         error={!!error}
                         disabled={
-                          submitting || !!circleDist || vaults.length === 0
+                          giftSubmitting || !!circleDist || vaults.length === 0
                         }
                         isSelect={true}
                         options={vaults.length ? vaults.map(t => t.symbol) : []}
@@ -407,7 +414,9 @@ export function DistributionForm({
                     placeholder="0"
                     error={!!error}
                     value={circleDist ? circleDist.gift_amount : value}
-                    disabled={submitting || !!circleDist || vaults.length === 0}
+                    disabled={
+                      giftSubmitting || !!circleDist || vaults.length === 0
+                    }
                     max={Number(maxGiftTokens)}
                     prelabel="Budget Amount"
                     infoTooltip={
@@ -448,13 +457,14 @@ export function DistributionForm({
                     color="primary"
                     outlined
                     size="large"
-                    disabled={submitting || !sufficientGiftTokens}
+                    disabled={giftSubmitting || !sufficientGiftTokens}
                     fullWidth
                   >
                     {getButtonText(
                       sufficientGiftTokens,
                       giftVaultSymbol,
-                      formGiftAmount
+                      formGiftAmount,
+                      'gift'
                     )}
                   </Button>
                 );
@@ -556,7 +566,7 @@ export function DistributionForm({
                 </Box>
               </TwoColumnLayout>
 
-              {submitting && <LoadingModal visible />}
+              {(giftSubmitting || fixedSubmitting) && <LoadingModal visible />}
             </>
           )}
         </Panel>
@@ -570,7 +580,7 @@ export function DistributionForm({
                     color="primary"
                     outlined
                     size="large"
-                    disabled={submitting || !sufficientFixedPaymentTokens}
+                    disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
                     fullWidth
                   >
                     {getButtonText(
@@ -578,7 +588,8 @@ export function DistributionForm({
                       fpTokenSymbol,
                       isCombinedDistribution()
                         ? totalFixedPayment + formGiftAmount
-                        : totalFixedPayment
+                        : totalFixedPayment,
+                      'fixed'
                     )}
                   </Button>
                 );

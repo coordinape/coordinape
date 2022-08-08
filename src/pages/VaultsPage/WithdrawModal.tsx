@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -74,7 +75,7 @@ export default function WithdrawModal({
           symbol={vault.symbol}
           decimals={vault.decimals}
           label={`Available to Withdraw: ${numberWithCommas(
-            balance
+            round(balance, 4)
           )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
