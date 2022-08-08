@@ -306,7 +306,7 @@ const AllocationGive = ({
 
     //fetch the tasks and set WonderTasks to: {address: address, task: {title, link}}
     await fetch(
-      `http://localhost:8001/v1/coordinape/user?${addresses}${orgIdString}&epoch_start=${start_date}&epoch_end=${end_date}`,
+      `http://external-api.wonderapp.co/v1/coordinape/user?${addresses}${orgIdString}&epoch_start=${start_date}&epoch_end=${end_date}`,
       {
         headers: new Headers({
           Authorization: 'PPjXk7fvc2P7gU4dXGWnZsJo',

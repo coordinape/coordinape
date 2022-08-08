@@ -137,12 +137,15 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
 
   //get all of a users orgs to pull tasks from
   const getUserOrgs = async () => {
-    await fetch(`http://localhost:8001/v1/coordinape/orgs/${myUser.address}`, {
-      headers: new Headers({
-        Authorization: 'PPjXk7fvc2P7gU4dXGWnZsJo',
-        'Content-Type': 'application/json',
-      }),
-    })
+    await fetch(
+      `http://external-api.wonderapp.co/v1/coordinape/orgs/${myUser.address}`,
+      {
+        headers: new Headers({
+          Authorization: 'PPjXk7fvc2P7gU4dXGWnZsJo',
+          'Content-Type': 'application/json',
+        }),
+      }
+    )
       .then(response => response.json())
       .then(organizations => {
         setOrgs(organizations.data);
