@@ -25,7 +25,11 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
       <td>
         <Flex>
           {claim.distribution.epoch.circle?.logo ? (
-            <Avatar small path={claim.distribution.epoch.circle?.logo} />
+            <Avatar
+              small
+              path={claim.distribution.epoch.circle?.logo}
+              css={{ my: 0, ml: 0 }}
+            />
           ) : (
             ''
           )}

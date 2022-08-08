@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import type * as Stitches from '@stitches/react';
 
 import { styled } from '../../stitches.config';
 import {
@@ -75,6 +76,7 @@ export const Avatar = ({
   name,
   onClick,
   small,
+  css,
   ...props
 }: {
   path?: string;
@@ -84,6 +86,7 @@ export const Avatar = ({
   /** represents avatar with smaller size `32x32` */
   small?: boolean;
   children?: React.ReactNode;
+  css?: Stitches.CSS;
 }) => {
   const avatarPath = getAvatarPathWithoutPlaceholder(path);
 
@@ -91,6 +94,7 @@ export const Avatar = ({
     <AvatarRoot
       onClick={() => onClick?.()}
       size={small ? 'small' : 'large'}
+      {...(css ? { css } : {})}
       {...props}
     >
       {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
