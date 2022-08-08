@@ -179,3 +179,32 @@ export const insertNominee = async (params: {
 
   return insert_nominees_one;
 };
+
+export const updateNominee = async (params: {
+  address: string;
+  circle_id: number;
+  nomination_days_limit: number;
+}) => {
+  const today = new Date();
+  const expiry = new Date();
+  expiry.setDate(today.getDate() + params.nomination_days_limit);
+  const input = { ...params, nomination_days_limit: undefined };
+
+  const update_nominees_one = await adminClient.mutate(
+    {
+      update_nominees_one: [
+        {
+          object: {
+            ...input,
+            nominated_date: today.toISOString(),
+            expiry_date: expiry.toISOString(),
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'updateNominee' }
+  );
+
+  return update_nominees_one;
+};
