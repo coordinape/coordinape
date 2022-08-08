@@ -5,5 +5,10 @@ export const shortenAddress = (address: string) => {
 };
 
 export const numberWithCommas = (x: number | string | undefined) => {
-  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '0';
+  if (!x) return '0';
+  const [beforeDot, afterDot] = x.toString().split('.');
+  return (
+    beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+    (afterDot ? '.' + afterDot : '')
+  );
 };
