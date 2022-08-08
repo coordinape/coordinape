@@ -89,6 +89,7 @@ export function useClaimAllocation() {
 
       showInfo('Saving record of claim...');
       await markSaved({
+        claimId,
         circleId: circle.id,
         txHash,
         vaultAddress: vault.vault_address,
