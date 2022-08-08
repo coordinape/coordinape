@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
 
-import { makeStyles, IconButton } from '@material-ui/core';
-
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
@@ -15,37 +13,7 @@ import {
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR } from 'ui';
 
-const useStyles = makeStyles(theme => ({
-  errorColor: {
-    color: theme.palette.error.main,
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  integrationRow: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    gap: 8,
-  },
-  integrationText: {
-    color: theme.colors.text,
-    margin: 0,
-    flex: 1,
-  },
-  integrationIcon: {
-    color: theme.colors.text,
-    marginRight: theme.spacing(1),
-  },
-}));
-
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
-  const classes = useStyles();
-
   const integrations = useCurrentCircleIntegrations();
   const [deleteIntegration, setDeleteIntegration] =
     useState<Exclude<typeof integrations['data'], undefined>[number]>();
@@ -80,20 +48,17 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           }}
         >
           {integrations.data?.map((integration, index) => (
-            <div key={index} className={classes.integrationRow}>
+            <div key={index}>
               <Text>
-                <DeworkLogo size="md" className={classes.integrationIcon} />
-                <Text className={classes.integrationText}>
-                  {integration.name}
-                </Text>
+                <DeworkLogo size="md" />
+                <Text>{integration.name}</Text>
               </Text>
-              <IconButton
+              <Button
                 onClick={() => setDeleteIntegration(integration)}
-                className={classes.errorColor}
                 size="small"
               >
                 <DeprecatedDeleteIcon />
-              </IconButton>
+              </Button>
             </div>
           ))}
         </Flex>

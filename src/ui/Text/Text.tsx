@@ -51,6 +51,8 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$bold',
         lineHeight: '$shorter',
+        display: 'flex',
+        gap: '$xs',
       },
     },
     p: {

@@ -19,20 +19,15 @@ export const TextArea = styled('textarea', {
   justifyContent: 'center',
   borderRadius: '8px',
 
-  fontWeight: '$normal',
-  fontSize: '$large',
-  lineHeight: '29px',
+  p: '$sm',
+  minHeight: 'calc($2xl * 2)',
 
-  py: '$md',
-  px: '$sm',
-
-  textAlign: 'center',
   color: '$text',
   variants: {
     error: {
       true: {
-        border: '1px solid $alert',
-        boxSizing: 'border-box',
+        borderColor: 'transparent',
+        backgroundColor: '$alertLight',
       },
     },
   },
