@@ -183,14 +183,13 @@ const AllocationGive = ({
 
   const {
     myUser,
-    circleEpochsStatus: { epochIsActive, longTimingMessage },
+    circleEpochsStatus: { epochIsActive, longTimingMessage, currentEpoch },
     circle: selectedCircle,
   } = useSelectedCircle();
   const [orderType, setOrderType] = useState<OrderType>(OrderType.Alphabetical);
   const [filterType, setFilterType] = useState<number>(0);
   const integrations = useCurrentCircleIntegrations();
   const [wonderTasks, setWonderTasks] = useState<any>();
-
   const teammateReceiverCount = localGifts
     .map(g => (g.user.non_receiver ? 0 : 1))
     .reduce((a: number, b: number) => a + b, 0);
@@ -287,17 +286,27 @@ const AllocationGive = ({
 
   const getResult = async (wonderOrgIds: string | any[]) => {
     let orgIdString = '';
+
+    //create query string for all the addresses minus coordinape
     let addresses = `&user_addresses=${myUser.address}`;
     for (let i = 0; i < localGifts?.length; i++) {
       if (localGifts[i].user.name !== 'Coordinape') {
         addresses = addresses + `&user_addresses=${localGifts[i].user.address}`;
       }
     }
+
+    //create query string for org ids
     for (let i = 0; i < wonderOrgIds?.length; i++) {
       orgIdString = orgIdString + `&organization_ids=${wonderOrgIds[i]}`;
     }
+
+    //trim epoch dates because requests were giving errors with full date inputs
+    const start_date = currentEpoch?.start_date.slice(0, -10);
+    const end_date = currentEpoch?.end_date.slice(0, -10);
+
+    //fetch the tasks and set WonderTasks to: {address: address, task: {title, link}}
     await fetch(
-      `http://localhost:8001/v1/coordinape/user?${addresses}${orgIdString}&epoch_start=2022-07-21T18:42:57&epoch_end=2022-08-21T18:42:57`,
+      `http://localhost:8001/v1/coordinape/user?${addresses}${orgIdString}&epoch_start=${start_date}&epoch_end=${end_date}`,
       {
         headers: new Headers({
           Authorization: 'PPjXk7fvc2P7gU4dXGWnZsJo',
@@ -312,6 +321,8 @@ const AllocationGive = ({
   };
 
   useEffect(() => {
+    //if user integrations includes wonder then lets get the tasks.
+    //add the org ids to an array and send to getResult to grab tasks
     const wonderOrgIds = [];
     if (integrations?.data) {
       const wonderIntegrations = integrations.data?.filter(

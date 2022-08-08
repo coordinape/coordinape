@@ -135,6 +135,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     return null;
   };
 
+  //get all of a users orgs to pull tasks from
   const getUserOrgs = async () => {
     await fetch(`http://localhost:8001/v1/coordinape/orgs/${myUser.address}`, {
       headers: new Headers({
