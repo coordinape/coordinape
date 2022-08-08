@@ -165,7 +165,7 @@ test('submit distribution', async () => {
 
   // did we store values in the db?
   const args1 = save1calls[0][0];
-  const distJson = JSON.parse(args1.distribution_json);
+  const distJson = args1.distribution_json;
   expect(args1.claims.data.length).toBe(3);
   const savedTotal = FixedNumber.from(args1.total_amount);
   const distJsonTotal = FixedNumber.from(distJson.tokenTotal);
@@ -221,7 +221,7 @@ test('previous distribution', async () => {
           previousDistribution: {
             id: 1,
             vault_id: 1,
-            distribution_json: JSON.stringify(previousDistribution),
+            distribution_json: previousDistribution,
           },
           fixedAmount: '0',
           giftAmount: '100',

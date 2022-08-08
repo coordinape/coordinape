@@ -88,10 +88,7 @@ export function useSubmitDistribution() {
         vault,
         contracts
       );
-      const prev =
-        previousDistribution &&
-        JSON.parse(previousDistribution.distribution_json);
-
+      const prev = previousDistribution?.distribution_json;
       const distribution = createDistribution(
         gifts,
         fixedGifts,
@@ -133,7 +130,7 @@ export function useSubmitDistribution() {
         merkle_root: distribution.merkleRoot,
         claims: { data: claims },
         vault_id: Number(vault.id),
-        distribution_json: JSON.stringify(distribution),
+        distribution_json: distribution,
         fixed_amount: Number(FixedNumber.from(fixedAmount, 'fixed128x18')),
         gift_amount: Number(FixedNumber.from(giftAmount, 'fixed128x18')),
         distribution_type: type,
