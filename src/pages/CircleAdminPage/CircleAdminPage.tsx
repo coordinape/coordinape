@@ -217,22 +217,23 @@ type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
   const classes = useStyles();
-  const { circleId, circle: circle1 } = useSelectedCircle();
+  const { circleId, circle: initialData } = useSelectedCircle();
 
   const {
     isLoading,
     isIdle,
     isError,
+    isRefetching,
+    refetch,
     error,
     data: circle,
-    refetch,
   } = useQuery(
     ['circleSettings', circleId],
     () => getCircleSettings(circleId),
     {
       // the query will not be executed untill circleId exists
       enabled: !!circleId,
-      initialData: circle1,
+      initialData,
       //minmize background refetch
       refetchOnWindowFocus: false,
 
@@ -394,14 +395,14 @@ export const CircleAdminPage = () => {
         fixed_payment_token_type: data.fixed_payment_token_type,
       });
 
-      await refetch();
+      refetch();
       showInfo('Saved changes');
     } catch (e) {
       console.warn(e);
     }
   };
 
-  if (isLoading || isIdle) return <LoadingModal visible />;
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
   if (isError) {
     if (error instanceof Error) {
       console.warn(error.message);
