@@ -5,9 +5,9 @@ import { modifyVariantsForStory } from '../type-utils';
 
 export const TextArea = styled('textarea', {
   background: '$surface',
-  border: '1px solid $border',
+  border: '1px solid transparent',
   '&:focus': {
-    border: '1px solid $borderMedium',
+    borderColor: '$borderMedium',
     boxSizing: 'border-box',
   },
   '&::placeholder': {
