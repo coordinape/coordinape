@@ -1,25 +1,22 @@
-import { injectWeb3 } from '../util';
+import { gqlQuery, injectWeb3 } from '../util';
+
+let circleId;
 
 context('Coordinape', () => {
   before(() => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
+    return gqlQuery({
+      circles: [{ where: { name: { _eq: 'Movies' } } }, { id: true }],
+    }).then(q => {
+      circleId = q.circles[0].id;
+    });
   });
   it('can create a nominee', () => {
-    cy.visit('/circles');
+    cy.visit(`/circles/${circleId}/vouching`);
     cy.login();
-    // This is highly dependent upon how our seed is constructed..
-    cy.url({ timeout: 120000 }).should('include', '/circles');
-    // Movies is a circle w/ an ended epoch, the Admin button is a child of a peer element
-    cy.contains('Movies', { timeout: 120000 })
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get('.hover-buttons').invoke('show');
-        cy.get('a').contains('Vouching').click();
-      });
-    cy.url({ timeout: 120000 }).should('include', '/vouching');
-    cy.contains('Nominate New Member', { timeout: 60000 }).click();
+
+    cy.contains('Nominate New Member', { timeout: 120000 }).click();
     // enter the nominee creation modal and fill it out
     cy.get('[name=name]').click().type('Satoshi');
     cy.get('[name=address]')

@@ -1,5 +1,7 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { FixedNumber } from 'ethers';
+import pick from 'lodash/pick';
+import { DateTime } from 'luxon';
 
 import { TestWrapper } from 'utils/testing';
 import { mockEpoch } from 'utils/testing/mocks';
@@ -24,10 +26,14 @@ jest.mock('react-router-dom', () => {
   };
 });
 
+const recipient = mockEpoch.circle.users[0];
+
 const mockEpochData = {
   id: 1,
   number: mockEpoch.number,
   ended: true,
+  start_date: DateTime.now().minus({ days: 1 }),
+  end_date: DateTime.now().plus({ days: 1 }),
   circle: {
     name: mockEpoch.circle.name,
     users: [{ role: 1 }],
@@ -46,14 +52,7 @@ const mockEpochData = {
   token_gifts: [
     {
       tokens: 100,
-      recipient: {
-        id: 21,
-        name: 'foo',
-        address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
-        profile: {
-          avatar: 'fooface.jpg',
-        },
-      },
+      recipient: pick(recipient, ['id', 'name', 'address', 'profile']),
     },
   ],
   distributions: [],
@@ -87,8 +86,8 @@ test('render without a distribution', async () => {
   await waitFor(() => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
-  expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
-  expect(screen.getByText('Insufficient Tokens')).toBeInTheDocument();
+  expect(screen.getByText('Gift Circle')).toBeInTheDocument();
+  expect(screen.getByText('Please input a token amount')).toBeInTheDocument();
 });
 
 test('render with a distribution', async () => {
@@ -98,7 +97,7 @@ test('render with a distribution', async () => {
       distributions: [
         {
           created_at: '2022-04-27T00:28:03.27622',
-          total_amount: 10000000,
+          total_amount: '10000000',
           pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
           vault: {
@@ -106,14 +105,7 @@ test('render with a distribution', async () => {
             decimals: 6,
             symbol: 'USDC',
           },
-          claims: [
-            {
-              new_amount: 10.8,
-              user: {
-                id: 21,
-              },
-            },
-          ],
+          claims: [{ new_amount: 10, profile: { id: recipient.profile.id } }],
         },
       ],
     })
@@ -128,9 +120,8 @@ test('render with a distribution', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.getByText('Mock User 1')).toBeInTheDocument();
   });
 
-  expect(screen.getByText('Mock Circle: Epoch 4')).toBeInTheDocument();
-  expect(screen.getByText('10.80 USDC')).toBeInTheDocument();
+  expect(screen.getAllByText('10.80 USDC').length).toEqual(2);
 });

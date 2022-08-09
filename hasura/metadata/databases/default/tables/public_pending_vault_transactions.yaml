@@ -1,0 +1,67 @@
+table:
+  name: pending_vault_transactions
+  schema: public
+object_relationships:
+- name: distribution
+  using:
+    foreign_key_constraint_on: distribution_id
+- name: organization
+  using:
+    foreign_key_constraint_on: org_id
+- name: profile
+  using:
+    foreign_key_constraint_on: created_by
+- name: vault_tx_type
+  using:
+    foreign_key_constraint_on: tx_type
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      _or:
+      - org_id:
+          _is_null: true
+      - organization:
+          circles:
+            _and:
+            - deleted_at:
+                _is_null: true
+            - users:
+                _and:
+                - profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+                - role:
+                    _eq: 1
+                - deleted_at:
+                    _is_null: true
+    columns:
+    - chain_id
+    - claim_id
+    - distribution_id
+    - org_id
+    - tx_hash
+    - tx_type
+    set:
+      created_by: x-hasura-User-Id
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - chain_id
+    - claim_id
+    - created_by
+    - org_id
+    - distribution_id
+    - tx_hash
+    - tx_type
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
+  role: user

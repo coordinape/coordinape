@@ -29,14 +29,18 @@ export function getProtocolName() {
 }
 
 export function getCircleName() {
-  return faker.unique(faker.commerce.department);
+  try {
+    return faker.unique(faker.commerce.department);
+  } catch (e) {
+    return faker.commerce.color();
+  }
 }
 
 type ProtocolInput = {
   name?: string;
 };
 
-async function insertProtocol(input: ProtocolInput) : Promise<number> {
+async function insertProtocol(input: ProtocolInput): Promise<number> {
   const result = await adminClient.mutate({
     insert_organizations_one: [
       {
@@ -200,13 +204,30 @@ export function getMembershipInput(
 
   if (devUser)
     membersInput.unshift({
-      name: 'Me',
+      name: 'Meee',
       address: devAddress,
       role: 1,
       ...devUser,
     });
 
   return { protocolInput, circlesInput, membersInput };
+}
+
+export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
+  const result = await insertMemberships(
+    getMembershipInput({ protocolInput: { name: orgName } }, {})
+  );
+  const circleId = result[0].circle_id;
+
+  for (let i = 0; i < epochDates.length; i++) {
+    const epochId = await makeEpoch(
+      circleId,
+      DateTime.now().minus({ days: epochDates[i][0] }),
+      DateTime.now().minus({ days: epochDates[i][1] }),
+      i + 1
+    );
+    await createGifts(result, epochId, 9, 100, false);
+  }
 }
 
 export async function makeEpoch(

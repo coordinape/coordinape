@@ -1,183 +1,180 @@
 {
-  "1": {
-    "DAI": {
-      "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    "1": {
+        "DAI": {
+            "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+        },
+        "USDC": {
+            "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+        },
+        "USDT": {
+            "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+        },
+        "WETH": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+        },
+        "YFI": {
+            "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
+        }
     },
-    "USDC": {
-      "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    "4": {
+        "ApeDistributor": {
+            "address": "0xda8009f5d1878374413f30f75e62f9d39f1fc85c"
+        },
+        "ApeRegistry": {
+            "address": "0x5f0bef0b990be50dee23016301901a32a4c2586a"
+        },
+        "ApeRouter": {
+            "address": "0xba8021b809d33d26c36d6a217472c4d688720c43"
+        },
+        "ApeToken": {
+            "address": "0xd981074B61e5D5CDB8Be88f43120085C18de0326"
+        },
+        "ApeVaultFactory": {
+            "address": "0x9ecbf8c2907632dd82432cff1c1e41e68808e87d"
+        },
+        "FeeRegistry": {
+            "address": "0xdb327c42d74e03f12edb6a74309f3fcccb06712b"
+        },
+        "WETH": {
+            "address": "0xc778417e063141139fce010982780140aa0cd5ab"
+        }
     },
-    "USDT": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    "5": {
+        "ApeDistributor": {
+            "address": "0x185102B7a92903096834ce3abd5C19143d483956"
+        },
+        "ApeRegistry": {
+            "address": "0x5befC0CE74b05bbE0baC374391834e9441C3B89B"
+        },
+        "ApeRegistryBeacon": {
+            "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
+        },
+        "ApeRouter": {
+            "address": "0x3b6607bd2c67C130D579290d82d6d55a875F2dD0"
+        },
+        "ApeVaultFactoryBeacon": {
+            "address": "0xf30F46e7e07A7424B0d560Ed7553bf8ac0E20459"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0x0Ac072BD6CD53586B5B940FE93F962066fDbd318"
+        },
+        "FeeRegistry": {
+            "address": "0xDD9A7AC7a630c6EAeC3B09592B1326e416F4Dcae"
+        },
+        "MockRegistry": {
+            "address": "0xa64014AdF0E28a4c3f464e1Ebfccc0edAee0E559"
+        },
+        "MockVaultFactory": {
+            "address": "0x5066CF36107E1f9B64A860dBEef3A1ba9E68a971"
+        },
+        "MockUSDCVaultFactory": {
+            "address": "0x375aaF80E40b95fC7984b2fc3e5c6974A11f7679"
+        },
+        "DAI": {
+            "address": "0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6"
+        },
+        "USDC": {
+            "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
+        }
     },
-    "WETH": {
-      "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    "1337": {
+        "ApeDistributor": {
+            "address": "0xc5a5C42992dECbae36851359345FE25997F5C42d"
+        },
+        "ApeRegistry": {
+            "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"
+        },
+        "ApeRegistryBeacon": {
+            "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f"
+        },
+        "ApeRouter": {
+            "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
+        },
+        "ApeVaultFactoryBeacon": {
+            "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"
+        },
+        "COToken": {
+            "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
+        },
+        "DAI": {
+            "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
+        },
+        "FeeRegistry": {
+            "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933"
+        },
+        "MockRegistry": {
+            "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+        },
+        "MockVaultFactory": {
+            "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+        },
+        "SUSHI": {
+            "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+        },
+        "USDC": {
+            "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+        },
+        "USDT": {
+            "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE"
+        },
+        "WETH": {
+            "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+        },
+        "YFI": {
+            "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+        },
+        "alUSD": {
+            "address": "0x9A676e781A523b5d0C0e43731313A708CB607508"
+        },
+        "yvDAI": {
+            "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
+        },
+        "yvSUSHI": {
+            "address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
+        },
+        "yvUSDC": {
+            "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+        },
+        "yvUSDT": {
+            "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
+        },
+        "yvWETH": {
+            "address": "0x59b670e9fA9D0A427751Af201D676719a970857b"
+        },
+        "yvYFI": {
+            "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
+        },
+        "yvalUSD": {
+            "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+        }
     },
-    "YFI": {
-      "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
+    "1338": {
+        "ApeDistributor": {
+            "address": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB"
+        },
+        "ApeRegistry": {
+            "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
+        },
+        "ApeRegistryBeacon": {
+            "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
+        },
+        "ApeRouter": {
+            "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
+        },
+        "ApeVaultFactoryBeacon": {
+            "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD"
+        },
+        "COToken": {
+            "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
+        },
+        "FeeRegistry": {
+            "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
+        }
     }
-  },
-  "4": {
-    "ApeDistributor": {
-      "address": "0xda8009f5d1878374413f30f75e62f9d39f1fc85c"
-    },
-    "ApeRegistry": {
-      "address": "0x5f0bef0b990be50dee23016301901a32a4c2586a"
-    },
-    "ApeRouter": {
-      "address": "0xba8021b809d33d26c36d6a217472c4d688720c43"
-    },
-    "ApeToken": {
-      "address": "0xd981074B61e5D5CDB8Be88f43120085C18de0326"
-    },
-    "ApeVaultFactory": {
-      "address": "0x9ecbf8c2907632dd82432cff1c1e41e68808e87d"
-    },
-    "FeeRegistry": {
-      "address": "0xdb327c42d74e03f12edb6a74309f3fcccb06712b"
-    },
-    "WETH": {
-      "address": "0xc778417e063141139fce010982780140aa0cd5ab"
-    }
-  },
-  "5": {
-    "ApeDistributor": {
-      "address": "0x1C07320B1588885d3cddacb3e592622dbf9e28e6"
-    },
-    "ApeRegistry": {
-      "address": "0x679FE7F8D263B738953151affF97F3af51E0A126"
-    },
-    "ApeRegistryBeacon": {
-      "address": "0xC1AB48d19B63d0330f71d423bEEacdB2104D3DaF"
-    },
-    "ApeRouter": {
-      "address": "0x04Ad1e2Af8A4331a6a10D4b7Ae92e983bD5b33C2"
-    },
-    "ApeToken": {
-      "address": "0x65AE42B1c82BF9E2A270B2cf26D1fb28639e8793"
-    },
-    "ApeVaultFactoryBeacon": {
-      "address": "0x38034CCECa1A6ce2Bc1cA736D4134AF994154660"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0xB4F0834b552c473A39EE6Ae7058E6735d95F856D"
-    },
-    "DAI": {
-      "address": "0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6"
-    },
-    "FeeRegistry": {
-      "address": "0x5Bd2C39d5CB3344601b2ACF0C36eEf28Bac18068"
-    },
-    "MockRegistry": {
-      "address": "0xe8a0721aF820630398994127C5592d41bB939689"
-    },
-    "MockVaultFactory": {
-      "address": "0xf968AF55F713BA8284f24c37de8636529b3F9425"
-    },
-    "MockUSDCVaultFactory": {
-      "address": "0x3f49F1D1Eb9b85305A9DA6A131200458B262ddF6"
-    },
-    "USDC": {
-      "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
-    }
-  },
-  "1337": {
-    "ApeDistributor": {
-      "address": "0x23c97a93AE2959dc85642fa9DE8f292d01527CeB"
-    },
-    "ApeRegistry": {
-      "address": "0xC9B3800323a2B4113C2AfBEe46170C43D905fD59"
-    },
-    "ApeRegistryBeacon": {
-      "address": "0xD369D1481B157D1d791F78766660f5ddF715f1f2"
-    },
-    "ApeRouter": {
-      "address": "0x3D24345bb7FEE3B0B50d66a58946722BBbB26dFf"
-    },
-    "ApeVaultFactoryBeacon": {
-      "address": "0x2997bACD026E3aE48fa57812bFb0cf61DB53baEd"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0x3a332Db5c05AB94d76959b8f2e2690C99D4B13e3"
-    },
-    "COToken": {
-      "address": "0x3BDaeB7bbCf7659EDcBb4faf22D34A133FF60784"
-    },
-    "DAI": {
-      "address": "0x48B2838d5698E2A8d4d70e62DAAFe255223Eecd5"
-    },
-    "FeeRegistry": {
-      "address": "0xF65152d066fa6a6D124Af23E9181EfFf7aA4D694"
-    },
-    "MockRegistry": {
-      "address": "0xB6f8ed8dB8d6AC13f9d34dC0353Bc86c445c36EC"
-    },
-    "MockVaultFactory": {
-      "address": "0x978A2941BA6CA861DFEE872c75e9FA5C51030d63"
-    },
-    "SUSHI": {
-      "address": "0x626a57CA09CA76db7967E08B0c03885c6EBf8b82"
-    },
-    "USDC": {
-      "address": "0x5C040Ed0869fe13a6c5Bfb66C268F45D5666bFEc"
-    },
-    "USDT": {
-      "address": "0xE881a3138226af8237557d793FC200c71BF190d5"
-    },
-    "WETH": {
-      "address": "0x438a4081dCD8de676D459A61f921803D1f0Fd18f"
-    },
-    "YFI": {
-      "address": "0x42059a28cAaAe7807dA80C4f982ddAA04f53b2C8"
-    },
-    "alUSD": {
-      "address": "0xA2346FdA6A17D8B19c81f70AF4C93961235f3bE0"
-    },
-    "yvDAI": {
-      "address": "0x7E16Ca8c3dD9eD102B80C143b564dA3D354a9Fb9"
-    },
-    "yvSUSHI": {
-      "address": "0x369E10564901948CDD2e831C2511b33119fd317A"
-    },
-    "yvUSDC": {
-      "address": "0x069cD64cC7D93b7e69130808338c0c2e561F3629"
-    },
-    "yvUSDT": {
-      "address": "0x876CA44D5cAE45a6b9eDDf8Ce20AE395BfA24875"
-    },
-    "yvWETH": {
-      "address": "0x83b82435caD3EBAd7BAFa6071fDA5A77330B0803"
-    },
-    "yvYFI": {
-      "address": "0x544fE4EB3e85C7BCF5F30421Cb0D9c768721CB90"
-    },
-    "yvalUSD": {
-      "address": "0x8fE0617403d6f897Ef5aa5154c3377A7D7cd82e4"
-    }
-  },
-  "1338": {
-    "ApeDistributor": {
-      "address": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB"
-    },
-    "ApeRegistry": {
-      "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
-    },
-    "ApeRegistryBeacon": {
-      "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-    },
-    "ApeRouter": {
-      "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
-    },
-    "ApeVaultFactoryBeacon": {
-      "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD"
-    },
-    "COToken": {
-      "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
-    },
-    "FeeRegistry": {
-      "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-    }
-  }
 }

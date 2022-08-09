@@ -169,7 +169,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   useEffect(() => {
     getUserOrgs();
   }, []);
-
+  
   return (
     <div style={{ display: 'grid' }}>
       <p className={classes.subTitle}>Integrations</p>

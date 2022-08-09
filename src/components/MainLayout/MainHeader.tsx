@@ -21,7 +21,7 @@ import {
   useMyProfile,
   useSelectedCircle,
 } from 'recoilState/app';
-import { EXTERNAL_URL_DOCS, isCircleSpecificPath, paths } from 'routes/paths';
+import { isCircleSpecificPath, paths } from 'routes/paths';
 import { Box, IconButton, Link, Image } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -46,7 +46,7 @@ export const MainHeader = () => {
   return (
     <Box
       css={{
-        px: '$1xl',
+        px: '$xl',
         height: '$headerHeight',
         display: 'flex',
         flexDirection: 'column',
@@ -199,13 +199,6 @@ const MobileHeader = ({
                   },
                 }}
               >
-                <Link
-                  href={EXTERNAL_URL_DOCS}
-                  target="_blank"
-                  css={{ display: 'block' }}
-                >
-                  Docs
-                </Link>
                 <Link
                   as={NavLink}
                   to={paths.profile('me')}

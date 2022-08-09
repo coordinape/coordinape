@@ -1,6 +1,7 @@
 import assert from 'assert';
 
-import { BigNumber, FixedNumber, utils } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
+import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { ZERO_ADDRESS } from 'config/constants';
@@ -11,7 +12,7 @@ export const hasSimpleToken = ({
   simple_token_address,
 }: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) => {
   if (!simple_token_address) return false;
-  assert(utils.isAddress(simple_token_address), 'invalid address');
+  assert(isAddress(simple_token_address), 'invalid address');
   return simple_token_address !== ZERO_ADDRESS;
 };
 
@@ -44,8 +45,7 @@ export const getWrappedAmount = async (
   >,
   contracts: Contracts
 ): Promise<BigNumber> => {
-  const shifter = BigNumber.from(10).pow(vault.decimals);
-  const weiAmount = BigNumber.from(amount).mul(shifter);
+  const weiAmount = parseUnits(amount, vault.decimals);
   if (hasSimpleToken(vault)) return weiAmount;
 
   const vaultContract = contracts.getVault(vault.vault_address);
@@ -57,7 +57,8 @@ export const getWrappedAmount = async (
   if (newTotalAmount.lte(vaultBalance)) return newTotalAmount;
 
   // this is acceptable rounding error
-  if (newTotalAmount.lt(vaultBalance.add(100))) return vaultBalance;
+  const acceptableError = BigNumber.from(10).pow(vault.decimals - 4);
+  if (newTotalAmount.lt(vaultBalance.add(acceptableError))) return vaultBalance;
 
   throw new Error(
     `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`

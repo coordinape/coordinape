@@ -22,10 +22,12 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateNomineeInput: {},
   CreateUserInput: {},
+  CreateUserWithTokenInput: {},
   CreateUsersInput: {
     users: 'UserObj',
   },
   CreateVaultInput: {},
+  DeleteCircleInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
@@ -388,6 +390,29 @@ export const AllTypesProps: Record<string, any> = {
     discord_webhook: 'order_by',
   },
   circle_private_select_column: true,
+  circle_share_tokens_bool_exp: {
+    _and: 'circle_share_tokens_bool_exp',
+    _not: 'circle_share_tokens_bool_exp',
+    _or: 'circle_share_tokens_bool_exp',
+    circle: 'circles_bool_exp',
+    circle_id: 'bigint_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    type: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    uuid: 'uuid_comparison_exp',
+  },
+  circle_share_tokens_insert_input: {
+    circle_id: 'bigint',
+  },
+  circle_share_tokens_order_by: {
+    circle: 'circles_order_by',
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    type: 'order_by',
+    updated_at: 'order_by',
+    uuid: 'order_by',
+  },
+  circle_share_tokens_select_column: true,
   circles: {
     api_keys: {
       distinct_on: 'circle_api_keys_select_column',
@@ -475,6 +500,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_private: 'circle_private_bool_exp',
     created_at: 'timestamp_comparison_exp',
     default_opt_in: 'Boolean_comparison_exp',
+    deleted_at: 'timestamp_comparison_exp',
     epochs: 'epochs_bool_exp',
     fixed_payment_token_type: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
@@ -503,6 +529,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_max_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
@@ -518,6 +545,7 @@ export const AllTypesProps: Record<string, any> = {
   circles_min_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
     logo: 'order_by',
@@ -538,6 +566,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_private: 'circle_private_order_by',
     created_at: 'order_by',
     default_opt_in: 'order_by',
+    deleted_at: 'order_by',
     epochs_aggregate: 'epochs_aggregate_order_by',
     fixed_payment_token_type: 'order_by',
     id: 'order_by',
@@ -774,6 +803,49 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
   },
+  contributions_aggregate_fields: {
+    count: {
+      columns: 'contributions_select_column',
+    },
+  },
+  contributions_bool_exp: {
+    _and: 'contributions_bool_exp',
+    _not: 'contributions_bool_exp',
+    _or: 'contributions_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    deleted_at: 'timestamptz_comparison_exp',
+    description: 'String_comparison_exp',
+    epoch: 'epochs_bool_exp',
+    epoch_id: 'Int_comparison_exp',
+    id: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    user: 'users_bool_exp',
+    user_id: 'Int_comparison_exp',
+  },
+  contributions_constraint: true,
+  contributions_insert_input: {},
+  contributions_on_conflict: {
+    constraint: 'contributions_constraint',
+    update_columns: 'contributions_update_column',
+    where: 'contributions_bool_exp',
+  },
+  contributions_order_by: {
+    created_at: 'order_by',
+    deleted_at: 'order_by',
+    description: 'order_by',
+    epoch: 'epochs_order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    updated_at: 'order_by',
+    user: 'users_order_by',
+    user_id: 'order_by',
+  },
+  contributions_pk_columns_input: {},
+  contributions_select_column: true,
+  contributions_set_input: {
+    deleted_at: 'timestamptz',
+  },
+  contributions_update_column: true,
   date: 'String',
   date_comparison_exp: {
     _eq: 'date',
@@ -829,7 +901,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_bool_exp: {
@@ -848,7 +919,8 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     merkle_root: 'String_comparison_exp',
-    total_amount: 'numeric_comparison_exp',
+    profile: 'profiles_bool_exp',
+    total_amount: 'String_comparison_exp',
     tx_hash: 'String_comparison_exp',
     vault: 'vaults_bool_exp',
     vault_id: 'bigint_comparison_exp',
@@ -865,7 +937,6 @@ export const AllTypesProps: Record<string, any> = {
     epoch_id: 'bigint',
     fixed_amount: 'numeric',
     gift_amount: 'numeric',
-    total_amount: 'numeric',
     vault_id: 'bigint',
   },
   distributions_max_order_by: {
@@ -918,6 +989,7 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'order_by',
     id: 'order_by',
     merkle_root: 'order_by',
+    profile: 'profiles_order_by',
     total_amount: 'order_by',
     tx_hash: 'order_by',
     vault: 'vaults_order_by',
@@ -939,7 +1011,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_stddev_pop_order_by: {
@@ -950,7 +1021,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_stddev_samp_order_by: {
@@ -961,7 +1031,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_sum_order_by: {
@@ -972,7 +1041,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_update_column: true,
@@ -984,7 +1052,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_var_samp_order_by: {
@@ -995,7 +1062,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_variance_order_by: {
@@ -1006,7 +1072,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   epochs: {
@@ -1270,6 +1335,9 @@ export const AllTypesProps: Record<string, any> = {
     createUser: {
       payload: 'CreateUserInput',
     },
+    createUserWithToken: {
+      payload: 'CreateUserWithTokenInput',
+    },
     createUsers: {
       payload: 'CreateUsersInput',
     },
@@ -1278,6 +1346,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createVaultTx: {
       payload: 'LogVaultTxInput',
+    },
+    deleteCircle: {
+      payload: 'DeleteCircleInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -1295,6 +1366,16 @@ export const AllTypesProps: Record<string, any> = {
     delete_circle_integrations_by_pk: {
       id: 'bigint',
     },
+    delete_circle_share_tokens: {
+      where: 'circle_share_tokens_bool_exp',
+    },
+    delete_circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
+    },
+    delete_pending_vault_transactions: {
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    delete_pending_vault_transactions_by_pk: {},
     generateApiKey: {
       payload: 'GenerateApiKeyInput',
     },
@@ -1304,6 +1385,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_circle_integrations_one: {
       object: 'circle_integrations_insert_input',
     },
+    insert_circle_share_tokens: {
+      objects: 'circle_share_tokens_insert_input',
+    },
+    insert_circle_share_tokens_one: {
+      object: 'circle_share_tokens_insert_input',
+    },
     insert_claims: {
       objects: 'claims_insert_input',
       on_conflict: 'claims_on_conflict',
@@ -1312,6 +1399,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'claims_insert_input',
       on_conflict: 'claims_on_conflict',
     },
+    insert_contributions: {
+      objects: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
+    },
+    insert_contributions_one: {
+      object: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
+    },
     insert_distributions: {
       objects: 'distributions_insert_input',
       on_conflict: 'distributions_on_conflict',
@@ -1319,6 +1414,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_distributions_one: {
       object: 'distributions_insert_input',
       on_conflict: 'distributions_on_conflict',
+    },
+    insert_pending_vault_transactions: {
+      objects: 'pending_vault_transactions_insert_input',
+    },
+    insert_pending_vault_transactions_one: {
+      object: 'pending_vault_transactions_insert_input',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -1355,6 +1456,14 @@ export const AllTypesProps: Record<string, any> = {
     update_claims_by_pk: {
       _set: 'claims_set_input',
       pk_columns: 'claims_pk_columns_input',
+    },
+    update_contributions: {
+      _set: 'contributions_set_input',
+      where: 'contributions_bool_exp',
+    },
+    update_contributions_by_pk: {
+      _set: 'contributions_set_input',
+      pk_columns: 'contributions_pk_columns_input',
     },
     update_distributions: {
       _inc: 'distributions_inc_input',
@@ -1750,6 +1859,43 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
+  pending_vault_transactions_bool_exp: {
+    _and: 'pending_vault_transactions_bool_exp',
+    _not: 'pending_vault_transactions_bool_exp',
+    _or: 'pending_vault_transactions_bool_exp',
+    chain_id: 'Int_comparison_exp',
+    claim_id: 'bigint_comparison_exp',
+    created_by: 'bigint_comparison_exp',
+    distribution: 'distributions_bool_exp',
+    distribution_id: 'bigint_comparison_exp',
+    org_id: 'bigint_comparison_exp',
+    organization: 'organizations_bool_exp',
+    profile: 'profiles_bool_exp',
+    tx_hash: 'String_comparison_exp',
+    tx_type: 'vault_tx_types_enum_comparison_exp',
+    vault_tx_type: 'vault_tx_types_bool_exp',
+  },
+  pending_vault_transactions_insert_input: {
+    claim_id: 'bigint',
+    distribution: 'distributions_obj_rel_insert_input',
+    distribution_id: 'bigint',
+    org_id: 'bigint',
+    tx_type: 'vault_tx_types_enum',
+  },
+  pending_vault_transactions_order_by: {
+    chain_id: 'order_by',
+    claim_id: 'order_by',
+    created_by: 'order_by',
+    distribution: 'distributions_order_by',
+    distribution_id: 'order_by',
+    org_id: 'order_by',
+    organization: 'organizations_order_by',
+    profile: 'profiles_order_by',
+    tx_hash: 'order_by',
+    tx_type: 'order_by',
+    vault_tx_type: 'vault_tx_types_order_by',
+  },
+  pending_vault_transactions_select_column: true,
   profiles: {
     users: {
       distinct_on: 'users_select_column',
@@ -1841,6 +1987,14 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_private_order_by',
       where: 'circle_private_bool_exp',
     },
+    circle_share_tokens: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
+    },
     circles: {
       distinct_on: 'circles_select_column',
       order_by: 'circles_order_by',
@@ -1862,6 +2016,17 @@ export const AllTypesProps: Record<string, any> = {
     claims_by_pk: {
       id: 'bigint',
     },
+    contributions: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    contributions_aggregate: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    contributions_by_pk: {},
     distributions: {
       distinct_on: 'distributions_select_column',
       order_by: 'distributions_order_by',
@@ -1922,6 +2087,12 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts_by_pk: {
       id: 'bigint',
     },
+    pending_vault_transactions: {
+      distinct_on: 'pending_vault_transactions_select_column',
+      order_by: 'pending_vault_transactions_order_by',
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    pending_vault_transactions_by_pk: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -2028,6 +2199,14 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_private_order_by',
       where: 'circle_private_bool_exp',
     },
+    circle_share_tokens: {
+      distinct_on: 'circle_share_tokens_select_column',
+      order_by: 'circle_share_tokens_order_by',
+      where: 'circle_share_tokens_bool_exp',
+    },
+    circle_share_tokens_by_pk: {
+      circle_id: 'bigint',
+    },
     circles: {
       distinct_on: 'circles_select_column',
       order_by: 'circles_order_by',
@@ -2049,6 +2228,17 @@ export const AllTypesProps: Record<string, any> = {
     claims_by_pk: {
       id: 'bigint',
     },
+    contributions: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    contributions_aggregate: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    contributions_by_pk: {},
     distributions: {
       distinct_on: 'distributions_select_column',
       order_by: 'distributions_order_by',
@@ -2109,6 +2299,12 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts_by_pk: {
       id: 'bigint',
     },
+    pending_vault_transactions: {
+      distinct_on: 'pending_vault_transactions_select_column',
+      order_by: 'pending_vault_transactions_order_by',
+      where: 'pending_vault_transactions_bool_exp',
+    },
+    pending_vault_transactions_by_pk: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -2688,6 +2884,17 @@ export const AllTypesProps: Record<string, any> = {
     role: 'order_by',
     starting_tokens: 'order_by',
   },
+  uuid: 'String',
+  uuid_comparison_exp: {
+    _eq: 'uuid',
+    _gt: 'uuid',
+    _gte: 'uuid',
+    _in: 'uuid',
+    _lt: 'uuid',
+    _lte: 'uuid',
+    _neq: 'uuid',
+    _nin: 'uuid',
+  },
   vault_transactions_aggregate_order_by: {
     avg: 'vault_transactions_avg_order_by',
     count: 'order_by',
@@ -3222,6 +3429,18 @@ export const ReturnTypes: Record<string, any> = {
     circle_id: 'bigint',
     discord_webhook: 'String',
   },
+  circle_share_tokens: {
+    circle: 'circles',
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'circle_share_tokens',
+  },
   circles: {
     alloc_text: 'String',
     api_keys: 'circle_api_keys',
@@ -3230,6 +3449,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_private: 'circle_private',
     created_at: 'timestamp',
     default_opt_in: 'Boolean',
+    deleted_at: 'timestamp',
     epochs: 'epochs',
     fixed_payment_token_type: 'String',
     id: 'bigint',
@@ -3386,6 +3606,96 @@ export const ReturnTypes: Record<string, any> = {
     new_amount: 'Float',
     profile_id: 'Float',
   },
+  contributions: {
+    created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
+    description: 'String',
+    epoch: 'epochs',
+    epoch_id: 'Int',
+    id: 'Int',
+    updated_at: 'timestamptz',
+    user: 'users',
+    user_id: 'Int',
+  },
+  contributions_aggregate: {
+    aggregate: 'contributions_aggregate_fields',
+    nodes: 'contributions',
+  },
+  contributions_aggregate_fields: {
+    avg: 'contributions_avg_fields',
+    count: 'Int',
+    max: 'contributions_max_fields',
+    min: 'contributions_min_fields',
+    stddev: 'contributions_stddev_fields',
+    stddev_pop: 'contributions_stddev_pop_fields',
+    stddev_samp: 'contributions_stddev_samp_fields',
+    sum: 'contributions_sum_fields',
+    var_pop: 'contributions_var_pop_fields',
+    var_samp: 'contributions_var_samp_fields',
+    variance: 'contributions_variance_fields',
+  },
+  contributions_avg_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_max_fields: {
+    created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
+    description: 'String',
+    epoch_id: 'Int',
+    id: 'Int',
+    updated_at: 'timestamptz',
+    user_id: 'Int',
+  },
+  contributions_min_fields: {
+    created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
+    description: 'String',
+    epoch_id: 'Int',
+    id: 'Int',
+    updated_at: 'timestamptz',
+    user_id: 'Int',
+  },
+  contributions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'contributions',
+  },
+  contributions_stddev_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_stddev_pop_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_stddev_samp_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_sum_fields: {
+    epoch_id: 'Int',
+    id: 'Int',
+    user_id: 'Int',
+  },
+  contributions_var_pop_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_var_samp_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
+  contributions_variance_fields: {
+    epoch_id: 'Float',
+    id: 'Float',
+    user_id: 'Float',
+  },
   distributions: {
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
@@ -3400,7 +3710,8 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'numeric',
+    profile: 'profiles',
+    total_amount: 'String',
     tx_hash: 'String',
     vault: 'vaults',
     vault_id: 'bigint',
@@ -3431,7 +3742,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_max_fields: {
@@ -3444,7 +3754,7 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'numeric',
+    total_amount: 'String',
     tx_hash: 'String',
     vault_id: 'bigint',
   },
@@ -3458,7 +3768,7 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'numeric',
+    total_amount: 'String',
     tx_hash: 'String',
     vault_id: 'bigint',
   },
@@ -3474,7 +3784,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_stddev_pop_fields: {
@@ -3485,7 +3794,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_stddev_samp_fields: {
@@ -3496,7 +3804,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_sum_fields: {
@@ -3507,7 +3814,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'numeric',
     gift_amount: 'numeric',
     id: 'bigint',
-    total_amount: 'numeric',
     vault_id: 'bigint',
   },
   distributions_var_pop_fields: {
@@ -3518,7 +3824,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_var_samp_fields: {
@@ -3529,7 +3834,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_variance_fields: {
@@ -3540,7 +3844,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   epochs: {
@@ -3582,22 +3885,36 @@ export const ReturnTypes: Record<string, any> = {
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createUser: 'UserResponse',
+    createUserWithToken: 'UserResponse',
     createUsers: 'UserResponse',
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
+    deleteCircle: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',
     delete_circle_api_keys_by_pk: 'circle_api_keys',
     delete_circle_integrations: 'circle_integrations_mutation_response',
     delete_circle_integrations_by_pk: 'circle_integrations',
+    delete_circle_share_tokens: 'circle_share_tokens_mutation_response',
+    delete_circle_share_tokens_by_pk: 'circle_share_tokens',
+    delete_pending_vault_transactions:
+      'pending_vault_transactions_mutation_response',
+    delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
     generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
+    insert_circle_share_tokens: 'circle_share_tokens_mutation_response',
+    insert_circle_share_tokens_one: 'circle_share_tokens',
     insert_claims: 'claims_mutation_response',
     insert_claims_one: 'claims',
+    insert_contributions: 'contributions_mutation_response',
+    insert_contributions_one: 'contributions',
     insert_distributions: 'distributions_mutation_response',
     insert_distributions_one: 'distributions',
+    insert_pending_vault_transactions:
+      'pending_vault_transactions_mutation_response',
+    insert_pending_vault_transactions_one: 'pending_vault_transactions',
     logoutUser: 'LogoutResponse',
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
@@ -3609,6 +3926,8 @@ export const ReturnTypes: Record<string, any> = {
     update_circles_by_pk: 'circles',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
+    update_contributions: 'contributions_mutation_response',
+    update_contributions_by_pk: 'contributions',
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_profiles: 'profiles_mutation_response',
@@ -3774,6 +4093,23 @@ export const ReturnTypes: Record<string, any> = {
     tokens: 'Int',
     updated_at: 'timestamp',
   },
+  pending_vault_transactions: {
+    chain_id: 'Int',
+    claim_id: 'bigint',
+    created_by: 'bigint',
+    distribution: 'distributions',
+    distribution_id: 'bigint',
+    org_id: 'bigint',
+    organization: 'organizations',
+    profile: 'profiles',
+    tx_hash: 'String',
+    tx_type: 'vault_tx_types_enum',
+    vault_tx_type: 'vault_tx_types',
+  },
+  pending_vault_transactions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'pending_vault_transactions',
+  },
   profiles: {
     address: 'String',
     avatar: 'String',
@@ -3805,11 +4141,16 @@ export const ReturnTypes: Record<string, any> = {
     circle_integrations: 'circle_integrations',
     circle_integrations_by_pk: 'circle_integrations',
     circle_private: 'circle_private',
+    circle_share_tokens: 'circle_share_tokens',
+    circle_share_tokens_by_pk: 'circle_share_tokens',
     circles: 'circles',
     circles_by_pk: 'circles',
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     claims_by_pk: 'claims',
+    contributions: 'contributions',
+    contributions_aggregate: 'contributions_aggregate',
+    contributions_by_pk: 'contributions',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
@@ -3824,6 +4165,8 @@ export const ReturnTypes: Record<string, any> = {
     pending_gift_private: 'pending_gift_private',
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_by_pk: 'pending_token_gifts',
+    pending_vault_transactions: 'pending_vault_transactions',
+    pending_vault_transactions_by_pk: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',
@@ -3852,11 +4195,16 @@ export const ReturnTypes: Record<string, any> = {
     circle_integrations: 'circle_integrations',
     circle_integrations_by_pk: 'circle_integrations',
     circle_private: 'circle_private',
+    circle_share_tokens: 'circle_share_tokens',
+    circle_share_tokens_by_pk: 'circle_share_tokens',
     circles: 'circles',
     circles_by_pk: 'circles',
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     claims_by_pk: 'claims',
+    contributions: 'contributions',
+    contributions_aggregate: 'contributions_aggregate',
+    contributions_by_pk: 'contributions',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
@@ -3871,6 +4219,8 @@ export const ReturnTypes: Record<string, any> = {
     pending_gift_private: 'pending_gift_private',
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_by_pk: 'pending_token_gifts',
+    pending_vault_transactions: 'pending_vault_transactions',
+    pending_vault_transactions_by_pk: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',

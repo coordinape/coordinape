@@ -5,24 +5,25 @@ import { Web3Provider } from '@ethersproject/providers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { getTokenAddress, Contracts } from 'lib/vaults';
+import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { FormTokenField } from 'components';
+import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Box, Button, Form, Link, Modal, Text } from 'ui';
-import { shortenAddress } from 'utils';
+import { numberWithCommas, shortenAddress } from 'utils';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
 export type DepositModalProps = {
   onClose: () => void;
   onDeposit: () => void;
-  vault: GraphQLTypes['vaults'];
+  vault: Vault;
 };
 
 export default function DepositModal({
@@ -33,7 +34,7 @@ export default function DepositModal({
   const [max, setMax] = useState<any>();
   const [submitting, setSubmitting] = useState(false);
   const contracts = useContracts();
-  (window as any).contracts = contracts;
+
   const [selectedContracts, setSelectedContracts] = useState<Contracts>();
   const [isChainIdMatching, setIsChainIdMatching] = useState<boolean>(true);
   const [isSecondaryAccountActive, setIsSecondaryAccountActive] =
@@ -49,6 +50,7 @@ export default function DepositModal({
     setIsChainIdMatching(contracts.chainId === chainId.toString());
     setSelectedContracts(newContracts);
     setIsSecondaryAccountActive(true);
+    // we have a web3 provider here so we can assume client side and that window is available -g
     (window as any).contracts = newContracts;
   };
 
@@ -125,7 +127,9 @@ export default function DepositModal({
           max={max}
           symbol={vault.symbol as string}
           decimals={vault.decimals}
-          label={`Available: ${max} ${vault.symbol?.toUpperCase()}`}
+          label={`Available: ${numberWithCommas(
+            round(max, 4)
+          )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
@@ -141,8 +145,14 @@ export default function DepositModal({
         >
           {submitting
             ? 'Depositing Funds...'
-            : `Deposit ${vault.symbol.toUpperCase()}`}
+            : `Approve and Deposit ${vault.symbol.toUpperCase()}`}
         </Button>
+        <Text
+          size="small"
+          css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
+        >
+          You will sign two transactions: one for approval and one for deposit.
+        </Text>
       </Form>
     </Modal>
   );
@@ -187,7 +197,7 @@ const SecondWalletInner = ({
     <>
       {account ? (
         <Box css={{ mb: '$md' }}>
-          <Text variant="label" as="label">
+          <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From secondary wallet
           </Text>
           <Text inline h3 semibold>
@@ -200,7 +210,7 @@ const SecondWalletInner = ({
             Disconnect this wallet
           </Link>
           {!validChainId && primaryChainId && (
-            <Text variant="label" as="label" color="alert">
+            <Text variant="label" as="label" css={{ mb: '$xs' }} color="alert">
               Please set your network to{' '}
               {NetworkNames[primaryChainId.toString()]}
             </Text>
@@ -208,7 +218,7 @@ const SecondWalletInner = ({
         </Box>
       ) : (
         <Box css={{ mb: '$md' }}>
-          <Text variant="label" as="label">
+          <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From primary wallet
           </Text>
           <Text inline h3 semibold>

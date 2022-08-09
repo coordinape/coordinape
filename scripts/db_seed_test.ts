@@ -9,6 +9,7 @@ import {
   createGifts,
   insertMemberships,
   getCircleName,
+  makeManyEpochs,
 } from './util/seed';
 
 const { CI } = process.env;
@@ -130,53 +131,29 @@ async function createFreshOpenEpoch() {
 }
 
 async function createEndedEpochWithGifts() {
-  const result = await insertMemberships(
-    getMembershipInput(
-      { protocolInput: { name: 'Ended Epoch With Gifts' } },
-      {}
-    )
-  );
-  const circleId = result[0].circle_id;
-  const epochId = await makeEpoch(
-    circleId,
-    DateTime.now().minus({ days: 8 }),
-    DateTime.now().minus({ days: 1 }),
-    1
-  );
-  await createGifts(result, epochId, 9, 100, false);
-  return circleId;
+  const epochDates = [
+    [40, 33],
+    [32, 25],
+    [24, 17],
+    [16, 9],
+    [8, 1],
+  ];
+  makeManyEpochs('Ended Epoch With Gifts', epochDates);
 }
 
 async function createEndedEpochWithGiftsForClaims() {
-  const result = await insertMemberships(
-    getMembershipInput(
-      { protocolInput: { name: 'Ended Epoch With Gifts for Claims' } },
-      {}
-    )
-  );
-  const circleId = result[0].circle_id;
-  const epochId1 = await makeEpoch(
-    circleId,
-    DateTime.now().minus({ days: 8 }),
-    DateTime.now().minus({ days: 1 }),
-    1
-  );
-  const epochId2 = await makeEpoch(
-    circleId,
-    DateTime.now().minus({ days: 16 }),
-    DateTime.now().minus({ days: 9 }),
-    2
-  );
-  const epochId3 = await makeEpoch(
-    circleId,
-    DateTime.now().minus({ days: 17 }),
-    DateTime.now().minus({ days: 10 }),
-    3
-  );
-  await createGifts(result, epochId1, 9, 100, false);
-  await createGifts(result, epochId2, 8, 100, false);
-  await createGifts(result, epochId3, 8, 100, false);
-  return circleId;
+  const epochDates = [
+    [71, 64],
+    [63, 57],
+    [56, 49],
+    [48, 41],
+    [40, 33],
+    [32, 25],
+    [24, 17],
+    [16, 9],
+    [8, 1],
+  ];
+  makeManyEpochs('Org for Claims', epochDates);
 }
 
 async function createCircleWithPendingGiftsEndingSoon() {

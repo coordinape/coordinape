@@ -2,9 +2,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { addVaultTx } from 'lib/gql/mutations';
-import { getTokenAddress, getWrappedAmount } from 'lib/vaults';
+import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -31,14 +30,17 @@ export function useVaultRouter(contracts?: Contracts) {
       token.symbol(),
       contracts.getMyAddress(),
     ]);
-    const allowance = await token.allowance(
-      myAddress,
-      contracts.router.address
-    );
+
+    const isSimpleToken = hasSimpleToken(vault);
+    const receiverAddress = isSimpleToken
+      ? vault.vault_address
+      : contracts.router.address;
+
+    const allowance = await token.allowance(myAddress, receiverAddress);
 
     if (allowance.lt(amount)) {
       const result = await sendAndTrackTx(
-        () => token.approve(contracts.router.address, amount),
+        () => token.approve(receiverAddress, amount),
         {
           showError,
           showInfo,
@@ -53,11 +55,13 @@ export function useVaultRouter(contracts?: Contracts) {
 
     const txResult = await sendAndTrackTx(
       () =>
-        contracts.router.delegateDeposit(
-          vault.vault_address as string,
-          tokenAddress,
-          amount
-        ),
+        isSimpleToken
+          ? token.transfer(receiverAddress, amount)
+          : contracts.router.delegateDeposit(
+              vault.vault_address,
+              tokenAddress,
+              amount
+            ),
       {
         showError,
         showInfo,
@@ -76,7 +80,7 @@ export function useVaultRouter(contracts?: Contracts) {
   };
 
   const withdraw = async (
-    vault: GraphQLTypes['vaults'],
+    vault: Vault,
     humanAmount: string,
     underlying: boolean
   ): Promise<SendAndTrackTxResult> => {
@@ -88,7 +92,10 @@ export function useVaultRouter(contracts?: Contracts) {
     const symbol = await token.symbol();
     const shares = await getWrappedAmount(humanAmount, vault, contracts);
     const txResult = await sendAndTrackTx(
-      () => vaultContract.apeWithdraw(shares, underlying),
+      () =>
+        hasSimpleToken(vault)
+          ? vaultContract.apeWithdrawSimpleToken(shares)
+          : vaultContract.apeWithdraw(shares, underlying),
       {
         showError,
         showInfo,

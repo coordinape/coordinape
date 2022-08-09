@@ -6,7 +6,7 @@ import { CaptureContext } from '@sentry/types';
 import { flattenZeusError, GQLError } from '../common-lib/errorHandling';
 import { GraphQLError } from '../lib/gql/__generated__/zeus';
 
-import { DOMAIN_IS_LOCALHOST, DOMAIN_IS_PREVIEW, RENDER_APP } from './domain';
+import { DOMAIN_IS_LOCALHOST, DOMAIN_IS_PREVIEW } from './domain';
 
 export const reportException = (
   error: any,
@@ -62,7 +62,6 @@ export const initSentry = () => {
     tracesSampleRate: 0.1,
     normalizeDepth: 50,
   });
-  Sentry.setTag('landing_page', !RENDER_APP);
   Sentry.setTag('application', 'web');
 };
 

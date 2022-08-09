@@ -9,7 +9,7 @@ import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
-import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
+import { paths } from 'routes/paths';
 import {
   Box,
   Link,
@@ -71,7 +71,7 @@ export const MyAvatarMenu = () => {
               setTimeout(() => setMouseEnterPopover(false), 200)
             }
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-67}
+            sideOffset={-66}
             alignOffset={-16}
             css={{ background: '$surface', outline: 'none' }}
             onClick={closePopover}
@@ -82,7 +82,7 @@ export const MyAvatarMenu = () => {
                 flexDirection: 'column',
                 textAlign: 'right',
                 alignItems: 'end',
-                p: 'calc($md + $xs)',
+                p: '$md',
               }}
             >
               <PopoverClose asChild>
@@ -128,18 +128,11 @@ export const MyAvatarMenu = () => {
                 <Link type="menu" as={NavLink} to={paths.circles}>
                   Circles
                 </Link>
-              </Box>
-              <Box css={menuGroupStyle}>
-                <Link type="menu" href={EXTERNAL_URL_DOCS}>
-                  Docs
-                </Link>
-                <Link
-                  type="menu"
-                  href="https://notionforms.io/forms/give-us-your-feedback-improve-coordinape"
-                  target="_blank"
-                >
-                  Give Feedback
-                </Link>
+                {isFeatureEnabled('vaults') && (
+                  <Link type="menu" as={NavLink} to={paths.claims}>
+                    Claims
+                  </Link>
+                )}
               </Box>
             </Box>
           </PopoverContent>

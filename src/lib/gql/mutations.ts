@@ -164,7 +164,10 @@ export const allVaultFields = {
   deployment_block: true,
 };
 
-export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
+export const addVault = (
+  vault: ValueTypes['CreateVaultInput'],
+  pendingTxHash: string
+) =>
   client.mutate(
     {
       createVault: [
@@ -172,7 +175,9 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
         {
           vault: {
             ...allVaultFields,
-
+            protocol: {
+              name: true,
+            },
             vault_transactions: [
               {},
               {
@@ -184,6 +189,7 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
                   users: [{}, { circle_id: true, name: true }],
                 },
                 distribution: {
+                  claims: [{}, { profile_id: true }],
                   fixed_amount: true,
                   gift_amount: true,
                   epoch: {
@@ -198,10 +204,12 @@ export const addVault = (vault: ValueTypes['CreateVaultInput']) =>
           },
         },
       ],
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash: pendingTxHash },
+        { __typename: true },
+      ],
     },
-    {
-      operationName: 'addVault',
-    }
+    { operationName: 'addVault' }
   );
 
 export const addVaultTx = (vaultTx: ValueTypes['LogVaultTxInput']) =>
@@ -438,6 +446,27 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   return updateCircle;
 }
 
+export async function deleteCircle(circle_id: number) {
+  const { deleteCircle } = await client.mutate(
+    {
+      deleteCircle: [
+        {
+          payload: {
+            circle_id: circle_id,
+          },
+        },
+        {
+          success: true,
+        },
+      ],
+    },
+    {
+      operationName: 'deleteCircle',
+    }
+  );
+  return deleteCircle;
+}
+
 export async function updateTeammates(circleId: number, teammates: number[]) {
   const { updateTeammates } = await client.mutate(
     {
@@ -646,4 +675,24 @@ export async function allocationCsv(
     }
   );
   return allocationCsv;
+}
+
+export async function savePendingVaultTx(
+  input: ValueTypes['pending_vault_transactions_insert_input']
+) {
+  client.mutate({
+    insert_pending_vault_transactions_one: [
+      { object: { ...input } },
+      { __typename: true },
+    ],
+  });
+}
+
+export async function deletePendingVaultTx(tx_hash: string) {
+  client.mutate({
+    delete_pending_vault_transactions_by_pk: [
+      { tx_hash },
+      { __typename: true },
+    ],
+  });
 }

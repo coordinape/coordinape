@@ -1,33 +1,39 @@
-import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { ValueTypes, useZeusVariables } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useMutation } from 'react-query';
 
-const saveDistribution = async (
-  distribution?: ValueTypes['distributions_insert_input']
-) => {
-  const { insert_distributions_one } = await client.mutate(
-    {
-      insert_distributions_one: [
+export function useSaveDistribution() {
+  return useMutation(
+    async (distribution?: ValueTypes['distributions_insert_input']) => {
+      // this is not a hook
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const variables = useZeusVariables({ json: 'jsonb' })({
+        json: distribution?.distribution_json,
+      });
+
+      const { insert_distributions_one } = await client.mutate(
         {
-          object: { ...distribution },
+          insert_distributions_one: [
+            {
+              object: {
+                ...distribution,
+                distribution_json: variables.$('json'),
+              },
+            },
+            { id: true },
+          ],
         },
         {
-          id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'saveDistribution',
+          operationName: 'saveDistribution',
+          variables,
+        }
+      );
+      return insert_distributions_one;
     }
   );
-  return insert_distributions_one;
-};
-
-export function useSaveEpochDistribution() {
-  return useMutation(saveDistribution);
 }
 
-export function useMarkDistributionSaved() {
+export function useMarkDistributionDone() {
   return useMutation(
     ({
       epochId,
@@ -46,10 +52,7 @@ export function useMarkDistributionSaved() {
         {
           update_distributions_by_pk: [
             {
-              _set: {
-                tx_hash: txHash,
-                distribution_epoch_id: epochId,
-              },
+              _set: { tx_hash: txHash, distribution_epoch_id: epochId },
               pk_columns: { id },
             },
             { id: true },
@@ -66,10 +69,12 @@ export function useMarkDistributionSaved() {
             },
             { id: true },
           ],
+          delete_pending_vault_transactions_by_pk: [
+            { tx_hash: txHash },
+            { __typename: true },
+          ],
         },
-        {
-          operationName: 'useMarkDistributionSaved',
-        }
+        { operationName: 'useMarkDistributionDone' }
       );
     }
   );

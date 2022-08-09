@@ -42,7 +42,13 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const web3Context = useWeb3React<Web3Provider>();
   const walletAuth = useWalletAuth();
 
-  const isMetamaskEnabled = 'ethereum' in window || 'web3' in window;
+  const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    // safe to refer to window here because we are client side -g
+    setIsMetamaskEnabled('ethereum' in window || 'web3' in window);
+  }, []);
+
   const isConnecting = !!connectMessage;
 
   const activate = async (connectorName: EConnectorNames) => {
@@ -98,6 +104,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   useEffect(() => {
     if (
+      // safe to refer to window here because we are in useEffect -g
       window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
       walletAuth.connectorName
     ) {

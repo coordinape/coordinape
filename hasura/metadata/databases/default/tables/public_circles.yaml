@@ -118,6 +118,7 @@ select_permissions:
     - auto_opt_out
     - created_at
     - default_opt_in
+    - deleted_at
     - fixed_payment_token_type
     - id
     - is_verified

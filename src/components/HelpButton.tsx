@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
+import { PopupButton } from '@typeform/embed-react';
 
+import {
+  EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_MAILTO_SUPPORT,
+  EXTERNAL_URL_SCHEDULE_WALKTHROUGH,
+} from '../routes/paths';
 import { Button, Flex } from '../ui';
 import { Box } from '../ui/Box/Box';
 import { ClockIcon } from '../ui/icons/ClockIcon';
@@ -9,6 +16,7 @@ import { CloseIcon } from '../ui/icons/CloseIcon';
 import { DiscordIcon } from '../ui/icons/DiscordIcon';
 import { DocumentIcon } from '../ui/icons/DocumentIcon';
 import { EnvelopeIcon } from '../ui/icons/EnvelopeIcon';
+import { GiveArrowsIcon } from '../ui/icons/GiveArrowsIcon';
 import { Text } from '../ui/Text/Text';
 
 const HelpButtonContainer = styled('div', {
@@ -28,7 +36,7 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '258px', // magic number, yep. If i do auto the animations are terrible -g
+    height: '298px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
@@ -155,26 +163,48 @@ const HelpButton = () => {
           </Text>
         </div>
         <HelpOption
-          href={'https://discord.gg/pc7KFEdsSh'}
+          href={EXTERNAL_URL_DISCORD}
           icon={<DiscordIcon size={'md'} color={'text'} />}
         >
           Ask on Discord
         </HelpOption>
         <HelpOption
-          href={'mailto:support@coodinape.com'}
+          href={EXTERNAL_URL_MAILTO_SUPPORT}
           icon={<EnvelopeIcon size={'md'} color={'text'} />}
         >
           Email Us
         </HelpOption>
         <HelpOption
-          href={'https://calendly.com/zakku/coordinape-call'}
+          href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
           icon={<ClockIcon size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough
         </HelpOption>
+        <Button
+          color={'transparent'}
+          fullWidth={true}
+          css={{ paddingLeft: '0px' }}
+        >
+          <PopupButton
+            id="nvOUfHKN"
+            className="my-button"
+            style={{ marginTop: 0 }}
+          >
+            <Flex
+              css={{
+                alignItems: 'center',
+              }}
+            >
+              <Flex css={{ mr: '$sm', alignItems: 'center', color: '$text' }}>
+                <GiveArrowsIcon size={'md'} color={'text'} />
+              </Flex>
+              Share Feedback
+            </Flex>
+          </PopupButton>
+        </Button>
         <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
           <HelpOption
-            href={'https://docs.coordinape.com/'}
+            href={EXTERNAL_URL_DOCS}
             icon={<DocumentIcon size={'md'} color={'text'} />}
           >
             Documentation

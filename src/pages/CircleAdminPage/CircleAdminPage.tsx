@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/core';
 
 import {
   ApeAvatar,
-  ApeTextField,
+  DeprecatedApeTextField,
+  DeprecatedFormTextField,
   ApeToggle,
   FormAutocomplete,
 } from 'components';
@@ -404,7 +405,7 @@ export const CircleAdminPage = () => {
         type="file"
       />
       <Box className={classes.quadGrid}>
-        <ApeTextField label="Circle name" {...circleName} fullWidth />
+        <DeprecatedApeTextField label="Circle name" {...circleName} fullWidth />
         <ApeToggle
           {...vouching}
           label="Enable Vouching?"
@@ -419,18 +420,20 @@ export const CircleAdminPage = () => {
             />
           }
         />
-        <ApeTextField label="Token name" {...tokenName} fullWidth />
+        <DeprecatedApeTextField label="Token name" {...tokenName} fullWidth />
         <div
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
-          <ApeTextField
-            label="Mininum vouches to add member"
+          <DeprecatedFormTextField
+            label="Minimum vouches to add member"
+            type="number"
+            placeholder="0"
             {...minVouches}
             fullWidth
             disabled={!vouching.value}
           />
         </div>
-        <ApeTextField
+        <DeprecatedApeTextField
           label="Teammate selection page text"
           {...teamSelText}
           multiline
@@ -443,15 +446,17 @@ export const CircleAdminPage = () => {
         <div
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
-          <ApeTextField
+          <DeprecatedFormTextField
             label="Length of nomination period"
+            type="number"
+            placeholder="0"
             {...nominationDaysLimit}
             helperText="(# of days)"
             fullWidth
             disabled={!vouching.value}
           />
         </div>
-        <ApeTextField
+        <DeprecatedApeTextField
           label="Allocation page text"
           {...allocText}
           multiline
@@ -464,7 +469,7 @@ export const CircleAdminPage = () => {
         <div
           className={clsx(classes.vouchingItem, !vouching.value && 'disabled')}
         >
-          <ApeTextField
+          <DeprecatedApeTextField
             label="Vouching text"
             placeholder="This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how."
             {...vouchingText}

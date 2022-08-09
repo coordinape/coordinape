@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -711,6 +711,10 @@ export type ValueTypes = {
     role?: number | undefined | null;
     starting_tokens?: number | undefined | null;
   };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
+  };
   ['CreateUsersInput']: {
     circle_id: number;
     users: Array<ValueTypes['UserObj'] | undefined | null>;
@@ -720,6 +724,9 @@ export type ValueTypes = {
     deployment_block: number;
     org_id: number;
     vault_address: string;
+  };
+  ['DeleteCircleInput']: {
+    circle_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -1442,6 +1449,53 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: {
+    _and?: Array<ValueTypes['circle_share_tokens_bool_exp']> | undefined | null;
+    _not?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['circle_share_tokens_bool_exp']> | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    type?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    uuid?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+  };
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+  };
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['circle_share_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    type?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    uuid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
   /** columns and relationships of "circles" */
   ['circles']: AliasType<{
     alloc_text?: boolean | `@${string}`;
@@ -1496,6 +1550,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private'];
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     epochs?: [
       {
         /** distinct select on columns */
@@ -1755,6 +1810,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
@@ -1800,6 +1856,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -1816,6 +1873,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -1848,6 +1906,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: ValueTypes['circle_private_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     default_opt_in?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     epochs_aggregate?:
       | ValueTypes['epochs_aggregate_order_by']
       | undefined
@@ -2317,6 +2376,191 @@ columns and relationships of "circle_api_keys" */
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "contributions" */
+  ['contributions']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['contributions_aggregate_fields'];
+    nodes?: ValueTypes['contributions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['contributions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['contributions_max_fields'];
+    min?: ValueTypes['contributions_min_fields'];
+    stddev?: ValueTypes['contributions_stddev_fields'];
+    stddev_pop?: ValueTypes['contributions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['contributions_stddev_samp_fields'];
+    sum?: ValueTypes['contributions_sum_fields'];
+    var_pop?: ValueTypes['contributions_var_pop_fields'];
+    var_samp?: ValueTypes['contributions_var_samp_fields'];
+    variance?: ValueTypes['contributions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
+  ['contributions_bool_exp']: {
+    _and?: Array<ValueTypes['contributions_bool_exp']> | undefined | null;
+    _not?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['contributions_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
+    user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: contributions_constraint;
+  /** input type for inserting data into table "contributions" */
+  ['contributions_insert_input']: {
+    description?: string | undefined | null;
+    epoch_id?: number | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['contributions_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['contributions_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "contributions" */
+  ['contributions_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['contributions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: {
+    constraint: ValueTypes['contributions_constraint'];
+    update_columns: Array<ValueTypes['contributions_update_column']>;
+    where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "contributions". */
+  ['contributions_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: contributions */
+  ['contributions_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "contributions" */
+  ['contributions_select_column']: contributions_select_column;
+  /** input type for updating data in table "contributions" */
+  ['contributions_set_input']: {
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "contributions" */
+  ['contributions_update_column']: contributions_update_column;
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -2398,6 +2642,8 @@ columns and relationships of "distributions" */
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     merkle_root?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     total_amount?: boolean | `@${string}`;
     tx_hash?: boolean | `@${string}`;
     /** An object relationship */
@@ -2487,7 +2733,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2500,7 +2745,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -2523,7 +2767,8 @@ columns and relationships of "distributions" */
     gift_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     merkle_root?: ValueTypes['String_comparison_exp'] | undefined | null;
-    total_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    total_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     vault?: ValueTypes['vaults_bool_exp'] | undefined | null;
     vault_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -2548,7 +2793,7 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['numeric'] | undefined | null;
     gift_amount?: ValueTypes['numeric'] | undefined | null;
     merkle_root?: string | undefined | null;
-    total_amount?: ValueTypes['numeric'] | undefined | null;
+    total_amount?: string | undefined | null;
     vault_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -2650,6 +2895,7 @@ columns and relationships of "distributions" */
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     merkle_root?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     total_amount?: ValueTypes['order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
     vault?: ValueTypes['vaults_order_by'] | undefined | null;
@@ -2679,7 +2925,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2692,7 +2937,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
@@ -2704,7 +2948,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2717,7 +2960,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
@@ -2729,7 +2971,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2742,7 +2983,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -2754,7 +2994,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2767,7 +3006,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** update columns of table "distributions" */
@@ -2781,7 +3019,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2794,7 +3031,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
@@ -2806,7 +3042,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2819,7 +3054,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
@@ -2831,7 +3065,6 @@ columns and relationships of "distributions" */
     fixed_amount?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    total_amount?: boolean | `@${string}`;
     vault_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2844,7 +3077,6 @@ columns and relationships of "distributions" */
     fixed_amount?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    total_amount?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** columns and relationships of "epoches" */
@@ -3297,6 +3529,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
     ];
+    createUserWithToken?: [
+      { payload: ValueTypes['CreateUserWithTokenInput'] },
+      ValueTypes['UserResponse']
+    ];
     createUsers?: [
       { payload: ValueTypes['CreateUsersInput'] },
       ValueTypes['UserResponse']
@@ -3308,6 +3544,10 @@ columns and relationships of "distributions" */
     createVaultTx?: [
       { payload: ValueTypes['LogVaultTxInput'] },
       ValueTypes['LogVaultTxResponse']
+    ];
+    deleteCircle?: [
+      { payload: ValueTypes['DeleteCircleInput'] },
+      ValueTypes['ConfirmationResponse']
     ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
@@ -3339,6 +3579,28 @@ columns and relationships of "distributions" */
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_integrations']
     ];
+    delete_circle_share_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_share_tokens_bool_exp'];
+      },
+      ValueTypes['circle_share_tokens_mutation_response']
+    ];
+    delete_circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
+    ];
+    delete_pending_vault_transactions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['pending_vault_transactions_bool_exp'];
+      },
+      ValueTypes['pending_vault_transactions_mutation_response']
+    ];
+    delete_pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
+    ];
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
       ValueTypes['GenerateApiKeyResponse']
@@ -3357,6 +3619,20 @@ columns and relationships of "distributions" */
       },
       ValueTypes['circle_integrations']
     ];
+    insert_circle_share_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<ValueTypes['circle_share_tokens_insert_input']>;
+      },
+      ValueTypes['circle_share_tokens_mutation_response']
+    ];
+    insert_circle_share_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['circle_share_tokens_insert_input'];
+      },
+      ValueTypes['circle_share_tokens']
+    ];
     insert_claims?: [
       {
         /** the rows to be inserted */
@@ -3374,6 +3650,30 @@ columns and relationships of "distributions" */
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims']
+    ];
+    insert_contributions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['contributions_insert_input']
+        > /** on conflict condition */;
+        on_conflict?:
+          | ValueTypes['contributions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['contributions_mutation_response']
+    ];
+    insert_contributions_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['contributions_insert_input'] /** on conflict condition */;
+        on_conflict?:
+          | ValueTypes['contributions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['contributions']
     ];
     insert_distributions?: [
       {
@@ -3398,6 +3698,20 @@ columns and relationships of "distributions" */
           | null;
       },
       ValueTypes['distributions']
+    ];
+    insert_pending_vault_transactions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<ValueTypes['pending_vault_transactions_insert_input']>;
+      },
+      ValueTypes['pending_vault_transactions_mutation_response']
+    ];
+    insert_pending_vault_transactions_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['pending_vault_transactions_insert_input'];
+      },
+      ValueTypes['pending_vault_transactions']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     restoreCoordinape?: [
@@ -3469,6 +3783,25 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['claims_pk_columns_input'];
       },
       ValueTypes['claims']
+    ];
+    update_contributions?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['contributions_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['contributions_bool_exp'];
+      },
+      ValueTypes['contributions_mutation_response']
+    ];
+    update_contributions_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['contributions_set_input'] | undefined | null;
+        pk_columns: ValueTypes['contributions_pk_columns_input'];
+      },
+      ValueTypes['contributions']
     ];
     update_distributions?: [
       {
@@ -4222,6 +4555,91 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: AliasType<{
+    chain_id?: boolean | `@${string}`;
+    claim_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
+    /** An object relationship */
+    distribution?: ValueTypes['distributions'];
+    distribution_id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    tx_hash?: boolean | `@${string}`;
+    tx_type?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_type?: ValueTypes['vault_tx_types'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['pending_vault_transactions_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['pending_vault_transactions_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['pending_vault_transactions_bool_exp']>
+      | undefined
+      | null;
+    chain_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    claim_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    tx_type?:
+      | ValueTypes['vault_tx_types_enum_comparison_exp']
+      | undefined
+      | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+  };
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: {
+    chain_id?: number | undefined | null;
+    claim_id?: ValueTypes['bigint'] | undefined | null;
+    distribution?:
+      | ValueTypes['distributions_obj_rel_insert_input']
+      | undefined
+      | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
+    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+  };
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['pending_vault_transactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: {
+    chain_id?: ValueTypes['order_by'] | undefined | null;
+    claim_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
+    distribution?: ValueTypes['distributions_order_by'] | undefined | null;
+    distribution_id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
+    tx_type?: ValueTypes['order_by'] | undefined | null;
+    vault_tx_type?: ValueTypes['vault_tx_types_order_by'] | undefined | null;
+  };
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
 
 
@@ -4490,6 +4908,33 @@ columns and relationships of "profiles" */
       },
       ValueTypes['circle_private']
     ];
+    circle_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_share_tokens']
+    ];
+    circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
+    ];
     circles?: [
       {
         /** distinct select on columns */
@@ -4561,6 +5006,53 @@ columns and relationships of "profiles" */
       ValueTypes['claims_aggregate']
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
+    contributions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
+    contributions_by_pk?: [{ id: number }, ValueTypes['contributions']];
     distributions?: [
       {
         /** distinct select on columns */
@@ -4781,6 +5273,36 @@ columns and relationships of "profiles" */
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['pending_token_gifts']
+    ];
+    pending_vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
+    ];
+    pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
     ];
     profiles?: [
       {
@@ -5150,6 +5672,33 @@ columns and relationships of "profiles" */
       },
       ValueTypes['circle_private']
     ];
+    circle_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_share_tokens']
+    ];
+    circle_share_tokens_by_pk?: [
+      { circle_id: ValueTypes['bigint']; type: number },
+      ValueTypes['circle_share_tokens']
+    ];
     circles?: [
       {
         /** distinct select on columns */
@@ -5221,6 +5770,53 @@ columns and relationships of "profiles" */
       ValueTypes['claims_aggregate']
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
+    contributions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
+    contributions_by_pk?: [{ id: number }, ValueTypes['contributions']];
     distributions?: [
       {
         /** distinct select on columns */
@@ -5441,6 +6037,36 @@ columns and relationships of "profiles" */
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['pending_token_gifts']
+    ];
+    pending_vault_transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['pending_vault_transactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['pending_vault_transactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
+    ];
+    pending_vault_transactions_by_pk?: [
+      { tx_hash: string },
+      ValueTypes['pending_vault_transactions']
     ];
     profiles?: [
       {
@@ -6787,6 +7413,19 @@ columns and relationships of "users" */
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  ['uuid']: unknown;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: {
+    _eq?: ValueTypes['uuid'] | undefined | null;
+    _gt?: ValueTypes['uuid'] | undefined | null;
+    _gte?: ValueTypes['uuid'] | undefined | null;
+    _in?: Array<ValueTypes['uuid']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['uuid'] | undefined | null;
+    _lte?: ValueTypes['uuid'] | undefined | null;
+    _neq?: ValueTypes['uuid'] | undefined | null;
+    _nin?: Array<ValueTypes['uuid']> | undefined | null;
+  };
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: AliasType<{
     /** An object relationship */
@@ -7444,8 +8083,10 @@ export type ModelTypes = {
     nominee: GraphQLTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
+  ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -7694,6 +8335,31 @@ columns and relationships of "circle_api_keys" */
   ['circle_private_order_by']: GraphQLTypes['circle_private_order_by'];
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: GraphQLTypes['circle_private_select_column'];
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: GraphQLTypes['circle_share_tokens_bool_exp'];
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: GraphQLTypes['circle_share_tokens_insert_input'];
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_share_tokens']>;
+  };
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: GraphQLTypes['circle_share_tokens_order_by'];
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: GraphQLTypes['circle_share_tokens_select_column'];
   /** columns and relationships of "circles" */
   ['circles']: {
     alloc_text?: string | undefined;
@@ -7706,6 +8372,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -7969,6 +8636,132 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: GraphQLTypes['claims_variance_order_by'];
+  /** columns and relationships of "contributions" */
+  ['contributions']: {
+    created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: number | undefined;
+    id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: {
+    aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['contributions']>;
+  };
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: {
+    avg?: GraphQLTypes['contributions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['contributions_max_fields'] | undefined;
+    min?: GraphQLTypes['contributions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['contributions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['contributions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['contributions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['contributions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['contributions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['contributions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['contributions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
+  ['contributions_bool_exp']: GraphQLTypes['contributions_bool_exp'];
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: GraphQLTypes['contributions_constraint'];
+  /** input type for inserting data into table "contributions" */
+  ['contributions_insert_input']: GraphQLTypes['contributions_insert_input'];
+  /** aggregate max on columns */
+  ['contributions_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['contributions_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** response of any mutation on the table "contributions" */
+  ['contributions_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['contributions']>;
+  };
+  /** on conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
+  /** Ordering options when selecting data from "contributions". */
+  ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
+  /** primary key columns input for table: contributions */
+  ['contributions_pk_columns_input']: GraphQLTypes['contributions_pk_columns_input'];
+  /** select columns of table "contributions" */
+  ['contributions_select_column']: GraphQLTypes['contributions_select_column'];
+  /** input type for updating data in table "contributions" */
+  ['contributions_set_input']: GraphQLTypes['contributions_set_input'];
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** update columns of table "contributions" */
+  ['contributions_update_column']: GraphQLTypes['contributions_update_column'];
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: {
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
@@ -7993,7 +8786,9 @@ columns and relationships of "distributions" */
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
-    total_amount: GraphQLTypes['numeric'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    total_amount: string;
     tx_hash?: string | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
@@ -8031,7 +8826,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by avg() on columns of table "distributions" */
@@ -8055,7 +8849,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
+    total_amount?: string | undefined;
     tx_hash?: string | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -8072,7 +8866,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
+    total_amount?: string | undefined;
     tx_hash?: string | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -8106,7 +8900,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev() on columns of table "distributions" */
@@ -8120,7 +8913,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -8134,7 +8926,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -8148,7 +8939,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['numeric'] | undefined;
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "distributions" */
@@ -8164,7 +8954,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -8178,7 +8967,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -8192,7 +8980,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by variance() on columns of table "distributions" */
@@ -8288,10 +9075,12 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -8308,6 +9097,22 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** delete data from the table: "circle_share_tokens" */
+    delete_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_share_tokens" */
+    delete_circle_share_tokens_by_pk?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
+    /** delete data from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -8318,16 +9123,38 @@ columns and relationships of "distributions" */
     insert_circle_integrations_one?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** insert data into the table: "circle_share_tokens" */
+    insert_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_share_tokens" */
+    insert_circle_share_tokens_one?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
     /** insert data into the table: "claims" */
     insert_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** insert a single row into the table: "claims" */
     insert_claims_one?: GraphQLTypes['claims'] | undefined;
+    /** insert data into the table: "contributions" */
+    insert_contributions?:
+      | GraphQLTypes['contributions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "contributions" */
+    insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
     /** insert data into the table: "distributions" */
     insert_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** insert a single row into the table: "distributions" */
     insert_distributions_one?: GraphQLTypes['distributions'] | undefined;
+    /** insert data into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions_one?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
@@ -8344,6 +9171,12 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** update data of the table: "contributions" */
+    update_contributions?:
+      | GraphQLTypes['contributions_mutation_response']
+      | undefined;
+    /** update single row of the table: "contributions" */
+    update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -8620,6 +9453,42 @@ columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts_var_samp_order_by']: GraphQLTypes['pending_token_gifts_var_samp_order_by'];
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: {
+    chain_id: number;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
+  };
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: GraphQLTypes['pending_vault_transactions_bool_exp'];
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: GraphQLTypes['pending_vault_transactions_insert_input'];
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: GraphQLTypes['pending_vault_transactions_select_column'];
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
 
 
@@ -8678,6 +9547,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -8688,6 +9561,12 @@ columns and relationships of "profiles" */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "contributions" */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** fetch aggregated fields from the table: "contributions" */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** fetch data from the table: "contributions" using primary key columns */
+    contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -8716,6 +9595,14 @@ columns and relationships of "profiles" */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -8770,6 +9657,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -8780,6 +9671,12 @@ columns and relationships of "profiles" */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "contributions" */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** fetch aggregated fields from the table: "contributions" */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** fetch data from the table: "contributions" using primary key columns */
+    contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -8808,6 +9705,14 @@ columns and relationships of "profiles" */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -9230,6 +10135,9 @@ columns and relationships of "users" */
   ['users_var_samp_order_by']: GraphQLTypes['users_var_samp_order_by'];
   /** order by variance() on columns of table "users" */
   ['users_variance_order_by']: GraphQLTypes['users_variance_order_by'];
+  ['uuid']: any;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: GraphQLTypes['uuid_comparison_exp'];
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     /** An object relationship */
@@ -9313,9 +10221,9 @@ columns and relationships of "users" */
     profile: GraphQLTypes['profiles'];
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
-    simple_token_address?: string | undefined;
+    simple_token_address: string;
     symbol: string;
-    token_address?: string | undefined;
+    token_address: string;
     updated_at: GraphQLTypes['timestamptz'];
     vault_address: string;
     /** An array relationship */
@@ -9494,6 +10402,10 @@ export type GraphQLTypes = {
     role?: number | undefined;
     starting_tokens?: number | undefined;
   };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
+  };
   ['CreateUsersInput']: {
     circle_id: number;
     users: Array<GraphQLTypes['UserObj'] | undefined>;
@@ -9503,6 +10415,9 @@ export type GraphQLTypes = {
     deployment_block: number;
     org_id: number;
     vault_address: string;
+  };
+  ['DeleteCircleInput']: {
+    circle_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -10197,6 +11112,53 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** columns and relationships of "circle_share_tokens" */
+  ['circle_share_tokens']: {
+    __typename: 'circle_share_tokens';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
+  ['circle_share_tokens_bool_exp']: {
+    _and?: Array<GraphQLTypes['circle_share_tokens_bool_exp']> | undefined;
+    _not?: GraphQLTypes['circle_share_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['circle_share_tokens_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    type?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    uuid?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+  };
+  /** input type for inserting data into table "circle_share_tokens" */
+  ['circle_share_tokens_insert_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** response of any mutation on the table "circle_share_tokens" */
+  ['circle_share_tokens_mutation_response']: {
+    __typename: 'circle_share_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_share_tokens']>;
+  };
+  /** Ordering options when selecting data from "circle_share_tokens". */
+  ['circle_share_tokens_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    type?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    uuid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "circle_share_tokens" */
+  ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
   /** columns and relationships of "circles" */
   ['circles']: {
     __typename: 'circles';
@@ -10210,6 +11172,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -10279,6 +11242,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epochs?: GraphQLTypes['epochs_bool_exp'] | undefined;
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
@@ -10318,6 +11282,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_max_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -10334,6 +11299,7 @@ columns and relationships of "circle_api_keys" */
   ['circles_min_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -10365,6 +11331,7 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     default_opt_in?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -10819,6 +11786,182 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "contributions" */
+  ['contributions']: {
+    __typename: 'contributions';
+    created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: number | undefined;
+    id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: {
+    __typename: 'contributions_aggregate';
+    aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['contributions']>;
+  };
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: {
+    __typename: 'contributions_aggregate_fields';
+    avg?: GraphQLTypes['contributions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['contributions_max_fields'] | undefined;
+    min?: GraphQLTypes['contributions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['contributions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['contributions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['contributions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['contributions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['contributions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['contributions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['contributions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: {
+    __typename: 'contributions_avg_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
+  ['contributions_bool_exp']: {
+    _and?: Array<GraphQLTypes['contributions_bool_exp']> | undefined;
+    _not?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['contributions_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
+    user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: contributions_constraint;
+  /** input type for inserting data into table "contributions" */
+  ['contributions_insert_input']: {
+    description?: string | undefined;
+    epoch_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['contributions_max_fields']: {
+    __typename: 'contributions_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['contributions_min_fields']: {
+    __typename: 'contributions_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** response of any mutation on the table "contributions" */
+  ['contributions_mutation_response']: {
+    __typename: 'contributions_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['contributions']>;
+  };
+  /** on conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: {
+    constraint: GraphQLTypes['contributions_constraint'];
+    update_columns: Array<GraphQLTypes['contributions_update_column']>;
+    where?: GraphQLTypes['contributions_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "contributions". */
+  ['contributions_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: contributions */
+  ['contributions_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "contributions" */
+  ['contributions_select_column']: contributions_select_column;
+  /** input type for updating data in table "contributions" */
+  ['contributions_set_input']: {
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: {
+    __typename: 'contributions_stddev_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: {
+    __typename: 'contributions_stddev_pop_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: {
+    __typename: 'contributions_stddev_samp_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: {
+    __typename: 'contributions_sum_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** update columns of table "contributions" */
+  ['contributions_update_column']: contributions_update_column;
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: {
+    __typename: 'contributions_var_pop_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: {
+    __typename: 'contributions_var_samp_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: {
+    __typename: 'contributions_variance_fields';
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -10854,7 +11997,9 @@ columns and relationships of "distributions" */
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     merkle_root?: string | undefined;
-    total_amount: GraphQLTypes['numeric'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    total_amount: string;
     tx_hash?: string | undefined;
     /** An object relationship */
     vault: GraphQLTypes['vaults'];
@@ -10909,7 +12054,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by avg() on columns of table "distributions" */
@@ -10921,7 +12065,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "distributions". All fields are combined with a logical 'AND'. */
@@ -10941,7 +12084,8 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     merkle_root?: GraphQLTypes['String_comparison_exp'] | undefined;
-    total_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    total_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     vault?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vault_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -10965,7 +12109,7 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['numeric'] | undefined;
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     merkle_root?: string | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
+    total_amount?: string | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
@@ -10980,7 +12124,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
+    total_amount?: string | undefined;
     tx_hash?: string | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -11011,7 +12155,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     merkle_root?: string | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
+    total_amount?: string | undefined;
     tx_hash?: string | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -11064,6 +12208,7 @@ columns and relationships of "distributions" */
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     merkle_root?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     total_amount?: GraphQLTypes['order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
     vault?: GraphQLTypes['vaults_order_by'] | undefined;
@@ -11093,7 +12238,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev() on columns of table "distributions" */
@@ -11105,7 +12249,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
@@ -11118,7 +12261,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "distributions" */
@@ -11130,7 +12272,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_samp on columns */
@@ -11143,7 +12284,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "distributions" */
@@ -11155,7 +12295,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate sum on columns */
@@ -11168,7 +12307,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['numeric'] | undefined;
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    total_amount?: GraphQLTypes['numeric'] | undefined;
     vault_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "distributions" */
@@ -11180,7 +12318,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** update columns of table "distributions" */
@@ -11195,7 +12332,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "distributions" */
@@ -11207,7 +12343,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
@@ -11220,7 +12355,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "distributions" */
@@ -11232,7 +12366,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate variance on columns */
@@ -11245,7 +12378,6 @@ columns and relationships of "distributions" */
     fixed_amount?: number | undefined;
     gift_amount?: number | undefined;
     id?: number | undefined;
-    total_amount?: number | undefined;
     vault_id?: number | undefined;
   };
   /** order by variance() on columns of table "distributions" */
@@ -11257,7 +12389,6 @@ columns and relationships of "distributions" */
     fixed_amount?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    total_amount?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** columns and relationships of "epoches" */
@@ -11560,10 +12691,12 @@ columns and relationships of "distributions" */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
@@ -11580,6 +12713,22 @@ columns and relationships of "distributions" */
     delete_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** delete data from the table: "circle_share_tokens" */
+    delete_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_share_tokens" */
+    delete_circle_share_tokens_by_pk?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
+    /** delete data from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "pending_vault_transactions" */
+    delete_pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -11590,16 +12739,38 @@ columns and relationships of "distributions" */
     insert_circle_integrations_one?:
       | GraphQLTypes['circle_integrations']
       | undefined;
+    /** insert data into the table: "circle_share_tokens" */
+    insert_circle_share_tokens?:
+      | GraphQLTypes['circle_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_share_tokens" */
+    insert_circle_share_tokens_one?:
+      | GraphQLTypes['circle_share_tokens']
+      | undefined;
     /** insert data into the table: "claims" */
     insert_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** insert a single row into the table: "claims" */
     insert_claims_one?: GraphQLTypes['claims'] | undefined;
+    /** insert data into the table: "contributions" */
+    insert_contributions?:
+      | GraphQLTypes['contributions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "contributions" */
+    insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
     /** insert data into the table: "distributions" */
     insert_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** insert a single row into the table: "distributions" */
     insert_distributions_one?: GraphQLTypes['distributions'] | undefined;
+    /** insert data into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions?:
+      | GraphQLTypes['pending_vault_transactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "pending_vault_transactions" */
+    insert_pending_vault_transactions_one?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
@@ -11616,6 +12787,12 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** update data of the table: "contributions" */
+    update_contributions?:
+      | GraphQLTypes['contributions_mutation_response']
+      | undefined;
+    /** update single row of the table: "contributions" */
+    update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -12218,6 +13395,85 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
+  ['pending_vault_transactions']: {
+    __typename: 'pending_vault_transactions';
+    chain_id: number;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by: GraphQLTypes['bigint'];
+    /** An object relationship */
+    distribution?: GraphQLTypes['distributions'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    tx_hash: string;
+    tx_type: GraphQLTypes['vault_tx_types_enum'];
+    /** An object relationship */
+    vault_tx_type: GraphQLTypes['vault_tx_types'];
+  };
+  /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
+  ['pending_vault_transactions_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['pending_vault_transactions_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['pending_vault_transactions_bool_exp'] | undefined;
+    _or?:
+      | Array<GraphQLTypes['pending_vault_transactions_bool_exp']>
+      | undefined;
+    chain_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    claim_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
+  };
+  /** input type for inserting data into table "pending_vault_transactions" */
+  ['pending_vault_transactions_insert_input']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    distribution?:
+      | GraphQLTypes['distributions_obj_rel_insert_input']
+      | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+  };
+  /** response of any mutation on the table "pending_vault_transactions" */
+  ['pending_vault_transactions_mutation_response']: {
+    __typename: 'pending_vault_transactions_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['pending_vault_transactions']>;
+  };
+  /** Ordering options when selecting data from "pending_vault_transactions". */
+  ['pending_vault_transactions_order_by']: {
+    chain_id?: GraphQLTypes['order_by'] | undefined;
+    claim_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
+    distribution?: GraphQLTypes['distributions_order_by'] | undefined;
+    distribution_id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
+    tx_type?: GraphQLTypes['order_by'] | undefined;
+    vault_tx_type?: GraphQLTypes['vault_tx_types_order_by'] | undefined;
+  };
+  /** select columns of table "pending_vault_transactions" */
+  ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
 
 
@@ -12335,6 +13591,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -12345,6 +13605,12 @@ columns and relationships of "profiles" */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "contributions" */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** fetch aggregated fields from the table: "contributions" */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** fetch data from the table: "contributions" using primary key columns */
+    contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -12373,6 +13639,14 @@ columns and relationships of "profiles" */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -12428,6 +13702,10 @@ columns and relationships of "profiles" */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table: "circle_share_tokens" */
+    circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
+    /** fetch data from the table: "circle_share_tokens" using primary key columns */
+    circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
@@ -12438,6 +13716,12 @@ columns and relationships of "profiles" */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "contributions" */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** fetch aggregated fields from the table: "contributions" */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** fetch data from the table: "contributions" using primary key columns */
+    contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -12466,6 +13750,14 @@ columns and relationships of "profiles" */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table: "pending_vault_transactions" */
+    pending_vault_transactions: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
+    /** fetch data from the table: "pending_vault_transactions" using primary key columns */
+    pending_vault_transactions_by_pk?:
+      | GraphQLTypes['pending_vault_transactions']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -13326,6 +14618,19 @@ columns and relationships of "users" */
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  ['uuid']: any;
+  /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+  ['uuid_comparison_exp']: {
+    _eq?: GraphQLTypes['uuid'] | undefined;
+    _gt?: GraphQLTypes['uuid'] | undefined;
+    _gte?: GraphQLTypes['uuid'] | undefined;
+    _in?: Array<GraphQLTypes['uuid']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['uuid'] | undefined;
+    _lte?: GraphQLTypes['uuid'] | undefined;
+    _neq?: GraphQLTypes['uuid'] | undefined;
+    _nin?: Array<GraphQLTypes['uuid']> | undefined;
+  };
   /** columns and relationships of "vault_transactions" */
   ['vault_transactions']: {
     __typename: 'vault_transactions';
@@ -13548,9 +14853,9 @@ columns and relationships of "users" */
     profile: GraphQLTypes['profiles'];
     /** An object relationship */
     protocol: GraphQLTypes['organizations'];
-    simple_token_address?: string | undefined;
+    simple_token_address: string;
     symbol: string;
-    token_address?: string | undefined;
+    token_address: string;
     updated_at: GraphQLTypes['timestamptz'];
     vault_address: string;
     /** An array relationship */
@@ -13879,12 +15184,21 @@ export const enum circle_private_select_column {
   circle_id = 'circle_id',
   discord_webhook = 'discord_webhook',
 }
+/** select columns of table "circle_share_tokens" */
+export const enum circle_share_tokens_select_column {
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  type = 'type',
+  updated_at = 'updated_at',
+  uuid = 'uuid',
+}
 /** select columns of table "circles" */
 export const enum circles_select_column {
   alloc_text = 'alloc_text',
   auto_opt_out = 'auto_opt_out',
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
+  deleted_at = 'deleted_at',
   fixed_payment_token_type = 'fixed_payment_token_type',
   id = 'id',
   is_verified = 'is_verified',
@@ -13922,6 +15236,25 @@ export const enum claims_select_column {
 /** update columns of table "claims" */
 export const enum claims_update_column {
   txHash = 'txHash',
+}
+/** unique or primary key constraints on table "contributions" */
+export const enum contributions_constraint {
+  contributions_pkey = 'contributions_pkey',
+}
+/** select columns of table "contributions" */
+export const enum contributions_select_column {
+  created_at = 'created_at',
+  deleted_at = 'deleted_at',
+  description = 'description',
+  epoch_id = 'epoch_id',
+  id = 'id',
+  updated_at = 'updated_at',
+  user_id = 'user_id',
+}
+/** update columns of table "contributions" */
+export const enum contributions_update_column {
+  deleted_at = 'deleted_at',
+  description = 'description',
 }
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {
@@ -14027,6 +15360,16 @@ export const enum pending_token_gifts_select_column {
   tokens = 'tokens',
   updated_at = 'updated_at',
 }
+/** select columns of table "pending_vault_transactions" */
+export const enum pending_vault_transactions_select_column {
+  chain_id = 'chain_id',
+  claim_id = 'claim_id',
+  created_by = 'created_by',
+  distribution_id = 'distribution_id',
+  org_id = 'org_id',
+  tx_hash = 'tx_hash',
+  tx_type = 'tx_type',
+}
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
   address = 'address',
@@ -14104,8 +15447,10 @@ export const enum vault_transactions_select_column {
   vault_id = 'vault_id',
 }
 export const enum vault_tx_types_enum {
+  Claim = 'Claim',
   Deposit = 'Deposit',
   Distribution = 'Distribution',
+  Vault_Deploy = 'Vault_Deploy',
   Withdraw = 'Withdraw',
 }
 /** select columns of table "vault_tx_types" */

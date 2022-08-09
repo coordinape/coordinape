@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import type * as Stitches from '@stitches/react';
 
 import { styled } from '../../stitches.config';
 import {
@@ -19,12 +20,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   userSelect: 'none',
   borderRadius: '100%',
   backgroundColor: '$surface',
-  cursor: 'pointer',
-  transition: 'border-color .3s ease',
-  border: `1px solid $border`,
-  '&:hover': {
-    border: '1px solid $alert',
-  },
+  position: 'relative',
+  zIndex: 1,
   variants: {
     size: {
       small: {
@@ -35,8 +32,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         },
       },
       large: {
-        width: '$3xl',
-        height: '$3xl',
+        width: '$xl',
+        height: '$xl',
       },
     },
   },
@@ -62,8 +59,6 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   backgroundColor: '$border',
   lineHeight: 1,
   fontWeight: '$medium',
-  cursor: 'pointer',
-
   variants: {
     size: {
       small: {
@@ -81,6 +76,7 @@ export const Avatar = ({
   name,
   onClick,
   small,
+  css,
   ...props
 }: {
   path?: string;
@@ -90,6 +86,7 @@ export const Avatar = ({
   /** represents avatar with smaller size `32x32` */
   small?: boolean;
   children?: React.ReactNode;
+  css?: Stitches.CSS;
 }) => {
   const avatarPath = getAvatarPathWithoutPlaceholder(path);
 
@@ -97,6 +94,7 @@ export const Avatar = ({
     <AvatarRoot
       onClick={() => onClick?.()}
       size={small ? 'small' : 'large'}
+      {...(css ? { css } : {})}
       {...props}
     >
       {avatarPath && <AvatarImage src={avatarPath} alt={name} />}

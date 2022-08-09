@@ -1,26 +1,28 @@
 import assert from 'assert';
 
 import debug from 'debug';
-import { BigNumber, FixedNumber, utils } from 'ethers';
-import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { BigNumber, FixedNumber } from 'ethers';
+import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
+import { savePendingVaultTx } from 'lib/gql/mutations';
 import { createDistribution } from 'lib/merkle-distributor';
-import { encodeCircleId, getWrappedAmount } from 'lib/vaults';
+import { getWrappedAmount } from 'lib/vaults';
+import { uploadEpochRoot } from 'lib/vaults/distributor';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
-import {
-  useMarkDistributionSaved,
-  useSaveEpochDistribution,
-} from './mutations';
+import { useMarkDistributionDone, useSaveDistribution } from './mutations';
 import type { PreviousDistribution } from './queries';
 
 const log = debug('distributions'); // eslint-disable-line @typescript-eslint/no-unused-vars
 
-export type SubmitDistribution = {
+export type SubmitDistributionProps = {
   amount: string;
-  vault: Pick<Vault, 'id' | 'decimals' | 'symbol' | 'vault_address'>;
+  vault: Pick<
+    Vault,
+    'id' | 'decimals' | 'symbol' | 'vault_address' | 'simple_token_address'
+  >;
   previousDistribution?: PreviousDistribution;
   profileIdsByAddress: Record<string, number>;
   gifts: Record<string, number>;
@@ -35,8 +37,6 @@ export type SubmitDistribution = {
 export type SubmitDistributionResult = {
   merkleRoot: string;
   totalAmount: BigNumber;
-  encodedCircleId: string;
-  tokenAddress: string;
   epochId: BigNumber;
 };
 
@@ -57,12 +57,11 @@ export function useSubmitDistribution() {
   // uploaded, we'll know there was an issue because we'll see the distribution
   // in the database without a hash.
   //
-  const { mutateAsync: saveDistribution } = useSaveEpochDistribution();
-  const { mutateAsync: markDistributionUploaded } = useMarkDistributionSaved();
-
+  const { mutateAsync: saveDistribution } = useSaveDistribution();
+  const { mutateAsync: markDistributionDone } = useMarkDistributionDone();
   const { showError, showInfo } = useApeSnackbar();
 
-  const submitDistribution = async ({
+  return async ({
     amount,
     vault,
     circleId,
@@ -74,14 +73,14 @@ export function useSubmitDistribution() {
     fixedAmount,
     giftAmount,
     type,
-  }: SubmitDistribution): Promise<SubmitDistributionResult> => {
+  }: SubmitDistributionProps): Promise<
+    SubmitDistributionResult | undefined
+  > => {
     assert(vault, 'No vault is found');
 
     try {
       assert(contracts, 'This network is not supported');
 
-      const vaultContract = contracts.getVault(vault.vault_address);
-      const yVaultAddress = await vaultContract.vault();
       const newTotalAmount = await getWrappedAmount(amount, vault, contracts);
       const shifter = FixedNumber.from(BigNumber.from(10).pow(vault.decimals));
       const newGiftAmount = await getWrappedAmount(
@@ -89,10 +88,7 @@ export function useSubmitDistribution() {
         vault,
         contracts
       );
-      const prev =
-        previousDistribution &&
-        JSON.parse(previousDistribution.distribution_json);
-
+      const prev = previousDistribution?.distribution_json;
       const distribution = createDistribution(
         gifts,
         fixedGifts,
@@ -122,23 +118,19 @@ export function useSubmitDistribution() {
         };
       });
 
-      const totalAmount = prev
-        ? newTotalAmount.add(BigNumber.from(prev.tokenTotal))
-        : newTotalAmount;
-
       const response = await saveDistribution({
         // FIXME: we're storing total amounts as fixed numbers & claim amounts
         // as floating-point numbers. we should change this to be consistent,
         // but that will probably require hacking Zeus to return numeric
         // columns as FixedNumber, not Number; otherwise, we create rounding
         // error as soon as we read from the DB...
-        total_amount: FixedNumber.from(totalAmount).toString(),
+        total_amount: distribution.tokenTotal,
 
         epoch_id: Number(epochId),
         merkle_root: distribution.merkleRoot,
         claims: { data: claims },
         vault_id: Number(vault.id),
-        distribution_json: JSON.stringify(distribution),
+        distribution_json: distribution,
         fixed_amount: Number(FixedNumber.from(fixedAmount, 'fixed128x18')),
         gift_amount: Number(FixedNumber.from(giftAmount, 'fixed128x18')),
         distribution_type: type,
@@ -146,25 +138,32 @@ export function useSubmitDistribution() {
 
       assert(response, 'Distribution was not saved.');
 
-      const encodedCircleId = encodeCircleId(circleId);
-
       const { receipt } = await sendAndTrackTx(
         () =>
-          contracts.distributor.uploadEpochRoot(
-            vault.vault_address,
-            encodedCircleId,
-            yVaultAddress,
+          uploadEpochRoot(
+            contracts,
+            vault,
+            circleId,
             distribution.merkleRoot,
-            newTotalAmount,
-            utils.hexlify(1)
+            newTotalAmount
           ),
         {
           showInfo,
           showError,
           description: 'Submit Distribution',
           chainId: contracts.chainId,
+          savePending: (txHash: string) =>
+            savePendingVaultTx({
+              tx_hash: txHash,
+              distribution_id: response.id,
+              chain_id: Number.parseInt(contracts.chainId),
+              tx_type: vault_tx_types_enum.Distribution,
+            }),
         }
       );
+
+      // could be due to user cancellation
+      if (!receipt) return;
 
       const event = receipt?.events?.find(e => e.event === 'EpochFunded');
       const txHash = receipt?.transactionHash;
@@ -176,7 +175,7 @@ export function useSubmitDistribution() {
       );
 
       showInfo('Saving Distribution...');
-      await markDistributionUploaded({
+      await markDistributionDone({
         id: response.id,
         epochId: distributorEpochId.toNumber(),
         vaultId: vault.id,
@@ -186,9 +185,7 @@ export function useSubmitDistribution() {
       showInfo('Distribution saved successfully');
       return {
         merkleRoot: distribution.merkleRoot,
-        totalAmount,
-        encodedCircleId,
-        tokenAddress: yVaultAddress.toString(),
+        totalAmount: BigNumber.from(distribution.tokenTotal),
         epochId: distributorEpochId,
       };
     } catch (e) {
@@ -197,6 +194,4 @@ export function useSubmitDistribution() {
       throw new Error(e as string);
     }
   };
-
-  return submitDistribution;
 }

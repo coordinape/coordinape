@@ -34,6 +34,7 @@ export function useVaults({
                     users: [{}, { circle_id: true, name: true }],
                   },
                   distribution: {
+                    claims: [{}, { profile_id: true }],
                     fixed_amount: true,
                     gift_amount: true,
                     epoch: {
@@ -45,6 +46,9 @@ export function useVaults({
                   },
                 },
               ],
+              protocol: {
+                name: true,
+              },
             },
           ],
         },

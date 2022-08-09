@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
@@ -35,6 +35,7 @@ const schema = z
       .number()
       .refine(n => n >= 1, { message: 'Must be at least one day.' })
       .refine(n => n <= 100, { message: 'cant be more than 100 days' }),
+    customError: z.undefined(), //unregistered to disable submitting
   })
   .strict();
 const nextIntervalFactory = (repeat: TEpochRepeatEnum) => {
@@ -245,14 +246,14 @@ const EpochForm = ({
   );
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     handleSubmit,
     setError,
+    clearErrors,
   } = useForm<epochFormSchema>({
     resolver: zodResolver(schema),
-    mode: 'onSubmit',
-
+    mode: 'all',
     defaultValues: {
       days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
       start_date:
@@ -260,19 +261,45 @@ const EpochForm = ({
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
     },
   });
-  const watchFields = watch();
+
+  const watchFields = useRef<
+    Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
+  >({
+    days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
+    start_date:
+      source?.epoch?.start_date ??
+      DateTime.now().setZone().plus({ days: 1 }).toISO(),
+    repeat:
+      source?.epoch?.repeat === 2
+        ? 'monthly'
+        : source?.epoch?.repeat === 1
+        ? 'weekly'
+        : 'none',
+  });
+  const extraErrors = useRef(false);
+
+  useEffect(() => {
+    watch(data => {
+      const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
+        getZodParser(source, currentEpoch?.id).safeParse(data);
+      if (!value.success) {
+        extraErrors.current = true;
+        setError('customError', {
+          message: value.error.errors[0].message,
+        });
+      } else {
+        extraErrors.current = false;
+        clearErrors('customError');
+      }
+
+      if (data.days) watchFields.current.days = data.days;
+      if (data.repeat) watchFields.current.repeat = data.repeat;
+      if (data.start_date) watchFields.current.start_date = data.start_date;
+    });
+  }, [watch]);
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
-    const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
-      getZodParser(source, currentEpoch?.id).safeParse(data);
-    if (!value.success) {
-      const path = value.error.errors[0].path[0];
-      setError(
-        path === 'repeat' ? 'repeat' : path === 'days' ? 'days' : 'start_date',
-        {
-          message: value.error.errors[0].message,
-        }
-      );
+    if (extraErrors.current) {
       return;
     }
     setSubmitting(true);
@@ -323,7 +350,7 @@ const EpochForm = ({
             <Button
               color="primary"
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !isDirty || !isEmpty(errors)}
               onClick={handleSubmit(onSubmit)}
             >
               {submitting ? 'Saving...' : 'Save'}
@@ -383,7 +410,10 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
-                        disabled={currentEpoch?.id === selectedEpoch?.id}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -427,7 +457,10 @@ const EpochForm = ({
                             onBlur={onBlur}
                             onChange={onChange}
                             value={value}
-                            disabled={currentEpoch?.id === selectedEpoch?.id}
+                            disabled={
+                              selectedEpoch &&
+                              currentEpoch?.id === selectedEpoch?.id
+                            }
                           />
                         </Box>
                       )}
@@ -456,10 +489,10 @@ const EpochForm = ({
                 />
               </Flex>
               <Box css={{ maxWidth: '900px', mt: '$xl' }}>
-                {summarizeEpoch(watchFields)}
+                {summarizeEpoch(watchFields.current)}
               </Box>
             </Flex>
-            <Flex column>{epochsPreview(watchFields)}</Flex>
+            <Flex column>{epochsPreview(watchFields.current)}</Flex>
           </Box>
           {!isEmpty(errors) && (
             <Box

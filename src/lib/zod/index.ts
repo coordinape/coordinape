@@ -66,6 +66,12 @@ export const deleteUserInput = z
   })
   .strict();
 
+export const deleteCircleInput = z
+  .object({
+    circle_id: z.number(),
+  })
+  .strict();
+
 export const createNomineeInputSchema = z
   .object({
     name: z.string().min(3).max(255),
@@ -110,6 +116,13 @@ export const createUserSchemaInput = z
     non_receiver: z.boolean().optional(),
     role: z.number().min(0).max(1).optional(),
     fixed_payment_amount: z.number().min(0).max(100000000000).optional(),
+  })
+  .strict();
+
+export const createUserFromTokenInput = z
+  .object({
+    token: z.string().uuid(),
+    name: z.string().min(3).max(255),
   })
   .strict();
 

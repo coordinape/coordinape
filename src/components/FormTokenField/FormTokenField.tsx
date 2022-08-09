@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { ApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components';
+import { Text } from 'ui';
 
 export const FormTokenField = ({
   value,
@@ -16,7 +17,7 @@ export const FormTokenField = ({
   error,
   errorText,
   ...props
-}: Omit<React.ComponentProps<typeof ApeTextField>, 'onChange'> & {
+}: Omit<React.ComponentProps<typeof DeprecatedApeTextField>, 'onChange'> & {
   max: number;
   symbol: string;
   decimals: number;
@@ -29,10 +30,17 @@ export const FormTokenField = ({
   };
 
   return (
-    <ApeTextField
+    <DeprecatedApeTextField
       {...props}
       InputProps={{
-        startAdornment: <span onClick={() => onChange(Number(max))}>MAX</span>,
+        startAdornment: (
+          <Text
+            css={{ color: '$primary', cursor: 'pointer' }}
+            onClick={() => onChange(Number(max))}
+          >
+            Max
+          </Text>
+        ),
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"
@@ -41,6 +49,7 @@ export const FormTokenField = ({
       value={value}
       onChange={handleChange}
       type="number"
+      placeholder="0"
       onFocus={event => (event.currentTarget as HTMLInputElement).select()}
     />
   );

@@ -4,7 +4,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import uniqBy from 'lodash/uniqBy';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { FormAutocomplete, FormTextField } from 'components';
+import { FormAutocomplete, DeprecatedFormTextField } from 'components';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
@@ -53,7 +53,7 @@ export const SummonCirclePage = () => {
         Create a Circle
       </Text>
       <Text
-        variant="p"
+        p
         as="p"
         css={{
           mb: '$xl',
@@ -141,7 +141,7 @@ export const SummonCirclePage = () => {
                           <InfoCircledIcon />
                         </Tooltip>
                       </Text>
-                      <FormTextField
+                      <DeprecatedFormTextField
                         {...fields.protocol_name}
                         placeholder="Organization Name"
                         fullWidth
@@ -149,7 +149,7 @@ export const SummonCirclePage = () => {
                     </div>
                   )}
                   <div>
-                    <FormTextField
+                    <DeprecatedFormTextField
                       {...fields.circle_name}
                       label="Circle Name"
                       placeholder="Circle Name"
@@ -166,13 +166,13 @@ export const SummonCirclePage = () => {
                     '@sm': { gridTemplateColumns: '1fr' },
                   }}
                 >
-                  <FormTextField
+                  <DeprecatedFormTextField
                     {...fields.user_name}
                     label="Username"
                     placeholder="Your name in this circle"
                     fullWidth
                   />
-                  <FormTextField
+                  <DeprecatedFormTextField
                     {...fields.contact}
                     fullWidth
                     label="Email Address"
@@ -184,6 +184,7 @@ export const SummonCirclePage = () => {
                     mt: '$lg',
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                     flexGrow: 1,
                   }}
                 >

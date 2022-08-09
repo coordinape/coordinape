@@ -31,3 +31,10 @@ function multiClick(subject, count: number) {
   });
   return multiClick(subject.click(), count - 1);
 }
+
+Cypress.Commands.add('getInputByLabel', (label, options) => {
+  return cy
+    .contains('label', label, options)
+    .invoke('attr', 'for')
+    .then(id => cy.get('#' + id));
+});

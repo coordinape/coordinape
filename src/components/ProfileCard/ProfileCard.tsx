@@ -100,6 +100,7 @@ const useStyles = makeStyles(theme => ({
     wordBreak: 'break-word',
     width: '100%',
     overflowY: 'auto',
+    marginBottom: 12,
   },
   editButton: {
     margin: theme.spacing(7, 0, 2),

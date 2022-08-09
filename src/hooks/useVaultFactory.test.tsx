@@ -31,6 +31,8 @@ jest.mock('lib/gql/mutations', () => {
         },
       })
     ),
+    savePendingVaultTx: jest.fn(),
+    deletePendingVaultTx: jest.fn(),
   };
 });
 

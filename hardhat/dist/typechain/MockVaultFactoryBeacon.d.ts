@@ -23,7 +23,7 @@ interface MockVaultFactoryBeaconInterface extends ethers.utils.Interface {
   functions: {
     "apeRegistry()": FunctionFragment;
     "beacon()": FunctionFragment;
-    "createApeVault()": FunctionFragment;
+    "createCoVault()": FunctionFragment;
     "vaultRegistry(address)": FunctionFragment;
     "yearnRegistry()": FunctionFragment;
   };
@@ -34,7 +34,7 @@ interface MockVaultFactoryBeaconInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "beacon", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "createApeVault",
+    functionFragment: "createCoVault",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -52,7 +52,7 @@ interface MockVaultFactoryBeaconInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "beacon", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createApeVault",
+    functionFragment: "createCoVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -119,7 +119,7 @@ export class MockVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<[string]>;
 
-    createApeVault(
+    createCoVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -132,7 +132,7 @@ export class MockVaultFactoryBeacon extends BaseContract {
 
   beacon(overrides?: CallOverrides): Promise<string>;
 
-  createApeVault(
+  createCoVault(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -145,7 +145,7 @@ export class MockVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<string>;
 
-    createApeVault(overrides?: CallOverrides): Promise<void>;
+    createCoVault(overrides?: CallOverrides): Promise<void>;
 
     vaultRegistry(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -161,7 +161,7 @@ export class MockVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<BigNumber>;
 
-    createApeVault(
+    createCoVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -175,7 +175,7 @@ export class MockVaultFactoryBeacon extends BaseContract {
 
     beacon(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    createApeVault(
+    createCoVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -42,7 +42,7 @@ export const Button = styled('button', {
         color: '$textOnAlert',
       },
       neutral: {
-        backgroundColor: '$neutral',
+        backgroundColor: '$headingText',
         color: 'white',
       },
       surface: {
@@ -80,7 +80,6 @@ export const Button = styled('button', {
     },
     size: {
       large: {
-        height: '$2xl',
         minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
@@ -90,7 +89,6 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
-        height: '$xl',
         minHeight: '$xl',
         fontSize: '$medium',
         fontWeight: '$medium',
@@ -98,7 +96,6 @@ export const Button = styled('button', {
         borderRadius: '$3',
       },
       small: {
-        height: '$lg',
         minHeight: '$lg',
         fontSize: '$small',
         fontWeight: '$medium',
@@ -114,15 +111,12 @@ export const Button = styled('button', {
         py: '0px',
       },
       smallIcon: {
-        height: '$lg',
-        minHeight: '$lg',
-        width: '$lg',
-        minWidth: '$lg',
+        height: '1em',
+        width: '1em',
         fontSize: '$1',
-        fontWeight: '$medium',
         lineHeight: 'none',
-        borderRadius: '$3',
-        padding: 0,
+        borderRadius: '50%',
+        padding: '2px',
         '& svg': {
           margin: 0,
         },
@@ -171,6 +165,11 @@ export const Button = styled('button', {
       true: {
         backgroundColor: 'transparent !important',
         border: '1px solid',
+      },
+    },
+    inline: {
+      true: {
+        display: 'inline',
       },
     },
   },
@@ -234,16 +233,16 @@ export const Button = styled('button', {
       outlined: true,
       css: {
         color: '$text',
-        borderColor: '$text',
+        borderColor: '$borderMedium',
         '&:hover': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
+          backgroundColor: '$headingText !important',
         },
         '&:focus': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
+          backgroundColor: '$headingText !important',
         },
       },
     },

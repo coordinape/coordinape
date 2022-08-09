@@ -28,10 +28,11 @@ context('Coordinape', () => {
     cy.login();
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.wait(1000);
-    cy.contains('Add CoVault').click();
+    cy.contains('Create Vault').click();
     cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create CoVault').click();
     cy.contains('USDC CoVault', { timeout: 120000 });
+    cy.contains('0 Distributions');
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
@@ -42,6 +43,11 @@ context('Coordinape', () => {
     cy.contains('button', 'Deposit USDC').click();
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
+    // This takes extremely long time to render in the UI without a refresh
+    cy.reload(true);
+    cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
+    cy.get('table').contains('Deposit');
+    cy.get('table').contains('5000');
 
     // Withdraw USDC from the Vault
     cy.contains('Withdraw').click();
@@ -52,22 +58,29 @@ context('Coordinape', () => {
     cy.contains('button', 'Withdraw USDC').click();
     cy.contains('Transaction completed');
     cy.contains('4900 USDC');
+    cy.reload(true);
+    cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
+    cy.get('table').contains('Withdraw');
+    cy.get('table').contains('100');
 
     // submit distribution onchain
     cy.visit(`/circles/${circleId}/history`);
-    cy.contains('a', 'Distributions', { timeout: 120000 }).click();
-    cy.get('input[type=number]', { timeout: 90000 })
-      .click()
-      .type('4500')
-      .wait(10000);
-    cy.contains('button', 'Submit Distribution').click();
+    cy.contains('a', 'Review / Export', { timeout: 120000 }).click();
+    cy.get('input[type=number]:first', { timeout: 90000 }).click().type('4500');
+    cy.contains('button', 'Submit USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });
     cy.contains('Distribution saved successfully', { timeout: 120000 });
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
-    cy.contains('Distribution submitted today', { timeout: 120000 });
+    cy.contains('Distribution completed today', { timeout: 120000 });
+    cy.visit('/vaults');
+    cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
+    cy.contains('1 Distribution');
+    cy.contains('6 Unique Contributors Paid');
+    cy.get('table').contains('Distribution');
+    cy.get('table').contains('4500');
 
     // claims allocations
     cy.contains('button', 'Claim Allocations').click();

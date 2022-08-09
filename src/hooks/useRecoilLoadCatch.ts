@@ -41,7 +41,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     who?: string;
   } = {}
 ) => {
-  const { apeError, apeInfo } = useApeSnackbar();
+  const { showError, showInfo } = useApeSnackbar();
 
   return useRecoilCallback((intr: CallbackInterface) => {
     const { set } = intr;
@@ -55,7 +55,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
           .then(result => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
             log(`done loading: ${who}`);
-            success && apeInfo(success);
+            success && showInfo(success);
             resolve(result);
           })
           .catch(err => {
@@ -63,7 +63,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
             log(`failed loading: ${who}`);
             let e = transformError ? transformError(err) : err;
             e = normalizeError(e);
-            apeError(e);
+            showError(e);
             reportException(e, {
               tags: { call_point: 'useRecoilLoadCatch' },
               extra: { ...(e.code ? { code: e.code } : {}) },

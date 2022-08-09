@@ -479,6 +479,33 @@ export async function getRepeatingEpoch(
   return repeatingEpoch;
 }
 
+export async function getAddress(profileId: number) {
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            id: {
+              _eq: profileId,
+            },
+          },
+        },
+        {
+          address: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getAddress',
+    }
+  );
+  const profile = profiles.pop();
+  if (!profile) {
+    throw new Error('address not found for profile');
+  }
+  return profile.address;
+}
+
 export async function getEpoch(
   circle_id: number,
   epoch_id?: number,

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
+import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { CSS } from 'stitches.config';
 
+import type { Vault } from 'hooks/gql/useVaults';
 import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
@@ -13,13 +14,7 @@ import DepositModal, { DepositModalProps } from './DepositModal';
 import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
-export function VaultRow({
-  vault,
-  css = {},
-}: {
-  vault: GraphQLTypes['vaults'];
-  css?: CSS;
-}) {
+export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
@@ -28,13 +23,16 @@ export function VaultRow({
 
   const updateBalance = () =>
     contracts
-      ?.getVault(vault.vault_address)
-      .underlyingValue()
-      .then(x => {
-        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber());
-      });
+      ?.getVaultBalance(vault)
+      .then(x =>
+        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber())
+      );
 
   useBlockListener(updateBalance, [vault.id]);
+  // for UI updates when the user is switching between orgs quickly
+  useEffect(() => {
+    updateBalance();
+  }, [vault.id]);
 
   useEffect(() => {
     const updateOwner = async () => {
@@ -51,6 +49,9 @@ export function VaultRow({
     };
     updateOwner();
   }, [contracts, vault.id]);
+
+  const distributionCount = getDistributions(vault).length;
+  const uniqueContributors = getUniqueContributors(vault);
 
   const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
 
@@ -69,23 +70,25 @@ export function VaultRow({
         <Text h3 css={{ flexGrow: 1 }}>
           {vault.symbol || '...'} CoVault
         </Text>
-        <Button
-          color="primary"
-          outlined
-          size="small"
-          onClick={() => setModal('deposit')}
-        >
-          Deposit
-        </Button>
         {userIsOwner && (
-          <Button
-            color="primary"
-            outlined
-            size="small"
-            onClick={() => setModal('withdraw')}
-          >
-            Withdraw
-          </Button>
+          <>
+            <Button
+              color="primary"
+              outlined
+              size="small"
+              onClick={() => setModal('deposit')}
+            >
+              Deposit
+            </Button>
+            <Button
+              color="primary"
+              outlined
+              size="small"
+              onClick={() => setModal('withdraw')}
+            >
+              Withdraw
+            </Button>
+          </>
         )}
       </Box>
       <Box
@@ -96,7 +99,7 @@ export function VaultRow({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',
           gridGap: '$md',
-          verticalAlign: 'middle',
+          alignItems: 'center',
         }}
       >
         <Text font="source" h3>
@@ -105,9 +108,10 @@ export function VaultRow({
         <Text font="source" h3>
           {balance} {vault.symbol?.toUpperCase()}
         </Text>
-        <Text font="source">
-          <strong>5</strong>&nbsp;Distributions -&nbsp;<strong>255</strong>
-          &nbsp;Unique Contributors Paid
+        <Text font="source" css={{ display: 'block' }}>
+          <strong>{distributionCount}</strong> Distribution
+          {distributionCount !== 1 && 's'} -{' '}
+          <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
       </Box>
       <Text
@@ -124,7 +128,10 @@ export function VaultRow({
         {isLoading ? (
           'Loading...'
         ) : vaultTxList?.length ? (
-          <TransactionTable rows={vaultTxList.slice(0, 3)} />
+          <TransactionTable
+            chainId={vault.chain_id}
+            rows={vaultTxList.slice(0, 3)}
+          />
         ) : (
           'No Transactions Yet'
         )}
@@ -143,6 +150,19 @@ export function VaultRow({
     </Panel>
   );
 }
+
+const getDistributions = (vault: Vault) => {
+  return vault.vault_transactions.filter(
+    t => t.tx_type === vault_tx_types_enum.Distribution
+  );
+};
+
+const getUniqueContributors = (vault: Vault): number =>
+  new Set(
+    getDistributions(vault).flatMap(d =>
+      d.distribution?.claims.map(c => c.profile_id)
+    )
+  ).size;
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
