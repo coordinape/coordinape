@@ -1,12 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getUserFromAddress } from '../../../../api-lib/findUser';
+import { updateExpiredNominees } from '../../../../api-lib/gql/mutations';
+import { getExpiredNominees } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   insertNominee,
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
-  updateNominee,
 } from '../../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
@@ -52,41 +53,32 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
+  const { nominees } = await getExpiredNominees();
+
+  await updateExpiredNominees(nominees.map(n => n.id));
+
   // check if user exists in nominee table same circle and not ended
-  const existingNominee = await getNomineeFromAddress(address, circle_id);
-
-  if (!existingNominee) {
-    // add an event trigger to check if vouches are enough and insert an user/profile
-    const nominee = await insertNominee({
-      nominated_by_user_id,
-      circle_id,
-      address,
-      name,
-      description,
-      nomination_days_limit,
-      vouches_required,
-    });
-
-    return res.status(200).json(nominee);
+  const checkAddressExists = await getNomineeFromAddress(address, circle_id);
+  if (checkAddressExists) {
+    return errorResponseWithStatusCode(
+      res,
+      { message: 'User with address already exists as a nominee' },
+      422
+    );
   }
 
-  const isPastNominee = new Date(existingNominee.expiry_date) < new Date();
+  // add an event trigger to check if vouches are enough and insert an uesr/profile
+  const nominee = await insertNominee({
+    nominated_by_user_id,
+    circle_id,
+    address,
+    name,
+    description,
+    nomination_days_limit,
+    vouches_required,
+  });
 
-  if (isPastNominee) {
-    const updatedNominee = await updateNominee({
-      circle_id,
-      address,
-      nomination_days_limit,
-    });
-
-    return res.status(200).json(updatedNominee);
-  }
-
-  return errorResponseWithStatusCode(
-    res,
-    { message: 'User with address already exists as a nominee' },
-    422
-  );
+  return res.status(200).json(nominee);
 }
 
 export default verifyHasuraRequestMiddleware(handler);
