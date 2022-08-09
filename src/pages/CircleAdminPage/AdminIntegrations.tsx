@@ -48,21 +48,31 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           }}
         >
           {integrations.data?.map((integration, index) => (
-            <div key={index}>
+            <Flex
+              key={index}
+              css={{
+                justifyContent: 'space-between',
+                pl: '$xs',
+                mb: '$xs',
+                '&:hover': {
+                  backgroundColor: '$surface',
+                },
+              }}
+            >
               <Text>
-                <DeworkLogo size="md" />
+                <DeworkLogo size="md" css={{ mr: '$xs' }} />
                 <Text>{integration.name}</Text>
               </Text>
               <Button
                 onClick={() => setDeleteIntegration(integration)}
                 size="small"
+                color="textOnly"
               >
                 <DeprecatedDeleteIcon />
               </Button>
-            </div>
+            </Flex>
           ))}
         </Flex>
-
         <Button
           as="a"
           color="primary"
