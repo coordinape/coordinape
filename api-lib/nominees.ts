@@ -190,7 +190,7 @@ export const updateNominee = async (params: {
   expiry.setDate(today.getDate() + params.nomination_days_limit);
   const input = { ...params, nomination_days_limit: undefined };
 
-  const update_nominees_one = await adminClient.mutate(
+  const { update_nominees_one } = await adminClient.mutate(
     {
       update_nominees_one: [
         {
