@@ -90,10 +90,6 @@ export function DistributionForm({
       )?.symbol
     : undefined;
   const { handleSubmit, control } = useForm<TDistributionForm>({
-    defaultValues: {
-      selectedVaultSymbol: vaults[0]?.symbol,
-      amount: 0,
-    },
     resolver: zodResolver(DistributionFormSchema),
   });
 
