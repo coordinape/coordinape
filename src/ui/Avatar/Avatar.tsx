@@ -93,7 +93,8 @@ export const Avatar = ({
   path,
   name,
   onClick,
-  small,
+  size,
+  margin,
   css,
   ...props
 }: {
@@ -112,7 +113,8 @@ export const Avatar = ({
   return (
     <AvatarRoot
       onClick={() => onClick?.()}
-      size={small ? 'small' : 'large'}
+      size={size}
+      margin={margin}
       {...(css ? { css } : {})}
       {...props}
     >
