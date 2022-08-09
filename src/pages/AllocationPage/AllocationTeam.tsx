@@ -293,7 +293,7 @@ const AllocationTeam = ({
     <Flex column>
       <Box
         css={{
-          zIndex: 1,
+          zIndex: 5,
           position: 'fixed',
           bottom: '$1xl',
           left: '50%',
