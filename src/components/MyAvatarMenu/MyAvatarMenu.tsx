@@ -128,9 +128,11 @@ export const MyAvatarMenu = () => {
                 <Link type="menu" as={NavLink} to={paths.circles}>
                   Circles
                 </Link>
-                <Link type="menu" as={NavLink} to={paths.claims}>
-                  Claims
-                </Link>
+                {isFeatureEnabled('vaults') && (
+                  <Link type="menu" as={NavLink} to={paths.claims}>
+                    Claims
+                  </Link>
+                )}
               </Box>
             </Box>
           </PopoverContent>
