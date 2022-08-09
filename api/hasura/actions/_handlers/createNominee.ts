@@ -6,7 +6,6 @@ import {
   insertNominee,
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
-  updateNominee,
 } from '../../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
@@ -55,7 +54,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // check if user exists in nominee table same circle and not ended
   const existingNominee = await getNomineeFromAddress(address, circle_id);
 
-  if (!existingNominee) {
+  if (!existingNominee || existingNominee.ended) {
     // add an event trigger to check if vouches are enough and insert an user/profile
     const nominee = await insertNominee({
       nominated_by_user_id,
@@ -68,18 +67,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     return res.status(200).json(nominee);
-  }
-
-  const isPastNominee = new Date(existingNominee.expiry_date) < new Date();
-
-  if (isPastNominee) {
-    const updatedNominee = await updateNominee({
-      circle_id,
-      address,
-      nomination_days_limit,
-    });
-
-    return res.status(200).json(updatedNominee);
   }
 
   return errorResponseWithStatusCode(
