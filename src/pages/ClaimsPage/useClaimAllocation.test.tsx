@@ -147,6 +147,7 @@ test('claim single successfully', async () => {
           distribution: {
             id: 1,
             distribution_json: {},
+            distribution_type: 1,
             distribution_epoch_id: event?.args?.epochId,
             epoch: {
               id: 1,

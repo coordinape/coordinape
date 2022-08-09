@@ -6,7 +6,7 @@ import { QueryClaim } from './queries';
 
 // Takes a group of claims, and generates a Epoch Date representation showing
 // the date range and number of epochs in group.
-export function formatEpochDates(claims: QueryClaim[]) {
+export function formatDistributionDates(claims: QueryClaim[]) {
   claims = sortBy(claims, c =>
     new Date(c.distribution.epoch.start_date).getTime()
   );
@@ -15,7 +15,7 @@ export function formatEpochDates(claims: QueryClaim[]) {
   const endDate = new Date(
     claims[claims.length - 1].distribution.epoch.end_date
   );
-  const epochsPlural = claims.length > 1 ? 'Epochs:' : 'Epoch:';
+  const epochsPlural = claims.length > 1 ? 'Distributions:' : 'Distribution:';
 
   const monthName = (_date: Date) =>
     _date.toLocaleString('default', { month: 'long' });
@@ -33,9 +33,11 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   const totalAmount = claims.reduce((accumulator, curr) => {
     return accumulator + (curr.unwrappedNewAmount || 0);
   }, 0);
-  return `${parseFloat(totalAmount.toString()).toFixed(2)} ${
-    claims[0].distribution.vault.symbol
-  }`;
+  return `${formatAmount(totalAmount)} ${claims[0].distribution.vault.symbol}`;
+}
+
+export function formatAmount(amount: number): string {
+  return parseFloat(amount.toString()).toFixed(2);
 }
 
 const claimsRowKey = ({ distribution: { vault, epoch }, txHash }: QueryClaim) =>
