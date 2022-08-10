@@ -11,6 +11,7 @@ import {
 } from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
+import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 
 Settings.defaultZone = 'utc';
@@ -41,9 +42,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      const verificationResult = await message.verify({
-        signature,
-      });
+      const siweProvider = getProvider(message.chainId);
+      const verificationResult = await message.verify(
+        {
+          signature,
+        },
+        { provider: siweProvider }
+      );
 
       if (!verificationResult.success) {
         return errorResponse(res, {
