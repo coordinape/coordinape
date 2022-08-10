@@ -34,6 +34,11 @@ export const Panel = styled('div', {
         backgroundColor: '$info',
       },
     },
+    success: {
+      true: {
+        backgroundColor: '$success',
+      },
+    },
   },
 
   defaultVariants: {

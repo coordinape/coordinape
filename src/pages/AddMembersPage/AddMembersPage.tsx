@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { LoadingModal } from '../../components';
 import { Box } from '../../ui/Box/Box';
 import { useSelectedCircle } from 'recoilState/app';
-import { Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import {
   deleteMagicToken,
@@ -23,6 +23,8 @@ import { WorkingIcon } from '../../ui/icons/WorkingIcon';
 import { hostname } from 'os';
 import { APP_URL } from '../../utils/domain';
 import isFeatureEnabled from '../../config/features';
+import BackButton from '../../ui/BackButton';
+import { paths } from '../../routes/paths';
 
 export type NewMember = {
   address: string;
@@ -109,23 +111,32 @@ const AddMembersContents = ({
   return (
     <SingleColumnLayout>
       {loading && <LoadingModal visible={true} />}
-      <Panel>
-        <Flex css={{ alignItems: 'center', mb: '$sm' }}>
-          <Text h1 css={{ my: '$xl' }}>
-            Add Members to {circle.name}
-          </Text>
-        </Flex>
+
+      <Box>
+        <AppLink to={paths.members(circle.id)}>
+          <BackButton />
+        </AppLink>
+      </Box>
+
+      <Flex css={{ alignItems: 'center', mb: '$sm' }}>
+        <Text h1>Add Members to {circle.name}</Text>
+      </Flex>
+      <Box css={{ mb: '$md' }}>
+        <Text>
+          Note that after adding members you can see and manage them in
+          the&nbsp;
+          <AppLink to={paths.members(circle.id)}>members table.</AppLink>
+        </Text>
+      </Box>
+      {(isFeatureEnabled('csv_import') || isFeatureEnabled('link_joining')) && (
         <Flex css={{ mb: '$xl' }}>
-          {isFeatureEnabled('csv_import') ||
-            (isFeatureEnabled('link_joining') && (
-              <TabButton
-                tab={Tab.ETH}
-                currentTab={currentTab}
-                setCurrentTab={setCurrentTab}
-              >
-                Add by ETH Address
-              </TabButton>
-            ))}
+          <TabButton
+            tab={Tab.ETH}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
+          >
+            Add by ETH Address
+          </TabButton>
           {isFeatureEnabled('csv_import') && (
             <TabButton
               tab={Tab.CSV}
@@ -145,12 +156,18 @@ const AddMembersContents = ({
             </TabButton>
           )}
         </Flex>
+      )}
+      <Panel>
         {currentTab === Tab.ETH && (
           <Box>
+            <Text css={{ pb: '$xl' }} size={'large'}>
+              Only members on this list can join. TODO tweak this Idk
+            </Text>
+
             <NewMemberList
               circleId={circle.id}
-              // newMembers={newMembers}
-              // setNewMembers={setNewMembers}
+              welcomeLink={welcomeLink}
+              revokeWelcome={revokeWelcome}
             />
             {success && (
               <Box>
@@ -175,13 +192,6 @@ const AddMembersContents = ({
         {currentTab === Tab.CSV && (
           <Box>
             <Box>CSV Import</Box>
-            <Box>
-              <div>
-                WelcomeLink
-                <CopyCodeTextField value={welcomeLink} />
-                <Button onClick={revokeWelcome}>refr</Button>
-              </div>
-            </Box>
           </Box>
         )}
         {currentTab === Tab.LINK && (
