@@ -70,7 +70,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     'circle_rewards_token',
   ];
   if (fixedPaymentsEnabled) {
-    headers.push('fixed_payment_amount');
+    headers.push('fixed_payment_rewards');
     headers.push('fixed_payment_token_symbol');
   }
   if (grant) headers.push('Grant_amt');
