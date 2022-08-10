@@ -197,8 +197,6 @@ export const HistoryPage = () => {
             <EpochPanel
               key={epoch.id}
               circleId={circleId}
-              circleName={circle?.name}
-              protocolName={circle?.organization.name}
               epoch={epoch}
               tokenName={circle?.token_name || 'GIVE'}
               isAdmin={isAdmin}
