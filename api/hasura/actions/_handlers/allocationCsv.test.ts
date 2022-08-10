@@ -16,6 +16,10 @@ jest.mock('../../../../api-lib/gql/queries', () => ({
   getEpoch: jest.fn(),
 }));
 
+jest.mock('../../../../api-lib/s3', () => ({
+  uploadCsv: jest.fn((name: string) => Promise.resolve({ Location: name })),
+}));
+
 const mockInputs = {
   circle_id: 1,
   epoch_id: 1,
@@ -131,6 +135,7 @@ describe('Allocation CSV Calculation', () => {
 
     await handler(req, res);
 
+    expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalled();
     const results = (res.json as any).mock.calls[0][0];
     expect(results.file).toContain(
