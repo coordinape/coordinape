@@ -22,6 +22,7 @@ import { normalizeError } from '../../utils/reporting';
 import { WorkingIcon } from '../../ui/icons/WorkingIcon';
 import { hostname } from 'os';
 import { APP_URL } from '../../utils/domain';
+import isFeatureEnabled from '../../config/features';
 
 export type NewMember = {
   address: string;
@@ -115,27 +116,34 @@ const AddMembersContents = ({
           </Text>
         </Flex>
         <Flex css={{ mb: '$xl' }}>
-          <TabButton
-            tab={Tab.ETH}
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-          >
-            ETH Address
-          </TabButton>
-          <TabButton
-            tab={Tab.CSV}
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-          >
-            CSV Import
-          </TabButton>
-          <TabButton
-            tab={Tab.LINK}
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-          >
-            Join Link
-          </TabButton>
+          {isFeatureEnabled('csv_import') ||
+            (isFeatureEnabled('link_joining') && (
+              <TabButton
+                tab={Tab.ETH}
+                currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
+              >
+                Add by ETH Address
+              </TabButton>
+            ))}
+          {isFeatureEnabled('csv_import') && (
+            <TabButton
+              tab={Tab.CSV}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+            >
+              CSV Import
+            </TabButton>
+          )}
+          {isFeatureEnabled('link_joining') && (
+            <TabButton
+              tab={Tab.LINK}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+            >
+              Join Link
+            </TabButton>
+          )}
         </Flex>
         {currentTab === Tab.ETH && (
           <Box>
