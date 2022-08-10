@@ -28,16 +28,10 @@ const req = {
   headers: { verification_key: process.env.HASURA_EVENT_SECRET },
   body: {
     input: {
-      payload: {
-        ...mockInputs,
-      },
+      payload: { ...mockInputs },
     },
-    action: {
-      name: 'allocationCsv',
-    },
-    session_variables: {
-      'x-hasura-role': 'admin',
-    },
+    action: { name: 'allocationCsv' },
+    session_variables: { 'x-hasura-role': 'admin' },
   },
 } as unknown as VercelRequest;
 
@@ -51,18 +45,9 @@ const mockEpoch = {
   number: mockInputs.epoch,
   circle: {
     name: 'Mock Circle',
-    organization: {
-      name: 'Mock Organisation',
-    },
+    organization: { name: 'Mock Organisation' },
   },
-  token_gifts: [
-    {
-      tokens: 50,
-    },
-    {
-      tokens: 100,
-    },
-  ],
+  token_gifts: [{ tokens: 50 }, { tokens: 100 }],
 };
 
 function getMockCircleDistribution(type?: DistributionType | undefined) {
@@ -72,18 +57,10 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.FIXED,
         tx_hash: '0x',
-        vault: {
-          symbol: 'DAI',
-        },
+        vault: { symbol: 'DAI' },
         claims: [
-          {
-            profile_id: 1,
-            new_amount: 150,
-          },
-          {
-            profile_id: 2,
-            new_amount: 200,
-          },
+          { profile_id: 1, new_amount: 150 },
+          { profile_id: 2, new_amount: 200 },
         ],
       });
       break;
@@ -91,18 +68,10 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.GIFT,
         tx_hash: '0x',
-        vault: {
-          symbol: 'DAI',
-        },
+        vault: { symbol: 'DAI' },
         claims: [
-          {
-            profile_id: 1,
-            new_amount: 150,
-          },
-          {
-            profile_id: 2,
-            new_amount: 75,
-          },
+          { profile_id: 1, new_amount: 150 },
+          { profile_id: 2, new_amount: 75 },
         ],
       });
       break;
@@ -110,18 +79,10 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.COMBINED,
         tx_hash: '0x',
-        vault: {
-          symbol: 'DAI',
-        },
+        vault: { symbol: 'DAI' },
         claims: [
-          {
-            profile_id: 1,
-            new_amount: 250,
-          },
-          {
-            profile_id: 2,
-            new_amount: 176,
-          },
+          { profile_id: 1, new_amount: 250 },
+          { profile_id: 2, new_amount: 176 },
         ],
       });
       break;
@@ -131,49 +92,25 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
   return {
     circles_by_pk: {
       fixed_payment_token_type: 'DAI',
-      epochs: [
-        {
-          distributions,
-        },
-      ],
+      epochs: [{ distributions }],
       users: [
         {
           id: 1,
           name: 'User 1',
           address: '0x1',
           fixed_payment_amount: 100,
-          profile: {
-            id: 1,
-          },
-          received_gifts: [
-            {
-              tokens: 100,
-            },
-          ],
-          sent_gifts: [
-            {
-              tokens: 50,
-            },
-          ],
+          profile: { id: 1 },
+          received_gifts: [{ tokens: 100 }],
+          sent_gifts: [{ tokens: 50 }],
         },
         {
           id: 2,
           name: 'User 2',
           address: '0x2',
           fixed_payment_amount: 101,
-          profile: {
-            id: 2,
-          },
-          received_gifts: [
-            {
-              tokens: 50,
-            },
-          ],
-          sent_gifts: [
-            {
-              tokens: 100,
-            },
-          ],
+          profile: { id: 2 },
+          received_gifts: [{ tokens: 50 }],
+          sent_gifts: [{ tokens: 100 }],
         },
       ],
     },

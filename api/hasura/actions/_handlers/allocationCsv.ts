@@ -196,28 +196,16 @@ export async function getCircleDetails(
           fixed_payment_token_type: true,
           epochs: [
             {
-              where: {
-                id: { _eq: epochId },
-              },
+              where: { id: { _eq: epochId } },
             },
             {
               distributions: [
-                {
-                  where: { tx_hash: { _is_null: false } },
-                },
+                { where: { tx_hash: { _is_null: false } } },
                 {
                   distribution_type: true,
                   tx_hash: true,
-                  vault: {
-                    symbol: true,
-                  },
-                  claims: [
-                    {},
-                    {
-                      profile_id: true,
-                      new_amount: true,
-                    },
-                  ],
+                  vault: { symbol: true },
+                  claims: [{}, { profile_id: true, new_amount: true }],
                 },
               ],
             },
@@ -226,12 +214,8 @@ export async function getCircleDetails(
             {
               where: {
                 _or: [
-                  {
-                    deleted_at: { _is_null: true },
-                  },
-                  {
-                    deleted_at: { _gt: epochEndDate },
-                  },
+                  { deleted_at: { _is_null: true } },
+                  { deleted_at: { _gt: epochEndDate } },
                 ],
               },
             },
@@ -240,29 +224,21 @@ export async function getCircleDetails(
               name: true,
               address: true,
               fixed_payment_amount: true,
-              profile: {
-                id: true,
-              },
+              profile: { id: true },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
-                {
-                  tokens: true,
-                },
+                { tokens: true },
               ],
               sent_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
-                {
-                  tokens: true,
-                },
+                { tokens: true },
               ],
             },
           ],
         },
       ],
     },
-    {
-      operationName: 'allocationCsv_getGifts',
-    }
+    { operationName: 'allocationCsv_getGifts' }
   );
 
   return circles_by_pk;
