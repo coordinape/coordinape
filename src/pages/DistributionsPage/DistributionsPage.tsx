@@ -51,7 +51,14 @@ export function DistributionsPage() {
   if (isError) epochError = (error as any).message;
 
   if (!epoch?.id)
-    return <SingleColumnLayout>Epoch not found</SingleColumnLayout>;
+    return (
+      <SingleColumnLayout>
+        <Text p as="p">
+          Epoch not found
+        </Text>
+        <Text size="small">{epochError}</Text>
+      </SingleColumnLayout>
+    );
 
   const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
   assert(epoch.circle);
